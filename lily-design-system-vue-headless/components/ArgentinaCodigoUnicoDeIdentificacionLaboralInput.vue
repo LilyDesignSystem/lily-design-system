@@ -7,10 +7,11 @@
 // References:
 //   - https://en.wikipedia.org/wiki/C%C3%B3digo_%C3%9Anico_de_Identificaci%C3%B3n_Laboral
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label: string;
         required?: boolean;
@@ -20,6 +21,13 @@ withDefaults(
         required: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "ArgentinaCodigoUnicoDeIdentificacionLaboralInput",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string>({ default: "" });

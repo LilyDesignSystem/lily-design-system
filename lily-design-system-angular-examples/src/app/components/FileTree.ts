@@ -7,7 +7,9 @@ import {
     inject,
     input,
     viewChild,
+    OnInit,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * FileTree component
@@ -53,7 +55,9 @@ import {
   ><ng-content /></ul>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileTree {
+export class FileTree implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Accessible label, applied to aria-label. */
     readonly label = input.required<string>();
     readonly className = input<string>("");
@@ -228,5 +232,15 @@ export class FileTree {
             const ordered = [...visible.slice(split), ...visible.slice(0, split)];
             this.focusItem(ordered.find((i) => this.ownText(i).startsWith(needle)));
         }
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "FileTree",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

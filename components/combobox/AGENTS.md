@@ -31,7 +31,7 @@
 
 ## Keyboard
 
-- Escape: Closes the dropdown listbox.
+- Escape: closes the dropdown listbox while it is open; while closed it is left alone, so an enclosing dialog still gets it
 
 ## Props
 

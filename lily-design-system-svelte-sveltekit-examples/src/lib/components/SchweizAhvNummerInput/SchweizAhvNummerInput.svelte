@@ -26,6 +26,8 @@
     // References:
     //   - https://en.wikipedia.org/wiki/Data_codes_for_Switzerland
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -40,6 +42,15 @@
         disabled?: boolean;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "SchweizAhvNummerInput",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <!-- SchweizAhvNummerInput.svelte -->

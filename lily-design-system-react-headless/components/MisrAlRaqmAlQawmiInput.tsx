@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Egyptian_National_Identity_Card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface MisrAlRaqmAlQawmiInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function MisrAlRaqmAlQawmiInput({
     onChange,
     ...restProps
 }: MisrAlRaqmAlQawmiInputProps) {
+    warnMissingName(
+        "MisrAlRaqmAlQawmiInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`misr-al-raqm-al-qawmi-input ${className}`}

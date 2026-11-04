@@ -60,17 +60,25 @@
 //   - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
-import { nextTick } from "vue";
+import { nextTick, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
     /** Accessible label for the dialog */
     label: string;
 }>();
 
+warnMissingName(
+    "SlideOutDrawer",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
+
 const open = defineModel<boolean>("open", { default: false });
 
 function handleKeydown(event: KeyboardEvent) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !event.defaultPrevented) {
         event.preventDefault();
         open.value = false;
     }

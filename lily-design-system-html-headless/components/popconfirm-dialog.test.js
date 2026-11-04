@@ -3,6 +3,11 @@
 
 const path = require("path");
 
+const isOpen = () =>
+    browser.execute(() =>
+        document.querySelector("div.popconfirm-dialog").matches(":popover-open"),
+    );
+
 describe("PopconfirmDialog", function () {
     beforeEach(async function () {
         await browser.url("file://" + path.resolve(__dirname, "popconfirm-dialog.html"));
@@ -45,31 +50,25 @@ describe("PopconfirmDialog", function () {
     });
 
     it("should be hidden by default", async function () {
-        const el = await $("div.popconfirm-dialog");
-        const hidden = await el.getAttribute("hidden");
-        expect(hidden).not.toBeNull();
+        expect(await isOpen()).toBe(false);
     });
 
     it("should hide the dialog after the cancel button is clicked", async function () {
-        const root = await $("div.popconfirm-dialog");
         // Reveal first so the buttons are clickable in the test browser.
         await browser.execute(function () {
-            document.querySelector("div.popconfirm-dialog").removeAttribute("hidden");
+            document.querySelector("div.popconfirm-dialog").showPopover();
         });
         const cancel = await $("button.popconfirm-dialog-cancel");
         await cancel.click();
-        const hidden = await root.getAttribute("hidden");
-        expect(hidden).not.toBeNull();
+        expect(await isOpen()).toBe(false);
     });
 
     it("should hide the dialog after the confirm button is clicked", async function () {
-        const root = await $("div.popconfirm-dialog");
         await browser.execute(function () {
-            document.querySelector("div.popconfirm-dialog").removeAttribute("hidden");
+            document.querySelector("div.popconfirm-dialog").showPopover();
         });
         const confirm = await $("button.popconfirm-dialog-confirm");
         await confirm.click();
-        const hidden = await root.getAttribute("hidden");
-        expect(hidden).not.toBeNull();
+        expect(await isOpen()).toBe(false);
     });
 });

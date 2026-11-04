@@ -70,8 +70,8 @@ lily-design-system-vue-nuxt-examples/data/component-demos.ts
 lily-design-system-angular-examples/src/app/components-data.ts
 lily-design-system-angular-examples/src/app/component-demos.ts
 lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentData.cs
-lily-design-system-html-css-js-examples/pages/components/index.html
-lily-design-system-html-css-js-examples/pages/components/component.html
+lily-design-system-html-css-js-examples/assets/js/pages/components-index.js
+lily-design-system-html-css-js-examples/assets/js/pages/component.js
 lilydesignsystem.github.io/src/lib/components.ts
 lily-design-system-svelte-sveltekit-examples/src/lib/data/component-examples.ts
 lily-design-system-react-next-examples/app/data/component-examples.ts

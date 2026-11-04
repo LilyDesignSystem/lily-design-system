@@ -34,4 +34,13 @@ public class FormTests : TestContext
         var root = cut.Find(".form");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Label_names_the_root_with_aria_label()
+    {
+        var cut = RenderComponent<Form>(p => p
+            .AddChildContent("body")
+            .Add(x => x.Label, "Named"));
+        Assert.Equal("Named", cut.Find(".form").GetAttribute("aria-label"));
+    }
 }

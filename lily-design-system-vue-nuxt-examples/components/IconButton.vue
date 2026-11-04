@@ -58,9 +58,11 @@
 // References:
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 
-withDefaults(
+import { warnMissingName } from "./dev-warning";
+
+const props = withDefaults(
     defineProps<{
         /** Accessible label (REQUIRED). */
         label: string;
@@ -84,6 +86,8 @@ withDefaults(
 defineEmits<{
     (e: "click", event: MouseEvent): void;
 }>();
+
+warnMissingName("IconButton", props.label, useAttrs()["aria-labelledby"]);
 
 const buttonRef = ref<HTMLButtonElement | undefined>(undefined);
 

@@ -51,6 +51,8 @@
 
     import type { Snippet } from "svelte";
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         baseClass = "icon-button",
@@ -81,6 +83,8 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() => warnMissingName("IconButton", label, restProps["aria-labelledby"]));
 </script>
 
 <!-- IconButton.svelte -->

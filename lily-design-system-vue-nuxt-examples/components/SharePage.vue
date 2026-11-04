@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // SharePage component
 //
 // A group of controls for sharing the current page. Renders a <div> with the `share-page` hook; it
@@ -33,7 +35,7 @@
 // References:
 //   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label?: string;
     }>(),
@@ -41,6 +43,8 @@ withDefaults(
         label: undefined,
     },
 );
+
+warnMissingName("SharePage", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 </script>
 
 <template>

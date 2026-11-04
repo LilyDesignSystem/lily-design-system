@@ -44,6 +44,7 @@
 //   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface RedAmberGreenPickerProps {
     className?: string;
@@ -63,6 +64,12 @@ export default function RedAmberGreenPicker({
     onChange,
     ...restProps
 }: RedAmberGreenPickerProps) {
+    warnMissingName(
+        "RedAmberGreenPicker",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <select
             className={`red-amber-green-picker ${className}`}

@@ -47,6 +47,8 @@
     // References:
     //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         value = $bindable(""),
@@ -65,6 +67,10 @@
         disabled?: boolean;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("Editable", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 
     let draft = $state(value);
 

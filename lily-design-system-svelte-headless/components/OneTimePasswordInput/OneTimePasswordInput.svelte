@@ -33,6 +33,8 @@
     //   - Headless: no CSS, no styles
     //   - Never validates or submits; the consumer owns verification
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -63,6 +65,15 @@
         disabled?: boolean;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "OneTimePasswordInput",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <!-- OneTimePasswordInput.svelte -->

@@ -34,6 +34,14 @@ import {
 // civil-date business logic with no generic headless equivalent either.
 import { IconButton } from "@lilydesignsystem/angular-headless";
 
+import {
+    calendarAddMonths,
+    calendarDay,
+    calendarLocale,
+    calendarMonthLength,
+    calendarMonthMatrix,
+    calendarMonthStart,
+} from "./calendar-system";
 import { isRtl, logicalKey } from "./direction";
 
 /**
@@ -1185,6 +1193,8 @@ export class DateTimePicker {
     readonly value = model<string>("");
     /** BCP 47 tag driving month names, weekday names and first weekday. */
     readonly locale = input<string>("");
+    /** CLDR calendar for the day grid, such as `persian`. The value stays ISO. */
+    readonly calendar = input<string>("gregory");
     /** Earliest selectable date, ISO. */
     readonly min = input<string>("");
     /** Latest selectable date, ISO. */
@@ -1380,8 +1390,8 @@ export class DateTimePicker {
     protected readonly pendingTime = signal("");
 
     /** The month on screen. */
-    protected readonly viewYear = signal(1970);
-    protected readonly viewMonth = signal(1);
+    /** The month shown, named by the ISO date of its first day in `calendar`. */
+    protected readonly viewStart = signal("1970-01-01");
 
     /** The day the grid's roving tabindex sits on. */
     protected readonly cursor = signal("");
@@ -1446,16 +1456,15 @@ export class DateTimePicker {
     });
 
     protected readonly periodText = computed(() => {
-        const viewYear = this.viewYear();
-        const viewMonth = this.viewMonth();
+        const viewStart = this.viewStart();
         try {
-            return new Intl.DateTimeFormat(gregorian(this.locale() || undefined), {
+            return new Intl.DateTimeFormat(calendarLocale(this.locale() || undefined, this.calendar()), {
                 month: "long",
                 year: "numeric",
                 timeZone: "UTC",
-            }).format(new Date(Date.UTC(viewYear, viewMonth - 1, 1)));
+            }).format(new Date(`${viewStart}T00:00:00Z`));
         } catch {
-            return `${viewYear}-${pad(viewMonth)}`;
+            return viewStart.slice(0, 7);
         }
     });
 
@@ -1487,7 +1496,7 @@ export class DateTimePicker {
     });
 
     protected readonly weeks = computed(() =>
-        monthMatrix(this.viewYear(), this.viewMonth(), this.weekStart()),
+        calendarMonthMatrix(this.viewStart(), this.weekStart(), this.calendar()),
     );
 
     protected readonly pendingHour = computed(() => parseIsoTime(this.pendingTime())?.hour ?? 0);
@@ -1552,8 +1561,7 @@ export class DateTimePicker {
             this.today.set(today);
             const anchor = parseIsoDate(committed.date) ?? parseIsoDate(today);
             if (anchor) {
-                this.viewYear.set(anchor.year);
-                this.viewMonth.set(anchor.month);
+                this.viewStart.set(calendarMonthStart(formatIsoDate(anchor), this.calendar()));
                 this.cursor.set(formatIsoDate(anchor));
             }
         });
@@ -1612,8 +1620,10 @@ export class DateTimePicker {
     protected parseCell(isoDate: string): { day: string; outside: boolean } {
         const parsed = parseIsoDate(isoDate);
         return {
-            day: parsed ? String(parsed.day) : "",
-            outside: parsed ? parsed.month !== this.viewMonth() : false,
+            day: parsed ? String(calendarDay(isoDate, this.calendar())) : "",
+            outside:
+                isoDate < this.viewStart() ||
+                isoDate >= calendarAddMonths(this.viewStart(), 1, this.calendar()),
         };
     }
 
@@ -1622,7 +1632,7 @@ export class DateTimePicker {
         const parsed = parseIsoDate(isoDate);
         if (!parsed) return isoDate;
         try {
-            return new Intl.DateTimeFormat(gregorian(this.locale() || undefined), {
+            return new Intl.DateTimeFormat(calendarLocale(this.locale() || undefined, this.calendar()), {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
@@ -1737,8 +1747,7 @@ export class DateTimePicker {
         this.cursor.set(pendingDate);
         const anchor = parseIsoDate(pendingDate) ?? parseIsoDate(today);
         if (anchor) {
-            this.viewYear.set(anchor.year);
-            this.viewMonth.set(anchor.month);
+            this.viewStart.set(calendarMonthStart(formatIsoDate(anchor), this.calendar()));
         }
         this.open.set(true);
         // Render first, focus second: until change detection runs, the
@@ -1821,9 +1830,8 @@ export class DateTimePicker {
         }
         this.cursor.set(nextIso);
         const parsed = parseIsoDate(nextIso);
-        if (parsed && (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())) {
-            this.viewYear.set(parsed.year);
-            this.viewMonth.set(parsed.month);
+        if (parsed) {
+            this.viewStart.set(calendarMonthStart(formatIsoDate(parsed), this.calendar()));
         }
         // Synchronous render-then-focus: when the cursor crossed into a new
         // month, the cell it needs does not exist until change detection has
@@ -1854,13 +1862,7 @@ export class DateTimePicker {
     }
 
     protected shiftMonth(delta: number): void {
-        const anchor = formatIsoDate({
-            year: this.viewYear(),
-            month: this.viewMonth(),
-            day: 1,
-        });
-        const next = parseIsoDate(addMonths(anchor, delta));
-        if (!next) return;
+        const next = calendarAddMonths(this.viewStart(), delta, this.calendar());
         // Refocus the cursor only when focus is already in the grid: grid
         // paging (PageUp/PageDown, or a browser that focused nothing on
         // click) must carry focus, or it dies with the unrendered cell —
@@ -1868,18 +1870,13 @@ export class DateTimePicker {
         // the grid after one activation and cannot page twice.
         const hadGridFocus =
             this.gridRef()?.nativeElement.contains(document.activeElement) === true;
-        this.viewYear.set(next.year);
-        this.viewMonth.set(next.month);
+        this.viewStart.set(next);
         // Carry the cursor into the new month rather than leaving the roving
         // tabindex on a cell that is no longer rendered.
         const c = parseIsoDate(this.cursor());
         if (c) {
             this.cursor.set(
-                formatIsoDate({
-                    year: next.year,
-                    month: next.month,
-                    day: Math.min(c.day, daysInMonth(next.year, next.month)),
-                }),
+                addDays(next, Math.min(calendarDay(formatIsoDate(c), this.calendar()), calendarMonthLength(next, this.calendar())) - 1),
             );
             if (hadGridFocus) {
                 // Render-then-focus, synchronously — the target cell does not
@@ -1914,9 +1911,8 @@ export class DateTimePicker {
         const hadGridFocus =
             this.gridRef()?.nativeElement.contains(document.activeElement) === true;
         const parsed = parseIsoDate(next);
-        if (parsed && (parsed.year !== this.viewYear() || parsed.month !== this.viewMonth())) {
-            this.viewYear.set(parsed.year);
-            this.viewMonth.set(parsed.month);
+        if (parsed) {
+            this.viewStart.set(calendarMonthStart(formatIsoDate(parsed), this.calendar()));
         }
         this.cursor.set(next);
         if (!this.dayDisabled(next)) this.pendingDate.set(next);
@@ -2154,8 +2150,7 @@ export class DateTimePicker {
         this.cursor.set(target);
         const parsed = parseIsoDate(target);
         if (parsed) {
-            this.viewYear.set(parsed.year);
-            this.viewMonth.set(parsed.month);
+            this.viewStart.set(calendarMonthStart(formatIsoDate(parsed), this.calendar()));
         }
         this.shortcut.emit({ id: shortcut.id, isoDate: target });
         if (this.commitOnDay()) this.commit();

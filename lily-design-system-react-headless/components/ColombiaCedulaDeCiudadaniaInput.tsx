@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Colombian_identity_card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ColombiaCedulaDeCiudadaniaInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function ColombiaCedulaDeCiudadaniaInput({
     onChange,
     ...restProps
 }: ColombiaCedulaDeCiudadaniaInputProps) {
+    warnMissingName(
+        "ColombiaCedulaDeCiudadaniaInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`colombia-cedula-de-ciudadania-input ${className}`}

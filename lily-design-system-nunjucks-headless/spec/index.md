@@ -205,9 +205,9 @@ pnpm exec vitest run                 # explicit one-shot run
 
 ### 8.2 Verified
 
-- [x] Every component has a `macro.test.js` (**607 / 607**).
+- [x] Every component has a `macro.test.js` (**609 / 609**).
 - [x] `pnpm test` passes: **2,393 / 2,393 tests, zero failures**.
-- [x] CSS class-name audit: **607 / 607** macros reference their canonical
+- [x] CSS class-name audit: **609 / 609** macros reference their canonical
       kebab-case base class.
 
 ### 8.3 Open backlog
@@ -234,6 +234,6 @@ pnpm exec vitest run                 # explicit one-shot run
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 609 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling example app: [../lily-design-system-nunjucks-eleventy-examples/](../../lily-design-system-nunjucks-eleventy-examples/)

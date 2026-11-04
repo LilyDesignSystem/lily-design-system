@@ -1,6 +1,6 @@
 # Lily Design System™ - Angular Headless
 
-A headless Angular component library (Angular 20–22 peer range) implementing the Lily Design System catalog (607 components).
+A headless Angular component library (Angular 20–22 peer range) implementing the Lily Design System catalog (609 components).
 
 Components are standalone, signal-based, zero-CSS, and ship semantic HTML + ARIA only. Consumers provide all styling via the kebab-case class hooks documented in `css-style-sheet-template.css`.
 
@@ -56,7 +56,7 @@ browser's `popover="auto"`. Other components rely on native element behaviour.
 
 ## Status
 
-Complete and published: all 607 catalog components as standalone, signal-based, OnPush Angular components (peer range Angular `>=20 <23`), each with a vitest spec and a Storybook story. Version 0.5.0.
+Complete and published: all 609 catalog components as standalone, signal-based, OnPush Angular components (peer range Angular `>=20 <23`), each with a vitest spec and a Storybook story. Version 0.5.0.
 
 ---
 

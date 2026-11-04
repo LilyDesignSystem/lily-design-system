@@ -31,12 +31,12 @@ coding agents.
 | Topic                                                                     | What it covers                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [overview](overview/index.md)                                             | Vision, scope, the headless vs. example layers, key facts.                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| [architecture](architecture/index.md)                                     | Monorepo layout, the 184 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 1 Alpine.js headless (all 607 components) + 8 examples + 167 top-level helper packages), `themes/`, source hosting, required files.                                                                                                                                                                                                                                                  |
+| [architecture](architecture/index.md)                                     | Monorepo layout, the 184 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 1 Alpine.js headless (all 609 components) + 8 examples + 167 top-level helper packages), `themes/`, source hosting, required files.                                                                                                                                                                                                                                                  |
 | [headless](headless/index.md)                                             | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS.                                                                                                                                                                                                                                                                                                                                                                                                     |
 | [accessibility](accessibility/index.md)                                   | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines.                                                                                                                                                                                                                                                                                                                                                                                                                |
 | [internationalization](internationalization/index.md)                     | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi, and the docs site's locale routes (`<language>-<region>` directories, browser-language redirect).                                                                                                                                                                                                                                                                                                                        |
 | [theme](theme/index.md)                                                   | Token shape, `--theme-*` custom properties, `data-theme` variants, the headless forbidden-list.                                                                                                                                                                                                                                                                                                                                                                                                      |
-| [components](components/index.md)                                         | The 607-component catalog, suffix→element mapping, name patterns, composition, per-component docs.                                                                                                                                                                                                                                                                                                                                                                                                   |
+| [components](components/index.md)                                         | The 609-component catalog, suffix→element mapping, name patterns, composition, per-component docs.                                                                                                                                                                                                                                                                                                                                                                                                   |
 | [examples](examples/index.md)                                             | Example apps, the three required routes, NHS reference styling, demo render mechanisms.                                                                                                                                                                                                                                                                                                                                                                                                              |
 | [tooling](tooling/index.md)                                               | The `bin/` scripts, the rsync sync model, `bin/test` verification.                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | [monorepo-github-pages](monorepo-github-pages/index.md)                   | Publishing the docs site via git subtree to a read-only sibling export repo (the one subtree left).                                                                                                                                                                                                                                                                                                                                                                                                  |
@@ -74,6 +74,7 @@ coding agents.
 | [dhcw-design-system-lessons](dhcw-design-system-lessons/index.md)         | Planned work from a review of the DHCW Design System (private beta, 2026-10-23): re-baseline the Wales themes' link colours, an overflow navigation mode, a patient banner composition, summary-card rules, Focus Not Obscured for fixed bars, a Welsh text-expansion sweep, callout limits; and what is not adopted.                                                                                                                                                                                |
 | [competitive-position](competitive-position/index.md)                     | Planned work answering COMPARE.md's "where the alternatives are stronger": correct and widen the matrix, a proven Core tier, one behaviour core with thin adapters, native popover/anchor/invokers, a shadcn-compatible registry, strict DTCG 2025.10 tokens, a self-assessed ACR, audit funding, the screen-reader matrix, a support policy, public-sector reference versions.                                                                                                                      |
 | [visual-identity](visual-identity/index.md)                               | Planned work from a review of visual identity principles (2026-11-01): a written identity policy, a brand-overlay pattern, brand colour split from content colour, a logo-slot composition, a typeface licence audit, an icon contract, `theme-color` following the theme, an identity change log; and what is not adopted.                                                                                                                                                                          |
+| [design-system-survey-lessons](design-system-survey-lessons/index.md)     | Planned work from a survey of 18 design systems (React Aria, Base UI, Angular Aria, Lion, KoliBri, NL Design System, Aksel, Designsystemet, Primer, EUI and others): shared pattern testers, development warnings, a CSP contract, a finished lifecycle, a written baseline, adopter lint rules, regional themes.                                                                                                                                                                                    |
 | [citations](citations/index.md)                                           | Design systems Lily learns from, the NHS UK reference, Reuters Graphics influence.                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | [history](history/index.md)                                               | The dated, per-event record of releases and fixes (moved out of this file 2026-10-06 to keep it loadable).                                                                                                                                                                                                                                                                                                                                                                                           |
 | [trademarks](trademarks.md)                                               | The Lily™ / Lily Design System™ marks, the first-occurrence ™ convention, the standard footer.                                                                                                                                                                                                                                                                                                                                                                                                       |
@@ -114,8 +115,8 @@ committing.
 
 ### In scope
 
-- A canonical catalog of 607 components (`components.tsv`).
-- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, native-custom-element one (Web Components, added 2026-09-03) at its full achievable scope since 2026-09-06: 572 of 607, the remaining 35 permanently excluded by a real architectural limitation, not backlog.
+- A canonical catalog of 609 components (`components.tsv`).
+- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks — plus an 8th, native-custom-element one (Web Components, added 2026-09-03) at its full achievable scope since 2026-09-06: 574 of 609, the remaining 35 permanently excluded by a real architectural limitation, not backlog.
 - Seven example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
   Angular Analog, Blazor Web, Nunjucks Eleventy — plus an eighth, the Alpine.js
   example app (`lily-design-system-alpine-examples`, 2026-10-21).
@@ -149,8 +150,8 @@ The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
 `AGENTS/*.md`, `themes/`); 184 implementation subprojects hang off it —
 7 full-catalog headless libraries, 1 headless library at its full
-achievable scope (Web Components, 572/607), 1 Alpine.js headless library
-(607/607 as markup snippets plus one plugin; added 2026-10-21), 8 example apps and
+achievable scope (Web Components, 574/609), 1 Alpine.js headless library
+(609/609 as markup snippets plus one plugin; added 2026-10-21), 8 example apps and
 167 helper packages, one top-level
 subproject each (the per-framework catalogs were dissolved into them 2026-10-10;
 `bin/list-helper-packages <framework>`). Packages publish from this
@@ -162,8 +163,8 @@ multi-forge source hosting: [spec/architecture/](architecture/index.md).
 ### The three subproject layers
 
 - **Headless** (7 full-catalog subprojects + 1 at its full achievable
-  scope) — framework libraries mirroring the full 607-component catalog
-  (Web Components mirrors 572 of it): unstyled, accessible, zero CSS.
+  scope) — framework libraries mirroring the full 609-component catalog
+  (Web Components mirrors 574 of it): unstyled, accessible, zero CSS.
 - **Examples** (8 subprojects) — complete styled reference applications
   demonstrating every component with the NHS UK visual reference.
 - **Helpers** (167 top-level packages) — opinionated packages,
@@ -244,7 +245,7 @@ tab-separated columns: slug, PascalCase name, description. Mirrored by
 implementations; the example-app registries are regenerated from it by
 `bin/generate-registries`.
 
-**Current count: 607 components** (491 + 24 national-identifier types × 2, added 2026-09-22 in two same-day rounds — see `spec/national-identifiers/index.md` — + 16 added 2026-10-05, triaged from a survey of Baby UI: `one-time-password-input`, `multi-select`, `multi-select-with-extras`, `empty-state`, `show-more`, `kbd-shortcut`, `calendar-year-table`, `calendar-month-table`, `calendar-week-table`, `calendar-day-table`, `thinking`, `gauge-chart`, `heatmap-chart`, `radar-chart`, `sankey-chart`, `file-tree` — + 7 charts added 2026-10-05 from the same Baby UI survey: `pie-chart`, `ring-chart`, `funnel-chart`, `candlestick-chart`, `composed-chart`, `choropleth-chart`, `sunburst-chart` — + `streaming-text` (2026-10-05, deliberately narrow: a busy-aware status region, no sources/citations/actions) + `tool-call` with its five inner parts `tool-call-name`, `tool-call-status`, `tool-call-input`, `tool-call-output`, `tool-call-error` + `mark` (2026-10-05, a Lily idea prompted by the Baby UI survey, not a Baby UI component) + `chat-composer` (2026-10-05, Baby UI's chat input built narrowly: no model picker, menus or thread) + `heatmap-chart-with-year-of-days`, `middle-truncation` and `wheel-picker` (2026-10-23) + the `convert-div` family of seven (`convert-div`, `convert-from-div`, `convert-from-value-div`, `convert-from-unit-div`, `convert-into-div`, `convert-into-value-div`, `convert-into-unit-div`; 2026-10-24) + `picture` (2026-10-28: the native `<picture>` wrapper, from the Stephcraft responsive-CSS review); catalog-registered and fully implemented in all 8 headless catalogs, including Web Components).
+**Current count: 609 components** (491 + 24 national-identifier types × 2, added 2026-09-22 in two same-day rounds — see `spec/national-identifiers/index.md` — + 16 added 2026-10-05, triaged from a survey of Baby UI: `one-time-password-input`, `multi-select`, `multi-select-with-extras`, `empty-state`, `show-more`, `kbd-shortcut`, `calendar-year-table`, `calendar-month-table`, `calendar-week-table`, `calendar-day-table`, `thinking`, `gauge-chart`, `heatmap-chart`, `radar-chart`, `sankey-chart`, `file-tree` — + 7 charts added 2026-10-05 from the same Baby UI survey: `pie-chart`, `ring-chart`, `funnel-chart`, `candlestick-chart`, `composed-chart`, `choropleth-chart`, `sunburst-chart` — + `streaming-text` (2026-10-05, deliberately narrow: a busy-aware status region, no sources/citations/actions) + `tool-call` with its five inner parts `tool-call-name`, `tool-call-status`, `tool-call-input`, `tool-call-output`, `tool-call-error` + `mark` (2026-10-05, a Lily idea prompted by the Baby UI survey, not a Baby UI component) + `chat-composer` (2026-10-05, Baby UI's chat input built narrowly: no model picker, menus or thread) + `heatmap-chart-with-year-of-days`, `middle-truncation` and `wheel-picker` (2026-10-23) + the `convert-div` family of seven (`convert-div`, `convert-from-div`, `convert-from-value-div`, `convert-from-unit-div`, `convert-into-div`, `convert-into-value-div`, `convert-into-unit-div`; 2026-10-24) + `picture` (2026-10-28: the native `<picture>` wrapper, from the Stephcraft responsive-CSS review) + `iban-input` and `iban-view` (2026-11-03, from the design system survey: the International Bank Account Number, in the forms group, not among the national identifiers); catalog-registered and fully implemented in all 8 headless catalogs, including Web Components).
 
 The catalog spans forms, navigation, tables, layout, editorial /
 scrollytelling, data visualisation, media, overlays, pickers and
@@ -333,7 +334,7 @@ different, shorter file with its own structure, not a mirror of the above.
 - Code examples use semantic HTML with proper ARIA.
 - No hardcoded user-facing strings in examples — use realistic placeholder
   content.
-- Consistent voice across all 607 components.
+- Consistent voice across all 609 components.
 
 ### 8.2 Component demo strategy (example subprojects)
 
@@ -385,6 +386,8 @@ Scripts live in `bin/`:
 | `bin/smoke-packages`                                                                                                    | Pack + install every headless + npm helper tarball into a scratch consumer and render it.                                                                                                |
 | `bin/make-github-pages`                                                                                                 | Push the docs site subtree to its `github-pages` remote; invoked by `make github-pages`.                                                                                                 |
 | `bin/check-native-primitives`                                                                                           | Every Svelte overlay or popup component records its native-platform decision, in step with `spec/competitive-position/native-primitives.tsv`.                                            |
+| `bin/check-dev-warnings`                                                                                                | Every interactive component with a required `label` warns when it is missing, in four catalogs, unless allow-listed.     |
+| `bin/check-lifecycle`                                                                                                   | A `deprecated` or `discouraged` component names its replacement or cited alternative; `docs/adopters.md` is valid.                                                                       |
 | `bin/check-worldwide`                                                                                                   | Fails on a currency, weekend or English-locale default in shipped code; prints identifier and label-pack coverage.                                                                       |
 | `bin/check-port-parity`                                                                                                 | Web Components helpers vs HTML, Alpine vs Svelte: public names missing from the port, unless allow-listed.                                                                               |
 | `bin/check-dtcg-tokens`                                                                                                 | `themes/tokens/*.json` and the resolver are strict DTCG 2025.10.                                                                                                                         |
@@ -446,11 +449,11 @@ checked is considered live work; anything unchecked is queued in §12.
 
 ### 11.1 Catalog & docs
 
-- [x] Canonical component list defined (607 components in `components.tsv`).
+- [x] Canonical component list defined (609 components in `components.tsv`).
 - [x] CSS style sheet template covers every component class hook.
-- [x] All 607 components have a directory in `components/` with `index.md`,
+- [x] All 609 components have a directory in `components/` with `index.md`,
       `README.md` (symlink), `AGENTS.md`, `spec/index.md`.
-- [x] All 607 components have separate "When to Use" and "When Not to Use"
+- [x] All 609 components have separate "When to Use" and "When Not to Use"
       sections (not combined).
 - [x] All "When Not to Use" sections name specific Lily component alternatives.
 - [x] All 37 NHS-equivalent components enhanced with NHS-researched guidance.
@@ -509,7 +512,7 @@ checked is considered live work; anything unchecked is queued in §12.
       a class hook; 3 additional documented sub-element hooks
       (`accordion-checkbox-input`, `accordion-checkbox-label`,
       `accordion-checkbox-panel`).
-- [x] All 7 headless and 7 example subprojects implement all 607
+- [x] All 7 headless and 7 example subprojects implement all 609
       canonical components in the same canonical layout, including the
       national personal identifier components (Phase 2 per-subproject
       implementation, spec §11.8) and the Angular pair (angular-headless
@@ -520,8 +523,8 @@ checked is considered live work; anything unchecked is queued in §12.
 - [x] Per-framework unit test suites cover every component in every
       headless subproject and helper catalog (re-verified 2026-09-02,
       all passing) — counts and runners: [spec/testing/index.md](testing/index.md).
-- [x] Per-framework CSS class-name audit: `bin/check-class-names` (2026-10-25) — all 607
-      components in each of the 7 full-catalog headless libraries, and 572 of 572 in Web
+- [x] Per-framework CSS class-name audit: `bin/check-class-names` (2026-10-25) — all 609
+      components in each of the 7 full-catalog headless libraries, and 574 of 574 in Web
       Components, carry their canonical kebab-case base class as the first token of a class
       list; part of `bin/test` and CI.
 - [x] Storybook story coverage: 491 / 491 in svelte, react, vue, html,
@@ -557,9 +560,9 @@ shapes and the exact viewport sizes: [spec/testing/index.md](testing/index.md).
 
 ### 11.7 Storybook coverage
 
-607 / 607 stories in svelte, react, vue, html, nunjucks, angular (6
+609 / 609 stories in svelte, react, vue, html, nunjucks, angular (6
 of 7 full-catalog headless libraries, and the Web Components
-catalog ships 572/572, its full achievable scope); Blazor deliberately
+catalog ships 574/574, its full achievable scope); Blazor deliberately
 has none — there is no
 idiomatic `@storybook/blazor`, and bUnit + `dotnet watch` covers the
 same exploration use case. Angular uses the webpack-based
@@ -586,7 +589,7 @@ The full release-by-release record lives in
 [CHANGELOG.md](../CHANGELOG.md) (and §14.1 highlights). Summary of the
 completed epochs:
 
-- **Catalog & infrastructure** — canonical list (now 607), CSS
+- **Catalog & infrastructure** — canonical list (now 609), CSS
   class-hook template, `bin/` toolchain, modular AGENTS docs, all 7
   headless + 7 example + 7 helper subprojects.
 - **Per-component docs** — all components carry `index.md` with
@@ -624,13 +627,13 @@ Long-term: versioned releases per subproject npm/NuGet package
 - Package: lily
 - Version: 0.9.0
 - Created: 2025-08-09
-- Updated: 2026-11-02
+- Updated: 2026-11-03
 - License: `MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause`
   (SPDX expression; or contact for other terms). See
   [LICENSE.md](../LICENSE.md) — it is the single source of truth, and every
   package manifest carries the same expression.
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [components.tsv](../components.tsv) (607 rows, tab-separated:
+- Canonical catalog: [components.tsv](../components.tsv) (609 rows, tab-separated:
   slug, name, description)
 - Companion docs: [AGENTS.md](../AGENTS.md), [AGENTS/*.md](../AGENTS/),
   [index.md](../index.md), [CHANGELOG.md](../CHANGELOG.md)

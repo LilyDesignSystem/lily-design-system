@@ -25,7 +25,8 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -40,6 +41,13 @@ const props = withDefaults(
         step: 10,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "SliderButton",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const emit = defineEmits<{

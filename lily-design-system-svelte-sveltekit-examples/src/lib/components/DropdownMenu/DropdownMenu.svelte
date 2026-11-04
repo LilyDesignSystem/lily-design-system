@@ -62,6 +62,7 @@
     //   - WAI-ARIA menu role: https://www.w3.org/TR/wai-aria-1.2/#menu
     //   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     import { popoverState, popoverSupported, toggleOpened } from "../Popover/popover.js";
 
@@ -80,6 +81,15 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "DropdownMenu",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     const uid = $props.id();
     const menuId = `dropdown-menu-${uid}`;

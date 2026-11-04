@@ -58,6 +58,7 @@
 //   - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SelectProps {
     className?: string;
@@ -86,6 +87,7 @@ export default function Select({
     children,
     ...restProps
 }: SelectProps) {
+    warnMissingName("Select", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <select
             className={`select ${className}`}

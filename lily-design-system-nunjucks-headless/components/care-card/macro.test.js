@@ -44,7 +44,7 @@ describe("care-card", () => {
             screenReaderPrefix: "Urgent advice:",
             urgency: "urgent",
         });
-        const prefix = document.querySelector("div.care-card h3 span.visually-hidden");
+        const prefix = document.querySelector("div.care-card h3 span.screen-reader-span");
         expect(prefix).toBeTruthy();
         expect(prefix.textContent).toContain("Urgent advice:");
     });

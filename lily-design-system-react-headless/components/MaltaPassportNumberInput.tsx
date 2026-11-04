@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Maltese_passport
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface MaltaPassportNumberInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function MaltaPassportNumberInput({
     onChange,
     ...restProps
 }: MaltaPassportNumberInputProps) {
+    warnMissingName(
+        "MaltaPassportNumberInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`malta-passport-number-input ${className}`}

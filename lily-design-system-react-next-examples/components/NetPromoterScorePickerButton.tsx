@@ -45,6 +45,7 @@
 //   - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface NetPromoterScorePickerButtonProps {
     className?: string;
@@ -70,6 +71,12 @@ export default function NetPromoterScorePickerButton({
     onClick = undefined,
     ...restProps
 }: NetPromoterScorePickerButtonProps) {
+    warnMissingName(
+        "NetPromoterScorePickerButton",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <button
             className={`net-promoter-score-picker-button ${className}`}

@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, input, output, signal } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    output,
+    signal,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * SliderButton — a button with a slider that the user needs to slide to confirm
@@ -24,7 +34,9 @@ import { ChangeDetectionStrategy, Component, input, output, signal } from "@angu
   ><ng-content /></button>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SliderButton {
+export class SliderButton implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Accessible label describing the confirmation action. */
     readonly label = input<string>("");
     /** How far one arrow press moves the slider, in percent. */
@@ -67,5 +79,15 @@ export class SliderButton {
                 return;
         }
         event.preventDefault();
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "SliderButton",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

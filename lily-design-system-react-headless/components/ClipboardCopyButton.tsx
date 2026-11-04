@@ -46,6 +46,7 @@
 //   - Clipboard API: https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
 
 import React, { useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ClipboardCopyButtonProps {
     className?: string;
@@ -71,6 +72,12 @@ export default function ClipboardCopyButton({
     children,
     ...restProps
 }: ClipboardCopyButtonProps) {
+    warnMissingName(
+        "ClipboardCopyButton",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const [copied, setCopied] = useState(false);
 
     async function handleClick() {

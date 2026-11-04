@@ -17,12 +17,15 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - Tile geometry / colour / data binding is the consumer's concern
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label describing the map. */
     label: string;
 }>();
+
+warnMissingName("TileMap", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const tileMapEl = ref<HTMLDivElement | null>(null);
 

@@ -65,12 +65,12 @@ title: Book an Appointment
         Something else
       </label>
     </div>
-    <span class="error-message" id="reason-error" hidden><span class="visually-hidden">Error: </span><span class="error-message-text"></span></span>
+    <span class="error-message" id="reason-error" hidden><span class="screen-reader-span">Error: </span><span class="error-message-text"></span></span>
 
     <div class="field" id="reason-other-field" data-state="valid" hidden>
       <label class="label" for="reason-other-detail">Tell us more<span aria-hidden="true"> *</span></label>
       <textarea class="text-area-input" id="reason-other-detail" name="reason-other-detail" aria-label="Tell us more about the reason for your appointment" rows="4" required></textarea>
-      <span class="error-message" id="reason-other-detail-error" hidden><span class="visually-hidden">Error: </span><span class="error-message-text"></span></span>
+      <span class="error-message" id="reason-other-detail-error" hidden><span class="screen-reader-span">Error: </span><span class="error-message-text"></span></span>
       <output class="character-counter" for="reason-other-detail" id="reason-other-counter" aria-live="polite" hidden>0 of 250 characters</output>
     </div>
 
@@ -91,7 +91,7 @@ title: Book an Appointment
         <label class="label" for="appointment-date">Preferred date<span aria-hidden="true"> *</span></label>
         <div class="hint" id="appointment-date-hint">We will try to match your preference, but availability may vary.</div>
         <input class="date-input" type="date" id="appointment-date" name="appointment-date" aria-label="Preferred date" aria-describedby="appointment-date-hint" required>
-        <span class="error-message" id="appointment-date-error" hidden><span class="visually-hidden">Error: </span><span class="error-message-text"></span></span>
+        <span class="error-message" id="appointment-date-error" hidden><span class="screen-reader-span">Error: </span><span class="error-message-text"></span></span>
       </div>
 
       <div class="field" id="appointment-time-field" data-state="valid">
@@ -102,7 +102,7 @@ title: Book an Appointment
           <option class="option" value="afternoon">Afternoon (12pm to 4pm)</option>
           <option class="option" value="evening">Evening (4pm to 6pm)</option>
         </select>
-        <span class="error-message" id="appointment-time-error" hidden><span class="visually-hidden">Error: </span><span class="error-message-text"></span></span>
+        <span class="error-message" id="appointment-time-error" hidden><span class="screen-reader-span">Error: </span><span class="error-message-text"></span></span>
       </div>
     </fieldset>
 
@@ -117,14 +117,14 @@ title: Book an Appointment
     <div class="field" id="full-name-field" data-state="valid">
       <label class="label" for="full-name">Full name<span aria-hidden="true"> *</span></label>
       <input class="text-input" type="text" id="full-name" name="full-name" aria-label="Full name" required>
-      <span class="error-message" id="full-name-error" hidden><span class="visually-hidden">Error: </span><span class="error-message-text"></span></span>
+      <span class="error-message" id="full-name-error" hidden><span class="screen-reader-span">Error: </span><span class="error-message-text"></span></span>
     </div>
 
     <div class="field" id="email-field" data-state="valid">
       <label class="label" for="email">Email address<span aria-hidden="true"> *</span></label>
       <div class="hint" id="email-hint">We will use this to send your confirmation.</div>
       <input class="email-input" type="email" id="email" name="email" aria-label="Email address" aria-describedby="email-hint" required>
-      <span class="error-message" id="email-error" hidden><span class="visually-hidden">Error: </span><span class="error-message-text"></span></span>
+      <span class="error-message" id="email-error" hidden><span class="screen-reader-span">Error: </span><span class="error-message-text"></span></span>
     </div>
 
     <div class="field" id="phone-field">
@@ -191,7 +191,7 @@ title: Book an Appointment
         <input class="checkbox-input" type="checkbox" id="confirmed-accurate" aria-label="I confirm the information above is correct">
         I confirm the information above is correct
       </label>
-      <span class="error-message" id="confirmed-accurate-error" hidden><span class="visually-hidden">Error: </span><span class="error-message-text"></span></span>
+      <span class="error-message" id="confirmed-accurate-error" hidden><span class="screen-reader-span">Error: </span><span class="error-message-text"></span></span>
     </p>
 
     <p><button class="button" type="button" id="confirm-back-button">Back</button> <button class="button" type="submit">Confirm and book</button></p>

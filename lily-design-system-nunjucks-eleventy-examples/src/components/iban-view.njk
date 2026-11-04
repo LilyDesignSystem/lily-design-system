@@ -1,0 +1,29 @@
+---
+layout: layouts/component-demo.njk
+title: IBAN View
+description: a read-only display of an International Bank Account Number (IBAN)
+---
+
+{% from "components/iban-view/macro.njk" import ibanView %}
+
+<h2>Default</h2>
+<dl>
+  <dt>IBAN</dt>
+  <dd>{{ ibanView({ value: "sample-value", label: "IBAN" }) }}</dd>
+</dl>
+
+<h2>Format</h2>
+<p>Up to 34 letters and digits: a two-letter country code, two check digits, then the national account number.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/International_Bank_Account_Number">IBAN</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;SummaryList&gt;
+  &lt;SummaryListItem term="IBAN"&gt;
+    &lt;IbanView value="{value}" /&gt;
+  &lt;/SummaryListItem&gt;
+&lt;/SummaryList&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

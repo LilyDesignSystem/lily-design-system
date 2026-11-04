@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // SwitchButton component
 //
 // A headless toggle switch that provides a binary on/off control using
@@ -53,6 +55,13 @@ const props = withDefaults(
     {
         disabled: false,
     },
+);
+
+warnMissingName(
+    "SwitchButton",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const checked = defineModel<boolean>("checked", { default: false });

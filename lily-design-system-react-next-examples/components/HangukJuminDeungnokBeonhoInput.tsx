@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Resident_registration_number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface HangukJuminDeungnokBeonhoInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function HangukJuminDeungnokBeonhoInput({
     onChange,
     ...restProps
 }: HangukJuminDeungnokBeonhoInputProps) {
+    warnMissingName(
+        "HangukJuminDeungnokBeonhoInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`hanguk-jumin-deungnok-beonho-input ${className}`}

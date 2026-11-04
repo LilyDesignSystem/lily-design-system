@@ -1,6 +1,6 @@
 # Lily Design System™
 
-> Free, open-source, headless design system: a canonical catalog of 607
+> Free, open-source, headless design system: a canonical catalog of 609
 > accessible components implemented across seven frameworks (HTML, Svelte,
 > React, Vue, Angular, Blazor, Nunjucks) plus Web Components and Alpine.js catalogs, paired
 > with fully styled example apps that demonstrate the same catalog end to end.
@@ -18,7 +18,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [AGENTS.md](AGENTS.md): binding design-principle rules; loads every file
   under `AGENTS/`.
 - [README.md](README.md): human-readable project overview.
-- [components.tsv](components.tsv): the canonical 607-component catalog —
+- [components.tsv](components.tsv): the canonical 609-component catalog —
   one row per component: slug, PascalCase name, description.
 - [CHANGELOG.md](CHANGELOG.md): full change history, with the reasoning
   behind each change.
@@ -51,7 +51,7 @@ searchable component catalog: https://lilydesignsystem.com/.
 - [spec/architecture/index.md](spec/architecture/index.md): monorepo
   layout, the 184 implementation subprojects, required files per
   subproject/component.
-- [spec/components/index.md](spec/components/index.md): the 607-component
+- [spec/components/index.md](spec/components/index.md): the 609-component
   catalog in depth, per-component documentation requirements.
 - [spec/testing/index.md](spec/testing/index.md): per-framework test
   suites, Storybook coverage, Playwright e2e, axe, responsive sweep.
@@ -87,7 +87,7 @@ searchable component catalog: https://lilydesignsystem.com/.
   the canonical helpers, one top-level subproject each — the eleven pickers,
   picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter, markdown-editor, org-editor, locale-translations (20 packages).
 - [@lilydesignsystem/alpine-headless](lily-design-system-alpine-headless/index.md):
-  all 607 components as Alpine.js snippets plus one plugin.
+  all 609 components as Alpine.js snippets plus one plugin.
 - The other headless, example and helper subprojects (184 in all, for
   React, Vue, Angular, Blazor, HTML, Nunjucks, Web Components and
   Alpine.js) follow the same shape — see [AGENTS/lily.md](AGENTS/lily.md) for the full list.

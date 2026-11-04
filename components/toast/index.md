@@ -71,6 +71,7 @@ None -- this component is a passive notification container. Toasts are announced
 
 ## When Not to Use
 
+- Do not add a timer. This component has none on purpose: a message that disappears after a few seconds fails WCAG 2.2.1 unless the user can extend it, and [Adrian Roselli](https://adrianroselli.com/2020/01/defining-toast-messages.html) advises against the timed kind. Keep the message until the user dismisses it
 - Do not use for persistent messages -- use Banner instead.
 - Do not use for form validation errors -- use ErrorSummary instead.
 - Do not use for critical alerts requiring user acknowledgment -- use AlertDialog instead.

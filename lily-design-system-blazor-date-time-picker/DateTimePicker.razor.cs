@@ -216,6 +216,9 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     /// <summary>BCP 47 tag driving month names, weekday names and first weekday.</summary>
     [Parameter] public string? Locale { get; set; }
 
+    /// <summary>CLDR calendar for the day grid, such as <c>persian</c>. Named CalendarId because Calendar is the glyph constant. Default <c>gregory</c>. The value stays ISO.</summary>
+    [Parameter] public string CalendarId { get; set; } = "gregory";
+
     /// <summary>Earliest selectable date, ISO. Inclusive.</summary>
     [Parameter] public string? Min { get; set; }
 
@@ -340,8 +343,8 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     private string _pendingDate = "";
     private string _pendingTime = "";
 
-    private int _viewYear = 1970;
-    private int _viewMonth = 1;
+    // The month shown, named by the ISO date of its first day in CalendarId.
+    private string _viewStart = "1970-01-01";
 
     /// <summary>The day the grid's roving tabindex sits on.</summary>
     private string _cursor = "";
@@ -531,21 +534,23 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         }
     }
 
-    private string[][] Weeks => MonthMatrix(_viewYear, _viewMonth, WeekStart);
+    private string[][] Weeks => CalendarSystem.MonthMatrix(_viewStart, WeekStart, CalendarId);
 
     private string PeriodText
     {
         get
         {
+            if (CalendarId != "gregory") return CalendarSystem.Heading(_viewStart, Locale, CalendarId);
             var culture = ResolveCulture(Locale);
-            var anchor = new DateOnly(_viewYear, _viewMonth, 1);
+            var start = ParseIsoDate(_viewStart)!.Value;
+            var anchor = new DateOnly(start.Year, start.Month, 1);
             try
             {
                 return anchor.ToString("MMMM yyyy", culture);
             }
             catch (ArgumentOutOfRangeException)
             {
-                return $"{_viewYear:D4}-{Pad(_viewMonth)}";
+                return _viewStart[..7];
             }
         }
     }
@@ -633,8 +638,7 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         var anchor = ParseIsoDate(Committed.Date);
         if (anchor is { } a)
         {
-            _viewYear = a.Year;
-            _viewMonth = a.Month;
+            _viewStart = CalendarSystem.MonthStart(FormatIsoDate(a), CalendarId);
             _cursor = FormatIsoDate(a);
         }
     }
@@ -652,8 +656,7 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
                 var anchor = ParseIsoDate(Committed.Date) ?? ParseIsoDate(_today);
                 if (anchor is { } a)
                 {
-                    _viewYear = a.Year;
-                    _viewMonth = a.Month;
+                    _viewStart = CalendarSystem.MonthStart(FormatIsoDate(a), CalendarId);
                     _cursor = FormatIsoDate(a);
                 }
                 StateHasChanged();
@@ -790,8 +793,7 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         var anchor = ParseIsoDate(_pendingDate) ?? ParseIsoDate(_today);
         if (anchor is { } a)
         {
-            _viewYear = a.Year;
-            _viewMonth = a.Month;
+            _viewStart = CalendarSystem.MonthStart(FormatIsoDate(a), CalendarId);
         }
         _open = true;
         _suppressFocusOut = true;
@@ -863,10 +865,9 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         if (!WithinRange(nextIso, Min, Max)) return;
         _cursor = nextIso;
         var parsed = ParseIsoDate(nextIso);
-        if (parsed is { } p && (p.Year != _viewYear || p.Month != _viewMonth))
+        if (parsed is { } p)
         {
-            _viewYear = p.Year;
-            _viewMonth = p.Month;
+            _viewStart = CalendarSystem.MonthStart(FormatIsoDate(p), CalendarId);
         }
         _suppressFocusOut = true;
         _focusCursorAfterRender = true;
@@ -901,18 +902,15 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     /// </param>
     private void ShiftMonth(int delta, bool refocusCursor)
     {
-        var anchor = FormatIsoDate(new CivilDate(_viewYear, _viewMonth, 1));
-        var next = ParseIsoDate(AddMonths(anchor, delta));
-        if (next is not { } n) return;
-        _viewYear = n.Year;
-        _viewMonth = n.Month;
+        var next = CalendarSystem.AddMonths(_viewStart, delta, CalendarId);
+        _viewStart = next;
         // Carry the cursor into the new month rather than leaving the
         // roving tabindex on a cell that is no longer rendered.
         var c = ParseIsoDate(_cursor);
         if (c is { } cur)
         {
-            var day = Math.Min(cur.Day, DaysInMonth(n.Year, n.Month));
-            _cursor = FormatIsoDate(new CivilDate(n.Year, n.Month, day));
+            var day = Math.Min(CalendarSystem.Day(_cursor, CalendarId), CalendarSystem.MonthLength(next, CalendarId));
+            _cursor = AddDays(next, day - 1);
             if (refocusCursor)
             {
                 _suppressFocusOut = true;
@@ -941,10 +939,9 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         var next = AddDays(from, delta);
         if (!WithinRange(next, Min, Max)) return;
         var parsed = ParseIsoDate(next);
-        if (parsed is { } p && (p.Year != _viewYear || p.Month != _viewMonth))
+        if (parsed is { } p)
         {
-            _viewYear = p.Year;
-            _viewMonth = p.Month;
+            _viewStart = CalendarSystem.MonthStart(FormatIsoDate(p), CalendarId);
         }
         _cursor = next;
         if (!DayDisabled(next)) _pendingDate = next;
@@ -1287,7 +1284,7 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
     {
         var parsed = ParseIsoDate(isoDate);
         if (parsed is null) return isoDate;
-        var culture = ResolveCulture(Locale);
+        var culture = CalendarSystem.CultureFor(Locale, CalendarId) ?? ResolveCulture(Locale);
         try
         {
             return parsed.Value.ToDateOnly().ToString("dddd d MMMM yyyy", culture);
@@ -1349,8 +1346,7 @@ public partial class DateTimePicker : ComponentBase, IAsyncDisposable
         var parsed = ParseIsoDate(target);
         if (parsed is { } p)
         {
-            _viewYear = p.Year;
-            _viewMonth = p.Month;
+            _viewStart = CalendarSystem.MonthStart(FormatIsoDate(p), CalendarId);
         }
         await OnShortcut.InvokeAsync((shortcut.Id, target));
         if (CommitOnDay)

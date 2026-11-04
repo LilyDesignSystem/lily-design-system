@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef } from "vue";
+import { shallowRef, useAttrs } from "vue";
 import { usePopoverState } from "./popover";
 // Combobox component
 //
@@ -56,11 +56,14 @@ import { usePopoverState } from "./popover";
 
 import { useId, ref } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
     /** Accessible label. */
     label: string;
 }>();
+
+warnMissingName("Combobox", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const modelValue = defineModel<string>({ default: "" });
 const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
@@ -71,7 +74,7 @@ const open = defineModel<boolean>("open", { default: false });
 const listboxId = `combobox-${useId()}`;
 
 function onkeydown(event: KeyboardEvent) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && open.value) {
         event.preventDefault();
         open.value = false;
     }

@@ -41,6 +41,7 @@
     //   - axe scrollable-region-focusable: https://dequeuniversity.com/rules/axe/4.10/scrollable-region-focusable
     //   - WCAG 1.4.10 Reflow: https://www.w3.org/WAI/WCAG22/Understanding/reflow.html
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -55,6 +56,15 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "HorizontalScroller",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     let scrollerEl: HTMLDivElement | undefined = $state(undefined);
 

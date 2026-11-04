@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Portuguese_passport
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface PortugalPassaporteInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function PortugalPassaporteInput({
     onChange,
     ...restProps
 }: PortugalPassaporteInputProps) {
+    warnMissingName(
+        "PortugalPassaporteInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`portugal-passaporte-input ${className}`}

@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * MutuallyExclusive — a container ensuring only one option can be selected from a group
@@ -13,7 +21,19 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<div class="mutually-exclusive {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MutuallyExclusive {
+export class MutuallyExclusive implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     readonly className = input<string>("");
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "MutuallyExclusive",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
+    }
 }

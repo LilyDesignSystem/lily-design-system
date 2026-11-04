@@ -19,4 +19,11 @@ describe("DataTable", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("names the root with aria-label from the label input", () => {
+        const fixture = TestBed.createComponent(DataTable);
+        fixture.componentRef.setInput("label", "Named");
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector("table.data-table").getAttribute("aria-label")).toBe("Named");
+    });
 });

@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, input, model, signal } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    signal,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * Editable — an inline-editable text element that toggles between view and edit modes
@@ -32,7 +42,9 @@ import { ChangeDetectionStrategy, Component, input, model, signal } from "@angul
   }`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Editable {
+export class Editable implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** The committed value. Two-way bindable. */
     readonly value = model<string>("");
@@ -66,5 +78,15 @@ export class Editable {
             this.draft.set(this.value());
             this.editing.set(false);
         }
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Editable",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

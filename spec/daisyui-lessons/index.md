@@ -182,7 +182,7 @@ Lily's `llms.txt` is a curated link map by design
   files: `llms-rules.md` (the assistant-facing rules: base class first, text
   is a prop, never hard-code strings, prefer the most specific element, use
   the suffix table, `data-color` once-per-page guidance, no inline styles)
-  and one `llms-components-{category}.md` per category, because 607 entries
+  and one `llms-components-{category}.md` per category, because 609 entries
   will not fit in one file the way daisyUI's 68 do. Each entry: summary, tag,
   base class, props, required ARIA, a one-line **Use when** and **Not when**
   (from the existing When to Use / When Not to Use bullets), and a placeholder
@@ -249,7 +249,7 @@ checkbox styled as a button needs an `aria-label`.
 ### 11. Integrations, and a playground
 
 daisyUI lists about 40 install guides (Next.js, Vite, Vue, Laravel, Rails, …)
-and has a Playground. Lily has nine per-framework tutorials and the 607-page
+and has a Playground. Lily has nine per-framework tutorials and the 609-page
 example apps.
 
 - **Deliverable (a):** short install guides for the server-rendered hosts that

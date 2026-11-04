@@ -50,6 +50,7 @@
 //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface PaginationNavProps {
     className?: string;
@@ -66,6 +67,7 @@ export default function PaginationNav({
     children,
     ...restProps
 }: PaginationNavProps) {
+    warnMissingName("PaginationNav", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <nav
             className={`pagination-nav ${className}`}

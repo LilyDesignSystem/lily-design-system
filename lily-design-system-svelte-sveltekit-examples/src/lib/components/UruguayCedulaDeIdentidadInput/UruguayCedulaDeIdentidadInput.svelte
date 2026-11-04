@@ -26,6 +26,8 @@
     // References:
     //   - https://en.wikipedia.org/wiki/C%C3%A9dula_de_identidad
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -40,6 +42,15 @@
         disabled?: boolean;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "UruguayCedulaDeIdentidadInput",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <!-- UruguayCedulaDeIdentidadInput.svelte -->

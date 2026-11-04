@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_identification_number#Latvia
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface LatvijaPersonasKodsInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function LatvijaPersonasKodsInput({
     onChange,
     ...restProps
 }: LatvijaPersonasKodsInputProps) {
+    warnMissingName(
+        "LatvijaPersonasKodsInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`latvija-personas-kods-input ${className}`}

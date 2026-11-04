@@ -74,7 +74,7 @@ export class FileDialog extends HTMLElement {
     }
 
     #onKeydown = (event: KeyboardEvent): void => {
-        if (event.key !== "Escape") return;
+        if (event.key !== "Escape" || event.defaultPrevented) return;
         event.preventDefault();
         this.#close();
     };

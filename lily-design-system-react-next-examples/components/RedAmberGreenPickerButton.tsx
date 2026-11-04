@@ -46,6 +46,7 @@
 //   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface RedAmberGreenPickerButtonProps {
     className?: string;
@@ -71,6 +72,12 @@ export default function RedAmberGreenPickerButton({
     onClick = undefined,
     ...restProps
 }: RedAmberGreenPickerButtonProps) {
+    warnMissingName(
+        "RedAmberGreenPickerButton",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <button
             className={`red-amber-green-picker-button ${className}`}

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // TreeNav component
 //
 // A headless navigation landmark for hierarchical / tree-style navigation.
@@ -47,10 +49,12 @@
 //   - WAI-ARIA Navigation role: https://www.w3.org/TR/wai-aria-1.2/#navigation
 //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label. */
     label: string;
 }>();
+
+warnMissingName("TreeNav", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 </script>
 
 <template>

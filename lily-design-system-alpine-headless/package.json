@@ -41,12 +41,14 @@
   "exports": {
     ".": "./index.js",
     "./plugin": "./lily-alpine.js",
+    "./page-check": "./page-check.js",
     "./components/*": "./components/*",
     "./package.json": "./package.json"
   },
   "files": [
     "index.js",
     "lily-alpine.js",
+    "page-check.js",
     "middle-truncation.js",
     "overflow-navigation.js",
     "wheel-picker.js",

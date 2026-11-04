@@ -49,10 +49,11 @@
 //   - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 //   - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label: string;
         disabled?: boolean;
@@ -68,6 +69,13 @@ withDefaults(
         id: undefined,
         value: undefined,
     },
+);
+
+warnMissingName(
+    "CheckboxInput",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const checked = defineModel<boolean>("checked", { default: false });

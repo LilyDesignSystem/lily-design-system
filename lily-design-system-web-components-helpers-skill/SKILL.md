@@ -145,7 +145,7 @@ with lag in calendar or working days) ships in this catalog's own Gantt package 
 ## When this isn't the right skill
 
 - **The headless component catalog these helpers sit alongside** (the
-  Web Components headless catalog, 572/607, its full achievable scope) — use
+  Web Components headless catalog, 574/609, its full achievable scope) — use
   [`lily-design-system-web-components-headless-skill`](../lily-design-system-web-components-headless-skill/).
 - **The bare-tag HTML helpers catalog this one was copied from**
   (`<theme-picker>` rather than `<lily-theme-picker>`, a separately

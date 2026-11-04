@@ -45,6 +45,8 @@
     //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
     //   - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         value,
@@ -66,6 +68,15 @@
         onclick?: (event: MouseEvent) => void;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "NetPromoterScorePickerButton",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <!-- NetPromoterScorePickerButton.svelte -->

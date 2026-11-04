@@ -104,6 +104,7 @@ stylesheet link would be needed, so it blocks the parser:
 </script>
 ```
 
+- Under a strict Content Security Policy, serve this as a file or hash it ([testing](../testing/index.md#content-security-policy)).
 - The managed `<link data-lily-theme-picker>` is the one the picker adopts once it is defined, so no second request.
 - The slug is checked against `^[a-z0-9-]+$` before it is used in a URL.
 - The `prefers-color-scheme` line is the app's choice: it matches the picker's `detect-from-system`, and the two slugs are the

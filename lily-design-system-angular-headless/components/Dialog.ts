@@ -7,7 +7,9 @@ import {
     inject,
     input,
     model,
+    OnInit,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -72,7 +74,9 @@ export class ModalDialog {
     imports: [ModalDialog],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Dialog {
+export class Dialog implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Whether the dialog is visible. Two-way bindable; Escape sets it to false. */
     readonly open = model<boolean>(false);
@@ -86,9 +90,19 @@ export class Dialog {
     }
 
     protected onKeydown(event: KeyboardEvent): void {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
             event.preventDefault();
             this.open.set(false);
         }
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Dialog",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

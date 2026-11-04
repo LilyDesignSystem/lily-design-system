@@ -10,6 +10,7 @@
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
     "`aria-label={label}` -- provides an accessible name for the dialog",
+    "`aria-modal=\"true\"` -- opened with `showModal()`",
     "Native `<dialog>` element -- provides implicit `role=\"dialog\"` semantics"
   ],
   "keyboard": [

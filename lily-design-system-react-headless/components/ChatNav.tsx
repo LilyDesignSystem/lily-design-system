@@ -19,6 +19,7 @@
 //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ChatNavProps {
     className?: string;
@@ -30,6 +31,7 @@ export interface ChatNavProps {
 }
 
 export default function ChatNav({ className = "", label, children, ...restProps }: ChatNavProps) {
+    warnMissingName("ChatNav", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <nav
             className={`chat-nav ${className}`}

@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Thai_identity_card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface PrathetThaiLekPrajamTuaPrachachonInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function PrathetThaiLekPrajamTuaPrachachonInput({
     onChange,
     ...restProps
 }: PrathetThaiLekPrajamTuaPrachachonInputProps) {
+    warnMissingName(
+        "PrathetThaiLekPrajamTuaPrachachonInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`prathet-thai-lek-prajam-tua-prachachon-input ${className}`}

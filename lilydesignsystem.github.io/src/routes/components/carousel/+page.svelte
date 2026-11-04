@@ -75,7 +75,10 @@
       <li>Component: carousel</li>
       <li>PascalCase: Carousel</li>
       <li>Description: a slideshow for cycling through content items</li>
-      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>Status: discouraged — kept for existing users; prefer showing the content directly</li>
+      <li>Alternative: <code>card</code> in a <code>grid</code>, so every item is visible</li>
+      <li>Reason: slides past the first are often missed, and the pattern is hard to make accessible; Queensland's public design system declines to offer one</li>
+      <li>Evidence: https://designsystem.qld.gov.au/about/exploring-our-decisions/carousels</li>
       <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .carousel</li>
       <li>Interactive: no</li>

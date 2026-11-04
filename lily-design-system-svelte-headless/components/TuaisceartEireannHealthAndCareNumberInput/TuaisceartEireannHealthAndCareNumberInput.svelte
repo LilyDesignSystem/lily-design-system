@@ -45,6 +45,8 @@
     // References:
     //   - HSC NI: https://online.hscni.net/
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -64,6 +66,15 @@
         /** Additional HTML attributes */
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "TuaisceartEireannHealthAndCareNumberInput",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     const hcPattern = "[0-9]{3} [0-9]{3} [0-9]{4}";
 </script>

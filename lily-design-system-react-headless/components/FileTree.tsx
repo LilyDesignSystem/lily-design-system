@@ -30,6 +30,7 @@
 // its value wins on that render.
 
 import React, { useEffect, useRef } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface FileTreeProps {
     className?: string;
@@ -41,6 +42,7 @@ export interface FileTreeProps {
 }
 
 export default function FileTree({ className = "", label, children, ...restProps }: FileTreeProps) {
+    warnMissingName("FileTree", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const treeRef = useRef<HTMLUListElement>(null);
     const buffer = useRef("");
     const bufferTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);

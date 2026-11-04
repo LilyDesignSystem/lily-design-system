@@ -7,10 +7,11 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Personal_identity_code_(Finland)
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label: string;
         required?: boolean;
@@ -20,6 +21,13 @@ withDefaults(
         required: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "SuomiHenkilotunnusInput",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string>({ default: "" });

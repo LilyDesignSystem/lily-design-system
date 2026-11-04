@@ -41,6 +41,7 @@
 //   - MDN input type="time": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TimePickerInputProps {
     className?: string;
@@ -62,6 +63,12 @@ export default function TimePickerInput({
     onChange,
     ...restProps
 }: TimePickerInputProps) {
+    warnMissingName(
+        "TimePickerInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`time-picker-input ${className}`}

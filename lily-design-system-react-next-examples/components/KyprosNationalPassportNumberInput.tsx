@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Cypriot_passport
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface KyprosNationalPassportNumberInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function KyprosNationalPassportNumberInput({
     onChange,
     ...restProps
 }: KyprosNationalPassportNumberInputProps) {
+    warnMissingName(
+        "KyprosNationalPassportNumberInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`kypros-national-passport-number-input ${className}`}

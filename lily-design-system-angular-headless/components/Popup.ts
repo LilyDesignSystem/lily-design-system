@@ -31,7 +31,10 @@ import {
     input,
     model,
     viewChild,
+    OnInit,
+    inject,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import { syncPopover, toggleOpened } from "./Popover";
 
 /**
@@ -55,7 +58,9 @@ import { syncPopover, toggleOpened } from "./Popover";
   ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Popup {
+export class Popup implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Whether the popup is open. Two-way bindable; the browser's toggle (Escape, light dismiss) writes back. */
     readonly open = model<boolean>(false);
@@ -71,5 +76,15 @@ export class Popup {
 
     protected onToggle(event: Event): void {
         this.open.set(toggleOpened(event));
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Popup",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

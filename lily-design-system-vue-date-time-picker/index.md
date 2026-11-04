@@ -179,7 +179,7 @@ once on open — hide it visually with your own CSS if you prefer.
 <DateTimePicker :label="label" :labels="labels">
   <template #default="{ open, display }">
     <MyCalendarIcon :expanded="open" />
-    <span class="visually-hidden">{{ display }}</span>
+    <span class="screen-reader-span">{{ display }}</span>
   </template>
 </DateTimePicker>
 ```

@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
-import { describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
+import { resetDevWarnings } from "./dev-warning";
 import Subject from "./IconButton";
 
 describe("IconButton", () => {
@@ -117,5 +118,32 @@ describe("IconButton", () => {
             </Subject>,
         );
         expect(ref.current).toBe(screen.getByRole("button"));
+    });
+});
+
+describe("IconButton — development warnings", () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+        vi.unstubAllEnvs();
+        resetDevWarnings();
+    });
+
+    test("a missing label warns", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        render(<Subject label=""><i /></Subject>);
+        expect(warn).toHaveBeenCalledOnce();
+    });
+
+    test("aria-labelledby is a name, so it does not warn", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        render(<Subject label="" aria-labelledby="x"><i /></Subject>);
+        expect(warn).not.toHaveBeenCalled();
+    });
+
+    test("production is silent", () => {
+        vi.stubEnv("NODE_ENV", "production");
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        render(<Subject label=""><i /></Subject>);
+        expect(warn).not.toHaveBeenCalled();
     });
 });

@@ -1,6 +1,6 @@
 # Lily Design System™ - HTML Headless
 
-A headless plain HTML component library with 607 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use vanilla JavaScript for interactivity.
+A headless plain HTML component library with 609 components. All components are headless (no built-in styles), fully accessible (WCAG 2.2 AAA), and use vanilla JavaScript for interactivity.
 
 **Headless** means zero CSS, zero styles, zero opinions about appearance. You provide all styling. Components provide structure, semantics, accessibility, and behavior.
 

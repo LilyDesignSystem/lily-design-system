@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * CheckboxInput — a checkbox input for toggling a boolean value <input type="checkbox">
@@ -22,7 +31,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
     />`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckboxInput {
+export class CheckboxInput implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Accessible label, applied to aria-label. */
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
@@ -33,4 +44,14 @@ export class CheckboxInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "CheckboxInput",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
+    }
 }

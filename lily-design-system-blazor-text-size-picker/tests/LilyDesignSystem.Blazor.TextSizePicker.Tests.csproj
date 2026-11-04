@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <Compile Include="..\TextSizePickerTests.cs" />
+    <Compile Include="..\TextSizePickerPatternTests.cs" />
+    <Compile Include="..\..\shared\PatternTester.cs" />
   </ItemGroup>
 
 </Project>

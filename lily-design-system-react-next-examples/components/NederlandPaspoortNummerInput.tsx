@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Dutch_passport
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface NederlandPaspoortNummerInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function NederlandPaspoortNummerInput({
     onChange,
     ...restProps
 }: NederlandPaspoortNummerInputProps) {
+    warnMissingName(
+        "NederlandPaspoortNummerInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`nederland-paspoort-nummer-input ${className}`}

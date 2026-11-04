@@ -53,6 +53,7 @@
 //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
 import React, { useEffect, useRef, useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface DrawerProps {
     className?: string;
@@ -78,6 +79,7 @@ export default function Drawer({
     children,
     ...restProps
 }: DrawerProps) {
+    warnMissingName("Drawer", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [open, setOpen] = useState(openProp);
     const ref = useRef<HTMLDialogElement>(null);
 
@@ -113,7 +115,7 @@ export default function Drawer({
     }
 
     function handleKeyDown(event: React.KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
             event.preventDefault();
             dismiss();
         }

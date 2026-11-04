@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <Compile Include="..\DateTimePickerTests.cs" />
+    <Compile Include="..\DateTimePickerCalendarTests.cs" />
   </ItemGroup>
 
 </Project>

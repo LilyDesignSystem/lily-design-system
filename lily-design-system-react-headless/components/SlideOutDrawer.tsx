@@ -60,6 +60,7 @@
 //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
 import React, { useEffect, useRef, useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SlideOutDrawerProps {
     className?: string;
@@ -82,6 +83,7 @@ export default function SlideOutDrawer({
     children,
     ...restProps
 }: SlideOutDrawerProps) {
+    warnMissingName("SlideOutDrawer", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [open, setOpen] = useState(openProp);
     const ref = useRef<HTMLDialogElement>(null);
 
@@ -117,7 +119,7 @@ export default function SlideOutDrawer({
     }
 
     function handleKeyDown(event: React.KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
             event.preventDefault();
             dismiss();
         }

@@ -44,6 +44,8 @@
     // References:
     //   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -56,6 +58,15 @@
         value?: string;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "RedAmberGreenPicker",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <!-- RedAmberGreenPicker.svelte -->

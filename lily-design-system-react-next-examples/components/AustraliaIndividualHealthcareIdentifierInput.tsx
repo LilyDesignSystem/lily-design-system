@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/My_Health_Record
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface AustraliaIndividualHealthcareIdentifierInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function AustraliaIndividualHealthcareIdentifierInput({
     onChange,
     ...restProps
 }: AustraliaIndividualHealthcareIdentifierInputProps) {
+    warnMissingName(
+        "AustraliaIndividualHealthcareIdentifierInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`australia-individual-healthcare-identifier-input ${className}`}

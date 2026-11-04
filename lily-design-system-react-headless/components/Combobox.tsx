@@ -53,6 +53,7 @@
 
 import React, { useId } from "react";
 import { usePopoverState } from "./Popover";
+import { warnMissingName } from "./dev-warning";
 
 export interface ComboboxProps {
     className?: string;
@@ -81,12 +82,13 @@ export default function Combobox({
     children,
     ...restProps
 }: ComboboxProps) {
+    warnMissingName("Combobox", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const listboxId = `combobox-listbox-${useId()}`;
     const listboxRef = React.useRef<HTMLDivElement>(null);
     usePopoverState(listboxRef, open);
 
     function handleKeyDown(event: React.KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && open) {
             event.preventDefault();
             onOpenChange?.(false);
         }

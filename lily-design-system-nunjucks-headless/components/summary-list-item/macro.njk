@@ -49,7 +49,7 @@
         {%- elif action.label %} aria-label="{{ action.label }}"{% endif -%}
       >
         {{ action.text }}
-        {%- if action.visuallyHiddenText %}<span class="visually-hidden"> {{ action.visuallyHiddenText }}</span>{% endif -%}
+        {%- if action.visuallyHiddenText %}<span class="screen-reader-span"> {{ action.visuallyHiddenText }}</span>{% endif -%}
       </a>
       {%- if not loop.last %} <span aria-hidden="true">·</span> {% endif -%}
     {%- endfor -%}

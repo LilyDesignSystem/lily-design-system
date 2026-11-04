@@ -7,7 +7,7 @@
   "baseClass": ".carousel",
   "subClasses": [],
   "interactive": false,
-  "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
+  "status": "discouraged — kept for existing users; prefer showing the content directly",
   "aria": [
     "`role=\"region\"` -- identifies the carousel as a landmark region so screen readers can navigate to it.",
     "`aria-roledescription=\"carousel\"` -- overrides the default \"region\" announcement with \"carousel\" for clearer context.",

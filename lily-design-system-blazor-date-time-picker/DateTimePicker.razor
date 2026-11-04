@@ -231,7 +231,7 @@
                                             @ref="_dayElements[cellIndex]"
                                             class="date-time-picker-day"
                                             data-date="@isoDate"
-                                            data-outside="@(parsed is not null && parsed.Value.Month != _viewMonth ? "" : null)"
+                                            data-outside="@(string.CompareOrdinal(isoDate, _viewStart) < 0 || string.CompareOrdinal(isoDate, CalendarSystem.AddMonths(_viewStart, 1, CalendarId)) >= 0 ? "" : null)"
                                             data-today="@(isToday ? "" : null)"
                                             data-selected="@(isSelected ? "" : null)"
                                             data-disabled="@(isDisabled ? "" : null)"
@@ -240,7 +240,7 @@
                                             aria-current="@(isToday ? "date" : null)"
                                             aria-disabled="@(isDisabled ? "true" : null)"
                                             @onclick="() => SelectDayAsync(isoDate)">
-                                        @(parsed?.Day.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")
+                                        @(parsed is null ? "" : CalendarSystem.Day(isoDate, CalendarId).ToString(System.Globalization.CultureInfo.InvariantCulture))
                                     </button>
                                 </td>
                             }

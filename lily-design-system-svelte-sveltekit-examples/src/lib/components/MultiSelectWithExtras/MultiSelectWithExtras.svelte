@@ -22,6 +22,7 @@
     //
     // Claude rules:
     //   - Headless: no CSS; uses $bindable() on value
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -54,6 +55,15 @@
         after?: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "MultiSelectWithExtras",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <!-- MultiSelectWithExtras.svelte -->

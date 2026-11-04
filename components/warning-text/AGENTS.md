@@ -24,7 +24,7 @@ in order; see `warning-callout` and `alert` for announced messages).
 - Renders `<div class="warning-text {class}">` containing an optional icon wrapper and the text
 - The icon is consumer-supplied (Lily bundles no icons) and rendered inside `<span class="warning-text-icon" aria-hidden="true">`, only when supplied (Angular always renders the wrapper, empty when nothing is projected)
 - The text renders inside `<strong class="warning-text-text">`
-- The visually hidden prefix (for example "Warning") is part of the consumer's content, at the start of the text, hidden with the consumer's own visually-hidden class; there is no prop for it and no default
+- The visually hidden prefix (for example "Warning") is part of the consumer's content, at the start of the text, hidden with the `screen-reader-span` class or `ScreenReaderSpan`; there is no prop for it and no default
 - Spreads `restProps` onto the root; no state, no live region, no strings
 
 ## ARIA

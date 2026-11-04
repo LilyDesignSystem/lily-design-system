@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Personal_identification_number_(Denmark)
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface DanmarkPersonnummerInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function DanmarkPersonnummerInput({
     onChange,
     ...restProps
 }: DanmarkPersonnummerInputProps) {
+    warnMissingName(
+        "DanmarkPersonnummerInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`danmark-personnummer-input ${className}`}

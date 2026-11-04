@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import { restoreOnFormReset } from "./form-reset";
 
 /**
@@ -30,7 +39,9 @@ import { restoreOnFormReset } from "./form-reset";
   </fieldset>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DateRange {
+export class DateRange implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Accessible group label, applied to the fieldset via aria-label. */
     readonly label = input<string>("");
     /** Accessible label for the start date input. */
@@ -47,5 +58,15 @@ export class DateRange {
     constructor() {
         restoreOnFormReset(this.start, 0);
         restoreOnFormReset(this.end, 1);
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "DateRange",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

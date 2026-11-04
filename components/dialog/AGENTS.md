@@ -31,7 +31,7 @@
 
 ## Keyboard
 
-- Escape: closes the dialog by setting `open` to false
+- Escape: closes the dialog by setting `open` to false, unless something inside already handled it (`defaultPrevented`)
 
 ## Props
 

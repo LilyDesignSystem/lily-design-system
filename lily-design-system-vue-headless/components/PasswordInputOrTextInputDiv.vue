@@ -53,10 +53,11 @@
 //   - HTML password input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password
 //   - WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label: string;
         showToggle?: boolean;
@@ -70,6 +71,13 @@ withDefaults(
         required: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "PasswordInputOrTextInputDiv",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string>({ default: "" });

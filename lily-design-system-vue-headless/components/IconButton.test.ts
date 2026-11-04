@@ -1,7 +1,8 @@
 import { render, screen } from "@testing-library/vue";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
-import { describe, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
+import { resetDevWarnings } from "./dev-warning";
 import Subject from "./IconButton.vue";
 
 describe("IconButton", () => {
@@ -115,5 +116,32 @@ describe("IconButton", () => {
         expect(button.getAttribute("aria-haspopup")).toBe("listbox");
         expect(button.getAttribute("aria-expanded")).toBe("false");
         expect(button.getAttribute("aria-controls")).toBe("list-1");
+    });
+});
+
+describe("IconButton — development warnings", () => {
+    afterEach(() => {
+        vi.restoreAllMocks();
+        vi.unstubAllEnvs();
+        resetDevWarnings();
+    });
+
+    test("a missing label warns", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        render(Subject, { props: { label: "" } });
+        expect(warn).toHaveBeenCalledOnce();
+    });
+
+    test("aria-labelledby is a name, so it does not warn", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        render(Subject, { props: { label: "" }, attrs: { "aria-labelledby": "x" } });
+        expect(warn).not.toHaveBeenCalled();
+    });
+
+    test("production is silent", () => {
+        vi.stubEnv("NODE_ENV", "production");
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        render(Subject, { props: { label: "" } });
+        expect(warn).not.toHaveBeenCalled();
     });
 });

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // Dial component
 //
 // A circular dial or knob control for adjusting a numeric value within a
@@ -72,6 +74,8 @@ const props = withDefaults(
         disabled: false,
     },
 );
+
+warnMissingName("Dial", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const modelValue = defineModel<number>({ default: 0 });
 

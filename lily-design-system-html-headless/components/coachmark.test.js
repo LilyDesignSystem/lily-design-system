@@ -46,13 +46,12 @@ describe("Coachmark", function () {
         const coachmark = await $("div.coachmark");
         const dismiss = await $("button.coachmark-dismiss");
 
-        // Initially visible (no hidden attribute).
-        const hiddenBefore = await coachmark.getAttribute("hidden");
-        expect(hiddenBefore).toBeNull();
+        const shown = () => browser.execute((el) => el.matches(":popover-open"), coachmark);
+        await browser.execute((el) => el.showPopover(), coachmark);
+        expect(await shown()).toBe(true);
 
         await dismiss.click();
 
-        const hiddenAfter = await coachmark.getAttribute("hidden");
-        expect(hiddenAfter).not.toBeNull();
+        expect(await shown()).toBe(false);
     });
 });

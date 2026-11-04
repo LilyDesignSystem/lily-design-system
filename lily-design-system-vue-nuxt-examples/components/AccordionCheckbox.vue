@@ -52,8 +52,9 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 //   - MDN input type=checkbox: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 
-import { computed, ref } from "vue";
+import { computed, ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
     /** Checkbox label text. */
@@ -61,6 +62,13 @@ const props = defineProps<{
     /** Base id for the checkbox/panel link. */
     id?: string;
 }>();
+
+warnMissingName(
+    "AccordionCheckbox",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
 
 const checked = defineModel<boolean>("checked", { default: false });
 const field = ref<HTMLInputElement | null>(null);

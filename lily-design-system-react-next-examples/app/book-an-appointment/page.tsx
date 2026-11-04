@@ -612,7 +612,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden"> reason</span>
+                                <span className="screen-reader-span"> reason</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Date">
@@ -625,7 +625,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden"> date</span>
+                                <span className="screen-reader-span"> date</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Time of day">
@@ -638,7 +638,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden"> time of day</span>
+                                <span className="screen-reader-span"> time of day</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Full name">
@@ -651,7 +651,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden"> full name</span>
+                                <span className="screen-reader-span"> full name</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Email address">
@@ -664,7 +664,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden"> email address</span>
+                                <span className="screen-reader-span"> email address</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Phone number">
@@ -677,7 +677,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden"> phone number</span>
+                                <span className="screen-reader-span"> phone number</span>
                             </a>
                         </SummaryListItem>
                         <SummaryListItem term="Interpreter or additional support">
@@ -690,7 +690,7 @@ export default function BookAnAppointmentPage() {
                                 }}
                             >
                                 Change
-                                <span className="visually-hidden">
+                                <span className="screen-reader-span">
                                     {" "}
                                     interpreter or additional support
                                 </span>

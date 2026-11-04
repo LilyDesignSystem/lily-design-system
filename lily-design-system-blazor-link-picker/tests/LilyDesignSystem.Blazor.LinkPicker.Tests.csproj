@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <Compile Include="..\LinkPickerTests.cs" />
+    <Compile Include="..\LinkPickerPatternTests.cs" />
+    <Compile Include="..\..\shared\PatternTester.cs" />
   </ItemGroup>
 
 </Project>

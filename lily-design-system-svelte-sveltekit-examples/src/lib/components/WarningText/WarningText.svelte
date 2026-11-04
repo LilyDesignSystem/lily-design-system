@@ -15,7 +15,7 @@
     // Syntax:
     //   <WarningText>
     //       {#snippet icon()}!{/snippet}
-    //       <span class="visually-hidden">Warning</span>
+    //       <span class="screen-reader-span">Warning</span>
     //       You can be fined if you do not register.
     //   </WarningText>
     import type { Snippet } from "svelte";

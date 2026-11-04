@@ -53,6 +53,7 @@
     //   - MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
     //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     import { modalDialog } from "./modal.js";
 
@@ -75,8 +76,12 @@
         [key: string]: unknown;
     } = $props();
 
+    $effect(() =>
+        warnMissingName("Dialog", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
+
     function onkeydown(event: KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
             event.preventDefault();
             open = false;
         }

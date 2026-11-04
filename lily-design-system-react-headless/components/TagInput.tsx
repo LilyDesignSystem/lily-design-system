@@ -40,6 +40,7 @@
 //   - WAI-ARIA textbox role: https://www.w3.org/TR/wai-aria-1.2/#textbox
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TagInputProps {
     className?: string;
@@ -65,6 +66,7 @@ export default function TagInput({
     onChange,
     ...restProps
 }: TagInputProps) {
+    warnMissingName("TagInput", label, restProps["aria-label"], restProps["aria-labelledby"]);
     function handleKeyDown(event: React.KeyboardEvent) {
         if (event.key === "Enter" && value.trim()) {
             event.preventDefault();

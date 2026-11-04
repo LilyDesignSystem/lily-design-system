@@ -99,6 +99,33 @@ EXTRA_TARGETS = {
         "lily-design-system-alpine-headless/wheel-picker.js",
         "lily-design-system-html-headless/components/wheel-picker.html",
     ],
+    # Month grids in any CLDR calendar (spec/date-time-picker), beside each picker.
+    "calendar-system.ts": [
+        "lily-design-system-svelte-date-time-picker/calendar-system.ts",
+        "lily-design-system-react-date-time-picker/calendar-system.ts",
+        "lily-design-system-vue-date-time-picker/calendar-system.ts",
+        "lily-design-system-angular-date-time-picker/calendar-system.ts",
+        "lily-design-system-html-date-time-picker/calendar-system.ts",
+        "lily-design-system-web-components-date-time-picker/calendar-system.ts",
+        "lily-design-system-nunjucks-date-time-picker/calendar-system.ts",
+    ],
+    # Development warnings (spec/testing): one file per catalog, imported by each component that reports one, and in the example apps' copies.
+    "dev-warning.ts": [
+        "lily-design-system-svelte-headless/components/dev-warning.ts",
+        "lily-design-system-svelte-sveltekit-examples/src/lib/components/dev-warning.ts",
+        "lily-design-system-react-headless/components/dev-warning.ts",
+        "lily-design-system-react-next-examples/components/dev-warning.ts",
+        "lily-design-system-vue-headless/components/dev-warning.ts",
+        "lily-design-system-vue-nuxt-examples/components/dev-warning.ts",
+        "lily-design-system-angular-headless/components/dev-warning.ts",
+        "lily-design-system-angular-examples/src/app/components/dev-warning.ts",
+    ],
+    # The page-level development check (spec/testing), for the catalogs with no component code to hook.
+    "page-check.js": [
+        "lily-design-system-html-headless/components/page-check.js",
+        "lily-design-system-nunjucks-headless/components/page-check.js",
+        "lily-design-system-alpine-headless/page-check.js",
+    ],
     # The listbox behaviour core (spec/competitive-position item 3) and the modules it imports, beside each Listbox.
     # bin/sync-example-components mirrors the Svelte Listbox folder whole, but copies only slug-named companions of a
     # React, Vue or Angular component, so those examples' copies are written here.

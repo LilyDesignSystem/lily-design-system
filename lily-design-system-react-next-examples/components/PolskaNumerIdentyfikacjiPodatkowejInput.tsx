@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_identification_number#Poland
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface PolskaNumerIdentyfikacjiPodatkowejInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function PolskaNumerIdentyfikacjiPodatkowejInput({
     onChange,
     ...restProps
 }: PolskaNumerIdentyfikacjiPodatkowejInputProps) {
+    warnMissingName(
+        "PolskaNumerIdentyfikacjiPodatkowejInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`polska-numer-identyfikacji-podatkowej-input ${className}`}

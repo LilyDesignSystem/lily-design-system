@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <Compile Include="..\LocalePickerTests.cs" />
+    <Compile Include="..\LocalePickerPatternTests.cs" />
+    <Compile Include="..\..\shared\PatternTester.cs" />
   </ItemGroup>
 
 </Project>

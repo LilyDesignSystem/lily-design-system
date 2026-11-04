@@ -29,6 +29,7 @@
 //   - Required label and src — the component cannot be silently inaccessible
 
 import React, { useEffect, useRef } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface VideoPlayerProps {
     className?: string;
@@ -66,6 +67,7 @@ export default function VideoPlayer({
     children,
     ...restProps
 }: VideoPlayerProps) {
+    warnMissingName("VideoPlayer", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {

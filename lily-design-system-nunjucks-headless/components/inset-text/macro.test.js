@@ -29,14 +29,14 @@ describe("inset-text", () => {
             text: "Message",
             screenReaderPrefix: "Information:",
         });
-        const prefix = document.querySelector("div span.visually-hidden");
+        const prefix = document.querySelector("div span.screen-reader-span");
         expect(prefix).toBeTruthy();
         expect(prefix.textContent).toContain("Information:");
     });
 
     it("omits the screen-reader prefix when not provided", () => {
         const { document } = render("inset-text", { text: "Message" });
-        expect(document.querySelector("div span.visually-hidden")).toBeNull();
+        expect(document.querySelector("div span.screen-reader-span")).toBeNull();
     });
 
     it("sets aria-label from params.label", () => {

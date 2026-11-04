@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/PhilHealth
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface PilipinasPhilhealthIdentificationNumberInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function PilipinasPhilhealthIdentificationNumberInput({
     onChange,
     ...restProps
 }: PilipinasPhilhealthIdentificationNumberInputProps) {
+    warnMissingName(
+        "PilipinasPhilhealthIdentificationNumberInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`pilipinas-philhealth-identification-number-input ${className}`}

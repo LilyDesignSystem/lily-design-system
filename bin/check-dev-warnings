@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+"""Every interactive component whose label is required calls warnMissingName in Svelte, React, Vue and Angular.
+
+A component that declares its label optional in a port cannot warn there: list it in
+bin/check-dev-warnings.allow.json with a reason. A listed component that now warns must be removed.
+Spec: spec/testing/index.md#development-warnings.
+"""
+import json
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PATHS = {
+    "svelte": "lily-design-system-svelte-headless/components/{name}/{name}.svelte",
+    "react": "lily-design-system-react-headless/components/{name}.tsx",
+    "vue": "lily-design-system-vue-headless/components/{name}.vue",
+    "angular": "lily-design-system-angular-headless/components/{name}.ts",
+}
+
+
+def read(path):
+    with open(os.path.join(TOP, path), encoding="utf-8") as f:
+        return f.read()
+
+
+def main():
+    allow = json.loads(read("bin/check-dev-warnings.allow.json"))
+    errors = []
+    total = 0
+    for row in read("components.tsv").splitlines():
+        slug, name = row.split("\t")[:2]
+        doc = read(f"components/{slug}/AGENTS.md")
+        if not re.search(r"^- Interactive: yes", doc, re.M):
+            continue
+        if not re.search(r"^- `label`: ?[^\n]*\(required\)", doc, re.M):
+            continue
+        total += 1
+        for catalog, pattern in PATHS.items():
+            calls = "warnMissingName(" in read(pattern.format(name=name))
+            listed = slug in allow.get(catalog, {})
+            if not calls and not listed:
+                errors.append(f"{catalog}: {name} never calls warnMissingName")
+            if calls and listed:
+                errors.append(f"{catalog}: {name} now warns; remove it from the allow list")
+    for message in errors:
+        print(f"Error: {message}")
+    print(f"check-dev-warnings: {total} components in 4 catalogs: {'FAILED' if errors else 'OK'}")
+    return 1 if errors else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

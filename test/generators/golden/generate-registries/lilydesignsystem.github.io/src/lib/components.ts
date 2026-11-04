@@ -6,7 +6,7 @@ export type LilyComponent = {
   pascal: string;
   description: string;
   /** Maturity: see the rubric in spec/components. */
-  status: 'stable' | 'beta' | 'experimental';
+  status: 'stable' | 'beta' | 'experimental' | 'deprecated' | 'discouraged';
 };
 
 export const LILY_COMPONENTS: LilyComponent[] = [

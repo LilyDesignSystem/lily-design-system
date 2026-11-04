@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // ChatNav component
 //
 // A navigation container for chat information.
@@ -17,10 +19,12 @@
 // References:
 //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label set on aria-label. */
     label: string;
 }>();
+
+warnMissingName("ChatNav", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 </script>
 
 <template>

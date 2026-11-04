@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * PaginationList component
@@ -58,7 +66,19 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ol class="pagination-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ol>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaginationList {
+export class PaginationList implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     readonly className = input<string>("");
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "PaginationList",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
+    }
 }

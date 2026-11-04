@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Unique_Population_Registry_Code
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface MexicoClaveUnicaDeRegistroDePoblacionInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function MexicoClaveUnicaDeRegistroDePoblacionInput({
     onChange,
     ...restProps
 }: MexicoClaveUnicaDeRegistroDePoblacionInputProps) {
+    warnMissingName(
+        "MexicoClaveUnicaDeRegistroDePoblacionInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`mexico-clave-unica-de-registro-de-poblacion-input ${className}`}

@@ -53,7 +53,8 @@
 // References:
 //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
-import { nextTick } from "vue";
+import { nextTick, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -67,10 +68,12 @@ const props = withDefaults(
     },
 );
 
+warnMissingName("Drawer", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
+
 const open = defineModel<boolean>("open", { default: false });
 
 function onkeydown(event: KeyboardEvent) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !event.defaultPrevented) {
         event.preventDefault();
         open.value = false;
     }

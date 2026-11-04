@@ -52,10 +52,11 @@
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 //   - MDN input type="range": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label. */
         label: string;
@@ -75,6 +76,8 @@ withDefaults(
         disabled: false,
     },
 );
+
+warnMissingName("RangeInput", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const modelValue = defineModel<number>({ default: 50 });
 const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);

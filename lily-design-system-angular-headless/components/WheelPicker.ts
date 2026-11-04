@@ -6,7 +6,10 @@ import {
     input,
     model,
     viewChild,
+    OnInit,
+    inject,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import {
     isWheelTypeaheadKey,
     nextWheelIndex,
@@ -41,7 +44,9 @@ let nextUid = 0;
     template: `<div class="wheel-picker {{ className() }}"><div #list class="wheel-picker-list" role="listbox" [attr.aria-label]="label()" aria-orientation="vertical" [attr.aria-disabled]="disabled() ? 'true' : null" [attr.aria-activedescendant]="selectedIndex() >= 0 ? uid + '-option-' + selectedIndex() : null" [attr.tabindex]="disabled() ? -1 : 0" (keydown)="onKeydown($event)" (click)="onClick($event)">@for (option of options(); track option.value; let i = $index) {<div class="wheel-picker-option" role="option" [attr.id]="uid + '-option-' + i" [attr.aria-selected]="i === selectedIndex()" [attr.aria-disabled]="option.disabled ? 'true' : null" [attr.data-value]="option.value" [attr.data-index]="i">{{ option.label }}</div>}</div>@if (name()) {<input type="hidden" [attr.name]="name()" [value]="value()" />}</div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WheelPicker {
+export class WheelPicker implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly className = input<string>("");
     /** Accessible name. */
     readonly label = input.required<string>();
@@ -111,5 +116,15 @@ export class WheelPicker {
         if (!target || target.getAttribute("aria-disabled") === "true") return;
         this.select(Number(target.getAttribute("data-index")));
         this.list()?.nativeElement.focus();
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "WheelPicker",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

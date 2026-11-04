@@ -10,7 +10,7 @@ on the same day.
 The finding: the seven rows share one root cause. **Competitors win on evidence, and Lily wins on breadth.** Radix, Base
 UI, Ark UI and React Aria are trusted because their behaviour has been exercised for years. React Aria names the screen
 readers it tests with, Carbon and USWDS publish conformance material, and shadcn turned copying into tooling. Lily has
-607 components × 8 frameworks, so every unit of proof costs it more than it costs them. The improvements therefore do
+609 components × 8 frameworks, so every unit of proof costs it more than it costs them. The improvements therefore do
 not add breadth. They:
 
 1. Make proof cheaper: one behaviour core, plus browser-native primitives that the browser vendors already test.

@@ -55,6 +55,7 @@
 //   - MDN time input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface DateTimeNowInputProps {
     className?: string;
@@ -90,6 +91,12 @@ export default function DateTimeNowInput({
     disabled = false,
     ...restProps
 }: DateTimeNowInputProps) {
+    warnMissingName(
+        "DateTimeNowInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     function handleNow() {
         const now = new Date();
         const year = now.getFullYear();

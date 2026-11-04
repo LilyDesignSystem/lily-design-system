@@ -45,6 +45,7 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface FiveStarRatingPickerButtonProps {
     className?: string;
@@ -70,6 +71,12 @@ export default function FiveStarRatingPickerButton({
     onClick = undefined,
     ...restProps
 }: FiveStarRatingPickerButtonProps) {
+    warnMissingName(
+        "FiveStarRatingPickerButton",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <button
             className={`five-star-rating-picker-button ${className}`}

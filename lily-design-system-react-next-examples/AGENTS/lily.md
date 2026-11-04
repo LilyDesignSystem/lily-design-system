@@ -4,14 +4,14 @@ Living specification: [spec/index.md](../spec/index.md)
 
 [CSS style sheet template](../css-style-sheet-template.css)
 
-Canonical component list: [components.tsv](../components.tsv) — 607 components.
+Canonical component list: [components.tsv](../components.tsv) — 609 components.
 
 ## Subprojects for headless components
 
-The seven framework pairs below are the canonical, full-catalog (607/607)
+The seven framework pairs below are the canonical, full-catalog (609/609)
 headless libraries. An 8th headless catalog joined 2026-09-03:
 [Lily Design System: Web Components headless](../lily-design-system-web-components-headless)
-ships its full achievable scope: 572 of the 607 (since `warning-text`, 2026-10-29)
+ships its full achievable scope: 574 of the 609 (since `warning-text`, 2026-10-29)
 components as native custom elements (no framework runtime). The other 35
 are permanently excluded by a real architectural limitation (table
 sub-elements and interactive `*ListItem` families — no wrapper-host-safe
@@ -21,7 +21,7 @@ backlog. See its own `spec/index.md` for the architecture decisions
 and the exact scope.
 
 A 9th, [Lily Design System: Alpine.js headless](../lily-design-system-alpine-headless)
-(added 2026-10-21; `@lilydesignsystem/alpine-headless` 0.1.0, not yet published), covers all 607 components as annotated HTML
+(added 2026-10-21; `@lilydesignsystem/alpine-headless` 0.1.0, not yet published), covers all 609 components as annotated HTML
 snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`)
 whose `Alpine.data` behaviours own state and keyboard for the interactive ones. Its example app is [`lily-design-system-alpine-examples`](../lily-design-system-alpine-examples); its six helpers are `lily-design-system-alpine-{data-grid,kanban-board,calendar,gantt-chart,markdown-editor,org-editor}` (`@lilydesignsystem/alpine-*`), each a subset of its Svelte reference. See its `spec/index.md`.
 
@@ -117,8 +117,8 @@ exemptions.
 | Source (edit this)                                                                | Generator                           | Generated output (never edit)                                                                                                                                                                                                    | Check                                                                      |
 | --------------------------------------------------------------------------------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | `components/{slug}/AGENTS.md`, `components.tsv`                                   | `bin/generate-component-categories` | `components-categories.tsv`                                                                                                                                                                                                      | none (staleness is caught indirectly by `bin/generate-registries --check`) |
-| `components.tsv`, `components-categories.tsv`, the Svelte `component-demos.ts`    | `bin/generate-registries`           | the example apps' registries and `component-demos.ts` copies, `ComponentData.cs`, the HTML app's embedded arrays, the site's `src/lib/components.ts`, the component listing in `index.md`, the shadcn registry `static/r/react/` | `bin/generate-registries --check`                                          |
-| each component's `## Usage` doc, `component-variants.json`                        | `bin/generate-examples`             | every app's `component-examples` data, `ComponentExamples.cs`, the HTML app's `componentExamples` region, the Nunjucks app's generated examples regions                                                                          | none                                                                       |
+| `components.tsv`, `components-categories.tsv`, the Svelte `component-demos.ts`    | `bin/generate-registries`           | the example apps' registries and `component-demos.ts` copies, `ComponentData.cs`, the HTML app's catalog scripts in `assets/js/pages/`, the site's `src/lib/components.ts`, the component listing in `index.md`, the shadcn registry `static/r/react/` | `bin/generate-registries --check`                                          |
+| each component's `## Usage` doc, `component-variants.json`                        | `bin/generate-examples`             | every app's `component-examples` data, `ComponentExamples.cs`, the `componentExamples` region in the HTML app's `assets/js/pages/component.js`, the Nunjucks app's generated examples regions                                                                          | none                                                                       |
 | `components/{slug}/index.md`, the demo map, the examples data                     | `bin/generate-site-pages`           | the docs site's `src/routes/components/{slug}/+page.svelte` (placeholder rebuild and the Example region)                                                                                                                         | none                                                                       |
 | `components/{slug}/AGENTS.md`, the headless file layout                           | `bin/generate-api-docs`             | the canonical-contract region on each site page, `static/r/{slug}.json` and `static/r/index.json`, `static/components/{slug}.md`                                                                                                 | `bin/generate-api-docs --check`                                            |
 | `compare/compare.tsv`                                                             | `bin/generate-comparisons`          | the component matrix table in `compare/index.md`; the `rows matched` counts in `COMPARE.md` come from `bin/generate-comparisons --counts`                                                                                        | `bin/generate-comparisons --check`                                         |
@@ -169,6 +169,8 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 - [check-dtcg-tokens](../bin/check-dtcg-tokens): `themes/tokens/*.json` and `lily.resolver.json` are strict DTCG 2025.10 (in bin/test)
 - [check-native-primitives](../bin/check-native-primitives): Every Svelte overlay or popup component records its native-platform decision, in step with `spec/competitive-position/native-primitives.tsv` (in bin/test; `--write` regenerates the AGENTS.md sections)
+- [check-dev-warnings](../bin/check-dev-warnings): Every interactive component with a required `label` warns when it is missing, in Svelte, React, Vue and Angular, unless allow-listed (in bin/test)
+- [check-lifecycle](../bin/check-lifecycle): A `deprecated` or `discouraged` component names its replacement or its cited alternative, and `docs/adopters.md` names real components (in bin/test)
 - [check-theme-references](../bin/check-theme-references): Report public-sector themes whose upstream package has a newer major release than `themes/references.tsv` records (report only, never fails on upstream)
 - [generate-core](../bin/generate-core): The Lily Core tier from test, e2e and screen-reader evidence, the `/quality` page and the self-assessed ACR (`--check` in bin/test)
 - [check-picker-icons](../bin/check-picker-icons): All 80 bundled picker icons follow the icon contract: one `viewBox`, a `currentColor` stroke, round caps and joins, `rem` size, `aria-hidden` (in bin/test)

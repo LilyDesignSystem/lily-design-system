@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/SNILS_(Russia)
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface RossiyaSnilsInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function RossiyaSnilsInput({
     onChange,
     ...restProps
 }: RossiyaSnilsInputProps) {
+    warnMissingName(
+        "RossiyaSnilsInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`rossiya-snils-input ${className}`}

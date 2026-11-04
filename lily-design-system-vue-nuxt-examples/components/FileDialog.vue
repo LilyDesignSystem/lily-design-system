@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
 import { modalDialogRef } from "./dialog";
+import { warnMissingName } from "./dev-warning";
 // FileDialog component
 //
 // A modal dialog for file-related operations such as opening, saving, or
@@ -51,6 +53,8 @@ const props = defineProps<{
     label: string;
 }>();
 
+warnMissingName("FileDialog", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
+
 const open = defineModel<boolean>("open", { default: false });
 
 // A real modal (tasks.md P14-T4): showModal() makes the page behind inert and traps Tab; Escape fires `cancel`.
@@ -62,7 +66,7 @@ function oncancel(event: Event) {
 }
 
 function onkeydown(event: KeyboardEvent) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !event.defaultPrevented) {
         event.preventDefault();
         open.value = false;
     }
@@ -77,6 +81,7 @@ function onkeydown(event: KeyboardEvent) {
         class="file-dialog"
         tabindex="-1"
         :aria-label="label"
+        aria-modal="true"
         @keydown="onkeydown"
         @cancel="oncancel"
         @close="open = false"

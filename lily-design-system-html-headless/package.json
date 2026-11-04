@@ -46,6 +46,7 @@
     "components/*.html",
     "components/listbox-controller.js",
     "components/contents-nav-spy.js",
+    "components/page-check.js",
     "index.md",
     "README.md"
   ]

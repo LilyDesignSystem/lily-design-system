@@ -7,7 +7,7 @@
   margin-bottom: var(--nhsuk-spacing-4);
 }
 
-.visually-hidden {
+.screen-reader-span {
   position: absolute;
   width: 1px;
   height: 1px;

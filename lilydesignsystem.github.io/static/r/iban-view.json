@@ -1,0 +1,40 @@
+{
+  "slug": "iban-view",
+  "name": "IbanView",
+  "description": "a read-only display of an International Bank Account Number (IBAN)",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".iban-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in composed flows",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`role=\"text\"` so the identifier announces as a single unit"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the identifier to display",
+    "`label`: string (optional) — accessible name override via `aria-label`",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "iban-input",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/iban-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/IbanView/IbanView.svelte",
+    "react": "lily-design-system-react-headless/components/IbanView.tsx",
+    "vue": "lily-design-system-vue-headless/components/IbanView.vue",
+    "angular": "lily-design-system-angular-headless/components/IbanView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/iban-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/iban-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/iban-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IbanView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/iban-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/iban-view/AGENTS.md"
+}

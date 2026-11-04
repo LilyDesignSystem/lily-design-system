@@ -19,6 +19,7 @@
 // Internationalization: label is consumer-supplied; no hardcoded strings.
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface OneTimePasswordInputProps {
     className?: string;
@@ -56,6 +57,12 @@ export default function OneTimePasswordInput({
     onChange,
     ...restProps
 }: OneTimePasswordInputProps) {
+    warnMissingName(
+        "OneTimePasswordInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`one-time-password-input ${className}`}

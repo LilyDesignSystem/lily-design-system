@@ -59,12 +59,15 @@
 // References:
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
     /** Accessible label for the menu. */
     label: string;
 }>();
+
+warnMissingName("Menu", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const menuRef = ref<HTMLElement | undefined>(undefined);
 

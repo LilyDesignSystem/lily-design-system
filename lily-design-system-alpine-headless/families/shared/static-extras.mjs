@@ -71,7 +71,7 @@ export default {
     await mount("warning-text");
     expect(el().querySelector(":scope > .warning-text-icon").getAttribute("aria-hidden")).toBe("true");
     const strong = el().querySelector(":scope > strong.warning-text-text");
-    expect(strong.querySelector(".visually-hidden")).not.toBeNull();
+    expect(strong.querySelector(".screen-reader-span")).not.toBeNull();
   });`,
     },
 };

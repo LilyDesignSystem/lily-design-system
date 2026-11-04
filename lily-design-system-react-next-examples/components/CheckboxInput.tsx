@@ -50,6 +50,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 export interface CheckboxInputProps {
     className?: string;
@@ -77,6 +78,7 @@ export default function CheckboxInput({
     onChange,
     ...restProps
 }: CheckboxInputProps) {
+    warnMissingName("CheckboxInput", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [internalChecked, setInternalChecked] = useState(checked);
     const inputRef = useRef<HTMLInputElement>(null);
     const initialChecked = useRef(checked);

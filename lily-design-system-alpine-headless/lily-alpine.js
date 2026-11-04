@@ -622,8 +622,8 @@ export default function lily(Alpine) {
             "@cancel"() {
                 this.open = false;
             },
-            "@keydown.escape"() {
-                this.open = false;
+            "@keydown.escape"(event) {
+                if (!event.defaultPrevented) this.open = false;
             },
         },
         closer: {
@@ -1423,6 +1423,7 @@ export default function lily(Alpine) {
             },
             "@keydown"(event) {
                 if (event.key === "Escape") {
+                    if (this.open) event.preventDefault();
                     this.open = false;
                     this.active = "";
                     return;

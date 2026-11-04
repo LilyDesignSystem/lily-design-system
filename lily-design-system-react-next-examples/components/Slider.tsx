@@ -50,6 +50,7 @@
 //   - MDN input type="range": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SliderProps {
     className?: string;
@@ -81,6 +82,7 @@ export default function Slider({
     onChange,
     ...restProps
 }: SliderProps) {
+    warnMissingName("Slider", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <input
             className={`slider ${className}`}

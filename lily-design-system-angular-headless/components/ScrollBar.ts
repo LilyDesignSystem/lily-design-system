@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * ScrollBar — a custom scrollbar element
@@ -29,7 +38,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
   ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScrollBar {
+export class ScrollBar implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     readonly orientation = input<"vertical" | "horizontal">("vertical");
     /** Scroll position. Two-way bindable. */
@@ -74,5 +85,15 @@ export class ScrollBar {
                 return;
         }
         event.preventDefault();
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "ScrollBar",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

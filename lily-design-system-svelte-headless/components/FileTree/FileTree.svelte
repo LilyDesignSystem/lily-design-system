@@ -28,6 +28,7 @@
     //
     // Claude rules:
     //   - Headless: no CSS; state is aria-expanded only; no events beyond native click
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -42,6 +43,10 @@
         children?: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("FileTree", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 
     let treeRef: HTMLElement | undefined = $state(undefined);
     let buffer = "";

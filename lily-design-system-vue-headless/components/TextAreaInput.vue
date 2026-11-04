@@ -46,10 +46,11 @@
 // References:
 //   - MDN text-area-input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label. */
         label: string;
@@ -65,6 +66,13 @@ withDefaults(
         required: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "TextAreaInput",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string>({ default: "" });

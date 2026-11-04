@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Personal_identity_code_(Finland)
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SuomiHenkilotunnusInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function SuomiHenkilotunnusInput({
     onChange,
     ...restProps
 }: SuomiHenkilotunnusInputProps) {
+    warnMissingName(
+        "SuomiHenkilotunnusInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`suomi-henkilotunnus-input ${className}`}

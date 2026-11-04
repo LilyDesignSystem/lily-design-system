@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // PaginationNav component
 //
 // A navigation landmark for pagination controls that allow users to navigate
@@ -50,10 +52,17 @@
 //   - WAI-ARIA Navigation role: https://www.w3.org/TR/wai-aria-1.2/#navigation
 //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label for the pagination navigation. */
     label: string;
 }>();
+
+warnMissingName(
+    "PaginationNav",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
 </script>
 
 <template>

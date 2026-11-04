@@ -45,10 +45,11 @@
 // References:
 //   - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label for the date input. */
         label: string;
@@ -68,6 +69,8 @@ withDefaults(
         disabled: false,
     },
 );
+
+warnMissingName("DateInput", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const modelValue = defineModel<string>({ default: "" });
 const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);

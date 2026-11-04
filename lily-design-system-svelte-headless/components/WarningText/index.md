@@ -11,7 +11,7 @@ See [components/warning-text/index.md](../../../components/warning-text/index.md
 ```svelte
 <WarningText>
   {#snippet icon()}!{/snippet}
-  <span class="visually-hidden">Warning</span>
+  <span class="screen-reader-span">Warning</span>
   You can be fined up to £5,000 if you do not register.
 </WarningText>
 ```

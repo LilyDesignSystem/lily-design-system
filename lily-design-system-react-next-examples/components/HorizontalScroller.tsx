@@ -23,6 +23,7 @@
 //     (overflow-x: auto + a flex/inline-flex track inside)
 
 import React, { useRef } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface HorizontalScrollerProps {
     className?: string;
@@ -42,6 +43,12 @@ export default function HorizontalScroller({
     children,
     ...restProps
 }: HorizontalScrollerProps) {
+    warnMissingName(
+        "HorizontalScroller",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const ref = useRef<HTMLDivElement>(null);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {

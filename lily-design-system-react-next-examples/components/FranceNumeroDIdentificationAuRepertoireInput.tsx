@@ -48,6 +48,7 @@
 //   - Ameli.fr: https://www.ameli.fr/assure/droits-demarches/principes/numero-securite-sociale
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface FranceNumeroDIdentificationAuRepertoireInputProps {
     className?: string;
@@ -74,6 +75,12 @@ export default function FranceNumeroDIdentificationAuRepertoireInput({
     onChange,
     ...restProps
 }: FranceNumeroDIdentificationAuRepertoireInputProps) {
+    warnMissingName(
+        "FranceNumeroDIdentificationAuRepertoireInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const nirPattern = "[0-9]{1} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{3} [0-9]{3} [0-9]{2}";
 
     return (

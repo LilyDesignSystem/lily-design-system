@@ -206,6 +206,24 @@ generated `<option>` children, switched to per-`<option>` `[selected]`).
 `bin/smoke-packages` and the 45 reference themes were extended to
 match; see `tasks.md` P8-T12 and `CHANGELOG.md` for the full record.
 
+## Calendar systems
+
+(2026-11-03, P23-T6.) `calendar` takes a CLDR id, such as `persian`, `islamic-umalqura`, `buddhist` or `hebrew`, and sets the day grid, the
+heading and each day's accessible name. The default is `gregory`. The value stays ISO Gregorian, so a form and a server see no difference.
+
+`@internationalized/date` was rejected: Apache-2.0 conflicts with the GPL-2.0-only option in Lily's licence expression. Instead
+`shared/calendar-system.ts`, with no dependency, asks `Intl.DateTimeFormat` which day of its month a date is. A month is the run of days from
+one day 1 to the next, so Lily writes no calendar arithmetic, and lunar months, leap months and the short Ethiopic thirteenth month need no
+special case. The answers are the browser's ICU data.
+
+- **Blazor** has no `Intl`, so `CalendarSystem.cs` uses .NET's calendars: `gregory`, `persian`, `islamic`, `islamic-civil`, `islamic-umalqura`,
+  `buddhist` and `hebrew`. An unknown id throws. The parameter is `CalendarId`, because `Calendar` is the glyph constant. Its heading uses month
+  names only where .NET offers that calendar for the culture (Persian for `fa-IR`); otherwise it is numeric, such as `2569-02`.
+- **The typed field stays Gregorian,** in text and parsing, so a Persian grid can sit above a Gregorian field. Open.
+- **Year paging moves twelve months,** which is not a year in a lunisolar calendar such as `hebrew` or `chinese`, or in `ethiopic`. Open.
+- **The `calendar` helper** (the five-view `CalendarView`) has no `calendar` prop yet. Open.
+- Week numbers stay ISO weeks.
+
 ## Acceptance criteria
 
 - [x] Shipped as its own package in all eight frameworks (`bin/list-helper-packages <framework>`, checked 2026-10-30).
@@ -214,7 +232,8 @@ match; see `tasks.md` P8-T12 and `CHANGELOG.md` for the full record.
 - [x] Dates are formatted with the Gregorian calendar forced, so the heading and grid agree (P17-T1); typed dates accept any Unicode
       decimal digits and the locale's day-period words (P17-T2); the grid swaps ArrowLeft and ArrowRight in right-to-left (P17-T3).
 - [x] A form reset restores the initial value in the seven ports that can hear it; Blazor documents why it cannot (§5.10).
-- [ ] A `calendar` prop (a CLDR calendar id) for non-Gregorian calendars (P17-T1 follow-up).
+- [x] A `calendar` prop (a CLDR calendar id) in all eight catalogs (P23-T6, 2026-11-03); see Calendar systems.
+- [ ] The typed field in the chosen calendar; today it stays Gregorian.
 - [ ] Week numbering other than ISO 8601 (`weekNumbering`), today documented as a limitation (P17-T4).
 
 ## Related topics

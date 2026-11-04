@@ -28,7 +28,8 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -43,6 +44,13 @@ const props = withDefaults(
         dismissible: false,
         closeLabel: undefined,
     },
+);
+
+warnMissingName(
+    "MedicalBanner",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const visible = ref(true);

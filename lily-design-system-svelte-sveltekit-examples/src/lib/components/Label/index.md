@@ -74,7 +74,7 @@ Either link the label to a control by `for` matching the control's `id`, or wrap
 
 <Label for="name">
   Name <span aria-hidden="true">*</span>
-  <span class="visually-hidden">required</span>
+  <span class="screen-reader-span">required</span>
 </Label>
 <input
   id="name"

@@ -48,10 +48,11 @@
 // References:
 //   - Ameli.fr: https://www.ameli.fr/assure/droits-demarches/principes/numero-securite-sociale
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label for screen readers */
         label: string;
@@ -64,6 +65,13 @@ withDefaults(
         required: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "FranceNumeroDIdentificationAuRepertoireInput",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string>({ default: "" });

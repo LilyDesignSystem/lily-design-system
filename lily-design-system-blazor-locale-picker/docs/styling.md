@@ -196,7 +196,7 @@ If the design has no room for visible status text, keep it for screen
 readers only rather than dropping it:
 
 ```css
-.locale-picker-status.visually-hidden {
+.locale-picker-status.screen-reader-span {
   position: absolute;
   width: 1px;
   height: 1px;

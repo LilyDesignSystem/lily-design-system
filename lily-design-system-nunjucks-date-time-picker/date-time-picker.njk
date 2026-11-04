@@ -160,6 +160,7 @@
   data-mode="{{ mode }}"
   data-lily-date-time-picker-name="{{ name }}"
   {%- if opts.locale %} data-lily-date-time-picker-locale="{{ opts.locale }}"{% endif %}
+  {%- if opts.calendar %} data-lily-date-time-picker-calendar="{{ opts.calendar }}"{% endif %}
   {%- if opts.min %} data-lily-date-time-picker-min="{{ opts.min }}"{% endif %}
   {%- if opts.max %} data-lily-date-time-picker-max="{{ opts.max }}"{% endif %}
   {%- if opts.disabledDates %} data-lily-date-time-picker-disabled-dates="{{ opts.disabledDates | dump }}"{% endif %}

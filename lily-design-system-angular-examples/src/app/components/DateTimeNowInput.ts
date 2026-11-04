@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import { restoreOnFormReset } from "./form-reset";
 
 /**
@@ -39,7 +48,9 @@ import { restoreOnFormReset } from "./form-reset";
     </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DateTimeNowInput {
+export class DateTimeNowInput implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Accessible name for the group (required). */
     readonly label = input.required<string>();
     /** Accessible name of the date input (required; dateTimeNowInputLabels(pack) gives all three). */
@@ -69,5 +80,15 @@ export class DateTimeNowInput {
         const pad = (n: number) => String(n).padStart(2, "0");
         this.dateValue.set(`${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`);
         this.timeValue.set(`${pad(now.getHours())}:${pad(now.getMinutes())}`);
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "DateTimeNowInput",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

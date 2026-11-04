@@ -26,6 +26,8 @@
     // References:
     //   - https://en.wikipedia.org/wiki/Personal_identification_number_(Portugal)
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -40,6 +42,15 @@
         disabled?: boolean;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "PortugalNumeroDeIdentificacaoFiscalInput",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <!-- PortugalNumeroDeIdentificacaoFiscalInput.svelte -->

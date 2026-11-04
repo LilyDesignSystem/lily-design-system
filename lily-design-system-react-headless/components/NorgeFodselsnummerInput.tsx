@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_identification_number#Norway
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface NorgeFodselsnummerInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function NorgeFodselsnummerInput({
     onChange,
     ...restProps
 }: NorgeFodselsnummerInputProps) {
+    warnMissingName(
+        "NorgeFodselsnummerInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`norge-fodselsnummer-input ${className}`}

@@ -56,6 +56,7 @@
 //   - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
 import React, { useEffect, useRef, useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SheetProps {
     className?: string;
@@ -81,6 +82,7 @@ export default function Sheet({
     children,
     ...restProps
 }: SheetProps) {
+    warnMissingName("Sheet", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [open, setOpen] = useState(openProp);
     const ref = useRef<HTMLDialogElement>(null);
 
@@ -116,7 +118,7 @@ export default function Sheet({
     }
 
     function handleKeyDown(event: React.KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
             event.preventDefault();
             dismiss();
         }

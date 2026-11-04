@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * Command — a command palette for searching and executing actions
@@ -13,7 +21,19 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<div class="command {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Command {
+export class Command implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     readonly className = input<string>("");
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Command",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
+    }
 }

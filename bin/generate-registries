@@ -20,7 +20,7 @@
 //     filters)
 //   - {react-next,vue-nuxt,angular} component-demos.ts (copies of canonical)
 //   - blazor-web ComponentData.cs (slug/name/description/tag/category + demo HTML)
-//   - html-css-js pages/components/{index,component}.html embedded arrays
+//   - html-css-js assets/js/pages/{components-index,component}.js embedded arrays
 //   - lilydesignsystem.github.io/src/lib/components.ts
 //   - root index.md component listing section
 //
@@ -215,7 +215,7 @@ export type LilyComponent = {
   pascal: string;
   description: string;
   /** Maturity: see the rubric in spec/components. */
-  status: 'stable' | 'beta' | 'experimental';
+  status: 'stable' | 'beta' | 'experimental' | 'deprecated' | 'discouraged';
 };
 
 export const LILY_COMPONENTS: LilyComponent[] = [
@@ -295,7 +295,7 @@ const htmlEntry = (c, indent) => {
 };
 
 {
-  const p = "lily-design-system-html-css-js-examples/pages/components/index.html";
+  const p = "lily-design-system-html-css-js-examples/assets/js/pages/components-index.js";
   let t = read(p);
   t = replaceRegion(
     t,
@@ -308,7 +308,7 @@ const htmlEntry = (c, indent) => {
 }
 
 {
-  const p = "lily-design-system-html-css-js-examples/pages/components/component.html";
+  const p = "lily-design-system-html-css-js-examples/assets/js/pages/component.js";
   let t = read(p);
   t = replaceRegion(
     t,

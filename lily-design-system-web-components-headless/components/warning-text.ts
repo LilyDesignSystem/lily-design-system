@@ -13,7 +13,7 @@
 // Usage:
 //   <lily-warning-text>
 //     <span slot="icon">!</span>
-//     <span class="visually-hidden">Warning</span> You can be fined if you do not register.
+//     <span class="screen-reader-span">Warning</span> You can be fined if you do not register.
 //   </lily-warning-text>
 //
 // References:

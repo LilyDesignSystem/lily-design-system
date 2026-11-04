@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * Dial — a rotary dial control for selecting a value
@@ -23,7 +32,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
   ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Dial {
+export class Dial implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Current value. Two-way bindable. */
     readonly value = model<number>(0);
@@ -59,5 +70,15 @@ export class Dial {
                 return;
         }
         event.preventDefault();
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Dial",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

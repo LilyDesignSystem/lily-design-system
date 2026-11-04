@@ -35,6 +35,14 @@
 // See spec/index.md §4.3 (client.js exports), §4.4 (deviations), §5
 // (behaviour).
 
+import {
+    calendarAddMonths,
+    calendarDay,
+    calendarLocale,
+    calendarMonthLength,
+    calendarMonthMatrix,
+    calendarMonthStart,
+} from "./calendar-system";
 import { isRtl, logicalKey } from "./direction";
 
 /**
@@ -535,7 +543,7 @@ export function dayLabel(isoDate, locale) {
     const parsed = parseIsoDate(isoDate);
     if (!parsed) return isoDate;
     try {
-        return new Intl.DateTimeFormat(gregorian(locale), {
+        return new Intl.DateTimeFormat(calendarLocale(locale, calendar), {
             weekday: "long",
             day: "numeric",
             month: "long",
@@ -778,6 +786,7 @@ export function initDateTimePicker(root, opts = {}) {
     const usesTime = mode !== "date";
 
     const locale = opts.locale || dataAttr("locale") || undefined;
+    const calendar = opts.calendar || dataAttr("calendar") || "gregory";
     const min = opts.min || dataAttr("min") || undefined;
     const max = opts.max || dataAttr("max") || undefined;
 
@@ -958,8 +967,7 @@ export function initDateTimePicker(root, opts = {}) {
         typed: null,
         pendingDate: "",
         pendingTime: "",
-        viewYear: new Date().getFullYear(),
-        viewMonth: new Date().getMonth() + 1,
+        viewStart: calendarMonthStart(new Date().toISOString().slice(0, 10), calendar),
         cursor: "",
         today: "",
         value: hiddenInput.value || "",
@@ -1073,15 +1081,15 @@ export function initDateTimePicker(root, opts = {}) {
         }
     }
 
-    function periodText(viewYear, viewMonth) {
+    function periodText(viewStart) {
         try {
-            return new Intl.DateTimeFormat(gregorian(locale), {
+            return new Intl.DateTimeFormat(calendarLocale(locale, calendar), {
                 month: "long",
                 year: "numeric",
                 timeZone: "UTC",
-            }).format(new Date(Date.UTC(viewYear, viewMonth - 1, 1)));
+            }).format(new Date(`${viewStart}T00:00:00Z`));
         } catch (_e) {
-            return `${viewYear}-${pad(viewMonth)}`;
+            return viewStart.slice(0, 7);
         }
     }
 
@@ -1092,7 +1100,7 @@ export function initDateTimePicker(root, opts = {}) {
     function renderGrid() {
         if (!usesDate || !gridBody) return;
         gridBody.innerHTML = "";
-        const weeks = monthMatrix(state.viewYear, state.viewMonth, firstDayOfWeek);
+        const weeks = calendarMonthMatrix(state.viewStart, firstDayOfWeek, calendar);
         for (const week of weeks) {
             const tr = document.createElement("tr");
             if (showWeekNumbers) {
@@ -1106,7 +1114,7 @@ export function initDateTimePicker(root, opts = {}) {
                 const parsed = parseIsoDate(isoDate);
                 const isToday = isoDate === state.today;
                 const isSelected = isoDate === state.pendingDate;
-                const isOutside = !parsed || parsed.month !== state.viewMonth;
+                const isOutside = !parsed || isoDate < state.viewStart || isoDate >= calendarAddMonths(state.viewStart, 1, calendar);
                 const td = document.createElement("td");
                 td.setAttribute("role", "gridcell");
                 td.setAttribute("aria-selected", isSelected ? "true" : "false");
@@ -1131,14 +1139,14 @@ export function initDateTimePicker(root, opts = {}) {
                     dayButton.setAttribute("aria-disabled", "true");
                     dayButton.setAttribute("data-disabled", "");
                 }
-                dayButton.textContent = parsed ? String(parsed.day) : "";
+                dayButton.textContent = parsed ? String(calendarDay(isoDate, calendar)) : "";
                 dayButton.addEventListener("click", () => selectDay(isoDate));
                 td.appendChild(dayButton);
                 tr.appendChild(td);
             }
             gridBody.appendChild(tr);
         }
-        if (periodEl) periodEl.textContent = periodText(state.viewYear, state.viewMonth);
+        if (periodEl) periodEl.textContent = periodText(state.viewStart);
     }
 
     function focusCursor() {
@@ -1155,9 +1163,8 @@ export function initDateTimePicker(root, opts = {}) {
         if (!withinRange(nextIso, min, max)) return;
         state.cursor = nextIso;
         const parsed = parseIsoDate(nextIso);
-        if (parsed && (parsed.year !== state.viewYear || parsed.month !== state.viewMonth)) {
-            state.viewYear = parsed.year;
-            state.viewMonth = parsed.month;
+        if (parsed) {
+            state.viewStart = calendarMonthStart(formatIsoDate(parsed), calendar);
         }
         renderGrid();
         focusCursor();
@@ -1172,26 +1179,19 @@ export function initDateTimePicker(root, opts = {}) {
     }
 
     function shiftMonth(delta) {
-        const anchor = formatIsoDate({ year: state.viewYear, month: state.viewMonth, day: 1 });
-        const next = parseIsoDate(addMonths(anchor, delta));
-        if (!next) return;
+        const next = calendarAddMonths(state.viewStart, delta, calendar);
         // Refocus the cursor only when focus is already in the grid: grid
         // paging (PageUp/PageDown) must carry focus, or it dies with the
         // unrendered cell — but a header button must keep focus, or its
         // user is yanked into the grid after one activation and cannot
         // page twice. Sampled BEFORE renderGrid destroys the cells.
         const hadGridFocus = calendarTable ? calendarTable.contains(document.activeElement) : false;
-        state.viewYear = next.year;
-        state.viewMonth = next.month;
+        state.viewStart = next;
         const c = parseIsoDate(state.cursor);
         if (c) {
             // Carry the cursor into the new month rather than leaving the
             // roving tabindex on a cell that is no longer rendered.
-            state.cursor = formatIsoDate({
-                year: next.year,
-                month: next.month,
-                day: Math.min(c.day, daysInMonth(next.year, next.month)),
-            });
+            state.cursor = addDays(next, Math.min(calendarDay(formatIsoDate(c), calendar), calendarMonthLength(next, calendar)) - 1);
         }
         renderGrid();
         if (hadGridFocus) focusCursor();
@@ -1216,9 +1216,8 @@ export function initDateTimePicker(root, opts = {}) {
         if (!withinRange(next, min, max)) return;
         const hadGridFocus = calendarTable ? calendarTable.contains(document.activeElement) : false;
         const parsed = parseIsoDate(next);
-        if (parsed && (parsed.year !== state.viewYear || parsed.month !== state.viewMonth)) {
-            state.viewYear = parsed.year;
-            state.viewMonth = parsed.month;
+        if (parsed) {
+            state.viewStart = calendarMonthStart(formatIsoDate(parsed), calendar);
         }
         state.cursor = next;
         if (!dayDisabled(next)) state.pendingDate = next;
@@ -1361,8 +1360,7 @@ export function initDateTimePicker(root, opts = {}) {
         state.cursor = state.pendingDate;
         const anchor = parseIsoDate(state.pendingDate) || parseIsoDate(state.today);
         if (anchor) {
-            state.viewYear = anchor.year;
-            state.viewMonth = anchor.month;
+            state.viewStart = calendarMonthStart(formatIsoDate(anchor), calendar);
         }
         state.open = true;
         dialog.hidden = false;
@@ -1628,8 +1626,7 @@ export function initDateTimePicker(root, opts = {}) {
         state.cursor = target;
         const parsed = parseIsoDate(target);
         if (parsed) {
-            state.viewYear = parsed.year;
-            state.viewMonth = parsed.month;
+            state.viewStart = calendarMonthStart(formatIsoDate(parsed), calendar);
         }
         if (typeof opts.onShortcut === "function") opts.onShortcut(shortcutId, target);
         if (confirmOnSelect) commit();
@@ -1743,8 +1740,7 @@ export function initDateTimePicker(root, opts = {}) {
     state.today = todayIso();
     const initialAnchor = parseIsoDate(committed().date) || parseIsoDate(state.today);
     if (initialAnchor) {
-        state.viewYear = initialAnchor.year;
-        state.viewMonth = initialAnchor.month;
+        state.viewStart = calendarMonthStart(formatIsoDate(initialAnchor), calendar);
         state.cursor = formatIsoDate(initialAnchor);
     }
     renderGrid();

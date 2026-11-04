@@ -222,6 +222,8 @@ horizontal-scroller	div	content
 hover-card	div	content
 hrvatska-osobni-identifikacijski-broj-input	input	national
 hrvatska-osobni-identifikacijski-broj-view	span	national
+iban-input	input	forms
+iban-view	span	content
 icon	span	content
 icon-button	button	buttons
 icon-list	ul	lists

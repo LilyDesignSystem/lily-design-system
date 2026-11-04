@@ -110,6 +110,7 @@
 
 import React, { useLayoutEffect, useRef, useState } from "react";
 import { initialListboxState, listboxKeydown } from "./listbox-machine";
+import { warnMissingName } from "./dev-warning";
 
 // Extends the real DOM attributes interface — rather than a `[key: string]:
 // unknown` catch-all — so restProps keep their real types, and so
@@ -168,6 +169,7 @@ const Listbox = React.forwardRef<HTMLElement, ListboxProps>(function Listbox(
     }: ListboxProps,
     forwardedRef: React.ForwardedRef<HTMLElement>,
 ) {
+    warnMissingName("Listbox", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const listRef = useRef<HTMLElement | null>(null);
     const [uncontrolledActiveIndex, setUncontrolledActiveIndex] = useState(defaultActiveIndex);
     const activeIndex = controlledActiveIndex ?? uncontrolledActiveIndex;

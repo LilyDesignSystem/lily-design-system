@@ -41,6 +41,7 @@
 //   - MDN text-area-input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input
 
 import React, { useId } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TextAreaInputWithCharacterCounterProps {
     className?: string;
@@ -78,6 +79,12 @@ export default function TextAreaInputWithCharacterCounter({
     disabled = false,
     ...restProps
 }: TextAreaInputWithCharacterCounterProps) {
+    warnMissingName(
+        "TextAreaInputWithCharacterCounter",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const counterId = useId();
     const counterText = counterTemplate
         .replace("{count}", String(value.length))

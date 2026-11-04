@@ -51,10 +51,11 @@
 //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label: string;
         placeholder?: string;
@@ -63,6 +64,8 @@ withDefaults(
         placeholder: undefined,
     },
 );
+
+warnMissingName("Command", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const modelValue = defineModel<string>({ default: "" });
 const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);

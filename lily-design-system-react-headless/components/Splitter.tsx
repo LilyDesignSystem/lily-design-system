@@ -48,6 +48,7 @@
 //   - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SplitterProps {
     className?: string;
@@ -64,6 +65,7 @@ export default function Splitter({
     orientation = "vertical",
     ...restProps
 }: SplitterProps) {
+    warnMissingName("Splitter", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <div
             className={`splitter ${className}`}

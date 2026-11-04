@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Computerized_National_Identity_Card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface PakistanComputerizedNationalIdentityCardInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function PakistanComputerizedNationalIdentityCardInput({
     onChange,
     ...restProps
 }: PakistanComputerizedNationalIdentityCardInputProps) {
+    warnMissingName(
+        "PakistanComputerizedNationalIdentityCardInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`pakistan-computerized-national-identity-card-input ${className}`}

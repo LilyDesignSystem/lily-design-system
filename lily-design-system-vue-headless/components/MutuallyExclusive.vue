@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // MutuallyExclusive component
 //
 // A group of options of which only one may apply (the "or" pattern, such as a "None of these" choice
@@ -33,13 +35,20 @@
 // References:
 //   - MDN <fieldset>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label?: string;
     }>(),
     {
         label: undefined,
     },
+);
+
+warnMissingName(
+    "MutuallyExclusive",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 </script>
 

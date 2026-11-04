@@ -4,7 +4,7 @@ import { describe, expect, test } from "vitest";
 import Subject from "./WarningText.vue";
 
 const text =
-    '<span class="visually-hidden">Warning</span> You can be fined if you do not register.';
+    '<span class="screen-reader-span">Warning</span> You can be fined if you do not register.';
 
 describe("WarningText", () => {
     test("renders a <div> with the base class", () => {
@@ -25,7 +25,7 @@ describe("WarningText", () => {
     test("renders the default slot, hidden prefix included, inside strong.warning-text-text", () => {
         const { container } = render(Subject, { slots: { default: text } });
         const strong = container.querySelector(".warning-text > strong.warning-text-text")!;
-        expect(strong.querySelector(".visually-hidden")!.textContent).toBe("Warning");
+        expect(strong.querySelector(".screen-reader-span")!.textContent).toBe("Warning");
         expect(strong.textContent).toContain("You can be fined");
     });
 

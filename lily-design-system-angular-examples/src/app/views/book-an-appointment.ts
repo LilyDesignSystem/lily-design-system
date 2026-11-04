@@ -191,28 +191,28 @@ function todayIso(): string {
             [attr.aria-current]="step() === 1 ? 'step' : null"
             [attr.data-status]="statusFor(1)"
           >
-            Reason<span class="visually-hidden"> ({{ statusText(statusFor(1)) }})</span>
+            Reason<span class="screen-reader-span"> ({{ statusText(statusFor(1)) }})</span>
           </li>
           <li
             lily-step-list-item
             [attr.aria-current]="step() === 2 ? 'step' : null"
             [attr.data-status]="statusFor(2)"
           >
-            Date and time<span class="visually-hidden"> ({{ statusText(statusFor(2)) }})</span>
+            Date and time<span class="screen-reader-span"> ({{ statusText(statusFor(2)) }})</span>
           </li>
           <li
             lily-step-list-item
             [attr.aria-current]="step() === 3 ? 'step' : null"
             [attr.data-status]="statusFor(3)"
           >
-            Your details<span class="visually-hidden"> ({{ statusText(statusFor(3)) }})</span>
+            Your details<span class="screen-reader-span"> ({{ statusText(statusFor(3)) }})</span>
           </li>
           <li
             lily-step-list-item
             [attr.aria-current]="step() === 4 ? 'step' : null"
             [attr.data-status]="statusFor(4)"
           >
-            Check your answers<span class="visually-hidden"> ({{ statusText(statusFor(4)) }})</span>
+            Check your answers<span class="screen-reader-span"> ({{ statusText(statusFor(4)) }})</span>
           </li>
         </lily-step-list>
       }
@@ -436,27 +436,27 @@ function todayIso(): string {
                   <br /><span>{{ reasonOther() }}</span>
                 }
               </span>
-              <a href="#reason" (click)="goToStep(1, $event)">Change<span class="visually-hidden"> reason</span></a>
+              <a href="#reason" (click)="goToStep(1, $event)">Change<span class="screen-reader-span"> reason</span></a>
             </li>
             <li lily-summary-list-item>
               <span>Date</span>
               <span>{{ appointmentDate() || "Not answered" }}</span>
-              <a href="#date" (click)="goToStep(2, $event)">Change<span class="visually-hidden"> date</span></a>
+              <a href="#date" (click)="goToStep(2, $event)">Change<span class="screen-reader-span"> date</span></a>
             </li>
             <li lily-summary-list-item>
               <span>Time of day</span>
               <span>{{ timeSummary() }}</span>
-              <a href="#time" (click)="goToStep(2, $event)">Change<span class="visually-hidden"> time of day</span></a>
+              <a href="#time" (click)="goToStep(2, $event)">Change<span class="screen-reader-span"> time of day</span></a>
             </li>
             <li lily-summary-list-item>
               <span>Full name</span>
               <span>{{ fullName() || "Not answered" }}</span>
-              <a href="#name" (click)="goToStep(3, $event)">Change<span class="visually-hidden"> full name</span></a>
+              <a href="#name" (click)="goToStep(3, $event)">Change<span class="screen-reader-span"> full name</span></a>
             </li>
             <li lily-summary-list-item>
               <span>Email address</span>
               <span>{{ email() || "Not answered" }}</span>
-              <a href="#email-review" (click)="goToStep(3, $event)">Change<span class="visually-hidden"> email address</span></a>
+              <a href="#email-review" (click)="goToStep(3, $event)">Change<span class="screen-reader-span"> email address</span></a>
             </li>
             <li lily-summary-list-item>
               <span>Phone number</span>
@@ -467,13 +467,13 @@ function todayIso(): string {
                   <lily-status-tag>Not provided</lily-status-tag>
                 }
               </span>
-              <a href="#phone-review" (click)="goToStep(3, $event)">Change<span class="visually-hidden"> phone number</span></a>
+              <a href="#phone-review" (click)="goToStep(3, $event)">Change<span class="screen-reader-span"> phone number</span></a>
             </li>
             <li lily-summary-list-item>
               <span>Interpreter or additional support</span>
               <span>{{ needsSupport() ? "Yes" : "No" }}</span>
               <a href="#support-review" (click)="goToStep(3, $event)"
-                >Change<span class="visually-hidden"> interpreter or additional support</span></a
+                >Change<span class="screen-reader-span"> interpreter or additional support</span></a
               >
             </li>
           </lily-summary-list>
@@ -513,10 +513,10 @@ function todayIso(): string {
           </lily-success-panel>
 
           <ol class="step-list" aria-label="Booking progress">
-            <li class="step-list-item" data-status="finished">Reason<span class="visually-hidden"> (completed)</span></li>
-            <li class="step-list-item" data-status="finished">Date and time<span class="visually-hidden"> (completed)</span></li>
-            <li class="step-list-item" data-status="finished">Your details<span class="visually-hidden"> (completed)</span></li>
-            <li class="step-list-item" data-status="finished">Check your answers<span class="visually-hidden"> (completed)</span></li>
+            <li class="step-list-item" data-status="finished">Reason<span class="screen-reader-span"> (completed)</span></li>
+            <li class="step-list-item" data-status="finished">Date and time<span class="screen-reader-span"> (completed)</span></li>
+            <li class="step-list-item" data-status="finished">Your details<span class="screen-reader-span"> (completed)</span></li>
+            <li class="step-list-item" data-status="finished">Check your answers<span class="screen-reader-span"> (completed)</span></li>
           </ol>
 
           <lily-panel label="What happens next">
@@ -535,7 +535,7 @@ function todayIso(): string {
   `,
     styles: [
         `
-      .visually-hidden {
+      .screen-reader-span {
         position: absolute;
         width: 1px;
         height: 1px;

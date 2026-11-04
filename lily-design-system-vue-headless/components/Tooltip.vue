@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { shallowRef } from "vue";
+import { shallowRef, useAttrs } from "vue";
 import { usePopoverState } from "./popover";
+import { warnMissingName } from "./dev-warning";
 // Tooltip component
 //
 // A headless tooltip that displays brief, contextual information when made
@@ -59,6 +60,8 @@ const props = withDefaults(
         id: undefined,
     },
 );
+
+warnMissingName("Tooltip", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const visible = defineModel<boolean>("visible", { default: false });
 const panelEl = shallowRef<HTMLElement | null>(null);

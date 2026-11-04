@@ -42,6 +42,6 @@
   {%- elif params.text -%}{{ params.text }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-  {%- if params.hiddenLabel %}<span class="visually-hidden"> {{ params.hiddenLabel }}</span>{% endif -%}
+  {%- if params.hiddenLabel %}<span class="screen-reader-span"> {{ params.hiddenLabel }}</span>{% endif -%}
 </a>
 {%- endmacro -%}

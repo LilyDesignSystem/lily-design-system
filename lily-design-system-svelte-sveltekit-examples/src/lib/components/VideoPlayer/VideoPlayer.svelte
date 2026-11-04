@@ -44,6 +44,7 @@
     //   - MDN <video>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
     //   - WCAG 2.2.2 Pause, Stop, Hide: https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -70,6 +71,15 @@
         children?: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "VideoPlayer",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     let videoEl: HTMLVideoElement | undefined = $state(undefined);
 

@@ -40,6 +40,7 @@
     //   - Reuters Graphics TileMap (the inspiration): https://github.com/reuters-graphics/graphics-components
     //   - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -52,6 +53,10 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("TileMap", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 
     let tileMapEl: HTMLDivElement | undefined = $state(undefined);
 

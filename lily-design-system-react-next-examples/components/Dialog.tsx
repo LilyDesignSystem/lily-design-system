@@ -55,6 +55,7 @@
 //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
 import React, { useEffect, useRef, useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * Open a `<dialog>` while `active`: with `showModal()` when `modal` (top layer, inert page behind, Tab trapped,
@@ -116,6 +117,7 @@ export default function Dialog({
     children,
     ...restProps
 }: DialogProps) {
+    warnMissingName("Dialog", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [open, setOpen] = useState(openProp);
     const ref = useRef<HTMLDialogElement>(null);
 
@@ -132,7 +134,7 @@ export default function Dialog({
     }
 
     function handleKeyDown(event: React.KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
             event.preventDefault();
             dismiss();
         }

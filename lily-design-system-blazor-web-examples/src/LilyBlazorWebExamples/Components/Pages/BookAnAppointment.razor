@@ -255,27 +255,27 @@ else if (step == 4)
             {
                 <br /><span>@reasonOther</span>
             }
-            <a href="#reason" @onclick="@(() => GoToStep(1))" @onclick:preventDefault>Change<span class="visually-hidden"> reason</span></a>
+            <a href="#reason" @onclick="@(() => GoToStep(1))" @onclick:preventDefault>Change<span class="screen-reader-span"> reason</span></a>
         </SummaryListItem>
         <SummaryListItem Label="Date">
             <strong>Date: </strong>
             @(string.IsNullOrEmpty(appointmentDate) ? "Not answered" : appointmentDate)
-            <a href="#date" @onclick="@(() => GoToStep(2))" @onclick:preventDefault>Change<span class="visually-hidden"> date</span></a>
+            <a href="#date" @onclick="@(() => GoToStep(2))" @onclick:preventDefault>Change<span class="screen-reader-span"> date</span></a>
         </SummaryListItem>
         <SummaryListItem Label="Time of day">
             <strong>Time of day: </strong>
             @(TimeLabels.TryGetValue(appointmentTime, out var timeSummaryText) ? timeSummaryText : "Not answered")
-            <a href="#time" @onclick="@(() => GoToStep(2))" @onclick:preventDefault>Change<span class="visually-hidden"> time of day</span></a>
+            <a href="#time" @onclick="@(() => GoToStep(2))" @onclick:preventDefault>Change<span class="screen-reader-span"> time of day</span></a>
         </SummaryListItem>
         <SummaryListItem Label="Full name">
             <strong>Full name: </strong>
             @(string.IsNullOrEmpty(fullName) ? "Not answered" : fullName)
-            <a href="#name" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="visually-hidden"> full name</span></a>
+            <a href="#name" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="screen-reader-span"> full name</span></a>
         </SummaryListItem>
         <SummaryListItem Label="Email address">
             <strong>Email address: </strong>
             @(string.IsNullOrEmpty(email) ? "Not answered" : email)
-            <a href="#email-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="visually-hidden"> email address</span></a>
+            <a href="#email-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="screen-reader-span"> email address</span></a>
         </SummaryListItem>
         <SummaryListItem Label="Phone number">
             <strong>Phone number: </strong>
@@ -287,12 +287,12 @@ else if (step == 4)
             {
                 @phone
             }
-            <a href="#phone-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="visually-hidden"> phone number</span></a>
+            <a href="#phone-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="screen-reader-span"> phone number</span></a>
         </SummaryListItem>
         <SummaryListItem Label="Interpreter or additional support">
             <strong>Interpreter or additional support: </strong>
             @(needsSupport ? "Yes" : "No")
-            <a href="#support-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="visually-hidden"> interpreter or additional support</span></a>
+            <a href="#support-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="screen-reader-span"> interpreter or additional support</span></a>
         </SummaryListItem>
     </SummaryList>
 
@@ -345,7 +345,7 @@ else if (step == 5)
 }
 
 <style>
-    .visually-hidden {
+    .screen-reader-span {
         position: absolute;
         width: 1px;
         height: 1px;

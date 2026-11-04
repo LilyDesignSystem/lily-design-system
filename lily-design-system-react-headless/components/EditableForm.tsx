@@ -56,6 +56,7 @@
 //   - WAI-ARIA Form Role: https://www.w3.org/WAI/ARIA/apd/roles/form/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface EditableFormProps {
     className?: string;
@@ -84,6 +85,7 @@ export default function EditableForm({
     children,
     ...restProps
 }: EditableFormProps) {
+    warnMissingName("EditableForm", label, restProps["aria-label"], restProps["aria-labelledby"]);
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         onChange?.(false);

@@ -46,6 +46,7 @@
     //   - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
     //   - MDN aria-describedby: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby
 
+    import { warnMissingName } from "../dev-warning";
     import { popoverState } from "../Popover/popover.js";
 
     let {
@@ -63,6 +64,10 @@
         id?: string;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("Tooltip", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 </script>
 
 <!-- Tooltip.svelte -->

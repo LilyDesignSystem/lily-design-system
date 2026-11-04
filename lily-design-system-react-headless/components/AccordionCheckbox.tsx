@@ -55,6 +55,7 @@
 
 import React, { useId, useRef, useState } from "react";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 export interface AccordionCheckboxProps {
     className?: string;
@@ -80,6 +81,12 @@ export default function AccordionCheckbox({
     children,
     ...restProps
 }: AccordionCheckboxProps) {
+    warnMissingName(
+        "AccordionCheckbox",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const generatedId = useId();
     const baseId = id ?? `accordion-checkbox-${generatedId.replace(/:/g, "")}`;
     const checkboxId = `${baseId}-checkbox`;

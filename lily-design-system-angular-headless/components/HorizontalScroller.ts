@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * HorizontalScroller component
@@ -55,7 +63,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
   ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HorizontalScroller {
+export class HorizontalScroller implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Pixels scrolled by ArrowLeft / ArrowRight. */
     readonly step = input<number>(100);
@@ -80,5 +90,15 @@ export class HorizontalScroller {
                 return;
         }
         event.preventDefault();
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "HorizontalScroller",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

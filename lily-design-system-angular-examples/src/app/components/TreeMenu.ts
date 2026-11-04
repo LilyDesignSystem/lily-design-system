@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * TreeMenu — a hierarchical tree menu with expandable branches
@@ -19,7 +27,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
   ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TreeMenu {
+export class TreeMenu implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     readonly className = input<string>("");
 
@@ -29,7 +39,9 @@ export class TreeMenu {
         const root = event.currentTarget as HTMLElement;
         const items = Array.from(root.querySelectorAll<HTMLElement>('[role="treeitem"]'));
         if (items.length === 0) return;
-        const current = items.indexOf((event.target as Element).closest('[role="treeitem"]') as HTMLElement);
+        const current = items.indexOf(
+            (event.target as Element).closest('[role="treeitem"]') as HTMLElement,
+        );
         const last = items.length - 1;
         let next: number;
         if (event.key === "Home") next = 0;
@@ -38,5 +50,15 @@ export class TreeMenu {
         else next = current <= 0 ? last : current - 1;
         event.preventDefault();
         items[next].focus();
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "TreeMenu",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

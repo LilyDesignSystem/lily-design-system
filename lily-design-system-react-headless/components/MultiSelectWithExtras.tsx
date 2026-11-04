@@ -17,6 +17,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 export interface MultiSelectWithExtrasProps {
     className?: string;
@@ -54,6 +55,12 @@ export default function MultiSelectWithExtras({
     children,
     ...restProps
 }: MultiSelectWithExtrasProps) {
+    warnMissingName(
+        "MultiSelectWithExtras",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const [value, setValue] = useState<string[]>(valueProp);
     const key = valueProp.join("\u0000");
     const selectRef = useRef<HTMLSelectElement>(null);

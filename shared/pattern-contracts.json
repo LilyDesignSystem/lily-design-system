@@ -1,0 +1,613 @@
+{
+  "$comment": "One contract per interaction pattern, as data, so the DOM driver (pattern-tester.ts) and the bUnit driver (PatternTester.cs) run the same steps. A contract with a \"root\" role moves focus between items and installs its own \"fixture\" when the root is empty. Spec: spec/testing/index.md#pattern-testers.",
+  "picker-listbox": {
+    "source": "WAI-ARIA APG listbox, as the five preference pickers apply it (AGENTS/helpers.md, Icon button + listbox contract)",
+    "fixture": "Three or more options, each label starting with a different letter, the first one selected.",
+    "steps": [
+      {
+        "name": "closed at rest",
+        "expect": {
+          "expanded": false,
+          "selected": 0
+        }
+      },
+      {
+        "name": "ArrowDown on the button opens on the selected option",
+        "press": "ArrowDown",
+        "on": "button",
+        "expect": {
+          "expanded": true,
+          "active": 0,
+          "selected": 0,
+          "focus": "popup"
+        }
+      },
+      {
+        "name": "ArrowDown moves the cursor",
+        "press": "ArrowDown",
+        "on": "popup",
+        "expect": {
+          "active": 1,
+          "selected": 0
+        }
+      },
+      {
+        "name": "ArrowUp moves the cursor back",
+        "press": "ArrowUp",
+        "on": "popup",
+        "expect": {
+          "active": 0
+        }
+      },
+      {
+        "name": "ArrowUp clamps at the first option",
+        "press": "ArrowUp",
+        "on": "popup",
+        "expect": {
+          "active": 0
+        }
+      },
+      {
+        "name": "End jumps to the last option",
+        "press": "End",
+        "on": "popup",
+        "expect": {
+          "active": "last"
+        }
+      },
+      {
+        "name": "ArrowDown clamps at the last option",
+        "press": "ArrowDown",
+        "on": "popup",
+        "expect": {
+          "active": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first option",
+        "press": "Home",
+        "on": "popup",
+        "expect": {
+          "active": 0
+        }
+      },
+      {
+        "name": "a printable character runs typeahead",
+        "pressFirstLetterOf": 1,
+        "on": "popup",
+        "expect": {
+          "active": 1
+        }
+      },
+      {
+        "name": "Escape closes without changing the value",
+        "press": "Escape",
+        "on": "popup",
+        "expect": {
+          "expanded": false,
+          "selected": 0,
+          "focus": "button"
+        }
+      },
+      {
+        "name": "ArrowUp on the button opens on the last option",
+        "press": "ArrowUp",
+        "on": "button",
+        "expect": {
+          "expanded": true,
+          "active": "last",
+          "focus": "popup"
+        }
+      },
+      {
+        "name": "Enter selects, closes and returns focus",
+        "press": "Enter",
+        "on": "popup",
+        "expect": {
+          "expanded": false,
+          "selected": "last",
+          "focus": "button"
+        }
+      },
+      {
+        "name": "Enter on the button opens on the new selection",
+        "press": "Enter",
+        "on": "button",
+        "expect": {
+          "expanded": true,
+          "active": "last",
+          "selected": "last"
+        }
+      },
+      {
+        "name": "Home, then Space selects",
+        "press": "Home",
+        "on": "popup",
+        "expect": {
+          "active": 0
+        }
+      },
+      {
+        "name": "Space selects and closes",
+        "press": " ",
+        "on": "popup",
+        "expect": {
+          "expanded": false,
+          "selected": 0
+        }
+      }
+    ]
+  },
+  "picker-disclosure": {
+    "source": "WAI-ARIA APG disclosure, as the action pickers apply it (AGENTS/helpers.md: share, link, search, menu and settings pickers)",
+    "fixture": "Any content in the popup.",
+    "steps": [
+      {
+        "name": "closed at rest",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "the button opens it",
+        "click": "button",
+        "expect": {
+          "expanded": true
+        }
+      },
+      {
+        "name": "the button closes it",
+        "click": "button",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "reopen",
+        "click": "button",
+        "expect": {
+          "expanded": true
+        }
+      },
+      {
+        "name": "Escape closes it and returns focus",
+        "press": "Escape",
+        "on": "popup",
+        "expect": {
+          "expanded": false,
+          "focus": "button"
+        }
+      }
+    ]
+  },
+  "tabs": {
+    "source": "WAI-ARIA APG tabs, manual activation of focus: the bar owns focus movement, the consumer owns selection (components/tab-bar/AGENTS.md)",
+    "root": "tablist",
+    "item": "tab",
+    "fixture": "<button role=\"tab\" tabindex=\"0\" aria-selected=\"true\">One</button><button role=\"tab\" tabindex=\"-1\" aria-selected=\"false\">Two</button><button role=\"tab\" tabindex=\"-1\" aria-selected=\"false\">Three</button>",
+    "steps": [
+      {
+        "name": "the first item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowRight moves to the next item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "ArrowLeft moves back",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowLeft wraps to the last item",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "ArrowRight wraps to the first item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "End jumps to the last item",
+        "press": "End",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      }
+    ]
+  },
+  "menu": {
+    "source": "WAI-ARIA APG menu, vertical (components/menu/AGENTS.md)",
+    "root": "menu",
+    "item": "menuitem",
+    "fixture": "<div role=\"menuitem\" tabindex=\"0\">One</div><div role=\"menuitem\" tabindex=\"-1\">Two</div><div role=\"menuitem\" tabindex=\"-1\">Three</div>",
+    "steps": [
+      {
+        "name": "the first item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowDown moves to the next item",
+        "press": "ArrowDown",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "ArrowUp moves back",
+        "press": "ArrowUp",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowUp wraps to the last item",
+        "press": "ArrowUp",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "ArrowDown wraps to the first item",
+        "press": "ArrowDown",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "End jumps to the last item",
+        "press": "End",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      }
+    ]
+  },
+  "menubar": {
+    "source": "WAI-ARIA APG menubar, horizontal (components/menu-bar/AGENTS.md)",
+    "root": "menubar",
+    "item": "menuitem",
+    "fixture": "<button role=\"menuitem\" tabindex=\"0\">One</button><button role=\"menuitem\" tabindex=\"-1\">Two</button><button role=\"menuitem\" tabindex=\"-1\">Three</button>",
+    "steps": [
+      {
+        "name": "the first item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowRight moves to the next item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "ArrowLeft moves back",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowLeft wraps to the last item",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "ArrowRight wraps to the first item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "End jumps to the last item",
+        "press": "End",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      }
+    ]
+  },
+  "tree": {
+    "source": "WAI-ARIA APG tree view, moving between visible items (components/tree-list/AGENTS.md). Expanding and collapsing belongs to the item in some catalogs, so it is not here.",
+    "root": "tree",
+    "item": "treeitem",
+    "fixture": "<li role=\"treeitem\" tabindex=\"0\" aria-expanded=\"false\">Fruit<ol role=\"group\"><li role=\"treeitem\" tabindex=\"-1\">Apple</li></ol></li><li role=\"treeitem\" tabindex=\"-1\" aria-expanded=\"true\">Tea<ol role=\"group\"><li role=\"treeitem\" tabindex=\"-1\">Green</li></ol></li><li role=\"treeitem\" tabindex=\"-1\">Veg</li>",
+    "steps": [
+      {
+        "name": "the first item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowDown moves to the next item",
+        "press": "ArrowDown",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "ArrowUp moves back",
+        "press": "ArrowUp",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowUp wraps to the last item",
+        "press": "ArrowUp",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "ArrowDown wraps to the first item",
+        "press": "ArrowDown",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "End jumps to the last item",
+        "press": "End",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      }
+    ]
+  },
+  "combobox": {
+    "source": "WAI-ARIA APG combobox, the part every catalog shares: the wiring and Escape (components/combobox/AGENTS.md). Opening, filtering and choosing are the consumer's in most catalogs, so they are not here; autosuggest owns those keys.",
+    "steps": [
+      {
+        "name": "closed at rest",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "Escape while closed is left alone, so an enclosing dialog still gets it",
+        "press": "Escape",
+        "expect": {
+          "expanded": false,
+          "prevented": false
+        }
+      },
+      {
+        "name": "it opens",
+        "open": true,
+        "expect": {
+          "expanded": true
+        }
+      },
+      {
+        "name": "Escape closes the list and goes no further",
+        "press": "Escape",
+        "expect": {
+          "expanded": false,
+          "prevented": true
+        }
+      }
+    ]
+  },
+  "dialog": {
+    "source": "WAI-ARIA APG modal dialog, as a native <dialog> opened with showModal() (components/dialog/AGENTS.md). The Tab trap and the inert page are the browser's part.",
+    "steps": [
+      {
+        "name": "closed at rest",
+        "expect": {
+          "open": false
+        }
+      },
+      {
+        "name": "it opens modally, named, with focus inside",
+        "open": true,
+        "expect": {
+          "open": true,
+          "modal": true,
+          "focusInside": true
+        }
+      },
+      {
+        "name": "Escape already handled by something inside leaves it open",
+        "pressHandled": "Escape",
+        "expect": {
+          "open": true
+        }
+      },
+      {
+        "name": "Escape closes it and focus returns",
+        "press": "Escape",
+        "expect": {
+          "open": false,
+          "focusOpener": true
+        }
+      },
+      {
+        "name": "it opens again",
+        "open": true,
+        "expect": {
+          "open": true
+        }
+      },
+      {
+        "name": "the native cancel event closes it",
+        "cancel": true,
+        "expect": {
+          "open": false
+        }
+      }
+    ]
+  },
+  "grid": {
+    "source": "WAI-ARIA APG grid, moving between cells with a roving tabindex (lily-design-system-svelte-data-grid). Row 0 is the header row. Sorting, editing, selection and page keys are the helper's own.",
+    "fixture": {
+      "columns": [
+        {
+          "id": "a",
+          "header": "Alpha"
+        },
+        {
+          "id": "b",
+          "header": "Beta"
+        },
+        {
+          "id": "c",
+          "header": "Gamma"
+        }
+      ],
+      "rows": [
+        {
+          "id": "1",
+          "a": "A1",
+          "b": "B1",
+          "c": "C1"
+        },
+        {
+          "id": "2",
+          "a": "A2",
+          "b": "B2",
+          "c": "C2"
+        },
+        {
+          "id": "3",
+          "a": "A3",
+          "b": "B3",
+          "c": "C3"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "name": "the cursor starts on the first cell",
+        "expect": {
+          "cell": [0, 0]
+        }
+      },
+      {
+        "name": "ArrowRight moves to the next column",
+        "press": "ArrowRight",
+        "expect": {
+          "cell": [0, 1]
+        }
+      },
+      {
+        "name": "ArrowDown moves to the next row",
+        "press": "ArrowDown",
+        "expect": {
+          "cell": [1, 1]
+        }
+      },
+      {
+        "name": "ArrowLeft moves back",
+        "press": "ArrowLeft",
+        "expect": {
+          "cell": [1, 0]
+        }
+      },
+      {
+        "name": "ArrowUp moves up",
+        "press": "ArrowUp",
+        "expect": {
+          "cell": [0, 0]
+        }
+      },
+      {
+        "name": "ArrowLeft stops at the edge",
+        "press": "ArrowLeft",
+        "expect": {
+          "cell": [0, 0]
+        }
+      },
+      {
+        "name": "ArrowDown from the first column",
+        "press": "ArrowDown",
+        "expect": {
+          "cell": [1, 0]
+        }
+      },
+      {
+        "name": "End goes to the last column of the row",
+        "press": "End",
+        "expect": {
+          "cell": [1, "last"]
+        }
+      },
+      {
+        "name": "Home goes to the first column of the row",
+        "press": "Home",
+        "expect": {
+          "cell": [1, 0]
+        }
+      },
+      {
+        "name": "Ctrl+End goes to the last cell",
+        "press": "End",
+        "ctrl": true,
+        "expect": {
+          "cell": ["last", "last"]
+        }
+      },
+      {
+        "name": "Ctrl+Home goes to the first cell",
+        "press": "Home",
+        "ctrl": true,
+        "expect": {
+          "cell": [0, 0]
+        }
+      }
+    ]
+  }
+}

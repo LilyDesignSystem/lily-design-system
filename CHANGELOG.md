@@ -9,6 +9,28 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Combobox, dialog and grid contracts — 2026-11-04
+
+- **Content Security Policy:** `docs/content-security-policy.md`, for adopters: a starting policy, the ten components that write a `style` attribute by catalog, and `style-src-attr 'unsafe-inline'`, checked in Chromium.
+- **Development warnings:** `shared/page-check.js`, a page-level accessible-name check for the HTML, Nunjucks and Alpine catalogs, which have no component code to hook. `e2e/page-check.spec.ts` runs it over the HTML app's 626 pages; the 11 demos it found with no name now have one.
+- **Pattern testers:** `combobox`, `dialog` (on `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`) and `grid` (on the `data-grid` helper) contracts, in `shared/pattern-contracts.json`, both drivers and every catalog that has the behaviour.
+- **Fixed:** an open combobox inside a dialog no longer closes both on Escape. A closed combobox leaves Escape alone in Svelte, React, Vue and Angular, an open one prevents its default in Alpine, and the overlays ignore an Escape already handled inside them, in every catalog except Blazor, where a .NET handler cannot read `defaultPrevented` (see [spec/testing](spec/testing/index.md#pattern-testers)).
+- **Fixed:** the HTML `mentions-input` suggestions panel never opened in a browser: it had no `popover` attribute, so `showPopover()` threw and the error was swallowed, while `aria-expanded` said true. Three specs that still read `hidden` (`combobox`, `popconfirm-dialog`, `coachmark`) now read `:popover-open`, and the full HTML browser suite passes.
+- **Fixed:** `file-dialog` has `aria-modal="true"` in Svelte, React, Vue, Angular and Blazor, as it already had in HTML and Web Components.
+
+## Pattern testers, CSP, lifecycle, IBAN, calendar systems — 2026-11-03
+
+From the [survey of 18 design systems](spec/design-system-survey-lessons/index.md), tasks.md Phase 23.
+
+- **Catalog 609:** `iban-input` and `iban-view` in every headless library and example app, `experimental`.
+- **Calendar systems:** a `calendar` prop on `date-time-picker` in all eight catalogs, with no new dependency (`shared/calendar-system.ts` over `Intl`; `CalendarSystem.cs` and a `CalendarId` parameter in Blazor). The value stays ISO Gregorian, and so does the typed field.
+- **Pattern testers:** `shared/pattern-contracts.json`, run by a DOM driver and a bUnit driver: 48 runs across eight catalogs, plus `tabs`, `menu`, `menubar` and `tree` in seven catalogs and Alpine (Nunjucks has no client behaviour for them). Lily Core criterion (a) went from 3 to 7 of 40, in part from a regex that missed `new window.KeyboardEvent`.
+- **Lifecycle:** `deprecated` and `discouraged` statuses, `bin/check-lifecycle` in `bin/test`, `docs/adopters.md`. `carousel` is `discouraged`, with `card` in a `grid` as its alternative.
+- **Development warnings:** `shared/dev-warning.ts`; every interactive component with a required `label` warns on a missing name in Svelte, React, Vue and Angular, and `bin/check-dev-warnings` enforces it.
+- **Content Security Policy:** `e2e/csp.spec.ts` runs the HTML example app's 16 composed pages, the catalog and all 609 component pages under a strict policy; their inline scripts moved to `assets/js/pages/`, which the generators now write.
+- **Fixed:** no theme defines `.visually-hidden`, so hidden text such as the `warning-text` prefix showed on screen. Lily's demos, macros and docs now use `.screen-reader-span`. A consumer of the Nunjucks `error-message`, `care-card`, `inset-text`, `pagination-link` or `summary-list-item` macros targeting `.visually-hidden` must update its CSS.
+- `docs/screen-reader-session.md`: a script for filling the screen-reader matrix, which remains empty.
+
 ## Contrast gate, `:user-invalid`, no-flash theme, dependency updates — 2026-11-02
 
 - `bin/check-theme --contrast --gate` (in `bin/test`) fails any theme colour pair below 4.5:1 or unparsed. Valentine's `base-content` went from 0.52 to 0.48 lightness, so no AA failure remains (P10-T10 closed, P22-T20).

@@ -51,6 +51,7 @@
 //   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 
 import React, { useState, useRef, useEffect } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface PinInputDivProps {
     className?: string;
@@ -82,6 +83,7 @@ export default function PinInputDiv({
     onChange,
     ...restProps
 }: PinInputDivProps) {
+    warnMissingName("PinInputDiv", label, restProps["aria-label"], restProps["aria-labelledby"]);
     // Seeded from the initial `value`, which used to be ignored.
     const initialDigits = useRef(
         Array.from({ length }, (_, i) => (/^[0-9]$/.test(value[i] ?? "") ? value[i] : "")),

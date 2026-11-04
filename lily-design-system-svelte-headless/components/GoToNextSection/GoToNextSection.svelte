@@ -34,6 +34,8 @@
     // References:
     //   - MDN <a>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -44,6 +46,15 @@
         href: string;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "GoToNextSection",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <!-- GoToNextSection.svelte -->

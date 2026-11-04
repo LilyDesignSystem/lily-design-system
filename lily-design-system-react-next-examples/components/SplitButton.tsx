@@ -53,6 +53,7 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 
 import { popoverSupported, usePopoverState } from "./Popover";
+import { warnMissingName } from "./dev-warning";
 
 export interface SplitButtonProps {
     className?: string;
@@ -90,6 +91,7 @@ export default function SplitButton({
     children = undefined,
     ...restProps
 }: SplitButtonProps) {
+    warnMissingName("SplitButton", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const reactId = useId();
     const menuId = `split-button-${reactId}-menu`;
     const menu = useRef<HTMLDivElement>(null);

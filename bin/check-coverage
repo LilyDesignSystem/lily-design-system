@@ -10,7 +10,7 @@
 // required by the parity contract in AGENTS/components.md but were,
 // until this tool, checked only in review.
 //
-// This is the tool that closes that gap: for every one of the 607
+// This is the tool that closes that gap: for every one of the 609
 // catalog rows, verify presence across six dimensions — the catalog
 // row itself, each of the 7 headless implementations, each headless
 // test file, each headless story file (blazor has none: it deliberately
@@ -20,7 +20,7 @@
 // does.
 //
 // Scoped to the HEADLESS catalogs (the 7 full-catalog ones plus Alpine since 2026-10-30; Web Components is checked
-// by its own spec, since it ships 572 of 607 by design), matching
+// by its own spec, since it ships 574 of 609 by design), matching
 // AGENTS/components.md's "7 headless subprojects" framing and the
 // "implementations" language throughout plan.md — NOT the example
 // apps' own copies of components (a separate, adjacent concern; a real

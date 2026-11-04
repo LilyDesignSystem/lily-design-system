@@ -139,6 +139,8 @@ export type Props = {
     value?: string;
     /** BCP 47 tag driving month names, weekday names and first weekday. */
     locale?: string;
+    /** CLDR calendar for the day grid, such as `persian`. Default `gregory`. The value stays ISO. */
+    calendar?: string;
     /** Earliest selectable date, ISO. */
     min?: string;
     /** Latest selectable date, ISO. */
@@ -745,6 +747,14 @@ export function nextDateTimePickerId(): string {
 <script setup lang="ts">
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { IconButton } from "@lilydesignsystem/vue-headless";
+import {
+    calendarAddMonths,
+    calendarDay,
+    calendarLocale,
+    calendarMonthLength,
+    calendarMonthMatrix,
+    calendarMonthStart,
+} from "./calendar-system";
 import { isRtl, logicalKey } from "./direction";
 // Only the trigger button composes a headless primitive here. Vue's
 // headless `Dialog` renders `v-if="open"<dialog ...>` — the element is
@@ -764,6 +774,7 @@ const props = withDefaults(defineProps<Props>(), {
     mode: "date",
     value: "",
     locale: undefined,
+    calendar: "gregory",
     min: undefined,
     max: undefined,
     isDateDisabled: undefined,
@@ -964,8 +975,9 @@ watch(
  */
 const initialAnchor = parseIsoDate(splitValue(props.value ?? "", props.mode ?? "date").date);
 
-const viewYear = ref(initialAnchor?.year ?? 1970);
-const viewMonth = ref(initialAnchor?.month ?? 1);
+const viewStart = ref(
+    initialAnchor ? calendarMonthStart(formatIsoDate(initialAnchor), props.calendar) : "1970-01-01",
+);
 
 /** The day the grid's roving tabindex sits on. */
 const cursor = ref(initialAnchor ? formatIsoDate(initialAnchor) : "");
@@ -1097,7 +1109,7 @@ function dayLabel(isoDate: string): string {
     const parsed = parseIsoDate(isoDate);
     if (!parsed) return isoDate;
     try {
-        return new Intl.DateTimeFormat(gregorian(props.locale), {
+        return new Intl.DateTimeFormat(calendarLocale(props.locale, props.calendar), {
             weekday: "long",
             day: "numeric",
             month: "long",
@@ -1112,13 +1124,13 @@ function dayLabel(isoDate: string): string {
 /** The "March 2026" heading. */
 const periodText = computed(() => {
     try {
-        return new Intl.DateTimeFormat(gregorian(props.locale), {
+        return new Intl.DateTimeFormat(calendarLocale(props.locale, props.calendar), {
             month: "long",
             year: "numeric",
             timeZone: "UTC",
-        }).format(new Date(Date.UTC(viewYear.value, viewMonth.value - 1, 1)));
+        }).format(new Date(`${viewStart.value}T00:00:00Z`));
     } catch {
-        return `${viewYear.value}-${pad(viewMonth.value)}`;
+        return viewStart.value.slice(0, 7);
     }
 });
 
@@ -1147,7 +1159,7 @@ const weekdays = computed(() => {
     return out;
 });
 
-const weeks = computed(() => monthMatrix(viewYear.value, viewMonth.value, weekStart.value));
+const weeks = computed(() => calendarMonthMatrix(viewStart.value, weekStart.value), props.calendar);
 
 // ---------------------------------------------------------------
 // Selectability
@@ -1190,8 +1202,7 @@ async function openDialog(): Promise<void> {
     cursor.value = pendingDate.value;
     const anchor = parseIsoDate(pendingDate.value) ?? parseIsoDate(today.value);
     if (anchor) {
-        viewYear.value = anchor.year;
-        viewMonth.value = anchor.month;
+        viewStart.value = calendarMonthStart(formatIsoDate(anchor), props.calendar);
     }
     open.value = true;
     // A `hidden` element cannot take focus until the DOM has flushed.
@@ -1276,9 +1287,8 @@ async function moveCursor(nextIso: string): Promise<void> {
     if (!withinRange(nextIso, props.min, props.max)) return;
     cursor.value = nextIso;
     const parsed = parseIsoDate(nextIso);
-    if (parsed && (parsed.year !== viewYear.value || parsed.month !== viewMonth.value)) {
-        viewYear.value = parsed.year;
-        viewMonth.value = parsed.month;
+    if (parsed) {
+        viewStart.value = calendarMonthStart(formatIsoDate(parsed), props.calendar);
     }
     await nextTick();
     focusCursor();
@@ -1305,26 +1315,19 @@ function selectDay(isoDate: string): void {
 }
 
 async function shiftMonth(delta: number): Promise<void> {
-    const anchor = formatIsoDate({ year: viewYear.value, month: viewMonth.value, day: 1 });
-    const next = parseIsoDate(addMonths(anchor, delta));
-    if (!next) return;
+    const next = calendarAddMonths(viewStart.value, delta, props.calendar);
     // Refocus the cursor only when focus is already in the grid: grid
     // paging (PageUp/PageDown, or a browser that focused nothing on
     // click) must carry focus, or it dies with the unrendered cell —
     // but a header button must keep focus, or its user is yanked into
     // the grid after one activation and cannot page twice.
     const hadGridFocus = gridEl.value?.contains(document.activeElement) === true;
-    viewYear.value = next.year;
-    viewMonth.value = next.month;
+    viewStart.value = next;
     // Carry the cursor into the new month rather than leaving the roving
     // tabindex on a cell that is no longer rendered.
     const c = parseIsoDate(cursor.value);
     if (c) {
-        cursor.value = formatIsoDate({
-            year: next.year,
-            month: next.month,
-            day: Math.min(c.day, daysInMonth(next.year, next.month)),
-        });
+        cursor.value = addDays(next, Math.min(calendarDay(formatIsoDate(c), props.calendar), calendarMonthLength(next, props.calendar)) - 1);
         if (hadGridFocus) {
             await nextTick();
             focusCursor();
@@ -1352,9 +1355,8 @@ async function shiftDays(delta: number): Promise<void> {
     if (!withinRange(next, props.min, props.max)) return;
     const hadGridFocus = gridEl.value?.contains(document.activeElement) === true;
     const parsed = parseIsoDate(next);
-    if (parsed && (parsed.year !== viewYear.value || parsed.month !== viewMonth.value)) {
-        viewYear.value = parsed.year;
-        viewMonth.value = parsed.month;
+    if (parsed) {
+        viewStart.value = calendarMonthStart(formatIsoDate(parsed), props.calendar);
     }
     cursor.value = next;
     if (!dayDisabled(next)) pendingDate.value = next;
@@ -1686,8 +1688,7 @@ async function applyShortcut(shortcut: DateTimeShortcut): Promise<void> {
     cursor.value = target;
     const parsed = parseIsoDate(target);
     if (parsed) {
-        viewYear.value = parsed.year;
-        viewMonth.value = parsed.month;
+        viewStart.value = calendarMonthStart(formatIsoDate(parsed), props.calendar);
     }
     emit("shortcut", shortcut.id, target);
     if (commitOnDay.value) commit();
@@ -1720,8 +1721,7 @@ onMounted(() => {
     today.value = todayIso();
     const anchor = parseIsoDate(committed.value.date) ?? parseIsoDate(today.value);
     if (anchor) {
-        viewYear.value = anchor.year;
-        viewMonth.value = anchor.month;
+        viewStart.value = calendarMonthStart(formatIsoDate(anchor), props.calendar);
         cursor.value = formatIsoDate(anchor);
     }
 });
@@ -2057,7 +2057,7 @@ onBeforeUnmount(() => {
                                 class="date-time-picker-day"
                                 :data-date="isoDate"
                                 :data-outside="
-                                    parseIsoDate(isoDate)?.month !== viewMonth ? '' : undefined
+                                    isoDate < viewStart || isoDate >= calendarAddMonths(viewStart, 1, props.calendar) ? '' : undefined
                                 "
                                 :data-today="isoDate === today ? '' : undefined"
                                 :data-selected="isoDate === pendingDate ? '' : undefined"
@@ -2068,7 +2068,7 @@ onBeforeUnmount(() => {
                                 :aria-disabled="dayDisabled(isoDate) ? 'true' : undefined"
                                 @click="selectDay(isoDate)"
                             >
-                                {{ parseIsoDate(isoDate)?.day ?? "" }}
+                                {{ parseIsoDate(isoDate) ? calendarDay(isoDate, props.calendar) : "" }}
                             </button>
                         </td>
                     </tr>

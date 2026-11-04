@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, input, model, output } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    output,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * EditableForm — a form wrapper for inline editing of content
@@ -21,7 +31,9 @@ import { ChangeDetectionStrategy, Component, input, model, output } from "@angul
   }`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditableForm {
+export class EditableForm implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Whether the form is showing. Two-way bindable; submit and Escape set it to false. */
     readonly editing = model<boolean>(false);
@@ -43,5 +55,15 @@ export class EditableForm {
             this.editing.set(false);
             this.cancelled.emit();
         }
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "EditableForm",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

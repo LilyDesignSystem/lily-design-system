@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Hong_Kong_identity_card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface HongKongIdentityCardInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function HongKongIdentityCardInput({
     onChange,
     ...restProps
 }: HongKongIdentityCardInputProps) {
+    warnMissingName(
+        "HongKongIdentityCardInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`hong-kong-identity-card-input ${className}`}

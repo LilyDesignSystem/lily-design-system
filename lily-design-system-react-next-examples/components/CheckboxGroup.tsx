@@ -51,6 +51,7 @@
 //   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface CheckboxGroupProps {
     className?: string;
@@ -70,6 +71,7 @@ export default function CheckboxGroup({
     children,
     ...restProps
 }: CheckboxGroupProps) {
+    warnMissingName("CheckboxGroup", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <fieldset
             className={`checkbox-group ${className}`}

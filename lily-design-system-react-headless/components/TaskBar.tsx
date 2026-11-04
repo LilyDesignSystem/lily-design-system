@@ -49,6 +49,7 @@
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 import React, { useRef } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TaskBarProps {
     className?: string;
@@ -60,6 +61,7 @@ export interface TaskBarProps {
 }
 
 export default function TaskBar({ className = "", label, children, ...restProps }: TaskBarProps) {
+    warnMissingName("TaskBar", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const barRef = useRef<HTMLDivElement>(null);
 
     function handleKeyDown(event: React.KeyboardEvent) {

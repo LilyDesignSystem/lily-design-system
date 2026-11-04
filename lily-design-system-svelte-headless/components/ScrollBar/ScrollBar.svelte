@@ -62,6 +62,7 @@
     // References:
     //   - WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -97,6 +98,10 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("ScrollBar", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 
     function clamp(v: number): number {
         return Math.min(max, Math.max(min, v));

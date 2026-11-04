@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // Thinking component
 //
 // A native <details> disclosure for an AI "reasoning" block. Closed by default.
@@ -15,12 +17,14 @@
 // Vue note: <details> has no two-way open binding, so the native "toggle"
 // event is mirrored into the model (the Svelte canonical uses bind:open).
 
-defineProps<{
+const props = defineProps<{
     /** Summary text. */
     label: string;
     /** Whether content is still being produced. */
     streaming?: boolean;
 }>();
+
+warnMissingName("Thinking", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const open = defineModel<boolean>("open", { default: false });
 

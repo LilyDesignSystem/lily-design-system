@@ -19,6 +19,7 @@
 //   - HTML div element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TreeMenuProps {
     className?: string;
@@ -32,13 +33,20 @@ export interface TreeMenuProps {
 const TREE_KEYS = ["ArrowDown", "ArrowUp", "Home", "End"];
 
 export default function TreeMenu({ className = "", label, children, ...restProps }: TreeMenuProps) {
+    warnMissingName("TreeMenu", label, restProps["aria-label"], restProps["aria-labelledby"]);
     // ArrowDown / ArrowUp move between the consumer's [role="treeitem"] items, wrapping; Home / End jump.
     function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-        (restProps.onKeyDown as ((e: React.KeyboardEvent<HTMLDivElement>) => void) | undefined)?.(event);
+        (restProps.onKeyDown as ((e: React.KeyboardEvent<HTMLDivElement>) => void) | undefined)?.(
+            event,
+        );
         if (event.defaultPrevented || !TREE_KEYS.includes(event.key)) return;
-        const items = Array.from(event.currentTarget.querySelectorAll<HTMLElement>('[role="treeitem"]'));
+        const items = Array.from(
+            event.currentTarget.querySelectorAll<HTMLElement>('[role="treeitem"]'),
+        );
         if (items.length === 0) return;
-        const current = items.indexOf((event.target as Element).closest('[role="treeitem"]') as HTMLElement);
+        const current = items.indexOf(
+            (event.target as Element).closest('[role="treeitem"]') as HTMLElement,
+        );
         const last = items.length - 1;
         const next =
             event.key === "Home"

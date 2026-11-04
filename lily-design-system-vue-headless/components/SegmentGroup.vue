@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // SegmentGroup component
 //
 // A headless segmented control group that uses the ARIA radiogroup role to
@@ -47,10 +49,17 @@
 // References:
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label. */
     label: string;
 }>();
+
+warnMissingName(
+    "SegmentGroup",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
 </script>
 
 <template>

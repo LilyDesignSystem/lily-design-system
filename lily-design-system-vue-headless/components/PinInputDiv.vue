@@ -56,7 +56,8 @@
 // References:
 //   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 
-import { computed, onBeforeUnmount, onMounted, ref, watchEffect } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watchEffect, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -76,6 +77,13 @@ const props = withDefaults(
         length: 4,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "PinInputDiv",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string>({ default: "" });

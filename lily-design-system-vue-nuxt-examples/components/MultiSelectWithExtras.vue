@@ -11,10 +11,11 @@
 //   default slot -- <option> elements; "before" / "after" slots around the select.
 //   ...attrs -- fall through onto the wrapper <div>.
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label. */
         label: string;
@@ -30,6 +31,13 @@ withDefaults(
         required: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "MultiSelectWithExtras",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string[]>({ default: () => [] });

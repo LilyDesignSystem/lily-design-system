@@ -44,6 +44,7 @@
 //   - HSC NI: https://online.hscni.net/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TuaisceartEireannHealthAndCareNumberInputProps {
     className?: string;
@@ -70,6 +71,12 @@ export default function TuaisceartEireannHealthAndCareNumberInput({
     onChange,
     ...restProps
 }: TuaisceartEireannHealthAndCareNumberInputProps) {
+    warnMissingName(
+        "TuaisceartEireannHealthAndCareNumberInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const hcPattern = "[0-9]{3} [0-9]{3} [0-9]{4}";
 
     return (

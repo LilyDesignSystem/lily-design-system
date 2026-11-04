@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // FiveStarRatingPickerButton component
 //
 // A headless button representing one star in a five-star rating picker. Renders
@@ -45,7 +47,7 @@
 // References:
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** The rating value (1-5). */
         value: number;
@@ -60,6 +62,13 @@ withDefaults(
         selected: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "FiveStarRatingPickerButton",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 </script>
 

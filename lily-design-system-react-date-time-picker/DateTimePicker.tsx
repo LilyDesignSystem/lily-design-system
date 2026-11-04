@@ -1,5 +1,13 @@
 import * as React from "react";
 import { IconButton } from "@lilydesignsystem/react-headless";
+import {
+    calendarAddMonths,
+    calendarDay,
+    calendarLocale,
+    calendarMonthLength,
+    calendarMonthMatrix,
+    calendarMonthStart,
+} from "./calendar-system";
 import { isRtl, logicalKey } from "./direction";
 // Only the trigger button composes a headless primitive here. headless
 // `Dialog` renders `{open && <dialog ...>}` — the element is unmounted
@@ -151,6 +159,8 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children" | "onC
     value?: string;
     /** BCP 47 tag driving month names, weekday names and first weekday. */
     locale?: string;
+    /** CLDR calendar for the day grid, such as `persian`. Default `gregory`. The value stays ISO. */
+    calendar?: string;
     /** Earliest selectable date, ISO. */
     min?: string;
     /** Latest selectable date, ISO. */
@@ -836,6 +846,7 @@ export function DateTimePicker({
     mode = "date",
     value,
     locale,
+    calendar = "gregory",
     min,
     max,
     isDateDisabled,
@@ -931,14 +942,9 @@ export function DateTimePicker({
      * midnight, which is a hydration mismatch. That one waits for the
      * mount effect below.
      */
-    const [viewYear, setViewYear] = React.useState<number>(() => {
+    const [viewStart, setViewStart] = React.useState<string>(() => {
         const anchor = parseIsoDate(splitValue(currentValue, mode).date);
-        return anchor?.year ?? 1970;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    });
-    const [viewMonth, setViewMonth] = React.useState<number>(() => {
-        const anchor = parseIsoDate(splitValue(currentValue, mode).date);
-        return anchor?.month ?? 1;
+        return anchor ? calendarMonthStart(formatIsoDate(anchor), calendar) : "1970-01-01";
         // eslint-disable-next-line react-hooks/exhaustive-deps
     });
 
@@ -1095,7 +1101,7 @@ export function DateTimePicker({
         const parsed = parseIsoDate(isoDate);
         if (!parsed) return isoDate;
         try {
-            return new Intl.DateTimeFormat(gregorian(locale), {
+            return new Intl.DateTimeFormat(calendarLocale(locale, calendar), {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
@@ -1110,13 +1116,13 @@ export function DateTimePicker({
     /** The "March 2026" heading. */
     let periodText: string;
     try {
-        periodText = new Intl.DateTimeFormat(gregorian(locale), {
+        periodText = new Intl.DateTimeFormat(calendarLocale(locale, calendar), {
             month: "long",
             year: "numeric",
             timeZone: "UTC",
-        }).format(new Date(Date.UTC(viewYear, viewMonth - 1, 1)));
+        }).format(new Date(`${viewStart}T00:00:00Z`));
     } catch {
-        periodText = `${viewYear}-${pad(viewMonth)}`;
+        periodText = viewStart.slice(0, 7);
     }
 
     /** Column headings, in this locale, starting on `weekStart`. */
@@ -1141,7 +1147,7 @@ export function DateTimePicker({
         }
     }
 
-    const weeks = monthMatrix(viewYear, viewMonth, weekStart);
+    const weeks = calendarMonthMatrix(viewStart, weekStart, calendar);
 
     // -------------------------------------------------------------
     // Selectability
@@ -1210,8 +1216,7 @@ export function DateTimePicker({
         setCursor(nextPendingDate);
         const anchor = parseIsoDate(nextPendingDate) ?? parseIsoDate(t);
         if (anchor) {
-            setViewYear(anchor.year);
-            setViewMonth(anchor.month);
+            setViewStart(calendarMonthStart(formatIsoDate(anchor), calendar));
         }
         setOpen(true);
         focusRequestRef.current = usesDate ? "cursor" : "first";
@@ -1304,9 +1309,8 @@ export function DateTimePicker({
         if (!withinRange(nextIso, min, max)) return;
         setCursor(nextIso);
         const parsed = parseIsoDate(nextIso);
-        if (parsed && (parsed.year !== viewYear || parsed.month !== viewMonth)) {
-            setViewYear(parsed.year);
-            setViewMonth(parsed.month);
+        if (parsed) {
+            setViewStart(calendarMonthStart(formatIsoDate(parsed), calendar));
         }
         focusRequestRef.current = "cursor";
     }
@@ -1334,9 +1338,7 @@ export function DateTimePicker({
     }
 
     function shiftMonth(delta: number): void {
-        const anchor = formatIsoDate({ year: viewYear, month: viewMonth, day: 1 });
-        const next = parseIsoDate(addMonths(anchor, delta));
-        if (!next) return;
+        const next = calendarAddMonths(viewStart, delta, calendar);
         // Refocus the cursor only when focus is already in the grid: grid
         // paging (PageUp/PageDown, or a browser that focused nothing on
         // click) must carry focus, or it dies with the unrendered cell —
@@ -1345,8 +1347,7 @@ export function DateTimePicker({
         // before the setState calls: the check is about where focus is
         // *now*, in the render the user acted in.
         const hadGridFocus = gridRef.current?.contains(document.activeElement) === true;
-        setViewYear(next.year);
-        setViewMonth(next.month);
+        setViewStart(next);
         // Carry the cursor into the new month rather than leaving the
         // roving tabindex on a cell that is no longer rendered — which
         // would drop focus to <body> and lose the keyboard user's place
@@ -1354,11 +1355,7 @@ export function DateTimePicker({
         const c = parseIsoDate(cursor);
         if (c) {
             setCursor(
-                formatIsoDate({
-                    year: next.year,
-                    month: next.month,
-                    day: Math.min(c.day, daysInMonth(next.year, next.month)),
-                }),
+                addDays(next, Math.min(calendarDay(formatIsoDate(c), calendar), calendarMonthLength(next, calendar)) - 1),
             );
             if (hadGridFocus) focusRequestRef.current = "cursor";
         }
@@ -1387,9 +1384,8 @@ export function DateTimePicker({
         if (!withinRange(next, min, max)) return;
         const hadGridFocus = gridRef.current?.contains(document.activeElement) === true;
         const parsed = parseIsoDate(next);
-        if (parsed && (parsed.year !== viewYear || parsed.month !== viewMonth)) {
-            setViewYear(parsed.year);
-            setViewMonth(parsed.month);
+        if (parsed) {
+            setViewStart(calendarMonthStart(formatIsoDate(parsed), calendar));
         }
         setCursor(next);
         if (!dayDisabled(next)) setPendingDate(next);
@@ -1637,8 +1633,7 @@ export function DateTimePicker({
         setCursor(target);
         const parsed = parseIsoDate(target);
         if (parsed) {
-            setViewYear(parsed.year);
-            setViewMonth(parsed.month);
+            setViewStart(calendarMonthStart(formatIsoDate(parsed), calendar));
         }
         onShortcut?.(shortcut.id, target);
         if (commitOnDay) commit(target);
@@ -1659,8 +1654,7 @@ export function DateTimePicker({
         setToday(t);
         const anchor = parseIsoDate(committed.date) ?? parseIsoDate(t);
         if (anchor) {
-            setViewYear(anchor.year);
-            setViewMonth(anchor.month);
+            setViewStart(calendarMonthStart(formatIsoDate(anchor), calendar));
             setCursor(formatIsoDate(anchor));
         }
         // Deliberately mount-only: this seeds the initial view, it does
@@ -2012,7 +2006,7 @@ export function DateTimePicker({
                                                     className="date-time-picker-day"
                                                     data-date={isoDate}
                                                     data-outside={
-                                                        parsed?.month !== viewMonth ? "" : undefined
+                                                        isoDate < viewStart || isoDate >= calendarAddMonths(viewStart, 1, calendar) ? "" : undefined
                                                     }
                                                     data-today={isToday ? "" : undefined}
                                                     data-selected={isSelected ? "" : undefined}
@@ -2023,7 +2017,7 @@ export function DateTimePicker({
                                                     aria-disabled={isDisabled ? "true" : undefined}
                                                     onClick={() => selectDay(isoDate)}
                                                 >
-                                                    {parsed?.day ?? ""}
+                                                    {parsed ? calendarDay(isoDate, calendar) : ""}
                                                 </button>
                                             </td>
                                         );

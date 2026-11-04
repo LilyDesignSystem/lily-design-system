@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_identification_number#Romania
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface RomaniaCodNumericPersonalInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function RomaniaCodNumericPersonalInput({
     onChange,
     ...restProps
 }: RomaniaCodNumericPersonalInputProps) {
+    warnMissingName(
+        "RomaniaCodNumericPersonalInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`romania-cod-numeric-personal-input ${className}`}

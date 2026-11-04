@@ -45,6 +45,8 @@
     // References:
     //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         color,
@@ -61,6 +63,15 @@
         onclick?: (event: MouseEvent) => void;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "ColorPickerButton",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <button

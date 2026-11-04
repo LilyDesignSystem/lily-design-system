@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import { restoreOnFormReset } from "./form-reset";
 
 /**
@@ -39,7 +48,9 @@ import { restoreOnFormReset } from "./form-reset";
   />`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OneTimePasswordInput {
+export class OneTimePasswordInput implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Accessible label, applied to aria-label. */
     readonly label = input.required<string>();
     /** Number of characters in the code (maxlength). No default. */
@@ -59,5 +70,15 @@ export class OneTimePasswordInput {
 
     constructor() {
         restoreOnFormReset(this.value);
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "OneTimePasswordInput",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

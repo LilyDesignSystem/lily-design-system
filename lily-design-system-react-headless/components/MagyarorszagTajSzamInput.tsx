@@ -23,6 +23,7 @@
 //   - https://hu.wikipedia.org/wiki/T%C3%A1rsadalombiztos%C3%ADt%C3%A1si_azonos%C3%ADt%C3%B3_jel
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface MagyarorszagTajSzamInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function MagyarorszagTajSzamInput({
     onChange,
     ...restProps
 }: MagyarorszagTajSzamInputProps) {
+    warnMissingName(
+        "MagyarorszagTajSzamInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`magyarorszag-taj-szam-input ${className}`}

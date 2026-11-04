@@ -34,4 +34,13 @@ public class DataTableTests : TestContext
         var root = cut.Find(".data-table");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Label_names_the_root_with_aria_label()
+    {
+        var cut = RenderComponent<DataTable>(p => p
+            .AddChildContent("body")
+            .Add(x => x.Label, "Named"));
+        Assert.Equal("Named", cut.Find(".data-table").GetAttribute("aria-label"));
+    }
 }

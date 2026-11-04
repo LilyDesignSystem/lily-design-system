@@ -51,13 +51,21 @@
 // References:
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, useAttrs } from "vue";
 import { toggleOpened, usePopoverState } from "./popover";
+import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
     /** Accessible name for the context menu. */
     label: string;
 }>();
+
+warnMissingName(
+    "ContextMenu",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
 
 const open = defineModel<boolean>("open", { default: false });
 

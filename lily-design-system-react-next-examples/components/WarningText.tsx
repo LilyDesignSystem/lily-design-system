@@ -13,7 +13,7 @@
 //
 // Syntax:
 //   <WarningText icon="!">
-//     <span className="visually-hidden">Warning</span> You can be fined if you do not register.
+//     <span className="screen-reader-span">Warning</span> You can be fined if you do not register.
 //   </WarningText>
 
 import React from "react";

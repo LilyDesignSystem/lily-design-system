@@ -64,6 +64,7 @@
 //   - WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
 
 import React, { useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ScrollBarProps {
     className?: string;
@@ -107,6 +108,7 @@ export default function ScrollBar({
     children,
     ...restProps
 }: ScrollBarProps) {
+    warnMissingName("ScrollBar", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [internalValue, setInternalValue] = useState(defaultValue);
     const isControlled = valueProp !== undefined;
     const value = isControlled ? valueProp : internalValue;

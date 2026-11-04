@@ -76,7 +76,7 @@
   "warning-text": [
     {
       "title": "Inline SVG icon",
-      "html": "<div class=\"warning-text\"><span class=\"warning-text-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"11\" fill=\"currentColor\"/><rect x=\"11\" y=\"6\" width=\"2\" height=\"8\" fill=\"Canvas\"/><rect x=\"11\" y=\"16\" width=\"2\" height=\"2\" fill=\"Canvas\"/></svg></span><strong class=\"warning-text-text\"><span class=\"visually-hidden\">Warning</span> You must appeal within 1 year of getting your decision letter.</strong></div>"
+      "html": "<div class=\"warning-text\"><span class=\"warning-text-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"11\" fill=\"currentColor\"/><rect x=\"11\" y=\"6\" width=\"2\" height=\"8\" fill=\"Canvas\"/><rect x=\"11\" y=\"16\" width=\"2\" height=\"2\" fill=\"Canvas\"/></svg></span><strong class=\"warning-text-text\"><span class=\"screen-reader-span\">Warning</span> You must appeal within 1 year of getting your decision letter.</strong></div>"
     }
   ],
   "one-time-password-input": [

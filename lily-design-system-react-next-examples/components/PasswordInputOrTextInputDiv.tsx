@@ -53,6 +53,7 @@
 //   - WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import React, { useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface PasswordInputOrTextInputDivProps {
     className?: string;
@@ -78,6 +79,12 @@ export default function PasswordInputOrTextInputDiv({
     onChange,
     ...restProps
 }: PasswordInputOrTextInputDivProps) {
+    warnMissingName(
+        "PasswordInputOrTextInputDiv",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const [visible, setVisible] = useState(false);
 
     return (

@@ -28,7 +28,7 @@ The component renders a `<div>` holding an optional icon and a `<strong>` line. 
 ```svelte
 <WarningText>
   {#snippet icon()}!{/snippet}
-  <span class="visually-hidden">Warning</span>
+  <ScreenReaderSpan>Warning</ScreenReaderSpan>
   You can be fined up to £5,000 if you do not register.
 </WarningText>
 ```
@@ -75,7 +75,7 @@ Target `.warning-text`, `.warning-text-icon` and `.warning-text-text`. The `<str
 
 ## Advice
 
-- **Hidden prefix**: Put a visually hidden prefix such as "Warning" at the start of the content so a screen reader user hears the kind of message before its text. Lily ships no English and no prop for it: supply the string in your own language, hidden with your own visually-hidden class (clip it; never `display: none`, which hides it from screen readers too). GOV.UK notes you may need to rewrite the hidden text to fit your context.
+- **Hidden prefix**: Put a visually hidden prefix such as "Warning" at the start of the content so a screen reader user hears the kind of message before its text. Lily ships no English and no prop for it: supply the string in your own language, inside `ScreenReaderSpan`, which every reference theme hides visually (never `display: none`, which hides it from screen readers too). GOV.UK notes you may need to rewrite the hidden text to fit your context.
 - **Icon**: Supply the icon as text (GOV.UK and DHCW use "!" in a circle drawn with CSS) or an inline SVG. It is hidden from assistive technology, so it must not carry meaning the text lacks. Draw it with `currentColor` and the page background so it follows a user's colour overrides, and check it in forced-colours mode.
 - **Dark backgrounds**: DHCW has a reverse variant for dark backgrounds; use the consumer class or a `data-*` attribute on the root for it.
 - **Placement**: Keep it close to the action or decision it is about. Do not use it to report errors.

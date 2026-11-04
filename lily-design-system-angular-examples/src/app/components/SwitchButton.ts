@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * SwitchButton — a toggle switch for turning a setting on or off
@@ -21,7 +30,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
   ><ng-content /></button>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SwitchButton {
+export class SwitchButton implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Whether the control is on. Two-way bindable. */
     readonly checked = model<boolean>(false);
@@ -34,5 +45,15 @@ export class SwitchButton {
      */
     protected toggle(): void {
         if (!this.disabled()) this.checked.set(!this.checked());
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "SwitchButton",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

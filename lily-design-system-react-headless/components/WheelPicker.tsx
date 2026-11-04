@@ -40,6 +40,7 @@ import {
     type WheelOption,
     type WheelTypeahead,
 } from "./wheel-picker";
+import { warnMissingName } from "./dev-warning";
 
 export type { WheelOption };
 
@@ -76,6 +77,7 @@ export default function WheelPicker({
     name,
     ...restProps
 }: WheelPickerProps) {
+    warnMissingName("WheelPicker", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const uid = useId();
     const list = useRef<HTMLDivElement>(null);
     const typeahead = useRef<WheelTypeahead>({ prefix: "", at: 0 });

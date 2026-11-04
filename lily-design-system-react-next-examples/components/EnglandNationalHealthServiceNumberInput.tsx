@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/NHS_number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface EnglandNationalHealthServiceNumberInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function EnglandNationalHealthServiceNumberInput({
     onChange,
     ...restProps
 }: EnglandNationalHealthServiceNumberInputProps) {
+    warnMissingName(
+        "EnglandNationalHealthServiceNumberInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`england-national-health-service-number-input ${className}`}

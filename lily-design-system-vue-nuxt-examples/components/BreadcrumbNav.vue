@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // BreadcrumbNav component
 //
 // A navigation landmark for a breadcrumb trail that shows the user's current
@@ -47,10 +49,17 @@
 //   - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
 //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label for the breadcrumb navigation. */
     label: string;
 }>();
+
+warnMissingName(
+    "BreadcrumbNav",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
 </script>
 
 <template>

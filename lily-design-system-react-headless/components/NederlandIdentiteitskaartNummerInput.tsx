@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Dutch_identity_card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface NederlandIdentiteitskaartNummerInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function NederlandIdentiteitskaartNummerInput({
     onChange,
     ...restProps
 }: NederlandIdentiteitskaartNummerInputProps) {
+    warnMissingName(
+        "NederlandIdentiteitskaartNummerInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`nederland-identiteitskaart-nummer-input ${className}`}

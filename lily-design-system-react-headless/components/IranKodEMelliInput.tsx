@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Iranian_identity_card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface IranKodEMelliInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function IranKodEMelliInput({
     onChange,
     ...restProps
 }: IranKodEMelliInputProps) {
+    warnMissingName(
+        "IranKodEMelliInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`iran-kod-e-melli-input ${className}`}

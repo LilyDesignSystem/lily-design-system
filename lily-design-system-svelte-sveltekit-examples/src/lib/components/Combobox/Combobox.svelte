@@ -52,6 +52,7 @@
     // References:
     //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     const uid = $props.id();
@@ -78,8 +79,12 @@
         [key: string]: unknown;
     } = $props();
 
+    $effect(() =>
+        warnMissingName("Combobox", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
+
     function onkeydown(event: KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && open) {
             event.preventDefault();
             open = false;
         }

@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Taxpayer_Identification_Number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPoda
     onChange,
     ...restProps
 }: UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInputProps) {
+    warnMissingName(
+        "UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input ${className}`}

@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Central_Securities_Depository
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ElladaDematerialisedSecuritiesSystemInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function ElladaDematerialisedSecuritiesSystemInput({
     onChange,
     ...restProps
 }: ElladaDematerialisedSecuritiesSystemInputProps) {
+    warnMissingName(
+        "ElladaDematerialisedSecuritiesSystemInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`ellada-dematerialised-securities-system-input ${className}`}

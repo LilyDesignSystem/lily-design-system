@@ -59,6 +59,7 @@
     // References:
     //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -73,6 +74,10 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("Menu", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 
     let menuRef: HTMLElement | undefined = $state(undefined);
 

@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * ColorPicker — a two-dimensional board for picking colors by hue and saturation
@@ -25,7 +34,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
   ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ColorPicker {
+export class ColorPicker implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Horizontal position, 0-100 (saturation). Two-way bindable. */
     readonly x = model<number>(0);
@@ -60,5 +71,15 @@ export class ColorPicker {
                 return;
         }
         event.preventDefault();
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "ColorPicker",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

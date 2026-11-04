@@ -6,7 +6,10 @@ import {
     input,
     model,
     viewChild,
+    OnInit,
+    inject,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import { syncPopover } from "./Popover";
 import { restoreOnFormReset } from "./form-reset";
 
@@ -41,7 +44,9 @@ let nextId = 0;
   </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Combobox {
+export class Combobox implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     private readonly panel = viewChild<ElementRef<HTMLElement>>("panel");
 
     private readonly syncPanel = effect(() => {
@@ -63,9 +68,19 @@ export class Combobox {
     }
 
     protected onKeydown(event: KeyboardEvent): void {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && this.open()) {
             event.preventDefault();
             this.open.set(false);
         }
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Combobox",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

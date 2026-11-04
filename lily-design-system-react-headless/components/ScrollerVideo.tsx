@@ -33,6 +33,7 @@
 
 import React, { useEffect, useRef } from "react";
 import ScrollerBase from "./ScrollerBase";
+import { warnMissingName } from "./dev-warning";
 
 export interface ScrollerVideoProps {
     className?: string;
@@ -64,6 +65,7 @@ export default function ScrollerVideo({
     children,
     ...restProps
 }: ScrollerVideoProps) {
+    warnMissingName("ScrollerVideo", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     const handleProgress = (progress: number) => {

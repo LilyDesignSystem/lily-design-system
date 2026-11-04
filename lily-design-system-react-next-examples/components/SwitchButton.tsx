@@ -43,6 +43,7 @@
 //   - WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch
 
 import React, { useEffect, useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SwitchButtonProps {
     className?: string;
@@ -65,6 +66,7 @@ export default function SwitchButton({
     onChange,
     ...restProps
 }: SwitchButtonProps) {
+    warnMissingName("SwitchButton", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [checked, setChecked] = useState(checkedProp);
 
     // Sync internal state when the prop changes externally.

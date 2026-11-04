@@ -1576,6 +1576,20 @@ export const components: ComponentMeta[] = [
       category: "national",
   },
   {
+      slug: "iban-input",
+      name: "IbanInput",
+      description: "an input for entering an International Bank Account Number (IBAN)",
+      tag: "input",
+      category: "forms",
+  },
+  {
+      slug: "iban-view",
+      name: "IbanView",
+      description: "a read-only display of an International Bank Account Number (IBAN)",
+      tag: "span",
+      category: "content",
+  },
+  {
       slug: "icon",
       name: "Icon",
       description: "a container for displaying an icon",

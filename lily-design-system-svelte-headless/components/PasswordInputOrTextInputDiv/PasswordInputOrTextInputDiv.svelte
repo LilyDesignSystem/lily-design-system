@@ -53,6 +53,8 @@
     //   - HTML password input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password
     //   - WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -71,6 +73,15 @@
         disabled?: boolean;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "PasswordInputOrTextInputDiv",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     let visible = $state(false);
 </script>

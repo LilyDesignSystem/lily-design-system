@@ -6,7 +6,7 @@ import WarningText from "./WarningText.svelte";
 const text = () =>
     createRawSnippet(() => ({
         render: () =>
-            `<span><span class="visually-hidden">Warning</span> You can be fined if you do not register.</span>`,
+            `<span><span class="screen-reader-span">Warning</span> You can be fined if you do not register.</span>`,
     }));
 const icon = () => createRawSnippet(() => ({ render: () => `<span>!</span>` }));
 
@@ -26,7 +26,7 @@ describe("WarningText", () => {
     it("renders the children, hidden prefix included, inside strong.warning-text-text", () => {
         const { container } = render(WarningText, { props: { children: text() } });
         const strong = container.querySelector(".warning-text > strong.warning-text-text")!;
-        expect(strong.querySelector(".visually-hidden")!.textContent).toBe("Warning");
+        expect(strong.querySelector(".screen-reader-span")!.textContent).toBe("Warning");
         expect(strong.textContent).toContain("You can be fined");
     });
 

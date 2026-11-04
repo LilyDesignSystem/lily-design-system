@@ -23,6 +23,7 @@
 ## ARIA
 
 - `aria-label={label}` -- provides an accessible name for the dialog
+- `aria-modal="true"` -- opened with `showModal()`
 - Native `<dialog>` element -- provides implicit `role="dialog"` semantics
 
 ## Keyboard

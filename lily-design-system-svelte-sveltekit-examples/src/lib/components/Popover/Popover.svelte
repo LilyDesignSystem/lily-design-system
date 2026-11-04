@@ -58,6 +58,7 @@
     //   - HTML popover attribute: https://html.spec.whatwg.org/multipage/popover.html
     //   - MDN Popover API: https://developer.mozilla.org/en-US/docs/Web/API/Popover_API
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     import { popoverState, toggleOpened } from "./popover.js";
     let {
@@ -72,6 +73,10 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("Popover", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 </script>
 
 <!-- Popover.svelte -->

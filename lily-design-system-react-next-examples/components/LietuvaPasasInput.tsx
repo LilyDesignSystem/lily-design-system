@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Lithuanian_passport
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface LietuvaPasasInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function LietuvaPasasInput({
     onChange,
     ...restProps
 }: LietuvaPasasInputProps) {
+    warnMissingName(
+        "LietuvaPasasInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`lietuva-pasas-input ${className}`}

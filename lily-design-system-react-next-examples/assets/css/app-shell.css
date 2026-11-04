@@ -110,7 +110,7 @@ main :where(li > a),
  * by the book-an-appointment "Change" links to add row context (e.g.
  * "Change reason") for screen reader users without repeating it visibly.
  */
-.visually-hidden {
+.screen-reader-span {
   position: absolute;
   width: 1px;
   height: 1px;

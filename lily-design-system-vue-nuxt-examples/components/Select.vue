@@ -58,10 +58,11 @@
 // References:
 //   - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label. */
         label: string;
@@ -75,6 +76,8 @@ withDefaults(
         disabled: false,
     },
 );
+
+warnMissingName("Select", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const modelValue = defineModel<string>({ default: "" });
 const field = ref<HTMLSelectElement | null>(null);

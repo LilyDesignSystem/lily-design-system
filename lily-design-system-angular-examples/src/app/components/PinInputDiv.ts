@@ -13,6 +13,7 @@ import {
     signal,
     viewChildren,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * PinInputDiv — a series of single-digit inputs for entering a PIN or OTP code
@@ -42,6 +43,8 @@ import {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PinInputDiv implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     readonly length = input<number>(4);
     /** Accessible name of one box, e.g. `(n, total) => ...`. Falls back to `label`. */
@@ -87,6 +90,13 @@ export class PinInputDiv implements OnInit {
     }
 
     ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "PinInputDiv",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
         const v = this.value();
         this.initialDigits = Array.from({ length: this.length() }, (_, i) =>
             /^[0-9]$/.test(v[i] ?? "") ? v[i] : "",

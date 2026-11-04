@@ -134,8 +134,8 @@ test_catalog_consistency() {
     registry_count_or_err "$top/lily-design-system-vue-nuxt-examples/data/components.ts" 'slug: "'
     registry_count_or_err "$top/lily-design-system-angular-examples/src/app/components-data.ts" 'slug: "'
     registry_count_or_err "$top/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentData.cs" '^        new("'
-    registry_count_or_err "$top/lily-design-system-html-css-js-examples/pages/components/index.html" 'slug: "'
-    registry_count_or_err "$top/lily-design-system-html-css-js-examples/pages/components/component.html" 'slug: "'
+    registry_count_or_err "$top/lily-design-system-html-css-js-examples/assets/js/pages/components-index.js" 'slug: "'
+    registry_count_or_err "$top/lily-design-system-html-css-js-examples/assets/js/pages/component.js" 'slug: "'
     registry_count_or_err "$top/lilydesignsystem.github.io/src/lib/components.ts" 'name: "'
     registry_count_or_err "$top/lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts" "^  '"
     registry_count_or_err "$top/lily-design-system-react-next-examples/app/data/component-demos.ts" "^  '"
@@ -152,7 +152,7 @@ test_components() {
         # (spec/components § Maturity). The site registry is generated
         # from it, so a missing or misspelled one breaks the build there
         # too — this catches it at the source with a better message.
-        n="$(grep -cE '^- Status: (stable|beta|experimental)( |$)' "$top/components/$component/AGENTS.md" || true)"
+        n="$(grep -cE '^- Status: (stable|beta|experimental|deprecated|discouraged)( |$)' "$top/components/$component/AGENTS.md" || true)"
         test "$n" = "1" || err "components/$component/AGENTS.md needs exactly one valid '- Status:' bullet (has $n)"
     done
 }
@@ -392,6 +392,10 @@ implemented_everywhere_or_err
     || err "a brand overlay failed; run bin/check-theme --overlay"
 "$top/bin/check-theme" --contrast --gate >/dev/null 2>&1 \
     || err "a theme colour pair is below WCAG AA (4.5:1) or unparsed; run bin/check-theme --contrast --suggest"
+"$top/bin/check-lifecycle" >/dev/null 2>&1 \
+    || err "a deprecated or discouraged component lacks its fields; run bin/check-lifecycle"
+"$top/bin/check-dev-warnings" >/dev/null 2>&1 \
+    || err "a component with a required label does not warn when it is missing; run bin/check-dev-warnings"
 "$top/bin/check-picker-icons" >/dev/null 2>&1 \
     || err "a picker icon breaks the icon contract; run bin/check-picker-icons"
 "$top/bin/check-theme-references" --offline >/dev/null 2>&1 \

@@ -43,6 +43,7 @@
     //   - WAI-ARIA slider pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
     //   - WCAG 2.5.1 Pointer Gestures: https://www.w3.org/WAI/WCAG22/Understanding/pointer-gestures.html
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     let {
         class: className = "",
@@ -63,6 +64,15 @@
         children?: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "SliderButton",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     let position = $state(0);
 

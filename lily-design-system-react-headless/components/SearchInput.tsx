@@ -45,6 +45,7 @@
 //   - WAI-ARIA Search Role: https://www.w3.org/WAI/ARIA/apg/patterns/search/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SearchInputProps {
     className?: string;
@@ -70,6 +71,7 @@ export default function SearchInput({
     onChange,
     ...restProps
 }: SearchInputProps) {
+    warnMissingName("SearchInput", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <input
             className={`search-input ${className}`}

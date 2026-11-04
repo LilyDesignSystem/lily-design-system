@@ -24,7 +24,7 @@ This library does NOT depend on Nuxt. Components work in any Vue 3 host
 
 ### In scope
 
-- Vue 3 Composition API single-file components for all 607 components.
+- Vue 3 Composition API single-file components for all 609 components.
 - TypeScript types for every component's props and emits.
 - A vitest test file per component asserting ARIA, keyboard, and structural
   contract.
@@ -232,11 +232,11 @@ pnpm run storybook                   # run Storybook
 
 ### 8.2 Verified
 
-- [x] All 607 components have `{PascalCase}.vue` and compile.
+- [x] All 609 components have `{PascalCase}.vue` and compile.
 - [x] `pnpm exec vitest run` passes: **2,187 / 2,187 tests, zero failures**.
-- [x] CSS class-name audit: **607 / 607** components reference their canonical
+- [x] CSS class-name audit: **609 / 609** components reference their canonical
       kebab-case base class.
-- [x] Storybook story coverage: **607 / 607** components have a
+- [x] Storybook story coverage: **609 / 609** components have a
       `*.stories.ts` file.
 
 ### 8.3 Open backlog
@@ -264,6 +264,6 @@ pnpm run storybook                   # run Storybook
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 609 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling example app: [../lily-design-system-vue-nuxt-examples/](../../lily-design-system-vue-nuxt-examples/)

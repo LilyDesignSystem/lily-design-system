@@ -26,6 +26,6 @@ describe("WarningText", () => {
             "true",
         );
         const strong = el().querySelector(":scope > strong.warning-text-text");
-        expect(strong.querySelector(".visually-hidden")).not.toBeNull();
+        expect(strong.querySelector(".screen-reader-span")).not.toBeNull();
     });
 });

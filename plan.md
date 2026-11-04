@@ -251,7 +251,7 @@ named competitors ship in October 2026 and against the tree on 2026-10-29. Detai
 **The seven rows share one root cause: competitors win on evidence, and Lily wins on breadth.** Base UI (1.0 in
 December 2025), Ark UI and React Aria are trusted because their behaviour has years of exercise and because they
 publish how they test it. React Aria names its screen-reader and browser matrix. Carbon and USWDS publish conformance
-material. shadcn made copying a tool. Lily has 607 components × 8 frameworks, so every unit of proof costs it more than
+material. shadcn made copying a tool. Lily has 609 components × 8 frameworks, so every unit of proof costs it more than
 it costs them. Adding breadth widens the gap. Making proof cheaper and concentrating it closes the gap.
 
 What the research found, in brief:
@@ -334,7 +334,7 @@ only; no port starts before the decision. Task P20-T1 in [tasks.md](tasks.md).
    `bin/check-coverage`, `bin/check-class-names`, `bin/check-port-parity`, publishing, skills and the label-pack loaders.
 3. **Alternatives**: Solid renders custom elements well, so the Web Components catalog may already serve Solid users;
    measure what they lose (typed props, SSR, events) before choosing a full port.
-4. **Decision**: port (all 607 components, the 20 helpers, a SolidStart example app), a partial port, or decline
+4. **Decision**: port (all 609 components, the 20 helpers, a SolidStart example app), a partial port, or decline
    with Web Components as the documented route, recorded in `spec/frameworks`.
 
 ## Phase 21 — Visual identity principles (2026-11-01)
@@ -382,6 +382,20 @@ Finished phases (1 to 7 and 18), their sequencing notes and the original definit
 ## Phase 22 — Lessons topics triaged into tasks (2026-11-02)
 
 The 29 untasked items in the Bootstrap, daisyUI, ShardsUI and coss ui lessons topics, each now a task in [tasks.md](tasks.md#phase-22--lessons-topics-triaged-into-tasks-2026-11-02). Order: P22-T20 now (no AA failures remain); P22-T13 is the keystone, since P22-T14, T15 and the mode axis wait on it; P22-T3 before T4; P22-T27 before T11; P22-T18 before T19. Six are maintainer decisions (T3, T13, T16, T18, T24, T28).
+
+## Phase 23 — Design system survey (2026-11-03)
+
+A survey of 18 systems Lily had not reviewed in depth: React Aria, Base UI, Angular Aria, Cauldron, Lion, KoliBri, NL Design
+System, Aksel, Designsystemet, Suomi.fi, UAE, UX4G, GOV.CO, Diia, Primer, Polaris, EUI and PatternFly. Full findings and limits:
+[spec/design-system-survey-lessons](spec/design-system-survey-lessons/index.md). Tasks:
+[tasks.md](tasks.md#phase-23--design-system-survey-2026-11-03).
+
+The finding: the strongest systems give adopters proof tools (pattern testers, lint rules, codemods, published evidence), where
+Lily's checks run only in this repository. Order: P23-T15 now (a real docs defect); P23-T1 next, the most valuable, since a shared
+tester addresses parity across eight catalogs and Core's criterion (a), 3 of 40; then P23-T2 and P23-T3 (CSP is never mentioned, and
+public-sector adopters are the likeliest to run strict policies); then P23-T9 and T4. P23-T7 waits for P22-T19 and P23-T8 for
+P22-T23. Four are maintainer decisions (T4, T6, T13, T14). On 2026-11-03 T15, T4 and T14 were finished and T1, T2, T3 and T6 taken to a first stage; each task records what is open. None of this overtakes the screen-reader matrix (P16-T9), which
+remains the first priority, and only T14 would add components.
 
 ---
 

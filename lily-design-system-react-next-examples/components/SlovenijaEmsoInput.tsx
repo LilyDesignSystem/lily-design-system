@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SlovenijaEmsoInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function SlovenijaEmsoInput({
     onChange,
     ...restProps
 }: SlovenijaEmsoInputProps) {
+    warnMissingName(
+        "SlovenijaEmsoInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`slovenija-emso-input ${className}`}

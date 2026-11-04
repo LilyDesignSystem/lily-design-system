@@ -16,7 +16,7 @@ function render(html: string): HTMLElement {
 }
 
 const TEXT =
-    '<span class="visually-hidden">Warning</span> You can be fined if you do not register.';
+    '<span class="screen-reader-span">Warning</span> You can be fined if you do not register.';
 
 describe("WarningText", () => {
     test("renders as itself with the base class", () => {
@@ -33,7 +33,7 @@ describe("WarningText", () => {
     test("moves the content, hidden prefix included, into strong.warning-text-text", () => {
         const host = render(`<lily-warning-text>${TEXT}</lily-warning-text>`);
         const strong = host.querySelector(":scope > strong.warning-text-text")!;
-        expect(strong.querySelector(".visually-hidden")!.textContent).toBe("Warning");
+        expect(strong.querySelector(".screen-reader-span")!.textContent).toBe("Warning");
         expect(strong.textContent).toContain("You can be fined");
     });
 

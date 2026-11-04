@@ -15,6 +15,7 @@
 // Keyboard: native summary (Enter / Space).
 
 import React, { useEffect, useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ThinkingProps {
     className?: string;
@@ -40,6 +41,7 @@ export default function Thinking({
     children,
     ...restProps
 }: ThinkingProps) {
+    warnMissingName("Thinking", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [open, setOpen] = useState(openProp);
     useEffect(() => setOpen(openProp), [openProp]);
 

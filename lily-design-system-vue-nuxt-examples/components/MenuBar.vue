@@ -51,12 +51,15 @@
 // References:
 //   - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
     /** Accessible label. */
     label: string;
 }>();
+
+warnMissingName("MenuBar", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const barRef = ref<HTMLElement | undefined>(undefined);
 

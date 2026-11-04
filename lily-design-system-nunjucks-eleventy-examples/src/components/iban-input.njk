@@ -1,0 +1,41 @@
+---
+layout: layouts/component-demo.njk
+title: IBAN Input
+description: an input for entering an International Bank Account Number (IBAN)
+---
+
+{% from "components/iban-input/macro.njk" import ibanInput %}
+{% from "components/label/macro.njk" import label %}
+{% from "components/field/macro.njk" import field %}
+
+<h2>Default</h2>
+{% call field() %}
+  {{ label({ for: "iban-input-demo", text: "IBAN" }) }}
+  {{ ibanInput({ id: "iban-input-demo" }) }}
+{% endcall %}
+
+<h2>Format</h2>
+<p>Up to 34 letters and digits: a two-letter country code, two check digits, then the national account number.</p>
+
+<h2>Reference</h2>
+<p>See <a href="https://en.wikipedia.org/wiki/International_Bank_Account_Number">IBAN</a>.</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;Field
+  label="IBAN"
+  required
+&gt;
+  &lt;IbanInput
+    label="IBAN"
+    value="{value}"
+    required
+  /&gt;
+  &lt;Hint
+    &gt;Up to 34 letters and digits: a two-letter country code, two check digits, then the national
+    account number&lt;/Hint
+  &gt;
+  &lt;ErrorMessage&gt;Please enter a valid IBAN&lt;/ErrorMessage&gt;
+&lt;/Field&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

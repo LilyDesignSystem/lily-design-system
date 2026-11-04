@@ -47,6 +47,7 @@
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SegmentGroupProps {
     className?: string;
@@ -63,6 +64,7 @@ export default function SegmentGroup({
     children,
     ...restProps
 }: SegmentGroupProps) {
+    warnMissingName("SegmentGroup", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <div
             className={`segment-group ${className}`}

@@ -33,8 +33,9 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -53,6 +54,13 @@ const props = withDefaults(
         required: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "TextInputWithSearch",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string>({ default: "" });

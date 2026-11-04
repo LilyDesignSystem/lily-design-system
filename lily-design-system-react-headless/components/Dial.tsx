@@ -52,6 +52,7 @@
 //   - WAI-ARIA slider role: https://www.w3.org/TR/wai-aria-1.2/#slider
 
 import React, { useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface DialProps {
     className?: string;
@@ -83,6 +84,7 @@ export default function Dial({
     onChange,
     ...restProps
 }: DialProps) {
+    warnMissingName("Dial", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [value, setValue] = useState(valueProp);
 
     function clamp(v: number) {

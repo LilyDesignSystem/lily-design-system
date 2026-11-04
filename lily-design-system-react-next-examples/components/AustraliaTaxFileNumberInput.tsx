@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Tax_file_number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface AustraliaTaxFileNumberInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function AustraliaTaxFileNumberInput({
     onChange,
     ...restProps
 }: AustraliaTaxFileNumberInputProps) {
+    warnMissingName(
+        "AustraliaTaxFileNumberInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`australia-tax-file-number-input ${className}`}

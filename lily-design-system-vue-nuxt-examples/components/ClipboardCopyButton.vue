@@ -46,7 +46,8 @@
 // References:
 //   - Clipboard API: https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -63,6 +64,13 @@ const props = withDefaults(
         onSuccess: undefined,
         onError: undefined,
     },
+);
+
+warnMissingName(
+    "ClipboardCopyButton",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const copied = ref(false);

@@ -44,13 +44,21 @@
 // References:
 //   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label for the select element */
     label: string;
 }>();
+
+warnMissingName(
+    "RedOrangeYellowGreenBluePicker",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
 
 const modelValue = defineModel<string>({ default: "" });
 const field = ref<HTMLSelectElement | null>(null);

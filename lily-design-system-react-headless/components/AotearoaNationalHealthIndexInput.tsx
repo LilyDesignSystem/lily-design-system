@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/NHI_Number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface AotearoaNationalHealthIndexInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function AotearoaNationalHealthIndexInput({
     onChange,
     ...restProps
 }: AotearoaNationalHealthIndexInputProps) {
+    warnMissingName(
+        "AotearoaNationalHealthIndexInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`aotearoa-national-health-index-input ${className}`}

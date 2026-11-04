@@ -13,14 +13,14 @@ coverage to the one of the three that has no dedicated skill of its own, the
 example application.
 
 Root of the ecosystem: [../spec/index.md](../spec/index.md). General Lily
-concepts (headless-vs-example, the 607-component catalog, naming, framework
+concepts (headless-vs-example, the 609-component catalog, naming, framework
 choice): [`lily-design-system-skill`](../lily-design-system-skill/).
 
 ## The three HTML layers
 
 | Subproject                                                                               | What it is                                                                                                                                                                                                                                                                                                                                                | Reach for it when                                                                                                                                                       |
 | ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/)                | The full-catalog (607/607) headless component library: one self-contained `components/{slug}.html` file per component — an HTML comment header, semantic markup with ARIA and a kebab-case class, and, where needed, an embedded vanilla-JS `<script>` IIFE. Zero CSS. It is also the **reference implementation** every other framework binding mirrors. | You want the markup and behaviour for a component and will style it yourself; you're copying a snippet or including it server-side with no framework and no build step. |
+| [`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/)                | The full-catalog (609/609) headless component library: one self-contained `components/{slug}.html` file per component — an HTML comment header, semantic markup with ARIA and a kebab-case class, and, where needed, an embedded vanilla-JS `<script>` IIFE. Zero CSS. It is also the **reference implementation** every other framework binding mirrors. | You want the markup and behaviour for a component and will style it yourself; you're copying a snippet or including it server-side with no framework and no build step. |
 | [the HTML helper packages](../spec/helpers/index.md#html-helper-packages)                | Vanilla-JS **custom elements** in 20 packages, one subproject each: eleven `*-picker` helpers (theme, locale, text-size, motion, time-zone, share, search, link, menu, settings, date-time), `picker-bar`, the grid-like `data-grid`, `kanban-board`, `calendar`, `gantt-chart` and `filter`, the `markdown-editor` and `org-editor`, and `locale-translations` — that sit alongside the headless library and each own one whole interaction (a page-header preference, an action, or a form value) end to end.                                                 | You need a page-header preference control, a share action, or a typeable date/time field — not a catalog component, a self-contained interactive widget.                |
 | [`lily-design-system-html-css-js-examples`](../lily-design-system-html-css-js-examples/) | The styled reference application: every catalog component demonstrated live, NHS UK visual styling, and composed multi-component pages.                                                                                                                                                                                                                   | You want to see a component fully styled and running, or want working CSS to copy rather than write your own.                                                           |
 
@@ -51,7 +51,7 @@ this is where its contract lives.
   emits.
 - **Required routes** (per [`AGENTS/examples.md`](../AGENTS/examples.md), the
   contract every example app follows): `/` (home, links to the catalog and
-  composed pages), `/components` (searchable index of all 607 components),
+  composed pages), `/components` (searchable index of all 609 components),
   `/components/{slug}` (one live demo per component with its metadata,
   props, ARIA, keyboard, references).
 - **Composed pages**: `contact-form`, `dashboard`, `dialog-flow`,
@@ -95,11 +95,11 @@ this is where its contract lives.
 Lily also ships two catalogs under `<lily-*>` tags —
 [`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/)
 (native custom elements, no framework runtime, but a deliberately **partial**
-572/607 catalog) and
+574/609 catalog) and
 [the Web Components helper packages](../spec/helpers/index.md#web-components-helper-packages)
 (an independent copy of these HTML helpers under `<lily-*-picker>` tags).
 Both sets of helper packages ship custom elements, but the two _headless_ catalogs
-differ in kind, not just tag prefix: HTML headless is full-catalog (607/607)
+differ in kind, not just tag prefix: HTML headless is full-catalog (609/609)
 semantic markup with an optional script, while Web Components headless is a
 slice of the catalog built as autonomous custom elements. For that
 pair's own conventions and scope, use

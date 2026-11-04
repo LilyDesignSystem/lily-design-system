@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Personal_identity_number_(Sweden)
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SverigePersonnummerInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function SverigePersonnummerInput({
     onChange,
     ...restProps
 }: SverigePersonnummerInputProps) {
+    warnMissingName(
+        "SverigePersonnummerInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`sverige-personnummer-input ${className}`}

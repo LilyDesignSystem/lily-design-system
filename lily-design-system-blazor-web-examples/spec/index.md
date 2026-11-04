@@ -32,7 +32,7 @@ The app ships:
 
 - A Blazor Web App with Interactive Server rendering.
 - A `/components/{slug}` route that renders a live demo per component for all
-  607 components (via `Data/ComponentData.cs`).
+  609 components (via `Data/ComponentData.cs`).
 - 12 composed-page demos (`Components/Pages/*.razor`).
 - A complete NHS-aligned CSS stylesheet (`wwwroot/css/nhs.css`).
 - Playwright e2e tests for each `/components/{slug}` route.
@@ -90,7 +90,7 @@ lily-design-system-blazor-web-examples/
 │   │       ├── Dashboard.razor
 │   │       └── …
 │   ├── Data/
-│   │   └── ComponentData.cs               ← record list (607 entries)
+│   │   └── ComponentData.cs               ← record list (609 entries)
 │   └── wwwroot/
 │       ├── css/nhs.css                    ← NHS-aligned stylesheet
 │       └── js/headless-interop.js         ← minimal JS interop
@@ -109,7 +109,7 @@ lily-design-system-blazor-web-examples/
 
 `ComponentDetail.razor` renders the demo HTML from `ComponentData.cs` using
 `MarkupString`. `ComponentData.Components` is a `List<ComponentInfo>` with
-**607 entries** (one per canonical slug).
+**609 entries** (one per canonical slug).
 
 ```csharp
 public record ComponentInfo(string Slug, string Name, string Description, string DemoHtml);
@@ -183,8 +183,8 @@ pnpm exec playwright test                              # e2e tests
 ### 11.1 Routes
 
 - [ ] `/` renders home with skip-link + standard landmarks.
-- [ ] `/components` lists all 607 canonical components.
-- [ ] `/components/{slug}` renders a live demo for all 607 slugs.
+- [ ] `/components` lists all 609 canonical components.
+- [ ] `/components/{slug}` renders a live demo for all 609 slugs.
 - [ ] All 12 composed-page demos exist as `Pages/{PascalCase}.razor`.
 
 ### 11.2 Demo registry
@@ -221,7 +221,7 @@ pnpm exec playwright test                              # e2e tests
 - [x] `Pages/Components.razor` (`/components`).
 - [x] `Pages/ComponentDetail.razor` (`/components/{slug}` with `MarkupString`).
 - [x] All 12 composed-page demos.
-- [x] `Data/ComponentData.cs` with 607 components (canonical, no orphans).
+- [x] `Data/ComponentData.cs` with 609 components (canonical, no orphans).
 - [x] Per-component bUnit tests in the sibling headless project
       (commit `1b8600d4`).
 - [x] Playwright e2e per slug (commit `7a51013b`).
@@ -260,6 +260,6 @@ pnpm exec playwright test                              # e2e tests
 - Build: `dotnet build`
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 609 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling headless library: [../lily-design-system-blazor-headless/](../../lily-design-system-blazor-headless/)

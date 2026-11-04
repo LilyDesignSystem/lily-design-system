@@ -12,10 +12,10 @@ root spec was amended 2026-09-03 (plan P8-T3) to frame the catalog as
 the authoritative record of the addition.
 
 **This catalog reached its full achievable scope on 2026-09-06: 456 of the
-canonical 491 components; as of 2026-10-25 it is 572 of 607** (every
+canonical 491 components; as of 2026-10-25 it is 574 of 609** (every
 component added since is implemented) — every component except the 35
 permanently excluded by a real architectural limitation (§2, §2.1). It is
-not, and will not become, a literal 607/607 peer of the seven full-catalog headless
+not, and will not become, a literal 609/609 peer of the seven full-catalog headless
 libraries: the remaining 35 (30 table sub-elements, 5 interactive
 `*ListItem` families) cannot be built as autonomous custom elements
 without either a wrapper-host defect or WebKit support for customized
@@ -75,7 +75,7 @@ hand-rolled approximation.
 
 ### Explicitly out of scope (permanent, architectural)
 
-- **35 components are permanently excluded** — the only 35 of 607 this
+- **35 components are permanently excluded** — the only 35 of 609 this
   catalog does not and will not implement: every table sub-element family
   (30: `*TableHead/-Body/-Foot/-Row/-TH/-TD` across
   `table`/`data-table`/`calendar-table`/`kanban-table`, and gantt's
@@ -83,7 +83,7 @@ hand-rolled approximation.
   contract is interactive (`accordion-list-item`, `chat-list-item`,
   `check-list-item`, `document-list-item`, `tree-list-item`) — see §2.1 for
   why. As of 2026-09-06 there is no other backlog: every other canonical
-  component (572 of 607; 456 of 491 at 2026-09-06) is implemented — see §11.8 for the historical
+  component (574 of 609; 456 of 491 at 2026-09-06) is implemented — see §11.8 for the historical
   record of how that backlog closed.
 - CSS, stylesheets, a CSS framework dependency, inline styles beyond the
   two documented structural exceptions and CSS custom properties (§4, §4.3).
@@ -429,7 +429,7 @@ data, Content) matching this file's §2 breakdown.
 
 ### 11.8 Backlog closed (2026-09-06)
 
-Every achievable component (572 of 607 as of 2026-10-25; 456 of 491 at 2026-09-06) is implemented. The completion
+Every achievable component (574 of 609 as of 2026-10-25; 456 of 491 at 2026-09-06) is implemented. The completion
 push landed in four batches over one day: the original 33 (P7-T6/P8-T7,
 pre-existing), all 92 national personal identifier components, a
 136-component wave (lists, forms, pickers, links, and a mixed

@@ -62,6 +62,7 @@
 //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SelectWithExtrasProps {
     className?: string;
@@ -96,6 +97,12 @@ export default function SelectWithExtras({
     children,
     ...restProps
 }: SelectWithExtrasProps) {
+    warnMissingName(
+        "SelectWithExtras",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <div
             className={`select-with-extras ${className}`}

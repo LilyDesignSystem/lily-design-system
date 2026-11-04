@@ -1756,6 +1756,14 @@
 .super-banner {
 }
 
+/* iban-input: an input for entering an International Bank Account Number (IBAN) */
+.iban-input {
+}
+
+/* iban-view: a read-only display of an International Bank Account Number (IBAN) */
+.iban-view {
+}
+
 /* sverige-personnummer-input: an input for entering Sweden's Personnummer */
 .sverige-personnummer-input {
 }

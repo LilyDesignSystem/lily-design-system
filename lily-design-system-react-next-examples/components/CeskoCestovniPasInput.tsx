@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Czech_passport
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface CeskoCestovniPasInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function CeskoCestovniPasInput({
     onChange,
     ...restProps
 }: CeskoCestovniPasInputProps) {
+    warnMissingName(
+        "CeskoCestovniPasInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`cesko-cestovni-pas-input ${className}`}

@@ -51,6 +51,7 @@
 //   - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 import React, { useRef } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TabBarProps {
     className?: string;
@@ -62,6 +63,7 @@ export interface TabBarProps {
 }
 
 export default function TabBar({ className = "", label, children, ...restProps }: TabBarProps) {
+    warnMissingName("TabBar", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const barRef = useRef<HTMLDivElement>(null);
 
     function handleKeyDown(event: React.KeyboardEvent) {

@@ -51,6 +51,7 @@
     // References:
     //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     import { popoverState, toggleOpened } from "../Popover/popover.js";
 
@@ -69,6 +70,15 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "ContextMenu",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     // Reference to the menu element for focus management.
     let menuRef: HTMLElement | undefined = $state(undefined);

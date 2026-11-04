@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/South_African_identity_card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SouthAfricaIdentityNumberInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function SouthAfricaIdentityNumberInput({
     onChange,
     ...restProps
 }: SouthAfricaIdentityNumberInputProps) {
+    warnMissingName(
+        "SouthAfricaIdentityNumberInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`south-africa-identity-number-input ${className}`}

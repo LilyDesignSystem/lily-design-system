@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // RedAmberGreenPickerButton component
 //
 // A headless button representing one Red/Amber/Green status choice within a
@@ -46,7 +48,7 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 //   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** The status value (e.g. "red", "amber", "green"). */
         value: string;
@@ -61,6 +63,13 @@ withDefaults(
         selected: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "RedAmberGreenPickerButton",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 </script>
 

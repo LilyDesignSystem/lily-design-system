@@ -51,6 +51,7 @@
 //   - MDN fieldset element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface DateRangeProps {
     className?: string;
@@ -82,6 +83,7 @@ export default function DateRange({
     onEndChange,
     ...restProps
 }: DateRangeProps) {
+    warnMissingName("DateRange", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <fieldset
             className={`date-range ${className}`}

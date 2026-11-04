@@ -202,7 +202,7 @@ once on open — hide it visually with your own CSS if you prefer.
     let-args
   >
     <my-calendar-icon [expanded]="args.open" />
-    <span class="visually-hidden">{{ args.display }}</span>
+    <span class="screen-reader-span">{{ args.display }}</span>
   </ng-template>
 </lily-date-time-picker>
 ```
