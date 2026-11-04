@@ -85,16 +85,17 @@
       <li><code>role="separator"</code> -- identifies the element as a separator between two regions</li>
       <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name describing the splitter's purpose</li>
       <li><code>aria-orientation=&#123;orientation&#125;</code> -- indicates whether the separator divides content horizontally or vertically</li>
-      <li><code>aria-valuenow=&#123;50&#125;</code> -- reports the current position of the splitter as a percentage</li>
+      <li><code>aria-valuenow</code> -- reports the current position</li>
       <li><code>aria-valuemin=&#123;0&#125;</code> -- the minimum allowed position value</li>
       <li><code>aria-valuemax=&#123;100&#125;</code> -- the maximum allowed position value</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
       <li>Tab: Moves focus to the splitter</li>
-      <li>Arrow keys: Consumer should implement arrow key handling to adjust the split position (Left/Right for horizontal, Up/Down for vertical)</li>
-      <li>Home: Consumer should implement to set the splitter to the minimum position</li>
-      <li>End: Consumer should implement to set the splitter to the maximum position</li>
+      <li>Arrow keys: ArrowLeft and ArrowRight move a vertical separator, swapped in right-to-left; ArrowUp and ArrowDown a horizontal one. Shift moves ten steps</li>
+      <li>Home: Moves to the minimum position</li>
+      <li>End: Moves to the maximum position</li>
+      <li>Enter: Collapses to the minimum, and restores</li>
     </ul>
     <h3>Props</h3>
     <ul>

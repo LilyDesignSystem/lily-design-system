@@ -9051,6 +9051,9 @@
       "title": "SplitView",
       "description": "A two-panel resizable layout container with a draggable divider between them.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -9069,7 +9072,8 @@
       "description": "A draggable divider for resizing adjacent panels.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
       ],
       "categories": [
         "content"
