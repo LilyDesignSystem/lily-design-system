@@ -234,6 +234,8 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "hover-card", pascal: "HoverCard", description: "a card that appears on hover over a trigger element", status: "stable" },
   { name: "hrvatska-osobni-identifikacijski-broj-input", pascal: "HrvatskaOsobniIdentifikacijskiBrojInput", description: "an input for entering Croatia's Osobni identifikacijski broj (OIB)", status: "beta" },
   { name: "hrvatska-osobni-identifikacijski-broj-view", pascal: "HrvatskaOsobniIdentifikacijskiBrojView", description: "a read-only display of Croatia's Osobni identifikacijski broj (OIB)", status: "beta" },
+  { name: "iban-input", pascal: "IbanInput", description: "an input for entering an International Bank Account Number (IBAN)", status: "experimental" },
+  { name: "iban-view", pascal: "IbanView", description: "a read-only display of an International Bank Account Number (IBAN)", status: "experimental" },
   { name: "icon", pascal: "Icon", description: "a container for displaying an icon", status: "stable" },
   { name: "icon-button", pascal: "IconButton", description: "a button containing only an icon with a required accessible label", status: "beta" },
   { name: "icon-list", pascal: "IconList", description: "an ordered list of icon list item components", status: "beta" },

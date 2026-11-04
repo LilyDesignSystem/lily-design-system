@@ -2805,6 +2805,20 @@
       ]
     },
     {
+      "name": "dev-warning-utils",
+      "type": "registry:lib",
+      "title": "dev-warning.ts",
+      "description": "Shared helper module dev-warning.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/dev-warning.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/dev-warning.ts"
+        }
+      ]
+    },
+    {
       "name": "dial",
       "type": "registry:component",
       "title": "Dial",
@@ -4636,6 +4650,40 @@
       ]
     },
     {
+      "name": "iban-input",
+      "type": "registry:component",
+      "title": "IbanInput",
+      "description": "An input for entering an International Bank Account Number (IBAN).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/IbanInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/IbanInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "iban-view",
+      "type": "registry:component",
+      "title": "IbanView",
+      "description": "A read-only display of an International Bank Account Number (IBAN).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "content"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/IbanView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/IbanView.tsx"
+        }
+      ]
+    },
+    {
       "name": "icon",
       "type": "registry:component",
       "title": "Icon",
@@ -4658,6 +4706,9 @@
       "title": "IconButton",
       "description": "A button containing only an icon with a required accessible label.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "buttons"
       ],

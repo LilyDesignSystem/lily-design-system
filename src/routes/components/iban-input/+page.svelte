@@ -1,0 +1,102 @@
+<script lang="ts">
+  const intro: string = "<h1>IBAN Input</h1>\n\n<p>an input for entering an International Bank Account Number (IBAN)</p>\n\n<p>This is a new component. See <a href=\"https://github.com/joelparkerhenderson/lily-design-system/tree/main/components/iban-input\">the canonical documentation</a> for full details.</p>";
+  const usage: string = "";
+  const rest: string = "";
+  // BEGIN auto-generated component example consts
+  const demoHtml: string = "<input class=\"iban-input\" type=\"text\" aria-label=\"IBAN\" autocomplete=\"off\" value=\"GB82 WEST 1234 5698 7654 32\" />";
+  const svelteSource: string = "// In your Svelte component:\nimport IbanInput from \"lily-design-system-svelte-headless/components/IbanInput/IbanInput.svelte\";\n\n<IbanInput label=\"Label\" />\n";
+  const usageCode: string = "<Field\n  label=\"IBAN\"\n  required\n>\n  <IbanInput\n    label=\"IBAN\"\n    value=\"{value}\"\n    required\n  />\n  <Hint\n    >Up to 34 letters and digits: a two-letter country code, two check digits, then the national\n    account number</Hint\n  >\n  <ErrorMessage>Please enter a valid IBAN</ErrorMessage>\n</Field>\n";
+  const variants: { title: string; html: string }[] = [];
+  // END auto-generated component example consts
+</script>
+
+<svelte:head>
+  <title>IBAN Input — Lily Design System</title>
+  <meta name="description" content="an input for entering an International Bank Account Number (IBAN)" />
+</svelte:head>
+
+<article class="component-page component-page-intro prose" style="max-width: 64rem; margin: 0 auto; padding: 0.5rem 1rem 1rem;">
+  {@html intro}
+</article>
+
+<!-- BEGIN auto-generated component example -->
+<section class="component-example" aria-labelledby="example-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="example-heading">Example</h2>
+  <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html demoHtml}</div>
+  <details style="margin-top: 1rem;">
+    <summary style="cursor: pointer; font-weight: 600;">Show demo markup</summary>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{demoHtml}</code></pre>
+  </details>
+  {#each variants as variant (variant.title)}
+    <h3 style="margin-top: 1.5rem;">{variant.title}</h3>
+    <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html variant.html}</div>
+    <details style="margin-top: 0.5rem;">
+      <summary style="cursor: pointer; font-weight: 600;">Show markup</summary>
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{variant.html}</code></pre>
+    </details>
+  {/each}
+  {#if usageCode}
+    <details style="margin-top: 1.5rem;" open>
+      <summary style="cursor: pointer; font-weight: 600;">Usage example</summary>
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{usageCode}</code></pre>
+    </details>
+  {/if}
+  <details style="margin-top: 1rem;">
+    <summary style="cursor: pointer; font-weight: 600;">Show Svelte source</summary>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{svelteSource}</code></pre>
+  </details>
+</section>
+<!-- END auto-generated component example -->
+
+{#if usage}
+<article class="component-page component-page-usage prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html usage}
+</article>
+{/if}
+
+<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html rest}
+</article>
+
+<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/iban-input/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
+    <h3>Metadata</h3>
+    <ul>
+      <li>Component: iban-input</li>
+      <li>PascalCase: IbanInput</li>
+      <li>Description: an input for entering an International Bank Account Number (IBAN)</li>
+      <li>Status: experimental — new, implemented and unit-tested in every headless library; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;input&gt;</li>
+      <li>CSS class: .iban-input</li>
+      <li>Interactive: yes</li>
+    </ul>
+    <h3>ARIA</h3>
+    <ul>
+      <li><code>aria-label</code> provides accessible name from label prop</li>
+      <li><code>required</code> and <code>disabled</code> states conveyed to assistive technology</li>
+      <li><code>aria-label</code> provided from the <code>label</code> prop</li>
+    </ul>
+    <h3>Keyboard</h3>
+    <ul>
+      <li>Standard text input keyboard behavior</li>
+    </ul>
+    <h3>Props</h3>
+    <ul>
+      <li><code>label</code>: string (required) — accessible label via aria-label</li>
+      <li><code>value</code>: string (default: "") — bindable input value</li>
+      <li><code>required</code>: boolean (default: false) — form validation</li>
+      <li><code>disabled</code>: boolean (default: false) — disabled state</li>
+      <li><code>...restProps</code>: any additional HTML attributes spread onto the root</li>
+    </ul>
+</section>
+<!-- END generated: canonical contract -->

@@ -6,7 +6,7 @@ Description: DHCW is a small, styled NHS Wales design system in private beta; Li
 
 # Lily Design System and DHCW Design System
 
-The DHCW Design System is a small, finished, styled NHS Wales system of 28 components in private beta, whereas Lily Design System is a 607-component unstyled catalog in eight frameworks that treats the NHS Wales look as one of 63 themes. This matters because the first gives a Welsh health service a ready visual identity and official standing but only HTML and Nunjucks, while the second gives breadth and framework choice but no organisation behind it and no outside accessibility audit. Choose DHCW if you build an NHS Wales service in plain HTML or Nunjucks and want its look and page templates, and choose Lily if you need a framework other than those or components DHCW does not have.
+The DHCW Design System is a small, finished, styled NHS Wales system of 28 components in private beta, whereas Lily Design System is a 609-component unstyled catalog in eight frameworks that treats the NHS Wales look as one of 63 themes. This matters because the first gives a Welsh health service a ready visual identity and official standing but only HTML and Nunjucks, while the second gives breadth and framework choice but no organisation behind it and no outside accessibility audit. Choose DHCW if you build an NHS Wales service in plain HTML or Nunjucks and want its look and page templates, and choose Lily if you need a framework other than those or components DHCW does not have.
 
 ## Who is behind it, and how mature it is
 
@@ -32,7 +32,7 @@ Lily's components carry no colour, font or spacing, so the page looks like nothi
 
 DHCW lists 28 components, from action link and back link through date input, file upload, header, summary list, tabs and warning callouts. That is a deliberately small set for forms and content pages. It also documents a patient header (a section with its own `nhsw-patient-header` classes). Lily has no single patient-header component; since 2026-10-29 it documents a patient banner as a composition of a labelled section, a description list and the national identifier view components, with the rule that no field is truncated or hidden at a narrow width. Its date input guidance is adapted from the GOV.UK Design System, and says "Never automatically move users between the day, month and year fields."
 
-Lily's catalog (components.tsv) has 607 rows, including data grids, charts, calendars, Gantt and kanban helpers and 164 national identifier components. Lily's own comparison survey has 429 rows, and 53 of them match a DHCW component. By construction Lily covers all 429, because the survey is built from Lily's catalog, so that count says nothing about quality. For a typical NHS Wales form-and-content service, 28 components may be all you need, and a smaller set is easier to learn and to review.
+Lily's catalog (components.tsv) has 609 rows, including data grids, charts, calendars, Gantt and kanban helpers and 164 national identifier components. Lily's own comparison survey has 429 rows, and 53 of them match a DHCW component. By construction Lily covers all 429, because the survey is built from Lily's catalog, so that count says nothing about quality. For a typical NHS Wales form-and-content service, 28 components may be all you need, and a smaller set is easier to learn and to review.
 
 ## Accessibility evidence and Welsh-language support
 
