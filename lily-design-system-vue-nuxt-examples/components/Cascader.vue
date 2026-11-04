@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { shallowRef, toRef } from "vue";
+import { onBeforeUnmount, onMounted, shallowRef, toRef } from "vue";
+import { attachTreePopup, type TreeSelection } from "./widget-keys";
 import { usePopoverState } from "./popover";
 // Cascader component
 //
@@ -59,16 +60,29 @@ const props = withDefaults(
     },
 );
 
-defineEmits<{
+const emit = defineEmits<{
     (e: "click", event: MouseEvent): void;
+    (e: "update:expanded", open: boolean): void;
+    (e: "select", selection: TreeSelection): void;
 }>();
 const panelEl = shallowRef<HTMLElement | null>(null);
 usePopoverState(panelEl, toRef(props, "expanded"));
+const rootEl = shallowRef<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachTreePopup(rootEl.value!, {
+        exclusive: true,
+        onOpen: (open) => emit("update:expanded", open),
+        onSelect: (selection) => emit("select", selection),
+    });
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
     <!-- Cascader.vue -->
     <div
+        ref="rootEl"
         class="cascader"
         role="combobox"
         aria-haspopup="tree"

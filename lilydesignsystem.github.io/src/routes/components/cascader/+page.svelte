@@ -90,10 +90,12 @@
     <h3>Keyboard</h3>
     <ul>
       <li>Tab: Focus the trigger</li>
-      <li>Enter / Space: Toggle the panel (consumer handler)</li>
-      <li>Arrow keys: Consumer-provided tree navigation</li>
-      <li>Escape: Consumer-provided close + restore focus</li>
+      <li>ArrowDown, or a click on the trigger: Opens the panel on the selected item, or the first</li>
+      <li>In the tree: ArrowDown and ArrowUp move between visible items and wrap; ArrowRight opens a branch, then moves to its first child; ArrowLeft closes a branch, then moves to its parent, swapped in right-to-left; Home and End jump; a typed letter jumps</li>
+      <li>Enter, Space: Toggle a branch, or choose a leaf</li>
+      <li>Escape: Closes the panel and returns to the trigger</li>
     </ul>
+    <p>Project a <code>role="tree"</code> into the panel. A single choice closes it; a multiple one (<code>multiple</code>) stays open and toggles <code>aria-selected</code>. With <code>exclusive</code> behaviour, opening a branch closes its siblings. From <code>shared/widget-keys.ts</code>, held to the <code>tree-popup</code> contract. An item's value is its <code>data-value</code>, else its own text; the choice reports its value, path and every selected value.</p>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (REQUIRED) -- aria-label</li>

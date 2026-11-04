@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { shallowRef, toRef } from "vue";
+import { onBeforeUnmount, onMounted, shallowRef, toRef } from "vue";
+import { attachMentions } from "./widget-keys";
 import { usePopoverState } from "./popover";
 // MentionsInput component
 //
@@ -70,16 +71,30 @@ const props = withDefaults(
 const field = ref<HTMLInputElement | null>(null);
 useFormResetToProp(field, () => props.value);
 
-defineEmits<{
+const emit = defineEmits<{
     (e: "input", event: Event): void;
+    (e: "update:expanded", open: boolean): void;
+    (e: "query", query: string): void;
+    (e: "select", value: string): void;
 }>();
 const panelEl = shallowRef<HTMLElement | null>(null);
 usePopoverState(panelEl, toRef(props, "expanded"));
+const rootEl = shallowRef<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachMentions(rootEl.value!, {
+        onOpen: (open) => emit("update:expanded", open),
+        onQuery: (query) => emit("query", query),
+        onSelect: (mention) => emit("select", mention),
+    });
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
     <!-- MentionsInput.vue -->
     <div
+        ref="rootEl"
         class="mentions-input"
         :data-trigger-char="triggerChar"
     >

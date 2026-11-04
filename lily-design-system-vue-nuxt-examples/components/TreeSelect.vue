@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { shallowRef, toRef } from "vue";
+import { onBeforeUnmount, onMounted, shallowRef, toRef } from "vue";
+import { attachTreePopup, type TreeSelection } from "./widget-keys";
 import { usePopoverState } from "./popover";
 // TreeSelect component
 //
@@ -64,18 +65,30 @@ const props = withDefaults(
     },
 );
 
-defineEmits<{
+const emit = defineEmits<{
     (e: "click", event: MouseEvent): void;
+    (e: "update:expanded", open: boolean): void;
+    (e: "select", selection: TreeSelection): void;
 }>();
 
 const dataMultiple = computed<boolean | undefined>(() => (props.multiple ? true : undefined));
 const panelEl = shallowRef<HTMLElement | null>(null);
 usePopoverState(panelEl, toRef(props, "expanded"));
+const rootEl = shallowRef<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachTreePopup(rootEl.value!, {
+        onOpen: (open) => emit("update:expanded", open),
+        onSelect: (selection) => emit("select", selection),
+    });
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
     <!-- TreeSelect.vue -->
     <div
+        ref="rootEl"
         class="tree-select"
         role="combobox"
         aria-haspopup="tree"

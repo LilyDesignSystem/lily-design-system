@@ -31,9 +31,12 @@
 ## Keyboard
 
 - Tab: Focus the trigger
-- Enter / Space: Toggle the panel (consumer handler)
-- Arrow keys: Consumer-supplied tree navigation
-- Escape: Consumer-supplied close + restore focus
+- ArrowDown, or a click on the trigger: Opens the panel on the selected item, or the first
+- In the tree: ArrowDown and ArrowUp move between visible items and wrap; ArrowRight opens a branch, then moves to its first child; ArrowLeft closes a branch, then moves to its parent, swapped in right-to-left; Home and End jump; a typed letter jumps
+- Enter, Space: Toggle a branch, or choose a leaf
+- Escape: Closes the panel and returns to the trigger
+
+Project a `role="tree"` into the panel. A single choice closes it; a multiple one (`multiple`) stays open and toggles `aria-selected`. From `shared/widget-keys.ts`, held to the `tree-popup` contract. An item's value is its `data-value`, else its own text; the choice reports its value, path and every selected value.
 
 ## Props
 

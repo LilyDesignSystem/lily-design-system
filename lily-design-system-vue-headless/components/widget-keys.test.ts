@@ -2,7 +2,14 @@
 // What the toolbar and radio-group contracts do not reach: the module's edges.
 import { afterEach, expect, test, vi } from "vitest";
 
-import { attachRadioGroup, attachSplitter, attachSplitView, attachToolbar } from "./widget-keys";
+import {
+    attachMentions,
+    attachRadioGroup,
+    attachSplitter,
+    attachSplitView,
+    attachToolbar,
+    attachTreePopup,
+} from "./widget-keys";
 
 function mount(html: string): HTMLElement {
     document.body.innerHTML = html;
@@ -191,4 +198,136 @@ test("a split view keeps data-split-percent, and one with no separator is left a
     expect(root.getAttribute("data-split-percent")).toBe("51");
     detach();
     expect(() => attachSplitView(mount("<div></div>"))()).not.toThrow();
+});
+
+const POPUP = (attrs = "", tree = "") => `<div class="tree-select" aria-expanded="false" ${attrs}>
+  <button class="tree-select-trigger" type="button">Pick</button>
+  <div class="tree-select-panel" hidden>${
+      tree ||
+      `<ul role="tree"><li role="treeitem" aria-expanded="false">Fruit<ul role="group"><li role="treeitem" data-value="a">Apple</li></ul></li><li role="treeitem" aria-expanded="false">Veg<ul role="group"><li role="treeitem">Leek</li></ul></li><li role="treeitem">Tea</li></ul>`
+  }</div>
+</div>`;
+const item = (root: HTMLElement, text: string): HTMLElement =>
+    [...root.querySelectorAll<HTMLElement>('[role="treeitem"]')].find(
+        (el) => el.firstChild?.textContent?.trim() === text,
+    )!;
+
+test("a chosen leaf reports its value, path and selection, and dispatches an event", () => {
+    const root = mount(POPUP());
+    const onSelect = vi.fn();
+    const heard = vi.fn();
+    root.addEventListener("tree-select-select", (e) => heard((e as CustomEvent).detail.value));
+    const detach = attachTreePopup(root, { onSelect });
+    root.querySelector("button")!.click();
+    press(item(root, "Fruit"), "ArrowRight");
+    press(item(root, "Apple"), "Enter");
+    expect(onSelect).toHaveBeenCalledWith({ value: "a", path: ["Fruit", "a"], selected: ["a"] });
+    expect(heard).toHaveBeenCalledWith("a");
+    detach();
+});
+
+test("exclusive closes a branch's siblings, and without it they stay open", () => {
+    for (const exclusive of [true, false]) {
+        const root = mount(POPUP());
+        const detach = attachTreePopup(root, { exclusive });
+        root.querySelector("button")!.click();
+        press(item(root, "Fruit"), "ArrowRight");
+        press(item(root, "Veg"), "ArrowRight");
+        expect(item(root, "Veg").getAttribute("aria-expanded")).toBe("true");
+        expect(item(root, "Fruit").getAttribute("aria-expanded")).toBe(String(!exclusive));
+        detach();
+    }
+});
+
+test("multiple stays open, toggles, and marks the tree", () => {
+    const root = mount(POPUP('data-multiple="true"'));
+    const onSelect = vi.fn();
+    const detach = attachTreePopup(root, { onSelect });
+    root.querySelector("button")!.click();
+    expect(root.querySelector('[role="tree"]')!.getAttribute("aria-multiselectable")).toBe("true");
+    press(item(root, "Tea"), " ");
+    expect(root.getAttribute("aria-expanded")).toBe("true");
+    expect(onSelect).toHaveBeenLastCalledWith({ value: "Tea", path: ["Tea"], selected: ["Tea"] });
+    press(item(root, "Tea"), " ");
+    expect(item(root, "Tea").getAttribute("aria-selected")).toBe("false");
+    detach();
+});
+
+test("a click toggles a branch and chooses a leaf; a disabled trigger stays shut", () => {
+    const root = mount(POPUP());
+    const detach = attachTreePopup(root);
+    root.querySelector("button")!.click();
+    item(root, "Fruit").click();
+    expect(item(root, "Fruit").getAttribute("aria-expanded")).toBe("true");
+    item(root, "Tea").click();
+    expect(root.getAttribute("aria-expanded")).toBe("false");
+    detach();
+    const off = mount(POPUP());
+    off.querySelector("button")!.disabled = true;
+    const detachOff = attachTreePopup(off);
+    off.querySelector("button")!.click();
+    expect(off.getAttribute("aria-expanded")).toBe("false");
+    detachOff();
+});
+
+test("right-to-left swaps the tree's arrows, and leaving closes it", () => {
+    const root = mount(POPUP('style="direction: rtl"'));
+    const onOpen = vi.fn();
+    const detach = attachTreePopup(root, { onOpen });
+    root.querySelector("button")!.click();
+    press(item(root, "Fruit"), "ArrowLeft");
+    expect(item(root, "Fruit").getAttribute("aria-expanded")).toBe("true");
+    const outside = document.createElement("button");
+    document.body.append(outside);
+    item(root, "Fruit").dispatchEvent(new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }));
+    expect(onOpen).toHaveBeenLastCalledWith(false);
+    detach();
+});
+
+const MENTIONS = (attrs = "", type = "text") =>
+    `<div class="mentions-input" ${attrs}><input type="${type}" role="combobox" aria-expanded="false" aria-controls="m" /><div id="m" hidden><div role="option">Ann</div><div role="option" data-value="bo">Bob</div></div></div>`;
+const type = (input: HTMLInputElement, text: string, caret = text.length): void => {
+    input.value = text;
+    input.setSelectionRange(caret, caret);
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+};
+
+test("a mention goes at the caret, and what follows it stays", () => {
+    const root = mount(MENTIONS());
+    const onSelect = vi.fn();
+    const detach = attachMentions(root, { onSelect });
+    const input = root.querySelector("input")!;
+    type(input, "hi @ there", 4);
+    press(input, "ArrowDown");
+    press(input, "ArrowDown");
+    press(input, "Enter");
+    expect(input.value).toBe("hi @bo  there");
+    expect(onSelect).toHaveBeenCalledWith("bo");
+    expect(input.selectionStart).toBe(7);
+    detach();
+});
+
+test("the trigger character is the consumer's, and the query is reported", () => {
+    const root = mount(MENTIONS('data-trigger-char="#"'));
+    const onQuery = vi.fn();
+    const detach = attachMentions(root, { onQuery });
+    const input = root.querySelector("input")!;
+    type(input, "@a");
+    expect(input.getAttribute("aria-expanded")).toBe("false");
+    type(input, "#an");
+    expect(input.getAttribute("aria-expanded")).toBe("true");
+    expect(onQuery).toHaveBeenCalledWith("an");
+    detach();
+});
+
+test("a key during IME composition is the IME's, and blur closes", () => {
+    const root = mount(MENTIONS());
+    const onOpen = vi.fn();
+    const detach = attachMentions(root, { onOpen });
+    const input = root.querySelector("input")!;
+    type(input, "@");
+    expect(press(input, "ArrowDown", { isComposing: true }).defaultPrevented).toBe(false);
+    input.dispatchEvent(new FocusEvent("blur"));
+    expect(onOpen).toHaveBeenLastCalledWith(false);
+    detach();
 });

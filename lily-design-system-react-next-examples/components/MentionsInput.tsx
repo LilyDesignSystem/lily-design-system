@@ -36,6 +36,7 @@
 //   - Ant Design Mentions: https://ant.design/components/mentions
 
 import React, { useId } from "react";
+import { attachMentions } from "./widget-keys";
 import { usePopoverState } from "./Popover";
 
 export interface MentionsInputProps {
@@ -48,6 +49,12 @@ export interface MentionsInputProps {
     triggerChar?: string;
     /** Whether the suggestions panel is open */
     expanded?: boolean;
+    /** Called when the list opens or closes. */
+    onExpandedChange?: (open: boolean) => void;
+    /** Called with the text after the trigger character. */
+    onQuery?: (query: string) => void;
+    /** Called with the mention written. */
+    onSelect?: (value: string) => void;
     /** Placeholder text */
     placeholder?: string;
     /** Whether the input is disabled */
@@ -65,6 +72,9 @@ export default function MentionsInput({
     value = "",
     triggerChar = "@",
     expanded = false,
+    onExpandedChange = undefined,
+    onQuery = undefined,
+    onSelect = undefined,
     placeholder = undefined,
     disabled = false,
     onInput = undefined,
@@ -74,8 +84,22 @@ export default function MentionsInput({
     const panelRef = React.useRef<HTMLDivElement>(null);
     usePopoverState(panelRef, expanded);
     const suggestionsId = `${useId()}-suggestions`;
+    const rootRef = React.useRef<HTMLDivElement>(null);
+    const latest = React.useRef({ onExpandedChange, onQuery, onSelect });
+    latest.current = { onExpandedChange, onQuery, onSelect };
+    React.useEffect(
+        () =>
+            attachMentions(rootRef.current!, {
+                onOpen: (open) => latest.current.onExpandedChange?.(open),
+                onQuery: (query) => latest.current.onQuery?.(query),
+                onSelect: (mention) => latest.current.onSelect?.(mention),
+            }),
+        [],
+    );
+
     return (
         <div
+            ref={rootRef}
             className={`mentions-input ${className}`}
             data-trigger-char={triggerChar}
             {...restProps}

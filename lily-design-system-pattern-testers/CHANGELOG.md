@@ -2,7 +2,7 @@
 
 ## 0.1.0 — unreleased
 
-- `splitter`.
+- `splitter`, `tree-popup` and `mentions`.
 - `toolbar`, `action-group` and `radio-group`.
 - `command`: the command palette's keys.
 - `grid-actions`: sorting, editing and selecting by key.

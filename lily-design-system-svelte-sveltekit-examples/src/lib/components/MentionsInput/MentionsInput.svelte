@@ -39,6 +39,7 @@
     //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
     import type { Snippet } from "svelte";
+    import { attachMentions } from "../widget-keys";
 
     import { popoverState } from "../Popover/popover.js";
 
@@ -47,7 +48,9 @@
         label,
         value = "",
         triggerChar = "@",
-        expanded = false,
+        expanded = $bindable(false),
+        onQuery = undefined,
+        onSelect = undefined,
         placeholder = undefined,
         disabled = false,
         oninput = undefined,
@@ -64,6 +67,10 @@
         triggerChar?: string;
         /** Whether the suggestions panel is open */
         expanded?: boolean;
+        /** Called with the text after the trigger character */
+        onQuery?: (query: string) => void;
+        /** Called with the mention written */
+        onSelect?: (value: string) => void;
         /** Placeholder text */
         placeholder?: string;
         /** Whether the input is disabled */
@@ -77,10 +84,23 @@
 
     const uid = $props.id();
     const suggestionsId = `${uid}-suggestions`;
+
+    let rootEl = $state<HTMLElement>();
+
+    $effect(() =>
+        rootEl
+            ? attachMentions(rootEl, {
+                  onOpen: (open) => (expanded = open),
+                  onQuery: (query) => onQuery?.(query),
+                  onSelect: (mention) => onSelect?.(mention),
+              })
+            : undefined,
+    );
 </script>
 
 <!-- MentionsInput.svelte -->
 <div
+    bind:this={rootEl}
     class={`mentions-input ${className}`}
     data-trigger-char={triggerChar}
     {...restProps}

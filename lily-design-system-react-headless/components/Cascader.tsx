@@ -44,6 +44,7 @@
 //   - Ant Design Cascader: https://ant.design/components/cascader
 
 import React from "react";
+import { attachTreePopup, type TreeSelection } from "./widget-keys";
 import { usePopoverState } from "./Popover";
 
 export interface CascaderProps {
@@ -52,6 +53,10 @@ export interface CascaderProps {
     label: string;
     /** Whether the panel is open */
     expanded?: boolean;
+    /** Called when the keys or the trigger open or close it. */
+    onExpandedChange?: (open: boolean) => void;
+    /** Called with the chosen item, its path and every selected value. */
+    onSelect?: (selection: TreeSelection) => void;
     /** Whether the trigger is disabled */
     disabled?: boolean;
     /** Placeholder shown on the trigger when no value */
@@ -69,6 +74,8 @@ export default function Cascader({
     className = "",
     label,
     expanded = false,
+    onExpandedChange = undefined,
+    onSelect = undefined,
     disabled = false,
     placeholder = undefined,
     value = undefined,
@@ -78,8 +85,22 @@ export default function Cascader({
 }: CascaderProps) {
     const panelRef = React.useRef<HTMLDivElement>(null);
     usePopoverState(panelRef, expanded);
+    const rootRef = React.useRef<HTMLDivElement>(null);
+    const latest = React.useRef({ onExpandedChange, onSelect });
+    latest.current = { onExpandedChange, onSelect };
+    React.useEffect(
+        () =>
+            attachTreePopup(rootRef.current!, {
+                exclusive: true,
+                onOpen: (open) => latest.current.onExpandedChange?.(open),
+                onSelect: (selection) => latest.current.onSelect?.(selection),
+            }),
+        [],
+    );
+
     return (
         <div
+            ref={rootRef}
             className={`cascader ${className}`}
             role="combobox"
             aria-haspopup="tree"

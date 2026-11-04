@@ -25,6 +25,7 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 //   - Ant Design Mentions: https://ant.design/components/mentions
 
+import { attachMentions } from "../lib/widget-keys.js";
 import { applySelfClassName, moveChildrenInto, nextId } from "../lib/dom-utils.js";
 import { syncManualPopover } from "./popover.js";
 
@@ -58,6 +59,7 @@ export class MentionsInput extends HTMLElement {
         this.appendChild(suggestions);
         this.#input = input;
         this.#suggestions = suggestions;
+        attachMentions(this, { onOpen: (open) => this.toggleAttribute("expanded", open) });
         this.#sync();
     }
 

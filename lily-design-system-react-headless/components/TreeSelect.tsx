@@ -36,6 +36,7 @@
 //   - Ant Design TreeSelect: https://ant.design/components/tree-select
 
 import React from "react";
+import { attachTreePopup, type TreeSelection } from "./widget-keys";
 import { usePopoverState } from "./Popover";
 
 export interface TreeSelectProps {
@@ -44,6 +45,10 @@ export interface TreeSelectProps {
     label: string;
     /** Whether the tree panel is open */
     expanded?: boolean;
+    /** Called when the keys or the trigger open or close it. */
+    onExpandedChange?: (open: boolean) => void;
+    /** Called with the chosen item, its path and every selected value. */
+    onSelect?: (selection: TreeSelection) => void;
     /** Whether the trigger is disabled */
     disabled?: boolean;
     /** Whether multiple selection is allowed */
@@ -63,6 +68,8 @@ export default function TreeSelect({
     className = "",
     label,
     expanded = false,
+    onExpandedChange = undefined,
+    onSelect = undefined,
     disabled = false,
     multiple = false,
     placeholder = undefined,
@@ -73,8 +80,21 @@ export default function TreeSelect({
 }: TreeSelectProps) {
     const panelRef = React.useRef<HTMLDivElement>(null);
     usePopoverState(panelRef, expanded);
+    const rootRef = React.useRef<HTMLDivElement>(null);
+    const latest = React.useRef({ onExpandedChange, onSelect });
+    latest.current = { onExpandedChange, onSelect };
+    React.useEffect(
+        () =>
+            attachTreePopup(rootRef.current!, {
+                onOpen: (open) => latest.current.onExpandedChange?.(open),
+                onSelect: (selection) => latest.current.onSelect?.(selection),
+            }),
+        [],
+    );
+
     return (
         <div
+            ref={rootRef}
             className={`tree-select ${className}`}
             role="combobox"
             aria-haspopup="tree"

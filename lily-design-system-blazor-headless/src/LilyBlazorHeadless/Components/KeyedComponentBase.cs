@@ -40,6 +40,14 @@ public abstract class KeyedComponentBase : ComponentBase, IAsyncDisposable
     [JSInvokable]
     public virtual Task OnKeyedChange(double value) => Task.CompletedTask;
 
+    /// <summary>The keys opened or closed a popup.</summary>
+    [JSInvokable]
+    public virtual Task OnKeyedOpen(bool open) => Task.CompletedTask;
+
+    /// <summary>The keys chose an item: its value, its path, and every selected value.</summary>
+    [JSInvokable]
+    public virtual Task OnKeyedSelect(string value, string[] path, string[] selected) => Task.CompletedTask;
+
     public async ValueTask DisposeAsync()
     {
         try
@@ -56,3 +64,6 @@ public abstract class KeyedComponentBase : ComponentBase, IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 }
+
+/// <summary>A choice in a Cascader or TreeSelect.</summary>
+public sealed record TreeSelection(string Value, string[] Path, string[] Selected);

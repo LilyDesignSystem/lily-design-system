@@ -1481,7 +1481,8 @@
       "description": "A multi-level dropdown for selecting a value from a hierarchy.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/popover"
+        "@lily/popover",
+        "@lily/widget-keys-utils"
       ],
       "categories": [
         "content"
@@ -6144,7 +6145,8 @@
       "description": "A text input with at-mention autocomplete suggestions.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/popover"
+        "@lily/popover",
+        "@lily/widget-keys-utils"
       ],
       "categories": [
         "content"
@@ -10501,7 +10503,8 @@
       "description": "A select dropdown showing a tree of hierarchical options.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/popover"
+        "@lily/popover",
+        "@lily/widget-keys-utils"
       ],
       "categories": [
         "content"

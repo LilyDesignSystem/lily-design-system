@@ -32,6 +32,7 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 //   - WAI-ARIA Tree Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 
+import { attachTreePopup } from "../lib/widget-keys.js";
 import { applySelfClassName, moveChildrenInto } from "../lib/dom-utils.js";
 import { syncManualPopover } from "./popover.js";
 
@@ -66,23 +67,11 @@ export class TreeSelect extends HTMLElement {
         this.setAttribute("aria-expanded", initiallyExpanded ? "true" : "false");
         syncManualPopover(panel, initiallyExpanded);
 
-        trigger.addEventListener("click", () => {
-            if (trigger.disabled) return;
-            this.expanded = this.getAttribute("aria-expanded") !== "true";
-        });
-
-        this.addEventListener("keydown", (event: Event) => {
-            const keyboardEvent = event as KeyboardEvent;
-            if (keyboardEvent.key === "Escape" && this.getAttribute("aria-expanded") === "true") {
-                this.expanded = false;
-                trigger.focus();
-            }
-        });
-
         this.appendChild(trigger);
         this.appendChild(panel);
         this.#trigger = trigger;
         this.#panel = panel;
+        attachTreePopup(this, { onOpen: (open) => this.#announce(open) });
     }
 
     get expanded(): boolean {
@@ -91,9 +80,13 @@ export class TreeSelect extends HTMLElement {
 
     set expanded(value: boolean) {
         if (this.getAttribute("aria-expanded") === (value ? "true" : "false")) return;
-        this.toggleAttribute("expanded", value);
         this.setAttribute("aria-expanded", value ? "true" : "false");
         if (this.#panel) syncManualPopover(this.#panel, value);
+        this.#announce(value);
+    }
+
+    #announce(value: boolean): void {
+        this.toggleAttribute("expanded", value);
         this.dispatchEvent(
             new CustomEvent("lily-expanded-change", {
                 detail: { expanded: value },

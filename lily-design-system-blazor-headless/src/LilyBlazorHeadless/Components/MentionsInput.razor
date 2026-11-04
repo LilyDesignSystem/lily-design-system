@@ -1,15 +1,51 @@
 @namespace LilyBlazorHeadless.Components
+@inherits KeyedComponentBase
 
 @*
     MentionsInput component
-    a text input with at-mention autocomplete suggestions
+    an input where a trigger character opens the consumer's role="option"
+    elements. The keys are ActionBar.razor.js, generated from
+    shared/widget-keys.ts. Filtering is the consumer's, from OnQuery.
 *@
 
-<div class="@($"mentions-input {CssClass}".Trim())" role="combobox" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div @ref="Root" class="@($"mentions-input {CssClass}".Trim())" data-trigger-char="@TriggerChar" @attributes="AdditionalAttributes">
+    <input class="mentions-input-control" type="text" role="combobox" aria-label="@Label" aria-haspopup="listbox" aria-controls="@_listId" aria-expanded="@(Expanded ? "true" : "false")" aria-autocomplete="list" value="@Value" placeholder="@Placeholder" disabled="@Disabled" @oninput="HandleInput" />
+    <div class="mentions-input-suggestions" id="@_listId" hidden="@(!Expanded)">@ChildContent</div>
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>The text, bindable.</summary>
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public string TriggerChar { get; set; } = "@";
+    /// <summary>Whether the list is open, bindable.</summary>
+    [Parameter] public bool Expanded { get; set; }
+    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    /// <summary>The mention written.</summary>
+    [Parameter] public EventCallback<string> OnSelect { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _listId = $"mentions-input-suggestions-{Guid.NewGuid().ToString("N")[..8]}";
+
+    protected override string Kind => "mentions";
+
+    private async Task HandleInput(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString() ?? "";
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    public override async Task OnKeyedOpen(bool open)
+    {
+        Expanded = open;
+        await ExpandedChanged.InvokeAsync(open);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public override Task OnKeyedSelect(string value, string[] path, string[] selected) => OnSelect.InvokeAsync(value);
 }

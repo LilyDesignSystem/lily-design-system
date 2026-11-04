@@ -1,12 +1,16 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    DestroyRef,
     effect,
     ElementRef,
+    inject,
     input,
     model,
+    output,
     viewChild,
 } from "@angular/core";
+import { attachMentions } from "./widget-keys";
 import { syncPopover } from "./Popover";
 import { restoreOnFormReset } from "./form-reset";
 
@@ -47,6 +51,20 @@ let nextId = 0;
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MentionsInput {
+    private readonly keysHost = inject(ElementRef);
+    private readonly keysDestroy = inject(DestroyRef);
+
+    ngAfterViewInit(): void {
+        const root = this.keysHost.nativeElement.querySelector(".mentions-input");
+        this.keysDestroy.onDestroy(
+            attachMentions(root, {
+                onOpen: (open) => this.expanded.set(open),
+                onQuery: (query) => this.query.emit(query),
+                onSelect: (value) => this.mention.emit(value),
+            }),
+        );
+    }
+
     private readonly panel = viewChild<ElementRef<HTMLElement>>("panel");
 
     private readonly syncPanel = effect(() => {
@@ -60,7 +78,12 @@ export class MentionsInput {
     /** The character that opens the suggestions, published as data-trigger-char. */
     readonly triggerChar = input<string>("@");
     /** Whether the suggestions panel is open. */
-    readonly expanded = input<boolean>(false);
+    /** Whether the list is open. Two-way bindable. */
+    readonly expanded = model<boolean>(false);
+    /** The text after the trigger character. */
+    readonly query = output<string>();
+    /** The mention written. */
+    readonly mention = output<string>();
     readonly placeholder = input<string>("");
     readonly disabled = input<boolean>(false);
     /** Extra CSS classes appended to the base class. */

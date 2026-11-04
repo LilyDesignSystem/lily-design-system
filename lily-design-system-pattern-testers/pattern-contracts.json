@@ -1801,5 +1801,299 @@
         }
       }
     ]
+  },
+  "tree-popup": {
+    "source": "A trigger opening a WAI-ARIA tree (components/tree-select/AGENTS.md, components/cascader/AGENTS.md). The tester installs the fixture into an empty panel.",
+    "fixture": "<ul role=\"tree\" aria-label=\"Options\"><li role=\"treeitem\" aria-expanded=\"false\">Fruit<ul role=\"group\"><li role=\"treeitem\">Apple</li><li role=\"treeitem\">Pear</li></ul></li><li role=\"treeitem\">Tea</li><li role=\"treeitem\" aria-expanded=\"false\">Veg<ul role=\"group\"><li role=\"treeitem\">Leek</li></ul></li></ul>",
+    "steps": [
+      {
+        "name": "closed at rest",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "ArrowDown on the trigger opens on the first item",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "focus": "Fruit"
+        }
+      },
+      {
+        "name": "ArrowDown skips a collapsed branch's children",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "focus": "Tea"
+        }
+      },
+      {
+        "name": "ArrowUp moves back",
+        "press": "ArrowUp",
+        "expect": {
+          "expanded": true,
+          "focus": "Fruit"
+        }
+      },
+      {
+        "name": "ArrowRight opens the branch",
+        "press": "ArrowRight",
+        "expect": {
+          "expanded": true,
+          "focus": "Fruit",
+          "branch": "true"
+        }
+      },
+      {
+        "name": "ArrowRight moves to its first child",
+        "press": "ArrowRight",
+        "expect": {
+          "expanded": true,
+          "focus": "Apple"
+        }
+      },
+      {
+        "name": "ArrowDown moves to the next child",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "focus": "Pear"
+        }
+      },
+      {
+        "name": "ArrowLeft moves to the parent",
+        "press": "ArrowLeft",
+        "expect": {
+          "expanded": true,
+          "focus": "Fruit"
+        }
+      },
+      {
+        "name": "ArrowLeft closes the branch",
+        "press": "ArrowLeft",
+        "expect": {
+          "expanded": true,
+          "focus": "Fruit",
+          "branch": "false"
+        }
+      },
+      {
+        "name": "End jumps to the last visible item",
+        "press": "End",
+        "expect": {
+          "expanded": true,
+          "focus": "Veg"
+        }
+      },
+      {
+        "name": "Home jumps to the first",
+        "press": "Home",
+        "expect": {
+          "expanded": true,
+          "focus": "Fruit"
+        }
+      },
+      {
+        "name": "a typed letter jumps",
+        "press": "t",
+        "expect": {
+          "expanded": true,
+          "focus": "Tea"
+        }
+      },
+      {
+        "name": "Enter on a leaf chooses it, closes and returns to the trigger",
+        "press": "Enter",
+        "expect": {
+          "expanded": false,
+          "focus": "trigger",
+          "selected": "Tea",
+          "prevented": true
+        }
+      },
+      {
+        "name": "a click on the trigger opens on the selected item",
+        "click": true,
+        "expect": {
+          "expanded": true,
+          "focus": "Tea"
+        }
+      },
+      {
+        "name": "Escape closes and returns to the trigger",
+        "press": "Escape",
+        "expect": {
+          "expanded": false,
+          "focus": "trigger",
+          "prevented": true
+        }
+      }
+    ]
+  },
+  "mentions": {
+    "source": "A trigger character opening a list while the input keeps focus (components/mentions-input/AGENTS.md). Filtering is the consumer's. The tester installs the options into an empty panel.",
+    "fixture": {
+      "options": [
+        "Apple",
+        "Banana",
+        "Cherry"
+      ]
+    },
+    "steps": [
+      {
+        "name": "closed at rest",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "Escape while closed is left alone",
+        "press": "Escape",
+        "expect": {
+          "expanded": false,
+          "prevented": false
+        }
+      },
+      {
+        "name": "ArrowDown while closed is left alone",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": false,
+          "prevented": false
+        }
+      },
+      {
+        "name": "text with no trigger stays closed",
+        "type": "hi",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "an email address does not open it",
+        "type": "a@b",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "text with no spaces before the trigger opens it",
+        "type": "你好@",
+        "expect": {
+          "expanded": true
+        }
+      },
+      {
+        "name": "a space after the trigger closes it",
+        "type": "hi @ ",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "the trigger opens it, with nothing highlighted",
+        "type": "hi @",
+        "expect": {
+          "expanded": true
+        }
+      },
+      {
+        "name": "Enter with nothing highlighted is left alone",
+        "press": "Enter",
+        "expect": {
+          "expanded": true,
+          "prevented": false
+        }
+      },
+      {
+        "name": "ArrowDown highlights the first option",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "active": 0,
+          "prevented": true
+        }
+      },
+      {
+        "name": "ArrowDown moves on",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "active": 1
+        }
+      },
+      {
+        "name": "ArrowUp moves back",
+        "press": "ArrowUp",
+        "expect": {
+          "expanded": true,
+          "active": 0
+        }
+      },
+      {
+        "name": "ArrowUp wraps to the last",
+        "press": "ArrowUp",
+        "expect": {
+          "expanded": true,
+          "active": "last"
+        }
+      },
+      {
+        "name": "ArrowDown wraps to the first",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "active": 0
+        }
+      },
+      {
+        "name": "ArrowUp wraps to the last again",
+        "press": "ArrowUp",
+        "expect": {
+          "expanded": true,
+          "active": "last"
+        }
+      },
+      {
+        "name": "Enter writes the mention and closes",
+        "press": "Enter",
+        "expect": {
+          "expanded": false,
+          "value": "hi @Cherry ",
+          "prevented": true
+        }
+      },
+      {
+        "name": "typing the trigger again opens it",
+        "type": "hi @",
+        "expect": {
+          "expanded": true
+        }
+      },
+      {
+        "name": "Escape closes it",
+        "press": "Escape",
+        "expect": {
+          "expanded": false,
+          "prevented": true
+        }
+      },
+      {
+        "name": "it opens once more",
+        "type": "hi @",
+        "expect": {
+          "expanded": true
+        }
+      },
+      {
+        "name": "a click writes the mention and closes",
+        "click": 1,
+        "expect": {
+          "expanded": false,
+          "value": "hi @Banana "
+        }
+      }
+    ]
   }
 }

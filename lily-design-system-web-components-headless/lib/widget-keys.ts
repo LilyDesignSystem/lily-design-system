@@ -15,6 +15,19 @@
 // collapses to the minimum and restores. Each change sets --splitter-position, reports to onChange, and dispatches a
 // bubbling "splitter-change" with detail.value. attachSplitView finds the separator and keeps data-split-percent.
 //
+// attachTreePopup: a trigger button opening a role="tree" the consumer supplies (cascader, tree-select). ArrowDown or a
+// click on the trigger opens it, on the selected item or the first; the tree's arrows, Home, End and type-ahead work
+// as a tree's do; Enter, Space or a click toggles a branch and chooses a leaf; a single choice closes it, and a multiple
+// one (data-multiple) stays open and toggles aria-selected; Escape closes it and returns to the trigger, and focus
+// leaving closes it. With `exclusive`, a cascader, opening a branch closes its siblings. An item's value is its
+// data-value, else its own text. A choice reports to onSelect and dispatches a bubbling "{class}-select".
+//
+// attachMentions: an input where a trigger character (data-trigger-char, default "@") before the caret opens a list of
+// the consumer's role="option" elements; the text after it is the query, reported to onQuery. The input keeps focus,
+// ArrowDown and ArrowUp move and wrap, Enter or a click writes the mention, Escape closes, blur closes. Filtering is
+// the consumer's. The character opens after anything but a Latin letter or digit: so an email address does not, and
+// text written without spaces, such as Chinese or Japanese, does. A key during IME composition is the IME's.
+//
 // bin/sync-shared-modules strips the types for Nunjucks and Blazor and inlines the result in the HTML snippets. Edit it
 // here. The contracts in pattern-contracts.json hold every port to it.
 
@@ -201,11 +214,344 @@ export function attachSplitView(root: HTMLElement, options: SplitterOptions = {}
     });
 }
 
+/** Show or hide a panel by the Popover API, or `hidden` where it is gone. */
+function showPanel(panel: HTMLElement, open: boolean): void {
+    if (panel.hasAttribute("popover") && typeof panel.showPopover === "function") {
+        try {
+            if (open) panel.showPopover();
+            else panel.hidePopover();
+        } catch {
+            // Already in that state.
+        }
+    } else panel.hidden = !open;
+}
+
+/** The next name that starts with the typed letter, cycling. */
+function typeahead(items: HTMLElement[], from: number, event: KeyboardEvent, name: (el: HTMLElement) => string) {
+    if (event.key.length !== 1 || event.key === " " || event.isComposing) return undefined;
+    if (event.ctrlKey || event.metaKey || event.altKey) return undefined;
+    const letter = event.key.toLocaleLowerCase();
+    return [...items.slice(from + 1), ...items.slice(0, from + 1)].find((el) =>
+        name(el).toLocaleLowerCase().startsWith(letter),
+    );
+}
+
+export interface TreeSelection {
+    /** The item chosen, or last toggled. */
+    value: string;
+    /** Its ancestors' values, then its own. */
+    path: string[];
+    /** Every selected value. */
+    selected: string[];
+}
+
+export interface TreePopupOptions {
+    /** Opening a branch closes its siblings: a cascader. */
+    exclusive?: boolean;
+    onOpen?: (open: boolean) => void;
+    onSelect?: (selection: TreeSelection) => void;
+}
+
+const TREE_ITEM = '[role="treeitem"]';
+
+export function attachTreePopup(root: HTMLElement, options: TreePopupOptions = {}): () => void {
+    const hook = root.classList[0];
+    const trigger = root.querySelector<HTMLButtonElement>(`.${hook}-trigger`);
+    const panel = root.querySelector<HTMLElement>(`.${hook}-panel`);
+    if (!trigger || !panel) return () => {};
+
+    const items = (): HTMLElement[] => [...panel.querySelectorAll<HTMLElement>(TREE_ITEM)];
+    const parentOf = (item: HTMLElement): HTMLElement | null =>
+        item.parentElement?.closest<HTMLElement>(TREE_ITEM) ?? null;
+    const visible = (): HTMLElement[] =>
+        items().filter((item) => {
+            for (let p = parentOf(item); p; p = parentOf(p))
+                if (p.getAttribute("aria-expanded") === "false") return false;
+            return true;
+        });
+    const ownText = (item: HTMLElement): string =>
+        [...item.childNodes]
+            .filter((n) => !(n instanceof Element && n.getAttribute("role") === "group"))
+            .map((n) => n.textContent ?? "")
+            .join("")
+            .trim();
+    const valueOf = (item: HTMLElement): string => item.dataset.value ?? ownText(item);
+    const multiple = (): boolean => root.hasAttribute("data-multiple");
+    const isOpen = (): boolean => root.getAttribute("aria-expanded") === "true";
+
+    function setExpanded(item: HTMLElement, open: boolean): void {
+        item.setAttribute("aria-expanded", String(open));
+        for (const group of item.querySelectorAll<HTMLElement>(':scope > [role="group"]'))
+            group.hidden = !open;
+        if (open && options.exclusive) {
+            const parent = parentOf(item);
+            for (const other of items())
+                if (other !== item && parentOf(other) === parent && other.hasAttribute("aria-expanded"))
+                    setExpanded(other, false);
+        }
+    }
+    function focusItem(item: HTMLElement | undefined): void {
+        if (!item) return;
+        for (const el of items()) el.tabIndex = el === item ? 0 : -1;
+        item.focus();
+    }
+    function setOpen(open: boolean): void {
+        if (open === isOpen()) return;
+        root.setAttribute("aria-expanded", String(open));
+        showPanel(panel as HTMLElement, open);
+        options.onOpen?.(open);
+    }
+    function open(): void {
+        for (const item of items())
+            for (const group of item.querySelectorAll<HTMLElement>(':scope > [role="group"]'))
+                group.hidden = item.getAttribute("aria-expanded") === "false";
+        const tree = panel?.querySelector('[role="tree"]');
+        if (tree && multiple()) tree.setAttribute("aria-multiselectable", "true");
+        setOpen(true);
+        const shown = visible();
+        focusItem(shown.find((el) => el.getAttribute("aria-selected") === "true") ?? shown[0]);
+    }
+    function close(): void {
+        setOpen(false);
+        (trigger as HTMLElement).focus();
+    }
+    function choose(item: HTMLElement): void {
+        const on = multiple() ? item.getAttribute("aria-selected") !== "true" : true;
+        if (!multiple()) for (const el of items()) el.removeAttribute("aria-selected");
+        item.setAttribute("aria-selected", String(on));
+        const path: string[] = [];
+        for (let el: HTMLElement | null = item; el; el = parentOf(el)) path.unshift(valueOf(el));
+        const detail = {
+            value: valueOf(item),
+            path,
+            selected: items()
+                .filter((el) => el.getAttribute("aria-selected") === "true")
+                .map(valueOf),
+        };
+        options.onSelect?.(detail);
+        root.dispatchEvent(new CustomEvent(`${hook}-select`, { bubbles: true, detail }));
+        if (!multiple()) close();
+    }
+    function activate(item: HTMLElement): void {
+        if (item.hasAttribute("aria-expanded"))
+            setExpanded(item, item.getAttribute("aria-expanded") !== "true");
+        else choose(item);
+    }
+
+    function onTriggerClick(): void {
+        if ((trigger as HTMLButtonElement).disabled) return;
+        if (isOpen()) setOpen(false);
+        else open();
+    }
+    function onTriggerKeydown(event: KeyboardEvent): void {
+        if (event.key === "ArrowDown" && !isOpen() && !(trigger as HTMLButtonElement).disabled) {
+            event.preventDefault();
+            open();
+        }
+    }
+    function onRootKeydown(event: KeyboardEvent): void {
+        if (event.key === "Escape" && isOpen() && !event.defaultPrevented) {
+            event.preventDefault();
+            setOpen(false);
+            (trigger as HTMLElement).focus();
+        }
+    }
+    function onPanelKeydown(event: KeyboardEvent): void {
+        if (event.isComposing) return;
+        const item = (event.target as Element).closest<HTMLElement>(TREE_ITEM);
+        if (!item) return;
+        const shown = visible();
+        const index = shown.indexOf(item);
+        const rtl = isRtl(item);
+        const go = (to: HTMLElement | null | undefined): void => {
+            if (!to) return;
+            event.preventDefault();
+            focusItem(to);
+        };
+        const expanded = item.getAttribute("aria-expanded");
+        switch (event.key) {
+            case "ArrowDown":
+                return go(shown[(index + 1) % shown.length]);
+            case "ArrowUp":
+                return go(shown[index > 0 ? index - 1 : shown.length - 1]);
+            case "Home":
+                return go(shown[0]);
+            case "End":
+                return go(shown[shown.length - 1]);
+            case "Enter":
+            case " ":
+                event.preventDefault();
+                return activate(item);
+            case "Escape":
+                event.preventDefault();
+                return close();
+            case "ArrowRight":
+            case "ArrowLeft":
+                if ((event.key === "ArrowRight") !== rtl) {
+                    if (expanded === "false") {
+                        event.preventDefault();
+                        setExpanded(item, true);
+                    } else if (expanded === "true") go(item.querySelector<HTMLElement>(TREE_ITEM));
+                } else if (expanded === "true") {
+                    event.preventDefault();
+                    setExpanded(item, false);
+                } else go(parentOf(item));
+                return;
+        }
+        go(typeahead(shown, index, event, ownText));
+    }
+    function onPanelClick(event: Event): void {
+        const item = (event.target as Element).closest<HTMLElement>(TREE_ITEM);
+        if (item) activate(item);
+    }
+    function onFocusout(event: FocusEvent): void {
+        if (isOpen() && event.relatedTarget && !root.contains(event.relatedTarget as Node))
+            setOpen(false);
+    }
+
+    trigger.addEventListener("click", onTriggerClick);
+    trigger.addEventListener("keydown", onTriggerKeydown);
+    panel.addEventListener("keydown", onPanelKeydown);
+    panel.addEventListener("click", onPanelClick);
+    root.addEventListener("keydown", onRootKeydown);
+    root.addEventListener("focusout", onFocusout);
+    return () => {
+        trigger.removeEventListener("click", onTriggerClick);
+        trigger.removeEventListener("keydown", onTriggerKeydown);
+        panel.removeEventListener("keydown", onPanelKeydown);
+        panel.removeEventListener("click", onPanelClick);
+        root.removeEventListener("keydown", onRootKeydown);
+        root.removeEventListener("focusout", onFocusout);
+    };
+}
+
+export interface MentionsOptions {
+    onOpen?: (open: boolean) => void;
+    /** The text after the trigger character, for the consumer to filter by. */
+    onQuery?: (query: string) => void;
+    /** A mention was written, with the option's data-value, else its text. */
+    onSelect?: (value: string) => void;
+}
+
+export function attachMentions(root: HTMLElement, options: MentionsOptions = {}): () => void {
+    const input = root.querySelector<HTMLInputElement>('input,textarea,[role="combobox"]');
+    const panel = input && root.ownerDocument.getElementById(input.getAttribute("aria-controls") ?? "");
+    if (!input || !panel) return () => {};
+    const trigger = (): string => root.dataset.triggerChar || "@";
+    const isOpen = (): boolean => input.getAttribute("aria-expanded") === "true";
+    const shown = (): HTMLElement[] =>
+        [...panel.querySelectorAll<HTMLElement>('[role="option"]')].filter(
+            (o) => !o.hidden && o.getAttribute("aria-disabled") !== "true",
+        );
+
+    function highlight(option: HTMLElement | null): void {
+        [...panel!.querySelectorAll<HTMLElement>('[role="option"]')].forEach((el, index) => {
+            if (el === option && !el.id) el.id = `${panel!.id}-option-${index}`;
+            el.setAttribute("aria-selected", String(el === option));
+            el.toggleAttribute("data-active", el === option);
+        });
+        if (option) {
+            input!.setAttribute("aria-activedescendant", option.id);
+            option.scrollIntoView?.({ block: "nearest" });
+        } else input!.removeAttribute("aria-activedescendant");
+    }
+    function setOpen(open: boolean): void {
+        if (!open) highlight(null);
+        if (open === isOpen()) return;
+        input!.setAttribute("aria-expanded", String(open));
+        showPanel(panel as HTMLElement, open);
+        options.onOpen?.(open);
+    }
+    /** Where the trigger character sits before the caret, and the query after it, or null. */
+    function mention(): { at: number; query: string } | null {
+        const before = input!.value.slice(0, input!.selectionStart ?? input!.value.length);
+        const at = before.lastIndexOf(trigger());
+        if (at < 0) return null;
+        const query = before.slice(at + trigger().length);
+        if (/\s/.test(query) || /[A-Za-z0-9._-]$/.test(before.slice(0, at))) return null;
+        return { at, query };
+    }
+    function write(option: HTMLElement): void {
+        const found = mention();
+        if (!found) return;
+        const value = option.dataset.value ?? (option.textContent ?? "").trim();
+        const end = found.at + trigger().length + found.query.length;
+        const text = input!.value;
+        const inserted = `${trigger()}${value} `;
+        // Through the prototype's setter and an input event, so a framework holding the value hears of it.
+        Object.getOwnPropertyDescriptor(Object.getPrototypeOf(input), "value")?.set?.call(
+            input,
+            text.slice(0, found.at) + inserted + text.slice(end),
+        );
+        const caret = found.at + inserted.length;
+        input!.setSelectionRange?.(caret, caret);
+        input!.dispatchEvent(new Event("input", { bubbles: true }));
+        options.onSelect?.(value);
+        root.dispatchEvent(
+            new CustomEvent("mentions-input-select", { bubbles: true, detail: { value } }),
+        );
+        setOpen(false);
+    }
+
+    function onInput(): void {
+        const found = mention();
+        highlight(null);
+        setOpen(found !== null);
+        if (found) options.onQuery?.(found.query);
+    }
+    function onKeydown(event: KeyboardEvent): void {
+        if (event.isComposing || !isOpen()) return;
+        const options_ = shown();
+        const id = input!.getAttribute("aria-activedescendant");
+        const index = id ? options_.findIndex((o) => o.id === id) : -1;
+        const move = (option: HTMLElement): void => {
+            event.preventDefault();
+            highlight(option);
+        };
+        if (event.key === "Escape") {
+            event.preventDefault();
+            setOpen(false);
+        } else if (options_.length === 0) return;
+        else if (event.key === "ArrowDown") move(options_[(index + 1) % options_.length]);
+        else if (event.key === "ArrowUp")
+            move(options_[index > 0 ? index - 1 : options_.length - 1]);
+        else if (event.key === "Enter" && index >= 0) {
+            event.preventDefault();
+            write(options_[index]);
+        }
+    }
+    function onBlur(): void {
+        setOpen(false);
+    }
+    function onMousedown(event: Event): void {
+        event.preventDefault();
+    }
+    function onClick(event: Event): void {
+        const option = (event.target as Element).closest<HTMLElement>('[role="option"]');
+        if (option && option.getAttribute("aria-disabled") !== "true") write(option);
+    }
+
+    input.addEventListener("input", onInput);
+    input.addEventListener("keydown", onKeydown);
+    input.addEventListener("blur", onBlur);
+    panel.addEventListener("mousedown", onMousedown);
+    panel.addEventListener("click", onClick);
+    return () => {
+        input.removeEventListener("input", onInput);
+        input.removeEventListener("keydown", onKeydown);
+        input.removeEventListener("blur", onBlur);
+        panel.removeEventListener("mousedown", onMousedown);
+        panel.removeEventListener("click", onClick);
+    };
+}
+
 const ATTACH: Record<string, (el: HTMLElement, options?: never) => () => void> = {
     toolbar: attachToolbar as never,
     "radio-group": attachRadioGroup as never,
     splitter: attachSplitter as never,
     "split-view": attachSplitView as never,
+    "tree-popup": attachTreePopup as never,
+    mentions: attachMentions as never,
 };
 
 interface DotNetHost {
@@ -219,8 +565,16 @@ export function attach(
     options?: object | null,
     dotnet?: DotNetHost,
 ): { dispose: () => void } {
-    const onChange = (value: unknown): void => {
-        void dotnet?.invokeMethodAsync("OnKeyedChange", value);
+    const call = (name: string, ...args: unknown[]): void => {
+        void dotnet?.invokeMethodAsync(name, ...args);
     };
-    return { dispose: ATTACH[kind](el, { ...options, onChange } as never) };
+    const host = {
+        onChange: (value: unknown) => call("OnKeyedChange", value),
+        onOpen: (open: boolean) => call("OnKeyedOpen", open),
+        onSelect: (selection: TreeSelection | string) =>
+            typeof selection === "string"
+                ? call("OnKeyedSelect", selection, [selection], [selection])
+                : call("OnKeyedSelect", selection.value, selection.path, selection.selected),
+    };
+    return { dispose: ATTACH[kind](el, { ...options, ...host } as never) };
 }

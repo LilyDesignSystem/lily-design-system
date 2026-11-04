@@ -27,6 +27,7 @@
 //   - components/cascader/index.md (canonical contract)
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
+import { attachTreePopup } from "../lib/widget-keys.js";
 import { applySelfClassName, nextId } from "../lib/dom-utils.js";
 import { syncManualPopover } from "./popover.js";
 
@@ -53,8 +54,6 @@ export class Cascader extends HTMLElement {
             const trigger = document.createElement("button");
             trigger.type = "button";
             trigger.className = "cascader-trigger";
-            trigger.addEventListener("click", this.#onTriggerClick);
-            trigger.addEventListener("keydown", this.#onTriggerKeydown);
 
             const panel = document.createElement("div");
             panel.className = "cascader-panel";
@@ -64,6 +63,10 @@ export class Cascader extends HTMLElement {
             this.appendChild(panel);
             this.#trigger = trigger;
             this.#panel = panel;
+            attachTreePopup(this, {
+                exclusive: true,
+                onOpen: (open) => this.toggleAttribute("expanded", open),
+            });
         }
         this.#sync();
     }
@@ -85,16 +88,4 @@ export class Cascader extends HTMLElement {
         this.#trigger.textContent =
             this.getAttribute("value") || this.getAttribute("placeholder") || "";
     }
-
-    #onTriggerClick = (): void => {
-        if (this.hasAttribute("disabled")) return;
-        this.toggleAttribute("expanded", !this.hasAttribute("expanded"));
-    };
-
-    #onTriggerKeydown = (event: KeyboardEvent): void => {
-        if (event.key === "Escape" && this.hasAttribute("expanded")) {
-            event.preventDefault();
-            this.removeAttribute("expanded");
-        }
-    };
 }

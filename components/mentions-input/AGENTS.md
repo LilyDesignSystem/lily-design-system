@@ -29,10 +29,13 @@
 ## Keyboard
 
 - Tab: Focus the input
-- Trigger character: Consumer opens suggestions
-- Arrow Down / Up: Consumer moves active suggestion
-- Enter: Consumer commits active suggestion
-- Escape: Consumer closes suggestions panel
+- Trigger character: Opens the list, except inside a Latin word such as an email address; text written without spaces, such as Chinese or Japanese, still opens it
+- ArrowDown, ArrowUp: Move the highlight and wrap, while open; focus stays in the input
+- Enter: Writes the highlighted mention at the caret
+- Escape: Closes the list
+- A key during IME composition belongs to the IME
+
+Filtering is the consumer's, from the query it is told. From `shared/widget-keys.ts`, held to the `mentions` contract.
 
 ## Props
 

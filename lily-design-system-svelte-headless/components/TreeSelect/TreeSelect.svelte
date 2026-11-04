@@ -35,13 +35,15 @@
     //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
     import type { Snippet } from "svelte";
+    import { attachTreePopup, type TreeSelection } from "../widget-keys";
 
     import { popoverState } from "../Popover/popover.js";
 
     let {
         class: className = "",
         label,
-        expanded = false,
+        expanded = $bindable(false),
+        onSelect = undefined,
         disabled = false,
         multiple = false,
         placeholder = undefined,
@@ -56,6 +58,8 @@
         label: string;
         /** Whether the tree panel is open */
         expanded?: boolean;
+        /** Called with the chosen item, its path and every selected value */
+        onSelect?: (selection: TreeSelection) => void;
         /** Whether the trigger is disabled */
         disabled?: boolean;
         /** Whether multiple selection is allowed */
@@ -70,10 +74,22 @@
         children?: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    let rootEl = $state<HTMLElement>();
+
+    $effect(() =>
+        rootEl
+            ? attachTreePopup(rootEl, {
+                  onOpen: (open) => (expanded = open),
+                  onSelect: (selection) => onSelect?.(selection),
+              })
+            : undefined,
+    );
 </script>
 
 <!-- TreeSelect.svelte -->
 <div
+    bind:this={rootEl}
     class={`tree-select ${className}`}
     role="combobox"
     aria-haspopup="tree"

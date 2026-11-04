@@ -69,6 +69,8 @@ export type PatternName =
     | "grid-actions"
     | "command"
     | "splitter"
+    | "tree-popup"
+    | "mentions"
     | "autosuggest"
     | "tree-expand";
 
@@ -115,6 +117,27 @@ interface ComboboxStep {
     type?: string;
     click?: number;
     expect: { expanded: boolean; active?: Index; value?: number; prevented?: boolean };
+}
+
+interface TreePopupStep {
+    name: string;
+    press?: string;
+    click?: boolean;
+    expect: {
+        expanded: boolean;
+        focus?: string;
+        branch?: string;
+        selected?: string;
+        prevented?: boolean;
+    };
+}
+
+interface MentionsStep {
+    name: string;
+    press?: string;
+    type?: string;
+    click?: number;
+    expect: { expanded: boolean; active?: Index; value?: string; prevented?: boolean };
 }
 
 interface SplitterStep {
@@ -369,6 +392,100 @@ async function runCombobox(options: PatternOptions): Promise<void> {
         }
         if (value !== undefined && (input as HTMLInputElement).value !== labels[value])
             fail(step.name, `the input holds "${(input as HTMLInputElement).value}", not "${labels[value]}"`);
+        if (wantPrevented !== undefined && prevented !== wantPrevented)
+            fail(step.name, `defaultPrevented is ${prevented}, not ${wantPrevented}`);
+    }
+}
+
+async function runTreePopup(options: PatternOptions): Promise<void> {
+    const { root, hook } = options;
+    const fail = (name: string, message: string): never => {
+        throw new Error(`tree-popup, ${hook}, "${name}": ${message}`);
+    };
+    const trigger = root.querySelector<HTMLElement>(`.${hook}-trigger`);
+    const panel = root.querySelector<HTMLElement>(`.${hook}-panel`);
+    if (!trigger || !panel) return fail("setup", "no trigger or panel");
+    if (root.getAttribute("aria-haspopup") !== "tree") fail("setup", 'no aria-haspopup="tree"');
+    if (!named(root)) fail("setup", "it has no name");
+    if (!panel.querySelector('[role="tree"]')) panel.innerHTML = contracts["tree-popup"].fixture;
+    const item = (text: string): HTMLElement =>
+        [...panel.querySelectorAll<HTMLElement>('[role="treeitem"]')].find(
+            (el) => el.firstChild?.textContent?.trim() === text,
+        ) ?? fail("setup", `no item "${text}"`);
+    trigger.focus();
+
+    for (const step of contracts["tree-popup"].steps as TreePopupStep[]) {
+        let prevented: boolean | undefined;
+        if (step.click) await fire(trigger, new MouseEvent("click", { bubbles: true }), options);
+        else if (step.press) {
+            const target = root.ownerDocument.activeElement ?? trigger;
+            prevented = await fire(target, escape(step.press), options);
+        }
+        const { expanded, focus, branch, selected, prevented: wantPrevented } = step.expect;
+        const open = root.getAttribute("aria-expanded");
+        if (open !== String(expanded)) fail(step.name, `aria-expanded is ${open}`);
+        if (listShown(panel) !== expanded) fail(step.name, `panel shown is ${listShown(panel)}`);
+        if (focus) {
+            const want = focus === "trigger" ? trigger : item(focus);
+            if (root.ownerDocument.activeElement !== want)
+                fail(step.name, `focus is on "${root.ownerDocument.activeElement?.textContent}"`);
+        }
+        if (branch && item("Fruit").getAttribute("aria-expanded") !== branch)
+            fail(step.name, `the branch's aria-expanded is not ${branch}`);
+        if (selected && item(selected).getAttribute("aria-selected") !== "true")
+            fail(step.name, `"${selected}" is not selected`);
+        if (wantPrevented !== undefined && prevented !== wantPrevented)
+            fail(step.name, `defaultPrevented is ${prevented}`);
+    }
+}
+
+async function runMentions(options: PatternOptions): Promise<void> {
+    const { root, hook } = options;
+    const fail = (name: string, message: string): never => {
+        throw new Error(`mentions, ${hook}, "${name}": ${message}`);
+    };
+    const input = root.querySelector<HTMLInputElement>('[role="combobox"]');
+    if (!input) return fail("setup", 'no [role="combobox"]');
+    if (!named(input)) fail("setup", "the input has no name");
+    const panel = root.ownerDocument.getElementById(input.getAttribute("aria-controls") ?? "");
+    if (!panel) return fail("setup", "aria-controls names nothing");
+    if (!panel.querySelector('[role="option"]'))
+        for (const label of contracts.mentions.fixture.options) {
+            const option = root.ownerDocument.createElement("div");
+            option.setAttribute("role", "option");
+            option.textContent = label;
+            panel.append(option);
+        }
+    const shown = (): HTMLElement[] =>
+        [...panel.querySelectorAll<HTMLElement>('[role="option"]')].filter((o) => !o.hidden);
+
+    for (const step of contracts.mentions.steps as MentionsStep[]) {
+        let prevented: boolean | undefined;
+        if (step.press) prevented = await fire(input, escape(step.press), options);
+        else if (step.type !== undefined) {
+            Object.getOwnPropertyDescriptor(Object.getPrototypeOf(input), "value")?.set?.call(
+                input,
+                step.type,
+            );
+            input.setSelectionRange?.(step.type.length, step.type.length);
+            await fire(input, new Event("input", { bubbles: true }), options);
+        } else if (step.click !== undefined)
+            await fire(shown()[step.click], new MouseEvent("click", { bubbles: true }), options);
+        const { expanded, active, value, prevented: wantPrevented } = step.expect;
+        const open = input.getAttribute("aria-expanded");
+        if (open !== String(expanded)) fail(step.name, `aria-expanded is ${open}`);
+        if (listShown(panel) !== expanded) fail(step.name, `panel shown is ${listShown(panel)}`);
+        const descendant = input.getAttribute("aria-activedescendant");
+        if (active === undefined) {
+            if (descendant) fail(step.name, `aria-activedescendant is ${descendant}`);
+        } else {
+            const all = shown();
+            const want = all[active === "last" ? all.length - 1 : active];
+            if (!descendant || descendant !== want?.id)
+                fail(step.name, `aria-activedescendant is ${descendant}, not ${want?.id}`);
+        }
+        if (value !== undefined && input.value !== value)
+            fail(step.name, `the input holds "${input.value}"`);
         if (wantPrevented !== undefined && prevented !== wantPrevented)
             fail(step.name, `defaultPrevented is ${prevented}, not ${wantPrevented}`);
     }
@@ -734,6 +851,8 @@ export async function runPattern(pattern: PatternName, options: PatternOptions):
     if (pattern === "combobox") return runCombobox(options);
     if (pattern === "command") return runCommand(options);
     if (pattern === "splitter") return runSplitter(options);
+    if (pattern === "tree-popup") return runTreePopup(options);
+    if (pattern === "mentions") return runMentions(options);
     if (pattern === "menu-submenu" || pattern === "menubar-submenu")
         return runSubmenu(pattern, options);
     if (pattern === "dialog") return runDialog(options);

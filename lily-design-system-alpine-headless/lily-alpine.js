@@ -1908,7 +1908,9 @@ export default function lily(Alpine) {
         scan(value) {
             const at = value.lastIndexOf(trigger);
             const tail = at < 0 ? null : value.slice(at + trigger.length);
-            this.open = tail !== null && !/\s/.test(tail);
+            // An email address does not open it; text written without spaces does.
+            const glued = at > 0 && /[A-Za-z0-9._-]$/.test(value.slice(0, at));
+            this.open = tail !== null && !/\s/.test(tail) && !glued;
             this.query = this.open ? tail : "";
             this.active = "";
         },
@@ -1936,8 +1938,9 @@ export default function lily(Alpine) {
                 this.scan(event.target.value);
             },
             "@keydown"(event) {
-                if (!this.open) return;
+                if (event.isComposing || !this.open) return;
                 if (event.key === "Escape") {
+                    event.preventDefault();
                     this.open = false;
                     this.active = "";
                     return;
