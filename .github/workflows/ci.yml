@@ -257,15 +257,15 @@ jobs:
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-chromium-${{ hashFiles('lily-design-system-svelte-sveltekit-examples/pnpm-lock.yaml') }}
-      - name: Install Playwright Chromium
+          key: playwright-browsers-${{ hashFiles('lily-design-system-svelte-sveltekit-examples/pnpm-lock.yaml') }}
+      - name: Install Playwright browsers (Chromium, Firefox, WebKit)
         working-directory: lily-design-system-svelte-sveltekit-examples
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
       - name: Install Playwright OS deps only (browser cached)
         working-directory: lily-design-system-svelte-sveltekit-examples
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: pnpm exec playwright install-deps chromium
+        run: pnpm exec playwright install-deps chromium firefox webkit
       - name: Test (accessibility, responsive, /components search, rtl-demo, book-an-appointment)
         working-directory: lily-design-system-svelte-sveltekit-examples
         run: |
@@ -309,15 +309,15 @@ jobs:
         id: playwright-cache
         with:
           path: ~/.cache/ms-playwright
-          key: playwright-chromium-${{ hashFiles('lily-design-system-nunjucks-eleventy-examples/pnpm-lock.yaml') }}
-      - name: Install Playwright Chromium
+          key: playwright-browsers-${{ hashFiles('lily-design-system-nunjucks-eleventy-examples/pnpm-lock.yaml') }}
+      - name: Install Playwright browsers (Chromium, Firefox, WebKit)
         working-directory: lily-design-system-nunjucks-eleventy-examples
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium firefox webkit
       - name: Install Playwright OS deps only (browser cached)
         working-directory: lily-design-system-nunjucks-eleventy-examples
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: pnpm exec playwright install-deps chromium
+        run: pnpm exec playwright install-deps chromium firefox webkit
       - name: Test (every component page, /components search, pickers, accessibility, responsive)
         working-directory: lily-design-system-nunjucks-eleventy-examples
         run: pnpm exec playwright test

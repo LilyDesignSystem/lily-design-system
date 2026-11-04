@@ -44,6 +44,18 @@ unimportable
 unlayered
 unpiped
 unthemed
+alikes
+codemod
+codemods
+editables
+exonyms
+focusgroup
+fundable
+gcqx
+goldens
+unrun
+untasked
+webstatus
 
 # Acronyms and initialisms
 CSUN
@@ -64,6 +76,12 @@ USWDS
 VPAT
 WCAG
 WDIO
+CCCD
+CLDR
+CNIC
+DSFR
+ELFA
+SGDS
 
 # Tools, platforms, and brand names
 analogjs
@@ -96,6 +114,22 @@ Wonderflow
 yslack
 Zenodo
 zeroheight
+Aksel
+chanhdai
+Designsystemet
+Diia
+Forgejo
+Frutiger
+Kakao
+Koli
+Laravel
+nhswales
+Rawline
+shardsui
+Shanghainese
+solidjs
+stephcraft
+Nastaliq
 
 # Web/CSS/tooling terms not in the base dictionaries
 codepoint
@@ -326,6 +360,19 @@ unautomated
 unbumped
 unfocusable
 unpopulatable
+bianhao
+cedula
+ciudadania
+cuoc
+guomin
+huwiyah
+identidad
+melli
+Minh
+pengenalan
+saudiyah
+tongyi
+wataniyah
 
 # Non-English UI strings quoted in docs (the picker labels' locales)
 Tudalennau

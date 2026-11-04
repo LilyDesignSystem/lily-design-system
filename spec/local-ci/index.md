@@ -24,17 +24,17 @@ What runs where today, what it costs, what is red and why, the realistic options
 
 ## What runs where today (measured 2026-11-04)
 
-| Fact                                                                                                                                                                                                                                 | Source                               |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------ |
-| The repository is public.                                                                                                                                                                                                            | `gh repo view`                       |
-| One workflow file, `.github/workflows/ci.yml` (589 lines, 13 jobs, four of them matrices), and a tag-gated `publish.yml`. No GitLab or Codeberg pipeline exists.                                                                     | the files                            |
-| The 13 jobs: `verify`, `lint`, `helper-packages`, `headless`, `html-headless`, `dotnet-tests`, `dotnet-helper-packages`, `example-smoke`, `eleventy-example`, `alpine-examples`, `consumer-smoke`, `shadcn-registry`, `spell-check`. | `ci.yml`                             |
-| Triggers: every push to `main` and every pull request to `main`. No `concurrency` group, no `paths` filter, no `timeout-minutes`, so superseded runs are not cancelled and a docs-only commit runs everything.                       | `ci.yml`                             |
-| Wall time of a run: 14 to 23 minutes (the 13 job definitions expand through four matrices).                                                                                                                                          | `gh run list`, last 7 runs           |
-| The last 6 completed `CI` runs on `main` failed; the 7th was still running.                                                                                                                                                          | `gh run list`, 2026-11-04            |
-| No git hooks are installed in the working copy, and `core.hooksPath` is unset. Nothing runs before a push.                                                                                                                           | `.git/hooks`, `git config`           |
-| Docker is installed locally; `act`, `gitlab-ci-local` and `lefthook` are not.                                                                                                                                                        | `which`                              |
-| Publishing is already local: `bin/publish-helpers` and `bin/publish-headless` run on the maintainer's machine (no `NPM_TOKEN` in CI); CI's `publish.yml` is a dry run unless dispatched with `real`.                                 | [releasing](../../docs/releasing.md) |
+| Fact                                                                                                                                                                                                                                     | Source                               |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| The repository is public.                                                                                                                                                                                                                | `gh repo view`                       |
+| One workflow file, `.github/workflows/ci.yml` (589 lines, 13 jobs, four of them matrices), and a tag-gated `publish.yml`. No GitLab or Codeberg pipeline exists.                                                                         | the files                            |
+| The 13 jobs: `verify`, `lint`, `helper-packages`, `headless`, `html-headless`, `dotnet-tests`, `dotnet-helper-packages`, `example-smoke`, `eleventy-example`, `alpine-examples`, `consumer-smoke`, `shadcn-registry`, `spell-check`.     | `ci.yml`                             |
+| Triggers: every push to `main` and every pull request to `main`. No `concurrency` group, no `paths` filter, no `timeout-minutes`, so superseded runs are not cancelled and a docs-only commit runs everything.                           | `ci.yml`                             |
+| Wall time of a run: 14 to 23 minutes (the 13 job definitions expand through four matrices).                                                                                                                                              | `gh run list`, last 7 runs           |
+| Of the last 200 `CI` runs (since 2026-10-18), 188 failed and 10 passed. The last green run was `cff2dbc9b` on 2026-10-18; the first failure after it (`6a27fce73`) was the spell check alone. Red has been the normal state for 17 days. | `gh run list`, 2026-11-04            |
+| No git hooks are installed in the working copy, and `core.hooksPath` is unset. Nothing runs before a push.                                                                                                                               | `.git/hooks`, `git config`           |
+| Docker is installed locally; `act`, `gitlab-ci-local` and `lefthook` are not.                                                                                                                                                            | `which`                              |
+| Publishing is already local: `bin/publish-helpers` and `bin/publish-headless` run on the maintainer's machine (no `NPM_TOKEN` in CI); CI's `publish.yml` is a dry run unless dispatched with `real`.                                     | [releasing](../../docs/releasing.md) |
 
 ### Why CI is red (one run read in detail, 2026-11-04)
 
@@ -47,7 +47,9 @@ Run on `9c7b13299`: 17 jobs failed. The logs of the next run, on `49e29d7be`, we
   helper packages job.
 - **`cspell`** failed in the spell check job (reason not read).
 
-The other failed jobs were not read. These are repository defects, found by CI doing its job, not GitHub outages. A local
+The other failed jobs were not read.
+
+The history matters more than the causes. The first failure after the last green run was one job, `cspell`, caused by names such as Forgejo, Rawline and CNIC missing from `.cspell/project-words.txt`. A red `CI` stayed red for 17 days, so each later breakage (the browsers, the `node:url` typing) landed unseen under a status that already said failed. A gate that is allowed to stay red teaches everyone to ignore it, which is the argument for a local gate that is checked before the push, and for making CI red a stop-the-line event. These are repository defects, found by CI doing its job, not GitHub outages. A local
 gate would have caught the first two before they were pushed.
 
 ## What GitHub costs today (verified from GitHub's own page, 2026-11-04)
