@@ -1539,24 +1539,25 @@ export default function lily(Alpine) {
                 this.active = "";
             },
             "@keydown"(event) {
-                if (event.key === "Enter") {
-                    const el = this.visible().find((o) => o.id === this.active);
-                    if (el) {
-                        event.preventDefault();
-                        el.click();
-                    }
-                    return;
-                }
-                if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
-                event.preventDefault();
-                const options = this.visible();
+                if (event.isComposing) return;
+                const options = this.visible().filter(
+                    (o) => o.getAttribute("aria-disabled") !== "true",
+                );
                 if (!options.length) return;
-                this.active = menuTarget(
-                    event.key,
-                    options,
-                    options.findIndex((o) => o.id === this.active),
-                    false,
-                ).id;
+                const index = options.findIndex((o) => o.id === this.active);
+                const arrow = event.key === "ArrowDown" || event.key === "ArrowUp";
+                if (arrow || (index >= 0 && (event.key === "Home" || event.key === "End"))) {
+                    event.preventDefault();
+                    const target = menuTarget(event.key, options, index, false);
+                    this.active = target.id;
+                    target.scrollIntoView?.({ block: "nearest" });
+                } else if (index >= 0 && event.key === "Enter") {
+                    event.preventDefault();
+                    options[index].click();
+                } else if (index >= 0 && event.key === "Escape") {
+                    event.preventDefault();
+                    this.active = "";
+                }
             },
         },
         option(id) {

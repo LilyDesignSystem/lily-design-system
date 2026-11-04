@@ -30,7 +30,7 @@ Implement the Command component: a command palette for searching and executing a
 - [ ] `role="listbox"` -- identifies the results container as a listbox for selectable options
 - [ ] `aria-label={label}` -- provides accessible name for the listbox
 - [ ] Keyboard: **Tab**: Moves focus into and out of the search input
-- [ ] Keyboard: Additional keyboard navigation (arrow keys within the listbox) should be implemented by the consumer
+- [ ] Keyboard: ArrowDown and ArrowUp move the highlight and wrap; Home, End, Enter and Escape act on a highlighted option
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations

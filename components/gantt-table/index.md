@@ -53,7 +53,7 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
 
 ## Keyboard Interactions
 
-None built-in -- the consumer should implement grid keyboard navigation on cells as needed (arrow keys for cell-to-cell movement).
+None: this is a passive table. For grid keys, use the `gantt-chart` helper, which owns them, in every catalog.
 
 ## ARIA
 
@@ -93,7 +93,7 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 ## Advice
 
 - **Designers**: Use horizontal bars with distinct colors to represent task durations. Include clear column headers for time periods and a fixed task-name column for readability.
-- **Developers**: Implement grid keyboard navigation (arrow keys for cell-to-cell movement) in your consumer code for full accessibility.
+- **Developers**: Use the `gantt-chart` helper for grid keyboard navigation; this table is passive.
 
 ## Composition
 

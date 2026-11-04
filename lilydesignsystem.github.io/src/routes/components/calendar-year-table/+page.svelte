@@ -88,8 +88,9 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>No keyboard interactions built in — the consumer implements grid navigation</li>
+      <li>None: this is a passive table, deliberately, as <code>table</code> and <code>data-table</code> are. A cell cursor needs state the table does not hold.</li>
     </ul>
+    <p>For grid keys, use the <code>calendar</code> helper, which owns them, in every catalog.</p>
     <h3>Props</h3>
     <ul>
       <li><code>class</code>: string (default: <code>""</code>) -- appended to the base class</li>

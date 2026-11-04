@@ -45,6 +45,8 @@
     "components/*/macro.njk",
     "components/autosuggest/autosuggest.js",
     "components/combobox/combobox.js",
+    "components/command/command.js",
+    "components/command/command-keys.js",
     "components/menu/menu.js",
     "components/menu/menu-keys.js",
     "components/menu-bar/menu-bar.js",

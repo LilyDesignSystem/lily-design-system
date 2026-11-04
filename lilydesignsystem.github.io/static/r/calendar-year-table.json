@@ -13,7 +13,7 @@
     "`aria-label={label}` -- provides an accessible name describing the period"
   ],
   "keyboard": [
-    "No keyboard interactions built in — the consumer implements grid navigation"
+    "None: this is a passive table, deliberately, as `table` and `data-table` are. A cell cursor needs state the table does not hold."
   ],
   "props": [
     "`class`: string (default: `\"\"`) -- appended to the base class",

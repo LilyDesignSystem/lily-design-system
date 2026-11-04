@@ -51,7 +51,8 @@
 //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
-import { ref, useAttrs } from "vue";
+import { onBeforeUnmount, onMounted, ref, useAttrs, useId } from "vue";
+import { attachCommand } from "./command-keys";
 import { useFormReset } from "./form-reset";
 import { warnMissingName } from "./dev-warning";
 
@@ -70,6 +71,14 @@ warnMissingName("Command", props.label, useAttrs()["aria-label"], useAttrs()["ar
 const modelValue = defineModel<string>({ default: "" });
 const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
 useFormReset(modelValue, field);
+
+const listId = `command-list-${useId()}`;
+const listEl = ref<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachCommand(field.value as HTMLInputElement, listEl.value!);
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
@@ -82,12 +91,15 @@ useFormReset(modelValue, field);
         <input
             type="search"
             ref="field"
+            :aria-controls="listId"
             v-model="modelValue"
             :aria-label="label"
             :placeholder="placeholder"
             autocomplete="off"
         />
         <div
+            ref="listEl"
+            :id="listId"
             role="listbox"
             :aria-label="label"
         >

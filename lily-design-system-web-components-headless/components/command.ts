@@ -30,6 +30,7 @@
 //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
+import { attachCommand } from "../lib/command-keys.js";
 import { applySelfClassName, moveChildrenInto, nextId } from "../lib/dom-utils.js";
 
 export class Command extends HTMLElement {
@@ -41,7 +42,6 @@ export class Command extends HTMLElement {
     #input: HTMLInputElement | null = null;
     #listbox: HTMLDivElement | null = null;
     #listboxId = nextId("lily-command-listbox");
-    #activeId: string | null = null;
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -61,12 +61,14 @@ export class Command extends HTMLElement {
         input.type = "search";
         input.autocomplete = "off";
         input.setAttribute("aria-controls", this.#listboxId);
-        input.addEventListener("keydown", this.#onKeydown);
-        input.addEventListener("input", this.#onInput);
+        input.addEventListener("input", () => this.setAttribute("value", input.value));
         this.#input = input;
 
         this.appendChild(input);
         this.appendChild(listbox);
+
+        // Built once and never torn down: the input and list live and die with this element.
+        attachCommand(input, listbox);
 
         this.#sync();
     }
@@ -105,28 +107,8 @@ export class Command extends HTMLElement {
         if (value !== null && input.value !== value) input.value = value;
     }
 
-    #options(): HTMLElement[] {
-        return Array.from(this.#listbox?.children ?? []).filter(
-            (el): el is HTMLElement =>
-                el instanceof HTMLElement && el.getAttribute("role") === "option",
-        );
-    }
-
-    #setActive(option: HTMLElement | null): void {
-        for (const opt of this.#options()) opt.removeAttribute("aria-selected");
-        if (option) {
-            option.setAttribute("aria-selected", "true");
-            if (!option.id) option.id = nextId("lily-command-option");
-            this.#activeId = option.id;
-            this.#input!.setAttribute("aria-activedescendant", option.id);
-        } else {
-            this.#activeId = null;
-            this.#input!.removeAttribute("aria-activedescendant");
-        }
-    }
-
     #select(option: HTMLElement): void {
-        const text = option.textContent ?? "";
+        const text = (option.textContent ?? "").trim();
         this.#input!.value = text;
         this.setAttribute("value", text);
         this.dispatchEvent(
@@ -141,54 +123,5 @@ export class Command extends HTMLElement {
     #onOptionClick = (event: MouseEvent): void => {
         const option = (event.target as HTMLElement).closest('[role="option"]');
         if (option instanceof HTMLElement) this.#select(option);
-    };
-
-    #onInput = (): void => {
-        this.setAttribute("value", this.#input!.value);
-    };
-
-    #onKeydown = (event: KeyboardEvent): void => {
-        const options = this.#options();
-        const activeIndex = options.findIndex((o) => o.id === this.#activeId);
-
-        switch (event.key) {
-            case "ArrowDown":
-                if (options.length === 0) return;
-                event.preventDefault();
-                this.#setActive(options[Math.min(activeIndex + 1, options.length - 1)]);
-                break;
-            case "ArrowUp":
-                if (options.length === 0) return;
-                event.preventDefault();
-                this.#setActive(options[Math.max(activeIndex - 1, 0)]);
-                break;
-            case "Home":
-                if (options.length === 0) return;
-                event.preventDefault();
-                this.#setActive(options[0]);
-                break;
-            case "End":
-                if (options.length === 0) return;
-                event.preventDefault();
-                this.#setActive(options[options.length - 1]);
-                break;
-            case "Enter": {
-                if (!this.#activeId) return;
-                const active = options.find((o) => o.id === this.#activeId);
-                if (active) {
-                    event.preventDefault();
-                    this.#select(active);
-                }
-                break;
-            }
-            case "Escape":
-                if (this.#activeId) {
-                    event.preventDefault();
-                    this.#setActive(null);
-                }
-                break;
-            default:
-                break;
-        }
     };
 }

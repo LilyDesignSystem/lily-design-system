@@ -1,30 +1,45 @@
 {#
-  Command macro — a command palette for searching and executing actions.
+  Command macro — a command palette: a search input over a listbox of the caller's options.
 
-  HTML tag: <div role="dialog" aria-modal="true">
+  HTML tag: <div role="search">
   CSS class: command
 
-  Params: label (required accessible name), open (default false),
-    id, classes, attributes. Caller provides the input and listbox.
+  Params: id (the root's id; the list is "{id}-list", default "command-list"), label, value, name,
+    placeholder, classes, attributes. Caller provides the role="option" elements.
+
+  The macro is markup only. The keys are command.js:
+    import { autoInit } from "@lilydesignsystem/nunjucks-headless/components/command/command.js";
+    autoInit();
 
   Usage:
     {% from "components/command/macro.njk" import command %}
-    {% call command({ id: "example", label: "Example" }) %}…{% endcall %}
+    {% call command({ id: "example", label: "Example" }) %}<div role="option">One</div>{% endcall %}
 #}
 {%- macro command(params) -%}
 {%- set p = params | default({}) -%}
+{%- set listId = (p.id ~ "-list") if p.id else "command-list" -%}
 <div
   class="command{% if p.classes %} {{ p.classes }}{% endif %}"
-  role="dialog"
-  aria-modal="true"
-  aria-label="{{ p.label | default('Command palette') }}"
-  {%- if not p.open %} hidden{% endif %}
+  role="search"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   data-module="command"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  {%- if p.html -%}{{ p.html | safe }}
-  {%- elif caller -%}{{ caller() }}
-  {%- endif -%}
+  <input
+    class="command-input"
+    type="search"
+    autocomplete="off"
+    aria-controls="{{ listId }}"
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    {%- if p.name %} name="{{ p.name }}"{% endif %}
+    {%- if p.placeholder %} placeholder="{{ p.placeholder }}"{% endif %}
+    value="{{ p.value | default('') }}"
+  />
+  <div class="command-listbox" role="listbox" id="{{ listId }}"{% if p.label %} aria-label="{{ p.label }}"{% endif %}>
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </div>
 </div>
 {%- endmacro -%}

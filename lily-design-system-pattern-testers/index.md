@@ -30,6 +30,7 @@ leaves out. Keep testing with a screen reader and real users.
 | `grid-actions`      | Sorting, opening, cancelling and committing an editor, selecting a row, by key | Saving an edit, which is yours  | `noEditing`, for a grid with no editor |
 | `autosuggest`       | A list-autocomplete combobox: arrows, Alt+Arrow, Home, End, Enter, Escape | Filtering, which is yours                  |               |
 | `combobox`          | List autocomplete on your options: arrows, Alt+Arrow, Home, End, Enter, Escape, typing, a click | Filtering, which is yours | `open` |
+| `command`           | A search input over a listbox: arrows, Home, End, Enter, Escape, typing | Filtering, and what an option does     |               |
 | `dialog`            | A named modal `<dialog>`, focus in and back, Escape and `cancel`     | The Tab trap and inert page: the browser's | `open`        |
 | `picker-listbox`    | Lily's icon button opening a listbox                                 | Lily's own shape, not a general pattern    |               |
 | `picker-disclosure` | Lily's icon button opening a disclosure                              | Lily's own shape, not a general pattern    |               |

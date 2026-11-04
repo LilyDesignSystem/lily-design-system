@@ -14,6 +14,13 @@ See [components/command/index.md](../../../components/command/index.md) for the 
 {{ command({ }) }}
 ```
 
+The macro is markup only. Load the keys once, as an ES module:
+
+```js
+import { autoInit } from "@lilydesignsystem/nunjucks-headless/components/command/command.js";
+autoInit();
+```
+
 ## Files
 
 - `macro.njk` — Nunjucks macro implementation

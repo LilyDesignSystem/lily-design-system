@@ -28,8 +28,14 @@
 
 ## Keyboard
 
-- **Tab**: Moves focus into and out of the search input
-- Additional keyboard navigation (arrow keys within the listbox) should be implemented by the consumer
+- Tab: Moves focus into and out of the search input
+- ArrowDown, ArrowUp: move the highlight and wrap; focus stays in the input
+- Home, End: jump to the first or last option, once one is highlighted; before that they stay the input's
+- Enter: clicks the highlighted option; with none highlighted it is left alone
+- Escape: drops the highlight; with none highlighted it is left alone, so an enclosing dialog still gets it
+- A key during IME composition belongs to the IME
+
+The highlighted option is `aria-activedescendant` on the input, with `aria-selected` and `data-active` on the option. Filtering, and what an option does, are the consumer's. From `shared/command-keys.ts`, held to the `command` contract.
 
 ## Props
 

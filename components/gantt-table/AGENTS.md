@@ -30,7 +30,9 @@
 
 ## Keyboard
 
-- No keyboard interactions — this is a passive element
+- None: this is a passive table, deliberately, as `table` and `data-table` are. A cell cursor needs state the table does not hold.
+
+For grid keys, use the `gantt-chart` helper, which owns them, in every catalog.
 
 ## Props
 

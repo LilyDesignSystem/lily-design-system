@@ -13,7 +13,7 @@
     "`aria-label={label}` -- provides an accessible name describing the Gantt chart"
   ],
   "keyboard": [
-    "No keyboard interactions — this is a passive element"
+    "None: this is a passive table, deliberately, as `table` and `data-table` are. A cell cursor needs state the table does not hold."
   ],
   "props": [
     "`label`: string (required) -- accessible name describing the Gantt chart content, applied via `aria-label`",

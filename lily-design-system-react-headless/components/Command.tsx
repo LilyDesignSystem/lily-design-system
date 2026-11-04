@@ -50,7 +50,8 @@
 //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
-import React from "react";
+import React, { useEffect, useId, useRef } from "react";
+import { attachCommand } from "./command-keys";
 import { warnMissingName } from "./dev-warning";
 
 export interface CommandProps {
@@ -74,6 +75,11 @@ export default function Command({
     ...restProps
 }: CommandProps) {
     warnMissingName("Command", label, restProps["aria-label"], restProps["aria-labelledby"]);
+    const listId = `command-list-${useId()}`;
+    const inputRef = useRef<HTMLInputElement>(null);
+    const listRef = useRef<HTMLDivElement>(null);
+    useEffect(() => attachCommand(inputRef.current!, listRef.current!), []);
+
     return (
         <div
             className={`command ${className}`}
@@ -82,7 +88,9 @@ export default function Command({
             {...restProps}
         >
             <input
+                ref={inputRef}
                 type="search"
+                aria-controls={listId}
                 value={value}
                 onChange={(e) => onChange?.(e.target.value)}
                 aria-label={label}
@@ -90,6 +98,8 @@ export default function Command({
                 autoComplete="off"
             />
             <div
+                ref={listRef}
+                id={listId}
                 role="listbox"
                 aria-label={label}
             >

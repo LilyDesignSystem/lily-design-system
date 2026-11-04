@@ -30,7 +30,9 @@
 
 ## Keyboard
 
-- No keyboard interactions built in — the consumer implements grid navigation
+- None: this is a passive table, deliberately, as `table` and `data-table` are. A cell cursor needs state the table does not hold.
+
+For grid keys, use the `calendar` helper, which owns them, in every catalog.
 
 ## Props
 

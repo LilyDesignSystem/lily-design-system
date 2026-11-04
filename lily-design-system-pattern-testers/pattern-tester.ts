@@ -59,6 +59,7 @@ export type PatternName =
     | OverlayPatternName
     | "grid"
     | "grid-actions"
+    | "command"
     | "autosuggest"
     | "tree-expand";
 
@@ -105,6 +106,13 @@ interface ComboboxStep {
     type?: string;
     click?: number;
     expect: { expanded: boolean; active?: Index; value?: number; prevented?: boolean };
+}
+
+interface CommandStep {
+    name: string;
+    press?: string;
+    type?: string;
+    expect: { active?: Index; clicked?: number; prevented?: boolean };
 }
 
 interface AutosuggestStep {
@@ -335,6 +343,61 @@ async function runCombobox(options: PatternOptions): Promise<void> {
         }
         if (value !== undefined && (input as HTMLInputElement).value !== labels[value])
             fail(step.name, `the input holds "${(input as HTMLInputElement).value}", not "${labels[value]}"`);
+        if (wantPrevented !== undefined && prevented !== wantPrevented)
+            fail(step.name, `defaultPrevented is ${prevented}, not ${wantPrevented}`);
+    }
+}
+
+async function runCommand(options: PatternOptions): Promise<void> {
+    const { root, hook } = options;
+    const fail = (name: string, message: string): never => {
+        throw new Error(`command, ${hook}, "${name}": ${message}`);
+    };
+    const input = root.querySelector<HTMLInputElement>('input[type="search"]');
+    if (!input) return fail("setup", 'no input[type="search"]');
+    if (!named(input)) fail("setup", "the input has no name");
+    const list = root.ownerDocument.getElementById(input.getAttribute("aria-controls") ?? "");
+    if (!list) return fail("setup", "aria-controls names nothing");
+    if (list.getAttribute("role") !== "listbox") fail("setup", 'the list lacks role="listbox"');
+    if (!named(list)) fail("setup", "the listbox has no name");
+    if (!list.querySelector('[role="option"]'))
+        for (const label of contracts.command.fixture.options) {
+            const option = root.ownerDocument.createElement("div");
+            option.setAttribute("role", "option");
+            option.textContent = label;
+            list.append(option);
+        }
+    const shown = (): HTMLElement[] =>
+        [...list.querySelectorAll<HTMLElement>('[role="option"]')].filter((o) => !o.hidden);
+    let clicks: EventTarget[] = [];
+    list.addEventListener("click", (event) => clicks.push(event.target as EventTarget));
+
+    for (const step of contracts.command.steps as CommandStep[]) {
+        clicks = [];
+        let prevented: boolean | undefined;
+        if (step.press) prevented = await fire(input, escape(step.press), options);
+        if (step.type !== undefined) {
+            Object.getOwnPropertyDescriptor(Object.getPrototypeOf(input), "value")?.set?.call(
+                input,
+                step.type,
+            );
+            await fire(input, new Event("input", { bubbles: true }), options);
+        }
+        const { active, clicked, prevented: wantPrevented } = step.expect;
+        const all = shown();
+        const descendant = input.getAttribute("aria-activedescendant");
+        if (active === undefined) {
+            if (descendant) fail(step.name, `aria-activedescendant is ${descendant}`);
+        } else {
+            const want = all[active === "last" ? all.length - 1 : active];
+            if (!descendant || descendant !== want?.id)
+                fail(step.name, `aria-activedescendant is ${descendant}, not ${want?.id}`);
+            const selected = all.filter((o) => o.getAttribute("aria-selected") === "true");
+            if (selected.length !== 1 || selected[0] !== want)
+                fail(step.name, `${selected.length} option(s) have aria-selected="true"`);
+        }
+        if (clicked !== undefined && !clicks.includes(all[clicked]))
+            fail(step.name, "the option was not clicked");
         if (wantPrevented !== undefined && prevented !== wantPrevented)
             fail(step.name, `defaultPrevented is ${prevented}, not ${wantPrevented}`);
     }
@@ -607,6 +670,7 @@ export async function runPattern(pattern: PatternName, options: PatternOptions):
     if (pattern === "tree-expand") return runTreeExpand(options);
     if (pattern === "grid" || pattern === "grid-actions") return runGrid(options, pattern);
     if (pattern === "combobox") return runCombobox(options);
+    if (pattern === "command") return runCommand(options);
     if (pattern === "menu-submenu" || pattern === "menubar-submenu")
         return runSubmenu(pattern, options);
     if (pattern === "dialog") return runDialog(options);

@@ -2128,6 +2128,7 @@
       "description": "A command palette for searching and executing actions.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/command-keys-utils",
         "@lily/dev-warning-utils"
       ],
       "categories": [
@@ -2138,6 +2139,20 @@
           "path": "lily-design-system-react-headless/components/Command.tsx",
           "type": "registry:component",
           "target": "@components/lily/Command.tsx"
+        }
+      ]
+    },
+    {
+      "name": "command-keys-utils",
+      "type": "registry:lib",
+      "title": "command-keys.ts",
+      "description": "Shared helper module command-keys.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/command-keys.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/command-keys.ts"
         }
       ]
     },
