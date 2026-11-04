@@ -107,6 +107,7 @@ const DEFAULT_CONTACT = ["EMAIL", "PHONE", "ADDRESS", "BIRTHDAY"];
 
 /** Start offset of the line containing `pos`. */
 function lineStartOf(text: string, pos: number): number {
+    // Searching from `pos - 1` means a caret sitting right after a newline belongs to the line that starts there, not the one above.
     return pos <= 0 ? 0 : text.lastIndexOf("\n", pos - 1) + 1;
 }
 
@@ -119,6 +120,7 @@ function lineEndOf(text: string, pos: number): number {
 /** The line-start offsets covering the selection (a selection ending at a line start excludes that line). */
 function lineBounds(text: string, start: number, end: number): { from: number; to: number } {
     const from = lineStartOf(text, start);
+    // A selection that ends just after a newline (a triple-click, or a shift-down) has not touched the next line, so it is left out.
     const effectiveEnd = end > start && text[end - 1] === "\n" ? end - 1 : end;
     return { from, to: lineEndOf(text, effectiveEnd) };
 }
@@ -135,6 +137,8 @@ function replaceLines(
     nextLines: string[],
     firstDelta?: number,
 ): Edit {
+    // The selection stays on the same text: its start moves by the change to the first line only, its end by the change to the whole block,
+    // and neither may fall before the block.
     const block = nextLines.join("\n");
     const delta = block.length - (to - from);
     const first =
@@ -162,6 +166,7 @@ function parseHeading(line: string, keywords: string[]): Heading | null {
     if (!m) return null;
     let rest = line.slice(m[0].length);
     let keyword = "";
+    // A keyword counts only as a whole word (followed by a space or the end), so "TODOS" is a title, not TODO + "S".
     for (const k of keywords) {
         if (rest === k || rest.startsWith(k + " ")) {
             keyword = k;
@@ -189,7 +194,7 @@ const BULLET = /^[-+] (?:\[[ X-]\] )?/;
 const NUMBERED = /^\d+[.)] /;
 const CHECKBOX = /^([-+] )\[([ X-])\] /;
 
-/** Strip any block prefix a line can have, so a new one is not stacked on it. */
+/** Strip any block prefix a line can have (at most one of each, in this order), so a new one is not stacked on it. */
 function stripPrefix(line: string): string {
     return line.replace(HEADING, "").replace(BULLET, "").replace(NUMBERED, "");
 }
@@ -200,6 +205,7 @@ function headingAbove(
     pos: number,
     keywords: string[],
 ): { from: number; to: number; heading: Heading } | null {
+    // Walk upward one line at a time until a heading parses or the top of the text is reached.
     let from = lineStartOf(text, pos);
     for (;;) {
         const to = lineEndOf(text, from);
@@ -221,6 +227,7 @@ export function toggleWrap(text: string, start: number, end: number, marker: str
     const before = text.slice(0, start);
     const selected = text.slice(start, end);
     const after = text.slice(end);
+    // Already wrapped from outside: take the markers off. With an empty selection between a pair this removes the pair, so the button toggles.
     if (before.endsWith(marker) && after.startsWith(marker)) {
         return {
             text: before.slice(0, -m) + selected + after.slice(m),
@@ -228,6 +235,7 @@ export function toggleWrap(text: string, start: number, end: number, marker: str
             end: end - m,
         };
     }
+    // Wrapped from inside (the selection includes its own markers): take them off and keep the inner text selected.
     if (selected.length >= 2 * m && selected.startsWith(marker) && selected.endsWith(marker)) {
         const inner = selected.slice(m, selected.length - m);
         return { text: before + inner + after, start, end: start + inner.length };
@@ -273,6 +281,7 @@ export function shiftHeadings(text: string, start: number, end: number, directio
     const next = lines.map((l) => {
         const m = HEADING.exec(l);
         if (!m) return l;
+        // Promoting a one-star heading would make it plain text, so it stays; `touched` lets a selection with nothing to move report no edit.
         if (direction === -1 && m[1].length === 1) return l;
         touched = true;
         return direction === 1 ? "*" + l : l.slice(1);
@@ -308,12 +317,14 @@ export function toggleList(
 export function cycleCheckbox(text: string, start: number, end: number): Edit {
     const { from, to } = lineBounds(text, start, end);
     const lines = text.slice(from, to).split("\n");
+    // One state for the whole selection, read from its first non-empty line, so a mixed selection moves together instead of scrambling.
     const first = lines.find((l) => l.trim() !== "");
     if (first === undefined) return unchanged(text, start, end);
     const m = CHECKBOX.exec(first);
     const state = m ? (m[2] === " " ? "open" : "done") : "none";
     const next = lines.map((l) => {
         if (l.trim() === "") return l;
+        // Whatever prefix the line had (bullet, number, stars) goes first; a checkbox is a bullet, so the bullet pattern removes an old one too.
         const body = l.replace(BULLET, "").replace(NUMBERED, "").replace(HEADING, "");
         const indentless = body;
         if (state === "none") return "- [ ] " + indentless;
@@ -351,7 +362,7 @@ export function toggleBlock(
             end: from + block.length,
         };
     }
-    // The wrapper sits on the lines just outside the selection.
+    // The wrapper sits on the lines just outside the selection: `from - 1` and `to + 1` are the newlines on either side of it.
     if (from > 0 && to < text.length) {
         const prevFrom = lineStartOf(text, from - 1);
         const nextTo = lineEndOf(text, to + 1);
@@ -377,6 +388,7 @@ const isBeginBlock = (name: string) => (l: string) =>
     new RegExp(`^#\\+begin_${name}(\\s|$)`, "i").test(l.trim());
 const isEndBlock = (name: string) => (l: string) =>
     new RegExp(`^#\\+end_${name}\\s*$`, "i").test(l.trim());
+// A drawer opens with `:NAME:` and closes with `:END:`; the opener must not itself be `:END:`.
 const isBeginDrawer = (l: string) =>
     /^:[^\s:]+:\s*$/.test(l.trim()) && !/^:END:\s*$/i.test(l.trim());
 const isEndDrawer = (l: string) => /^:END:\s*$/i.test(l.trim());
@@ -397,6 +409,7 @@ export function localToday(now: Date = new Date()): string {
 
 /** `2026-10-24` → `2026-10-24 Sat`, by UTC date maths (no time zone, no `Intl`). */
 export function dayStamp(iso: string): string {
+    // UTC maths so the weekday cannot shift with the reader's time zone: the date is a calendar date, not an instant.
     const [y, m, d] = iso.split("-").map(Number);
     const weekday = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
     return `${iso} ${WEEKDAYS[weekday]}`;
@@ -429,6 +442,7 @@ export function cycleTodo(
     const to = lineEndOf(text, from);
     const line = text.slice(from, to);
     const h = parseHeading(line, keywords);
+    // The caret follows the line's length change, so it stays where the user left it relative to the end.
     let next: string;
     if (h) {
         const at = keywords.indexOf(h.keyword);
@@ -479,6 +493,7 @@ export function cyclePriority(
     return replaceLines(text, start, end, from, to, [next], next.length - line.length);
 }
 
+// Org keeps planning on the single line directly under the heading.
 const PLANNING = /^\s*(?:SCHEDULED|DEADLINE|CLOSED):/;
 
 /** The index just past the heading line and its planning line, if it has one. */
@@ -507,6 +522,7 @@ export function togglePlanning(
     const hasPlan =
         found.to < text.length && PLANNING.test(text.slice(planFrom, lineEndOf(text, planFrom)));
     const stamp = `${keyword}: <${dayStamp(today)}>`;
+    // The date is selected so typing replaces it; offsets are counted past the newline, the keyword and `: <`.
     const select = (at: number): { start: number; end: number } => ({
         start: at,
         end: at + dayStamp(today).length,
@@ -518,6 +534,7 @@ export function togglePlanning(
     }
     const planTo = lineEndOf(text, planFrom);
     const plan = text.slice(planFrom, planTo);
+    // Removal takes the keyword's leading space too, and accepts an inactive `[date]` as well as an active `<date>`.
     const existing = new RegExp(`\\s*${keyword}: [<\\[][^>\\]]*[>\\]]`).exec(plan);
     if (existing) {
         const remaining = (
@@ -555,6 +572,7 @@ export function addProperty(
     keywords: string[] = DEFAULT_KEYWORDS,
 ): Edit {
     const found = headingAbove(text, start, keywords);
+    // The drawer goes after the heading's planning line when it has one: Org reads planning only directly under the heading.
     const anchor = found ? afterPlanning(text, found.to) : -1; // the end of the line the drawer follows
     const line = (s: string) => `:${key}: ${s}`.replace(/ +$/, " ");
     // A file-level drawer (no heading above): it goes at the very top.
@@ -566,7 +584,7 @@ export function addProperty(
     const dFrom = anchor + 1;
     const dTo = anchor < text.length ? lineEndOf(text, dFrom) : text.length;
     if (anchor < text.length && /^\s*:PROPERTIES:\s*$/i.test(text.slice(dFrom, dTo))) {
-        // Find the :END: of this drawer.
+        // Find the :END: of this drawer. A drawer with no :END: is treated as absent and a new one is written; Org would not read it as a drawer either.
         let cur = dTo + 1;
         while (cur <= text.length) {
             const curTo = lineEndOf(text, cur);
@@ -605,9 +623,11 @@ export function insertContact(
     level = 1,
     keywords: string[] = DEFAULT_KEYWORDS,
 ): Edit {
+    // A contact nests under the heading it is written beneath; with none above, it takes the configured level.
     const above = headingAbove(text, start, keywords);
     const stars = above ? above.heading.stars + 1 : level;
     const name = text.slice(start, end);
+    // Mid-line, the entry starts on a fresh line so its stars are in column one, where Org requires them.
     const atLineStart = start === 0 || text[start - 1] === "\n";
     const lead = atLineStart ? "" : "\n";
     const head = `${"*".repeat(stars)} ${name}\n:PROPERTIES:\n`;
@@ -632,6 +652,7 @@ export function applyTool(
     const keywords = options.todoKeywords ?? DEFAULT_KEYWORDS;
     const level = options.headingLevel ?? 1;
     const today = options.today ?? localToday();
+    // The six text effects share one implementation, differing only in the marker.
     if (tool in WRAP_MARKERS) return toggleWrap(text, start, end, WRAP_MARKERS[tool as WrapTool]);
     switch (tool) {
         case "link":
@@ -706,5 +727,6 @@ export function applyTool(
                 keywords,
             );
     }
+    // Unreachable for a typed ToolId (every case returns); an id from untyped code changes nothing.
     return unchanged(text, start, end);
 }
