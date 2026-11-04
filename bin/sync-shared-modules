@@ -99,6 +99,16 @@ EXTRA_TARGETS = {
         "lily-design-system-alpine-headless/wheel-picker.js",
         "lily-design-system-html-headless/components/wheel-picker.html",
     ],
+    # Month grids in any CLDR calendar (spec/date-time-picker), beside each picker.
+    "calendar-system.ts": [
+        "lily-design-system-svelte-date-time-picker/calendar-system.ts",
+        "lily-design-system-react-date-time-picker/calendar-system.ts",
+        "lily-design-system-vue-date-time-picker/calendar-system.ts",
+        "lily-design-system-angular-date-time-picker/calendar-system.ts",
+        "lily-design-system-html-date-time-picker/calendar-system.ts",
+        "lily-design-system-web-components-date-time-picker/calendar-system.ts",
+        "lily-design-system-nunjucks-date-time-picker/calendar-system.ts",
+    ],
     # Development warnings (spec/testing): beside each component that reports one, and in the example apps' copies.
     "dev-warning.ts": [
         "lily-design-system-svelte-headless/components/IconButton/dev-warning.ts",

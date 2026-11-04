@@ -98,6 +98,7 @@ each of which fixes a defect rather than adding taste, are in §9.
 | `mode`             | `"date" \| "time" \| "datetime"`   | no       | `"date"`                             | What to collect.                                                                               |
 | `value`            | `string` (bindable)                | no       | `""`                                 | ISO value.                                                                                     |
 | `locale`           | `string`                           | no       | runtime default                      | BCP 47 tag driving all formatting.                                                             |
+| `calendar`         | `string`                           | no       | `"gregory"`                          | CLDR calendar for the day grid, heading and day names. The value stays ISO.                    |
 | `min`              | `string`                           | no       | —                                    | Earliest selectable date, ISO.                                                                 |
 | `max`              | `string`                           | no       | —                                    | Latest selectable date, ISO.                                                                   |
 | `isDateDisabled`   | `(isoDate: string) => boolean`     | no       | —                                    | Veto individual dates.                                                                         |

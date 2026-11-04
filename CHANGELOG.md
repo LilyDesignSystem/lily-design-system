@@ -14,6 +14,7 @@ highlights.
 From the [survey of 18 design systems](spec/design-system-survey-lessons/index.md), tasks.md Phase 23.
 
 - **Catalog 609:** `iban-input` and `iban-view` in every headless library and example app, `experimental`.
+- **Calendar systems:** a `calendar` prop on `date-time-picker` in all eight catalogs, with no new dependency (`shared/calendar-system.ts` over `Intl`; `CalendarSystem.cs` and a `CalendarId` parameter in Blazor). The value stays ISO Gregorian, and so does the typed field.
 - **Pattern testers:** `shared/pattern-contracts.json`, run by a DOM driver and a bUnit driver: 48 runs across eight catalogs. Lily Core criterion (a) went from 3 to 7 of 40, in part from a regex that missed `new window.KeyboardEvent`.
 - **Lifecycle:** `deprecated` and `discouraged` statuses, `bin/check-lifecycle` in `bin/test`, `docs/adopters.md`. `carousel` is `discouraged`, with `card` in a `grid` as its alternative.
 - **Development warnings:** `shared/dev-warning.ts`; `icon-button` warns on a missing name in Svelte, React, Vue and Angular.

@@ -155,6 +155,8 @@
         value?: string;
         /** BCP 47 tag driving month names, weekday names and first weekday. */
         locale?: string;
+        /** CLDR calendar for the day grid, such as `persian` or `islamic-umalqura`. Default `gregory`. The value stays ISO. */
+        calendar?: string;
         /** Earliest selectable date, ISO. */
         min?: string;
         /** Latest selectable date, ISO. */
@@ -617,9 +619,9 @@
     }
 
     /**
-     * The locale with the Gregorian calendar forced. The day grid is always Gregorian, so a heading, day label or month name
+     * The locale with the Gregorian calendar forced. The typed field is Gregorian, so a month name or field value
      * in the locale's own calendar (Solar Hijri for fa-IR, Buddhist years for th-TH, Japanese eras for ja-JP-u-ca-japanese)
-     * would name a different date than the cell the user is on. A `calendar` prop is planned (P17-T1).
+     * would name a different date than the cell the user is on. The `calendar` prop sets the grid; the field text stays Gregorian.
      */
     export function gregorian(locale?: string): string | undefined {
         if (!locale) return locale;
@@ -774,6 +776,14 @@
 
 <script lang="ts">
     import { untrack } from "svelte";
+    import {
+        calendarAddMonths,
+        calendarDay,
+        calendarLocale,
+        calendarMonthLength,
+        calendarMonthMatrix,
+        calendarMonthStart,
+    } from "./calendar-system";
     import { isRtl, logicalKey } from "./direction";
 
     let {
@@ -783,6 +793,7 @@
         mode = "date",
         value = $bindable(""),
         locale,
+        calendar = "gregory",
         min,
         max,
         isDateDisabled,
@@ -927,8 +938,8 @@
      */
     const initialAnchor = untrack(() => parseIsoDate(splitValue(value ?? "", mode).date));
 
-    let viewYear = $state(initialAnchor?.year ?? 1970);
-    let viewMonth = $state(initialAnchor?.month ?? 1);
+    // The month shown, named by the ISO date of its first day in `calendar`.
+    let viewStart = $state(initialAnchor ? calendarMonthStart(formatIsoDate(initialAnchor), calendar) : "1970-01-01");
 
     /** The day the grid's roving tabindex sits on. */
     let cursor = $state(initialAnchor ? formatIsoDate(initialAnchor) : "");
@@ -1057,7 +1068,7 @@
         const parsed = parseIsoDate(isoDate);
         if (!parsed) return isoDate;
         try {
-            return new Intl.DateTimeFormat(gregorian(locale), {
+            return new Intl.DateTimeFormat(calendarLocale(locale, calendar), {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
@@ -1072,13 +1083,13 @@
     /** The "March 2026" heading. */
     const periodText = $derived.by(() => {
         try {
-            return new Intl.DateTimeFormat(gregorian(locale), {
+            return new Intl.DateTimeFormat(calendarLocale(locale, calendar), {
                 month: "long",
                 year: "numeric",
                 timeZone: "UTC",
-            }).format(new Date(Date.UTC(viewYear, viewMonth - 1, 1)));
+            }).format(new Date(`${viewStart}T00:00:00Z`));
         } catch {
-            return `${viewYear}-${pad(viewMonth)}`;
+            return viewStart.slice(0, 7);
         }
     });
 
@@ -1107,7 +1118,8 @@
         return out;
     });
 
-    const weeks = $derived(monthMatrix(viewYear, viewMonth, weekStart));
+    const weeks = $derived(calendarMonthMatrix(viewStart, weekStart, calendar));
+    const viewEnd = $derived(calendarAddMonths(viewStart, 1, calendar));
 
     // ---------------------------------------------------------------
     // Selectability
@@ -1147,10 +1159,7 @@
         pendingTime = committed.time || defaultTime();
         cursor = pendingDate;
         const anchor = parseIsoDate(pendingDate) ?? parseIsoDate(today);
-        if (anchor) {
-            viewYear = anchor.year;
-            viewMonth = anchor.month;
-        }
+        if (anchor) viewStart = calendarMonthStart(formatIsoDate(anchor), calendar);
         open = true;
         queueMicrotask(() => focusInitial());
     }
@@ -1256,11 +1265,7 @@
     function moveCursor(nextIso: string): void {
         if (!withinRange(nextIso, min, max)) return;
         cursor = nextIso;
-        const parsed = parseIsoDate(nextIso);
-        if (parsed && (parsed.year !== viewYear || parsed.month !== viewMonth)) {
-            viewYear = parsed.year;
-            viewMonth = parsed.month;
-        }
+        if (parseIsoDate(nextIso)) viewStart = calendarMonthStart(nextIso, calendar);
         queueMicrotask(() => focusCursor());
     }
 
@@ -1285,26 +1290,19 @@
     }
 
     function shiftMonth(delta: number): void {
-        const anchor = formatIsoDate({ year: viewYear, month: viewMonth, day: 1 });
-        const next = parseIsoDate(addMonths(anchor, delta));
-        if (!next) return;
+        const next = calendarAddMonths(viewStart, delta, calendar);
         // Refocus the cursor only when focus is already in the grid: grid
         // paging (PageUp/PageDown, or a browser that focused nothing on
         // click) must carry focus, or it dies with the unrendered cell —
         // but a header button must keep focus, or its user is yanked into
         // the grid after one activation and cannot page twice.
         const hadGridFocus = gridEl?.contains(document.activeElement) === true;
-        viewYear = next.year;
-        viewMonth = next.month;
+        viewStart = next;
         // Carry the cursor into the new month rather than leaving the
         // roving tabindex on a cell that is no longer rendered.
-        const c = parseIsoDate(cursor);
-        if (c) {
-            cursor = formatIsoDate({
-                year: next.year,
-                month: next.month,
-                day: Math.min(c.day, daysInMonth(next.year, next.month)),
-            });
+        if (parseIsoDate(cursor)) {
+            const day = Math.min(calendarDay(cursor, calendar), calendarMonthLength(next, calendar));
+            cursor = addDays(next, day - 1);
             if (hadGridFocus) queueMicrotask(() => focusCursor());
         }
     }
@@ -1331,11 +1329,7 @@
         const next = addDays(from, delta);
         if (!withinRange(next, min, max)) return;
         const hadGridFocus = gridEl?.contains(document.activeElement) === true;
-        const parsed = parseIsoDate(next);
-        if (parsed && (parsed.year !== viewYear || parsed.month !== viewMonth)) {
-            viewYear = parsed.year;
-            viewMonth = parsed.month;
-        }
+        if (parseIsoDate(next)) viewStart = calendarMonthStart(next, calendar);
         cursor = next;
         if (!dayDisabled(next)) pendingDate = next;
         if (hadGridFocus) queueMicrotask(() => focusCursor());
@@ -1587,11 +1581,7 @@
 
         pendingDate = target;
         cursor = target;
-        const parsed = parseIsoDate(target);
-        if (parsed) {
-            viewYear = parsed.year;
-            viewMonth = parsed.month;
-        }
+        if (parseIsoDate(target)) viewStart = calendarMonthStart(target, calendar);
         onShortcut?.(shortcut.id, target);
         if (commitOnDay) commit();
         else queueMicrotask(() => focusCursor());
@@ -1608,8 +1598,7 @@
         today = todayIso();
         const anchor = parseIsoDate(committed.date) ?? parseIsoDate(today);
         if (anchor) {
-            viewYear = anchor.year;
-            viewMonth = anchor.month;
+            viewStart = calendarMonthStart(formatIsoDate(anchor), calendar);
             cursor = formatIsoDate(anchor);
         }
     });
@@ -1936,7 +1925,7 @@
                                         type="button"
                                         class="date-time-picker-day"
                                         data-date={isoDate}
-                                        data-outside={parsed?.month !== viewMonth ? "" : undefined}
+                                        data-outside={isoDate < viewStart || isoDate >= viewEnd ? "" : undefined}
                                         data-today={isToday ? "" : undefined}
                                         data-selected={isSelected ? "" : undefined}
                                         data-disabled={isDisabled ? "" : undefined}
@@ -1946,7 +1935,7 @@
                                         aria-disabled={isDisabled ? "true" : undefined}
                                         onclick={() => selectDay(isoDate)}
                                     >
-                                        {parsed?.day ?? ""}
+                                        {parsed ? calendarDay(isoDate, calendar) : ""}
                                     </button>
                                 </td>
                             {/each}

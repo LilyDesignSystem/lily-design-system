@@ -32,6 +32,14 @@
  */
 
 import "@lilydesignsystem/web-components-headless";
+import {
+    calendarAddMonths,
+    calendarDay,
+    calendarLocale,
+    calendarMonthLength,
+    calendarMonthMatrix,
+    calendarMonthStart,
+} from "./calendar-system.js";
 import { isRtl, logicalKey } from "./direction.js";
 
 // -----------------------------------------------------------------------
@@ -807,6 +815,7 @@ export class DateTimePicker extends HTMLElement {
             "mode",
             "value",
             "locale",
+            "calendar",
             "min",
             "max",
             "first-day-of-week",
@@ -857,8 +866,8 @@ export class DateTimePicker extends HTMLElement {
     #resetTimer: ReturnType<typeof setTimeout> | undefined;
     #pendingDate = "";
     #pendingTime = "";
-    #viewYear = 1970;
-    #viewMonth = 1;
+    /** The month shown, named by the ISO date of its first day in `calendar`. */
+    #viewStart = "1970-01-01";
     #cursor = "";
     #today = "";
     #initialised = false;
@@ -996,6 +1005,11 @@ export class DateTimePicker extends HTMLElement {
     set value(v: string) {
         if (v) this.setAttribute("value", v);
         else this.removeAttribute("value");
+    }
+
+    /** CLDR calendar for the day grid, such as `persian`. Default `gregory`. The value stays ISO. */
+    get calendar(): string {
+        return this.getAttribute("calendar") || "gregory";
     }
 
     get locale(): string | undefined {
@@ -1316,8 +1330,7 @@ export class DateTimePicker extends HTMLElement {
             const anchor =
                 parseIsoDate(splitValue(this.value, this.mode).date) ?? parseIsoDate(this.#today);
             if (anchor) {
-                this.#viewYear = anchor.year;
-                this.#viewMonth = anchor.month;
+                this.#viewStart = calendarMonthStart(formatIsoDate(anchor), this.calendar);
                 this.#cursor = formatIsoDate(anchor);
             }
         }
@@ -1398,8 +1411,7 @@ export class DateTimePicker extends HTMLElement {
         this.#cursor = this.#pendingDate;
         const anchor = parseIsoDate(this.#pendingDate) ?? parseIsoDate(this.#today);
         if (anchor) {
-            this.#viewYear = anchor.year;
-            this.#viewMonth = anchor.month;
+            this.#viewStart = calendarMonthStart(formatIsoDate(anchor), this.calendar);
         }
         this.#open = true;
         this.#syncState();
@@ -1535,9 +1547,8 @@ export class DateTimePicker extends HTMLElement {
         if (!withinRange(nextIso, this.min, this.max)) return;
         this.#cursor = nextIso;
         const parsed = parseIsoDate(nextIso);
-        if (parsed && (parsed.year !== this.#viewYear || parsed.month !== this.#viewMonth)) {
-            this.#viewYear = parsed.year;
-            this.#viewMonth = parsed.month;
+        if (parsed) {
+            this.#viewStart = calendarMonthStart(formatIsoDate(parsed), this.calendar);
         }
         this.#syncState();
         queueMicrotask(() => this.#focusCursor());
@@ -1565,9 +1576,7 @@ export class DateTimePicker extends HTMLElement {
     }
 
     #shiftMonth(delta: number): void {
-        const anchor = formatIsoDate({ year: this.#viewYear, month: this.#viewMonth, day: 1 });
-        const next = parseIsoDate(addMonths(anchor, delta));
-        if (!next) return;
+        const next = calendarAddMonths(this.#viewStart, delta, this.calendar);
         // Refocus the cursor only when focus is already in the grid:
         // grid paging (PageUp/PageDown, or a browser that focused
         // nothing on click) must carry focus, or it dies with the
@@ -1575,17 +1584,12 @@ export class DateTimePicker extends HTMLElement {
         // user is yanked into the grid after one activation and cannot
         // page twice.
         const hadGridFocus = this.#tableEl?.contains(document.activeElement) === true;
-        this.#viewYear = next.year;
-        this.#viewMonth = next.month;
+        this.#viewStart = next;
         // Carry the cursor into the new month rather than leaving the
         // roving tabindex on a cell that is no longer rendered.
         const c = parseIsoDate(this.#cursor);
         if (c) {
-            this.#cursor = formatIsoDate({
-                year: next.year,
-                month: next.month,
-                day: Math.min(c.day, daysInMonth(next.year, next.month)),
-            });
+            this.#cursor = addDays(next, Math.min(calendarDay(formatIsoDate(c), this.calendar), calendarMonthLength(next, this.calendar)) - 1);
         }
         this.#syncState();
         if (c && hadGridFocus) queueMicrotask(() => this.#focusCursor());
@@ -1612,9 +1616,8 @@ export class DateTimePicker extends HTMLElement {
         if (!withinRange(next, this.min, this.max)) return;
         const hadGridFocus = this.#tableEl?.contains(document.activeElement) === true;
         const parsed = parseIsoDate(next);
-        if (parsed && (parsed.year !== this.#viewYear || parsed.month !== this.#viewMonth)) {
-            this.#viewYear = parsed.year;
-            this.#viewMonth = parsed.month;
+        if (parsed) {
+            this.#viewStart = calendarMonthStart(formatIsoDate(parsed), this.calendar);
         }
         this.#cursor = next;
         if (!this.#dayDisabled(next)) this.#pendingDate = next;
@@ -1856,8 +1859,7 @@ export class DateTimePicker extends HTMLElement {
         this.#cursor = target;
         const parsed = parseIsoDate(target);
         if (parsed) {
-            this.#viewYear = parsed.year;
-            this.#viewMonth = parsed.month;
+            this.#viewStart = calendarMonthStart(formatIsoDate(parsed), this.calendar);
         }
         this.onShortcut?.(shortcut.id, target);
         this.dispatchEvent(
@@ -1927,7 +1929,7 @@ export class DateTimePicker extends HTMLElement {
         const parsed = parseIsoDate(isoDate);
         if (!parsed) return isoDate;
         try {
-            return new Intl.DateTimeFormat(gregorian(this.locale), {
+            return new Intl.DateTimeFormat(calendarLocale(this.locale, this.calendar), {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
@@ -1942,13 +1944,13 @@ export class DateTimePicker extends HTMLElement {
     /** The "March 2026" heading. */
     #periodText(): string {
         try {
-            return new Intl.DateTimeFormat(gregorian(this.locale), {
+            return new Intl.DateTimeFormat(calendarLocale(this.locale, this.calendar), {
                 month: "long",
                 year: "numeric",
                 timeZone: "UTC",
-            }).format(new Date(Date.UTC(this.#viewYear, this.#viewMonth - 1, 1)));
+            }).format(new Date(`${this.#viewStart}T00:00:00Z`));
         } catch {
-            return `${this.#viewYear}-${pad(this.#viewMonth)}`;
+            return this.#viewStart.slice(0, 7);
         }
     }
 
@@ -2096,14 +2098,14 @@ export class DateTimePicker extends HTMLElement {
                 this.#weekHeadingTh.textContent = text;
             }
 
-            const weeks = monthMatrix(this.#viewYear, this.#viewMonth, this.firstDayOfWeek);
+            const weeks = calendarMonthMatrix(this.#viewStart, this.firstDayOfWeek, this.calendar);
             const flat = weeks.flat();
             this.#dayCells.forEach(({ td, button }, i) => {
                 const isoDate = flat[i];
                 const parsed = parseIsoDate(isoDate);
                 const isToday = isoDate === this.#today;
                 const isSelected = isoDate === this.#pendingDate;
-                const isOutside = parsed?.month !== this.#viewMonth;
+                const isOutside = isoDate < this.#viewStart || isoDate >= calendarAddMonths(this.#viewStart, 1, this.calendar);
                 const isDisabled = this.#dayDisabled(isoDate);
 
                 button.dataset.date = isoDate;
@@ -2132,7 +2134,7 @@ export class DateTimePicker extends HTMLElement {
                     button.removeAttribute("aria-disabled");
                     button.removeAttribute("data-disabled");
                 }
-                button.textContent = String(parsed?.day ?? "");
+                button.textContent = parsed ? String(calendarDay(isoDate, this.calendar)) : "";
 
                 td.setAttribute("aria-selected", String(isSelected));
             });
