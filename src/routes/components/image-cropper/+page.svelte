@@ -87,11 +87,18 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>No keyboard interactions are baked in — this is a passive container. Consumers wire pointer and keyboard handling for the crop region and resize handles inside the provided children.</li>
+      <li>ArrowLeft, ArrowRight, ArrowUp, ArrowDown: Move the crop rectangle. They are physical, since they move a rectangle over an image, not text, so right-to-left does not swap them</li>
+      <li>Alt+arrows: Resize it</li>
+      <li>Shift: Ten steps at a time</li>
+      <li>Home, End: Jump along the row</li>
+      <li>A key on a control inside it stays that control's</li>
     </ul>
+    <p>The rectangle is <code>&#123; x, y, width, height &#125;</code> in percent, and stays inside the image. Each change writes <code>data-crop-x</code>, <code>-y</code>, <code>-width</code>, <code>-height</code> and <code>--crop-x</code>, <code>-y</code>, <code>-width</code>, <code>-height</code>, and reports the rectangle. Dragging, drawing the overlay, and announcing the position in the consumer's words are the consumer's. From <code>shared/widget-keys.ts</code>, held to the <code>cropper</code> contract.</p>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible description of the image cropper via <code>aria-label</code></li>
+      <li><code>crop</code>: <code>&#123; x, y, width, height &#125;</code>, optional -- where the rectangle starts, in percent; default the whole image</li>
+      <li><code>onCropChange</code>: function, optional -- called with each new rectangle</li>
       <li><code>children</code>: slot (required) -- the image and crop overlay surface (image, canvas, SVG, or cropping-library output)</li>
     </ul>
 </section>
