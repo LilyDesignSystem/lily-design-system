@@ -275,7 +275,7 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
   and `showModal`; it proves the ARIA, that Escape and `cancel` close, and where the grid's one tab stop goes.
 - Proved to fail: removing the guard fails `dialog` in six ports and `combobox` in five; breaking `ArrowDown` in `grid-navigation.ts`
   fails `grid` in eight. Blazor's C# copy of that module was not mutated.
-- Not built yet: a published package for adopters, which needs a maintainer's decision on its name and when it is proved enough.
+- **For adopters:** `lily-design-system-pattern-testers`, `@lilydesignsystem/pattern-testers` 0.1.0, built but not yet published. `bin/sync-shared-modules` copies the three files into it, and `bin/publish-helpers` and `bin/verify-published` include it. The bUnit driver is not in it.
 
 ## Development warnings
 

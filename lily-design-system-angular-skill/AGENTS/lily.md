@@ -85,7 +85,7 @@ The other seven catalogs mirror the Svelte list one package per subproject, name
 | Nunjucks       | `bin/list-helper-packages nunjucks`       |
 | Blazor         | `bin/list-helper-packages blazor`         |
 
-Nunjucks also ships `nunjucks-listbox-behavior`. Alpine ships only `alpine-{data-grid,kanban-board,calendar,gantt-chart,markdown-editor,org-editor}` (`bin/list-helper-packages alpine`). Port gaps are allow-listed with reasons in `bin/check-port-parity.allow.json`. The framework-neutral `lily-design-system-locale-translations` and `lily-design-system-themes` are top-level packages too, outside the 184.
+Nunjucks also ships `nunjucks-listbox-behavior`. Alpine ships only `alpine-{data-grid,kanban-board,calendar,gantt-chart,markdown-editor,org-editor}` (`bin/list-helper-packages alpine`). Port gaps are allow-listed with reasons in `bin/check-port-parity.allow.json`. The framework-neutral `lily-design-system-locale-translations`, `lily-design-system-pattern-testers` and `lily-design-system-themes` are top-level packages too, outside the 184.
 
 ## Reference themes
 

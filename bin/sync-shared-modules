@@ -120,6 +120,10 @@ EXTRA_TARGETS = {
         "lily-design-system-angular-headless/components/dev-warning.ts",
         "lily-design-system-angular-examples/src/app/components/dev-warning.ts",
     ],
+    # The published pattern testers (spec/testing): Lily's own tests import shared/ directly, adopters get this package.
+    "pattern-tester.ts": ["lily-design-system-pattern-testers/pattern-tester.ts"],
+    "pattern-contracts.json": ["lily-design-system-pattern-testers/pattern-contracts.json"],
+    "pattern-browser.cjs": ["lily-design-system-pattern-testers/pattern-browser.cjs"],
     # The page-level development check (spec/testing), for the catalogs with no component code to hook.
     "page-check.js": [
         "lily-design-system-html-headless/components/page-check.js",

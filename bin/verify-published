@@ -83,6 +83,9 @@ def main() -> int:
         manifest = json.load(open(os.path.join(TOP, "lily-design-system-locale-translations", "package.json")))
         if only is None or only in "lily-design-system-locale-translations":
             todo.append(("lily-design-system-locale-translations", "npm", manifest["name"], manifest["version"]))
+        manifest = json.load(open(os.path.join(TOP, "lily-design-system-pattern-testers", "package.json")))
+        if only is None or only in "lily-design-system-pattern-testers":
+            todo.append(("lily-design-system-pattern-testers", "npm", manifest["name"], manifest["version"]))
     deadline = time.time() + wait
     missing = list(todo)
     while True:
