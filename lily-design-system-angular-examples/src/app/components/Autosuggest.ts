@@ -131,16 +131,28 @@ export class Autosuggest implements OnInit {
     }
 
     protected onKeydown(event: KeyboardEvent): void {
+        if (event.isComposing) return; // The key belongs to the IME.
         const count = this.suggestions().length;
         const open = this.open();
         const active = this.active();
         switch (event.key) {
             case "ArrowDown":
                 if (count === 0) return;
+                if (event.altKey) {
+                    if (open) return;
+                    this.wanted.set(true);
+                    break;
+                }
                 this.active.set(open ? (active + 1) % count : 0);
                 this.wanted.set(true);
                 break;
             case "ArrowUp":
+                if (event.altKey) {
+                    if (!open) return;
+                    this.wanted.set(false);
+                    this.active.set(-1);
+                    break;
+                }
                 if (count === 0) return;
                 this.active.set(open && active > 0 ? active - 1 : count - 1);
                 this.wanted.set(true);

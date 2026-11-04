@@ -122,10 +122,20 @@
         {
             case "ArrowDown":
                 if (count == 0) return;
+                if (e.AltKey)
+                {
+                    if (!open) _wanted = true;
+                    break;
+                }
                 _active = open ? (_active + 1) % count : 0;
                 _wanted = true;
                 break;
             case "ArrowUp":
+                if (e.AltKey)
+                {
+                    if (open) Close();
+                    break;
+                }
                 if (count == 0) return;
                 _active = open && _active > 0 ? _active - 1 : count - 1;
                 _wanted = true;

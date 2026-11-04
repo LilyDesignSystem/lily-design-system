@@ -43,7 +43,12 @@
   "files": [
     "index.js",
     "components/*/macro.njk",
+    "components/autosuggest/autosuggest.js",
     "components/combobox/combobox.js",
+    "components/menu/menu.js",
+    "components/menu-bar/menu-bar.js",
+    "components/roving.js",
+    "components/tab-bar/tab-bar.js",
     "components/contents-nav/spy.js",
     "components/tree-list/tree.js",
     "components/page-check.js",

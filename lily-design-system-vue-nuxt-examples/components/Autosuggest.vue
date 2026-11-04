@@ -26,6 +26,7 @@
 // Keyboard:
 //   - ArrowDown: open the list / highlight the next option (wraps)
 //   - ArrowUp: open the list / highlight the previous option (wraps)
+//   - Alt+ArrowDown: open without moving the highlight; Alt+ArrowUp: close
 //   - Home / End: highlight the first / last option while the list is open
 //   - Enter: choose the highlighted option
 //   - Escape: close the list without choosing
@@ -105,14 +106,26 @@ function oninput(event: Event) {
 }
 
 function onkeydown(event: KeyboardEvent) {
+    if (event.isComposing) return; // The key belongs to the IME.
     const count = props.suggestions.length;
     switch (event.key) {
         case "ArrowDown":
             if (count === 0) return;
+            if (event.altKey) {
+                if (open.value) return;
+                wanted.value = true;
+                break;
+            }
             active.value = open.value ? (active.value + 1) % count : 0;
             wanted.value = true;
             break;
         case "ArrowUp":
+            if (event.altKey) {
+                if (!open.value) return;
+                wanted.value = false;
+                active.value = -1;
+                break;
+            }
             if (count === 0) return;
             active.value = open.value && active.value > 0 ? active.value - 1 : count - 1;
             wanted.value = true;

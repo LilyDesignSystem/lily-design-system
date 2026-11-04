@@ -105,7 +105,7 @@
   ],
   "counts": {
     "candidates": 40,
-    "keyboard": 7,
+    "keyboard": 10,
     "e2e": 38,
     "screenReader": 0,
     "core": 0,
@@ -116,7 +116,7 @@
       "angular": 13,
       "html": 23,
       "web-components": 20,
-      "nunjucks": 12,
+      "nunjucks": 15,
       "blazor": 11
     },
     "matrixRows": 23,
@@ -3514,8 +3514,8 @@
       "group": "tabs",
       "helper": false,
       "keyboard": {
-        "met": false,
-        "metCount": 7,
+        "met": true,
+        "metCount": 8,
         "keyboardContract": "keys",
         "libraries": {
           "svelte": {
@@ -3579,12 +3579,13 @@
             "ariaAssertion": "lily-design-system-web-components-headless/components/tab-bar.pattern.test.ts"
           },
           "nunjucks": {
-            "status": "no key event",
-            "met": false,
+            "status": "met",
+            "met": true,
             "testFiles": [
-              "lily-design-system-nunjucks-headless/components/tab-bar/macro.test.js"
+              "lily-design-system-nunjucks-headless/components/tab-bar/macro.test.js",
+              "lily-design-system-nunjucks-headless/components/tab-bar/tab-bar.pattern.test.js"
             ],
-            "keyEvent": null,
+            "keyEvent": "lily-design-system-nunjucks-headless/components/tab-bar/tab-bar.pattern.test.js",
             "ariaAssertion": "lily-design-system-nunjucks-headless/components/tab-bar/macro.test.js"
           },
           "blazor": {
@@ -3874,8 +3875,8 @@
       "group": "menus",
       "helper": false,
       "keyboard": {
-        "met": false,
-        "metCount": 7,
+        "met": true,
+        "metCount": 8,
         "keyboardContract": "keys",
         "libraries": {
           "svelte": {
@@ -3939,12 +3940,13 @@
             "ariaAssertion": "lily-design-system-web-components-headless/components/menu.pattern.test.ts"
           },
           "nunjucks": {
-            "status": "no key event",
-            "met": false,
+            "status": "met",
+            "met": true,
             "testFiles": [
-              "lily-design-system-nunjucks-headless/components/menu/macro.test.js"
+              "lily-design-system-nunjucks-headless/components/menu/macro.test.js",
+              "lily-design-system-nunjucks-headless/components/menu/menu.pattern.test.js"
             ],
-            "keyEvent": null,
+            "keyEvent": "lily-design-system-nunjucks-headless/components/menu/menu.pattern.test.js",
             "ariaAssertion": "lily-design-system-nunjucks-headless/components/menu/macro.test.js"
           },
           "blazor": {
@@ -4016,8 +4018,8 @@
       "group": "menus",
       "helper": false,
       "keyboard": {
-        "met": false,
-        "metCount": 7,
+        "met": true,
+        "metCount": 8,
         "keyboardContract": "keys",
         "libraries": {
           "svelte": {
@@ -4081,12 +4083,13 @@
             "ariaAssertion": "lily-design-system-web-components-headless/components/menu-bar.pattern.test.ts"
           },
           "nunjucks": {
-            "status": "no key event",
-            "met": false,
+            "status": "met",
+            "met": true,
             "testFiles": [
-              "lily-design-system-nunjucks-headless/components/menu-bar/macro.test.js"
+              "lily-design-system-nunjucks-headless/components/menu-bar/macro.test.js",
+              "lily-design-system-nunjucks-headless/components/menu-bar/menu-bar.pattern.test.js"
             ],
-            "keyEvent": null,
+            "keyEvent": "lily-design-system-nunjucks-headless/components/menu-bar/menu-bar.pattern.test.js",
             "ariaAssertion": "lily-design-system-nunjucks-headless/components/menu-bar/macro.test.js"
           },
           "blazor": {

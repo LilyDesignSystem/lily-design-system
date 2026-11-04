@@ -93,6 +93,7 @@ interface ComboboxStep {
 interface AutosuggestStep {
     name: string;
     press?: string;
+    alt?: boolean;
     expect: { expanded: boolean; active?: Index; value?: number; prevented?: boolean };
 }
 
@@ -430,7 +431,15 @@ async function runAutosuggest(options: PatternOptions): Promise<void> {
 
     for (const step of contracts.autosuggest.steps as AutosuggestStep[]) {
         let prevented: boolean | undefined;
-        if (step.press) prevented = await fire(input, escape(step.press), options);
+        if (step.press) {
+            const event = new KeyboardEvent("keydown", {
+                key: step.press,
+                altKey: step.alt ?? false,
+                bubbles: true,
+                cancelable: true,
+            });
+            prevented = await fire(input, event, options);
+        }
         const { expanded, active, value, prevented: wantPrevented } = step.expect;
         const actual = input.getAttribute("aria-expanded");
         if (actual !== String(expanded)) fail(step.name, `aria-expanded is ${actual}`);

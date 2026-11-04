@@ -237,14 +237,14 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 | ------------------- | -------------------------------------------------------------------- | -------- | ---- |
 | `picker-listbox`    | `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker` | 8        | 32   |
 | `picker-disclosure` | `share-picker`, `link-picker`                                        | 8        | 16   |
-| `tabs`              | `tab-bar`                                                            | 7        | 7    |
-| `menu`              | `menu`                                                               | 7        | 7    |
-| `menubar`           | `menu-bar`                                                           | 7        | 7    |
+| `tabs`              | `tab-bar`                                                            | 8        | 8    |
+| `menu`              | `menu`                                                               | 8        | 8    |
+| `menubar`           | `menu-bar`                                                           | 8        | 8    |
 | `tree`              | `tree-list`                                                          | 8        | 8    |
 | `combobox`          | `combobox`                                                           | 8        | 8    |
 | `dialog`            | `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`       | 7        | 35   |
 | `grid`              | the `data-grid` helper                                               | 8        | 8    |
-| `autosuggest`       | `autosuggest`                                                        | 7        | 7    |
+| `autosuggest`       | `autosuggest`                                                        | 8        | 8    |
 | `tree-expand`       | `tree-list-item`, or `tree-list` where the tree owns the keys        | 8        | 8    |
 
 - A file named `*.pattern.test.*`, `*.pattern.spec.ts` or `*PatternTests.cs` holds the run.
@@ -256,15 +256,14 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
   `Expanded`; the module and the item are tested apart, and that wiring has not run in a real browser.
 - HTML runs in a real browser through `shared/pattern-browser.cjs`; Blazor's focus contracts run from `tests/js/`, against its
   `.razor.js` modules, because bUnit has no focus. Alpine also runs all four, though Core does not count it.
-- **Nunjucks runs `tree` and `tree-expand` but not `tabs`, `menu` or `menubar`.** Its macros are markup only. `tree-list/tree.js` and `combobox/combobox.js` are its first
-  client modules for these contracts, as ES modules the consumer loads. `tab-bar`, `menu` and `menu-bar` still have no keyboard behaviour there, which is what stops them meeting criterion (a), at 7 of 8.
+- **Nunjucks's macros are markup only**, so its keys are optional client modules the consumer loads: `combobox/combobox.js`, `autosuggest/autosuggest.js`, `tree-list/tree.js`, and `tab-bar/tab-bar.js`, `menu/menu.js` and `menu-bar/menu-bar.js` over `components/roving.js`. Every contract runs there but `dialog`.
 - `time-zone-picker` is not covered: every label starts "UTC", so the fixture rule for typeahead cannot hold.
 - bUnit has no browser focus, so the C# driver skips `focus` expectations; the DOM driver runs them in the other seven catalogs.
 - `bin/generate-core` counts a `runPattern` or `PatternTester.Run` call as both a key event and an ARIA assertion for criterion (a).
 - Proved to fail: removing `aria-selected` from `theme-picker` in each of the eight ports fails its run; breaking `End` in `tab-bar` fails in all eight ports that have one (Alpine in place of Nunjucks).
 - **A contract is not a conformance claim.** `lily-design-system-pattern-testers/index.md` lists what each one covers and leaves out.
 - `combobox` is the APG pattern with list autocomplete and manual selection, in all eight catalogs and Alpine: `shared/combobox-keys.ts` in Svelte, React, Vue, Angular and Web Components, `shared/combobox-client.js` in Nunjucks and Blazor, inlined in the HTML snippet, and `lilyCombobox` in Alpine. The tester installs three options into an empty list. Bare-DOM duplicates were accepted over a build step, since this contract holds them to one behaviour. Blazor's module runs the keys from `tests/js/`, and the C# driver stops at the first Alt step and proves the wiring and Escape; `ComboboxTests` proves the two meet at the parameters, though that wiring has not run in a real browser.
-  `autosuggest` covers the same keys less Alt+Arrow, for suggestions passed as data, and Nunjucks has no run for it, since its macros leave those keys to the consumer's script. `dialog` opens through each catalog's own way of opening it;
+  `autosuggest` covers the same keys, for suggestions passed as data. `dialog` opens through each catalog's own way of opening it;
   where the engine has no `showModal` (jsdom) the driver stubs it the way a browser behaves, and the Tab trap and inert page stay the
   browser's part. `grid` runs against the `data-grid` helper because no headless component has a cell cursor: `grid` and `data-table`
   are passive. Row 0 is the header row. Sorting, editing and selection stay in the helper's own tests. Alpine also runs

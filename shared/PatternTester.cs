@@ -121,7 +121,7 @@ public static class PatternTester
             var name = step.GetProperty("name").GetString();
             void Fail(string message) => throw new Exception($"autosuggest, {hook}, \"{name}\": {message}");
             if (step.TryGetProperty("press", out var press))
-                cut.Find("[role='combobox']").KeyDown(new KeyboardEventArgs { Key = press.GetString()! });
+                cut.Find("[role='combobox']").KeyDown(new KeyboardEventArgs { Key = press.GetString()!, AltKey = step.TryGetProperty("alt", out _) });
 
             var input = cut.Find("[role='combobox']");
             var expected = step.GetProperty("expect");

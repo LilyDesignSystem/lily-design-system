@@ -854,7 +854,7 @@
     ]
   },
   "autosuggest": {
-    "source": "WAI-ARIA APG combobox with list autocomplete: the input keeps focus and owns the keys (components/autosuggest/AGENTS.md).",
+    "source": "WAI-ARIA APG combobox with list autocomplete: the input keeps focus and owns the keys, for suggestions passed as data (components/autosuggest/AGENTS.md).",
     "fixture": {
       "suggestions": [
         {
@@ -884,6 +884,24 @@
         "expect": {
           "expanded": false,
           "prevented": false
+        }
+      },
+      {
+        "name": "Alt+ArrowDown opens with nothing highlighted",
+        "press": "ArrowDown",
+        "alt": true,
+        "expect": {
+          "expanded": true,
+          "prevented": true
+        }
+      },
+      {
+        "name": "Alt+ArrowUp closes",
+        "press": "ArrowUp",
+        "alt": true,
+        "expect": {
+          "expanded": false,
+          "prevented": true
         }
       },
       {

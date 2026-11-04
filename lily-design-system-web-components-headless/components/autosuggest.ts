@@ -34,6 +34,7 @@
 //
 // Keyboard:
 //   ArrowDown / ArrowUp — open the listbox / move the highlight (wrapping).
+//   Alt+ArrowDown — open without moving the highlight. Alt+ArrowUp — close.
 //   Home / End — jump to the first / last option (listbox open only).
 //   Enter — choose the highlighted option.
 //   Escape — close the listbox without choosing.
@@ -183,16 +184,28 @@ export class Autosuggest extends HTMLElement {
     };
 
     #onKeydown = (event: KeyboardEvent): void => {
+        if (event.isComposing) return; // The key belongs to the IME.
         const options = this.#options();
         const count = options.length;
         const open = this.#isOpen();
         switch (event.key) {
             case "ArrowDown":
                 if (count === 0) return;
+                if (event.altKey) {
+                    if (open) return;
+                    this.#wanted = true;
+                    break;
+                }
                 this.#active = open ? (this.#active + 1) % count : 0;
                 this.#wanted = true;
                 break;
             case "ArrowUp":
+                if (event.altKey) {
+                    if (!open) return;
+                    this.#wanted = false;
+                    this.#active = -1;
+                    break;
+                }
                 if (count === 0) return;
                 this.#active = open && this.#active > 0 ? this.#active - 1 : count - 1;
                 this.#wanted = true;

@@ -12,8 +12,10 @@
     suggestions ([{ value, label }]), placeholder, name, id (the root's id;
     the list is "{id}-list", default "autosuggest-list"), classes, attributes.
 
-  Markup only: opening the list, the keys (ArrowDown/ArrowUp, Home/End, Enter,
-  Escape) and aria-activedescendant are the consumer's client script.
+  The macro is markup only. The keys, typing, blur and pointer are autosuggest.js:
+    import { autoInit } from "@lilydesignsystem/nunjucks-headless/components/autosuggest/autosuggest.js";
+    autoInit();
+  It dispatches "autosuggest-select" with detail.value. Filtering is the consumer's.
 
   Usage:
     {% from "components/autosuggest/macro.njk" import autosuggest %}

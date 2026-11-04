@@ -25,6 +25,7 @@
 // Keyboard:
 //   - ArrowDown: open the list / highlight the next option (wraps)
 //   - ArrowUp: open the list / highlight the previous option (wraps)
+//   - Alt+ArrowDown: open without moving the highlight; Alt+ArrowUp: close
 //   - Home / End: highlight the first / last option while the list is open
 //   - Enter: choose the highlighted option
 //   - Escape: close the list without choosing
@@ -124,14 +125,26 @@ export default function Autosuggest({
     }
 
     function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+        if (event.nativeEvent.isComposing) return; // The key belongs to the IME.
         const count = suggestions.length;
         switch (event.key) {
             case "ArrowDown":
                 if (count === 0) return;
+                if (event.altKey) {
+                    if (open) return;
+                    setWanted(true);
+                    break;
+                }
                 setActive(open ? (active + 1) % count : 0);
                 setWanted(true);
                 break;
             case "ArrowUp":
+                if (event.altKey) {
+                    if (!open) return;
+                    setWanted(false);
+                    setActive(-1);
+                    break;
+                }
                 if (count === 0) return;
                 setActive(open && active > 0 ? active - 1 : count - 1);
                 setWanted(true);

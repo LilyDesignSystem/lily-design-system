@@ -14,6 +14,15 @@ See [components/autosuggest/index.md](../../../components/autosuggest/index.md) 
 {{ autosuggest({ label: "Fruit", id: "fruit", suggestions: [{ value: "apple", label: "Apple" }] }) }}
 ```
 
+The macro is markup only. Load the behaviour once, as an ES module:
+
+```js
+import { autoInit } from "@lilydesignsystem/nunjucks-headless/components/autosuggest/autosuggest.js";
+autoInit();
+```
+
+The keys, typing, blur and pointer are then those of `combobox`. Choosing dispatches a bubbling `autosuggest-select` event with `detail.value`.
+
 ## Files
 
 - `macro.njk` — Nunjucks macro implementation

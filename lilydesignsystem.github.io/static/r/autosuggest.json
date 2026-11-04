@@ -24,7 +24,9 @@
     "Up arrow: open the listbox and highlight the last option / move the highlight to the previous option, wrapping",
     "Enter: select the highlighted option",
     "Escape: close the listbox without selecting",
-    "Home / End: jump to the first / last option (when listbox is open)"
+    "Home / End: jump to the first / last option (when listbox is open)",
+    "Alt+Down arrow: open the listbox without moving the highlight",
+    "Alt+Up arrow: close the listbox"
   ],
   "props": [
     "`label`: string (required) (default: —) — Accessible name for the input",

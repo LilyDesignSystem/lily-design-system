@@ -36,6 +36,8 @@
 - Enter: select the highlighted option
 - Escape: close the listbox without selecting
 - Home / End: jump to the first / last option (when listbox is open)
+- Alt+Down arrow: open the listbox without moving the highlight
+- Alt+Up arrow: close the listbox
 
 ## Props
 

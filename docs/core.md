@@ -16,12 +16,12 @@ A candidate enters Core only when all three hold:
 
 | Criterion | Candidates meeting it |
 | --- | --- |
-| (a) keyboard and ARIA-state tests, all eight libraries | 7 of 40 |
+| (a) keyboard and ARIA-state tests, all eight libraries | 10 of 40 |
 | (b) e2e in Chromium, Firefox and WebKit | 38 of 40 |
 | (c) screen-reader row filled, six combinations | 0 of 40 |
 | All three (Core) | 0 of 40 |
 
-Per library, candidates meeting (a): Svelte 15, React 15, Vue 15, Angular 13, HTML 23, Web Components 20, Nunjucks 12, Blazor 11.
+Per library, candidates meeting (a): Svelte 15, React 15, Vue 15, Angular 13, HTML 23, Web Components 20, Nunjucks 15, Blazor 11.
 
 Browsers any e2e app runs: Chromium, Firefox, WebKit. Screen-reader matrix cells with any result: 0 of 120. Candidates with a matrix row: 23 of 40.
 
@@ -56,11 +56,11 @@ Browsers any e2e app runs: Chromium, Firefox, WebKit. Screen-reader matrix cells
 | [date-time-picker](#date-time-picker) | helper packages | 8 of 8 | none | 0 of 6 (row 3) | no |
 | [dialog](#dialog) | dialogs | 7 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 5) | no |
 | [alert-dialog](#alert-dialog) | dialogs | 2 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 6) | no |
-| [tab-bar](#tab-bar) | tabs | 7 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 7) | no |
+| [tab-bar](#tab-bar) | tabs | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 7) | no |
 | [tab-bar-button](#tab-bar-button) | tabs | 0 of 8 | Chromium, Firefox, WebKit | no row | no |
 | [tab-panel](#tab-panel) | tabs | 0 of 8 | Chromium, Firefox, WebKit | no row | no |
-| [menu](#menu) | menus | 7 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 9) | no |
-| [menu-bar](#menu-bar) | menus | 7 of 8 | Chromium, Firefox, WebKit | no row | no |
+| [menu](#menu) | menus | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 9) | no |
+| [menu-bar](#menu-bar) | menus | 8 of 8 | Chromium, Firefox, WebKit | no row | no |
 | [dropdown-menu](#dropdown-menu) | menus | 6 of 8 | Chromium, Firefox, WebKit | no row | no |
 | [context-menu](#context-menu) | menus | 6 of 8 | Chromium, Firefox, WebKit | no row | no |
 | [accordion-nav](#accordion-nav) | accordion | 3 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 8) | no |
@@ -712,14 +712,14 @@ Catalog component; keyboard contract: keys named.
 
 Catalog component; keyboard contract: keys named.
 
-- (a) not met, 7 of 8 libraries:
+- (a) met, 8 of 8 libraries:
   - Svelte: met. [lily-design-system-svelte-headless/components/TabBar/TabBar.pattern.test.ts](../lily-design-system-svelte-headless/components/TabBar/TabBar.pattern.test.ts), [lily-design-system-svelte-headless/components/TabBar/TabBar.test.ts](../lily-design-system-svelte-headless/components/TabBar/TabBar.test.ts)
   - React: met. [lily-design-system-react-headless/components/TabBar.pattern.test.tsx](../lily-design-system-react-headless/components/TabBar.pattern.test.tsx), [lily-design-system-react-headless/components/TabBar.test.tsx](../lily-design-system-react-headless/components/TabBar.test.tsx)
   - Vue: met. [lily-design-system-vue-headless/components/TabBar.pattern.test.ts](../lily-design-system-vue-headless/components/TabBar.pattern.test.ts), [lily-design-system-vue-headless/components/TabBar.test.ts](../lily-design-system-vue-headless/components/TabBar.test.ts)
   - Angular: met. [lily-design-system-angular-headless/components/TabBar.pattern.spec.ts](../lily-design-system-angular-headless/components/TabBar.pattern.spec.ts), [lily-design-system-angular-headless/components/TabBar.spec.ts](../lily-design-system-angular-headless/components/TabBar.spec.ts)
   - HTML: met. [lily-design-system-html-headless/components/tab-bar.pattern.test.js](../lily-design-system-html-headless/components/tab-bar.pattern.test.js), [lily-design-system-html-headless/components/tab-bar.test.js](../lily-design-system-html-headless/components/tab-bar.test.js)
   - Web Components: met. [lily-design-system-web-components-headless/components/tab-bar.pattern.test.ts](../lily-design-system-web-components-headless/components/tab-bar.pattern.test.ts), [lily-design-system-web-components-headless/components/tab-bar.test.ts](../lily-design-system-web-components-headless/components/tab-bar.test.ts)
-  - Nunjucks: no key event. [lily-design-system-nunjucks-headless/components/tab-bar/macro.test.js](../lily-design-system-nunjucks-headless/components/tab-bar/macro.test.js)
+  - Nunjucks: met. [lily-design-system-nunjucks-headless/components/tab-bar/macro.test.js](../lily-design-system-nunjucks-headless/components/tab-bar/macro.test.js), [lily-design-system-nunjucks-headless/components/tab-bar/tab-bar.pattern.test.js](../lily-design-system-nunjucks-headless/components/tab-bar/tab-bar.pattern.test.js)
   - Blazor: met. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/TabBarTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/TabBarTests.cs), [lily-design-system-blazor-headless/tests/js/tab-bar.pattern.test.mjs](../lily-design-system-blazor-headless/tests/js/tab-bar.pattern.test.mjs), [lily-design-system-blazor-headless/tests/js/tab-bar.test.mjs](../lily-design-system-blazor-headless/tests/js/tab-bar.test.mjs)
 - (b) met; browsers: Chromium, Firefox, WebKit; 7 covering spec(s):
   - [lily-design-system-svelte-sveltekit-examples/e2e/components/tab-bar.spec.ts](../lily-design-system-svelte-sveltekit-examples/e2e/components/tab-bar.spec.ts) (Chromium, Firefox, WebKit)
@@ -781,14 +781,14 @@ Catalog component; keyboard contract: keys named.
 
 Catalog component; keyboard contract: keys named.
 
-- (a) not met, 7 of 8 libraries:
+- (a) met, 8 of 8 libraries:
   - Svelte: met. [lily-design-system-svelte-headless/components/Menu/Menu.pattern.test.ts](../lily-design-system-svelte-headless/components/Menu/Menu.pattern.test.ts), [lily-design-system-svelte-headless/components/Menu/Menu.test.ts](../lily-design-system-svelte-headless/components/Menu/Menu.test.ts)
   - React: met. [lily-design-system-react-headless/components/Menu.pattern.test.tsx](../lily-design-system-react-headless/components/Menu.pattern.test.tsx), [lily-design-system-react-headless/components/Menu.test.tsx](../lily-design-system-react-headless/components/Menu.test.tsx)
   - Vue: met. [lily-design-system-vue-headless/components/Menu.pattern.test.ts](../lily-design-system-vue-headless/components/Menu.pattern.test.ts), [lily-design-system-vue-headless/components/Menu.test.ts](../lily-design-system-vue-headless/components/Menu.test.ts)
   - Angular: met. [lily-design-system-angular-headless/components/Menu.pattern.spec.ts](../lily-design-system-angular-headless/components/Menu.pattern.spec.ts), [lily-design-system-angular-headless/components/Menu.spec.ts](../lily-design-system-angular-headless/components/Menu.spec.ts)
   - HTML: met. [lily-design-system-html-headless/components/menu.pattern.test.js](../lily-design-system-html-headless/components/menu.pattern.test.js), [lily-design-system-html-headless/components/menu.test.js](../lily-design-system-html-headless/components/menu.test.js)
   - Web Components: met. [lily-design-system-web-components-headless/components/menu.pattern.test.ts](../lily-design-system-web-components-headless/components/menu.pattern.test.ts), [lily-design-system-web-components-headless/components/menu.test.ts](../lily-design-system-web-components-headless/components/menu.test.ts)
-  - Nunjucks: no key event. [lily-design-system-nunjucks-headless/components/menu/macro.test.js](../lily-design-system-nunjucks-headless/components/menu/macro.test.js)
+  - Nunjucks: met. [lily-design-system-nunjucks-headless/components/menu/macro.test.js](../lily-design-system-nunjucks-headless/components/menu/macro.test.js), [lily-design-system-nunjucks-headless/components/menu/menu.pattern.test.js](../lily-design-system-nunjucks-headless/components/menu/menu.pattern.test.js)
   - Blazor: met. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/MenuTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/MenuTests.cs), [lily-design-system-blazor-headless/tests/js/menu.pattern.test.mjs](../lily-design-system-blazor-headless/tests/js/menu.pattern.test.mjs), [lily-design-system-blazor-headless/tests/js/menu.test.mjs](../lily-design-system-blazor-headless/tests/js/menu.test.mjs)
 - (b) met; browsers: Chromium, Firefox, WebKit; 7 covering spec(s):
   - [lily-design-system-svelte-sveltekit-examples/e2e/components/menu.spec.ts](../lily-design-system-svelte-sveltekit-examples/e2e/components/menu.spec.ts) (Chromium, Firefox, WebKit)
@@ -804,14 +804,14 @@ Catalog component; keyboard contract: keys named.
 
 Catalog component; keyboard contract: keys named.
 
-- (a) not met, 7 of 8 libraries:
+- (a) met, 8 of 8 libraries:
   - Svelte: met. [lily-design-system-svelte-headless/components/MenuBar/MenuBar.pattern.test.ts](../lily-design-system-svelte-headless/components/MenuBar/MenuBar.pattern.test.ts), [lily-design-system-svelte-headless/components/MenuBar/MenuBar.test.ts](../lily-design-system-svelte-headless/components/MenuBar/MenuBar.test.ts)
   - React: met. [lily-design-system-react-headless/components/MenuBar.pattern.test.tsx](../lily-design-system-react-headless/components/MenuBar.pattern.test.tsx), [lily-design-system-react-headless/components/MenuBar.test.tsx](../lily-design-system-react-headless/components/MenuBar.test.tsx)
   - Vue: met. [lily-design-system-vue-headless/components/MenuBar.pattern.test.ts](../lily-design-system-vue-headless/components/MenuBar.pattern.test.ts), [lily-design-system-vue-headless/components/MenuBar.test.ts](../lily-design-system-vue-headless/components/MenuBar.test.ts)
   - Angular: met. [lily-design-system-angular-headless/components/MenuBar.pattern.spec.ts](../lily-design-system-angular-headless/components/MenuBar.pattern.spec.ts), [lily-design-system-angular-headless/components/MenuBar.spec.ts](../lily-design-system-angular-headless/components/MenuBar.spec.ts)
   - HTML: met. [lily-design-system-html-headless/components/menu-bar.pattern.test.js](../lily-design-system-html-headless/components/menu-bar.pattern.test.js), [lily-design-system-html-headless/components/menu-bar.test.js](../lily-design-system-html-headless/components/menu-bar.test.js)
   - Web Components: met. [lily-design-system-web-components-headless/components/menu-bar.pattern.test.ts](../lily-design-system-web-components-headless/components/menu-bar.pattern.test.ts), [lily-design-system-web-components-headless/components/menu-bar.test.ts](../lily-design-system-web-components-headless/components/menu-bar.test.ts)
-  - Nunjucks: no key event. [lily-design-system-nunjucks-headless/components/menu-bar/macro.test.js](../lily-design-system-nunjucks-headless/components/menu-bar/macro.test.js)
+  - Nunjucks: met. [lily-design-system-nunjucks-headless/components/menu-bar/macro.test.js](../lily-design-system-nunjucks-headless/components/menu-bar/macro.test.js), [lily-design-system-nunjucks-headless/components/menu-bar/menu-bar.pattern.test.js](../lily-design-system-nunjucks-headless/components/menu-bar/menu-bar.pattern.test.js)
   - Blazor: met. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/MenuBarTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/MenuBarTests.cs), [lily-design-system-blazor-headless/tests/js/menu-bar.pattern.test.mjs](../lily-design-system-blazor-headless/tests/js/menu-bar.pattern.test.mjs), [lily-design-system-blazor-headless/tests/js/menu-bar.test.mjs](../lily-design-system-blazor-headless/tests/js/menu-bar.test.mjs)
 - (b) met; browsers: Chromium, Firefox, WebKit; 7 covering spec(s):
   - [lily-design-system-svelte-sveltekit-examples/e2e/components/menu-bar.spec.ts](../lily-design-system-svelte-sveltekit-examples/e2e/components/menu-bar.spec.ts) (Chromium, Firefox, WebKit)

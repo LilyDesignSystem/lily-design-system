@@ -1324,14 +1324,26 @@ export default function lily(Alpine) {
                 this.$dispatch("lily:input", { value: this.value });
             },
             "@keydown"(event) {
+                if (event.isComposing) return;
                 const count = this.count;
                 const open = this.open;
                 switch (event.key) {
                     case "ArrowDown":
                         if (count === 0) return;
+                        if (event.altKey) {
+                            if (open) return;
+                            this.wanted = true;
+                            this.mark();
+                            break;
+                        }
                         this.move(open ? (this.active + 1) % count : 0);
                         break;
                     case "ArrowUp":
+                        if (event.altKey) {
+                            if (!open) return;
+                            this.close();
+                            break;
+                        }
                         if (count === 0) return;
                         this.move(open && this.active > 0 ? this.active - 1 : count - 1);
                         break;

@@ -115,15 +115,29 @@
     }
 
     function onkeydown(event: KeyboardEvent) {
+        if (event.isComposing) return; // The key belongs to the IME.
         const count = suggestions.length;
         switch (event.key) {
             case "ArrowDown":
                 if (count === 0) return;
+                // Alt: open without moving the highlight.
+                if (event.altKey) {
+                    if (open) return;
+                    wanted = true;
+                    break;
+                }
                 // Closed: open on the first option. Open: step down, wrapping from the last to the first.
                 active = open ? (active + 1) % count : 0;
                 wanted = true;
                 break;
             case "ArrowUp":
+                // Alt: close.
+                if (event.altKey) {
+                    if (!open) return;
+                    wanted = false;
+                    active = -1;
+                    break;
+                }
                 if (count === 0) return;
                 // Closed, or at the first option (or none): go to the last. Otherwise step up.
                 active = open && active > 0 ? active - 1 : count - 1;

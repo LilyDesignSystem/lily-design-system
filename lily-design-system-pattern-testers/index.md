@@ -26,7 +26,7 @@ leaves out. Keep testing with a screen reader and real users.
 | `tree`              | Moving between visible `treeitem`s, skipping collapsed ones          | Selection, type-ahead                      |               |
 | `tree-expand`       | ArrowRight and ArrowLeft on a branch                                 | Right-to-left, which swaps them            |               |
 | `grid`              | Arrows, Home, End, the Ctrl corners, page keys, exactly one tab stop | Sorting, editing, selection                |               |
-| `autosuggest`       | A list-autocomplete combobox: arrows, Home, End, Enter, Escape       | Alt+Arrow keys; filtering, which is yours  |               |
+| `autosuggest`       | A list-autocomplete combobox: arrows, Alt+Arrow, Home, End, Enter, Escape | Filtering, which is yours                  |               |
 | `combobox`          | List autocomplete on your options: arrows, Alt+Arrow, Home, End, Enter, Escape, typing, a click | Filtering, which is yours | `open` |
 | `dialog`            | A named modal `<dialog>`, focus in and back, Escape and `cancel`     | The Tab trap and inert page: the browser's | `open`        |
 | `picker-listbox`    | Lily's icon button opening a listbox                                 | Lily's own shape, not a general pattern    |               |

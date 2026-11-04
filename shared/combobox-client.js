@@ -136,8 +136,8 @@ export function attachDotNet(input, list, dotnet) {
     });
 }
 
-/** No framework: the list is the Popover API's, or the `hidden` attribute's, and events tell the page. */
-export function initCombobox(root) {
+/** No framework: the list is the Popover API's, or the `hidden` attribute's, and `{hook}-` events tell the page. */
+export function initCombobox(root, hook = "combobox") {
     const input = root.querySelector('[role="combobox"]');
     const list = input && root.ownerDocument.getElementById(input.getAttribute("aria-controls"));
     if (!list) return null;
@@ -152,12 +152,12 @@ export function initCombobox(root) {
                 }
             } else list.hidden = !open;
             if (!open)
-                root.dispatchEvent(new CustomEvent("combobox-close", { bubbles: true }));
+                root.dispatchEvent(new CustomEvent(`${hook}-close`, { bubbles: true }));
         },
         choose(value) {
             input.value = value;
             root.dispatchEvent(
-                new CustomEvent("combobox-select", { bubbles: true, detail: { value } }),
+                new CustomEvent(`${hook}-select`, { bubbles: true, detail: { value } }),
             );
         },
     });
