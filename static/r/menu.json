@@ -17,7 +17,11 @@
     "ArrowDown: Moves focus to the next menu item, wrapping to the first item from the last.",
     "ArrowUp: Moves focus to the previous menu item, wrapping to the last item from the first.",
     "Home: Moves focus to the first menu item.",
-    "End: Moves focus to the last menu item."
+    "End: Moves focus to the last menu item.",
+    "A typed letter: moves to the next item whose name starts with it; repeating it cycles",
+    "Enter, Space: activate the item, by clicking one that is not natively a button or link",
+    "On an item with a submenu: Enter, Space or ArrowRight opens it on its first item",
+    "In a submenu: ArrowLeft or Escape closes it and returns to its parent item"
   ],
   "props": [
     "`label`: string (required) -- accessible name applied via `aria-label`.",

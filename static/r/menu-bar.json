@@ -17,7 +17,10 @@
     "ArrowRight: Moves focus to the next menu bar item, wrapping to the first item from the last.",
     "ArrowLeft: Moves focus to the previous menu bar item, wrapping to the last item from the first.",
     "Home: Moves focus to the first menu bar item.",
-    "End: Moves focus to the last menu bar item."
+    "End: Moves focus to the last menu bar item.",
+    "A typed letter: moves to the next item whose name starts with it; repeating it cycles",
+    "On an item with a submenu: ArrowDown, Enter or Space opens it on its first item, ArrowUp on its last",
+    "In a submenu: ArrowDown and ArrowUp move; Escape closes it and returns to its parent; ArrowRight and ArrowLeft close it and move along the bar"
   ],
   "props": [
     "`label`: string (required) -- accessible name applied via `aria-label`.",
