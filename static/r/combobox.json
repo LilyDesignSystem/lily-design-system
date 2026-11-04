@@ -17,13 +17,20 @@
     "`role=\"listbox\"` -- on the dropdown container, identifies it as a list of selectable options."
   ],
   "keyboard": [
-    "Escape: closes the dropdown listbox while it is open; while closed it is left alone, so an enclosing dialog still gets it"
+    "ArrowDown, ArrowUp: open on the first or last option; while open, move and wrap",
+    "Home, End: jump to the first or last option while open; while closed they stay the caret's",
+    "Enter: choose the highlighted option; with none highlighted it is left alone, so a form still submits",
+    "Escape: close while open; while closed it is left alone, so an enclosing dialog still gets it",
+    "Alt+ArrowDown: open without moving the highlight",
+    "Alt+ArrowUp: close",
+    "A key during IME composition belongs to the IME"
   ],
   "props": [
     "`label`: string (required) -- accessible name applied via `aria-label` on both the input and listbox.",
     "`value`: string (default: `\"\"`) -- bindable current text input value.",
     "`open`: boolean (default: `false`) -- bindable dropdown visibility state.",
-    "`children`: slot (required) -- option elements rendered inside the listbox dropdown.",
+    "`onSelect`: function, optional -- called with the chosen option's value (`selected` output in Angular, `select` event in Vue, `OnSelect` in Blazor, `lily-change` in Web Components, `lily:select` in Alpine, `combobox-select` in HTML and Nunjucks).",
+    "`children`: slot (required) -- `role=\"option\"` elements rendered inside the listbox dropdown.",
     "`...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`."
   ],
   "related": [

@@ -2092,6 +2092,7 @@
       "description": "A text input combined with a dropdown list for filtering options.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/combobox-keys-utils",
         "@lily/dev-warning-utils",
         "@lily/popover"
       ],
@@ -2103,6 +2104,20 @@
           "path": "lily-design-system-react-headless/components/Combobox.tsx",
           "type": "registry:component",
           "target": "@components/lily/Combobox.tsx"
+        }
+      ]
+    },
+    {
+      "name": "combobox-keys-utils",
+      "type": "registry:lib",
+      "title": "combobox-keys.ts",
+      "description": "Shared helper module combobox-keys.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/combobox-keys.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/combobox-keys.ts"
         }
       ]
     },
