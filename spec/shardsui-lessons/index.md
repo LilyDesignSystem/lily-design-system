@@ -123,7 +123,7 @@ Alpine context menu already publishes `--context-menu-x` / `--context-menu-y`.
   opt-in transition-status attribute set by the component while Lily ships no
   motion, honouring `motion-picker` and `prefers-reduced-motion`. Needs a
   maintainer decision because it touches the "no animation" rule.
-- **Submenus.** Lily has none. ShardsUI's `openOnHover`, delays and focus
+- **Submenus.** Settled 2026-11-04: `menu` and `menu-bar` have them, as the consumer's markup (`shared/menu-keys.ts`), keyboard and click. Lily had none. ShardsUI's `openOnHover`, delays and focus
   rules are substantial; give it its own topic if wanted.
 - **Detached triggers.** A trigger away from its menu is already expressible
   with `aria-controls`; document the pattern in `dropdown-menu`, and in the

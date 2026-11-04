@@ -13,3 +13,13 @@ test("meets the menubar contract", async () => {
         hook: "menu-bar",
     });
 });
+
+test("meets the menubar-submenu contract", async () => {
+    const fixture = TestBed.createComponent(MenuBar);
+    fixture.componentRef.setInput("label", "Sections");
+    fixture.detectChanges();
+    await runPattern("menubar-submenu", {
+        root: fixture.nativeElement.querySelector("[role='menubar']") ?? fixture.nativeElement,
+        hook: "menu-bar",
+    });
+});

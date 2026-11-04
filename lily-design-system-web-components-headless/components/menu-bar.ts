@@ -21,6 +21,7 @@
 //   - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { attachMenu } from "../lib/menu-keys.js";
 
 export class MenuBar extends HTMLElement {
     #built = false;
@@ -33,36 +34,6 @@ export class MenuBar extends HTMLElement {
         this.setAttribute("role", "menubar");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
-        this.addEventListener("keydown", this.#onKeydown);
+        attachMenu(this, "horizontal");
     }
-
-    #onKeydown = (event: KeyboardEvent): void => {
-        const items = Array.from(this.querySelectorAll<HTMLElement>("[role='menuitem']"));
-        const current = document.activeElement as HTMLElement;
-        const index = items.indexOf(current);
-        switch (event.key) {
-            case "ArrowRight": {
-                event.preventDefault();
-                const next = index < items.length - 1 ? index + 1 : 0;
-                items[next]?.focus();
-                break;
-            }
-            case "ArrowLeft": {
-                event.preventDefault();
-                const prev = index > 0 ? index - 1 : items.length - 1;
-                items[prev]?.focus();
-                break;
-            }
-            case "Home": {
-                event.preventDefault();
-                items[0]?.focus();
-                break;
-            }
-            case "End": {
-                event.preventDefault();
-                items[items.length - 1]?.focus();
-                break;
-            }
-        }
-    };
 }

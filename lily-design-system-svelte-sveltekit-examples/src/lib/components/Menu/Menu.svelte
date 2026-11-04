@@ -61,6 +61,7 @@
 
     import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
+    import { attachMenu } from "./menu-keys";
 
     let {
         class: className = "",
@@ -81,36 +82,9 @@
 
     let menuRef: HTMLElement | undefined = $state(undefined);
 
-    function onkeydown(event: KeyboardEvent) {
-        if (!menuRef) return;
-        const items = Array.from(menuRef.querySelectorAll<HTMLElement>("[role='menuitem']"));
-        const current = document.activeElement as HTMLElement;
-        const index = items.indexOf(current);
-        switch (event.key) {
-            case "ArrowDown": {
-                event.preventDefault();
-                const next = index < items.length - 1 ? index + 1 : 0;
-                items[next]?.focus();
-                break;
-            }
-            case "ArrowUp": {
-                event.preventDefault();
-                const prev = index > 0 ? index - 1 : items.length - 1;
-                items[prev]?.focus();
-                break;
-            }
-            case "Home": {
-                event.preventDefault();
-                items[0]?.focus();
-                break;
-            }
-            case "End": {
-                event.preventDefault();
-                items[items.length - 1]?.focus();
-                break;
-            }
-        }
-    }
+    $effect(() => (menuRef ? attachMenu(menuRef, "vertical") : undefined));
+
+
 </script>
 
 <!-- Menu.svelte -->
@@ -119,7 +93,6 @@
     role="menu"
     aria-label={label}
     bind:this={menuRef}
-    {onkeydown}
     {...restProps}
 >
     {@render children?.()}

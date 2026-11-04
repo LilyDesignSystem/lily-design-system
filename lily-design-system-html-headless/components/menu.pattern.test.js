@@ -6,4 +6,9 @@ describe("Menu pattern", function () {
         await browser.url("file://" + path.resolve(__dirname, "menu.html"));
         await runPattern(browser, "menu", ".menu", "menu", "Sections");
     });
+
+    it("meets the menu-submenu contract", async function () {
+        await browser.url("file://" + path.resolve(__dirname, "menu.html"));
+        await runPattern(browser, "menu-submenu", ".menu", "menu", "Sections");
+    });
 });

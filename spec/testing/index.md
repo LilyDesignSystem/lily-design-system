@@ -241,6 +241,8 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 | `menu`              | `menu`                                                               | 8        | 8    |
 | `menubar`           | `menu-bar`                                                           | 8        | 8    |
 | `tree`              | `tree-list`                                                          | 8        | 8    |
+| `menu-submenu`      | `menu`                                                               | 8        | 8    |
+| `menubar-submenu`   | `menu-bar`                                                           | 8        | 8    |
 | `combobox`          | `combobox`                                                           | 8        | 8    |
 | `dialog`            | `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`       | 7        | 35   |
 | `grid`              | the `data-grid` helper                                               | 8        | 8    |
@@ -256,6 +258,7 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
   `Expanded`; the module and the item are tested apart, and `e2e/keyboard.spec.ts` runs them together.
 - HTML runs in a real browser through `shared/pattern-browser.cjs`; Blazor's focus contracts run from `tests/js/`, against its
   `.razor.js` modules, because bUnit has no focus. Alpine also runs all four, though Core does not count it.
+- `shared/menu-keys.ts` is the one menu module: type-ahead, activation, one tab stop and submenus. Svelte, React, Vue, Angular and Web Components import it; `bin/sync-shared-modules` strips its types for Nunjucks, Alpine and Blazor (`Menu.razor.js`, which `MenuBar` now loads too) and inlines it in the HTML snippets. A tree takes `treeItemKey` from it, while Alpine keeps its own type-ahead, which matches a typed word. The contract cannot press a native button, so an item that is one passes `clicked` by being one.
 - **Nunjucks's macros are markup only**, so its keys are optional client modules the consumer loads: `combobox/combobox.js`, `autosuggest/autosuggest.js`, `tree-list/tree.js`, and `tab-bar/tab-bar.js`, `menu/menu.js` and `menu-bar/menu-bar.js` over `components/roving.js`. Every contract runs there but `dialog`.
 - `time-zone-picker` is not covered: every label starts "UTC", so the fixture rule for typeahead cannot hold.
 - bUnit has no browser focus, so the C# driver skips `focus` expectations; the DOM driver runs them in the other seven catalogs.

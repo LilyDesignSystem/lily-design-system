@@ -4,12 +4,12 @@ using Xunit;
 
 namespace LilyBlazorHeadless.Tests.Components;
 
-// The keys live in MenuBar.razor.js (bUnit runs no JavaScript); tests/js/menu-bar.test.mjs tests them.
+// The keys live in Menu.razor.js (bUnit runs no JavaScript); tests/js/menu-bar.test.mjs tests them.
 public class MenuBarTests : TestContext
 {
     public MenuBarTests()
     {
-        var module = JSInterop.SetupModule(MenuBar.ModulePath);
+        var module = JSInterop.SetupModule(Menu.ModulePath);
         module.SetupModule("attach", _ => true);
     }
 
@@ -46,7 +46,7 @@ public class MenuBarTests : TestContext
     public void Attaches_the_keyboard_module_to_the_root()
     {
         RenderComponent<MenuBar>(p => p.AddChildContent("body"));
-        Assert.Contains(JSInterop.Invocations, i => i.Identifier == "import" && (string?)i.Arguments[0] == MenuBar.ModulePath);
+        Assert.Contains(JSInterop.Invocations, i => i.Identifier == "import" && (string?)i.Arguments[0] == Menu.ModulePath);
         Assert.Contains(JSInterop.Invocations, i => i.Identifier == "attach");
     }
 }

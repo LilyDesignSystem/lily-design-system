@@ -28,7 +28,7 @@
     {
         if (!firstRender) return;
         _module = await JS.InvokeAsync<IJSObjectReference>("import", ModulePath);
-        _handle = await _module.InvokeAsync<IJSObjectReference>("attach", _root);
+        _handle = await _module.InvokeAsync<IJSObjectReference>("attach", _root, "vertical");
     }
 
     public async ValueTask DisposeAsync()

@@ -36,6 +36,8 @@
 - Home: Moves focus to the first tree item
 - End: Moves focus to the last visible tree item
 - ArrowRight / ArrowLeft: handled by each [TreeListItem](../tree-list-item/) (expand, collapse, move to child or parent)
+- A typed letter: moves to the next visible item whose name starts with it; repeating it cycles
+- Enter, Space: activate the item with a click; which item is selected is the consumer's, from that click
 
 ## Props
 

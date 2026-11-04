@@ -74,7 +74,7 @@ test("cancels the keys it handles and leaves other keys alone", () => {
         true,
         false,
         false,
-        false,
+        true, // Enter activates the item.
     ]);
     handle.dispose();
 });

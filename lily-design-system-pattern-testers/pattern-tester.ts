@@ -26,7 +26,19 @@ interface RovingStep {
     name: string;
     focus?: number;
     press?: string;
-    expect: { focusItem: Index };
+    expect: { focusItem: Index; clicked?: Index };
+}
+
+interface SubmenuContract {
+    root: string;
+    item: string;
+    fixture: string;
+    steps: {
+        name: string;
+        focus?: string;
+        press?: string;
+        expect: { focus: string; expanded: boolean };
+    }[];
 }
 
 interface RovingContract {
@@ -37,11 +49,13 @@ interface RovingContract {
 }
 
 export type RovingPatternName = "tabs" | "menu" | "menubar" | "tree";
+export type SubmenuPatternName = "menu-submenu" | "menubar-submenu";
 export type OverlayPatternName = "combobox" | "dialog";
 export type PatternName =
     | "picker-listbox"
     | "picker-disclosure"
     | RovingPatternName
+    | SubmenuPatternName
     | OverlayPatternName
     | "grid"
     | "autosuggest"
@@ -142,7 +156,10 @@ async function runRoving(pattern: RovingPatternName, options: PatternOptions): P
         [...host.querySelectorAll<HTMLElement>(`[role="${contract.item}"]`)].filter(
             (el) => !el.parentElement?.closest(`[role="${contract.item}"][aria-expanded="false"]`),
         );
+    let clicks: EventTarget[] = [];
+    host.addEventListener("click", (event) => clicks.push(event.target as EventTarget));
     for (const step of contract.steps) {
+        clicks = [];
         const all = items();
         const at = (index: Index): number => (index === "last" ? all.length - 1 : index);
         if (all.length < 3) fail(step.name, `needs three items, found ${all.length}`);
@@ -169,6 +186,52 @@ async function runRoving(pattern: RovingPatternName, options: PatternOptions): P
                 step.name,
                 `focus is on "${focused?.textContent?.trim()}", not "${want.textContent?.trim()}"`,
             );
+        // A native button or link activates itself, which a synthetic key cannot show.
+        const clicked = step.expect.clicked === undefined ? undefined : all[at(step.expect.clicked)];
+        if (clicked && !clicked.matches("a[href],button") && !clicks.includes(clicked))
+            fail(step.name, "the item was not activated");
+    }
+}
+
+/** A submenu is the consumer's markup, so this contract brings its own, and steps name items by their text. */
+async function runSubmenu(pattern: SubmenuPatternName, options: PatternOptions): Promise<void> {
+    const { root, hook } = options;
+    const contract = contracts[pattern] as SubmenuContract;
+    const settle = options.settle ?? tick;
+    const fail = (name: string, message: string): never => {
+        throw new Error(`${pattern}, ${hook}, "${name}": ${message}`);
+    };
+    const selector = `[role="${contract.root}"]`;
+    const host = root.matches(selector) ? root : root.querySelector<HTMLElement>(selector);
+    if (!host) return fail("setup", `no ${selector}`);
+    if (!host.querySelector(`[role="${contract.item}"]`)) host.innerHTML = contract.fixture;
+    const item = (text: string): HTMLElement =>
+        [...host.querySelectorAll<HTMLElement>(`[role="${contract.item}"]`)].find(
+            (el) => el.textContent?.trim() === text,
+        ) ?? fail("setup", `no item "${text}"`);
+    const opener = host.querySelector<HTMLElement>("[aria-haspopup]")!;
+    const submenu = root.ownerDocument.getElementById(opener.getAttribute("aria-controls") ?? "");
+    if (!submenu) return fail("setup", "aria-controls names nothing");
+
+    for (const step of contract.steps) {
+        if (step.focus !== undefined) item(step.focus).focus();
+        else if (step.press !== undefined) {
+            const target = root.ownerDocument.activeElement;
+            if (!target || !host.contains(target)) return fail(step.name, "focus left the widget");
+            await fire(
+                target,
+                new KeyboardEvent("keydown", { key: step.press, bubbles: true, cancelable: true }),
+                options,
+            );
+        }
+        await settle();
+        const focused = root.ownerDocument.activeElement as HTMLElement | null;
+        if (focused !== item(step.expect.focus))
+            fail(step.name, `focus is on "${focused?.textContent?.trim()}", not "${step.expect.focus}"`);
+        const expanded = opener.getAttribute("aria-expanded");
+        if (expanded !== String(step.expect.expanded)) fail(step.name, `aria-expanded is ${expanded}`);
+        if (listShown(submenu) !== step.expect.expanded)
+            fail(step.name, `submenu shown is ${listShown(submenu)}`);
     }
 }
 
@@ -509,6 +572,8 @@ export async function runPattern(pattern: PatternName, options: PatternOptions):
     if (pattern === "tree-expand") return runTreeExpand(options);
     if (pattern === "grid") return runGrid(options);
     if (pattern === "combobox") return runCombobox(options);
+    if (pattern === "menu-submenu" || pattern === "menubar-submenu")
+        return runSubmenu(pattern, options);
     if (pattern === "dialog") return runDialog(options);
     if (pattern !== "picker-listbox" && pattern !== "picker-disclosure")
         return runRoving(pattern, options);

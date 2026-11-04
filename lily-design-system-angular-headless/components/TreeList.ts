@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { treeItemKey } from "./menu-keys";
 
 /**
  * TreeList — a hierarchical list with nested expandable items
@@ -46,6 +47,8 @@ export class TreeList {
                 event.preventDefault();
                 items[items.length - 1]?.focus();
                 break;
+            default:
+                treeItemKey(event, items);
         }
     }
 }

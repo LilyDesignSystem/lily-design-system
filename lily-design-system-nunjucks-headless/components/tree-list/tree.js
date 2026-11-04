@@ -8,6 +8,8 @@
 // ArrowLeft collapses an open branch, else moves to the parent. Right-to-left swaps those two, from the item's
 // computed direction. Expanding sets aria-expanded; hiding the children of a collapsed item is the consumer's CSS.
 
+import { treeItemKey } from "../menu/menu-keys.js";
+
 const ITEM = "[role='treeitem']";
 
 /** Items not inside a collapsed parent. */
@@ -34,6 +36,8 @@ export function initTreeList(tree) {
         const direction = getComputedStyle(active).direction;
         const forward = direction === "rtl" ? "ArrowLeft" : "ArrowRight";
         const expanded = active.getAttribute("aria-expanded");
+        if (event.key === "Enter" || event.key === " " || event.key.length === 1)
+            return treeItemKey(event, items);
 
         switch (event.key) {
             case "ArrowDown":

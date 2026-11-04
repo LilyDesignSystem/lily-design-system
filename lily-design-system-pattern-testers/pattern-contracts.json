@@ -291,6 +291,50 @@
         "expect": {
           "focusItem": 0
         }
+      },
+      {
+        "name": "typing \"t\" jumps to the next item that starts with it",
+        "press": "t",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "typing \"t\" jumps to the next item that starts with it",
+        "press": "t",
+        "expect": {
+          "focusItem": 2
+        }
+      },
+      {
+        "name": "typing it again cycles",
+        "press": "t",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "typing \"o\" jumps to the next item that starts with it",
+        "press": "o",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "Enter activates the item",
+        "press": "Enter",
+        "expect": {
+          "focusItem": 0,
+          "clicked": 0
+        }
+      },
+      {
+        "name": "Space activates the item",
+        "press": " ",
+        "expect": {
+          "focusItem": 0,
+          "clicked": 0
+        }
       }
     ]
   },
@@ -348,11 +392,39 @@
         "expect": {
           "focusItem": 0
         }
+      },
+      {
+        "name": "typing \"t\" jumps to the next item that starts with it",
+        "press": "t",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "typing \"t\" jumps to the next item that starts with it",
+        "press": "t",
+        "expect": {
+          "focusItem": 2
+        }
+      },
+      {
+        "name": "typing it again cycles",
+        "press": "t",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "typing \"o\" jumps to the next item that starts with it",
+        "press": "o",
+        "expect": {
+          "focusItem": 0
+        }
       }
     ]
   },
   "tree": {
-    "source": "WAI-ARIA APG tree view, moving between visible items (components/tree-list/AGENTS.md). tree-expand covers expanding and collapsing.",
+    "source": "WAI-ARIA APG tree view: moving between visible items, type-ahead and activation (components/tree-list/AGENTS.md). tree-expand covers expanding and collapsing. Which item is selected is the consumer's, from the click.",
     "root": "tree",
     "item": "treeitem",
     "fixture": "<li role=\"treeitem\" tabindex=\"0\" aria-expanded=\"false\">Fruit<ol role=\"group\"><li role=\"treeitem\" tabindex=\"-1\">Apple</li></ol></li><li role=\"treeitem\" tabindex=\"-1\" aria-expanded=\"true\">Tea<ol role=\"group\"><li role=\"treeitem\" tabindex=\"-1\">Green</li></ol></li><li role=\"treeitem\" tabindex=\"-1\">Veg</li>",
@@ -404,6 +476,50 @@
         "press": "Home",
         "expect": {
           "focusItem": 0
+        }
+      },
+      {
+        "name": "typing \"t\" jumps to the next item that starts with it",
+        "press": "t",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "Home returns to the first item, and ends any type-ahead",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "typing \"v\" jumps to the next item that starts with it",
+        "press": "v",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home returns to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "Enter activates the item",
+        "press": "Enter",
+        "expect": {
+          "focusItem": 0,
+          "clicked": 0
+        }
+      },
+      {
+        "name": "Space activates the item",
+        "press": " ",
+        "expect": {
+          "focusItem": 0,
+          "clicked": 0
         }
       }
     ]
@@ -985,6 +1101,174 @@
           "expanded": false,
           "value": 0,
           "prevented": true
+        }
+      }
+    ]
+  },
+  "menu-submenu": {
+    "source": "WAI-ARIA APG menu, submenus (components/menu/AGENTS.md).",
+    "root": "menu",
+    "item": "menuitem",
+    "fixture": "<div role=\"menuitem\" tabindex=\"0\">One</div><div role=\"menuitem\" tabindex=\"-1\" aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"lily-submenu\">Two</div><div role=\"menu\" id=\"lily-submenu\" aria-label=\"More\" hidden><div role=\"menuitem\" tabindex=\"-1\">Alpha</div><div role=\"menuitem\" tabindex=\"-1\">Beta</div></div><div role=\"menuitem\" tabindex=\"-1\">Three</div>",
+    "steps": [
+      {
+        "name": "the parent takes focus",
+        "focus": "Two",
+        "expect": {
+          "focus": "Two",
+          "expanded": false
+        }
+      },
+      {
+        "name": "ArrowRight opens on the first item",
+        "press": "ArrowRight",
+        "expect": {
+          "focus": "Alpha",
+          "expanded": true
+        }
+      },
+      {
+        "name": "ArrowDown moves inside the submenu",
+        "press": "ArrowDown",
+        "expect": {
+          "focus": "Beta",
+          "expanded": true
+        }
+      },
+      {
+        "name": "ArrowDown wraps inside the submenu",
+        "press": "ArrowDown",
+        "expect": {
+          "focus": "Alpha",
+          "expanded": true
+        }
+      },
+      {
+        "name": "typing jumps inside the submenu",
+        "press": "b",
+        "expect": {
+          "focus": "Beta",
+          "expanded": true
+        }
+      },
+      {
+        "name": "ArrowLeft closes and returns to the parent",
+        "press": "ArrowLeft",
+        "expect": {
+          "focus": "Two",
+          "expanded": false
+        }
+      },
+      {
+        "name": "the parent menu skips the submenu",
+        "press": "ArrowDown",
+        "expect": {
+          "focus": "Three",
+          "expanded": false
+        }
+      },
+      {
+        "name": "the parent takes focus again",
+        "focus": "Two",
+        "expect": {
+          "focus": "Two",
+          "expanded": false
+        }
+      },
+      {
+        "name": "Enter opens on the first item",
+        "press": "Enter",
+        "expect": {
+          "focus": "Alpha",
+          "expanded": true
+        }
+      },
+      {
+        "name": "Escape closes and returns to the parent",
+        "press": "Escape",
+        "expect": {
+          "focus": "Two",
+          "expanded": false
+        }
+      }
+    ]
+  },
+  "menubar-submenu": {
+    "source": "WAI-ARIA APG menubar, submenus (components/menu-bar/AGENTS.md).",
+    "root": "menubar",
+    "item": "menuitem",
+    "fixture": "<button role=\"menuitem\" tabindex=\"0\">One</button><button role=\"menuitem\" tabindex=\"-1\" aria-haspopup=\"menu\" aria-expanded=\"false\" aria-controls=\"lily-submenu\">Two</button><div role=\"menu\" id=\"lily-submenu\" aria-label=\"More\" hidden><div role=\"menuitem\" tabindex=\"-1\">Alpha</div><div role=\"menuitem\" tabindex=\"-1\">Beta</div></div><button role=\"menuitem\" tabindex=\"-1\">Three</button>",
+    "steps": [
+      {
+        "name": "the parent takes focus",
+        "focus": "Two",
+        "expect": {
+          "focus": "Two",
+          "expanded": false
+        }
+      },
+      {
+        "name": "ArrowDown opens on the first item",
+        "press": "ArrowDown",
+        "expect": {
+          "focus": "Alpha",
+          "expanded": true
+        }
+      },
+      {
+        "name": "ArrowRight closes and moves along the bar",
+        "press": "ArrowRight",
+        "expect": {
+          "focus": "Three",
+          "expanded": false
+        }
+      },
+      {
+        "name": "ArrowLeft moves back along the bar",
+        "press": "ArrowLeft",
+        "expect": {
+          "focus": "Two",
+          "expanded": false
+        }
+      },
+      {
+        "name": "ArrowUp opens on the last item",
+        "press": "ArrowUp",
+        "expect": {
+          "focus": "Beta",
+          "expanded": true
+        }
+      },
+      {
+        "name": "ArrowLeft closes and moves back along the bar",
+        "press": "ArrowLeft",
+        "expect": {
+          "focus": "One",
+          "expanded": false
+        }
+      },
+      {
+        "name": "the parent takes focus again",
+        "focus": "Two",
+        "expect": {
+          "focus": "Two",
+          "expanded": false
+        }
+      },
+      {
+        "name": "Enter opens on the first item",
+        "press": "Enter",
+        "expect": {
+          "focus": "Alpha",
+          "expanded": true
+        }
+      },
+      {
+        "name": "Escape closes and returns to the parent",
+        "press": "Escape",
+        "expect": {
+          "focus": "Two",
+          "expanded": false
         }
       }
     ]

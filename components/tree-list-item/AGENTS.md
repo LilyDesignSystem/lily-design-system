@@ -40,6 +40,8 @@
 - End: Moves focus to the last visible tree item (managed by parent TreeList)
 
 ArrowRight and ArrowLeft act only when the item itself has focus, never on a key that bubbled up from a nested item, and are swapped in right-to-left layouts (`direction: rtl`). "Visible" means not inside an item whose `aria-expanded` is `false`.
+- A typed letter: moves to the next visible item whose name starts with it; repeating it cycles
+- Enter, Space: activate the item with a click; which item is selected is the consumer's, from that click
 
 ## Props
 

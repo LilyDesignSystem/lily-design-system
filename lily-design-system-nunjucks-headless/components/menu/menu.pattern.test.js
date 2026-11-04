@@ -9,7 +9,15 @@ import { initMenu } from "./menu.js";
 test("meets the menu contract", async () => {
     document.body.innerHTML = render("menu", { label: "Sections" }, "").document.body.innerHTML;
     const root = document.querySelector(".menu");
-    const handle = initMenu(root);
+    const detach = initMenu(root);
     await runPattern("menu", { root, hook: "menu" });
-    handle.dispose();
+    detach();
+});
+
+test("meets the menu-submenu contract", async () => {
+    document.body.innerHTML = render("menu", { label: "Sections" }, "").document.body.innerHTML;
+    const root = document.querySelector(".menu");
+    const detach = initMenu(root);
+    await runPattern("menu-submenu", { root, hook: "menu" });
+    detach();
 });

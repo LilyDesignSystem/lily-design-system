@@ -39,6 +39,12 @@
 - Home: Moves focus to the first menu bar item.
 - End: Moves focus to the last menu bar item.
 
+- A typed letter: moves to the next item whose name starts with it; repeating it cycles
+- On an item with a submenu: ArrowDown, Enter or Space opens it on its first item, ArrowUp on its last
+- In a submenu: ArrowDown and ArrowUp move; Escape closes it and returns to its parent; ArrowRight and ArrowLeft close it and move along the bar
+
+The arrows swap in right-to-left. A submenu's markup is as in [Menu](../menu/). The bar is one tab stop. Held to the `menubar-submenu` contract.
+
 ## Props
 
 - `label`: string (required) -- accessible name applied via `aria-label`.

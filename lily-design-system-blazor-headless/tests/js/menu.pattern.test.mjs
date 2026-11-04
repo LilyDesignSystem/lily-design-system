@@ -23,3 +23,11 @@ test("meets the menu contract", async () => {
     await runPattern("menu", { root, hook: "menu" });
     handle.dispose?.();
 });
+
+test("meets the menu-submenu contract", async () => {
+    document.body.innerHTML = `<div class="menu" role="menu" aria-label="Sections"></div>`;
+    const root = document.body.firstElementChild;
+    const handle = attach(root);
+    await runPattern("menu-submenu", { root, hook: "menu" });
+    handle.dispose?.();
+});

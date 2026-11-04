@@ -6,4 +6,9 @@ describe("MenuBar pattern", function () {
         await browser.url("file://" + path.resolve(__dirname, "menu-bar.html"));
         await runPattern(browser, "menubar", ".menu-bar", "menu-bar", "Sections");
     });
+
+    it("meets the menubar-submenu contract", async function () {
+        await browser.url("file://" + path.resolve(__dirname, "menu-bar.html"));
+        await runPattern(browser, "menubar-submenu", ".menu-bar", "menu-bar", "Sections");
+    });
 });

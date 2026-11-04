@@ -3,19 +3,12 @@
 //   import { autoInit } from "@lilydesignsystem/nunjucks-headless/components/menu-bar/menu-bar.js";
 //   autoInit();
 //
-// APG menubar: ArrowRight, ArrowLeft, Home and End move and wrap, swapped in right-to-left; a typed letter jumps; one
-// tab stop.
+// APG menubar: menu-keys.js, generated from shared/menu-keys.ts, which says what a submenu's markup needs.
 
-import { initRoving, inlineKeys } from "../roving.js";
+import { attachMenu } from "../menu/menu-keys.js";
 
-/** Wire one menu bar. Returns a handle with `dispose()`. */
-export const initMenuBar = (root) =>
-    initRoving(root, {
-        selector: "[role='menuitem']",
-        keys: () => inlineKeys(root),
-        rove: true,
-        typeahead: true,
-    });
+/** Wire one menu bar. Returns the cleanup. */
+export const initMenuBar = (root) => attachMenu(root, "horizontal");
 
 /** Wire every `.menu-bar` on the page, once. */
 export function autoInit(doc = document) {

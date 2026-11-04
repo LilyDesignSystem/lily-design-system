@@ -23,19 +23,19 @@ afterEach(() => {
 
 test("a menu is one tab stop, and the stop follows focus", () => {
     const root = mount(MENU);
-    const handle = initMenu(root);
+    const detach = initMenu(root);
     const items = root.querySelectorAll("[role='menuitem']");
     expect(items[0].tabIndex).toBe(0);
     expect(items[2].tabIndex).toBe(-1);
     items[2].focus();
     expect(items[0].tabIndex).toBe(-1);
     expect(items[2].tabIndex).toBe(0);
-    handle.dispose();
+    detach();
 });
 
 test("a typed letter jumps, a repeat cycles, and a disabled item is skipped", () => {
     const root = mount(MENU);
-    const handle = initMenu(root);
+    const detach = initMenu(root);
     const items = root.querySelectorAll("[role='menuitem']");
     items[0].focus();
     expect(press(items[0], "b").defaultPrevented).toBe(true);
@@ -44,29 +44,29 @@ test("a typed letter jumps, a repeat cycles, and a disabled item is skipped", ()
     expect(document.activeElement).toBe(items[3]);
     press(items[3], "a");
     expect(document.activeElement).toBe(items[0]);
-    handle.dispose();
+    detach();
 });
 
 test("a shortcut and a key during IME composition are left alone", () => {
     const root = mount(MENU);
-    const handle = initMenu(root);
+    const detach = initMenu(root);
     const item = root.querySelector("[role='menuitem']");
     item.focus();
     expect(press(item, "b", { ctrlKey: true }).defaultPrevented).toBe(false);
     expect(press(item, "b", { isComposing: true }).defaultPrevented).toBe(false);
-    handle.dispose();
+    detach();
 });
 
 test("right-to-left swaps a menu bar's arrows", () => {
     const root = mount(
         `<div class="menu-bar" role="menubar" style="direction: rtl"><button role="menuitem">One</button><button role="menuitem">Two</button></div>`,
     );
-    const handle = initMenuBar(root);
+    const detach = initMenuBar(root);
     const [one, two] = root.querySelectorAll("[role='menuitem']");
     one.focus();
     press(one, "ArrowLeft");
     expect(document.activeElement).toBe(two);
-    handle.dispose();
+    detach();
 });
 
 test("a vertical tab bar uses the block arrows", () => {

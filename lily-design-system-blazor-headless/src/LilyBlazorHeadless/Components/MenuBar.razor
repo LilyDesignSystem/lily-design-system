@@ -66,7 +66,6 @@
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     /// <summary>Module path, relative to the app base (static web asset of this library).</summary>
-    public const string ModulePath = "./_content/LilyDesignSystem.Blazor.Headless/Components/MenuBar.razor.js";
 
     private ElementReference _root;
     private IJSObjectReference? _module;
@@ -75,8 +74,8 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender) return;
-        _module = await JS.InvokeAsync<IJSObjectReference>("import", ModulePath);
-        _handle = await _module.InvokeAsync<IJSObjectReference>("attach", _root);
+        _module = await JS.InvokeAsync<IJSObjectReference>("import", Menu.ModulePath);
+        _handle = await _module.InvokeAsync<IJSObjectReference>("attach", _root, "horizontal");
     }
 
     public async ValueTask DisposeAsync()

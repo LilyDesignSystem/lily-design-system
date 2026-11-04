@@ -20,7 +20,9 @@
     "ArrowRight: On a collapsed item (`expanded` is `false`), expands it; on an expanded item, moves focus to its first child; on a leaf, does nothing",
     "ArrowLeft: On an expanded item, collapses it; otherwise moves focus to the parent item, if there is one",
     "Home: Moves focus to the first visible tree item (managed by parent TreeList)",
-    "End: Moves focus to the last visible tree item (managed by parent TreeList)"
+    "End: Moves focus to the last visible tree item (managed by parent TreeList)",
+    "A typed letter: moves to the next visible item whose name starts with it; repeating it cycles",
+    "Enter, Space: activate the item with a click; which item is selected is the consumer's, from that click"
   ],
   "props": [],
   "related": [

@@ -1,0 +1,209 @@
+// The menu behaviour every catalog shares: the WAI-ARIA APG menu and menubar, on consumer-supplied items, with submenus,
+// type-ahead and activation. Tree views take typeaheadTarget and activateItem from here too.
+//
+// Next and previous move and wrap, Home and End jump, and a typed letter jumps to the next item that starts with it.
+// A vertical menu moves on ArrowDown and ArrowUp; a menubar on ArrowRight and ArrowLeft, swapped in right-to-left.
+// Enter and Space activate an item, by clicking one that is not natively a button or link.
+//
+// A submenu is the consumer's markup: an item with aria-controls naming a role="menu" element, which starts hidden, and
+// aria-haspopup="menu" with aria-expanded="false" on the item. Enter, Space or ArrowRight opens it on its first item
+// (in a menubar ArrowDown, or ArrowUp on the last). ArrowLeft or Escape closes it and returns to the parent; in a
+// submenu of a menubar, ArrowRight and ArrowLeft close it and move along the bar instead. A click on the parent toggles
+// it, a click on a leaf or focus leaving the menu closes every submenu.
+//
+// bin/sync-shared-modules strips the types for Nunjucks, Blazor (Menu.razor.js) and Alpine and inlines the result in the
+// HTML snippets. Edit it here. The menu, menubar, menu-submenu and menubar-submenu contracts hold every port to it.
+
+export type MenuOrientation = "vertical" | "horizontal";
+
+const ITEM = '[role="menuitem"],[role="menuitemcheckbox"],[role="menuitemradio"]';
+const MENU = '[role="menu"],[role="menubar"]';
+
+const usable = (el: HTMLElement): boolean =>
+    !(el as HTMLButtonElement).disabled && el.getAttribute("aria-disabled") !== "true";
+
+const ownItems = (container: Element): HTMLElement[] =>
+    [...container.querySelectorAll<HTMLElement>(ITEM)].filter(
+        (el) => el.closest(MENU) === container && usable(el),
+    );
+
+const isNative = (el: Element): boolean => el.matches("a[href],button,input,summary");
+
+/** The next item after `current` whose name starts with the typed letter; a repeat cycles. Undefined for any other key. */
+export function typeaheadTarget(
+    items: HTMLElement[],
+    current: Element | null,
+    event: KeyboardEvent,
+): HTMLElement | undefined {
+    if (event.key.length !== 1 || event.key === " " || event.isComposing) return undefined;
+    if (event.ctrlKey || event.metaKey || event.altKey) return undefined;
+    const letter = event.key.toLocaleLowerCase();
+    const from = items.indexOf(current as HTMLElement);
+    return [...items.slice(from + 1), ...items.slice(0, from + 1)].find((el) =>
+        (el.getAttribute("aria-label") || el.textContent || "")
+            .trim()
+            .toLocaleLowerCase()
+            .startsWith(letter),
+    );
+}
+
+/** Enter and Space on an item that is not natively a button or link. True when it acted. */
+export function activateItem(event: KeyboardEvent, item: HTMLElement | null): boolean {
+    if (!item || (event.key !== "Enter" && event.key !== " ") || isNative(item)) return false;
+    event.preventDefault();
+    item.click();
+    return true;
+}
+
+function submenuOf(item: Element): HTMLElement | null {
+    const id = item.getAttribute("aria-controls");
+    const el = id ? item.ownerDocument.getElementById(id) : null;
+    return el?.getAttribute("role") === "menu" ? el : null;
+}
+
+function parentItemOf(menu: HTMLElement): HTMLElement | undefined {
+    return [...menu.ownerDocument.querySelectorAll<HTMLElement>("[aria-controls]")].find(
+        (el) => el.getAttribute("aria-controls") === menu.id,
+    );
+}
+
+function setSubmenu(item: HTMLElement, open: boolean): void {
+    const menu = submenuOf(item);
+    if (!menu) return;
+    item.setAttribute("aria-expanded", String(open));
+    if (menu.hasAttribute("popover") && typeof menu.showPopover === "function") {
+        try {
+            if (open) menu.showPopover();
+            else menu.hidePopover();
+        } catch {
+            // Already in that state.
+        }
+    } else menu.hidden = !open;
+}
+
+/** One key press on a menu or menubar, or anywhere in its submenus. */
+export function menuKeydown(event: KeyboardEvent, orientation: MenuOrientation): void {
+    if (event.isComposing) return;
+    const target = event.target as Element;
+    // The key may be sent to the container while an item has focus.
+    const focused = target.ownerDocument.activeElement;
+    const current = target.closest<HTMLElement>(ITEM) ?? focused?.closest<HTMLElement>(ITEM) ?? null;
+    const container = (current ?? target).closest<HTMLElement>(MENU);
+    if (!container) return;
+    const parent = container.parentElement?.closest<HTMLElement>(MENU) ?? null;
+    const horizontal = !parent && orientation === "horizontal";
+    const rtl = container.ownerDocument.defaultView?.getComputedStyle(container).direction === "rtl";
+    const forward = rtl ? "ArrowLeft" : "ArrowRight";
+    const back = rtl ? "ArrowRight" : "ArrowLeft";
+    const next = horizontal ? forward : "ArrowDown";
+    const prev = horizontal ? back : "ArrowUp";
+    const items = ownItems(container);
+    const index = current ? items.indexOf(current) : -1;
+    const submenu = current ? submenuOf(current) : null;
+    const key = event.key;
+
+    const go = (item: HTMLElement | undefined): void => {
+        if (!item) return;
+        event.preventDefault();
+        item.focus();
+    };
+    const openSubmenu = (item: HTMLElement, menu: HTMLElement, last: boolean): void => {
+        setSubmenu(item, true);
+        const inside = ownItems(menu);
+        go(inside[last ? inside.length - 1 : 0]);
+    };
+    /** Close this submenu and return to its parent item, or move along the menubar from it. */
+    const closeTo = (step: number): void => {
+        const opener = parentItemOf(container);
+        if (!opener) return;
+        setSubmenu(opener, false);
+        if (step === 0) return go(opener);
+        const siblings = ownItems(parent as HTMLElement);
+        const to = (siblings.indexOf(opener) + step + siblings.length) % siblings.length;
+        go(siblings[to]);
+    };
+
+    if (key === next) return go(items[(index + 1) % items.length]);
+    if (key === prev) return go(items[index > 0 ? index - 1 : items.length - 1]);
+    if (key === "Home") return go(items[0]);
+    if (key === "End") return go(items[items.length - 1]);
+    if (current && submenu) {
+        if (key === "Enter" || key === " " || key === (horizontal ? "ArrowDown" : forward))
+            return openSubmenu(current, submenu, false);
+        if (horizontal && key === "ArrowUp") return openSubmenu(current, submenu, true);
+    }
+    if (parent) {
+        const inBar = parent.getAttribute("role") === "menubar";
+        if (key === "Escape") return closeTo(0);
+        if (key === back) return closeTo(inBar ? -1 : 0);
+        if (key === forward && inBar) return closeTo(1);
+    }
+    if (activateItem(event, current)) return;
+    go(typeaheadTarget(items, current, event));
+}
+
+/** Wire a menu or menubar: the keys, one tab stop that follows focus, and submenus. Returns the cleanup. */
+export function attachMenu(root: HTMLElement, orientation: MenuOrientation): () => void {
+    const tabStop = (item: HTMLElement): void => {
+        for (const el of ownItems(root)) el.tabIndex = el === item ? 0 : -1;
+    };
+    /** Close every open submenu, and return the outermost parent item that was open. */
+    const closeAll = (): HTMLElement | undefined => {
+        const open = [...root.querySelectorAll<HTMLElement>('[aria-controls][aria-expanded="true"]')];
+        for (const item of open) setSubmenu(item, false);
+        return open[0];
+    };
+
+    function onKeydown(event: KeyboardEvent): void {
+        menuKeydown(event, orientation);
+    }
+    function onFocusin(event: FocusEvent): void {
+        const item = (event.target as Element).closest<HTMLElement>(ITEM);
+        if (item?.closest(MENU) === root) tabStop(item);
+    }
+    function onFocusout(event: FocusEvent): void {
+        if (!root.contains(event.relatedTarget as Node | null)) closeAll();
+    }
+    function onClick(event: Event): void {
+        const item = (event.target as Element).closest<HTMLElement>(ITEM);
+        if (!item || !root.contains(item)) return;
+        if (submenuOf(item)) setSubmenu(item, item.getAttribute("aria-expanded") !== "true");
+        else if (item.closest(MENU) !== root) closeAll()?.focus();
+    }
+
+    root.addEventListener("keydown", onKeydown);
+    root.addEventListener("focusin", onFocusin);
+    root.addEventListener("focusout", onFocusout);
+    root.addEventListener("click", onClick);
+    if (!ownItems(root).some((el) => el.tabIndex === 0 && el.hasAttribute("tabindex"))) {
+        const first = ownItems(root)[0];
+        if (first) tabStop(first);
+    }
+    return () => {
+        root.removeEventListener("keydown", onKeydown);
+        root.removeEventListener("focusin", onFocusin);
+        root.removeEventListener("focusout", onFocusout);
+        root.removeEventListener("click", onClick);
+    };
+}
+
+/** A tree view's Enter, Space and type-ahead. Its arrows are its own, since expanding is state a framework holds. */
+export function treeItemKey(event: KeyboardEvent, items: HTMLElement[]): void {
+    if (event.defaultPrevented) return; // A tree nested in a tree sees the same key twice.
+    const target = event.target as Element;
+    const focused = target.ownerDocument.activeElement;
+    const current = (target.closest('[role="treeitem"]') ? target : focused)?.closest<HTMLElement>(
+        '[role="treeitem"]',
+    ) ?? null;
+    if (activateItem(event, current)) return;
+    const match = typeaheadTarget(items, current, event);
+    if (match) {
+        event.preventDefault();
+        match.focus();
+    }
+}
+
+/** Blazor attaches through this name, and disposes the handle. */
+export function attach(root: HTMLElement, orientation: MenuOrientation = "vertical"): { dispose: () => void } {
+    return { dispose: attachMenu(root, orientation) };
+}

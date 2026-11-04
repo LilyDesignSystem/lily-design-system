@@ -48,6 +48,7 @@
 //   - WAI-ARIA tree role: https://www.w3.org/TR/wai-aria-1.2/#tree
 
 import { ref } from "vue";
+import { treeItemKey } from "./menu-keys";
 
 const props = defineProps<{
     /** Accessible label. */
@@ -86,6 +87,8 @@ function onkeydown(event: KeyboardEvent) {
             items[items.length - 1]?.focus();
             break;
         }
+        default:
+            treeItemKey(event, items);
     }
 }
 </script>

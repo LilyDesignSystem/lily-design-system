@@ -1,4 +1,4 @@
-// Behaviour tests for src/LilyBlazorHeadless/Components/MenuBar.razor.js
+// Behaviour tests for src/LilyBlazorHeadless/Components/Menu.razor.js
 // (mirrors the Svelte MenuBar.test.ts key cases).
 // Run: JSDOM_PATH=/path/to/jsdom node --test tests/js/menu-bar.test.mjs
 // Needs the `jsdom` package (resolved normally, or via the JSDOM_PATH env var).
@@ -17,12 +17,12 @@ const dom = new JSDOM("<!doctype html><body></body>", { pretendToBeVisual: true 
 for (const k of ["window", "document", "HTMLElement", "Node", "KeyboardEvent"]) {
     globalThis[k] = k === "window" ? dom.window : (dom.window[k] ?? globalThis[k]);
 }
-const { attach } = await import("../../src/LilyBlazorHeadless/Components/MenuBar.razor.js");
+const { attach } = await import("../../src/LilyBlazorHeadless/Components/Menu.razor.js");
 
 function mount() {
     document.body.innerHTML = `<div class="menu-bar" role="menubar" aria-label="Main"><button role="menuitem">File</button><button role="menuitem">Edit</button><button role="menuitem">View</button></div>`;
     const root = document.body.firstElementChild;
-    return { root, handle: attach(root) };
+    return { root, handle: attach(root, "horizontal") };
 }
 const item = (text) =>
     [...document.body.querySelectorAll("*")].find((e) => e.firstChild?.nodeValue === text);

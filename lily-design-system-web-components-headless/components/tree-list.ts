@@ -22,6 +22,7 @@
 //   - WAI-ARIA Tree View Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/treeview/
 //   - WAI-ARIA tree role: https://www.w3.org/TR/wai-aria-1.2/#tree
 
+import { treeItemKey } from "../lib/menu-keys.js";
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label"]);
@@ -72,6 +73,8 @@ export class TreeList extends HTMLElement {
                 items[items.length - 1]?.focus();
                 break;
             }
+            default:
+                treeItemKey(event, items);
             case "ArrowRight":
             case "ArrowLeft":
                 if (event.target === current && index >= 0) this.#expandKey(event, current);

@@ -11,6 +11,7 @@
 //   Alpine.plugin(lily);
 //   Alpine.start();
 
+import { menuKeydown } from "./menu-keys.js";
 import { truncateMiddle } from "./middle-truncation.js";
 import { setupOverflowNavigation } from "./overflow-navigation.js";
 import {
@@ -131,6 +132,7 @@ function treeCore({ wrap = false, exclusive = false, expanded = [] } = {}) {
             const item = target.closest('[role="treeitem"]');
             if (!item || !this.$root.contains(item)) return;
             if (event.ctrlKey || event.metaKey || event.altKey) return;
+            if (event.key.length !== 1) buffer = "";
             const visible = this.visibleItems();
             const index = visible.indexOf(item);
             const expandedState = item.getAttribute("aria-expanded");
@@ -176,7 +178,7 @@ function treeCore({ wrap = false, exclusive = false, expanded = [] } = {}) {
                 case " ":
                     if (target !== item) return;
                     event.preventDefault();
-                    this.activate(item.dataset.item, expandedState !== null);
+                    item.click(); // Its @click activates, so a key and a pointer tell the page the same thing.
                     return;
                 case "*":
                     event.preventDefault();
@@ -927,17 +929,17 @@ export default function lily(Alpine) {
         },
         menu: {
             "@keydown"(event) {
-                const items = Array.from(this.$el.querySelectorAll(MENU_ITEMS));
-                const target = menuTarget(
-                    event.key,
-                    items,
-                    items.indexOf(document.activeElement),
-                    orientation === "horizontal",
-                );
-                if (!target) return;
-                event.preventDefault();
-                this.current = target.dataset.item;
-                target.focus();
+                menuKeydown(event, orientation);
+            },
+            // A parent item toggles its submenu; the keys and the rest are menu-keys.js.
+            "@click"(event) {
+                const item = event.target.closest("[aria-controls]");
+                if (!item || !this.$el.contains(item)) return;
+                const menu = document.getElementById(item.getAttribute("aria-controls"));
+                if (menu?.getAttribute("role") !== "menu") return;
+                const open = item.getAttribute("aria-expanded") !== "true";
+                item.setAttribute("aria-expanded", String(open));
+                menu.hidden = !open;
             },
         },
         item(id) {

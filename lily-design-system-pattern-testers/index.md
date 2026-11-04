@@ -22,8 +22,9 @@ leaves out. Keep testing with a screen reader and real users.
 | Contract            | Covers                                                               | Leaves out                                 | You also pass |
 | ------------------- | -------------------------------------------------------------------- | ------------------------------------------ | ------------- |
 | `tabs`              | Arrows, Home and End move focus along a named `tablist`              | Selecting a tab, and its panel             |               |
-| `menu`, `menubar`   | The same for a named vertical or horizontal menu                     | Opening submenus, type-ahead               |               |
-| `tree`              | Moving between visible `treeitem`s, skipping collapsed ones          | Selection, type-ahead                      |               |
+| `menu`, `menubar`   | The same for a named menu, with type-ahead and, in `menu`, activation | Menu item checkboxes and radios           |               |
+| `menu-submenu`, `menubar-submenu` | Opening, moving in and closing a submenu, and moving along the bar from one | Hover, pointer                |               |
+| `tree`              | Moving between visible `treeitem`s, type-ahead, Enter and Space activating | Which item is selected, which is yours |               |
 | `tree-expand`       | ArrowRight and ArrowLeft on a branch                                 | Right-to-left, which swaps them            |               |
 | `grid`              | Arrows, Home, End, the Ctrl corners, page keys, exactly one tab stop | Sorting, editing, selection                |               |
 | `autosuggest`       | A list-autocomplete combobox: arrows, Alt+Arrow, Home, End, Enter, Escape | Filtering, which is yours                  |               |

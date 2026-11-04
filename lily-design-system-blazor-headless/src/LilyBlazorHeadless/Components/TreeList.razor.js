@@ -6,6 +6,8 @@
 // read at key time. ArrowRight and ArrowLeft act only on the item that has focus: moving focus here, and sending a
 // `toggle` event to TreeListItem.razor, which owns the expanded state. They are swapped in right-to-left.
 
+import { treeItemKey } from "./Menu.razor.js";
+
 const SELECTOR = "[role='treeitem']";
 const KEYS = ["ArrowDown", "ArrowUp", "Home", "End"];
 
@@ -28,10 +30,10 @@ export function attach(root) {
 
     function onkeydown(event) {
         if (event.key === "ArrowRight" || event.key === "ArrowLeft") return expandKey(event);
-        if (!KEYS.includes(event.key)) return;
         const items = Array.from(root.querySelectorAll(SELECTOR)).filter(
             (el) => !el.parentElement?.closest("[role='treeitem'][aria-expanded='false']"),
         );
+        if (!KEYS.includes(event.key)) return treeItemKey(event, items);
         if (items.length === 0) return;
         const current = items.indexOf(document.activeElement);
         const last = items.length - 1;

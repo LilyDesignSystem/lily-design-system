@@ -51,7 +51,8 @@
 // References:
 //   - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
 
-import { ref, useAttrs } from "vue";
+import { onBeforeUnmount, onMounted, ref, useAttrs } from "vue";
+import { attachMenu } from "./menu-keys";
 import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
@@ -63,36 +64,11 @@ warnMissingName("MenuBar", props.label, useAttrs()["aria-label"], useAttrs()["ar
 
 const barRef = ref<HTMLElement | undefined>(undefined);
 
-function onkeydown(event: KeyboardEvent) {
-    if (!barRef.value) return;
-    const items = Array.from(barRef.value.querySelectorAll<HTMLElement>("[role='menuitem']"));
-    const current = document.activeElement as HTMLElement;
-    const index = items.indexOf(current);
-    switch (event.key) {
-        case "ArrowRight": {
-            event.preventDefault();
-            const next = index < items.length - 1 ? index + 1 : 0;
-            items[next]?.focus();
-            break;
-        }
-        case "ArrowLeft": {
-            event.preventDefault();
-            const prev = index > 0 ? index - 1 : items.length - 1;
-            items[prev]?.focus();
-            break;
-        }
-        case "Home": {
-            event.preventDefault();
-            items[0]?.focus();
-            break;
-        }
-        case "End": {
-            event.preventDefault();
-            items[items.length - 1]?.focus();
-            break;
-        }
-    }
-}
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachMenu(barRef.value!, "horizontal");
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
@@ -102,7 +78,6 @@ function onkeydown(event: KeyboardEvent) {
         role="menubar"
         :aria-label="label"
         ref="barRef"
-        @keydown="onkeydown"
     >
         <slot />
     </div>

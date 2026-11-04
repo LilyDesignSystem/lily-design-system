@@ -47,6 +47,7 @@
 //   - WAI-ARIA tree role: https://www.w3.org/TR/wai-aria-1.2/#tree
 
 import React, { useRef } from "react";
+import { treeItemKey } from "./menu-keys";
 
 export interface TreeListProps {
     className?: string;
@@ -90,6 +91,8 @@ export default function TreeList({ className = "", label, children, ...restProps
                 items[items.length - 1]?.focus();
                 break;
             }
+            default:
+                treeItemKey(event.nativeEvent, items);
         }
     }
 

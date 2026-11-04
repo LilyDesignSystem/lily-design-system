@@ -37,6 +37,14 @@
 - ArrowUp: Moves focus to the previous menu item, wrapping to the last item from the first.
 - Home: Moves focus to the first menu item.
 - End: Moves focus to the last menu item.
+- A typed letter: moves to the next item whose name starts with it; repeating it cycles
+- Enter, Space: activate the item, by clicking one that is not natively a button or link
+- On an item with a submenu: Enter, Space or ArrowRight opens it on its first item
+- In a submenu: ArrowLeft or Escape closes it and returns to its parent item
+
+### Submenus
+
+A submenu is the consumer's markup, read from the DOM: an item with `aria-haspopup="menu"`, `aria-expanded="false"` and `aria-controls` naming a `role="menu"` element with an accessible name, which starts `hidden`. Clicking the parent toggles it; clicking a leaf or moving focus out of the menu closes every submenu. The menu is one tab stop. All from `shared/menu-keys.ts`, held to the `menu-submenu` contract.
 
 ## Props
 

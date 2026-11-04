@@ -16,3 +16,11 @@ test("meets the menubar contract", async () => {
         hook: "menu-bar",
     });
 });
+
+test("meets the menubar-submenu contract", async () => {
+    document.body.innerHTML = '<lily-menu-bar label="Sections"></lily-menu-bar>';
+    await runPattern("menubar-submenu", {
+        root: document.body.firstElementChild as HTMLElement,
+        hook: "menu-bar",
+    });
+});

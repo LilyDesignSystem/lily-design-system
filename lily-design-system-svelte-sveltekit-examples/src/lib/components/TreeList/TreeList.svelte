@@ -48,6 +48,7 @@
     //   - WAI-ARIA tree role: https://www.w3.org/TR/wai-aria-1.2/#tree
 
     import type { Snippet } from "svelte";
+    import { treeItemKey } from "../Menu/menu-keys";
 
     let {
         class: className = "",
@@ -94,6 +95,8 @@
                 items[items.length - 1]?.focus();
                 break;
             }
+            default:
+                treeItemKey(event, items);
         }
     }
 </script>

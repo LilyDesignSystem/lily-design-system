@@ -6145,7 +6145,8 @@
       "description": "A list of actions or options triggered by a button.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/menu-keys-utils"
       ],
       "categories": [
         "navigation"
@@ -6165,7 +6166,8 @@
       "description": "A horizontal bar of menu triggers.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/menu-keys-utils"
       ],
       "categories": [
         "navigation"
@@ -6226,6 +6228,20 @@
           "path": "lily-design-system-react-headless/components/MenuItem.tsx",
           "type": "registry:component",
           "target": "@components/lily/MenuItem.tsx"
+        }
+      ]
+    },
+    {
+      "name": "menu-keys-utils",
+      "type": "registry:lib",
+      "title": "menu-keys.ts",
+      "description": "Shared helper module menu-keys.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/menu-keys.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/menu-keys.ts"
         }
       ]
     },
@@ -10382,6 +10398,9 @@
       "title": "TreeList",
       "description": "A hierarchical list with nested expandable items.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/menu-keys-utils"
+      ],
       "categories": [
         "lists"
       ],

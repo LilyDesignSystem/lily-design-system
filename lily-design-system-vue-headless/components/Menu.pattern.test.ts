@@ -11,3 +11,11 @@ test("meets the menu contract", async () => {
         hook: "menu",
     });
 });
+
+test("meets the menu-submenu contract", async () => {
+    const { container } = render(Subject, { props: { label: "Sections" } });
+    await runPattern("menu-submenu", {
+        root: container.querySelector<HTMLElement>(".menu")!,
+        hook: "menu",
+    });
+});

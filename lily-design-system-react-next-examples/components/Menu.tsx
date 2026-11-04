@@ -58,7 +58,8 @@
 // References:
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { attachMenu } from "./menu-keys";
 import { warnMissingName } from "./dev-warning";
 
 export interface MenuProps {
@@ -74,38 +75,8 @@ export default function Menu({ className = "", label, children, ...restProps }: 
     warnMissingName("Menu", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const menuRef = useRef<HTMLDivElement>(null);
 
-    function handleKeyDown(event: React.KeyboardEvent) {
-        if (!menuRef.current) return;
-        const items = Array.from(
-            menuRef.current.querySelectorAll<HTMLElement>("[role='menuitem']"),
-        );
-        const current = document.activeElement as HTMLElement;
-        const index = items.indexOf(current);
-        switch (event.key) {
-            case "ArrowDown": {
-                event.preventDefault();
-                const next = index < items.length - 1 ? index + 1 : 0;
-                items[next]?.focus();
-                break;
-            }
-            case "ArrowUp": {
-                event.preventDefault();
-                const prev = index > 0 ? index - 1 : items.length - 1;
-                items[prev]?.focus();
-                break;
-            }
-            case "Home": {
-                event.preventDefault();
-                items[0]?.focus();
-                break;
-            }
-            case "End": {
-                event.preventDefault();
-                items[items.length - 1]?.focus();
-                break;
-            }
-        }
-    }
+    useEffect(() => attachMenu(menuRef.current!, "vertical"), []);
+
 
     return (
         <div
@@ -113,7 +84,6 @@ export default function Menu({ className = "", label, children, ...restProps }: 
             role="menu"
             aria-label={label}
             ref={menuRef}
-            onKeyDown={handleKeyDown}
             {...restProps}
         >
             {children}

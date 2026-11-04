@@ -97,6 +97,10 @@
       <li>End: Moves focus to the last visible tree item (managed by parent TreeList)</li>
     </ul>
     <p>ArrowRight and ArrowLeft act only when the item itself has focus, never on a key that bubbled up from a nested item, and are swapped in right-to-left layouts (<code>direction: rtl</code>). "Visible" means not inside an item whose <code>aria-expanded</code> is <code>false</code>.</p>
+    <ul>
+      <li>A typed letter: moves to the next visible item whose name starts with it; repeating it cycles</li>
+      <li>Enter, Space: activate the item with a click; which item is selected is the consumer's, from that click</li>
+    </ul>
     <h3>Props</h3>
     <p>| Prop           | Type            | Default     | Description                                                                                                                                                                                                                                  |</p>
     <p>| -------------- | --------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |</p>

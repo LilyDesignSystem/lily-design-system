@@ -92,6 +92,8 @@
       <li>Home: Moves focus to the first tree item</li>
       <li>End: Moves focus to the last visible tree item</li>
       <li>ArrowRight / ArrowLeft: handled by each [TreeListItem](../tree-list-item/) (expand, collapse, move to child or parent)</li>
+      <li>A typed letter: moves to the next visible item whose name starts with it; repeating it cycles</li>
+      <li>Enter, Space: activate the item with a click; which item is selected is the consumer's, from that click</li>
     </ul>
     <h3>Props</h3>
     <p>| Prop           | Type            | Default    | Description                                                         |</p>
