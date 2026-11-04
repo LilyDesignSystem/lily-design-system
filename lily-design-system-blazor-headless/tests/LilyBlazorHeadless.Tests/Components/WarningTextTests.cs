@@ -6,7 +6,7 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class WarningTextTests : TestContext
 {
-    private const string Text = "<span class=\"visually-hidden\">Warning</span> You can be fined if you do not register.";
+    private const string Text = "<span class=\"screen-reader-span\">Warning</span> You can be fined if you do not register.";
 
     private IRenderedComponent<WarningText> Render(Action<Bunit.ComponentParameterCollectionBuilder<WarningText>>? extra = null) =>
         RenderComponent<WarningText>(p => { p.AddChildContent(Text); extra?.Invoke(p); });
@@ -19,7 +19,7 @@ public class WarningTextTests : TestContext
     [Fact] public void Renders_children_with_hidden_prefix_inside_strong()
     {
         var strong = Render().Find(".warning-text > strong.warning-text-text");
-        Assert.Equal("Warning", strong.QuerySelector(".visually-hidden")!.TextContent);
+        Assert.Equal("Warning", strong.QuerySelector(".screen-reader-span")!.TextContent);
         Assert.Contains("You can be fined", strong.TextContent);
     }
 

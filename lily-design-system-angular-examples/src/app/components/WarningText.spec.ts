@@ -15,7 +15,7 @@ const root = (f: any): HTMLElement => f.nativeElement.querySelector("div.warning
 @Component({
     standalone: true,
     imports: [WarningText],
-    template: `<lily-warning-text><span icon>!</span><span class="visually-hidden">Warning</span> You can be fined if you do not register.</lily-warning-text>`,
+    template: `<lily-warning-text><span icon>!</span><span class="screen-reader-span">Warning</span> You can be fined if you do not register.</lily-warning-text>`,
 })
 class Host {}
 
@@ -35,7 +35,7 @@ describe("WarningText", () => {
         const f = TestBed.createComponent(Host);
         f.detectChanges();
         const strong = f.nativeElement.querySelector(".warning-text > strong.warning-text-text");
-        expect(strong.querySelector(".visually-hidden").textContent).toBe("Warning");
+        expect(strong.querySelector(".screen-reader-span").textContent).toBe("Warning");
         expect(strong.textContent).toContain("You can be fined");
         expect(strong.textContent).not.toContain("!");
     });

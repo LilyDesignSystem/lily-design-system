@@ -23,7 +23,7 @@ describe("WarningText", function () {
     it("should hold the hidden prefix and the text in strong.warning-text-text", async function () {
         const strong = await $(".warning-text > strong.warning-text-text");
         await expect(strong).toExist();
-        await expect(strong.$(".visually-hidden")).toExist();
+        await expect(strong.$(".screen-reader-span")).toExist();
     });
 
     it("should have no role and no inline styles", async function () {

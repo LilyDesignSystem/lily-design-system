@@ -10,7 +10,7 @@ See [components/warning-text/index.md](../../components/warning-text/index.md) f
 
 ```tsx
 <WarningText icon="!">
-  <span className="visually-hidden">Warning</span> You can be fined up to £5,000 if you do not
+  <span className="screen-reader-span">Warning</span> You can be fined up to £5,000 if you do not
   register.
 </WarningText>
 ```

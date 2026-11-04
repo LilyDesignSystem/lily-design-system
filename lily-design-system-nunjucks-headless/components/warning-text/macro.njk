@@ -23,7 +23,7 @@
     {% from "components/warning-text/macro.njk" import warningText %}
     {{ warningText({
       iconText: "!",
-      html: '<span class="visually-hidden">Warning</span> You can be fined if you do not register.'
+      html: '<span class="screen-reader-span">Warning</span> You can be fined if you do not register.'
     }) }}
 #}
 {%- macro warningText(params) -%}

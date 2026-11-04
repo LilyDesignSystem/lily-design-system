@@ -12,7 +12,7 @@ See [components/warning-text/index.md](../../../components/warning-text/index.md
 {% from "components/warning-text/macro.njk" import warningText %}
 {{ warningText({
   iconText: "!",
-  html: '<span class="visually-hidden">Warning</span> You can be fined up to £5,000 if you do not register.'
+  html: '<span class="screen-reader-span">Warning</span> You can be fined up to £5,000 if you do not register.'
 }) }}
 ```
 

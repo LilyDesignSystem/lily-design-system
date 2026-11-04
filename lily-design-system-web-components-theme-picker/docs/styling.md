@@ -276,7 +276,7 @@ region and defeats the whole point.
 ```
 
 This is the standard visually-hidden recipe; if your app already has
-an `.sr-only` / `.visually-hidden` utility, add that class to the
+an `.sr-only` / `.screen-reader-span` utility, add that class to the
 element instead of duplicating the rules.
 
 Prefer the visible version where you can — it serves sighted and

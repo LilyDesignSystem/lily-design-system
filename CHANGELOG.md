@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Pattern testers, CSP, lifecycle, IBAN, calendar systems — 2026-11-03
+
+From the [survey of 18 design systems](spec/design-system-survey-lessons/index.md), tasks.md Phase 23.
+
+- **Fixed:** no theme defines `.visually-hidden`, so hidden text such as the `warning-text` prefix showed on screen. Lily's demos, macros and docs now use `.screen-reader-span`. A consumer of the Nunjucks `error-message`, `care-card`, `inset-text`, `pagination-link` or `summary-list-item` macros targeting `.visually-hidden` must update its CSS.
+
 ## Contrast gate, `:user-invalid`, no-flash theme, dependency updates — 2026-11-02
 
 - `bin/check-theme --contrast --gate` (in `bin/test`) fails any theme colour pair below 4.5:1 or unparsed. Valentine's `base-content` went from 0.52 to 0.48 lightness, so no AA failure remains (P10-T10 closed, P22-T20).

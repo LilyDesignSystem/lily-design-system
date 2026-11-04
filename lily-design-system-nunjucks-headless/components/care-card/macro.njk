@@ -47,7 +47,7 @@
 >
   {%- if params.heading %}
   <h{{ level }} class="care-card-heading">
-    {%- if params.screenReaderPrefix %}<span class="visually-hidden">{{ params.screenReaderPrefix }} </span>{% endif -%}
+    {%- if params.screenReaderPrefix %}<span class="screen-reader-span">{{ params.screenReaderPrefix }} </span>{% endif -%}
     {{ params.heading }}
   </h{{ level }}>
   {%- endif %}

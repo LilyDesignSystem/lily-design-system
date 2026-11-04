@@ -13,7 +13,7 @@
 // Syntax:
 //   <WarningText>
 //     <template #icon>!</template>
-//     <span class="visually-hidden">Warning</span> You can be fined if you do not register.
+//     <span class="screen-reader-span">Warning</span> You can be fined if you do not register.
 //   </WarningText>
 //
 // Attributes (class, id, data-*) fall through onto the root <div>.

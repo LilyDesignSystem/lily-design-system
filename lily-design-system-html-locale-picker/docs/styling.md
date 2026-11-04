@@ -309,7 +309,7 @@ screen-reader users only. Use the standard clip pattern rather than
 from the accessibility tree entirely:
 
 ```css
-.visually-hidden {
+.screen-reader-span {
   position: absolute;
   width: 1px;
   height: 1px;

@@ -537,7 +537,7 @@
                     onclick={(e) => {
                         e.preventDefault();
                         goToStep(1);
-                    }}>Change<span class="visually-hidden"> reason</span></a
+                    }}>Change<span class="screen-reader-span"> reason</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Date">
@@ -547,7 +547,7 @@
                     onclick={(e) => {
                         e.preventDefault();
                         goToStep(2);
-                    }}>Change<span class="visually-hidden"> date</span></a
+                    }}>Change<span class="screen-reader-span"> date</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Time of day">
@@ -557,7 +557,7 @@
                     onclick={(e) => {
                         e.preventDefault();
                         goToStep(2);
-                    }}>Change<span class="visually-hidden"> time of day</span></a
+                    }}>Change<span class="screen-reader-span"> time of day</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Full name">
@@ -567,7 +567,7 @@
                     onclick={(e) => {
                         e.preventDefault();
                         goToStep(3);
-                    }}>Change<span class="visually-hidden"> full name</span></a
+                    }}>Change<span class="screen-reader-span"> full name</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Email address">
@@ -577,7 +577,7 @@
                     onclick={(e) => {
                         e.preventDefault();
                         goToStep(3);
-                    }}>Change<span class="visually-hidden"> email address</span></a
+                    }}>Change<span class="screen-reader-span"> email address</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Phone number">
@@ -591,7 +591,7 @@
                     onclick={(e) => {
                         e.preventDefault();
                         goToStep(3);
-                    }}>Change<span class="visually-hidden"> phone number</span></a
+                    }}>Change<span class="screen-reader-span"> phone number</span></a
                 >
             </SummaryListItem>
             <SummaryListItem term="Interpreter or additional support">
@@ -602,7 +602,7 @@
                         e.preventDefault();
                         goToStep(3);
                     }}
-                    >Change<span class="visually-hidden">
+                    >Change<span class="screen-reader-span">
                         interpreter or additional support</span
                     ></a
                 >
@@ -677,7 +677,7 @@
 </Footer>
 
 <style>
-    .visually-hidden {
+    .screen-reader-span {
         position: absolute;
         width: 1px;
         height: 1px;

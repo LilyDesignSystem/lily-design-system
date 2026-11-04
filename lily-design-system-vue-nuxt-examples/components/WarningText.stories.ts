@@ -14,6 +14,6 @@ export const Default: Story = {
     render: () => ({
         components: { WarningText },
         template:
-            '<WarningText><template #icon>!</template><span class="visually-hidden">Warning</span> You can be fined up to £5,000 if you do not register.</WarningText>',
+            '<WarningText><template #icon>!</template><span class="screen-reader-span">Warning</span> You can be fined up to £5,000 if you do not register.</WarningText>',
     }),
 };

@@ -65,7 +65,7 @@ describe("summary-list-item", () => {
         });
         const a = document.querySelector("dd.summary-list-item-actions a");
         expect(a.getAttribute("aria-label")).toBe("Change date of birth");
-        expect(a.querySelector("span.visually-hidden").textContent.trim()).toBe("date of birth");
+        expect(a.querySelector("span.screen-reader-span").textContent.trim()).toBe("date of birth");
     });
 
     it("appends params.classes", () => {

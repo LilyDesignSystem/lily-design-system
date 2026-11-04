@@ -241,7 +241,7 @@ A composition of `Card` and `SummaryList`, not a component: the card title, opti
 <Card>
   <h3>Personal details</h3>
   <a href="/name">
-    Change<span class="visually-hidden"> name</span>
+    Change<ScreenReaderSpan> name</ScreenReaderSpan>
   </a>
   <SummaryList label="Personal details">
     <SummaryListItem>…</SummaryListItem>
@@ -249,7 +249,7 @@ A composition of `Card` and `SummaryList`, not a component: the card title, opti
 </Card>
 ```
 
-- Each action's accessible name says what it changes ("Change name"), through consumer-supplied visually hidden text.
+- Each action's accessible name says what it changes ("Change name"), through consumer-supplied text in a `ScreenReaderSpan`.
 - Action targets are at least 24 by 24 CSS pixels, or spaced (WCAG 2.5.8).
 - A missing value links to the question that answers it, not to a "Change" link.
 - Earlier answers are pre-filled when the user returns through a change link (WCAG 3.3.7).

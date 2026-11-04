@@ -3,7 +3,7 @@ import { render } from "../../test/render.js";
 
 const name = "warning-text";
 const text =
-    '<span class="visually-hidden">Warning</span> You can be fined if you do not register.';
+    '<span class="screen-reader-span">Warning</span> You can be fined if you do not register.';
 
 describe("warningText", () => {
     it("renders a <div> with the base class", () => {
@@ -24,7 +24,7 @@ describe("warningText", () => {
         const strong = render(name, { html: text }).document.querySelector(
             ".warning-text > strong.warning-text-text",
         );
-        expect(strong.querySelector(".visually-hidden").textContent).toBe("Warning");
+        expect(strong.querySelector(".screen-reader-span").textContent).toBe("Warning");
         expect(strong.textContent).toContain("You can be fined");
         expect(
             render(name, { text: "<b>x</b>" }).document.querySelector(".warning-text-text")

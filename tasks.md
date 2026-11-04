@@ -3264,7 +3264,7 @@ below was built when the phase was written. Marked unverified in that topic: re-
       Verify: a recorded decision with the numbers.
 - [ ] **P23-T14 Decide on IBAN (maintainer decision).** Lion. `iban-input` and `iban-view`: worldwide-leaning and checksummed, but the catalog count moves. Wait for the proof work.
       Verify: a recorded decision; if adopted, the standard coverage matrix is green.
-- [ ] **P23-T15 Replace the `visually-hidden` class in the docs.** `AGENTS/components.md` and `components/warning-text/index.md` use a class no theme defines. Use `ScreenReaderSpan`, which all 63 themes style, then run `bin/sync` and `bin/generate-examples`.
+- [x] **P23-T15 Replace the `visually-hidden` class in the docs.** _(2026-11-03: done. Wider than the task: `class="visually-hidden"` was in 73 files, including every catalog's `warning-text`. Docs now use `ScreenReaderSpan`, markup uses `.screen-reader-span`.)_ `AGENTS/components.md` and `components/warning-text/index.md` use a class no theme defines. Use `ScreenReaderSpan`, which all 63 themes style, then run `bin/sync` and `bin/generate-examples`.
       Verify: `grep -rln 'class="visually-hidden"' AGENTS components/*/index.md` finds nothing.
 
 Notes for P22-T11, T15, T16, T17, T19, T23, T26 and the P16 support policy are in

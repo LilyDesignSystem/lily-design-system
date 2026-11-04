@@ -51,7 +51,7 @@ describe("pagination-link", () => {
             direction: "next",
             hiddenLabel: "page: 3",
         });
-        const hidden = document.querySelector("a span.visually-hidden");
+        const hidden = document.querySelector("a span.screen-reader-span");
         expect(hidden).toBeTruthy();
         expect(hidden.textContent.trim()).toBe("page: 3");
     });

@@ -208,7 +208,7 @@ once on open — hide it visually with your own CSS if you prefer.
   {({ open, display }) => (
     <>
       <MyCalendarIcon expanded={open} />
-      <span className="visually-hidden">{display}</span>
+      <span className="screen-reader-span">{display}</span>
     </>
   )}
 </DateTimePicker>

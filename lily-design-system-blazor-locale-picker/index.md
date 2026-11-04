@@ -325,7 +325,7 @@ lifecycle through a `@ref` and the static `Locales.*` helpers:
               Locales="@codes"
               @bind-Value="locale"
               StorageKey="lily-locale"
-              class="visually-hidden" />
+              class="screen-reader-span" />
 
 <ul role="list">
     @foreach (var l in codes)

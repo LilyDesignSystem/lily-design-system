@@ -14,7 +14,7 @@ describe("error-message", () => {
 
     it("renders the visually-hidden prefix 'Error:' by default", () => {
         const { document } = render("error-message", { text: "x" });
-        const prefix = document.querySelector("span.error-message span.visually-hidden");
+        const prefix = document.querySelector("span.error-message span.screen-reader-span");
         expect(prefix).toBeTruthy();
         expect(prefix.textContent).toBe("Error:");
     });
@@ -24,7 +24,7 @@ describe("error-message", () => {
             text: "x",
             visuallyHiddenText: "Validation problem:",
         });
-        expect(document.querySelector("span.error-message span.visually-hidden").textContent).toBe(
+        expect(document.querySelector("span.error-message span.screen-reader-span").textContent).toBe(
             "Validation problem:",
         );
     });

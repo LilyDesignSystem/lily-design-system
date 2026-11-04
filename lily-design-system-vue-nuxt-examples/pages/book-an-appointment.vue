@@ -514,7 +514,7 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     <a
                         href="#reason"
                         @click.prevent="goToStep(1)"
-                        >Change<span class="visually-hidden"> reason</span></a
+                        >Change<span class="screen-reader-span"> reason</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Date">
@@ -522,7 +522,7 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     <a
                         href="#date"
                         @click.prevent="goToStep(2)"
-                        >Change<span class="visually-hidden"> date</span></a
+                        >Change<span class="screen-reader-span"> date</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Time of day">
@@ -530,7 +530,7 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     <a
                         href="#time"
                         @click.prevent="goToStep(2)"
-                        >Change<span class="visually-hidden"> time of day</span></a
+                        >Change<span class="screen-reader-span"> time of day</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Full name">
@@ -538,7 +538,7 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     <a
                         href="#name"
                         @click.prevent="goToStep(3)"
-                        >Change<span class="visually-hidden"> full name</span></a
+                        >Change<span class="screen-reader-span"> full name</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Email address">
@@ -546,7 +546,7 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     <a
                         href="#email-review"
                         @click.prevent="goToStep(3)"
-                        >Change<span class="visually-hidden"> email address</span></a
+                        >Change<span class="screen-reader-span"> email address</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Phone number">
@@ -555,7 +555,7 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     <a
                         href="#phone-review"
                         @click.prevent="goToStep(3)"
-                        >Change<span class="visually-hidden"> phone number</span></a
+                        >Change<span class="screen-reader-span"> phone number</span></a
                     >
                 </SummaryListItem>
                 <SummaryListItem term="Interpreter or additional support">
@@ -563,7 +563,7 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
                     <a
                         href="#support-review"
                         @click.prevent="goToStep(3)"
-                        >Change<span class="visually-hidden">
+                        >Change<span class="screen-reader-span">
                             interpreter or additional support</span
                         ></a
                     >
@@ -645,7 +645,7 @@ function statusFor(n: 1 | 2 | 3 | 4): "waiting" | "in-progress" | "finished" {
 </template>
 
 <style scoped>
-.visually-hidden {
+.screen-reader-span {
     position: absolute;
     width: 1px;
     height: 1px;

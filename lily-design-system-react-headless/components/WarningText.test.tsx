@@ -5,7 +5,7 @@ import WarningText from "./WarningText";
 
 const text = (
     <>
-        <span className="visually-hidden">Warning</span> You can be fined if you do not register.
+        <span className="screen-reader-span">Warning</span> You can be fined if you do not register.
     </>
 );
 
@@ -25,7 +25,7 @@ describe("WarningText", () => {
     test("renders the children, hidden prefix included, inside strong.warning-text-text", () => {
         const { container } = render(<WarningText>{text}</WarningText>);
         const strong = container.querySelector(".warning-text > strong.warning-text-text")!;
-        expect(strong.querySelector(".visually-hidden")!.textContent).toBe("Warning");
+        expect(strong.querySelector(".screen-reader-span")!.textContent).toBe("Warning");
         expect(strong.textContent).toContain("You can be fined");
     });
 
