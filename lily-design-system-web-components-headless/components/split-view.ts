@@ -29,6 +29,7 @@
 //   - components/split-view/index.md (canonical contract)
 //   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
 
+import { attachSplitView } from "../lib/widget-keys.js";
 import { applySelfClassName } from "../lib/dom-utils.js";
 
 export class SplitView extends HTMLElement {
@@ -75,5 +76,6 @@ export class SplitView extends HTMLElement {
         }
 
         this.replaceChildren(primary, divider, secondary);
+        attachSplitView(this);
     }
 }

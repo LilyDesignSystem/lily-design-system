@@ -4,8 +4,8 @@
   Description: a two-panel resizable layout container with a draggable divider between them
   HTML tag: <div>
   CSS class: split-view
-  Keyboard: Tab to focus the divider; consumers may wire arrow keys to resize.
-  Accessibility: The container exposes aria-label and data-orientation. The
+  Keyboard: on the divider: the arrows for its orientation, Shift for ten steps, Home/End for the bounds, Enter to collapse and restore
+  Accessibility: aria-label on the container; the divider is role="separator" with aria-orientation and the aria-value attributes
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -14,6 +14,7 @@
   aria-label=""
   data-orientation="horizontal"
   data-split-percent="50"
+  x-lily-split-view
 >
   <section class="split-view-primary">
     <!-- Consumer provides primary panel content -->

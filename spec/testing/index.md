@@ -248,6 +248,7 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 | `toolbar`           | `action-bar`, `task-bar`                                             | 8        | 16   |
 | `action-group`      | `action-group`                                                       | 8        | 8    |
 | `radio-group`       | `segment-group`                                                      | 8        | 8    |
+| `splitter`          | `splitter`, `split-view`                                             | 8        | 16   |
 | `dialog`            | `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`       | 7        | 35   |
 | `grid`              | the `data-grid` helper                                               | 8        | 8    |
 | `grid-actions`      | the `data-grid` helper; Alpine, which has no editor, with `noEditing` | 8        | 8    |

@@ -31,6 +31,7 @@
     //   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
 
     import type { Snippet } from "svelte";
+    import { attachSplitView } from "../widget-keys";
 
     let {
         class: className = "",
@@ -39,7 +40,8 @@
         primary,
         secondary,
         divider = undefined,
-        splitPercent = 50,
+        splitPercent = $bindable(50),
+        onSplitChange = undefined,
         ...restProps
     }: {
         class?: string;
@@ -55,12 +57,28 @@
         divider?: Snippet;
         /** Initial split position as percentage (0-100) */
         splitPercent?: number;
+        /** Called with each new position */
+        onSplitChange?: (value: number) => void;
         [key: string]: unknown;
     } = $props();
+
+    let rootEl = $state<HTMLElement>();
+
+    $effect(() =>
+        rootEl
+            ? attachSplitView(rootEl, {
+                  onChange(next) {
+                      splitPercent = next;
+                      onSplitChange?.(next);
+                  },
+              })
+            : undefined,
+    );
 </script>
 
 <!-- SplitView.svelte -->
 <div
+    bind:this={rootEl}
     class={`split-view ${className}`}
     aria-label={label}
     data-orientation={orientation}

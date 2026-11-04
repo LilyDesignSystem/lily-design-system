@@ -89,9 +89,9 @@
     <h3>Keyboard</h3>
     <ul>
       <li>Tab: Focus to and from the divider</li>
-      <li>Arrow keys: (Consumer-provided) move divider position</li>
-      <li>Home / End: (Consumer-provided) snap to min / max</li>
-      <li>Enter / Space: (Consumer-provided) toggle a collapsed panel</li>
+      <li>Arrow keys: Move the divider, as [Splitter](../splitter/), by its orientation; Shift moves ten steps</li>
+      <li>Home / End: Snap to the bounds</li>
+      <li>Enter: Collapses the primary panel, and restores it</li>
     </ul>
     <h3>Props</h3>
     <ul>

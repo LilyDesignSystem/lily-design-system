@@ -47,7 +47,8 @@
 //   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
 //   - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { attachSplitter } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
 
 export interface SplitterProps {
@@ -56,6 +57,14 @@ export interface SplitterProps {
     label: string;
     /** Orientation of the split. */
     orientation?: "horizontal" | "vertical";
+    /** Position. */
+    value?: number;
+    /** Smallest position. */
+    min?: number;
+    /** Largest position. */
+    max?: number;
+    /** Called with each new position. */
+    onChange?: (value: number) => void;
     [key: string]: unknown;
 }
 
@@ -63,19 +72,32 @@ export default function Splitter({
     className = "",
     label,
     orientation = "vertical",
+    value = 50,
+    min = 0,
+    max = 100,
+    onChange = undefined,
     ...restProps
 }: SplitterProps) {
     warnMissingName("Splitter", label, restProps["aria-label"], restProps["aria-labelledby"]);
+    const separator = useRef<HTMLDivElement>(null);
+    const latest = useRef(onChange);
+    latest.current = onChange;
+    useEffect(
+        () => attachSplitter(separator.current!, { onChange: (next) => latest.current?.(next) }),
+        [],
+    );
+
     return (
         <div
+            ref={separator}
             className={`splitter ${className}`}
             role="separator"
             aria-label={label}
             aria-orientation={orientation}
             tabIndex={0}
-            aria-valuenow={50}
-            aria-valuemin={0}
-            aria-valuemax={100}
+            aria-valuenow={value}
+            aria-valuemin={min}
+            aria-valuemax={max}
             {...restProps}
         ></div>
     );

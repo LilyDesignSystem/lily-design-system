@@ -1,15 +1,33 @@
 @namespace LilyBlazorHeadless.Components
+@inherits KeyedComponentBase
 
 @*
     Splitter component
-    a draggable divider for resizing adjacent panels
+    a focusable separator between two regions. The keys are ActionBar.razor.js,
+    generated from shared/widget-keys.ts: the arrows for its orientation, Shift
+    for ten steps, Home, End, and Enter to collapse and restore.
 *@
 
-<div class="@($"splitter {CssClass}".Trim())" role="separator" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div @ref="Root" class="@($"splitter {CssClass}".Trim())" role="separator" aria-label="@Label" aria-orientation="@Orientation" aria-valuenow="@Value" aria-valuemin="@Min" aria-valuemax="@Max" tabindex="0" @attributes="AdditionalAttributes"></div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>"vertical" or "horizontal".</summary>
+    [Parameter] public string Orientation { get; set; } = "vertical";
+    /// <summary>Position, bindable.</summary>
+    [Parameter] public double Value { get; set; } = 50;
+    [Parameter] public EventCallback<double> ValueChanged { get; set; }
+    [Parameter] public double Min { get; set; }
+    [Parameter] public double Max { get; set; } = 100;
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override string Kind => "splitter";
+
+    public override async Task OnKeyedChange(double value)
+    {
+        Value = value;
+        await ValueChanged.InvokeAsync(value);
+        await InvokeAsync(StateHasChanged);
+    }
 }

@@ -28,9 +28,9 @@
 ## Keyboard
 
 - Tab: Focus to and from the divider
-- Arrow keys: (Consumer-provided) move divider position
-- Home / End: (Consumer-provided) snap to min / max
-- Enter / Space: (Consumer-provided) toggle a collapsed panel
+- Arrow keys: Move the divider, as [Splitter](../splitter/), by its orientation; Shift moves ten steps
+- Home / End: Snap to the bounds
+- Enter: Collapses the primary panel, and restores it
 
 ## Props
 

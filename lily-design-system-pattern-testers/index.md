@@ -33,6 +33,7 @@ leaves out. Keep testing with a screen reader and real users.
 | `command`           | A search input over a listbox: arrows, Home, End, Enter, Escape, typing | Filtering, and what an option does     |               |
 | `toolbar`, `action-group` | One tab stop, arrows, Home and End along a named toolbar or group | Vertical and right-to-left            |               |
 | `radio-group`       | One tab stop, and the arrows moving and checking                     | Vertical and right-to-left                 |               |
+| `splitter`          | The arrows for the orientation, Shift, Home, End, Enter collapsing   | Dragging; applying the value to the panes  |               |
 | `dialog`            | A named modal `<dialog>`, focus in and back, Escape and `cancel`     | The Tab trap and inert page: the browser's | `open`        |
 | `picker-listbox`    | Lily's icon button opening a listbox                                 | Lily's own shape, not a general pattern    |               |
 | `picker-disclosure` | Lily's icon button opening a disclosure                              | Lily's own shape, not a general pattern    |               |

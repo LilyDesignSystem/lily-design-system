@@ -1,15 +1,44 @@
 @namespace LilyBlazorHeadless.Components
+@inherits KeyedComponentBase
 
 @*
     SplitView component
-    a two-panel resizable layout container with a draggable divider between them
+    two panels and a divider. The keys are ActionBar.razor.js, generated from
+    shared/widget-keys.ts: as Splitter, on the divider.
 *@
 
-<div class="@($"split-view {CssClass}".Trim())" role="separator" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div @ref="Root" class="@($"split-view {CssClass}".Trim())" aria-label="@Label" data-orientation="@Orientation" data-split-percent="@SplitPercent" @attributes="AdditionalAttributes">
+    <section class="split-view-primary">@Primary</section>
+    @if (Divider is not null)
+    {
+        @Divider
+    }
+    else
+    {
+        <div class="split-view-divider" role="separator" aria-orientation="@Orientation" aria-valuenow="@SplitPercent" aria-valuemin="0" aria-valuemax="100" tabindex="0"></div>
+    }
+    <section class="split-view-secondary">@Secondary</section>
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>"horizontal" or "vertical".</summary>
+    [Parameter] public string Orientation { get; set; } = "horizontal";
+    [Parameter] public RenderFragment? Primary { get; set; }
+    [Parameter] public RenderFragment? Secondary { get; set; }
+    [Parameter] public RenderFragment? Divider { get; set; }
+    /// <summary>Split position (0-100), bindable.</summary>
+    [Parameter] public double SplitPercent { get; set; } = 50;
+    [Parameter] public EventCallback<double> SplitPercentChanged { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override string Kind => "split-view";
+
+    public override async Task OnKeyedChange(double value)
+    {
+        SplitPercent = value;
+        await SplitPercentChanged.InvokeAsync(value);
+        await InvokeAsync(StateHasChanged);
+    }
 }

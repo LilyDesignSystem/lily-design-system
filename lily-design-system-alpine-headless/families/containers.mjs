@@ -53,6 +53,40 @@ export default {
         test: usesTag("action-bar", "div"),
     },
 
+    "split-view": {
+        tag: "div",
+        keyboard:
+            "on the divider: the arrows for its orientation, Shift for ten steps, Home/End for the bounds, Enter to collapse and restore",
+        aria: 'aria-label on the container; the divider is role="separator" with aria-orientation and the aria-value attributes',
+        markup: `<div
+  class="split-view"
+  aria-label=""
+  data-orientation="horizontal"
+  data-split-percent="50"
+  x-lily-split-view
+>
+  <section class="split-view-primary">
+    <!-- Consumer provides primary panel content -->
+  </section>
+
+  <div
+    class="split-view-divider"
+    role="separator"
+    aria-orientation="horizontal"
+    aria-valuenow="50"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    tabindex="0"
+  ></div>
+
+  <section class="split-view-secondary">
+    <!-- Consumer provides secondary panel content -->
+  </section>
+</div>`,
+        sel: "div.split-view",
+        test: usesTag("split-view", "div"),
+    },
+
     "task-bar": {
         tag: "div",
         keyboard: "ArrowLeft/ArrowRight move between the controls (wrapping), Home/End jump; one tab stop",

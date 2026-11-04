@@ -25,7 +25,8 @@
 // References:
 //   - Adobe Spectrum SplitView: https://spectrum.adobe.com/page/split-view/
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { attachSplitView } from "./widget-keys";
 
 export interface SplitViewProps {
     className?: string;
@@ -41,6 +42,8 @@ export interface SplitViewProps {
     divider?: React.ReactNode;
     /** Initial split position as percentage (0-100) */
     splitPercent?: number;
+    /** Called with each new position. */
+    onSplitChange?: (value: number) => void;
     [key: string]: unknown;
 }
 
@@ -52,10 +55,20 @@ export default function SplitView({
     secondary,
     divider = undefined,
     splitPercent = 50,
+    onSplitChange = undefined,
     ...restProps
 }: SplitViewProps) {
+    const root = useRef<HTMLDivElement>(null);
+    const latest = useRef(onSplitChange);
+    latest.current = onSplitChange;
+    useEffect(
+        () => attachSplitView(root.current!, { onChange: (next) => latest.current?.(next) }),
+        [],
+    );
+
     return (
         <div
+            ref={root}
             className={`split-view ${className}`}
             aria-label={label}
             data-orientation={orientation}

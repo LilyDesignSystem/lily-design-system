@@ -31,7 +31,8 @@
 //   - Headless: no CSS, no styles
 //   - label, primary, secondary are required
 
-import { useSlots } from "vue";
+import { onBeforeUnmount, onMounted, ref, useSlots } from "vue";
+import { attachSplitView } from "./widget-keys";
 
 withDefaults(
     defineProps<{
@@ -39,14 +40,24 @@ withDefaults(
         label: string;
         /** Divider orientation. */
         orientation?: "horizontal" | "vertical";
-        /** Initial split position (0-100). */
-        splitPercent?: number;
     }>(),
     {
         orientation: "horizontal",
-        splitPercent: 50,
     },
 );
+
+/** Split position (0-100), v-model:split-percent. */
+const splitPercent = defineModel<number>("splitPercent", { default: 50 });
+const rootEl = ref<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachSplitView(rootEl.value!, {
+        onChange(next) {
+            splitPercent.value = next;
+        },
+    });
+});
+onBeforeUnmount(() => detach?.());
 
 const slots = useSlots();
 const hasDivider = (): boolean => Boolean(slots.divider);
@@ -55,6 +66,7 @@ const hasDivider = (): boolean => Boolean(slots.divider);
 <template>
     <!-- SplitView.vue -->
     <div
+        ref="rootEl"
         class="split-view"
         :aria-label="label"
         :data-orientation="orientation"

@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    DestroyRef,
+    ElementRef,
+    inject,
+    input,
+    model,
+} from "@angular/core";
+import { attachSplitView } from "./widget-keys";
 
 /**
  * SplitView — a two-panel resizable layout container with a draggable divider between them
@@ -38,12 +47,23 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SplitView {
+    private readonly keysHost = inject(ElementRef);
+    private readonly keysDestroy = inject(DestroyRef);
+
+    ngAfterViewInit(): void {
+        const root = this.keysHost.nativeElement.querySelector(".split-view");
+        this.keysDestroy.onDestroy(
+            attachSplitView(root, { onChange: (next) => this.splitPercent.set(next) }),
+        );
+    }
+
     /** Accessible name for the container (required; no English from us). */
     readonly label = input.required<string>();
     /** The divider's orientation. */
     readonly orientation = input<"horizontal" | "vertical">("horizontal");
     /** The split position as a percentage (0 to 100). */
-    readonly splitPercent = input<number>(50);
+    /** Split position (0-100). Two-way bindable. */
+    readonly splitPercent = model<number>(50);
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
 }

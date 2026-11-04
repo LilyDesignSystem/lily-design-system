@@ -15,7 +15,11 @@
 <div
   class="splitter{% if p.classes %} {{ p.classes }}{% endif %}"
   role="separator"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   aria-orientation="{{ p.orientation | default('vertical') }}"
+  aria-valuenow="{{ p.value if p.value != undefined else 50 }}"
+  aria-valuemin="{{ p.min if p.min != undefined else 0 }}"
+  aria-valuemax="{{ p.max if p.max != undefined else 100 }}"
   {%- if p.controls %} aria-controls="{{ p.controls }}"{% endif %}
   tabindex="0"
   {%- if p.id %} id="{{ p.id }}"{% endif %}

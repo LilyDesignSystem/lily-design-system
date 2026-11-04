@@ -9,6 +9,12 @@
 // natively a button; one tab stop, on the checked item. aria-checked is written here so the group stays right whether
 // or not a framework holds the state, and each change clicks the item, which is how the consumer hears of it.
 //
+// attachSplitter: the APG window splitter, on a focusable role="separator" whose aria-valuenow, aria-valuemin and
+// aria-valuemax it reads and writes. A vertical separator moves on ArrowLeft and ArrowRight, swapped in right-to-left,
+// and a horizontal one on ArrowUp and ArrowDown. Shift moves ten steps, Home and End jump to the bounds, and Enter
+// collapses to the minimum and restores. Each change sets --splitter-position, reports to onChange, and dispatches a
+// bubbling "splitter-change" with detail.value. attachSplitView finds the separator and keeps data-split-percent.
+//
 // bin/sync-shared-modules strips the types for Nunjucks and Blazor and inlines the result in the HTML snippets. Edit it
 // here. The contracts in pattern-contracts.json hold every port to it.
 
@@ -132,12 +138,89 @@ export function attachRadioGroup(root: HTMLElement): () => void {
     };
 }
 
+export interface SplitterOptions {
+    /** Called with each new value. */
+    onChange?: (value: number) => void;
+    /** Steps per key press. Default 1. */
+    step?: number;
+}
+
+export function attachSplitter(separator: HTMLElement, options: SplitterOptions = {}): () => void {
+    const number = (name: string, fallback: number): number => {
+        const read = Number(separator.getAttribute(name));
+        return separator.hasAttribute(name) && Number.isFinite(read) ? read : fallback;
+    };
+    const step = options.step ?? 1;
+    let restore: number | null = null;
+
+    function set(value: number): void {
+        const next = Math.min(number("aria-valuemax", 100), Math.max(number("aria-valuemin", 0), value));
+        if (next === number("aria-valuenow", 50)) return;
+        separator.setAttribute("aria-valuenow", String(next));
+        separator.style.setProperty("--splitter-position", `${next}%`);
+        options.onChange?.(next);
+        separator.dispatchEvent(
+            new CustomEvent("splitter-change", { bubbles: true, detail: { value: next } }),
+        );
+    }
+
+    function onKeydown(event: KeyboardEvent): void {
+        const vertical = separator.getAttribute("aria-orientation") !== "horizontal";
+        const rtl = vertical && isRtl(separator);
+        const up = vertical ? (rtl ? "ArrowLeft" : "ArrowRight") : "ArrowDown";
+        const down = vertical ? (rtl ? "ArrowRight" : "ArrowLeft") : "ArrowUp";
+        const now = number("aria-valuenow", 50);
+        const min = number("aria-valuemin", 0);
+        const stride = step * (event.shiftKey ? 10 : 1);
+        if (event.key === up) set(now + stride);
+        else if (event.key === down) set(now - stride);
+        else if (event.key === "Home") set(min);
+        else if (event.key === "End") set(number("aria-valuemax", 100));
+        else if (event.key === "Enter") {
+            if (now > min) {
+                restore = now;
+                set(min);
+            } else set(restore ?? number("aria-valuemax", 100));
+        } else return;
+        event.preventDefault();
+    }
+
+    separator.addEventListener("keydown", onKeydown);
+    return () => separator.removeEventListener("keydown", onKeydown);
+}
+
+export function attachSplitView(root: HTMLElement, options: SplitterOptions = {}): () => void {
+    const separator = root.querySelector<HTMLElement>('[role="separator"]');
+    if (!separator) return () => {};
+    return attachSplitter(separator, {
+        ...options,
+        onChange(value) {
+            root.setAttribute("data-split-percent", String(value));
+            options.onChange?.(value);
+        },
+    });
+}
+
 const ATTACH: Record<string, (el: HTMLElement, options?: never) => () => void> = {
     toolbar: attachToolbar as never,
     "radio-group": attachRadioGroup as never,
+    splitter: attachSplitter as never,
+    "split-view": attachSplitView as never,
 };
 
-/** Blazor attaches by name, and disposes the handle. */
-export function attach(kind: string, el: HTMLElement, options?: never): { dispose: () => void } {
-    return { dispose: ATTACH[kind](el, options) };
+interface DotNetHost {
+    invokeMethodAsync: (name: string, ...args: unknown[]) => Promise<unknown>;
+}
+
+/** Blazor attaches by name, and disposes the handle. Its state is C#'s, so changes report there. */
+export function attach(
+    kind: string,
+    el: HTMLElement,
+    options?: object | null,
+    dotnet?: DotNetHost,
+): { dispose: () => void } {
+    const onChange = (value: unknown): void => {
+        void dotnet?.invokeMethodAsync("OnKeyedChange", value);
+    };
+    return { dispose: ATTACH[kind](el, { ...options, onChange } as never) };
 }

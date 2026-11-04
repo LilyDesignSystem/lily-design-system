@@ -1720,5 +1720,86 @@
         }
       }
     ]
+  },
+  "splitter": {
+    "source": "WAI-ARIA APG window splitter. \"increase\" and \"decrease\" are the arrows for the separator's aria-orientation: right and left for vertical, down and up for horizontal (components/splitter/AGENTS.md, components/split-view/AGENTS.md).",
+    "steps": [
+      {
+        "name": "it starts where it was told",
+        "expect": {
+          "value": 50
+        }
+      },
+      {
+        "name": "the increasing arrow moves one step",
+        "press": "increase",
+        "expect": {
+          "value": 51,
+          "prevented": true
+        }
+      },
+      {
+        "name": "the decreasing arrow moves back",
+        "press": "decrease",
+        "expect": {
+          "value": 50,
+          "prevented": true
+        }
+      },
+      {
+        "name": "Shift moves ten steps",
+        "press": "increase",
+        "shift": true,
+        "expect": {
+          "value": 60
+        }
+      },
+      {
+        "name": "Home jumps to the minimum",
+        "press": "Home",
+        "expect": {
+          "value": 0,
+          "prevented": true
+        }
+      },
+      {
+        "name": "it stops at the minimum",
+        "press": "decrease",
+        "expect": {
+          "value": 0
+        }
+      },
+      {
+        "name": "End jumps to the maximum",
+        "press": "End",
+        "expect": {
+          "value": 100,
+          "prevented": true
+        }
+      },
+      {
+        "name": "it stops at the maximum",
+        "press": "increase",
+        "expect": {
+          "value": 100
+        }
+      },
+      {
+        "name": "Enter collapses to the minimum",
+        "press": "Enter",
+        "expect": {
+          "value": 0,
+          "prevented": true
+        }
+      },
+      {
+        "name": "Enter restores it",
+        "press": "Enter",
+        "expect": {
+          "value": 100,
+          "prevented": true
+        }
+      }
+    ]
   }
 }

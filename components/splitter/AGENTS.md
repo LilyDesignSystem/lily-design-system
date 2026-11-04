@@ -17,7 +17,7 @@
 - Includes `aria-orientation` to indicate whether the split is horizontal or vertical
 - Includes `aria-valuenow`, `aria-valuemin`, and `aria-valuemax` for communicating the current split position as a percentage (default: 50, min: 0, max: 100)
 - Consumer should update `aria-valuenow` dynamically as the user drags the splitter
-- Consumer is responsible for implementing keyboard handlers (arrow keys to adjust position) and pointer/drag handlers
+- The keys are built in, from `shared/widget-keys.ts`. Dragging is the consumer's. Each change sets `--splitter-position` and reports the value; applying it to the panes is the consumer's CSS
 - Spreads `restProps` onto the div for consumer customization
 
 ## ARIA
@@ -25,16 +25,17 @@
 - `role="separator"` -- identifies the element as a separator between two regions
 - `aria-label={label}` -- provides an accessible name describing the splitter's purpose
 - `aria-orientation={orientation}` -- indicates whether the separator divides content horizontally or vertically
-- `aria-valuenow={50}` -- reports the current position of the splitter as a percentage
+- `aria-valuenow` -- reports the current position
 - `aria-valuemin={0}` -- the minimum allowed position value
 - `aria-valuemax={100}` -- the maximum allowed position value
 
 ## Keyboard
 
 - Tab: Moves focus to the splitter
-- Arrow keys: Consumer should implement arrow key handling to adjust the split position (Left/Right for horizontal, Up/Down for vertical)
-- Home: Consumer should implement to set the splitter to the minimum position
-- End: Consumer should implement to set the splitter to the maximum position
+- Arrow keys: ArrowLeft and ArrowRight move a vertical separator, swapped in right-to-left; ArrowUp and ArrowDown a horizontal one. Shift moves ten steps
+- Home: Moves to the minimum position
+- End: Moves to the maximum position
+- Enter: Collapses to the minimum, and restores
 
 ## Props
 

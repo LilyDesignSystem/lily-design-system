@@ -68,6 +68,7 @@ export type PatternName =
     | "grid"
     | "grid-actions"
     | "command"
+    | "splitter"
     | "autosuggest"
     | "tree-expand";
 
@@ -114,6 +115,13 @@ interface ComboboxStep {
     type?: string;
     click?: number;
     expect: { expanded: boolean; active?: Index; value?: number; prevented?: boolean };
+}
+
+interface SplitterStep {
+    name: string;
+    press?: string;
+    shift?: boolean;
+    expect: { value: number; prevented?: boolean };
 }
 
 interface CommandStep {
@@ -363,6 +371,42 @@ async function runCombobox(options: PatternOptions): Promise<void> {
             fail(step.name, `the input holds "${(input as HTMLInputElement).value}", not "${labels[value]}"`);
         if (wantPrevented !== undefined && prevented !== wantPrevented)
             fail(step.name, `defaultPrevented is ${prevented}, not ${wantPrevented}`);
+    }
+}
+
+async function runSplitter(options: PatternOptions): Promise<void> {
+    const { root, hook } = options;
+    const fail = (name: string, message: string): never => {
+        throw new Error(`splitter, ${hook}, "${name}": ${message}`);
+    };
+    const find = (): HTMLElement =>
+        (root.matches('[role="separator"]')
+            ? root
+            : root.querySelector<HTMLElement>('[role="separator"]')) ??
+        fail("setup", 'no [role="separator"]');
+    if (find().tabIndex !== 0) fail("setup", "the separator is not focusable");
+    const vertical = find().getAttribute("aria-orientation") !== "horizontal";
+    const keys: Record<string, string> = {
+        increase: vertical ? "ArrowRight" : "ArrowDown",
+        decrease: vertical ? "ArrowLeft" : "ArrowUp",
+    };
+
+    for (const step of contracts.splitter.steps as SplitterStep[]) {
+        let prevented: boolean | undefined;
+        if (step.press) {
+            const event = new KeyboardEvent("keydown", {
+                key: keys[step.press] ?? step.press,
+                shiftKey: step.shift ?? false,
+                bubbles: true,
+                cancelable: true,
+            });
+            prevented = await fire(find(), event, options);
+        }
+        const now = find().getAttribute("aria-valuenow");
+        if (now !== String(step.expect.value))
+            fail(step.name, `aria-valuenow is ${now}, not ${step.expect.value}`);
+        if (step.expect.prevented !== undefined && prevented !== step.expect.prevented)
+            fail(step.name, `defaultPrevented is ${prevented}`);
     }
 }
 
@@ -689,6 +733,7 @@ export async function runPattern(pattern: PatternName, options: PatternOptions):
     if (pattern === "grid" || pattern === "grid-actions") return runGrid(options, pattern);
     if (pattern === "combobox") return runCombobox(options);
     if (pattern === "command") return runCommand(options);
+    if (pattern === "splitter") return runSplitter(options);
     if (pattern === "menu-submenu" || pattern === "menubar-submenu")
         return runSubmenu(pattern, options);
     if (pattern === "dialog") return runDialog(options);

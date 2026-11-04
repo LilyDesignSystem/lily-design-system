@@ -72,6 +72,8 @@ EXTRA_TARGETS = {
         "lily-design-system-html-headless/components/action-group.html",
         "lily-design-system-html-headless/components/task-bar.html",
         "lily-design-system-html-headless/components/segment-group.html",
+        "lily-design-system-html-headless/components/splitter.html",
+        "lily-design-system-html-headless/components/split-view.html",
     ],
     "widget-keys.test.ts": [
         "lily-design-system-svelte-headless/components/widget-keys.test.ts",

@@ -12,7 +12,7 @@
 //   Alpine.start();
 
 import { menuKeydown } from "./menu-keys.js";
-import { attachToolbar } from "./widget-keys.js";
+import { attachSplitView, attachToolbar } from "./widget-keys.js";
 import { truncateMiddle } from "./middle-truncation.js";
 import { setupOverflowNavigation } from "./overflow-navigation.js";
 import {
@@ -252,6 +252,11 @@ function treeCore({ wrap = false, exclusive = false, expanded = [] } = {}) {
 }
 
 export default function lily(Alpine) {
+    // A split view, on its root: the divider's keys, and data-split-percent kept in step.
+    Alpine.directive("lily-split-view", (el, _, { cleanup }) => {
+        cleanup(attachSplitView(el));
+    });
+
     // A toolbar, on any element: x-lily-toolbar, with an optional selector for the button Escape clicks.
     Alpine.directive("lily-toolbar", (el, { expression }, { cleanup }) => {
         cleanup(attachToolbar(el, expression ? { dismiss: expression } : {}));
@@ -2493,12 +2498,19 @@ export default function lily(Alpine) {
                     const keys = sideBySide
                         ? ["ArrowLeft", "ArrowRight"]
                         : ["ArrowUp", "ArrowDown"];
+                    if (sideBySide && getComputedStyle(this.$el).direction === "rtl") keys.reverse();
                     const big = event.shiftKey ? 10 : 1;
                     if (event.key === keys[0]) this.set(this.value - this.step * big);
                     else if (event.key === keys[1]) this.set(this.value + this.step * big);
                     else if (event.key === "Home") this.set(this.min);
                     else if (event.key === "End") this.set(this.max);
-                    else return;
+                    else if (event.key === "Enter") {
+                        // Collapse to the minimum, and restore.
+                        if (this.value > this.min) {
+                            this.restore = this.value;
+                            this.set(this.min);
+                        } else this.set(this.restore ?? this.max);
+                    } else return;
                     event.preventDefault();
                 },
                 "@pointerdown"(event) {

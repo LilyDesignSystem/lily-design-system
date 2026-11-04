@@ -2,7 +2,7 @@
 // What the toolbar and radio-group contracts do not reach: the module's edges.
 import { afterEach, expect, test, vi } from "vitest";
 
-import { attachRadioGroup, attachToolbar } from "./widget-keys";
+import { attachRadioGroup, attachSplitter, attachSplitView, attachToolbar } from "./widget-keys";
 
 function mount(html: string): HTMLElement {
     document.body.innerHTML = html;
@@ -136,4 +136,59 @@ test("Space checks a radio that is not a button; a button does it natively", () 
     button.focus();
     expect(press(button, " ").defaultPrevented).toBe(false);
     detachNative();
+});
+
+const SEPARATOR = (attrs = "") =>
+    `<div role="separator" tabindex="0" aria-orientation="vertical" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" ${attrs}></div>`;
+
+test("a horizontal separator moves on Up and Down, and leaves Left and Right alone", () => {
+    const root = mount(SEPARATOR().replace('"vertical"', '"horizontal"'));
+    const detach = attachSplitter(root);
+    expect(press(root, "ArrowRight").defaultPrevented).toBe(false);
+    press(root, "ArrowDown");
+    expect(root.getAttribute("aria-valuenow")).toBe("51");
+    press(root, "ArrowUp");
+    expect(root.getAttribute("aria-valuenow")).toBe("50");
+    detach();
+});
+
+test("right-to-left swaps a vertical separator's arrows", () => {
+    const root = mount(SEPARATOR('style="direction: rtl"'));
+    const detach = attachSplitter(root);
+    press(root, "ArrowLeft");
+    expect(root.getAttribute("aria-valuenow")).toBe("51");
+    detach();
+});
+
+test("a change reports its value, sets the position and dispatches an event", () => {
+    const root = mount(SEPARATOR());
+    const onChange = vi.fn();
+    const heard = vi.fn();
+    root.addEventListener("splitter-change", (e) => heard((e as CustomEvent).detail.value));
+    const detach = attachSplitter(root, { onChange, step: 5 });
+    press(root, "ArrowRight");
+    expect(onChange).toHaveBeenCalledWith(55);
+    expect(heard).toHaveBeenCalledWith(55);
+    expect(root.style.getPropertyValue("--splitter-position")).toBe("55%");
+    detach();
+});
+
+test("a key that changes nothing reports nothing, and min and max are read from the element", () => {
+    const root = mount(SEPARATOR().replace('aria-valuemin="0"', 'aria-valuemin="50"'));
+    const onChange = vi.fn();
+    const detach = attachSplitter(root, { onChange });
+    press(root, "ArrowLeft");
+    press(root, "Home");
+    expect(onChange).not.toHaveBeenCalled();
+    expect(root.getAttribute("aria-valuenow")).toBe("50");
+    detach();
+});
+
+test("a split view keeps data-split-percent, and one with no separator is left alone", () => {
+    const root = mount(`<div class="split-view" data-split-percent="50">${SEPARATOR()}</div>`);
+    const detach = attachSplitView(root);
+    press(root.querySelector('[role="separator"]')!, "ArrowRight");
+    expect(root.getAttribute("data-split-percent")).toBe("51");
+    detach();
+    expect(() => attachSplitView(mount("<div></div>"))()).not.toThrow();
 });

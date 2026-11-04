@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useAttrs } from "vue";
+import { onBeforeUnmount, onMounted, ref, useAttrs } from "vue";
+import { attachSplitter } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
 // Splitter component
 //
@@ -56,11 +57,30 @@ const props = withDefaults(
         label: string;
         /** Orientation of the split. */
         orientation?: "horizontal" | "vertical";
+        /** Smallest position. */
+        min?: number;
+        /** Largest position. */
+        max?: number;
     }>(),
     {
         orientation: "vertical",
+        min: 0,
+        max: 100,
     },
 );
+
+/** Position, v-model. */
+const value = defineModel<number>({ default: 50 });
+const separator = ref<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachSplitter(separator.value!, {
+        onChange(next) {
+            value.value = next;
+        },
+    });
+});
+onBeforeUnmount(() => detach?.());
 
 warnMissingName("Splitter", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 </script>
@@ -68,13 +88,14 @@ warnMissingName("Splitter", props.label, useAttrs()["aria-label"], useAttrs()["a
 <template>
     <!-- Splitter.vue -->
     <div
+        ref="separator"
         class="splitter"
         role="separator"
         :aria-label="label"
         :aria-orientation="orientation"
         tabindex="0"
-        :aria-valuenow="50"
-        :aria-valuemin="0"
-        :aria-valuemax="100"
+        :aria-valuenow="value"
+        :aria-valuemin="min"
+        :aria-valuemax="max"
     ></div>
 </template>

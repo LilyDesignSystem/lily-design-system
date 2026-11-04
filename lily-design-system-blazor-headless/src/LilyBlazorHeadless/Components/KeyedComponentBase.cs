@@ -20,6 +20,7 @@ public abstract class KeyedComponentBase : ComponentBase, IAsyncDisposable
 
     private IJSObjectReference? _module;
     private IJSObjectReference? _handle;
+    private DotNetObjectReference<KeyedComponentBase>? _self;
 
     /// <summary>Which attach function in the module.</summary>
     protected abstract string Kind { get; }
@@ -31,8 +32,13 @@ public abstract class KeyedComponentBase : ComponentBase, IAsyncDisposable
     {
         if (!firstRender) return;
         _module = await JS.InvokeAsync<IJSObjectReference>("import", ModulePath);
-        _handle = await _module.InvokeAsync<IJSObjectReference>("attach", Kind, Root, KeyOptions);
+        _self = DotNetObjectReference.Create(this);
+        _handle = await _module.InvokeAsync<IJSObjectReference>("attach", Kind, Root, KeyOptions, _self);
     }
+
+    /// <summary>The keys changed a value; a derived component that holds one overrides this.</summary>
+    [JSInvokable]
+    public virtual Task OnKeyedChange(double value) => Task.CompletedTask;
 
     public async ValueTask DisposeAsync()
     {
@@ -46,6 +52,7 @@ public abstract class KeyedComponentBase : ComponentBase, IAsyncDisposable
             if (_module is not null) await _module.DisposeAsync();
         }
         catch (JSDisconnectedException) { }
+        _self?.Dispose();
         GC.SuppressFinalize(this);
     }
 }

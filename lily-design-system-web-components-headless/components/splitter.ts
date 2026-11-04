@@ -18,6 +18,7 @@
 //   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
 //   - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator
 
+import { attachSplitter } from "../lib/widget-keys.js";
 import { applySelfClassName } from "../lib/dom-utils.js";
 
 export class Splitter extends HTMLElement {
@@ -33,9 +34,10 @@ export class Splitter extends HTMLElement {
             applySelfClassName(this, "splitter");
             this.setAttribute("role", "separator");
             this.tabIndex = 0;
-            this.setAttribute("aria-valuenow", "50");
-            this.setAttribute("aria-valuemin", "0");
-            this.setAttribute("aria-valuemax", "100");
+            this.setAttribute("aria-valuenow", this.getAttribute("value") ?? "50");
+            this.setAttribute("aria-valuemin", this.getAttribute("min") ?? "0");
+            this.setAttribute("aria-valuemax", this.getAttribute("max") ?? "100");
+            attachSplitter(this);
         }
         this.#sync();
     }
