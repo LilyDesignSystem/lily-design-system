@@ -87,8 +87,9 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>No keyboard interactions — this is a passive element</li>
+      <li>None: this is a passive table, deliberately, as <code>table</code> and <code>data-table</code> are. A cell cursor needs state the table does not hold.</li>
     </ul>
+    <p>For grid keys, use the <code>gantt-chart</code> helper, which owns them, in every catalog.</p>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name describing the Gantt chart content, applied via <code>aria-label</code></li>

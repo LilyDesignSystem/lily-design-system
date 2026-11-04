@@ -89,9 +89,14 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>**Tab**: Moves focus into and out of the search input</li>
-      <li>Additional keyboard navigation (arrow keys within the listbox) should be implemented by the consumer</li>
+      <li>Tab: Moves focus into and out of the search input</li>
+      <li>ArrowDown, ArrowUp: move the highlight and wrap; focus stays in the input</li>
+      <li>Home, End: jump to the first or last option, once one is highlighted; before that they stay the input's</li>
+      <li>Enter: clicks the highlighted option; with none highlighted it is left alone</li>
+      <li>Escape: drops the highlight; with none highlighted it is left alone, so an enclosing dialog still gets it</li>
+      <li>A key during IME composition belongs to the IME</li>
     </ul>
+    <p>The highlighted option is <code>aria-activedescendant</code> on the input, with <code>aria-selected</code> and <code>data-active</code> on the option. Filtering, and what an option does, are the consumer's. From <code>shared/command-keys.ts</code>, held to the <code>command</code> contract.</p>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name for both the search region and the input</li>

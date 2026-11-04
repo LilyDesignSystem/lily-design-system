@@ -84,7 +84,7 @@ Admin panel action launcher with dynamic filtering:
 ## Keyboard Interactions
 
 - **Tab**: Moves focus into and out of the search input
-- Additional keyboard navigation (arrow keys within the listbox) should be implemented by the consumer
+- ArrowDown and ArrowUp move the highlight and wrap; Home, End, Enter and Escape act on a highlighted option
 
 ## ARIA
 
