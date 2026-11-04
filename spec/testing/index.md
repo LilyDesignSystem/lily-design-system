@@ -253,7 +253,7 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
   tests. `tree` covers moving between visible items. `tree-expand` covers ArrowRight and ArrowLeft, on the item in Svelte, React, Vue and
   Angular and on the tree in HTML, Web Components, Alpine and Blazor. It found that Web Components and Blazor had neither key, though
   the contract promised them. Both now do. In Blazor, `TreeList.razor.js` owns the keys and sends `toggle` to `TreeListItem`, which gained
-  `Expanded`; the module and the item are tested apart, and that wiring has not run in a real browser.
+  `Expanded`; the module and the item are tested apart, and `e2e/keyboard.spec.ts` runs them together.
 - HTML runs in a real browser through `shared/pattern-browser.cjs`; Blazor's focus contracts run from `tests/js/`, against its
   `.razor.js` modules, because bUnit has no focus. Alpine also runs all four, though Core does not count it.
 - **Nunjucks's macros are markup only**, so its keys are optional client modules the consumer loads: `combobox/combobox.js`, `autosuggest/autosuggest.js`, `tree-list/tree.js`, and `tab-bar/tab-bar.js`, `menu/menu.js` and `menu-bar/menu-bar.js` over `components/roving.js`. Every contract runs there but `dialog`.
@@ -262,7 +262,7 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 - `bin/generate-core` counts a `runPattern` or `PatternTester.Run` call as both a key event and an ARIA assertion for criterion (a).
 - Proved to fail: removing `aria-selected` from `theme-picker` in each of the eight ports fails its run; breaking `End` in `tab-bar` fails in all eight ports that have one (Alpine in place of Nunjucks).
 - **A contract is not a conformance claim.** `lily-design-system-pattern-testers/index.md` lists what each one covers and leaves out.
-- `combobox` is the APG pattern with list autocomplete and manual selection, in all eight catalogs and Alpine: `shared/combobox-keys.ts` in Svelte, React, Vue, Angular and Web Components, `shared/combobox-client.js` in Nunjucks and Blazor, inlined in the HTML snippet, and `lilyCombobox` in Alpine. The tester installs three options into an empty list. Bare-DOM duplicates were accepted over a build step, since this contract holds them to one behaviour. Blazor's module runs the keys from `tests/js/`, and the C# driver stops at the first Alt step and proves the wiring and Escape; `ComboboxTests` proves the two meet at the parameters, though that wiring has not run in a real browser.
+- `combobox` is the APG pattern with list autocomplete and manual selection, in all eight catalogs and Alpine: `shared/combobox-keys.ts` in Svelte, React, Vue, Angular and Web Components, `shared/combobox-client.js` in Nunjucks and Blazor, inlined in the HTML snippet, and `lilyCombobox` in Alpine. The tester installs three options into an empty list. Bare-DOM duplicates were accepted over a build step, since this contract holds them to one behaviour. Blazor's module runs the keys from `tests/js/`, and the C# driver stops at the first Alt step and proves the wiring and Escape; `ComboboxTests` proves the parameters, and `e2e/keyboard.spec.ts` the wiring.
   `autosuggest` covers the same keys, for suggestions passed as data. `dialog` opens through each catalog's own way of opening it;
   where the engine has no `showModal` (jsdom) the driver stubs it the way a browser behaves, and the Tab trap and inert page stay the
   browser's part. `grid` runs against the `data-grid` helper because no headless component has a cell cursor: `grid` and `data-table`
@@ -273,9 +273,8 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
   on an Escape something inside it had already handled, so an open combobox inside a dialog closed both. Both are fixed: a widget
   prevents the default only when it acted, and an overlay ignores a prevented Escape. Chromium confirms a prevented keydown stops a
   native `<dialog>` closing. It also found `file-dialog` without `aria-modal` in five catalogs.
-- **Known limitation: Blazor.** A .NET handler cannot read `defaultPrevented` or prevent a default conditionally, so a Blazor overlay
-  still closes on an Escape handled inside it, and bUnit cannot prove otherwise. The C# driver skips `pressHandled`, `prevented`, focus
-  and `showModal`; it proves the ARIA, that Escape and `cancel` close, and where the grid's one tab stop goes.
+- **Blazor and Escape.** A .NET handler cannot read `defaultPrevented`, so `Drawer.razor.js`, which every modal overlay opens through, stops a prevented Escape at the `<dialog>`, before Blazor's document-level delegation. The C# handler then never sees it. A prevented Escape raises no native `cancel`. `tests/js/drawer-escape.test.mjs` proves the guard, and `e2e/keyboard.spec.ts` proves it in Chromium, with a combobox in a dialog; removing the guard fails that case. The C# driver still skips `pressHandled`, `prevented`, focus and `showModal`, and proves the ARIA, that Escape and `cancel` close, and where the grid's one tab stop goes.
+- **Blazor's two halves together.** bUnit runs no JS and `tests/js` runs no C#, so `/demos/keyboard` and `e2e/keyboard.spec.ts` run `Combobox`, `TreeList` and the Escape guard end to end with real keys.
 - Proved to fail: removing the guard fails `dialog` in six ports and `combobox` in five; breaking `ArrowDown` in `grid-navigation.ts`
   fails `grid` in eight; breaking a key fails `tree-expand` in seven and `autosuggest` in five; breaking the wrap or Alt+ArrowDown fails `combobox` in eight, and Alpine's closed ArrowUp, which the contract cannot see because Alpine filters to the chosen text, fails its own test. Blazor's C# copy of that module, and
   `autosuggest` in HTML, Alpine and Blazor, were not mutated.

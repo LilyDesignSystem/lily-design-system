@@ -8,10 +8,18 @@
 
 const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
+// An Escape a widget inside the dialog handled (a combobox closing its list) must not close the dialog too. A .NET
+// handler cannot read defaultPrevented, but Blazor delegates events at the document, so stopping one here keeps it from
+// C#. A prevented Escape raises no native `cancel`, so the dialog stays open.
+function guardEscape(event) {
+    if (event.key === "Escape" && event.defaultPrevented) event.stopPropagation();
+}
+
 // `modal` (default true) opens with showModal(); false, or a missing showModal, with the open attribute. Also used by
 // Dialog, AlertDialog, FileDialog and TimeoutDialog (tasks.md P14-T4).
 export function open(dialog, modal = true) {
     const opener = document.activeElement;
+    dialog.addEventListener("keydown", guardEscape);
     if (!dialog.open) {
         if (modal && typeof dialog.showModal === "function") dialog.showModal();
         else dialog.setAttribute("open", "");
@@ -20,6 +28,7 @@ export function open(dialog, modal = true) {
     if (!dialog.contains(document.activeElement)) (dialog.querySelector(FOCUSABLE) ?? dialog).focus();
     return {
         close() {
+            dialog.removeEventListener("keydown", guardEscape);
             if (dialog.open) {
                 if (typeof dialog.close === "function") dialog.close();
                 else dialog.removeAttribute("open");

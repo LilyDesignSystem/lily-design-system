@@ -1,0 +1,48 @@
+@page "/demos/keyboard"
+<PageTitle>Keyboard — Lily Blazor examples</PageTitle>
+
+@*
+    Keyboard demo. Combobox and TreeList keep their keys in collocated JS modules
+    and their state in C#, and an overlay's guard in Drawer.razor.js decides what
+    reaches a C# handler. bUnit runs no JS and tests/js no C#, so only a browser
+    proves the two halves meet. e2e/keyboard.spec.ts drives this page.
+*@
+
+<h1>Keyboard</h1>
+
+<Combobox Label="Fruit" @bind-Value="_fruit" @bind-Open="_fruitOpen" OnSelect="@(v => _selected = v)" data-testid="fruit">
+    <div role="option">Apple</div>
+    <div role="option">Banana</div>
+    <div role="option">Cherry</div>
+</Combobox>
+<p data-testid="fruit-state">Value: @_fruit; chosen: @_selected; open: @(_fruitOpen ? "yes" : "no")</p>
+
+<TreeList Label="Files" data-testid="files">
+    <TreeListItem Label="Fruit" Expanded="_branchOpen" ExpandedChanged="@((bool v) => _branchOpen = v)" tabindex="0">
+        Fruit
+        <TreeList>
+            <TreeListItem Label="Apple">Apple</TreeListItem>
+        </TreeList>
+    </TreeListItem>
+    <TreeListItem Label="Veg">Veg</TreeListItem>
+</TreeList>
+<p data-testid="files-state">Branch open: @(_branchOpen == true ? "yes" : "no")</p>
+
+<button type="button" data-testid="open-dialog" @onclick="() => _dialogOpen = true">Open dialog</button>
+<Dialog Label="Choose" @bind-Open="_dialogOpen" data-testid="dialog">
+    <Combobox Label="Tea" @bind-Value="_tea" @bind-Open="_teaOpen" data-testid="tea">
+        <div role="option">Green</div>
+        <div role="option">Black</div>
+    </Combobox>
+</Dialog>
+<p data-testid="dialog-state">Dialog open: @(_dialogOpen ? "yes" : "no"); list open: @(_teaOpen ? "yes" : "no")</p>
+
+@code {
+    private string _fruit = "";
+    private string _selected = "";
+    private bool _fruitOpen;
+    private bool? _branchOpen = false;
+    private bool _dialogOpen;
+    private string _tea = "";
+    private bool _teaOpen;
+}
