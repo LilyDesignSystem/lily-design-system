@@ -15,7 +15,7 @@
     "`tabindex=\"-1\"` -- allows the dialog element itself to receive focus for keyboard event handling"
   ],
   "keyboard": [
-    "Escape: closes the dialog by setting `open` to false"
+    "Escape: closes the dialog by setting `open` to false, unless something inside already handled it (`defaultPrevented`)"
   ],
   "props": [
     "`open`: boolean (default: false) -- whether the dialog is visible; bindable",

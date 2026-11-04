@@ -91,7 +91,7 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Escape: Closes the dropdown listbox.</li>
+      <li>Escape: closes the dropdown listbox while it is open; while closed it is left alone, so an enclosing dialog still gets it</li>
     </ul>
     <h3>Props</h3>
     <ul>
