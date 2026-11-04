@@ -20,6 +20,7 @@ From the [survey of 18 design systems](spec/design-system-survey-lessons/index.m
 - **Development warnings:** `shared/dev-warning.ts`; `icon-button` warns on a missing name in Svelte, React, Vue and Angular.
 - **Content Security Policy:** `e2e/csp.spec.ts` runs the HTML example app's 16 composed pages under a strict policy; their inline scripts moved to `assets/js/pages/`. The limits are in [testing](spec/testing/index.md#content-security-policy).
 - **Fixed:** no theme defines `.visually-hidden`, so hidden text such as the `warning-text` prefix showed on screen. Lily's demos, macros and docs now use `.screen-reader-span`. A consumer of the Nunjucks `error-message`, `care-card`, `inset-text`, `pagination-link` or `summary-list-item` macros targeting `.visually-hidden` must update its CSS.
+- `docs/screen-reader-session.md`: a script for filling the screen-reader matrix, which remains empty.
 
 ## Contrast gate, `:user-invalid`, no-flash theme, dependency updates — 2026-11-02
 

@@ -9,6 +9,8 @@ what assistive technology announces._
 
 ## How to contribute a row
 
+A whole session? Follow the [session script](screen-reader-session.md).
+
 Run one component's demo page with one screen reader and record what
 you observed — that's a complete contribution. Use the
 [screen-reader report issue form](https://github.com/LilyDesignSystem/lily-design-system/issues/new?template=screen-reader-report.yml)

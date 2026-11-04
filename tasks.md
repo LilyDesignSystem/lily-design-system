@@ -2881,6 +2881,7 @@ closing a task.
   - At least two combinations (for example VoiceOver with Safari on macOS, and VoiceOver on iOS) for all 20 rows of
     `docs/screen-reader-matrix.md`, with versions and an issue or PR per cell.
   - This needs a human session; an agent must not fill cells it has not observed.
+  - Status (2026-11-03): no cell filled. [docs/screen-reader-session.md](docs/screen-reader-session.md) is a script for the session.
   - Spec item 9. Advances P4-T4.
   - Verify: no empty cell in the two chosen columns.
 - [~] **P16-T10 Support policy and second publisher.**
