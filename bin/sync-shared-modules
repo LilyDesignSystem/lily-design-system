@@ -120,6 +120,28 @@ EXTRA_TARGETS = {
         "lily-design-system-angular-headless/components/dev-warning.ts",
         "lily-design-system-angular-examples/src/app/components/dev-warning.ts",
     ],
+    # The combobox behaviour (spec/testing): a TypeScript module for the catalogs with a build, a plain one for the rest.
+    "combobox-keys.ts": [
+        "lily-design-system-svelte-headless/components/Combobox/combobox-keys.ts",
+        "lily-design-system-react-headless/components/combobox-keys.ts",
+        "lily-design-system-react-next-examples/components/combobox-keys.ts",
+        "lily-design-system-vue-headless/components/combobox-keys.ts",
+        "lily-design-system-vue-nuxt-examples/components/combobox-keys.ts",
+        "lily-design-system-angular-headless/components/combobox-keys.ts",
+        "lily-design-system-angular-examples/src/app/components/combobox-keys.ts",
+        "lily-design-system-web-components-headless/lib/combobox-keys.ts",
+    ],
+    "combobox-keys.test.ts": [
+        "lily-design-system-svelte-headless/components/Combobox/combobox-keys.test.ts",
+        "lily-design-system-react-headless/components/combobox-keys.test.ts",
+        "lily-design-system-vue-headless/components/combobox-keys.test.ts",
+        "lily-design-system-angular-headless/components/combobox-keys.spec.ts",  # Angular runs *.spec.ts
+        "lily-design-system-web-components-headless/lib/combobox-keys.test.ts",
+    ],
+    "combobox-client.js": [
+        "lily-design-system-nunjucks-headless/components/combobox/combobox.js",
+        "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Combobox.razor.js",
+    ],
     # The published pattern testers (spec/testing): Lily's own tests import shared/ directly, adopters get this package.
     "pattern-tester.ts": ["lily-design-system-pattern-testers/pattern-tester.ts"],
     "pattern-contracts.json": ["lily-design-system-pattern-testers/pattern-contracts.json"],

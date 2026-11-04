@@ -409,7 +409,14 @@
     ]
   },
   "combobox": {
-    "source": "A part, not the APG pattern: the wiring and Escape, which is what the combobox component owns (components/combobox/AGENTS.md). Opening, filtering and choosing are the consumer's in most catalogs. autosuggest is the contract for the keys.",
+    "source": "WAI-ARIA APG combobox with list autocomplete and manual selection, on the options the consumer supplies; the input keeps focus (components/combobox/AGENTS.md). Filtering is the consumer's. A test leaves the list empty and the tester installs the fixture.",
+    "fixture": {
+      "options": [
+        "Apple",
+        "Banana",
+        "Cherry"
+      ]
+    },
     "steps": [
       {
         "name": "closed at rest",
@@ -438,6 +445,125 @@
         "expect": {
           "expanded": false,
           "prevented": true
+        }
+      },
+      {
+        "name": "Alt+ArrowDown opens with nothing highlighted",
+        "press": "ArrowDown",
+        "alt": true,
+        "expect": {
+          "expanded": true,
+          "prevented": true
+        }
+      },
+      {
+        "name": "Alt+ArrowUp closes",
+        "press": "ArrowUp",
+        "alt": true,
+        "expect": {
+          "expanded": false,
+          "prevented": true
+        }
+      },
+      {
+        "name": "ArrowDown opens on the first option",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "active": 0,
+          "prevented": true
+        }
+      },
+      {
+        "name": "ArrowDown moves to the next option",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "active": 1
+        }
+      },
+      {
+        "name": "ArrowUp moves back",
+        "press": "ArrowUp",
+        "expect": {
+          "expanded": true,
+          "active": 0
+        }
+      },
+      {
+        "name": "ArrowUp wraps to the last option",
+        "press": "ArrowUp",
+        "expect": {
+          "expanded": true,
+          "active": "last"
+        }
+      },
+      {
+        "name": "ArrowDown wraps to the first option",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "active": 0
+        }
+      },
+      {
+        "name": "End jumps to the last option",
+        "press": "End",
+        "expect": {
+          "expanded": true,
+          "active": "last",
+          "prevented": true
+        }
+      },
+      {
+        "name": "Home jumps to the first option",
+        "press": "Home",
+        "expect": {
+          "expanded": true,
+          "active": 0,
+          "prevented": true
+        }
+      },
+      {
+        "name": "Enter chooses it and closes",
+        "press": "Enter",
+        "expect": {
+          "expanded": false,
+          "value": 0,
+          "prevented": true
+        }
+      },
+      {
+        "name": "ArrowUp opens on the last option",
+        "press": "ArrowUp",
+        "expect": {
+          "expanded": true,
+          "active": "last",
+          "prevented": true
+        }
+      },
+      {
+        "name": "Escape closes without choosing",
+        "press": "Escape",
+        "expect": {
+          "expanded": false,
+          "value": 0,
+          "prevented": true
+        }
+      },
+      {
+        "name": "typing opens the list with nothing highlighted",
+        "type": "",
+        "expect": {
+          "expanded": true
+        }
+      },
+      {
+        "name": "clicking an option chooses it and closes",
+        "click": 1,
+        "expect": {
+          "expanded": false,
+          "value": 1
         }
       }
     ]
@@ -533,63 +659,90 @@
       {
         "name": "the cursor starts on the first cell",
         "expect": {
-          "cell": [0, 0]
+          "cell": [
+            0,
+            0
+          ]
         }
       },
       {
         "name": "ArrowRight moves to the next column",
         "press": "ArrowRight",
         "expect": {
-          "cell": [0, 1]
+          "cell": [
+            0,
+            1
+          ]
         }
       },
       {
         "name": "ArrowDown moves to the next row",
         "press": "ArrowDown",
         "expect": {
-          "cell": [1, 1]
+          "cell": [
+            1,
+            1
+          ]
         }
       },
       {
         "name": "ArrowLeft moves back",
         "press": "ArrowLeft",
         "expect": {
-          "cell": [1, 0]
+          "cell": [
+            1,
+            0
+          ]
         }
       },
       {
         "name": "ArrowUp moves up",
         "press": "ArrowUp",
         "expect": {
-          "cell": [0, 0]
+          "cell": [
+            0,
+            0
+          ]
         }
       },
       {
         "name": "ArrowLeft stops at the edge",
         "press": "ArrowLeft",
         "expect": {
-          "cell": [0, 0]
+          "cell": [
+            0,
+            0
+          ]
         }
       },
       {
         "name": "ArrowDown from the first column",
         "press": "ArrowDown",
         "expect": {
-          "cell": [1, 0]
+          "cell": [
+            1,
+            0
+          ]
         }
       },
       {
         "name": "End goes to the last column of the row",
         "press": "End",
         "expect": {
-          "cell": [1, "last"]
+          "cell": [
+            1,
+            "last"
+          ]
         }
       },
       {
         "name": "Home goes to the first column of the row",
         "press": "Home",
         "expect": {
-          "cell": [1, 0]
+          "cell": [
+            1,
+            0
+          ]
         }
       },
       {
@@ -597,7 +750,10 @@
         "press": "End",
         "ctrl": true,
         "expect": {
-          "cell": ["last", "last"]
+          "cell": [
+            "last",
+            "last"
+          ]
         }
       },
       {
@@ -605,28 +761,40 @@
         "press": "Home",
         "ctrl": true,
         "expect": {
-          "cell": [0, 0]
+          "cell": [
+            0,
+            0
+          ]
         }
       },
       {
         "name": "ArrowDown leaves the header row",
         "press": "ArrowDown",
         "expect": {
-          "cell": [1, 0]
+          "cell": [
+            1,
+            0
+          ]
         }
       },
       {
         "name": "PageDown stops at the last row",
         "press": "PageDown",
         "expect": {
-          "cell": ["last", 0]
+          "cell": [
+            "last",
+            0
+          ]
         }
       },
       {
         "name": "PageUp stops at the first row",
         "press": "PageUp",
         "expect": {
-          "cell": [0, 0]
+          "cell": [
+            0,
+            0
+          ]
         }
       }
     ]

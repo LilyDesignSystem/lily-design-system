@@ -5,7 +5,11 @@
   CSS class: combobox
 
   Params: id, name, value, label, listboxId, expanded, required, disabled,
-    placeholder, classes, attributes. Caller provides the listbox.
+    placeholder, classes, attributes. Caller provides the options.
+
+  The macro is markup only. The keys, typing, blur and pointer are combobox.js:
+    import { autoInit } from "@lilydesignsystem/nunjucks-headless/components/combobox/combobox.js";
+    autoInit();
 
   Usage:
     {% from "components/combobox/macro.njk" import combobox %}
@@ -36,7 +40,7 @@
     {%- if p.required %} required{% endif %}
     {%- if p.disabled %} disabled{% endif %}
   >
-  <ul class="combobox-listbox" role="listbox" id="{{ listboxId }}"{% if not p.expanded %} hidden{% endif %}>
+  <ul class="combobox-listbox" role="listbox" id="{{ listboxId }}"{% if p.label %} aria-label="{{ p.label }}"{% endif %}{% if not p.expanded %} hidden{% endif %}>
     {%- if p.html -%}{{ p.html | safe }}
     {%- elif caller -%}{{ caller() }}
     {%- endif -%}

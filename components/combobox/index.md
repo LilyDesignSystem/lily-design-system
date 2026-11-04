@@ -13,7 +13,9 @@ The component manages the input value and dropdown open state as bindable props,
 - The `value` prop uses two-way binding of the input text.
 - The `open` prop uses two-way binding of dropdown visibility.
 - The listbox is conditionally rendered with conditional rendering to hide it from the DOM when closed.
-- Escape key closes the dropdown via an `onkeydown` handler on the input.
+- Focus stays in the input: the highlighted option is `aria-activedescendant`.
+- Typing opens the list; blur closes it; clicking an option chooses it.
+- Filtering stays the consumer's: the component navigates whatever options are present.
 - Spreads `restProps` onto the outer wrapper `<div>`.
 
 ## Props
@@ -34,30 +36,9 @@ Country selector with type-ahead filtering:
   value="{country}"
   open="{countryOpen}"
 >
-  <div
-    role="option"
-    tabindex="-1"
-    onclick="{()"
-    =""
-  >
-    { country = 'United Kingdom'; countryOpen = false; }}>United Kingdom
-  </div>
-  <div
-    role="option"
-    tabindex="-1"
-    onclick="{()"
-    =""
-  >
-    { country = 'United States'; countryOpen = false; }}>United States
-  </div>
-  <div
-    role="option"
-    tabindex="-1"
-    onclick="{()"
-    =""
-  >
-    { country = 'France'; countryOpen = false; }}>France
-  </div>
+  <div role="option">United Kingdom</div>
+  <div role="option">United States</div>
+  <div role="option">France</div>
 </Combobox>
 ```
 
@@ -70,21 +51,20 @@ Medication picker with dynamic filtering:
   open="{medOpen}"
 >
   {#each filteredMedications as med}
-  <div
-    role="option"
-    tabindex="-1"
-    onclick="{()"
-    =""
-  >
-    { medQuery = med.name; medOpen = false; }}> {med.name} ({med.dosage})
-  </div>
+  <div role="option"> {med.name} ({med.dosage})</div>
   {/each}
 </Combobox>
 ```
 
 ## Keyboard Interactions
 
-- Escape: Closes the dropdown listbox.
+- ArrowDown, ArrowUp: open on the first or last option; while open, move and wrap
+- Home, End: jump to the first or last option while open; while closed they stay the caret's
+- Enter: choose the highlighted option; with none highlighted it is left alone, so a form still submits
+- Escape: close while open; while closed it is left alone, so an enclosing dialog still gets it
+- Alt+ArrowDown: open without moving the highlight
+- Alt+ArrowUp: close
+- A key during IME composition belongs to the IME
 
 ## ARIA
 

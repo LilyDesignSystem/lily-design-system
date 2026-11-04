@@ -10,27 +10,30 @@
 //   className — string, optional. CSS class name.
 //   label — string, required. Accessible name via aria-label on both input and listbox.
 //   value — string, default "". Bindable current text input value.
-//   open — boolean, default false. Bindable dropdown visibility state.
+//   open — boolean, default false. Bindable dropdown visibility state: pass onOpenChange too, the keys ask through it.
+//   onSelect — function, optional. Called with the chosen option's data-value, else its text.
 //   children — ReactNode, required. Option elements rendered inside the listbox dropdown.
 //   ...restProps — additional HTML attributes spread onto the wrapper <div>.
 //
 // Syntax:
 //   <Combobox label="Search" value={value} onChange={setValue} open={open} onOpenChange={setOpen}>
-//     <div role="option" tabindex="-1">Option 1</div>
+//     <div role="option">Option 1</div>
 //   </Combobox>
 //
 // Examples:
 //
 //   <Combobox label="Select a fruit" value={value} onChange={setValue} open={open} onOpenChange={setOpen}>
 //     {filtered.map((option) => (
-//       <div role="option" tabindex="-1" onClick={() => { setValue(option); setOpen(false); }}>
-//         {option}
-//       </div>
+//       <div role="option">{option}</div>
 //     ))}
 //   </Combobox>
 //
 // Keyboard:
-//   - Escape: Close the dropdown listbox
+//   - ArrowDown, ArrowUp: open on the first or last option, then move and wrap
+//   - Home, End: jump to the first or last option while open
+//   - Enter: choose the highlighted option
+//   - Escape: close while open; left alone while closed
+//   - Alt+ArrowDown opens without a highlight; Alt+ArrowUp closes
 //
 // Accessibility:
 //   - role="combobox" on the input identifies it as a combobox widget
@@ -47,6 +50,7 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - Generates a unique listboxId for the aria-controls relationship
 //   - Consumer is responsible for filtering options based on value
+//   - combobox-keys.ts owns the keys, typing, blur and pointer: the one module the catalogs share
 //
 // References:
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
@@ -54,6 +58,7 @@
 import React, { useId } from "react";
 import { usePopoverState } from "./Popover";
 import { warnMissingName } from "./dev-warning";
+import { attachCombobox, setActiveOption } from "./combobox-keys";
 
 export interface ComboboxProps {
     className?: string;
@@ -69,6 +74,8 @@ export interface ComboboxProps {
     onChange?: (value: string) => void;
     /** Callback when open changes. */
     onOpenChange?: (value: boolean) => void;
+    /** Called with the chosen option's value. */
+    onSelect?: (value: string) => void;
     [key: string]: unknown;
 }
 
@@ -79,6 +86,7 @@ export default function Combobox({
     open = false,
     onChange,
     onOpenChange,
+    onSelect,
     children,
     ...restProps
 }: ComboboxProps) {
@@ -87,12 +95,28 @@ export default function Combobox({
     const listboxRef = React.useRef<HTMLDivElement>(null);
     usePopoverState(listboxRef, open);
 
-    function handleKeyDown(event: React.KeyboardEvent) {
-        if (event.key === "Escape" && open) {
-            event.preventDefault();
-            onOpenChange?.(false);
-        }
-    }
+    const inputRef = React.useRef<HTMLInputElement>(null);
+    // The module's listeners stay for the component's life, so they read the latest props from here.
+    const latest = React.useRef({ open, onChange, onOpenChange, onSelect });
+    latest.current = { open, onChange, onOpenChange, onSelect };
+
+    React.useEffect(
+        () =>
+            attachCombobox(inputRef.current!, listboxRef.current!, {
+                open: () => latest.current.open,
+                setOpen: (next) => latest.current.onOpenChange?.(next),
+                choose: (chosen) => {
+                    latest.current.onChange?.(chosen);
+                    latest.current.onSelect?.(chosen);
+                },
+            }),
+        [],
+    );
+
+    // Closed from outside: no highlight survives into the next opening.
+    React.useEffect(() => {
+        if (!open) setActiveOption(inputRef.current!, listboxRef.current!, null);
+    }, [open]);
 
     return (
         <div
@@ -100,6 +124,7 @@ export default function Combobox({
             {...restProps}
         >
             <input
+                ref={inputRef}
                 type="text"
                 role="combobox"
                 aria-label={label}
@@ -108,7 +133,6 @@ export default function Combobox({
                 aria-autocomplete="list"
                 value={value}
                 onChange={(e) => onChange?.(e.target.value)}
-                onKeyDown={handleKeyDown}
             />
             <div
                 ref={listboxRef}

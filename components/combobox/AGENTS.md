@@ -17,7 +17,10 @@
 - The `value` prop uses two-way binding of the input text.
 - The `open` prop uses two-way binding of dropdown visibility.
 - The listbox is `display: none` while closed (Popover API, or the `hidden` attribute where it is missing), so it stays a valid `aria-controls` target.
-- Escape key closes the dropdown via an `onkeydown` handler on the input.
+- Focus stays in the input: the highlighted option is `aria-activedescendant`, with `aria-selected` and `data-active` on the option.
+- Typing opens the list and drops the highlight; blur closes it; clicking an option chooses it, and pressing one keeps focus in the input.
+- An option that is `hidden` or `aria-disabled="true"` is skipped. An option's value is its `data-value`, else its text.
+- Filtering stays the consumer's. The component navigates whatever options are present.
 - Spreads `restProps` onto the outer wrapper `<div>`.
 
 ## ARIA
@@ -31,16 +34,23 @@
 
 ## Keyboard
 
-- Escape: closes the dropdown listbox while it is open; while closed it is left alone, so an enclosing dialog still gets it
+- ArrowDown, ArrowUp: open on the first or last option; while open, move and wrap
+- Home, End: jump to the first or last option while open; while closed they stay the caret's
+- Enter: choose the highlighted option; with none highlighted it is left alone, so a form still submits
+- Escape: close while open; while closed it is left alone, so an enclosing dialog still gets it
+- Alt+ArrowDown: open without moving the highlight
+- Alt+ArrowUp: close
+- A key during IME composition belongs to the IME
 
-The arrow keys, Enter and choosing are the consumer's in most catalogs, so this component alone does not meet the APG combobox pattern. [Autosuggest](../autosuggest/) owns those keys.
+This is the APG combobox with list autocomplete and manual selection, in every catalog, from `shared/combobox-keys.ts`, its plain copy `shared/combobox-client.js`, or their ports, all held to the `combobox` pattern contract. Choose [Autosuggest](../autosuggest/) to pass suggestions as data rather than as markup.
 
 ## Props
 
 - `label`: string (required) -- accessible name applied via `aria-label` on both the input and listbox.
 - `value`: string (default: `""`) -- bindable current text input value.
 - `open`: boolean (default: `false`) -- bindable dropdown visibility state.
-- `children`: slot (required) -- option elements rendered inside the listbox dropdown.
+- `onSelect`: function, optional -- called with the chosen option's value (`selected` output in Angular, `select` event in Vue, `OnSelect` in Blazor, `lily-change` in Web Components, `lily:select` in Alpine, `combobox-select` in HTML and Nunjucks).
+- `children`: slot (required) -- `role="option"` elements rendered inside the listbox dropdown.
 - `...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`.
 
 ## Native platform

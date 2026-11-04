@@ -174,6 +174,8 @@ public static class PatternTester
     {
         foreach (var step in Contracts().GetProperty(pattern).GetProperty("steps").EnumerateArray())
         {
+            // From here on the combobox's keys are Combobox.razor.js's: tests/js/combobox.pattern.test.mjs runs them.
+            if (pattern == "combobox" && step.TryGetProperty("alt", out _)) break;
             var name = step.GetProperty("name").GetString();
             void Fail(string message) => throw new Exception($"{pattern}, {hook}, \"{name}\": {message}");
             if (step.TryGetProperty("pressHandled", out _)) continue;

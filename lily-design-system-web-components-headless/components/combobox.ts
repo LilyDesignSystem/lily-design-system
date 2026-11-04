@@ -8,14 +8,11 @@
 // <input role="combobox"> and a <div role="listbox"> as its own
 // children.
 //
-// The canonical contract (components/combobox/AGENTS.md) documents only
-// Escape-closes; this implementation additionally provides real
-// WAI-ARIA combobox keyboard behaviour (arrow navigation, typeahead,
-// aria-activedescendant) per the WAI-ARIA Combobox Pattern reference it
-// already cites — filtering the option list itself remains the
-// consumer's responsibility (the consumer supplies/updates the option
-// children; this component only navigates and selects among whatever is
-// currently present).
+// lib/combobox-keys.ts owns the keys, typing, blur and pointer, the module
+// the catalogs share (components/combobox/AGENTS.md). Filtering the option
+// list remains the consumer's responsibility: the consumer supplies and
+// updates the option children, and this component navigates and selects
+// among whatever is currently present.
 //
 // Attributes:
 //   label — REQUIRED. Accessible name, via aria-label on both the input
@@ -42,6 +39,7 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 import { applySelfClassName, moveChildrenInto, nextId } from "../lib/dom-utils.js";
+import { attachCombobox, setActiveOption } from "../lib/combobox-keys.js";
 import { syncManualPopover } from "./popover.js";
 
 export class Combobox extends HTMLElement {
@@ -53,7 +51,6 @@ export class Combobox extends HTMLElement {
     #input: HTMLInputElement | null = null;
     #listbox: HTMLDivElement | null = null;
     #listboxId = nextId("lily-combobox-listbox");
-    #activeId: string | null = null;
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -65,7 +62,6 @@ export class Combobox extends HTMLElement {
         listbox.id = this.#listboxId;
         listbox.setAttribute("role", "listbox");
         moveChildrenInto(this, listbox);
-        listbox.addEventListener("click", this.#onOptionClick);
         this.#listbox = listbox;
 
         const input = document.createElement("input");
@@ -73,12 +69,18 @@ export class Combobox extends HTMLElement {
         input.setAttribute("role", "combobox");
         input.setAttribute("aria-autocomplete", "list");
         input.setAttribute("aria-controls", this.#listboxId);
-        input.addEventListener("keydown", this.#onKeydown);
-        input.addEventListener("input", this.#onInput);
+        input.addEventListener("input", () => this.setAttribute("value", input.value));
         this.#input = input;
 
         this.appendChild(input);
         this.appendChild(listbox);
+
+        // Built once and never torn down: the input and list live and die with this element.
+        attachCombobox(input, listbox, {
+            open: () => this.hasAttribute("open"),
+            setOpen: (next) => this.toggleAttribute("open", next),
+            choose: (value) => this.#select(value),
+        });
 
         this.#sync();
     }
@@ -123,112 +125,18 @@ export class Combobox extends HTMLElement {
         const open = this.hasAttribute("open");
         input.setAttribute("aria-expanded", String(open));
         syncManualPopover(listbox, open);
-        if (!open) this.#setActive(null);
+        if (!open) setActiveOption(input, listbox, null);
     }
 
-    #options(): HTMLElement[] {
-        return Array.from(this.#listbox?.children ?? []).filter(
-            (el): el is HTMLElement =>
-                el instanceof HTMLElement && el.getAttribute("role") === "option",
-        );
-    }
-
-    #setActive(option: HTMLElement | null): void {
-        for (const opt of this.#options()) opt.removeAttribute("aria-selected");
-        if (option) {
-            option.setAttribute("aria-selected", "true");
-            if (!option.id) option.id = nextId("lily-combobox-option");
-            this.#activeId = option.id;
-            this.#input!.setAttribute("aria-activedescendant", option.id);
-        } else {
-            this.#activeId = null;
-            this.#input!.removeAttribute("aria-activedescendant");
-        }
-    }
-
-    #select(option: HTMLElement): void {
-        const text = option.textContent ?? "";
-        this.#input!.value = text;
-        this.setAttribute("value", text);
-        this.removeAttribute("open");
+    #select(value: string): void {
+        this.#input!.value = value;
+        this.setAttribute("value", value);
         this.dispatchEvent(
             new CustomEvent("lily-change", {
-                detail: { value: text },
+                detail: { value },
                 bubbles: true,
                 composed: true,
             }),
         );
     }
-
-    #onOptionClick = (event: MouseEvent): void => {
-        const option = (event.target as HTMLElement).closest('[role="option"]');
-        if (option instanceof HTMLElement) this.#select(option);
-    };
-
-    #onInput = (): void => {
-        this.setAttribute("value", this.#input!.value);
-        if (!this.hasAttribute("open")) this.setAttribute("open", "");
-        const query = this.#input!.value.toLowerCase();
-        if (!query) {
-            this.#setActive(null);
-            return;
-        }
-        const match = this.#options().find((opt) =>
-            (opt.textContent ?? "").toLowerCase().startsWith(query),
-        );
-        this.#setActive(match ?? null);
-    };
-
-    #onKeydown = (event: KeyboardEvent): void => {
-        const options = this.#options();
-        const activeIndex = options.findIndex((o) => o.id === this.#activeId);
-
-        switch (event.key) {
-            case "ArrowDown": {
-                event.preventDefault();
-                if (!this.hasAttribute("open")) {
-                    this.setAttribute("open", "");
-                    return;
-                }
-                if (options.length === 0) return;
-                this.#setActive(options[Math.min(activeIndex + 1, options.length - 1)]);
-                break;
-            }
-            case "ArrowUp": {
-                event.preventDefault();
-                if (options.length === 0) return;
-                this.#setActive(options[Math.max(activeIndex - 1, 0)]);
-                break;
-            }
-            case "Home":
-                if (this.hasAttribute("open") && options.length) {
-                    event.preventDefault();
-                    this.#setActive(options[0]);
-                }
-                break;
-            case "End":
-                if (this.hasAttribute("open") && options.length) {
-                    event.preventDefault();
-                    this.#setActive(options[options.length - 1]);
-                }
-                break;
-            case "Enter": {
-                if (!this.hasAttribute("open") || !this.#activeId) return;
-                const active = options.find((o) => o.id === this.#activeId);
-                if (active) {
-                    event.preventDefault();
-                    this.#select(active);
-                }
-                break;
-            }
-            case "Escape":
-                if (this.hasAttribute("open")) {
-                    event.preventDefault();
-                    this.removeAttribute("open");
-                }
-                break;
-            default:
-                break;
-        }
-    };
 }

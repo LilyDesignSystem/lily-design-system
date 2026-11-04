@@ -47,7 +47,9 @@ describe("Combobox", () => {
     });
 
     test("ArrowDown opens the listbox when closed", () => {
-        const host = render('<lily-combobox label="Fruit"></lily-combobox>');
+        const host = render(
+            '<lily-combobox label="Fruit"><div role="option">Apple</div></lily-combobox>',
+        );
         const input = host.querySelector("input") as HTMLInputElement;
 
         input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true }));
@@ -69,7 +71,7 @@ describe("Combobox", () => {
         expect(input.getAttribute("aria-activedescendant")).toBe(opts[1].id);
     });
 
-    test("typing filters via typeahead: matching option becomes active", () => {
+    test("typing opens the list and highlights nothing: choosing stays manual", () => {
         const host = render(
             '<lily-combobox label="Fruit"><div role="option">Apple</div><div role="option">Banana</div></lily-combobox>',
         );
@@ -78,8 +80,7 @@ describe("Combobox", () => {
         input.value = "ban";
         input.dispatchEvent(new Event("input", { bubbles: true }));
 
-        const banana = host.querySelectorAll('[role="option"]')[1];
-        expect(input.getAttribute("aria-activedescendant")).toBe(banana.id);
+        expect(input.hasAttribute("aria-activedescendant")).toBe(false);
         expect(host.hasAttribute("open")).toBe(true);
     });
 

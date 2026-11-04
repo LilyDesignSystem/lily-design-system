@@ -11,7 +11,7 @@ The component manages the input value and dropdown open state as controlled prop
 - The `value` prop supports controlled component usage for the input text.
 - The `open` prop supports controlled component usage for dropdown visibility.
 - The listbox is conditionally rendered to hide it from the DOM when closed.
-- Escape key closes the dropdown via an `onKeyDown` handler on the input.
+- `combobox-keys.ts` owns the keys, typing, blur and pointer. Pass `onOpenChange` and `onChange`: the keys ask through them.
 - Spreads `restProps` onto the outer wrapper `<div>`.
 
 ## Props
@@ -20,6 +20,7 @@ The component manages the input value and dropdown open state as controlled prop
 - `value`: string (default: `""`) -- controlled current text input value.
 - `open`: boolean (default: `false`) -- controlled dropdown visibility state.
 - `children`: ReactNode (required) -- option elements rendered inside the listbox dropdown.
+- `onSelect`: function, optional -- called with the chosen option's value.
 - `...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`.
 
 ## Usage
@@ -75,7 +76,13 @@ const filtered = useMemo(
 
 ## Keyboard Interactions
 
-- Escape: Closes the dropdown listbox.
+- ArrowDown, ArrowUp: open on the first or last option; while open, move and wrap
+- Home, End: jump to the first or last option while open; while closed they stay the caret's
+- Enter: choose the highlighted option; with none highlighted it is left alone, so a form still submits
+- Escape: close while open; while closed it is left alone, so an enclosing dialog still gets it
+- Alt+ArrowDown: open without moving the highlight
+- Alt+ArrowUp: close
+- A key during IME composition belongs to the IME
 
 ## ARIA
 

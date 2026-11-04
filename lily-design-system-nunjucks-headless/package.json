@@ -43,7 +43,9 @@
   "files": [
     "index.js",
     "components/*/macro.njk",
+    "components/combobox/combobox.js",
     "components/contents-nav/spy.js",
+    "components/tree-list/tree.js",
     "components/page-check.js",
     "index.md",
     "README.md"

@@ -82,4 +82,53 @@ describe("Combobox keyboard", function () {
         await browser.keys("Escape");
         expect(await browser.execute(() => document.activeElement.getAttribute("role"))).toBe("combobox");
     });
+
+    // Real keys and a real mouse: jsdom cannot show that pressing an option leaves focus in the input.
+    async function withOptions() {
+        await browser.url("file://" + path.resolve(__dirname, "combobox.html"));
+        await browser.execute(() => {
+            const input = document.querySelector('.combobox [role="combobox"]');
+            const list = document.querySelector('.combobox [role="listbox"]');
+            input.setAttribute("aria-label", "Fruit");
+            list.setAttribute("aria-label", "Fruit");
+            list.innerHTML = '<div role="option">Apple</div><div role="option">Banana</div><div role="option">Cherry</div>';
+            window.selected = [];
+            document.querySelector(".combobox").addEventListener("combobox-select", (e) => window.selected.push(e.detail.value));
+            input.focus();
+        });
+    }
+    const facts = () =>
+        browser.execute(() => {
+            const input = document.querySelector('.combobox [role="combobox"]');
+            return {
+                value: input.value,
+                expanded: input.getAttribute("aria-expanded"),
+                active: document.getElementById(input.getAttribute("aria-activedescendant"))?.textContent ?? null,
+                focused: document.activeElement === input,
+                selected: window.selected,
+            };
+        });
+
+    it("ArrowDown opens and moves, ArrowUp wraps, Enter chooses", async function () {
+        await withOptions();
+        await browser.keys(["ArrowDown", "ArrowDown"]);
+        expect(await facts()).toEqual({ value: "", expanded: "true", active: "Banana", focused: true, selected: [] });
+        await browser.keys(["ArrowUp", "ArrowUp"]);
+        expect((await facts()).active).toBe("Cherry");
+        await browser.keys("Enter");
+        expect(await facts()).toEqual({ value: "Cherry", expanded: "false", active: null, focused: true, selected: ["Cherry"] });
+    });
+
+    it("a real click chooses an option and focus stays in the input", async function () {
+        await withOptions();
+        await browser.keys("ArrowDown");
+        await $('.combobox [role="option"]:nth-child(2)').click();
+        expect(await facts()).toEqual({ value: "Banana", expanded: "false", active: null, focused: true, selected: ["Banana"] });
+    });
+
+    it("Tab away closes the list", async function () {
+        await withOptions();
+        await browser.keys(["ArrowDown", "Tab"]);
+        expect((await facts()).expanded).toBe("false");
+    });
 });

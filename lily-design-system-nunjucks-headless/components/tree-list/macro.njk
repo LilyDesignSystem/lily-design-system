@@ -17,6 +17,10 @@
 
   Body content: TreeListItem children via caller().
 
+  The macro is markup only. The keys are tree.js:
+    import { autoInit } from "@lilydesignsystem/nunjucks-headless/components/tree-list/tree.js";
+    autoInit();
+
   Usage:
     {% from "components/tree-list/macro.njk" import treeList %}
     {% call treeList({ id: "example", label: "Example" }) %}…{% endcall %}

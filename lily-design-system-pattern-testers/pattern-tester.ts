@@ -58,7 +58,7 @@ export interface PatternOptions {
     press?: (target: Element, key: string) => void | Promise<void>;
     /** Click. Default: `target.click()`, then `settle`. */
     click?: (target: HTMLElement) => void | Promise<void>;
-    /** Open the widget, for `combobox` and `dialog`, whose opening is the consumer's: set the prop, or call the API. */
+    /** Open the widget, for `combobox` and `dialog`, which can also be opened from outside: set the prop, or call the API. */
     open?: () => void | Promise<void>;
     /** Wrap a DOM event in the framework's batching, such as React's `act`. */
     act?: (run: () => Promise<void>) => void | Promise<void>;
@@ -78,6 +78,16 @@ interface OverlayStep {
         focusInside?: boolean;
         focusOpener?: boolean;
     };
+}
+
+interface ComboboxStep {
+    name: string;
+    open?: boolean;
+    press?: string;
+    alt?: boolean;
+    type?: string;
+    click?: number;
+    expect: { expanded: boolean; active?: Index; value?: number; prevented?: boolean };
 }
 
 interface AutosuggestStep {
@@ -199,17 +209,62 @@ async function runCombobox(options: PatternOptions): Promise<void> {
     if (!named(input)) fail("setup", "the input has no name");
     if (!named(list)) fail("setup", "the listbox has no name");
 
-    for (const step of contracts.combobox.steps as OverlayStep[]) {
+    const labels = contracts.combobox.fixture.options;
+    if (!list.querySelector('[role="option"]'))
+        for (const label of labels) {
+            const option = root.ownerDocument.createElement("div");
+            option.setAttribute("role", "option");
+            option.textContent = label;
+            list.append(option);
+        }
+    // A catalog may hide what does not match the text, so positions count what is shown.
+    const shown = (): HTMLElement[] =>
+        [...list.querySelectorAll<HTMLElement>('[role="option"]')].filter((o) => !o.hidden);
+
+    for (const step of contracts.combobox.steps as ComboboxStep[]) {
         let prevented: boolean | undefined;
         if (step.open) {
             if (!options.open) return fail(step.name, "needs the open option");
             await options.open();
             await (options.settle ?? tick)();
-        } else if (step.press) prevented = await fire(input, escape(step.press), options);
-        const { expanded, prevented: wantPrevented } = step.expect;
-        const value = input.getAttribute("aria-expanded");
-        if (value !== String(expanded)) fail(step.name, `aria-expanded is ${value}`);
+        } else if (step.press !== undefined) {
+            const event = new KeyboardEvent("keydown", {
+                key: step.press,
+                altKey: step.alt ?? false,
+                bubbles: true,
+                cancelable: true,
+            });
+            prevented = await fire(input, event, options);
+        } else if (step.type !== undefined) {
+            // Through the prototype's setter, so React sees a change.
+            const setter = Object.getOwnPropertyDescriptor(
+                Object.getPrototypeOf(input),
+                "value",
+            )?.set;
+            setter?.call(input, step.type);
+            await fire(input, new Event("input", { bubbles: true }), options);
+        } else if (step.click !== undefined) {
+            const option = shown()[step.click];
+            await fire(option, new MouseEvent("click", { bubbles: true }), options);
+        }
+        const { expanded, active, value, prevented: wantPrevented } = step.expect;
+        const actual = input.getAttribute("aria-expanded");
+        if (actual !== String(expanded)) fail(step.name, `aria-expanded is ${actual}`);
         if (listShown(list) !== expanded) fail(step.name, `list shown is ${listShown(list)}`);
+        const descendant = input.getAttribute("aria-activedescendant");
+        if (active === undefined) {
+            if (descendant) fail(step.name, `aria-activedescendant is ${descendant}`);
+        } else {
+            const all = shown();
+            const want = all[active === "last" ? all.length - 1 : active];
+            if (!descendant || descendant !== want?.id)
+                fail(step.name, `aria-activedescendant is ${descendant}, not ${want?.id}`);
+            const selected = all.filter((o) => o.getAttribute("aria-selected") === "true");
+            if (selected.length !== 1 || selected[0] !== want)
+                fail(step.name, `${selected.length} option(s) have aria-selected="true"`);
+        }
+        if (value !== undefined && (input as HTMLInputElement).value !== labels[value])
+            fail(step.name, `the input holds "${(input as HTMLInputElement).value}", not "${labels[value]}"`);
         if (wantPrevented !== undefined && prevented !== wantPrevented)
             fail(step.name, `defaultPrevented is ${prevented}, not ${wantPrevented}`);
     }

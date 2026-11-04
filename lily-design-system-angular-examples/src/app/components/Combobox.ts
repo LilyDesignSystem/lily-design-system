@@ -1,10 +1,13 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
+    DestroyRef,
     effect,
     ElementRef,
     input,
     model,
+    output,
     viewChild,
     OnInit,
     inject,
@@ -12,6 +15,7 @@ import {
 import { warnMissingName } from "./dev-warning";
 import { syncPopover } from "./Popover";
 import { restoreOnFormReset } from "./form-reset";
+import { attachCombobox, setActiveOption } from "./combobox-keys";
 
 let nextId = 0;
 
@@ -21,8 +25,11 @@ let nextId = 0;
  * Headless Angular component. Renders the semantic HTML root with the
  * kebab-case class hook `combobox` and the consumer-provided `className`: a
  * text input with `role="combobox"` and, while `open`, a listbox holding the
- * projected options. Escape closes the listbox. Ported from the Svelte
- * reference (tasks.md P12-T5a; this was a stub with no input or listbox).
+ * projected options. combobox-keys.ts owns the keys, typing, blur and pointer,
+ * the module the catalogs share: arrows open and move (wrapping), Home and End
+ * jump, Enter chooses, Escape closes, Alt+ArrowDown opens, Alt+ArrowUp closes.
+ * Filtering is the consumer's. Ported from the Svelte reference (tasks.md
+ * P12-T5a; this was a stub with no input or listbox).
  * Ships zero CSS; the consumer styles via the class hook.
  */
 @Component({
@@ -30,6 +37,7 @@ let nextId = 0;
     standalone: true,
     template: `<div class="combobox {{ className() }}">
     <input
+      #field
       type="text"
       role="combobox"
       [attr.aria-label]="label()"
@@ -38,20 +46,25 @@ let nextId = 0;
       aria-autocomplete="list"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
-      (keydown)="onKeydown($event)"
     />
     <div #panel popover="manual" role="listbox" [id]="listboxId" [attr.aria-label]="label()"><ng-content /></div>
   </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Combobox implements OnInit {
+export class Combobox implements OnInit, AfterViewInit {
     private readonly lilyHost = inject(ElementRef);
+    private readonly destroyRef = inject(DestroyRef);
 
     private readonly panel = viewChild<ElementRef<HTMLElement>>("panel");
+    private readonly field = viewChild<ElementRef<HTMLInputElement>>("field");
 
     private readonly syncPanel = effect(() => {
         const el = this.panel()?.nativeElement;
-        if (el) syncPopover(el, this.open());
+        const input = this.field()?.nativeElement;
+        const open = this.open();
+        if (el) syncPopover(el, open);
+        // Closed from outside: no highlight survives into the next opening.
+        if (el && input && !open) setActiveOption(input, el, null);
     });
     /** Accessible label, on both the input and the listbox. */
     readonly label = input<string>("");
@@ -59,6 +72,8 @@ export class Combobox implements OnInit {
     readonly value = model<string>("");
     /** Whether the listbox is shown. Two-way bindable; Escape sets it to false. */
     readonly open = model<boolean>(false);
+    /** The chosen option's `data-value`, else its text. */
+    readonly selected = output<string>();
     readonly className = input<string>("");
 
     protected readonly listboxId = `combobox-listbox-${nextId++}`;
@@ -67,11 +82,20 @@ export class Combobox implements OnInit {
         restoreOnFormReset(this.value);
     }
 
-    protected onKeydown(event: KeyboardEvent): void {
-        if (event.key === "Escape" && this.open()) {
-            event.preventDefault();
-            this.open.set(false);
-        }
+    ngAfterViewInit(): void {
+        const detach = attachCombobox(
+            this.field()!.nativeElement,
+            this.panel()!.nativeElement,
+            {
+                open: () => this.open(),
+                setOpen: (next) => this.open.set(next),
+                choose: (chosen) => {
+                    this.value.set(chosen);
+                    this.selected.emit(chosen);
+                },
+            },
+        );
+        this.destroyRef.onDestroy(detach);
     }
 
     ngOnInit(): void {

@@ -27,12 +27,12 @@ leaves out. Keep testing with a screen reader and real users.
 | `tree-expand`       | ArrowRight and ArrowLeft on a branch                                 | Right-to-left, which swaps them            |               |
 | `grid`              | Arrows, Home, End, the Ctrl corners, page keys, exactly one tab stop | Sorting, editing, selection                |               |
 | `autosuggest`       | A list-autocomplete combobox: arrows, Home, End, Enter, Escape       | Alt+Arrow keys; filtering, which is yours  |               |
-| `combobox`          | A part: the wiring, and that Escape acts only while the list is open | **The arrow keys, Enter and choosing**     | `open`        |
+| `combobox`          | List autocomplete on your options: arrows, Alt+Arrow, Home, End, Enter, Escape, typing, a click | Filtering, which is yours | `open` |
 | `dialog`            | A named modal `<dialog>`, focus in and back, Escape and `cancel`     | The Tab trap and inert page: the browser's | `open`        |
 | `picker-listbox`    | Lily's icon button opening a listbox                                 | Lily's own shape, not a general pattern    |               |
 | `picker-disclosure` | Lily's icon button opening a disclosure                              | Lily's own shape, not a general pattern    |               |
 
-Use `autosuggest`, not `combobox`, to test a combobox. For `autosuggest`, render `autosuggestFixture`. For `tree-expand`, `root` is the
+Both `combobox` and `autosuggest` test a combobox; `autosuggest` is for one that takes its suggestions as data, so render `autosuggestFixture`. Leave a `combobox` list empty, and it gets the contract's three options. For `tree-expand`, `root` is the
 branch `treeitem`, inside a parent `treeitem`.
 
 An empty `tablist`, `menu`, `menubar` or `tree` gets the contract's own fixture. For `grid`, render `gridFixture` from this package.

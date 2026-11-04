@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { shallowRef, useAttrs } from "vue";
+import { onBeforeUnmount, onMounted, shallowRef, useAttrs, watch } from "vue";
+import { attachCombobox, setActiveOption } from "./combobox-keys";
 import { usePopoverState } from "./popover";
 // Combobox component
 //
@@ -14,26 +15,27 @@ import { usePopoverState } from "./popover";
 //   label — string, required. Accessible name via aria-label on both input and listbox.
 //   value — string, default "". Bindable current text input value.
 //   open — boolean, default false. Bindable dropdown visibility state.
+//   select event. The chosen option's data-value, else its text.
 //   default slot. Option elements rendered inside the listbox dropdown.
 //   ...restProps — additional HTML attributes spread onto the wrapper <div>.
 //
 // Syntax:
 //   <Combobox label="Search" v-model v-model:open>
-//     <div role="option" tabindex="-1">Option 1</div>
+//     <div role="option">Option 1</div>
 //   </Combobox>
 //
 // Examples:
 //   <!-- Combobox with filtered options -->
 //   <Combobox label="Select a fruit" v-model v-model:open>
-//     {#each filtered as option}
-//       <div role="option" tabindex="-1" onclick={() => { value = option; open = false; }}>
-//         {option}
-//       </div>
-//     {/each}
+//     <div v-for="option in filtered" role="option">{{ option }}</div>
 //   </Combobox>
 //
 // Keyboard:
-//   - Escape: Close the dropdown listbox
+//   - ArrowDown, ArrowUp: open on the first or last option, then move and wrap
+//   - Home, End: jump to the first or last option while open
+//   - Enter: choose the highlighted option
+//   - Escape: close while open; left alone while closed
+//   - Alt+ArrowDown opens without a highlight; Alt+ArrowUp closes
 //
 // Accessibility:
 //   - role="combobox" on the input identifies it as a combobox widget
@@ -50,6 +52,7 @@ import { usePopoverState } from "./popover";
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - Generates a unique listboxId for the aria-controls relationship
 //   - Consumer is responsible for filtering options based on value
+//   - combobox-keys.ts owns the keys, typing, blur and pointer: the one module the catalogs share
 //
 // References:
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
@@ -65,6 +68,8 @@ const props = defineProps<{
 
 warnMissingName("Combobox", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
+const emit = defineEmits<{ select: [value: string] }>();
+
 const modelValue = defineModel<string>({ default: "" });
 const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
 useFormReset(modelValue, field);
@@ -73,14 +78,28 @@ const open = defineModel<boolean>("open", { default: false });
 
 const listboxId = `combobox-${useId()}`;
 
-function onkeydown(event: KeyboardEvent) {
-    if (event.key === "Escape" && open.value) {
-        event.preventDefault();
-        open.value = false;
-    }
-}
 const panelEl = shallowRef<HTMLElement | null>(null);
 usePopoverState(panelEl, open);
+
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachCombobox(field.value as HTMLInputElement, panelEl.value!, {
+        open: () => open.value,
+        setOpen: (next) => {
+            open.value = next;
+        },
+        choose: (chosen) => {
+            modelValue.value = chosen;
+            emit("select", chosen);
+        },
+    });
+});
+onBeforeUnmount(() => detach?.());
+
+// Closed from outside: no highlight survives into the next opening.
+watch(open, (isOpen) => {
+    if (!isOpen && field.value && panelEl.value) setActiveOption(field.value, panelEl.value, null);
+});
 </script>
 
 <template>
@@ -95,7 +114,6 @@ usePopoverState(panelEl, open);
             aria-autocomplete="list"
             ref="field"
             v-model="modelValue"
-            @keydown="onkeydown"
         />
         <div
             ref="panelEl"

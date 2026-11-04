@@ -112,4 +112,25 @@ public class ComboboxTests : TestContext
         cut.Find("input").KeyDown(new KeyboardEventArgs { Key = "Escape" });
         Assert.False(changed);
     }
+
+    [Fact]
+    public async Task Module_opening_and_choosing_reach_the_parameters()
+    {
+        bool? opened = null;
+        string? value = null;
+        string? selected = null;
+        var cut = RenderComponent<Combobox>(p => p
+            .Add(x => x.Label, "Fruit")
+            .Add(x => x.OpenChanged, v => opened = v)
+            .Add(x => x.ValueChanged, v => value = v)
+            .Add(x => x.OnSelect, v => selected = v)
+            .AddChildContent("body"));
+        await cut.InvokeAsync(() => cut.Instance.OnComboboxOpen(true));
+        Assert.True(opened);
+        Assert.Equal("true", cut.Find("input").GetAttribute("aria-expanded"));
+        await cut.InvokeAsync(() => cut.Instance.OnComboboxChoose("Apple"));
+        Assert.Equal("Apple", value);
+        Assert.Equal("Apple", selected);
+        Assert.Equal("Apple", cut.Find("input").GetAttribute("value"));
+    }
 }

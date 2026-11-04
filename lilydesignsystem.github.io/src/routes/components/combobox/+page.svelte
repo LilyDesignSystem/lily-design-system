@@ -91,15 +91,22 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Escape: closes the dropdown listbox while it is open; while closed it is left alone, so an enclosing dialog still gets it</li>
+      <li>ArrowDown, ArrowUp: open on the first or last option; while open, move and wrap</li>
+      <li>Home, End: jump to the first or last option while open; while closed they stay the caret's</li>
+      <li>Enter: choose the highlighted option; with none highlighted it is left alone, so a form still submits</li>
+      <li>Escape: close while open; while closed it is left alone, so an enclosing dialog still gets it</li>
+      <li>Alt+ArrowDown: open without moving the highlight</li>
+      <li>Alt+ArrowUp: close</li>
+      <li>A key during IME composition belongs to the IME</li>
     </ul>
-    <p>The arrow keys, Enter and choosing are the consumer's in most catalogs, so this component alone does not meet the APG combobox pattern. [Autosuggest](../autosuggest/) owns those keys.</p>
+    <p>This is the APG combobox with list autocomplete and manual selection, in every catalog, from <code>shared/combobox-keys.ts</code>, its plain copy <code>shared/combobox-client.js</code>, or their ports, all held to the <code>combobox</code> pattern contract. Choose [Autosuggest](../autosuggest/) to pass suggestions as data rather than as markup.</p>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code> on both the input and listbox.</li>
       <li><code>value</code>: string (default: <code>""</code>) -- bindable current text input value.</li>
       <li><code>open</code>: boolean (default: <code>false</code>) -- bindable dropdown visibility state.</li>
-      <li><code>children</code>: slot (required) -- option elements rendered inside the listbox dropdown.</li>
+      <li><code>onSelect</code>: function, optional -- called with the chosen option's value (<code>selected</code> output in Angular, <code>select</code> event in Vue, <code>OnSelect</code> in Blazor, <code>lily-change</code> in Web Components, <code>lily:select</code> in Alpine, <code>combobox-select</code> in HTML and Nunjucks).</li>
+      <li><code>children</code>: slot (required) -- <code>role="option"</code> elements rendered inside the listbox dropdown.</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the wrapper <code>&lt;div&gt;</code>.</li>
     </ul>
 </section>

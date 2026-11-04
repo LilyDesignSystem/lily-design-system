@@ -1422,27 +1422,56 @@ export default function lily(Alpine) {
                 this.active = "";
             },
             "@keydown"(event) {
-                if (event.key === "Escape") {
-                    if (this.open) event.preventDefault();
+                if (event.isComposing) return;
+                const close = () => {
+                    event.preventDefault();
                     this.open = false;
                     this.active = "";
+                };
+                const options = this.visible().filter(
+                    (o) => o.getAttribute("aria-disabled") !== "true",
+                );
+                if (event.key === "Escape") {
+                    if (this.open) close();
                     return;
                 }
                 if (event.key === "Enter") {
-                    const el = this.visible().find((o) => o.id === this.active);
+                    const el = options.find((o) => o.id === this.active);
                     if (this.open && el) {
                         event.preventDefault();
                         this.choose(el);
                     }
                     return;
                 }
-                if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+                if (event.altKey && event.key === "ArrowUp") {
+                    if (this.open) close();
+                    return;
+                }
+                if (event.altKey && event.key === "ArrowDown") {
+                    if (this.open || !options.length) return;
+                    event.preventDefault();
+                    this.open = true;
+                    return;
+                }
+                const arrow = event.key === "ArrowDown" || event.key === "ArrowUp";
+                const jump = this.open && (event.key === "Home" || event.key === "End");
+                if ((!arrow && !jump) || !options.length) return;
                 event.preventDefault();
+                const target = !this.open
+                    ? options[event.key === "ArrowDown" ? 0 : options.length - 1]
+                    : menuTarget(
+                          event.key,
+                          options,
+                          options.findIndex((o) => o.id === this.active),
+                          false,
+                      );
                 this.open = true;
-                const options = this.visible();
-                if (!options.length) return;
-                const from = options.findIndex((o) => o.id === this.active);
-                this.active = menuTarget(event.key, options, from, false).id;
+                this.active = target.id;
+                target.scrollIntoView?.({ block: "nearest" });
+            },
+            "@blur"() {
+                this.open = false;
+                this.active = "";
             },
         },
         listbox: {
