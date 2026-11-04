@@ -30,6 +30,11 @@ It does **not** cover: how the NHS palette and tokens are actually wired (see [t
 | Origin UI Angular | Angular + Tailwind port on RadixNG + Angular CDK         |
 | Coss UI           | Modern components built on Base UI (Origin UI successor) |
 | Reuters Graphics  | Svelte components for editorial graphics                 |
+| React Aria        | Pattern testers, calendars (survey item 1, 6)            |
+| Base UI           | CSP Provider, positioning variables (survey item 3)      |
+| Angular Aria      | Angular's own headless directives (survey item 13)       |
+| Lion              | White-label layer, validation states (survey item 9)     |
+| KoliBri           | German federal web components, EUPL (survey)             |
 
 ## Styled / opinionated design systems
 
@@ -43,6 +48,11 @@ It does **not** cover: how the NHS palette and tokens are actually wired (see [t
 | Mozilla Protocol     | Mozilla                      |
 | Skeleton             | Svelte + Tailwind UI toolkit |
 | Wonderflow Wanda     | Wonderflow                   |
+| Cauldron             | Deque, MPL-2.0               |
+| Elastic UI (EUI)     | Elastic; ESLint plugin       |
+| PatternFly           | Red Hat; codemods            |
+| Polaris              | Shopify; web components      |
+| Primer               | GitHub; lifecycle            |
 | Design System AU     | Australian Government        |
 
 ## Public-sector reference designs
@@ -56,6 +66,11 @@ These are the visual languages the example apps target. NHS UK is the current de
 | ONSdigital Design System | UK Office for National Statistics         |
 | U.S. Web Design System   | USWDS, maintained by 18F / GSA            |
 | 18F UI Library           | Historically led USWDS development        |
+| NL Design System         | Relay model and baseline (Netherlands)    |
+| Aksel                    | Patterns, lint and MCP (Norway, NAV)      |
+| Designsystemet           | Native polyfills (Norway, Digdir)         |
+| Suomi.fi Design System   | Screen-reader matrix (Finland)            |
+| UAE Design System        | Candidate theme (UAE, TDRA)               |
 
 ## NHS UK canonical pages
 
@@ -125,6 +140,7 @@ Reuters-specific branding, third-party integrations, or already-covered componen
 - [accessibility](../accessibility/index.md) — WAI-ARIA APG and the standards these references inform
 - [components](../components/index.md) — the catalog the Reuters-influenced slugs live in
 - [overview](../overview/index.md) — Lily's vision and where these references fit
+- [design-system-survey-lessons](../design-system-survey-lessons/index.md) — the 2026-11-03 survey these later rows come from
 
 ## Sources
 

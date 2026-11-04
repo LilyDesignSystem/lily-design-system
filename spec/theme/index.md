@@ -287,6 +287,27 @@ The dated record of each public-sector theme's identity changes (created, re-bas
 
 The six adopted themes were built 2026-10-31 (tasks.md P17-T9a): `canada-government-of-canada-design-system`, `singapore-government-design-system`, `japan-digital-agency-design-system`, `brazil-padrao-digital-de-governo`, `european-union-europa-component-library` and `australia-agriculture-design-system`, from each system's published tokens (ECL: colour values only, no code, because EUPL is copyleft). Provenance rows are in `themes/references.tsv`.
 
+### Candidates read 2026-11-03 (P23-T12)
+
+From the [design system survey](../design-system-survey-lessons/index.md). Licences are as read from each repository or npm
+listing that day. Regions still without a public-sector theme include the Arab world, Africa, Spanish-speaking Latin
+America, the Nordics and South Asia. These are recommendations, not yet maintainer decisions.
+
+| System            | Country / body   | Licence (source)                                                    | Recommendation                                                                          |
+| ----------------- | ---------------- | ------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| UAE Design System | UAE, TDRA        | MIT (`TDRA-ae/aegov-dls`)                                           | Adopt first, after verifying RTL support; tokens only, not its Tailwind base            |
+| Designsystemet    | Norway, Digdir   | MIT (`digdir/designsystemet`)                                       | Adopt second                                                                            |
+| Aksel             | Norway, NAV      | MIT (`navikt/aksel`)                                                | Defer: one agency's look, and Designsystemet serves Norway more broadly                 |
+| Suomi.fi          | Finland, DVV     | MIT on npm; GitHub cannot identify the repository's licence         | Defer until the licence file is read                                                    |
+| NL Design System  | Netherlands      | EUPL-1.2 (`nl-design-system/candidate`)                             | Decline a theme: it is an architecture for many organisations' identities, not one look |
+| KoliBri           | Germany, ITZBund | EUPL-1.2 (`public-ui/kolibri`)                                      | Decline a theme: its components are design-independent; ideas only                      |
+| Kit UI (GOV.CO)   | Colombia, MinTIC | Not read (`govco-collection-webcomponents` on npm)                  | Defer until a licence is read; it would be the first Spanish-speaking system            |
+| UX4G              | India            | Still none on `ux4g/ux4g-design-system-v1` (last pushed 2023-08-18) | Defer, as before; the site's v3 was not read                                            |
+| Diia              | Ukraine          | No open UI design system found                                      | None to adopt                                                                           |
+
+No open government UI system was found for Nigeria, Kenya, South Africa or Rwanda, in English searches only. That is a
+gap in the evidence, not a finding that none exists.
+
 ## Forbidden in the headless layer
 
 None of the following may appear in headless markup; they live in example CSS and consume the theme custom properties.
