@@ -34,5 +34,5 @@
       ]
     }
   },
-  "exclude": ["node_modules", "dist", "examples", "docs"]
+  "exclude": ["node_modules", "dist", "examples", "docs", "vitest.config.ts"]
 }
