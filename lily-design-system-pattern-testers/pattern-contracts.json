@@ -734,7 +734,7 @@
     ]
   },
   "grid": {
-    "source": "WAI-ARIA APG grid, moving between cells with a roving tabindex (lily-design-system-svelte-data-grid). Row 0 is the header row. Sorting, editing and selection are the helper's own.",
+    "source": "WAI-ARIA APG grid, moving between cells with a roving tabindex (lily-design-system-svelte-data-grid). Row 0 is the header row. grid-actions covers sorting, editing and selection.",
     "fixture": {
       "columns": [
         {
@@ -1269,6 +1269,171 @@
         "expect": {
           "focus": "Two",
           "expanded": false
+        }
+      }
+    ]
+  },
+  "grid-actions": {
+    "source": "Sorting, editing and selecting a data grid from the keyboard (lily-design-system-svelte-data-grid). Row 0 is the header row and column 0 the selection column. Saving an edit is the consumer's, so the editor is only seen to close.",
+    "fixture": {
+      "columns": [
+        {
+          "id": "a",
+          "header": "Alpha",
+          "sortable": true,
+          "editable": true
+        },
+        {
+          "id": "b",
+          "header": "Beta"
+        },
+        {
+          "id": "c",
+          "header": "Gamma"
+        }
+      ],
+      "rows": [
+        {
+          "id": "1",
+          "a": "A1",
+          "b": "B1",
+          "c": "C1"
+        },
+        {
+          "id": "2",
+          "a": "A2",
+          "b": "B2",
+          "c": "C2"
+        },
+        {
+          "id": "3",
+          "a": "A3",
+          "b": "B3",
+          "c": "C3"
+        }
+      ],
+      "selectionMode": "multiple"
+    },
+    "steps": [
+      {
+        "name": "the cursor starts on the first cell",
+        "expect": {
+          "cell": [
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "name": "ArrowRight reaches a sortable header",
+        "press": "ArrowRight",
+        "expect": {
+          "cell": [
+            0,
+            1
+          ]
+        }
+      },
+      {
+        "name": "Enter sorts ascending",
+        "press": "Enter",
+        "expect": {
+          "cell": [
+            0,
+            1
+          ],
+          "sort": "ascending"
+        }
+      },
+      {
+        "name": "Enter sorts descending",
+        "press": "Enter",
+        "expect": {
+          "cell": [
+            0,
+            1
+          ],
+          "sort": "descending"
+        }
+      },
+      {
+        "name": "Enter again sorts ascending or clears",
+        "press": "Enter",
+        "expect": {
+          "cell": [
+            0,
+            1
+          ]
+        }
+      },
+      {
+        "name": "ArrowDown reaches an editable cell",
+        "press": "ArrowDown",
+        "expect": {
+          "cell": [
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "name": "Enter opens the editor",
+        "press": "Enter",
+        "expect": {
+          "editing": true
+        }
+      },
+      {
+        "name": "Escape closes it and returns to the cell",
+        "press": "Escape",
+        "expect": {
+          "editing": false,
+          "cell": [
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "name": "Enter opens it again",
+        "press": "Enter",
+        "expect": {
+          "editing": true
+        }
+      },
+      {
+        "name": "Enter commits and returns to the cell",
+        "press": "Enter",
+        "expect": {
+          "editing": false,
+          "cell": [
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "name": "ArrowLeft reaches the selection cell",
+        "press": "ArrowLeft",
+        "expect": {
+          "cell": [
+            1,
+            0
+          ]
+        }
+      },
+      {
+        "name": "Space selects the row",
+        "press": " ",
+        "expect": {
+          "selected": true
+        }
+      },
+      {
+        "name": "Space deselects the row",
+        "press": " ",
+        "expect": {
+          "selected": false
         }
       }
     ]

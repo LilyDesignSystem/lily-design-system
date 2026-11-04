@@ -58,6 +58,7 @@ export type PatternName =
     | SubmenuPatternName
     | OverlayPatternName
     | "grid"
+    | "grid-actions"
     | "autosuggest"
     | "tree-expand";
 
@@ -74,6 +75,8 @@ export interface PatternOptions {
     click?: (target: HTMLElement) => void | Promise<void>;
     /** Open the widget, for `combobox` and `dialog`, which can also be opened from outside: set the prop, or call the API. */
     open?: () => void | Promise<void>;
+    /** `grid-actions`: leave out the editing steps, for a grid with no in-place editing. */
+    noEditing?: boolean;
     /** Wrap a DOM event in the framework's batching, such as React's `act`. */
     act?: (run: () => Promise<void>) => void | Promise<void>;
 }
@@ -122,7 +125,7 @@ interface GridStep {
     name: string;
     press?: string;
     ctrl?: boolean;
-    expect: { cell: [Index, Index] };
+    expect: { cell?: [Index, Index]; sort?: string; editing?: boolean; selected?: boolean };
 }
 
 /** The suggestions of the `autosuggest` contract, for a test to pass to what it renders. */
@@ -130,6 +133,9 @@ export const autosuggestFixture = contracts.autosuggest.fixture;
 
 /** The columns and rows of the `grid` contract, for a test to pass to the grid it renders. */
 export const gridFixture = contracts.grid.fixture;
+
+/** The columns, rows and selection mode of the `grid-actions` contract. */
+export const gridActionsFixture = contracts["grid-actions"].fixture;
 
 const tick = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
 
@@ -421,11 +427,11 @@ async function runDialog(options: PatternOptions): Promise<void> {
     }
 }
 
-async function runGrid(options: PatternOptions): Promise<void> {
+async function runGrid(options: PatternOptions, pattern: "grid" | "grid-actions"): Promise<void> {
     const { root, hook } = options;
     const doc = root.ownerDocument;
     const fail = (name: string, message: string): never => {
-        throw new Error(`grid, ${hook}, "${name}": ${message}`);
+        throw new Error(`${pattern}, ${hook}, "${name}": ${message}`);
     };
     // Some catalogs rebuild the table on a move, so it is found afresh each time.
     const grid = (): HTMLElement => {
@@ -446,7 +452,16 @@ async function runGrid(options: PatternOptions): Promise<void> {
             .flat()
             .filter((cell) => cell.getAttribute("tabindex") === "0");
 
-    for (const [index, step] of (contracts.grid.steps as unknown as GridStep[]).entries()) {
+    const editor = (): HTMLElement | null =>
+        grid().querySelector<HTMLElement>(
+            '[role="gridcell"] input:not([type="checkbox"]), td input:not([type="checkbox"]), td textarea, td select',
+        );
+    let last: HTMLElement | null = null;
+
+    const steps = (contracts[pattern].steps as unknown as GridStep[]).filter(
+        (step) => !(options.noEditing && step.expect.editing !== undefined),
+    );
+    for (const [index, step] of steps.entries()) {
         if (index === 0) tabbable()[0]?.focus();
         else if (step.press) {
             const target = doc.activeElement;
@@ -459,16 +474,36 @@ async function runGrid(options: PatternOptions): Promise<void> {
             });
             await fire(target, event, options);
         }
-        const all = rows();
-        const [wantRow, wantCol] = step.expect.cell;
-        const row = all[wantRow === "last" ? all.length - 1 : wantRow];
-        const cell = row?.[wantCol === "last" ? row.length - 1 : wantCol];
-        if (!cell) return fail(step.name, `no cell at ${step.expect.cell}`);
-        if (!cell.contains(doc.activeElement))
-            fail(step.name, `focus is on "${doc.activeElement?.textContent?.trim()}"`);
-        const stops = tabbable();
-        if (stops.length !== 1 || stops[0] !== cell)
-            fail(step.name, `${stops.length} tab stop(s), and the cell must be the one`);
+        const { cell: where, sort, editing, selected } = step.expect;
+        if (editing !== undefined) {
+            const open = editor();
+            if (!!open !== editing) fail(step.name, `the editor is ${open ? "open" : "closed"}`);
+            if (open && doc.activeElement !== open) fail(step.name, "focus is not in the editor");
+        }
+        if (where) {
+            const all = rows();
+            const [wantRow, wantCol] = where;
+            const row = all[wantRow === "last" ? all.length - 1 : wantRow];
+            const cell = row?.[wantCol === "last" ? row.length - 1 : wantCol];
+            if (!cell) return fail(step.name, `no cell at ${where}`);
+            if (!cell.contains(doc.activeElement))
+                fail(step.name, `focus is on "${doc.activeElement?.textContent?.trim()}"`);
+            const stops = tabbable();
+            if (stops.length !== 1 || stops[0] !== cell)
+                fail(step.name, `${stops.length} tab stop(s), and the cell must be the one`);
+            last = cell;
+        }
+        if (sort !== undefined) {
+            const got = last?.closest("th, [role='columnheader']")?.getAttribute("aria-sort");
+            if (got !== sort) fail(step.name, `aria-sort is ${got}`);
+        }
+        if (selected !== undefined) {
+            // Some catalogs rebuild the table, so the row is found from focus.
+            const got = doc.activeElement
+                ?.closest("tr, [role='row']")
+                ?.getAttribute("aria-selected");
+            if ((got === "true") !== selected) fail(step.name, `aria-selected is ${got}`);
+        }
     }
 }
 
@@ -570,7 +605,7 @@ async function runTreeExpand(options: PatternOptions): Promise<void> {
 export async function runPattern(pattern: PatternName, options: PatternOptions): Promise<void> {
     if (pattern === "autosuggest") return runAutosuggest(options);
     if (pattern === "tree-expand") return runTreeExpand(options);
-    if (pattern === "grid") return runGrid(options);
+    if (pattern === "grid" || pattern === "grid-actions") return runGrid(options, pattern);
     if (pattern === "combobox") return runCombobox(options);
     if (pattern === "menu-submenu" || pattern === "menubar-submenu")
         return runSubmenu(pattern, options);

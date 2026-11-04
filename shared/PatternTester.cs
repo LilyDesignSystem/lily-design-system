@@ -33,9 +33,9 @@ public static class PatternTester
             RunAutosuggest(cut, hook);
             return;
         }
-        if (pattern == "grid")
+        if (pattern is "grid" or "grid-actions")
         {
-            RunGrid(cut, hook);
+            RunGrid(cut, pattern, hook);
             return;
         }
         if (pattern is "combobox" or "dialog")
@@ -141,30 +141,50 @@ public static class PatternTester
         }
     }
 
-    // No focus here, so a step proves where the one tab stop went.
-    private static void RunGrid<T>(IRenderedComponent<T> cut, string hook) where T : IComponent
+    // No focus here, so a step proves where the one tab stop went. An open editor takes the key, as focus would send it.
+    private static void RunGrid<T>(IRenderedComponent<T> cut, string pattern, string hook) where T : IComponent
     {
         var first = true;
-        foreach (var step in Contracts().GetProperty("grid").GetProperty("steps").EnumerateArray())
+        AngleSharp.Dom.IElement? last = null;
+        const string Editor = "[role='grid'] td input:not([type='checkbox']), [role='grid'] td textarea, [role='grid'] td select";
+        foreach (var step in Contracts().GetProperty(pattern).GetProperty("steps").EnumerateArray())
         {
             var name = step.GetProperty("name").GetString();
-            void Fail(string message) => throw new Exception($"grid, {hook}, \"{name}\": {message}");
+            void Fail(string message) => throw new Exception($"{pattern}, {hook}, \"{name}\": {message}");
             if (!first && step.TryGetProperty("press", out var press))
-                cut.Find("[role='grid']").KeyDown(new KeyboardEventArgs
+            {
+                var editors = cut.FindAll(Editor);
+                var target = editors.Count > 0 ? editors[0] : cut.Find("[role='grid']");
+                target.KeyDown(new KeyboardEventArgs
                 {
                     Key = press.GetString()!,
                     CtrlKey = step.TryGetProperty("ctrl", out _),
                 });
+            }
             first = false;
 
+            var expected = step.GetProperty("expect");
+            if (expected.TryGetProperty("editing", out var editing) && cut.FindAll(Editor).Count > 0 != editing.GetBoolean())
+                Fail($"the editor is {(cut.FindAll(Editor).Count > 0 ? "open" : "closed")}");
             var rows = cut.FindAll("[role='grid'] tr").Select(row => row.QuerySelectorAll("th, td").ToArray()).ToArray();
-            var want = step.GetProperty("expect").GetProperty("cell");
-            var wantRow = want[0];
-            var wantCol = want[1];
-            var cells = rows[wantRow.ValueKind == JsonValueKind.Number ? wantRow.GetInt32() : rows.Length - 1];
-            var cell = cells[wantCol.ValueKind == JsonValueKind.Number ? wantCol.GetInt32() : cells.Length - 1];
             var stops = rows.SelectMany(row => row).Where(c => c.GetAttribute("tabindex") == "0").ToArray();
-            if (stops.Length != 1 || stops[0] != cell) Fail($"{stops.Length} tab stop(s), and the cell must be the one");
+            if (expected.TryGetProperty("cell", out var want))
+            {
+                var wantRow = want[0];
+                var wantCol = want[1];
+                var cells = rows[wantRow.ValueKind == JsonValueKind.Number ? wantRow.GetInt32() : rows.Length - 1];
+                var cell = cells[wantCol.ValueKind == JsonValueKind.Number ? wantCol.GetInt32() : cells.Length - 1];
+                if (stops.Length != 1 || stops[0] != cell) Fail($"{stops.Length} tab stop(s), and the cell must be the one");
+                last = cell;
+            }
+            if (expected.TryGetProperty("sort", out var sort) && last?.GetAttribute("aria-sort") != sort.GetString())
+                Fail($"aria-sort is {last?.GetAttribute("aria-sort")}");
+            if (expected.TryGetProperty("selected", out var selected))
+            {
+                var row = stops.FirstOrDefault()?.Closest("tr");
+                if ((row?.GetAttribute("aria-selected") == "true") != selected.GetBoolean())
+                    Fail($"aria-selected is {row?.GetAttribute("aria-selected")}");
+            }
         }
     }
 

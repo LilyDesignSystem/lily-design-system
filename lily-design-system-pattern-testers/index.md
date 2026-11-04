@@ -26,7 +26,8 @@ leaves out. Keep testing with a screen reader and real users.
 | `menu-submenu`, `menubar-submenu` | Opening, moving in and closing a submenu, and moving along the bar from one | Hover, pointer                |               |
 | `tree`              | Moving between visible `treeitem`s, type-ahead, Enter and Space activating | Which item is selected, which is yours |               |
 | `tree-expand`       | ArrowRight and ArrowLeft on a branch                                 | Right-to-left, which swaps them            |               |
-| `grid`              | Arrows, Home, End, the Ctrl corners, page keys, exactly one tab stop | Sorting, editing, selection                |               |
+| `grid`              | Arrows, Home, End, the Ctrl corners, page keys, exactly one tab stop |                                            |               |
+| `grid-actions`      | Sorting, opening, cancelling and committing an editor, selecting a row, by key | Saving an edit, which is yours  | `noEditing`, for a grid with no editor |
 | `autosuggest`       | A list-autocomplete combobox: arrows, Alt+Arrow, Home, End, Enter, Escape | Filtering, which is yours                  |               |
 | `combobox`          | List autocomplete on your options: arrows, Alt+Arrow, Home, End, Enter, Escape, typing, a click | Filtering, which is yours | `open` |
 | `dialog`            | A named modal `<dialog>`, focus in and back, Escape and `cancel`     | The Tab trap and inert page: the browser's | `open`        |

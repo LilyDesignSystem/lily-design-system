@@ -246,6 +246,7 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 | `combobox`          | `combobox`                                                           | 8        | 8    |
 | `dialog`            | `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`       | 7        | 35   |
 | `grid`              | the `data-grid` helper                                               | 8        | 8    |
+| `grid-actions`      | the `data-grid` helper; Alpine, which has no editor, with `noEditing` | 8        | 8    |
 | `autosuggest`       | `autosuggest`                                                        | 8        | 8    |
 | `tree-expand`       | `tree-list-item`, or `tree-list` where the tree owns the keys        | 8        | 8    |
 
@@ -269,7 +270,7 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
   `autosuggest` covers the same keys, for suggestions passed as data. `dialog` opens through each catalog's own way of opening it;
   where the engine has no `showModal` (jsdom) the driver stubs it the way a browser behaves, and the Tab trap and inert page stay the
   browser's part. `grid` runs against the `data-grid` helper because no headless component has a cell cursor: `grid` and `data-table`
-  are passive. Row 0 is the header row. Sorting, editing and selection stay in the helper's own tests. Alpine also runs
+  are passive. Row 0 is the header row. `grid-actions` drives sorting, editing and selection by key; it found HTML, Web Components and Nunjucks dropping focus to the page on Enter or Space, since rebuilding the table lost the cell. Alpine also runs
   all three (`dialog` on `dialog` only). Nunjucks runs `grid` and `combobox`, but has no client behaviour for `dialog`.
 - **Escape belongs to the innermost widget.** The `combobox` contract found that Svelte, React, Vue and Angular called `preventDefault`
   on Escape while the list was closed, and that Alpine did not call it while open. The `dialog` contract found that every overlay closed

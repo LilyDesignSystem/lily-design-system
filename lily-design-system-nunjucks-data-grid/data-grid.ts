@@ -1585,6 +1585,8 @@ export class DataGrid extends HTMLElement {
     }
 
     #activateFocusedCell(): void {
+        // Sorting or selecting rebuilds the table, so the focused cell has to be found again.
+        this.#pendingFocus = "cell";
         const activeRow = this.#activeRow;
         if (this.#activeCol === 0 && this.#hasSelection) {
             if (activeRow === -1) {

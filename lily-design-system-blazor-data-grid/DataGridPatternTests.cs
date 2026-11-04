@@ -22,4 +22,19 @@ public class DataGridPatternTests : TestContext
                 .ToArray()));
         PatternTester.Run(cut, "grid", "data-grid");
     }
+
+    [Fact]
+    public void Meets_the_grid_actions_contract()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+        var ids = new[] { "a", "b", "c" };
+        var cut = RenderComponent<DataGrid>(p => p
+            .Add(x => x.Label, "People")
+            .Add(x => x.SelectionMode, DataGridSelectionMode.Multiple)
+            .Add(x => x.Columns, ids.Select(id => new DataGridColumn { Id = id, Header = id, Sortable = id == "a", Editable = id == "a" }).ToArray())
+            .Add(x => x.Rows, Enumerable.Range(1, 3)
+                .Select(n => new DataGridRow(ids.Select(id => new KeyValuePair<string, object?>(id, $"{id}{n}"))))
+                .ToArray()));
+        PatternTester.Run(cut, "grid-actions", "data-grid");
+    }
 }
