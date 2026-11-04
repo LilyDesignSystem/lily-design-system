@@ -65,6 +65,7 @@ export const MIME_TYPES: Record<ExportFormat, string> = {
 // Delimited text (CSV / TSV)
 // ---------------------------------------------------------------------
 
+// Spreadsheets run a cell that starts with one of these as a formula (CSV injection). A leading `'` makes them read it as text.
 const FORMULA_START = /^[=+\-@\t\r]/;
 
 /** One cell as text. Numbers and booleans are never treated as formulas; only strings are defused. */
@@ -84,6 +85,7 @@ export function cellText(value: unknown, safe = true): string {
 }
 
 function quoteField(text: string, delimiter: string): string {
+    // RFC 4180: quote a field holding the delimiter, a quote or a line break, and double any quote inside it.
     return text.includes(delimiter) || /["\r\n]/.test(text)
         ? `"${text.replace(/"/g, '""')}"`
         : text;
@@ -97,6 +99,7 @@ export function toDelimited(table: ExportTable, options: DelimitedOptions = {}):
         lines.push(
             table.headers.map((h) => quoteField(cellText(h, safe), delimiter)).join(delimiter),
         );
+    // Rows are read by header position, so a short row is padded with empty fields and a long one is cut: every line has the same width.
     for (const row of table.rows) {
         lines.push(
             table.headers
@@ -104,6 +107,7 @@ export function toDelimited(table: ExportTable, options: DelimitedOptions = {}):
                 .join(delimiter),
         );
     }
+    // The byte-order mark is what tells Excel the file is UTF-8 rather than the system code page. The file ends with a line ending, as RFC 4180 allows.
     return (bom ? "﻿" : "") + lines.join(eol) + (lines.length > 0 ? eol : "");
 }
 
@@ -127,7 +131,7 @@ export function toTsv(
 
 const encoder = new TextEncoder();
 
-/** XML text with the characters XML 1.0 forbids removed. */
+/** XML text with the characters XML 1.0 forbids removed (most control characters and U+FFFE / U+FFFF; tab, line feed and carriage return are allowed). */
 function xmlEscape(text: string): string {
     return text
         .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F￾￿]/g, "")
@@ -148,10 +152,13 @@ export function columnName(index: number): string {
 }
 
 /** Days since 1899-12-30 (Excel's day 0, with its 1900 leap-year quirk absorbed), with the time of day as a fraction. */
+// 25,569 is the number of days from 1899-12-30 to the Unix epoch. Starting on 30 December rather than 1 January is what absorbs Excel's
+// belief that 1900 was a leap year, so serials are right for every date from March 1900 on.
 function excelSerial(date: Date): number {
     return date.getTime() / 86_400_000 + 25_569;
 }
 
+// Excel refuses a sheet name over 31 characters or with any of `[ ] : * ? / \`, so those are cleaned rather than left to corrupt the file.
 function sheetNameFor(name: string): string {
     const cleaned = name
         .replace(/[[\]:*?/\\]/g, " ")
@@ -187,10 +194,12 @@ function formulaXml(ref: string, value: ExportFormula): string {
         return `<c r="${ref}"><f>${expression}</f><v>${result}</v></c>`;
     if (typeof result === "boolean")
         return `<c r="${ref}" t="b"><f>${expression}</f><v>${result ? 1 : 0}</v></c>`;
+    // A cached date result gets the same date or date-and-time style as a plain date cell.
     if (result instanceof Date && !Number.isNaN(result.getTime())) {
         const timeOfDay = result.getTime() % 86_400_000 !== 0;
         return `<c r="${ref}" s="${timeOfDay ? 2 : 1}"><f>${expression}</f><v>${excelSerial(result)}</v></c>`;
     }
+    // No cached result: the cell still carries its formula, and the spreadsheet recalculates it on open.
     if (result === null || result === undefined) return `<c r="${ref}"><f>${expression}</f></c>`;
     return `<c r="${ref}" t="str"><f>${expression}</f><v>${xmlEscape(String(result))}</v></c>`;
 }
@@ -201,13 +210,14 @@ function cellXml(ref: string, value: unknown, headerStyle = false): string {
     const s = headerStyle ? ' s="3"' : "";
     if (value instanceof Date) {
         if (Number.isNaN(value.getTime())) return "";
+        // A date is stored as a serial number, shown by a date style: style 1 for a whole day (UTC midnight), 2 when it has a time of day.
         const timeOfDay = value.getTime() % 86_400_000 !== 0;
         return `<c r="${ref}" s="${timeOfDay ? 2 : 1}"><v>${excelSerial(value)}</v></c>`;
     }
     if (typeof value === "number")
         return Number.isFinite(value) ? `<c r="${ref}"${s}><v>${value}</v></c>` : "";
     if (typeof value === "boolean") return `<c r="${ref}"${s} t="b"><v>${value ? 1 : 0}</v></c>`;
-    // A string is stored as text, so it is never read as a formula.
+    // A string is stored inline as text (no shared-strings part to maintain), so it is never read as a formula: no `'` defusing is needed here.
     return `<c r="${ref}"${s} t="inlineStr"><is><t xml:space="preserve">${xmlEscape(String(value))}</t></is></c>`;
 }
 
@@ -230,6 +240,7 @@ function sheetXml(table: ExportTable, header: boolean): string {
     return (
         '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
         '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">' +
+        // Freeze the header row so it stays visible while scrolling.
         (header && table.headers.length > 0
             ? '<sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>'
             : "") +
@@ -268,6 +279,8 @@ export function toXlsx(table: ExportTable, options: XlsxOptions = {}): Uint8Arra
         "xl/styles.xml": STYLES_XML,
         "xl/worksheets/sheet1.xml": sheetXml(table, header),
     };
+    // The parts above are the minimum Excel needs to open a workbook: content types, the root relationship, the workbook, its relationships,
+    // the styles and one sheet.
     return zipStore(
         Object.entries(files).map(([name, text]) => ({ name, data: encoder.encode(text) })),
     );
@@ -279,6 +292,7 @@ export function toXlsx(table: ExportTable, options: XlsxOptions = {}): Uint8Arra
 
 let crcTable: Uint32Array | undefined;
 
+// The standard CRC-32 (the reflected polynomial 0xEDB88320), which ZIP requires for every entry. The table is built on first use.
 export function crc32(bytes: Uint8Array): number {
     if (!crcTable) {
         crcTable = new Uint32Array(256);
@@ -297,7 +311,10 @@ export function crc32(bytes: Uint8Array): number {
 const DOS_TIME = 0x0000;
 const DOS_DATE = 0x0021;
 
-/** A ZIP archive holding `entries` uncompressed. */
+/**
+ * A ZIP archive holding `entries` uncompressed. Layout: each entry's local header, name and data, then the central directory (one
+ * record per entry), then the end record. Sizes and offsets are 32-bit, so there is no ZIP64: an archive over 4 GB is not supported.
+ */
 export function zipStore(entries: { name: string; data: Uint8Array }[]): Uint8Array {
     const parts: Uint8Array[] = [];
     const central: Uint8Array[] = [];
@@ -308,7 +325,8 @@ export function zipStore(entries: { name: string; data: Uint8Array }[]): Uint8Ar
         const local = new DataView(new ArrayBuffer(30));
         local.setUint32(0, 0x04034b50, true);
         local.setUint16(4, 20, true); // version needed
-        local.setUint16(6, 0x0800, true); // flags: UTF-8 names
+        local.setUint16(6, 0x0800, true); // flags: bit 11, names are UTF-8
+        // Stored, so the compressed and uncompressed sizes below are the same number.
         local.setUint16(8, 0, true); // method: stored
         local.setUint16(10, DOS_TIME, true);
         local.setUint16(12, DOS_DATE, true);
@@ -331,11 +349,12 @@ export function zipStore(entries: { name: string; data: Uint8Array }[]): Uint8Ar
         entry.setUint32(20, data.length, true);
         entry.setUint32(24, data.length, true);
         entry.setUint16(28, nameBytes.length, true);
-        entry.setUint32(42, offset, true);
+        entry.setUint32(42, offset, true); // where this entry's local header starts
         central.push(new Uint8Array(entry.buffer), nameBytes);
 
         offset += 30 + nameBytes.length + data.length;
     }
+    // The end record points at the central directory: its size and its start, which is where the local entries stopped.
     const centralSize = central.reduce((n, p) => n + p.length, 0);
     const end = new DataView(new ArrayBuffer(22));
     end.setUint32(0, 0x06054b50, true);
@@ -373,6 +392,7 @@ export function exportBlob(
     return new Blob([text], { type: MIME_TYPES[format] });
 }
 
+// Characters that are illegal in a file name on at least one common system become `-`, and an empty name becomes "export".
 /** A filename with the format's extension, without doubling one the name already has. */
 export function exportFilename(base: string, format: ExportFormat): string {
     const cleaned = base.replace(/[\\/:*?"<>|\u0000-\u001F]/g, "-").trim() || "export";
@@ -388,6 +408,7 @@ export function downloadBlob(blob: Blob, filename: string): void {
     link.href = url;
     link.download = filename;
     link.style.display = "none";
+    // The link is attached while it is clicked because some browsers ignore a click on a detached anchor.
     document.body.appendChild(link);
     link.click();
     link.remove();
