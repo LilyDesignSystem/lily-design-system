@@ -90,12 +90,16 @@
 
     // The starting text, which a form reset restores (bind:value reads defaultValue).
     const initialValue = untrack(() => value);
+    // `wanted` is what the user asked for (typing or arrowing asks for the list; Escape, choosing and blur withdraw it). The list is open only
+    // when it is wanted AND there is something to show, so suggestions arriving late from a fetch open it, and an empty result closes it.
     let wanted = $state(false);
+    // The highlighted option's index, -1 for none. It resets on typing, choosing, Escape and blur, so Enter never picks a row from an earlier list.
     let active = $state(-1);
     const open = $derived(wanted && suggestions.length > 0);
 
     function choose(index: number) {
         const suggestion = suggestions[index];
+        // Guard against an index from before the suggestions changed.
         if (!suggestion) return;
         value = suggestion.value;
         wanted = false;
@@ -115,14 +119,17 @@
         switch (event.key) {
             case "ArrowDown":
                 if (count === 0) return;
+                // Closed: open on the first option. Open: step down, wrapping from the last to the first.
                 active = open ? (active + 1) % count : 0;
                 wanted = true;
                 break;
             case "ArrowUp":
                 if (count === 0) return;
+                // Closed, or at the first option (or none): go to the last. Otherwise step up.
                 active = open && active > 0 ? active - 1 : count - 1;
                 wanted = true;
                 break;
+            // Home, End, Enter and Escape return without preventDefault when closed, so the input keeps its normal editing keys (Home moves the caret).
             case "Home":
                 if (!open) return;
                 active = 0;
@@ -143,6 +150,7 @@
             default:
                 return;
         }
+        // Only keys this component acted on reach here; the rest (typing, Tab) keep their native behaviour.
         event.preventDefault();
     }
 
