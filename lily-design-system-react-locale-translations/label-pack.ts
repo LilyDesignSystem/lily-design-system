@@ -153,7 +153,6 @@ export const SPEC: Record<LabelHelper, Record<string, string[]>> = {
     },
 };
 
-/** The pack keys that are objects of plain strings handed over as they are (export headers, operator names). */
 /** Which shared (`common`) labels each helper takes; the filter takes none. */
 const COMMON_FOR: Record<LabelHelper, string[]> = {
     "data-grid": [
@@ -206,21 +205,24 @@ const COMMON_FOR: Record<LabelHelper, string[]> = {
     filter: [],
 };
 
+/** The pack keys that are objects of plain strings handed over as they are (export headers). */
 const OBJECT_LABELS = new Set(["exportHeaders"]);
 
+// Every placeholder value goes through here, so whatever the app passes (an `Error`, a list, a number, nothing) becomes safe text.
 function text(value: unknown): string {
     if (value instanceof Error) return value.message;
     if (Array.isArray(value)) return value.map(text).join(", ");
     return value === null || value === undefined ? "" : String(value);
 }
 
+// Follow a property path, giving `undefined` (never a throw) when a step is missing.
 function read(arg: unknown, path: string[]): unknown {
     let value = arg;
     for (const key of path) value = (value as Record<string, unknown> | null | undefined)?.[key];
     return value;
 }
 
-/** Fill `{name}` placeholders from a name -> text map; an unknown placeholder is left as written. */
+/** Fill `{name}` placeholders from a name -> text map; an unknown placeholder is left as written, so a typo in a pack shows up on screen. */
 export function fillTemplate(template: string, values: Record<string, string>): string {
     return template.replace(/\{(\w+)\}/g, (whole, name: string) =>
         name in values ? values[name] : whole,
@@ -236,6 +238,7 @@ function build(template: LabelTemplate, params: string[]): (...args: unknown[]) 
             // One argument may feed several placeholders: "a=obj.a|b=obj.b".
             for (const param of spec.split("|")) {
                 if (param.startsWith("@")) {
+                    // A select (`@direction`): the argument chooses among the value's keys, with `other` as the fallback. It adds no placeholder.
                     const key = text(arg);
                     if (typeof template !== "string") chosen = template[key] ?? template.other;
                     continue;
@@ -246,9 +249,11 @@ function build(template: LabelTemplate, params: string[]): (...args: unknown[]) 
                 // An object without the named property (a calendar event with no `title`) is shown by its id, as the helpers do.
                 if (param.includes("=") && (value === undefined || value === null || value === ""))
                     value = read(arg, ["id"]);
+                // The export format is shown upper-cased (`xlsx` -> `XLSX`); every other value as it is.
                 values[name] = name === "format" ? text(value).toUpperCase() : text(value);
             }
         });
+        // A select with no matching key and no `other` yields an empty string rather than a half-filled template.
         return fillTemplate(chosen ?? "", values);
     };
 }
@@ -261,6 +266,8 @@ function build(template: LabelTemplate, params: string[]): (...args: unknown[]) 
 export function labelsFor(helper: LabelHelper, pack: LabelPack): Record<string, unknown> {
     const merged = mergedLabels(helper, pack);
     const spec = SPEC[helper];
+    // Three kinds of key become labels: a function label named in SPEC (built from its template), a plain string, and the object labels
+    // above. Anything else in a pack section is ignored.
     const out: Record<string, unknown> = {};
     for (const [key, value] of Object.entries(merged)) {
         if (key === "operators") {
@@ -279,6 +286,7 @@ export function mergedLabels(
     helper: LabelHelper,
     pack: LabelPack,
 ): Record<string, LabelTemplate | Record<string, string>> {
+    // Spread order is the precedence: the helper's own section comes last, so it wins over a shared label of the same name.
     return {
         ...Object.fromEntries(
             Object.entries(pack.common ?? {}).filter(([key]) => COMMON_FOR[helper].includes(key)),
@@ -289,6 +297,7 @@ export function mergedLabels(
 
 /** Every label key a helper's pack should hold (plain strings and templated functions), for coverage checks. */
 export function packKeys(helper: LabelHelper, pack: LabelPack): string[] {
+    // The same merge as `mergedLabels`, keys only.
     return Object.keys({
         ...Object.fromEntries(
             Object.entries(pack.common ?? {}).filter(([key]) => COMMON_FOR[helper].includes(key)),
