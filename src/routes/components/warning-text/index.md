@@ -28,7 +28,7 @@ The component renders a `<div>` holding an optional icon and a `<strong>` line. 
 ```svelte
 <WarningText>
   {#snippet icon()}!{/snippet}
-  <span class="visually-hidden">Warning</span>
+  <span class="screen-reader-span">Warning</span>
   You can be fined up to £5,000 if you do not register.
 </WarningText>
 ```
