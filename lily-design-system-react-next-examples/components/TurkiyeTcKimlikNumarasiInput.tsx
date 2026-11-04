@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Turkish_Identification_Number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TurkiyeTcKimlikNumarasiInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function TurkiyeTcKimlikNumarasiInput({
     onChange,
     ...restProps
 }: TurkiyeTcKimlikNumarasiInputProps) {
+    warnMissingName(
+        "TurkiyeTcKimlikNumarasiInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`turkiye-tc-kimlik-numarasi-input ${className}`}

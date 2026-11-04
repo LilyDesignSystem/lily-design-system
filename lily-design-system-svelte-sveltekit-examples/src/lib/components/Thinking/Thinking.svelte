@@ -21,6 +21,7 @@
     //
     // Claude rules:
     //   - Headless: no CSS, no animation, no hardcoded strings
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -41,6 +42,10 @@
         children?: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("Thinking", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 </script>
 
 <!-- Thinking.svelte -->

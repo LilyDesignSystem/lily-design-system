@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/RUT
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ChileRolUnicoNacionalInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function ChileRolUnicoNacionalInput({
     onChange,
     ...restProps
 }: ChileRolUnicoNacionalInputProps) {
+    warnMissingName(
+        "ChileRolUnicoNacionalInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`chile-rol-unico-nacional-input ${className}`}

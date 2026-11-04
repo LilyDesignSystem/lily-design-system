@@ -45,6 +45,8 @@
     // References:
     //   - HSE: https://www.hse.ie/
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -64,6 +66,15 @@
         /** Additional HTML attributes */
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "EireIndividualHealthIdentifierInput",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     const ihiPattern = "[0-9]{10}";
 </script>

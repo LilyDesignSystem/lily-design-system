@@ -42,6 +42,7 @@
 //   - MDN input type="week": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/week
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface WeekInputProps {
     className?: string;
@@ -67,6 +68,7 @@ export default function WeekInput({
     onChange,
     ...restProps
 }: WeekInputProps) {
+    warnMissingName("WeekInput", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <input
             className={`week-input ${className}`}

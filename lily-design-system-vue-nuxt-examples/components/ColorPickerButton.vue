@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // ColorPickerButton component
 //
 // A headless button representing a single predefined color choice within a color
@@ -45,7 +47,7 @@
 // References:
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         color: string;
         label: string;
@@ -56,6 +58,13 @@ withDefaults(
         selected: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "ColorPickerButton",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 </script>
 

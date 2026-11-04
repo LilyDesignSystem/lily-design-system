@@ -45,6 +45,7 @@
 //   - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface DateInputProps {
     className?: string;
@@ -76,6 +77,7 @@ export default function DateInput({
     onChange,
     ...restProps
 }: DateInputProps) {
+    warnMissingName("DateInput", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <input
             className={`date-input ${className}`}

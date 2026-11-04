@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Social_Insurance_Number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface CanadaSocialInsuranceNumberInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function CanadaSocialInsuranceNumberInput({
     onChange,
     ...restProps
 }: CanadaSocialInsuranceNumberInputProps) {
+    warnMissingName(
+        "CanadaSocialInsuranceNumberInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`canada-social-insurance-number-input ${className}`}

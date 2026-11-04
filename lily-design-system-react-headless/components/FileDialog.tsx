@@ -49,6 +49,7 @@
 import React, { useRef } from "react";
 
 import { useModalDialog } from "./Dialog";
+import { warnMissingName } from "./dev-warning";
 
 export interface FileDialogProps {
     className?: string;
@@ -68,6 +69,7 @@ export default function FileDialog({
     children,
     ...restProps
 }: FileDialogProps) {
+    warnMissingName("FileDialog", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const ref = useRef<HTMLDialogElement>(null);
 
     // A real modal (tasks.md P14-T4): showModal() makes the page behind inert and traps Tab; Escape fires `cancel`.

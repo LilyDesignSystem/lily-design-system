@@ -56,7 +56,8 @@
 // References:
 //   - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
-import { nextTick } from "vue";
+import { nextTick, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -69,6 +70,8 @@ const props = withDefaults(
         side: "right",
     },
 );
+
+warnMissingName("Sheet", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const open = defineModel<boolean>("open", { default: false });
 

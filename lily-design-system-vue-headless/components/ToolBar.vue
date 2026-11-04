@@ -48,12 +48,15 @@
 // References:
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
     /** Accessible label. */
     label: string;
 }>();
+
+warnMissingName("ToolBar", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const toolbarRef = ref<HTMLElement | undefined>(undefined);
 

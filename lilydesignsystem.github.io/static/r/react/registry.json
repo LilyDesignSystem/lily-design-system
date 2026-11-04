@@ -10,6 +10,7 @@
       "description": "A checkbox option that reveals an accordion panel when checked.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/form-reset-utils"
       ],
       "categories": [
@@ -236,6 +237,9 @@
       "title": "AlbaCommunityHealthIndexInput",
       "description": "An input for entering Scotland's Community Health Index (CHI).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -307,6 +311,9 @@
       "title": "AngleSliderRangeInput",
       "description": "A range input for selecting an angle in degrees.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -358,6 +365,9 @@
       "title": "AotearoaNationalHealthIndexInput",
       "description": "An input for entering New Zealand's National Health Index (NHI) Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -409,6 +419,9 @@
       "title": "ArgentinaCodigoUnicoDeIdentificacionLaboralInput",
       "description": "An input for entering Argentina's Codigo Unico de Identificacion Laboral (CUIL).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -460,6 +473,9 @@
       "title": "AsSaudiyahRaqmAlHuwiyahAlWataniyahInput",
       "description": "An input for entering Saudi Arabia's National Identification Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -511,6 +527,9 @@
       "title": "AustraliaIndividualHealthcareIdentifierInput",
       "description": "An input for entering Australia's Individual Healthcare Identifier (IHI).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -545,6 +564,9 @@
       "title": "AustraliaTaxFileNumberInput",
       "description": "An input for entering Australia's Tax File Number (TFN).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -580,6 +602,7 @@
       "description": "A text input that proposes matching options as users type.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/form-reset-utils"
       ],
       "categories": [
@@ -786,6 +809,9 @@
       "title": "BelgiqueNumeroDeRegistreNationalInput",
       "description": "An input for entering Belgium's Numéro de Registre National / Rijksregisternummer (NRN).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -820,6 +846,9 @@
       "title": "BharatAadhaarInput",
       "description": "An input for entering India's Aadhaar number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -888,6 +917,9 @@
       "title": "BrasilCartaoNacionalDeSaudeInput",
       "description": "An input for entering Brazil's Cartao Nacional de Saude (CNS).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -973,6 +1005,9 @@
       "title": "BreadcrumbNav",
       "description": "A navigation container for breadcrumb trail links.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -990,6 +1025,9 @@
       "title": "BulgariaEdinenGrazhdanskiNomerInput",
       "description": "An input for entering Bulgaria's Единен граждански номер / Edinen grazhdanski nomer (EGN).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -1313,6 +1351,9 @@
       "title": "CanadaSocialInsuranceNumberInput",
       "description": "An input for entering Canada's Social Insurance Number (SIN).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -1452,6 +1493,9 @@
       "title": "CeskoCestovniPasInput",
       "description": "An input for entering Czech Republic's Cestovní pas.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -1486,6 +1530,9 @@
       "title": "CeskoRodneCisloInput",
       "description": "An input for entering Czech Republic's Rodné číslo (RČ).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -1622,6 +1669,9 @@
       "title": "ChatNav",
       "description": "A navigation container for chat information.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -1673,6 +1723,9 @@
       "title": "CheckboxGroup",
       "description": "A group component that manages a collection of checkboxes with shared state.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -1691,6 +1744,7 @@
       "description": "A checkbox input for toggling a boolean value <input type=\"checkbox\">.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/form-reset-utils"
       ],
       "categories": [
@@ -1710,6 +1764,9 @@
       "title": "ChileRolUnicoNacionalInput",
       "description": "An input for entering Chile's Rol Unico Nacional (RUN).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -1795,6 +1852,9 @@
       "title": "ClipboardCopyButton",
       "description": "A button that copies text to the clipboard.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "buttons"
       ],
@@ -1917,6 +1977,9 @@
       "title": "ColombiaCedulaDeCiudadaniaInput",
       "description": "An input for entering Colombia's Cedula de Ciudadania Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -1968,6 +2031,9 @@
       "title": "ColorPicker",
       "description": "A two-dimensional board for picking colors by hue and saturation.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "pickers"
       ],
@@ -1985,6 +2051,9 @@
       "title": "ColorPickerButton",
       "description": "A button showing a color swatch in a color picker.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "pickers"
       ],
@@ -2020,6 +2089,7 @@
       "description": "A text input combined with a dropdown list for filtering options.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/popover"
       ],
       "categories": [
@@ -2039,6 +2109,9 @@
       "title": "Command",
       "description": "A command palette for searching and executing actions.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -2227,6 +2300,7 @@
       "description": "A menu that appears on right-click or long-press.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/popover"
       ],
       "categories": [
@@ -2419,6 +2493,9 @@
       "title": "CymruRhifYGwasanaethIechydGwladolInput",
       "description": "An input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -2453,6 +2530,9 @@
       "title": "DanmarkPersonnummerInput",
       "description": "An input for entering Denmark's Personnummer (CPR-nummer) (CPR).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -2640,6 +2720,9 @@
       "title": "DateInput",
       "description": "An input for entering a date value <input type=\"date\">.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -2657,6 +2740,9 @@
       "title": "DateRange",
       "description": "Paired start and end date inputs.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -2674,6 +2760,9 @@
       "title": "DateTimeLocalInput",
       "description": "An input for entering a date and time without time zone <input type=\"datetime-local\">.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -2691,6 +2780,9 @@
       "title": "DateTimeNowInput",
       "description": "An input for entering a date and time and \"now\" button <input type=\"date\"><input type=\"time\"><button type=\"button\">.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -2776,6 +2868,9 @@
       "title": "DeutschlandKrankenversichertennummerInput",
       "description": "An input for entering Germany's Krankenversichertennummer (KVNR).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -2824,6 +2919,9 @@
       "title": "Dial",
       "description": "A rotary dial control for selecting a value.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -2858,6 +2956,9 @@
       "title": "Dialog",
       "description": "A modal or non-modal dialog window.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "overlays"
       ],
@@ -3045,6 +3146,9 @@
       "title": "Drawer",
       "description": "A panel that slides in from the edge of the screen.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "overlays"
       ],
@@ -3063,6 +3167,7 @@
       "description": "A menu that opens below a trigger button.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/popover"
       ],
       "categories": [
@@ -3082,6 +3187,9 @@
       "title": "EcuadorCedulaDeIdentidadInput",
       "description": "An input for entering Ecuador's Cedula de Identidad Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -3116,6 +3224,9 @@
       "title": "Editable",
       "description": "An inline-editable text element that toggles between view and edit modes.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -3133,6 +3244,9 @@
       "title": "EditableForm",
       "description": "A form wrapper for inline editing of content.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -3150,6 +3264,9 @@
       "title": "EestiIsikukoodInput",
       "description": "An input for entering Estonia's Isikukood (IK).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -3184,6 +3301,9 @@
       "title": "EireIndividualHealthIdentifierInput",
       "description": "An input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -3218,6 +3338,9 @@
       "title": "ElladaDematerialisedSecuritiesSystemInput",
       "description": "An input for entering Greece's Dematerialised Securities System (DSS).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -3354,6 +3477,9 @@
       "title": "EnglandNationalHealthServiceNumberInput",
       "description": "An input for entering England's National Health Service Number (NHS).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -3422,6 +3548,9 @@
       "title": "EspanaCodigoDeIdentificacionFiscalInput",
       "description": "An input for entering Spain's Código de Identificación Fiscal (CIF).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -3456,6 +3585,9 @@
       "title": "EspanaTarjetaSanitariaIndividualInput",
       "description": "An input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -3507,6 +3639,9 @@
       "title": "Expander",
       "description": "A control that expands to reveal more content.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -3610,6 +3745,7 @@
       "description": "A dialog for browsing and selecting files.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/dialog"
       ],
       "categories": [
@@ -3663,6 +3799,9 @@
       "title": "FileTree",
       "description": "A hierarchical tree of folders and files with expandable folders.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "lists"
       ],
@@ -3717,6 +3856,9 @@
       "title": "FiveFaceRatingPickerButton",
       "description": "A picker button for selecting a 1-5 satisfaction rating using face labels.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "pickers"
       ],
@@ -3768,6 +3910,9 @@
       "title": "FiveStarRatingPickerButton",
       "description": "A picker button for selecting a 1-5 star rating using radio buttons.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "pickers"
       ],
@@ -3955,6 +4100,9 @@
       "title": "FranceNumeroDIdentificationAuRepertoireInput",
       "description": "An input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -4142,6 +4290,9 @@
       "title": "GoToNextSection",
       "description": "A link that takes users to the next section of the current page.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "links"
       ],
@@ -4159,6 +4310,9 @@
       "title": "GoToPreviousSection",
       "description": "A link that takes users to the previous section of the current page.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "links"
       ],
@@ -4380,6 +4534,9 @@
       "title": "HangukJuminDeungnokBeonhoInput",
       "description": "An input for entering South Korea's Resident Registration Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -4550,6 +4707,9 @@
       "title": "HongKongIdentityCardInput",
       "description": "An input for entering Hong Kong's Identity Card Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -4584,6 +4744,9 @@
       "title": "HorizontalScroller",
       "description": "A horizontally scrollable content container.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -4621,6 +4784,9 @@
       "title": "HrvatskaOsobniIdentifikacijskiBrojInput",
       "description": "An input for entering Croatia's Osobni identifikacijski broj (OIB).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -4655,6 +4821,9 @@
       "title": "IbanInput",
       "description": "An input for entering an International Bank Account Number (IBAN).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -4828,6 +4997,9 @@
       "title": "IndonesiaNomorIndukKependudukanInput",
       "description": "An input for entering Indonesia's Nomor Induk Kependudukan (NIK).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -4964,6 +5136,9 @@
       "title": "IranKodEMelliInput",
       "description": "An input for entering Iran's National Code (Kod-e Melli).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -4998,6 +5173,9 @@
       "title": "IslandKennitalaInput",
       "description": "An input for entering Iceland's Kennitala.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5032,6 +5210,9 @@
       "title": "ItaliaCodiceFiscaleInput",
       "description": "An input for entering Italy's Codice fiscale (CF).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5219,6 +5400,9 @@
       "title": "KyprosNationalPassportNumberInput",
       "description": "An input for entering Kypros's National Passport Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5270,6 +5454,9 @@
       "title": "LatvijaPersonasKodsInput",
       "description": "An input for entering Latvia's Personas kods.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5304,6 +5491,9 @@
       "title": "LiechtensteinNationalIdentityCardNumberInput",
       "description": "An input for entering Liechtenstein's Liechtenstein National Identity Card Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5338,6 +5528,9 @@
       "title": "LiechtensteinPassportNumberInput",
       "description": "An input for entering Liechtenstein's Liechtenstein Passport Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5372,6 +5565,9 @@
       "title": "LietuvaAsmensKodasInput",
       "description": "An input for entering Lithuania's Asmens kodas.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5406,6 +5602,9 @@
       "title": "LietuvaPasasInput",
       "description": "An input for entering Lithuania's Pasas.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5458,6 +5657,7 @@
       "description": "A list of selectable options with keyboard navigation.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/listbox-machine-utils"
       ],
       "categories": [
@@ -5511,6 +5711,9 @@
       "title": "LuxembourgMatriculeInput",
       "description": "An input for entering Luxembourg's Numero d'Identification Nationale (Matricule).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5545,6 +5748,9 @@
       "title": "MagyarorszagTajSzamInput",
       "description": "An input for entering Hungary's Tarsadalombiztositasi Azonosito Jel (TAJ).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5579,6 +5785,9 @@
       "title": "MalaysiaKadPengenalanInput",
       "description": "An input for entering Malaysia's MyKad Number (NRIC).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5613,6 +5822,9 @@
       "title": "MaltaNationalIdentificationNumberInput",
       "description": "An input for entering Malta's Malta National Identification Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5647,6 +5859,9 @@
       "title": "MaltaPassportNumberInput",
       "description": "An input for entering Malta's Malta Passport Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -5817,6 +6032,9 @@
       "title": "MedicalBanner",
       "description": "A prominent message bar across the top of a page, with medical information.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "overlays"
       ],
@@ -5905,6 +6123,9 @@
       "title": "Menu",
       "description": "A list of actions or options triggered by a button.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -5922,6 +6143,9 @@
       "title": "MenuBar",
       "description": "A horizontal bar of menu triggers.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -6007,6 +6231,9 @@
       "title": "MexicoClaveUnicaDeRegistroDePoblacionInput",
       "description": "An input for entering Mexico's Clave Unica de Registro de Poblacion (CURP).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -6075,6 +6302,9 @@
       "title": "MisrAlRaqmAlQawmiInput",
       "description": "An input for entering Egypt's National Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -6280,6 +6510,7 @@
       "description": "A native select that allows choosing several options at once.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/form-reset-utils"
       ],
       "categories": [
@@ -6300,6 +6531,7 @@
       "description": "A multiple-choice select with additional features like search, groups, or selected-value chips.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/form-reset-utils"
       ],
       "categories": [
@@ -6356,6 +6588,9 @@
       "title": "NederlandBurgerserviceNummerInput",
       "description": "An input for entering Netherlands's Burgerservicenummer (BSN).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -6390,6 +6625,9 @@
       "title": "NederlandIdentiteitskaartNummerInput",
       "description": "An input for entering Netherlands's Identiteitskaart Nummer.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -6424,6 +6662,9 @@
       "title": "NederlandPaspoortNummerInput",
       "description": "An input for entering Netherlands's Paspoort Nummer.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -6458,6 +6699,9 @@
       "title": "NetPromoterScorePicker",
       "description": "A picker for selecting a 0-10 Net Promoter Score.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "pickers"
       ],
@@ -6475,6 +6719,9 @@
       "title": "NetPromoterScorePickerButton",
       "description": "A picker button for selecting a 0-10 Net Promoter Score.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "pickers"
       ],
@@ -6526,6 +6773,9 @@
       "title": "NigeriaNationalIdentificationNumberInput",
       "description": "An input for entering Nigeria's National Identification Number (NIN).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -6560,6 +6810,9 @@
       "title": "NihonKojinBangoInput",
       "description": "An input for entering Japan's Individual Number (My Number).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -6594,6 +6847,9 @@
       "title": "NorgeFodselsnummerInput",
       "description": "An input for entering Norway's Fødselsnummer.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -6662,6 +6918,9 @@
       "title": "OneTimePasswordInput",
       "description": "A single one-time-password input with a numeric keypad, SMS autofill, and a fixed length.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -6713,6 +6972,9 @@
       "title": "OsterreichSozialversicherungsnummerInput",
       "description": "An input for entering Austria's Sozialversicherungsnummer (SVNR).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -6812,6 +7074,9 @@
       "title": "PaginationList",
       "description": "An ordered list of pagination list items.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "lists"
       ],
@@ -6846,6 +7111,9 @@
       "title": "PaginationNav",
       "description": "An ordered list of page navigation links.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -6863,6 +7131,9 @@
       "title": "PakistanComputerizedNationalIdentityCardInput",
       "description": "An input for entering Pakistan's Computerized National Identity Card Number (CNIC).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -6931,6 +7202,9 @@
       "title": "PasswordInputOrTextInputDiv",
       "description": "An input for entering a password <input type=\"password\"> or text <input type=\"text\"> with show/hide toggle.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -7050,6 +7324,9 @@
       "title": "PilipinasPhilhealthIdentificationNumberInput",
       "description": "An input for entering the Philippines' PhilHealth Identification Number (PIN).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -7084,6 +7361,9 @@
       "title": "PinInputDiv",
       "description": "A series of single-digit inputs for entering a PIN or OTP code.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -7118,6 +7398,9 @@
       "title": "PolskaNumerIdentyfikacjiPodatkowejInput",
       "description": "An input for entering Poland's Numer Identyfikacji Podatkowej (NIP).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -7152,6 +7435,9 @@
       "title": "PolskaPeselInput",
       "description": "An input for entering Poland's PESEL.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -7206,6 +7492,9 @@
       "title": "Popover",
       "description": "A floating content box anchored to a trigger element.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -7224,6 +7513,7 @@
       "description": "A temporary overlay that appears above page content.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/popover"
       ],
       "categories": [
@@ -7243,6 +7533,9 @@
       "title": "PortugalNumeroDeIdentificacaoFiscalInput",
       "description": "An input for entering Portugal's Número de Identificação Fiscal (NIF).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -7277,6 +7570,9 @@
       "title": "PortugalPassaporteInput",
       "description": "An input for entering Portugal's Passaporte.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -7345,6 +7641,9 @@
       "title": "PrathetThaiLekPrajamTuaPrachachonInput",
       "description": "An input for entering Thailand's National Identification Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -7515,6 +7814,9 @@
       "title": "RadioGroup",
       "description": "A group of radio buttons for selecting one option.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -7549,6 +7851,9 @@
       "title": "RangeInput",
       "description": "A slider input for selecting a value within a range <input type=\"range\">.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -7566,6 +7871,9 @@
       "title": "RedAmberGreenPicker",
       "description": "A picker for selecting a red/amber/green status.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "pickers"
       ],
@@ -7583,6 +7891,9 @@
       "title": "RedAmberGreenPickerButton",
       "description": "A picker button for selecting a red/amber/green status.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "pickers"
       ],
@@ -7617,6 +7928,9 @@
       "title": "RedOrangeYellowGreenBluePicker",
       "description": "A picker for selecting a five-level color status.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "pickers"
       ],
@@ -7634,6 +7948,9 @@
       "title": "RedOrangeYellowGreenBluePickerButton",
       "description": "A picker button for selecting a five-level color status.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "pickers"
       ],
@@ -7753,6 +8070,9 @@
       "title": "RomaniaCodNumericPersonalInput",
       "description": "An input for entering Romania's Cod Numeric Personal (CNP).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -7787,6 +8107,9 @@
       "title": "RomaniaPasaportInput",
       "description": "An input for entering Romania's Paşaport.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -7821,6 +8144,9 @@
       "title": "RossiyaSnilsInput",
       "description": "An input for entering Russia's SNILS Individual Insurance Account Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -7889,6 +8215,9 @@
       "title": "SchweizAhvNummerInput",
       "description": "An input for entering Switzerland's AHV-Nummer / Numero AVS.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -7940,6 +8269,9 @@
       "title": "ScrollArea",
       "description": "A scrollable container with custom scrollbar support.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -7957,6 +8289,9 @@
       "title": "ScrollBar",
       "description": "A custom scrollbar element.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -8012,6 +8347,7 @@
       "description": "A video-driven scrollytelling component with frame-by-frame scrubbing.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/scroller-base"
       ],
       "categories": [
@@ -8031,6 +8367,9 @@
       "title": "SearchInput",
       "description": "An input for entering a search query <input type=\"search\">.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -8133,6 +8472,9 @@
       "title": "SegmentGroup",
       "description": "A group of mutually exclusive segment options.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -8167,6 +8509,9 @@
       "title": "Select",
       "description": "A dropdown select element for choosing one option.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -8184,6 +8529,9 @@
       "title": "SelectWithExtras",
       "description": "A select dropdown with additional features like search or groups.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -8235,6 +8583,9 @@
       "title": "Sheet",
       "description": "A panel that slides in from a screen edge as an overlay.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "overlays"
       ],
@@ -8303,6 +8654,9 @@
       "title": "SingaporeNationalRegistrationIdentityCardInput",
       "description": "An input for entering Singapore's National Registration Identity Card number (NRIC/FIN).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -8371,6 +8725,9 @@
       "title": "SlideOutDrawer",
       "description": "A drawer that slides out from the side of the page.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "overlays"
       ],
@@ -8388,6 +8745,9 @@
       "title": "Slider",
       "description": "A draggable control for selecting a value along a track.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -8405,6 +8765,9 @@
       "title": "SliderButton",
       "description": "A button with a slider that the user needs to slide to confirm.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "buttons"
       ],
@@ -8422,6 +8785,9 @@
       "title": "SlovenijaEmsoInput",
       "description": "An input for entering Slovenia's Enotna Matična Številka Občana (EMŠO).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -8456,6 +8822,9 @@
       "title": "SlovenskoPasInput",
       "description": "An input for entering Slovakia's Pas.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -8490,6 +8859,9 @@
       "title": "SlovenskoRodneCisloInput",
       "description": "An input for entering Slovakia's Rodné číslo (RČ).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -8541,6 +8913,9 @@
       "title": "SouthAfricaIdentityNumberInput",
       "description": "An input for entering South Africa's Identity Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -8593,6 +8968,7 @@
       "description": "A button with a primary action and a dropdown for related actions.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/popover"
       ],
       "categories": [
@@ -8629,6 +9005,9 @@
       "title": "Splitter",
       "description": "A draggable divider for resizing adjacent panels.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -8867,6 +9246,9 @@
       "title": "SuomiHenkilotunnusInput",
       "description": "An input for entering Finland's Henkilötunnus (HETU).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -8918,6 +9300,9 @@
       "title": "SverigePersonnummerInput",
       "description": "An input for entering Sweden's Personnummer.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -8952,6 +9337,9 @@
       "title": "SwitchButton",
       "description": "A toggle switch for turning a setting on or off.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "buttons"
       ],
@@ -8969,6 +9357,9 @@
       "title": "TabBar",
       "description": "A group of tabs for switching between content panels.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -9173,6 +9564,9 @@
       "title": "TagInput",
       "description": "An input for adding and removing tags.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -9190,6 +9584,9 @@
       "title": "TaiwanGuominShenfenzhengTongyiBianhaoInput",
       "description": "An input for entering Taiwan's National Identification Card Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -9224,6 +9621,9 @@
       "title": "TaskBar",
       "description": "A horizontal bar of task shortcuts or actions.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -9329,6 +9729,9 @@
       "title": "TextAreaInput",
       "description": "A multi-line text input area.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -9346,6 +9749,9 @@
       "title": "TextAreaInputWithCharacterCounter",
       "description": "A multi-line text area input with a caption below that is a character counter \"[number] of [maximum] characters\".",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -9380,6 +9786,9 @@
       "title": "TextInputWithSearch",
       "description": "A single-line text input field <input type=\"text\"> with search capability.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -9465,6 +9874,9 @@
       "title": "Thinking",
       "description": "A collapsible block that shows an AI agent's reasoning or thinking, closed by default.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -9499,6 +9911,9 @@
       "title": "TileMap",
       "description": "A tile cartogram map with configurable layers for geographic data visualization.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -9533,6 +9948,9 @@
       "title": "TimePickerInput",
       "description": "An input with a dropdown for picking a time.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -9621,6 +10039,9 @@
       "title": "TimerButton",
       "description": "A button with a timer that will automatically click after a given amount of time.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "buttons"
       ],
@@ -9689,6 +10110,9 @@
       "title": "ToolBar",
       "description": "A horizontal bar of tool actions.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -9826,6 +10250,7 @@
       "description": "A small popup showing descriptive text on hover or focus.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/popover"
       ],
       "categories": [
@@ -9964,6 +10389,9 @@
       "title": "TreeMenu",
       "description": "A hierarchical tree menu with expandable branches.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -9981,6 +10409,9 @@
       "title": "TreeNav",
       "description": "A hierarchical navigation with expandable branches.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -10018,6 +10449,9 @@
       "title": "TuaisceartEireannHealthAndCareNumberInput",
       "description": "An input for entering Tuaisceart Eireann Health and Care (H&C) Number unique national healthcare identifier.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -10052,6 +10486,9 @@
       "title": "TurkiyeTcKimlikNumarasiInput",
       "description": "An input for entering Turkey's T.C. Kimlik Numarasi.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -10086,6 +10523,9 @@
       "title": "UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput",
       "description": "An input for entering Ukraine's Taxpayer Registration Card Number (RNOKPP).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -10154,6 +10594,9 @@
       "title": "UnitedKingdomNationalInsuranceNumberInput",
       "description": "An input for entering United Kingdom's National Insurance Number (NINO).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -10239,6 +10682,9 @@
       "title": "UruguayCedulaDeIdentidadInput",
       "description": "An input for entering Uruguay's Cedula de Identidad Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -10307,6 +10753,9 @@
       "title": "VideoPlayer",
       "description": "A video player with play-in-view behavior, custom controls, and IntersectionObserver support.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -10324,6 +10773,9 @@
       "title": "VietNamCanCuocCongDanInput",
       "description": "An input for entering Viet Nam's Citizen Identification Number (CCCD).",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -10426,6 +10878,9 @@
       "title": "WeekInput",
       "description": "An input for selecting a week and year <input type=\"week\">.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -10444,6 +10899,7 @@
       "description": "A vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
+        "@lily/dev-warning-utils",
         "@lily/wheel-picker-utils"
       ],
       "categories": [
@@ -10477,6 +10933,9 @@
       "title": "YisraelTeudatZehutInput",
       "description": "An input for entering Israel's Teudat Zehut identity number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],
@@ -10511,6 +10970,9 @@
       "title": "ZhongguoJuminShenfenzhengHaomaInput",
       "description": "An input for entering China's Resident Identity Card Number.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "national"
       ],

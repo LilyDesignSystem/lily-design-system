@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { shallowRef } from "vue";
+import { shallowRef, useAttrs } from "vue";
 import { usePopoverState } from "./popover";
 // Combobox component
 //
@@ -56,11 +56,14 @@ import { usePopoverState } from "./popover";
 
 import { useId, ref } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
     /** Accessible label. */
     label: string;
 }>();
+
+warnMissingName("Combobox", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const modelValue = defineModel<string>({ default: "" });
 const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);

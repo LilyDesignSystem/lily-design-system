@@ -50,6 +50,7 @@
 //   - HTML ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface PaginationListProps {
     className?: string;
@@ -66,6 +67,7 @@ export default function PaginationList({
     children,
     ...restProps
 }: PaginationListProps) {
+    warnMissingName("PaginationList", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <ol
             className={`pagination-list ${className}`}

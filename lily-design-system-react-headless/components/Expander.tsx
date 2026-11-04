@@ -50,6 +50,7 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import React, { useState, useId } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ExpanderProps {
     className?: string;
@@ -72,6 +73,7 @@ export default function Expander({
     children,
     ...restProps
 }: ExpanderProps) {
+    warnMissingName("Expander", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [expanded, setExpanded] = useState(expandedProp);
     const contentId = useId();
 

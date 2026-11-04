@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Italian_fiscal_code
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ItaliaCodiceFiscaleInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function ItaliaCodiceFiscaleInput({
     onChange,
     ...restProps
 }: ItaliaCodiceFiscaleInputProps) {
+    warnMissingName(
+        "ItaliaCodiceFiscaleInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`italia-codice-fiscale-input ${className}`}

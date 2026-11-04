@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 // NetPromoterScorePicker component
 //
@@ -56,7 +57,7 @@ import { onBeforeUnmount, onMounted, ref } from "vue";
 //   - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
 //   - WAI-ARIA Radiogroup Role: https://www.w3.org/TR/wai-aria-1.2/#radiogroup
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label describing the rating input purpose */
         label: string;
@@ -66,6 +67,13 @@ withDefaults(
     {
         name: "nps",
     },
+);
+
+warnMissingName(
+    "NetPromoterScorePicker",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string>({ default: "" });

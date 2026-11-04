@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_identity_card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface AsSaudiyahRaqmAlHuwiyahAlWataniyahInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function AsSaudiyahRaqmAlHuwiyahAlWataniyahInput({
     onChange,
     ...restProps
 }: AsSaudiyahRaqmAlHuwiyahAlWataniyahInputProps) {
+    warnMissingName(
+        "AsSaudiyahRaqmAlHuwiyahAlWataniyahInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`as-saudiyah-raqm-al-huwiyah-al-wataniyah-input ${className}`}

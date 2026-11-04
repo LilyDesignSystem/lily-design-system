@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Personal_identification_number_(Portugal)
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface PortugalNumeroDeIdentificacaoFiscalInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function PortugalNumeroDeIdentificacaoFiscalInput({
     onChange,
     ...restProps
 }: PortugalNumeroDeIdentificacaoFiscalInputProps) {
+    warnMissingName(
+        "PortugalNumeroDeIdentificacaoFiscalInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`portugal-numero-de-identificacao-fiscal-input ${className}`}

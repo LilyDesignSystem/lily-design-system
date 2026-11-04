@@ -45,6 +45,7 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ColorPickerButtonProps {
     className?: string;
@@ -65,6 +66,12 @@ export default function ColorPickerButton({
     onClick = undefined,
     ...restProps
 }: ColorPickerButtonProps) {
+    warnMissingName(
+        "ColorPickerButton",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <button
             className={`color-picker-button ${className}`}

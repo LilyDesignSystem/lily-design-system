@@ -10,7 +10,9 @@ import {
     input,
     model,
     viewChild,
+    OnInit,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 import { popoverSupported, syncPopover, toggleOpened } from "./Popover";
 
@@ -50,7 +52,9 @@ let nextId = 0;
   </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DropdownMenu {
+export class DropdownMenu implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Whether the menu is open. Two-way bindable; Escape sets it to false. */
     readonly open = model<boolean>(false);
@@ -114,5 +118,15 @@ export class DropdownMenu {
                 this.open.set(false);
                 break;
         }
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "DropdownMenu",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

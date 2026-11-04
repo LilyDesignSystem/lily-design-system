@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/C%C3%A9dula_de_identidad
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface UruguayCedulaDeIdentidadInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function UruguayCedulaDeIdentidadInput({
     onChange,
     ...restProps
 }: UruguayCedulaDeIdentidadInputProps) {
+    warnMissingName(
+        "UruguayCedulaDeIdentidadInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`uruguay-cedula-de-identidad-input ${className}`}

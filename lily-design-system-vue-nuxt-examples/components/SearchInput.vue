@@ -45,10 +45,11 @@
 //   - MDN input type="search": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/search
 //   - WAI-ARIA Search Role: https://www.w3.org/WAI/ARIA/apg/patterns/search/
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label. */
         label: string;
@@ -61,6 +62,13 @@ withDefaults(
         required: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "SearchInput",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string>({ default: "" });

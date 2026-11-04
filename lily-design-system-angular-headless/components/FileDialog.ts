@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 import { ModalDialog } from "./Dialog";
 
@@ -25,7 +34,9 @@ import { ModalDialog } from "./Dialog";
     imports: [ModalDialog],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FileDialog {
+export class FileDialog implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Whether the dialog is shown. Two-way bindable; Escape sets it to false. */
     readonly open = model<boolean>(false);
@@ -41,5 +52,15 @@ export class FileDialog {
     protected onCancel(event: Event): void {
         event.preventDefault();
         this.open.set(false);
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "FileDialog",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

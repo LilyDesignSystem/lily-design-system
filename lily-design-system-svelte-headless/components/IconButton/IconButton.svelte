@@ -51,7 +51,7 @@
 
     import type { Snippet } from "svelte";
 
-    import { warnMissingName } from "./dev-warning";
+    import { warnMissingName } from "../dev-warning";
 
     let {
         class: className = "",

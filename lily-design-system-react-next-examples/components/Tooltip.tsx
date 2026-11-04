@@ -47,6 +47,7 @@
 
 import React from "react";
 import { usePopoverState } from "./Popover";
+import { warnMissingName } from "./dev-warning";
 
 export interface TooltipProps {
     className?: string;
@@ -66,6 +67,7 @@ export default function Tooltip({
     id = undefined,
     ...restProps
 }: TooltipProps) {
+    warnMissingName("Tooltip", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const panelRef = React.useRef<HTMLDivElement>(null);
     usePopoverState(panelRef, visible);
     return (

@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_identification_number#Belgium
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface BelgiqueNumeroDeRegistreNationalInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function BelgiqueNumeroDeRegistreNationalInput({
     onChange,
     ...restProps
 }: BelgiqueNumeroDeRegistreNationalInputProps) {
+    warnMissingName(
+        "BelgiqueNumeroDeRegistreNationalInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`belgique-numero-de-registre-national-input ${className}`}

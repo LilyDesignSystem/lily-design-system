@@ -48,10 +48,11 @@
 //   - MDN input type="date": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 //   - MDN fieldset element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-defineProps<{
+const props = defineProps<{
     /** Accessible group label. */
     label: string;
     /** Start date label. */
@@ -59,6 +60,8 @@ defineProps<{
     /** End date label. */
     endLabel: string;
 }>();
+
+warnMissingName("DateRange", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const start = defineModel<string>("start", { default: "" });
 const startField = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);

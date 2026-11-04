@@ -52,12 +52,15 @@
 //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog/
 //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
-import { onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label for the dialog. */
     label: string;
 }>();
+
+warnMissingName("Popover", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const open = defineModel<boolean>("open", { default: false });
 const el = ref<HTMLElement | null>(null);

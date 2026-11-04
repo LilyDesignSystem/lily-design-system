@@ -48,6 +48,7 @@
     // References:
     //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -62,6 +63,10 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("ToolBar", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 
     let toolbarRef: HTMLElement | undefined = $state(undefined);
 

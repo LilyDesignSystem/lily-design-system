@@ -33,6 +33,7 @@
     //   - Headless: no CSS, no inline styles; no animation (the selected option is centred instantly).
     //   - No hardcoded user-facing strings.
 
+    import { warnMissingName } from "../dev-warning";
     import {
         isWheelTypeaheadKey,
         nextWheelIndex,
@@ -74,6 +75,15 @@
         onChange?: (value: string) => void;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "WheelPicker",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     const uid = $props.id();
     let list: HTMLElement | undefined = $state();

@@ -31,6 +31,7 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 
 import React, { useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface MedicalBannerProps {
     className?: string;
@@ -59,6 +60,7 @@ export default function MedicalBanner({
     children,
     ...restProps
 }: MedicalBannerProps) {
+    warnMissingName("MedicalBanner", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [visible, setVisible] = useState(true);
 
     function dismiss() {

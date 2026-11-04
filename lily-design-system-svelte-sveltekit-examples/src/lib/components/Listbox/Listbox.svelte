@@ -104,6 +104,7 @@
     // References:
     //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     import { initialListboxState, listboxKeydown } from "./listbox-machine";
 
@@ -153,6 +154,10 @@
         onTabOut?: (event: KeyboardEvent) => void;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("Listbox", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 
     // Every keyboard decision lives in the framework-free machine (shared/listbox-machine.ts, copied here by
     // bin/sync-shared-modules); this component only reads the DOM and applies the transition it returns.

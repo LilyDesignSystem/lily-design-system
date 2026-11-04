@@ -27,6 +27,7 @@
     //
     // Claude rules:
     //   - Headless: no CSS; native keyboard only; uses $bindable() on value
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -53,6 +54,15 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "MultiSelect",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <!-- MultiSelect.svelte -->

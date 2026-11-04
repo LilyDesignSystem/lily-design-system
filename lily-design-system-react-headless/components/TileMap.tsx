@@ -24,6 +24,7 @@
 //   - Tile geometry / colour / data binding is the consumer's concern
 
 import React, { useRef } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TileMapProps {
     className?: string;
@@ -35,6 +36,7 @@ export interface TileMapProps {
 }
 
 export default function TileMap({ className = "", label, children, ...restProps }: TileMapProps) {
+    warnMissingName("TileMap", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const ref = useRef<HTMLDivElement>(null);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {

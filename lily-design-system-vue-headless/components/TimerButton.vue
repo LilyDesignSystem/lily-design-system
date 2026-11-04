@@ -24,7 +24,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - The component owns the timer; clears it on unmount and on activation
 
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -38,6 +39,13 @@ const props = withDefaults(
     {
         disabled: false,
     },
+);
+
+warnMissingName(
+    "TimerButton",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const emit = defineEmits<{

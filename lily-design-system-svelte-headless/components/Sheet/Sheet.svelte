@@ -58,6 +58,7 @@
     // References:
     //   - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     import { modalDialog } from "../Dialog/modal.js";
 
@@ -79,6 +80,10 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("Sheet", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 
     function onkeydown(event: KeyboardEvent) {
         if (event.key === "Escape") {

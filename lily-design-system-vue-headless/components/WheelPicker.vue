@@ -27,7 +27,8 @@
 // Keyboard (APG listbox, selection follows focus): ArrowDown / ArrowUp, Home / End, PageDown / PageUp, type-ahead over
 // the labels. Disabled options are skipped.
 
-import { computed, onMounted, ref, useId, watch, nextTick } from "vue";
+import { computed, onMounted, ref, useId, watch, nextTick, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 import {
     isWheelTypeaheadKey,
     nextWheelIndex,
@@ -60,6 +61,13 @@ const props = withDefaults(
         disabled: false,
         name: undefined,
     },
+);
+
+warnMissingName(
+    "WheelPicker",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<string>({ default: "" });

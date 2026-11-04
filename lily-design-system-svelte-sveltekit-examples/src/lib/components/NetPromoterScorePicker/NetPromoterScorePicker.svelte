@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { warnMissingName } from "../dev-warning";
     import { untrack } from "svelte";
     // NetPromoterScorePicker component
     //
@@ -70,6 +71,15 @@
         name?: string;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "NetPromoterScorePicker",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     // Form reset: the radios use a one-way `checked`, which a reset clears
     // without telling this component, so `value` would keep a rating the form no

@@ -23,6 +23,7 @@
 //   - https://ccss.public.lu/fr/glossaire/numero-identification-national/matricule-national.html
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface LuxembourgMatriculeInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function LuxembourgMatriculeInput({
     onChange,
     ...restProps
 }: LuxembourgMatriculeInputProps) {
+    warnMissingName(
+        "LuxembourgMatriculeInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`luxembourg-matricule-input ${className}`}

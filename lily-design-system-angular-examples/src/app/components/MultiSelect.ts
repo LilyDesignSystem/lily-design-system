@@ -6,7 +6,10 @@ import {
     input,
     model,
     viewChild,
+    OnInit,
+    inject,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import { restoreOnFormReset } from "./form-reset";
 
 /**
@@ -35,7 +38,9 @@ import { restoreOnFormReset } from "./form-reset";
   ><ng-content /></select>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MultiSelect {
+export class MultiSelect implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Accessible label, applied to aria-label. */
     readonly label = input.required<string>();
     readonly className = input<string>("");
@@ -60,5 +65,15 @@ export class MultiSelect {
 
     protected onChange(): void {
         this.value.set(Array.from(this.select().nativeElement.selectedOptions).map((o) => o.value));
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "MultiSelect",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

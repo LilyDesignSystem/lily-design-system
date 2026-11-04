@@ -30,6 +30,7 @@
 //     component models the keyboard fallback only
 
 import React, { useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SliderButtonProps {
     className?: string;
@@ -55,6 +56,7 @@ export default function SliderButton({
     children,
     ...restProps
 }: SliderButtonProps) {
+    warnMissingName("SliderButton", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [position, setPosition] = useState(0);
 
     const fireIfComplete = (next: number) => {

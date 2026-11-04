@@ -28,6 +28,7 @@
 //   - The component owns the timer; clears it on unmount and on activation
 
 import React, { useEffect, useRef, useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TimerButtonProps {
     className?: string;
@@ -53,6 +54,7 @@ export default function TimerButton({
     children,
     ...restProps
 }: TimerButtonProps) {
+    warnMissingName("TimerButton", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [remainingSeconds, setRemainingSeconds] = useState(duration);
     const firedRef = useRef(false);
 

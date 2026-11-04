@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Resident_Identity_Card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ZhongguoJuminShenfenzhengHaomaInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function ZhongguoJuminShenfenzhengHaomaInput({
     onChange,
     ...restProps
 }: ZhongguoJuminShenfenzhengHaomaInputProps) {
+    warnMissingName(
+        "ZhongguoJuminShenfenzhengHaomaInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`zhongguo-jumin-shenfenzheng-haoma-input ${className}`}

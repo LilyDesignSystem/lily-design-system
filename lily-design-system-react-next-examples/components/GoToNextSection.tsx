@@ -34,6 +34,7 @@
 //   - MDN <a>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface GoToNextSectionProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function GoToNextSection({
     href,
     ...restProps
 }: GoToNextSectionProps) {
+    warnMissingName(
+        "GoToNextSection",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <a
             className={`go-to-next-section ${className}`}

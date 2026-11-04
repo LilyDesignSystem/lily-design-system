@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // NetPromoterScorePickerButton component
 //
 // A headless button representing one score in a Net Promoter Score picker.
@@ -45,7 +47,7 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 //   - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** The NPS score value (0-10). */
         value: number;
@@ -60,6 +62,13 @@ withDefaults(
         selected: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "NetPromoterScorePickerButton",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 </script>
 

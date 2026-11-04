@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/NHS_number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface CymruRhifYGwasanaethIechydGwladolInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function CymruRhifYGwasanaethIechydGwladolInput({
     onChange,
     ...restProps
 }: CymruRhifYGwasanaethIechydGwladolInputProps) {
+    warnMissingName(
+        "CymruRhifYGwasanaethIechydGwladolInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`cymru-rhif-y-gwasanaeth-iechyd-gwladol-input ${className}`}

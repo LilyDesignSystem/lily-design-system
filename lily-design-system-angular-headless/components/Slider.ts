@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import { restoreOnFormReset } from "./form-reset";
 
 /**
@@ -14,7 +23,9 @@ import { restoreOnFormReset } from "./form-reset";
     template: `<input class="slider {{ className() }}" type="range" [attr.aria-label]="label() || null" [value]="value()" [min]="min()" [max]="max()" [step]="step()" [disabled]="disabled()" (input)="onInput($event)" />`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Slider {
+export class Slider implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     readonly className = input<string>("");
     /** Current value (two-way: [(value)]). */
@@ -30,5 +41,15 @@ export class Slider {
 
     onInput(event: Event): void {
         this.value.set(Number((event.target as HTMLInputElement).value));
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Slider",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

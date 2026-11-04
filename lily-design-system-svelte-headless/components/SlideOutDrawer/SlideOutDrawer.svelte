@@ -62,6 +62,7 @@
     //   - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
     //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     import { modalDialog } from "../Dialog/modal.js";
 
@@ -80,6 +81,15 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "SlideOutDrawer",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     // Handle keyboard events on the drawer.
     // Escape key closes the drawer, matching standard dialog behavior.

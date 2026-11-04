@@ -10,7 +10,9 @@ import {
     input,
     model,
     viewChild,
+    OnInit,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 import { syncPopover, toggleOpened } from "./Popover";
 
@@ -35,7 +37,9 @@ import { syncPopover, toggleOpened } from "./Popover";
   ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContextMenu {
+export class ContextMenu implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Whether the menu is visible. Two-way bindable; Escape sets it to false. */
     readonly open = model<boolean>(false);
@@ -93,5 +97,15 @@ export class ContextMenu {
                 this.open.set(false);
                 break;
         }
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "ContextMenu",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

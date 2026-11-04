@@ -46,6 +46,8 @@
     //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
     //   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         value,
@@ -67,6 +69,15 @@
         onclick?: (event: MouseEvent) => void;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "RedAmberGreenPickerButton",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 </script>
 
 <!-- RedAmberGreenPickerButton.svelte -->

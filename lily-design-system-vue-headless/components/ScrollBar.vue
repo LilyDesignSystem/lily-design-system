@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // ScrollBar component
 //
 // A headless scrollbar track element that provides the ARIA scrollbar role
@@ -88,6 +90,8 @@ const props = withDefaults(
         controls: undefined,
     },
 );
+
+warnMissingName("ScrollBar", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 /** Scroll position. */
 const modelValue = defineModel<number>({ default: 0 });

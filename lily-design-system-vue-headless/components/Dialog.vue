@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
 import { modalDialogRef } from "./dialog";
+import { warnMissingName } from "./dev-warning";
 // Dialog component
 //
 // A modal or non-modal dialog that overlays the main interface to communicate
@@ -66,6 +68,8 @@ const props = withDefaults(
         modal: true,
     },
 );
+
+warnMissingName("Dialog", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const open = defineModel<boolean>("open", { default: false });
 

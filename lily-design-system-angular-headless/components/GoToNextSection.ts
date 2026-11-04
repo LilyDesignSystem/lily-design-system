@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * GoToNextSection component
@@ -42,10 +50,22 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<a class="go-to-next-section {{ className() }}" [attr.href]="href() || null" [attr.aria-label]="label() || null">{{ label() }}</a>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GoToNextSection {
+export class GoToNextSection implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Visible text and accessible name. */
     readonly label = input<string>("");
     /** The next section's fragment, for example "#results". */
     readonly href = input<string>("");
     readonly className = input<string>("");
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "GoToNextSection",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
+    }
 }

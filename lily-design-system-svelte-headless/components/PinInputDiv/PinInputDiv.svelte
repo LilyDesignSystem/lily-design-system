@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { warnMissingName } from "../dev-warning";
     import { untrack } from "svelte";
     // PinInputDiv component
     //
@@ -83,6 +84,15 @@
         /** Additional HTML attributes */
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "PinInputDiv",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     // Internal state: array of individual digit characters.
     // Note: the length prop is captured at initialization time for the initial

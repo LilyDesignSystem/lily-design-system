@@ -52,6 +52,7 @@
 //   - MDN input type="range": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface RangeInputProps {
     className?: string;
@@ -83,6 +84,7 @@ export default function RangeInput({
     onChange,
     ...restProps
 }: RangeInputProps) {
+    warnMissingName("RangeInput", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <input
             className={`range-input ${className}`}

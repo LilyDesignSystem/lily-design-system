@@ -40,8 +40,9 @@
 // References:
 //   - WAI-ARIA textbox role: https://www.w3.org/TR/wai-aria-1.2/#textbox
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -54,6 +55,8 @@ const props = withDefaults(
         disabled: false,
     },
 );
+
+warnMissingName("TagInput", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const emit = defineEmits<{ add: [value: string] }>();
 

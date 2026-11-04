@@ -52,6 +52,7 @@
 //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 /** Whether this element has the Popover API (`showPopover` and `hidePopover`). */
 export function popoverSupported(node: HTMLElement): boolean {
@@ -120,6 +121,7 @@ export default function Popover({
     children,
     ...restProps
 }: PopoverProps) {
+    warnMissingName("Popover", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const ref = React.useRef<HTMLDivElement>(null);
     usePopoverState(ref, open, onChange);
     return (

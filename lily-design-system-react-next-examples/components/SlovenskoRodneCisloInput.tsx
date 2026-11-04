@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_identification_number#Slovakia
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SlovenskoRodneCisloInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function SlovenskoRodneCisloInput({
     onChange,
     ...restProps
 }: SlovenskoRodneCisloInputProps) {
+    warnMissingName(
+        "SlovenskoRodneCisloInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`slovensko-rodne-cislo-input ${className}`}

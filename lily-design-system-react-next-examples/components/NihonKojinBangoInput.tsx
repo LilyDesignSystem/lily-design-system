@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Individual_Number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface NihonKojinBangoInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function NihonKojinBangoInput({
     onChange,
     ...restProps
 }: NihonKojinBangoInputProps) {
+    warnMissingName(
+        "NihonKojinBangoInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`nihon-kojin-bango-input ${className}`}

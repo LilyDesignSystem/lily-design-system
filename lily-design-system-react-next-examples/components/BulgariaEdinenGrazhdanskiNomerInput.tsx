@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Unique_citizenship_number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface BulgariaEdinenGrazhdanskiNomerInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function BulgariaEdinenGrazhdanskiNomerInput({
     onChange,
     ...restProps
 }: BulgariaEdinenGrazhdanskiNomerInputProps) {
+    warnMissingName(
+        "BulgariaEdinenGrazhdanskiNomerInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`bulgaria-edinen-grazhdanski-nomer-input ${className}`}

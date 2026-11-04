@@ -53,7 +53,8 @@
 // References:
 //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
-import { nextTick } from "vue";
+import { nextTick, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -66,6 +67,8 @@ const props = withDefaults(
         side: "left",
     },
 );
+
+warnMissingName("Drawer", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const open = defineModel<boolean>("open", { default: false });
 

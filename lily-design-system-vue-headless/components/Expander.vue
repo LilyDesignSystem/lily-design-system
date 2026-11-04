@@ -50,12 +50,15 @@
 // References:
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
-import { useId } from "vue";
+import { useId, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
-defineProps<{
+const props = defineProps<{
     /** Button label / accessible name. */
     label: string;
 }>();
+
+warnMissingName("Expander", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const expanded = defineModel<boolean>("expanded", { default: false });
 

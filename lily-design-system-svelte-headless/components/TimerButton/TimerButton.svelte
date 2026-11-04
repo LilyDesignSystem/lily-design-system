@@ -42,6 +42,7 @@
     //   - WCAG 2.2.1 Timing Adjustable: https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html
     //   - MDN <button>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button
 
+    import { warnMissingName } from "../dev-warning";
     import { onMount, type Snippet } from "svelte";
     let {
         class: className = "",
@@ -62,6 +63,15 @@
         children?: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "TimerButton",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     let remaining = $state(0);
     let fired = false;

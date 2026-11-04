@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_identification_number#Estonia
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface EestiIsikukoodInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function EestiIsikukoodInput({
     onChange,
     ...restProps
 }: EestiIsikukoodInputProps) {
+    warnMissingName(
+        "EestiIsikukoodInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`eesti-isikukood-input ${className}`}

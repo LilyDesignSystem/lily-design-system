@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // ColorPicker component
 //
 // A headless 2D area selector for choosing colors by saturation (X axis, 0-100)
@@ -56,6 +58,13 @@ const props = withDefaults(
     {
         disabled: false,
     },
+);
+
+warnMissingName(
+    "ColorPicker",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const x = defineModel<number>("x", { default: 0 });

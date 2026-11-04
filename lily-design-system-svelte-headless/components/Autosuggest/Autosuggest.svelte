@@ -44,6 +44,7 @@
     // References:
     //   - WAI-ARIA APG combobox pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
+    import { warnMissingName } from "../dev-warning";
     import { untrack } from "svelte";
 
     const uid = $props.id();
@@ -77,6 +78,15 @@
         name?: string;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "Autosuggest",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     // The starting text, which a form reset restores (bind:value reads defaultValue).
     const initialValue = untrack(() => value);

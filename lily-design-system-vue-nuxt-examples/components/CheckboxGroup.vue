@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // CheckboxGroup component
 //
 // A headless fieldset container that groups related checkboxes under the ARIA
@@ -52,7 +54,7 @@
 //   - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 //   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label for the group. */
         label: string;
@@ -62,6 +64,13 @@ withDefaults(
     {
         disabled: false,
     },
+);
+
+warnMissingName(
+    "CheckboxGroup",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 </script>
 

@@ -64,6 +64,7 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 
 import { popoverSupported, usePopoverState } from "./Popover";
+import { warnMissingName } from "./dev-warning";
 
 export interface DropdownMenuProps {
     className?: string;
@@ -86,6 +87,7 @@ export default function DropdownMenu({
     children,
     ...restProps
 }: DropdownMenuProps) {
+    warnMissingName("DropdownMenu", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const reactId = useId();
     const menuId = `dropdown-menu-${reactId}`;
     const [open, setOpen] = useState(openProp);

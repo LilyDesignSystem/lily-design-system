@@ -47,6 +47,7 @@
 //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TreeNavProps {
     className?: string;
@@ -58,6 +59,7 @@ export interface TreeNavProps {
 }
 
 export default function TreeNav({ className = "", label, children, ...restProps }: TreeNavProps) {
+    warnMissingName("TreeNav", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <nav
             className={`tree-nav ${className}`}

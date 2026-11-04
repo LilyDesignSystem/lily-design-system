@@ -64,8 +64,9 @@
 // References:
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
-import { computed, ref } from "vue";
+import { computed, ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -95,6 +96,13 @@ const props = withDefaults(
         id: undefined,
         valueTextSuffix: "°",
     },
+);
+
+warnMissingName(
+    "AngleSliderRangeInput",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const modelValue = defineModel<number>({ default: 0 });

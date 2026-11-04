@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Personal_identification_number_(Croatia)
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface HrvatskaOsobniIdentifikacijskiBrojInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function HrvatskaOsobniIdentifikacijskiBrojInput({
     onChange,
     ...restProps
 }: HrvatskaOsobniIdentifikacijskiBrojInputProps) {
+    warnMissingName(
+        "HrvatskaOsobniIdentifikacijskiBrojInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`hrvatska-osobni-identifikacijski-broj-input ${className}`}

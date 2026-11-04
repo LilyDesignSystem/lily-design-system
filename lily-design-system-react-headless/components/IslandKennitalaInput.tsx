@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Kennitala
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface IslandKennitalaInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function IslandKennitalaInput({
     onChange,
     ...restProps
 }: IslandKennitalaInputProps) {
+    warnMissingName(
+        "IslandKennitalaInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`island-kennitala-input ${className}`}

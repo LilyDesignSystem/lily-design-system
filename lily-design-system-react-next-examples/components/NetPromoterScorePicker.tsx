@@ -54,6 +54,7 @@
 //   - WAI-ARIA Radiogroup Role: https://www.w3.org/TR/wai-aria-1.2/#radiogroup
 
 import React, { useEffect, useRef } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface NetPromoterScorePickerProps {
     className?: string;
@@ -76,6 +77,12 @@ export default function NetPromoterScorePicker({
     onChange,
     ...restProps
 }: NetPromoterScorePickerProps) {
+    warnMissingName(
+        "NetPromoterScorePicker",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const initialValue = useRef(value);
     const onChangeRef = useRef(onChange);
     onChangeRef.current = onChange;

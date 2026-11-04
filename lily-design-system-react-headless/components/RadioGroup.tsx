@@ -47,6 +47,7 @@
 //   - WAI-ARIA Authoring Practices - Radio Group: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface RadioGroupProps {
     className?: string;
@@ -63,6 +64,7 @@ export default function RadioGroup({
     children,
     ...restProps
 }: RadioGroupProps) {
+    warnMissingName("RadioGroup", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <fieldset
             className={`radio-group ${className}`}

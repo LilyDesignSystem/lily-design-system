@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/CPF_number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface BrasilCartaoNacionalDeSaudeInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function BrasilCartaoNacionalDeSaudeInput({
     onChange,
     ...restProps
 }: BrasilCartaoNacionalDeSaudeInputProps) {
+    warnMissingName(
+        "BrasilCartaoNacionalDeSaudeInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`brasil-cartao-nacional-de-saude-input ${className}`}

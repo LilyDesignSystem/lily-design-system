@@ -48,6 +48,7 @@
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
 import React, { useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ColorPickerProps {
     className?: string;
@@ -72,6 +73,7 @@ export default function ColorPicker({
     onChangeY,
     ...restProps
 }: ColorPickerProps) {
+    warnMissingName("ColorPicker", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [x, setX] = useState(xProp);
     const [y, setY] = useState(yProp);
 

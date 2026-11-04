@@ -24,12 +24,15 @@
 // Open/close is by toggling aria-expanded; consumer CSS hides the group of
 // a closed folder.
 
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label. */
     label: string;
 }>();
+
+warnMissingName("FileTree", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const treeRef = ref<HTMLElement | undefined>(undefined);
 

@@ -1,0 +1,18 @@
+{
+  "$comment": "Components that cannot warn in a port, with the reason. May only shrink.",
+  "svelte": {
+    "address-input": "its label is optional in this port, though components/address-input/AGENTS.md says required",
+    "chat-nav": "its label is optional in this port, though components/chat-nav/AGENTS.md says required",
+    "go-to-top": "its label is optional in this port, though components/go-to-top/AGENTS.md says required",
+    "mutually-exclusive": "its label is optional in this port, though components/mutually-exclusive/AGENTS.md says required",
+    "pagination-list": "its label is optional in this port, though components/pagination-list/AGENTS.md says required",
+    "share-page": "its label is optional in this port, though components/share-page/AGENTS.md says required",
+    "tree-menu": "its label is optional in this port, though components/tree-menu/AGENTS.md says required"
+  },
+  "react": {
+    "address-input": "its label is optional in this port, though components/address-input/AGENTS.md says required",
+    "go-to-top": "its label is optional in this port, though components/go-to-top/AGENTS.md says required",
+    "mutually-exclusive": "its label is optional in this port, though components/mutually-exclusive/AGENTS.md says required",
+    "share-page": "its label is optional in this port, though components/share-page/AGENTS.md says required"
+  }
+}

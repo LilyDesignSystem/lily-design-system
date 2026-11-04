@@ -48,6 +48,8 @@
     // References:
     //   - Ameli.fr: https://www.ameli.fr/assure/droits-demarches/principes/numero-securite-sociale
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -67,6 +69,15 @@
         /** Additional HTML attributes */
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "FranceNumeroDIdentificationAuRepertoireInput",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     // Pattern for NIR format: X XX XX XX XXX XXX XX
     // Defined as a constant to avoid Svelte template expression parsing of curly braces

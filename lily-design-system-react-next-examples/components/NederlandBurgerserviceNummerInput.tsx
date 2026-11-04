@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Burgerservicenummer
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface NederlandBurgerserviceNummerInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function NederlandBurgerserviceNummerInput({
     onChange,
     ...restProps
 }: NederlandBurgerserviceNummerInputProps) {
+    warnMissingName(
+        "NederlandBurgerserviceNummerInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`nederland-burgerservice-nummer-input ${className}`}

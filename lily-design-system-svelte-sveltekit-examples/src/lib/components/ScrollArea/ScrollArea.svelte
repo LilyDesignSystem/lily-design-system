@@ -52,6 +52,7 @@
     //   - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region
     //   - WCAG 2.1 Reflow: https://www.w3.org/WAI/WCAG21/Understanding/reflow.html
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
 
     let {
@@ -66,6 +67,10 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("ScrollArea", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 </script>
 
 <!-- ScrollArea.svelte -->

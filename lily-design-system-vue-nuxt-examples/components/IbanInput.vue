@@ -7,10 +7,11 @@
 // References:
 //   - https://en.wikipedia.org/wiki/International_Bank_Account_Number
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label: string;
         required?: boolean;
@@ -21,6 +22,8 @@ withDefaults(
         disabled: false,
     },
 );
+
+warnMissingName("IbanInput", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const modelValue = defineModel<string>({ default: "" });
 const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);

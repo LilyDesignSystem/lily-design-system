@@ -44,8 +44,9 @@
 // References:
 //   - WAI-ARIA APG combobox pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
-import { computed, ref, useId } from "vue";
+import { computed, ref, useId, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -63,6 +64,13 @@ const props = withDefaults(
         placeholder: undefined,
         name: undefined,
     },
+);
+
+warnMissingName(
+    "Autosuggest",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const emit = defineEmits<{ input: [query: string]; select: [value: string] }>();

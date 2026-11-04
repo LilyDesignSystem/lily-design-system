@@ -24,10 +24,11 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 
-import { ref, onMounted } from "vue";
+import { ref, onMounted, useAttrs } from "vue";
 import ScrollerBase from "./ScrollerBase.vue";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Video source URL. */
         src: string;
@@ -41,6 +42,13 @@ withDefaults(
     {
         offset: 0.5,
     },
+);
+
+warnMissingName(
+    "ScrollerVideo",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const emit = defineEmits<{

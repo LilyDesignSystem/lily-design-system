@@ -47,6 +47,7 @@
 //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface BreadcrumbNavProps {
     className?: string;
@@ -63,6 +64,7 @@ export default function BreadcrumbNav({
     children,
     ...restProps
 }: BreadcrumbNavProps) {
+    warnMissingName("BreadcrumbNav", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <nav
             className={`breadcrumb-nav ${className}`}

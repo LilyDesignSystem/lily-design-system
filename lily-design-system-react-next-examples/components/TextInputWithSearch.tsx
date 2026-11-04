@@ -42,6 +42,7 @@
 //   - WAI-ARIA search role: https://www.w3.org/TR/wai-aria-1.2/#search
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TextInputWithSearchProps {
     className?: string;
@@ -79,6 +80,12 @@ export default function TextInputWithSearch({
     disabled = false,
     ...restProps
 }: TextInputWithSearchProps) {
+    warnMissingName(
+        "TextInputWithSearch",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     function handleSearch() {
         onSearch?.(value);
     }

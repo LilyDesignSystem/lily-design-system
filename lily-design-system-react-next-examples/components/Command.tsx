@@ -51,6 +51,7 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface CommandProps {
     className?: string;
@@ -72,6 +73,7 @@ export default function Command({
     children,
     ...restProps
 }: CommandProps) {
+    warnMissingName("Command", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <div
             className={`command ${className}`}

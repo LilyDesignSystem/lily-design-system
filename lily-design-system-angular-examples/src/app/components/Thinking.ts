@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * Thinking component
@@ -36,7 +45,9 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
   ><summary class="thinking-summary">{{ label() }}</summary><div class="thinking-content"><ng-content /></div></details>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Thinking {
+export class Thinking implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** The summary text. */
     readonly label = input.required<string>();
     readonly className = input<string>("");
@@ -44,4 +55,14 @@ export class Thinking {
     readonly open = model<boolean>(false);
     /** True while content is still arriving. */
     readonly streaming = input<boolean>(false);
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Thinking",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
+    }
 }

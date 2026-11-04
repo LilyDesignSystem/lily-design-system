@@ -169,6 +169,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 - [check-dtcg-tokens](../bin/check-dtcg-tokens): `themes/tokens/*.json` and `lily.resolver.json` are strict DTCG 2025.10 (in bin/test)
 - [check-native-primitives](../bin/check-native-primitives): Every Svelte overlay or popup component records its native-platform decision, in step with `spec/competitive-position/native-primitives.tsv` (in bin/test; `--write` regenerates the AGENTS.md sections)
+- [check-dev-warnings](../bin/check-dev-warnings): Every interactive component with a required `label` warns when it is missing, in Svelte, React, Vue and Angular, unless allow-listed (in bin/test)
 - [check-lifecycle](../bin/check-lifecycle): A `deprecated` or `discouraged` component names its replacement or its cited alternative, and `docs/adopters.md` names real components (in bin/test)
 - [check-theme-references](../bin/check-theme-references): Report public-sector themes whose upstream package has a newer major release than `themes/references.tsv` records (report only, never fails on upstream)
 - [generate-core](../bin/generate-core): The Lily Core tier from test, e2e and screen-reader evidence, the `/quality` page and the self-assessed ACR (`--check` in bin/test)

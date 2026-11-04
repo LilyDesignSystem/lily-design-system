@@ -8,7 +8,9 @@ import {
     inject,
     input,
     model,
+    OnInit,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * Opens the host `<dialog>` as a real modal (tasks.md P18-T6): `showModal()` puts it in the top layer, makes the
@@ -71,7 +73,9 @@ class ModalDialog implements AfterViewInit, OnDestroy {
     imports: [ModalDialog],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Drawer {
+export class Drawer implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Whether the panel is shown. Two-way bindable; Escape sets it to false. */
     readonly open = model<boolean>(false);
@@ -89,5 +93,15 @@ export class Drawer {
     protected onCancel(event: Event): void {
         event.preventDefault();
         this.open.set(false);
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Drawer",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

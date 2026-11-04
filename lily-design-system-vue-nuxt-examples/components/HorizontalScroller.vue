@@ -17,7 +17,8 @@
 //   - Headless: no CSS, no styles — consumer provides
 //     overflow-x: auto + a flex/inline-flex track inside
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -29,6 +30,13 @@ const props = withDefaults(
     {
         step: 100,
     },
+);
+
+warnMissingName(
+    "HorizontalScroller",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const scrollerEl = ref<HTMLDivElement | null>(null);

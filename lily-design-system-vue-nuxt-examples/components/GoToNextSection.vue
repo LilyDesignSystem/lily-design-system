@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // GoToNextSection component
 //
 // A link that takes the user to the next section of the current page. Renders an <a> with the `go-to-
@@ -34,10 +36,17 @@
 // References:
 //   - MDN <a>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 
-defineProps<{
+const props = defineProps<{
     label: string;
     href: string;
 }>();
+
+warnMissingName(
+    "GoToNextSection",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
 </script>
 
 <template>

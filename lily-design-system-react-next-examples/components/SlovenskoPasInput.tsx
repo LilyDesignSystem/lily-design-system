@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Slovak_passport
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SlovenskoPasInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function SlovenskoPasInput({
     onChange,
     ...restProps
 }: SlovenskoPasInputProps) {
+    warnMissingName(
+        "SlovenskoPasInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`slovensko-pas-input ${className}`}

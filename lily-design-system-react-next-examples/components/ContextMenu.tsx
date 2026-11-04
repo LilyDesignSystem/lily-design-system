@@ -53,6 +53,7 @@
 import React, { useRef } from "react";
 
 import { usePopoverState } from "./Popover";
+import { warnMissingName } from "./dev-warning";
 
 export interface ContextMenuProps {
     className?: string;
@@ -75,6 +76,7 @@ export default function ContextMenu({
     children,
     ...restProps
 }: ContextMenuProps) {
+    warnMissingName("ContextMenu", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const menuRef = useRef<HTMLDivElement>(null);
     // popover="auto" with no declarative trigger (a right-click or long-press opens it): `open` shows it with
     // showPopover() in the top layer; Escape and light dismiss come from the browser and are reported through

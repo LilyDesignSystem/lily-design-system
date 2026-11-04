@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Vietnamese_identity_card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface VietNamCanCuocCongDanInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function VietNamCanCuocCongDanInput({
     onChange,
     ...restProps
 }: VietNamCanCuocCongDanInputProps) {
+    warnMissingName(
+        "VietNamCanCuocCongDanInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`viet-nam-can-cuoc-cong-dan-input ${className}`}

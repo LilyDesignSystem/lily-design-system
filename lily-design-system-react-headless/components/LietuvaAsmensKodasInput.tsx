@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_identification_number#Lithuania
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface LietuvaAsmensKodasInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function LietuvaAsmensKodasInput({
     onChange,
     ...restProps
 }: LietuvaAsmensKodasInputProps) {
+    warnMissingName(
+        "LietuvaAsmensKodasInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`lietuva-asmens-kodas-input ${className}`}

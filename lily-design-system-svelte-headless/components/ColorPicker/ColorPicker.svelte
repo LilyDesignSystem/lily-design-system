@@ -48,6 +48,8 @@
     // References:
     //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         x = $bindable(0),
@@ -62,6 +64,15 @@
         disabled?: boolean;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "ColorPicker",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     function onkeydown(event: KeyboardEvent) {
         if (disabled) return;

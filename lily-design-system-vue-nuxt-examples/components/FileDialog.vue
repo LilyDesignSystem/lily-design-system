@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
 import { modalDialogRef } from "./dialog";
+import { warnMissingName } from "./dev-warning";
 // FileDialog component
 //
 // A modal dialog for file-related operations such as opening, saving, or
@@ -50,6 +52,8 @@ import { modalDialogRef } from "./dialog";
 const props = defineProps<{
     label: string;
 }>();
+
+warnMissingName("FileDialog", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const open = defineModel<boolean>("open", { default: false });
 

@@ -64,6 +64,7 @@
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface AngleSliderRangeInputProps {
     className?: string;
@@ -104,6 +105,12 @@ export default function AngleSliderRangeInput({
     onChange,
     ...restProps
 }: AngleSliderRangeInputProps) {
+    warnMissingName(
+        "AngleSliderRangeInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const valueText = `${value}${valueTextSuffix}`;
 
     return (

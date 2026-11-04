@@ -3,7 +3,7 @@ import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { flushSync } from "svelte";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
-import { resetDevWarnings } from "./dev-warning";
+import { resetDevWarnings } from "../dev-warning";
 import Subject from "./IconButton.svelte";
 
 // Helper to create a Svelte 5 snippet for children content.

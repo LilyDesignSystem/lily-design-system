@@ -42,6 +42,7 @@
     //   - Reuters Graphics ScrollerVideo (the inspiration): https://github.com/reuters-graphics/graphics-components
     //   - MDN <video>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     import ScrollerBase from "../ScrollerBase/ScrollerBase.svelte";
 
@@ -65,6 +66,15 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "ScrollerVideo",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     let videoEl: HTMLVideoElement | undefined = $state(undefined);
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // GoToTop component
 //
 // A link back to the top of the page. Renders an <a> with the `go-to-top` hook; pass href="#top" (or
@@ -35,7 +37,7 @@
 // References:
 //   - MDN <a>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label?: string;
     }>(),
@@ -43,6 +45,8 @@ withDefaults(
         label: undefined,
     },
 );
+
+warnMissingName("GoToTop", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 </script>
 
 <template>

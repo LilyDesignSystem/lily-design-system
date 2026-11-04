@@ -20,7 +20,8 @@
 //   default — custom controls overlay.
 //   caption — caption rendered inside <figcaption>.
 
-import { ref, onMounted, onBeforeUnmount, useSlots } from "vue";
+import { ref, onMounted, onBeforeUnmount, useSlots, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -45,6 +46,13 @@ const props = withDefaults(
         loop: false,
         controls: true,
     },
+);
+
+warnMissingName(
+    "VideoPlayer",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const slots = useSlots();

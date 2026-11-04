@@ -62,13 +62,21 @@
 //   - WAI-ARIA menu role: https://www.w3.org/TR/wai-aria-1.2/#menu
 //   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
 
-import { ref, useId, watchEffect } from "vue";
+import { ref, useId, watchEffect, useAttrs } from "vue";
 import { popoverSupported, toggleOpened, usePopoverState } from "./popover";
+import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
     /** Accessible name for the menu button. */
     label: string;
 }>();
+
+warnMissingName(
+    "DropdownMenu",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
 
 const open = defineModel<boolean>("open", { default: false });
 

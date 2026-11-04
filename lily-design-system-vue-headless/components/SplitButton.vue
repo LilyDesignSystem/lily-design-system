@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, useId } from "vue";
+import { ref, useId, useAttrs } from "vue";
 import { popoverSupported, toggleOpened, usePopoverState } from "./popover";
+import { warnMissingName } from "./dev-warning";
 // SplitButton component
 //
 // A headless split button: a primary action paired with a dropdown trigger
@@ -52,7 +53,7 @@ import { popoverSupported, toggleOpened, usePopoverState } from "./popover";
 // References:
 //   - WAI-ARIA Menu Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Group aria-label (REQUIRED). */
         label: string;
@@ -66,6 +67,13 @@ withDefaults(
     {
         disabled: false,
     },
+);
+
+warnMissingName(
+    "SplitButton",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const emit = defineEmits<{

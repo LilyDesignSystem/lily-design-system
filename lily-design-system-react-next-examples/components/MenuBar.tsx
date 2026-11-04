@@ -51,6 +51,7 @@
 //   - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
 
 import React, { useRef } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface MenuBarProps {
     className?: string;
@@ -62,6 +63,7 @@ export interface MenuBarProps {
 }
 
 export default function MenuBar({ className = "", label, children, ...restProps }: MenuBarProps) {
+    warnMissingName("MenuBar", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const barRef = useRef<HTMLDivElement>(null);
 
     function handleKeyDown(event: React.KeyboardEvent) {

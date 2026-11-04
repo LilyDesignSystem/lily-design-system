@@ -7,7 +7,10 @@ import {
     input,
     model,
     output,
+    OnInit,
+    inject,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import { initialListboxState, listboxKeydown } from "./listbox-machine";
 
 /** Navigation/focus model. Default `"roving-focus"`: real focus moves between the options (inert before 2026-10-29, when the shared machine gave it the roving keys). */
@@ -56,7 +59,9 @@ export type ListboxNavigation = "roving-focus" | "active-descendant";
     host: { style: "display: contents" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Listbox {
+export class Listbox implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     readonly className = input<string>("");
     /** Base class token, replacing `"listbox"` outright (not appended). */
@@ -131,5 +136,15 @@ export class Listbox {
         if (t.activate !== undefined) this.activate.emit(t.activate);
         if (t.escape) this.escape.emit();
         if (t.tabOut) this.tabOut.emit(event); // never prevented: Tab proceeds from wherever the consumer leaves focus
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Listbox",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

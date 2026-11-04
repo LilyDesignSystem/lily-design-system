@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // EditableForm component
 //
 // An editable form that wraps inline editing functionality in a <form> element,
@@ -64,6 +66,13 @@ const props = defineProps<{
     /** Callback when editing is cancelled. */
     oncancel?: () => void;
 }>();
+
+warnMissingName(
+    "EditableForm",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
 
 const editing = defineModel<boolean>("editing", { default: false });
 

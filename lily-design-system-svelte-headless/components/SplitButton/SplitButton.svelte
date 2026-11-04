@@ -51,6 +51,7 @@
     // References:
     //   - WAI-ARIA Menu Button: https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
 
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     import { popoverState, popoverSupported, toggleOpened } from "../Popover/popover.js";
 
@@ -84,6 +85,15 @@
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName(
+            "SplitButton",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
+    );
 
     const uid = $props.id();
     const menuId = `split-button-menu-${uid}`;

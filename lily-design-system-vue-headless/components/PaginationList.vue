@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // PaginationList component
 //
 // A headless ordered list of pagination items, intended to live inside a
@@ -50,7 +52,7 @@
 // References:
 //   - HTML ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Optional accessible label for the list. */
         label?: string;
@@ -58,6 +60,13 @@ withDefaults(
     {
         label: undefined,
     },
+);
+
+warnMissingName(
+    "PaginationList",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 </script>
 

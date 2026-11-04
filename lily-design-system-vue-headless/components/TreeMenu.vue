@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // TreeMenu component
 //
 // A hierarchical tree menu with expandable branches.
@@ -17,10 +19,12 @@
 // References:
 //   - HTML div element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label set on aria-label. */
     label: string;
 }>();
+
+warnMissingName("TreeMenu", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const TREE_KEYS = ["ArrowDown", "ArrowUp", "Home", "End"];
 
@@ -30,7 +34,9 @@ function onKeydown(event: KeyboardEvent) {
     const root = event.currentTarget as HTMLElement;
     const items = Array.from(root.querySelectorAll<HTMLElement>('[role="treeitem"]'));
     if (items.length === 0) return;
-    const current = items.indexOf((event.target as Element).closest('[role="treeitem"]') as HTMLElement);
+    const current = items.indexOf(
+        (event.target as Element).closest('[role="treeitem"]') as HTMLElement,
+    );
     const last = items.length - 1;
     let next: number;
     if (event.key === "Home") next = 0;

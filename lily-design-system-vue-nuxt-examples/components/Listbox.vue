@@ -110,8 +110,9 @@
 // References:
 //   - WAI-ARIA Listbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/listbox/
 
-import { computed, ref } from "vue";
+import { computed, ref, useAttrs } from "vue";
 import { initialListboxState, listboxKeydown } from "./listbox-machine";
+import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
     defineProps<{
@@ -142,6 +143,8 @@ const props = withDefaults(
         pageSize: 10,
     },
 );
+
+warnMissingName("Listbox", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const emit = defineEmits<{
     (e: "update:activeIndex", index: number): void;

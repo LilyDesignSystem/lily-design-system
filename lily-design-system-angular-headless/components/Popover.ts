@@ -31,7 +31,10 @@ import {
     input,
     model,
     viewChild,
+    OnInit,
+    inject,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /** Whether this element has the Popover API (`showPopover` and `hidePopover`). */
 export function popoverSupported(node: HTMLElement): boolean {
@@ -84,7 +87,9 @@ export function toggleOpened(event: Event): boolean {
   ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Popover {
+export class Popover implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     /** Whether the popover is open. Two-way bindable; the browser's toggle (Escape, light dismiss) writes back. */
     readonly open = model<boolean>(false);
@@ -100,5 +105,15 @@ export class Popover {
 
     protected onToggle(event: Event): void {
         this.open.set(toggleOpened(event));
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Popover",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

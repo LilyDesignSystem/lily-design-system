@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // RadioGroup component
 //
 // A headless fieldset container that groups related radio buttons under the ARIA
@@ -47,10 +49,12 @@
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
 //   - WAI-ARIA Authoring Practices - Radio Group: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label for the group. */
     label: string;
 }>();
+
+warnMissingName("RadioGroup", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 </script>
 
 <template>

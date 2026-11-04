@@ -54,10 +54,11 @@
 //   - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 //   - MDN time input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label: string;
         dateLabel: string;
@@ -70,6 +71,13 @@ withDefaults(
         required: false,
         disabled: false,
     },
+);
+
+warnMissingName(
+    "DateTimeNowInput",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 
 const dateValue = defineModel<string>("dateValue", { default: "" });

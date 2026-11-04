@@ -6,7 +6,11 @@ import {
     model,
     output,
     signal,
+    ElementRef,
+    OnInit,
+    inject,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import { restoreOnFormReset } from "./form-reset";
 
 let nextId = 0;
@@ -75,7 +79,9 @@ export interface AutosuggestSuggestion {
   </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Autosuggest {
+export class Autosuggest implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Accessible label, on both the input and the listbox. */
     readonly label = input<string>("");
     /** The input's text. Two-way bindable. */
@@ -159,5 +165,15 @@ export class Autosuggest {
                 return;
         }
         event.preventDefault();
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "Autosuggest",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

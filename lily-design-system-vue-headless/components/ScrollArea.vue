@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // ScrollArea component
 //
 // A headless scrollable container that provides keyboard accessibility for
@@ -52,10 +54,12 @@
 //   - WAI-ARIA Region Role: https://www.w3.org/TR/wai-aria-1.2/#region
 //   - WCAG 2.1 Reflow: https://www.w3.org/WAI/WCAG21/Understanding/reflow.html
 
-defineProps<{
+const props = defineProps<{
     /** Accessible label. */
     label: string;
 }>();
+
+warnMissingName("ScrollArea", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 </script>
 
 <template>

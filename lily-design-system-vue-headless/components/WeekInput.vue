@@ -42,10 +42,11 @@
 // References:
 //   - MDN input type="week": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/week
 
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible label. */
         label: string;
@@ -59,6 +60,8 @@ withDefaults(
         disabled: false,
     },
 );
+
+warnMissingName("WeekInput", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
 const modelValue = defineModel<string>({ default: "" });
 const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);

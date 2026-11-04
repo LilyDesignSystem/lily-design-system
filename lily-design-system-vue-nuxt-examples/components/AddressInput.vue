@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // AddressInput component
 //
 // A group for the parts of a postal address (line 1, line 2, town, postcode, ...). Renders a <div>
@@ -33,13 +35,20 @@
 // References:
 //   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         label?: string;
     }>(),
     {
         label: undefined,
     },
+);
+
+warnMissingName(
+    "AddressInput",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
 );
 </script>
 

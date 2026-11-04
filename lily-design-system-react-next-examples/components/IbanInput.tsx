@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/International_Bank_Account_Number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface IbanInputProps {
     className?: string;
@@ -48,6 +49,7 @@ export default function IbanInput({
     onChange,
     ...restProps
 }: IbanInputProps) {
+    warnMissingName("IbanInput", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <input
             className={`iban-input ${className}`}

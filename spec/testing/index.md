@@ -266,11 +266,16 @@ for the developer, so it is English and exempt from the no-hardcoded-strings rul
 - **When it prints:** only where a bundler replaces `process.env.NODE_ENV` with something other than `production`. With no bundler, the read
   throws and the module is silent.
 - **Off switch:** `globalThis.lilyWarnings = false`.
-- **Production cost:** silent, but about 275 minified bytes stay in a bundle, because the guard runs inside a function a bundler cannot fold.
-- **Pilot:** `icon-button` in Svelte, React, Vue and Angular, with tests for a missing label, a name from `aria-labelledby` where the catalog
-  passes it, and production silence. Web Components already throws on a missing label. Blazor has `[EditorRequired]`.
+- **Production cost:** silent, but about 275 minified bytes stay in a bundle, because the guard runs inside a function so that it
+  cannot throw. Each component that warns adds its call, about 50 more minified bytes (esbuild, a 24-letter name).
+- **Coverage:** every interactive component with a required `label` in Svelte, React, Vue and Angular, 168 in all, less the
+  ones below. `dev-warning.sweep` tests three shapes in each framework: a missing name warns, and a `label` or an
+  `aria-labelledby` does not (Angular proves the `label` half and the missing case). `bin/check-dev-warnings` (in `bin/test`)
+  fails on a component that does not call it.
+- **Exceptions:** `bin/check-dev-warnings.allow.json` lists components whose `label` is optional in a port though their
+  `AGENTS.md` says required, so they cannot warn: seven in Svelte, four in React. Which is right is an open question.
+- Web Components already throws on a missing label. Blazor has `[EditorRequired]`.
 - **HTML, Nunjucks and Alpine** have no component code to hook, so they need a page-level check (P23-T7).
-- **Open:** the other 166 interactive components with a required `label`.
 
 ## Content Security Policy
 

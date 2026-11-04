@@ -43,6 +43,7 @@
 //   - Ministerio de Sanidad: https://www.sanidad.gob.es/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface EspanaTarjetaSanitariaIndividualInputProps {
     className?: string;
@@ -69,6 +70,12 @@ export default function EspanaTarjetaSanitariaIndividualInput({
     onChange,
     ...restProps
 }: EspanaTarjetaSanitariaIndividualInputProps) {
+    warnMissingName(
+        "EspanaTarjetaSanitariaIndividualInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`espana-tarjeta-sanitaria-individual-input ${className}`}

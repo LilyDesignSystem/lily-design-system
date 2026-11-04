@@ -54,6 +54,7 @@
 import React from "react";
 
 import { usePopoverState } from "./Popover";
+import { warnMissingName } from "./dev-warning";
 
 export interface PopupProps {
     className?: string;
@@ -76,6 +77,7 @@ export default function Popup({
     children,
     ...restProps
 }: PopupProps) {
+    warnMissingName("Popup", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const ref = React.useRef<HTMLDivElement>(null);
     usePopoverState(ref, open, onChange);
     return (

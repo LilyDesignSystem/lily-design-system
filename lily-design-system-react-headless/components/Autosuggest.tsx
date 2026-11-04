@@ -47,6 +47,7 @@
 import React, { useId, useRef, useState } from "react";
 
 import { useFormReset } from "./form-reset";
+import { warnMissingName } from "./dev-warning";
 
 export interface AutosuggestSuggestion {
     value: string;
@@ -86,6 +87,7 @@ export default function Autosuggest({
     name,
     ...restProps
 }: AutosuggestProps) {
+    warnMissingName("Autosuggest", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const uid = useId();
     const listId = `autosuggest-list-${uid}`;
     const optionId = (index: number) => `autosuggest-option-${uid}-${index}`;

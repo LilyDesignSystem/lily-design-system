@@ -7,7 +7,10 @@ import {
     model,
     output,
     viewChild,
+    OnInit,
+    inject,
 } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 import { popoverSupported, syncPopover, toggleOpened } from "./Popover";
 
@@ -59,7 +62,9 @@ let nextId = 0;
   </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SplitButton {
+export class SplitButton implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Accessible label for the group. */
     readonly label = input<string>("");
     /** Visible text of the primary button. */
@@ -88,5 +93,15 @@ export class SplitButton {
         this.menuToggle.emit(event);
         if (event.defaultPrevented) return;
         if (!popoverSupported(this.menu().nativeElement)) this.menuOpen.set(!this.menuOpen());
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "SplitButton",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

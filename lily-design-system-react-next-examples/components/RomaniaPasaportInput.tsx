@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/Romanian_passport
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface RomaniaPasaportInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function RomaniaPasaportInput({
     onChange,
     ...restProps
 }: RomaniaPasaportInputProps) {
+    warnMissingName(
+        "RomaniaPasaportInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`romania-pasaport-input ${className}`}

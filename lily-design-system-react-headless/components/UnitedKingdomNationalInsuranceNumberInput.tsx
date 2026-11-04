@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_Insurance_number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface UnitedKingdomNationalInsuranceNumberInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function UnitedKingdomNationalInsuranceNumberInput({
     onChange,
     ...restProps
 }: UnitedKingdomNationalInsuranceNumberInputProps) {
+    warnMissingName(
+        "UnitedKingdomNationalInsuranceNumberInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`united-kingdom-national-insurance-number-input ${className}`}

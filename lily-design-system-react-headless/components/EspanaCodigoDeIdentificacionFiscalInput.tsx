@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/VAT_identification_number#Spain
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface EspanaCodigoDeIdentificacionFiscalInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function EspanaCodigoDeIdentificacionFiscalInput({
     onChange,
     ...restProps
 }: EspanaCodigoDeIdentificacionFiscalInputProps) {
+    warnMissingName(
+        "EspanaCodigoDeIdentificacionFiscalInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`espana-codigo-de-identificacion-fiscal-input ${className}`}

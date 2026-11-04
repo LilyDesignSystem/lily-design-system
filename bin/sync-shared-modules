@@ -109,9 +109,10 @@ EXTRA_TARGETS = {
         "lily-design-system-web-components-date-time-picker/calendar-system.ts",
         "lily-design-system-nunjucks-date-time-picker/calendar-system.ts",
     ],
-    # Development warnings (spec/testing): beside each component that reports one, and in the example apps' copies.
+    # Development warnings (spec/testing): one file per catalog, imported by each component that reports one, and in the example apps' copies.
     "dev-warning.ts": [
-        "lily-design-system-svelte-headless/components/IconButton/dev-warning.ts",
+        "lily-design-system-svelte-headless/components/dev-warning.ts",
+        "lily-design-system-svelte-sveltekit-examples/src/lib/components/dev-warning.ts",
         "lily-design-system-react-headless/components/dev-warning.ts",
         "lily-design-system-react-next-examples/components/dev-warning.ts",
         "lily-design-system-vue-headless/components/dev-warning.ts",

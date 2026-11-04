@@ -46,6 +46,7 @@
 //   - MDN text-area-input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface TextAreaInputProps {
     className?: string;
@@ -74,6 +75,7 @@ export default function TextAreaInput({
     onChange,
     ...restProps
 }: TextAreaInputProps) {
+    warnMissingName("TextAreaInput", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <textarea
             className={`text-area-input ${className}`}

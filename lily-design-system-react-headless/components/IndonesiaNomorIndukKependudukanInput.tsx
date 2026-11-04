@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_identification_number
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface IndonesiaNomorIndukKependudukanInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function IndonesiaNomorIndukKependudukanInput({
     onChange,
     ...restProps
 }: IndonesiaNomorIndukKependudukanInputProps) {
+    warnMissingName(
+        "IndonesiaNomorIndukKependudukanInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`indonesia-nomor-induk-kependudukan-input ${className}`}

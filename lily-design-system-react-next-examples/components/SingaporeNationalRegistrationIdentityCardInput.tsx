@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/National_Registration_Identity_Card
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SingaporeNationalRegistrationIdentityCardInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function SingaporeNationalRegistrationIdentityCardInput({
     onChange,
     ...restProps
 }: SingaporeNationalRegistrationIdentityCardInputProps) {
+    warnMissingName(
+        "SingaporeNationalRegistrationIdentityCardInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`singapore-national-registration-identity-card-input ${className}`}

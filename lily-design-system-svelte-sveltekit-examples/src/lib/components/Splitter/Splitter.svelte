@@ -48,6 +48,8 @@
     //   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
     //   - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator
 
+    import { warnMissingName } from "../dev-warning";
+
     let {
         class: className = "",
         label,
@@ -60,6 +62,10 @@
         orientation?: "horizontal" | "vertical";
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("Splitter", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 </script>
 
 <!-- Splitter.svelte -->

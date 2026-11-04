@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/C%C3%B3digo_%C3%9Anico_de_Identificaci%C3%B3n_Laboral
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ArgentinaCodigoUnicoDeIdentificacionLaboralInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function ArgentinaCodigoUnicoDeIdentificacionLaboralInput({
     onChange,
     ...restProps
 }: ArgentinaCodigoUnicoDeIdentificacionLaboralInputProps) {
+    warnMissingName(
+        "ArgentinaCodigoUnicoDeIdentificacionLaboralInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`argentina-codigo-unico-de-identificacion-laboral-input ${className}`}

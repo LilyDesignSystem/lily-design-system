@@ -23,6 +23,7 @@
 //   - https://en.wikipedia.org/wiki/MyKad
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface MalaysiaKadPengenalanInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function MalaysiaKadPengenalanInput({
     onChange,
     ...restProps
 }: MalaysiaKadPengenalanInputProps) {
+    warnMissingName(
+        "MalaysiaKadPengenalanInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`malaysia-kad-pengenalan-input ${className}`}

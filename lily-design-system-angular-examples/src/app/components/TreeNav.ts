@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * TreeNav component
@@ -55,7 +63,19 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<nav class="tree-nav {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></nav>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TreeNav {
+export class TreeNav implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     readonly className = input<string>("");
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "TreeNav",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
+    }
 }

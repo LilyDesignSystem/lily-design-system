@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    model,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 import { restoreOnFormReset } from "./form-reset";
 
 /**
@@ -23,7 +32,9 @@ import { restoreOnFormReset } from "./form-reset";
     />`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OsterreichSozialversicherungsnummerInput {
+export class OsterreichSozialversicherungsnummerInput implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     /** Accessible label, applied to aria-label. */
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
@@ -37,5 +48,15 @@ export class OsterreichSozialversicherungsnummerInput {
 
     constructor() {
         restoreOnFormReset(this.value);
+    }
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "OsterreichSozialversicherungsnummerInput",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
     }
 }

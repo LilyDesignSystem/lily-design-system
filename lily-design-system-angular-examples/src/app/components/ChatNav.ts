@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    ElementRef,
+    OnInit,
+    inject,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * ChatNav component
@@ -40,7 +48,19 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<nav class="chat-nav {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></nav>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChatNav {
+export class ChatNav implements OnInit {
+    private readonly lilyHost = inject(ElementRef);
+
     readonly label = input<string>("");
     readonly className = input<string>("");
+
+    ngOnInit(): void {
+        const host: HTMLElement = this.lilyHost.nativeElement;
+        warnMissingName(
+            "ChatNav",
+            this.label(),
+            host.getAttribute("aria-label"),
+            host.getAttribute("aria-labelledby"),
+        );
+    }
 }

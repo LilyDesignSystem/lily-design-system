@@ -44,6 +44,7 @@
 //   - HSE: https://www.hse.ie/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface EireIndividualHealthIdentifierInputProps {
     className?: string;
@@ -70,6 +71,12 @@ export default function EireIndividualHealthIdentifierInput({
     onChange,
     ...restProps
 }: EireIndividualHealthIdentifierInputProps) {
+    warnMissingName(
+        "EireIndividualHealthIdentifierInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const ihiPattern = "[0-9]{10}";
 
     return (

@@ -23,6 +23,7 @@
 //   - https://de.wikipedia.org/wiki/Krankenversichertennummer
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface DeutschlandKrankenversichertennummerInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function DeutschlandKrankenversichertennummerInput({
     onChange,
     ...restProps
 }: DeutschlandKrankenversichertennummerInputProps) {
+    warnMissingName(
+        "DeutschlandKrankenversichertennummerInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`deutschland-krankenversichertennummer-input ${className}`}

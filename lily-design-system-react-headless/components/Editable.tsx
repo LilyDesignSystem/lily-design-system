@@ -48,6 +48,7 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import React, { useState } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface EditableProps {
     className?: string;
@@ -76,6 +77,7 @@ export default function Editable({
     onEditingChange,
     ...restProps
 }: EditableProps) {
+    warnMissingName("Editable", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const [internalEditing, setInternalEditing] = useState(editingProp);
     const [internalValue, setInternalValue] = useState(value);
     const [draft, setDraft] = useState(value);

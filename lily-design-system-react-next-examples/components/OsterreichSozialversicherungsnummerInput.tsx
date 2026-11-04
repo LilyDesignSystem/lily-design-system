@@ -23,6 +23,7 @@
 //   - https://de.wikipedia.org/wiki/Sozialversicherungsnummer
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface OsterreichSozialversicherungsnummerInputProps {
     className?: string;
@@ -48,6 +49,12 @@ export default function OsterreichSozialversicherungsnummerInput({
     onChange,
     ...restProps
 }: OsterreichSozialversicherungsnummerInputProps) {
+    warnMissingName(
+        "OsterreichSozialversicherungsnummerInput",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <input
             className={`osterreich-sozialversicherungsnummer-input ${className}`}

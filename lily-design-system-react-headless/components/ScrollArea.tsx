@@ -52,6 +52,7 @@
 //   - WCAG 2.1 Reflow: https://www.w3.org/WAI/WCAG21/Understanding/reflow.html
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface ScrollAreaProps {
     className?: string;
@@ -68,6 +69,7 @@ export default function ScrollArea({
     children,
     ...restProps
 }: ScrollAreaProps) {
+    warnMissingName("ScrollArea", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <div
             className={`scroll-area ${className}`}
