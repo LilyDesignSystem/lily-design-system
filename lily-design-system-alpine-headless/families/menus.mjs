@@ -178,10 +178,10 @@ export default {
     "action-group": {
         tag: "div",
         keyboard:
-            "Tab through the actions; the overflow trigger behaves as a dropdown-menu trigger",
+            "ArrowLeft/ArrowRight move between the actions (wrapping), Home/End jump; one tab stop; the overflow trigger behaves as a dropdown-menu trigger",
         aria: 'role="group" with aria-label; overflow trigger: aria-haspopup="menu", aria-expanded, aria-controls',
         notes: popoverNotes("overflow menu"),
-        markup: `<div class="action-group" role="group" aria-label="" x-data="lilyDropdownMenu(false)" x-bind="root">
+        markup: `<div class="action-group" role="group" aria-label="" x-data="lilyDropdownMenu(false)" x-bind="root" x-lily-toolbar>
   <button type="button"><!-- Consumer provides a visible action --></button>
   <button class="action-group-overflow-trigger" x-bind="trigger" aria-label="" aria-controls="action-group-overflow-1"${popoverTriggerAttributes("action-group-overflow-1")}>…</button>
   <div class="action-group-overflow-menu" id="action-group-overflow-1" aria-label="" popover="auto" x-bind="menu">

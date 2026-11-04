@@ -12,6 +12,7 @@
 //   Alpine.start();
 
 import { menuKeydown } from "./menu-keys.js";
+import { attachToolbar } from "./widget-keys.js";
 import { truncateMiddle } from "./middle-truncation.js";
 import { setupOverflowNavigation } from "./overflow-navigation.js";
 import {
@@ -251,6 +252,11 @@ function treeCore({ wrap = false, exclusive = false, expanded = [] } = {}) {
 }
 
 export default function lily(Alpine) {
+    // A toolbar, on any element: x-lily-toolbar, with an optional selector for the button Escape clicks.
+    Alpine.directive("lily-toolbar", (el, { expression }, { cleanup }) => {
+        cleanup(attachToolbar(el, expression ? { dismiss: expression } : {}));
+    });
+
     // ToggleButton: <button aria-pressed>
     Alpine.data("lilyToggleButton", (pressed = false) => ({
         pressed,

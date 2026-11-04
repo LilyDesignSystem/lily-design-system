@@ -141,6 +141,7 @@
   "blazor:sticky-promo-banner": "contract: the keys it lists belong to its parent component, the consumer or native buttons; it handles none itself (P12-T5a)",
   "blazor:tab-bar": "browser-side: the keys are handled in TabBar.razor.js, which bUnit cannot run; tested by tests/js/tab-bar.test.mjs under jsdom, which CI runs (P12-T5a)",
   "blazor:tab-bar-button": "contract: the keys it lists belong to its parent component, the consumer or native buttons; it handles none itself (P12-T5a)",
+  "blazor:task-bar": "keys are in ActionBar.razor.js, which bUnit cannot run; tests/js/task-bar.pattern.test.mjs sends them",
   "blazor:theme-select": "native: a native select; the keys are the browser's, which jsdom and bUnit do not run (P12-T5a)",
   "blazor:theme-select-option": "native: an option of a native select; the keys are the browser's, which jsdom and bUnit do not run (P12-T5a)",
   "blazor:tile-map": "browser-side: the keys are handled in TileMap.razor.js, which bUnit cannot run; tested by tests/js/tile-map.test.mjs under jsdom, which CI runs (P12-T5a)",

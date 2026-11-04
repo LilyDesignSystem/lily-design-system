@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { useAttrs } from "vue";
+import { onBeforeUnmount, onMounted, ref, useAttrs } from "vue";
+import { attachRadioGroup } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
 // SegmentGroup component
 //
@@ -60,11 +61,18 @@ warnMissingName(
     useAttrs()["aria-label"],
     useAttrs()["aria-labelledby"],
 );
+const rootRef = ref<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachRadioGroup(rootRef.value!);
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
     <!-- SegmentGroup.vue -->
     <div
+        ref="rootRef"
         class="segment-group"
         role="radiogroup"
         :aria-label="label"

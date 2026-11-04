@@ -33,6 +33,7 @@
     //   - Adobe Spectrum ActionGroup: https://spectrum.adobe.com/page/action-group/
 
     import type { Snippet } from "svelte";
+    import { attachToolbar } from "../widget-keys";
     import { popoverState, popoverSupported, toggleOpened } from "../Popover/popover.js";
 
     let {
@@ -72,10 +73,15 @@
         if (event.defaultPrevented) return;
         if (menu && !popoverSupported(menu)) overflowOpen = !overflowOpen;
     }
+
+    let rootEl = $state<HTMLElement>();
+
+    $effect(() => (rootEl ? attachToolbar(rootEl) : undefined));
 </script>
 
 <!-- ActionGroup.svelte -->
 <div
+    bind:this={rootEl}
     class={`action-group ${className}`}
     role="group"
     aria-label={label}

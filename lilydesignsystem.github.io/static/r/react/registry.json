@@ -98,6 +98,9 @@
       "title": "ActionBar",
       "description": "A contextual action bar that appears when items are selected, showing the selection count and bulk action buttons.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "navigation"
       ],
@@ -133,7 +136,8 @@
       "description": "A group of action buttons that can collapse to an overflow menu when space is constrained.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/popover"
+        "@lily/popover",
+        "@lily/widget-keys-utils"
       ],
       "categories": [
         "forms"
@@ -8528,7 +8532,8 @@
       "description": "A group of mutually exclusive segment options.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
       ],
       "categories": [
         "forms"
@@ -9680,7 +9685,8 @@
       "description": "A horizontal bar of task shortcuts or actions.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
-        "@lily/dev-warning-utils"
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
       ],
       "categories": [
         "navigation"
@@ -10985,6 +10991,20 @@
           "path": "lily-design-system-react-headless/components/wheel-picker.ts",
           "type": "registry:lib",
           "target": "@components/lily/wheel-picker.ts"
+        }
+      ]
+    },
+    {
+      "name": "widget-keys-utils",
+      "type": "registry:lib",
+      "title": "widget-keys.ts",
+      "description": "Shared helper module widget-keys.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/widget-keys.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/widget-keys.ts"
         }
       ]
     },

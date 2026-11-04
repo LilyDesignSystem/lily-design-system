@@ -27,18 +27,58 @@ export default {
         test: usesTag("horizontal-scroller", "div"),
     },
 
+    "action-bar": {
+        tag: 'div with role="toolbar"',
+        keyboard:
+            "ArrowLeft/ArrowRight move between the controls (wrapping), Home/End jump; one tab stop; Escape presses the clear button",
+        aria: 'role="toolbar" with required aria-label; the count is announced by the consumer; data-selected-count for CSS',
+        markup: `<div
+  class="action-bar"
+  role="toolbar"
+  aria-label=""
+  data-selected-count="0"
+  x-lily-toolbar=".action-bar-clear"
+>
+  <span class="action-bar-count"></span>
+  <!-- Consumer inserts action-bar-button children here -->
+  <button
+    class="action-bar-clear"
+    type="button"
+    aria-label=""
+  >
+    ×
+  </button>
+</div>`,
+        sel: "div.action-bar",
+        test: usesTag("action-bar", "div"),
+    },
+
     "task-bar": {
         tag: "div",
-        keyboard: "None (passive element); Tab moves between the consumer's controls",
-        aria: "aria-label for accessible name",
+        keyboard: "ArrowLeft/ArrowRight move between the controls (wrapping), Home/End jump; one tab stop",
+        aria: 'role="toolbar" with aria-label',
         markup: `<div
   class="task-bar"
+  role="toolbar"
   aria-label=""
+  x-lily-toolbar
 >
   <!-- Consumer provides content -->
 </div>`,
         sel: "div.task-bar",
-        test: usesTag("task-bar", "div"),
+        test:
+            usesTag("task-bar", "div") +
+            `
+  it("arrows move between the controls", async () => {
+    await mount("task-bar");
+    const root = document.querySelector(".task-bar");
+    root.innerHTML = "<button>One</button><button>Two</button>";
+    const [one, two] = root.querySelectorAll("button");
+    one.focus();
+    one.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }));
+    await tick();
+    expect(document.activeElement).toBe(two);
+  });`,
     },
 
     "icon-button": {

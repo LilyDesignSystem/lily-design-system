@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="task-bar"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+    '<div\n  class="task-bar"\n  role="toolbar"\n  aria-label=""\n  x-lily-toolbar\n>\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
     title: "Headless/Task Bar",

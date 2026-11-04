@@ -49,6 +49,7 @@
 
     import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
+    import { attachRadioGroup } from "../widget-keys";
 
     let {
         class: className = "",
@@ -71,10 +72,15 @@
             restProps["aria-labelledby"],
         ),
     );
+
+    let rootEl = $state<HTMLElement>();
+
+    $effect(() => (rootEl ? attachRadioGroup(rootEl) : undefined));
 </script>
 
 <!-- SegmentGroup.svelte -->
 <div
+    bind:this={rootEl}
     class={`segment-group ${className}`}
     role="radiogroup"
     aria-label={label}

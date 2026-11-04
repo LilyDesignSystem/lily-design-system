@@ -26,6 +26,7 @@
 //   - components/segment-group/index.md (canonical contract)
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
+import { attachRadioGroup } from "../lib/widget-keys.js";
 import { applySelfClassName } from "../lib/dom-utils.js";
 
 export class SegmentGroup extends HTMLElement {
@@ -39,5 +40,6 @@ export class SegmentGroup extends HTMLElement {
         this.setAttribute("role", "radiogroup");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
+        attachRadioGroup(this);
     }
 }

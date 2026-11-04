@@ -10,9 +10,9 @@ describe("menu-bar", () => {
         expect(el.getAttribute("aria-label")).toBe("X");
     });
 
-    it("defaults aria-label to 'Menu bar'", () => {
+    it("has no default name: the words are the consumer's", () => {
         const { document } = render("menu-bar", {});
-        expect(document.querySelector("div.menu-bar").getAttribute("aria-label")).toBe("Menu bar");
+        expect(document.querySelector("div").hasAttribute("aria-label")).toBe(false);
     });
 
     it("prefers labelledBy over label", () => {

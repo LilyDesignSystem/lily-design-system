@@ -35,7 +35,7 @@
     API is missing it toggles the hidden attribute on click, and Escape closes.
 *@
 
-<div class="@($"action-group {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">
+<div @ref="_root" class="@($"action-group {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">
     @ChildContent
     @if (Overflow is not null)
     {
@@ -70,10 +70,18 @@
     private IJSObjectReference? _module;
     private IJSObjectReference? _handle;
     private DotNetObjectReference<ActionGroup>? _self;
+    private ElementReference _root;
+    private IJSObjectReference? _keysModule;
+    private IJSObjectReference? _keys;
     private bool _synced;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (firstRender)
+        {
+            _keysModule = await JS.InvokeAsync<IJSObjectReference>("import", KeyedComponentBase.ModulePath);
+            _keys = await _keysModule.InvokeAsync<IJSObjectReference>("attach", "toolbar", _root, null);
+        }
         if (Overflow is null) return; // no menu rendered, nothing to attach
         if (_self is null)
         {
@@ -104,6 +112,12 @@
     {
         try
         {
+            if (_keys is not null)
+            {
+                await _keys.InvokeVoidAsync("dispose");
+                await _keys.DisposeAsync();
+            }
+            if (_keysModule is not null) await _keysModule.DisposeAsync();
             if (_handle is not null)
             {
                 await _handle.InvokeVoidAsync("dispose");

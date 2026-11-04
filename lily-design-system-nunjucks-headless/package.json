@@ -51,6 +51,8 @@
     "components/menu/menu-keys.js",
     "components/menu-bar/menu-bar.js",
     "components/roving.js",
+    "components/widget-init.js",
+    "components/widget-keys.js",
     "components/tab-bar/tab-bar.js",
     "components/contents-nav/spy.js",
     "components/tree-list/tree.js",

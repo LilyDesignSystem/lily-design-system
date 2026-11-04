@@ -6,6 +6,11 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class TaskBarTests : TestContext
 {
+    public TaskBarTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+    }
+
     [Fact]
     public void Renders_with_kebab_base_class()
     {

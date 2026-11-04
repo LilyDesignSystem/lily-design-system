@@ -1,11 +1,13 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    input,
+    DestroyRef,
     ElementRef,
     OnInit,
     inject,
+    input,
 } from "@angular/core";
+import { attachRadioGroup } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
 
 /**
@@ -18,10 +20,18 @@ import { warnMissingName } from "./dev-warning";
 @Component({
     selector: "lily-segment-group",
     standalone: true,
-    template: `<div class="segment-group {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="segment-group {{ className() }}" role="radiogroup" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SegmentGroup implements OnInit {
+    private readonly keysHost = inject(ElementRef);
+    private readonly keysDestroy = inject(DestroyRef);
+
+    ngAfterViewInit(): void {
+        const root = this.keysHost.nativeElement.querySelector(".segment-group");
+        this.keysDestroy.onDestroy(attachRadioGroup(root));
+    }
+
     private readonly lilyHost = inject(ElementRef);
 
     readonly label = input<string>("");

@@ -46,7 +46,8 @@
 // References:
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { attachRadioGroup } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
 
 export interface SegmentGroupProps {
@@ -65,8 +66,12 @@ export default function SegmentGroup({
     ...restProps
 }: SegmentGroupProps) {
     warnMissingName("SegmentGroup", label, restProps["aria-label"], restProps["aria-labelledby"]);
+    const rootRef = useRef<HTMLDivElement>(null);
+    useEffect(() => attachRadioGroup(rootRef.current!), []);
+
     return (
         <div
+            ref={rootRef}
             className={`segment-group ${className}`}
             role="radiogroup"
             aria-label={label}

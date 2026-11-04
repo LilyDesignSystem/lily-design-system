@@ -47,7 +47,7 @@ public class ActionGroupTests : TestContext
         var cut = RenderComponent<ActionGroup>(p => p.Add(x => x.Label, "Editing").AddChildContent("<button>Bold</button>"));
         Assert.Empty(cut.FindAll(".action-group-overflow-trigger"));
         Assert.Empty(cut.FindAll(".action-group-overflow-menu"));
-        Assert.Empty(JSInterop.Invocations);
+        Assert.DoesNotContain(JSInterop.Invocations, i => i.Identifier == "import" && (string?)i.Arguments[0] == Popover.ModulePath);
     }
 
     [Fact]

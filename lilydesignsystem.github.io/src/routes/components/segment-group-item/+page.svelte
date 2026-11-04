@@ -89,7 +89,7 @@
     <h3>Keyboard</h3>
     <ul>
       <li>Tab: Focus moves to the checked segment (or first segment if none checked)</li>
-      <li>Arrow Left / Arrow Right: Consumer should implement arrow key navigation on the parent SegmentGroup</li>
+      <li>Arrow keys: Handled by the parent SegmentGroup, which moves and checks</li>
       <li>Space / Enter: Activates the focused segment (native button behavior)</li>
     </ul>
     <h3>Props</h3>

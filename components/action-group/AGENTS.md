@@ -29,9 +29,10 @@
 ## Keyboard
 
 - Tab: Move focus into and out of the group
-- Arrow keys: (Consumer-provided) recommended roving tabindex among buttons
+- Arrow keys: Move between the controls and wrap, swapped in right-to-left; one tab stop that follows focus; the overflow menu keeps its own
+- Home, End: Jump to the first or last control
 - Enter / Space: Activate focused button or toggle overflow
-- Escape: (Consumer-provided) close the overflow menu when open
+- Escape: Closes the overflow menu when open (the Popover API's)
 
 ## Props
 

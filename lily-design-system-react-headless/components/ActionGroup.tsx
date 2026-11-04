@@ -26,6 +26,7 @@
 //   - Adobe Spectrum ActionGroup: https://spectrum.adobe.com/page/action-group/
 
 import React, { useEffect, useId, useRef, useState } from "react";
+import { attachToolbar } from "./widget-keys";
 
 import { popoverSupported, usePopoverState } from "./Popover";
 
@@ -79,8 +80,12 @@ export default function ActionGroup({
         if (event.defaultPrevented) return;
         if (menu.current && !popoverSupported(menu.current)) change(!open);
     }
+    const rootRef = useRef<HTMLDivElement>(null);
+    useEffect(() => attachToolbar(rootRef.current!), []);
+
     return (
         <div
+            ref={rootRef}
             className={`action-group ${className}`}
             role="group"
             aria-label={label}

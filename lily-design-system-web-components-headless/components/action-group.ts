@@ -33,6 +33,7 @@
 // References:
 //   - components/action-group/index.md (canonical contract)
 
+import { attachToolbar } from "../lib/widget-keys.js";
 import { applySelfClassName, nextId } from "../lib/dom-utils.js";
 import { popoverSupported, syncPopover, toggleOpened } from "./popover.js";
 
@@ -82,6 +83,7 @@ export class ActionGroup extends HTMLElement {
         }
 
         this.#sync();
+        attachToolbar(this);
     }
 
     attributeChangedCallback(): void {

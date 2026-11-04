@@ -28,9 +28,10 @@
 ## Keyboard
 
 - Tab: Move focus into and out of the toolbar
-- Arrow keys: (Consumer-provided) recommended roving tabindex among buttons
+- Arrow keys: Move between the controls and wrap, swapped in right-to-left; one tab stop that follows focus
+- Home, End: Jump to the first or last control
 - Enter / Space: Activate focused action button
-- Escape: (Consumer-provided) dismiss or clear selection
+- Escape: Presses the clear button, when there is one
 
 ## Props
 

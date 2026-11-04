@@ -1,11 +1,13 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    input,
+    DestroyRef,
     ElementRef,
     OnInit,
     inject,
+    input,
 } from "@angular/core";
+import { attachToolbar } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
 
 /**
@@ -66,42 +68,22 @@ import { warnMissingName } from "./dev-warning";
     class="task-bar {{ className() }}"
     role="toolbar"
     [attr.aria-label]="label() || null"
-    (keydown)="onKeydown($event)"
   ><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskBar implements OnInit {
+    private readonly keysHost = inject(ElementRef);
+    private readonly keysDestroy = inject(DestroyRef);
+
+    ngAfterViewInit(): void {
+        const root = this.keysHost.nativeElement.querySelector(".task-bar");
+        this.keysDestroy.onDestroy(attachToolbar(root));
+    }
+
     private readonly lilyHost = inject(ElementRef);
 
     readonly label = input<string>("");
     readonly className = input<string>("");
-
-    /** Roving focus over buttons and tabindex descendants (left/right, wrapping; Home/End). */
-    protected onKeydown(event: KeyboardEvent): void {
-        const root = event.currentTarget as HTMLElement;
-        const items = Array.from(
-            root.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
-        );
-        const index = items.indexOf(document.activeElement as HTMLElement);
-        switch (event.key) {
-            case "ArrowRight":
-                event.preventDefault();
-                items[index < items.length - 1 ? index + 1 : 0]?.focus();
-                break;
-            case "ArrowLeft":
-                event.preventDefault();
-                items[index > 0 ? index - 1 : items.length - 1]?.focus();
-                break;
-            case "Home":
-                event.preventDefault();
-                items[0]?.focus();
-                break;
-            case "End":
-                event.preventDefault();
-                items[items.length - 1]?.focus();
-                break;
-        }
-    }
 
     ngOnInit(): void {
         const host: HTMLElement = this.lilyHost.nativeElement;

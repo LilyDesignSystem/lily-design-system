@@ -25,6 +25,7 @@
 //   - Adobe Spectrum Action Bar: https://spectrum.adobe.com/page/action-bar/
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
+import { attachToolbar } from "../lib/widget-keys.js";
 import { applySelfClassName } from "../lib/dom-utils.js";
 
 export class ActionBar extends HTMLElement {
@@ -55,6 +56,7 @@ export class ActionBar extends HTMLElement {
             button.addEventListener("click", this.#onClear);
             this.appendChild(button);
         }
+        attachToolbar(this, { dismiss: ".action-bar-clear" });
     }
 
     #onClear = (): void => {

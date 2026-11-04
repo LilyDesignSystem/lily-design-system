@@ -90,9 +90,10 @@
     <h3>Keyboard</h3>
     <ul>
       <li>Tab: Move focus into and out of the toolbar</li>
-      <li>Arrow keys: (Consumer-provided) recommended roving tabindex among buttons</li>
+      <li>Arrow keys: Move between the controls and wrap, swapped in right-to-left; one tab stop that follows focus</li>
+      <li>Home, End: Jump to the first or last control</li>
       <li>Enter / Space: Activate focused action button</li>
-      <li>Escape: (Consumer-provided) dismiss or clear selection</li>
+      <li>Escape: Presses the clear button, when there is one</li>
     </ul>
     <h3>Props</h3>
     <ul>

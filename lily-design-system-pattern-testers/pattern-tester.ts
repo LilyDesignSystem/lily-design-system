@@ -26,7 +26,7 @@ interface RovingStep {
     name: string;
     focus?: number;
     press?: string;
-    expect: { focusItem: Index; clicked?: Index };
+    expect: { focusItem: Index; clicked?: Index; checked?: Index };
 }
 
 interface SubmenuContract {
@@ -44,11 +44,19 @@ interface SubmenuContract {
 interface RovingContract {
     root: string;
     item: string;
+    oneTabStop?: boolean;
     fixture: string;
     steps: RovingStep[];
 }
 
-export type RovingPatternName = "tabs" | "menu" | "menubar" | "tree";
+export type RovingPatternName =
+    | "tabs"
+    | "menu"
+    | "menubar"
+    | "tree"
+    | "toolbar"
+    | "action-group"
+    | "radio-group";
 export type SubmenuPatternName = "menu-submenu" | "menubar-submenu";
 export type OverlayPatternName = "combobox" | "dialog";
 export type PatternName =
@@ -200,6 +208,16 @@ async function runRoving(pattern: RovingPatternName, options: PatternOptions): P
                 step.name,
                 `focus is on "${focused?.textContent?.trim()}", not "${want.textContent?.trim()}"`,
             );
+        if (step.expect.checked !== undefined) {
+            const on = all.filter((el) => el.getAttribute("aria-checked") === "true");
+            if (on.length !== 1 || on[0] !== all[at(step.expect.checked)])
+                fail(step.name, `${on.length} checked, and not the right one`);
+        }
+        if (contract.oneTabStop) {
+            const stops = items().filter((el) => el.tabIndex === 0);
+            if (stops.length !== 1 || stops[0] !== want)
+                fail(step.name, `${stops.length} tab stop(s), and it must be the focused item`);
+        }
         // A native button or link activates itself, which a synthetic key cannot show.
         const clicked = step.expect.clicked === undefined ? undefined : all[at(step.expect.clicked)];
         if (clicked && !clicked.matches("a[href],button") && !clicks.includes(clicked))

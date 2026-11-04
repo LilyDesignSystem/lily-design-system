@@ -1,15 +1,33 @@
 @namespace LilyBlazorHeadless.Components
+@inherits KeyedComponentBase
 
 @*
     ActionBar component
-    a contextual action bar that appears when items are selected, showing the selection count and bulk action buttons
+    a toolbar of bulk actions on a selection: the count, the consumer's action
+    buttons and an optional clear button. The keys are ActionBar.razor.js,
+    generated from shared/widget-keys.ts: arrows, Home and End move, one tab stop,
+    and Escape presses the clear button.
 *@
 
-<div class="@($"action-bar {CssClass}".Trim())" role="toolbar" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div @ref="Root" class="@($"action-bar {CssClass}".Trim())" role="toolbar" aria-label="@Label" data-selected-count="@SelectedCount" @attributes="AdditionalAttributes">
+    <span class="action-bar-count">@SelectedCountLabel</span>
+    @ChildContent
+    @if (!string.IsNullOrEmpty(ClearSelectionLabel))
+    {
+        <button class="action-bar-clear" type="button" aria-label="@ClearSelectionLabel" @onclick="OnClearSelection">×</button>
+    }
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public int SelectedCount { get; set; }
+    [Parameter] public string SelectedCountLabel { get; set; } = "";
+    [Parameter] public string? ClearSelectionLabel { get; set; }
+    [Parameter] public EventCallback OnClearSelection { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override string Kind => "toolbar";
+    protected override object? KeyOptions => new { dismiss = ".action-bar-clear" };
 }

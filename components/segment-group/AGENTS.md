@@ -31,8 +31,8 @@
 ## Keyboard
 
 - Tab: Moves focus into the segment group
-- Arrow Left / Arrow Right: Consumer should implement arrow key navigation between segments (following the radiogroup pattern)
-- Space / Enter: Consumer should implement activation of the focused segment
+- Arrow keys: Move to the next or previous segment and check it, wrapping, swapped in right-to-left; each change clicks the segment, which is how the consumer hears of it
+- Space / Enter: Check the focused segment
 
 ## Props
 

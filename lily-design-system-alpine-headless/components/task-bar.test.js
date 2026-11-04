@@ -16,4 +16,16 @@ describe("TaskBar", () => {
         await mount("task-bar");
         expect(el().tagName.toLowerCase()).toBe("div");
     });
+    it("arrows move between the controls", async () => {
+        await mount("task-bar");
+        const root = document.querySelector(".task-bar");
+        root.innerHTML = "<button>One</button><button>Two</button>";
+        const [one, two] = root.querySelectorAll("button");
+        one.focus();
+        one.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true, cancelable: true }),
+        );
+        await tick();
+        expect(document.activeElement).toBe(two);
+    });
 });

@@ -36,7 +36,8 @@
 //   - label is required
 //   - overflow trigger renders only when the overflow slot is provided
 
-import { ref, useId, useSlots } from "vue";
+import { onBeforeUnmount, onMounted, ref, useId, useSlots } from "vue";
+import { attachToolbar } from "./widget-keys";
 import { popoverSupported, toggleOpened, usePopoverState } from "./popover";
 
 withDefaults(
@@ -74,11 +75,18 @@ function onOverflowToggle(event: MouseEvent): void {
 
 const slots = useSlots();
 const hasOverflow = (): boolean => Boolean(slots.overflow);
+const rootRef = ref<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachToolbar(rootRef.value!);
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
     <!-- ActionGroup.vue -->
     <div
+        ref="rootRef"
         class="action-group"
         role="group"
         :aria-label="label"

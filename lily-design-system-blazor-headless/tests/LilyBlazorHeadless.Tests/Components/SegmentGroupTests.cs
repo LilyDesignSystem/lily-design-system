@@ -6,6 +6,11 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class SegmentGroupTests : TestContext
 {
+    public SegmentGroupTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+    }
+
     [Fact]
     public void Renders_with_kebab_base_class()
     {

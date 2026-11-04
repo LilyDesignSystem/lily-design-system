@@ -18,7 +18,7 @@ describe("SegmentGroup", function () {
     it("should have the correct ARIA role", async function () {
         const el = await $("div.segment-group");
         const roleAttr = await el.getAttribute("role");
-        expect(roleAttr).toBe("group");
+        expect(roleAttr).toBe("radiogroup");
     });
 
     it("should have an aria-label attribute", async function () {

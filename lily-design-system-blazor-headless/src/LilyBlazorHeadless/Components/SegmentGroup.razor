@@ -1,15 +1,18 @@
 @namespace LilyBlazorHeadless.Components
+@inherits KeyedComponentBase
 
 @*
     SegmentGroup component
     a group of mutually exclusive segment options
 *@
 
-<div class="@($"segment-group {CssClass}".Trim())" role="radiogroup" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div @ref="Root" class="@($"segment-group {CssClass}".Trim())" role="radiogroup" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override string Kind => "radio-group";
 }

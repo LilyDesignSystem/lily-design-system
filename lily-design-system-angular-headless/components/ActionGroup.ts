@@ -1,13 +1,16 @@
 import {
-    afterRenderEffect,
     ChangeDetectionStrategy,
     Component,
+    DestroyRef,
     ElementRef,
+    afterRenderEffect,
+    inject,
     input,
     model,
     output,
     viewChild,
 } from "@angular/core";
+import { attachToolbar } from "./widget-keys";
 
 import { popoverSupported, syncPopover, toggleOpened } from "./Popover";
 
@@ -57,6 +60,14 @@ let nextId = 0;
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionGroup {
+    private readonly keysHost = inject(ElementRef);
+    private readonly keysDestroy = inject(DestroyRef);
+
+    ngAfterViewInit(): void {
+        const root = this.keysHost.nativeElement.querySelector(".action-group");
+        this.keysDestroy.onDestroy(attachToolbar(root));
+    }
+
     /** Accessible label for the group. */
     readonly label = input<string>("");
     /** Accessible label for the overflow trigger; set it to show the overflow trigger and menu. */

@@ -5,7 +5,7 @@
   CSS class: menu-bar
 
   Params:
-    label       string   Accessible name. Default "Menu bar".
+    label       string   Accessible name, required unless labelledBy is given. No default: the words are yours.
     labelledBy  string
     id          string
     classes     string
@@ -22,7 +22,7 @@
 <div
   class="menu-bar{% if p.classes %} {{ p.classes }}{% endif %}"
   role="menubar"
-  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Menu bar') }}"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

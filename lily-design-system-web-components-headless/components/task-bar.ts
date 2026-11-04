@@ -27,6 +27,7 @@
 //   - components/task-bar/index.md (canonical contract)
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
+import { attachToolbar } from "../lib/widget-keys.js";
 import { applySelfClassName } from "../lib/dom-utils.js";
 
 export class TaskBar extends HTMLElement {
@@ -40,38 +41,6 @@ export class TaskBar extends HTMLElement {
         this.setAttribute("role", "toolbar");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
-        this.addEventListener("keydown", this.#onKeydown);
+        attachToolbar(this);
     }
-
-    #onKeydown = (event: KeyboardEvent): void => {
-        const items = Array.from(
-            this.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
-        );
-        const current = document.activeElement as HTMLElement;
-        const index = items.indexOf(current);
-        switch (event.key) {
-            case "ArrowRight": {
-                event.preventDefault();
-                const next = index < items.length - 1 ? index + 1 : 0;
-                items[next]?.focus();
-                break;
-            }
-            case "ArrowLeft": {
-                event.preventDefault();
-                const prev = index > 0 ? index - 1 : items.length - 1;
-                items[prev]?.focus();
-                break;
-            }
-            case "Home": {
-                event.preventDefault();
-                items[0]?.focus();
-                break;
-            }
-            case "End": {
-                event.preventDefault();
-                items[items.length - 1]?.focus();
-                break;
-            }
-        }
-    };
 }

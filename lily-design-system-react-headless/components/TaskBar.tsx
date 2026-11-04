@@ -48,7 +48,8 @@
 // References:
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { attachToolbar } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
 
 export interface TaskBarProps {
@@ -64,38 +65,7 @@ export default function TaskBar({ className = "", label, children, ...restProps 
     warnMissingName("TaskBar", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const barRef = useRef<HTMLDivElement>(null);
 
-    function handleKeyDown(event: React.KeyboardEvent) {
-        if (!barRef.current) return;
-        const items = Array.from(
-            barRef.current.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
-        );
-        const current = document.activeElement as HTMLElement;
-        const index = items.indexOf(current);
-        switch (event.key) {
-            case "ArrowRight": {
-                event.preventDefault();
-                const next = index < items.length - 1 ? index + 1 : 0;
-                items[next]?.focus();
-                break;
-            }
-            case "ArrowLeft": {
-                event.preventDefault();
-                const prev = index > 0 ? index - 1 : items.length - 1;
-                items[prev]?.focus();
-                break;
-            }
-            case "Home": {
-                event.preventDefault();
-                items[0]?.focus();
-                break;
-            }
-            case "End": {
-                event.preventDefault();
-                items[items.length - 1]?.focus();
-                break;
-            }
-        }
-    }
+    useEffect(() => attachToolbar(barRef.current!), []);
 
     return (
         <div
@@ -103,7 +73,6 @@ export default function TaskBar({ className = "", label, children, ...restProps 
             role="toolbar"
             aria-label={label}
             ref={barRef}
-            onKeyDown={handleKeyDown}
             {...restProps}
         >
             {children}

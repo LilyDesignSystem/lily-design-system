@@ -10,9 +10,9 @@ describe("task-bar", () => {
         expect(el.getAttribute("aria-label")).toBe("X");
     });
 
-    it("defaults aria-label to 'Task bar'", () => {
+    it("has no default name: the words are the consumer's", () => {
         const { document } = render("task-bar", {});
-        expect(document.querySelector("div.task-bar").getAttribute("aria-label")).toBe("Task bar");
+        expect(document.querySelector("div").hasAttribute("aria-label")).toBe(false);
     });
 
     it("prefers labelledBy over label", () => {

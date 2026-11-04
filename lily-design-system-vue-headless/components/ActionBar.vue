@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import { attachToolbar } from "./widget-keys";
 // ActionBar component
 //
 // A contextual action bar that appears when items are selected, showing
@@ -53,11 +55,18 @@ withDefaults(
 defineEmits<{
     (e: "clearSelection", event: MouseEvent): void;
 }>();
+const rootRef = ref<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachToolbar(rootRef.value!, { dismiss: ".action-bar-clear" });
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
     <!-- ActionBar.vue -->
     <div
+        ref="rootRef"
         class="action-bar"
         role="toolbar"
         :aria-label="label"

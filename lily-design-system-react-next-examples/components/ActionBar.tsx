@@ -30,7 +30,8 @@
 //   - Adobe Spectrum ActionBar: https://spectrum.adobe.com/page/action-bar/
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { attachToolbar } from "./widget-keys";
 
 export interface ActionBarProps {
     className?: string;
@@ -60,8 +61,12 @@ export default function ActionBar({
     ...restProps
 }: ActionBarProps) {
     const showClearButton = onClearSelection !== undefined && clearSelectionLabel !== undefined;
+    const rootRef = useRef<HTMLDivElement>(null);
+    useEffect(() => attachToolbar(rootRef.current!, { dismiss: ".action-bar-clear" }), []);
+
     return (
         <div
+            ref={rootRef}
             className={`action-bar ${className}`}
             role="toolbar"
             aria-label={label}

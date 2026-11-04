@@ -1548,5 +1548,177 @@
         "expect": {}
       }
     ]
+  },
+  "toolbar": {
+    "source": "WAI-ARIA APG toolbar: one tab stop, with arrows, Home and End (components/action-bar/AGENTS.md, components/task-bar/AGENTS.md).",
+    "root": "toolbar",
+    "item": "button",
+    "oneTabStop": true,
+    "fixture": "<button type=\"button\" role=\"button\">One</button><button type=\"button\" role=\"button\">Two</button><button type=\"button\" role=\"button\">Three</button>",
+    "steps": [
+      {
+        "name": "the first item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowRight moves to the next item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "ArrowLeft moves back",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowLeft wraps to the last item",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "ArrowRight wraps to the first item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "End jumps to the last item",
+        "press": "End",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      }
+    ]
+  },
+  "action-group": {
+    "source": "The APG toolbar keys on a role=\"group\", less its overflow menu (components/action-group/AGENTS.md).",
+    "root": "group",
+    "item": "button",
+    "oneTabStop": true,
+    "fixture": "<button type=\"button\" role=\"button\">One</button><button type=\"button\" role=\"button\">Two</button><button type=\"button\" role=\"button\">Three</button>",
+    "steps": [
+      {
+        "name": "the first item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowRight moves to the next item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "ArrowLeft moves back",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowLeft wraps to the last item",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "ArrowRight wraps to the first item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "End jumps to the last item",
+        "press": "End",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      }
+    ]
+  },
+  "radio-group": {
+    "source": "WAI-ARIA APG radio group: the arrows move and check (components/segment-group/AGENTS.md).",
+    "root": "radiogroup",
+    "item": "radio",
+    "oneTabStop": true,
+    "fixture": "<button type=\"button\" role=\"radio\" aria-checked=\"true\" tabindex=\"0\">One</button><button type=\"button\" role=\"radio\" aria-checked=\"false\" tabindex=\"-1\">Two</button><button type=\"button\" role=\"radio\" aria-checked=\"false\" tabindex=\"-1\">Three</button>",
+    "steps": [
+      {
+        "name": "the checked item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowRight moves and checks",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 1,
+          "checked": 1
+        }
+      },
+      {
+        "name": "ArrowDown moves and checks",
+        "press": "ArrowDown",
+        "expect": {
+          "focusItem": 2,
+          "checked": 2
+        }
+      },
+      {
+        "name": "ArrowRight wraps to the first",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 0,
+          "checked": 0
+        }
+      },
+      {
+        "name": "ArrowLeft wraps to the last",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": "last",
+          "checked": "last"
+        }
+      },
+      {
+        "name": "ArrowUp moves back and checks",
+        "press": "ArrowUp",
+        "expect": {
+          "focusItem": 1,
+          "checked": 1
+        }
+      }
+    ]
   }
 }

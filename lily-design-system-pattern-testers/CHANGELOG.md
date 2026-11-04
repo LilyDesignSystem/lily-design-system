@@ -2,6 +2,7 @@
 
 ## 0.1.0 — unreleased
 
+- `toolbar`, `action-group` and `radio-group`.
 - `command`: the command palette's keys.
 - `grid-actions`: sorting, editing and selecting by key.
 - `menu-submenu` and `menubar-submenu`. `menu`, `menubar` and `tree` gain type-ahead; `menu` and `tree` gain activation.

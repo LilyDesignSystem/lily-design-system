@@ -13,7 +13,9 @@
     "`aria-label` -- provides the accessible name for the toolbar, set from the `label` prop"
   ],
   "keyboard": [
-    "Tab: Focus moves to the first focusable item within the toolbar (native browser behavior)"
+    "Tab: Moves focus to the toolbar's one tab stop",
+    "Arrow keys: Move between the controls and wrap, swapped in right-to-left",
+    "Home, End: Jump to the first or last control"
   ],
   "props": [
     "`label`: string (required) -- accessible name for the toolbar via aria-label",

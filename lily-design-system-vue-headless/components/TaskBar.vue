@@ -49,7 +49,8 @@
 // References:
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
-import { ref, useAttrs } from "vue";
+import { onBeforeUnmount, onMounted, ref, useAttrs } from "vue";
+import { attachToolbar } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
@@ -61,38 +62,11 @@ warnMissingName("TaskBar", props.label, useAttrs()["aria-label"], useAttrs()["ar
 
 const barRef = ref<HTMLElement | undefined>(undefined);
 
-function onkeydown(event: KeyboardEvent) {
-    if (!barRef.value) return;
-    const items = Array.from(
-        barRef.value.querySelectorAll<HTMLElement>("button, [role='button'], [tabindex]"),
-    );
-    const current = document.activeElement as HTMLElement;
-    const index = items.indexOf(current);
-    switch (event.key) {
-        case "ArrowRight": {
-            event.preventDefault();
-            const next = index < items.length - 1 ? index + 1 : 0;
-            items[next]?.focus();
-            break;
-        }
-        case "ArrowLeft": {
-            event.preventDefault();
-            const prev = index > 0 ? index - 1 : items.length - 1;
-            items[prev]?.focus();
-            break;
-        }
-        case "Home": {
-            event.preventDefault();
-            items[0]?.focus();
-            break;
-        }
-        case "End": {
-            event.preventDefault();
-            items[items.length - 1]?.focus();
-            break;
-        }
-    }
-}
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachToolbar(barRef.value!);
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
@@ -102,7 +76,6 @@ function onkeydown(event: KeyboardEvent) {
         role="toolbar"
         :aria-label="label"
         ref="barRef"
-        @keydown="onkeydown"
     >
         <slot />
     </div>
