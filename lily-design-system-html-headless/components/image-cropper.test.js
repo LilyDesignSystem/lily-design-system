@@ -26,4 +26,11 @@ describe("ImageCropper", function () {
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });
+
+    it("Alt+ArrowLeft narrows the crop, with a real key", async function () {
+        const el = await $("div.image-cropper");
+        await browser.execute(() => document.querySelector("div.image-cropper").focus());
+        await browser.keys(["Alt", "ArrowLeft", "Alt"]);
+        expect(await el.getAttribute("data-crop-width")).toBe("99");
+    });
 });

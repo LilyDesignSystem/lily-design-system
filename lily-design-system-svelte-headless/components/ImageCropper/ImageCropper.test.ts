@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/svelte";
+import { fireEvent, render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
 import Subject from "./ImageCropper.svelte";
 function textSnippet(text: string) {
@@ -26,5 +26,12 @@ describe("ImageCropper", () => {
             props: { label: "C", "data-testid": "ic2", children: textSnippet("x") },
         });
         expect(screen.getByTestId("ic2")).toBeTruthy();
+    });
+
+    test("Alt+ArrowLeft narrows the crop", async () => {
+        render(Subject, { props: { label: "Crop", children: textSnippet("x") } });
+        const root = screen.getByRole("application");
+        await fireEvent.keyDown(root, { key: "ArrowLeft", altKey: true });
+        expect(root.getAttribute("data-crop-width")).toBe("99");
     });
 });

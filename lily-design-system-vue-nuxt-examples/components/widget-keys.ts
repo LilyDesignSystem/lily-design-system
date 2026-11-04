@@ -28,6 +28,12 @@
 // the consumer's. The character opens after anything but a Latin letter or digit: so an email address does not, and
 // text written without spaces, such as Chinese or Japanese, does. A key during IME composition is the IME's.
 //
+// attachCropper: a crop rectangle in percent of the image, over the consumer's image and overlay. On the focused root,
+// the arrows move it and Alt+arrows resize it, Shift ten steps at a time, Home and End jump along the row, and it stays
+// inside the image. The arrows are physical: they move a rectangle, not text, so right-to-left does not swap them. Each
+// change writes data-crop-x, -y, -width and -height and --crop-x, -y, -width and -height, reports to onChange and
+// dispatches a bubbling "image-cropper-change". Dragging, and saying the position aloud, are the consumer's.
+//
 // bin/sync-shared-modules strips the types for Nunjucks and Blazor and inlines the result in the HTML snippets. Edit it
 // here. The contracts in pattern-contracts.json hold every port to it.
 
@@ -545,6 +551,80 @@ export function attachMentions(root: HTMLElement, options: MentionsOptions = {})
     };
 }
 
+export interface CropRect {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+}
+
+export interface CropperOptions {
+    /** Where it starts. Default: the data-crop attributes, else the whole image. */
+    crop?: CropRect;
+    onChange?: (crop: CropRect) => void;
+}
+
+export function attachCropper(root: HTMLElement, options: CropperOptions = {}): () => void {
+    const start = (name: string, fallback: number): number => {
+        const read = Number(root.getAttribute(`data-crop-${name}`));
+        return root.hasAttribute(`data-crop-${name}`) && Number.isFinite(read) ? read : fallback;
+    };
+    let crop: CropRect = options.crop ?? {
+        x: start("x", 0),
+        y: start("y", 0),
+        width: start("width", 100),
+        height: start("height", 100),
+    };
+
+    function write(): void {
+        for (const [name, value] of Object.entries(crop)) {
+            root.setAttribute(`data-crop-${name}`, String(value));
+            root.style.setProperty(`--crop-${name}`, `${value}%`);
+        }
+    }
+    function set(next: CropRect): void {
+        const width = Math.min(100, Math.max(1, next.width));
+        const height = Math.min(100, Math.max(1, next.height));
+        const fitted = {
+            x: Math.min(100 - width, Math.max(0, next.x)),
+            y: Math.min(100 - height, Math.max(0, next.y)),
+            width,
+            height,
+        };
+        if (Object.entries(fitted).every(([k, v]) => crop[k as keyof CropRect] === v)) return;
+        crop = fitted;
+        write();
+        options.onChange?.(crop);
+        root.dispatchEvent(
+            new CustomEvent("image-cropper-change", { bubbles: true, detail: { ...crop } }),
+        );
+    }
+    function onKeydown(event: KeyboardEvent): void {
+        // A control inside it keeps its keys.
+        if (event.target !== root) return;
+        const by = event.shiftKey ? 10 : 1;
+        const delta: Record<string, [number, number]> = {
+            ArrowLeft: [-by, 0],
+            ArrowRight: [by, 0],
+            ArrowUp: [0, -by],
+            ArrowDown: [0, by],
+        };
+        const step = delta[event.key];
+        if (step && event.altKey)
+            set({ ...crop, width: crop.width + step[0], height: crop.height + step[1] });
+        else if (step) set({ ...crop, x: crop.x + step[0], y: crop.y + step[1] });
+        else if (event.key === "Home") set({ ...crop, x: 0 });
+        else if (event.key === "End") set({ ...crop, x: 100 - crop.width });
+        else return;
+        event.preventDefault();
+    }
+
+    if (!root.hasAttribute("tabindex")) root.tabIndex = 0;
+    write();
+    root.addEventListener("keydown", onKeydown);
+    return () => root.removeEventListener("keydown", onKeydown);
+}
+
 const ATTACH: Record<string, (el: HTMLElement, options?: never) => () => void> = {
     toolbar: attachToolbar as never,
     "radio-group": attachRadioGroup as never,
@@ -552,6 +632,7 @@ const ATTACH: Record<string, (el: HTMLElement, options?: never) => () => void> =
     "split-view": attachSplitView as never,
     "tree-popup": attachTreePopup as never,
     mentions: attachMentions as never,
+    cropper: attachCropper as never,
 };
 
 interface DotNetHost {
@@ -569,7 +650,8 @@ export function attach(
         void dotnet?.invokeMethodAsync(name, ...args);
     };
     const host = {
-        onChange: (value: unknown) => call("OnKeyedChange", value),
+        onChange: (value: unknown) =>
+            typeof value === "number" ? call("OnKeyedChange", value) : call("OnKeyedCrop", value),
         onOpen: (open: boolean) => call("OnKeyedOpen", open),
         onSelect: (selection: TreeSelection | string) =>
             typeof selection === "string"

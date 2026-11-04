@@ -2095,5 +2095,138 @@
         }
       }
     ]
+  },
+  "cropper": {
+    "source": "Moving and resizing a crop rectangle by key (components/image-cropper/AGENTS.md). The rectangle is in percent, and starts as the whole image.",
+    "steps": [
+      {
+        "name": "it starts as the whole image",
+        "expect": {
+          "x": 0,
+          "y": 0,
+          "width": 100,
+          "height": 100
+        }
+      },
+      {
+        "name": "a plain arrow cannot leave the image",
+        "press": "ArrowRight",
+        "expect": {
+          "x": 0,
+          "y": 0,
+          "width": 100,
+          "height": 100,
+          "prevented": true
+        }
+      },
+      {
+        "name": "Alt+ArrowLeft narrows it",
+        "press": "ArrowLeft",
+        "alt": true,
+        "expect": {
+          "x": 0,
+          "y": 0,
+          "width": 99,
+          "height": 100
+        }
+      },
+      {
+        "name": "Alt+ArrowUp shortens it",
+        "press": "ArrowUp",
+        "alt": true,
+        "expect": {
+          "x": 0,
+          "y": 0,
+          "width": 99,
+          "height": 99
+        }
+      },
+      {
+        "name": "Shift+Alt narrows it ten steps",
+        "press": "ArrowLeft",
+        "alt": true,
+        "shift": true,
+        "expect": {
+          "x": 0,
+          "y": 0,
+          "width": 89,
+          "height": 99
+        }
+      },
+      {
+        "name": "ArrowRight moves it",
+        "press": "ArrowRight",
+        "expect": {
+          "x": 1,
+          "y": 0,
+          "width": 89,
+          "height": 99
+        }
+      },
+      {
+        "name": "ArrowDown moves it",
+        "press": "ArrowDown",
+        "expect": {
+          "x": 1,
+          "y": 1,
+          "width": 89,
+          "height": 99
+        }
+      },
+      {
+        "name": "it stops at the bottom edge",
+        "press": "ArrowDown",
+        "expect": {
+          "x": 1,
+          "y": 1,
+          "width": 89,
+          "height": 99
+        }
+      },
+      {
+        "name": "Shift moves it ten steps, and stops at the edge",
+        "press": "ArrowRight",
+        "shift": true,
+        "expect": {
+          "x": 11,
+          "y": 1,
+          "width": 89,
+          "height": 99
+        }
+      },
+      {
+        "name": "Home jumps to the left",
+        "press": "Home",
+        "expect": {
+          "x": 0,
+          "y": 1,
+          "width": 89,
+          "height": 99,
+          "prevented": true
+        }
+      },
+      {
+        "name": "End jumps to the right",
+        "press": "End",
+        "expect": {
+          "x": 11,
+          "y": 1,
+          "width": 89,
+          "height": 99,
+          "prevented": true
+        }
+      },
+      {
+        "name": "any other key is left alone",
+        "press": "a",
+        "expect": {
+          "x": 11,
+          "y": 1,
+          "width": 89,
+          "height": 99,
+          "prevented": false
+        }
+      }
+    ]
   }
 }

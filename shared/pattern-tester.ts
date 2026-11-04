@@ -71,6 +71,7 @@ export type PatternName =
     | "splitter"
     | "tree-popup"
     | "mentions"
+    | "cropper"
     | "autosuggest"
     | "tree-expand";
 
@@ -138,6 +139,14 @@ interface MentionsStep {
     type?: string;
     click?: number;
     expect: { expanded: boolean; active?: Index; value?: string; prevented?: boolean };
+}
+
+interface CropperStep {
+    name: string;
+    press?: string;
+    alt?: boolean;
+    shift?: boolean;
+    expect: { x: number; y: number; width: number; height: number; prevented?: boolean };
 }
 
 interface SplitterStep {
@@ -488,6 +497,35 @@ async function runMentions(options: PatternOptions): Promise<void> {
             fail(step.name, `the input holds "${input.value}"`);
         if (wantPrevented !== undefined && prevented !== wantPrevented)
             fail(step.name, `defaultPrevented is ${prevented}, not ${wantPrevented}`);
+    }
+}
+
+async function runCropper(options: PatternOptions): Promise<void> {
+    const { root, hook } = options;
+    const fail = (name: string, message: string): never => {
+        throw new Error(`cropper, ${hook}, "${name}": ${message}`);
+    };
+    if (!named(root)) fail("setup", "it has no name");
+    if (root.tabIndex !== 0) fail("setup", "it is not focusable");
+    for (const step of contracts.cropper.steps as CropperStep[]) {
+        let prevented: boolean | undefined;
+        if (step.press) {
+            const event = new KeyboardEvent("keydown", {
+                key: step.press,
+                altKey: step.alt ?? false,
+                shiftKey: step.shift ?? false,
+                bubbles: true,
+                cancelable: true,
+            });
+            prevented = await fire(root, event, options);
+        }
+        const { prevented: wantPrevented, ...rect } = step.expect;
+        for (const [name, value] of Object.entries(rect)) {
+            const read = root.getAttribute(`data-crop-${name}`);
+            if (read !== String(value)) fail(step.name, `data-crop-${name} is ${read}, not ${value}`);
+        }
+        if (wantPrevented !== undefined && prevented !== wantPrevented)
+            fail(step.name, `defaultPrevented is ${prevented}`);
     }
 }
 
@@ -853,6 +891,7 @@ export async function runPattern(pattern: PatternName, options: PatternOptions):
     if (pattern === "splitter") return runSplitter(options);
     if (pattern === "tree-popup") return runTreePopup(options);
     if (pattern === "mentions") return runMentions(options);
+    if (pattern === "cropper") return runCropper(options);
     if (pattern === "menu-submenu" || pattern === "menubar-submenu")
         return runSubmenu(pattern, options);
     if (pattern === "dialog") return runDialog(options);

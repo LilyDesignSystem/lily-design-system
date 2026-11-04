@@ -6,6 +6,7 @@
 // widget-keys.js is generated from shared/widget-keys.ts.
 
 import {
+    attachCropper,
     attachMentions,
     attachRadioGroup,
     attachSplitter,
@@ -27,5 +28,6 @@ export function autoInit(doc = document) {
         ...all(".cascader", (el) => attachTreePopup(el, { exclusive: true })),
         ...all(".tree-select", (el) => attachTreePopup(el)),
         ...all(".mentions-input", (el) => attachMentions(el)),
+        ...all(".image-cropper", (el) => attachCropper(el)),
     ];
 }

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from "vue";
+import { attachCropper, type CropRect } from "./widget-keys";
 // ImageCropper component
 //
 // A headless container for cropping and resizing an image to a selected region.
@@ -47,14 +49,29 @@
 //
 // References:
 //   - WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application
-defineProps<{
+const props = defineProps<{
     label: string;
+    /** Where the rectangle starts, in percent. Default: the whole image. */
+    crop?: CropRect;
 }>();
+
+const emit = defineEmits<{ cropChange: [crop: CropRect] }>();
+
+const rootEl = ref<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachCropper(rootEl.value!, {
+        crop: props.crop,
+        onChange: (next) => emit("cropChange", next),
+    });
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
     <!-- ImageCropper.vue -->
     <div
+        ref="rootEl"
         class="image-cropper"
         role="application"
         :aria-label="label"

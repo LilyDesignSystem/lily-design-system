@@ -37,4 +37,15 @@ describe("ImageCropper", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("Alt+ArrowLeft narrows the crop", () => {
+        const fixture = TestBed.createComponent(ImageCropper);
+        fixture.componentRef.setInput("label", "Crop");
+        fixture.detectChanges();
+        const root: HTMLElement = fixture.nativeElement.querySelector(".image-cropper");
+        root.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "ArrowLeft", altKey: true, bubbles: true }),
+        );
+        expect(root.getAttribute("data-crop-width")).toBe("99");
+    });
 });

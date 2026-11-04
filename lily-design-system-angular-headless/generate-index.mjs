@@ -32,6 +32,8 @@ function isComponentSource(name) {
     if (name === "form-reset.ts") return false;
     // Internal shared listbox machine (a copy from shared/); Listbox.ts exports the public ListboxNavigation.
     if (name === "listbox-machine.ts") return false;
+    // Internal copies from shared/. widget-keys.ts stays: its TreeSelection and CropRect are public types.
+    if (["combobox-keys.ts", "command-keys.ts", "dev-warning.ts", "menu-keys.ts"].includes(name)) return false;
     if (name.includes(".stories.")) return false;
     return true;
 }

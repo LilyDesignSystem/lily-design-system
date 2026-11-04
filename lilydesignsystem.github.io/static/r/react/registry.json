@@ -4987,6 +4987,9 @@
       "title": "ImageCropper",
       "description": "A container for cropping and resizing an image to a selected region.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "content"
       ],

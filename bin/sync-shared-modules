@@ -73,6 +73,7 @@ EXTRA_TARGETS = {
         "lily-design-system-html-headless/components/task-bar.html",
         "lily-design-system-html-headless/components/segment-group.html",
         "lily-design-system-html-headless/components/splitter.html",
+        "lily-design-system-html-headless/components/image-cropper.html",
         "lily-design-system-html-headless/components/cascader.html",
         "lily-design-system-html-headless/components/tree-select.html",
         "lily-design-system-html-headless/components/mentions-input.html",

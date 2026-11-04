@@ -3,6 +3,7 @@
 import { afterEach, expect, test, vi } from "vitest";
 
 import {
+    attachCropper,
     attachMentions,
     attachRadioGroup,
     attachSplitter,
@@ -329,5 +330,43 @@ test("a key during IME composition is the IME's, and blur closes", () => {
     expect(press(input, "ArrowDown", { isComposing: true }).defaultPrevented).toBe(false);
     input.dispatchEvent(new FocusEvent("blur"));
     expect(onOpen).toHaveBeenLastCalledWith(false);
+    detach();
+});
+
+test("a crop starts where it is told, or from its attributes, and reports each change", () => {
+    const root = mount(`<div data-crop-x="10" data-crop-y="20" data-crop-width="30" data-crop-height="40"></div>`);
+    const onChange = vi.fn();
+    const heard = vi.fn();
+    root.addEventListener("image-cropper-change", (e) => heard((e as CustomEvent).detail.x));
+    const detach = attachCropper(root, { onChange });
+    expect(root.tabIndex).toBe(0);
+    press(root, "ArrowRight");
+    expect(onChange).toHaveBeenCalledWith({ x: 11, y: 20, width: 30, height: 40 });
+    expect(heard).toHaveBeenCalledWith(11);
+    expect(root.style.getPropertyValue("--crop-x")).toBe("11%");
+    detach();
+    const given = mount("<div></div>");
+    const detachGiven = attachCropper(given, { crop: { x: 5, y: 5, width: 10, height: 10 } });
+    expect(given.getAttribute("data-crop-width")).toBe("10");
+    detachGiven();
+});
+
+test("a crop keeps a size, and a key that changes nothing reports nothing", () => {
+    const root = mount(`<div data-crop-width="1" data-crop-height="1"></div>`);
+    const onChange = vi.fn();
+    const detach = attachCropper(root, { onChange });
+    press(root, "ArrowLeft", { altKey: true });
+    press(root, "ArrowUp", { altKey: true });
+    press(root, "ArrowLeft");
+    expect(onChange).not.toHaveBeenCalled();
+    detach();
+});
+
+test("the arrows stay physical in right-to-left, and a control inside keeps its keys", () => {
+    const root = mount(`<div style="direction: rtl" data-crop-width="50"><input /></div>`);
+    const detach = attachCropper(root);
+    press(root, "ArrowRight");
+    expect(root.getAttribute("data-crop-x")).toBe("1");
+    expect(press(root.querySelector("input")!, "ArrowRight").defaultPrevented).toBe(false);
     detach();
 });

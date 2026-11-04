@@ -24,11 +24,19 @@
 
 ## Keyboard
 
-- No keyboard interactions are baked in — this is a passive container. Consumers wire pointer and keyboard handling for the crop region and resize handles inside the provided children.
+- ArrowLeft, ArrowRight, ArrowUp, ArrowDown: Move the crop rectangle. They are physical, since they move a rectangle over an image, not text, so right-to-left does not swap them
+- Alt+arrows: Resize it
+- Shift: Ten steps at a time
+- Home, End: Jump along the row
+- A key on a control inside it stays that control's
+
+The rectangle is `{ x, y, width, height }` in percent, and stays inside the image. Each change writes `data-crop-x`, `-y`, `-width`, `-height` and `--crop-x`, `-y`, `-width`, `-height`, and reports the rectangle. Dragging, drawing the overlay, and announcing the position in the consumer's words are the consumer's. From `shared/widget-keys.ts`, held to the `cropper` contract.
 
 ## Props
 
 - `label`: string (required) -- accessible description of the image cropper via `aria-label`
+- `crop`: `{ x, y, width, height }`, optional -- where the rectangle starts, in percent; default the whole image
+- `onCropChange`: function, optional -- called with each new rectangle
 - `children`: slot (required) -- the image and crop overlay surface (image, canvas, SVG, or cropping-library output)
 
 ## Acceptance Criteria

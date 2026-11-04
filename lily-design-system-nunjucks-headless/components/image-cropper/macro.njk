@@ -26,7 +26,8 @@
 <div
   class="image-cropper{% if p.classes %} {{ p.classes }}{% endif %}"
   role="application"
-  aria-label="{{ p.label | default('Image cropper') }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  tabindex="0"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

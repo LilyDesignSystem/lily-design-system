@@ -109,6 +109,7 @@
   "blazor:five-face-rating-picker": "native: five radios sharing one name, so the arrow keys are the browser's, which bUnit cannot drive; FiveFaceRatingPickerTests proves the shared name and the checked state, and the html-headless wdio test sends the keys in a browser",
   "blazor:five-star-rating-picker": "native: five radios sharing one name, so the arrow keys are the browser's, which bUnit cannot drive; FiveStarRatingPickerTests proves the shared name and the checked state, and the html-headless wdio test sends the keys in a browser",
   "blazor:horizontal-scroller": "native: a focusable scroll region the browser scrolls with the arrow keys; the keys are the browser's, which jsdom and bUnit do not run (P12-T5a)",
+  "blazor:image-cropper": "browser-side: the keys are handled in ActionBar.razor.js, which bUnit cannot run; tested by tests/js/image-cropper.pattern.test.mjs under jsdom, which CI runs",
   "blazor:mentions-input": "contract: the keys it lists belong to its parent component, the consumer or native buttons; it handles none itself (P12-T5a)",
   "blazor:menu": "browser-side: the keys are handled in Menu.razor.js, which bUnit cannot run; tested by tests/js/menu.test.mjs under jsdom, which CI runs (P12-T5a)",
   "blazor:menu-bar": "browser-side: the keys are handled in Menu.razor.js, which bUnit cannot run; tested by tests/js/menu-bar.test.mjs under jsdom, which CI runs (P12-T5a)",

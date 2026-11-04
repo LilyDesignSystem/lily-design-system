@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import Subject from "./ImageCropper";
 function textSnippet(text: string) {
@@ -25,5 +25,12 @@ describe("ImageCropper", () => {
             </Subject>,
         );
         expect(screen.getByTestId("ic")).toBeTruthy();
+    });
+
+    test("Alt+ArrowLeft narrows the crop", () => {
+        render(<Subject label="Crop">{null}</Subject>);
+        const root = screen.getByRole("application");
+        fireEvent.keyDown(root, { key: "ArrowLeft", altKey: true });
+        expect(root.getAttribute("data-crop-width")).toBe("99");
     });
 });

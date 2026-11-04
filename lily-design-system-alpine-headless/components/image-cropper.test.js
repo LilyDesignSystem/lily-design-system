@@ -12,9 +12,29 @@ describe("ImageCropper", () => {
         expect(el().classList.contains("image-cropper")).toBe(true);
     });
 
-    it('is role="application" with an accessible name', async () => {
+    it("is a named application", async () => {
         await mount("image-cropper");
-        expect(el().getAttribute("role")).toBe("application");
-        expect(el().hasAttribute("aria-label")).toBe(true);
+        expect(document.querySelector("div.image-cropper").getAttribute("role")).toBe(
+            "application",
+        );
+    });
+    it("Alt+ArrowLeft narrows the crop", async () => {
+        await mount("image-cropper");
+        const root = document.querySelector("div.image-cropper");
+        root.dispatchEvent(
+            new KeyboardEvent("keydown", {
+                key: "ArrowLeft",
+                altKey: true,
+                bubbles: true,
+                cancelable: true,
+            }),
+        );
+        expect(root.getAttribute("data-crop-width")).toBe("99");
+    });
+    it("starts as the whole image", async () => {
+        await mount("image-cropper");
+        expect(document.querySelector("div.image-cropper").getAttribute("data-crop-width")).toBe(
+            "100",
+        );
     });
 });

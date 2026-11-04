@@ -40,6 +40,10 @@ public abstract class KeyedComponentBase : ComponentBase, IAsyncDisposable
     [JSInvokable]
     public virtual Task OnKeyedChange(double value) => Task.CompletedTask;
 
+    /// <summary>The keys moved a crop rectangle.</summary>
+    [JSInvokable]
+    public virtual Task OnKeyedCrop(CropRect crop) => Task.CompletedTask;
+
     /// <summary>The keys opened or closed a popup.</summary>
     [JSInvokable]
     public virtual Task OnKeyedOpen(bool open) => Task.CompletedTask;
@@ -64,6 +68,9 @@ public abstract class KeyedComponentBase : ComponentBase, IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 }
+
+/// <summary>A crop rectangle, in percent of the image.</summary>
+public sealed record CropRect(double X, double Y, double Width, double Height);
 
 /// <summary>A choice in a Cascader or TreeSelect.</summary>
 public sealed record TreeSelection(string Value, string[] Path, string[] Selected);

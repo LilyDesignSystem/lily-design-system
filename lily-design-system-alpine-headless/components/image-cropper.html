@@ -4,8 +4,8 @@
   Description: a container for cropping and resizing an image to a selected region
   HTML tag: <div>
   CSS class: image-cropper
-  Keyboard: None (passive element)
-  Accessibility: role="application" with aria-label naming the cropping purpose
+  Keyboard: the arrows move the crop and Alt+arrows resize it, Shift ten steps at a time; Home/End jump along the row
+  Accessibility: role="application" with aria-label naming the cropping purpose; the rectangle is in data-crop-x, -y, -width and -height
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -13,6 +13,8 @@
   class="image-cropper"
   role="application"
   aria-label=""
+  tabindex="0"
+  x-lily-cropper
 >
   <!-- Consumer provides the image and the crop overlay (canvas, SVG handles or a cropping library) -->
 </div>

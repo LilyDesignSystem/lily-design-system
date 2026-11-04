@@ -36,6 +36,7 @@ leaves out. Keep testing with a screen reader and real users.
 | `splitter`          | The arrows for the orientation, Shift, Home, End, Enter collapsing   | Dragging; applying the value to the panes  |               |
 | `tree-popup`        | A trigger opening a tree: its arrows, type-ahead, choosing, Escape   | `exclusive` and `multiple`                 |               |
 | `mentions`          | A trigger character, the arrows, writing a mention, Escape           | Filtering, which is yours                  |               |
+| `cropper`           | Moving and resizing a crop rectangle by key, inside the image        | Dragging, and the overlay                  |               |
 | `dialog`            | A named modal `<dialog>`, focus in and back, Escape and `cancel`     | The Tab trap and inert page: the browser's | `open`        |
 | `picker-listbox`    | Lily's icon button opening a listbox                                 | Lily's own shape, not a general pattern    |               |
 | `picker-disclosure` | Lily's icon button opening a disclosure                              | Lily's own shape, not a general pattern    |               |

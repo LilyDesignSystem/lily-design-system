@@ -48,8 +48,13 @@
 //   - WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application
 
 import React from "react";
+import { attachCropper, type CropRect } from "./widget-keys";
 
 export interface ImageCropperProps {
+    /** Where the rectangle starts, in percent. Default: the whole image. */
+    crop?: CropRect;
+    /** Called with each new rectangle. */
+    onCropChange?: (crop: CropRect) => void;
     className?: string;
     /** Accessible label. */
     label: string;
@@ -61,11 +66,27 @@ export interface ImageCropperProps {
 export default function ImageCropper({
     className = "",
     label,
+    crop = undefined,
+    onCropChange = undefined,
     children,
     ...restProps
 }: ImageCropperProps) {
+    const rootRef = React.useRef<HTMLDivElement>(null);
+    const latest = React.useRef(onCropChange);
+    latest.current = onCropChange;
+    const start = React.useRef(crop);
+    React.useEffect(
+        () =>
+            attachCropper(rootRef.current!, {
+                crop: start.current,
+                onChange: (next) => latest.current?.(next),
+            }),
+        [],
+    );
+
     return (
         <div
+            ref={rootRef}
             className={`image-cropper ${className}`}
             role="application"
             aria-label={label}

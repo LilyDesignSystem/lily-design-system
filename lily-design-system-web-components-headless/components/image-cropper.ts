@@ -14,6 +14,7 @@
 //   - components/image-cropper/index.md (canonical contract)
 //   - WAI-ARIA application Role: https://www.w3.org/TR/wai-aria-1.2/#application
 
+import { attachCropper } from "../lib/widget-keys.js";
 import { applySelfClassName } from "../lib/dom-utils.js";
 
 export class ImageCropper extends HTMLElement {
@@ -27,5 +28,6 @@ export class ImageCropper extends HTMLElement {
         this.setAttribute("role", "application");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
+        attachCropper(this);
     }
 }

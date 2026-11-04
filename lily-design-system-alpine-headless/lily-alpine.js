@@ -12,7 +12,7 @@
 //   Alpine.start();
 
 import { menuKeydown } from "./menu-keys.js";
-import { attachSplitView, attachToolbar } from "./widget-keys.js";
+import { attachCropper, attachSplitView, attachToolbar } from "./widget-keys.js";
 import { truncateMiddle } from "./middle-truncation.js";
 import { setupOverflowNavigation } from "./overflow-navigation.js";
 import {
@@ -252,6 +252,11 @@ function treeCore({ wrap = false, exclusive = false, expanded = [] } = {}) {
 }
 
 export default function lily(Alpine) {
+    // An image cropper, on its root: the crop rectangle's keys.
+    Alpine.directive("lily-cropper", (el, _, { cleanup }) => {
+        cleanup(attachCropper(el));
+    });
+
     // A split view, on its root: the divider's keys, and data-split-percent kept in step.
     Alpine.directive("lily-split-view", (el, _, { cleanup }) => {
         cleanup(attachSplitView(el));

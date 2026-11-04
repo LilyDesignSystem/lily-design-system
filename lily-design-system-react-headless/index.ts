@@ -539,6 +539,10 @@ export { default as HrvatskaOsobniIdentifikacijskiBrojInput } from "./components
 export type { HrvatskaOsobniIdentifikacijskiBrojInputProps } from "./components/HrvatskaOsobniIdentifikacijskiBrojInput";
 export { default as HrvatskaOsobniIdentifikacijskiBrojView } from "./components/HrvatskaOsobniIdentifikacijskiBrojView";
 export type { HrvatskaOsobniIdentifikacijskiBrojViewProps } from "./components/HrvatskaOsobniIdentifikacijskiBrojView";
+export { default as IbanInput } from "./components/IbanInput";
+export type { IbanInputProps } from "./components/IbanInput";
+export { default as IbanView } from "./components/IbanView";
+export type { IbanViewProps } from "./components/IbanView";
 export { default as Icon } from "./components/Icon";
 export type { IconProps } from "./components/Icon";
 export { default as IconButton } from "./components/IconButton";
@@ -1031,10 +1035,6 @@ export { default as SverigePersonnummerInput } from "./components/SverigePersonn
 export type { SverigePersonnummerInputProps } from "./components/SverigePersonnummerInput";
 export { default as SverigePersonnummerView } from "./components/SverigePersonnummerView";
 export type { SverigePersonnummerViewProps } from "./components/SverigePersonnummerView";
-export { default as IbanInput } from "./components/IbanInput";
-export type { IbanInputProps } from "./components/IbanInput";
-export { default as IbanView } from "./components/IbanView";
-export type { IbanViewProps } from "./components/IbanView";
 export { default as SwitchButton } from "./components/SwitchButton";
 export type { SwitchButtonProps } from "./components/SwitchButton";
 export { default as TabBar } from "./components/TabBar";

@@ -279,13 +279,37 @@ const choose = async (files) => {
         "the emoji picker",
         "Consumer provides grid rows and cells holding the emoji, and any category filtering",
     ),
-    "image-cropper": passive(
-        "image-cropper",
-        "div",
-        "application",
-        "the cropping purpose",
-        "Consumer provides the image and the crop overlay (canvas, SVG handles or a cropping library)",
-    ),
+    "image-cropper": {
+        tag: "div",
+        keyboard:
+            "the arrows move the crop and Alt+arrows resize it, Shift ten steps at a time; Home/End jump along the row",
+        aria: 'role="application" with aria-label naming the cropping purpose; the rectangle is in data-crop-x, -y, -width and -height',
+        markup: `<div
+  class="image-cropper"
+  role="application"
+  aria-label=""
+  tabindex="0"
+  x-lily-cropper
+>
+  <!-- Consumer provides the image and the crop overlay (canvas, SVG handles or a cropping library) -->
+</div>`,
+        sel: "div.image-cropper",
+        test: `
+  it("is a named application", async () => {
+    await mount("image-cropper");
+    expect(document.querySelector("div.image-cropper").getAttribute("role")).toBe("application");
+  });
+  it("Alt+ArrowLeft narrows the crop", async () => {
+    await mount("image-cropper");
+    const root = document.querySelector("div.image-cropper");
+    root.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft", altKey: true, bubbles: true, cancelable: true }));
+    expect(root.getAttribute("data-crop-width")).toBe("99");
+  });
+  it("starts as the whole image", async () => {
+    await mount("image-cropper");
+    expect(document.querySelector("div.image-cropper").getAttribute("data-crop-width")).toBe("100");
+  });`,
+    },
     "signature-pad": passive(
         "signature-pad",
         "div",
