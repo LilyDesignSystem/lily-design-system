@@ -169,6 +169,9 @@
       "title": "AddressInput",
       "description": "An input for searching or manually entering an address.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "forms"
       ],
@@ -4330,6 +4333,9 @@
       "title": "GoToTop",
       "description": "A link that returns users to the top of a long page.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "links"
       ],
@@ -6551,6 +6557,9 @@
       "title": "MutuallyExclusive",
       "description": "A container ensuring only one option can be selected from a group.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
@@ -8566,6 +8575,9 @@
       "title": "SharePage",
       "description": "A component for sharing the page on social media.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
