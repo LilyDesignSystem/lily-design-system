@@ -99,6 +99,16 @@ EXTRA_TARGETS = {
         "lily-design-system-alpine-headless/wheel-picker.js",
         "lily-design-system-html-headless/components/wheel-picker.html",
     ],
+    # Development warnings (spec/testing): beside each component that reports one, and in the example apps' copies.
+    "dev-warning.ts": [
+        "lily-design-system-svelte-headless/components/IconButton/dev-warning.ts",
+        "lily-design-system-react-headless/components/dev-warning.ts",
+        "lily-design-system-react-next-examples/components/dev-warning.ts",
+        "lily-design-system-vue-headless/components/dev-warning.ts",
+        "lily-design-system-vue-nuxt-examples/components/dev-warning.ts",
+        "lily-design-system-angular-headless/components/dev-warning.ts",
+        "lily-design-system-angular-examples/src/app/components/dev-warning.ts",
+    ],
     # The listbox behaviour core (spec/competitive-position item 3) and the modules it imports, beside each Listbox.
     # bin/sync-example-components mirrors the Svelte Listbox folder whole, but copies only slug-named companions of a
     # React, Vue or Angular component, so those examples' copies are written here.

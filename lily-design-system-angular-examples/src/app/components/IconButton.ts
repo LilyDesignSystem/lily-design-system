@@ -2,10 +2,13 @@ import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
+    OnInit,
     ViewChild,
     computed,
     input,
 } from "@angular/core";
+
+import { warnMissingName } from "./dev-warning";
 
 /**
  * IconButton — a button containing only an icon with a required accessible label
@@ -59,7 +62,7 @@ import {
     host: { style: "display: contents" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IconButton {
+export class IconButton implements OnInit {
     /** Accessible label (REQUIRED for icon-only buttons in practice; enforced by convention, not the type system, to match the button's own required aria-label contract). */
     readonly label = input<string>("");
     /** Extra CSS classes appended after the base class. */
@@ -79,6 +82,10 @@ export class IconButton {
         const v = this.ariaExpanded();
         return v === null ? null : String(v);
     });
+
+    ngOnInit(): void {
+        warnMissingName("IconButton", this.label());
+    }
 
     /** Focus the real rendered `<button>`. */
     focus(options?: FocusOptions): void {

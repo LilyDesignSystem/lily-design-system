@@ -61,6 +61,8 @@
 
 import React from "react";
 
+import { warnMissingName } from "./dev-warning";
+
 // Extends the real DOM attributes interface — rather than a `[key: string]:
 // unknown` catch-all — so restProps (aria-haspopup, aria-expanded,
 // aria-controls, onKeyDown, etc.) keep their real types, and so
@@ -92,6 +94,7 @@ const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function
     }: IconButtonProps,
     ref: React.ForwardedRef<HTMLButtonElement>,
 ) {
+    warnMissingName("IconButton", label, restProps["aria-labelledby"]);
     return (
         <button
             className={`${baseClass} ${className}`}

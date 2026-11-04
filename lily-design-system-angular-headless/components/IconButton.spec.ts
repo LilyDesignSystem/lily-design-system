@@ -1,6 +1,7 @@
-import { describe, expect, test } from "vitest";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { TestBed } from "@angular/core/testing";
 
+import { resetDevWarnings } from "./dev-warning";
 import { IconButton } from "./IconButton";
 
 describe("IconButton", () => {
@@ -62,5 +63,36 @@ describe("IconButton", () => {
         fixture.detectChanges();
         const button = fixture.nativeElement.querySelector("button");
         expect(fixture.componentInstance.element).toBe(button);
+    });
+});
+
+describe("IconButton — development warnings", () => {
+    beforeEach(() => resetDevWarnings());
+
+    afterEach(() => {
+        vi.restoreAllMocks();
+        vi.unstubAllEnvs();
+        resetDevWarnings();
+    });
+
+    test("a missing label warns", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        TestBed.createComponent(IconButton).detectChanges();
+        expect(warn).toHaveBeenCalledOnce();
+    });
+
+    test("a label does not warn", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        const fixture = TestBed.createComponent(IconButton);
+        fixture.componentRef.setInput("label", "Close");
+        fixture.detectChanges();
+        expect(warn).not.toHaveBeenCalled();
+    });
+
+    test("production is silent", () => {
+        vi.stubEnv("NODE_ENV", "production");
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        TestBed.createComponent(IconButton).detectChanges();
+        expect(warn).not.toHaveBeenCalled();
     });
 });

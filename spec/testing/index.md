@@ -245,6 +245,20 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 - Proved to fail: removing `aria-selected` from `theme-picker` in each of the eight ports fails its run.
 - Not built yet: combobox, menu, tabs, dialog, tree and grid contracts, and a published package for adopters.
 
+## Development warnings
+
+(2026-11-03, P23-T2.) `shared/dev-warning.ts`, copied by `bin/sync-shared-modules`, gives `warnMissingName` and `warnDeprecated`. A message is
+for the developer, so it is English and exempt from the no-hardcoded-strings rule. It prints once.
+
+- **When it prints:** only where a bundler replaces `process.env.NODE_ENV` with something other than `production`. With no bundler, the read
+  throws and the module is silent.
+- **Off switch:** `globalThis.lilyWarnings = false`.
+- **Production cost:** silent, but about 275 minified bytes stay in a bundle, because the guard runs inside a function a bundler cannot fold.
+- **Pilot:** `icon-button` in Svelte, React, Vue and Angular, with tests for a missing label, a name from `aria-labelledby` where the catalog
+  passes it, and production silence. Web Components already throws on a missing label. Blazor has `[EditorRequired]`.
+- **HTML, Nunjucks and Alpine** have no component code to hook, so they need a page-level check (P23-T7).
+- **Open:** the other 166 interactive components with a required `label`.
+
 ## Acceptance criteria
 
 - [x] Each headless library's unit suite covers all 609 components (548 in Web Components) with its framework runner (vitest / bUnit / WebdriverIO). html-headless's WebdriverIO run itself still can't complete in this specific interactive sandbox (an unexplained early SIGINT, not the network block previously assumed — see the table above) — file-count coverage confirmed instead.

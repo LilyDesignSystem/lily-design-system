@@ -1,7 +1,9 @@
 import { render, screen } from "@testing-library/svelte";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
-import { describe, expect, test, vi } from "vitest";
+import { flushSync } from "svelte";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
+import { resetDevWarnings } from "./dev-warning";
 import Subject from "./IconButton.svelte";
 
 // Helper to create a Svelte 5 snippet for children content.
@@ -174,5 +176,37 @@ describe("IconButton", () => {
             },
         });
         expect(ref).toBe(screen.getByRole("button"));
+    });
+});
+
+describe("IconButton — development warnings", () => {
+    const silent = (() => {}) as never;
+
+    afterEach(() => {
+        vi.restoreAllMocks();
+        vi.unstubAllEnvs();
+        resetDevWarnings();
+    });
+
+    test("a missing label warns", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(silent);
+        render(Subject, { props: { label: "", children: silent } });
+        flushSync();
+        expect(warn).toHaveBeenCalledOnce();
+    });
+
+    test("aria-labelledby is a name, so it does not warn", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(silent);
+        render(Subject, { props: { label: "", "aria-labelledby": "x", children: silent } });
+        flushSync();
+        expect(warn).not.toHaveBeenCalled();
+    });
+
+    test("production is silent", () => {
+        vi.stubEnv("NODE_ENV", "production");
+        const warn = vi.spyOn(console, "warn").mockImplementation(silent);
+        render(Subject, { props: { label: "", children: silent } });
+        flushSync();
+        expect(warn).not.toHaveBeenCalled();
     });
 });
