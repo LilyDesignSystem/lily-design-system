@@ -189,6 +189,8 @@ function zoneOffsetMinutes(timeZone: string, instantMs: number): number | null {
             second: "2-digit",
         }).formatToParts(new Date(instantMs));
         const n = (type: string) => Number(parts.find((x) => x.type === type)?.value);
+        // Read the zone's wall-clock fields as if they were UTC; the difference from the real instant is the offset.
+        // `% 24`: some engines report midnight as hour 24 even with `hourCycle: "h23"`.
         const local = Date.UTC(
             n("year"),
             n("month") - 1,
@@ -197,6 +199,7 @@ function zoneOffsetMinutes(timeZone: string, instantMs: number): number | null {
             n("minute"),
             n("second"),
         );
+        // The formatted fields have whole-second resolution, so drop the instant's milliseconds before subtracting.
         return (local - Math.floor(instantMs / 1000) * 1000) / 60000;
     } catch {
         return null;
@@ -231,6 +234,8 @@ export function zonedMinutes(value: unknown, referenceDate?: string): number | n
     const local = h * 60 + m + (sec || 0) / 60;
     if (!referenceDate || !isCivilDate(referenceDate)) return local;
     const [y, mo, d] = referenceDate.split("-").map(Number);
+    // The stated local time read as UTC; the offset is looked up there, not at the true instant, so a time inside a
+    // daylight-saving transition hour can be off by that shift.
     const guess = Date.UTC(y, mo - 1, d, h, m, sec || 0);
     const offset = zoneOffsetMinutes(value.timeZone, guess);
     if (offset === null) return local;
@@ -242,6 +247,7 @@ export function zonedUtcTime(value: unknown, referenceDate?: string): string | n
     if (!referenceDate || !isCivilDate(referenceDate)) return null;
     const minutes = zonedMinutes(value, referenceDate);
     if (minutes === null) return null;
+    // Wrap into 0..1439: the UTC instant can fall on the previous or next day, and `%` keeps the sign of a negative.
     const day = ((Math.round(minutes) % 1440) + 1440) % 1440;
     return `${String(Math.floor(day / 60)).padStart(2, "0")}:${String(day % 60).padStart(2, "0")}`;
 }
@@ -258,6 +264,7 @@ function zoneLabel(
         const parts = new Intl.DateTimeFormat(locale, {
             timeZone,
             timeZoneName: "short",
+        // Noon UTC, so the date is the same calendar day in every zone and the short name is that day's (BST vs GMT).
         }).formatToParts(new Date(`${referenceDate}T12:00:00Z`));
         return parts.find((x) => x.type === "timeZoneName")?.value ?? timeZone;
     } catch {
@@ -311,11 +318,13 @@ export function aggregateValues(kind: DataGridAggregate, values: unknown[]): unk
         case "median": {
             if (numbers.length === 0) return null;
             const sorted = numbers.slice().sort((a, b) => a - b);
+            // Odd count: the middle value. Even count: the mean of the two middle ones.
             const mid = sorted.length >> 1;
             return sorted.length % 2 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
         }
         case "min":
         case "max": {
+            // Compare numbers when every present value is one; otherwise compare strings. Mixed sets use the strings only.
             const pool =
                 numbers.length === present.length
                     ? numbers
@@ -658,6 +667,7 @@ export function resolveColumn<T extends TypedColumn>(
 ): T {
     if (!column.type) return column;
     const defaults = typeDefaults(column, gridLocale) as Record<string, unknown>;
+    // Drop undefined props first, so `{ align: undefined }` does not overwrite a type default.
     const own = Object.fromEntries(Object.entries(column).filter(([, v]) => v !== undefined));
     const resolved = { ...defaults, ...own } as TypedColumn;
     const locale = column.locale ?? gridLocale;
@@ -668,6 +678,7 @@ export function resolveColumn<T extends TypedColumn>(
             (column.accessor
                 ? (row: Record<string, unknown>) => column.accessor!(row) as unknown[]
                 : (row: Record<string, unknown>) => row[column.id] as unknown[]);
+        // One result per row object: sorting and filtering call the accessor many times per row.
         const cache = new WeakMap<object, unknown>();
         const format = resultFormatter(column, locale);
         resolved.accessor = (row: Record<string, unknown>) => {
@@ -698,6 +709,7 @@ export function resolveColumn<T extends TypedColumn>(
             if (!found) {
                 const expression = source(row);
                 if (isEmpty(expression)) found = { value: null };
+                // No engine supplied: Lily never evaluates a string itself, so the expression shows as stored.
                 else if (typeof column.evaluate !== "function") found = { value: expression };
                 else {
                     try {
@@ -707,6 +719,7 @@ export function resolveColumn<T extends TypedColumn>(
                             columnId: column.id,
                         });
                     } catch (error) {
+                        // A throwing engine becomes a visible error message on that row, not a crashed grid.
                         found = { error: error instanceof Error ? error.message : String(error) };
                     }
                 }
