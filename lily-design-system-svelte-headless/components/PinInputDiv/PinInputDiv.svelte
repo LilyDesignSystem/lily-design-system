@@ -41,14 +41,13 @@
     //
     // Accessibility:
     //   - role="group" with aria-label on the container identifies the PIN group
-    //   - Each input has aria-label="Digit X of Y" for positional context
+    //   - Each input is named by `digitLabel(position, length)` when given (e.g. "Digit 2 of 4"), else by `label`
     //   - inputmode="numeric" ensures numeric keyboard on mobile devices
     //   - maxlength="1" restricts each input to a single character
     //
     // Internationalization:
     //   - The label prop is consumer-provided for the group name
-    //   - Individual "Digit X of Y" labels are currently hardcoded in English
-    //   - No other hardcoded user-facing strings
+    //   - Each digit's name comes from the consumer's `digitLabel`; without it the group `label` is used. No English default
     //
     // Claude rules:
     //   - Headless: no CSS, no styles — consumer provides all styling
@@ -115,7 +114,6 @@
         value = combinedValue;
     });
 
-    // Handle input events on individual digit fields
     // Form reset: the digit inputs use a one-way `value`, which a reset clears
     // without telling this component, so `value` would keep digits the fields no
     // longer show. Restore the initial digits instead — one tick later, after the
@@ -142,6 +140,7 @@
         };
     });
 
+    // Handle input events on individual digit fields
     function handleInput(index: number, event: Event): void {
         const target = event.target as HTMLInputElement;
         const inputValue = target.value;
