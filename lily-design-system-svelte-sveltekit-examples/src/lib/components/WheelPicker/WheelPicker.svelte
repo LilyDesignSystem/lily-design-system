@@ -87,11 +87,14 @@
 
     const uid = $props.id();
     let list: HTMLElement | undefined = $state();
+    // Typeahead state: the prefix typed so far and when the last key came. Plain (not $state) because nothing renders from it.
     let typeahead: WheelTypeahead = { prefix: "", at: 0 };
 
+    // -1 when `value` matches no option; every move then starts from "nothing selected".
     const selectedIndex = $derived(options.findIndex((o) => o.value === value));
 
     function select(index: number): void {
+        // -1 means no option can be selected (no enabled option, or a typeahead with no match): nothing changes.
         if (index < 0) return;
         const next = options[index].value;
         if (next === value) return; // applying the selection already held is a no-op
@@ -110,6 +113,7 @@
                 }),
             );
         } else if (isWheelTypeaheadKey(event)) {
+            // The timestamp lets the helper restart the prefix after a pause; the helper decides, this component only supplies the clock.
             typeahead = nextWheelPrefix(typeahead, event.key, Date.now());
             select(wheelTypeaheadIndex(options, selectedIndex, typeahead.prefix));
         }
@@ -117,9 +121,11 @@
 
     function onclick(event: MouseEvent): void {
         if (disabled) return;
+        // The click may land on something inside an option, so find the option; its `data-index` is its place in `options`.
         const target = (event.target as Element).closest<HTMLElement>('[role="option"]');
         if (!target || target.getAttribute("aria-disabled") === "true") return;
         select(Number(target.getAttribute("data-index")));
+        // Focus stays on the list, which owns the keys, not on the option clicked.
         list?.focus();
     }
 
@@ -129,6 +135,7 @@
         if (!list || index < 0) return;
         const option = list.querySelector<HTMLElement>(`[data-index="${index}"]`);
         if (!option) return;
+        // Set `scrollTop` directly rather than `scrollIntoView`, which can also scroll the page. This puts the option's middle at the list's middle.
         list.scrollTop = option.offsetTop - (list.clientHeight - option.offsetHeight) / 2;
     });
 </script>
