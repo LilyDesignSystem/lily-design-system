@@ -120,6 +120,12 @@ EXTRA_TARGETS = {
         "lily-design-system-angular-headless/components/dev-warning.ts",
         "lily-design-system-angular-examples/src/app/components/dev-warning.ts",
     ],
+    # The page-level development check (spec/testing), for the catalogs with no component code to hook.
+    "page-check.js": [
+        "lily-design-system-html-headless/components/page-check.js",
+        "lily-design-system-nunjucks-headless/components/page-check.js",
+        "lily-design-system-alpine-headless/page-check.js",
+    ],
     # The listbox behaviour core (spec/competitive-position item 3) and the modules it imports, beside each Listbox.
     # bin/sync-example-components mirrors the Svelte Listbox folder whole, but copies only slug-named companions of a
     # React, Vue or Angular component, so those examples' copies are written here.

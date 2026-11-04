@@ -44,6 +44,7 @@
     "index.js",
     "components/*/macro.njk",
     "components/contents-nav/spy.js",
+    "components/page-check.js",
     "index.md",
     "README.md"
   ],

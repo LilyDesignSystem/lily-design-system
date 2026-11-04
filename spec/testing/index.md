@@ -294,7 +294,11 @@ for the developer, so it is English and exempt from the no-hardcoded-strings rul
 - **Exceptions:** `bin/check-dev-warnings.allow.json` lists components whose `label` is optional in a port though their
   `AGENTS.md` says required, so they cannot warn: seven in Svelte, four in React. Which is right is an open question.
 - Web Components already throws on a missing label. Blazor has `[EditorRequired]`.
-- **HTML, Nunjucks and Alpine** have no component code to hook, so they need a page-level check (P23-T7).
+- **HTML, Nunjucks and Alpine** have no component code to hook, so `shared/page-check.js` looks at the rendered page instead:
+  `checkPage()` warns about each interactive element with no accessible name, and `findUnnamed()` returns them. It is opt-in, so it costs
+  nothing unless a page loads it, and it honours `lilyWarnings = false`. A placeholder does not count as a name. `bin/sync-shared-modules`
+  copies it to `components/page-check.js` in HTML and Nunjucks and `page-check.js` in Alpine. `e2e/page-check.spec.ts` runs it over the
+  HTML app's 17 composed pages and 609 component pages; it found 11 demos with no name, all fixed. The other P23-T7 rules are still to do.
 
 ## Content Security Policy
 
