@@ -89,11 +89,13 @@
     <h3>Keyboard</h3>
     <ul>
       <li>Tab: Focus the input</li>
-      <li>Trigger character: Consumer opens suggestions</li>
-      <li>Arrow Down / Up: Consumer moves active suggestion</li>
-      <li>Enter: Consumer commits active suggestion</li>
-      <li>Escape: Consumer closes suggestions panel</li>
+      <li>Trigger character: Opens the list, except inside a Latin word such as an email address; text written without spaces, such as Chinese or Japanese, still opens it</li>
+      <li>ArrowDown, ArrowUp: Move the highlight and wrap, while open; focus stays in the input</li>
+      <li>Enter: Writes the highlighted mention at the caret</li>
+      <li>Escape: Closes the list</li>
+      <li>A key during IME composition belongs to the IME</li>
     </ul>
+    <p>Filtering is the consumer's, from the query it is told. From <code>shared/widget-keys.ts</code>, held to the <code>mentions</code> contract.</p>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (REQUIRED)</li>
