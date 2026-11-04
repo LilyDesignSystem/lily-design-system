@@ -172,6 +172,8 @@ export function valueArity(operator: FilterOperator): 0 | 1 | 2 | "many" {
 // Building and editing (immutable)
 // ---------------------------------------------------------------------
 
+// Module-level, so ids are unique across every filter on the page but not stable across reloads: `fromJson` always mints fresh ones,
+// which is why `toJson` leaves ids out.
 let counter = 0;
 /** A node id, unique in this page's lifetime. */
 export const newId = (prefix = "n"): string => `${prefix}${++counter}`;
@@ -200,9 +202,11 @@ export function updateNode(
     change: (node: FilterNode) => FilterNode | null,
 ): FilterGroup {
     if (root.id === id) {
+        // The root can be replaced by another group, but not deleted or turned into a rule: either answer keeps the old root.
         const next = change(root);
         return next && next.type === "group" ? next : root;
     }
+    // Structural sharing: a subtree is rebuilt only when something under it changed, so `===` tells a caller whether an edit did anything.
     let changed = false;
     const children: FilterNode[] = [];
     for (const child of root.children) {
@@ -252,6 +256,8 @@ export function changeField(
 export function changeOperator(rule: FilterRule, operator: FilterOperator): FilterRule {
     const arity = valueArity(operator);
     const wasMany = valueArity(rule.operator) === "many";
+    // The value survives only between operators of the same shape: a list stays a list (`in` to `not-in`), a single value stays single,
+    // and switching between the two clears it, because `["a"]` is not a text value and `"a"` is not a list.
     return {
         ...rule,
         operator,
@@ -284,6 +290,7 @@ export function isIsoDate(value: unknown): value is string {
     const m = ISO_DATE.exec(value);
     if (!m) return false;
     const [y, mo, d] = [Number(m[1]), Number(m[2]), Number(m[3])];
+    // `Date.UTC` rolls an impossible date over (2026-02-30 becomes 2 March), so a real date is one that reads back unchanged.
     const t = new Date(Date.UTC(y, mo - 1, d));
     return t.getUTCFullYear() === y && t.getUTCMonth() === mo - 1 && t.getUTCDate() === d;
 }
@@ -329,6 +336,7 @@ export function ruleIssue(rule: FilterRule, fields: readonly FilterField[]): Rul
     if (arity === 2) {
         const second = check(rule.value2);
         if (second) return second;
+        // Numbers compare numerically; ISO dates compare correctly as text, so one comparison serves both field types.
         const [a, b] = [rule.value as number | string, rule.value2 as number | string];
         if (a > b) return "range-order";
     }
@@ -389,6 +397,7 @@ function ruleMatches(rule: FilterRule, field: FilterField, row: Record<string, u
             break;
     }
     // Comparisons: numbers numerically, dates and everything else as text (ISO dates sort as text).
+    // A missing or non-numeric cell can satisfy only the negated comparisons: it is never `gt` or `between` anything, but it is not equal either.
     const left: number | string = type === "number" ? Number(raw) : asText(raw);
     const a: number | string = type === "number" ? Number(value) : asText(value);
     const b: number | string = type === "number" ? Number(value2) : asText(value2);
@@ -429,8 +438,10 @@ export function toPredicate(
     if (!tree) return () => true;
     const byId = new Map(fields.map((f) => [f.id, f]));
     const test = (node: FilterNode, row: Record<string, unknown>): boolean => {
+        // The `!` is safe: `normalise` has already dropped every rule whose field is not declared.
         if (node.type === "rule") return ruleMatches(node, byId.get(node.field)!, row);
         const results = node.children.map((c) => test(c, row));
+        // Every child is evaluated (no short-circuit), which is harmless: matching has no side effects and a group is small.
         const ok = node.combinator === "and" ? results.every(Boolean) : results.some(Boolean);
         return node.not ? !ok : ok;
     };
@@ -489,6 +500,7 @@ export function fromJson(
             value?: unknown;
             value2?: unknown;
         };
+        // A node with a `rules` array is a group; a missing combinator means `and`, any other word is an error rather than a guess.
         if (Array.isArray(o.rules)) {
             const combinator =
                 o.combinator === "or"
@@ -517,6 +529,7 @@ export function fromJson(
                 value: o.value,
                 value2: o.value2,
             };
+            // Imported rules are held to the same checks as typed ones, so a hand-edited file cannot smuggle in an undeclared field or operator.
             const issue = ruleIssue(rule, fields);
             if (issue) {
                 errors.push(`${path}: ${issue}`);
@@ -527,6 +540,7 @@ export function fromJson(
         errors.push(`${path}: neither a rule nor a group`);
         return null;
     };
+    // A bare rule at the top is wrapped in a group; a failed read gives an empty filter and the errors say why.
     const root = read(json, "$");
     if (root && root.type === "group") return { group: root, errors };
     return { group: root ? createGroup("and", [root]) : EMPTY_FILTER(), errors };
@@ -547,6 +561,8 @@ export type SqlOptions = {
 
 export type SqlResult = { sql: string; params: unknown[] };
 
+// The only text that is ever written into SQL besides operators: a column name, so it must be a plain (optionally dotted) identifier.
+// With that rule the quote character can never appear inside the name, so no escaping of the quotes is needed.
 const IDENTIFIER = /^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*$/;
 
 function quoteIdentifier(name: string, dialect: SqlDialect): string {
@@ -560,11 +576,13 @@ function quoteIdentifier(name: string, dialect: SqlDialect): string {
         .join(".");
 }
 
+// `%` and `_` are LIKE wildcards and `\` is the escape character itself, so a user's "50%" matches a literal percent sign.
 const escapeLike = (text: string): string => text.replace(/[\\%_]/g, (c) => `\\${c}`);
 
 function sqlLiteral(value: unknown): string {
     if (value === null || value === undefined) return "NULL";
     if (typeof value === "number") return String(value);
+    // Booleans are written 1/0 in every dialect (SQL Server has no `TRUE` literal). Inline text is for display only, so a PostgreSQL boolean column is not accommodated.
     if (typeof value === "boolean") return value ? "1" : "0";
     return `'${String(value).replace(/'/g, "''")}'`;
 }
@@ -585,6 +603,7 @@ export function toSql(
     const params: unknown[] = [];
     const bind = (value: unknown): string => {
         if (inline) return sqlLiteral(value);
+        // SQLite and SQL Server have no boolean parameter type, so a boolean is sent as 1 or 0.
         params.push(
             typeof value === "boolean" && (dialect === "mssql" || dialect === "sqlite")
                 ? value
@@ -592,6 +611,7 @@ export function toSql(
                     : 0
                 : value,
         );
+        // The placeholder is numbered after the push, so it is the parameter's 1-based position.
         return dialect === "postgres"
             ? `$${params.length}`
             : dialect === "mssql"
@@ -600,6 +620,7 @@ export function toSql(
     };
     // MySQL reads a backslash in a string literal as an escape itself, so its ESCAPE character is written twice.
     const escapeClause = dialect === "mysql" ? "ESCAPE '\\\\'" : "ESCAPE '\\'";
+    // Case-insensitive match: PostgreSQL has ILIKE; the others lower-case both sides, which also works wherever the collation is case-sensitive.
     const like = (column: string, pattern: string, negate: boolean): string => {
         const op = negate ? "NOT LIKE" : "LIKE";
         if (dialect === "postgres")
@@ -620,6 +641,7 @@ export function toSql(
                 return like(column, `${escapeLike(String(v))}%`, false);
             case "ends-with":
                 return like(column, `%${escapeLike(String(v))}`, false);
+            // Text equality ignores case, to agree with the in-memory predicate; other types compare exactly.
             case "equals":
                 return type === "text"
                     ? `LOWER(${column}) = LOWER(${bind(v)})`
@@ -644,6 +666,7 @@ export function toSql(
                 return `${column} IN (${(v as unknown[]).map(bind).join(", ")})`;
             case "not-in":
                 return `${column} NOT IN (${(v as unknown[]).map(bind).join(", ")})`;
+            // For text, "empty" means null or the empty string, as in the predicate; for other types only null can be empty.
             case "is-empty":
                 return type === "text"
                     ? `(${column} IS NULL OR ${column} = '')`
@@ -661,6 +684,7 @@ export function toSql(
     const write = (g: FilterGroup, top: boolean): string => {
         const parts = g.children.map((c) => (c.type === "rule" ? rule(c) : write(c, false)));
         const joined = parts.join(g.combinator === "and" ? " AND " : " OR ");
+        // Parentheses only where precedence needs them: a negated group always, a nested group of several parts, never the top level.
         if (g.not) return `NOT (${joined})`;
         return parts.length > 1 && !top ? `(${joined})` : joined;
     };
@@ -671,6 +695,7 @@ export function toSql(
 // MongoDB
 // ---------------------------------------------------------------------
 
+// Escape every regex metacharacter, so user text is matched literally.
 const escapeRegex = (text: string): string => text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /** The filter as a MongoDB query document. An empty filter is `{}`. */
@@ -690,6 +715,7 @@ export function toMongo(
         switch (r.operator) {
             case "contains":
                 return { [key]: regex(escapeRegex(String(v))) };
+            // `$not` wraps an operator expression or a RegExp, not the `$regex` / `$options` pair, so the case-insensitive flag goes on a RegExp here.
             case "not-contains":
                 return { [key]: { $not: new RegExp(escapeRegex(String(v)), "i") } };
             case "starts-with":
@@ -710,6 +736,7 @@ export function toMongo(
                 return { [key]: { $lte: v } };
             case "between":
                 return { [key]: { $gte: v, $lte: r.value2 } };
+            // No single operator means "outside a range", so it is two comparisons joined by `$or`.
             case "not-between":
                 return { $or: [{ [key]: { $lt: v } }, { [key]: { $gt: r.value2 } }] };
             case "in":
@@ -732,6 +759,7 @@ export function toMongo(
     };
     const write = (g: FilterGroup): Record<string, unknown> => {
         const parts = g.children.map((c) => (c.type === "rule" ? rule(c) : write(c)));
+        // A lone child needs no `$and` / `$or` wrapper. MongoDB has no top-level `$not`, so a negated group is `$nor` of one document.
         const body =
             parts.length === 1 ? parts[0] : { [g.combinator === "and" ? "$and" : "$or"]: parts };
         return g.not ? { $nor: [body] } : body;
@@ -743,6 +771,7 @@ export function toMongo(
 // OData
 // ---------------------------------------------------------------------
 
+// An OData string literal is single-quoted, with a quote inside doubled.
 const odataString = (v: unknown): string => `'${String(v).replace(/'/g, "''")}'`;
 
 /** The filter as an OData `$filter` expression. An empty filter is `""`. */
@@ -754,6 +783,7 @@ export function toOData(group: FilterGroup, fields: readonly FilterField[]): str
         const field = byId.get(r.field)!;
         const name = field.column ?? field.id;
         const type = fieldType(field);
+        // Numbers and dates are written bare (a date is the ISO `YYYY-MM-DD` literal, Edm.Date); everything else, option ids included, is a quoted string.
         const lit = (v: unknown): string =>
             type === "number" ? String(v) : type === "date" ? String(v) : odataString(v);
         const v = r.value;
@@ -782,6 +812,7 @@ export function toOData(group: FilterGroup, fields: readonly FilterField[]): str
                 return `(${name} ge ${lit(v)} and ${name} le ${lit(r.value2)})`;
             case "not-between":
                 return `(${name} lt ${lit(v)} or ${name} gt ${lit(r.value2)})`;
+            // The `in` operator needs OData 4.01 or later; a 4.0 service would need an `or` chain instead.
             case "in":
                 return `${name} in (${(v as unknown[]).map(lit).join(",")})`;
             case "not-in":
@@ -818,6 +849,7 @@ export function formatFilter(
     format: FilterOutputFormat,
     dialect: SqlDialect = "ansi",
 ): string {
+    // Inline SQL is what makes the text readable on screen; it is never the form to send to a database, hence `toSql` defaults to parameters.
     switch (format) {
         case "json":
             return JSON.stringify(toJson(group, fields), null, 2);
