@@ -3271,6 +3271,34 @@ below was built when the phase was written. Marked unverified in that topic: re-
 Notes for P22-T11, T15, T16, T17, T19, T23, T26 and the P16 support policy are in
 [the topic](spec/design-system-survey-lessons/index.md#notes-for-existing-tasks); read them when picking up those tasks.
 
+## Phase 24 — Local CI/CD (2026-11-04)
+
+Source and rationale: [spec/local-ci](spec/local-ci/index.md); plan: [plan.md § Phase 24](plan.md#phase-24--local-cicd-2026-11-04).
+Nothing below was built when the phase was written. Web claims are marked unverified in the topic: re-check before relying on them.
+
+- [ ] **P24-T1 Make `CI` green on `main`.** _(2026-11-04: the last 6 completed runs failed. Read in the logs of the run on `49e29d7be`: the example-app Playwright jobs fail with `browserType.launch: Executable doesn't exist` for Firefox and WebKit, because the workflow runs `playwright install --with-deps chromium` while the configs now also run a cross-engine set in Firefox and WebKit (P18-T1); `helper packages tests (web-components)` fails with `vitest.config.ts(1,36): Cannot find module 'node:url'`; `spell check` fails in `cspell` (reason not read). 17 jobs failed on the run for `9c7b13299`, and the rest were not read.)_ Install the three browsers in the jobs that run them, add the Node types the config needs, read the other failures, and list each cause here.
+      Verify: a push to `main` gives a green `CI` run.
+- [ ] **P24-T2 A tiered local gate, `bin/ci`.** `--fast`, `--full`, `--job <name>`, `--list`; one function per CI job, running the commands the YAML runs; `ci.yml` calls `bin/ci --job <name>`, so the local and GitHub runs cannot drift. Prints a table of step, result and seconds. Split the install-free parts of `bin/test` out as the fast tier.
+      Verify: `bin/ci --list` names all 13 jobs; `ci.yml` has no command `bin/ci` lacks; `bin/ci --full` passes on a clean checkout.
+- [ ] **P24-T3 A pre-push hook.** `.githooks/pre-push` runs `bin/ci --fast`; `bin/setup-hooks` sets `core.hooksPath`. A hook is skippable (`--no-verify`), so it prevents mistakes, not misconduct.
+      Verify: a deliberately stale generated file stops a push; `bin/setup-hooks` is idempotent.
+- [ ] **P24-T4 Cheaper, quieter GitHub runs.** _(2026-11-04: `ci.yml` has no `concurrency`, no `paths` filter and no `timeout-minutes`; six runs stacked within an hour.)_ Add `concurrency: { group: ci-${{ github.ref }}, cancel-in-progress: true }`, `timeout-minutes` on every job, and `paths` filters so a Markdown-only commit skips the matrices (keep `verify` and `spell-check`).
+      Verify: two quick pushes leave one run; a docs-only commit runs only `verify`, `lint` and `spell-check`.
+- [ ] **P24-T5 A receipt for the local run.** `bin/ci --full` writes `.ci/receipt.json` (SHA, clean or dirty tree, each job's result and duration, tool versions, date; git-ignored). `bin/publish-helpers` and `bin/publish-headless` refuse a real publish without a clean, all-green receipt for the same SHA. A receipt is self-asserted: it proves discipline, not integrity.
+      Verify: a real publish on a dirty tree or a different SHA refuses; `--dry-run` is unaffected.
+- [ ] **P24-T6 A clean-room mode.** `bin/ci --clean` runs the full gate in a fresh `git worktree` of `HEAD` with nothing carried over, and the Linux jobs in a container with `--platform linux/amd64`. _(2026-11-04: a worktree of `main` without the site's dependencies failed `bin/test` at `bin/generate-site-pages` with `MODULE_NOT_FOUND`, which a normal checkout hides.)_
+      Verify: the clean run fails on a dependency missing from a lockfile that a normal run does not notice.
+- [ ] **P24-T7 Trial `act` on one job.** Run `verify` and one Playwright job with `act` (not installed); record what does not work and what the arm64 versus amd64 images change. Reported gaps (concurrency, parts of the `github` context, `workflow_dispatch` inputs, service containers) are from secondary sources and unverified. Not a gate.
+      Verify: the notes in `spec/local-ci` list each failure with its job.
+- [ ] **P24-T8 Trial a Forgejo runner with the unchanged `ci.yml`.** Register a Forgejo Actions runner on the Mac or a small VM against Codeberg and run one job from the same file.
+      Verify: one job runs green on the Forgejo runner, or the notes name why it cannot.
+- [ ] **P24-T9 Decide on a second forge's CI.** _(Maintainer decision.)_ Options: Woodpecker on Codeberg by request form (hosted, "as-is and might break at any time", `linux/amd64` only), Forgejo Actions on your own runner (T8), a self-hosted GitHub runner, or none. A self-hosted runner on this public repository must run only `push` on `main`, never pull requests from forks. GitLab's open source program and the postponed GitHub self-hosted fee are unverified for 2026.
+      Verify: the decision and its reason are recorded in `spec/local-ci`.
+- [ ] **P24-T10 Say what CI is for.** Once T2 exists: CI proves the clean-room result for an outside observer and holds the OIDC identity for publishing; the maintainer's gate is `bin/ci`. State it in `spec/tooling` and `docs/releasing.md`.
+      Verify: both documents say it, and `bin/check-links` passes.
+- [ ] **P24-T11 Measure before optimising.** Record each job's duration and cache hit rate for a month (`gh run list`, `gh run view`); the 13 jobs repeat the same installs, so a shared cache or a combined install may save more than any local tool.
+      Verify: a table of job, median minutes and cache hits is in `spec/local-ci`.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
