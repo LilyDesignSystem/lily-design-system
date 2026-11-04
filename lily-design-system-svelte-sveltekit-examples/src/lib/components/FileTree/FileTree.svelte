@@ -49,9 +49,11 @@
     );
 
     let treeRef: HTMLElement | undefined = $state(undefined);
+    // Typeahead state: the characters typed so far, cleared half a second after the last one.
     let buffer = "";
     let bufferTimer: ReturnType<typeof setTimeout> | undefined;
 
+    // Every treeitem in document order, including those inside closed folders (the DOM keeps them; only consumer CSS hides them).
     function allItems(): HTMLElement[] {
         return treeRef
             ? Array.from(treeRef.querySelectorAll<HTMLElement>("[role='treeitem']"))
@@ -62,6 +64,7 @@
         return item.parentElement?.closest<HTMLElement>("[role='treeitem']") ?? null;
     }
 
+    // An item is reachable by keyboard only when no ancestor folder is closed. The state lives in `aria-expanded`, not in this component.
     function isVisible(item: HTMLElement): boolean {
         let p = parentItem(item);
         while (p) {
@@ -75,7 +78,7 @@
         return allItems().filter(isVisible);
     }
 
-    // The item's own text, excluding any nested group.
+    // The item's own text, excluding any nested group, so a folder is found by its name and not by the names of what it holds.
     function ownText(item: HTMLElement): string {
         let text = "";
         item.childNodes.forEach((n) => {
@@ -95,7 +98,8 @@
         }
     }
 
-    // Keep exactly one tab stop, on a visible item.
+    // Keep exactly one tab stop, on a visible item. Closing a folder that held the stop would otherwise leave the tree with none, and Tab
+    // could not enter it. Preference: the current stop if still visible, else the selected item, else the first.
     function normalise() {
         const visible = visibleItems();
         if (visible.length === 0) return;
@@ -111,6 +115,7 @@
     $effect(() => {
         if (!treeRef) return;
         normalise();
+        // Folders open and close by attribute, and the consumer adds and removes items, so the tab stop is re-checked on either.
         const observer = new MutationObserver(normalise);
         observer.observe(treeRef, {
             subtree: true,
@@ -121,6 +126,7 @@
         return () => observer.disconnect();
     });
 
+    // Focus arriving by click or script, not only by arrow keys, moves the tab stop to that item.
     function onfocusin(event: FocusEvent) {
         const item = (event.target as HTMLElement).closest<HTMLElement>("[role='treeitem']");
         if (item && treeRef?.contains(item)) setStop(item);
@@ -136,6 +142,7 @@
         const target = event.target as HTMLElement;
         const item = target.closest<HTMLElement>("[role='treeitem']");
         if (!item || !treeRef?.contains(item)) return;
+        // Leave browser and OS shortcuts alone.
         if (event.ctrlKey || event.metaKey || event.altKey) return;
 
         const visible = visibleItems();
@@ -159,6 +166,7 @@
                 event.preventDefault();
                 focusItem(visible[visible.length - 1]);
                 return;
+            // Right, Left, Enter and Space act only when the item itself has focus (`target === item`), so a button or field inside an item keeps its own keys.
             case "ArrowRight":
                 if (target !== item) return;
                 event.preventDefault();
@@ -186,6 +194,7 @@
                 event.preventDefault();
                 item.click();
                 return;
+            // Opens the closed folders at this level only; folders inside them stay as they are.
             case "*":
                 event.preventDefault();
                 for (const sibling of Array.from(item.parentElement?.children ?? [])) {
@@ -199,7 +208,8 @@
                 return;
         }
 
-        // Typeahead
+        // Typeahead. Repeating one letter ("ff") steps through the items starting with it, beginning after the current item; a longer
+        // string ("fo") is a prefix searched from the current item, wrapping round.
         if (event.key.length === 1) {
             event.preventDefault();
             buffer += event.key.toLowerCase();
