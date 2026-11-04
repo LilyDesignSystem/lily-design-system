@@ -29,7 +29,7 @@ These ten are sized by a prop: `affix`, `clamp-text`, `container-with-fixed-widt
 When the attribute is blocked the browser drops it silently: the component renders, but without its size. The console reports a
 CSP violation.
 
-You have two ways through:
+This is deliberate: moving to the CSSOM would lose the layout until a script runs, and static markup has no script. You have two ways through:
 
 - **Allow style attributes only.** Add `style-src-attr 'unsafe-inline'`. A `style` attribute then works, and a `<style>` element
   stays blocked by `style-src 'self'`. Checked in Chromium on 2026-11-04. A `nonce` cannot do this: nonces do not apply to style

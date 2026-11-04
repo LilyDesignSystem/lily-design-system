@@ -318,8 +318,8 @@ It covers all 16 composed pages, the catalog and every component page, and opens
 - **The no-flash snippet.** Serve it as a file, as `assets/js/theme-boot.js` does, or add its hash to `script-src`.
 - **Known limitation: `style=`.** Ten components are sized by a prop, and the catalogs differ. The table and what an adopter does about it are
   in [docs/content-security-policy.md](../../docs/content-security-policy.md). Chromium confirms `style-src-attr 'unsafe-inline'` restores the
-  attribute while a `<style>` element stays blocked. No catalog was changed: moving to the CSSOM would lose the layout until a script runs,
-  and static markup has no script, so removing the attribute is a maintainer decision.
+  attribute while a `<style>` element stays blocked. Maintainer decision, 2026-11-04: keep the attribute. Moving to the CSSOM would lose the layout until a script
+  runs, and static markup has no script. The catalogs are unchanged.
 
 ## Acceptance criteria
 
