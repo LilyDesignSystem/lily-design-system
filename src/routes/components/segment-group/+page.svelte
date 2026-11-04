@@ -88,8 +88,8 @@
     <h3>Keyboard</h3>
     <ul>
       <li>Tab: Moves focus into the segment group</li>
-      <li>Arrow Left / Arrow Right: Consumer should implement arrow key navigation between segments (following the radiogroup pattern)</li>
-      <li>Space / Enter: Consumer should implement activation of the focused segment</li>
+      <li>Arrow keys: Move to the next or previous segment and check it, wrapping, swapped in right-to-left; each change clicks the segment, which is how the consumer hears of it</li>
+      <li>Space / Enter: Check the focused segment</li>
     </ul>
     <h3>Props</h3>
     <ul>

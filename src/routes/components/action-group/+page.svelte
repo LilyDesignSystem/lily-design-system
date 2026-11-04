@@ -90,9 +90,10 @@
     <h3>Keyboard</h3>
     <ul>
       <li>Tab: Move focus into and out of the group</li>
-      <li>Arrow keys: (Consumer-provided) recommended roving tabindex among buttons</li>
+      <li>Arrow keys: Move between the controls and wrap, swapped in right-to-left; one tab stop that follows focus; the overflow menu keeps its own</li>
+      <li>Home, End: Jump to the first or last control</li>
       <li>Enter / Space: Activate focused button or toggle overflow</li>
-      <li>Escape: (Consumer-provided) close the overflow menu when open</li>
+      <li>Escape: Closes the overflow menu when open (the Popover API's)</li>
     </ul>
     <h3>Props</h3>
     <ul>

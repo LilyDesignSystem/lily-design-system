@@ -87,7 +87,9 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Tab: Focus moves to the first focusable item within the toolbar (native browser behavior)</li>
+      <li>Tab: Moves focus to the toolbar's one tab stop</li>
+      <li>Arrow keys: Move between the controls and wrap, swapped in right-to-left</li>
+      <li>Home, End: Jump to the first or last control</li>
     </ul>
     <h3>Props</h3>
     <ul>
