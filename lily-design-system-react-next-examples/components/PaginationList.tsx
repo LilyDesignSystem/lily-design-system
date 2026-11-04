@@ -7,7 +7,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, optional. Accessible name for the list via aria-label.
+//   label — string, required. Accessible name for the list via aria-label.
 //                Usually omitted, since PaginationNav already supplies the
 //                navigation landmark label.
 //   children — ReactNode, required. PaginationListItem elements.
@@ -55,7 +55,7 @@ import { warnMissingName } from "./dev-warning";
 export interface PaginationListProps {
     className?: string;
     /** Optional accessible label for the list. */
-    label?: string;
+    label: string;
     /** PaginationListItem elements. */
     children: React.ReactNode;
     [key: string]: unknown;
@@ -63,7 +63,7 @@ export interface PaginationListProps {
 
 export default function PaginationList({
     className = "",
-    label = undefined,
+    label,
     children,
     ...restProps
 }: PaginationListProps) {

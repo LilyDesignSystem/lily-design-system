@@ -5,7 +5,7 @@ import { test } from "vitest";
 import { gridFixture, runPattern } from "../shared/pattern-tester";
 import lilyDataGrid from "./index.js";
 
-const tick = () => new Promise((resolve) => setTimeout(resolve, 0));
+const tick = () => new Promise<void>((resolve) => setTimeout(resolve, 0));
 
 test("meets the grid contract", async () => {
     (window as unknown as { Alpine: typeof Alpine }).Alpine = Alpine;

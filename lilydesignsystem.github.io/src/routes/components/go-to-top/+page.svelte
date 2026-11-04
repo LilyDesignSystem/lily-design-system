@@ -82,8 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li>Native anchor accessibility — the visible text plus the destination provide the accessible name</li>
-      <li>Consumers can override the accessible name with <code>aria-label</code> when the visible text is decorative (e.g. just an arrow icon)</li>
+      <li><code>aria-label=&#123;label&#125;</code> on the native anchor names the link; it must contain the visible text</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
@@ -93,7 +92,7 @@
     <h3>Props</h3>
     <ul>
       <li><code>href</code>: string (default: "#top") -- anchor target on the current page</li>
-      <li><code>label</code>: string (required) -- visible link text</li>
+      <li><code>label</code>: string (required) -- accessible name on <code>aria-label</code>; it replaces the link text as the name, so it must contain that text (WCAG 2.5.3)</li>
       <li><code>...restProps</code>: HTML attributes spread onto the root <code>&lt;a&gt;</code></li>
     </ul>
 </section>

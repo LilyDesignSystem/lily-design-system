@@ -19,24 +19,31 @@ const pageItems = (
 
 describe("PaginationList", () => {
     test("renders an ordered list", () => {
-        render(<Subject>{pageItems}</Subject>);
+        render(<Subject label="Pages">{pageItems}</Subject>);
         const list = screen.getByRole("list");
         expect(list.tagName).toBe("OL");
     });
 
-    test("has aria-label when provided", () => {
+    test("has aria-label", () => {
         render(<Subject label="Pages">{pageItems}</Subject>);
         expect(screen.getByLabelText("Pages")).toBeTruthy();
     });
 
     test("renders children links", () => {
-        render(<Subject>{pageItems}</Subject>);
+        render(<Subject label="Pages">{pageItems}</Subject>);
         expect(screen.getByText("1")).toBeTruthy();
         expect(screen.getByText("2")).toBeTruthy();
     });
 
     test("passes through attributes", () => {
-        render(<Subject data-testid="pg">{pageItems}</Subject>);
+        render(
+            <Subject
+                label="Pages"
+                data-testid="pg"
+            >
+                {pageItems}
+            </Subject>,
+        );
         expect(screen.getByTestId("pg")).toBeTruthy();
     });
 });

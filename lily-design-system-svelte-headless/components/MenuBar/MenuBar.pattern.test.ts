@@ -5,7 +5,7 @@ import { runPattern } from "../../../shared/pattern-tester";
 import Subject from "./MenuBar.svelte";
 
 test("meets the menubar contract", async () => {
-    const { container } = render(Subject, { props: { label: "Sections" } });
+    const { container } = render(Subject, { props: { label: "Sections" } as never });
     await runPattern("menubar", {
         root: container.querySelector<HTMLElement>(".menu-bar")!,
         hook: "menu-bar",

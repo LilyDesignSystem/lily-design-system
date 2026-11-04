@@ -10,14 +10,15 @@
     //   - Home / End: first / last tree item
     //
     // No CSS, no default text: the label and the items are the consumer's.
+    import { warnMissingName } from "../dev-warning";
     import type { Snippet } from "svelte";
     let {
         class: className = "",
-        label = undefined,
+        label,
         children,
         ...restProps
     }: {
-        label?: string;
+        label: string;
         children: Snippet;
         [key: string]: unknown;
     } = $props();
@@ -41,6 +42,10 @@
         event.preventDefault();
         items[next].focus();
     }
+
+    $effect(() =>
+        warnMissingName("TreeMenu", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 </script>
 
 <!-- TreeMenu.svelte -->

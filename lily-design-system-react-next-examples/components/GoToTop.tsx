@@ -1,3 +1,4 @@
+import { warnMissingName } from "./dev-warning";
 // GoToTop component
 //
 // A link back to the top of the page. Renders an <a> with the `go-to-top` hook; pass href="#top" (or
@@ -5,7 +6,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, optional. Accessible name, rendered as aria-label (it replaces the link text as the name; keep the visible text in it).
+//   label — string, required. Accessible name, rendered as aria-label (it replaces the link text as the name; keep the visible text in it).
 //   href — passed through restProps; unlike the Svelte port there is no "#top" default, so always pass one.
 //   children — React.ReactNode, required. The content.
 //   ...restProps — additional HTML attributes spread onto the root <a>.
@@ -29,24 +30,19 @@
 //
 // Claude rules:
 //   - Headless: no CSS, no styles -- consumer provides all styling
-//   - Port gap: the Svelte catalog defaults href to "#top" and does not render `label`; this React component does the opposite (the Svelte one is canonical)
 //
 // References:
 //   - MDN <a>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 
 export interface GoToTopProps {
     className?: string;
-    label?: string;
+    label: string;
     children: React.ReactNode;
     [key: string]: unknown;
 }
 
-export default function GoToTop({
-    className = "",
-    label = undefined,
-    children,
-    ...restProps
-}: GoToTopProps) {
+export default function GoToTop({ className = "", label, children, ...restProps }: GoToTopProps) {
+    warnMissingName("GoToTop", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <a
             className={`go-to-top ${className}`}

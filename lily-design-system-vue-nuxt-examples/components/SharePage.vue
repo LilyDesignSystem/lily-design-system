@@ -8,7 +8,7 @@ import { warnMissingName } from "./dev-warning";
 //
 // Props:
 //   class — fallthrough attribute, optional. Vue merges it onto the root element with the base class hook.
-//   label — string, optional. Accessible name, rendered as aria-label on the root.
+//   label — string, required. Accessible name, rendered as aria-label on the root.
 //   default slot — required. The sharing links or buttons.
 //   attrs — additional HTML attributes (v-bind="$attrs") on the root <div>.
 //
@@ -35,14 +35,9 @@ import { warnMissingName } from "./dev-warning";
 // References:
 //   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 
-const props = withDefaults(
-    defineProps<{
-        label?: string;
-    }>(),
-    {
-        label: undefined,
-    },
-);
+const props = defineProps<{
+    label: string;
+}>();
 
 warnMissingName("SharePage", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 </script>

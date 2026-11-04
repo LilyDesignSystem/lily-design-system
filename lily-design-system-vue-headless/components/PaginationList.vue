@@ -10,7 +10,7 @@ import { warnMissingName } from "./dev-warning";
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, optional. Accessible name for the list via aria-label.
+//   label — string, required. Accessible name for the list via aria-label.
 //                Usually omitted, since PaginationNav already supplies the
 //                navigation landmark label.
 //   default slot. PaginationListItem elements.
@@ -52,15 +52,10 @@ import { warnMissingName } from "./dev-warning";
 // References:
 //   - HTML ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
 
-const props = withDefaults(
-    defineProps<{
-        /** Optional accessible label for the list. */
-        label?: string;
-    }>(),
-    {
-        label: undefined,
-    },
-);
+const props = defineProps<{
+    /** Optional accessible label for the list. */
+    label: string;
+}>();
 
 warnMissingName(
     "PaginationList",

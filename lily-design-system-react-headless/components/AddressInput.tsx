@@ -1,3 +1,4 @@
+import { warnMissingName } from "./dev-warning";
 // AddressInput component
 //
 // A group for the parts of a postal address (line 1, line 2, town, postcode, ...). Renders a <div>
@@ -5,7 +6,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, optional. Accessible name, rendered as aria-label on the root.
+//   label — string, required. Accessible name, rendered as aria-label on the root.
 //   children — React.ReactNode, required. The content.
 //   ...restProps — additional HTML attributes spread onto the root <div>.
 //
@@ -34,17 +35,18 @@
 
 export interface AddressInputProps {
     className?: string;
-    label?: string;
+    label: string;
     children: React.ReactNode;
     [key: string]: unknown;
 }
 
 export default function AddressInput({
     className = "",
-    label = undefined,
+    label,
     children,
     ...restProps
 }: AddressInputProps) {
+    warnMissingName("AddressInput", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <div
             className={`address-input ${className}`}

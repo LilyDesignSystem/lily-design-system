@@ -291,8 +291,9 @@ for the developer, so it is English and exempt from the no-hardcoded-strings rul
   ones below. `dev-warning.sweep` tests three shapes in each framework: a missing name warns, and a `label` or an
   `aria-labelledby` does not (Angular proves the `label` half and the missing case). `bin/check-dev-warnings` (in `bin/test`)
   fails on a component that does not call it.
-- **Exceptions:** `bin/check-dev-warnings.allow.json` lists components whose `label` is optional in a port though their
-  `AGENTS.md` says required, so they cannot warn: seven in Svelte, four in React. Which is right is an open question.
+- **Exceptions:** none. `bin/check-dev-warnings.allow.json` is empty: on 2026-11-04 the maintainer decided `label` is required, as each
+  component's `AGENTS.md` says, in the seven Svelte, five React and five Vue ports whose types said optional. Svelte's `go-to-top` now renders it as
+  `aria-label`, as the other ports do.
 - Web Components already throws on a missing label. Blazor has `[EditorRequired]`.
 - **HTML, Nunjucks and Alpine** have no component code to hook, so `shared/page-check.js` looks at the rendered page instead:
   `checkPage()` warns about each interactive element with no accessible name, and `findUnnamed()` returns them. It is opt-in, so it costs

@@ -11,6 +11,7 @@ highlights.
 
 ## Combobox, dialog and grid contracts — 2026-11-04
 
+- **Breaking for TypeScript users:** `label` is now required on `address-input`, `chat-nav`, `go-to-top`, `mutually-exclusive`, `pagination-list`, `share-page` and `tree-menu`, as their contracts always said, in the Svelte, React and Vue types; those ports warn when it is missing. Svelte's `go-to-top` now renders it as `aria-label`, and that component's contract says so.
 - **Content Security Policy:** `docs/content-security-policy.md`, for adopters: a starting policy, the ten components that write a `style` attribute by catalog, and `style-src-attr 'unsafe-inline'`, checked in Chromium.
 - **Development warnings:** `shared/page-check.js`, a page-level accessible-name check for the HTML, Nunjucks and Alpine catalogs, which have no component code to hook. `e2e/page-check.spec.ts` runs it over the HTML app's 626 pages; the 11 demos it found with no name now have one.
 - **Pattern testers:** `combobox`, `dialog` (on `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`) and `grid` (on the `data-grid` helper) contracts, in `shared/pattern-contracts.json`, both drivers and every catalog that has the behaviour.

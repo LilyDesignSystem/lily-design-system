@@ -19,8 +19,7 @@
 
 ## ARIA
 
-- Native anchor accessibility — the visible text plus the destination provide the accessible name
-- Consumers can override the accessible name with `aria-label` when the visible text is decorative (e.g. just an arrow icon)
+- `aria-label={label}` on the native anchor names the link; it must contain the visible text
 
 ## Keyboard
 
@@ -30,7 +29,7 @@
 ## Props
 
 - `href`: string (default: "#top") -- anchor target on the current page
-- `label`: string (required) -- visible link text
+- `label`: string (required) -- accessible name on `aria-label`; it replaces the link text as the name, so it must contain that text (WCAG 2.5.3)
 - `...restProps`: HTML attributes spread onto the root `<a>`
 
 ## Acceptance Criteria

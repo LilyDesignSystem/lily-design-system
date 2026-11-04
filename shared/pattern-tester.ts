@@ -39,7 +39,7 @@ interface RovingContract {
 export type RovingPatternName = "tabs" | "menu" | "menubar" | "tree";
 export type OverlayPatternName = "combobox" | "dialog";
 export type PatternName =
-    "picker-listbox" | "picker-disclosure" | RovingPatternName | OverlayPatternName;
+    "picker-listbox" | "picker-disclosure" | RovingPatternName | OverlayPatternName | "grid";
 
 export interface PatternOptions {
     /** The rendered component root. */

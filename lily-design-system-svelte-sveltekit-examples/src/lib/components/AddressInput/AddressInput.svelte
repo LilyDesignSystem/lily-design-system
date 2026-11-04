@@ -7,7 +7,7 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, optional. Accessible name, rendered as aria-label on the root.
+    //   label — string, required. Accessible name, rendered as aria-label on the root.
     //   children — Snippet, required. The content.
     //   ...restProps — additional HTML attributes spread onto the root <div>.
     //
@@ -33,19 +33,24 @@
     //
     // References:
     //   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
+    import { warnMissingName } from "../dev-warning";
 
     import type { Snippet } from "svelte";
 
     let {
         class: className = "",
-        label = undefined,
+        label,
         children,
         ...restProps
     }: {
-        label?: string;
+        label: string;
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("AddressInput", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 </script>
 
 <!-- AddressInput.svelte -->

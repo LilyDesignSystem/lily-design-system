@@ -6,7 +6,7 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, optional. Accessible name, rendered as aria-label on the root.
+    //   label — string, required. Accessible name, rendered as aria-label on the root.
     //   children — Snippet, required. The ChatList.
     //   ...restProps — additional HTML attributes spread onto the root <nav>.
     //
@@ -31,18 +31,23 @@
     //
     // References:
     //   - MDN <nav>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
+    import { warnMissingName } from "../dev-warning";
 
     import type { Snippet } from "svelte";
     let {
         class: className = "",
-        label = undefined,
+        label,
         children,
         ...restProps
     }: {
-        label?: string;
+        label: string;
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("ChatNav", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 </script>
 
 <!-- ChatNav.svelte -->

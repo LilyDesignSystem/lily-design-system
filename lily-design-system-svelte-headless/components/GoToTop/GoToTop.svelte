@@ -6,7 +6,7 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, optional. Accepted but not rendered; the link's name is its children.
+    //   label — string, required. Accessible name, on aria-label; keep the visible text in it (WCAG 2.5.3).
     //   href — string, default "#top". The link target.
     //   children — Snippet, required. The content.
     //   ...restProps — additional HTML attributes spread onto the root <a>.
@@ -23,7 +23,7 @@
     //
     // Accessibility:
     //   - A native <a href>; the children are the accessible name
-    //   - `label` is not rendered, so put the text in the children
+    //   - aria-label replaces the link text as the name, so it must contain that text
     //
     // Internationalization:
     //   - The link text is the consumer's children; no hardcoded text
@@ -33,27 +33,33 @@
     //
     // References:
     //   - MDN <a>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
+    import { warnMissingName } from "../dev-warning";
 
     import type { Snippet } from "svelte";
 
     let {
         class: className = "",
-        label = undefined,
+        label,
         href = "#top",
         children,
         ...restProps
     }: {
-        label?: string;
+        label: string;
         href?: string;
         children: Snippet;
         [key: string]: unknown;
     } = $props();
+
+    $effect(() =>
+        warnMissingName("GoToTop", label, restProps["aria-label"], restProps["aria-labelledby"]),
+    );
 </script>
 
 <!-- GoToTop.svelte -->
 <a
     class={`go-to-top ${className}`}
     {href}
+    aria-label={label}
     {...restProps}
 >
     {@render children?.()}

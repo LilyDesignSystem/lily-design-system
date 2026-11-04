@@ -8,7 +8,7 @@ import { warnMissingName } from "./dev-warning";
 //
 // Props:
 //   class — fallthrough attribute, optional. Vue merges it onto the root element with the base class hook.
-//   label — string, optional. Accessible name, rendered as aria-label (it replaces the link text as the name; keep the visible text in it).
+//   label — string, required. Accessible name, rendered as aria-label (it replaces the link text as the name; keep the visible text in it).
 //   href — passed through as a fallthrough attribute; unlike the Svelte port there is no "#top" default, so always pass one.
 //   default slot — required. The content.
 //   attrs — additional HTML attributes (v-bind="$attrs") on the root <a>.
@@ -37,14 +37,9 @@ import { warnMissingName } from "./dev-warning";
 // References:
 //   - MDN <a>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 
-const props = withDefaults(
-    defineProps<{
-        label?: string;
-    }>(),
-    {
-        label: undefined,
-    },
-);
+const props = defineProps<{
+    label: string;
+}>();
 
 warnMissingName("GoToTop", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 </script>

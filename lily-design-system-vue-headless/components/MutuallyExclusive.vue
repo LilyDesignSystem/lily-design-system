@@ -9,7 +9,7 @@ import { warnMissingName } from "./dev-warning";
 //
 // Props:
 //   class — fallthrough attribute, optional. Vue merges it onto the root element with the base class hook.
-//   label — string, optional. Accessible name, rendered as aria-label on the root.
+//   label — string, required. Accessible name, rendered as aria-label on the root.
 //   default slot — required. The grouped inputs.
 //   attrs — additional HTML attributes (v-bind="$attrs") on the root <fieldset>.
 //
@@ -35,14 +35,9 @@ import { warnMissingName } from "./dev-warning";
 // References:
 //   - MDN <fieldset>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
 
-const props = withDefaults(
-    defineProps<{
-        label?: string;
-    }>(),
-    {
-        label: undefined,
-    },
-);
+const props = defineProps<{
+    label: string;
+}>();
 
 warnMissingName(
     "MutuallyExclusive",

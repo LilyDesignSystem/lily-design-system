@@ -1,3 +1,4 @@
+import { warnMissingName } from "./dev-warning";
 // MutuallyExclusive component
 //
 // A group of options of which only one may apply (the "or" pattern, such as a "None of these" choice
@@ -6,7 +7,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, optional. Accessible name, rendered as aria-label on the root.
+//   label — string, required. Accessible name, rendered as aria-label on the root.
 //   children — React.ReactNode, required. The grouped inputs.
 //   ...restProps — additional HTML attributes spread onto the root <fieldset>.
 //
@@ -34,17 +35,23 @@
 
 export interface MutuallyExclusiveProps {
     className?: string;
-    label?: string;
+    label: string;
     children: React.ReactNode;
     [key: string]: unknown;
 }
 
 export default function MutuallyExclusive({
     className = "",
-    label = undefined,
+    label,
     children,
     ...restProps
 }: MutuallyExclusiveProps) {
+    warnMissingName(
+        "MutuallyExclusive",
+        label,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     return (
         <fieldset
             className={`mutually-exclusive ${className}`}

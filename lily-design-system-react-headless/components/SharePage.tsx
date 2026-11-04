@@ -1,3 +1,4 @@
+import { warnMissingName } from "./dev-warning";
 // SharePage component
 //
 // A group of controls for sharing the current page. Renders a <div> with the `share-page` hook; it
@@ -5,7 +6,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, optional. Accessible name, rendered as aria-label on the root.
+//   label — string, required. Accessible name, rendered as aria-label on the root.
 //   children — React.ReactNode, required. The sharing links or buttons.
 //   ...restProps — additional HTML attributes spread onto the root <div>.
 //
@@ -34,17 +35,18 @@
 
 export interface SharePageProps {
     className?: string;
-    label?: string;
+    label: string;
     children: React.ReactNode;
     [key: string]: unknown;
 }
 
 export default function SharePage({
     className = "",
-    label = undefined,
+    label,
     children,
     ...restProps
 }: SharePageProps) {
+    warnMissingName("SharePage", label, restProps["aria-label"], restProps["aria-labelledby"]);
     return (
         <div
             className={`share-page ${className}`}
