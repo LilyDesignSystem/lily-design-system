@@ -17,5 +17,5 @@
       "react": ["./node_modules/@types/react/index.d.ts"]
     }
   },
-  "exclude": ["node_modules", "dist", "examples", "docs"]
+  "exclude": ["node_modules", "dist", "examples", "docs", "vite.config.ts"]
 }

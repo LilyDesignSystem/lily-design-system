@@ -43,7 +43,7 @@ Run on `9c7b13299`: 17 jobs failed. The logs of the next run, on `49e29d7be`, we
 - **Playwright browsers not installed.** Two example-app jobs fail with `browserType.launch: Executable doesn't exist` for
   Firefox and WebKit. The workflow installs only Chromium (`playwright install --with-deps chromium`), while the Playwright
   configs now also run a cross-engine set in Firefox and WebKit ([tasks.md P18-T1](../../tasks.md)). The log holds 975 such launch errors.
-- **A type error in one helper's test config:** `vitest.config.ts(1,36): Cannot find module 'node:url'` in the Web Components
+- **A type error in one helper's test config:** `vitest.config.ts(1,36): Cannot find module 'node:url'` in the Web Components The cause: on a laptop the repo-root `node_modules` supplies `@types/node` to every package, so the check passes there; CI installs per package, so it fails. A clean-room run (proposal 6) would have caught it; 47 packages now exclude the config files from `tsc --noEmit`.
   helper packages job.
 - **`cspell`** failed in the spell check job (reason not read).
 
