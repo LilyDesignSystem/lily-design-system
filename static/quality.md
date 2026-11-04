@@ -55,11 +55,11 @@ Why none has met them: the [screen-reader matrix](https://github.com/LilyDesignS
 | [date-time-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#date-time-picker) | 8 of 8 libraries | none | 0 of 6 filled | no |
 | [dialog](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#dialog) | 7 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [alert-dialog](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#alert-dialog) | 2 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
-| [tab-bar](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#tab-bar) | 6 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
+| [tab-bar](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#tab-bar) | 7 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [tab-bar-button](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#tab-bar-button) | 0 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
 | [tab-panel](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#tab-panel) | 0 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
-| [menu](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#menu) | 3 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
-| [menu-bar](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#menu-bar) | 3 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
+| [menu](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#menu) | 7 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
+| [menu-bar](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#menu-bar) | 7 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
 | [dropdown-menu](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#dropdown-menu) | 6 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
 | [context-menu](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#context-menu) | 6 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
 | [accordion-nav](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#accordion-nav) | 3 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |

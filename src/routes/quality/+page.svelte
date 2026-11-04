@@ -228,7 +228,7 @@
       </tr>
       <tr>
         <td><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#tab-bar">tab-bar</a></td>
-        <td>6 of 8 libraries</td>
+        <td>7 of 8 libraries</td>
         <td>Chromium, Firefox, WebKit</td>
         <td>0 of 6 filled</td>
         <td>no</td>
@@ -249,14 +249,14 @@
       </tr>
       <tr>
         <td><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#menu">menu</a></td>
-        <td>3 of 8 libraries</td>
+        <td>7 of 8 libraries</td>
         <td>Chromium, Firefox, WebKit</td>
         <td>0 of 6 filled</td>
         <td>no</td>
       </tr>
       <tr>
         <td><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#menu-bar">menu-bar</a></td>
-        <td>3 of 8 libraries</td>
+        <td>7 of 8 libraries</td>
         <td>Chromium, Firefox, WebKit</td>
         <td>no row yet</td>
         <td>no</td>
