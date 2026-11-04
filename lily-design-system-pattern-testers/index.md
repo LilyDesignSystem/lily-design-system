@@ -16,16 +16,24 @@ await runPattern("tabs", { root, hook: "my-tabs" });
 
 `root` is the rendered element. `hook` is its name in error messages and, for `picker-listbox` and `picker-disclosure`, its base class.
 
-| Contract            | Proves                                                            | You also pass |
-| ------------------- | ----------------------------------------------------------------- | ------------- |
-| `tabs`              | Arrows, Home and End move focus along a named `tablist`           |               |
-| `menu`, `menubar`   | The same for a named vertical or horizontal menu                  |               |
-| `tree`              | Moving between visible `treeitem`s, skipping collapsed ones       |               |
-| `grid`              | Arrows, Home, End and the Ctrl corners, with exactly one tab stop |               |
-| `combobox`          | The wiring, and that Escape acts only while the list is open      | `open`        |
-| `dialog`            | A named modal `<dialog>`, focus in and back, Escape and `cancel`  | `open`        |
-| `picker-listbox`    | An icon button opening a listbox                                  |               |
-| `picker-disclosure` | An icon button opening a disclosure                               |               |
+**A pass means these steps passed, not that the component conforms to WAI-ARIA.** Each contract says what it covers and what it
+leaves out. Keep testing with a screen reader and real users.
+
+| Contract            | Covers                                                               | Leaves out                                 | You also pass |
+| ------------------- | -------------------------------------------------------------------- | ------------------------------------------ | ------------- |
+| `tabs`              | Arrows, Home and End move focus along a named `tablist`              | Selecting a tab, and its panel             |               |
+| `menu`, `menubar`   | The same for a named vertical or horizontal menu                     | Opening submenus, type-ahead               |               |
+| `tree`              | Moving between visible `treeitem`s, skipping collapsed ones          | Selection, type-ahead                      |               |
+| `tree-expand`       | ArrowRight and ArrowLeft on a branch                                 | Right-to-left, which swaps them            |               |
+| `grid`              | Arrows, Home, End, the Ctrl corners, page keys, exactly one tab stop | Sorting, editing, selection                |               |
+| `autosuggest`       | A list-autocomplete combobox: arrows, Home, End, Enter, Escape       | Alt+Arrow keys; filtering, which is yours  |               |
+| `combobox`          | A part: the wiring, and that Escape acts only while the list is open | **The arrow keys, Enter and choosing**     | `open`        |
+| `dialog`            | A named modal `<dialog>`, focus in and back, Escape and `cancel`     | The Tab trap and inert page: the browser's | `open`        |
+| `picker-listbox`    | Lily's icon button opening a listbox                                 | Lily's own shape, not a general pattern    |               |
+| `picker-disclosure` | Lily's icon button opening a disclosure                              | Lily's own shape, not a general pattern    |               |
+
+Use `autosuggest`, not `combobox`, to test a combobox. For `autosuggest`, render `autosuggestFixture`. For `tree-expand`, `root` is the
+branch `treeitem`, inside a parent `treeitem`.
 
 An empty `tablist`, `menu`, `menubar` or `tree` gets the contract's own fixture. For `grid`, render `gridFixture` from this package.
 

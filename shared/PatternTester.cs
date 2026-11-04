@@ -28,6 +28,11 @@ public static class PatternTester
     /// <summary><paramref name="open"/> opens the widget, for `combobox` and `dialog`, whose opening is the consumer's.</summary>
     public static void Run<T>(IRenderedComponent<T> cut, string pattern, string hook, Action? open = null) where T : IComponent
     {
+        if (pattern == "autosuggest")
+        {
+            RunAutosuggest(cut, hook);
+            return;
+        }
         if (pattern == "grid")
         {
             RunGrid(cut, hook);
@@ -103,6 +108,36 @@ public static class PatternTester
                     if (marked.Length != 1 || marked[0] != At(active)) Fail($"data-active on [{string.Join(",", marked)}], expected {At(active)}");
                 }
             }
+        }
+    }
+
+    // `prevented` is Autosuggest.razor.js's, proved in tests/js; the input's own value is C# state, read from the attribute.
+    private static void RunAutosuggest<T>(IRenderedComponent<T> cut, string hook) where T : IComponent
+    {
+        var labels = Contracts().GetProperty("autosuggest").GetProperty("fixture").GetProperty("suggestions")
+            .EnumerateArray().Select(s => s.GetProperty("value").GetString()).ToArray();
+        foreach (var step in Contracts().GetProperty("autosuggest").GetProperty("steps").EnumerateArray())
+        {
+            var name = step.GetProperty("name").GetString();
+            void Fail(string message) => throw new Exception($"autosuggest, {hook}, \"{name}\": {message}");
+            if (step.TryGetProperty("press", out var press))
+                cut.Find("[role='combobox']").KeyDown(new KeyboardEventArgs { Key = press.GetString()! });
+
+            var input = cut.Find("[role='combobox']");
+            var expected = step.GetProperty("expect");
+            var expanded = input.GetAttribute("aria-expanded");
+            if (expanded != (expected.GetProperty("expanded").GetBoolean() ? "true" : "false")) Fail($"aria-expanded is {expanded}");
+            var descendant = input.GetAttribute("aria-activedescendant");
+            if (expected.TryGetProperty("active", out var active))
+            {
+                var options = cut.FindAll("[role='option']");
+                var want = options[active.ValueKind == JsonValueKind.Number ? active.GetInt32() : options.Count - 1];
+                if (string.IsNullOrEmpty(descendant) || descendant != want.Id) Fail($"aria-activedescendant is {descendant}, not {want.Id}");
+                if (want.GetAttribute("aria-selected") != "true") Fail("the active option lacks aria-selected=\"true\"");
+            }
+            else if (!string.IsNullOrEmpty(descendant)) Fail($"aria-activedescendant is {descendant}");
+            if (expected.TryGetProperty("value", out var chosen) && input.GetAttribute("value") != labels[chosen.GetInt32()])
+                Fail($"the input holds \"{input.GetAttribute("value")}\"");
         }
     }
 

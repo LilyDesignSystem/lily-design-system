@@ -33,6 +33,8 @@
 
 - Escape: closes the dropdown listbox while it is open; while closed it is left alone, so an enclosing dialog still gets it
 
+The arrow keys, Enter and choosing are the consumer's in most catalogs, so this component alone does not meet the APG combobox pattern. [Autosuggest](../autosuggest/) owns those keys.
+
 ## Props
 
 - `label`: string (required) -- accessible name applied via `aria-label` on both the input and listbox.

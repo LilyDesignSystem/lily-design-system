@@ -14,6 +14,8 @@
 //   ArrowUp — focus the previous tree item, wrapping to the last.
 //   Home — focus the first tree item.
 //   End — focus the last tree item.
+//   ArrowRight — expand a collapsed branch, or move to the first child of an expanded one.
+//   ArrowLeft — collapse an expanded branch, or move to the parent. Both are swapped in right-to-left.
 //
 // References:
 //   - components/tree-list/index.md (canonical contract)
@@ -70,6 +72,34 @@ export class TreeList extends HTMLElement {
                 items[items.length - 1]?.focus();
                 break;
             }
+            case "ArrowRight":
+            case "ArrowLeft":
+                if (event.target === current && index >= 0) this.#expandKey(event, current);
+                break;
         }
     };
+
+    // ArrowRight expands a branch or enters it; ArrowLeft collapses it or moves to the parent. Swapped in right-to-left.
+    #expandKey(event: KeyboardEvent, item: HTMLElement): void {
+        const rtl = getComputedStyle(item).direction === "rtl";
+        const expanded = item.getAttribute("aria-expanded");
+        const target =
+            event.key === (rtl ? "ArrowLeft" : "ArrowRight")
+                ? expanded === "true"
+                    ? item.querySelector<HTMLElement>("[role='treeitem']")
+                    : null
+                : expanded === "true"
+                  ? null
+                  : (item.parentElement?.closest<HTMLElement>("[role='treeitem']") ?? null);
+        if (target) {
+            event.preventDefault();
+            target.focus();
+        } else if (
+            expanded !== null &&
+            (event.key === (rtl ? "ArrowLeft" : "ArrowRight")) === (expanded === "false")
+        ) {
+            event.preventDefault();
+            item.setAttribute("aria-expanded", String(expanded === "false"));
+        }
+    }
 }

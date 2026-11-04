@@ -352,7 +352,7 @@
     ]
   },
   "tree": {
-    "source": "WAI-ARIA APG tree view, moving between visible items (components/tree-list/AGENTS.md). Expanding and collapsing belongs to the item in some catalogs, so it is not here.",
+    "source": "WAI-ARIA APG tree view, moving between visible items (components/tree-list/AGENTS.md). tree-expand covers expanding and collapsing.",
     "root": "tree",
     "item": "treeitem",
     "fixture": "<li role=\"treeitem\" tabindex=\"0\" aria-expanded=\"false\">Fruit<ol role=\"group\"><li role=\"treeitem\" tabindex=\"-1\">Apple</li></ol></li><li role=\"treeitem\" tabindex=\"-1\" aria-expanded=\"true\">Tea<ol role=\"group\"><li role=\"treeitem\" tabindex=\"-1\">Green</li></ol></li><li role=\"treeitem\" tabindex=\"-1\">Veg</li>",
@@ -409,7 +409,7 @@
     ]
   },
   "combobox": {
-    "source": "WAI-ARIA APG combobox, the part every catalog shares: the wiring and Escape (components/combobox/AGENTS.md). Opening, filtering and choosing are the consumer's in most catalogs, so they are not here; autosuggest owns those keys.",
+    "source": "A part, not the APG pattern: the wiring and Escape, which is what the combobox component owns (components/combobox/AGENTS.md). Opening, filtering and choosing are the consumer's in most catalogs. autosuggest is the contract for the keys.",
     "steps": [
       {
         "name": "closed at rest",
@@ -492,7 +492,7 @@
     ]
   },
   "grid": {
-    "source": "WAI-ARIA APG grid, moving between cells with a roving tabindex (lily-design-system-svelte-data-grid). Row 0 is the header row. Sorting, editing, selection and page keys are the helper's own.",
+    "source": "WAI-ARIA APG grid, moving between cells with a roving tabindex (lily-design-system-svelte-data-grid). Row 0 is the header row. Sorting, editing and selection are the helper's own.",
     "fixture": {
       "columns": [
         {
@@ -606,6 +606,199 @@
         "ctrl": true,
         "expect": {
           "cell": [0, 0]
+        }
+      },
+      {
+        "name": "ArrowDown leaves the header row",
+        "press": "ArrowDown",
+        "expect": {
+          "cell": [1, 0]
+        }
+      },
+      {
+        "name": "PageDown stops at the last row",
+        "press": "PageDown",
+        "expect": {
+          "cell": ["last", 0]
+        }
+      },
+      {
+        "name": "PageUp stops at the first row",
+        "press": "PageUp",
+        "expect": {
+          "cell": [0, 0]
+        }
+      }
+    ]
+  },
+  "tree-expand": {
+    "source": "WAI-ARIA APG tree view, ArrowRight and ArrowLeft on a branch (components/tree-list-item/AGENTS.md).",
+    "child": "<ol role=\"group\"><li role=\"treeitem\" tabindex=\"-1\">Child</li></ol>",
+    "steps": [
+      {
+        "name": "the branch takes focus",
+        "focus": "item",
+        "expect": {
+          "expanded": false,
+          "focus": "item"
+        }
+      },
+      {
+        "name": "ArrowRight expands it",
+        "press": "ArrowRight",
+        "expect": {
+          "expanded": true,
+          "focus": "item"
+        }
+      },
+      {
+        "name": "ArrowRight moves to the first child",
+        "press": "ArrowRight",
+        "expect": {
+          "expanded": true,
+          "focus": "child"
+        }
+      },
+      {
+        "name": "the branch takes focus again",
+        "focus": "item",
+        "expect": {
+          "expanded": true,
+          "focus": "item"
+        }
+      },
+      {
+        "name": "ArrowLeft collapses it",
+        "press": "ArrowLeft",
+        "expect": {
+          "expanded": false,
+          "focus": "item"
+        }
+      },
+      {
+        "name": "ArrowLeft moves to the parent",
+        "press": "ArrowLeft",
+        "expect": {
+          "expanded": false,
+          "focus": "parent"
+        }
+      }
+    ]
+  },
+  "autosuggest": {
+    "source": "WAI-ARIA APG combobox with list autocomplete: the input keeps focus and owns the keys (components/autosuggest/AGENTS.md).",
+    "fixture": {
+      "suggestions": [
+        {
+          "value": "Apple",
+          "label": "Apple"
+        },
+        {
+          "value": "Banana",
+          "label": "Banana"
+        },
+        {
+          "value": "Cherry",
+          "label": "Cherry"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "name": "closed at rest",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "Escape while closed is left alone",
+        "press": "Escape",
+        "expect": {
+          "expanded": false,
+          "prevented": false
+        }
+      },
+      {
+        "name": "ArrowDown opens on the first option",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "active": 0,
+          "prevented": true
+        }
+      },
+      {
+        "name": "ArrowDown moves to the next option",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "active": 1
+        }
+      },
+      {
+        "name": "ArrowUp moves back",
+        "press": "ArrowUp",
+        "expect": {
+          "expanded": true,
+          "active": 0
+        }
+      },
+      {
+        "name": "ArrowUp wraps to the last option",
+        "press": "ArrowUp",
+        "expect": {
+          "expanded": true,
+          "active": "last"
+        }
+      },
+      {
+        "name": "ArrowDown wraps to the first option",
+        "press": "ArrowDown",
+        "expect": {
+          "expanded": true,
+          "active": 0
+        }
+      },
+      {
+        "name": "End jumps to the last option",
+        "press": "End",
+        "expect": {
+          "expanded": true,
+          "active": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first option",
+        "press": "Home",
+        "expect": {
+          "expanded": true,
+          "active": 0
+        }
+      },
+      {
+        "name": "Enter chooses it and closes",
+        "press": "Enter",
+        "expect": {
+          "expanded": false,
+          "value": 0,
+          "prevented": true
+        }
+      },
+      {
+        "name": "ArrowUp opens on the last option",
+        "press": "ArrowUp",
+        "expect": {
+          "expanded": true,
+          "active": "last"
+        }
+      },
+      {
+        "name": "Escape closes without choosing",
+        "press": "Escape",
+        "expect": {
+          "expanded": false,
+          "value": 0,
+          "prevented": true
         }
       }
     ]

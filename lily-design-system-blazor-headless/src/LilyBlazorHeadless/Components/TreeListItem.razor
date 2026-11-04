@@ -5,11 +5,22 @@
     one item in a tree navigation list
 *@
 
-<li class="@($"tree-list-item {CssClass}".Trim())" role="treeitem" tabindex="-1" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"tree-list-item {CssClass}".Trim())" role="treeitem" tabindex="-1" aria-label="@Label" aria-expanded="@(Expanded?.ToString().ToLowerInvariant())" @ontoggle="OnToggle" @attributes="AdditionalAttributes">@ChildContent</li>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>Expanded state, bindable. Leave null for a leaf (no aria-expanded).</summary>
+    [Parameter] public bool? Expanded { get; set; }
+    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    // TreeList.razor.js owns ArrowRight and ArrowLeft, since C# cannot read focus or direction, and sends `toggle` here.
+    private async Task OnToggle()
+    {
+        if (Expanded is not bool expanded) return;
+        Expanded = !expanded;
+        await ExpandedChanged.InvokeAsync(!expanded);
+    }
 }

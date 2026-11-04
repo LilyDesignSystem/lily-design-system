@@ -93,6 +93,7 @@
     <ul>
       <li>Escape: closes the dropdown listbox while it is open; while closed it is left alone, so an enclosing dialog still gets it</li>
     </ul>
+    <p>The arrow keys, Enter and choosing are the consumer's in most catalogs, so this component alone does not meet the APG combobox pattern. [Autosuggest](../autosuggest/) owns those keys.</p>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code> on both the input and listbox.</li>

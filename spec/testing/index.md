@@ -244,12 +244,16 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 | `combobox`          | `combobox`                                                           | 7        | 7    |
 | `dialog`            | `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`       | 7        | 35   |
 | `grid`              | the `data-grid` helper                                               | 8        | 8    |
+| `autosuggest`       | `autosuggest`                                                        | 7        | 7    |
+| `tree-expand`       | `tree-list-item`, or `tree-list` where the tree owns the keys        | 7        | 7    |
 
 - A file named `*.pattern.test.*`, `*.pattern.spec.ts` or `*PatternTests.cs` holds the run.
 - The `tabs`, `menu`, `menubar` and `tree` contracts carry their own fixture: the tester puts it into an empty root, so each
   catalog proves the container's keys on the same items. The item components (`tab-bar-button`, `menu-item`) keep their own
-  tests. `tree` covers moving between visible items; expanding and collapsing is not in the contract, because it lives on the
-  item in some catalogs and on the tree in others.
+  tests. `tree` covers moving between visible items. `tree-expand` covers ArrowRight and ArrowLeft, on the item in Svelte, React, Vue and
+  Angular and on the tree in HTML, Web Components, Alpine and Blazor. It found that Web Components and Blazor had neither key, though
+  the contract promised them. Both now do. In Blazor, `TreeList.razor.js` owns the keys and sends `toggle` to `TreeListItem`, which gained
+  `Expanded`; the module and the item are tested apart, and that wiring has not run in a real browser.
 - HTML runs in a real browser through `shared/pattern-browser.cjs`; Blazor's focus contracts run from `tests/js/`, against its
   `.razor.js` modules, because bUnit has no focus. Alpine also runs all four, though Core does not count it.
 - **Nunjucks has no run for these four.** Its macros emit no client script, so `tab-bar`, `menu`, `menu-bar` and `tree-list` have
@@ -259,11 +263,13 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 - bUnit has no browser focus, so the C# driver skips `focus` expectations; the DOM driver runs them in the other seven catalogs.
 - `bin/generate-core` counts a `runPattern` or `PatternTester.Run` call as both a key event and an ARIA assertion for criterion (a).
 - Proved to fail: removing `aria-selected` from `theme-picker` in each of the eight ports fails its run; breaking `End` in `tab-bar` fails in all eight ports that have one (Alpine in place of Nunjucks).
-- `combobox` covers what all the catalogs share: the wiring and Escape. Opening, filtering and choosing are the consumer's in most of
-  them (`autosuggest` owns those keys), so the arrow keys are not in it. `dialog` opens through each catalog's own way of opening it;
+- **A contract is not a conformance claim.** `lily-design-system-pattern-testers/index.md` lists what each one covers and leaves out.
+- `combobox` is a part, not the APG pattern: the wiring and Escape. Svelte, React, Vue, Angular, HTML and Blazor leave the arrow keys and
+  choosing to the consumer, so the component alone does not meet the APG. `autosuggest` owns those keys, and its contract covers them, though not the APG's optional Alt+Arrow keys.
+  Nunjucks has no run for `autosuggest` or `tree-expand`, since its macros leave those keys to the consumer's script. `dialog` opens through each catalog's own way of opening it;
   where the engine has no `showModal` (jsdom) the driver stubs it the way a browser behaves, and the Tab trap and inert page stay the
   browser's part. `grid` runs against the `data-grid` helper because no headless component has a cell cursor: `grid` and `data-table`
-  are passive. Row 0 is the header row. Sorting, editing, selection and page keys stay in the helper's own tests. Alpine also runs
+  are passive. Row 0 is the header row. Sorting, editing and selection stay in the helper's own tests. Alpine also runs
   all three (`dialog` on `dialog` only). Nunjucks runs `grid`, but has no client behaviour for `combobox` or `dialog`.
 - **Escape belongs to the innermost widget.** The `combobox` contract found that Svelte, React, Vue and Angular called `preventDefault`
   on Escape while the list was closed, and that Alpine did not call it while open. The `dialog` contract found that every overlay closed
@@ -274,7 +280,8 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
   still closes on an Escape handled inside it, and bUnit cannot prove otherwise. The C# driver skips `pressHandled`, `prevented`, focus
   and `showModal`; it proves the ARIA, that Escape and `cancel` close, and where the grid's one tab stop goes.
 - Proved to fail: removing the guard fails `dialog` in six ports and `combobox` in five; breaking `ArrowDown` in `grid-navigation.ts`
-  fails `grid` in eight. Blazor's C# copy of that module was not mutated.
+  fails `grid` in eight; breaking a key fails `tree-expand` in seven and `autosuggest` in five. Blazor's C# copy of that module, and
+  `autosuggest` in HTML, Alpine and Blazor, were not mutated.
 - **For adopters:** `lily-design-system-pattern-testers`, `@lilydesignsystem/pattern-testers` 0.1.0, built but not yet published. `bin/sync-shared-modules` copies the three files into it, and `bin/publish-helpers` and `bin/verify-published` include it. The bUnit driver is not in it.
 
 ## Development warnings

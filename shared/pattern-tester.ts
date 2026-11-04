@@ -39,7 +39,13 @@ interface RovingContract {
 export type RovingPatternName = "tabs" | "menu" | "menubar" | "tree";
 export type OverlayPatternName = "combobox" | "dialog";
 export type PatternName =
-    "picker-listbox" | "picker-disclosure" | RovingPatternName | OverlayPatternName | "grid";
+    | "picker-listbox"
+    | "picker-disclosure"
+    | RovingPatternName
+    | OverlayPatternName
+    | "grid"
+    | "autosuggest"
+    | "tree-expand";
 
 export interface PatternOptions {
     /** The rendered component root. */
@@ -74,12 +80,28 @@ interface OverlayStep {
     };
 }
 
+interface AutosuggestStep {
+    name: string;
+    press?: string;
+    expect: { expanded: boolean; active?: Index; value?: number; prevented?: boolean };
+}
+
+interface TreeStep {
+    name: string;
+    focus?: string;
+    press?: string;
+    expect: { expanded: boolean; focus: string };
+}
+
 interface GridStep {
     name: string;
     press?: string;
     ctrl?: boolean;
     expect: { cell: [Index, Index] };
 }
+
+/** The suggestions of the `autosuggest` contract, for a test to pass to what it renders. */
+export const autosuggestFixture = contracts.autosuggest.fixture;
 
 /** The columns and rows of the `grid` contract, for a test to pass to the grid it renders. */
 export const gridFixture = contracts.grid.fixture;
@@ -331,7 +353,96 @@ async function runGrid(options: PatternOptions): Promise<void> {
     }
 }
 
+async function runAutosuggest(options: PatternOptions): Promise<void> {
+    const { root, hook } = options;
+    const fail = (name: string, message: string): never => {
+        throw new Error(`autosuggest, ${hook}, "${name}": ${message}`);
+    };
+    const input = root.querySelector<HTMLInputElement>('[role="combobox"]');
+    if (!input) return fail("setup", 'no [role="combobox"]');
+    if (input.getAttribute("aria-autocomplete") !== "list")
+        fail("setup", 'the input lacks aria-autocomplete="list"');
+    if (!named(input)) fail("setup", "the input has no name");
+    const list = (): HTMLElement =>
+        root.ownerDocument.getElementById(input.getAttribute("aria-controls") ?? "") ??
+        fail("setup", "aria-controls names nothing");
+    if (list().getAttribute("role") !== "listbox") fail("setup", 'the popup lacks role="listbox"');
+    if (!named(list())) fail("setup", "the listbox has no name");
+    const options_ = (): HTMLElement[] => [
+        ...list().querySelectorAll<HTMLElement>('[role="option"]'),
+    ];
+    const labels = contracts.autosuggest.fixture.suggestions.map((s) => s.value);
+
+    for (const step of contracts.autosuggest.steps as AutosuggestStep[]) {
+        let prevented: boolean | undefined;
+        if (step.press) prevented = await fire(input, escape(step.press), options);
+        const { expanded, active, value, prevented: wantPrevented } = step.expect;
+        const actual = input.getAttribute("aria-expanded");
+        if (actual !== String(expanded)) fail(step.name, `aria-expanded is ${actual}`);
+        if (listShown(list()) !== expanded) fail(step.name, `list shown is ${listShown(list())}`);
+        const descendant = input.getAttribute("aria-activedescendant");
+        if (active === undefined) {
+            if (descendant) fail(step.name, `aria-activedescendant is ${descendant}`);
+        } else {
+            const all = options_();
+            const want = all[active === "last" ? all.length - 1 : active];
+            if (!descendant || descendant !== want?.id)
+                fail(step.name, `aria-activedescendant is ${descendant}, not ${want?.id}`);
+            const selected = all.filter((o) => o.getAttribute("aria-selected") === "true");
+            if (selected.length !== 1 || selected[0] !== want)
+                fail(step.name, `${selected.length} option(s) have aria-selected="true"`);
+        }
+        if (value !== undefined && input.value !== labels[value])
+            fail(step.name, `the input holds "${input.value}", not "${labels[value]}"`);
+        if (wantPrevented !== undefined && prevented !== wantPrevented)
+            fail(step.name, `defaultPrevented is ${prevented}, not ${wantPrevented}`);
+    }
+}
+
+/**
+ * ArrowRight and ArrowLeft on a branch. `root` is the branch `treeitem`, inside a parent `treeitem`; a test puts it
+ * there, and the tree around it in the catalogs whose tree owns these keys. A child is added when it has none.
+ */
+async function runTreeExpand(options: PatternOptions): Promise<void> {
+    const { root, hook } = options;
+    const doc = root.ownerDocument;
+    const contract = contracts["tree-expand"];
+    const fail = (name: string, message: string): never => {
+        throw new Error(`tree-expand, ${hook}, "${name}": ${message}`);
+    };
+    const item = (): HTMLElement =>
+        root.isConnected
+            ? root
+            : (doc.querySelector<HTMLElement>(`[data-pattern-branch]`) ?? fail("setup", "lost"));
+    root.setAttribute("data-pattern-branch", "");
+    if (!root.querySelector('[role="treeitem"]'))
+        root.insertAdjacentHTML("beforeend", contract.child);
+    const parent = root.parentElement?.closest<HTMLElement>('[role="treeitem"]');
+    if (!parent) return fail("setup", "the branch needs a parent treeitem");
+    const part = (name: string): HTMLElement | null =>
+        name === "item"
+            ? item()
+            : name === "parent"
+              ? parent
+              : item().querySelector<HTMLElement>('[role="treeitem"]');
+
+    for (const step of contract.steps as TreeStep[]) {
+        if (step.focus) part(step.focus)?.focus();
+        else if (step.press) {
+            const target = doc.activeElement;
+            if (!target) return fail(step.name, "nothing has focus");
+            await fire(target, escape(step.press), options);
+        }
+        const value = item().getAttribute("aria-expanded");
+        if (value !== String(step.expect.expanded)) fail(step.name, `aria-expanded is ${value}`);
+        const want = part(step.expect.focus);
+        if (doc.activeElement !== want) fail(step.name, `focus is not on the ${step.expect.focus}`);
+    }
+}
+
 export async function runPattern(pattern: PatternName, options: PatternOptions): Promise<void> {
+    if (pattern === "autosuggest") return runAutosuggest(options);
+    if (pattern === "tree-expand") return runTreeExpand(options);
     if (pattern === "grid") return runGrid(options);
     if (pattern === "combobox") return runCombobox(options);
     if (pattern === "dialog") return runDialog(options);

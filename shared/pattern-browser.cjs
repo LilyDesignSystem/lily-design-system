@@ -13,11 +13,13 @@ function source() {
 
 /**
  * Run a pattern on the first element matching `selector`, naming it first when `label` is given. `scripts.setup` runs
- * once before it and `scripts.open` is the `open` option; both are source text with `root` in scope.
+ * once before it and `scripts.open` is the `open` option; both are source text with `root` in scope. `scripts.prepare`
+ * runs before `selector` is looked up.
  */
 async function runPattern(browser, pattern, selector, hook, label, scripts = {}) {
     const error = await browser.execute(
-        async (code, name, css, baseClass, accessibleName, setup, opening) => {
+        async (code, name, css, baseClass, accessibleName, setup, opening, prepare) => {
+            if (prepare) new Function(prepare)();
             const root = document.querySelector(css);
             if (accessibleName) root.setAttribute("aria-label", accessibleName);
             const run = new Function(`${code}\nreturn runPattern;`)();
@@ -37,6 +39,7 @@ async function runPattern(browser, pattern, selector, hook, label, scripts = {})
         label ?? null,
         scripts.setup ?? null,
         scripts.open ?? null,
+        scripts.prepare ?? null,
     );
     if (error) throw new Error(error);
 }
