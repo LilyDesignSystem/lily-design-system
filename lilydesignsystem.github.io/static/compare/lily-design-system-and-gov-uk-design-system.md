@@ -6,7 +6,7 @@ Description: GOV.UK Design System is the Government Digital Service's styled kit
 
 # Lily Design System and GOV.UK Design System
 
-The GOV.UK Design System is the Government Digital Service's styled kit of styles, components and patterns for government services, while Lily Design System is an independent, unstyled catalog of 607 components that takes GOV.UK only as a visual reference. This matters because a service that must look and behave like GOV.UK needs the real thing, and Lily has never been audited and has one maintainer. You choose GOV.UK Frontend when you are building a government service, and Lily when you are not bound to the GOV.UK look and want one contract across several frameworks.
+The GOV.UK Design System is the Government Digital Service's styled kit of styles, components and patterns for government services, while Lily Design System is an independent, unstyled catalog of 609 components that takes GOV.UK only as a visual reference. This matters because a service that must look and behave like GOV.UK needs the real thing, and Lily has never been audited and has one maintainer. You choose GOV.UK Frontend when you are building a government service, and Lily when you are not bound to the GOV.UK look and want one contract across several frameworks.
 
 ## Who owns it and who stands behind it
 
@@ -30,13 +30,13 @@ Lily makes no visual decisions at all in its headless layer and forbids colours,
 
 From the pages I read, GOV.UK Frontend is distributed as CSS, JavaScript, assets and Nunjucks templates, installed from npm or copied in. Its documentation index lists JavaScript behaviour for components such as Accordion, Button and FileUpload. The pages I fetched did not state any support for React, Vue, Angular or Svelte, so I do not claim that GOV.UK has or lacks such wrappers.
 
-Lily implements the same catalog in eight headless libraries (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, plus Web Components with 572 of the 607 components) and Alpine.js markup snippets. There are matching example apps and helper packages per framework. If your team works in Blazor or Angular, or switches framework between projects, that coverage is the main reason to look at Lily. Packages publish to npm and NuGet from the monorepo.
+Lily implements the same catalog in eight headless libraries (HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, plus Web Components with 574 of the 609 components) and Alpine.js markup snippets. There are matching example apps and helper packages per framework. If your team works in Blazor or Angular, or switches framework between projects, that coverage is the main reason to look at Lily. Packages publish to npm and NuGet from the monorepo.
 
 ## Components and patterns
 
 At the time I read it the GOV.UK components page lists 37 components, among them Accordion, Date input, Exit this page, Language navigation, Password input, Service navigation, Task list and Warning text. The patterns page lists 30 patterns in three groups: Ask users for, Help users to, and Pages. It describes patterns as "best practice design solutions for specific user-focused tasks and page types", often using one or more components. Examples include Addresses, Check answers, Create accounts, Question pages and Service unavailable pages.
 
-Lily's catalog is far larger, at 607 components, and includes charts, data grids and 164 national identifier input and view components. Size is not quality: a system with a few dozen components has usually earned each one through production use. Lily's own survey of 429 component rows (compare/compare.tsv) finds 76 rows that match a GOV.UK component. Lily's column in that survey is 429 by construction, because the rows were built from Lily's catalog, so that figure shows Lily's breadth and says nothing about quality. Lily has no equivalent of GOV.UK's written pattern guidance, which rests on research with government services.
+Lily's catalog is far larger, at 609 components, and includes charts, data grids and 164 national identifier input and view components. Size is not quality: a system with a few dozen components has usually earned each one through production use. Lily's own survey of 429 component rows (compare/compare.tsv) finds 76 rows that match a GOV.UK component. Lily's column in that survey is 429 by construction, because the rows were built from Lily's catalog, so that figure shows Lily's breadth and says nothing about quality. Lily has no equivalent of GOV.UK's written pattern guidance, which rests on research with government services.
 
 ## Accessibility evidence
 

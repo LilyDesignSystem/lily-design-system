@@ -1,13 +1,13 @@
 ---
 name: lily-design-system-skill
-description: Explains Lily Design System™ concepts, terminology, and usage patterns for people building with it — the headless-vs-example layers, the 607-component catalog, naming conventions, composition patterns, theming, and the supported frameworks (seven framework pairs plus Web Components and Alpine.js). Use when someone asks what Lily Design System is, what a Lily term means (headless, class hook, slug, helper, theme), how to compose a Lily pattern (a form, a nav, a table, a page shell), or wants a working example in a given framework.
+description: Explains Lily Design System™ concepts, terminology, and usage patterns for people building with it — the headless-vs-example layers, the 609-component catalog, naming conventions, composition patterns, theming, and the supported frameworks (seven framework pairs plus Web Components and Alpine.js). Use when someone asks what Lily Design System is, what a Lily term means (headless, class hook, slug, helper, theme), how to compose a Lily pattern (a form, a nav, a table, a page shell), or wants a working example in a given framework.
 license: MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause
 ---
 
 # Lily Design System™ — concepts & usage
 
 Lily is a free, open-source, **headless** design system: a canonical catalog
-of 607 accessible components, implemented in seven frameworks in full (plus
+of 609 accessible components, implemented in seven frameworks in full (plus
 Web Components at 548 and Alpine.js snippets at 583), that ship
 semantic HTML, ARIA, focus management, and keyboard behaviour — and **no
 CSS**. A paired set of **example** apps shows the same catalog fully styled
@@ -64,7 +64,7 @@ several frameworks: [reference/composition-patterns.md](reference/composition-pa
 
 ## The catalog at a glance
 
-607 components across content (165), national personal identifiers (140,
+609 components across content (165), national personal identifiers (140,
 82 identifier types × input/view across 50+ countries), forms (60),
 navigation (55), tables (40), lists (40), data visualisation (19), overlays (17),
 links (16), pickers (15), media (8), and buttons (8) — the categories in
@@ -75,11 +75,11 @@ listing: `components.tsv` in the canonical repo, or browse it at
 ## Picking a framework
 
 Seven frameworks ship a matched headless + example pair, each implementing
-the full 607-component catalog: HTML, Svelte 5, React 19, Vue 3, Angular
+the full 609-component catalog: HTML, Svelte 5, React 19, Vue 3, Angular
 (20–22), Blazor (.NET 10), Nunjucks. Two more catalogs: Web Components
-(native custom elements, 572 of 607 — table sub-elements and interactive
+(native custom elements, 574 of 609 — table sub-elements and interactive
 list items cannot be autonomous custom elements; no example app) and
-Alpine.js (all 607 as annotated snippets plus one plugin, with an example
+Alpine.js (all 609 as annotated snippets plus one plugin, with an example
 app). Slugs, props and ARIA/keyboard contracts are the same everywhere —
 pick whichever matches your stack.
 

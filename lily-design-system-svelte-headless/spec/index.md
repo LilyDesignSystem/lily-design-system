@@ -27,7 +27,7 @@ work in any Svelte 5 host (SvelteKit, plain Vite + Svelte, Astro, Storybook).
 
 ### In scope
 
-- Svelte 5 implementation of all 607 components from `components.tsv`.
+- Svelte 5 implementation of all 609 components from `components.tsv`.
 - TypeScript types for every component's props.
 - A vitest test file per component asserting ARIA, keyboard, and structural
   contract.
@@ -277,9 +277,9 @@ pnpm run storybook                   # run Storybook
 - [x] `components/` ↔ `src/lib/components/` 1:1 mirror verified
       (815 test files = 2 × 490 + 1). Superseded 2026-10-11: the mirror was removed.
 - [x] `pnpm exec vitest run` passes: **4,016 / 4,016 tests, zero failures**.
-- [x] CSS class-name audit: **607 / 607** components reference their canonical
+- [x] CSS class-name audit: **609 / 609** components reference their canonical
       kebab-case base class.
-- [x] Storybook story coverage: **607 / 607** components have a
+- [x] Storybook story coverage: **609 / 609** components have a
       `*.stories.svelte` file.
 
 ### 8.3 Open backlog
@@ -309,6 +309,6 @@ pnpm run storybook                   # run Storybook
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 609 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling example app: [../lily-design-system-svelte-sveltekit-examples/](../../lily-design-system-svelte-sveltekit-examples/)

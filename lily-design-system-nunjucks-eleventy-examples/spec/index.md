@@ -88,14 +88,14 @@ lily-design-system-nunjucks-eleventy-examples/
 ├── src/
 │   ├── _data/
 │   │   ├── site.js                        ← site name, language, nav metadata
-│   │   └── components.js                  ← catalog inventory (607 entries)
+│   │   └── components.js                  ← catalog inventory (609 entries)
 │   ├── _includes/
 │   │   └── layouts/
 │   │       ├── base.njk                   ← global shell, skip-link, header,
 │   │       │                                footer, NHS CSS link
 │   │       ├── page.njk
 │   │       └── component-demo.njk         ← /components/{slug}/ template
-│   ├── components/{kebab-case}.njk        ← one file per canonical slug (607)
+│   ├── components/{kebab-case}.njk        ← one file per canonical slug (609)
 │   ├── contact-form.njk                   ← composed-page demos (12), flat
 │   ├── dashboard.njk                      ← files using layouts/page.njk
 │   └── …
@@ -168,8 +168,8 @@ pnpm exec playwright test            # e2e tests
 ### 9.1 Routes
 
 - [ ] `/` renders home with skip-link + standard landmarks.
-- [ ] `/components/` lists all 607 canonical components.
-- [ ] `/components/{slug}/` exists for all 607 canonical slugs with a live
+- [ ] `/components/` lists all 609 canonical components.
+- [ ] `/components/{slug}/` exists for all 609 canonical slugs with a live
       demo.
 - [x] All 12 composed-page demos exist.
 
@@ -249,6 +249,6 @@ pnpm exec playwright test            # e2e tests
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 609 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling headless library: [../lily-design-system-nunjucks-headless/](../../lily-design-system-nunjucks-headless/)

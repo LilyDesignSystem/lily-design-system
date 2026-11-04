@@ -27,7 +27,7 @@ WebAssembly, and Blazor Hybrid hosts.
 ### In scope
 
 - Blazor Razor components (`*.razor` + optional `*.razor.cs` code-behind) for
-  all 607 components.
+  all 609 components.
 - bUnit + xUnit tests per component asserting ARIA, keyboard, and structural
   contract.
 - C# 13 / .NET 10.0 source.
@@ -211,7 +211,7 @@ through their model (`EditForm` with a fresh model object, or the bound values s
 ### 7.1 Catalog parity
 
 - [ ] All 583 canonical components have a `{PascalCase}.razor`.
-- [ ] All 607 components have a `{PascalCase}Tests.cs` bUnit test.
+- [ ] All 609 components have a `{PascalCase}Tests.cs` bUnit test.
 - [x] Per-component docs live in the root `../components/{kebab-case}/`
       (shared canonical, not duplicated per subproject).
 - [ ] Every component uses the canonical HTML tag.
@@ -249,7 +249,7 @@ through their model (`EditForm` with a fresh model object, or the bound values s
 ### 8.2 Verified
 
 - [x] `dotnet test` passes: **1,245 / 1,245 bUnit tests, zero failures**.
-- [x] CSS class-name audit: **607 / 607** components reference their canonical
+- [x] CSS class-name audit: **609 / 609** components reference their canonical
       kebab-case base class.
 - [x] All 583 canonical components have a `{PascalCase}.razor` and a
       `{PascalCase}Tests.cs`.
@@ -279,6 +279,6 @@ through their model (`EditForm` with a fresh model object, or the bound values s
 - Build: `dotnet build`
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 609 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling example app: [../lily-design-system-blazor-web-examples/](../../lily-design-system-blazor-web-examples/)

@@ -13,7 +13,7 @@ does not restate their content.
 
 | Subproject                                                                             | What it is                                                                                                                                                                                                                      | Reach for it when                                                                                                                           |
 | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)            | An npm package: the 607-component headless catalog as React 19 function components. Zero CSS.                                                                                                                                   | You're building your own app and want the library you actually `pnpm install` and depend on.                                                |
+| [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)            | An npm package: the 609-component headless catalog as React 19 function components. Zero CSS.                                                                                                                                   | You're building your own app and want the library you actually `pnpm install` and depend on.                                                |
 | [the React helper packages](../spec/helpers/index.md#react-helper-packages)            | Small npm packages: 20 packages, one subproject each: eleven `*-picker` helpers (theme, locale, text-size, motion, time-zone, share, search, link, menu, settings, date-time), `picker-bar`, the grid-like `data-grid`, `kanban-board`, `calendar`, `gantt-chart` and `filter`, the `markdown-editor` and `org-editor`, and `locale-translations`. Each owns one whole interaction. | You need a ready-made preference control or share action rather than building one from catalog primitives.                                  |
 | [`lily-design-system-react-next-examples`](../lily-design-system-react-next-examples/) | A React 19 + Next.js 16 App Router application: every headless component fully styled and wired up, plus 12 composed-page demos. Not a package you install.                                                                     | You want to see a component working end-to-end, copy its CSS, or run a live reference before wiring the headless library into your own app. |
 
@@ -90,7 +90,7 @@ skill gives real, not just pointer-level, coverage.
 ## Framework-agnostic Lily concepts
 
 For what "headless" means in general, what a class hook or slug is, the
-607-component catalog at a glance, naming conventions, and composition
+609-component catalog at a glance, naming conventions, and composition
 patterns that aren't React-specific, use
 [`lily-design-system-skill`](../lily-design-system-skill/) instead —
 this skill assumes that grounding and only adds the React layer on top.

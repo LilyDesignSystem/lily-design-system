@@ -15,7 +15,7 @@ reach for; it does not restate any of their contracts in full.
 
 - **[`lily-design-system-blazor-headless`](../lily-design-system-blazor-headless/)**
   — the Razor class library you actually depend on. Ships the full
-  607-component catalog (0/583 drift in `bin/check-coverage`, 2026-10-25) as unstyled Razor components: semantic HTML, ARIA, focus
+  609-component catalog (0/583 drift in `bin/check-coverage`, 2026-10-25) as unstyled Razor components: semantic HTML, ARIA, focus
   management, keyboard behaviour, no CSS. Published to nuget.org as
   `LilyDesignSystem.Blazor.Headless` (namespace `LilyBlazorHeadless.Components`).
   Reach for this when you need a component itself — `Button`, `TextInput`,
@@ -60,7 +60,7 @@ no CSS framework dependency, and the required-routes shape below.
 ### Required routes
 
 - `/` — home page, links to every example.
-- `/components` — the full catalog index (all 607 components, with links
+- `/components` — the full catalog index (all 609 components, with links
   to individual demos).
 - `/components/{slug}` — one live demo per component, with the canonical
   metadata (description, props, ARIA, keyboard, references).
@@ -146,7 +146,7 @@ AdditionalAttributes`** for rest-attribute pass-through, spread via
   and the `IJSRuntime`/SSR implementation pattern in full — use
   [`lily-design-system-blazor-helpers-skill`](../lily-design-system-blazor-helpers-skill/).
 - For framework-agnostic Lily concepts (what "headless" means, the
-  607-component catalog at large, naming conventions, cross-framework
+  609-component catalog at large, naming conventions, cross-framework
   composition patterns) — use
   [`lily-design-system-skill`](../lily-design-system-skill/) instead; it
   doesn't restate Blazor's own idioms, and this skill doesn't restate its

@@ -8,7 +8,7 @@
 
 This topic covers the helpers of all eight frameworks (angular, blazor, html, nunjucks, react, svelte, vue, web-components) and the Alpine.js helpers — the top-level helper packages, one subproject each (`bin/list-helper-packages <framework>`): the eleven pickers, `picker-bar`, the grid-like helpers and `filter`, the two editors and `locale-translations`; their behaviour contracts; how helpers differ from the headless layer; the canonical-reference role of the Svelte packages; the per-package manifest convention (npm `package.json` vs. NuGet `.csproj` for Blazor); and the build and publish pipeline (`build.js`, `bin/publish-helpers`, `bin/verify-published`). History kept below for the record: until 2026-10-10 each framework's helpers lived in one `lily-design-system-{framework}-helpers` catalog; `data-grid` (2026-09-21), `kanban-board` and `gantt-chart` (2026-09-22) and `calendar` (2026-09-22, ported 2026-10-14) were specced here first and implemented in Svelte before being ported to every framework.
 
-It does **not** cover: the headless 607-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
+It does **not** cover: the headless 609-component catalog and its rules (see [headless](../headless/index.md) and [components](../components/index.md)), the seven framework pairs and their stacks (see [frameworks](../frameworks/index.md)), theme-CSS tokens and `data-theme` semantics (see [theme](../theme/index.md)), or the `lang`/`dir` internationalisation contract (see [internationalization](../internationalization/index.md)).
 
 ## Principles and rules
 
@@ -808,7 +808,7 @@ Each package's `spec/index.md` has the full clauses (kanban §8.95–§8.109, ga
 
 | Headless component                                 | Helper                                                              |
 | -------------------------------------------------- | ------------------------------------------------------------------- |
-| Mirrors the canonical 607-component catalog.       | Small catalog of opinionated packages (currently 7).                |
+| Mirrors the canonical 609-component catalog.       | Small catalog of opinionated packages (currently 7).                |
 | Pure container, no lifecycle.                      | Owns the full lifecycle of one preference dimension.                |
 | Consumer writes their own persistence and loading. | Persistence and dynamic loading/attribute application are built in. |
 | Larger, generic API.                               | Smaller, more opinionated API.                                      |

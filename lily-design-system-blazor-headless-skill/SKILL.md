@@ -12,7 +12,7 @@ shipping semantic HTML, ARIA, focus management, and keyboard behaviour — no
 CSS, no bundled fonts or icons, no hardcoded strings. It targets the same
 component catalog as the other six full-catalog headless libraries (HTML,
 Svelte, React, Vue, Angular, Nunjucks); `bin/check-coverage` reports no drift against
-the 607-component catalog, and its namespace is
+the 609-component catalog, and its namespace is
 `LilyBlazorHeadless.Components`.
 
 ## Install
@@ -115,7 +115,7 @@ them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native pla
   [`lily-design-system-blazor-helpers-skill`](../lily-design-system-blazor-helpers-skill/)
   instead.
 - For framework-agnostic Lily concepts (what "headless" means, the
-  607-component catalog at large, naming conventions, cross-framework
+  609-component catalog at large, naming conventions, cross-framework
   composition patterns not specific to Blazor) use
   [`lily-design-system-skill`](../lily-design-system-skill/) instead — it
   doesn't restate Blazor's own idioms, and this skill doesn't restate its

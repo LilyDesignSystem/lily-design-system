@@ -516,6 +516,8 @@ export { default as SuomiHenkilotunnusView } from "./components/SuomiHenkilotunn
 export { default as SuperBanner } from "./components/SuperBanner/SuperBanner.svelte";
 export { default as SverigePersonnummerInput } from "./components/SverigePersonnummerInput/SverigePersonnummerInput.svelte";
 export { default as SverigePersonnummerView } from "./components/SverigePersonnummerView/SverigePersonnummerView.svelte";
+export { default as IbanInput } from "./components/IbanInput/IbanInput.svelte";
+export { default as IbanView } from "./components/IbanView/IbanView.svelte";
 export { default as SwitchButton } from "./components/SwitchButton/SwitchButton.svelte";
 export { default as TabBar } from "./components/TabBar/TabBar.svelte";
 export { default as TabBarButton } from "./components/TabBarButton/TabBarButton.svelte";

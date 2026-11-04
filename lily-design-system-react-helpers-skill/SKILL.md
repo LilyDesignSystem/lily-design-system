@@ -141,7 +141,7 @@ with lag in calendar or working days) ships in this catalog's own Gantt package 
 
 ## When NOT this skill
 
-- For the headless component library itself — the 607-component
+- For the headless component library itself — the 609-component
   catalog, JSX usage, `className`, controlled-prop patterns for
   ordinary components — use `lily-design-system-react-headless-skill`
   instead.

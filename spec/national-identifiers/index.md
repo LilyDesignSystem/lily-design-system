@@ -109,7 +109,7 @@ Largest remaining gaps: sub-Saharan Africa (Nigeria is the only identifier there
 
 ## Related topics
 
-- [components](../components/index.md) — the canonical 607-component catalog these 92 belong to, and the suffix mapping
+- [components](../components/index.md) — the canonical 609-component catalog these 92 belong to, and the suffix mapping
 - [headless](../headless/index.md) — the markup and behaviour contract `-input`/`-view` components follow
 - [frameworks](../frameworks/index.md) — the seven libraries that implement each component
 - [accessibility](../accessibility/index.md) — the accessible-name requirement the `-view` `aria-label` meets

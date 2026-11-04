@@ -222,6 +222,8 @@ horizontal-scroller	HorizontalScroller	a horizontally scrollable content contain
 hover-card	HoverCard	a card that appears on hover over a trigger element
 hrvatska-osobni-identifikacijski-broj-input	HrvatskaOsobniIdentifikacijskiBrojInput	an input for entering Croatia's Osobni identifikacijski broj (OIB)
 hrvatska-osobni-identifikacijski-broj-view	HrvatskaOsobniIdentifikacijskiBrojView	a read-only display of Croatia's Osobni identifikacijski broj (OIB)
+iban-input	IbanInput	an input for entering an International Bank Account Number (IBAN)
+iban-view	IbanView	a read-only display of an International Bank Account Number (IBAN)
 icon	Icon	a container for displaying an icon
 icon-button	IconButton	a button containing only an icon with a required accessible label
 icon-list	IconList	an ordered list of icon list item components

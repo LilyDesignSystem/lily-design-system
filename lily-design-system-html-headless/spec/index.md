@@ -25,7 +25,7 @@ and keyboard behaviour that every other framework binding mirrors.
 
 ### In scope
 
-- Plain HTML + vanilla JavaScript implementation of all 607 components.
+- Plain HTML + vanilla JavaScript implementation of all 609 components.
 - WebDriverIO browser tests per component.
 - Zero build dependencies (no bundler required to use a component).
 - Comprehensive per-component HTML file with embedded `<script>` block where
@@ -184,19 +184,19 @@ pnpm run storybook                            # run Storybook
 
 - [x] Project infrastructure (`package.json`, `wdio.conf.js`).
 - [x] AGENTS.md, CLAUDE.md, index.md, README.md (symlink), plan.md, tasks.md.
-- [x] All 607 components have a `{kebab-case}.html` file (canonical reference).
+- [x] All 609 components have a `{kebab-case}.html` file (canonical reference).
 - [x] Storybook integration with `*.stories.ts` files.
 - [x] Catalog rename: `medical-record-red-box` → `medical-banner-box-for-danger`.
 
 ### 8.2 Verified
 
 - [x] Every component has a corresponding `*.test.js` WebDriverIO spec
-      (**607 / 607**).
+      (**609 / 609**).
 - [x] `pnpm exec wdio run wdio.conf.js` passes: **490 / 490 spec files,
       zero failures** (parallel with `maxInstances: 8`, ~3 min).
-- [x] CSS class-name audit: **607 / 607** components reference their canonical
+- [x] CSS class-name audit: **609 / 609** components reference their canonical
       kebab-case base class.
-- [x] Storybook story coverage: **607 / 607** components have a
+- [x] Storybook story coverage: **609 / 609** components have a
       `*.stories.ts` file.
 
 ### 8.3 Open backlog
@@ -226,6 +226,6 @@ pnpm run storybook                            # run Storybook
 - Package manager: pnpm (dev-only)
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 609 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling example app: [../lily-design-system-html-css-js-examples/](../../lily-design-system-html-css-js-examples/)

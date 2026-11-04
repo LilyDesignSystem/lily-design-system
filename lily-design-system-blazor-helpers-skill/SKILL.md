@@ -158,7 +158,7 @@ with lag in calendar or working days) ships in this catalog's own Gantt package 
 ## When this isn't the right skill
 
 - For the headless component catalog itself (`Button`, `TextInput`,
-  `BreadcrumbNav`, and the rest of the 607-component catalog) use
+  `BreadcrumbNav`, and the rest of the 609-component catalog) use
   [`lily-design-system-blazor-headless-skill`](../lily-design-system-blazor-headless-skill/)
   instead — these helpers are a separate, higher-level catalog that sits
   alongside it.

@@ -24,7 +24,7 @@ host (Next.js, Vite + React, Remix, Storybook, plain SPA).
 
 ### In scope
 
-- React 19 functional components for all 607 components from `components.tsv`.
+- React 19 functional components for all 609 components from `components.tsv`.
 - TypeScript interfaces for every component's props.
 - A vitest test file per component asserting ARIA, keyboard, and structural
   contract.
@@ -257,9 +257,9 @@ pnpm run storybook                   # run Storybook
 
 - [x] All 583 canonical components have `{PascalCase}.tsx` and compile.
 - [x] `pnpm exec vitest run` passes: **2,205 / 2,205 tests, zero failures**.
-- [x] CSS class-name audit: **607 / 607** components reference their canonical
+- [x] CSS class-name audit: **609 / 609** components reference their canonical
       kebab-case base class.
-- [x] Storybook story coverage: **607 / 607** components have a
+- [x] Storybook story coverage: **609 / 609** components have a
       `*.stories.tsx` file.
 
 ### 9.3 Open backlog
@@ -288,6 +288,6 @@ pnpm run storybook                   # run Storybook
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 607 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 609 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling example app: [../lily-design-system-react-next-examples/](../../lily-design-system-react-next-examples/)

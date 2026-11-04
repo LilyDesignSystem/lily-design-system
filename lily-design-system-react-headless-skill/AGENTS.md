@@ -25,7 +25,7 @@
 A Claude Skill explaining how to install, import, and use the React
 headless implementation of Lily Design System™:
 [`@lilydesignsystem/react-headless`](../lily-design-system-react-headless/)
-(npm, React 19, 607-component catalog). The skill itself is
+(npm, React 19, 609-component catalog). The skill itself is
 [`SKILL.md`](SKILL.md); the `@AGENTS/*.md` files loaded above are the
 same binding design-principle rules every other subproject in this
 repository loads, so an agent explaining the React headless library's

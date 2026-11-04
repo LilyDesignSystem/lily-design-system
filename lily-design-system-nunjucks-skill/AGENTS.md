@@ -25,7 +25,7 @@
 
 A Claude Skill that ties together the three Nunjucks layers in
 this monorepo — [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/)
-(the 607-component headless macro library),
+(the 609-component headless macro library),
 [the Nunjucks helper packages](../spec/helpers/index.md#nunjucks-helper-packages)
 (the `*-picker` macro-plus-`client.js` packages and the other helper packages), and
 [`lily-design-system-nunjucks-eleventy-examples`](../lily-design-system-nunjucks-eleventy-examples/)

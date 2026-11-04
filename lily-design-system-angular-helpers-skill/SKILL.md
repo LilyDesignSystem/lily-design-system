@@ -138,7 +138,7 @@ with lag in calendar or working days) ships in this catalog's own Gantt package 
 
 ## When NOT this skill
 
-- For the Angular headless component library itself (the full 607-component
+- For the Angular headless component library itself (the full 609-component
   catalog, the element-selector and tag+attribute-selector conventions) —
   use `lily-design-system-angular-headless-skill` instead.
 - For framework-agnostic Lily concepts, terminology, or the shared

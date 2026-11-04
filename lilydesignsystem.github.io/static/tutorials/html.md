@@ -88,7 +88,7 @@ Or skip hand-writing CSS entirely — link one of the 63 ready-made themes and t
 
 - The repo's tests run real browsers: `pnpm install && pnpm test` (WebDriverIO).
 - Storybook for every component: `pnpm run storybook`.
-- The [HTML+CSS+JS example app](https://lilydesignsystem.com/examples/) shows all 607 components styled, searchable, and demoed.
+- The [HTML+CSS+JS example app](https://lilydesignsystem.com/examples/) shows all 609 components styled, searchable, and demoed.
 
 ## Next steps
 

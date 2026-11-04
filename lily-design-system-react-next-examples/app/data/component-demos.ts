@@ -423,6 +423,8 @@ export const componentDemos: Record<string, string> = {
   'super-banner': '<div class="super-banner" role="alert">Critical system message</div>',
   'sverige-personnummer-input': '<label class="label" for="demo-input">Label</label><input class="sverige-personnummer-input" id="demo-input" aria-label="an input for entering Sweden\'s Personnummer" />',
   'sverige-personnummer-view': '<span class="sverige-personnummer-view" aria-label="a read-only display of Sweden\'s Personnummer">SverigePersonnummerView</span>',
+  'iban-input': '<input class="iban-input" type="text" aria-label="IBAN" autocomplete="off" value="GB82 WEST 1234 5698 7654 32" />',
+  'iban-view': '<span class="iban-view" aria-label="IBAN">GB82 WEST 1234 5698 7654 32</span>',
   'switch-button': '<button class="switch-button" role="switch" aria-checked="false" aria-label="Dark mode"></button>',
   'tab-bar': '<div class="tab-bar" role="tablist"><button class="tab-bar-button" role="tab" aria-selected="true">Tab 1</button><button class="tab-bar-button" role="tab">Tab 2</button></div>',
   'tab-bar-button': '<div role="tablist" aria-label="Sections"><button class="tab-bar-button" role="tab" aria-selected="true">Tab</button></div>',

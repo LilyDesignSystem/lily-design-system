@@ -2,7 +2,7 @@
 
 A Claude Skill ([`SKILL.md`](SKILL.md)) that explains Lily Design System™
 concepts, terminology, and usage patterns to people building _with_ it: the
-headless-vs-example layers, the 607-component catalog, naming conventions,
+headless-vs-example layers, the 609-component catalog, naming conventions,
 composition patterns, theming, and the supported frameworks (seven framework pairs plus Web Components and Alpine.js).
 
 It is the consumer-facing counterpart to

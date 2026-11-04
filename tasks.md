@@ -3262,7 +3262,7 @@ below was built when the phase was written. Marked unverified in that topic: re-
       Verify: `bin/check-theme` and `themes/references.tsv` for each built theme; a dated row for each declined one.
 - [ ] **P23-T13 Angular Aria spike (maintainer decision).** Port `tree` or `combobox` in `lily-design-system-angular-headless` to `@angular/aria`. Measure lines removed, tests kept, bundle change and the effect on the peer range `>=20 <23`; confirm its stability status first. Weigh against the shared machine (competitive-position item 3).
       Verify: a recorded decision with the numbers.
-- [ ] **P23-T14 Decide on IBAN (maintainer decision).** Lion. `iban-input` and `iban-view`: worldwide-leaning and checksummed, but the catalog count moves. Wait for the proof work.
+- [x] **P23-T14 Decide on IBAN (maintainer decision).** _(2026-11-03: adopted. `iban-input` and `iban-view` in every catalog; catalog 609; `experimental`.)_ Lion. `iban-input` and `iban-view`: worldwide-leaning and checksummed, but the catalog count moves. Wait for the proof work.
       Verify: a recorded decision; if adopted, the standard coverage matrix is green.
 - [x] **P23-T15 Replace the `visually-hidden` class in the docs.** _(2026-11-03: done. Wider than the task: `class="visually-hidden"` was in 73 files, including every catalog's `warning-text`. Docs now use `ScreenReaderSpan`, markup uses `.screen-reader-span`.)_ `AGENTS/components.md` and `components/warning-text/index.md` use a class no theme defines. Use `ScreenReaderSpan`, which all 63 themes style, then run `bin/sync` and `bin/generate-examples`.
       Verify: `grep -rln 'class="visually-hidden"' AGENTS components/*/index.md` finds nothing.

@@ -137,7 +137,7 @@ with lag in calendar or working days) ships in this catalog's own Gantt package 
 
 ## When this isn't the right skill
 
-- **The headless component catalog itself** (the 607-component library
+- **The headless component catalog itself** (the 609-component library
   these helpers sit alongside) — use
   [`lily-design-system-html-headless-skill`](../lily-design-system-html-headless-skill/).
 - **General Lily concepts** not specific to the HTML helpers idiom — use

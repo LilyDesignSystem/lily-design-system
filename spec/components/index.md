@@ -2,7 +2,7 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ defines a canonical catalog of 607 components in a single tab-separated file (`components.tsv`), each named and shaped by deterministic suffix-to-HTML-element and compound-name rules, composed via stable parent/child patterns, and documented per component through a fixed fourteen-section contract.
+**Summary.** Lily™ defines a canonical catalog of 609 components in a single tab-separated file (`components.tsv`), each named and shaped by deterministic suffix-to-HTML-element and compound-name rules, composed via stable parent/child patterns, and documented per component through a fixed fourteen-section contract.
 
 ## Scope
 
@@ -22,8 +22,8 @@ Out of scope here: the headless implementation contract ([headless](../headless/
 - **Deterministic markup.** A component's root HTML element is fixed by its slug suffix (see the mapping table). The canonical HTML tag for each component is also recorded in `components/{slug}/AGENTS.md` under "HTML tag" as the single source of truth.
 - **Semantic HTML first.** Choose the most specific element (`<button>`, `<dialog>`, `<nav>`, `<figure>`, `<table>`, …) before reaching for `<div>` or `<span>`. ARIA augments only where native semantics fall short.
 - **Stable contracts.** Slugs, PascalCase names, base classes, and inner sub-classes are stable across versions. Consumers rely on them; do not rename or remove between versions.
-- **Consistent voice.** All 607 component docs follow the same fourteen-section order and the same headless, framework-agnostic, i18n-clean voice.
-- **Count is exact.** The catalog holds exactly 607 components. Any change to the count is a catalog change that must propagate across all 8 headless libraries, the 7 example apps and the generated registries.
+- **Consistent voice.** All 609 component docs follow the same fourteen-section order and the same headless, framework-agnostic, i18n-clean voice.
+- **Count is exact.** The catalog holds exactly 609 components. Any change to the count is a catalog change that must propagate across all 8 headless libraries, the 7 example apps and the generated registries.
 
 ## The canonical catalog
 
@@ -45,7 +45,7 @@ accordion-list        AccordionList        an accordion ordered list of list ite
 - **name** — PascalCase identifier (e.g., `BreadcrumbListItem`), used for component symbols in every framework.
 - **description** — one-sentence summary; the same sentence opens each component's `index.md`.
 
-**Mirrors.** [`AGENTS/components.md`](../../AGENTS/components.md) carries the naming/mapping/composition rules (but points to the TSV for the listing); the repo-root `index.md` provides a linked listing. The seven headless libraries and seven example apps each implement all 607 entries.
+**Mirrors.** [`AGENTS/components.md`](../../AGENTS/components.md) carries the naming/mapping/composition rules (but points to the TSV for the listing); the repo-root `index.md` provides a linked listing. The seven headless libraries and seven example apps each implement all 609 entries.
 
 **Querying the catalog.** Use the `bin/` tools rather than re-parsing the TSV by hand:
 
@@ -241,7 +241,7 @@ sample across the catalog):
 - "When Not to Use" always names specific Lily alternatives.
 - Code examples use semantic HTML with proper ARIA.
 - No hardcoded user-facing strings in examples — use realistic placeholder content.
-- Consistent voice across all 607 components.
+- Consistent voice across all 609 components.
 
 ### Example-app demo strategy
 
@@ -254,13 +254,13 @@ retired on 2026-10-06 because the curated demos no longer follow it.
 
 ## Acceptance criteria
 
-- [x] `components.tsv` holds exactly 607 rows of `slug\tPascalCase\tdescription`. Verified 2026-10-29: `wc -l < components.tsv` = 583.
+- [x] `components.tsv` holds exactly 609 rows of `slug\tPascalCase\tdescription`. Verified 2026-10-29: `wc -l < components.tsv` = 583.
 - [ ] Every component's root HTML element matches the suffix → element mapping and its `components/{slug}/AGENTS.md` "HTML tag" field. Spot-checked 2026-09-06 (`breadcrumb-nav`→`<nav>`, `data-table-td`→`<td>`, `alert-dialog`→`<dialog>`, `theme-select-option`→`<option>`, all correct), but this has never been exhaustively audited across all 491 components × 7 headless implementations — no `bin/` script checks it. Leaving open pending a real audit rather than checking on a 4-sample spot check.
 - [x] Every compound component follows the documented name patterns; no orphan parts. Confirmed by root `spec/index.md` §11.4: "Cross-subproject name consistency: TabGroup removed, `medical-record-red-box` renamed; no orphans remain."
 - [x] Every `components/{slug}/` has `index.md`, `README.md` (symlink), `AGENTS.md`, and `spec/index.md`. Confirmed by root `spec/index.md` §11.1 and a clean `bin/test` run (2026-09-06, exit 0), which checks required-file presence per component.
 - [x] Every `index.md` follows the fourteen-section order with separate "When to Use" and "When Not to Use" sections. Fixed 2026-09-06: this item and the surrounding doc previously described a nine-section order that none of the 491 files ever actually followed (a doc/doc contradiction between this file's own "Nine-section" heading, root `spec/index.md` §8, and the real, consistently-implemented structure) — corrected both docs to the real, verified fourteen-section order (see "Fourteen-section `index.md` order" above); no component files were changed, since every one of the 491 already agreed with each other and with reality.
 - [x] Every "When Not to Use" section names a specific Lily alternative. Confirmed by root `spec/index.md` §11.1 and spot checks (e.g. `united-states-social-security-number-input`: "use `UnitedStatesSocialSecurityNumberView` instead").
-- [x] `bin/list-components-as-kebab-case` and `-as-pascal-case` enumerate all 607 entries. Verified 2026-10-29: both commands output exactly 583 lines.
+- [x] `bin/list-components-as-kebab-case` and `-as-pascal-case` enumerate all 609 entries. Verified 2026-10-29: both commands output exactly 583 lines.
 - [x] `bin/test` passes for the catalog, all components, and all subprojects. Verified 2026-09-06: `bin/test` exit code 0.
 - [x] Each example app's `/components/{slug}` page renders a suffix-appropriate live demo for every component. Fixed 2026-09-06: 44 of the 49 national-identifier `-view` demo entries (plus, found in the same pass, `date-time-view`) rendered the wrong element in the canonical `lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts` (`<div>` for the 44 national identifiers, real component is `<span>`; `<div>` for `date-time-view`, real component is `<time>`) — the doc's own suffix table also overstated the rule (claimed `role="img"` for every `*-view`, which only two rating-view components actually use; corrected). Fixed the canonical file and re-ran `bin/generate-registries`, which propagated the fix into all 7 example apps at once (verified via diff on the Blazor and HTML CSS/JS apps' generated registries, not just the 4 that copy the TS file directly). `split-view` was checked and correctly left as `<div>` (a real layout container, not a text display).
 

@@ -517,6 +517,8 @@ export { SuomiHenkilotunnusView } from "./components/SuomiHenkilotunnusView";
 export { SuperBanner } from "./components/SuperBanner";
 export { SverigePersonnummerInput } from "./components/SverigePersonnummerInput";
 export { SverigePersonnummerView } from "./components/SverigePersonnummerView";
+export { IbanInput } from "./components/IbanInput";
+export { IbanView } from "./components/IbanView";
 export { SwitchButton } from "./components/SwitchButton";
 export { TabBar } from "./components/TabBar";
 export { TabBarButton } from "./components/TabBarButton";
