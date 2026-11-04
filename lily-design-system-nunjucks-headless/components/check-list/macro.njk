@@ -12,6 +12,10 @@
     attributes  object
 
   Body content: CheckListItem children via caller().
+
+  Usage:
+    {% from "components/check-list/macro.njk" import checkList %}
+    {% call checkList({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro checkList(params) -%}
 {%- set p = params | default({}) -%}

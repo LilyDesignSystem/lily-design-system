@@ -5,6 +5,10 @@
   CSS class: emoji-character-picker
 
   Params: label, open, id, classes, attributes. Caller provides picker content.
+
+  Usage:
+    {% from "components/emoji-character-picker/macro.njk" import emojiCharacterPicker %}
+    {% call emojiCharacterPicker({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro emojiCharacterPicker(params) -%}
 {%- set p = params | default({}) -%}

@@ -10,6 +10,10 @@
     label      string  aria-label.
     classes    string
     attributes object
+
+  Usage:
+    {% from "components/body-text/macro.njk" import bodyText %}
+    {{ bodyText({ label: "Example" }) }}
 #}
 {%- macro bodyText(params) -%}
 <div

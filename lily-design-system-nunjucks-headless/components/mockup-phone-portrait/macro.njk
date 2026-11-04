@@ -14,6 +14,10 @@
     attributes  object
 
   Body content: the rendered UI preview, via caller().
+
+  Usage:
+    {% from "components/mockup-phone-portrait/macro.njk" import mockupPhonePortrait %}
+    {% call mockupPhonePortrait({ id: "example", label: "Example", title: "Example" }) %}…{% endcall %}
 #}
 {%- macro mockupPhonePortrait(params) -%}
 {%- set p = params | default({}) -%}

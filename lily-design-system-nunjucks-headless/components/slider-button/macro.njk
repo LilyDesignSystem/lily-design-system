@@ -8,6 +8,10 @@
   Params:
     id, label (default "Slide to confirm"), confirmedLabel (default "Confirmed"),
     disabled, classes, attributes.
+
+  Usage:
+    {% from "components/slider-button/macro.njk" import sliderButton %}
+    {{ sliderButton({ id: "example", label: "Example" }) }}
 #}
 {%- macro sliderButton(params) -%}
 {%- set p = params | default({}) -%}

@@ -12,6 +12,10 @@
     attributes  object
 
   Body content: typically a TreeList via caller().
+
+  Usage:
+    {% from "components/tree-nav/macro.njk" import treeNav %}
+    {% call treeNav({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro treeNav(params) -%}
 {%- set p = params | default({}) -%}

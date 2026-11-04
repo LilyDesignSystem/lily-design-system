@@ -13,6 +13,10 @@
     html         string  Graphic content (raw HTML).
     classes      string
     attributes   object
+
+  Usage:
+    {% from "components/graphic-block/macro.njk" import graphicBlock %}
+    {{ graphicBlock({ label: "Example", title: "Example" }) }}
 #}
 {%- macro graphicBlock(params) -%}
 <figure

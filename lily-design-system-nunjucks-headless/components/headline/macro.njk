@@ -13,6 +13,10 @@
     bylineHtml    string
     classes       string
     attributes    object
+
+  Usage:
+    {% from "components/headline/macro.njk" import headline %}
+    {{ headline({}) }}
 #}
 {%- macro headline(params) -%}
 {%- set level = params.level | default(1) -%}

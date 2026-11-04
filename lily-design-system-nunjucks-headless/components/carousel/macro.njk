@@ -6,6 +6,10 @@
   Accessibility: aria-roledescription="carousel". Consumer JS manages slide changes.
 
   Params: label (required), id, classes, attributes. Caller provides slides.
+
+  Usage:
+    {% from "components/carousel/macro.njk" import carousel %}
+    {% call carousel({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro carousel(params) -%}
 {%- set p = params | default({}) -%}

@@ -15,6 +15,10 @@
   Behaviour (IntersectionObserver, scroll progress) is consumer-
   driven. The macro renders the wrapper with data-offset so consumer
   scripts can pick up the configured trigger.
+
+  Usage:
+    {% from "components/scroller-base/macro.njk" import scrollerBase %}
+    {{ scrollerBase({ label: "Example" }) }}
 #}
 {%- macro scrollerBase(params) -%}
 {%- set offset = params.offset | default(0.5) -%}

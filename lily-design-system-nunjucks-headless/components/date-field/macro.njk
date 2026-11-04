@@ -8,6 +8,10 @@
   Params:
     id, name (base; "-day", "-month", "-year" appended), legend,
     day, month, year, disabled, required, invalid, classes, attributes.
+
+  Usage:
+    {% from "components/date-field/macro.njk" import dateField %}
+    {{ dateField({ id: "example" }) }}
 #}
 {%- macro dateField(params) -%}
 {%- set p = params | default({}) -%}

@@ -16,6 +16,10 @@
     labelHtml   string   Visible label raw HTML.
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/check-list-item/macro.njk" import checkListItem %}
+    {% call checkListItem({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro checkListItem(params) -%}
 {%- set p = params | default({}) -%}

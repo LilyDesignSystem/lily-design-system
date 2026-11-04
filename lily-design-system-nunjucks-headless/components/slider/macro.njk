@@ -8,6 +8,10 @@
   Params:
     id, name, value, min (default 0), max (default 100), step (default 1),
     label, disabled, required, classes, attributes.
+
+  Usage:
+    {% from "components/slider/macro.njk" import slider %}
+    {{ slider({ id: "example", label: "Example" }) }}
 #}
 {%- macro slider(params) -%}
 {%- set p = params | default({}) -%}

@@ -19,6 +19,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/five-star-rating-view/macro.njk" import fiveStarRatingView %}
+    {{ fiveStarRatingView({ id: "example", label: "Example" }) }}
 #}
 {%- macro fiveStarRatingView(params) -%}
 {%- set max = params.max | default(5) -%}

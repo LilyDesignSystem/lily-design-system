@@ -11,6 +11,10 @@
   The three control names have no default (no English from us): a missing one leaves its
   control unnamed. dateTimeNowInputLabels(pack) in @lilydesignsystem/nunjucks-locale-translations
   gives { dateLabel, timeLabel, nowLabel } in 64 locales, ready to merge into params.
+
+  Usage:
+    {% from "components/date-time-now-input/macro.njk" import dateTimeNowInput %}
+    {{ dateTimeNowInput({ id: "example", label: "Example" }) }}
 #}
 {%- macro dateTimeNowInput(params) -%}
 {%- set p = params | default({}) -%}

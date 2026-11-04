@@ -16,6 +16,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/meter/macro.njk" import meter %}
+    {{ meter({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro meter(params) -%}
 {%- set p = params | default({}) -%}

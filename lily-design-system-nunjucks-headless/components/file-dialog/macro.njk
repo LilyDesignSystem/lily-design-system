@@ -5,6 +5,10 @@
   CSS class: file-dialog
 
   Params: label (required), open (default false), id, classes, attributes. Caller provides content.
+
+  Usage:
+    {% from "components/file-dialog/macro.njk" import fileDialog %}
+    {% call fileDialog({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro fileDialog(params) -%}
 {%- set p = params | default({}) -%}

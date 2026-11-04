@@ -5,6 +5,10 @@
   CSS class: hover-card
 
   Params: label (required), open (default false), id, classes, attributes. Caller provides content.
+
+  Usage:
+    {% from "components/hover-card/macro.njk" import hoverCard %}
+    {% call hoverCard({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro hoverCard(params) -%}
 {%- set p = params | default({}) -%}

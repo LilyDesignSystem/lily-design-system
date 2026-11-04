@@ -20,6 +20,10 @@
     id            string
     classes       string
     attributes    object
+
+  Usage:
+    {% from "components/medical-banner-box-for-danger/macro.njk" import medicalBannerBoxForDanger %}
+    {{ medicalBannerBoxForDanger({ id: "example", label: "Example", heading: "Example" }) }}
 #}
 {%- macro medicalBannerBoxForDanger(params) -%}
 {%- set level = params.headingLevel | default(4) -%}

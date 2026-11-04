@@ -15,6 +15,10 @@
     attributes   object
 
   Body content: RedOrangeYellowGreenBluePickerButton children via caller().
+
+  Usage:
+    {% from "components/red-orange-yellow-green-blue-picker/macro.njk" import redOrangeYellowGreenBluePicker %}
+    {% call redOrangeYellowGreenBluePicker({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro redOrangeYellowGreenBluePicker(params) -%}
 {%- set p = params | default({}) -%}

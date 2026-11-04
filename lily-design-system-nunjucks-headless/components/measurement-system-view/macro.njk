@@ -12,6 +12,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/measurement-system-view/macro.njk" import measurementSystemView %}
+    {{ measurementSystemView({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro measurementSystemView(params) -%}
 {%- set p = params | default({}) -%}

@@ -10,6 +10,10 @@
     attributes  object
 
   Body content: ContentsListItem children via caller().
+
+  Usage:
+    {% from "components/contents-list/macro.njk" import contentsList %}
+    {% call contentsList({ id: "example" }) %}…{% endcall %}
 #}
 {%- macro contentsList(params) -%}
 {%- set p = params | default({}) -%}

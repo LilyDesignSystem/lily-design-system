@@ -13,6 +13,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/tool-bar-button/macro.njk" import toolBarButton %}
+    {{ toolBarButton({ id: "example", label: "Example" }) }}
 #}
 {%- macro toolBarButton(params) -%}
 {%- set p = params | default({}) -%}

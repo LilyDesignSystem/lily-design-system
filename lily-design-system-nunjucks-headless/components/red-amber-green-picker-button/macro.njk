@@ -18,6 +18,10 @@
     value        string
     classes      string
     attributes   object
+
+  Usage:
+    {% from "components/red-amber-green-picker-button/macro.njk" import redAmberGreenPickerButton %}
+    {{ redAmberGreenPickerButton({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro redAmberGreenPickerButton(params) -%}
 {%- set defaultText = { red: "Red", amber: "Amber", green: "Green" } -%}

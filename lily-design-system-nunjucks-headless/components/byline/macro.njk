@@ -13,6 +13,10 @@
     updatedText      string  Plain-text updated date.
     classes          string
     attributes       object
+
+  Usage:
+    {% from "components/byline/macro.njk" import byline %}
+    {{ byline({}) }}
 #}
 {%- macro byline(params) -%}
 <div

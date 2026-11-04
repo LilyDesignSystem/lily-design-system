@@ -14,6 +14,10 @@
   Keyboard interactions (Arrow keys, Enter/Space, Escape) are the
   consumer's responsibility — Nunjucks renders the markup but does
   not bundle JS.
+
+  Usage:
+    {% from "components/tile-map/macro.njk" import tileMap %}
+    {{ tileMap({ label: "Example" }) }}
 #}
 {%- macro tileMap(params) -%}
 <div

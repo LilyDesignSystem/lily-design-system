@@ -14,6 +14,10 @@
 
   Markup only: opening the list, the keys (ArrowDown/ArrowUp, Home/End, Enter,
   Escape) and aria-activedescendant are the consumer's client script.
+
+  Usage:
+    {% from "components/autosuggest/macro.njk" import autosuggest %}
+    {{ autosuggest({ id: "example", label: "Example" }) }}
 #}
 {%- macro autosuggest(params) -%}
 {%- set p = params | default({}) -%}

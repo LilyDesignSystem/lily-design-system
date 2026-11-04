@@ -5,6 +5,10 @@
   CSS class: toast
 
   Params: label (required), open (default false), id, classes, attributes. Caller provides content.
+
+  Usage:
+    {% from "components/toast/macro.njk" import toast %}
+    {% call toast({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro toast(params) -%}
 {%- set p = params | default({}) -%}

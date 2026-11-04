@@ -10,6 +10,10 @@
     label      string  REQUIRED. aria-label.
     classes    string
     attributes object
+
+  Usage:
+    {% from "components/photo-pack/macro.njk" import photoPack %}
+    {{ photoPack({ label: "Example" }) }}
 #}
 {%- macro photoPack(params) -%}
 <div

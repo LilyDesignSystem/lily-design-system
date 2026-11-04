@@ -16,6 +16,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/person/macro.njk" import person %}
+    {{ person({ id: "example", label: "Example" }) }}
 #}
 {%- macro person(params) -%}
 {%- set p = params | default({}) -%}

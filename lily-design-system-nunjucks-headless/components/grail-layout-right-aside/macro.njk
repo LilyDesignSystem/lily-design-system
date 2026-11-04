@@ -15,6 +15,10 @@
     attributes  object
 
   Body content: related content, ads, table of contents, etc. via caller().
+
+  Usage:
+    {% from "components/grail-layout-right-aside/macro.njk" import grailLayoutRightAside %}
+    {% call grailLayoutRightAside({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro grailLayoutRightAside(params) -%}
 {%- set p = params | default({}) -%}

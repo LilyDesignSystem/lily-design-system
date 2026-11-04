@@ -7,6 +7,10 @@
   Params:
     id, name, value (0-360), min (default 0), max (default 360), step (default 1),
     label (aria-label), disabled, required, classes, attributes.
+
+  Usage:
+    {% from "components/angle-slider-range-input/macro.njk" import angleSliderRangeInput %}
+    {{ angleSliderRangeInput({ id: "example", label: "Example" }) }}
 #}
 {%- macro angleSliderRangeInput(params) -%}
 {%- set p = params | default({}) -%}

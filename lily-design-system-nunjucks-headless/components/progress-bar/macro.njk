@@ -16,7 +16,7 @@
 
   Usage:
     {% from "components/progress-bar/macro.njk" import progressBar %}
-    {{ progressBar({ label: "…" }) }}
+    {{ progressBar({ value: 40, label: "Upload progress" }) }}
 #}
 {%- macro progressBar(params) -%}
 <div

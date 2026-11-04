@@ -15,6 +15,10 @@
     attributes   object
 
   Body content: NetPromoterScorePickerButton children via caller().
+
+  Usage:
+    {% from "components/net-promoter-score-picker/macro.njk" import netPromoterScorePicker %}
+    {% call netPromoterScorePicker({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro netPromoterScorePicker(params) -%}
 {%- set p = params | default({}) -%}

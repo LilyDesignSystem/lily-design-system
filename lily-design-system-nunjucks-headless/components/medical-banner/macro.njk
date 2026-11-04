@@ -18,6 +18,10 @@
     attributes   object
 
   Body content: MedicalBannerBox children via caller().
+
+  Usage:
+    {% from "components/medical-banner/macro.njk" import medicalBanner %}
+    {% call medicalBanner({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro medicalBanner(params) -%}
 {%- set p = params | default({}) -%}

@@ -5,6 +5,10 @@
   CSS class: splitter
 
   Params: orientation (default "vertical"), controls, id, classes, attributes.
+
+  Usage:
+    {% from "components/splitter/macro.njk" import splitter %}
+    {{ splitter({ id: "example" }) }}
 #}
 {%- macro splitter(params) -%}
 {%- set p = params | default({}) -%}

@@ -12,6 +12,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/qr-code-image/macro.njk" import qrCodeImage %}
+    {{ qrCodeImage({ id: "example", src: "/example.png", alt: "Example" }) }}
 #}
 {%- macro qrCodeImage(params) -%}
 {%- set p = params | default({}) -%}

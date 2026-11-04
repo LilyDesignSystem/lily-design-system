@@ -18,6 +18,10 @@
     attributes  object
 
   Body content: ThemeSelectOption children via caller().
+
+  Usage:
+    {% from "components/theme-select/macro.njk" import themeSelect %}
+    {% call themeSelect({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro themeSelect(params) -%}
 {%- set p = params | default({}) -%}

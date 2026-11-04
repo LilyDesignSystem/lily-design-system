@@ -6,6 +6,10 @@
 
   Params: label (default "Notifications"), id, classes, attributes.
     Caller provides Toast children.
+
+  Usage:
+    {% from "components/sonner/macro.njk" import sonner %}
+    {% call sonner({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro sonner(params) -%}
 {%- set p = params | default({}) -%}

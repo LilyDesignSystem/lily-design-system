@@ -16,6 +16,10 @@
     creditHtml  string  Credit raw HTML.
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/feature-photo/macro.njk" import featurePhoto %}
+    {{ featurePhoto({ src: "/example.png", alt: "Example" }) }}
 #}
 {%- macro featurePhoto(params) -%}
 {%- set loading = params.loading | default("lazy") -%}

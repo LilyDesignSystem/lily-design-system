@@ -20,6 +20,10 @@
     attributes  object
 
   Body content: ContextMenuItem children via caller().
+
+  Usage:
+    {% from "components/context-menu/macro.njk" import contextMenu %}
+    {% call contextMenu({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro contextMenu(params) -%}
 {%- set p = params | default({}) -%}

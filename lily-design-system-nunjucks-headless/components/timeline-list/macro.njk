@@ -13,6 +13,10 @@
     attributes  object
 
   Body content: TimelineListItem children via caller().
+
+  Usage:
+    {% from "components/timeline-list/macro.njk" import timelineList %}
+    {% call timelineList({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro timelineList(params) -%}
 {%- set p = params | default({}) -%}

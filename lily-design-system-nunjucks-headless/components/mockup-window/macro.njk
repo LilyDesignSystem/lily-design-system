@@ -14,6 +14,10 @@
     attributes  object
 
   Body content: the rendered UI preview, via caller().
+
+  Usage:
+    {% from "components/mockup-window/macro.njk" import mockupWindow %}
+    {% call mockupWindow({ id: "example", label: "Example", title: "Example" }) %}…{% endcall %}
 #}
 {%- macro mockupWindow(params) -%}
 {%- set p = params | default({}) -%}

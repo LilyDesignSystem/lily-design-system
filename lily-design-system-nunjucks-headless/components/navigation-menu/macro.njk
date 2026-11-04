@@ -14,6 +14,10 @@
   stays hidden. To get the measure-and-move behaviour, load a script that calls
   setupOverflowNavigation(nav) from shared/overflow-navigation.ts (the Web
   Components and Alpine libraries ship it).
+
+  Usage:
+    {% from "components/navigation-menu/macro.njk" import navigationMenu %}
+    {% call navigationMenu({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro navigationMenu(params) -%}
 {%- set p = params | default({}) -%}

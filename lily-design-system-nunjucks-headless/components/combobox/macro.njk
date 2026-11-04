@@ -6,6 +6,10 @@
 
   Params: id, name, value, label, listboxId, expanded, required, disabled,
     placeholder, classes, attributes. Caller provides the listbox.
+
+  Usage:
+    {% from "components/combobox/macro.njk" import combobox %}
+    {% call combobox({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro combobox(params) -%}
 {%- set p = params | default({}) -%}

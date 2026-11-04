@@ -16,6 +16,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/event/macro.njk" import event %}
+    {{ event({ id: "example", label: "Example", title: "Example" }) }}
 #}
 {%- macro event(params) -%}
 {%- set p = params | default({}) -%}

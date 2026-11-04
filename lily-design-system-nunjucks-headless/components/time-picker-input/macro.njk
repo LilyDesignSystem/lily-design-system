@@ -7,6 +7,10 @@
   Params:
     id, name, value, label, min, max, step, required, disabled,
     options (array of ISO time strings), classes, attributes.
+
+  Usage:
+    {% from "components/time-picker-input/macro.njk" import timePickerInput %}
+    {{ timePickerInput({ id: "example", label: "Example" }) }}
 #}
 {%- macro timePickerInput(params) -%}
 {%- set p = params | default({}) -%}

@@ -7,6 +7,10 @@
   Params:
     id, name, label, accept (default "image/*"), multiple, capture,
     required, disabled, classes, attributes.
+
+  Usage:
+    {% from "components/image-file-input/macro.njk" import imageFileInput %}
+    {{ imageFileInput({ id: "example", label: "Example" }) }}
 #}
 {%- macro imageFileInput(params) -%}
 {%- set p = params | default({}) -%}

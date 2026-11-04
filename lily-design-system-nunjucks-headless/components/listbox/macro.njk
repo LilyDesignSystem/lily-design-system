@@ -6,6 +6,10 @@
 
   Params: label, labelledBy, multiselectable, id, classes, attributes.
     Caller provides option elements with role="option".
+
+  Usage:
+    {% from "components/listbox/macro.njk" import listbox %}
+    {% call listbox({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro listbox(params) -%}
 {%- set p = params | default({}) -%}

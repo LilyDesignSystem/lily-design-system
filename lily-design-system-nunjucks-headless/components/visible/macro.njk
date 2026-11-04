@@ -13,6 +13,10 @@
   Visibility tracking is JS-driven; this macro renders the marker
   element with data-visible="false" so consumer scripts can attach
   an IntersectionObserver and toggle data-visible.
+
+  Usage:
+    {% from "components/visible/macro.njk" import visible %}
+    {{ visible({}) }}
 #}
 {%- macro visible(params) -%}
 <div

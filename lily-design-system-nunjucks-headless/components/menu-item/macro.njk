@@ -14,6 +14,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/menu-item/macro.njk" import menuItem %}
+    {{ menuItem({ id: "example", label: "Example" }) }}
 #}
 {%- macro menuItem(params) -%}
 {%- set p = params | default({}) -%}

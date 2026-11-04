@@ -6,6 +6,10 @@
 
   Params: label, labelledBy, id, classes, attributes. Caller provides
     ColorPickerButton children.
+
+  Usage:
+    {% from "components/color-picker/macro.njk" import colorPicker %}
+    {% call colorPicker({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro colorPicker(params) -%}
 {%- set p = params | default({}) -%}

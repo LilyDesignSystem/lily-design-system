@@ -6,6 +6,10 @@
 
   Params: label (default "Menu"), controls (id of menu), expanded (default false),
     id, classes, attributes.
+
+  Usage:
+    {% from "components/hamburger-menu/macro.njk" import hamburgerMenu %}
+    {{ hamburgerMenu({ id: "example", label: "Example" }) }}
 #}
 {%- macro hamburgerMenu(params) -%}
 {%- set p = params | default({}) -%}

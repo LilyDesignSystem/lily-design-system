@@ -13,6 +13,10 @@
       placeholders, e.g. "Digit {position} of {length}"; without it each
       input is named by label — no English default),
     required, disabled, classes, attributes.
+
+  Usage:
+    {% from "components/pin-input-div/macro.njk" import pinInputDiv %}
+    {{ pinInputDiv({ id: "example", label: "Example" }) }}
 #}
 {%- macro pinInputDiv(params) -%}
 {%- set p = params | default({}) -%}

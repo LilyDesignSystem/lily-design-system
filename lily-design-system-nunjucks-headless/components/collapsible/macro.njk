@@ -6,6 +6,10 @@
 
   Params: summary, summaryHtml, open, name, id, classes, attributes.
     Body content via caller().
+
+  Usage:
+    {% from "components/collapsible/macro.njk" import collapsible %}
+    {{ collapsible({ id: "example" }) }}
 #}
 {%- macro collapsible(params) -%}
 {%- set p = params | default({}) -%}

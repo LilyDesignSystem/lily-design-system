@@ -13,6 +13,10 @@
     attributes  object
 
   Body content: typically a TourList via caller().
+
+  Usage:
+    {% from "components/tour/macro.njk" import tour %}
+    {% call tour({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro tour(params) -%}
 {%- set p = params | default({}) -%}

@@ -5,6 +5,10 @@
   CSS class: dial-group
 
   Params: label, labelledBy, id, classes, attributes. Caller provides Dials.
+
+  Usage:
+    {% from "components/dial-group/macro.njk" import dialGroup %}
+    {% call dialGroup({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro dialGroup(params) -%}
 {%- set p = params | default({}) -%}

@@ -6,6 +6,10 @@
 
   Params: id, name, width (default 400), height (default 150), label,
     clearLabel (default "Clear"), classes, attributes.
+
+  Usage:
+    {% from "components/signature-pad/macro.njk" import signaturePad %}
+    {{ signaturePad({ id: "example", label: "Example" }) }}
 #}
 {%- macro signaturePad(params) -%}
 {%- set p = params | default({}) -%}

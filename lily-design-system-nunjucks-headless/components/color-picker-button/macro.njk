@@ -6,6 +6,10 @@
 
   Params: color (hex string, required), label (e.g. "Red"), checked, disabled,
     id, name, classes, attributes.
+
+  Usage:
+    {% from "components/color-picker-button/macro.njk" import colorPickerButton %}
+    {{ colorPickerButton({ id: "example", label: "Example" }) }}
 #}
 {%- macro colorPickerButton(params) -%}
 {%- set p = params | default({}) -%}

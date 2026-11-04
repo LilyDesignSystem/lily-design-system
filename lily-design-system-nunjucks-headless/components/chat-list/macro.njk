@@ -13,6 +13,10 @@
     attributes  object
 
   Body content: ChatListItem children via caller().
+
+  Usage:
+    {% from "components/chat-list/macro.njk" import chatList %}
+    {% call chatList({ id: "example" }) %}…{% endcall %}
 #}
 {%- macro chatList(params) -%}
 {%- set p = params | default({}) -%}

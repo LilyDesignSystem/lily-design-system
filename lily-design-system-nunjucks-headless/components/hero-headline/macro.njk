@@ -11,6 +11,10 @@
     mediaHtml  string  Background media (image/video) HTML.
     classes    string
     attributes object
+
+  Usage:
+    {% from "components/hero-headline/macro.njk" import heroHeadline %}
+    {{ heroHeadline({ label: "Example" }) }}
 #}
 {%- macro heroHeadline(params) -%}
 <div

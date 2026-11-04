@@ -6,6 +6,10 @@
 
   Params: id, name, value, min (default 0), max (default 100), step (default 1),
     label, disabled, required, classes, attributes.
+
+  Usage:
+    {% from "components/dial/macro.njk" import dial %}
+    {{ dial({ id: "example", label: "Example" }) }}
 #}
 {%- macro dial(params) -%}
 {%- set p = params | default({}) -%}

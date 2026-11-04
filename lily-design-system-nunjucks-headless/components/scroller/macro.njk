@@ -12,6 +12,10 @@
     html            string  Foreground step content (raw).
     classes         string
     attributes      object
+
+  Usage:
+    {% from "components/scroller/macro.njk" import scroller %}
+    {{ scroller({ label: "Example" }) }}
 #}
 {%- macro scroller(params) -%}
 {%- set offset = params.offset | default(0.5) -%}

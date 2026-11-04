@@ -6,6 +6,10 @@
   CSS class: tile
 
   Params: href, heading, text, html, label, id, classes, attributes.
+
+  Usage:
+    {% from "components/tile/macro.njk" import tile %}
+    {{ tile({ id: "example", label: "Example", href: "/example", heading: "Example" }) }}
 #}
 {%- macro tile(params) -%}
 {%- set p = params | default({}) -%}

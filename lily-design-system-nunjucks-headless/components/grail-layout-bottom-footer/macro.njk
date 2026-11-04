@@ -15,6 +15,10 @@
     attributes  object
 
   Body content: copyright, secondary navigation, etc. via caller().
+
+  Usage:
+    {% from "components/grail-layout-bottom-footer/macro.njk" import grailLayoutBottomFooter %}
+    {% call grailLayoutBottomFooter({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro grailLayoutBottomFooter(params) -%}
 {%- set p = params | default({}) -%}

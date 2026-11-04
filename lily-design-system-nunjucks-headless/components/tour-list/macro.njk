@@ -10,6 +10,10 @@
     attributes  object
 
   Body content: TourListItem children via caller().
+
+  Usage:
+    {% from "components/tour-list/macro.njk" import tourList %}
+    {% call tourList({ id: "example" }) %}…{% endcall %}
 #}
 {%- macro tourList(params) -%}
 {%- set p = params | default({}) -%}

@@ -9,6 +9,10 @@
     src, alt (required), width, height, name, value,
     formaction, formmethod, formnovalidate, formtarget,
     id, classes, attributes.
+
+  Usage:
+    {% from "components/image-input/macro.njk" import imageInput %}
+    {{ imageInput({ id: "example", src: "/example.png", alt: "Example" }) }}
 #}
 {%- macro imageInput(params) -%}
 {%- set p = params | default({}) -%}

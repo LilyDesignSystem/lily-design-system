@@ -5,6 +5,10 @@
   CSS class: expander
 
   Params: summary, open, id, classes, attributes.
+
+  Usage:
+    {% from "components/expander/macro.njk" import expander %}
+    {{ expander({ id: "example" }) }}
 #}
 {%- macro expander(params) -%}
 {%- set p = params | default({}) -%}

@@ -5,6 +5,10 @@
   CSS class: resizable
 
   Params: label, id, classes, attributes. Caller provides the inner content.
+
+  Usage:
+    {% from "components/resizable/macro.njk" import resizable %}
+    {% call resizable({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro resizable(params) -%}
 {%- set p = params | default({}) -%}

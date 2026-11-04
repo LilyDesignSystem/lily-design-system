@@ -13,6 +13,10 @@
     attributes  object
 
   Body content: typically a ChatMessage, via caller().
+
+  Usage:
+    {% from "components/chat-list-item/macro.njk" import chatListItem %}
+    {{ chatListItem({ id: "example" }) }}
 #}
 {%- macro chatListItem(params) -%}
 {%- set p = params | default({}) -%}

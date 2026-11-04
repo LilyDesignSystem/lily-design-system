@@ -15,6 +15,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/contents-list-item/macro.njk" import contentsListItem %}
+    {{ contentsListItem({ id: "example" }) }}
 #}
 {%- macro contentsListItem(params) -%}
 {%- set p = params | default({}) -%}

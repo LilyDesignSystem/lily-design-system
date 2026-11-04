@@ -18,6 +18,10 @@
     name         string
     classes      string
     attributes   object
+
+  Usage:
+    {% from "components/five-star-rating-picker-button/macro.njk" import fiveStarRatingPickerButton %}
+    {{ fiveStarRatingPickerButton({ id: "example", label: "Example" }) }}
 #}
 {%- macro fiveStarRatingPickerButton(params) -%}
 {%- set label = params.label | default(params.value) -%}

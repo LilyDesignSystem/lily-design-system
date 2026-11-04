@@ -12,6 +12,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/theme-select-option/macro.njk" import themeSelectOption %}
+    {{ themeSelectOption({ id: "example", text: "Example" }) }}
 #}
 {%- macro themeSelectOption(params) -%}
 {%- set p = params | default({}) -%}

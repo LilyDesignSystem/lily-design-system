@@ -22,6 +22,10 @@
     invalid     boolean
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/measurement-instance-input/macro.njk" import measurementInstanceInput %}
+    {{ measurementInstanceInput({ id: "example" }) }}
 #}
 {%- macro measurementInstanceInput(params) -%}
 {%- set p = params | default({}) -%}

@@ -13,6 +13,10 @@
     attributes  object
 
   Body content: TabBarButton children via caller().
+
+  Usage:
+    {% from "components/tab-bar/macro.njk" import tabBar %}
+    {% call tabBar({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro tabBar(params) -%}
 {%- set p = params | default({}) -%}

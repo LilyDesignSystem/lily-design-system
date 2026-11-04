@@ -5,6 +5,10 @@
   CSS class: scroll-area
 
   Params: label, id, classes, attributes.
+
+  Usage:
+    {% from "components/scroll-area/macro.njk" import scrollArea %}
+    {% call scrollArea({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro scrollArea(params) -%}
 {%- set p = params | default({}) -%}

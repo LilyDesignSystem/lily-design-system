@@ -12,6 +12,10 @@
     attributes  object
 
   Body content: the figure content (typically an Image), via caller().
+
+  Usage:
+    {% from "components/figure/macro.njk" import figure %}
+    {% call figure({ id: "example" }) %}…{% endcall %}
 #}
 {%- macro figure(params) -%}
 {%- set p = params | default({}) -%}

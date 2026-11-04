@@ -16,6 +16,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/net-promoter-score-view/macro.njk" import netPromoterScoreView %}
+    {{ netPromoterScoreView({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro netPromoterScoreView(params) -%}
 {%- set value = params.value | default(0) -%}

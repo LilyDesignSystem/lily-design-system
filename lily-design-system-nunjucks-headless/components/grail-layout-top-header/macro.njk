@@ -16,6 +16,10 @@
     attributes  object
 
   Body content: site branding, primary nav, etc. via caller().
+
+  Usage:
+    {% from "components/grail-layout-top-header/macro.njk" import grailLayoutTopHeader %}
+    {% call grailLayoutTopHeader({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro grailLayoutTopHeader(params) -%}
 {%- set p = params | default({}) -%}

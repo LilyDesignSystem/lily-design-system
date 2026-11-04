@@ -9,6 +9,10 @@
     defaulted; rendered as data-currency-code), currencySymbol (optional,
     no default; the span is omitted when not given),
     required, disabled, invalid, classes, attributes.
+
+  Usage:
+    {% from "components/currency-input/macro.njk" import currencyInput %}
+    {{ currencyInput({ id: "example", label: "Example" }) }}
 #}
 {%- macro currencyInput(params) -%}
 {%- set p = params | default({}) -%}

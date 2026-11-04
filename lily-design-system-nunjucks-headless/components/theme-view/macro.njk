@@ -11,6 +11,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/theme-view/macro.njk" import themeView %}
+    {{ themeView({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro themeView(params) -%}
 {%- set p = params | default({}) -%}

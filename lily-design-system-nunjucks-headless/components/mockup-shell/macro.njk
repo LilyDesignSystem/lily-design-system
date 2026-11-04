@@ -14,6 +14,10 @@
     attributes  object
 
   Body content: the rendered UI preview, via caller().
+
+  Usage:
+    {% from "components/mockup-shell/macro.njk" import mockupShell %}
+    {% call mockupShell({ id: "example", label: "Example", title: "Example" }) %}…{% endcall %}
 #}
 {%- macro mockupShell(params) -%}
 {%- set p = params | default({}) -%}

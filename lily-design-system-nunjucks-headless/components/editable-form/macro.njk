@@ -5,6 +5,10 @@
   CSS class: editable-form
 
   Params: action, method (default "post"), label, id, classes, attributes.
+
+  Usage:
+    {% from "components/editable-form/macro.njk" import editableForm %}
+    {% call editableForm({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro editableForm(params) -%}
 {%- set p = params | default({}) -%}

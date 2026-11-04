@@ -13,6 +13,10 @@
     attributes  object
 
   Body content: ToolBarButton children via caller().
+
+  Usage:
+    {% from "components/tool-bar/macro.njk" import toolBar %}
+    {% call toolBar({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro toolBar(params) -%}
 {%- set p = params | default({}) -%}

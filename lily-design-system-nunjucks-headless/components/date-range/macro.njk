@@ -8,6 +8,10 @@
     label (group name), startLabel, endLabel (each input's accessible name),
     start, end (YYYY-MM-DD values), startName, endName (form field names),
     id, classes, attributes.
+
+  Usage:
+    {% from "components/date-range/macro.njk" import dateRange %}
+    {{ dateRange({ id: "example", label: "Example" }) }}
 #}
 {%- macro dateRange(params) -%}
 {%- set p = params | default({}) -%}

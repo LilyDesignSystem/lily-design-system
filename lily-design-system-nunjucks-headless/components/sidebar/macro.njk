@@ -5,6 +5,10 @@
   CSS class: sidebar
 
   Params: label (default "Sidebar"), labelledBy, id, classes, attributes.
+
+  Usage:
+    {% from "components/sidebar/macro.njk" import sidebar %}
+    {% call sidebar({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro sidebar(params) -%}
 {%- set p = params | default({}) -%}

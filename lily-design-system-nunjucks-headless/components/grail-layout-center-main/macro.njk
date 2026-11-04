@@ -14,6 +14,10 @@
     attributes  object
 
   Body content: the primary page content via caller().
+
+  Usage:
+    {% from "components/grail-layout-center-main/macro.njk" import grailLayoutCenterMain %}
+    {% call grailLayoutCenterMain({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro grailLayoutCenterMain(params) -%}
 {%- set p = params | default({}) -%}

@@ -5,6 +5,10 @@
   CSS class: floating-panel
 
   Params: label (required), open (default false), id, classes, attributes. Caller provides content.
+
+  Usage:
+    {% from "components/floating-panel/macro.njk" import floatingPanel %}
+    {% call floatingPanel({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro floatingPanel(params) -%}
 {%- set p = params | default({}) -%}

@@ -7,6 +7,10 @@
 
   Params: id, name, value, maximum, rows (default 5), label, required,
     disabled, placeholder, classes, attributes.
+
+  Usage:
+    {% from "components/text-area-input-with-character-counter/macro.njk" import textAreaInputWithCharacterCounter %}
+    {{ textAreaInputWithCharacterCounter({ id: "example", label: "Example" }) }}
 #}
 {%- macro textAreaInputWithCharacterCounter(params) -%}
 {%- set p = params | default({}) -%}

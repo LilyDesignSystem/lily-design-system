@@ -12,6 +12,10 @@
     attributes  object
 
   Body content: MenuBarButton children via caller().
+
+  Usage:
+    {% from "components/menu-bar/macro.njk" import menuBar %}
+    {% call menuBar({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro menuBar(params) -%}
 {%- set p = params | default({}) -%}

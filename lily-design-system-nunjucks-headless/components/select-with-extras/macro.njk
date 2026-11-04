@@ -7,6 +7,10 @@
 
   Params: id, name, value, label, required, disabled, multiple, classes, attributes.
     Caller provides <option> children.
+
+  Usage:
+    {% from "components/select-with-extras/macro.njk" import selectWithExtras %}
+    {% call selectWithExtras({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro selectWithExtras(params) -%}
 {%- set p = params | default({}) -%}

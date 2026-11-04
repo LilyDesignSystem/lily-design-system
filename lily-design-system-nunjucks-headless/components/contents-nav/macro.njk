@@ -18,6 +18,10 @@
     spyRoot     string   CSS selector of a scrolling element other than the viewport.
 
   Body content: typically a ContentsList, via caller().
+
+  Usage:
+    {% from "components/contents-nav/macro.njk" import contentsNav %}
+    {% call contentsNav({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro contentsNav(params) -%}
 {%- set p = params | default({}) -%}

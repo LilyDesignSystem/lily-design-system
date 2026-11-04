@@ -7,6 +7,10 @@
 
   Params: label, level (default "warning"), heading, text, html,
     id, classes, attributes.
+
+  Usage:
+    {% from "components/super-banner/macro.njk" import superBanner %}
+    {{ superBanner({ id: "example", label: "Example", heading: "Example" }) }}
 #}
 {%- macro superBanner(params) -%}
 {%- set p = params | default({}) -%}

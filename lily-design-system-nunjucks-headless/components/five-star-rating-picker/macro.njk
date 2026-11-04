@@ -14,6 +14,10 @@
     id           string
     classes      string
     attributes   object
+
+  Usage:
+    {% from "components/five-star-rating-picker/macro.njk" import fiveStarRatingPicker %}
+    {% call fiveStarRatingPicker({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro fiveStarRatingPicker(params) -%}
 {%- set p = params | default({}) -%}

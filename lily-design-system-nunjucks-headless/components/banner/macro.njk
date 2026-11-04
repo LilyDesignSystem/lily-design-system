@@ -15,6 +15,10 @@
     attributes   object
 
   Body content: BannerBox children or arbitrary content via caller().
+
+  Usage:
+    {% from "components/banner/macro.njk" import banner %}
+    {% call banner({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro banner(params) -%}
 {%- set p = params | default({}) -%}

@@ -14,7 +14,7 @@
 
   Usage:
     {% from "components/go-to-next-section/macro.njk" import goToNextSection %}
-    {{ goToNextSection({ label: "…" }) }}
+    {{ goToNextSection({ href: "#next", label: "Next section" }) }}
 #}
 {%- macro goToNextSection(params) -%}
 <a

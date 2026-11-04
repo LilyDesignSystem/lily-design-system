@@ -19,6 +19,10 @@
 
   Autoplay-on-scroll behaviour requires consumer JavaScript
   (IntersectionObserver). The macro renders the markup only.
+
+  Usage:
+    {% from "components/video-player/macro.njk" import videoPlayer %}
+    {{ videoPlayer({ label: "Example", src: "/example.png" }) }}
 #}
 {%- macro videoPlayer(params) -%}
 {%- set controls = params.controls if params.controls is defined else true -%}

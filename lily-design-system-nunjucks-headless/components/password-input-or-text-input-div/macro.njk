@@ -9,6 +9,10 @@
     id (required for labelling), name, value, label,
     showLabel (default "Show"), hideLabel (default "Hide"),
     required, disabled, classes, attributes.
+
+  Usage:
+    {% from "components/password-input-or-text-input-div/macro.njk" import passwordInputOrTextInputDiv %}
+    {{ passwordInputOrTextInputDiv({ id: "example", label: "Example" }) }}
 #}
 {%- macro passwordInputOrTextInputDiv(params) -%}
 {%- set p = params | default({}) -%}

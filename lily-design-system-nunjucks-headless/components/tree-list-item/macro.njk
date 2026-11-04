@@ -19,6 +19,10 @@
 
   Body content: the item content (typically a TreeLink and, for
     branches, a nested TreeList), via caller().
+
+  Usage:
+    {% from "components/tree-list-item/macro.njk" import treeListItem %}
+    {{ treeListItem({ id: "example" }) }}
 #}
 {%- macro treeListItem(params) -%}
 {%- set p = params | default({}) -%}

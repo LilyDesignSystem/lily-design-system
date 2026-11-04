@@ -7,6 +7,10 @@
   Params:
     id, name, tags (array of strings, current tags),
     label, placeholder, disabled, classes, attributes.
+
+  Usage:
+    {% from "components/tag-input/macro.njk" import tagInput %}
+    {{ tagInput({ id: "example", label: "Example" }) }}
 #}
 {%- macro tagInput(params) -%}
 {%- set p = params | default({}) -%}

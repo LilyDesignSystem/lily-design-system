@@ -13,6 +13,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/sparkline/macro.njk" import sparkline %}
+    {{ sparkline({ id: "example", label: "Example" }) }}
 #}
 {%- macro sparkline(params) -%}
 {%- set p = params | default({}) -%}

@@ -14,6 +14,10 @@
     attributes  object
 
   Body content: content via caller().
+
+  Usage:
+    {% from "components/banner-box/macro.njk" import bannerBox %}
+    {{ bannerBox({ id: "example", label: "Example" }) }}
 #}
 {%- macro bannerBox(params) -%}
 {%- set p = params | default({}) -%}

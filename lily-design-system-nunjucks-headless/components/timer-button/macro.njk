@@ -8,6 +8,10 @@
   Params:
     id, text, duration (seconds, required), label,
     disabled, classes, attributes.
+
+  Usage:
+    {% from "components/timer-button/macro.njk" import timerButton %}
+    {{ timerButton({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro timerButton(params) -%}
 {%- set p = params | default({}) -%}

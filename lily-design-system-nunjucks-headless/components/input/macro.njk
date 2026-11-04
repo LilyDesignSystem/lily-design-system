@@ -6,6 +6,10 @@
 
   Params: type (default "text"), id, name, value, label,
     required, disabled, readonly, placeholder, classes, attributes.
+
+  Usage:
+    {% from "components/input/macro.njk" import input %}
+    {{ input({ id: "example", label: "Example" }) }}
 #}
 {%- macro input(params) -%}
 {%- set p = params | default({}) -%}

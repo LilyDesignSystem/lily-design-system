@@ -11,6 +11,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/citation/macro.njk" import citation %}
+    {{ citation({ id: "example" }) }}
 #}
 {%- macro citation(params) -%}
 {%- set p = params | default({}) -%}

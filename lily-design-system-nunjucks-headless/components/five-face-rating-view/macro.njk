@@ -15,6 +15,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/five-face-rating-view/macro.njk" import fiveFaceRatingView %}
+    {{ fiveFaceRatingView({ id: "example", label: "Example" }) }}
 #}
 {%- macro fiveFaceRatingView(params) -%}
 {%- set value = params.value | default(3) -%}

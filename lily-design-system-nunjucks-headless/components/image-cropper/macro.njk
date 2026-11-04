@@ -16,6 +16,10 @@
   Content:
     The image and crop overlay surface (image, canvas, SVG, or a
     cropping-library output) is supplied by the caller.
+
+  Usage:
+    {% from "components/image-cropper/macro.njk" import imageCropper %}
+    {{ imageCropper({ id: "example", label: "Example" }) }}
 #}
 {%- macro imageCropper(params) -%}
 {%- set p = params | default({}) -%}

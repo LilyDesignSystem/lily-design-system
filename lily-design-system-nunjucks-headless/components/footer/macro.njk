@@ -12,6 +12,10 @@
     attributes  object
 
   Body content: via caller().
+
+  Usage:
+    {% from "components/footer/macro.njk" import footer %}
+    {% call footer({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro footer(params) -%}
 {%- set p = params | default({}) -%}

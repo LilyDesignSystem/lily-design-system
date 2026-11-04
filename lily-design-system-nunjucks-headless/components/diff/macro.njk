@@ -6,6 +6,10 @@
 
   Params: label, leftLabel, rightLabel, leftHtml, rightHtml,
     id, classes, attributes.
+
+  Usage:
+    {% from "components/diff/macro.njk" import diff %}
+    {{ diff({ id: "example", label: "Example" }) }}
 #}
 {%- macro diff(params) -%}
 {%- set p = params | default({}) -%}

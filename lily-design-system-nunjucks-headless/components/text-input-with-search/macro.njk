@@ -6,6 +6,10 @@
 
   Params: id, name, value, label, placeholder, searchLabel (default "Search"),
     required, disabled, classes, attributes.
+
+  Usage:
+    {% from "components/text-input-with-search/macro.njk" import textInputWithSearch %}
+    {{ textInputWithSearch({ id: "example", label: "Example" }) }}
 #}
 {%- macro textInputWithSearch(params) -%}
 {%- set p = params | default({}) -%}

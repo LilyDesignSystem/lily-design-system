@@ -12,6 +12,10 @@
     attributes  object
 
   Body content: via caller().
+
+  Usage:
+    {% from "components/header/macro.njk" import header %}
+    {% call header({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro header(params) -%}
 {%- set p = params | default({}) -%}

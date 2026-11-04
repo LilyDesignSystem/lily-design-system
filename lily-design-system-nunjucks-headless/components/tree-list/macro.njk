@@ -16,6 +16,10 @@
     attributes  object
 
   Body content: TreeListItem children via caller().
+
+  Usage:
+    {% from "components/tree-list/macro.njk" import treeList %}
+    {% call treeList({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro treeList(params) -%}
 {%- set p = params | default({}) -%}

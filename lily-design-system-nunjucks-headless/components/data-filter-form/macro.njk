@@ -6,6 +6,10 @@
 
   Params: action (default "#"), method (default "get"), label,
     id, classes, attributes. Caller provides field inputs.
+
+  Usage:
+    {% from "components/data-filter-form/macro.njk" import dataFilterForm %}
+    {% call dataFilterForm({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro dataFilterForm(params) -%}
 {%- set p = params | default({}) -%}

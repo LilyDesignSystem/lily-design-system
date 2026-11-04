@@ -10,6 +10,10 @@
     html       string
     classes    string
     attributes object
+
+  Usage:
+    {% from "components/content-block/macro.njk" import contentBlock %}
+    {{ contentBlock({}) }}
 #}
 {%- macro contentBlock(params) -%}
 {%- set width = params.width | default("normal") -%}

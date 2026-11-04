@@ -15,6 +15,10 @@
     attributes  object
 
   Body content: navigation, filters, etc. via caller().
+
+  Usage:
+    {% from "components/grail-layout-left-aside/macro.njk" import grailLayoutLeftAside %}
+    {% call grailLayoutLeftAside({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro grailLayoutLeftAside(params) -%}
 {%- set p = params | default({}) -%}

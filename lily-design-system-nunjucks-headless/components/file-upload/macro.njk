@@ -5,6 +5,10 @@
   CSS class: file-upload
 
   Params: id, name, accept, multiple, label, disabled, classes, attributes.
+
+  Usage:
+    {% from "components/file-upload/macro.njk" import fileUpload %}
+    {{ fileUpload({ id: "example", label: "Example" }) }}
 #}
 {%- macro fileUpload(params) -%}
 {%- set p = params | default({}) -%}

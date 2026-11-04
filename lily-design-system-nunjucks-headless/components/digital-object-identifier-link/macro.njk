@@ -12,6 +12,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/digital-object-identifier-link/macro.njk" import digitalObjectIdentifierLink %}
+    {{ digitalObjectIdentifierLink({ id: "example", text: "Example" }) }}
 #}
 {%- macro digitalObjectIdentifierLink(params) -%}
 {%- set p = params | default({}) -%}

@@ -15,6 +15,10 @@
     id          string
     classes     string
     attributes  object
+
+  Usage:
+    {% from "components/contents-link/macro.njk" import contentsLink %}
+    {{ contentsLink({ id: "example", label: "Example", href: "/example" }) }}
 #}
 {%- macro contentsLink(params) -%}
 <a

@@ -5,6 +5,10 @@
   CSS class: tag-group
 
   Params: label, labelledBy, id, classes, attributes. Caller provides <li>s.
+
+  Usage:
+    {% from "components/tag-group/macro.njk" import tagGroup %}
+    {% call tagGroup({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro tagGroup(params) -%}
 {%- set p = params | default({}) -%}

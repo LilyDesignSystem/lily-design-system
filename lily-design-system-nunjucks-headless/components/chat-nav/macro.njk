@@ -12,6 +12,10 @@
     attributes  object
 
   Body content: typically a ChatList, passed via caller().
+
+  Usage:
+    {% from "components/chat-nav/macro.njk" import chatNav %}
+    {% call chatNav({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro chatNav(params) -%}
 {%- set p = params | default({}) -%}

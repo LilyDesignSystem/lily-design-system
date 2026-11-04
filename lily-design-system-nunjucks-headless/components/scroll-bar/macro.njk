@@ -10,6 +10,10 @@
 
   Markup only: the keys the contract names (arrows, Page Up/Down, Home/End
   moving aria-valuenow) are the consumer's client script.
+
+  Usage:
+    {% from "components/scroll-bar/macro.njk" import scrollBar %}
+    {{ scrollBar({ id: "example", label: "Example" }) }}
 #}
 {%- macro scrollBar(params) -%}
 {%- set p = params | default({}) -%}

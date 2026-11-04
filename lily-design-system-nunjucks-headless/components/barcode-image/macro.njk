@@ -15,7 +15,7 @@
 
   Usage:
     {% from "components/barcode-image/macro.njk" import barcodeImage %}
-    {{ barcodeImage({ }) }}
+    {{ barcodeImage({ src: "/barcode.png", alt: "Barcode for order 1234" }) }}
 #}
 {%- macro barcodeImage(params) -%}
 <img

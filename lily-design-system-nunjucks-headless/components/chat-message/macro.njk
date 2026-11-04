@@ -18,6 +18,10 @@
     id           string
     classes      string
     attributes   object
+
+  Usage:
+    {% from "components/chat-message/macro.njk" import chatMessage %}
+    {{ chatMessage({ id: "example", label: "Example" }) }}
 #}
 {%- macro chatMessage(params) -%}
 {%- set p = params | default({}) -%}

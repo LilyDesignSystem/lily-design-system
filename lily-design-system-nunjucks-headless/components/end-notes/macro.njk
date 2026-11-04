@@ -10,6 +10,10 @@
     label      string  aria-label (defaults to 'End notes').
     classes    string
     attributes object
+
+  Usage:
+    {% from "components/end-notes/macro.njk" import endNotes %}
+    {{ endNotes({ label: "Example" }) }}
 #}
 {%- macro endNotes(params) -%}
 <section

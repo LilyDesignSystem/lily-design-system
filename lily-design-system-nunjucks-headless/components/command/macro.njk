@@ -6,6 +6,10 @@
 
   Params: label (required accessible name), open (default false),
     id, classes, attributes. Caller provides the input and listbox.
+
+  Usage:
+    {% from "components/command/macro.njk" import command %}
+    {% call command({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro command(params) -%}
 {%- set p = params | default({}) -%}

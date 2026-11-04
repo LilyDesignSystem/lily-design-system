@@ -10,6 +10,10 @@
     label      string  aria-label.
     classes    string
     attributes object
+
+  Usage:
+    {% from "components/framer/macro.njk" import framer %}
+    {{ framer({ label: "Example" }) }}
 #}
 {%- macro framer(params) -%}
 <div

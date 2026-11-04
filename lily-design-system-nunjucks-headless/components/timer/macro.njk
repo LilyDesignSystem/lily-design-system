@@ -11,6 +11,10 @@
     id, mode ("countdown" | "elapsed"), start (ISO datetime), duration (seconds),
     label, classes, attributes. The macro renders the initial text in `text`.
     text        string  Initial rendered text (e.g. "05:00").
+
+  Usage:
+    {% from "components/timer/macro.njk" import timer %}
+    {{ timer({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro timer(params) -%}
 {%- set p = params | default({}) -%}

@@ -13,6 +13,10 @@
     attributes object
 
   For a "next review" date, render a second reviewDate with its own label.
+
+  Usage:
+    {% from "components/review-date/macro.njk" import reviewDate %}
+    {{ reviewDate({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro reviewDate(params) -%}
 {%- set p = params | default({}) -%}

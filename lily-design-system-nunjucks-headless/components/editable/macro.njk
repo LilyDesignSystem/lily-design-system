@@ -6,6 +6,10 @@
   CSS class: editable
 
   Params: text, editing (default false), label, id, classes, attributes.
+
+  Usage:
+    {% from "components/editable/macro.njk" import editable %}
+    {{ editable({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro editable(params) -%}
 {%- set p = params | default({}) -%}

@@ -16,6 +16,10 @@
 
   Body content: TreeListItem children via caller() (no intermediate
     TreeList — the tree-menu itself is the tree).
+
+  Usage:
+    {% from "components/tree-menu/macro.njk" import treeMenu %}
+    {% call treeMenu({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro treeMenu(params) -%}
 {%- set p = params | default({}) -%}

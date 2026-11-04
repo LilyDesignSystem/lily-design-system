@@ -5,6 +5,10 @@
   CSS class: calendar-range-picker
 
   Params: label, start (ISO), end (ISO), id, classes, attributes.
+
+  Usage:
+    {% from "components/calendar-range-picker/macro.njk" import calendarRangePicker %}
+    {{ calendarRangePicker({ id: "example", label: "Example" }) }}
 #}
 {%- macro calendarRangePicker(params) -%}
 {%- set p = params | default({}) -%}

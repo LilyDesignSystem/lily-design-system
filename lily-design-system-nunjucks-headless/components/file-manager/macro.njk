@@ -5,6 +5,10 @@
   CSS class: file-manager
 
   Params: label, id, classes, attributes. Caller provides the interior.
+
+  Usage:
+    {% from "components/file-manager/macro.njk" import fileManager %}
+    {% call fileManager({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro fileManager(params) -%}
 {%- set p = params | default({}) -%}

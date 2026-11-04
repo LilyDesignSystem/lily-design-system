@@ -13,6 +13,10 @@
     attributes  object
 
   Body content: TaskBarButton children via caller().
+
+  Usage:
+    {% from "components/task-bar/macro.njk" import taskBar %}
+    {% call taskBar({ id: "example", label: "Example" }) %}…{% endcall %}
 #}
 {%- macro taskBar(params) -%}
 {%- set p = params | default({}) -%}
