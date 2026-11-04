@@ -11,6 +11,7 @@ highlights.
 
 ## Combobox, dialog and grid contracts — 2026-11-04
 
+- **Content Security Policy:** `docs/content-security-policy.md`, for adopters: a starting policy, the ten components that write a `style` attribute by catalog, and `style-src-attr 'unsafe-inline'`, checked in Chromium.
 - **Development warnings:** `shared/page-check.js`, a page-level accessible-name check for the HTML, Nunjucks and Alpine catalogs, which have no component code to hook. `e2e/page-check.spec.ts` runs it over the HTML app's 626 pages; the 11 demos it found with no name now have one.
 - **Pattern testers:** `combobox`, `dialog` (on `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`) and `grid` (on the `data-grid` helper) contracts, in `shared/pattern-contracts.json`, both drivers and every catalog that has the behaviour.
 - **Fixed:** an open combobox inside a dialog no longer closes both on Escape. A closed combobox leaves Escape alone in Svelte, React, Vue and Angular, an open one prevents its default in Alpine, and the overlays ignore an Escape already handled inside them, in every catalog except Blazor, where a .NET handler cannot read `defaultPrevented` (see [spec/testing](spec/testing/index.md#pattern-testers)).
