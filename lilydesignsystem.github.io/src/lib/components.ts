@@ -6,7 +6,7 @@ export type LilyComponent = {
   pascal: string;
   description: string;
   /** Maturity: see the rubric in spec/components. */
-  status: 'stable' | 'beta' | 'experimental';
+  status: 'stable' | 'beta' | 'experimental' | 'deprecated' | 'discouraged';
 };
 
 export const LILY_COMPONENTS: LilyComponent[] = [
@@ -73,7 +73,7 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "caption", pascal: "Caption", description: "a caption for a table or figure element", status: "stable" },
   { name: "card", pascal: "Card", description: "a grouped content container with header, body, and footer areas", status: "stable" },
   { name: "care-card", pascal: "CareCard", description: "a medical care instruction card with urgency levels", status: "stable" },
-  { name: "carousel", pascal: "Carousel", description: "a slideshow for cycling through content items", status: "beta" },
+  { name: "carousel", pascal: "Carousel", description: "a slideshow for cycling through content items", status: "discouraged" },
   { name: "cascader", pascal: "Cascader", description: "a multi-level dropdown for selecting a value from a hierarchy", status: "beta" },
   { name: "cesko-cestovni-pas-input", pascal: "CeskoCestovniPasInput", description: "an input for entering Czech Republic's Cestovní pas", status: "beta" },
   { name: "cesko-cestovni-pas-view", pascal: "CeskoCestovniPasView", description: "a read-only display of Czech Republic's Cestovní pas", status: "beta" },

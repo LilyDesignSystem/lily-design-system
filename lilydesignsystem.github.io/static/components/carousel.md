@@ -2,7 +2,7 @@
 
 A carousel is a region component for cycling through a set of slides or content items, such as image galleries, product showcases, or testimonial rotators. It provides the semantic container with appropriate ARIA roledescription so assistive technologies announce it as a carousel.
 
-**Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
+**Status:** discouraged — kept for existing users. Prefer `Card` in a `Grid`, so every item is visible. Content past the first slide is often missed and the pattern is hard to make accessible; [Queensland's design system](https://designsystem.qld.gov.au/about/exploring-our-decisions/carousels) declines to offer one. See [component status](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/components/index.md#maturity).
 
 The consumer is responsible for providing the slide content as children and implementing navigation controls (previous/next buttons, pagination dots, autoplay logic, etc.). This headless approach gives full control over navigation behavior, animation, and layout while ensuring accessibility compliance.
 

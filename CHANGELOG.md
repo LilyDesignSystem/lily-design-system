@@ -13,6 +13,7 @@ highlights.
 
 From the [survey of 18 design systems](spec/design-system-survey-lessons/index.md), tasks.md Phase 23.
 
+- **Lifecycle:** `deprecated` and `discouraged` statuses, `bin/check-lifecycle` in `bin/test`, `docs/adopters.md`. `carousel` is `discouraged`, with `card` in a `grid` as its alternative.
 - **Fixed:** no theme defines `.visually-hidden`, so hidden text such as the `warning-text` prefix showed on screen. Lily's demos, macros and docs now use `.screen-reader-span`. A consumer of the Nunjucks `error-message`, `care-card`, `inset-text`, `pagination-link` or `summary-list-item` macros targeting `.visually-hidden` must update its CSS.
 
 ## Contrast gate, `:user-invalid`, no-flash theme, dependency updates — 2026-11-02

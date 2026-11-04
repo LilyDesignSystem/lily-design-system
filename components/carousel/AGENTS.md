@@ -5,7 +5,10 @@
 - Component: carousel
 - PascalCase: Carousel
 - Description: a slideshow for cycling through content items
-- Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
+- Status: discouraged — kept for existing users; prefer showing the content directly
+- Alternative: `card` in a `grid`, so every item is visible
+- Reason: slides past the first are often missed, and the pattern is hard to make accessible; Queensland's public design system declines to offer one
+- Evidence: https://designsystem.qld.gov.au/about/exploring-our-decisions/carousels
 - HTML tag: <div>
 - CSS class: .carousel
 - Interactive: no

@@ -326,6 +326,8 @@ mean something checkable rather than expressing optimism:
 | `stable`       | Exercised in composed page flows under e2e and axe, beyond the generated per-component checks                                     | Used by the canonical app's composed routes (151 components at the 2026-08-28 assignment)                                 |
 | `beta`         | Implemented and unit-tested in all seven frameworks, story-covered, axe-clean demo page — but not yet exercised in composed flows | The catalog default (332)                                                                                                 |
 | `experimental` | Recent addition with the least accumulated depth; the contract may still move                                                     | The 0.4.0 batch (question, answer, comment, addressograph-box, barcode-image, draft, qr-code-image) and image-cropper (8) |
+| `discouraged`  | Works, and is kept for existing users, but research or accessibility guidance argues against it                                   | `- Alternative:`, `- Reason:` and `- Evidence:` bullets, with a cited source                                              |
+| `deprecated`   | Superseded and going away                                                                                                         | `- Replacement:` and `- Removal:` (version) bullets                                                                       |
 
 Promotion is by evidence, not time served: a component moves to
 `stable` when a composed flow exercises it, and to `beta` from
@@ -335,6 +337,28 @@ release. Screen-reader evidence and production-use reports
 neither is currently required for `stable`, and the
 [accessibility statement](../../docs/accessibility-statement.md) is
 explicit about that boundary.
+
+### Per-status checklist
+
+`bin/check-lifecycle` (in `bin/test`) checks the last two rows, and that `index.md` agrees with `AGENTS.md`.
+
+- **`experimental`:** implemented in every headless library, with tests.
+- **`beta`:** its contract survived a release unchanged; story-covered; an axe-clean demo page.
+- **`stable`:** a composed flow exercises it under e2e and axe.
+- **`discouraged`:** a cited reason, and an alternative in the catalog. Do not mark anything on opinion.
+- **`deprecated`:** a replacement in the catalog, a removal version, a CHANGELOG note, and `warnDeprecated` in the component. The notice
+  period is in [MAINTAINERS.md](../../MAINTAINERS.md) and is still proposed, for the maintainer to confirm.
+
+Real use is recorded in [docs/adopters.md](../../docs/adopters.md), a public opt-in list, and is not required for any status, because no
+adopters are recorded yet. Lily does not gate on a count of organisations.
+
+### Audit, 2026-11-03
+
+| Component            | Result        | Why                                                                                                                                                                                                                                                                                                                  |
+| -------------------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `carousel`           | `discouraged` | [Queensland's design system](https://designsystem.qld.gov.au/about/exploring-our-decisions/carousels) declines to offer one, on accessibility and user-need grounds. Read through a search result: the page refuses a direct fetch.                                                                                  |
+| `toast`              | stays `beta`  | [Adrian Roselli](https://adrianroselli.com/2020/01/defining-toast-messages.html) advises against the animated timed kind. Lily's component has no timer, so the docs now say not to add one.                                                                                                                         |
+| `accordion-checkbox` | stays `beta`  | [GOV.UK's research](https://accessibility.blog.gov.uk/2021/09/21/an-update-on-the-accessibility-of-conditionally-revealed-questions/) found reveals work when kept simple. The docs now say so. An audit there flagged the expanded state failing WCAG 4.1.2 on some assistive technology; check this on the matrix. |
 
 ## Related topics
 

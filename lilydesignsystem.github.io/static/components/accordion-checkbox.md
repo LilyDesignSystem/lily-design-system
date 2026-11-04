@@ -81,6 +81,7 @@ Unlike `Details`, which uses a `<summary>` toggle, this component uses a real fo
 
 ## When Not to Use
 
+- Do not reveal anything complicated. [GOV.UK's research](https://accessibility.blog.gov.uk/2021/09/21/an-update-on-the-accessibility-of-conditionally-revealed-questions/) found conditional reveals work when kept simple, and confused testers when they held complicated questions
 - Do not use when the trigger is informational only — use `Details` (`<details>` / `<summary>`) instead
 - Do not use to switch a setting on/off without revealing additional content — use `SwitchButton` or a plain `CheckboxInput`
 - Do not use for mutually exclusive options — use `RadioGroup`

@@ -1,0 +1,60 @@
+#!/usr/bin/env node
+// bin/check-lifecycle
+//
+// The end of a component's life must say where to go next (spec/components § Maturity):
+//   deprecated   needs "- Replacement: `slug`" and "- Removal: x.y.z"
+//   discouraged  needs "- Alternative: `slug`", "- Reason: ..." and "- Evidence: https://..."
+// The replacement or alternative must be a catalog component other than itself; those bullets may not appear on any
+// other status; the Status in index.md must match; and every row of docs/adopters.md must name a catalog component and
+// link a public page.
+
+const fs = require("fs");
+const path = require("path");
+
+const top = process.env.LILY_ROOT || path.join(__dirname, "..");
+const read = (p) => fs.readFileSync(path.join(top, p), "utf8");
+const slugs = new Set(read("components.tsv").split("\n").filter(Boolean).map((l) => l.split("\t")[0]));
+const LIFECYCLE = ["Replacement", "Removal", "Alternative", "Reason", "Evidence"];
+const errors = [];
+const counts = {};
+
+for (const slug of slugs) {
+  const file = `components/${slug}/AGENTS.md`;
+  const text = read(file);
+  const status = (text.match(/^- Status: (\w+)/m) || [])[1];
+  counts[status] = (counts[status] || 0) + 1;
+  const field = (name) => (text.match(new RegExp(`^- ${name}: (.+)$`, "m")) || [])[1];
+  const target = (name) => {
+    const value = field(name);
+    const named = value && (value.match(/^`([a-z0-9-]+)`/) || [])[1];
+    if (!named) errors.push(`${file}: ${status} needs "- ${name}: \`slug\`"`);
+    else if (!slugs.has(named) || named === slug) errors.push(`${file}: ${name} \`${named}\` must be another catalog component`);
+  };
+
+  if (status === "deprecated") {
+    target("Replacement");
+    if (!/^\d+\.\d+\.\d+$/.test(field("Removal") || "")) errors.push(`${file}: deprecated needs "- Removal: x.y.z"`);
+  } else if (status === "discouraged") {
+    target("Alternative");
+    if (!field("Reason")) errors.push(`${file}: discouraged needs "- Reason: ..."`);
+    if (!/https:\/\//.test(field("Evidence") || "")) errors.push(`${file}: discouraged needs "- Evidence: https://..."`);
+  } else {
+    for (const name of LIFECYCLE) if (field(name)) errors.push(`${file}: "- ${name}:" belongs to deprecated or discouraged, not ${status}`);
+  }
+
+  const doc = (read(`components/${slug}/index.md`).match(/^\*\*Status:\*\* (\w+)/m) || [])[1];
+  if (doc && doc !== status) errors.push(`components/${slug}/index.md says ${doc}, AGENTS.md says ${status}`);
+}
+
+for (const line of read("docs/adopters.md").split("\n")) {
+  const cells = line.split("|").map((c) => c.trim());
+  if (cells.length < 5 || !cells[1] || /^-+$/.test(cells[1]) || cells[1] === "Organisation") continue;
+  for (const name of cells[2].split(",").map((c) => c.replace(/`/g, "").trim())) {
+    if (!slugs.has(name)) errors.push(`docs/adopters.md: ${cells[1]} names unknown component "${name}"`);
+  }
+  if (!/https:\/\//.test(cells[3])) errors.push(`docs/adopters.md: ${cells[1]} needs a public link`);
+}
+
+for (const e of errors) console.error(`check-lifecycle: ${e}`);
+if (errors.length) process.exit(1);
+console.log(`check-lifecycle: ${Object.entries(counts).sort().map(([k, v]) => `${k} ${v}`).join(", ")}`);
