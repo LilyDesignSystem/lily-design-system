@@ -81,7 +81,7 @@ export default function FileDialog({
     }
 
     function handleKeyDown(event: React.KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
             event.preventDefault();
             onChange?.(false);
         }
@@ -96,6 +96,7 @@ export default function FileDialog({
                         className={`file-dialog ${className}`}
                         tabIndex={-1}
                         aria-label={label}
+                        aria-modal="true"
                         onKeyDown={handleKeyDown}
                         onCancel={handleCancel}
                         onClose={() => onChange?.(false)}

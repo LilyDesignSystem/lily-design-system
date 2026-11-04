@@ -3243,56 +3243,62 @@
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-svelte-headless/components/Dialog/Dialog.pattern.test.ts",
               "lily-design-system-svelte-headless/components/Dialog/Dialog.test.ts",
               "lily-design-system-svelte-headless/components/Dialog/modal.test.ts"
             ],
-            "keyEvent": "lily-design-system-svelte-headless/components/Dialog/Dialog.test.ts",
-            "ariaAssertion": "lily-design-system-svelte-headless/components/Dialog/Dialog.test.ts"
+            "keyEvent": "lily-design-system-svelte-headless/components/Dialog/Dialog.pattern.test.ts",
+            "ariaAssertion": "lily-design-system-svelte-headless/components/Dialog/Dialog.pattern.test.ts"
           },
           "react": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-react-headless/components/Dialog.pattern.test.tsx",
               "lily-design-system-react-headless/components/Dialog.test.tsx"
             ],
-            "keyEvent": "lily-design-system-react-headless/components/Dialog.test.tsx",
-            "ariaAssertion": "lily-design-system-react-headless/components/Dialog.test.tsx"
+            "keyEvent": "lily-design-system-react-headless/components/Dialog.pattern.test.tsx",
+            "ariaAssertion": "lily-design-system-react-headless/components/Dialog.pattern.test.tsx"
           },
           "vue": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-vue-headless/components/Dialog.pattern.test.ts",
               "lily-design-system-vue-headless/components/Dialog.test.ts"
             ],
-            "keyEvent": "lily-design-system-vue-headless/components/Dialog.test.ts",
-            "ariaAssertion": "lily-design-system-vue-headless/components/Dialog.test.ts"
+            "keyEvent": "lily-design-system-vue-headless/components/Dialog.pattern.test.ts",
+            "ariaAssertion": "lily-design-system-vue-headless/components/Dialog.pattern.test.ts"
           },
           "angular": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-angular-headless/components/Dialog.pattern.spec.ts",
               "lily-design-system-angular-headless/components/Dialog.spec.ts"
             ],
-            "keyEvent": "lily-design-system-angular-headless/components/Dialog.spec.ts",
-            "ariaAssertion": "lily-design-system-angular-headless/components/Dialog.spec.ts"
+            "keyEvent": "lily-design-system-angular-headless/components/Dialog.pattern.spec.ts",
+            "ariaAssertion": "lily-design-system-angular-headless/components/Dialog.pattern.spec.ts"
           },
           "html": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-html-headless/components/dialog.pattern.test.js",
               "lily-design-system-html-headless/components/dialog.test.js"
             ],
-            "keyEvent": "lily-design-system-html-headless/components/dialog.test.js",
-            "ariaAssertion": "lily-design-system-html-headless/components/dialog.test.js"
+            "keyEvent": "lily-design-system-html-headless/components/dialog.pattern.test.js",
+            "ariaAssertion": "lily-design-system-html-headless/components/dialog.pattern.test.js"
           },
           "web-components": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-web-components-headless/components/dialog.pattern.test.ts",
               "lily-design-system-web-components-headless/components/dialog.test.ts"
             ],
-            "keyEvent": "lily-design-system-web-components-headless/components/dialog.test.ts",
-            "ariaAssertion": "lily-design-system-web-components-headless/components/dialog.test.ts"
+            "keyEvent": "lily-design-system-web-components-headless/components/dialog.pattern.test.ts",
+            "ariaAssertion": "lily-design-system-web-components-headless/components/dialog.pattern.test.ts"
           },
           "nunjucks": {
             "status": "no key event",

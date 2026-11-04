@@ -23,7 +23,7 @@ describe("Combobox", function () {
         const id = await input.getAttribute("aria-controls");
         const list = await $(`#${id}`);
         expect(await list.getAttribute("role")).toBe("listbox");
-        expect(await list.getAttribute("hidden")).not.toBeNull();
+        expect(await browser.execute((el) => el.matches(":popover-open"), await list)).toBe(false);
     });
 
     it("should have an aria-label attribute on the input and the listbox", async function () {
@@ -40,7 +40,7 @@ describe("Combobox keyboard", function () {
             const input = document.querySelector('.combobox [role="combobox"]');
             const list = document.querySelector('.combobox [role="listbox"]');
             input.setAttribute("aria-expanded", String(isOpen));
-            list.hidden = !isOpen;
+            if (isOpen) list.showPopover();
             window.closes = 0;
             window.escapeReachedDocument = 0;
             document.querySelector(".combobox").addEventListener("combobox-close", () => (window.closes += 1));
@@ -53,7 +53,7 @@ describe("Combobox keyboard", function () {
     async function state() {
         return browser.execute(() => ({
             expanded: document.querySelector('.combobox [role="combobox"]').getAttribute("aria-expanded"),
-            hidden: document.querySelector('.combobox [role="listbox"]').hidden,
+            hidden: !document.querySelector('.combobox [role="listbox"]').matches(":popover-open"),
             closes: window.closes,
             uncancelled: window.escapeReachedDocument,
         }));

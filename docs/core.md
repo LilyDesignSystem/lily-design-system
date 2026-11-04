@@ -663,12 +663,12 @@ Helper package; keyboard contract: keys named.
 Catalog component; keyboard contract: keys named.
 
 - (a) not met, 7 of 8 libraries:
-  - Svelte: met. [lily-design-system-svelte-headless/components/Dialog/Dialog.test.ts](../lily-design-system-svelte-headless/components/Dialog/Dialog.test.ts), [lily-design-system-svelte-headless/components/Dialog/modal.test.ts](../lily-design-system-svelte-headless/components/Dialog/modal.test.ts)
-  - React: met. [lily-design-system-react-headless/components/Dialog.test.tsx](../lily-design-system-react-headless/components/Dialog.test.tsx)
-  - Vue: met. [lily-design-system-vue-headless/components/Dialog.test.ts](../lily-design-system-vue-headless/components/Dialog.test.ts)
-  - Angular: met. [lily-design-system-angular-headless/components/Dialog.spec.ts](../lily-design-system-angular-headless/components/Dialog.spec.ts)
-  - HTML: met. [lily-design-system-html-headless/components/dialog.test.js](../lily-design-system-html-headless/components/dialog.test.js)
-  - Web Components: met. [lily-design-system-web-components-headless/components/dialog.test.ts](../lily-design-system-web-components-headless/components/dialog.test.ts)
+  - Svelte: met. [lily-design-system-svelte-headless/components/Dialog/Dialog.pattern.test.ts](../lily-design-system-svelte-headless/components/Dialog/Dialog.pattern.test.ts), [lily-design-system-svelte-headless/components/Dialog/Dialog.test.ts](../lily-design-system-svelte-headless/components/Dialog/Dialog.test.ts), [lily-design-system-svelte-headless/components/Dialog/modal.test.ts](../lily-design-system-svelte-headless/components/Dialog/modal.test.ts)
+  - React: met. [lily-design-system-react-headless/components/Dialog.pattern.test.tsx](../lily-design-system-react-headless/components/Dialog.pattern.test.tsx), [lily-design-system-react-headless/components/Dialog.test.tsx](../lily-design-system-react-headless/components/Dialog.test.tsx)
+  - Vue: met. [lily-design-system-vue-headless/components/Dialog.pattern.test.ts](../lily-design-system-vue-headless/components/Dialog.pattern.test.ts), [lily-design-system-vue-headless/components/Dialog.test.ts](../lily-design-system-vue-headless/components/Dialog.test.ts)
+  - Angular: met. [lily-design-system-angular-headless/components/Dialog.pattern.spec.ts](../lily-design-system-angular-headless/components/Dialog.pattern.spec.ts), [lily-design-system-angular-headless/components/Dialog.spec.ts](../lily-design-system-angular-headless/components/Dialog.spec.ts)
+  - HTML: met. [lily-design-system-html-headless/components/dialog.pattern.test.js](../lily-design-system-html-headless/components/dialog.pattern.test.js), [lily-design-system-html-headless/components/dialog.test.js](../lily-design-system-html-headless/components/dialog.test.js)
+  - Web Components: met. [lily-design-system-web-components-headless/components/dialog.pattern.test.ts](../lily-design-system-web-components-headless/components/dialog.pattern.test.ts), [lily-design-system-web-components-headless/components/dialog.test.ts](../lily-design-system-web-components-headless/components/dialog.test.ts)
   - Nunjucks: no key event. [lily-design-system-nunjucks-headless/components/dialog/macro.test.js](../lily-design-system-nunjucks-headless/components/dialog/macro.test.js)
   - Blazor: met. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DialogTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DialogTests.cs)
 - (b) met; browsers: Chromium, Firefox, WebKit; 11 covering spec(s):

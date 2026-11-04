@@ -66,7 +66,7 @@
         warnMissingName("FileDialog", label, restProps["aria-label"], restProps["aria-labelledby"]),
     );
     function onkeydown(event: KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
             event.preventDefault();
             open = false;
         }
@@ -85,6 +85,7 @@
         onclose={() => (open = false)}
         tabindex="-1"
         aria-label={label}
+        aria-modal="true"
         {onkeydown}
         {...restProps}
     >

@@ -84,7 +84,7 @@
     );
 
     function onkeydown(event: KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && open) {
             event.preventDefault();
             open = false;
         }

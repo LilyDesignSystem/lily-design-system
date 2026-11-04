@@ -89,7 +89,7 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Escape: closes the dialog by setting <code>open</code> to false</li>
+      <li>Escape: closes the dialog by setting <code>open</code> to false, unless something inside already handled it (<code>defaultPrevented</code>)</li>
     </ul>
     <h3>Props</h3>
     <ul>

@@ -88,7 +88,7 @@ export default function Combobox({
     usePopoverState(listboxRef, open);
 
     function handleKeyDown(event: React.KeyboardEvent) {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && open) {
             event.preventDefault();
             onOpenChange?.(false);
         }

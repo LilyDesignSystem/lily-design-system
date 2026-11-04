@@ -81,7 +81,7 @@ export class SlideOutDrawer implements OnInit {
     readonly className = input<string>("");
 
     protected onKeydown(event: KeyboardEvent): void {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
             event.preventDefault();
             this.open.set(false);
         }

@@ -11,15 +11,20 @@ function source() {
         .replace(/^export (async function|function|const)/gm, "$1");
 }
 
-/** Run a pattern on the first element matching `selector`, naming it first when `label` is given. */
-async function runPattern(browser, pattern, selector, hook, label) {
+/**
+ * Run a pattern on the first element matching `selector`, naming it first when `label` is given. `scripts.setup` runs
+ * once before it and `scripts.open` is the `open` option; both are source text with `root` in scope.
+ */
+async function runPattern(browser, pattern, selector, hook, label, scripts = {}) {
     const error = await browser.execute(
-        async (code, name, css, baseClass, accessibleName) => {
+        async (code, name, css, baseClass, accessibleName, setup, opening) => {
             const root = document.querySelector(css);
             if (accessibleName) root.setAttribute("aria-label", accessibleName);
             const run = new Function(`${code}\nreturn runPattern;`)();
+            if (setup) new Function("root", setup)(root);
+            const open = opening ? () => new Function("root", opening)(root) : undefined;
             try {
-                await run(name, { root, hook: baseClass });
+                await run(name, { root, hook: baseClass, open });
                 return null;
             } catch (failure) {
                 return String(failure && failure.message);
@@ -30,6 +35,8 @@ async function runPattern(browser, pattern, selector, hook, label) {
         selector,
         hook,
         label ?? null,
+        scripts.setup ?? null,
+        scripts.open ?? null,
     );
     if (error) throw new Error(error);
 }

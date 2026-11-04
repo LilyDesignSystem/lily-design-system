@@ -407,5 +407,207 @@
         }
       }
     ]
+  },
+  "combobox": {
+    "source": "WAI-ARIA APG combobox, the part every catalog shares: the wiring and Escape (components/combobox/AGENTS.md). Opening, filtering and choosing are the consumer's in most catalogs, so they are not here; autosuggest owns those keys.",
+    "steps": [
+      {
+        "name": "closed at rest",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "Escape while closed is left alone, so an enclosing dialog still gets it",
+        "press": "Escape",
+        "expect": {
+          "expanded": false,
+          "prevented": false
+        }
+      },
+      {
+        "name": "it opens",
+        "open": true,
+        "expect": {
+          "expanded": true
+        }
+      },
+      {
+        "name": "Escape closes the list and goes no further",
+        "press": "Escape",
+        "expect": {
+          "expanded": false,
+          "prevented": true
+        }
+      }
+    ]
+  },
+  "dialog": {
+    "source": "WAI-ARIA APG modal dialog, as a native <dialog> opened with showModal() (components/dialog/AGENTS.md). The Tab trap and the inert page are the browser's part.",
+    "steps": [
+      {
+        "name": "closed at rest",
+        "expect": {
+          "open": false
+        }
+      },
+      {
+        "name": "it opens modally, named, with focus inside",
+        "open": true,
+        "expect": {
+          "open": true,
+          "modal": true,
+          "focusInside": true
+        }
+      },
+      {
+        "name": "Escape already handled by something inside leaves it open",
+        "pressHandled": "Escape",
+        "expect": {
+          "open": true
+        }
+      },
+      {
+        "name": "Escape closes it and focus returns",
+        "press": "Escape",
+        "expect": {
+          "open": false,
+          "focusOpener": true
+        }
+      },
+      {
+        "name": "it opens again",
+        "open": true,
+        "expect": {
+          "open": true
+        }
+      },
+      {
+        "name": "the native cancel event closes it",
+        "cancel": true,
+        "expect": {
+          "open": false
+        }
+      }
+    ]
+  },
+  "grid": {
+    "source": "WAI-ARIA APG grid, moving between cells with a roving tabindex (lily-design-system-svelte-data-grid). Row 0 is the header row. Sorting, editing, selection and page keys are the helper's own.",
+    "fixture": {
+      "columns": [
+        {
+          "id": "a",
+          "header": "Alpha"
+        },
+        {
+          "id": "b",
+          "header": "Beta"
+        },
+        {
+          "id": "c",
+          "header": "Gamma"
+        }
+      ],
+      "rows": [
+        {
+          "id": "1",
+          "a": "A1",
+          "b": "B1",
+          "c": "C1"
+        },
+        {
+          "id": "2",
+          "a": "A2",
+          "b": "B2",
+          "c": "C2"
+        },
+        {
+          "id": "3",
+          "a": "A3",
+          "b": "B3",
+          "c": "C3"
+        }
+      ]
+    },
+    "steps": [
+      {
+        "name": "the cursor starts on the first cell",
+        "expect": {
+          "cell": [0, 0]
+        }
+      },
+      {
+        "name": "ArrowRight moves to the next column",
+        "press": "ArrowRight",
+        "expect": {
+          "cell": [0, 1]
+        }
+      },
+      {
+        "name": "ArrowDown moves to the next row",
+        "press": "ArrowDown",
+        "expect": {
+          "cell": [1, 1]
+        }
+      },
+      {
+        "name": "ArrowLeft moves back",
+        "press": "ArrowLeft",
+        "expect": {
+          "cell": [1, 0]
+        }
+      },
+      {
+        "name": "ArrowUp moves up",
+        "press": "ArrowUp",
+        "expect": {
+          "cell": [0, 0]
+        }
+      },
+      {
+        "name": "ArrowLeft stops at the edge",
+        "press": "ArrowLeft",
+        "expect": {
+          "cell": [0, 0]
+        }
+      },
+      {
+        "name": "ArrowDown from the first column",
+        "press": "ArrowDown",
+        "expect": {
+          "cell": [1, 0]
+        }
+      },
+      {
+        "name": "End goes to the last column of the row",
+        "press": "End",
+        "expect": {
+          "cell": [1, "last"]
+        }
+      },
+      {
+        "name": "Home goes to the first column of the row",
+        "press": "Home",
+        "expect": {
+          "cell": [1, 0]
+        }
+      },
+      {
+        "name": "Ctrl+End goes to the last cell",
+        "press": "End",
+        "ctrl": true,
+        "expect": {
+          "cell": ["last", "last"]
+        }
+      },
+      {
+        "name": "Ctrl+Home goes to the first cell",
+        "press": "Home",
+        "ctrl": true,
+        "expect": {
+          "cell": [0, 0]
+        }
+      }
+    ]
   }
 }

@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\..\shared\PatternTester.cs" Link="PatternTester.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\src\LilyBlazorHeadless\LilyBlazorHeadless.csproj" />
   </ItemGroup>
 

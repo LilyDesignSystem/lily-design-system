@@ -66,7 +66,7 @@ function oncancel(event: Event) {
 }
 
 function onkeydown(event: KeyboardEvent) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !event.defaultPrevented) {
         event.preventDefault();
         open.value = false;
     }
@@ -81,6 +81,7 @@ function onkeydown(event: KeyboardEvent) {
         class="file-dialog"
         tabindex="-1"
         :aria-label="label"
+        aria-modal="true"
         @keydown="onkeydown"
         @cancel="oncancel"
         @close="open = false"

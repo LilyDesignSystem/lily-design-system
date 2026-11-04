@@ -74,7 +74,7 @@ const open = defineModel<boolean>("open", { default: false });
 const listboxId = `combobox-${useId()}`;
 
 function onkeydown(event: KeyboardEvent) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && open.value) {
         event.preventDefault();
         open.value = false;
     }

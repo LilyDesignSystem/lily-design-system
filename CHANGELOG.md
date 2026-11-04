@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Combobox, dialog and grid contracts — 2026-11-04
+
+- **Pattern testers:** `combobox`, `dialog` (on `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`) and `grid` (on the `data-grid` helper) contracts, in `shared/pattern-contracts.json`, both drivers and every catalog that has the behaviour.
+- **Fixed:** an open combobox inside a dialog no longer closes both on Escape. A closed combobox leaves Escape alone in Svelte, React, Vue and Angular, an open one prevents its default in Alpine, and the overlays ignore an Escape already handled inside them, in every catalog except Blazor, where a .NET handler cannot read `defaultPrevented` (see [spec/testing](spec/testing/index.md#pattern-testers)).
+- **Fixed:** the HTML `mentions-input` suggestions panel never opened in a browser: it had no `popover` attribute, so `showPopover()` threw and the error was swallowed, while `aria-expanded` said true. Three specs that still read `hidden` (`combobox`, `popconfirm-dialog`, `coachmark`) now read `:popover-open`, and the full HTML browser suite passes.
+- **Fixed:** `file-dialog` has `aria-modal="true"` in Svelte, React, Vue, Angular and Blazor, as it already had in HTML and Web Components.
+
 ## Pattern testers, CSP, lifecycle, IBAN, calendar systems — 2026-11-03
 
 From the [survey of 18 design systems](spec/design-system-survey-lessons/index.md), tasks.md Phase 23.

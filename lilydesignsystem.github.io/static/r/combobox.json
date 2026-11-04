@@ -17,7 +17,7 @@
     "`role=\"listbox\"` -- on the dropdown container, identifies it as a list of selectable options."
   ],
   "keyboard": [
-    "Escape: Closes the dropdown listbox."
+    "Escape: closes the dropdown listbox while it is open; while closed it is left alone, so an enclosing dialog still gets it"
   ],
   "props": [
     "`label`: string (required) -- accessible name applied via `aria-label` on both the input and listbox.",

@@ -63,7 +63,7 @@
       new MutationObserver(sync).observe(el, { attributes: true, attributeFilter: ['data-open'] });
       sync();
       el.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && el.getAttribute('data-open') === 'true') {
+        if (e.key === 'Escape' && !e.defaultPrevented && el.getAttribute('data-open') === 'true') {
           e.preventDefault();
           dismiss();
         }

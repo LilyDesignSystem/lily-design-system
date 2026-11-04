@@ -47,8 +47,7 @@ describe("MentionsInput", function () {
     it("should have a suggestions panel hidden by default", async function () {
         const panel = await $("div.mentions-input-suggestions");
         await expect(panel).toExist();
-        const hidden = await panel.getAttribute("hidden");
-        expect(hidden).not.toBeNull();
+        expect(await browser.execute((el) => el.matches(":popover-open"), await panel)).toBe(false);
     });
 
     it("should open the suggestions panel when the trigger character is typed", async function () {
@@ -56,9 +55,9 @@ describe("MentionsInput", function () {
         const panel = await $("div.mentions-input-suggestions");
         await input.click();
         await browser.keys(["@"]);
-        const hidden = await panel.getAttribute("hidden");
+        const shown = await browser.execute((el) => el.matches(":popover-open"), await panel);
         const expanded = await input.getAttribute("aria-expanded");
-        expect(hidden).toBeNull();
+        expect(shown).toBe(true);
         expect(expanded).toBe("true");
     });
 });

@@ -83,6 +83,7 @@
     <h3>ARIA</h3>
     <ul>
       <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the dialog</li>
+      <li><code>aria-modal="true"</code> -- opened with <code>showModal()</code></li>
       <li>Native <code>&lt;dialog&gt;</code> element -- provides implicit <code>role="dialog"</code> semantics</li>
     </ul>
     <h3>Keyboard</h3>

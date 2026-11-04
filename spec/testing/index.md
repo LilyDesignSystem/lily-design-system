@@ -241,6 +241,9 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 | `menu`              | `menu`                                                               | 7        | 7    |
 | `menubar`           | `menu-bar`                                                           | 7        | 7    |
 | `tree`              | `tree-list`                                                          | 7        | 7    |
+| `combobox`          | `combobox`                                                           | 7        | 7    |
+| `dialog`            | `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`       | 7        | 35   |
+| `grid`              | the `data-grid` helper                                               | 8        | 8    |
 
 - A file named `*.pattern.test.*`, `*.pattern.spec.ts` or `*PatternTests.cs` holds the run.
 - The `tabs`, `menu`, `menubar` and `tree` contracts carry their own fixture: the tester puts it into an empty root, so each
@@ -256,7 +259,23 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 - bUnit has no browser focus, so the C# driver skips `focus` expectations; the DOM driver runs them in the other seven catalogs.
 - `bin/generate-core` counts a `runPattern` or `PatternTester.Run` call as both a key event and an ARIA assertion for criterion (a).
 - Proved to fail: removing `aria-selected` from `theme-picker` in each of the eight ports fails its run; breaking `End` in `tab-bar` fails in all eight ports that have one (Alpine in place of Nunjucks).
-- Not built yet: combobox, dialog and grid contracts, and a published package for adopters.
+- `combobox` covers what all the catalogs share: the wiring and Escape. Opening, filtering and choosing are the consumer's in most of
+  them (`autosuggest` owns those keys), so the arrow keys are not in it. `dialog` opens through each catalog's own way of opening it;
+  where the engine has no `showModal` (jsdom) the driver stubs it the way a browser behaves, and the Tab trap and inert page stay the
+  browser's part. `grid` runs against the `data-grid` helper because no headless component has a cell cursor: `grid` and `data-table`
+  are passive. Row 0 is the header row. Sorting, editing, selection and page keys stay in the helper's own tests. Alpine also runs
+  all three (`dialog` on `dialog` only). Nunjucks runs `grid`, but has no client behaviour for `combobox` or `dialog`.
+- **Escape belongs to the innermost widget.** The `combobox` contract found that Svelte, React, Vue and Angular called `preventDefault`
+  on Escape while the list was closed, and that Alpine did not call it while open. The `dialog` contract found that every overlay closed
+  on an Escape something inside it had already handled, so an open combobox inside a dialog closed both. Both are fixed: a widget
+  prevents the default only when it acted, and an overlay ignores a prevented Escape. Chromium confirms a prevented keydown stops a
+  native `<dialog>` closing. It also found `file-dialog` without `aria-modal` in five catalogs.
+- **Known limitation: Blazor.** A .NET handler cannot read `defaultPrevented` or prevent a default conditionally, so a Blazor overlay
+  still closes on an Escape handled inside it, and bUnit cannot prove otherwise. The C# driver skips `pressHandled`, `prevented`, focus
+  and `showModal`; it proves the ARIA, that Escape and `cancel` close, and where the grid's one tab stop goes.
+- Proved to fail: removing the guard fails `dialog` in six ports and `combobox` in five; breaking `ArrowDown` in `grid-navigation.ts`
+  fails `grid` in eight. Blazor's C# copy of that module was not mutated.
+- Not built yet: a published package for adopters, which needs a maintainer's decision on its name and when it is proved enough.
 
 ## Development warnings
 

@@ -26,6 +26,7 @@ import { ModalDialog } from "./Dialog";
     class="file-dialog {{ className() }}"
     tabindex="-1"
     [attr.aria-label]="label() || null"
+    aria-modal="true"
     [lilyModalDialog]="open()"
     (keydown)="onKeydown($event)"
     (cancel)="onCancel($event)"
@@ -43,7 +44,7 @@ export class FileDialog implements OnInit {
     readonly className = input<string>("");
 
     protected onKeydown(event: KeyboardEvent): void {
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !event.defaultPrevented) {
             event.preventDefault();
             this.open.set(false);
         }

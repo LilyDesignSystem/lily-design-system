@@ -14,7 +14,7 @@
 
 @if (Open)
 {
-    <dialog class="@($"file-dialog {CssClass}".Trim())" tabindex="-1" aria-label="@Label" @ref="DialogElement" @onkeydown="OnKeyDown" @oncancel="CloseAsync" @oncancel:preventDefault @onclose="CloseAsync" @attributes="AdditionalAttributes">@ChildContent</dialog>
+    <dialog class="@($"file-dialog {CssClass}".Trim())" tabindex="-1" aria-label="@Label" aria-modal="true" @ref="DialogElement" @onkeydown="OnKeyDown" @oncancel="CloseAsync" @oncancel:preventDefault @onclose="CloseAsync" @attributes="AdditionalAttributes">@ChildContent</dialog>
 }
 
 @code {

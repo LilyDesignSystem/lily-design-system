@@ -78,7 +78,7 @@ warnMissingName(
 const open = defineModel<boolean>("open", { default: false });
 
 function handleKeydown(event: KeyboardEvent) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !event.defaultPrevented) {
         event.preventDefault();
         open.value = false;
     }
