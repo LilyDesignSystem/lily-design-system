@@ -237,13 +237,26 @@ await runPattern("picker-listbox", { root, hook: "theme-picker" });
 | ------------------- | -------------------------------------------------------------------- | -------- | ---- |
 | `picker-listbox`    | `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker` | 8        | 32   |
 | `picker-disclosure` | `share-picker`, `link-picker`                                        | 8        | 16   |
+| `tabs`              | `tab-bar`                                                            | 7        | 7    |
+| `menu`              | `menu`                                                               | 7        | 7    |
+| `menubar`           | `menu-bar`                                                           | 7        | 7    |
+| `tree`              | `tree-list`                                                          | 7        | 7    |
 
 - A file named `*.pattern.test.*`, `*.pattern.spec.ts` or `*PatternTests.cs` holds the run.
+- The `tabs`, `menu`, `menubar` and `tree` contracts carry their own fixture: the tester puts it into an empty root, so each
+  catalog proves the container's keys on the same items. The item components (`tab-bar-button`, `menu-item`) keep their own
+  tests. `tree` covers moving between visible items; expanding and collapsing is not in the contract, because it lives on the
+  item in some catalogs and on the tree in others.
+- HTML runs in a real browser through `shared/pattern-browser.cjs`; Blazor's focus contracts run from `tests/js/`, against its
+  `.razor.js` modules, because bUnit has no focus. Alpine also runs all four, though Core does not count it.
+- **Nunjucks has no run for these four.** Its macros emit no client script, so `tab-bar`, `menu`, `menu-bar` and `tree-list` have
+  no keyboard behaviour there at all. That is a real difference between catalogs, and it is what stops `tab-bar`, `menu` and
+  `menu-bar` meeting criterion (a), at 7 of 8. Fixing it means shipping client behaviour for Nunjucks: a maintainer decision.
 - `time-zone-picker` is not covered: every label starts "UTC", so the fixture rule for typeahead cannot hold.
 - bUnit has no browser focus, so the C# driver skips `focus` expectations; the DOM driver runs them in the other seven catalogs.
 - `bin/generate-core` counts a `runPattern` or `PatternTester.Run` call as both a key event and an ARIA assertion for criterion (a).
-- Proved to fail: removing `aria-selected` from `theme-picker` in each of the eight ports fails its run.
-- Not built yet: combobox, menu, tabs, dialog, tree and grid contracts, and a published package for adopters.
+- Proved to fail: removing `aria-selected` from `theme-picker` in each of the eight ports fails its run; breaking `End` in `tab-bar` fails in all eight ports that have one (Alpine in place of Nunjucks).
+- Not built yet: combobox, dialog and grid contracts, and a published package for adopters.
 
 ## Development warnings
 

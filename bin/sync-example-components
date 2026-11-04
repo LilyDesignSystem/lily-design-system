@@ -54,7 +54,8 @@ def pairs():
         dst = os.path.join(TOP, "lily-design-system-svelte-sveltekit-examples/src/lib/components", name)
         if os.path.isdir(src):
             for entry in sorted(os.listdir(src)):
-                if os.path.isfile(os.path.join(src, entry)):
+                # A pattern test imports shared/ by a relative path that would not resolve from the copy's depth.
+                if os.path.isfile(os.path.join(src, entry)) and not entry.endswith(".pattern.test.ts"):
                     # The example's copy sits two directories deeper, so a doc's
                     # repository-relative links need two more "../".
                     transform = ("](../../../", "](../../../../../") if entry.endswith(".md") else None

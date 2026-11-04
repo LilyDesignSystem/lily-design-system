@@ -155,7 +155,11 @@ function testFiles(c, lib) {
     case "html": return siblingTests(`${base}/components`, new RegExp(`^${s}(\\.[\\w-]+)?\\.test\\.js$`));
     case "web-components": return siblingTests(`${base}/components`, new RegExp(`^${s}(\\.[\\w-]+)?\\.test\\.ts$`));
     case "nunjucks": return siblingTests(`${base}/components/${c.slug}`, /\.test\.js$/);
-    case "blazor": return siblingTests(`${base}/tests/LilyBlazorHeadless.Tests/Components`, new RegExp(`^${N}Tests\\.cs$`));
+    case "blazor": return [
+      ...siblingTests(`${base}/tests/LilyBlazorHeadless.Tests/Components`, new RegExp(`^${N}Tests\\.cs$`)),
+      // Keys live in {Name}.razor.js, which bUnit cannot run: tests/js drives them under jsdom.
+      ...siblingTests(`${base}/tests/js`, new RegExp(`^${s}(\\.[\\w-]+)?\\.test\\.mjs$`)),
+    ];
   }
   return [];
 }
@@ -176,7 +180,7 @@ function criterionA(c) {
     let keyFile = null, ariaFile = null;
     for (const f of files) {
       const src = read(f);
-      if (!keyFile && ((lib === "blazor" ? BLAZOR_KEY_RE : KEY_RE).test(src) || PATTERN_RE.test(src))) keyFile = f;
+      if (!keyFile && ((lib === "blazor" && !f.endsWith(".mjs") ? BLAZOR_KEY_RE : KEY_RE).test(src) || PATTERN_RE.test(src))) keyFile = f;
       if (!ariaFile && (PATTERN_RE.test(src) || src.split("\n").some((l) => ARIA_LINE_RE.test(l) && ASSERT_RE.test(l)))) ariaFile = f;
     }
     const keyOk = contract === "none" || !!keyFile;

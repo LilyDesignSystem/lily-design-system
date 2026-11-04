@@ -1,93 +1,140 @@
 {
-  "$comment": "One contract per interaction pattern, as data, so the DOM driver (pattern-tester.ts) and the bUnit driver (PatternTester.cs) run the same steps. Spec: spec/testing/index.md#pattern-testers.",
+  "$comment": "One contract per interaction pattern, as data, so the DOM driver (pattern-tester.ts) and the bUnit driver (PatternTester.cs) run the same steps. A contract with a \"root\" role moves focus between items and installs its own \"fixture\" when the root is empty. Spec: spec/testing/index.md#pattern-testers.",
   "picker-listbox": {
     "source": "WAI-ARIA APG listbox, as the five preference pickers apply it (AGENTS/helpers.md, Icon button + listbox contract)",
     "fixture": "Three or more options, each label starting with a different letter, the first one selected.",
     "steps": [
-      { "name": "closed at rest", "expect": { "expanded": false, "selected": 0 } },
+      {
+        "name": "closed at rest",
+        "expect": {
+          "expanded": false,
+          "selected": 0
+        }
+      },
       {
         "name": "ArrowDown on the button opens on the selected option",
         "press": "ArrowDown",
         "on": "button",
-        "expect": { "expanded": true, "active": 0, "selected": 0, "focus": "popup" }
+        "expect": {
+          "expanded": true,
+          "active": 0,
+          "selected": 0,
+          "focus": "popup"
+        }
       },
       {
         "name": "ArrowDown moves the cursor",
         "press": "ArrowDown",
         "on": "popup",
-        "expect": { "active": 1, "selected": 0 }
+        "expect": {
+          "active": 1,
+          "selected": 0
+        }
       },
       {
         "name": "ArrowUp moves the cursor back",
         "press": "ArrowUp",
         "on": "popup",
-        "expect": { "active": 0 }
+        "expect": {
+          "active": 0
+        }
       },
       {
         "name": "ArrowUp clamps at the first option",
         "press": "ArrowUp",
         "on": "popup",
-        "expect": { "active": 0 }
+        "expect": {
+          "active": 0
+        }
       },
       {
         "name": "End jumps to the last option",
         "press": "End",
         "on": "popup",
-        "expect": { "active": "last" }
+        "expect": {
+          "active": "last"
+        }
       },
       {
         "name": "ArrowDown clamps at the last option",
         "press": "ArrowDown",
         "on": "popup",
-        "expect": { "active": "last" }
+        "expect": {
+          "active": "last"
+        }
       },
       {
         "name": "Home jumps to the first option",
         "press": "Home",
         "on": "popup",
-        "expect": { "active": 0 }
+        "expect": {
+          "active": 0
+        }
       },
       {
         "name": "a printable character runs typeahead",
         "pressFirstLetterOf": 1,
         "on": "popup",
-        "expect": { "active": 1 }
+        "expect": {
+          "active": 1
+        }
       },
       {
         "name": "Escape closes without changing the value",
         "press": "Escape",
         "on": "popup",
-        "expect": { "expanded": false, "selected": 0, "focus": "button" }
+        "expect": {
+          "expanded": false,
+          "selected": 0,
+          "focus": "button"
+        }
       },
       {
         "name": "ArrowUp on the button opens on the last option",
         "press": "ArrowUp",
         "on": "button",
-        "expect": { "expanded": true, "active": "last", "focus": "popup" }
+        "expect": {
+          "expanded": true,
+          "active": "last",
+          "focus": "popup"
+        }
       },
       {
         "name": "Enter selects, closes and returns focus",
         "press": "Enter",
         "on": "popup",
-        "expect": { "expanded": false, "selected": "last", "focus": "button" }
+        "expect": {
+          "expanded": false,
+          "selected": "last",
+          "focus": "button"
+        }
       },
       {
         "name": "Enter on the button opens on the new selection",
         "press": "Enter",
         "on": "button",
-        "expect": { "expanded": true, "active": "last", "selected": "last" }
+        "expect": {
+          "expanded": true,
+          "active": "last",
+          "selected": "last"
+        }
       },
       {
         "name": "Home, then Space selects",
         "press": "Home",
         "on": "popup",
-        "expect": { "active": 0 }
+        "expect": {
+          "active": 0
+        }
       },
       {
         "name": "Space selects and closes",
         "press": " ",
         "on": "popup",
-        "expect": { "expanded": false, "selected": 0 }
+        "expect": {
+          "expanded": false,
+          "selected": 0
+        }
       }
     ]
   },
@@ -95,15 +142,269 @@
     "source": "WAI-ARIA APG disclosure, as the action pickers apply it (AGENTS/helpers.md: share, link, search, menu and settings pickers)",
     "fixture": "Any content in the popup.",
     "steps": [
-      { "name": "closed at rest", "expect": { "expanded": false } },
-      { "name": "the button opens it", "click": "button", "expect": { "expanded": true } },
-      { "name": "the button closes it", "click": "button", "expect": { "expanded": false } },
-      { "name": "reopen", "click": "button", "expect": { "expanded": true } },
+      {
+        "name": "closed at rest",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "the button opens it",
+        "click": "button",
+        "expect": {
+          "expanded": true
+        }
+      },
+      {
+        "name": "the button closes it",
+        "click": "button",
+        "expect": {
+          "expanded": false
+        }
+      },
+      {
+        "name": "reopen",
+        "click": "button",
+        "expect": {
+          "expanded": true
+        }
+      },
       {
         "name": "Escape closes it and returns focus",
         "press": "Escape",
         "on": "popup",
-        "expect": { "expanded": false, "focus": "button" }
+        "expect": {
+          "expanded": false,
+          "focus": "button"
+        }
+      }
+    ]
+  },
+  "tabs": {
+    "source": "WAI-ARIA APG tabs, manual activation of focus: the bar owns focus movement, the consumer owns selection (components/tab-bar/AGENTS.md)",
+    "root": "tablist",
+    "item": "tab",
+    "fixture": "<button role=\"tab\" tabindex=\"0\" aria-selected=\"true\">One</button><button role=\"tab\" tabindex=\"-1\" aria-selected=\"false\">Two</button><button role=\"tab\" tabindex=\"-1\" aria-selected=\"false\">Three</button>",
+    "steps": [
+      {
+        "name": "the first item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowRight moves to the next item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "ArrowLeft moves back",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowLeft wraps to the last item",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "ArrowRight wraps to the first item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "End jumps to the last item",
+        "press": "End",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      }
+    ]
+  },
+  "menu": {
+    "source": "WAI-ARIA APG menu, vertical (components/menu/AGENTS.md)",
+    "root": "menu",
+    "item": "menuitem",
+    "fixture": "<div role=\"menuitem\" tabindex=\"0\">One</div><div role=\"menuitem\" tabindex=\"-1\">Two</div><div role=\"menuitem\" tabindex=\"-1\">Three</div>",
+    "steps": [
+      {
+        "name": "the first item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowDown moves to the next item",
+        "press": "ArrowDown",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "ArrowUp moves back",
+        "press": "ArrowUp",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowUp wraps to the last item",
+        "press": "ArrowUp",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "ArrowDown wraps to the first item",
+        "press": "ArrowDown",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "End jumps to the last item",
+        "press": "End",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      }
+    ]
+  },
+  "menubar": {
+    "source": "WAI-ARIA APG menubar, horizontal (components/menu-bar/AGENTS.md)",
+    "root": "menubar",
+    "item": "menuitem",
+    "fixture": "<button role=\"menuitem\" tabindex=\"0\">One</button><button role=\"menuitem\" tabindex=\"-1\">Two</button><button role=\"menuitem\" tabindex=\"-1\">Three</button>",
+    "steps": [
+      {
+        "name": "the first item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowRight moves to the next item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "ArrowLeft moves back",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowLeft wraps to the last item",
+        "press": "ArrowLeft",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "ArrowRight wraps to the first item",
+        "press": "ArrowRight",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "End jumps to the last item",
+        "press": "End",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
+      }
+    ]
+  },
+  "tree": {
+    "source": "WAI-ARIA APG tree view, moving between visible items (components/tree-list/AGENTS.md). Expanding and collapsing belongs to the item in some catalogs, so it is not here.",
+    "root": "tree",
+    "item": "treeitem",
+    "fixture": "<li role=\"treeitem\" tabindex=\"0\" aria-expanded=\"false\">Fruit<ol role=\"group\"><li role=\"treeitem\" tabindex=\"-1\">Apple</li></ol></li><li role=\"treeitem\" tabindex=\"-1\" aria-expanded=\"true\">Tea<ol role=\"group\"><li role=\"treeitem\" tabindex=\"-1\">Green</li></ol></li><li role=\"treeitem\" tabindex=\"-1\">Veg</li>",
+    "steps": [
+      {
+        "name": "the first item takes focus",
+        "focus": 0,
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowDown moves to the next item",
+        "press": "ArrowDown",
+        "expect": {
+          "focusItem": 1
+        }
+      },
+      {
+        "name": "ArrowUp moves back",
+        "press": "ArrowUp",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "ArrowUp wraps to the last item",
+        "press": "ArrowUp",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "ArrowDown wraps to the first item",
+        "press": "ArrowDown",
+        "expect": {
+          "focusItem": 0
+        }
+      },
+      {
+        "name": "End jumps to the last item",
+        "press": "End",
+        "expect": {
+          "focusItem": "last"
+        }
+      },
+      {
+        "name": "Home jumps to the first item",
+        "press": "Home",
+        "expect": {
+          "focusItem": 0
+        }
       }
     ]
   }

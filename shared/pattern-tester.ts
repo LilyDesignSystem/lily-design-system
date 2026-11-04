@@ -8,7 +8,7 @@
  * Roles and ARIA are read from the DOM; the only class hooks used are the stable `{hook}-button`, and the popup comes
  * from the button's `aria-controls`. Spec: spec/testing/index.md#pattern-testers.
  */
-import contracts from "./pattern-contracts.json";
+import contracts from "./pattern-contracts.json" with { type: "json" };
 
 type Index = number | "last";
 type Part = "button" | "popup";
@@ -22,7 +22,22 @@ interface Step {
     expect: { expanded?: boolean; active?: Index; selected?: Index; focus?: Part };
 }
 
-export type PatternName = "picker-listbox" | "picker-disclosure";
+interface RovingStep {
+    name: string;
+    focus?: number;
+    press?: string;
+    expect: { focusItem: Index };
+}
+
+interface RovingContract {
+    root: string;
+    item: string;
+    fixture: string;
+    steps: RovingStep[];
+}
+
+export type RovingPatternName = "tabs" | "menu" | "menubar" | "tree";
+export type PatternName = "picker-listbox" | "picker-disclosure" | RovingPatternName;
 
 export interface PatternOptions {
     /** The rendered component root. */
@@ -39,7 +54,62 @@ export interface PatternOptions {
 
 const tick = (): Promise<void> => new Promise((resolve) => setTimeout(resolve, 0));
 
+/**
+ * A container that moves focus between its items. The contract's own fixture goes into an empty root, so every catalog
+ * proves the container's keys on the same items; the item components have their own tests.
+ */
+async function runRoving(pattern: RovingPatternName, options: PatternOptions): Promise<void> {
+    const { root, hook } = options;
+    const contract = contracts[pattern] as RovingContract;
+    const settle = options.settle ?? tick;
+    const selector = `[role="${contract.root}"]`;
+    const host = root.matches(selector) ? root : root.querySelector<HTMLElement>(selector);
+    const fail = (name: string, message: string): never => {
+        throw new Error(`${pattern}, ${hook}, "${name}": ${message}`);
+    };
+    if (!host) return fail("setup", `no ${selector}`);
+    if (!host.getAttribute("aria-label") && !host.getAttribute("aria-labelledby"))
+        fail("setup", `${selector} has no name`);
+    if (!host.querySelector(`[role="${contract.item}"]`)) host.innerHTML = contract.fixture;
+
+    // An item inside a collapsed parent is not visible, so keys skip it.
+    const items = (): HTMLElement[] =>
+        [...host.querySelectorAll<HTMLElement>(`[role="${contract.item}"]`)].filter(
+            (el) => !el.parentElement?.closest(`[role="${contract.item}"][aria-expanded="false"]`),
+        );
+    for (const step of contract.steps) {
+        const all = items();
+        const at = (index: Index): number => (index === "last" ? all.length - 1 : index);
+        if (all.length < 3) fail(step.name, `needs three items, found ${all.length}`);
+        if (step.focus !== undefined) all[step.focus].focus();
+        else if (step.press !== undefined) {
+            const target = root.ownerDocument.activeElement;
+            if (!target || !host.contains(target)) return fail(step.name, "focus left the widget");
+            if (options.press) await options.press(target, step.press);
+            else {
+                target.dispatchEvent(
+                    new KeyboardEvent("keydown", {
+                        key: step.press,
+                        bubbles: true,
+                        cancelable: true,
+                    }),
+                );
+                await settle();
+            }
+        }
+        const focused = root.ownerDocument.activeElement as HTMLElement | null;
+        const want = all[at(step.expect.focusItem)];
+        if (focused !== want)
+            fail(
+                step.name,
+                `focus is on "${focused?.textContent?.trim()}", not "${want.textContent?.trim()}"`,
+            );
+    }
+}
+
 export async function runPattern(pattern: PatternName, options: PatternOptions): Promise<void> {
+    if (pattern !== "picker-listbox" && pattern !== "picker-disclosure")
+        return runRoving(pattern, options);
     const { root, hook } = options;
     const settle = options.settle ?? tick;
     const press =
@@ -72,7 +142,7 @@ export async function runPattern(pattern: PatternName, options: PatternOptions):
         return found;
     };
 
-    for (const step of contracts[pattern].steps as Step[]) {
+    for (const step of contracts[pattern].steps as unknown as Step[]) {
         const fail = (message: string): never => {
             throw new Error(`${pattern}, ${hook}, "${step.name}": ${message}`);
         };
