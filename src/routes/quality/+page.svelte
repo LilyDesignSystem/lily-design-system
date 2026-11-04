@@ -19,7 +19,7 @@
     <li><strong>A filled screen-reader row</strong> with a pass or minor result for each of: NVDA + Firefox, NVDA + Chrome, JAWS + Chrome, VoiceOver + Safari (macOS), VoiceOver (iOS), TalkBack + Chrome (Android).</li>
   </ol>
   <h2>Where the candidates stand</h2>
-  <p>Keyboard and ARIA-state tests in all eight libraries: 7 of 40. End-to-end in all three browsers: 38 of 40. Screen-reader row filled: 0 of 40. All three: 0.</p>
+  <p>Keyboard and ARIA-state tests in all eight libraries: 10 of 40. End-to-end in all three browsers: 38 of 40. Screen-reader row filled: 0 of 40. All three: 0.</p>
   <p>Why none has met them: the <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/screen-reader-matrix.md">screen-reader matrix</a> has 0 of 120 cells filled, because no one has yet run the components with a screen reader and recorded the result, and this project does not record results it has not observed. 17 candidates have no row in the matrix yet. The end-to-end suites run in Chromium, Firefox, WebKit.</p>
 </section>
 
@@ -228,7 +228,7 @@
       </tr>
       <tr>
         <td><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#tab-bar">tab-bar</a></td>
-        <td>7 of 8 libraries</td>
+        <td>8 of 8 libraries</td>
         <td>Chromium, Firefox, WebKit</td>
         <td>0 of 6 filled</td>
         <td>no</td>
@@ -249,14 +249,14 @@
       </tr>
       <tr>
         <td><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#menu">menu</a></td>
-        <td>7 of 8 libraries</td>
+        <td>8 of 8 libraries</td>
         <td>Chromium, Firefox, WebKit</td>
         <td>0 of 6 filled</td>
         <td>no</td>
       </tr>
       <tr>
         <td><a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#menu-bar">menu-bar</a></td>
-        <td>7 of 8 libraries</td>
+        <td>8 of 8 libraries</td>
         <td>Chromium, Firefox, WebKit</td>
         <td>no row yet</td>
         <td>no</td>

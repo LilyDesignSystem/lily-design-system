@@ -95,6 +95,8 @@
       <li>Enter: select the highlighted option</li>
       <li>Escape: close the listbox without selecting</li>
       <li>Home / End: jump to the first / last option (when listbox is open)</li>
+      <li>Alt+Down arrow: open the listbox without moving the highlight</li>
+      <li>Alt+Up arrow: close the listbox</li>
     </ul>
     <h3>Props</h3>
     <ul>
