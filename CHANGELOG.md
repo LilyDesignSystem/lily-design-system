@@ -17,6 +17,7 @@ From the [survey of 18 design systems](spec/design-system-survey-lessons/index.m
 - **Pattern testers:** `shared/pattern-contracts.json`, run by a DOM driver and a bUnit driver: 48 runs across eight catalogs. Lily Core criterion (a) went from 3 to 7 of 40, in part from a regex that missed `new window.KeyboardEvent`.
 - **Lifecycle:** `deprecated` and `discouraged` statuses, `bin/check-lifecycle` in `bin/test`, `docs/adopters.md`. `carousel` is `discouraged`, with `card` in a `grid` as its alternative.
 - **Development warnings:** `shared/dev-warning.ts`; `icon-button` warns on a missing name in Svelte, React, Vue and Angular.
+- **Content Security Policy:** `e2e/csp.spec.ts` runs the HTML example app's 16 composed pages under a strict policy; their inline scripts moved to `assets/js/pages/`. The limits are in [testing](spec/testing/index.md#content-security-policy).
 - **Fixed:** no theme defines `.visually-hidden`, so hidden text such as the `warning-text` prefix showed on screen. Lily's demos, macros and docs now use `.screen-reader-span`. A consumer of the Nunjucks `error-message`, `care-card`, `inset-text`, `pagination-link` or `summary-list-item` macros targeting `.visually-hidden` must update its CSS.
 
 ## Contrast gate, `:user-invalid`, no-flash theme, dependency updates — 2026-11-02

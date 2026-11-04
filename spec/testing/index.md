@@ -259,6 +259,27 @@ for the developer, so it is English and exempt from the no-hardcoded-strings rul
 - **HTML, Nunjucks and Alpine** have no component code to hook, so they need a page-level check (P23-T7).
 - **Open:** the other 166 interactive components with a required `label`.
 
+## Content Security Policy
+
+(2026-11-03, P23-T3.) The HTML example app runs under this policy in `e2e/csp.spec.ts`, which fails on any `securitypolicyviolation`:
+
+```text
+default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'
+```
+
+It covers all 16 composed pages and opens the page-header pickers. A control test proves the policy is applied.
+
+- **Result.** The picker helpers needed no change. All 13 first-run violations were the demo app's own inline scripts and style attributes,
+  now moved to `assets/js/pages/` and `app-shell.css`.
+- **Exception.** `pages/components/*.html` keeps its inline script, because `bin/generate-registries` and `bin/generate-examples` write data
+  into it. Moving the data to a file needs a generator change.
+- **The no-flash snippet.** Serve it as a file, as `assets/js/theme-boot.js` does, or add its hash to `script-src`.
+- **Known limitation: `style=`.** These ten Svelte headless components write a `style` attribute, and the matching components in other
+  catalogs were not audited: `affix`, `clamp-text`, `container-with-fixed-width`, `container-with-fluid-width`, `flex-stack`, `float-button`,
+  `grid`, `masonry`, `sticky-promo-banner`, `theme-provider`. Server-rendered, that attribute is blocked by `style-src 'self'`. A `nonce`
+  cannot help, since nonces do not apply to style attributes. Until they use the CSSOM, an adopter who renders them on the server needs
+  `style-src-attr 'unsafe-inline'`. The policy above was not run against them.
+
 ## Acceptance criteria
 
 - [x] Each headless library's unit suite covers all 609 components (548 in Web Components) with its framework runner (vitest / bUnit / WebdriverIO). html-headless's WebdriverIO run itself still can't complete in this specific interactive sandbox (an unexplained early SIGINT, not the network block previously assumed — see the table above) — file-count coverage confirmed instead.

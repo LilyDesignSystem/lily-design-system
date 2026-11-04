@@ -117,24 +117,7 @@
     <p>&copy; 2026 Lily Design System. All rights reserved.</p>
   </footer>
 
-  <script>
-    (function() {
-      'use strict';
-
-      document.querySelectorAll('.switch-button').forEach(function(el) {
-        el.addEventListener('click', function() {
-          var checked = el.getAttribute('aria-checked') === 'true';
-          el.setAttribute('aria-checked', String(!checked));
-        });
-      });
-
-      document.getElementById('save-button').addEventListener('click', function() {
-        var banner = document.getElementById('save-banner');
-        banner.hidden = false;
-        setTimeout(function() { banner.hidden = true; }, 3000);
-      });
-    })();
-  </script>
+  <script src="/assets/js/pages/settings-page.js"></script>
   <script type="module" src="/assets/js/theme-picker.js"></script>
   <script type="module" src="/assets/js/locale-picker.js"></script>
   <script type="module" src="/assets/js/text-size-picker.js"></script>

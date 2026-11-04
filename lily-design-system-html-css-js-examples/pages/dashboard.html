@@ -124,27 +124,7 @@
     <p>&copy; 2026 Lily Design System. All rights reserved.</p>
   </footer>
 
-  <script>
-    (function() {
-      'use strict';
-      var tasks = [
-        { title: 'Design landing page', status: 'done' },
-        { title: 'Implement auth flow', status: 'in-progress' },
-        { title: 'Write unit tests', status: 'in-progress' },
-        { title: 'Update documentation', status: 'todo' },
-        { title: 'Code review', status: 'todo' }
-      ];
-      var completed = tasks.filter(function(t) { return t.status === 'done'; }).length;
-      var total = tasks.length;
-      var percent = Math.round((completed / total) * 100);
-      document.getElementById('completed-count').textContent = completed;
-      document.getElementById('total-count').textContent = total;
-      document.getElementById('remaining-count').textContent = total - completed;
-      document.getElementById('progress-percent').textContent = percent;
-      var circle = document.querySelector('.progress-circle');
-      if (circle) circle.setAttribute('aria-valuenow', percent);
-    })();
-  </script>
+  <script src="/assets/js/pages/dashboard.js"></script>
   <script type="module" src="/assets/js/theme-picker.js"></script>
   <script type="module" src="/assets/js/locale-picker.js"></script>
   <script type="module" src="/assets/js/text-size-picker.js"></script>
