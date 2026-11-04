@@ -134,8 +134,8 @@ test_catalog_consistency() {
     registry_count_or_err "$top/lily-design-system-vue-nuxt-examples/data/components.ts" 'slug: "'
     registry_count_or_err "$top/lily-design-system-angular-examples/src/app/components-data.ts" 'slug: "'
     registry_count_or_err "$top/lily-design-system-blazor-web-examples/src/LilyBlazorWebExamples/Data/ComponentData.cs" '^        new("'
-    registry_count_or_err "$top/lily-design-system-html-css-js-examples/pages/components/index.html" 'slug: "'
-    registry_count_or_err "$top/lily-design-system-html-css-js-examples/pages/components/component.html" 'slug: "'
+    registry_count_or_err "$top/lily-design-system-html-css-js-examples/assets/js/pages/components-index.js" 'slug: "'
+    registry_count_or_err "$top/lily-design-system-html-css-js-examples/assets/js/pages/component.js" 'slug: "'
     registry_count_or_err "$top/lilydesignsystem.github.io/src/lib/components.ts" 'name: "'
     registry_count_or_err "$top/lily-design-system-svelte-sveltekit-examples/src/lib/data/component-demos.ts" "^  '"
     registry_count_or_err "$top/lily-design-system-react-next-examples/app/data/component-demos.ts" "^  '"

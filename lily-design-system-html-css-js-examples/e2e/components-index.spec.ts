@@ -9,7 +9,7 @@ import * as path from "path";
 //
 // This app has no TypeScript data module to import from Node for
 // ground truth -- its component array is embedded inline in
-// pages/components/index.html's own <script> tag as plain JS. Ground
+// assets/js/pages/components-index.js's own <script> tag as plain JS. Ground
 // truth is computed here by reading that HTML file and extracting the
 // `var components = [...]` array body with the exact same marker
 // convention bin/generate-registries's replaceRegion() uses
@@ -19,7 +19,7 @@ import * as path from "path";
 // from src/lib/data/suffix-pattern.ts in the canonical app) -- it has
 // to be duplicated here because there is no shared module to import.
 
-const INDEX_HTML_PATH = path.join(__dirname, "../pages/components/index.html");
+const INDEX_HTML_PATH = path.join(__dirname, "../assets/js/pages/components-index.js");
 
 interface CatalogComponent {
     slug: string;
@@ -34,10 +34,10 @@ function readCatalog(): CatalogComponent[] {
     const startMarker = "var components = [";
     const endMarker = "                ];";
     const start = html.indexOf(startMarker);
-    if (start < 0) throw new Error("start marker not found in pages/components/index.html");
+    if (start < 0) throw new Error("start marker not found in assets/js/pages/components-index.js");
     const from = start + startMarker.length;
     const end = html.indexOf(endMarker, from);
-    if (end < 0) throw new Error("end marker not found in pages/components/index.html");
+    if (end < 0) throw new Error("end marker not found in assets/js/pages/components-index.js");
     const body = html.slice(from, end);
     return new Function(`return [${body}]`)();
 }

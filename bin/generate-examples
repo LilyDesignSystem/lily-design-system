@@ -16,7 +16,7 @@
 // Outputs (overwritten in full, or region-replaced):
 //   - {svelte-sveltekit,react-next,vue-nuxt,angular} component-examples.ts
 //   - blazor-web Data/ComponentExamples.cs
-//   - html-css-js pages/components/component.html (componentExamples region)
+//   - html-css-js assets/js/pages/component.js (componentExamples region)
 //   - nunjucks-eleventy src/components/{slug}.njk (generated examples region)
 //
 // Run after editing a component's Usage section or component-variants.json,
@@ -198,7 +198,7 @@ ${entries}
   );
 }
 
-// ---------- html-css-js (region in component.html) ----------
+// ---------- html-css-js (region in assets/js/pages/component.js) ----------
 
 function replaceRegion(text, startMarker, endMarker, body, label) {
   const start = text.indexOf(startMarker);
@@ -210,7 +210,7 @@ function replaceRegion(text, startMarker, endMarker, body, label) {
 }
 
 {
-  const p = "lily-design-system-html-css-js-examples/pages/components/component.html";
+  const p = "lily-design-system-html-css-js-examples/assets/js/pages/component.js";
   let t = read(p);
   if (!t.includes("var componentExamples = {")) {
     // First run: add the region right after the demo map.

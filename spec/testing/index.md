@@ -285,18 +285,28 @@ for the developer, so it is English and exempt from the no-hardcoded-strings rul
 default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'
 ```
 
-It covers all 16 composed pages and opens the page-header pickers. A control test proves the policy is applied.
+It covers all 16 composed pages, the catalog and every component page, and opens the page-header pickers. A control test proves the policy is applied.
 
 - **Result.** The picker helpers needed no change. All 13 first-run violations were the demo app's own inline scripts and style attributes,
   now moved to `assets/js/pages/` and `app-shell.css`.
-- **Exception.** `pages/components/*.html` keeps its inline script, because `bin/generate-registries` and `bin/generate-examples` write data
-  into it. Moving the data to a file needs a generator change.
+- **Component pages.** The catalog page and all 609 `/components` pages run under it too. Their scripts and data moved to
+  `assets/js/pages/`, which the generators now write. Nineteen demos hold `style=`: the page renames that attribute inside real tags and
+  applies it through the CSSOM, and a test proves both the applied style and the unchanged code sample. No demo has an inline event handler.
 - **The no-flash snippet.** Serve it as a file, as `assets/js/theme-boot.js` does, or add its hash to `script-src`.
-- **Known limitation: `style=`.** These ten Svelte headless components write a `style` attribute, and the matching components in other
-  catalogs were not audited: `affix`, `clamp-text`, `container-with-fixed-width`, `container-with-fluid-width`, `flex-stack`, `float-button`,
-  `grid`, `masonry`, `sticky-promo-banner`, `theme-provider`. Server-rendered, that attribute is blocked by `style-src 'self'`. A `nonce`
-  cannot help, since nonces do not apply to style attributes. Until they use the CSSOM, an adopter who renders them on the server needs
-  `style-src-attr 'unsafe-inline'`. The policy above was not run against them.
+- **Known limitation: `style=`.** Ten components are sized by a prop: `affix`, `clamp-text`, `container-with-fixed-width`,
+  `container-with-fluid-width`, `flex-stack`, `float-button`, `grid`, `masonry`, `sticky-promo-banner`, `theme-provider`. The catalogs
+  differ, read from the source on 2026-11-03:
+
+  | Catalogs               | What they do                                                                     | Under `style-src 'self'`          |
+  | ---------------------- | -------------------------------------------------------------------------------- | --------------------------------- |
+  | Svelte, React, Vue     | Write a `style` attribute                                                        | Blocked when rendered on a server |
+  | HTML, Nunjucks, Alpine | Write a `style` attribute in markup (Alpine has no `sticky-promo-banner` one)    | Blocked                           |
+  | Angular, Blazor        | Write `data-*` for consumer CSS, on purpose, except `grid`                       | Passes, except `grid`             |
+  | Web Components         | Set styles through the CSSOM, or write `data-*`; `float-button` has an attribute | Passes, except `float-button`     |
+
+  A `nonce` cannot help, since nonces do not apply to style attributes. The policy above was not run against these components. Until the
+  maintainers pick one approach, an adopter who renders them on a server or from static markup needs `style-src-attr 'unsafe-inline'`. Moving
+  to the CSSOM would lose the layout until a script runs, and static markup has no script, so this is a decision rather than a fix.
 
 ## Acceptance criteria
 

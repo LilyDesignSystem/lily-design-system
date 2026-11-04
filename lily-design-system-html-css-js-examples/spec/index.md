@@ -102,7 +102,7 @@ The catalog index lists all 609 canonical slugs and links each entry to
 parameter and renders `componentDemos[slug]` via `element.innerHTML`.
 
 `componentDemos` is a JavaScript object literal embedded in
-`pages/components/component.html` with **609 entries** (one per canonical
+`assets/js/pages/component.js` with **609 entries** (one per canonical
 slug).
 
 ## 5. Composed-page demos
