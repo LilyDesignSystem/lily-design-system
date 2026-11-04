@@ -1,0 +1,110 @@
+{
+  "$comment": "One contract per interaction pattern, as data, so the DOM driver (pattern-tester.ts) and the bUnit driver (PatternTester.cs) run the same steps. Spec: spec/testing/index.md#pattern-testers.",
+  "picker-listbox": {
+    "source": "WAI-ARIA APG listbox, as the five preference pickers apply it (AGENTS/helpers.md, Icon button + listbox contract)",
+    "fixture": "Three or more options, each label starting with a different letter, the first one selected.",
+    "steps": [
+      { "name": "closed at rest", "expect": { "expanded": false, "selected": 0 } },
+      {
+        "name": "ArrowDown on the button opens on the selected option",
+        "press": "ArrowDown",
+        "on": "button",
+        "expect": { "expanded": true, "active": 0, "selected": 0, "focus": "popup" }
+      },
+      {
+        "name": "ArrowDown moves the cursor",
+        "press": "ArrowDown",
+        "on": "popup",
+        "expect": { "active": 1, "selected": 0 }
+      },
+      {
+        "name": "ArrowUp moves the cursor back",
+        "press": "ArrowUp",
+        "on": "popup",
+        "expect": { "active": 0 }
+      },
+      {
+        "name": "ArrowUp clamps at the first option",
+        "press": "ArrowUp",
+        "on": "popup",
+        "expect": { "active": 0 }
+      },
+      {
+        "name": "End jumps to the last option",
+        "press": "End",
+        "on": "popup",
+        "expect": { "active": "last" }
+      },
+      {
+        "name": "ArrowDown clamps at the last option",
+        "press": "ArrowDown",
+        "on": "popup",
+        "expect": { "active": "last" }
+      },
+      {
+        "name": "Home jumps to the first option",
+        "press": "Home",
+        "on": "popup",
+        "expect": { "active": 0 }
+      },
+      {
+        "name": "a printable character runs typeahead",
+        "pressFirstLetterOf": 1,
+        "on": "popup",
+        "expect": { "active": 1 }
+      },
+      {
+        "name": "Escape closes without changing the value",
+        "press": "Escape",
+        "on": "popup",
+        "expect": { "expanded": false, "selected": 0, "focus": "button" }
+      },
+      {
+        "name": "ArrowUp on the button opens on the last option",
+        "press": "ArrowUp",
+        "on": "button",
+        "expect": { "expanded": true, "active": "last", "focus": "popup" }
+      },
+      {
+        "name": "Enter selects, closes and returns focus",
+        "press": "Enter",
+        "on": "popup",
+        "expect": { "expanded": false, "selected": "last", "focus": "button" }
+      },
+      {
+        "name": "Enter on the button opens on the new selection",
+        "press": "Enter",
+        "on": "button",
+        "expect": { "expanded": true, "active": "last", "selected": "last" }
+      },
+      {
+        "name": "Home, then Space selects",
+        "press": "Home",
+        "on": "popup",
+        "expect": { "active": 0 }
+      },
+      {
+        "name": "Space selects and closes",
+        "press": " ",
+        "on": "popup",
+        "expect": { "expanded": false, "selected": 0 }
+      }
+    ]
+  },
+  "picker-disclosure": {
+    "source": "WAI-ARIA APG disclosure, as the action pickers apply it (AGENTS/helpers.md: share, link, search, menu and settings pickers)",
+    "fixture": "Any content in the popup.",
+    "steps": [
+      { "name": "closed at rest", "expect": { "expanded": false } },
+      { "name": "the button opens it", "click": "button", "expect": { "expanded": true } },
+      { "name": "the button closes it", "click": "button", "expect": { "expanded": false } },
+      { "name": "reopen", "click": "button", "expect": { "expanded": true } },
+      {
+        "name": "Escape closes it and returns focus",
+        "press": "Escape",
+        "on": "popup",
+        "expect": { "expanded": false, "focus": "button" }
+      }
+    ]
+  }
+}

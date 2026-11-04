@@ -14,7 +14,8 @@
 //   (a) keyboard and ARIA-state tests in all eight libraries (svelte, react, vue, angular, html,
 //       web-components, nunjucks, blazor). Heuristic, per library, over the component's own test
 //       file(s): the file sends a key event (KEY_RE / BLAZOR_KEY_RE) AND has a line that names an
-//       aria-* attribute together with an assertion or query (ARIA_LINE_RE + ASSERT_RE). The key
+//       aria-* attribute together with an assertion or query (ARIA_LINE_RE + ASSERT_RE), or the file
+//       runs a pattern tester (PATTERN_RE), which does both from shared/pattern-contracts.json. The key
 //       half is waived only when the component's components/<slug>/AGENTS.md "## Keyboard" section
 //       says "No keyboard interactions". File-level, not test-level: the key event and the ARIA
 //       assertion may be in different tests, and a skipped test still counts. It is a floor, not proof.
@@ -117,8 +118,10 @@ const LIBRARY_LABEL = {
 
 // Key events as each runner sends them: DOM KeyboardEvent, Testing Library fireEvent/user-event, Vue Test Utils
 // trigger, Angular triggerEventHandler, WebdriverIO browser.keys, Playwright press.
-const KEY_RE = /new KeyboardEvent\(|fireEvent\.key(?:Down|Up|Press)\b|\.keyboard\(|browser\.keys\(|\.trigger\(\s*["'`]key(?:down|up|press)|triggerEventHandler\(\s*["'`]key(?:down|up|press)|\.press\(\s*["'`]|\.tab\(\s*\)/;
+const KEY_RE = /new (?:window\.)?KeyboardEvent\(|fireEvent\.key(?:Down|Up|Press)\b|\.keyboard\(|browser\.keys\(|\.trigger\(\s*["'`]key(?:down|up|press)|triggerEventHandler\(\s*["'`]key(?:down|up|press)|\.press\(\s*["'`]|\.tab\(\s*\)/;
 const BLAZOR_KEY_RE = /\.KeyDown\(|\.KeyUp\(|\.KeyPress\(|new KeyboardEventArgs/;
+// A pattern tester run (spec/testing#pattern-testers) sends real keys and asserts ARIA state, so it counts as both.
+const PATTERN_RE = /\brunPattern\(|\bPatternTester\.Run\(/;
 const ARIA_LINE_RE = /aria-[a-z]+/;
 const ASSERT_RE = /expect\(|Assert\.|assert\.|getAttribute\(|GetAttribute\(|toHaveAttribute\(|hasAttribute\(|attributes\(|querySelector|\.Find\(|FindAll\(/;
 
@@ -173,8 +176,8 @@ function criterionA(c) {
     let keyFile = null, ariaFile = null;
     for (const f of files) {
       const src = read(f);
-      if (!keyFile && (lib === "blazor" ? BLAZOR_KEY_RE : KEY_RE).test(src)) keyFile = f;
-      if (!ariaFile && src.split("\n").some((l) => ARIA_LINE_RE.test(l) && ASSERT_RE.test(l))) ariaFile = f;
+      if (!keyFile && ((lib === "blazor" ? BLAZOR_KEY_RE : KEY_RE).test(src) || PATTERN_RE.test(src))) keyFile = f;
+      if (!ariaFile && (PATTERN_RE.test(src) || src.split("\n").some((l) => ARIA_LINE_RE.test(l) && ASSERT_RE.test(l)))) ariaFile = f;
     }
     const keyOk = contract === "none" || !!keyFile;
     libs[lib] = {

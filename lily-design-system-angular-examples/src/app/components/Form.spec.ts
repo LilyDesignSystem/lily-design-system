@@ -31,4 +31,11 @@ describe("Form", () => {
         expect(event.defaultPrevented).toBe(true);
         expect(events).toEqual([event]);
     });
+
+    test("names the root with aria-label from the label input", () => {
+        const fixture = TestBed.createComponent(Form);
+        fixture.componentRef.setInput("label", "Named");
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector("form.form").getAttribute("aria-label")).toBe("Named");
+    });
 });

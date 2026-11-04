@@ -20,7 +20,7 @@ Core is drawn from the 40 interactive components an external audit would look at
 
 ## Where the candidates stand
 
-Keyboard and ARIA-state tests in all eight libraries: 3 of 40. End-to-end in all three browsers: 38 of 40. Screen-reader row filled: 0 of 40. All three: 0.
+Keyboard and ARIA-state tests in all eight libraries: 7 of 40. End-to-end in all three browsers: 38 of 40. Screen-reader row filled: 0 of 40. All three: 0.
 
 Why none has met them: the [screen-reader matrix](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/screen-reader-matrix.md) has 0 of 120 cells filled, because no one has yet run the components with a screen reader and recorded the result, and this project does not record results it has not observed. 17 candidates have no row in the matrix yet. The end-to-end suites run in Chromium, Firefox, WebKit.
 
@@ -28,7 +28,7 @@ Why none has met them: the [screen-reader matrix](https://github.com/LilyDesignS
 
 | Candidate | Keyboard and ARIA tests | End-to-end browsers | Screen-reader row | Core |
 | --- | --- | --- | --- | --- |
-| [form](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#form) | 6 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
+| [form](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#form) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [field](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#field) | 5 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [label](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#label) | 1 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
 | [hint](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#hint) | 1 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
@@ -51,8 +51,8 @@ Why none has met them: the [screen-reader matrix](https://github.com/LilyDesignS
 | [theme-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#theme-picker) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [locale-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#locale-picker) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [text-size-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#text-size-picker) | 8 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
-| [share-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#share-picker) | 7 of 8 libraries | Chromium | 0 of 6 filled | no |
-| [date-time-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#date-time-picker) | 7 of 8 libraries | none | 0 of 6 filled | no |
+| [share-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#share-picker) | 8 of 8 libraries | Chromium | 0 of 6 filled | no |
+| [date-time-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#date-time-picker) | 8 of 8 libraries | none | 0 of 6 filled | no |
 | [dialog](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#dialog) | 7 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [alert-dialog](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#alert-dialog) | 2 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [tab-bar](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#tab-bar) | 6 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
@@ -66,7 +66,7 @@ Why none has met them: the [screen-reader matrix](https://github.com/LilyDesignS
 | [tree-nav](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#tree-nav) | 1 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [breadcrumb-nav](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#breadcrumb-nav) | 0 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [pagination-nav](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#pagination-nav) | 0 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
-| [data-table](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#data-table) | 6 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
+| [data-table](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#data-table) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [skip-link](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#skip-link) | 0 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 
 ## Read the evidence

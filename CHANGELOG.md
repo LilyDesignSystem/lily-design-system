@@ -14,6 +14,7 @@ highlights.
 From the [survey of 18 design systems](spec/design-system-survey-lessons/index.md), tasks.md Phase 23.
 
 - **Catalog 609:** `iban-input` and `iban-view` in every headless library and example app, `experimental`.
+- **Pattern testers:** `shared/pattern-contracts.json`, run by a DOM driver and a bUnit driver: 48 runs across eight catalogs. Lily Core criterion (a) went from 3 to 7 of 40, in part from a regex that missed `new window.KeyboardEvent`.
 - **Lifecycle:** `deprecated` and `discouraged` statuses, `bin/check-lifecycle` in `bin/test`, `docs/adopters.md`. `carousel` is `discouraged`, with `card` in a `grid` as its alternative.
 - **Fixed:** no theme defines `.visually-hidden`, so hidden text such as the `warning-text` prefix showed on screen. Lily's demos, macros and docs now use `.screen-reader-span`. A consumer of the Nunjucks `error-message`, `care-card`, `inset-text`, `pagination-link` or `summary-list-item` macros targeting `.visually-hidden` must update its CSS.
 

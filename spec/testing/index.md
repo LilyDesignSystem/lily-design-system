@@ -223,6 +223,28 @@ Firefox could not start ("Could not find profile folder") because macOS blocked 
 `~/Library/Application Support/Firefox`; the runs used a wrapper outside the repo that starts the same Firefox build
 with `-app` and its own profile name. CI on Linux does not need it.
 
+## Pattern testers
+
+(2026-11-03, P23-T1.) One interaction contract, run against every catalog, in place of hand-ported keyboard tests. The steps are data in
+[`shared/pattern-contracts.json`](../../shared/pattern-contracts.json), so two drivers run the same contract: `shared/pattern-tester.ts` over
+the DOM and `shared/PatternTester.cs` over bUnit. Test files import them straight from `shared/`: tests do not ship, so nothing is copied.
+
+```ts
+await runPattern("picker-listbox", { root, hook: "theme-picker" });
+```
+
+| Contract            | Runs against                                                         | Catalogs | Runs |
+| ------------------- | -------------------------------------------------------------------- | -------- | ---- |
+| `picker-listbox`    | `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker` | 8        | 32   |
+| `picker-disclosure` | `share-picker`, `link-picker`                                        | 8        | 16   |
+
+- A file named `*.pattern.test.*`, `*.pattern.spec.ts` or `*PatternTests.cs` holds the run.
+- `time-zone-picker` is not covered: every label starts "UTC", so the fixture rule for typeahead cannot hold.
+- bUnit has no browser focus, so the C# driver skips `focus` expectations; the DOM driver runs them in the other seven catalogs.
+- `bin/generate-core` counts a `runPattern` or `PatternTester.Run` call as both a key event and an ARIA assertion for criterion (a).
+- Proved to fail: removing `aria-selected` from `theme-picker` in each of the eight ports fails its run.
+- Not built yet: combobox, menu, tabs, dialog, tree and grid contracts, and a published package for adopters.
+
 ## Acceptance criteria
 
 - [x] Each headless library's unit suite covers all 609 components (548 in Web Components) with its framework runner (vitest / bUnit / WebdriverIO). html-headless's WebdriverIO run itself still can't complete in this specific interactive sandbox (an unexplained early SIGINT, not the network block previously assumed — see the table above) — file-count coverage confirmed instead.

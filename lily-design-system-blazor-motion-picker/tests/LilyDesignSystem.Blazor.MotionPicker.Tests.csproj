@@ -28,6 +28,8 @@
 
   <ItemGroup>
     <Compile Include="..\MotionPickerTests.cs" />
+    <Compile Include="..\MotionPickerPatternTests.cs" />
+    <Compile Include="..\..\shared\PatternTester.cs" />
   </ItemGroup>
 
 </Project>
