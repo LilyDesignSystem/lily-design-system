@@ -41,3 +41,16 @@ for (const path of PAGES) {
         expect(problems).toEqual([]);
     });
 }
+
+test("tabbed interface: one panel shows, and the tabs switch it", async ({ page }) => {
+    await page.goto("/tabbed-interface");
+    await expect(page.getByText("Overview content.")).toBeVisible();
+    await expect(page.getByText("Details content.")).toBeHidden();
+    const tabs = page.getByRole("tab");
+    await expect(tabs.first()).toHaveAttribute("aria-selected", "true");
+    await tabs.nth(1).click();
+    await expect(page.getByText("Details content.")).toBeVisible();
+    await expect(page.getByText("Overview content.")).toBeHidden();
+    await expect(tabs.nth(1)).toHaveAttribute("aria-selected", "true");
+    await expect(tabs.first()).toHaveAttribute("tabindex", "-1");
+});

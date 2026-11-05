@@ -64,7 +64,12 @@ export default function HorizontalScroller({
         } else if (event.key === "End") {
             event.preventDefault();
             const el = ref.current;
-            if (el) el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
+            if (el)
+                el.scrollTo({
+                    left:
+                        getComputedStyle(el).direction === "rtl" ? -el.scrollWidth : el.scrollWidth,
+                    behavior: "smooth",
+                });
         }
     };
 

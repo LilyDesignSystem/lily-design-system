@@ -8,6 +8,8 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class ChatComposerTests : TestContext
 {
+    public ChatComposerTests() => JSInterop.Mode = JSRuntimeMode.Loose;
+
     private IRenderedComponent<ChatComposer> Render(Action<Bunit.ComponentParameterCollectionBuilder<ChatComposer>>? extra = null) =>
         RenderComponent<ChatComposer>(p =>
         {

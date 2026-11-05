@@ -1,5 +1,5 @@
 @namespace LilyBlazorHeadless.Components
-@inherits KeyedComponentBase
+@inherits KeyedPopoverBase
 
 @*
     MentionsInput component
@@ -10,7 +10,7 @@
 
 <div @ref="Root" class="@($"mentions-input {CssClass}".Trim())" data-trigger-char="@TriggerChar" @attributes="AdditionalAttributes">
     <input class="mentions-input-control" type="text" role="combobox" aria-label="@Label" aria-haspopup="listbox" aria-controls="@_listId" aria-expanded="@(Expanded ? "true" : "false")" aria-autocomplete="list" @bind:get="Value" placeholder="@Placeholder" disabled="@Disabled" @bind:set="@(v => HandleInput(new ChangeEventArgs { Value = v }))" @bind:event="oninput" />
-    <div class="mentions-input-suggestions" id="@_listId" hidden="@(!Expanded)">@ChildContent</div>
+    <div class="mentions-input-suggestions" id="@_listId" popover="manual" @ref="Panel">@ChildContent</div>
 </div>
 
 @code {
@@ -31,6 +31,8 @@
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private readonly string _listId = $"mentions-input-suggestions-{Guid.NewGuid().ToString("N")[..8]}";
+
+    protected override bool Shown => Expanded;
 
     protected override string Kind => "mentions";
 

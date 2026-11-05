@@ -72,4 +72,15 @@ describe("HorizontalScroller", () => {
         fireEvent.keyDown(region, { key: "End" });
         expect(scrollTo).toHaveBeenCalledWith({ left: 1234, behavior: "smooth" });
     });
+
+    test("End goes the other way in right-to-left", () => {
+        render(<Subject label="x">items</Subject>);
+        const region = screen.getByRole("region");
+        region.style.direction = "rtl";
+        const scrollTo = vi.fn();
+        Object.defineProperty(region, "scrollTo", { value: scrollTo, configurable: true });
+        Object.defineProperty(region, "scrollWidth", { value: 1234, configurable: true });
+        fireEvent.keyDown(region, { key: "End" });
+        expect(scrollTo).toHaveBeenCalledWith({ left: -1234, behavior: "smooth" });
+    });
 });

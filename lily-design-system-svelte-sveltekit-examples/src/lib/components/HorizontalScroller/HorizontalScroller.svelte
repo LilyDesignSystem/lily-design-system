@@ -81,7 +81,13 @@
             scrollerEl.scrollTo({ left: 0, behavior: "smooth" });
         } else if (event.key === "End") {
             event.preventDefault();
-            scrollerEl.scrollTo({ left: scrollerEl.scrollWidth, behavior: "smooth" });
+            scrollerEl.scrollTo({
+                left:
+                    getComputedStyle(scrollerEl).direction === "rtl"
+                        ? -scrollerEl.scrollWidth
+                        : scrollerEl.scrollWidth,
+                behavior: "smooth",
+            });
         }
     }
 </script>

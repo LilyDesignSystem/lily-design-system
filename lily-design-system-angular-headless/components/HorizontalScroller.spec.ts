@@ -76,6 +76,13 @@ describe("HorizontalScroller — region and scrolling keys", () => {
         expect(scrollTo).toHaveBeenLastCalledWith({ left: 900, behavior: "smooth" });
     });
 
+    test("End goes the other way in right-to-left", () => {
+        const { el, scrollTo } = create();
+        el.style.direction = "rtl";
+        key(el, "End");
+        expect(scrollTo).toHaveBeenLastCalledWith({ left: -900, behavior: "smooth" });
+    });
+
     test("other keys are not intercepted", () => {
         const { el, scrollBy } = create();
         expect(key(el, "ArrowDown").defaultPrevented).toBe(false);

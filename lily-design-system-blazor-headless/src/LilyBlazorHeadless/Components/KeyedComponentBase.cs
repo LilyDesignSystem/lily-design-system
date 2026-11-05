@@ -68,7 +68,7 @@ public abstract class KeyedComponentBase : ComponentBase, IAsyncDisposable
     /// <summary>The keys chose an item: its value, its path, and every selected value.</summary>
     protected virtual Task KeyedSelect(string value, string[] path, string[] selected) => Task.CompletedTask;
 
-    public async ValueTask DisposeAsync()
+    public virtual async ValueTask DisposeAsync()
     {
         try
         {

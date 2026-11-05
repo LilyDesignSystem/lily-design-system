@@ -7,8 +7,11 @@ export function attach(node) {
         if (event.key === "ArrowRight") node.scrollBy({ left: step, behavior: "smooth" });
         else if (event.key === "ArrowLeft") node.scrollBy({ left: -step, behavior: "smooth" });
         else if (event.key === "Home") node.scrollTo({ left: 0, behavior: "smooth" });
-        else if (event.key === "End") node.scrollTo({ left: node.scrollWidth, behavior: "smooth" });
-        else return;
+        else if (event.key === "End") {
+            // Past the left edge in right-to-left, where scrollLeft runs from 0 down to a negative number.
+            const rtl = node.ownerDocument.defaultView.getComputedStyle(node).direction === "rtl";
+            node.scrollTo({ left: rtl ? -node.scrollWidth : node.scrollWidth, behavior: "smooth" });
+        } else return;
         event.preventDefault();
     };
     node.addEventListener("keydown", onKeydown);

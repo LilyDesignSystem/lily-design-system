@@ -84,7 +84,11 @@ export class HorizontalScroller implements OnInit {
                 el.scrollTo({ left: 0, behavior: "smooth" });
                 break;
             case "End":
-                el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
+                el.scrollTo({
+                    left:
+                        getComputedStyle(el).direction === "rtl" ? -el.scrollWidth : el.scrollWidth,
+                    behavior: "smooth",
+                });
                 break;
             default:
                 return;

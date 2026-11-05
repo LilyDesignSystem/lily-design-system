@@ -16,7 +16,7 @@ See [components/chat-composer/index.md](../../../../components/chat-composer/ind
 
 A `<form class="chat-composer">` with a named `<textarea>` and one send/stop button; Enter sends, Shift+Enter inserts a line break, IME Enter is ignored; the button is disabled, never hidden, when empty; no string, animation or clearing of the text.
 
-Blazor deviation: no JS interop, so plain Enter inserts a line break; send with the button (form submit) or Ctrl/Cmd+Enter.
+Plain Enter sends through `ChatComposer.razor.js`, and Ctrl/Cmd+Enter also sends, which needs no script.
 
 ---
 

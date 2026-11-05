@@ -78,6 +78,9 @@
     <div style="display: flex"><div style="flex: 0 0 60rem">Wide</div></div>
 </HorizontalScroller>
 
+<ChatComposer Label="Message" SendLabel="Send" StopLabel="Stop" @bind-Value="_message" OnSend="@(text => { _sent++; _lastSent = text.ReplaceLineEndings(" "); })" data-testid="composer" />
+<p data-testid="composer-state">Sent: @_sent@(_sent > 0 ? $" ({_lastSent})" : "")</p>
+
 <ContentsNav Label="On this page" Spy="true" @bind-Active="_active" data-testid="contents">
     <ul>
         <li><a href="#first">First</a></li>
@@ -90,6 +93,9 @@
 
 @code {
     private bool _pressed;
+    private string _message = "";
+    private string _lastSent = "";
+    private int _sent;
     private double _volume = 150;
     private string _time = "09:30";
     private string _timeInput = "";

@@ -55,7 +55,10 @@ function onKeyDown(event: KeyboardEvent) {
         el.scrollTo({ left: 0, behavior: "smooth" });
     } else if (event.key === "End") {
         event.preventDefault();
-        el.scrollTo({ left: el.scrollWidth, behavior: "smooth" });
+        el.scrollTo({
+            left: getComputedStyle(el).direction === "rtl" ? -el.scrollWidth : el.scrollWidth,
+            behavior: "smooth",
+        });
     }
 }
 </script>

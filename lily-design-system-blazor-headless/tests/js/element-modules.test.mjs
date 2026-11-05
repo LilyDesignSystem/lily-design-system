@@ -18,6 +18,7 @@ const { document, KeyboardEvent, Event } = dom.window;
 const modules = "../../src/LilyBlazorHeadless/Components/";
 const tagInputDiv = await import(`${modules}TagInputDiv.razor.js`);
 const scroller = await import(`${modules}HorizontalScroller.razor.js`);
+const chatComposer = await import(`${modules}ChatComposer.razor.js`);
 const details = await import(`${modules}Details.razor.js`);
 
 const recorder = () => {
@@ -92,6 +93,33 @@ test("HorizontalScroller: arrows move by the step, Home and End go to the ends",
         ["to", 0],
         ["to", 900],
     ]);
+});
+
+test("HorizontalScroller: End goes the other way in right-to-left", () => {
+    const node = region();
+    node.style.direction = "rtl";
+    scroller.attach(node);
+    press(node, "End");
+    assert.deepEqual(node.scrolls, [["to", -900]]);
+});
+
+test("ChatComposer: plain Enter sends, and Shift+Enter and an IME composition do not", () => {
+    const form = document.createElement("form");
+    form.innerHTML = '<textarea class="chat-composer-input"></textarea>';
+    document.body.append(form);
+    let sent = 0;
+    form.requestSubmit = () => sent++;
+    const field = form.querySelector("textarea");
+    const handle = chatComposer.attach(form);
+    assert.equal(press(field, "Enter").defaultPrevented, true);
+    assert.equal(sent, 1);
+    assert.equal(press(field, "Enter", { shiftKey: true }).defaultPrevented, false);
+    assert.equal(press(field, "Enter", { isComposing: true }).defaultPrevented, false);
+    assert.equal(press(field, "a").defaultPrevented, false);
+    assert.equal(sent, 1);
+    handle.dispose();
+    press(field, "Enter");
+    assert.equal(sent, 1);
 });
 
 test("HorizontalScroller: reads a new step, and leaves other keys alone", () => {

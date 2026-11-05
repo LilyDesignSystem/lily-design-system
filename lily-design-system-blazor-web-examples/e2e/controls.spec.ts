@@ -159,6 +159,32 @@ test("horizontal scroller: the keys scroll it", async ({ page }) => {
     await expect.poll(left).toBe(0);
 });
 
+test("horizontal scroller: End goes to the far edge in right-to-left", async ({ page }) => {
+    const scroller = page.getByTestId("scroller");
+    await scroller.evaluate((node) => node.setAttribute("dir", "rtl"));
+    await scroller.focus();
+    await page.keyboard.press("End");
+    await expect.poll(() => scroller.evaluate((node) => node.scrollLeft)).toBeLessThan(-40);
+});
+
+test("chat composer: Enter sends, Shift+Enter is a line break, and empty sends nothing", async ({
+    page,
+}) => {
+    const field = page.getByTestId("composer").locator("textarea");
+    const state = page.getByTestId("composer-state");
+    await field.focus();
+    await page.keyboard.press("Enter");
+    await expect(state).toHaveText("Sent: 0");
+    await page.keyboard.type("one");
+    await page.keyboard.press("Shift+Enter");
+    await page.keyboard.type("two");
+    await expect(field).toHaveValue("one\ntwo");
+    await expect(state).toHaveText("Sent: 0");
+    await page.keyboard.press("Enter");
+    await expect(state).toHaveText("Sent: 1 (one two)");
+    await expect(field).toHaveValue("one\ntwo");
+});
+
 test("contents nav: the section in view reaches C#", async ({ page }) => {
     await expect(page.getByTestId("contents-state")).toHaveText("Active: first");
     await page.evaluate(() => document.getElementById("second")!.scrollIntoView());

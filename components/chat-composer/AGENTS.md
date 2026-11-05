@@ -17,7 +17,7 @@
 - The button is send (`type=submit`, `data-state=send`) or, while `busy`, stop (`type=button`, `data-state=stop`); disabled, never hidden, when the text is empty
 - `rows` follows the line count between `minRows` (1) and `maxRows` (8)
 - Never clears the text; never animates; carries no strings
-- Blazor: no plain-Enter send (no JS interop); Nunjucks/HTML: markup-only initial state
+- Blazor: plain Enter through ChatComposer.razor.js, and Ctrl/Cmd+Enter also sends; Nunjucks/HTML: markup-only initial state
 
 ## ARIA
 

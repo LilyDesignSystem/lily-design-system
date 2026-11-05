@@ -39,4 +39,19 @@ public class TreeSelectTests : TestContext
         var root = cut.Find(".tree-select");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void The_panel_is_a_manual_popover_shown_from_Expanded()
+    {
+        var cut = RenderComponent<TreeSelect>(p => p.Add(x => x.Label, "Files"));
+        var panel = cut.Find(".tree-select-panel");
+        Assert.Equal("manual", panel.GetAttribute("popover"));
+        Assert.False(panel.HasAttribute("hidden"));
+        JSInterop.VerifyInvoke("attach", 2);
+        cut.SetParametersAndRender(p => p.Add(x => x.Expanded, true));
+        JSInterop.VerifyInvoke("set", 1);
+        Assert.Equal(true, JSInterop.Invocations["set"][0].Arguments[0]);
+        cut.SetParametersAndRender(p => p.Add(x => x.Expanded, true));
+        JSInterop.VerifyInvoke("set", 1);
+    }
 }

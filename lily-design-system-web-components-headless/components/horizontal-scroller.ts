@@ -9,7 +9,8 @@
 //     aria-label.
 //
 // Keyboard: ArrowLeft / ArrowRight scroll the container horizontally
-// when it (or a descendant) has focus.
+// when it (or a descendant) has focus; Home and End go to the start and
+// the end, which is the left edge in right-to-left.
 //
 // References:
 //   - components/horizontal-scroller/index.md (canonical contract)
@@ -54,6 +55,14 @@ export class HorizontalScroller extends HTMLElement {
         } else if (event.key === "ArrowLeft") {
             event.preventDefault();
             this.scrollLeft -= SCROLL_STEP;
+        } else if (event.key === "Home") {
+            event.preventDefault();
+            this.scrollLeft = 0;
+        } else if (event.key === "End") {
+            event.preventDefault();
+            // scrollLeft runs from 0 down to a negative number in right-to-left.
+            this.scrollLeft =
+                getComputedStyle(this).direction === "rtl" ? -this.scrollWidth : this.scrollWidth;
         }
     };
 }

@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Three port gaps closed — 2026-11-05
+
+- **Changed (Blazor): `cascader`, `mentions-input` and `tree-select` panels are `popover="manual"`,** in the top layer like every other catalog, with `hidden` only where the Popover API is missing.
+- **Fixed (Blazor): `ChatComposer` sends on plain Enter,** through `ChatComposer.razor.js`. Shift+Enter is a line break, and Enter during an IME composition does nothing. Ctrl/Cmd+Enter still sends.
+- **Fixed (Svelte, React, Vue, Angular, HTML, Web Components, Blazor): `horizontal-scroller` End in right-to-left** scrolled to the start. It now goes to the far edge. Web Components gains Home and End, which it never had.
+
 ## Keyboard and ARIA tests for all 40 Core candidates — 2026-11-05
 
 Criterion (a) of `bin/generate-core` is 40 of 40, up from 10. Screen-reader evidence is still 0 of 40, so Lily Core still has no members.

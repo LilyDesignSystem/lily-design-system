@@ -79,16 +79,22 @@ test("the split view's divider reaches @bind-SplitPercent", async ({ page }) => 
     await expect(page.getByTestId("split-view-state")).toHaveText("Split view: 0");
 });
 
+const expectPopover = (panel: Locator, open: boolean) =>
+    expect.poll(() => panel.evaluate((node) => node.matches(":popover-open"))).toBe(open);
+
 test("the cascader's keys reach @bind-Expanded and OnSelect", async ({ page }) => {
     const root = page.getByTestId("cascader");
     const state = page.getByTestId("cascader-state");
     await root.locator(".cascader-trigger").focus();
     await page.keyboard.press("ArrowDown");
     await expect(state).toContainText("open: yes");
+    await expect(root.locator(".cascader-panel")).toHaveAttribute("popover", "manual");
+    await expectPopover(root.locator(".cascader-panel"), true);
     await page.keyboard.press("ArrowRight");
     await page.keyboard.press("ArrowRight");
     await page.keyboard.press("Enter");
     await expect(state).toHaveText("Place: europe/france; open: no");
+    await expectPopover(root.locator(".cascader-panel"), false);
     await expect(root.locator(".cascader-trigger")).toBeFocused();
     await expect(root.locator(".cascader-trigger")).toHaveText("europe/france");
 });
@@ -99,8 +105,10 @@ test("Escape closes the tree select, and a click chooses", async ({ page }) => {
     await root.locator(".tree-select-trigger").focus();
     await page.keyboard.press("ArrowDown");
     await expect(state).toContainText("open: yes");
+    await expectPopover(root.locator(".tree-select-panel"), true);
     await page.keyboard.press("Escape");
     await expect(state).toHaveText("Folder: ; open: no");
+    await expectPopover(root.locator(".tree-select-panel"), false);
     await root.locator(".tree-select-trigger").click();
     await expect(state).toContainText("open: yes");
     await root.getByRole("treeitem", { name: "Pictures" }).click();
@@ -115,11 +123,14 @@ test("typing the trigger opens the mentions, and Enter writes the mention to @bi
     await input.focus();
     await page.keyboard.type("Hi @gr");
     await expect(state).toContainText("open: yes");
+    const list = page.locator(".mentions-input-suggestions");
+    await expectPopover(list, true);
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("ArrowDown");
     await page.keyboard.press("Enter");
     await expect(state).toContainText("Mentioned: grace");
     await expect(state).toContainText("open: no");
+    await expectPopover(list, false);
     await expect(input).toHaveValue(/@grace/);
     await expect(state).toContainText("comment: Hi @grace");
 });

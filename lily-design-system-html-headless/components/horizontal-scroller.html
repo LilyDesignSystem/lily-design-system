@@ -46,7 +46,8 @@
           el.scrollTo({ left: 0, behavior: 'smooth' });
         } else if (e.key === 'End') {
           e.preventDefault();
-          el.scrollTo({ left: el.scrollWidth, behavior: 'smooth' });
+          var end = getComputedStyle(el).direction === 'rtl' ? -el.scrollWidth : el.scrollWidth;
+          el.scrollTo({ left: end, behavior: 'smooth' });
         }
       });
     });

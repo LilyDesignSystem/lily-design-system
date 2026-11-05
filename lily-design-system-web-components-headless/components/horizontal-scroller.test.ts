@@ -89,4 +89,24 @@ describe("HorizontalScroller", () => {
 
         expect(host.className).toBe("horizontal-scroller gallery");
     });
+
+    const press = (host: HTMLElement, key: string) =>
+        host.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+
+    test("Home and End go to the ends", () => {
+        const host = render('<lily-horizontal-scroller label="x"></lily-horizontal-scroller>');
+        Object.defineProperty(host, "scrollWidth", { value: 900, configurable: true });
+        press(host, "End");
+        expect(host.scrollLeft).toBe(900);
+        press(host, "Home");
+        expect(host.scrollLeft).toBe(0);
+    });
+
+    test("End goes the other way in right-to-left", () => {
+        const host = render('<lily-horizontal-scroller label="x"></lily-horizontal-scroller>');
+        host.style.direction = "rtl";
+        Object.defineProperty(host, "scrollWidth", { value: 900, configurable: true });
+        press(host, "End");
+        expect(host.scrollLeft).toBe(-900);
+    });
 });

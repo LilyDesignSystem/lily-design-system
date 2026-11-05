@@ -86,4 +86,12 @@ describe("HorizontalScroller keyboard", function () {
         await browser.keys("Home");
         await browser.waitUntil(async () => (await left()) === 0);
     });
+    it("End goes to the far edge in right-to-left", async function () {
+        await setup();
+        await browser.execute(() => {
+            document.documentElement.dir = "rtl";
+        });
+        await browser.keys("End");
+        await browser.waitUntil(async () => (await left()) < -1000);
+    });
 });

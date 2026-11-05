@@ -1,5 +1,5 @@
 @namespace LilyBlazorHeadless.Components
-@inherits KeyedComponentBase
+@inherits KeyedPopoverBase
 
 @*
     Cascader component
@@ -9,7 +9,7 @@
 
 <div @ref="Root" class="@($"cascader {CssClass}".Trim())" role="combobox" aria-haspopup="tree" aria-expanded="@(Expanded ? "true" : "false")" aria-label="@Label" data-multiple="@(Multiple ? "true" : null)" @attributes="AdditionalAttributes">
     <button class="cascader-trigger" type="button" disabled="@Disabled">@(Value ?? Placeholder)</button>
-    <div class="cascader-panel" hidden="@(!Expanded)">@ChildContent</div>
+    <div class="cascader-panel" popover="manual" @ref="Panel">@ChildContent</div>
 </div>
 
 @code {
@@ -26,6 +26,8 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override bool Shown => Expanded;
 
     protected override string Kind => "tree-popup";
     protected override object? KeyOptions => new { exclusive = true };
