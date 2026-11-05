@@ -36,7 +36,7 @@ default and revealed only when the user requests it.
 <ContextualHelp
   label="Help for username"
   triggerLabel="?"
-  bind:expanded={open}
+  bind:expanded="{open}"
 >
   <h3>Username</h3>
   <p>Use 3-20 characters. Letters, numbers, and underscores only.</p>

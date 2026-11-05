@@ -51,7 +51,7 @@ Medication picker with dynamic filtering:
   open="{medOpen}"
 >
   {#each filteredMedications as med}
-  <div role="option"> {med.name} ({med.dosage})</div>
+  <div role="option">{med.name} ({med.dosage})</div>
   {/each}
 </Combobox>
 ```

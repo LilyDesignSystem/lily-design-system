@@ -33,11 +33,12 @@ Basic tag input, with the tags in its default slot:
 ```html
 <TagInputDiv
   label="Add tag"
-  bind:value={tagText}
-  onadd={(tag) => { tags = [...tags, tag]; }}
+  bind:value="{tagText}"
+  onadd="{(tag)"
+  =""
 >
-  {#each tags as tag}
-    <Tag>{tag}</Tag>
+  { tags = [...tags, tag]; }} > {#each tags as tag}
+  <Tag>{tag}</Tag>
   {/each}
 </TagInputDiv>
 ```
@@ -48,12 +49,21 @@ Removable tags on a profile. The remove button and its accessible name are the c
 <Field label="Skills">
   <TagInputDiv
     label="Add a skill"
-    bind:value={newSkill}
-    onadd={(skill) => { skills = [...skills, skill]; }}
-    placeholder="Type a skill and press Enter"
+    bind:value="{newSkill}"
+    onadd="{(skill)"
+    =""
   >
-    {#each skills as skill}
-      <Tag>{skill} <button onclick={() => removeSkill(skill)} aria-label="Remove {skill}">x</button></Tag>
+    { skills = [...skills, skill]; }} placeholder="Type a skill and press Enter" > {#each skills as
+    skill}
+    <Tag
+      >{skill}
+      <button
+        onclick="{()"
+        =""
+      >
+        removeSkill(skill)} aria-label="Remove {skill}">x
+      </button></Tag
+    >
     {/each}
   </TagInputDiv>
 </Field>
