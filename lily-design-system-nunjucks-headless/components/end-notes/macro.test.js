@@ -7,9 +7,9 @@ describe("end-notes", () => {
         expect(document.querySelector("section.end-notes")).toBeTruthy();
     });
 
-    it("defaults aria-label to 'End notes'", () => {
+    it("has no English aria-label of its own", () => {
         const { document } = render("end-notes", {}, "x");
-        expect(document.querySelector(".end-notes").getAttribute("aria-label")).toBe("End notes");
+        expect(document.querySelector(".end-notes").hasAttribute("aria-label")).toBe(false);
     });
 
     it("aria-label can be overridden", () => {

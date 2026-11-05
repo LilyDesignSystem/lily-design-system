@@ -17,7 +17,7 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/pagination
   Mark the current page with <code>current: true</code> on its link.
   Use <code>ellipsis: true</code> on a list item to render a gap.</p>
 
-{% call paginationNav() %}
+{% call paginationNav({ label: "Pagination" }) %}
   {% call paginationList() %}
     {% call paginationListItem() %}
       {{ paginationLink({

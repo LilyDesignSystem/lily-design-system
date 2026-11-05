@@ -2,11 +2,11 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("tour", () => {
-    it("renders a <section> with the base class and default aria-label", () => {
+    it("renders a <section> with the base class and no English aria-label", () => {
         const { document } = render("tour", {});
         const el = document.querySelector("section.tour");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("aria-label")).toBe("Tour");
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
     it("respects params.label and labelledBy", () => {

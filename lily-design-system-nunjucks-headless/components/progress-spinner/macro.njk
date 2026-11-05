@@ -11,8 +11,7 @@
       ProgressCircle when a percentage is known.
 
   Params:
-    label       string   Visible label and aria-label text.
-                         Default "Loading".
+    label       string   Visible label and aria-label text
     id          string
     classes     string
     attributes  object
@@ -23,13 +22,13 @@
 #}
 {%- macro progressSpinner(params) -%}
 {%- set p = params | default({}) -%}
-{%- set label = p.label | default("Loading") -%}
+{%- set label = p.label -%}
 <div
   class="progress-spinner{% if p.classes %} {{ p.classes }}{% endif %}"
   role="status"
   aria-live="polite"
   aria-busy="true"
-  aria-label="{{ label }}"
+  {%- if label %} aria-label="{{ label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 ></div>

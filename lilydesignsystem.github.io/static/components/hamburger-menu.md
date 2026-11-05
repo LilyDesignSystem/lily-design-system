@@ -18,7 +18,7 @@ When activated, the button toggles the visibility of a navigation region contain
 
 ## Props
 
-- `label`: string (default: "Menu") -- accessible name for the toggle button and the navigation region
+- `label`: string (required) -- accessible name for the toggle button and the navigation region
 - `open`: boolean (default: false) -- bindable boolean controlling whether the navigation panel is visible
 - `children`: slot (required) -- navigation content rendered when the menu is open
 - `...restProps`: unknown -- additional attributes spread onto the outer `<div>` wrapper

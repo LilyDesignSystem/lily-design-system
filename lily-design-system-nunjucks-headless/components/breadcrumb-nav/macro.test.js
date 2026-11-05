@@ -9,9 +9,9 @@ describe("breadcrumb-nav", () => {
         expect(el.classList.contains("breadcrumb-nav")).toBe(true);
     });
 
-    it("defaults aria-label to 'Breadcrumb'", () => {
+    it("has no English aria-label of its own", () => {
         const { document } = render("breadcrumb-nav", {});
-        expect(document.querySelector("nav").getAttribute("aria-label")).toBe("Breadcrumb");
+        expect(document.querySelector("nav").hasAttribute("aria-label")).toBe(false);
     });
 
     it("respects a custom label", () => {

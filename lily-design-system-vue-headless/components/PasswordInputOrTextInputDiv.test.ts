@@ -12,7 +12,7 @@ describe("PasswordInputOrTextInputDiv", () => {
     });
 
     test("has toggle button", () => {
-        render(Subject, { props: { label: "Password" } });
+        render(Subject, { props: { label: "Password", toggleLabel: "Show password" } });
         expect(screen.getByRole("button", { name: "Show password" })).toBeTruthy();
     });
 

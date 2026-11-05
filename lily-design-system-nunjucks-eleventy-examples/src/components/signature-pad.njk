@@ -7,7 +7,7 @@ description: a drawing area for capturing a handwritten signature
 {% from "components/signature-pad/macro.njk" import signaturePad %}
 
 <p><label>Please sign below</label></p>
-{{ signaturePad({ id: "sig", name: "signature" }) }}
+{{ signaturePad({ clearLabel: "Clear", label: "Signature area", id: "sig", name: "signature" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

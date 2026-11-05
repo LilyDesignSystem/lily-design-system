@@ -5,13 +5,13 @@ AiLabel is a headless inline indicator that communicates the presence of AI-gene
 ## Implementation Notes
 
 - Renders a `<span>` element for inline placement
-- Uses `aria-label` for accessible naming, defaulting to "AI"
+- Uses `aria-label` for accessible naming
 - Uses Vue 3 `<script setup>` with `defineProps` for TypeScript-typed props
 
 ## Props
 
-- `label`: string (default: "AI") -- accessible name via `aria-label`
-- `text`: string (default: "AI") -- visible text displayed inside the indicator
+- `label`: string (required) -- accessible name via `aria-label`
+- `text`: string (required) -- visible text displayed inside the indicator
 
 ## Usage
 

@@ -16,9 +16,9 @@ describe("red-amber-green-view", () => {
         ).toBe("amber");
     });
 
-    it("uses status name as default text", () => {
+    it("has no English of its own", () => {
         const { document } = render("red-amber-green-view", { status: "red" });
-        expect(document.querySelector(".red-amber-green-view-text").textContent.trim()).toBe("Red");
+        expect(document.querySelector(".red-amber-green-view-text")).toBeNull();
     });
 
     it("respects a custom text", () => {

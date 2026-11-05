@@ -8,8 +8,8 @@
 //
 // Props:
 //   label — string, required. Accessible name for the search region via aria-label.
-//   inputLabel — string, default "Search". Accessible name for the text input.
-//   searchLabel — string, default "Search". Accessible label and text for the search button.
+//   inputLabel — string, required. No default: the words are yours. Accessible name for the text input.
+//   searchLabel — string, required. No default: the words are yours. Accessible label and text for the search button.
 //   placeholder — string, optional. Placeholder text for the input.
 //   onsearch — (value: string) => void, optional. Callback when search is triggered.
 //   required — boolean, default false. Whether the input is required.
@@ -40,16 +40,14 @@ import { warnMissingName } from "./dev-warning";
 const props = withDefaults(
     defineProps<{
         label: string;
-        inputLabel?: string;
-        searchLabel?: string;
+        inputLabel: string;
+        searchLabel: string;
         placeholder?: string;
         onsearch?: (value: string) => void;
         required?: boolean;
         disabled?: boolean;
     }>(),
     {
-        inputLabel: "Search",
-        searchLabel: "Search",
         placeholder: undefined,
         required: false,
         disabled: false,

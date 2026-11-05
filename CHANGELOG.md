@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## No English defaults — 2026-11-05
+
+- **No component supplies English words any more.** About 50 Nunjucks macros, and `hamburger-menu`, `skip-link`, `do-list`, `dont-list`, `end-notes`, `ai-label`, `text-input-with-search`, `password-input-or-text-input-div` and `super-banner` in Svelte, React, Vue and Web Components, fell back to words such as "Menu" or "Skip to content". Angular and Blazor never did. `submit-input` and `reset-input` now leave the word to the browser, in the reader's language.
+- **Fixed (Nunjucks):** `date-field` had "Day", "Month" and "Year" written into its markup: it takes `dayLabel`, `monthLabel` and `yearLabel`. `net-promoter-score-view`, `red-amber-green-view` and `red-orange-yellow-green-blue-view` printed English status words: pass `text`.
+- **New gate:** `bin/check-worldwide` fails on an English text default, and `hamburger-menu` and `skip-link` warn in development when unnamed.
+- **Behaviour change:** a consumer that relied on a default now gets an unnamed control, or none: pass the words. In Nunjucks, `signature-pad` shows its clear button only with `clearLabel`, and `error-summary` its title only with `title`. In TypeScript these props are now required, except `ai-label`'s `label` and `super-banner`'s `dismissLabel`, so a call without them stops compiling.
+
 ## Combobox, dialog and grid contracts — 2026-11-04
 
 - **`combobox` owns its keys in every catalog.** ArrowDown and ArrowUp open and move, Home and End jump, Enter chooses, Escape closes, Alt+ArrowDown opens, Alt+ArrowUp closes; typing opens, blur closes, a click chooses, and a key during IME composition is the IME's. `shared/combobox-keys.ts`, `shared/combobox-client.js`. Filtering stays the consumer's. New: `onSelect` (`selected` in Angular, `select` in Vue, `OnSelect` in Blazor, `combobox-select` in HTML and Nunjucks). **Behaviour change:** a consumer that wired its own arrow keys should remove them, and React consumers must pass `onOpenChange` and `onChange`; Web Components no longer highlights a match as you type, and its arrows now wrap, as `autosuggest` does.

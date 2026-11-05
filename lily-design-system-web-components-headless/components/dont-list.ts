@@ -4,7 +4,7 @@
 // to form do/don't guidance patterns.
 //
 // Attributes:
-//   label — optional, default "Don't". Accessible name, via aria-label.
+//   label — required. Accessible name, via aria-label.
 //   ...rest — spread onto the <ul>.
 //
 // References:
@@ -23,7 +23,8 @@ export class DontList extends HTMLElement {
         const ul = document.createElement("ul");
         ul.className = rootClassName(this, "dont-list");
         ul.setAttribute("role", "list");
-        ul.setAttribute("aria-label", this.getAttribute("label") ?? "Don't");
+        const label = this.getAttribute("label");
+        if (label !== null) ul.setAttribute("aria-label", label);
         passThroughAttributes(this, ul, HANDLED);
 
         moveChildrenInto(this, ul);

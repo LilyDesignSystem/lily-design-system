@@ -37,8 +37,8 @@
 ## Props
 
 - `label`: string (required) -- accessible name for the search region via `aria-label`
-- `inputLabel`: string (default: "Search") -- accessible name for the text input via `aria-label`
-- `searchLabel`: string (default: "Search") -- accessible label and text for the search button
+- `inputLabel`: string (required) -- accessible name for the text input via `aria-label`
+- `searchLabel`: string (required) -- accessible label and text for the search button
 - `value`: string (default: "") -- bindable text input value
 - `placeholder`: string (optional) -- placeholder text for the input
 - `onsearch`: `(value: string) => void` (optional) -- callback when search is triggered

@@ -2,12 +2,12 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("slider-button", () => {
-    it("renders a <div role=button> with default label", () => {
+    it("renders a <div role=button> with no English label", () => {
         const { document } = render("slider-button", {});
         const el = document.querySelector("div.slider-button");
         expect(el).toBeTruthy();
         expect(el.getAttribute("role")).toBe("button");
-        expect(el.getAttribute("aria-label")).toBe("Slide to confirm");
+        expect(el.hasAttribute("aria-label")).toBe(false);
         expect(el.getAttribute("tabindex")).toBe("0");
     });
 

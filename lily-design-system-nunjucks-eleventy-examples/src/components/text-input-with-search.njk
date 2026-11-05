@@ -7,7 +7,7 @@ description: a single-line text input with a search button
 {% from "components/text-input-with-search/macro.njk" import textInputWithSearch %}
 
 <p><label for="q">Search</label></p>
-{{ textInputWithSearch({ id: "q", name: "q", label: "Search", placeholder: "Search the NHS" }) }}
+{{ textInputWithSearch({ searchLabel: "Search", id: "q", name: "q", label: "Search", placeholder: "Search the NHS" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

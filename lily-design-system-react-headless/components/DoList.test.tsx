@@ -1,17 +1,21 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./DoList";
+import type { ComponentType } from "react";
+import Component from "./DoList";
+
+// Some tests leave a required word out, to show that nothing English fills it in.
+const Subject = Component as ComponentType<Record<string, unknown>>;
 
 describe("DoList", () => {
     test("renders as a list", () => {
         render(<Subject>Items</Subject>);
-        expect(screen.getByRole("list", { name: "Do" })).toBeTruthy();
+        expect(screen.getByRole("list")).toBeTruthy();
     });
 
-    test("has default label", () => {
+    test("has no English label of its own", () => {
         render(<Subject>Items</Subject>);
-        expect(screen.getByRole("list").getAttribute("aria-label")).toBe("Do");
+        expect(screen.getByRole("list").hasAttribute("aria-label")).toBe(false);
     });
 
     test("accepts custom label", () => {

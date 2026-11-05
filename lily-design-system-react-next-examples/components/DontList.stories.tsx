@@ -10,4 +10,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof DontList>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: { label: "Don't" },
+};

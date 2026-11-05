@@ -4,7 +4,7 @@
   HTML tag: <button>
   CSS class: hamburger-menu
 
-  Params: label (default "Menu"), controls (id of menu), expanded (default false),
+  Params: label, controls (id of menu), expanded (default false),
     id, classes, attributes.
 
   Usage:
@@ -16,7 +16,7 @@
 <button
   class="hamburger-menu{% if p.classes %} {{ p.classes }}{% endif %}"
   type="button"
-  aria-label="{{ p.label | default('Menu') }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   aria-expanded="{{ 'true' if p.expanded else 'false' }}"
   {%- if p.controls %} aria-controls="{{ p.controls }}"{% endif %}
   data-module="hamburger-menu"

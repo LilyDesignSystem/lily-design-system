@@ -7,7 +7,7 @@
 
   Params:
     id (required for labelling), name, value, label,
-    showLabel (default "Show"), hideLabel (default "Hide"),
+    showLabel, hideLabel,
     required, disabled, classes, attributes.
 
   Usage:
@@ -36,10 +36,10 @@
   <button
     class="password-input-or-text-input-div-toggle"
     type="button"
-    data-show-label="{{ p.showLabel | default('Show') }}"
-    data-hide-label="{{ p.hideLabel | default('Hide') }}"
+    {%- if p.showLabel %} data-show-label="{{ p.showLabel }}"{% endif %}
+    {%- if p.hideLabel %} data-hide-label="{{ p.hideLabel }}"{% endif %}
     aria-pressed="false"
     {%- if p.disabled %} disabled{% endif %}
-  >{{ p.showLabel | default("Show") }}</button>
+  >{{ p.showLabel }}</button>
 </div>
 {%- endmacro -%}

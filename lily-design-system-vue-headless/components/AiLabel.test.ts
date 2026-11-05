@@ -9,9 +9,9 @@ describe("AiLabel", () => {
         expect(document.querySelector(".ai-label")).toBeTruthy();
     });
 
-    test("renders default text", () => {
+    test("has no English text of its own", () => {
         render(Subject);
-        expect(screen.getByText("AI")).toBeTruthy();
+        expect(document.querySelector(".ai-label")?.textContent).toBe("");
     });
 
     test("renders custom text", () => {
@@ -19,9 +19,9 @@ describe("AiLabel", () => {
         expect(screen.getByText("AI generated")).toBeTruthy();
     });
 
-    test("has default aria-label", () => {
+    test("has no English aria-label of its own", () => {
         render(Subject);
-        expect(screen.getByLabelText("AI")).toBeTruthy();
+        expect(document.querySelector(".ai-label")?.hasAttribute("aria-label")).toBe(false);
     });
 
     test("has custom aria-label", () => {

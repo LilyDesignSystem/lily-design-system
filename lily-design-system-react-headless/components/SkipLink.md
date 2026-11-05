@@ -17,7 +17,7 @@ Use SkipLink as the very first focusable element on a page. When a keyboard user
 ## Props
 
 - `href`: string (default: `"#content"`) -- the anchor target that the link navigates to
-- `label`: string (default: `"Skip to content"`) -- the visible link text
+- `label`: string (required) -- the visible link text
 - `...restProps`: unknown -- additional attributes spread onto the `<a>` element
 
 ## Usage

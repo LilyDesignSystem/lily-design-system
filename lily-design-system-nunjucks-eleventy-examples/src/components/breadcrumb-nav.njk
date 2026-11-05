@@ -16,7 +16,7 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/breadcrumbs
   <code>BreadcrumbLink</code>. Mark the current page by passing
   <code>current: true</code> to its list item.</p>
 
-{% call breadcrumbNav() %}
+{% call breadcrumbNav({ label: "Breadcrumb" }) %}
   {% call breadcrumbList() %}
     {% call breadcrumbListItem() %}
       {{ breadcrumbLink({ href: "/", text: "Home" }) }}

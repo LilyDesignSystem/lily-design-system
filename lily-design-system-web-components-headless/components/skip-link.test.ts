@@ -16,13 +16,13 @@ function render(html: string): HTMLElement {
 }
 
 describe("SkipLink", () => {
-    test("defaults href to #content and label to 'Skip to content'", () => {
+    test("defaults href to #content, with no English text of its own", () => {
         const host = render("<lily-skip-link></lily-skip-link>");
 
         const a = host.querySelector("a") as HTMLAnchorElement;
         expect(a.className).toBe("skip-link");
         expect(a.getAttribute("href")).toBe("#content");
-        expect(a.textContent).toBe("Skip to content");
+        expect(a.textContent).toBe("");
     });
 
     test("allows a configurable href and label", () => {

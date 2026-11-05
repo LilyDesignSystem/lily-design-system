@@ -2,11 +2,11 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("chat-nav", () => {
-    it("renders a <nav> with the base class and default aria-label", () => {
+    it("renders a <nav> with the base class and no English aria-label", () => {
         const { document } = render("chat-nav", {});
         const el = document.querySelector("nav.chat-nav");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("aria-label")).toBe("Chat");
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
     it("respects params.label", () => {

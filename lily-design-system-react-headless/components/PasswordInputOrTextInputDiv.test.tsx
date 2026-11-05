@@ -2,7 +2,11 @@ import { render, screen } from "@testing-library/react";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./PasswordInputOrTextInputDiv";
+import type { ComponentType } from "react";
+import Component from "./PasswordInputOrTextInputDiv";
+
+// Some tests leave a required word out, to show that nothing English fills it in.
+const Subject = Component as ComponentType<Record<string, unknown>>;
 
 describe("PasswordInputOrTextInputDiv", () => {
     test("renders a password input", () => {
@@ -12,7 +16,7 @@ describe("PasswordInputOrTextInputDiv", () => {
     });
 
     test("has toggle button", () => {
-        render(<Subject label="Password" />);
+        render(<Subject label="Password" toggleLabel="Show password" />);
         expect(screen.getByRole("button", { name: "Show password" })).toBeTruthy();
     });
 

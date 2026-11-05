@@ -20,16 +20,9 @@ describe("red-orange-yellow-green-blue-view", () => {
         ).toBe("yellow");
     });
 
-    it("uses status name as default text for each level", () => {
-        for (const status of ["red", "orange", "yellow", "green", "blue"]) {
-            const { document } = render("red-orange-yellow-green-blue-view", { status });
-            const expected = status[0].toUpperCase() + status.slice(1);
-            expect(
-                document
-                    .querySelector(".red-orange-yellow-green-blue-view-text")
-                    .textContent.trim(),
-            ).toBe(expected);
-        }
+    it("has no English of its own", () => {
+        const { document } = render("red-orange-yellow-green-blue-view", { status: "red" });
+        expect(document.querySelector(".red-orange-yellow-green-blue-view-text")).toBeNull();
     });
 
     it("respects a custom text", () => {

@@ -1,7 +1,11 @@
 import { render } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./TextInputWithSearch";
+import type { ComponentType } from "react";
+import Component from "./TextInputWithSearch";
+
+// Some tests leave a required word out, to show that nothing English fills it in.
+const Subject = Component as ComponentType<Record<string, unknown>>;
 
 describe("TextInputWithSearch", () => {
     test("renders root element with canonical class", () => {

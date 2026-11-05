@@ -13,9 +13,9 @@ describe("qr-code-image", () => {
         expect(el.getAttribute("alt")).toBe("Booking link");
     });
 
-    it("defaults alt to 'QR code'", () => {
+    it("has no English alt of its own", () => {
         const { document } = render("qr-code-image", { src: "/qr.png" });
-        expect(document.querySelector("img").getAttribute("alt")).toBe("QR code");
+        expect(document.querySelector("img").getAttribute("alt")).toBe("");
     });
 
     it("contains no <style> or <script> tags", () => {

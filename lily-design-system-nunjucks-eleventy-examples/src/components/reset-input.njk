@@ -12,7 +12,7 @@ description: a button input that resets a form to default values
 {% from "components/field/macro.njk" import field %}
 
 <h2>Default</h2>
-<p>{{ resetInput({}) }}</p>
+<p>{{ resetInput({ value: "Reset" }) }}</p>
 
 <h2>Custom label</h2>
 <p>{{ resetInput({ value: "Start over" }) }}</p>

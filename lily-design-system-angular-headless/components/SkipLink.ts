@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit, input } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * SkipLink — a hidden link for keyboard users to skip to main content
@@ -13,8 +14,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<a class="skip-link {{ className() }}" [attr.href]="href() || '#'" [attr.aria-label]="label() || null"><ng-content /></a>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkipLink {
+export class SkipLink implements OnInit {
     readonly href = input<string>("");
     readonly label = input<string>("");
     readonly className = input<string>("");
+
+    ngOnInit(): void {
+        warnMissingName("SkipLink", this.label());
+    }
 }

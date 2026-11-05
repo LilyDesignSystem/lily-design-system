@@ -16,10 +16,10 @@ describe("EndNotes", () => {
         expect(container.textContent).toContain("content");
     });
 
-    test("defaults aria-label to 'End notes'", () => {
+    test("has no English aria-label of its own", () => {
         const { container } = render(Subject, { slots: { default: "x" } });
         const root = container.querySelector(".end-notes");
-        expect(root?.getAttribute("aria-label")).toBe("End notes");
+        expect(root?.hasAttribute("aria-label")).toBe(false);
     });
 
     test("aria-label can be overridden", () => {

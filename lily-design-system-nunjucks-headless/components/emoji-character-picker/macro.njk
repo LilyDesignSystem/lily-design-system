@@ -15,7 +15,7 @@
 <div
   class="emoji-character-picker{% if p.classes %} {{ p.classes }}{% endif %}"
   role="dialog"
-  aria-label="{{ p.label | default('Emoji picker') }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if not p.open %} hidden{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

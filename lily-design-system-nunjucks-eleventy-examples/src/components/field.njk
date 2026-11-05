@@ -26,7 +26,7 @@ description: a form field wrapper with label, input, and error message
 {% call field({ error: "Enter your date of birth" }) %}
   {{ label({ for: "dob", text: "Date of birth" }) }}
   {{ hint({ id: "dob-hint", text: "For example, 27 3 1970." }) }}
-  {{ errorMessage({ id: "dob-error", text: "Enter your date of birth" }) }}
+  {{ errorMessage({ visuallyHiddenText: "Error:", id: "dob-error", text: "Enter your date of birth" }) }}
   <input id="dob"
          type="text"
          aria-invalid="true"

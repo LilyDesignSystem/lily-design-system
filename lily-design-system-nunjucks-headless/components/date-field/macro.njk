@@ -7,11 +7,12 @@
 
   Params:
     id, name (base; "-day", "-month", "-year" appended), legend,
-    day, month, year, disabled, required, invalid, classes, attributes.
+    day, month, year, dayLabel, monthLabel, yearLabel (the words for the three
+    inputs: required, no default), disabled, required, invalid, classes, attributes.
 
   Usage:
     {% from "components/date-field/macro.njk" import dateField %}
-    {{ dateField({ id: "example" }) }}
+    {{ dateField({ id: "example", dayLabel: "Day", monthLabel: "Month", yearLabel: "Year" }) }}
 #}
 {%- macro dateField(params) -%}
 {%- set p = params | default({}) -%}
@@ -25,15 +26,15 @@
   {%- if p.legend %}<legend class="date-field-legend">{{ p.legend }}</legend>{% endif %}
   <div class="date-field-parts">
     <div class="date-field-part">
-      <label class="date-field-part-label" for="{{ baseId }}-day">Day</label>
+      <label class="date-field-part-label" for="{{ baseId }}-day">{{ p.dayLabel }}</label>
       <input class="date-field-part-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" id="{{ baseId }}-day" name="{{ baseName }}-day" value="{{ p.day | default('') }}"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.invalid %} aria-invalid="true"{% endif %}>
     </div>
     <div class="date-field-part">
-      <label class="date-field-part-label" for="{{ baseId }}-month">Month</label>
+      <label class="date-field-part-label" for="{{ baseId }}-month">{{ p.monthLabel }}</label>
       <input class="date-field-part-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" id="{{ baseId }}-month" name="{{ baseName }}-month" value="{{ p.month | default('') }}"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.invalid %} aria-invalid="true"{% endif %}>
     </div>
     <div class="date-field-part">
-      <label class="date-field-part-label" for="{{ baseId }}-year">Year</label>
+      <label class="date-field-part-label" for="{{ baseId }}-year">{{ p.yearLabel }}</label>
       <input class="date-field-part-input date-field-part-input-year" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" id="{{ baseId }}-year" name="{{ baseName }}-year" value="{{ p.year | default('') }}"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.invalid %} aria-invalid="true"{% endif %}>
     </div>
   </div>

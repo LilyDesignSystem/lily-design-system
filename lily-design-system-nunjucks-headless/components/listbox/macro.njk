@@ -16,7 +16,7 @@
 <ul
   class="listbox{% if p.classes %} {{ p.classes }}{% endif %}"
   role="listbox"
-  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Listbox') }}"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.multiselectable %} aria-multiselectable="true"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

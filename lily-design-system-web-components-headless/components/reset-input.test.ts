@@ -23,10 +23,10 @@ describe("ResetInput", () => {
         expect(input.type).toBe("reset");
     });
 
-    test("defaults the visible value to Reset", () => {
+    test("leaves the word to the browser when no value is given", () => {
         const host = render("<lily-reset-input></lily-reset-input>");
 
-        expect((host.querySelector("input") as HTMLInputElement).value).toBe("Reset");
+        expect((host.querySelector("input") as HTMLInputElement).hasAttribute("value")).toBe(false);
     });
 
     test("seeds the value from the value attribute", () => {

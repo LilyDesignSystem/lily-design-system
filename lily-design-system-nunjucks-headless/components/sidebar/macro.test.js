@@ -2,11 +2,11 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("sidebar", () => {
-    it("renders an <aside> with default aria-label", () => {
+    it("renders an <aside> with no English aria-label", () => {
         const { document } = render("sidebar", {});
         const el = document.querySelector("aside.sidebar");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("aria-label")).toBe("Sidebar");
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
     it("contains no <style> or <script> tags", () => {

@@ -27,14 +27,14 @@
 
 ## Props
 
-- `label`: string (default: "End notes") -- accessible label for the section
+- `label`: string (required) -- accessible label for the section
 - `children`: slot (required) -- endnote content items
 - `...restProps`: Any additional HTML attributes
 
 ## Acceptance Criteria
 
 - [ ] Renders <section> element with class="end-notes"
-- [ ] Has aria-label attribute (default: "End notes")
+- [ ] Has aria-label attribute
 - [ ] Renders children slot for endnote content
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless

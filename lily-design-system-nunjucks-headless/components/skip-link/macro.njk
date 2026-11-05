@@ -10,8 +10,7 @@
   Params:
     href        string   Fragment identifier for the main content.
                          Default "#main-content".
-    text        string   Plain text content (escaped).
-                         Default "Skip to main content".
+    text        string   Plain text content (escaped)
     html        string   Raw HTML content (rendered via `| safe`).
     id          string   Element id.
     classes     string   Consumer-provided extra CSS classes.
@@ -32,7 +31,6 @@
 >
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif p.text -%}{{ p.text }}
-  {%- else -%}Skip to main content
   {%- endif -%}
 </a>
 {%- endmacro -%}

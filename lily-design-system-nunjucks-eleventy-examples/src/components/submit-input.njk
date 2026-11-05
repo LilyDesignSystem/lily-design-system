@@ -11,7 +11,7 @@ description: a button input that submits a form
 {% from "components/field/macro.njk" import field %}
 
 <h2>Default</h2>
-<p>{{ submitInput({}) }}</p>
+<p>{{ submitInput({ value: "Submit" }) }}</p>
 
 <h2>Custom label</h2>
 <p>{{ submitInput({ value: "Save and continue" }) }}</p>

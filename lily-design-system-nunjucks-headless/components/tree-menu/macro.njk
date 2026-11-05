@@ -8,7 +8,7 @@
   CSS class: tree-menu
 
   Params:
-    label       string   Accessible name. Default "Menu".
+    label       string   Accessible name
     labelledBy  string
     id          string
     classes     string
@@ -26,7 +26,7 @@
 <div
   class="tree-menu{% if p.classes %} {{ p.classes }}{% endif %}"
   role="tree"
-  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Menu') }}"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

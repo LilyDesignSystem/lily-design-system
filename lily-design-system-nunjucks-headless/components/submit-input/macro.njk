@@ -31,7 +31,7 @@
   type="submit"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.name %} name="{{ params.name }}"{% endif %}
-  value="{{ params.value | default('Submit') }}"
+  {%- if params.value %} value="{{ params.value }}"{% endif %}
   {%- if params.disabled %} disabled{% endif %}
   {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
   {%- if params.formaction %} formaction="{{ params.formaction }}"{% endif %}

@@ -5,7 +5,7 @@
 // button's own visible label text), not a separate `label` prop.
 //
 // Attributes:
-//   value — visible button text and accessible name, default "Submit";
+//   value — visible button text and accessible name; with none the browser shows its own word;
 //     also a live `value` property.
 //   disabled — presence-based boolean.
 //   ...rest — spread onto the <input>.
@@ -30,7 +30,9 @@ export class SubmitInput extends HTMLElement {
         const input = document.createElement("input");
         input.type = "submit";
         input.className = rootClassName(this, "submit-input");
-        input.defaultValue = this.getAttribute("value") ?? "Submit";
+        const value = this.getAttribute("value");
+        // No value: the browser shows its own word, in the reader's language.
+        if (value !== null) input.defaultValue = value;
         if (this.hasAttribute("disabled")) input.disabled = true;
         passThroughAttributes(this, input, HANDLED);
 
@@ -39,7 +41,7 @@ export class SubmitInput extends HTMLElement {
     }
 
     get value(): string {
-        return this.#input?.value ?? this.getAttribute("value") ?? "Submit";
+        return this.#input?.value ?? this.getAttribute("value") ?? "";
     }
 
     set value(v: string) {

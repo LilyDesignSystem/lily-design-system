@@ -8,7 +8,7 @@
     such as "How satisfied were you?".
 
   Params:
-    label        string   Accessible name. Default "Satisfaction rating".
+    label        string   Accessible name
     labelledBy   string
     id           string
     classes      string
@@ -24,7 +24,7 @@
   class="five-face-rating-picker{% if p.classes %} {{ p.classes }}{% endif %}"
   role="radiogroup"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
-  {%- else %} aria-label="{{ p.label | default('Satisfaction rating') }}"{% endif %}
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

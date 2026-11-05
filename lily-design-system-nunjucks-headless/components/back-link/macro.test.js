@@ -19,9 +19,9 @@ describe("back-link", () => {
         expect(document.querySelector("a").getAttribute("href")).toBe("#");
     });
 
-    it("defaults text to 'Back' when no content is given", () => {
+    it("has no English text of its own", () => {
         const { document } = render("back-link", { href: "/" });
-        expect(document.querySelector("a").textContent.trim()).toBe("Back");
+        expect(document.querySelector("a").textContent.trim()).toBe("");
     });
 
     it("uses params.text when provided", () => {

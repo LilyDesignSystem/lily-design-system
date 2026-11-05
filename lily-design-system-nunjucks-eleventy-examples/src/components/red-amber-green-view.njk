@@ -7,10 +7,10 @@ description: a read-only display of a red/amber/green status
 {% from "components/red-amber-green-view/macro.njk" import redAmberGreenView %}
 
 <h2>Default</h2>
-<p>{{ redAmberGreenView({ status: "green" }) }}</p>
-<p>{{ redAmberGreenView({ status: "amber" }) }}</p>
-<p>{{ redAmberGreenView({ status: "red" }) }}</p>
-<p>{{ redAmberGreenView({ status: "unknown" }) }}</p>
+<p>{{ redAmberGreenView({ text: "Green", status: "green" }) }}</p>
+<p>{{ redAmberGreenView({ text: "Amber", status: "amber" }) }}</p>
+<p>{{ redAmberGreenView({ text: "Red", status: "red" }) }}</p>
+<p>{{ redAmberGreenView({ text: "Unknown", status: "unknown" }) }}</p>
 
 <h2>Custom text</h2>
 <p>{{ redAmberGreenView({ status: "green", text: "On track" }) }}</p>

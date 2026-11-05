@@ -6,7 +6,7 @@ description: a site-wide navigation menu with links
 
 {% from "components/navigation-menu/macro.njk" import navigationMenu %}
 
-{% call navigationMenu() %}
+{% call navigationMenu({ label: "Site navigation" }) %}
   <ul style="list-style: none; padding: 0; margin: 0; display: flex; gap: 1.5rem;">
     <li><a href="/">Home</a></li>
     <li><a href="/services">Services</a></li>

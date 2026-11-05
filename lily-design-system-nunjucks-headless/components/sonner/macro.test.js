@@ -8,7 +8,7 @@ describe("sonner", () => {
         expect(el).toBeTruthy();
         expect(el.getAttribute("role")).toBe("region");
         expect(el.getAttribute("aria-live")).toBe("polite");
-        expect(el.getAttribute("aria-label")).toBe("Notifications");
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
     it("contains no <style> or <script> tags", () => {

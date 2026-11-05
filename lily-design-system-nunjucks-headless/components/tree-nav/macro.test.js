@@ -2,11 +2,11 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("tree-nav", () => {
-    it("renders a <nav> with the base class and default aria-label", () => {
+    it("renders a <nav> with the base class and no English aria-label", () => {
         const { document } = render("tree-nav", {});
         const el = document.querySelector("nav.tree-nav");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("aria-label")).toBe("Tree");
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
     it("respects params.label and labelledBy", () => {

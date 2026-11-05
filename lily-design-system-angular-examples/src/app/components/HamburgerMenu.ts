@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit, input } from "@angular/core";
+import { warnMissingName } from "./dev-warning";
 
 /**
  * HamburgerMenu — a toggle button that opens a mobile navigation menu
@@ -13,7 +14,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<div class="hamburger-menu {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HamburgerMenu {
+export class HamburgerMenu implements OnInit {
     readonly label = input<string>("");
     readonly className = input<string>("");
+
+    ngOnInit(): void {
+        warnMissingName("HamburgerMenu", this.label());
+    }
 }

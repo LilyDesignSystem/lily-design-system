@@ -7,7 +7,7 @@ description: an indeterminate spinning progress indicator
 {% from "components/progress-spinner/macro.njk" import progressSpinner %}
 
 <h2>Default</h2>
-<p>{{ progressSpinner({}) }}</p>
+<p>{{ progressSpinner({ label: "Loading" }) }}</p>
 
 <h2>With custom label</h2>
 <p>{{ progressSpinner({ label: "Saving…" }) }}</p>

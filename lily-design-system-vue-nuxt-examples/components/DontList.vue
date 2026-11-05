@@ -8,16 +8,16 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, default "Don't". Accessible name for the list.
+//   label — string, required. No default: the words are yours. Accessible name for the list.
 //   default slot. List items, each should be an <li> element.
 //   ...restProps — additional HTML attributes spread onto the <ol> element.
 //
 // Syntax:
-//   <DontList><li>Avoid this</li></DontList>
+//   <DontList label="Don't"><li>Avoid this</li></DontList>
 //
 // Examples:
 //   <!-- Basic don't list -->
-//   <DontList>
+//   <DontList label="Don't">
 //     <li>Skip alt text</li>
 //     <li>Use only color for meaning</li>
 //   </DontList>
@@ -33,10 +33,10 @@
 //
 // Accessibility:
 //   - role="list" preserves list semantics even when CSS removes default styling
-//   - aria-label provides an accessible name (defaults to "Don't")
+//   - aria-label provides the accessible name
 //
 // Internationalization:
-//   - The label prop defaults to "Don't" but can be overridden for any locale
+//   - The label prop is required: the words are yours
 //   - All list item text comes through consumer-provided children
 //
 // Claude rules:
@@ -47,15 +47,10 @@
 //   - MDN ul element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul
 //   - WAI list role: https://www.w3.org/WAI/ARIA/apd/roles/list/
 
-withDefaults(
-    defineProps<{
-        /** Accessible name for the list. */
-        label?: string;
-    }>(),
-    {
-        label: "Don't",
-    },
-);
+defineProps<{
+    /** Accessible name for the list. */
+    label: string;
+}>();
 </script>
 
 <template>

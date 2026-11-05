@@ -8,7 +8,10 @@ removed (P17-T5, P17-T6); this check keeps them out:
   * a currency default: a currency code (USD, GBP, EUR, JPY, CNY, INR) assigned as a default (`= "USD"`,
     `?? "USD"`, `|| "USD"`, `default("USD")`, or a currency-named key `currencyCode: "USD"`);
   * a weekend default: `[0, 6]` (or `[6, 0]`, or Saturday-and-Sunday `DayOfWeek` pairs) in code;
-  * a visible English default locale: a locale/lang/language default of "en", "en-US" or "en-GB".
+  * a visible English default locale: a locale/lang/language default of "en", "en-US" or "en-GB";
+  * an English text default: a label, title, text or similar with an English word as its default, which breaks
+    the no-hardcoded-strings rule (`label = "Menu"`, `getAttribute("label") ?? "Menu"`, `p.label | default("Menu")`,
+    `{%- else -%}Back`).
 
 It scans the shipped source of every top-level package (not the example apps, skills, tests, stories, fixtures,
 build output or documentation), with block comments blanked out so a documented example is not a default. A hit that
@@ -36,6 +39,7 @@ SKIP_DIRS = {"node_modules", "dist", "bin", "obj", "e2e", "test-results", "AGENT
 SKIP_FILE = re.compile(r"\.(test|spec|stories|fixture)\.|Tests\.cs$|\.d\.ts$|vitest|playwright|wdio|\.config\.")
 COMMENT = re.compile(r"/\*[\s\S]*?\*/|<!--[\s\S]*?-->|@\*[\s\S]*?\*@|\{#[\s\S]*?#\}")
 CODES = r"USD|GBP|EUR|JPY|CNY|INR"
+WORDS = r"[Ll]abel|[Tt]ext|[Tt]itle|[Hh]eading|[Pp]laceholder|[Mm]essage"
 RULES = {
     "currency default": re.compile(
         rf"(?:=|\?\?|\|\||default\(|\bDefault\w*\s*=)\s*[\"']({CODES})[\"']"
@@ -49,6 +53,12 @@ RULES = {
     "English locale default": re.compile(
         r"(?:\b(?:locale|lang|language)\w*\s*(?:=|\?\?|\|\||:)|default\()\s*[\"']en(?:[-_](?:US|GB))?[\"']",
         re.IGNORECASE,
+    ),
+    "English text default": re.compile(
+        rf"\b\w*(?:{WORDS})\s+=\s+[\"'][A-Z][a-z]"
+        rf"|getAttribute\(\"[\w-]*(?:label|text|title|value)[\w-]*\"\)\s*(?:\?\?|\|\|)\s*[\"'`][A-Z][a-z]"
+        rf"|\b(?:\w*(?:{WORDS})|alt|value)\s*\|\s*default\(\s*[\"'][A-Z][a-z]"
+        r"|\{%-?\s*else\s*-?%\}[A-Z][a-z]"
     ),
 }
 

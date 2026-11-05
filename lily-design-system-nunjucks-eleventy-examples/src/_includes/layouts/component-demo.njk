@@ -6,7 +6,7 @@
 {% from "components/breadcrumb-list-item/macro.njk" import breadcrumbListItem %}
 {% from "components/breadcrumb-link/macro.njk" import breadcrumbLink %}
 
-{% call breadcrumbNav() %}
+{% call breadcrumbNav({ label: "Breadcrumb" }) %}
   {% call breadcrumbList() %}
     {% call breadcrumbListItem() %}
       {{ breadcrumbLink({ href: "/", text: "Home" }) }}

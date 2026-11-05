@@ -4,7 +4,7 @@
   HTML tag: <div> wrapping <input type="search"> + <button>
   CSS class: text-input-with-search
 
-  Params: id, name, value, label, placeholder, searchLabel (default "Search"),
+  Params: id, name, value, label, placeholder, searchLabel (required),
     required, disabled, classes, attributes.
 
   Usage:
@@ -30,6 +30,6 @@
     {%- if p.required %} required{% endif %}
     {%- if p.disabled %} disabled{% endif %}
   >
-  <button class="text-input-with-search-button" type="submit"{% if p.disabled %} disabled{% endif %} aria-label="{{ p.searchLabel | default('Search') }}">{{ p.searchLabel | default("Search") }}</button>
+  <button class="text-input-with-search-button" type="submit"{% if p.disabled %} disabled{% endif %} {% if p.searchLabel %}aria-label="{{ p.searchLabel }}"{% endif %}>{{ p.searchLabel }}</button>
 </div>
 {%- endmacro -%}

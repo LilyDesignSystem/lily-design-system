@@ -7,7 +7,7 @@
 //
 // Attributes:
 //   href — the anchor target the link navigates to (default "#content").
-//   label — the visible link text (default "Skip to content").
+//   label — the visible link text (required: the words are yours).
 //   ...rest — spread onto the <a>.
 //
 // References:
@@ -26,7 +26,7 @@ export class SkipLink extends HTMLElement {
         const a = document.createElement("a");
         a.className = rootClassName(this, "skip-link");
         a.href = this.getAttribute("href") ?? "#content";
-        a.textContent = this.getAttribute("label") ?? "Skip to content";
+        a.textContent = this.getAttribute("label") ?? "";
         passThroughAttributes(this, a, HANDLED);
 
         this.appendChild(a);

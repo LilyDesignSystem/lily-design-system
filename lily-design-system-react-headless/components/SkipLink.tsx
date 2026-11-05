@@ -8,11 +8,11 @@
 // Props:
 //   className — string, optional. CSS class name.
 //   href — string, default "#content". The anchor target that the link navigates to.
-//   label — string, default "Skip to content". The visible link text.
+//   label — string, required. No default: the words are yours. The visible link text.
 //   ...restProps — additional HTML attributes spread onto the <a>.
 //
 // Syntax:
-//   <SkipLink />
+//   <SkipLink label="Skip to content" />
 //
 // Examples:
 //
@@ -33,7 +33,6 @@
 //
 // Internationalization:
 //   - The label prop externalizes the link text for localization
-//   - Default "Skip to content" should be overridden in non-English contexts
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
@@ -45,22 +44,24 @@
 //   - WebAIM Skip Navigation Links: https://webaim.org/techniques/skipnav/
 
 import React from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface SkipLinkProps {
     className?: string;
     /** Target anchor. */
     href?: string;
     /** Link text. */
-    label?: string;
+    label: string;
     [key: string]: unknown;
 }
 
 export default function SkipLink({
     className = "",
     href = "#content",
-    label = "Skip to content",
+    label,
     ...restProps
 }: SkipLinkProps) {
+    warnMissingName("SkipLink", label, restProps["aria-labelledby"]);
     return (
         <a
             className={`skip-link ${className}`}

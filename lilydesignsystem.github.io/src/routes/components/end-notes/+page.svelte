@@ -90,7 +90,7 @@
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>label</code>: string (default: "End notes") -- accessible label for the section</li>
+      <li><code>label</code>: string (required) -- accessible label for the section</li>
       <li><code>children</code>: slot (required) -- endnote content items</li>
       <li><code>...restProps</code>: Any additional HTML attributes</li>
     </ul>

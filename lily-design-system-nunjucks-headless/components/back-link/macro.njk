@@ -8,8 +8,7 @@
 
   Params:
     href        string   Target URL. Default "#".
-    text        string   Plain text content (escaped).
-                         Default "Back".
+    text        string   Plain text content (escaped)
     html        string   Raw HTML content (rendered via `| safe`).
     label       string   Accessible name (aria-label).
     id          string   Element id.
@@ -31,7 +30,6 @@
   {%- if params.html -%}{{ params.html | safe }}
   {%- elif params.text -%}{{ params.text }}
   {%- elif caller -%}{{ caller() }}
-  {%- else -%}Back
   {%- endif -%}
 </a>
 {%- endmacro -%}

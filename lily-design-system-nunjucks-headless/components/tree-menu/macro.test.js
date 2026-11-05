@@ -10,9 +10,9 @@ describe("tree-menu", () => {
         expect(el.getAttribute("aria-label")).toBe("Files");
     });
 
-    it("defaults aria-label to 'Menu'", () => {
+    it("has no English aria-label of its own", () => {
         const { document } = render("tree-menu", {});
-        expect(document.querySelector("div.tree-menu").getAttribute("aria-label")).toBe("Menu");
+        expect(document.querySelector("div.tree-menu").hasAttribute("aria-label")).toBe(false);
     });
 
     it("prefers labelledBy over label", () => {

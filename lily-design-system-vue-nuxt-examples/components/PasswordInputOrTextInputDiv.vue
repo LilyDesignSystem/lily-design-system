@@ -12,7 +12,7 @@
 //   label — string, required. Accessible name for the password input via aria-label.
 //   value — string, default "". Current password value; bindable with v-model.
 //   showToggle — boolean, default true. Whether to render the show/hide toggle button.
-//   toggleLabel — string, default "Show password". Accessible label for the toggle button.
+//   toggleLabel — string, required. No default: the words are yours. Accessible label for the toggle button.
 //   required — boolean, default false. Whether the input is required.
 //   disabled — boolean, default false. Whether the input is disabled.
 //   ...restProps — additional HTML attributes spread onto the wrapper <div>.
@@ -41,7 +41,6 @@
 //
 // Internationalization:
 //   - The label and toggleLabel props are the only user-facing strings
-//   - Default toggleLabel is "Show password"; override for other locales
 //   - No other hardcoded user-facing strings
 //
 // Claude rules:
@@ -61,13 +60,12 @@ const props = withDefaults(
     defineProps<{
         label: string;
         showToggle?: boolean;
-        toggleLabel?: string;
+        toggleLabel: string;
         required?: boolean;
         disabled?: boolean;
     }>(),
     {
         showToggle: true,
-        toggleLabel: "Show password",
         required: false,
         disabled: false,
     },

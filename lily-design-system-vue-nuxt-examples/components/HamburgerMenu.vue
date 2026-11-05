@@ -8,7 +8,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, default "Menu". Accessible name for the toggle button and navigation region.
+//   label — string, required. No default: the words are yours. Accessible name for the toggle button and navigation region.
 //   open — boolean, default false. Bindable boolean controlling whether the navigation panel is visible.
 //   default slot. Navigation content rendered when the menu is open.
 //   ...restProps — additional HTML attributes spread onto the outer div wrapper.
@@ -48,7 +48,7 @@
 //   - aria-label on the navigation container provides an accessible name for the landmark
 //
 // Internationalization:
-//   - The label prop allows localized accessible names; default "Menu" should be overridden for non-English locales
+//   - The label prop supplies the accessible name in your language
 //   - All content comes through the default slot
 //
 // Claude rules:
@@ -61,16 +61,14 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 //   - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
 
-import { useId } from "vue";
+import { useAttrs, useId } from "vue";
+import { warnMissingName } from "./dev-warning";
 
-withDefaults(
-    defineProps<{
-        label?: string;
-    }>(),
-    {
-        label: "Menu",
-    },
-);
+const props = defineProps<{
+    label: string;
+}>();
+
+warnMissingName("HamburgerMenu", props.label, useAttrs()["aria-labelledby"]);
 
 const open = defineModel<boolean>("open", { default: false });
 

@@ -1,7 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./SkipLink";
+import type { ComponentType } from "react";
+import Component from "./SkipLink";
+
+// Some tests leave a required word out, to show that nothing English fills it in.
+const Subject = Component as ComponentType<Record<string, unknown>>;
 
 describe("SkipLink", () => {
     test("renders a link", () => {
@@ -16,9 +20,9 @@ describe("SkipLink", () => {
         );
     });
 
-    test("has default label text", () => {
+    test("has no English text of its own", () => {
         render(<Subject />);
-        expect(screen.getByText("Skip to content")).toBeTruthy();
+        expect(screen.getByRole("link").textContent?.trim()).toBe("");
     });
 
     test("supports custom href", () => {

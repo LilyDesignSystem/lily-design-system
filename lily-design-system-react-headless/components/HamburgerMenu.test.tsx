@@ -2,7 +2,11 @@ import { render, screen } from "@testing-library/react";
 import userEvent, { type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./HamburgerMenu";
+import type { ComponentType } from "react";
+import Component from "./HamburgerMenu";
+
+// Some tests leave a required word out, to show that nothing English fills it in.
+const Subject = Component as ComponentType<Record<string, unknown>>;
 
 describe("HamburgerMenu", () => {
     test("renders toggle button", () => {

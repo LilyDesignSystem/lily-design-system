@@ -96,7 +96,7 @@
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>label</code>: string (default: "Menu") -- accessible name for the toggle button and the navigation region</li>
+      <li><code>label</code>: string (required) -- accessible name for the toggle button and the navigation region</li>
       <li><code>open</code>: boolean (default: false) -- bindable boolean controlling whether the navigation panel is visible</li>
       <li><code>children</code>: slot (required) -- navigation content rendered when the menu is open</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the outer <code>&lt;div&gt;</code> wrapper</li>

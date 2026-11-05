@@ -15,11 +15,9 @@ describe("progress-spinner", () => {
         expect(el.getAttribute("aria-busy")).toBe("true");
     });
 
-    it("defaults aria-label to 'Loading'", () => {
+    it("has no English aria-label of its own", () => {
         const { document } = render("progress-spinner", {});
-        expect(document.querySelector("div.progress-spinner").getAttribute("aria-label")).toBe(
-            "Loading",
-        );
+        expect(document.querySelector("div.progress-spinner").hasAttribute("aria-label")).toBe(false);
     });
 
     it("respects a custom label", () => {

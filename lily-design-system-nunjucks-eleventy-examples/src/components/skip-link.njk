@@ -15,7 +15,7 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/skip-link
 <p>The markup produced by the macro:</p>
 
 <pre><code>{% raw %}{% from "components/skip-link/macro.njk" import skipLink %}
-{{ skipLink() }}{% endraw %}</code></pre>
+{{ skipLink({ text: "Skip to main content" }) }}{% endraw %}</code></pre>
 
 <p>Produces:</p>
 

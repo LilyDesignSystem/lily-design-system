@@ -23,10 +23,10 @@ describe("SubmitInput", () => {
         expect(input.type).toBe("submit");
     });
 
-    test("defaults the visible value to Submit", () => {
+    test("leaves the word to the browser when no value is given", () => {
         const host = render("<lily-submit-input></lily-submit-input>");
 
-        expect((host.querySelector("input") as HTMLInputElement).value).toBe("Submit");
+        expect((host.querySelector("input") as HTMLInputElement).hasAttribute("value")).toBe(false);
     });
 
     test("seeds the value from the value attribute", () => {

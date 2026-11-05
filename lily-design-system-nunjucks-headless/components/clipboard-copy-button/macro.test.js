@@ -11,13 +11,11 @@ describe("clipboard-copy-button", () => {
         expect(el.getAttribute("data-module")).toBe("clipboard-copy-button");
     });
 
-    it("defaults text to 'Copy'", () => {
+    it("has no English text of its own", () => {
         const { document } = render("clipboard-copy-button", {
             clipboardText: "x",
         });
-        expect(document.querySelector("button.clipboard-copy-button").textContent.trim()).toBe(
-            "Copy",
-        );
+        expect(document.querySelector("button.clipboard-copy-button").textContent.trim()).toBe("");
     });
 
     it("respects a custom text", () => {

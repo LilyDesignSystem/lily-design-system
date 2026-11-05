@@ -8,8 +8,8 @@
 // and explainability.
 //
 // Props:
-//   label — string, default "AI". Accessible name via aria-label.
-//   text — string, default "AI". Visible text displayed inside the indicator.
+//   label — string, optional, no default. Accessible name via aria-label.
+//   text — string, required. No default: the words are yours. Visible text displayed inside the indicator.
 //
 // Syntax:
 //   <AiLabel />
@@ -22,18 +22,12 @@
 // References:
 //   - Carbon Design System AI Label: https://carbondesignsystem.com/components/ai-label/usage/
 
-withDefaults(
-    defineProps<{
-        /** Accessible name for the indicator. */
-        label?: string;
-        /** Visible text displayed. */
-        text?: string;
-    }>(),
-    {
-        label: "AI",
-        text: "AI",
-    },
-);
+defineProps<{
+    /** Accessible name for the indicator. */
+    label?: string;
+    /** Visible text displayed. */
+    text: string;
+}>();
 </script>
 
 <template>

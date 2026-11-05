@@ -46,9 +46,9 @@ describe("PasswordInputOrTextInputDiv", () => {
         expect(toggle.getAttribute("aria-pressed")).toBe("false");
     });
 
-    test("toggleLabel defaults to Show password and is the toggle's accessible name and text", () => {
+    test("toggleLabel is the toggle's accessible name and text", () => {
         const host = render(
-            '<lily-password-input-or-text-input-div label="Password"></lily-password-input-or-text-input-div>',
+            '<lily-password-input-or-text-input-div label="Password" toggle-label="Show password"></lily-password-input-or-text-input-div>',
         );
         const toggle = host.querySelector("button") as HTMLButtonElement;
 

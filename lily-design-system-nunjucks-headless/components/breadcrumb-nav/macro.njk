@@ -8,7 +8,7 @@
     - params.label becomes aria-label. The default is "Breadcrumb".
 
   Params:
-    label       string   Accessible name. Default "Breadcrumb".
+    label       string   Accessible name
     labelledBy  string   Id of an element that names this nav.
                          Use instead of `label` if a heading is visible.
     id          string   Element id.
@@ -36,7 +36,7 @@
 {%- set p = params | default({}) -%}
 <nav
   class="breadcrumb-nav{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Breadcrumb') }}"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

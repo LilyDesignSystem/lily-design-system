@@ -30,10 +30,10 @@ describe("Loading", () => {
         expect(host.getAttribute("aria-live")).toBe("polite");
     });
 
-    test("defaults the accessible name to Loading", () => {
+    test("has no English accessible name of its own", () => {
         const host = render("<lily-loading></lily-loading>");
 
-        expect(host.getAttribute("aria-label")).toBe("Loading");
+        expect(host.hasAttribute("aria-label")).toBe(false);
     });
 
     test("uses a custom label when provided", () => {

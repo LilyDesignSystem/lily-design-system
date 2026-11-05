@@ -6,12 +6,12 @@ import Subject from "./DontList.vue";
 describe("DontList", () => {
     test("renders as a list", () => {
         render(Subject, { slots: { default: "Items" } });
-        expect(screen.getByRole("list", { name: "Don't" })).toBeTruthy();
+        expect(screen.getByRole("list")).toBeTruthy();
     });
 
-    test("has default label", () => {
+    test("has no English label of its own", () => {
         render(Subject, { slots: { default: "Items" } });
-        expect(screen.getByRole("list").getAttribute("aria-label")).toBe("Don't");
+        expect(screen.getByRole("list").hasAttribute("aria-label")).toBe(false);
     });
 
     test("accepts custom label", () => {

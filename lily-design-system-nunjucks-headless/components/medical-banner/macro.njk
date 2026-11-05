@@ -29,7 +29,7 @@
   class="medical-banner{% if p.classes %} {{ p.classes }}{% endif %}"
   role="region"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
-  {%- else %} aria-label="{{ p.label | default('Patient banner') }}"{% endif %}
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

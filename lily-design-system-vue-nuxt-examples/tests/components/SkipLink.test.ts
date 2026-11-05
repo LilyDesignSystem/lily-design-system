@@ -16,9 +16,9 @@ describe("SkipLink", () => {
         );
     });
 
-    test("has default label text", () => {
+    test("has no English text of its own", () => {
         render(Subject, { props: {} });
-        expect(screen.getByText("Skip to content")).toBeTruthy();
+        expect(screen.getByRole("link").textContent?.trim()).toBe("");
     });
 
     test("supports custom href", () => {

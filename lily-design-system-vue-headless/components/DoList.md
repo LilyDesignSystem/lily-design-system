@@ -14,14 +14,14 @@ without configuration.
 ## Implementation Notes
 
 - Renders a `<ul>` element with explicit `role="list"` to preserve list semantics
-- Uses `aria-label` to provide an accessible name (defaults to "Do")
+- Uses `aria-label` to provide an accessible name
 - Children snippet is rendered inside the list; each child should be an `<li>` element
 - Label prop has a sensible default but can be overridden for internationalization
 - Spreads `restProps` on the `<ul>` element
 
 ## Props
 
-- `label`: string (default: `"Do"`) -- accessible name for the list
+- `label`: string (required) -- accessible name for the list
 - `children`: Snippet (required) -- list items, each should be an `<li>` element
 - `...restProps`: any additional HTML attributes spread onto the `<ul>` element
 
@@ -49,7 +49,7 @@ None -- this component is a passive container for list items.
 ## ARIA
 
 - `role="list"` -- explicitly declares list semantics on the `<ul>`, ensuring assistive technology announces it as a list
-- `aria-label={label}` -- provides an accessible name for the list (defaults to "Do")
+- `aria-label={label}` -- provides an accessible name for the list
 
 ## References
 

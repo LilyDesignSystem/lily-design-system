@@ -5,9 +5,8 @@
 // (see lib/dom-utils.applySelfClassName).
 //
 // Attributes:
-//   label — accessible label for the loading state, via aria-label;
-//     default "Loading" (the documented default in the canonical
-//     contract, matching every other framework's port).
+//   label — accessible label for the loading state, via aria-label.
+//     Required: the words are yours.
 //
 // References:
 //   - components/loading/index.md (canonical contract)
@@ -37,6 +36,8 @@ export class Loading extends HTMLElement {
 
     #sync(): void {
         if (!this.#built) return;
-        this.setAttribute("aria-label", this.getAttribute("label") ?? "Loading");
+        const label = this.getAttribute("label");
+        if (label !== null) this.setAttribute("aria-label", label);
+        else this.removeAttribute("aria-label");
     }
 }

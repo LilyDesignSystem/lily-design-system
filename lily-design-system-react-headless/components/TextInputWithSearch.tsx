@@ -9,8 +9,8 @@
 // Props:
 //   className — string, optional. CSS class name.
 //   label — string, required. Accessible name for the search region via aria-label.
-//   inputLabel — string, default "Search". Accessible name for the text input.
-//   searchLabel — string, default "Search". Accessible label and text for the search button.
+//   inputLabel — string, required. No default: the words are yours. Accessible name for the text input.
+//   searchLabel — string, required. No default: the words are yours. Accessible label and text for the search button.
 //   value — string, default "". Current text input value.
 //   placeholder — string, optional. Placeholder text for the input.
 //   onChange — (value: string) => void, optional. Callback when input value changes.
@@ -49,9 +49,9 @@ export interface TextInputWithSearchProps {
     /** Accessible name for the search region */
     label: string;
     /** Accessible name for the text input */
-    inputLabel?: string;
+    inputLabel: string;
     /** Accessible label and text for the search button */
-    searchLabel?: string;
+    searchLabel: string;
     /** Current text input value */
     value?: string;
     /** Placeholder text for the input */
@@ -70,8 +70,8 @@ export interface TextInputWithSearchProps {
 export default function TextInputWithSearch({
     className = "",
     label,
-    inputLabel = "Search",
-    searchLabel = "Search",
+    inputLabel,
+    searchLabel,
     value = "",
     placeholder = undefined,
     onChange,

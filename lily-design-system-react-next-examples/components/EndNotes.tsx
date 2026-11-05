@@ -13,7 +13,7 @@ import React from "react";
 export interface EndNotesProps {
     className?: string;
     /** Optional accessible label set on aria-label. Defaults to 'End notes'. */
-    label?: string;
+    label: string;
     /** Component content. */
     children: React.ReactNode;
     [key: string]: unknown;
@@ -21,7 +21,7 @@ export interface EndNotesProps {
 
 export default function EndNotes({
     className = "",
-    label = "End notes",
+    label,
     children,
     ...restProps
 }: EndNotesProps) {

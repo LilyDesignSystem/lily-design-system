@@ -7,9 +7,9 @@ describe("ai-label", () => {
         expect(document.querySelector("span.ai-label")).toBeTruthy();
     });
 
-    it("defaults visible text to 'AI'", () => {
+    it("has no English text of its own", () => {
         const { document } = render("ai-label", {});
-        expect(document.querySelector("span.ai-label").textContent.trim()).toBe("AI");
+        expect(document.querySelector("span.ai-label").textContent.trim()).toBe("");
     });
 
     it("respects a custom text", () => {

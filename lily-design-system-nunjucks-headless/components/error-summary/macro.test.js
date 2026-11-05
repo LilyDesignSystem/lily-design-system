@@ -12,13 +12,14 @@ describe("error-summary", () => {
         expect(el.getAttribute("tabindex")).toBe("-1");
     });
 
-    it("uses the default title and links via aria-labelledby", () => {
+    it("links the title via aria-labelledby", () => {
         const { document } = render("error-summary", {
+            title: "Fix these",
             errors: [{ text: "x", href: "#x" }],
         });
         const h = document.querySelector("h2.error-summary-title");
         expect(h).toBeTruthy();
-        expect(h.textContent).toBe("There is a problem");
+        expect(h.textContent).toBe("Fix these");
         expect(h.getAttribute("id")).toBe("error-summary-title");
         expect(document.querySelector("div.error-summary").getAttribute("aria-labelledby")).toBe(
             "error-summary-title",

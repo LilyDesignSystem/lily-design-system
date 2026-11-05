@@ -11,11 +11,9 @@ describe("five-face-rating-picker", () => {
         expect(el.getAttribute("role")).toBe("radiogroup");
     });
 
-    it("defaults aria-label to 'Satisfaction rating'", () => {
+    it("has no English aria-label of its own", () => {
         const { document } = render(name, {});
-        expect(document.querySelector(`div.${name}`).getAttribute("aria-label")).toBe(
-            "Satisfaction rating",
-        );
+        expect(document.querySelector(`div.${name}`).hasAttribute("aria-label")).toBe(false);
     });
 
     it("respects a custom label", () => {

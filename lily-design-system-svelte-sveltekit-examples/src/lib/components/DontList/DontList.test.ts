@@ -13,12 +13,12 @@ function textSnippet(text: string) {
 describe("DontList", () => {
     test("renders as a list", () => {
         render(Subject, { props: { children: textSnippet("Items") } });
-        expect(screen.getByRole("list", { name: "Don't" })).toBeTruthy();
+        expect(screen.getByRole("list")).toBeTruthy();
     });
 
-    test("has default label", () => {
+    test("has no English label of its own", () => {
         render(Subject, { props: { children: textSnippet("Items") } });
-        expect(screen.getByRole("list").getAttribute("aria-label")).toBe("Don't");
+        expect(screen.getByRole("list").hasAttribute("aria-label")).toBe(false);
     });
 
     test("accepts custom label", () => {

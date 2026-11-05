@@ -10,4 +10,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof TextInputWithSearch>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: { label: "Search the site", inputLabel: "Search", searchLabel: "Search" },
+};

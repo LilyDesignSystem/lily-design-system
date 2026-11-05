@@ -13,7 +13,7 @@
       aria-live="polite" text) after a successful copy.
 
   Params:
-    text          string   Visible button label. Default "Copy".
+    text          string   Visible button label
     html          string   Raw HTML label.
     clipboardText string   Literal text to copy (data-clipboard-text).
     target        string   CSS selector for source element
@@ -47,7 +47,6 @@
   {%- if params.html -%}{{ params.html | safe }}
   {%- elif params.text -%}{{ params.text }}
   {%- elif caller -%}{{ caller() }}
-  {%- else -%}Copy
   {%- endif -%}
 </button>
 {%- endmacro -%}

@@ -6,12 +6,12 @@ import Subject from "./DoList.vue";
 describe("DoList", () => {
     test("renders as a list", () => {
         render(Subject, { slots: { default: "Items" } });
-        expect(screen.getByRole("list", { name: "Do" })).toBeTruthy();
+        expect(screen.getByRole("list")).toBeTruthy();
     });
 
-    test("has default label", () => {
+    test("has no English label of its own", () => {
         render(Subject, { slots: { default: "Items" } });
-        expect(screen.getByRole("list").getAttribute("aria-label")).toBe("Do");
+        expect(screen.getByRole("list").hasAttribute("aria-label")).toBe(false);
     });
 
     test("accepts custom label", () => {

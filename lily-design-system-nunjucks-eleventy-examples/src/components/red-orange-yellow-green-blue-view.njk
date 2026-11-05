@@ -7,14 +7,14 @@ description: a read-only display of a five-level colour status
 {% from "components/red-orange-yellow-green-blue-view/macro.njk" import redOrangeYellowGreenBlueView %}
 
 <h2>Each status level</h2>
-<p>{{ redOrangeYellowGreenBlueView({ status: "red" }) }}</p>
-<p>{{ redOrangeYellowGreenBlueView({ status: "orange" }) }}</p>
-<p>{{ redOrangeYellowGreenBlueView({ status: "yellow" }) }}</p>
-<p>{{ redOrangeYellowGreenBlueView({ status: "green" }) }}</p>
-<p>{{ redOrangeYellowGreenBlueView({ status: "blue" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ text: "Red", status: "red" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ text: "Orange", status: "orange" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ text: "Yellow", status: "yellow" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ text: "Green", status: "green" }) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ text: "Blue", status: "blue" }) }}</p>
 
 <h2>Unknown status</h2>
-<p>{{ redOrangeYellowGreenBlueView({}) }}</p>
+<p>{{ redOrangeYellowGreenBlueView({ text: "Unknown" }) }}</p>
 
 <h2>Custom text</h2>
 <p>{{ redOrangeYellowGreenBlueView({ status: "red", text: "Critical" }) }}</p>

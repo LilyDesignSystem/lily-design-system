@@ -6,7 +6,7 @@ describe("hamburger-menu", () => {
         const { document } = render("hamburger-menu", { controls: "nav" });
         const el = document.querySelector("button.hamburger-menu");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("aria-label")).toBe("Menu");
+        expect(el.hasAttribute("aria-label")).toBe(false);
         expect(el.getAttribute("aria-controls")).toBe("nav");
         expect(el.getAttribute("aria-expanded")).toBe("false");
     });

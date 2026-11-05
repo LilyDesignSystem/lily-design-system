@@ -26,7 +26,7 @@ describe("TextInputWithSearch", () => {
         expect(host.getAttribute("aria-label")).toBe("Site search");
     });
 
-    test("renders an input[type=text] and a button[type=button] with default labels", () => {
+    test("renders an input[type=text] and a button[type=button] with no English of its own", () => {
         const host = render(
             '<lily-text-input-with-search label="Site search"></lily-text-input-with-search>',
         );
@@ -34,10 +34,10 @@ describe("TextInputWithSearch", () => {
         const input = host.querySelector("input") as HTMLInputElement;
         const button = host.querySelector("button") as HTMLButtonElement;
         expect(input.type).toBe("text");
-        expect(input.getAttribute("aria-label")).toBe("Search");
+        expect(input.hasAttribute("aria-label")).toBe(false);
         expect(button.type).toBe("button");
-        expect(button.getAttribute("aria-label")).toBe("Search");
-        expect(button.textContent).toBe("Search");
+        expect(button.hasAttribute("aria-label")).toBe(false);
+        expect(button.textContent).toBe("");
     });
 
     test("honours custom input-label and search-label", () => {

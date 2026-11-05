@@ -15,7 +15,7 @@
 <div
   class="file-dialog{% if p.classes %} {{ p.classes }}{% endif %}"
   role="dialog" aria-modal="true"
-  aria-label="{{ p.label | default('Select a file') }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if not p.open %} hidden{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

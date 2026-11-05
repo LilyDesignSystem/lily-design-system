@@ -16,7 +16,7 @@
 <div
   class="color-picker{% if p.classes %} {{ p.classes }}{% endif %}"
   role="radiogroup"
-  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Colour') }}"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

@@ -14,7 +14,7 @@
 //   label       — string, optional. Accessible label override (aria-label).
 //   dismissable — boolean, default false. Show a dismiss button.
 //   onDismiss   — callback, optional. Called when the dismiss button is clicked.
-//   dismissLabel — string, default "Dismiss". Accessible label for the dismiss button.
+//   dismissLabel — string, optional, no default. Accessible label for the dismiss button.
 //   children    — ReactNode, required. Banner content.
 //   ...restProps — additional HTML attributes spread onto the <div>.
 //
@@ -51,7 +51,7 @@ export default function SuperBanner({
     label = undefined,
     dismissable = false,
     onDismiss = undefined,
-    dismissLabel = "Dismiss",
+    dismissLabel,
     children,
     ...restProps
 }: SuperBannerProps) {

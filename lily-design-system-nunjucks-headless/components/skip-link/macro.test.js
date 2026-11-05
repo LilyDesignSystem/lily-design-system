@@ -14,9 +14,9 @@ describe("skip-link", () => {
         expect(document.querySelector("a").getAttribute("href")).toBe("#main-content");
     });
 
-    it("defaults text to 'Skip to main content'", () => {
+    it("has no English text of its own", () => {
         const { document } = render("skip-link", {});
-        expect(document.querySelector("a").textContent.trim()).toBe("Skip to main content");
+        expect(document.querySelector("a").textContent.trim()).toBe("");
     });
 
     it("respects a custom href", () => {

@@ -8,8 +8,8 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, default "AI". Accessible name via aria-label.
-//   text — string, default "AI". Visible text displayed inside the indicator.
+//   label — string, optional, no default. Accessible name via aria-label.
+//   text — string, required. No default: the words are yours. Visible text displayed inside the indicator.
 //   ...restProps — additional HTML attributes spread onto the <span>.
 //
 // Syntax:
@@ -43,14 +43,14 @@ export interface AiLabelProps {
     /** Accessible name for the indicator. */
     label?: string;
     /** Visible text displayed. */
-    text?: string;
+    text: string;
     [key: string]: unknown;
 }
 
 export default function AiLabel({
     className = "",
-    label = "AI",
-    text = "AI",
+    label,
+    text,
     ...restProps
 }: AiLabelProps) {
     return (

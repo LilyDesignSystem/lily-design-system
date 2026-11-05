@@ -22,10 +22,10 @@ describe("HamburgerMenu", () => {
         expect(host.querySelector("button.hamburger-menu")).toBeTruthy();
     });
 
-    test("defaults the accessible name to Menu", () => {
+    test("has no English accessible name of its own", () => {
         const host = render("<lily-hamburger-menu></lily-hamburger-menu>");
 
-        expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Menu");
+        expect(host.querySelector("button")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("uses label as the accessible name", () => {

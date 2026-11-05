@@ -15,16 +15,16 @@
 <div
   class="calendar-range-picker{% if p.classes %} {{ p.classes }}{% endif %}"
   role="group"
-  aria-label="{{ p.label | default('Date range') }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   data-module="calendar-range-picker"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.start %} data-start="{{ p.start }}"{% endif %}
   {%- if p.end %} data-end="{{ p.end }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  <label class="calendar-range-picker-start-label" for="{{ p.id | default('calendar-range-picker') }}-start">{{ p.startLabel | default('Start') }}</label>
+  <label class="calendar-range-picker-start-label" for="{{ p.id | default('calendar-range-picker') }}-start">{{ p.startLabel }}</label>
   <input class="calendar-range-picker-start" type="date" id="{{ p.id | default('calendar-range-picker') }}-start" value="{{ p.start | default('') }}">
-  <label class="calendar-range-picker-end-label" for="{{ p.id | default('calendar-range-picker') }}-end">{{ p.endLabel | default('End') }}</label>
+  <label class="calendar-range-picker-end-label" for="{{ p.id | default('calendar-range-picker') }}-end">{{ p.endLabel }}</label>
   <input class="calendar-range-picker-end" type="date" id="{{ p.id | default('calendar-range-picker') }}-end" value="{{ p.end | default('') }}">
 </div>
 {%- endmacro -%}

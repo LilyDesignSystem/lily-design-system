@@ -6,6 +6,7 @@ describe("signature-pad", () => {
         const { document } = render("signature-pad", {
             id: "sig",
             name: "signature",
+            clearLabel: "Clear",
         });
         expect(document.querySelector("div.signature-pad")).toBeTruthy();
         const canvas = document.querySelector("canvas.signature-pad-canvas");
@@ -23,5 +24,10 @@ describe("signature-pad", () => {
     it("contains no <script> tags", () => {
         const { html } = render("signature-pad", {});
         expect(html).not.toContain("<script");
+    });
+
+    it("shows no clear button until it is named", () => {
+        const { document } = render("signature-pad", { id: "sig" });
+        expect(document.querySelector("button.signature-pad-clear")).toBeNull();
     });
 });

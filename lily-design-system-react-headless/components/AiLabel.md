@@ -5,13 +5,13 @@ AiLabel is a headless inline indicator that communicates the presence of AI-gene
 ## Implementation Notes
 
 - Renders a `<span>` element for inline placement
-- Uses `aria-label` for accessible naming, defaulting to "AI"
+- Uses `aria-label` for accessible naming
 - Uses React functional component with TypeScript interface for props
 
 ## Props
 
-- `label`: string (default: "AI") -- accessible name via `aria-label`
-- `text`: string (default: "AI") -- visible text displayed inside the indicator
+- `label`: string (required) -- accessible name via `aria-label`
+- `text`: string (required) -- visible text displayed inside the indicator
 - `...restProps`: unknown -- additional attributes spread onto the `<span>` element
 
 ## Usage

@@ -4,7 +4,7 @@
 // sources, credits, corrections). Inspired by Reuters Graphics EndNotes.
 //
 // Attributes:
-//   label — optional, default "End notes". Accessible name, via aria-label.
+//   label — required. Accessible name, via aria-label.
 //   ...rest — spread onto the <section>.
 //
 // References:
@@ -20,7 +20,8 @@ export class EndNotes extends HTMLElement {
 
         const section = document.createElement("section");
         section.className = rootClassName(this, "end-notes");
-        section.setAttribute("aria-label", this.getAttribute("label") ?? "End notes");
+        const label = this.getAttribute("label");
+        if (label !== null) section.setAttribute("aria-label", label);
         passThroughAttributes(this, section, HANDLED);
 
         moveChildrenInto(this, section);

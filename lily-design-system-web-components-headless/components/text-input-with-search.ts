@@ -9,8 +9,8 @@
 // Attributes:
 //   label — REQUIRED. Accessible name for the search region, via
 //     aria-label.
-//   input-label — default "Search". Accessible name for the text input.
-//   search-label — default "Search". Accessible label and visible text
+//   input-label — required. Accessible name for the text input.
+//   search-label — required. Accessible label and visible text
 //     for the search button.
 //   value — initial value; also exposed as a live `value` property.
 //   placeholder — optional.
@@ -41,8 +41,8 @@ export class TextInputWithSearch extends HTMLElement {
 
         const input = document.createElement("input");
         input.type = "text";
-        const inputLabel = this.getAttribute("input-label") ?? "Search";
-        input.setAttribute("aria-label", inputLabel);
+        const inputLabel = this.getAttribute("input-label");
+        if (inputLabel !== null) input.setAttribute("aria-label", inputLabel);
         input.defaultValue = this.getAttribute("value") ?? "";
         const placeholder = this.getAttribute("placeholder");
         if (placeholder !== null) input.placeholder = placeholder;
@@ -54,11 +54,13 @@ export class TextInputWithSearch extends HTMLElement {
             this.#search();
         });
 
-        const searchLabel = this.getAttribute("search-label") ?? "Search";
+        const searchLabel = this.getAttribute("search-label");
         const button = document.createElement("button");
         button.type = "button";
-        button.setAttribute("aria-label", searchLabel);
-        button.textContent = searchLabel;
+        if (searchLabel !== null) {
+            button.setAttribute("aria-label", searchLabel);
+            button.textContent = searchLabel;
+        }
         if (this.hasAttribute("disabled")) button.disabled = true;
         button.addEventListener("click", () => this.#search());
 

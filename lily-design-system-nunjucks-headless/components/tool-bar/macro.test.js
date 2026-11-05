@@ -10,9 +10,9 @@ describe("tool-bar", () => {
         expect(el.getAttribute("aria-label")).toBe("X");
     });
 
-    it("defaults aria-label to 'Tool bar'", () => {
+    it("has no English aria-label of its own", () => {
         const { document } = render("tool-bar", {});
-        expect(document.querySelector("div.tool-bar").getAttribute("aria-label")).toBe("Tool bar");
+        expect(document.querySelector("div.tool-bar").hasAttribute("aria-label")).toBe(false);
     });
 
     it("prefers labelledBy over label", () => {

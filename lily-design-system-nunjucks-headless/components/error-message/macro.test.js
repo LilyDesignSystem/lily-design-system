@@ -12,11 +12,9 @@ describe("error-message", () => {
         expect(el.getAttribute("id")).toBe("e");
     });
 
-    it("renders the visually-hidden prefix 'Error:' by default", () => {
+    it("has no English prefix of its own", () => {
         const { document } = render("error-message", { text: "x" });
-        const prefix = document.querySelector("span.error-message span.screen-reader-span");
-        expect(prefix).toBeTruthy();
-        expect(prefix.textContent).toBe("Error:");
+        expect(document.querySelector("span.error-message span.screen-reader-span")).toBeNull();
     });
 
     it("respects a custom visually-hidden prefix", () => {

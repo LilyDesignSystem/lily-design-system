@@ -197,7 +197,7 @@
     >
         <div>
             <h3>Do</h3>
-            <DoList>
+            <DoList label="Do">
                 <DoListItem>Prioritise patient safety</DoListItem>
                 <DoListItem>Document all interactions</DoListItem>
                 <DoListItem>Follow infection control procedures</DoListItem>
@@ -206,7 +206,7 @@
         </div>
         <div>
             <h3>Don't</h3>
-            <DontList>
+            <DontList label="Don't">
                 <DontListItem>Skip handover procedures</DontListItem>
                 <DontListItem>Leave records incomplete</DontListItem>
                 <DontListItem>Ignore patient feedback</DontListItem>

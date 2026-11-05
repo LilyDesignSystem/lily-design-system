@@ -15,7 +15,7 @@
 <div
   class="resizable{% if p.classes %} {{ p.classes }}{% endif %}"
   role="group"
-  aria-label="{{ p.label | default('Resizable region') }}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   data-module="resizable"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

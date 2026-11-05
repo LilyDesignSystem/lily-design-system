@@ -11,11 +11,9 @@ describe("net-promoter-score-picker", () => {
         expect(el.getAttribute("role")).toBe("radiogroup");
     });
 
-    it("defaults aria-label to 'Net Promoter Score'", () => {
+    it("has no English aria-label of its own", () => {
         const { document } = render(name, {});
-        expect(document.querySelector(`div.${name}`).getAttribute("aria-label")).toBe(
-            "Net Promoter Score",
-        );
+        expect(document.querySelector(`div.${name}`).hasAttribute("aria-label")).toBe(false);
     });
 
     it("respects a custom label", () => {

@@ -7,7 +7,7 @@ describe("file-manager", () => {
         const el = document.querySelector("section.file-manager");
         expect(el).toBeTruthy();
         expect(el.getAttribute("role")).toBe("region");
-        expect(el.getAttribute("aria-label")).toBe("File manager");
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
     it("contains no <style> or <script> tags", () => {

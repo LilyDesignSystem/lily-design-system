@@ -9,9 +9,9 @@ describe("submit-input", () => {
         expect(el.classList.contains("submit-input")).toBe(true);
     });
 
-    it("defaults value to 'Submit'", () => {
+    it("has no English value of its own", () => {
         const { document } = render("submit-input", {});
-        expect(document.querySelector("input").getAttribute("value")).toBe("Submit");
+        expect(document.querySelector("input").hasAttribute("value")).toBe(false);
     });
 
     it("respects a custom value", () => {

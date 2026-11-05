@@ -9,9 +9,9 @@ describe("reset-input", () => {
         expect(el.classList.contains("reset-input")).toBe(true);
     });
 
-    it("defaults value to 'Reset'", () => {
+    it("has no English value of its own", () => {
         const { document } = render("reset-input", {});
-        expect(document.querySelector("input").getAttribute("value")).toBe("Reset");
+        expect(document.querySelector("input").hasAttribute("value")).toBe(false);
     });
 
     it("respects a custom value", () => {

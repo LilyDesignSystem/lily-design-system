@@ -6,7 +6,7 @@ description: a structured field for entering date components
 
 {% from "components/date-field/macro.njk" import dateField %}
 
-{{ dateField({
+{{ dateField({ dayLabel: "Day", monthLabel: "Month", yearLabel: "Year",
   id: "dob",
   name: "dob",
   legend: "Date of birth",

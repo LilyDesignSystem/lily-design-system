@@ -25,4 +25,17 @@ describe("date-field", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("names its inputs with your words and no English of its own", () => {
+        const { document: named } = render("date-field", {
+            id: "d",
+            dayLabel: "Jour",
+            monthLabel: "Mois",
+            yearLabel: "Année",
+        });
+        const words = (document) =>
+            [...document.querySelectorAll(".date-field-part-label")].map((l) => l.textContent);
+        expect(words(named)).toEqual(["Jour", "Mois", "Année"]);
+        expect(words(render("date-field", { id: "d" }).document)).toEqual(["", "", ""]);
+    });
 });

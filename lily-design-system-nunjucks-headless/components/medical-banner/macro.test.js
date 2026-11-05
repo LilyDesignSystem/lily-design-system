@@ -9,11 +9,9 @@ describe("medical-banner", () => {
         expect(el.getAttribute("role")).toBe("region");
     });
 
-    it("defaults aria-label to 'Patient banner'", () => {
+    it("has no English aria-label of its own", () => {
         const { document } = render("medical-banner", {});
-        expect(document.querySelector("div.medical-banner").getAttribute("aria-label")).toBe(
-            "Patient banner",
-        );
+        expect(document.querySelector("div.medical-banner").hasAttribute("aria-label")).toBe(false);
     });
 
     it("respects a custom label", () => {

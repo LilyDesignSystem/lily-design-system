@@ -14,7 +14,7 @@
 // a <nav> itself.
 //
 // Attributes:
-//   label — accessible name, via aria-label. Default "Menu".
+//   label — accessible name, via aria-label. Required: the words are yours.
 //   open — presence-based boolean; bindable (`el.toggleAttribute("open")`
 //     works both ways), reflected as aria-expanded on the button.
 //   aria-controls — optional; passed through to reference an externally
@@ -64,7 +64,8 @@ export class HamburgerMenu extends HTMLElement {
     #sync(): void {
         const button = this.#button;
         if (!button) return;
-        button.setAttribute("aria-label", this.getAttribute("label") ?? "Menu");
+        const label = this.getAttribute("label");
+        if (label !== null) button.setAttribute("aria-label", label);
         const open = this.hasAttribute("open");
         button.setAttribute("aria-expanded", open ? "true" : "false");
         const controls = button.getAttribute("aria-controls");

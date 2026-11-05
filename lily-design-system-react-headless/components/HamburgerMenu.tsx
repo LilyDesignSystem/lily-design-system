@@ -7,7 +7,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, default "Menu". Accessible name for the toggle button and navigation region.
+//   label — string, required. No default: the words are yours. Accessible name for the toggle button and navigation region.
 //   open — boolean, default false. Bindable boolean controlling whether the navigation panel is visible.
 //   children — ReactNode, required. Navigation content rendered when the menu is open.
 //   ...restProps — additional HTML attributes spread onto the outer div wrapper.
@@ -27,7 +27,7 @@
 //   </HamburgerMenu>
 //
 //
-//   <HamburgerMenu open={menuOpen} onChange={setMenuOpen}>
+//   <HamburgerMenu label="Main menu" open={menuOpen} onChange={setMenuOpen}>
 //     <ul>
 //       <li><a href="/dashboard">Dashboard</a></li>
 //       <li><a href="/settings">Settings</a></li>
@@ -47,7 +47,7 @@
 //   - aria-label on the navigation container provides an accessible name for the landmark
 //
 // Internationalization:
-//   - The label prop allows localized accessible names; default "Menu" should be overridden for non-English locales
+//   - The label prop supplies the accessible name in your language
 //   - All content comes through the children prop
 //
 // Claude rules:
@@ -61,10 +61,11 @@
 //   - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
 
 import React, { useState, useId } from "react";
+import { warnMissingName } from "./dev-warning";
 
 export interface HamburgerMenuProps {
     className?: string;
-    label?: string;
+    label: string;
     open?: boolean;
     children: React.ReactNode;
     /** Callback when open changes. */
@@ -74,13 +75,14 @@ export interface HamburgerMenuProps {
 
 export default function HamburgerMenu({
     className = "",
-    label = "Menu",
+    label,
     open: openProp = false,
     onChange,
     children,
     ...restProps
 }: HamburgerMenuProps) {
     const [open, setOpen] = useState(openProp);
+    warnMissingName("HamburgerMenu", label, restProps["aria-labelledby"]);
     const menuId = useId();
 
     const handleClick = () => {

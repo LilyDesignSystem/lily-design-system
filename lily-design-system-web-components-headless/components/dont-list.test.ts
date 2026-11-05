@@ -28,10 +28,10 @@ describe("DontList", () => {
         expect(host.querySelector("ul")!.getAttribute("role")).toBe("list");
     });
 
-    test("aria-label defaults to Don't", () => {
+    test("has no English aria-label of its own", () => {
         const host = render("<lily-dont-list></lily-dont-list>");
 
-        expect(host.querySelector("ul")!.getAttribute("aria-label")).toBe("Don't");
+        expect(host.querySelector("ul")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("aria-label reflects a provided label", () => {

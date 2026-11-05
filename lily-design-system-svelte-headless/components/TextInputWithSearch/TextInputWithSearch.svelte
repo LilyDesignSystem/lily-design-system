@@ -10,8 +10,8 @@
     // Props:
     //   className — string, optional. CSS class name.
     //   label — string, required. Accessible name for the search region via aria-label.
-    //   inputLabel — string, default "Search". Accessible name for the text input.
-    //   searchLabel — string, default "Search". Accessible label and text for the search button.
+    //   inputLabel — string, required. No default: the words are yours. Accessible name for the text input.
+    //   searchLabel — string, required. No default: the words are yours. Accessible label and text for the search button.
     //   value — string, default "". Bindable text input value.
     //   placeholder — string, optional. Placeholder text for the input.
     //   onsearch — (value: string) => void, optional. Callback when search is triggered.
@@ -46,8 +46,8 @@
     let {
         class: className = "",
         label,
-        inputLabel = "Search",
-        searchLabel = "Search",
+        inputLabel,
+        searchLabel,
         value = $bindable(""),
         placeholder = undefined,
         onsearch = undefined,
@@ -56,8 +56,8 @@
         ...restProps
     }: {
         label: string;
-        inputLabel?: string;
-        searchLabel?: string;
+        inputLabel: string;
+        searchLabel: string;
         value?: string;
         placeholder?: string;
         onsearch?: (value: string) => void;

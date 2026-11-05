@@ -5,7 +5,7 @@
   CSS class: tree-nav
 
   Params:
-    label       string   Accessible name. Default "Tree".
+    label       string   Accessible name
     labelledBy  string
     id          string
     classes     string
@@ -21,7 +21,7 @@
 {%- set p = params | default({}) -%}
 <nav
   class="tree-nav{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Tree') }}"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

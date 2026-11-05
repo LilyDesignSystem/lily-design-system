@@ -93,7 +93,7 @@
     <h3>Props</h3>
     <ul>
       <li><code>href</code>: string (default: <code>"#content"</code>) -- the anchor target that the link navigates to</li>
-      <li><code>label</code>: string (default: <code>"Skip to content"</code>) -- the visible link text</li>
+      <li><code>label</code>: string (required) -- the visible link text</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;a&gt;</code> element</li>
     </ul>
 </section>

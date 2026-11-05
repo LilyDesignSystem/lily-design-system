@@ -10,7 +10,7 @@
 //   value — initial value; also exposed as a live `value` property.
 //   show-toggle — "true" | "false", default true (absent = true). When
 //     "false", the toggle button is not rendered.
-//   toggle-label — default "Show password". Accessible name and visible
+//   toggle-label — required. Accessible name and visible
 //     text for the toggle button.
 //   required, disabled — presence-based booleans, applied to the input.
 //
@@ -47,12 +47,12 @@ export class PasswordInputOrTextInputDiv extends HTMLElement {
 
         const showToggle = this.getAttribute("show-toggle") !== "false";
         if (showToggle) {
-            const toggleLabel = this.getAttribute("toggle-label") ?? "Show password";
+            const toggleLabel = this.getAttribute("toggle-label");
             const toggle = document.createElement("button");
             toggle.type = "button";
-            toggle.setAttribute("aria-label", toggleLabel);
+            if (toggleLabel !== null) toggle.setAttribute("aria-label", toggleLabel);
             toggle.setAttribute("aria-pressed", "false");
-            toggle.textContent = toggleLabel;
+            toggle.textContent = toggleLabel ?? "";
             toggle.addEventListener("click", this.#onToggle);
             this.appendChild(toggle);
             this.#toggle = toggle;

@@ -4,7 +4,7 @@
   HTML tag: <aside>
   CSS class: sidebar
 
-  Params: label (default "Sidebar"), labelledBy, id, classes, attributes.
+  Params: label, labelledBy, id, classes, attributes.
 
   Usage:
     {% from "components/sidebar/macro.njk" import sidebar %}
@@ -14,7 +14,7 @@
 {%- set p = params | default({}) -%}
 <aside
   class="sidebar{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Sidebar') }}"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

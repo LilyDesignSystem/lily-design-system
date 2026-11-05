@@ -11,7 +11,7 @@
     - Default text is "AI"; override via params.text or params.html.
 
   Params:
-    text        string   Visible label text. Default "AI".
+    text        string   Visible label text
     html        string   Raw HTML content.
     label       string   Accessible name override.
     describedBy string   id of an explanation (e.g. inline help).
@@ -36,7 +36,6 @@
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif p.text -%}{{ p.text }}
   {%- elif caller -%}{{ caller() }}
-  {%- else -%}AI
   {%- endif -%}
 </span>
 {%- endmacro -%}

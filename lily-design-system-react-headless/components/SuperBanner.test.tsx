@@ -29,7 +29,7 @@ describe("SuperBanner", () => {
     });
 
     test("renders dismiss button when dismissable", () => {
-        render(<Subject dismissable>Outage</Subject>);
+        render(<Subject dismissable dismissLabel="Dismiss">Outage</Subject>);
         const btn = screen.getByRole("button", { name: "Dismiss" });
         expect(btn).toBeTruthy();
     });

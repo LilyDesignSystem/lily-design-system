@@ -16,7 +16,7 @@
 <div
   class="call-to-action{% if p.classes %} {{ p.classes }}{% endif %}"
   role="region"
-  aria-label="{{ p.label | default(p.heading | default('Call to action')) }}"
+  {%- if p.label or p.heading %} aria-label="{{ p.label or p.heading }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

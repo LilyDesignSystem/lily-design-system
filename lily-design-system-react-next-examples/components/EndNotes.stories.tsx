@@ -10,4 +10,6 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof EndNotes>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: { label: "End notes" },
+};

@@ -13,7 +13,7 @@
 // Props:
 //   label        — string, optional. Accessible label override.
 //   dismissable  — boolean, default false. Show a dismiss button.
-//   dismissLabel — string, default "Dismiss". aria-label for the button.
+//   dismissLabel — string, optional, no default. aria-label for the button.
 //   default slot — banner content.
 //
 // Emits:
@@ -41,7 +41,6 @@ withDefaults(
     {
         label: undefined,
         dismissable: false,
-        dismissLabel: "Dismiss",
     },
 );
 

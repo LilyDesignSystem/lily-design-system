@@ -9,7 +9,7 @@
       so assistive tech distinguishes this nav from page navigation.
 
   Params:
-    label        string   Accessible name. Default "Pagination".
+    label        string   Accessible name
     labelledBy   string   aria-labelledby target (preferred).
     id           string   Element id.
     classes      string   Consumer-provided extra CSS classes.
@@ -41,7 +41,7 @@
 <nav
   class="pagination-nav{% if p.classes %} {{ p.classes }}{% endif %}"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
-  {%- else %} aria-label="{{ p.label | default('Pagination') }}"{% endif %}
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

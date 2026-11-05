@@ -30,7 +30,7 @@
 </head>
 <body>
   {% from "components/skip-link/macro.njk" import skipLink %}
-  {{ skipLink() }}
+  {{ skipLink({ text: "Skip to main content" }) }}
   {% include "partials/header.njk" %}
 
   <div class="width-container">

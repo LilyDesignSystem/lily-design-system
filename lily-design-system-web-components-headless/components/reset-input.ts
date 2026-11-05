@@ -8,7 +8,7 @@
 // still pass one through `...rest`.
 //
 // Attributes:
-//   value — visible button text and accessible name, default "Reset";
+//   value — visible button text and accessible name; with none the browser shows its own word;
 //     also a live `value` property.
 //   disabled — presence-based boolean.
 //   ...rest — spread onto the <input>.
@@ -33,7 +33,9 @@ export class ResetInput extends HTMLElement {
         const input = document.createElement("input");
         input.type = "reset";
         input.className = rootClassName(this, "reset-input");
-        input.defaultValue = this.getAttribute("value") ?? "Reset";
+        const value = this.getAttribute("value");
+        // No value: the browser shows its own word, in the reader's language.
+        if (value !== null) input.defaultValue = value;
         if (this.hasAttribute("disabled")) input.disabled = true;
         passThroughAttributes(this, input, HANDLED);
 
@@ -42,7 +44,7 @@ export class ResetInput extends HTMLElement {
     }
 
     get value(): string {
-        return this.#input?.value ?? this.getAttribute("value") ?? "Reset";
+        return this.#input?.value ?? this.getAttribute("value") ?? "";
     }
 
     set value(v: string) {

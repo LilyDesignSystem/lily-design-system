@@ -35,7 +35,7 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/text-area-input
 <h2>Invalid</h2>
 {% call field({ error: "Describe the problem" }) %}
   {{ label({ for: "issue", text: "Describe the problem" }) }}
-  {{ errorMessage({ id: "issue-error", text: "Describe the problem" }) }}
+  {{ errorMessage({ visuallyHiddenText: "Error:", id: "issue-error", text: "Describe the problem" }) }}
   {{ textAreaInput({
     id: "issue",
     errormessage: "issue-error",

@@ -22,10 +22,10 @@ describe("EndNotes", () => {
         expect(host.querySelector("section.end-notes")).toBeTruthy();
     });
 
-    test("defaults aria-label to 'End notes'", () => {
+    test("has no English aria-label of its own", () => {
         const host = render("<lily-end-notes></lily-end-notes>");
 
-        expect(host.querySelector("section")!.getAttribute("aria-label")).toBe("End notes");
+        expect(host.querySelector("section")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("uses label as the accessible name when provided", () => {

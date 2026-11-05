@@ -32,15 +32,14 @@ describe("net-promoter-score-view", () => {
         }
     });
 
-    it("generates a descriptive aria-label", () => {
+    it("has no English of its own", () => {
         const { document } = render(name, { value: 10 });
-        expect(document.querySelector(`span.${name}`).getAttribute("aria-label")).toBe(
-            "Net Promoter Score: 10 — Promoter",
-        );
+        expect(document.querySelector(`span.${name}`).hasAttribute("aria-label")).toBe(false);
+        expect(document.querySelector(".net-promoter-score-view-category")).toBeNull();
     });
 
     it("renders the value and category in child spans", () => {
-        const { document } = render(name, { value: 8 });
+        const { document } = render(name, { value: 8, text: "Passive" });
         expect(document.querySelector(".net-promoter-score-view-value").textContent).toBe("8");
         expect(document.querySelector(".net-promoter-score-view-category").textContent.trim()).toBe(
             "Passive",

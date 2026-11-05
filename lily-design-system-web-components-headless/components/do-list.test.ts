@@ -28,10 +28,10 @@ describe("DoList", () => {
         expect(host.querySelector("ul")!.getAttribute("role")).toBe("list");
     });
 
-    test("aria-label defaults to Do", () => {
+    test("has no English aria-label of its own", () => {
         const host = render("<lily-do-list></lily-do-list>");
 
-        expect(host.querySelector("ul")!.getAttribute("aria-label")).toBe("Do");
+        expect(host.querySelector("ul")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("aria-label reflects a provided label", () => {

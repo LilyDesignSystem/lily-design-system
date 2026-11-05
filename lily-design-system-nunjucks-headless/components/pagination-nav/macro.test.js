@@ -7,9 +7,9 @@ describe("pagination-nav", () => {
         expect(document.querySelector("nav.pagination-nav")).toBeTruthy();
     });
 
-    it("defaults aria-label to 'Pagination'", () => {
+    it("has no English aria-label of its own", () => {
         const { document } = render("pagination-nav", {});
-        expect(document.querySelector("nav").getAttribute("aria-label")).toBe("Pagination");
+        expect(document.querySelector("nav").hasAttribute("aria-label")).toBe(false);
     });
 
     it("respects a custom label", () => {

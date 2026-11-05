@@ -6,7 +6,7 @@
   CSS class: contents-nav
 
   Params:
-    label       string   Accessible name. Default "Contents".
+    label       string   Accessible name
     labelledBy  string
     id          string
     classes     string
@@ -27,7 +27,7 @@
 {%- set p = params | default({}) -%}
 <nav
   class="contents-nav{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% else %} aria-label="{{ p.label | default('Contents') }}"{% endif %}
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.spy %} data-lily-contents-nav-spy
     {%- if p.spyOffset is defined and p.spyOffset is not none %} data-spy-offset="{{ p.spyOffset }}"{% endif %}

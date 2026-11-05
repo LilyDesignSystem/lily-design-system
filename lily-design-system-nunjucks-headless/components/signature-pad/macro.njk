@@ -5,7 +5,7 @@
   CSS class: signature-pad
 
   Params: id, name, width (default 400), height (default 150), label,
-    clearLabel (default "Clear"), classes, attributes.
+    clearLabel (the clear button appears only when you name it), classes, attributes.
 
   Usage:
     {% from "components/signature-pad/macro.njk" import signaturePad %}
@@ -24,9 +24,9 @@
     width="{{ p.width | default(400) }}"
     height="{{ p.height | default(150) }}"
     role="img"
-    aria-label="{{ p.label | default('Signature area') }}"
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   ></canvas>
   <input type="hidden" class="signature-pad-input"{% if p.name %} name="{{ p.name }}"{% endif %}>
-  <button type="button" class="signature-pad-clear">{{ p.clearLabel | default("Clear") }}</button>
+  {%- if p.clearLabel %}<button type="button" class="signature-pad-clear">{{ p.clearLabel }}</button>{% endif %}
 </div>
 {%- endmacro -%}
