@@ -1,15 +1,27 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ManualPopoverBase
 
 @*
     FloatingPanel component
     a panel that floats above page content
+
+    Always rendered with popover="manual" and shown from Open, which the consumer owns. In the top layer, so no z-index or
+    clipping to fight; Escape and light dismiss are the consumer's.
+
+    Parameters:
+        Label — string, required. aria-label.
+        Open — bool.
+        ChildContent, CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"floating-panel {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"floating-panel {CssClass}".Trim())" role="region" popover="manual" aria-label="@Label" @ref="Root" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Open { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override bool Shown => Open;
 }

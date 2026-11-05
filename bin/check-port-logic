@@ -1,0 +1,107 @@
+#!/usr/bin/env node
+// bin/check-port-logic — P23-T16 stage 7: no Angular or Blazor stub where Svelte has behaviour.
+//
+// A stub passes its tests, because a test that checks only the class name passes on a stub: that is how 100-odd Angular and
+// Blazor components came to render a root and nothing else (tasks.md P23-T16). For each component whose Svelte reference has
+// an interaction signal, this asks whether the port has any logic at all. A port with none fails, unless
+// bin/check-port-logic.allow.json names it with a reason. A listed port that has logic now also fails, so the list can only
+// shrink.
+//
+// It finds a port with NO logic. It does not prove a port with some logic is complete: one handler passes.
+//
+// Usage: bin/check-port-logic [--quiet]
+//        bin/check-port-logic --baseline   print an allow-list for the current gaps (edit the reasons!)
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const quiet = process.argv.includes("--quiet");
+const baselineMode = process.argv.includes("--baseline");
+const allow = JSON.parse(fs.readFileSync(path.join(__dirname, "check-port-logic.allow.json"), "utf-8"));
+
+const read = (...parts) => {
+  const file = path.join(top, ...parts);
+  return fs.existsSync(file) ? fs.readFileSync(file, "utf-8") : "";
+};
+
+// Svelte: a handler of its own, a two-way or element binding, or code that runs against the DOM. Left out: `$derived` and plain
+// functions (a component that only computes a value from its props has nothing a port could be missing), the development name
+// warning, and an `onclick` prop handed straight to a native element, which both ports pass through as the consumer's listener.
+const SVELTE = /\bon[a-z]+=\{|\bfunction on[a-z]+\(|\bbind:(?!this)|\$bindable\(|\$effect\(|\bonMount\(|\buse:\w+/;
+
+const ANGULAR = [
+  /\(\w+(?:\.\w+)?\)="/, // template listener
+  /"\(\w+(?:\.\w+)?\)"\s*:/, // host listener
+  /\[\(\w+\)\]="/, // two-way binding to an inner component
+  /\[lily\w+\]="/, // a behaviour directive
+  /@HostListener/,
+  /\b(?:model|output|signal)\s*[<(]/,
+  /\b(?:effect|afterNextRender|afterRenderEffect|afterRender)\(/,
+  /\baddEventListener\(/,
+  /\battach\w+\(/, // a behaviour module the catalogs share
+];
+
+const BLAZOR = [
+  /@on\w+/,
+  /@bind/,
+  /\bEventCallback\b/,
+  /\bJSInvokable\b/,
+  /\bIJSRuntime\b/,
+  /@inherits\s+\w+/,
+  /\bOnAfterRender(?:Async)?\b/,
+];
+
+const svelteCode = (s) =>
+  s
+    .replace(/^\s*\/\/.*$/gm, "")
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/\$effect\(\(\)\s*=>\s*warnMissingName\([^;]*?\),?\s*\);/g, "");
+const tsCode = (s) => s.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+const razorCode = (s) => s.replace(/@\*[\s\S]*?\*@/g, "").replace(/^\s*\/\/.*$/gm, "");
+
+const rows = read("components.tsv")
+  .split("\n")
+  .filter(Boolean)
+  .map((line) => line.split("\t"));
+
+const baseline = {};
+const gaps = new Set();
+let compared = 0;
+for (const [slug, name] of rows) {
+  const svelte = svelteCode(read("lily-design-system-svelte-headless/components", name, `${name}.svelte`));
+  if (!SVELTE.test(svelte)) continue;
+  compared += 1;
+  const ports = [
+    ["angular", tsCode(read("lily-design-system-angular-headless/components", `${name}.ts`)), ANGULAR],
+    ["blazor", razorCode(read("lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components", `${name}.razor`)), BLAZOR],
+  ];
+  for (const [port, source, patterns] of ports) {
+    if (patterns.some((p) => p.test(source))) continue;
+    const key = `${port} ${slug}`;
+    gaps.add(key);
+    baseline[key] = "TODO: reason";
+  }
+}
+
+if (baselineMode) {
+  console.log(JSON.stringify(baseline, null, 2));
+  process.exit(0);
+}
+
+let failures = 0;
+for (const key of gaps) {
+  if (allow[key]) continue;
+  console.log(`FAIL ${key}: Svelte has behaviour, this port has no logic`);
+  failures += 1;
+}
+for (const key of Object.keys(allow)) {
+  if (gaps.has(key)) continue;
+  console.log(`FAIL stale allow-list entry (this port has logic now): ${key}`);
+  failures += 1;
+}
+if (failures) {
+  console.log(`\n${failures} problem(s). Port the behaviour, or list it with a reason in bin/check-port-logic.allow.json.`);
+  process.exit(1);
+}
+if (!quiet) console.log(`port logic: ${compared} components with behaviour in Svelte, ${gaps.size} allow-listed, no unlisted gaps`);

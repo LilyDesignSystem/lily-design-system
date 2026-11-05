@@ -6,8 +6,8 @@
     MiddleTruncation component
 
     A string shortened in the middle to fit the width its container gives it ("report-fi…q3.pdf"), keeping the start and the
-    end. The width is measured in the browser (canvas text metrics in the element's own font) and re-measured when the
-    container resizes; until then, and on the server, the full text is shown.
+    end. Blazor deviation: this measures no pixel width and does not follow its container. MaxCharacters is a budget of
+    user-perceived characters, ellipsis included; without it the full text is shown.
 
     The full text always stays in the accessibility tree: the shortened string is aria-hidden and the whole text sits in a
     sibling the consumer visually hides. A screen reader, find-in-page and copy therefore get the real text, which a

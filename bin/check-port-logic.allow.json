@@ -1,0 +1,3 @@
+{
+  "blazor middle-truncation": "Documented deviation in MiddleTruncation.md: C# measures no pixel width, so MaxCharacters is a character budget. Fitting the container needs a JS module (tasks.md P23-T16 stage 7)."
+}

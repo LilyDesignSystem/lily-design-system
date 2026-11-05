@@ -34,6 +34,8 @@
 <Coachmark Open="_coachmark" Title="New" DismissLabel="Close tip" OnDismiss="@(() => _coachmark = false)" style="position-anchor: --feature" data-testid="coachmark" />
 
 <span style="anchor-name: --card" tabindex="0" data-testid="card-trigger" @onmouseenter="@(() => _card = true)" @onmouseleave="@(() => _card = false)">Profile</span>
+<button type="button" data-testid="panel-toggle" @onclick="() => _panel = !_panel">Filters</button>
+<FloatingPanel Label="Filters" Open="_panel" data-testid="panel">Panel body</FloatingPanel>
 <HoverCard Label="Profile" Open="_card" style="position-anchor: --card" data-testid="card">Card body</HoverCard>
 
 <button type="button" style="anchor-name: --tip" aria-describedby="tip" data-testid="tooltip-trigger"
@@ -47,6 +49,7 @@
 
 @code {
     private bool _expanded, _collapsible, _item, _official, _coachmark, _card, _tooltip, _timeout;
+    private bool _panel;
     private bool _promo = true;
     private int _closed;
 }

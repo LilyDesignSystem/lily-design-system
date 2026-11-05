@@ -6,6 +6,7 @@ import { Coachmark } from "../components/Coachmark";
 import { Collapsible } from "../components/Collapsible";
 import { Expander } from "../components/Expander";
 import { GovernmentBanner } from "../components/GovernmentBanner";
+import { FloatingPanel } from "../components/FloatingPanel";
 import { HoverCard } from "../components/HoverCard";
 import { MedicalBanner } from "../components/MedicalBanner";
 import { StickyPromoBanner } from "../components/StickyPromoBanner";
@@ -24,6 +25,7 @@ import { Tooltip } from "../components/Tooltip";
         Collapsible,
         Expander,
         GovernmentBanner,
+        FloatingPanel,
         HoverCard,
         MedicalBanner,
         StickyPromoBanner,
@@ -66,6 +68,8 @@ import { Tooltip } from "../components/Tooltip";
       <lily-coachmark [open]="coachmark()" title="New" dismissLabel="Close tip" (dismissed)="coachmark.set(false)" data-testid="coachmark" />
 
       <span style="anchor-name: --card" tabindex="0" data-testid="card-trigger" (mouseenter)="card.set(true)" (mouseleave)="card.set(false)">Profile</span>
+      <button type="button" data-testid="panel-toggle" (click)="panel.set(!panel())">Filters</button>
+      <lily-floating-panel label="Filters" [open]="panel()" data-testid="panel">Panel body</lily-floating-panel>
       <lily-hover-card label="Profile" [open]="card()" data-testid="card">Card body</lily-hover-card>
 
       <button type="button" aria-describedby="tip" data-testid="tooltip-trigger" (focusin)="tooltip.set(true)" (focusout)="tooltip.set(false)">Help</button>
@@ -82,6 +86,7 @@ export default class DisclosuresPage {
     protected readonly official = signal(false);
     protected readonly promo = signal(true);
     protected readonly coachmark = signal(false);
+    protected readonly panel = signal(false);
     protected readonly card = signal(false);
     protected readonly tooltip = signal(false);
 }

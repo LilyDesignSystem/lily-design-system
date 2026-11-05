@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## A gate against port stubs — 2026-11-05
+
+- **Added: `bin/check-port-logic`, in `bin/test`.** An Angular or Blazor port with no logic, where Svelte has behaviour, fails unless `bin/check-port-logic.allow.json` lists it with a reason, and that list can only shrink. It finds a stub, not an incomplete port.
+- **Fixed (Angular, Blazor): `floating-panel` was a stub.** It had no `open`, so it could never show. It is now a `popover="manual"` region shown from `open`. Angular also gains the `role="region"` it lacked, and its `label` is required.
+- **Tests:** `e2e/disclosures.spec.ts` in the Angular and Blazor examples, Chromium and WebKit.
+
 ## Accordion checkbox and prerendering in Angular — 2026-11-05
 
 - **Fixed (Angular): `accordion-checkbox` was a stub.** It renders a checkbox, its label and a panel, with `[(checked)]`, and a form reset restores it. The `aria-label` on its plain `div` root is gone.

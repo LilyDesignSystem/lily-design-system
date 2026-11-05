@@ -10,4 +10,6 @@ const meta: Meta<FloatingPanel> = {
 export default meta;
 type Story = StoryObj<FloatingPanel>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: { label: "Filters", open: true },
+};

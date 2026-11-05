@@ -76,6 +76,20 @@ test("coachmark: Open shows it under its anchor, and it dismisses", async ({ pag
     await expect(mark).toBeHidden();
 });
 
+test("floating panel: shown from its state, in the top layer", async ({ page }) => {
+    const panel = page.getByTestId("panel");
+    const toggle = page.getByTestId("panel-toggle");
+    await expect(panel).toBeHidden();
+    await toggle.focus();
+    await page.keyboard.press("Enter");
+    await expect(panel).toBeVisible();
+    await expect(panel).toHaveRole("region");
+    await expect(panel).toHaveAccessibleName("Filters");
+    expect(await panel.evaluate((el) => el.matches(":popover-open"))).toBe(true);
+    await page.keyboard.press("Enter");
+    await expect(panel).toBeHidden();
+});
+
 test("hover card: follows the pointer", async ({ page }) => {
     const card = page.getByTestId("card");
     await page.getByTestId("card-trigger").hover();
