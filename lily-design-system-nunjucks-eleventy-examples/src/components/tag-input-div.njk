@@ -21,11 +21,12 @@ description: an input for adding and removing tags
 <h2>Usage</h2>
 <pre tabindex="0"><code>{% raw %}&lt;TagInputDiv
   label="Add tag"
-  bind:value={tagText}
-  onadd={(tag) =&gt; { tags = [...tags, tag]; }}
+  bind:value="{tagText}"
+  onadd="{(tag)"
+  =""
 &gt;
-  {#each tags as tag}
-    &lt;Tag&gt;{tag}&lt;/Tag&gt;
+  { tags = [...tags, tag]; }} &gt; {#each tags as tag}
+  &lt;Tag&gt;{tag}&lt;/Tag&gt;
   {/each}
 &lt;/TagInputDiv&gt;
 {% endraw %}</code></pre>

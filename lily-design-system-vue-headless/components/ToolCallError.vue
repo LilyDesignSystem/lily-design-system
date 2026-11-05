@@ -31,7 +31,6 @@
 //
 // References:
 //   - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert
-
 </script>
 
 <template>

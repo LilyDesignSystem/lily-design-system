@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    input,
-    model,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
 
 /**
  * TaskListItem — one task item with a checkbox and label

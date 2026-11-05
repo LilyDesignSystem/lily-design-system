@@ -103,7 +103,10 @@ describe("SlideOutDrawer — real modality", () => {
         fixture.componentRef.setInput("label", "Panel");
         fixture.componentRef.setInput("open", true);
         fixture.detectChanges();
-        return { fixture, el: fixture.nativeElement.querySelector("dialog.slide-out-drawer") as HTMLDialogElement };
+        return {
+            fixture,
+            el: fixture.nativeElement.querySelector("dialog.slide-out-drawer") as HTMLDialogElement,
+        };
     }
 
     test("is a <dialog> opened with showModal() and says aria-modal", () => {

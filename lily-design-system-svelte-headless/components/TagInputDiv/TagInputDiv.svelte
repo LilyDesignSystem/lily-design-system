@@ -82,7 +82,12 @@
     } = $props();
 
     $effect(() =>
-        warnMissingName("TagInputDiv", label, restProps["aria-label"], restProps["aria-labelledby"]),
+        warnMissingName(
+            "TagInputDiv",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
     );
 
     function onkeydown(event: KeyboardEvent) {

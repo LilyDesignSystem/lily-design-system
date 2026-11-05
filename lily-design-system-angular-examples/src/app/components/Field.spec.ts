@@ -5,7 +5,8 @@ import { Field } from "./Field";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(Field);
-    for (const [key, value] of Object.entries({ label: "Name", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ label: "Name", ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }

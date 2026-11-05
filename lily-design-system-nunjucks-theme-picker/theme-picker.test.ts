@@ -1315,9 +1315,9 @@ describe("theme-picker (Nunjucks) — themeColor (P21-T7)", () => {
     });
 
     test("the macro emits the flag", () => {
-        expect(renderMacro({ label: "Theme", themesUrl: "/t/", themes: ["light"], themeColor: true })).toContain(
-            'data-lily-theme-picker-theme-color="true"',
-        );
+        expect(
+            renderMacro({ label: "Theme", themesUrl: "/t/", themes: ["light"], themeColor: true }),
+        ).toContain('data-lily-theme-picker-theme-color="true"');
         expect(renderMacro({ label: "Theme", themesUrl: "/t/", themes: ["light"] })).toContain(
             'data-lily-theme-picker-theme-color="false"',
         );

@@ -28,7 +28,10 @@ describe("SuperBanner", () => {
     });
 
     test("renders dismiss button when dismissable", () => {
-        render(Subject, { props: { dismissable: true, dismissLabel: "Dismiss" }, slots: { default: "Outage" } });
+        render(Subject, {
+            props: { dismissable: true, dismissLabel: "Dismiss" },
+            slots: { default: "Outage" },
+        });
         const btn = screen.getByRole("button", { name: "Dismiss" });
         expect(btn).toBeTruthy();
     });

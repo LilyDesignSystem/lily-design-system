@@ -57,7 +57,9 @@ describe("SlideOutDrawer", () => {
     });
 
     test("appends the consumer class and passes other attributes through", () => {
-        const host = render('<lily-slide-out-drawer label="L" class="extra" data-testid="x"></lily-slide-out-drawer>');
+        const host = render(
+            '<lily-slide-out-drawer label="L" class="extra" data-testid="x"></lily-slide-out-drawer>',
+        );
         expect(inner(host).className).toBe("slide-out-drawer extra");
         expect(inner(host).getAttribute("data-testid")).toBe("x");
     });
@@ -81,7 +83,9 @@ describe("SlideOutDrawer", () => {
     });
 
     test("opening moves focus inside", () => {
-        const host = render('<lily-slide-out-drawer label="L"><button>Inside</button></lily-slide-out-drawer>');
+        const host = render(
+            '<lily-slide-out-drawer label="L"><button>Inside</button></lily-slide-out-drawer>',
+        );
         trigger.focus();
         host.toggleAttribute("open", true);
         expect(inner(host).contains(document.activeElement)).toBe(true);
@@ -106,7 +110,9 @@ describe("SlideOutDrawer", () => {
     });
 
     test("closing returns focus to the trigger", () => {
-        const host = render('<lily-slide-out-drawer label="L"><button>Inside</button></lily-slide-out-drawer>');
+        const host = render(
+            '<lily-slide-out-drawer label="L"><button>Inside</button></lily-slide-out-drawer>',
+        );
         trigger.focus();
         host.toggleAttribute("open", true);
         expect(document.activeElement).not.toBe(trigger);
@@ -116,7 +122,9 @@ describe("SlideOutDrawer", () => {
     });
 
     test("keeps consumer content inside the dialog", () => {
-        const host = render('<lily-slide-out-drawer label="L" open><nav>Menu content</nav></lily-slide-out-drawer>');
+        const host = render(
+            '<lily-slide-out-drawer label="L" open><nav>Menu content</nav></lily-slide-out-drawer>',
+        );
         expect(inner(host).querySelector("nav")?.textContent).toBe("Menu content");
     });
 

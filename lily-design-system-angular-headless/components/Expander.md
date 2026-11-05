@@ -8,7 +8,11 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-expander label="More" [(expanded)]="expanded">...</lily-expander>
+<lily-expander
+  label="More"
+  [(expanded)]="expanded"
+  >...</lily-expander
+>
 ```
 
 ## Files

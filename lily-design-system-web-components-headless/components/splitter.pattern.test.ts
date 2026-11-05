@@ -11,5 +11,8 @@ afterEach(() => {
 
 test("meets the splitter contract", async () => {
     document.body.innerHTML = '<lily-splitter label="Panes"></lily-splitter>';
-    await runPattern("splitter", { root: document.body.firstElementChild as HTMLElement, hook: "splitter" });
+    await runPattern("splitter", {
+        root: document.body.firstElementChild as HTMLElement,
+        hook: "splitter",
+    });
 });

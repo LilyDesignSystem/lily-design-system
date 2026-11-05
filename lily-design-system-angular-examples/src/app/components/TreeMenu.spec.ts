@@ -49,7 +49,9 @@ describe("TreeMenu", () => {
         const fixture = TestBed.createComponent(Host);
         fixture.detectChanges();
         document.body.appendChild(fixture.nativeElement);
-        const items = Array.from(fixture.nativeElement.querySelectorAll('[role="treeitem"]')) as HTMLElement[];
+        const items = Array.from(
+            fixture.nativeElement.querySelectorAll('[role="treeitem"]'),
+        ) as HTMLElement[];
         items[0].focus();
         press(items[0], "ArrowDown");
         expect(document.activeElement).toBe(items[1]);
@@ -66,7 +68,9 @@ describe("TreeMenu", () => {
         const fixture = TestBed.createComponent(Host);
         fixture.detectChanges();
         document.body.appendChild(fixture.nativeElement);
-        const items = Array.from(fixture.nativeElement.querySelectorAll('[role="treeitem"]')) as HTMLElement[];
+        const items = Array.from(
+            fixture.nativeElement.querySelectorAll('[role="treeitem"]'),
+        ) as HTMLElement[];
         items[1].focus();
         press(items[1], "End");
         expect(document.activeElement).toBe(items[2]);

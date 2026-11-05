@@ -99,7 +99,12 @@ try {
     fs.rmSync(path.join(root, ".svelte-kit"), { recursive: true, force: true });
 }
 
-for (const artifact of ["index.js", "index.d.ts", "components/dev-warning.js", "components/widget-keys.js"]) {
+for (const artifact of [
+    "index.js",
+    "index.d.ts",
+    "components/dev-warning.js",
+    "components/widget-keys.js",
+]) {
     const file = path.join(distDir, artifact);
     if (!fs.existsSync(file) || fs.statSync(file).size === 0) {
         throw new Error(`expected a non-empty dist/${artifact} after build.`);

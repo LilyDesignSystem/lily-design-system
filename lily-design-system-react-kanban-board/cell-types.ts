@@ -264,7 +264,7 @@ function zoneLabel(
         const parts = new Intl.DateTimeFormat(locale, {
             timeZone,
             timeZoneName: "short",
-        // Noon UTC, so the date is the same calendar day in every zone and the short name is that day's (BST vs GMT).
+            // Noon UTC, so the date is the same calendar day in every zone and the short name is that day's (BST vs GMT).
         }).formatToParts(new Date(`${referenceDate}T12:00:00Z`));
         return parts.find((x) => x.type === "timeZoneName")?.value ?? timeZone;
     } catch {

@@ -374,7 +374,10 @@ export class ListboxController {
     #onKeydown = (event) => {
         const options = Array.from(this.#root.querySelectorAll('[role="option"]'));
         const label = (option) =>
-            (this.#getOptionLabel ? this.#getOptionLabel(option) : (option.textContent ?? "")).trim();
+            (this.#getOptionLabel
+                ? this.#getOptionLabel(option)
+                : (option.textContent ?? "")
+            ).trim();
         const t = listboxKeydown(
             this.#state,
             event,

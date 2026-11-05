@@ -50,13 +50,7 @@ interface RovingContract {
 }
 
 export type RovingPatternName =
-    | "tabs"
-    | "menu"
-    | "menubar"
-    | "tree"
-    | "toolbar"
-    | "action-group"
-    | "radio-group";
+    "tabs" | "menu" | "menubar" | "tree" | "toolbar" | "action-group" | "radio-group";
 export type SubmenuPatternName = "menu-submenu" | "menubar-submenu";
 export type OverlayPatternName = "combobox" | "dialog";
 export type PatternName =
@@ -259,7 +253,8 @@ async function runRoving(pattern: RovingPatternName, options: PatternOptions): P
                 fail(step.name, `${stops.length} tab stop(s), and it must be the focused item`);
         }
         // A native button or link activates itself, which a synthetic key cannot show.
-        const clicked = step.expect.clicked === undefined ? undefined : all[at(step.expect.clicked)];
+        const clicked =
+            step.expect.clicked === undefined ? undefined : all[at(step.expect.clicked)];
         if (clicked && !clicked.matches("a[href],button") && !clicks.includes(clicked))
             fail(step.name, "the item was not activated");
     }
@@ -299,9 +294,13 @@ async function runSubmenu(pattern: SubmenuPatternName, options: PatternOptions):
         await settle();
         const focused = root.ownerDocument.activeElement as HTMLElement | null;
         if (focused !== item(step.expect.focus))
-            fail(step.name, `focus is on "${focused?.textContent?.trim()}", not "${step.expect.focus}"`);
+            fail(
+                step.name,
+                `focus is on "${focused?.textContent?.trim()}", not "${step.expect.focus}"`,
+            );
         const expanded = opener.getAttribute("aria-expanded");
-        if (expanded !== String(step.expect.expanded)) fail(step.name, `aria-expanded is ${expanded}`);
+        if (expanded !== String(step.expect.expanded))
+            fail(step.name, `aria-expanded is ${expanded}`);
         if (listShown(submenu) !== step.expect.expanded)
             fail(step.name, `submenu shown is ${listShown(submenu)}`);
     }
@@ -400,7 +399,10 @@ async function runCombobox(options: PatternOptions): Promise<void> {
                 fail(step.name, `${selected.length} option(s) have aria-selected="true"`);
         }
         if (value !== undefined && (input as HTMLInputElement).value !== labels[value])
-            fail(step.name, `the input holds "${(input as HTMLInputElement).value}", not "${labels[value]}"`);
+            fail(
+                step.name,
+                `the input holds "${(input as HTMLInputElement).value}", not "${labels[value]}"`,
+            );
         if (wantPrevented !== undefined && prevented !== wantPrevented)
             fail(step.name, `defaultPrevented is ${prevented}, not ${wantPrevented}`);
     }
@@ -522,7 +524,8 @@ async function runCropper(options: PatternOptions): Promise<void> {
         const { prevented: wantPrevented, ...rect } = step.expect;
         for (const [name, value] of Object.entries(rect)) {
             const read = root.getAttribute(`data-crop-${name}`);
-            if (read !== String(value)) fail(step.name, `data-crop-${name} is ${read}, not ${value}`);
+            if (read !== String(value))
+                fail(step.name, `data-crop-${name} is ${read}, not ${value}`);
         }
         if (wantPrevented !== undefined && prevented !== wantPrevented)
             fail(step.name, `defaultPrevented is ${prevented}`);

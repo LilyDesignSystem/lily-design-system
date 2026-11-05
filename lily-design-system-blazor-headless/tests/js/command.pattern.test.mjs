@@ -10,7 +10,16 @@ const { JSDOM } = process.env.JSDOM_PATH
     : await import("jsdom");
 
 const dom = new JSDOM("<!doctype html><body></body>", { pretendToBeVisual: true });
-for (const k of ["window", "document", "HTMLElement", "HTMLInputElement", "Node", "KeyboardEvent", "MouseEvent", "Event"]) {
+for (const k of [
+    "window",
+    "document",
+    "HTMLElement",
+    "HTMLInputElement",
+    "Node",
+    "KeyboardEvent",
+    "MouseEvent",
+    "Event",
+]) {
     globalThis[k] = k === "window" ? dom.window : (dom.window[k] ?? globalThis[k]);
 }
 const { attach } = await import("../../src/LilyBlazorHeadless/Components/Command.razor.js");

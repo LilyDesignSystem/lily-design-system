@@ -22,28 +22,28 @@ with links: `spec/helpers/index.md` § "Svelte helper packages".
 
 ## The packages
 
-| Package            | Owns                                                                   | Shape                                                               |
-| ------------------ | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `theme-picker`     | a **preference** (theme stylesheet + `data-theme`)                     | icon button + listbox                                               |
-| `locale-picker`    | a **preference** (`lang`/`dir`)                                        | icon button + listbox                                               |
-| `text-size-picker` | a **preference** (`data-text-size`)                                    | icon button + listbox                                               |
-| `motion-picker`    | a **preference** (`data-motion`; defaults to `prefers-reduced-motion`) | icon button + listbox                                               |
-| `share-picker`     | an **action**                                                          | icon button + disclosure of real `<a>` links                        |
-| `search-picker`    | an **action** (GET to `/?<text>`)                                      | icon button + disclosure holding a search form                      |
-| `link-picker`      | an **action** (the app's page links)                                   | home icon button + disclosure of real `<a>` links                   |
-| `menu-picker`      | whatever the app provides                                              | hamburger icon button + disclosure panel                            |
-| `settings-picker`  | whatever the app provides                                              | cog icon button + disclosure panel                                  |
-| `time-zone-picker` | a **preference** (`data-time-zone`, an IANA id)                        | clock icon button + listbox of zones by UTC offset (CLDR names)     |
-| `date-time-picker` | a **form value**                                                       | typeable field + icon button opening an APG date-picker dialog      |
-| `picker-bar`       | a composition                                                          | link, search, theme, locale, (time-zone), text-size, share in a row |
-| `data-grid`        | grid state and behaviour                                               | over the headless `DataTable` family                                |
-| `kanban-board`     | board state and keyboard moves                                         | over the headless `KanbanTable` family                              |
-| `gantt-chart`      | schedule state and editing                                             | over the headless `GanttTable` family + `date-time-picker`          |
-| `calendar`         | day / week / four-week / month / agenda browsing                       | over the headless `CalendarTable` family + `date-time-picker`       |
-| `filter`           | a filter tree (conditions and groups)                                  | outputs JSON, SQL, MongoDB, OData or a predicate                    |
-| `markdown-editor`  | a form value (Markdown text)                                           | textarea + toolbar of buttons that write Markdown                   |
-| `org-editor`       | a form value (Emacs Org text)                                          | textarea + toolbar for effects, tasks, planning, drawers            |
-| `locale-translations` | data: the 64 label packs and CLDR zone-name packs                   | per-locale exports, no markup                                       |
+| Package               | Owns                                                                   | Shape                                                               |
+| --------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `theme-picker`        | a **preference** (theme stylesheet + `data-theme`)                     | icon button + listbox                                               |
+| `locale-picker`       | a **preference** (`lang`/`dir`)                                        | icon button + listbox                                               |
+| `text-size-picker`    | a **preference** (`data-text-size`)                                    | icon button + listbox                                               |
+| `motion-picker`       | a **preference** (`data-motion`; defaults to `prefers-reduced-motion`) | icon button + listbox                                               |
+| `share-picker`        | an **action**                                                          | icon button + disclosure of real `<a>` links                        |
+| `search-picker`       | an **action** (GET to `/?<text>`)                                      | icon button + disclosure holding a search form                      |
+| `link-picker`         | an **action** (the app's page links)                                   | home icon button + disclosure of real `<a>` links                   |
+| `menu-picker`         | whatever the app provides                                              | hamburger icon button + disclosure panel                            |
+| `settings-picker`     | whatever the app provides                                              | cog icon button + disclosure panel                                  |
+| `time-zone-picker`    | a **preference** (`data-time-zone`, an IANA id)                        | clock icon button + listbox of zones by UTC offset (CLDR names)     |
+| `date-time-picker`    | a **form value**                                                       | typeable field + icon button opening an APG date-picker dialog      |
+| `picker-bar`          | a composition                                                          | link, search, theme, locale, (time-zone), text-size, share in a row |
+| `data-grid`           | grid state and behaviour                                               | over the headless `DataTable` family                                |
+| `kanban-board`        | board state and keyboard moves                                         | over the headless `KanbanTable` family                              |
+| `gantt-chart`         | schedule state and editing                                             | over the headless `GanttTable` family + `date-time-picker`          |
+| `calendar`            | day / week / four-week / month / agenda browsing                       | over the headless `CalendarTable` family + `date-time-picker`       |
+| `filter`              | a filter tree (conditions and groups)                                  | outputs JSON, SQL, MongoDB, OData or a predicate                    |
+| `markdown-editor`     | a form value (Markdown text)                                           | textarea + toolbar of buttons that write Markdown                   |
+| `org-editor`          | a form value (Emacs Org text)                                          | textarea + toolbar for effects, tasks, planning, drawers            |
+| `locale-translations` | data: the 64 label packs and CLDR zone-name packs                      | per-locale exports, no markup                                       |
 
 The five preference pickers (theme, locale, text-size, motion, time-zone) share one contract (`theme-picker` also has an opt-in native `<select>`, `variant="select"`): root
 `<div class="{helper} {class}">` with a hidden input for form

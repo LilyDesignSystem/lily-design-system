@@ -49,7 +49,12 @@
     } = $props();
 
     $effect(() =>
-        warnMissingName("AddressInput", label, restProps["aria-label"], restProps["aria-labelledby"]),
+        warnMissingName(
+            "AddressInput",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
     );
 </script>
 

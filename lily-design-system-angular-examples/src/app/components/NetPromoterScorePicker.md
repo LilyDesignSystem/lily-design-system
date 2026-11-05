@@ -8,7 +8,10 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-net-promoter-score-picker label="How likely are you to recommend us?" [(value)]="score" />
+<lily-net-promoter-score-picker
+  label="How likely are you to recommend us?"
+  [(value)]="score"
+/>
 ```
 
 ## Files

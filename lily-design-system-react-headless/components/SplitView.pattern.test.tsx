@@ -6,7 +6,11 @@ import { runPattern } from "../../shared/pattern-tester";
 import Subject from "./SplitView";
 
 test("meets the splitter contract", async () => {
-    const props = { label: "Panes", primary: "One", secondary: "Two" } as unknown as React.ComponentProps<typeof Subject>;
+    const props = {
+        label: "Panes",
+        primary: "One",
+        secondary: "Two",
+    } as unknown as React.ComponentProps<typeof Subject>;
     const { container } = render(<Subject {...props} />);
     await runPattern("splitter", {
         root: container.querySelector<HTMLElement>(".split-view")!,

@@ -4,9 +4,7 @@
 const path = require("path");
 
 const isOpen = () =>
-    browser.execute(() =>
-        document.querySelector("div.popconfirm-dialog").matches(":popover-open"),
-    );
+    browser.execute(() => document.querySelector("div.popconfirm-dialog").matches(":popover-open"));
 
 describe("PopconfirmDialog", function () {
     beforeEach(async function () {

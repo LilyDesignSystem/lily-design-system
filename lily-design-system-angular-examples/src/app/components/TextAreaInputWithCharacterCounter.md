@@ -10,7 +10,12 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-text-area-input-with-character-counter label="Notes" [maxLength]="200" counterTemplate="{count} of {max} characters" [(value)]="notes" />
+<lily-text-area-input-with-character-counter
+  label="Notes"
+  [maxLength]="200"
+  counterTemplate="{count} of {max} characters"
+  [(value)]="notes"
+/>
 ```
 
 ## Files

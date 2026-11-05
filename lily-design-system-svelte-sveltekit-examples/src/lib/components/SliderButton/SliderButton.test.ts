@@ -10,11 +10,11 @@ describe("SliderButton", () => {
         expect(slider().tagName).toBe("BUTTON");
         expect(slider().getAttribute("type")).toBe("button");
         expect(slider().getAttribute("class")).toContain("slider-button");
-        expect(["aria-valuenow", "aria-valuemin", "aria-valuemax"].map((a) => slider().getAttribute(a))).toEqual([
-            "0",
-            "0",
-            "100",
-        ]);
+        expect(
+            ["aria-valuenow", "aria-valuemin", "aria-valuemax"].map((a) =>
+                slider().getAttribute(a),
+            ),
+        ).toEqual(["0", "0", "100"]);
     });
 
     test("ArrowRight and ArrowLeft move by step; Home returns to 0", async () => {

@@ -15,7 +15,16 @@ for list/table sub-elements, so there is no wrapper element between this
 content-model relationship for assistive technology).
 
 ```html
-<li lily-tour-list-item label="Welcome" [current]="true" [stepNumber]="1" [totalSteps]="3" stepTemplate="{label}, step {step} of {total}">...</li>
+<li
+  lily-tour-list-item
+  label="Welcome"
+  [current]="true"
+  [stepNumber]="1"
+  [totalSteps]="3"
+  stepTemplate="{label}, step {step} of {total}"
+>
+  ...
+</li>
 ```
 
 ## Files

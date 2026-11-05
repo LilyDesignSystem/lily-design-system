@@ -1270,7 +1270,12 @@ describe("ThemePicker — themeColor (P21-T7)", () => {
     });
 
     test("on: the tag follows --lily-brand once the stylesheet has loaded", () => {
-        render(<ThemePicker {...base} themeColor />);
+        render(
+            <ThemePicker
+                {...base}
+                themeColor
+            />,
+        );
         document.documentElement.style.setProperty("--lily-brand", "#005eb8");
         expect(meta()).toBeNull(); // not before the stylesheet loads
         getManagedLink()!.dispatchEvent(new Event("load"));
@@ -1278,7 +1283,12 @@ describe("ThemePicker — themeColor (P21-T7)", () => {
     });
 
     test("on: a theme with no --lily-brand leaves the tag as it was", () => {
-        render(<ThemePicker {...base} themeColor />);
+        render(
+            <ThemePicker
+                {...base}
+                themeColor
+            />,
+        );
         getManagedLink()!.dispatchEvent(new Event("load"));
         expect(meta()).toBeNull();
     });

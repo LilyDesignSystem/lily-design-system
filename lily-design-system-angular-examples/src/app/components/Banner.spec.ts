@@ -5,7 +5,8 @@ import { Banner } from "./Banner";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(Banner);
-    for (const [key, value] of Object.entries({ label: "Notice", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ label: "Notice", ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }

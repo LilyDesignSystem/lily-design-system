@@ -15,12 +15,16 @@ describe("AccordionLink", () => {
     });
 
     test("label overrides the accessible name", () => {
-        render(AccordionLink, { props: { href: "/next", label: "Next page", children: text("Next") } });
+        render(AccordionLink, {
+            props: { href: "/next", label: "Next page", children: text("Next") },
+        });
         expect(screen.getByRole("link", { name: "Next page" })).toBeTruthy();
     });
 
     test("passes through other attributes", () => {
-        render(AccordionLink, { props: { href: "/next", "aria-current": "page", children: text("Next") } });
+        render(AccordionLink, {
+            props: { href: "/next", "aria-current": "page", children: text("Next") },
+        });
         expect(screen.getByRole("link").getAttribute("aria-current")).toBe("page");
     });
 });

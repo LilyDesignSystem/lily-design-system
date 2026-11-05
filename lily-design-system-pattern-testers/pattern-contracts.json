@@ -527,11 +527,7 @@
   "combobox": {
     "source": "WAI-ARIA APG combobox with list autocomplete and manual selection, on the options the consumer supplies; the input keeps focus (components/combobox/AGENTS.md). Filtering is the consumer's. A test leaves the list empty and the tester installs the fixture.",
     "fixture": {
-      "options": [
-        "Apple",
-        "Banana",
-        "Cherry"
-      ]
+      "options": ["Apple", "Banana", "Cherry"]
     },
     "steps": [
       {
@@ -775,90 +771,63 @@
       {
         "name": "the cursor starts on the first cell",
         "expect": {
-          "cell": [
-            0,
-            0
-          ]
+          "cell": [0, 0]
         }
       },
       {
         "name": "ArrowRight moves to the next column",
         "press": "ArrowRight",
         "expect": {
-          "cell": [
-            0,
-            1
-          ]
+          "cell": [0, 1]
         }
       },
       {
         "name": "ArrowDown moves to the next row",
         "press": "ArrowDown",
         "expect": {
-          "cell": [
-            1,
-            1
-          ]
+          "cell": [1, 1]
         }
       },
       {
         "name": "ArrowLeft moves back",
         "press": "ArrowLeft",
         "expect": {
-          "cell": [
-            1,
-            0
-          ]
+          "cell": [1, 0]
         }
       },
       {
         "name": "ArrowUp moves up",
         "press": "ArrowUp",
         "expect": {
-          "cell": [
-            0,
-            0
-          ]
+          "cell": [0, 0]
         }
       },
       {
         "name": "ArrowLeft stops at the edge",
         "press": "ArrowLeft",
         "expect": {
-          "cell": [
-            0,
-            0
-          ]
+          "cell": [0, 0]
         }
       },
       {
         "name": "ArrowDown from the first column",
         "press": "ArrowDown",
         "expect": {
-          "cell": [
-            1,
-            0
-          ]
+          "cell": [1, 0]
         }
       },
       {
         "name": "End goes to the last column of the row",
         "press": "End",
         "expect": {
-          "cell": [
-            1,
-            "last"
-          ]
+          "cell": [1, "last"]
         }
       },
       {
         "name": "Home goes to the first column of the row",
         "press": "Home",
         "expect": {
-          "cell": [
-            1,
-            0
-          ]
+          "cell": [1, 0]
         }
       },
       {
@@ -866,10 +835,7 @@
         "press": "End",
         "ctrl": true,
         "expect": {
-          "cell": [
-            "last",
-            "last"
-          ]
+          "cell": ["last", "last"]
         }
       },
       {
@@ -877,40 +843,28 @@
         "press": "Home",
         "ctrl": true,
         "expect": {
-          "cell": [
-            0,
-            0
-          ]
+          "cell": [0, 0]
         }
       },
       {
         "name": "ArrowDown leaves the header row",
         "press": "ArrowDown",
         "expect": {
-          "cell": [
-            1,
-            0
-          ]
+          "cell": [1, 0]
         }
       },
       {
         "name": "PageDown stops at the last row",
         "press": "PageDown",
         "expect": {
-          "cell": [
-            "last",
-            0
-          ]
+          "cell": ["last", 0]
         }
       },
       {
         "name": "PageUp stops at the first row",
         "press": "PageUp",
         "expect": {
-          "cell": [
-            0,
-            0
-          ]
+          "cell": [0, 0]
         }
       }
     ]
@@ -1318,30 +1272,21 @@
       {
         "name": "the cursor starts on the first cell",
         "expect": {
-          "cell": [
-            0,
-            0
-          ]
+          "cell": [0, 0]
         }
       },
       {
         "name": "ArrowRight reaches a sortable header",
         "press": "ArrowRight",
         "expect": {
-          "cell": [
-            0,
-            1
-          ]
+          "cell": [0, 1]
         }
       },
       {
         "name": "Enter sorts ascending",
         "press": "Enter",
         "expect": {
-          "cell": [
-            0,
-            1
-          ],
+          "cell": [0, 1],
           "sort": "ascending"
         }
       },
@@ -1349,10 +1294,7 @@
         "name": "Enter sorts descending",
         "press": "Enter",
         "expect": {
-          "cell": [
-            0,
-            1
-          ],
+          "cell": [0, 1],
           "sort": "descending"
         }
       },
@@ -1360,20 +1302,14 @@
         "name": "Enter again sorts ascending or clears",
         "press": "Enter",
         "expect": {
-          "cell": [
-            0,
-            1
-          ]
+          "cell": [0, 1]
         }
       },
       {
         "name": "ArrowDown reaches an editable cell",
         "press": "ArrowDown",
         "expect": {
-          "cell": [
-            1,
-            1
-          ]
+          "cell": [1, 1]
         }
       },
       {
@@ -1388,10 +1324,7 @@
         "press": "Escape",
         "expect": {
           "editing": false,
-          "cell": [
-            1,
-            1
-          ]
+          "cell": [1, 1]
         }
       },
       {
@@ -1406,20 +1339,14 @@
         "press": "Enter",
         "expect": {
           "editing": false,
-          "cell": [
-            1,
-            1
-          ]
+          "cell": [1, 1]
         }
       },
       {
         "name": "ArrowLeft reaches the selection cell",
         "press": "ArrowLeft",
         "expect": {
-          "cell": [
-            1,
-            0
-          ]
+          "cell": [1, 0]
         }
       },
       {
@@ -1441,11 +1368,7 @@
   "command": {
     "source": "A command palette: a search input keeps focus over an always-visible listbox of the consumer's options (components/command/AGENTS.md). Filtering, and what an option does, are the consumer's. A test leaves the list empty and the tester installs the fixture.",
     "fixture": {
-      "options": [
-        "Apple",
-        "Banana",
-        "Cherry"
-      ]
+      "options": ["Apple", "Banana", "Cherry"]
     },
     "steps": [
       {
@@ -1934,11 +1857,7 @@
   "mentions": {
     "source": "A trigger character opening a list while the input keeps focus (components/mentions-input/AGENTS.md). Filtering is the consumer's. The tester installs the options into an empty panel.",
     "fixture": {
-      "options": [
-        "Apple",
-        "Banana",
-        "Cherry"
-      ]
+      "options": ["Apple", "Banana", "Cherry"]
     },
     "steps": [
       {

@@ -51,7 +51,7 @@
  */
 
 /** Lower-case and strip combining marks, so matching ignores case and diacritics. */
-function foldText(text        )         {
+function foldText(text) {
     return text
         .normalize("NFD")
         .replace(/\p{M}+/gu, "")
@@ -59,12 +59,12 @@ function foldText(text        )         {
 }
 
 /** The terms of a query, folded; empty when the query is blank. */
-function searchTerms(query        )           {
+function searchTerms(query) {
     return foldText(query).split(/\s+/).filter(Boolean);
 }
 
 /** True when every term of `query` appears in `text`. */
-function matchesSearch(text        , query        )          {
+function matchesSearch(text, query) {
     const terms = searchTerms(query);
     if (terms.length === 0) return true;
     const folded = foldText(text);
@@ -76,20 +76,20 @@ function matchesSearch(text        , query        )          {
  * is one character, its folded form too, but a ligature may not be), so matching works on a per-character fold and falls back to
  * one unmarked segment if the two ever disagree.
  */
-function highlightSegments(text        , query        )                  {
+function highlightSegments(text, query) {
     const terms = searchTerms(query);
     if (terms.length === 0 || text === "") return [{ text, match: false }];
     const chars = Array.from(text);
     const folded = chars.map((c) => foldText(c));
     if (folded.some((f) => f.length !== 1)) return [{ text, match: false }];
     const flat = folded.join("");
-    const marked = new Array         (chars.length).fill(false);
+    const marked = new Array(chars.length).fill(false);
     for (const term of terms) {
         for (let at = flat.indexOf(term); at !== -1; at = flat.indexOf(term, at + 1)) {
             for (let i = at; i < at + term.length; i++) marked[i] = true;
         }
     }
-    const out                  = [];
+    const out = [];
     chars.forEach((c, i) => {
         const last = out[out.length - 1];
         if (last && last.match === marked[i]) last.text += c;
@@ -109,9 +109,7 @@ function highlightSegments(text        , query        )                  {
 const TYPEAHEAD_RESET_MS = 700;
 
 /** Whether a key press is a type-ahead character: one printable character, no Ctrl, Alt or Meta. */
-function isTypeaheadKey(event
-
- )          {
+function isTypeaheadKey(event) {
     return (
         event.key.length === 1 &&
         event.key !== " " &&
@@ -122,12 +120,7 @@ function isTypeaheadKey(event
 }
 
 /** The prefix after `key` is pressed at time `now`: it grows while presses are within `resetMs` of each other, else starts over. */
-function nextTypeaheadState(
-    previous                ,
-    key        ,
-    now        ,
-    resetMs         = TYPEAHEAD_RESET_MS,
-)                 {
+function nextTypeaheadState(previous, key, now, resetMs = TYPEAHEAD_RESET_MS) {
     const continuing = previous.prefix !== "" && now - previous.at <= resetMs;
     return { prefix: (continuing ? previous.prefix : "") + key, at: now };
 }
@@ -136,11 +129,7 @@ function nextTypeaheadState(
  * The index of the row to move to, or -1. Searches from the row after `from` and wraps. A prefix of one repeated letter ("ss") is
  * treated as that single letter, so pressing it again steps through the rows starting with it.
  */
-function findTypeaheadMatch(
-    labels                   ,
-    from        ,
-    prefix        ,
-)         {
+function findTypeaheadMatch(labels, from, prefix) {
     const folded = foldText(prefix);
     if (folded === "" || labels.length === 0) return -1;
     const repeated = folded.length > 1 && [...folded].every((c) => c === folded[0]);
@@ -193,28 +182,18 @@ const LISTBOX_TYPEAHEAD_RESET_MS = 500;
 /** What the adapter must do. Absent fields mean "nothing". */
 
 /** A fresh state with the cursor at `activeIndex`. */
-function initialListboxState(activeIndex         = -1)               {
+function initialListboxState(activeIndex = -1) {
     return { activeIndex, typeahead: { prefix: "", at: 0 } };
 }
 
 /** `index` moved by `delta` among `count` options, clamped to the ends or wrapped. `count` must be positive. */
-function stepListboxIndex(
-    index        ,
-    delta        ,
-    count        ,
-    clamp         ,
-)         {
+function stepListboxIndex(index, delta, count, clamp) {
     const next = index + delta;
     return clamp ? Math.min(Math.max(next, 0), count - 1) : ((next % count) + count) % count;
 }
 
-function rovingKeydown(
-    state              ,
-    key        ,
-    count        ,
-    focused        ,
-)                    {
-    let focus        ;
+function rovingKeydown(state, key, count, focused) {
+    let focus;
     switch (key) {
         case "ArrowDown":
             focus = focused < count - 1 ? focused + 1 : 0;
@@ -234,16 +213,11 @@ function rovingKeydown(
     return count > 0 ? { state, preventDefault: true, focus } : { state, preventDefault: true };
 }
 
-function activeDescendantKeydown(
-    state              ,
-    event            ,
-    context                ,
-    config               ,
-)                    {
+function activeDescendantKeydown(state, event, context, config) {
     const { labels } = context;
     const count = labels.length;
     const clamp = config.clamp ?? false;
-    const move = (delta        )                    => {
+    const move = (delta) => {
         if (count === 0) return { state, preventDefault: true };
         const activeIndex = stepListboxIndex(state.activeIndex, delta, count, clamp);
         return {
@@ -252,7 +226,7 @@ function activeDescendantKeydown(
             setActiveIndex: activeIndex,
         };
     };
-    const jump = (activeIndex        )                    => ({
+    const jump = (activeIndex) => ({
         state: { ...state, activeIndex },
         preventDefault: true,
         setActiveIndex: activeIndex,
@@ -303,12 +277,7 @@ function activeDescendantKeydown(
 }
 
 /** The transition for one key press. Never mutates `state`. */
-function listboxKeydown(
-    state              ,
-    event            ,
-    context                ,
-    config                = {},
-)                    {
+function listboxKeydown(state, event, context, config = {}) {
     if ((config.navigation ?? "roving-focus") === "active-descendant") {
         return activeDescendantKeydown(state, event, context, config);
     }
@@ -374,7 +343,10 @@ export class ListboxController {
     #onKeydown = (event) => {
         const options = Array.from(this.#root.querySelectorAll('[role="option"]'));
         const label = (option) =>
-            (this.#getOptionLabel ? this.#getOptionLabel(option) : (option.textContent ?? "")).trim();
+            (this.#getOptionLabel
+                ? this.#getOptionLabel(option)
+                : (option.textContent ?? "")
+            ).trim();
         const t = listboxKeydown(
             this.#state,
             event,

@@ -2,7 +2,10 @@
   "name": "lily-web-components-solid-recipe",
   "private": true,
   "type": "module",
-  "scripts": { "test": "vitest run", "check": "tsc --noEmit" },
+  "scripts": {
+    "test": "vitest run",
+    "check": "tsc --noEmit"
+  },
   "devDependencies": {
     "@solidjs/testing-library": "^0.8.10",
     "@testing-library/dom": "^10.4.2",

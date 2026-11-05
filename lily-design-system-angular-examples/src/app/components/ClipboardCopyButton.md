@@ -10,7 +10,12 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-clipboard-copy-button [text]="link" label="Copy link" (copySuccess)="copied()">Copy</lily-clipboard-copy-button>
+<lily-clipboard-copy-button
+  [text]="link"
+  label="Copy link"
+  (copySuccess)="copied()"
+  >Copy</lily-clipboard-copy-button
+>
 ```
 
 ## Files

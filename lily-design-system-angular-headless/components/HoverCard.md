@@ -10,7 +10,11 @@ Angular inputs do not reach the inner element, so name the anchor in CSS on the 
 ## Selector
 
 ```html
-<lily-hover-card label="Profile" [open]="open()">...</lily-hover-card>
+<lily-hover-card
+  label="Profile"
+  [open]="open()"
+  >...</lily-hover-card
+>
 ```
 
 ## Files

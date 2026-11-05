@@ -8,7 +8,10 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-go-to-previous-section href="#summary" label="Back: Summary"></lily-go-to-previous-section>
+<lily-go-to-previous-section
+  href="#summary"
+  label="Back: Summary"
+></lily-go-to-previous-section>
 ```
 
 ## Files

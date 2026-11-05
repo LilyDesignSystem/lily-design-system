@@ -5,7 +5,8 @@ import { MedicalBanner } from "./MedicalBanner";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(MedicalBanner);
-    for (const [key, value] of Object.entries({ label: "Notice", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ label: "Notice", ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
@@ -46,6 +47,8 @@ describe("MedicalBanner", () => {
     });
 
     test("is marked medical", () => {
-        expect(make().nativeElement.querySelector("div").getAttribute("data-context")).toBe("medical");
+        expect(make().nativeElement.querySelector("div").getAttribute("data-context")).toBe(
+            "medical",
+        );
     });
 });

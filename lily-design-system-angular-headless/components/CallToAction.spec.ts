@@ -5,7 +5,8 @@ import { CallToAction } from "./CallToAction";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(CallToAction);
-    for (const [key, value] of Object.entries({ ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }

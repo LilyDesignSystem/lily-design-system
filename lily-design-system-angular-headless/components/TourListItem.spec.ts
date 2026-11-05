@@ -59,8 +59,10 @@ describe("TourListItem", () => {
 
     test("the numbers name it only through the consumer's template", () => {
         expect(make({ step: 2, total: 5 }).getAttribute("aria-label")).toBe("Welcome");
-        expect(make({ step: 2, total: 5, template: "{label}: {step}/{total}" }).getAttribute("aria-label")).toBe(
-            "Welcome: 2/5",
-        );
+        expect(
+            make({ step: 2, total: 5, template: "{label}: {step}/{total}" }).getAttribute(
+                "aria-label",
+            ),
+        ).toBe("Welcome: 2/5");
     });
 });

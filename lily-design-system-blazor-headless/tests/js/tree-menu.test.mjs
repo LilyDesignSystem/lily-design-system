@@ -26,7 +26,8 @@ function mount() {
     const tree = document.querySelector("[role=tree]");
     return { tree, items: [...tree.querySelectorAll("[role=treeitem]")], handle: attach(tree) };
 }
-const press = (el, key) => el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+const press = (el, key) =>
+    el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
 
 test("ArrowDown and ArrowUp move focus between tree items and wrap at the ends", () => {
     const { items, handle } = mount();

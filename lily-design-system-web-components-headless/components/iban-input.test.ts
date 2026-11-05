@@ -17,9 +17,7 @@ function render(html: string): HTMLElement {
 
 describe("IbanInput", () => {
     test("renders a native input type=text with the correct class", () => {
-        const host = render(
-            '<lily-iban-input label="IBAN"></lily-iban-input>',
-        );
+        const host = render('<lily-iban-input label="IBAN"></lily-iban-input>');
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.type).toBe("text");
@@ -27,9 +25,7 @@ describe("IbanInput", () => {
     });
 
     test("always forces autocomplete=off, even if the consumer tries to override it", () => {
-        const host = render(
-            '<lily-iban-input label="IBAN" autocomplete="on"></lily-iban-input>',
-        );
+        const host = render('<lily-iban-input label="IBAN" autocomplete="on"></lily-iban-input>');
 
         expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("off");
     });
@@ -42,13 +38,13 @@ describe("IbanInput", () => {
         expect(host.value).toBe("GB82WEST12345698765432");
 
         host.value = "DE89370400440532013000";
-        expect((host.querySelector("input") as HTMLInputElement).value).toBe("DE89370400440532013000");
+        expect((host.querySelector("input") as HTMLInputElement).value).toBe(
+            "DE89370400440532013000",
+        );
     });
 
     test("required and disabled propagate to the inner input", () => {
-        const host = render(
-            '<lily-iban-input label="IBAN" required disabled></lily-iban-input>',
-        );
+        const host = render('<lily-iban-input label="IBAN" required disabled></lily-iban-input>');
 
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.required).toBe(true);
@@ -56,9 +52,7 @@ describe("IbanInput", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render(
-            '<lily-iban-input label="IBAN"></lily-iban-input>',
-        );
+        const host = render('<lily-iban-input label="IBAN"></lily-iban-input>');
 
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("IBAN");
     });

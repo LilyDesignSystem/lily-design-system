@@ -31,7 +31,6 @@
 //
 // References:
 //   - Reuters Graphics BodyText (the inspiration): https://github.com/reuters-graphics/graphics-components
-
 </script>
 
 <template>

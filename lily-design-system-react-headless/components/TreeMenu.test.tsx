@@ -43,9 +43,24 @@ describe("TreeMenu", () => {
     const tree = () => (
         <Subject label="Site">
             <ul>
-                <li role="treeitem" tabIndex={-1}>Home</li>
-                <li role="treeitem" tabIndex={-1}>Settings</li>
-                <li role="treeitem" tabIndex={-1}>Profile</li>
+                <li
+                    role="treeitem"
+                    tabIndex={-1}
+                >
+                    Home
+                </li>
+                <li
+                    role="treeitem"
+                    tabIndex={-1}
+                >
+                    Settings
+                </li>
+                <li
+                    role="treeitem"
+                    tabIndex={-1}
+                >
+                    Profile
+                </li>
             </ul>
         </Subject>
     );

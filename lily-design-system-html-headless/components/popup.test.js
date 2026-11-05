@@ -5,7 +5,8 @@ const path = require("path");
 
 const file = path.resolve(__dirname, "popup.html");
 const trigger = () => $('button[commandfor="popup-1"]');
-const isOpen = () => browser.execute(() => document.getElementById("popup-1").matches(":popover-open"));
+const isOpen = () =>
+    browser.execute(() => document.getElementById("popup-1").matches(":popover-open"));
 
 describe("Popup", function () {
     beforeEach(async function () {

@@ -13,7 +13,11 @@ for list/table sub-elements, so there is no wrapper element between this
 content-model relationship for assistive technology).
 
 ```html
-<li lily-task-list-item label="Write the spec" [(checked)]="done"></li>
+<li
+  lily-task-list-item
+  label="Write the spec"
+  [(checked)]="done"
+></li>
 ```
 
 ## Files

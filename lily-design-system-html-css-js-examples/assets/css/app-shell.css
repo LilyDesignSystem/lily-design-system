@@ -108,17 +108,17 @@ main :where(li > a),
 
 /* Page-level rules that were style attributes, so a strict Content Security Policy needs no 'unsafe-inline'. */
 .tooltip-wrapper {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .button-row {
-    display: flex;
-    gap: var(--nhs-space-3);
+  display: flex;
+  gap: var(--nhs-space-3);
 }
 
 .task-done {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 /* logo-slot.html */
@@ -130,11 +130,11 @@ main :where(li > a),
 
 /* The /components catalog page. */
 .components-search-field {
-    margin-block-end: 1.5rem;
+  margin-block-end: 1.5rem;
 }
 
 .components-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

@@ -106,15 +106,28 @@ describe("orderedZones", () => {
         // P17-T11: West Africa's all-year GMT, Morocco, Central Africa; Indonesia's three zones, the Philippines,
         // Malaysia. Abidjan is checked in summer, when London is on daylight time and the two names differ.
         const summer = orderedZones(DEFAULT_ZONES, "en", SUMMER);
-        const added = ["Africa/Abidjan", "Africa/Casablanca", "Africa/Maputo", "Asia/Jakarta", "Asia/Makassar",
-            "Asia/Jayapura", "Asia/Manila", "Asia/Kuala_Lumpur"];
+        const added = [
+            "Africa/Abidjan",
+            "Africa/Casablanca",
+            "Africa/Maputo",
+            "Asia/Jakarta",
+            "Asia/Makassar",
+            "Asia/Jayapura",
+            "Asia/Manila",
+            "Asia/Kuala_Lumpur",
+        ];
         for (const list of [zones, summer]) {
             for (const id of added) {
                 const zone = list.find((z) => z.id === id)!;
                 expect(zone, id).toBeDefined();
                 if (id === "Africa/Abidjan" && list === zones) continue;
-                const twins = list.filter((z) => z.offsetMinutes === zone.offsetMinutes && z.name === zone.name);
-                expect(twins.map((z) => z.id), id).toEqual([id]);
+                const twins = list.filter(
+                    (z) => z.offsetMinutes === zone.offsetMinutes && z.name === zone.name,
+                );
+                expect(
+                    twins.map((z) => z.id),
+                    id,
+                ).toEqual([id]);
             }
         }
     });

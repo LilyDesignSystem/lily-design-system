@@ -9,7 +9,10 @@ in the canonical repo root for the cross-framework documentation.
 
 ```html
 <lily-label for="email">Email address</lily-label>
-<input id="email" type="email" />
+<input
+  id="email"
+  type="email"
+/>
 ```
 
 ## Files

@@ -10,7 +10,11 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-visible [once]="true" [(visible)]="seen">...</lily-visible>
+<lily-visible
+  [once]="true"
+  [(visible)]="seen"
+  >...</lily-visible
+>
 ```
 
 ## Files

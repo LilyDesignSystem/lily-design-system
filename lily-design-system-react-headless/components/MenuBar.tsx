@@ -69,7 +69,6 @@ export default function MenuBar({ className = "", label, children, ...restProps 
 
     useEffect(() => attachMenu(barRef.current!, "horizontal"), []);
 
-
     return (
         <div
             className={`menu-bar ${className}`}

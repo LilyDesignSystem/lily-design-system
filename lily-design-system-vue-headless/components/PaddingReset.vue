@@ -31,7 +31,6 @@
 //
 // References:
 //   - Reuters Graphics PaddingReset (the inspiration): https://github.com/reuters-graphics/graphics-components
-
 </script>
 
 <template>

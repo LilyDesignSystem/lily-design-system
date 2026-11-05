@@ -25,7 +25,8 @@ export function open(dialog, modal = true) {
         else dialog.setAttribute("open", "");
     }
     // showModal() focuses the first focusable descendant itself; do the same otherwise, else the dialog.
-    if (!dialog.contains(document.activeElement)) (dialog.querySelector(FOCUSABLE) ?? dialog).focus();
+    if (!dialog.contains(document.activeElement))
+        (dialog.querySelector(FOCUSABLE) ?? dialog).focus();
     return {
         close() {
             dialog.removeEventListener("keydown", guardEscape);

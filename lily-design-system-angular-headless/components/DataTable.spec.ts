@@ -24,6 +24,8 @@ describe("DataTable", () => {
         const fixture = TestBed.createComponent(DataTable);
         fixture.componentRef.setInput("label", "Named");
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector("table.data-table").getAttribute("aria-label")).toBe("Named");
+        expect(
+            fixture.nativeElement.querySelector("table.data-table").getAttribute("aria-label"),
+        ).toBe("Named");
     });
 });

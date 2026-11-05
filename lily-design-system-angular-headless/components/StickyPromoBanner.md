@@ -10,7 +10,13 @@ The dismiss button is always rendered: Angular cannot ask whether `dismissed` ha
 ## Selector
 
 ```html
-<lily-sticky-promo-banner label="Offer" dismissLabel="Dismiss" [open]="open()" (dismissed)="open.set(false)">...</lily-sticky-promo-banner>
+<lily-sticky-promo-banner
+  label="Offer"
+  dismissLabel="Dismiss"
+  [open]="open()"
+  (dismissed)="open.set(false)"
+  >...</lily-sticky-promo-banner
+>
 ```
 
 ## Files

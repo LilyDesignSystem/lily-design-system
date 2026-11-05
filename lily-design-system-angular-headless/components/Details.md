@@ -8,7 +8,10 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-details summary="Opening times" [(open)]="open">
+<lily-details
+  summary="Opening times"
+  [(open)]="open"
+>
   <p>Monday to Friday, 9am to 5pm.</p>
 </lily-details>
 ```

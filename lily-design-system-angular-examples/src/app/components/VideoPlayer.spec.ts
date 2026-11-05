@@ -5,13 +5,19 @@ import { VideoPlayer } from "./VideoPlayer";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(VideoPlayer);
-    for (const [key, value] of Object.entries({ src: "/a.webm", label: "Tour", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ src: "/a.webm", label: "Tour", ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
 
 // jsdom has no IntersectionObserver; this one reports when told to.
-const observers: { callback: IntersectionObserverCallback; options?: IntersectionObserverInit; targets: Element[]; disconnected: boolean }[] = [];
+const observers: {
+    callback: IntersectionObserverCallback;
+    options?: IntersectionObserverInit;
+    targets: Element[];
+    disconnected: boolean;
+}[] = [];
 class FakeObserver {
     record: (typeof observers)[number];
     constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
@@ -26,7 +32,12 @@ class FakeObserver {
     }
 }
 const report = (target: Element, isIntersecting: boolean) =>
-    observers.at(-1)!.callback([{ target, isIntersecting } as IntersectionObserverEntry], {} as IntersectionObserver);
+    observers
+        .at(-1)!
+        .callback(
+            [{ target, isIntersecting } as IntersectionObserverEntry],
+            {} as IntersectionObserver,
+        );
 
 beforeEach(() => {
     observers.length = 0;

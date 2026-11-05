@@ -11,7 +11,9 @@ test.beforeEach(async ({ page }) => {
     // Interactive once the circuit is up: hydrating replaces the prerendered DOM, so the click may have to be repeated.
     await expect(async () => {
         await page.getByTestId("toggle").click();
-        await expect(page.getByTestId("toggle-state")).toHaveText("Pressed: True", { timeout: 500 });
+        await expect(page.getByTestId("toggle-state")).toHaveText("Pressed: True", {
+            timeout: 500,
+        });
     }).toPass({ timeout: 30_000 });
     await page.getByTestId("toggle").click();
     await expect(page.getByTestId("toggle-state")).toHaveText("Pressed: False");
@@ -76,7 +78,9 @@ test("details: the summary reaches C#, and C# opens it without a flip back", asy
     await expect(details).toHaveAttribute("open", "");
 });
 
-test("tag input: Enter adds and clears without submitting; an empty Enter submits", async ({ page }) => {
+test("tag input: Enter adds and clears without submitting; an empty Enter submits", async ({
+    page,
+}) => {
     const field = page.getByTestId("tags").locator("input");
     await field.focus();
     await page.keyboard.type("  one ");
@@ -159,5 +163,7 @@ test("contents nav: the section in view reaches C#", async ({ page }) => {
     await expect(page.getByTestId("contents-state")).toHaveText("Active: first");
     await page.evaluate(() => document.getElementById("second")!.scrollIntoView());
     await expect(page.getByTestId("contents-state")).toHaveText("Active: second");
-    await expect(page.getByTestId("contents").getByRole("link", { name: "Second" })).toHaveAttribute("aria-current", "true");
+    await expect(
+        page.getByTestId("contents").getByRole("link", { name: "Second" }),
+    ).toHaveAttribute("aria-current", "true");
 });

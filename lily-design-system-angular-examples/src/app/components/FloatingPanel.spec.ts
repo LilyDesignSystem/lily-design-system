@@ -8,7 +8,10 @@ function make(inputs: Record<string, unknown> = {}) {
     fixture.componentRef.setInput("label", "Filters");
     for (const [k, v] of Object.entries(inputs)) fixture.componentRef.setInput(k, v);
     fixture.detectChanges();
-    return { fixture, root: fixture.nativeElement.querySelector("div.floating-panel") as HTMLElement };
+    return {
+        fixture,
+        root: fixture.nativeElement.querySelector("div.floating-panel") as HTMLElement,
+    };
 }
 
 describe("FloatingPanel", () => {

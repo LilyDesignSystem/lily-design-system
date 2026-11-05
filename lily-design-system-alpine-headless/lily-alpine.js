@@ -2506,7 +2506,8 @@ export default function lily(Alpine) {
                     const keys = sideBySide
                         ? ["ArrowLeft", "ArrowRight"]
                         : ["ArrowUp", "ArrowDown"];
-                    if (sideBySide && getComputedStyle(this.$el).direction === "rtl") keys.reverse();
+                    if (sideBySide && getComputedStyle(this.$el).direction === "rtl")
+                        keys.reverse();
                     const big = event.shiftKey ? 10 : 1;
                     if (event.key === keys[0]) this.set(this.value - this.step * big);
                     else if (event.key === keys[1]) this.set(this.value + this.step * big);

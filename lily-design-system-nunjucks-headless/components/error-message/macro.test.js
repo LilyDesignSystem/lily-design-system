@@ -22,9 +22,9 @@ describe("error-message", () => {
             text: "x",
             visuallyHiddenText: "Validation problem:",
         });
-        expect(document.querySelector("span.error-message span.screen-reader-span").textContent).toBe(
-            "Validation problem:",
-        );
+        expect(
+            document.querySelector("span.error-message span.screen-reader-span").textContent,
+        ).toBe("Validation problem:");
     });
 
     it("escapes params.text", () => {

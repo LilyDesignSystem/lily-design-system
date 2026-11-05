@@ -136,7 +136,10 @@ async function render(type: Type<unknown>, inputs: Inputs, slots = 0) {
                     },
                     context,
                 ),
-            { document: "<!doctype html><html><body><app-root></app-root></body></html>", url: "/" },
+            {
+                document: "<!doctype html><html><body><app-root></app-root></body></html>",
+                url: "/",
+            },
         );
     } catch (error) {
         errors.push(String((error as Error)?.message ?? error));

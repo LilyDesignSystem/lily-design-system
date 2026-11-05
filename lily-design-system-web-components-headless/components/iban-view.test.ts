@@ -17,9 +17,7 @@ function render(html: string): HTMLElement {
 
 describe("IbanView", () => {
     test("renders a native span with the correct class", () => {
-        const host = render(
-            '<lily-iban-view label="IBAN"></lily-iban-view>',
-        );
+        const host = render('<lily-iban-view label="IBAN"></lily-iban-view>');
 
         const span = host.querySelector("span") as HTMLSpanElement;
         expect(span).not.toBeNull();
@@ -27,9 +25,7 @@ describe("IbanView", () => {
     });
 
     test("uses label as the accessible name", () => {
-        const host = render(
-            '<lily-iban-view label="IBAN"></lily-iban-view>',
-        );
+        const host = render('<lily-iban-view label="IBAN"></lily-iban-view>');
 
         expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("IBAN");
     });
@@ -48,9 +44,7 @@ describe("IbanView", () => {
     });
 
     test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render(
-            '<lily-iban-view label="IBAN"></lily-iban-view>',
-        );
+        const host = render('<lily-iban-view label="IBAN"></lily-iban-view>');
 
         expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });

@@ -8,9 +8,13 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-tag-input-div label="Tags" [(value)]="text" (added)="tags.push($event)">
+<lily-tag-input-div
+  label="Tags"
+  [(value)]="text"
+  (added)="tags.push($event)"
+>
   @for (tag of tags; track tag) {
-    <span class="tag">{{ tag }}</span>
+  <span class="tag">{{ tag }}</span>
   }
 </lily-tag-input-div>
 ```

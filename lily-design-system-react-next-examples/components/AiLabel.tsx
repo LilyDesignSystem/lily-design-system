@@ -47,12 +47,7 @@ export interface AiLabelProps {
     [key: string]: unknown;
 }
 
-export default function AiLabel({
-    className = "",
-    label,
-    text,
-    ...restProps
-}: AiLabelProps) {
+export default function AiLabel({ className = "", label, text, ...restProps }: AiLabelProps) {
     return (
         <span
             className={`ai-label ${className}`}

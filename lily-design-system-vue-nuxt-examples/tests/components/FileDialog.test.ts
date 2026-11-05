@@ -23,7 +23,10 @@ describe("FileDialog", () => {
     });
 
     test("Escape closes the dialog", async () => {
-        const { emitted } = render(Subject, { props: { label: "Open", open: true }, slots: { default: "files" } });
+        const { emitted } = render(Subject, {
+            props: { label: "Open", open: true },
+            slots: { default: "files" },
+        });
         await fireEvent.keyDown(screen.getByRole("dialog"), { key: "Escape" });
         expect(emitted()["update:open"]).toEqual([[false]]);
     });

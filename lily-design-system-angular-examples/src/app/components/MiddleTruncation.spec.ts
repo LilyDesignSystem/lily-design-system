@@ -113,7 +113,9 @@ describe("MiddleTruncation", () => {
     });
 
     test("measures nothing while prerendering: effects run on a server, which has no document", () => {
-        TestBed.configureTestingModule({ providers: [{ provide: PLATFORM_ID, useValue: "server" }] });
+        TestBed.configureTestingModule({
+            providers: [{ provide: PLATFORM_ID, useValue: "server" }],
+        });
         const f = make();
         expect(visual(f)).toBe(text);
         expect(root(f).hasAttribute("data-truncated")).toBe(false);

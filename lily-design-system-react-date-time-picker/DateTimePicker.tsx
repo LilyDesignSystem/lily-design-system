@@ -1355,7 +1355,13 @@ export function DateTimePicker({
         const c = parseIsoDate(cursor);
         if (c) {
             setCursor(
-                addDays(next, Math.min(calendarDay(formatIsoDate(c), calendar), calendarMonthLength(next, calendar)) - 1),
+                addDays(
+                    next,
+                    Math.min(
+                        calendarDay(formatIsoDate(c), calendar),
+                        calendarMonthLength(next, calendar),
+                    ) - 1,
+                ),
             );
             if (hadGridFocus) focusRequestRef.current = "cursor";
         }
@@ -2006,7 +2012,15 @@ export function DateTimePicker({
                                                     className="date-time-picker-day"
                                                     data-date={isoDate}
                                                     data-outside={
-                                                        isoDate < viewStart || isoDate >= calendarAddMonths(viewStart, 1, calendar) ? "" : undefined
+                                                        isoDate < viewStart ||
+                                                        isoDate >=
+                                                            calendarAddMonths(
+                                                                viewStart,
+                                                                1,
+                                                                calendar,
+                                                            )
+                                                            ? ""
+                                                            : undefined
                                                     }
                                                     data-today={isToday ? "" : undefined}
                                                     data-selected={isSelected ? "" : undefined}

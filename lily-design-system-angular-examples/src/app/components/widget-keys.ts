@@ -131,7 +131,8 @@ export function attachRadioGroup(root: HTMLElement): () => void {
         const index = items.indexOf(active);
         if (index < 0) return;
         const rtl = isRtl(root);
-        const forward = event.key === "ArrowDown" || event.key === (rtl ? "ArrowLeft" : "ArrowRight");
+        const forward =
+            event.key === "ArrowDown" || event.key === (rtl ? "ArrowLeft" : "ArrowRight");
         const back = event.key === "ArrowUp" || event.key === (rtl ? "ArrowRight" : "ArrowLeft");
         if (forward || back) {
             event.preventDefault();
@@ -173,7 +174,10 @@ export function attachSplitter(separator: HTMLElement, options: SplitterOptions 
     let restore: number | null = null;
 
     function set(value: number): void {
-        const next = Math.min(number("aria-valuemax", 100), Math.max(number("aria-valuemin", 0), value));
+        const next = Math.min(
+            number("aria-valuemax", 100),
+            Math.max(number("aria-valuemin", 0), value),
+        );
         if (next === number("aria-valuenow", 50)) return;
         separator.setAttribute("aria-valuenow", String(next));
         separator.style.setProperty("--splitter-position", `${next}%`);
@@ -233,7 +237,12 @@ function showPanel(panel: HTMLElement, open: boolean): void {
 }
 
 /** The next name that starts with the typed letter, cycling. */
-function typeahead(items: HTMLElement[], from: number, event: KeyboardEvent, name: (el: HTMLElement) => string) {
+function typeahead(
+    items: HTMLElement[],
+    from: number,
+    event: KeyboardEvent,
+    name: (el: HTMLElement) => string,
+) {
     if (event.key.length !== 1 || event.key === " " || event.isComposing) return undefined;
     if (event.ctrlKey || event.metaKey || event.altKey) return undefined;
     const letter = event.key.toLocaleLowerCase();
@@ -292,7 +301,11 @@ export function attachTreePopup(root: HTMLElement, options: TreePopupOptions = {
         if (open && options.exclusive) {
             const parent = parentOf(item);
             for (const other of items())
-                if (other !== item && parentOf(other) === parent && other.hasAttribute("aria-expanded"))
+                if (
+                    other !== item &&
+                    parentOf(other) === parent &&
+                    other.hasAttribute("aria-expanded")
+                )
                     setExpanded(other, false);
         }
     }
@@ -441,7 +454,8 @@ export interface MentionsOptions {
 
 export function attachMentions(root: HTMLElement, options: MentionsOptions = {}): () => void {
     const input = root.querySelector<HTMLInputElement>('input,textarea,[role="combobox"]');
-    const panel = input && root.ownerDocument.getElementById(input.getAttribute("aria-controls") ?? "");
+    const panel =
+        input && root.ownerDocument.getElementById(input.getAttribute("aria-controls") ?? "");
     if (!input || !panel) return () => {};
     const trigger = (): string => root.dataset["triggerChar"] || "@";
     const isOpen = (): boolean => input.getAttribute("aria-expanded") === "true";

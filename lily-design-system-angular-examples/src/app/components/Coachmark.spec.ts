@@ -5,7 +5,8 @@ import { Coachmark } from "./Coachmark";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(Coachmark);
-    for (const [key, value] of Object.entries({ title: "New", dismissLabel: "Close", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ title: "New", dismissLabel: "Close", ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
@@ -31,9 +32,15 @@ describe("Coachmark", () => {
         const root = make({ description: "Look here." }).nativeElement;
         const panel = root.querySelector("div");
         expect(panel.getAttribute("aria-modal")).toBe("false");
-        expect(panel.getAttribute("aria-labelledby")).toBe(root.querySelector("h2.coachmark-title").id);
-        expect(panel.getAttribute("aria-describedby")).toBe(root.querySelector("p.coachmark-description").id);
-        expect(make().nativeElement.querySelector("div").hasAttribute("aria-describedby")).toBe(false);
+        expect(panel.getAttribute("aria-labelledby")).toBe(
+            root.querySelector("h2.coachmark-title").id,
+        );
+        expect(panel.getAttribute("aria-describedby")).toBe(
+            root.querySelector("p.coachmark-description").id,
+        );
+        expect(make().nativeElement.querySelector("div").hasAttribute("aria-describedby")).toBe(
+            false,
+        );
     });
 
     test("the button reports", () => {

@@ -5,14 +5,17 @@ import { ClipboardCopyButton } from "./ClipboardCopyButton";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(ClipboardCopyButton);
-    for (const [key, value] of Object.entries({ text: "copy me", label: "Copy", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ text: "copy me", label: "Copy", ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
 
 describe("ClipboardCopyButton", () => {
     test("renders the root with the base class and the className input", () => {
-        const el = make({ className: "extra" }).nativeElement.querySelector("button.clipboard-copy-button");
+        const el = make({ className: "extra" }).nativeElement.querySelector(
+            "button.clipboard-copy-button",
+        );
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
@@ -45,7 +48,9 @@ describe("ClipboardCopyButton", () => {
 
     test("a refused copy reports the error and marks nothing", async () => {
         const failure = new Error("denied");
-        vi.stubGlobal("navigator", { clipboard: { writeText: vi.fn().mockRejectedValue(failure) } });
+        vi.stubGlobal("navigator", {
+            clipboard: { writeText: vi.fn().mockRejectedValue(failure) },
+        });
         const fixture = make();
         const errors: unknown[] = [];
         fixture.componentInstance.copyError.subscribe((error: unknown) => errors.push(error));

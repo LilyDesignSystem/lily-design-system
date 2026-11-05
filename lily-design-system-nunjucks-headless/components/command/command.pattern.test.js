@@ -7,7 +7,11 @@ import { render } from "../../test/render.js";
 import { initCommand } from "./command.js";
 
 test("meets the command contract", async () => {
-    document.body.innerHTML = render("command", { id: "c", label: "Actions" }, "").document.body.innerHTML;
+    document.body.innerHTML = render(
+        "command",
+        { id: "c", label: "Actions" },
+        "",
+    ).document.body.innerHTML;
     const root = document.querySelector(".command");
     const detach = initCommand(root);
     await runPattern("command", { root, hook: "command" });

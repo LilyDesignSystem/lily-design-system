@@ -29,7 +29,10 @@ describe("Drawer keyboard and modality", function () {
         await browser.url("file://" + path.resolve(__dirname, "drawer.html"));
         await browser.execute((s) => {
             const d = document.querySelector(s);
-            d.insertAdjacentHTML("beforeend", '<button id="first">First</button><button id="last">Last</button>');
+            d.insertAdjacentHTML(
+                "beforeend",
+                '<button id="first">First</button><button id="last">Last</button>',
+            );
             const b = document.createElement("button");
             b.id = "opener";
             b.textContent = "Open";
@@ -42,7 +45,10 @@ describe("Drawer keyboard and modality", function () {
         }, SEL);
     }
     async function openIt() {
-        await browser.execute((s) => document.querySelector(s).setAttribute("data-open", "true"), SEL);
+        await browser.execute(
+            (s) => document.querySelector(s).setAttribute("data-open", "true"),
+            SEL,
+        );
         await browser.waitUntil(async () => await isOpen());
     }
     async function active() {
@@ -67,7 +73,9 @@ describe("Drawer keyboard and modality", function () {
     it("data-open=true opens it with showModal() and moves focus inside", async function () {
         await load();
         await openIt();
-        expect(await browser.execute((s) => document.querySelector(s).matches(":modal"), SEL)).toBe(true);
+        expect(await browser.execute((s) => document.querySelector(s).matches(":modal"), SEL)).toBe(
+            true,
+        );
         expect(await inside()).toBe(true);
     });
     it("Tab cannot leave it while open", async function () {
@@ -91,7 +99,8 @@ describe("Drawer keyboard and modality", function () {
         await load();
         await openIt();
         await browser.execute(
-            (s) => document.querySelector(s).dispatchEvent(new Event("cancel", { cancelable: true })),
+            (s) =>
+                document.querySelector(s).dispatchEvent(new Event("cancel", { cancelable: true })),
             SEL,
         );
         await browser.waitUntil(async () => !(await isOpen()));
@@ -101,7 +110,10 @@ describe("Drawer keyboard and modality", function () {
     it("data-open=false closes it and returns focus to the opener", async function () {
         await load();
         await openIt();
-        await browser.execute((s) => document.querySelector(s).setAttribute("data-open", "false"), SEL);
+        await browser.execute(
+            (s) => document.querySelector(s).setAttribute("data-open", "false"),
+            SEL,
+        );
         await browser.waitUntil(async () => !(await isOpen()));
         expect(await active()).toBe("opener");
     });

@@ -32,7 +32,8 @@ for (const path of PAGES) {
         const problems: string[] = [];
         page.on("pageerror", (e) => problems.push(e.message));
         page.on("console", (m) => {
-            if (/NG0|hydrat/i.test(m.text()) && m.type() !== "debug" && m.type() !== "info") problems.push(m.text());
+            if (/NG0|hydrat/i.test(m.text()) && m.type() !== "debug" && m.type() !== "info")
+                problems.push(m.text());
         });
         await page.goto(path);
         await page.waitForLoadState("networkidle");

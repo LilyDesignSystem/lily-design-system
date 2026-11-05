@@ -63,7 +63,7 @@ the compound name-family patterns, rather than the short list in SKILL.md.
 | Overlays                      | 17    | Dialog, AlertDialog, Drawer, Tooltip                        |
 | Media                         | 7     | VideoPlayer, Figure, TileMap                                |
 | Buttons                       | 8     | Button, ToggleButton, SwitchButton                          |
-| Data visualisation            | 19     | Meter, Progress, ProgressCircle                             |
+| Data visualisation            | 19    | Meter, Progress, ProgressCircle                             |
 
 The authoritative source is `components.tsv` in the canonical repo (one row
 per component: slug, PascalCase name, description) — this table is a

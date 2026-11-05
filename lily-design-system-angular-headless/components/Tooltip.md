@@ -10,7 +10,11 @@ Angular inputs do not reach the inner element, so name the anchor in CSS on the 
 ## Selector
 
 ```html
-<lily-tooltip id="tip" label="Help" [visible]="visible()" />
+<lily-tooltip
+  id="tip"
+  label="Help"
+  [visible]="visible()"
+/>
 ```
 
 ## Files

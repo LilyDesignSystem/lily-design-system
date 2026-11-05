@@ -10,7 +10,13 @@ The option names are the consumer's, and an empty `value` shows no status.
 ## Selector
 
 ```html
-<lily-red-amber-green-picker label="Status" redLabel="Red" amberLabel="Amber" greenLabel="Green" [(value)]="status" />
+<lily-red-amber-green-picker
+  label="Status"
+  redLabel="Red"
+  amberLabel="Amber"
+  greenLabel="Green"
+  [(value)]="status"
+/>
 ```
 
 ## Files

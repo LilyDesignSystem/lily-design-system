@@ -43,7 +43,7 @@ A trigger that needs no script:
 <Popover
   id="info"
   label="Additional information"
-  bind:open={showInfo}
+  bind:open="{showInfo}"
 >
   <p>Here is some contextual information.</p>
   <button
@@ -69,14 +69,14 @@ Popover with an inline edit form:
 <Popover
   id="edit-name"
   label="Edit display name"
-  bind:open={editOpen}
+  bind:open="{editOpen}"
 >
-  <form onsubmit={save}>
+  <form onsubmit="{save}">
     <label for="display-name">Display name</label>
     <input
       type="text"
       id="display-name"
-      value={name}
+      value="{name}"
     />
     <button type="submit">Save</button>
   </form>

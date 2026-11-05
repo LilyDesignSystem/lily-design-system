@@ -61,7 +61,9 @@ export class ScrollerBase {
             const onScroll = () => {
                 const rect = root.getBoundingClientRect();
                 const height = window.innerHeight || 1;
-                this.progressChange.emit(Math.max(0, Math.min(1, (height - rect.top) / (rect.height + height))));
+                this.progressChange.emit(
+                    Math.max(0, Math.min(1, (height - rect.top) / (rect.height + height))),
+                );
             };
             window.addEventListener("scroll", onScroll, { passive: true });
             onScroll();

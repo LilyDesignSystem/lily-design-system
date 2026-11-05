@@ -20,7 +20,9 @@ describe("TreeLink", () => {
     });
 
     test("passes through other attributes", () => {
-        render(TreeLink, { props: { href: "/next", "aria-current": "page", children: text("Next") } });
+        render(TreeLink, {
+            props: { href: "/next", "aria-current": "page", children: text("Next") },
+        });
         expect(screen.getByRole("link").getAttribute("aria-current")).toBe("page");
     });
 });

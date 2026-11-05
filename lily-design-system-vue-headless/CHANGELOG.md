@@ -3,7 +3,6 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
-
 ## 0.6.1 — 2026-11-03
 
 - Fixed: the package builds again; `Combobox`, `HoverCard` and `Tooltip` pass their `defineModel` ref to `usePopoverState` (it failed `vue-tsc`). The published barrel now exports every component in the catalog. Dependencies updated within range.

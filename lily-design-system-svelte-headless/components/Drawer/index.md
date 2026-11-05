@@ -51,14 +51,14 @@ Bind `open` to a state variable and choose a `side`.
 
 ## Props
 
-| Prop       | Type                                     | Default  | Description                                |
-| ---------- | ---------------------------------------- | -------- | ------------------------------------------ |
-| `class`    | `string`                                 | `""`     | CSS class appended to the base class.      |
-| `open`     | `boolean`                                | `false`  | Whether the drawer is visible. Bindable.   |
-| `label`    | `string`                                 | required | Accessible name via `aria-label`.          |
-| `side`     | `"left" \| "right" \| "top" \| "bottom"` | `"left"` | Edge the drawer enters from.               |
-| `children` | `Snippet`                                | required | Drawer content.                            |
-| `...rest`  | `unknown`                                | —        | Additional HTML attributes on the `<dialog>`.|
+| Prop       | Type                                     | Default  | Description                                   |
+| ---------- | ---------------------------------------- | -------- | --------------------------------------------- |
+| `class`    | `string`                                 | `""`     | CSS class appended to the base class.         |
+| `open`     | `boolean`                                | `false`  | Whether the drawer is visible. Bindable.      |
+| `label`    | `string`                                 | required | Accessible name via `aria-label`.             |
+| `side`     | `"left" \| "right" \| "top" \| "bottom"` | `"left"` | Edge the drawer enters from.                  |
+| `children` | `Snippet`                                | required | Drawer content.                               |
+| `...rest`  | `unknown`                                | —        | Additional HTML attributes on the `<dialog>`. |
 
 ## Usage
 

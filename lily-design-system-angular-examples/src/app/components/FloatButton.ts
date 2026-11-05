@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    input,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input } from "@angular/core";
 
 /**
  * FloatButton — a floating action button anchored to a viewport corner
@@ -27,7 +22,9 @@ import {
 export class FloatButton {
     /** Accessible name. */
     readonly label = input<string>("");
-    readonly position = input<"top-left" | "top-right" | "bottom-left" | "bottom-right">("bottom-right");
+    readonly position = input<"top-left" | "top-right" | "bottom-left" | "bottom-right">(
+        "bottom-right",
+    );
     readonly disabled = input<boolean>(false);
     readonly type = input<"button" | "submit" | "reset">("button");
     /** Extra CSS classes appended to the base class. */

@@ -188,7 +188,8 @@ function attachRadioGroup(root             )             {
         const index = items.indexOf(active);
         if (index < 0) return;
         const rtl = isRtl(root);
-        const forward = event.key === "ArrowDown" || event.key === (rtl ? "ArrowLeft" : "ArrowRight");
+        const forward =
+            event.key === "ArrowDown" || event.key === (rtl ? "ArrowLeft" : "ArrowRight");
         const back = event.key === "ArrowUp" || event.key === (rtl ? "ArrowRight" : "ArrowLeft");
         if (forward || back) {
             event.preventDefault();
@@ -223,7 +224,10 @@ function attachSplitter(separator             , options                  = {})  
     let restore                = null;
 
     function set(value        )       {
-        const next = Math.min(number("aria-valuemax", 100), Math.max(number("aria-valuemin", 0), value));
+        const next = Math.min(
+            number("aria-valuemax", 100),
+            Math.max(number("aria-valuemin", 0), value),
+        );
         if (next === number("aria-valuenow", 50)) return;
         separator.setAttribute("aria-valuenow", String(next));
         separator.style.setProperty("--splitter-position", `${next}%`);
@@ -283,7 +287,12 @@ function showPanel(panel             , open         )       {
 }
 
 /** The next name that starts with the typed letter, cycling. */
-function typeahead(items               , from        , event               , name                             ) {
+function typeahead(
+    items               ,
+    from        ,
+    event               ,
+    name                             ,
+) {
     if (event.key.length !== 1 || event.key === " " || event.isComposing) return undefined;
     if (event.ctrlKey || event.metaKey || event.altKey) return undefined;
     const letter = event.key.toLocaleLowerCase();
@@ -326,7 +335,11 @@ function attachTreePopup(root             , options                   = {})     
         if (open && options.exclusive) {
             const parent = parentOf(item);
             for (const other of items())
-                if (other !== item && parentOf(other) === parent && other.hasAttribute("aria-expanded"))
+                if (
+                    other !== item &&
+                    parentOf(other) === parent &&
+                    other.hasAttribute("aria-expanded")
+                )
                     setExpanded(other, false);
         }
     }
@@ -467,7 +480,8 @@ function attachTreePopup(root             , options                   = {})     
 
 function attachMentions(root             , options                  = {})             {
     const input = root.querySelector                  ('input,textarea,[role="combobox"]');
-    const panel = input && root.ownerDocument.getElementById(input.getAttribute("aria-controls") ?? "");
+    const panel =
+        input && root.ownerDocument.getElementById(input.getAttribute("aria-controls") ?? "");
     if (!input || !panel) return () => {};
     const trigger = ()         => root.dataset["triggerChar"] || "@";
     const isOpen = ()          => input.getAttribute("aria-expanded") === "true";

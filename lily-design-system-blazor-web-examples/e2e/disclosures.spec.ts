@@ -11,7 +11,9 @@ test.beforeEach(async ({ page }) => {
     const button = page.getByTestId("expander").getByRole("button");
     await expect(async () => {
         await button.click();
-        await expect(page.getByTestId("expander-state")).toHaveText("Expanded: True", { timeout: 500 });
+        await expect(page.getByTestId("expander-state")).toHaveText("Expanded: True", {
+            timeout: 500,
+        });
     }).toPass({ timeout: 30_000 });
 });
 

@@ -8,7 +8,13 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-government-banner label="Official" headerText="An official site" expandLabel="How you know" [(expanded)]="open">...</lily-government-banner>
+<lily-government-banner
+  label="Official"
+  headerText="An official site"
+  expandLabel="How you know"
+  [(expanded)]="open"
+  >...</lily-government-banner
+>
 ```
 
 ## Files

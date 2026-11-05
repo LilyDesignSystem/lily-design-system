@@ -153,8 +153,7 @@ export function initCombobox(root, hook = "combobox") {
                     // Already in that state.
                 }
             } else list.hidden = !open;
-            if (!open)
-                root.dispatchEvent(new CustomEvent(`${hook}-close`, { bubbles: true }));
+            if (!open) root.dispatchEvent(new CustomEvent(`${hook}-close`, { bubbles: true }));
         },
         choose(value) {
             input.value = value;

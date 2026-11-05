@@ -7,7 +7,11 @@ import { render } from "../../test/render.js";
 import { attachCropper } from "../widget-keys.js";
 
 test("meets the cropper contract", async () => {
-    document.body.innerHTML = render("image-cropper", { label: "Crop" }, "").document.body.innerHTML;
+    document.body.innerHTML = render(
+        "image-cropper",
+        { label: "Crop" },
+        "",
+    ).document.body.innerHTML;
     const root = document.querySelector(".image-cropper");
     const detach = attachCropper(root);
     await runPattern("cropper", { root, hook: "image-cropper" });

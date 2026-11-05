@@ -22,8 +22,7 @@ export function attach(root) {
             ? expanded === "true" && item.querySelector(SELECTOR)
             : expanded !== "true" && item.parentElement?.closest(SELECTOR);
         if (target) target.focus();
-        else if (expanded === (opening ? "false" : "true"))
-            item.dispatchEvent(new Event("toggle"));
+        else if (expanded === (opening ? "false" : "true")) item.dispatchEvent(new Event("toggle"));
         else return;
         event.preventDefault();
     }

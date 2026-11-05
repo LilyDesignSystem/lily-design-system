@@ -57,7 +57,8 @@ export class ScrollerVideo implements OnInit {
 
     protected onProgress(progress: number): void {
         const video = this.video().nativeElement;
-        if (Number.isFinite(video.duration) && video.duration > 0) video.currentTime = video.duration * progress;
+        if (Number.isFinite(video.duration) && video.duration > 0)
+            video.currentTime = video.duration * progress;
         this.progressChange.emit(progress);
     }
 

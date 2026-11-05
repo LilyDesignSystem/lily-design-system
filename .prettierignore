@@ -53,3 +53,20 @@ lily-design-system-alpine-headless/components/image.html
 test/generators
 # written by bin/generate-comparisons
 compare/index.md
+# Regions written by bin/generate-registries and bin/generate-examples, which find them by exact indentation
+lily-design-system-html-css-js-examples/assets/js/pages/components-index.js
+lily-design-system-html-css-js-examples/assets/js/pages/component.js
+# Written from shared/*.ts by bin/sync-shared-modules
+lily-design-system-alpine-headless/menu-keys.js
+lily-design-system-alpine-headless/widget-keys.js
+lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ActionBar.razor.js
+lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Command.razor.js
+lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Menu.razor.js
+lily-design-system-html-headless/components/listbox-controller.js
+lily-design-system-nunjucks-headless/components/command/command-keys.js
+lily-design-system-nunjucks-headless/components/menu/menu-keys.js
+lily-design-system-nunjucks-headless/components/widget-keys.js
+lily-design-system-nunjucks-theme-picker/theme-color.js
+# Written by bin/generate-core
+docs/core.md
+docs/accessibility-conformance-report.md

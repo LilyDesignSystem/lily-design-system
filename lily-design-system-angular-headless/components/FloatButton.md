@@ -10,7 +10,12 @@ A native click bubbles to the host, so listen with `(click)`.
 ## Selector
 
 ```html
-<lily-float-button label="Help" position="bottom-right" (click)="openHelp()">?</lily-float-button>
+<lily-float-button
+  label="Help"
+  position="bottom-right"
+  (click)="openHelp()"
+  >?</lily-float-button
+>
 ```
 
 ## Files

@@ -8,7 +8,11 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-floating-panel label="Filters" [open]="open">Content</lily-floating-panel>
+<lily-floating-panel
+  label="Filters"
+  [open]="open"
+  >Content</lily-floating-panel
+>
 ```
 
 ## Inputs

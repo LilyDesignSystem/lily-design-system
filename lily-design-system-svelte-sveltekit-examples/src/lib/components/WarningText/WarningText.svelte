@@ -42,7 +42,10 @@
     {...restProps}
 >
     {#if icon}
-        <span class="warning-text-icon" aria-hidden="true">{@render icon()}</span>
+        <span
+            class="warning-text-icon"
+            aria-hidden="true">{@render icon()}</span
+        >
     {/if}
     <strong class="warning-text-text">{@render children?.()}</strong>
 </div>

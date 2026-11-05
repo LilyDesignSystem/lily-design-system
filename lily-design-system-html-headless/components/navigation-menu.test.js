@@ -50,8 +50,12 @@ describe("NavigationMenu overflow", function () {
         return browser.execute(() => ({
             more: !document.querySelector(".navigation-menu-more").hidden,
             open: !document.querySelector(".navigation-menu-more-list").hidden,
-            expanded: document.querySelector(".navigation-menu-more-button").getAttribute("aria-expanded"),
-            moved: Array.from(document.querySelectorAll(".navigation-menu-more-list a")).map((a) => a.textContent),
+            expanded: document
+                .querySelector(".navigation-menu-more-button")
+                .getAttribute("aria-expanded"),
+            moved: Array.from(document.querySelectorAll(".navigation-menu-more-list a")).map(
+                (a) => a.textContent,
+            ),
             focused: document.activeElement.textContent,
         }));
     }

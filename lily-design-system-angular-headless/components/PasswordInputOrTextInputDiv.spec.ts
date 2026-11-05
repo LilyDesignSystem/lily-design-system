@@ -5,7 +5,12 @@ import { PasswordInputOrTextInputDiv } from "./PasswordInputOrTextInputDiv";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(PasswordInputOrTextInputDiv);
-    for (const [key, value] of Object.entries({ label: "Password", toggleLabel: "Show", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({
+        label: "Password",
+        toggleLabel: "Show",
+        ...inputs,
+    }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
@@ -17,7 +22,9 @@ const type = (el: HTMLInputElement | HTMLTextAreaElement, value: string) => {
 
 describe("PasswordInputOrTextInputDiv", () => {
     test("renders the root with the base class and the className input", () => {
-        const el = make({ className: "extra" }).nativeElement.querySelector("div.password-input-or-text-input-div");
+        const el = make({ className: "extra" }).nativeElement.querySelector(
+            "div.password-input-or-text-input-div",
+        );
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

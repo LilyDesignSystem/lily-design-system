@@ -7,7 +7,10 @@ import { render } from "../../test/render.js";
 import { initCombobox } from "./combobox.js";
 
 test("meets the combobox contract", async () => {
-    document.body.innerHTML = render("combobox", { id: "fruit", label: "Fruit" }).document.body.innerHTML;
+    document.body.innerHTML = render("combobox", {
+        id: "fruit",
+        label: "Fruit",
+    }).document.body.innerHTML;
     const root = document.querySelector(".combobox");
     const input = root.querySelector("input");
     const handle = initCombobox(root);

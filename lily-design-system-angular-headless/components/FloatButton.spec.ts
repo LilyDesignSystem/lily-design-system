@@ -5,7 +5,8 @@ import { FloatButton } from "./FloatButton";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(FloatButton);
-    for (const [key, value] of Object.entries({ label: "Help", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ label: "Help", ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
@@ -26,7 +27,11 @@ describe("FloatButton", () => {
     });
 
     test("position, type and disabled are passed on", () => {
-        const button = make({ position: "top-left", type: "submit", disabled: true }).nativeElement.querySelector("button");
+        const button = make({
+            position: "top-left",
+            type: "submit",
+            disabled: true,
+        }).nativeElement.querySelector("button");
         expect(button.getAttribute("data-position")).toBe("top-left");
         expect(button.getAttribute("style")).toBe("position: fixed; top: 1rem; left: 1rem;");
         expect(button.type).toBe("submit");

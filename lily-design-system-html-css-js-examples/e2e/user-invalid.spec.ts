@@ -11,10 +11,13 @@ const errorColour = (page) =>
         probe.remove();
         return c;
     });
-const border = (page) => page.locator("#name").evaluate((el) => getComputedStyle(el).borderTopColor);
+const border = (page) =>
+    page.locator("#name").evaluate((el) => getComputedStyle(el).borderTopColor);
 
 test.describe("invalid styling", () => {
-    test("a required empty field is not invalid on load, is after the user edits it and leaves", async ({ page }) => {
+    test("a required empty field is not invalid on load, is after the user edits it and leaves", async ({
+        page,
+    }) => {
         await page.goto("/contact-form.html");
         const err = await errorColour(page);
         expect(await border(page)).not.toBe(err);

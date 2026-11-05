@@ -5,7 +5,6 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
-
 ## 0.7.2 — 2026-11-03
 
 - Fixed: the package builds again. The internal `listbox-machine` is no longer re-exported, which had declared `ListboxNavigation` twice. The published barrel now exports every component in the catalog (recent components were missing). Dependencies updated within range (Angular 22.2.4).

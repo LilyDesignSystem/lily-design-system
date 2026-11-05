@@ -8,8 +8,17 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-mentions-input label="Comment" [(value)]="text" [expanded]="suggesting">
-  <ul role="listbox" aria-label="People">…</ul>
+<lily-mentions-input
+  label="Comment"
+  [(value)]="text"
+  [expanded]="suggesting"
+>
+  <ul
+    role="listbox"
+    aria-label="People"
+  >
+    …
+  </ul>
 </lily-mentions-input>
 ```
 

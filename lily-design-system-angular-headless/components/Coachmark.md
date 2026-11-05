@@ -10,7 +10,12 @@ Angular inputs do not reach the inner element, so name the anchor in CSS on the 
 ## Selector
 
 ```html
-<lily-coachmark [open]="open()" title="New" dismissLabel="Close" (dismissed)="open.set(false)" />
+<lily-coachmark
+  [open]="open()"
+  title="New"
+  dismissLabel="Close"
+  (dismissed)="open.set(false)"
+/>
 ```
 
 ## Files

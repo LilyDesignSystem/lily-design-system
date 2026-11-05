@@ -5,14 +5,21 @@ import { StickyPromoBanner } from "./StickyPromoBanner";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(StickyPromoBanner);
-    for (const [key, value] of Object.entries({ label: "Offer", dismissLabel: "Dismiss", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({
+        label: "Offer",
+        dismissLabel: "Dismiss",
+        ...inputs,
+    }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
 
 describe("StickyPromoBanner", () => {
     test("renders the root with the base class and the className input", () => {
-        const el = make({ className: "extra" }).nativeElement.querySelector("aside.sticky-promo-banner");
+        const el = make({ className: "extra" }).nativeElement.querySelector(
+            "aside.sticky-promo-banner",
+        );
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

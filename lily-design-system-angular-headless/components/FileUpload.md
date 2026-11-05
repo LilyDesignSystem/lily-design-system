@@ -10,7 +10,12 @@ The status is the consumer's words, from `selectedLabel`.
 ## Selector
 
 ```html
-<lily-file-upload label="Choose files" [multiple]="true" [selectedLabel]="chosen" (filesChange)="add($event)" />
+<lily-file-upload
+  label="Choose files"
+  [multiple]="true"
+  [selectedLabel]="chosen"
+  (filesChange)="add($event)"
+/>
 ```
 
 ## Files

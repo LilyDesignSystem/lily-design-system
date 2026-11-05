@@ -4,7 +4,9 @@
 const path = require("path");
 
 const isOpen = () =>
-    browser.execute(() => document.querySelector(".contextual-help-panel").matches(":popover-open"));
+    browser.execute(() =>
+        document.querySelector(".contextual-help-panel").matches(":popover-open"),
+    );
 
 describe("ContextualHelp", function () {
     beforeEach(async function () {
@@ -76,7 +78,10 @@ describe("ContextualHelp", function () {
     it("should open with no script at all", async function () {
         // Markup inserted with innerHTML runs no <script>: only command/commandfor and popovertarget work here.
         await browser.execute(() => {
-            document.body.innerHTML = document.body.innerHTML.replace(/<script[\s\S]*?<\/script>/g, "");
+            document.body.innerHTML = document.body.innerHTML.replace(
+                /<script[\s\S]*?<\/script>/g,
+                "",
+            );
         });
         await (await $("button.contextual-help-trigger")).click();
         expect(await isOpen()).toBe(true);

@@ -17,7 +17,12 @@ function mount(optionsHtml: string, open = true) {
         choose: (value) => state.chosen.push(value),
     });
     const press = (key: string, init: KeyboardEventInit = {}) => {
-        const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init });
+        const event = new KeyboardEvent("keydown", {
+            key,
+            bubbles: true,
+            cancelable: true,
+            ...init,
+        });
         input.dispatchEvent(event);
         return event;
     };

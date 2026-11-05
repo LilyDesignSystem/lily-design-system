@@ -83,8 +83,6 @@
     let menuRef: HTMLElement | undefined = $state(undefined);
 
     $effect(() => (menuRef ? attachMenu(menuRef, "vertical") : undefined));
-
-
 </script>
 
 <!-- Menu.svelte -->

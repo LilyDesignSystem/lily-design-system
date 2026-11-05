@@ -2,7 +2,6 @@
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/); the project follows [Semantic Versioning](https://semver.org/).
 
-
 ## 0.2.1 — 2026-11-03
 
 - Changed: depends on `@lilydesignsystem/web-components-headless` ^0.7.0 (was ^0.1.0); tests run on Vitest 5. No API change.

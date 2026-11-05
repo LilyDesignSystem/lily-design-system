@@ -7,7 +7,11 @@ import { render } from "../../test/render.js";
 import { attachRadioGroup } from "../widget-keys.js";
 
 test("meets the radio-group contract", async () => {
-    document.body.innerHTML = render("segment-group", { label: "Actions" }, "").document.body.innerHTML;
+    document.body.innerHTML = render(
+        "segment-group",
+        { label: "Actions" },
+        "",
+    ).document.body.innerHTML;
     const root = document.querySelector(".segment-group");
     const detach = attachRadioGroup(root);
     await runPattern("radio-group", { root, hook: "segment-group" });

@@ -8,7 +8,10 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-split-view label="Editor and preview" [splitPercent]="split">
+<lily-split-view
+  label="Editor and preview"
+  [splitPercent]="split"
+>
   <div primary>…</div>
   <div secondary>…</div>
 </lily-split-view>

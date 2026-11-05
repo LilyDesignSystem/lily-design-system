@@ -11,7 +11,15 @@ import { Visible } from "../components/Visible";
 @Component({
     selector: "lily-actions",
     standalone: true,
-    imports: [CallToAction, ClipboardCopyButton, FloatButton, ScrollerVideo, TimerButton, VideoPlayer, Visible],
+    imports: [
+        CallToAction,
+        ClipboardCopyButton,
+        FloatButton,
+        ScrollerVideo,
+        TimerButton,
+        VideoPlayer,
+        Visible,
+    ],
     template: `
     <article class="page-wrapper">
       <h1>Actions and media</h1>

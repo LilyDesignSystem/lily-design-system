@@ -88,7 +88,9 @@ describe("Popup", () => {
 
         test("is popover=auto and opens with showPopover, not hidden", () => {
             stub();
-            const host = render('<lily-popup id="info" label="More information" open></lily-popup>');
+            const host = render(
+                '<lily-popup id="info" label="More information" open></lily-popup>',
+            );
 
             expect(host.getAttribute("popover")).toBe("auto");
             expect(host.hidden).toBe(false);

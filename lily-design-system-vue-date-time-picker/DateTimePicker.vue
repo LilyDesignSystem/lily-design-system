@@ -1327,7 +1327,13 @@ async function shiftMonth(delta: number): Promise<void> {
     // tabindex on a cell that is no longer rendered.
     const c = parseIsoDate(cursor.value);
     if (c) {
-        cursor.value = addDays(next, Math.min(calendarDay(formatIsoDate(c), props.calendar), calendarMonthLength(next, props.calendar)) - 1);
+        cursor.value = addDays(
+            next,
+            Math.min(
+                calendarDay(formatIsoDate(c), props.calendar),
+                calendarMonthLength(next, props.calendar),
+            ) - 1,
+        );
         if (hadGridFocus) {
             await nextTick();
             focusCursor();
@@ -2057,7 +2063,10 @@ onBeforeUnmount(() => {
                                 class="date-time-picker-day"
                                 :data-date="isoDate"
                                 :data-outside="
-                                    isoDate < viewStart || isoDate >= calendarAddMonths(viewStart, 1, props.calendar) ? '' : undefined
+                                    isoDate < viewStart ||
+                                    isoDate >= calendarAddMonths(viewStart, 1, props.calendar)
+                                        ? ''
+                                        : undefined
                                 "
                                 :data-today="isoDate === today ? '' : undefined"
                                 :data-selected="isoDate === pendingDate ? '' : undefined"
@@ -2068,7 +2077,11 @@ onBeforeUnmount(() => {
                                 :aria-disabled="dayDisabled(isoDate) ? 'true' : undefined"
                                 @click="selectDay(isoDate)"
                             >
-                                {{ parseIsoDate(isoDate) ? calendarDay(isoDate, props.calendar) : "" }}
+                                {{
+                                    parseIsoDate(isoDate)
+                                        ? calendarDay(isoDate, props.calendar)
+                                        : ""
+                                }}
                             </button>
                         </td>
                     </tr>

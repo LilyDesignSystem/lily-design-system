@@ -1255,7 +1255,12 @@ describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported fr
 
 describe("theme-picker — theme-color (P21-T7)", () => {
     const meta = () => document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
-    const attrs = { label: "Theme", "themes-url": URL_TRAILING, themes: THEMES.join(","), "default-value": "dark" };
+    const attrs = {
+        label: "Theme",
+        "themes-url": URL_TRAILING,
+        themes: THEMES.join(","),
+        "default-value": "dark",
+    };
     afterEach(() => {
         meta()?.remove();
         document.documentElement.style.removeProperty("--lily-brand");

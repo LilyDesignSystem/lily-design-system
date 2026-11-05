@@ -10,7 +10,12 @@ The action runs once, through `fired`: when the countdown ends, or when the butt
 ## Selector
 
 ```html
-<lily-timer-button label="Continue" [duration]="30" (fired)="continue()">Continue</lily-timer-button>
+<lily-timer-button
+  label="Continue"
+  [duration]="30"
+  (fired)="continue()"
+  >Continue</lily-timer-button
+>
 ```
 
 ## Files

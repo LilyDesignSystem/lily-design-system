@@ -3,7 +3,6 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
-
 ## 0.6.2 — 2026-11-03
 
 - Fixed: the published barrel now exports every component in the catalog (recent components were missing). Dependencies updated within range (Svelte 5.57.3).

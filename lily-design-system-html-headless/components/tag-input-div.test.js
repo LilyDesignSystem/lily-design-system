@@ -16,7 +16,9 @@ describe("TagInputDiv", function () {
 
     it("should name the group and the field", async function () {
         expect(await (await $("div.tag-input-div")).getAttribute("aria-label")).toBe("Tags");
-        expect(await (await $("input.tag-input-div-field")).getAttribute("aria-label")).toBe("Tags");
+        expect(await (await $("input.tag-input-div-field")).getAttribute("aria-label")).toBe(
+            "Tags",
+        );
     });
 
     it("should add on Enter and clear the field", async function () {

@@ -89,7 +89,8 @@ export default {
 
     "task-bar": {
         tag: "div",
-        keyboard: "ArrowLeft/ArrowRight move between the controls (wrapping), Home/End jump; one tab stop",
+        keyboard:
+            "ArrowLeft/ArrowRight move between the controls (wrapping), Home/End jump; one tab stop",
         aria: 'role="toolbar" with aria-label',
         markup: `<div
   class="task-bar"

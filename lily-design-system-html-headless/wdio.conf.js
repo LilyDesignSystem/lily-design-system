@@ -19,6 +19,8 @@ exports.config = {
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
+    // One spec file in 635 can lose its chromedriver to a port clash; rerun that file once.
+    specFileRetries: 1,
     framework: "mocha",
     reporters: ["spec"],
     mochaOpts: {

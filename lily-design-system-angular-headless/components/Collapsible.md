@@ -8,7 +8,11 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-collapsible summary="More" [(open)]="open">...</lily-collapsible>
+<lily-collapsible
+  summary="More"
+  [(open)]="open"
+  >...</lily-collapsible
+>
 ```
 
 ## Files

@@ -87,12 +87,14 @@ export function menuKeydown(event: KeyboardEvent, orientation: MenuOrientation):
     const target = event.target as Element;
     // The key may be sent to the container while an item has focus.
     const focused = target.ownerDocument.activeElement;
-    const current = target.closest<HTMLElement>(ITEM) ?? focused?.closest<HTMLElement>(ITEM) ?? null;
+    const current =
+        target.closest<HTMLElement>(ITEM) ?? focused?.closest<HTMLElement>(ITEM) ?? null;
     const container = (current ?? target).closest<HTMLElement>(MENU);
     if (!container) return;
     const parent = container.parentElement?.closest<HTMLElement>(MENU) ?? null;
     const horizontal = !parent && orientation === "horizontal";
-    const rtl = container.ownerDocument.defaultView?.getComputedStyle(container).direction === "rtl";
+    const rtl =
+        container.ownerDocument.defaultView?.getComputedStyle(container).direction === "rtl";
     const forward = rtl ? "ArrowLeft" : "ArrowRight";
     const back = rtl ? "ArrowRight" : "ArrowLeft";
     const next = horizontal ? forward : "ArrowDown";
@@ -149,7 +151,9 @@ export function attachMenu(root: HTMLElement, orientation: MenuOrientation): () 
     };
     /** Close every open submenu, and return the outermost parent item that was open. */
     const closeAll = (): HTMLElement | undefined => {
-        const open = [...root.querySelectorAll<HTMLElement>('[aria-controls][aria-expanded="true"]')];
+        const open = [
+            ...root.querySelectorAll<HTMLElement>('[aria-controls][aria-expanded="true"]'),
+        ];
         for (const item of open) setSubmenu(item, false);
         return open[0];
     };
@@ -192,9 +196,10 @@ export function treeItemKey(event: KeyboardEvent, items: HTMLElement[]): void {
     if (event.defaultPrevented) return; // A tree nested in a tree sees the same key twice.
     const target = event.target as Element;
     const focused = target.ownerDocument.activeElement;
-    const current = (target.closest('[role="treeitem"]') ? target : focused)?.closest<HTMLElement>(
-        '[role="treeitem"]',
-    ) ?? null;
+    const current =
+        (target.closest('[role="treeitem"]') ? target : focused)?.closest<HTMLElement>(
+            '[role="treeitem"]',
+        ) ?? null;
     if (activateItem(event, current)) return;
     const match = typeaheadTarget(items, current, event);
     if (match) {
@@ -204,6 +209,9 @@ export function treeItemKey(event: KeyboardEvent, items: HTMLElement[]): void {
 }
 
 /** Blazor attaches through this name, and disposes the handle. */
-export function attach(root: HTMLElement, orientation: MenuOrientation = "vertical"): { dispose: () => void } {
+export function attach(
+    root: HTMLElement,
+    orientation: MenuOrientation = "vertical",
+): { dispose: () => void } {
     return { dispose: attachMenu(root, orientation) };
 }

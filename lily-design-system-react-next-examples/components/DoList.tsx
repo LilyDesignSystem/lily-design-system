@@ -57,12 +57,7 @@ export interface DoListProps {
     [key: string]: unknown;
 }
 
-export default function DoList({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: DoListProps) {
+export default function DoList({ className = "", label, children, ...restProps }: DoListProps) {
     return (
         <ul
             className={`do-list ${className}`}

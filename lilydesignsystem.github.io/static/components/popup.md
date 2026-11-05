@@ -43,11 +43,26 @@ Quick action overlay:
 <Popup
   id="sort-options"
   label="Sort options"
-  bind:open={showSort}
+  bind:open="{showSort}"
 >
-  <button onclick={() => sortBy("date")}>Date</button>
-  <button onclick={() => sortBy("name")}>Name</button>
-  <button onclick={() => sortBy("relevance")}>Relevance</button>
+  <button
+    onclick="{()"
+    =""
+  >
+    sortBy("date")}>Date
+  </button>
+  <button
+    onclick="{()"
+    =""
+  >
+    sortBy("name")}>Name
+  </button>
+  <button
+    onclick="{()"
+    =""
+  >
+    sortBy("relevance")}>Relevance
+  </button>
 </Popup>
 ```
 
@@ -57,10 +72,15 @@ Opened from script instead of a trigger:
 <Popup
   id="edit-note"
   label="Edit note"
-  bind:open={showEdit}
+  bind:open="{showEdit}"
 >
   <textarea>{noteText}</textarea>
-  <button onclick={() => { saveNote(); showEdit = false; }}>Save</button>
+  <button
+    onclick="{()"
+    =""
+  >
+    { saveNote(); showEdit = false; }}>Save
+  </button>
 </Popup>
 ```
 

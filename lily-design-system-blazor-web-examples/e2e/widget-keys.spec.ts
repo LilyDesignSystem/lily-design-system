@@ -15,14 +15,16 @@ test.beforeEach(async ({ page }) => {
     await expect(async () => {
         await splitter.focus();
         await page.keyboard.press("ArrowRight");
-        await expect(page.getByTestId("splitter-state")).toHaveText("Splitter: 51", { timeout: 500 });
+        await expect(page.getByTestId("splitter-state")).toHaveText("Splitter: 51", {
+            timeout: 500,
+        });
     }).toPass({ timeout: 30_000 });
 });
 
 async function expectOneTabStop(page: Page, group: Locator): Promise<void> {
-    const stops = await group.locator("button").evaluateAll(
-        (buttons) => buttons.filter((b) => (b as HTMLElement).tabIndex === 0).length,
-    );
+    const stops = await group
+        .locator("button")
+        .evaluateAll((buttons) => buttons.filter((b) => (b as HTMLElement).tabIndex === 0).length);
     expect(stops).toBe(1);
 }
 
@@ -56,7 +58,10 @@ test("an arrow moves and checks a segment", async ({ page }) => {
     const week = group.getByRole("radio", { name: "Week" });
     await expect(week).toBeFocused();
     await expect(week).toHaveAttribute("aria-checked", "true");
-    await expect(group.getByRole("radio", { name: "Day" })).toHaveAttribute("aria-checked", "false");
+    await expect(group.getByRole("radio", { name: "Day" })).toHaveAttribute(
+        "aria-checked",
+        "false",
+    );
 });
 
 test("the splitter's keys reach @bind-Value", async ({ page }) => {
@@ -102,7 +107,9 @@ test("Escape closes the tree select, and a click chooses", async ({ page }) => {
     await expect(state).toHaveText("Folder: pics; open: no");
 });
 
-test("typing the trigger opens the mentions, and Enter writes the mention to @bind-Value", async ({ page }) => {
+test("typing the trigger opens the mentions, and Enter writes the mention to @bind-Value", async ({
+    page,
+}) => {
     const input = page.getByRole("combobox", { name: "Comment" });
     const state = page.getByTestId("mentions-state");
     await input.focus();
@@ -125,7 +132,9 @@ test("the cropper's keys reach OnCropChange", async ({ page }) => {
     await expect(page.getByTestId("cropper-state")).toHaveText("Crop: 1 0 99 100");
 });
 
-test("@bind-Value and @bind-Checked work in the browser, with no character lost", async ({ page }) => {
+test("@bind-Value and @bind-Checked work in the browser, with no character lost", async ({
+    page,
+}) => {
     const state = page.getByTestId("bound-state");
     await page.getByTestId("bound-text").focus();
     await page.keyboard.type("Ada Lovelace, 1815");

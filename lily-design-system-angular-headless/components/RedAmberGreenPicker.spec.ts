@@ -5,14 +5,23 @@ import { RedAmberGreenPicker } from "./RedAmberGreenPicker";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(RedAmberGreenPicker);
-    for (const [key, value] of Object.entries({ label: "Status", redLabel: "RED", amberLabel: "AMBER", greenLabel: "GREEN", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({
+        label: "Status",
+        redLabel: "RED",
+        amberLabel: "AMBER",
+        greenLabel: "GREEN",
+        ...inputs,
+    }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
 
 describe("RedAmberGreenPicker", () => {
     test("renders the root with the base class and the className input", () => {
-        const el = make({ className: "extra" }).nativeElement.querySelector("div.red-amber-green-picker");
+        const el = make({ className: "extra" }).nativeElement.querySelector(
+            "div.red-amber-green-picker",
+        );
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

@@ -8,7 +8,11 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-scroller-video src="/river.webm" label="The river" alt="A river from the air">
+<lily-scroller-video
+  src="/river.webm"
+  label="The river"
+  alt="A river from the air"
+>
   <section>One</section>
 </lily-scroller-video>
 ```

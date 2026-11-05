@@ -11,5 +11,8 @@ afterEach(() => {
 
 test("meets the tree-popup contract", async () => {
     document.body.innerHTML = '<lily-cascader label="Choose"></lily-cascader>';
-    await runPattern("tree-popup", { root: document.body.firstElementChild as HTMLElement, hook: "cascader" });
+    await runPattern("tree-popup", {
+        root: document.body.firstElementChild as HTMLElement,
+        hook: "cascader",
+    });
 });

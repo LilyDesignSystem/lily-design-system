@@ -11,5 +11,8 @@ afterEach(() => {
 
 test("meets the toolbar contract", async () => {
     document.body.innerHTML = '<lily-action-bar label="Actions"></lily-action-bar>';
-    await runPattern("toolbar", { root: document.body.firstElementChild as HTMLElement, hook: "action-bar" });
+    await runPattern("toolbar", {
+        root: document.body.firstElementChild as HTMLElement,
+        hook: "action-bar",
+    });
 });

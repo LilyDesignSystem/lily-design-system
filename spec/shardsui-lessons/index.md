@@ -135,12 +135,12 @@ Alpine context menu already publishes `--context-menu-x` / `--context-menu-y`.
 
 Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
 
-| Item | Task |
-| --- | --- |
-| 1 | P22-T23 |
-| 2 | P22-T24 |
-| 3 | P22-T25 |
-| 4 | P22-T26 |
+| Item | Task    |
+| ---- | ------- |
+| 1    | P22-T23 |
+| 2    | P22-T24 |
+| 3    | P22-T25 |
+| 4    | P22-T26 |
 
 ## Acceptance criteria
 

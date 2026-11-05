@@ -11,5 +11,8 @@ afterEach(() => {
 
 test("meets the splitter contract", async () => {
     document.body.innerHTML = '<lily-split-view label="Panes"></lily-split-view>';
-    await runPattern("splitter", { root: document.body.firstElementChild as HTMLElement, hook: "split-view" });
+    await runPattern("splitter", {
+        root: document.body.firstElementChild as HTMLElement,
+        hook: "split-view",
+    });
 });

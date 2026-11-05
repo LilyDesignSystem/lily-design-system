@@ -17,7 +17,9 @@ describe("progress-spinner", () => {
 
     it("has no English aria-label of its own", () => {
         const { document } = render("progress-spinner", {});
-        expect(document.querySelector("div.progress-spinner").hasAttribute("aria-label")).toBe(false);
+        expect(document.querySelector("div.progress-spinner").hasAttribute("aria-label")).toBe(
+            false,
+        );
     });
 
     it("respects a custom label", () => {

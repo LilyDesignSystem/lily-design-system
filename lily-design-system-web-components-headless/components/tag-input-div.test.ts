@@ -17,7 +17,9 @@ function render(html: string): HTMLElement {
 
 describe("TagInputDiv", () => {
     test("the root is a named group holding a native input[type=text]", () => {
-        const host = render('<lily-tag-input-div label="Add tag" class="extra" data-x="1"></lily-tag-input-div>');
+        const host = render(
+            '<lily-tag-input-div label="Add tag" class="extra" data-x="1"></lily-tag-input-div>',
+        );
 
         const root = host.querySelector("div.tag-input-div") as HTMLElement;
         expect(root.getAttribute("role")).toBe("group");

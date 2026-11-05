@@ -939,7 +939,9 @@
     const initialAnchor = untrack(() => parseIsoDate(splitValue(value ?? "", mode).date));
 
     // The month shown, named by the ISO date of its first day in `calendar`.
-    let viewStart = $state(initialAnchor ? calendarMonthStart(formatIsoDate(initialAnchor), calendar) : "1970-01-01");
+    let viewStart = $state(
+        initialAnchor ? calendarMonthStart(formatIsoDate(initialAnchor), calendar) : "1970-01-01",
+    );
 
     /** The day the grid's roving tabindex sits on. */
     let cursor = $state(initialAnchor ? formatIsoDate(initialAnchor) : "");
@@ -1301,7 +1303,10 @@
         // Carry the cursor into the new month rather than leaving the
         // roving tabindex on a cell that is no longer rendered.
         if (parseIsoDate(cursor)) {
-            const day = Math.min(calendarDay(cursor, calendar), calendarMonthLength(next, calendar));
+            const day = Math.min(
+                calendarDay(cursor, calendar),
+                calendarMonthLength(next, calendar),
+            );
             cursor = addDays(next, day - 1);
             if (hadGridFocus) queueMicrotask(() => focusCursor());
         }
@@ -1925,7 +1930,9 @@
                                         type="button"
                                         class="date-time-picker-day"
                                         data-date={isoDate}
-                                        data-outside={isoDate < viewStart || isoDate >= viewEnd ? "" : undefined}
+                                        data-outside={isoDate < viewStart || isoDate >= viewEnd
+                                            ? ""
+                                            : undefined}
                                         data-today={isToday ? "" : undefined}
                                         data-selected={isSelected ? "" : undefined}
                                         data-disabled={isDisabled ? "" : undefined}

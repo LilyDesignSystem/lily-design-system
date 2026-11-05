@@ -71,7 +71,12 @@ const props = withDefaults(
     },
 );
 
-warnMissingName("TagInputDiv", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
+warnMissingName(
+    "TagInputDiv",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
 
 const emit = defineEmits<{ add: [value: string] }>();
 

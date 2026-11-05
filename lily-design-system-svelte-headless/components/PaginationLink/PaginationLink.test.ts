@@ -15,12 +15,16 @@ describe("PaginationLink", () => {
     });
 
     test("label overrides the accessible name", () => {
-        render(PaginationLink, { props: { href: "/next", label: "Next page", children: text("Next") } });
+        render(PaginationLink, {
+            props: { href: "/next", label: "Next page", children: text("Next") },
+        });
         expect(screen.getByRole("link", { name: "Next page" })).toBeTruthy();
     });
 
     test("passes through other attributes", () => {
-        render(PaginationLink, { props: { href: "/next", "aria-current": "page", children: text("Next") } });
+        render(PaginationLink, {
+            props: { href: "/next", "aria-current": "page", children: text("Next") },
+        });
         expect(screen.getByRole("link").getAttribute("aria-current")).toBe("page");
     });
 });

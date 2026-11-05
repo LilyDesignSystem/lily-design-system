@@ -67,7 +67,12 @@
     } = $props();
 
     $effect(() =>
-        warnMissingName("PaginationList", label, restProps["aria-label"], restProps["aria-labelledby"]),
+        warnMissingName(
+            "PaginationList",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
     );
 </script>
 

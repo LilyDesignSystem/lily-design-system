@@ -12,7 +12,14 @@ function inForm(props: Record<string, unknown> = {}) {
     document.body.append(form);
     render(MarkdownEditor, {
         target: form,
-        props: { label: "Message", toolbarLabel: "Formatting", labels: {}, name: "body", value: "hello", ...props },
+        props: {
+            label: "Message",
+            toolbarLabel: "Formatting",
+            labels: {},
+            name: "body",
+            value: "hello",
+            ...props,
+        },
     });
     return { form, textarea: form.querySelector("textarea")! };
 }

@@ -75,8 +75,6 @@
     let barRef: HTMLElement | undefined = $state(undefined);
 
     $effect(() => (barRef ? attachMenu(barRef, "horizontal") : undefined));
-
-
 </script>
 
 <!-- MenuBar.svelte -->

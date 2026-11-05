@@ -10,7 +10,10 @@ Mark the extras with the `before` or `after` attribute; the rest is the options.
 ## Selector
 
 ```html
-<lily-select-with-extras label="Colour" [(value)]="colour">
+<lily-select-with-extras
+  label="Colour"
+  [(value)]="colour"
+>
   <span before>Before</span>
   <option value="red">Red</option>
 </lily-select-with-extras>

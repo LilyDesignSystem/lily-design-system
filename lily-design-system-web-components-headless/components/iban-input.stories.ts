@@ -7,8 +7,7 @@ const SLOT = "";
 
 const meta: Meta = {
     title: "Special-Purpose Identifiers/IbanInput",
-    render: (args) =>
-        h("lily-iban-input", args as Record<string, string | boolean>, SLOT),
+    render: (args) => h("lily-iban-input", args as Record<string, string | boolean>, SLOT),
     args: {
         label: "IBAN",
     },

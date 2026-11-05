@@ -80,7 +80,11 @@ describe("Listbox keyboard", function () {
         const prevented = await browser.execute(() => {
             const option = document.querySelector('[role="option"]');
             return ["ArrowDown", "ArrowUp", "Home", "End", "a", "Enter"].map((key) => {
-                const event = new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true });
+                const event = new KeyboardEvent("keydown", {
+                    key,
+                    bubbles: true,
+                    cancelable: true,
+                });
                 option.dispatchEvent(event);
                 return event.defaultPrevented;
             });

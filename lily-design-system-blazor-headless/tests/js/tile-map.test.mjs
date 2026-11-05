@@ -86,7 +86,14 @@ test("ArrowDown and ArrowUp go to the nearest tile in the next or previous row",
 test("a nearer row wins over a tile further down that is directly below", () => {
     const { handle } = mount();
     // "b" sits one row down, slightly to the right; "f" sits two rows down, directly below "a".
-    const box = (left, top) => () => ({ left, top, width: 10, height: 10, right: left + 10, bottom: top + 10 });
+    const box = (left, top) => () => ({
+        left,
+        top,
+        width: 10,
+        height: 10,
+        right: left + 10,
+        bottom: top + 10,
+    });
     tile("a").getBoundingClientRect = box(0, 0);
     tile("b").getBoundingClientRect = box(5, 10);
     tile("f").getBoundingClientRect = box(0, 20);

@@ -57,12 +57,7 @@ export interface DontListProps {
     [key: string]: unknown;
 }
 
-export default function DontList({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: DontListProps) {
+export default function DontList({ className = "", label, children, ...restProps }: DontListProps) {
     return (
         <ul
             className={`dont-list ${className}`}

@@ -5,7 +5,12 @@ import { TestBed } from "@angular/core/testing";
 import { ScrollerBase } from "./ScrollerBase";
 
 // jsdom has no IntersectionObserver; this one reports when told to.
-const observers: { callback: IntersectionObserverCallback; options?: IntersectionObserverInit; targets: Element[]; disconnected: boolean }[] = [];
+const observers: {
+    callback: IntersectionObserverCallback;
+    options?: IntersectionObserverInit;
+    targets: Element[];
+    disconnected: boolean;
+}[] = [];
 class FakeObserver {
     record: (typeof observers)[number];
     constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {
@@ -20,7 +25,12 @@ class FakeObserver {
     }
 }
 const report = (target: Element, isIntersecting: boolean) =>
-    observers.at(-1)!.callback([{ target, isIntersecting } as IntersectionObserverEntry], {} as IntersectionObserver);
+    observers
+        .at(-1)!
+        .callback(
+            [{ target, isIntersecting } as IntersectionObserverEntry],
+            {} as IntersectionObserver,
+        );
 
 beforeEach(() => {
     observers.length = 0;
@@ -87,7 +97,9 @@ describe("ScrollerBase", () => {
     });
 
     test("prerendering touches no window", async () => {
-        TestBed.configureTestingModule({ providers: [{ provide: PLATFORM_ID, useValue: "server" }] });
+        TestBed.configureTestingModule({
+            providers: [{ provide: PLATFORM_ID, useValue: "server" }],
+        });
         const fixture = await make();
         const before = fixture.componentInstance.progress.length;
         window.dispatchEvent(new Event("scroll"));

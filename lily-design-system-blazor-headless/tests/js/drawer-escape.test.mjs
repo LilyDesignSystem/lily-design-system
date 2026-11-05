@@ -28,11 +28,20 @@ function mount() {
     };
     document.addEventListener("keydown", count);
     const press = (prevented) => {
-        const event = new KeyboardEvent("keydown", { key: "Escape", bubbles: true, cancelable: true });
+        const event = new KeyboardEvent("keydown", {
+            key: "Escape",
+            bubbles: true,
+            cancelable: true,
+        });
         if (prevented) input.addEventListener("keydown", (e) => e.preventDefault(), { once: true });
         input.dispatchEvent(event);
     };
-    return { handle, press, reached: () => reached, stop: () => document.removeEventListener("keydown", count) };
+    return {
+        handle,
+        press,
+        reached: () => reached,
+        stop: () => document.removeEventListener("keydown", count),
+    };
 }
 
 test("an Escape handled inside the dialog does not reach Blazor", () => {

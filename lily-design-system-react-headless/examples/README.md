@@ -17,7 +17,7 @@ Comprehensive standalone examples showing how to compose components from the Lil
 | [TaskManagement](TaskManagement.tsx)         | Task/todo list with progress tracking          | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                              |
 | [NavigationAndMenus](NavigationAndMenus.tsx) | Navigation, menus, and toolbars                | NavigationMenu, MenuBar, MenuBarButton, ToolBar, ToolBarButton, HamburgerMenu, DropdownMenu, Separator |
 | [TimelineAndCards](TimelineAndCards.tsx)     | Project timeline with info cards               | TimelineList, TimelineListItem, Card, Badge, DateRange, ReviewDate, SummaryList, SummaryListItem       |
-| [SearchAndFilter](SearchAndFilter.tsx)       | Search with combobox and data filtering        | Combobox, SearchInput, TagInputDiv, TagGroup, Tag, DataTable, DataTableHead/Body/Row/Data, Badge          |
+| [SearchAndFilter](SearchAndFilter.tsx)       | Search with combobox and data filtering        | Combobox, SearchInput, TagInputDiv, TagGroup, Tag, DataTable, DataTableHead/Body/Row/Data, Badge       |
 
 ## Running Examples
 

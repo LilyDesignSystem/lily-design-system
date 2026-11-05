@@ -48,7 +48,12 @@
     } = $props();
 
     $effect(() =>
-        warnMissingName("MutuallyExclusive", label, restProps["aria-label"], restProps["aria-labelledby"]),
+        warnMissingName(
+            "MutuallyExclusive",
+            label,
+            restProps["aria-label"],
+            restProps["aria-labelledby"],
+        ),
     );
 </script>
 

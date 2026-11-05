@@ -40,11 +40,26 @@ description: a temporary overlay that appears above page content
 &lt;Popup
   id="sort-options"
   label="Sort options"
-  bind:open={showSort}
+  bind:open="{showSort}"
 &gt;
-  &lt;button onclick={() =&gt; sortBy("date")}&gt;Date&lt;/button&gt;
-  &lt;button onclick={() =&gt; sortBy("name")}&gt;Name&lt;/button&gt;
-  &lt;button onclick={() =&gt; sortBy("relevance")}&gt;Relevance&lt;/button&gt;
+  &lt;button
+    onclick="{()"
+    =""
+  &gt;
+    sortBy("date")}&gt;Date
+  &lt;/button&gt;
+  &lt;button
+    onclick="{()"
+    =""
+  &gt;
+    sortBy("name")}&gt;Name
+  &lt;/button&gt;
+  &lt;button
+    onclick="{()"
+    =""
+  &gt;
+    sortBy("relevance")}&gt;Relevance
+  &lt;/button&gt;
 &lt;/Popup&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

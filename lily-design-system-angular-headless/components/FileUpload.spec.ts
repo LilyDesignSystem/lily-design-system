@@ -5,7 +5,8 @@ import { FileUpload } from "./FileUpload";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(FileUpload);
-    for (const [key, value] of Object.entries({ label: "Choose", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ label: "Choose", ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }

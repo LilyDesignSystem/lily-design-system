@@ -7,7 +7,11 @@ import { render } from "../../test/render.js";
 import { attachToolbar } from "../widget-keys.js";
 
 test("meets the action-group contract", async () => {
-    document.body.innerHTML = render("action-group", { label: "Actions" }, "").document.body.innerHTML;
+    document.body.innerHTML = render(
+        "action-group",
+        { label: "Actions" },
+        "",
+    ).document.body.innerHTML;
     const root = document.querySelector(".action-group");
     const detach = attachToolbar(root);
     await runPattern("action-group", { root, hook: "action-group" });

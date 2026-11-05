@@ -1512,7 +1512,13 @@ export class DateTimePicker extends HTMLElement {
         // roving tabindex on a cell that is no longer rendered.
         const c = parseIsoDate(this.#cursor);
         if (c) {
-            this.#cursor = addDays(next, Math.min(calendarDay(formatIsoDate(c), this.calendar), calendarMonthLength(next, this.calendar)) - 1);
+            this.#cursor = addDays(
+                next,
+                Math.min(
+                    calendarDay(formatIsoDate(c), this.calendar),
+                    calendarMonthLength(next, this.calendar),
+                ) - 1,
+            );
         }
         this.#syncState();
         if (c && hadGridFocus) queueMicrotask(() => this.#focusCursor());
@@ -2028,7 +2034,9 @@ export class DateTimePicker extends HTMLElement {
                 const parsed = parseIsoDate(isoDate);
                 const isToday = isoDate === this.#today;
                 const isSelected = isoDate === this.#pendingDate;
-                const isOutside = isoDate < this.#viewStart || isoDate >= calendarAddMonths(this.#viewStart, 1, this.calendar);
+                const isOutside =
+                    isoDate < this.#viewStart ||
+                    isoDate >= calendarAddMonths(this.#viewStart, 1, this.calendar);
                 const isDisabled = this.#dayDisabled(isoDate);
 
                 button.dataset.date = isoDate;

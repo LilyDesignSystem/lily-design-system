@@ -10,7 +10,12 @@ Project custom controls with the `controls` attribute and a caption with the `ca
 ## Selector
 
 ```html
-<lily-video-player src="/tour.webm" label="Product tour" [autoplay]="true" [muted]="true" />
+<lily-video-player
+  src="/tour.webm"
+  label="Product tour"
+  [autoplay]="true"
+  [muted]="true"
+/>
 ```
 
 ## Files

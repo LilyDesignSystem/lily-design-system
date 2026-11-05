@@ -49,7 +49,6 @@
 <pre
     class={`code-block ${className}`}
     aria-label={label}
-    {...restProps}
->
+    {...restProps}>
     {@render children?.()}
 </pre>

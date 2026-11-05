@@ -11,5 +11,8 @@ afterEach(() => {
 
 test("meets the tree-popup contract", async () => {
     document.body.innerHTML = '<lily-tree-select label="Choose"></lily-tree-select>';
-    await runPattern("tree-popup", { root: document.body.firstElementChild as HTMLElement, hook: "tree-select" });
+    await runPattern("tree-popup", {
+        root: document.body.firstElementChild as HTMLElement,
+        hook: "tree-select",
+    });
 });

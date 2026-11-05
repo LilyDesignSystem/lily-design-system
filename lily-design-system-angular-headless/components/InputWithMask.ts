@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    input,
-    model,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model } from "@angular/core";
 import { restoreOnFormReset } from "./form-reset";
 
 /**

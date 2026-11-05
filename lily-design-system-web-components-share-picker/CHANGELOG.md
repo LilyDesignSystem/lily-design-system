@@ -4,7 +4,6 @@ All notable changes to `@lilydesignsystem/web-components-share-picker` are
 documented here. The format follows [Keep a Changelog](https://keepachangelog.com/),
 and this package uses [semantic versioning](https://semver.org/).
 
-
 ## 0.3.1 — 2026-11-03
 
 - Changed: depends on `@lilydesignsystem/web-components-headless` ^0.7.0 (was ^0.1.0); tests run on Vitest 5. No API change.

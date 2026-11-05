@@ -6,7 +6,8 @@ import { TimerButton } from "./TimerButton";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(TimerButton);
-    for (const [key, value] of Object.entries({ label: "Continue", duration: 3, ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ label: "Continue", duration: 3, ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
@@ -61,7 +62,9 @@ describe("TimerButton", () => {
     });
 
     test("prerendering does not count down", async () => {
-        TestBed.configureTestingModule({ providers: [{ provide: PLATFORM_ID, useValue: "server" }] });
+        TestBed.configureTestingModule({
+            providers: [{ provide: PLATFORM_ID, useValue: "server" }],
+        });
         const fixture = make();
         await vi.advanceTimersByTimeAsync(0);
         let fired = 0;

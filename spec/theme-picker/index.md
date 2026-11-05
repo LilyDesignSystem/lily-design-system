@@ -87,20 +87,20 @@ stylesheet link would be needed, so it blocks the parser:
 
 ```html
 <script>
-    (function () {
-        var slug = "light"; // the app's default
-        try {
-            var stored = localStorage.getItem("lily-theme"); // the picker's storage-key
-            if (stored && /^[a-z0-9-]+$/.test(stored)) slug = stored;
-            else if (matchMedia("(prefers-color-scheme: dark)").matches) slug = "dark"; // the app's dark slug
-        } catch (e) {}
-        var link = document.createElement("link");
-        link.rel = "stylesheet";
-        link.setAttribute("data-lily-theme-picker", "theme");
-        link.href = "/themes/" + slug + ".css";
-        document.head.appendChild(link);
-        document.documentElement.setAttribute("data-theme", slug);
-    })();
+  (function () {
+    var slug = "light"; // the app's default
+    try {
+      var stored = localStorage.getItem("lily-theme"); // the picker's storage-key
+      if (stored && /^[a-z0-9-]+$/.test(stored)) slug = stored;
+      else if (matchMedia("(prefers-color-scheme: dark)").matches) slug = "dark"; // the app's dark slug
+    } catch (e) {}
+    var link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.setAttribute("data-lily-theme-picker", "theme");
+    link.href = "/themes/" + slug + ".css";
+    document.head.appendChild(link);
+    document.documentElement.setAttribute("data-theme", slug);
+  })();
 </script>
 ```
 

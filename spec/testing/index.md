@@ -235,30 +235,30 @@ the DOM and `shared/PatternTester.cs` over bUnit. Test files import them straigh
 await runPattern("picker-listbox", { root, hook: "theme-picker" });
 ```
 
-| Contract            | Runs against                                                         | Catalogs | Runs |
-| ------------------- | -------------------------------------------------------------------- | -------- | ---- |
-| `picker-listbox`    | `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker` | 8        | 32   |
-| `picker-disclosure` | `share-picker`, `link-picker`                                        | 8        | 16   |
-| `tabs`              | `tab-bar`                                                            | 8        | 8    |
-| `menu`              | `menu`                                                               | 8        | 8    |
-| `menubar`           | `menu-bar`                                                           | 8        | 8    |
-| `tree`              | `tree-list`                                                          | 8        | 8    |
-| `menu-submenu`      | `menu`                                                               | 8        | 8    |
-| `menubar-submenu`   | `menu-bar`                                                           | 8        | 8    |
-| `combobox`          | `combobox`                                                           | 8        | 8    |
-| `command`           | `command`                                                            | 8        | 8    |
-| `toolbar`           | `action-bar`, `task-bar`                                             | 8        | 16   |
-| `action-group`      | `action-group`                                                       | 8        | 8    |
-| `radio-group`       | `segment-group`                                                      | 8        | 8    |
-| `splitter`          | `splitter`, `split-view`                                             | 8        | 16   |
-| `tree-popup`        | `cascader`, `tree-select`; not Alpine, whose `treeCore` has its own tests | 8   | 16   |
-| `mentions`          | `mentions-input`                                                     | 8        | 8    |
-| `cropper`           | `image-cropper`                                                      | 8        | 8    |
-| `dialog`            | `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`       | 7        | 35   |
-| `grid`              | the `data-grid` helper                                               | 8        | 8    |
-| `grid-actions`      | the `data-grid` helper; Alpine, which has no editor, with `noEditing` | 8        | 8    |
-| `autosuggest`       | `autosuggest`                                                        | 8        | 8    |
-| `tree-expand`       | `tree-list-item`, or `tree-list` where the tree owns the keys        | 8        | 8    |
+| Contract            | Runs against                                                              | Catalogs | Runs |
+| ------------------- | ------------------------------------------------------------------------- | -------- | ---- |
+| `picker-listbox`    | `theme-picker`, `locale-picker`, `text-size-picker`, `motion-picker`      | 8        | 32   |
+| `picker-disclosure` | `share-picker`, `link-picker`                                             | 8        | 16   |
+| `tabs`              | `tab-bar`                                                                 | 8        | 8    |
+| `menu`              | `menu`                                                                    | 8        | 8    |
+| `menubar`           | `menu-bar`                                                                | 8        | 8    |
+| `tree`              | `tree-list`                                                               | 8        | 8    |
+| `menu-submenu`      | `menu`                                                                    | 8        | 8    |
+| `menubar-submenu`   | `menu-bar`                                                                | 8        | 8    |
+| `combobox`          | `combobox`                                                                | 8        | 8    |
+| `command`           | `command`                                                                 | 8        | 8    |
+| `toolbar`           | `action-bar`, `task-bar`                                                  | 8        | 16   |
+| `action-group`      | `action-group`                                                            | 8        | 8    |
+| `radio-group`       | `segment-group`                                                           | 8        | 8    |
+| `splitter`          | `splitter`, `split-view`                                                  | 8        | 16   |
+| `tree-popup`        | `cascader`, `tree-select`; not Alpine, whose `treeCore` has its own tests | 8        | 16   |
+| `mentions`          | `mentions-input`                                                          | 8        | 8    |
+| `cropper`           | `image-cropper`                                                           | 8        | 8    |
+| `dialog`            | `dialog`, `drawer`, `file-dialog`, `sheet`, `slide-out-drawer`            | 7        | 35   |
+| `grid`              | the `data-grid` helper                                                    | 8        | 8    |
+| `grid-actions`      | the `data-grid` helper; Alpine, which has no editor, with `noEditing`     | 8        | 8    |
+| `autosuggest`       | `autosuggest`                                                             | 8        | 8    |
+| `tree-expand`       | `tree-list-item`, or `tree-list` where the tree owns the keys             | 8        | 8    |
 
 - A file named `*.pattern.test.*`, `*.pattern.spec.ts` or `*PatternTests.cs` holds the run.
 - The `tabs`, `menu`, `menubar` and `tree` contracts carry their own fixture: the tester puts it into an empty root, so each

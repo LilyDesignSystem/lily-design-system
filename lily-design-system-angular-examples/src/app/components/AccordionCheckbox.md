@@ -8,7 +8,10 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-accordion-checkbox label="Send me updates" [(checked)]="updates">
+<lily-accordion-checkbox
+  label="Send me updates"
+  [(checked)]="updates"
+>
   <textarea aria-label="Topics"></textarea>
 </lily-accordion-checkbox>
 ```

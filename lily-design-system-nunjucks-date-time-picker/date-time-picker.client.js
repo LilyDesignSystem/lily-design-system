@@ -1114,7 +1114,10 @@ export function initDateTimePicker(root, opts = {}) {
                 const parsed = parseIsoDate(isoDate);
                 const isToday = isoDate === state.today;
                 const isSelected = isoDate === state.pendingDate;
-                const isOutside = !parsed || isoDate < state.viewStart || isoDate >= calendarAddMonths(state.viewStart, 1, calendar);
+                const isOutside =
+                    !parsed ||
+                    isoDate < state.viewStart ||
+                    isoDate >= calendarAddMonths(state.viewStart, 1, calendar);
                 const td = document.createElement("td");
                 td.setAttribute("role", "gridcell");
                 td.setAttribute("aria-selected", isSelected ? "true" : "false");
@@ -1191,7 +1194,13 @@ export function initDateTimePicker(root, opts = {}) {
         if (c) {
             // Carry the cursor into the new month rather than leaving the
             // roving tabindex on a cell that is no longer rendered.
-            state.cursor = addDays(next, Math.min(calendarDay(formatIsoDate(c), calendar), calendarMonthLength(next, calendar)) - 1);
+            state.cursor = addDays(
+                next,
+                Math.min(
+                    calendarDay(formatIsoDate(c), calendar),
+                    calendarMonthLength(next, calendar),
+                ) - 1,
+            );
         }
         renderGrid();
         if (hadGridFocus) focusCursor();

@@ -69,5 +69,14 @@ export default class TreeAndOverflow {
     protected readonly updates = signal(false);
     protected readonly documents = signal<boolean | undefined>(false);
     protected readonly rtlBranch = signal<boolean | undefined>(false);
-    protected readonly items = ["Overview", "Patients", "Appointments", "Results", "Messages", "Reports", "Settings", "Support"];
+    protected readonly items = [
+        "Overview",
+        "Patients",
+        "Appointments",
+        "Results",
+        "Messages",
+        "Reports",
+        "Settings",
+        "Support",
+    ];
 }

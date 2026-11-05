@@ -1,132 +1,152 @@
 // The page script of search-and-filter.html, in a file so a strict Content Security Policy needs no 'unsafe-inline'.
-(function() {
-  'use strict';
+(function () {
+    "use strict";
 
-  var products = [
-    { id: 1, name: 'Wireless Keyboard', category: 'Electronics', price: 59.99, status: 'in-stock' },
-    { id: 2, name: 'Ergonomic Mouse', category: 'Electronics', price: 34.99, status: 'in-stock' },
-    { id: 3, name: 'Standing Desk', category: 'Furniture', price: 499.00, status: 'low-stock' },
-    { id: 4, name: 'Monitor Arm', category: 'Furniture', price: 89.99, status: 'in-stock' },
-    { id: 5, name: 'USB-C Hub', category: 'Electronics', price: 44.99, status: 'out-of-stock' },
-    { id: 6, name: 'Desk Lamp', category: 'Lighting', price: 29.99, status: 'in-stock' },
-    { id: 7, name: 'Webcam HD', category: 'Electronics', price: 74.99, status: 'low-stock' },
-    { id: 8, name: 'Cable Organizer', category: 'Accessories', price: 12.99, status: 'in-stock' }
-  ];
+    var products = [
+        {
+            id: 1,
+            name: "Wireless Keyboard",
+            category: "Electronics",
+            price: 59.99,
+            status: "in-stock",
+        },
+        {
+            id: 2,
+            name: "Ergonomic Mouse",
+            category: "Electronics",
+            price: 34.99,
+            status: "in-stock",
+        },
+        { id: 3, name: "Standing Desk", category: "Furniture", price: 499.0, status: "low-stock" },
+        { id: 4, name: "Monitor Arm", category: "Furniture", price: 89.99, status: "in-stock" },
+        { id: 5, name: "USB-C Hub", category: "Electronics", price: 44.99, status: "out-of-stock" },
+        { id: 6, name: "Desk Lamp", category: "Lighting", price: 29.99, status: "in-stock" },
+        { id: 7, name: "Webcam HD", category: "Electronics", price: 74.99, status: "low-stock" },
+        {
+            id: 8,
+            name: "Cable Organizer",
+            category: "Accessories",
+            price: 12.99,
+            status: "in-stock",
+        },
+    ];
 
-  var categories = [];
-  products.forEach(function(p) {
-    if (categories.indexOf(p.category) === -1) categories.push(p.category);
-  });
-
-  var filterTags = [];
-  var searchQuery = '';
-
-  function statusBadgeType(s) {
-    if (s === 'in-stock') return 'success';
-    if (s === 'low-stock') return 'warning';
-    return 'error';
-  }
-
-  function renderProducts() {
-    var filtered = products.filter(function(p) {
-      var matchesQuery = p.name.toLowerCase().indexOf(searchQuery.toLowerCase()) >= 0;
-      var matchesTags = filterTags.length === 0 || filterTags.indexOf(p.category) >= 0;
-      return matchesQuery && matchesTags;
+    var categories = [];
+    products.forEach(function (p) {
+        if (categories.indexOf(p.category) === -1) categories.push(p.category);
     });
 
-    document.getElementById('result-count').textContent = filtered.length;
-    var tbody = document.getElementById('product-tbody');
-    tbody.innerHTML = '';
+    var filterTags = [];
+    var searchQuery = "";
 
-    filtered.forEach(function(p) {
-      var tr = document.createElement('tr');
-      var tdName = document.createElement('td');
-      tdName.textContent = p.name;
-      var tdCat = document.createElement('td');
-      tdCat.textContent = p.category;
-      var tdPrice = document.createElement('td');
-      tdPrice.textContent = '$' + p.price.toFixed(2);
-      var tdStatus = document.createElement('td');
-      var badge = document.createElement('span');
-      badge.className = 'badge';
-      badge.setAttribute('data-type', statusBadgeType(p.status));
-      badge.textContent = p.status;
-      tdStatus.appendChild(badge);
-
-      tr.appendChild(tdName);
-      tr.appendChild(tdCat);
-      tr.appendChild(tdPrice);
-      tr.appendChild(tdStatus);
-      tbody.appendChild(tr);
-    });
-  }
-
-  function renderTags() {
-    var tagGroup = document.getElementById('tag-group');
-    tagGroup.innerHTML = '';
-    filterTags.forEach(function(tag) {
-      var span = document.createElement('span');
-      span.className = 'tag';
-      span.setAttribute('aria-label', 'Filter: ' + tag);
-      span.textContent = tag + ' ';
-      var removeBtn = document.createElement('button');
-      removeBtn.textContent = 'x';
-      removeBtn.setAttribute('aria-label', 'Remove ' + tag);
-      removeBtn.addEventListener('click', function() {
-        filterTags = filterTags.filter(function(t) { return t !== tag; });
-        renderTags();
-        renderProducts();
-        updateSuggestions();
-      });
-      span.appendChild(removeBtn);
-      tagGroup.appendChild(span);
-    });
-  }
-
-  function updateSuggestions() {
-    var comboInput = document.getElementById('combo-input');
-    var listbox = document.getElementById('combo-listbox');
-    var combobox = document.getElementById('category-combobox');
-    var value = comboInput.value.toLowerCase();
-    var suggestions = categories.filter(function(c) {
-      return c.toLowerCase().indexOf(value) >= 0 && filterTags.indexOf(c) === -1;
-    });
-
-    listbox.innerHTML = '';
-    if (suggestions.length > 0 && value.length > 0) {
-      suggestions.forEach(function(cat) {
-        var li = document.createElement('li');
-        li.setAttribute('role', 'option');
-        li.setAttribute('tabindex', '-1');
-        li.textContent = cat;
-        li.addEventListener('click', function() {
-          filterTags.push(cat);
-          comboInput.value = '';
-          listbox.hidden = true;
-          combobox.setAttribute('aria-expanded', 'false');
-          renderTags();
-          renderProducts();
-        });
-        listbox.appendChild(li);
-      });
-      listbox.hidden = false;
-      combobox.setAttribute('aria-expanded', 'true');
-    } else {
-      listbox.hidden = true;
-      combobox.setAttribute('aria-expanded', 'false');
+    function statusBadgeType(s) {
+        if (s === "in-stock") return "success";
+        if (s === "low-stock") return "warning";
+        return "error";
     }
-  }
 
-  // Search input
-  document.getElementById('search-input').addEventListener('input', function(e) {
-    searchQuery = e.target.value;
+    function renderProducts() {
+        var filtered = products.filter(function (p) {
+            var matchesQuery = p.name.toLowerCase().indexOf(searchQuery.toLowerCase()) >= 0;
+            var matchesTags = filterTags.length === 0 || filterTags.indexOf(p.category) >= 0;
+            return matchesQuery && matchesTags;
+        });
+
+        document.getElementById("result-count").textContent = filtered.length;
+        var tbody = document.getElementById("product-tbody");
+        tbody.innerHTML = "";
+
+        filtered.forEach(function (p) {
+            var tr = document.createElement("tr");
+            var tdName = document.createElement("td");
+            tdName.textContent = p.name;
+            var tdCat = document.createElement("td");
+            tdCat.textContent = p.category;
+            var tdPrice = document.createElement("td");
+            tdPrice.textContent = "$" + p.price.toFixed(2);
+            var tdStatus = document.createElement("td");
+            var badge = document.createElement("span");
+            badge.className = "badge";
+            badge.setAttribute("data-type", statusBadgeType(p.status));
+            badge.textContent = p.status;
+            tdStatus.appendChild(badge);
+
+            tr.appendChild(tdName);
+            tr.appendChild(tdCat);
+            tr.appendChild(tdPrice);
+            tr.appendChild(tdStatus);
+            tbody.appendChild(tr);
+        });
+    }
+
+    function renderTags() {
+        var tagGroup = document.getElementById("tag-group");
+        tagGroup.innerHTML = "";
+        filterTags.forEach(function (tag) {
+            var span = document.createElement("span");
+            span.className = "tag";
+            span.setAttribute("aria-label", "Filter: " + tag);
+            span.textContent = tag + " ";
+            var removeBtn = document.createElement("button");
+            removeBtn.textContent = "x";
+            removeBtn.setAttribute("aria-label", "Remove " + tag);
+            removeBtn.addEventListener("click", function () {
+                filterTags = filterTags.filter(function (t) {
+                    return t !== tag;
+                });
+                renderTags();
+                renderProducts();
+                updateSuggestions();
+            });
+            span.appendChild(removeBtn);
+            tagGroup.appendChild(span);
+        });
+    }
+
+    function updateSuggestions() {
+        var comboInput = document.getElementById("combo-input");
+        var listbox = document.getElementById("combo-listbox");
+        var combobox = document.getElementById("category-combobox");
+        var value = comboInput.value.toLowerCase();
+        var suggestions = categories.filter(function (c) {
+            return c.toLowerCase().indexOf(value) >= 0 && filterTags.indexOf(c) === -1;
+        });
+
+        listbox.innerHTML = "";
+        if (suggestions.length > 0 && value.length > 0) {
+            suggestions.forEach(function (cat) {
+                var li = document.createElement("li");
+                li.setAttribute("role", "option");
+                li.setAttribute("tabindex", "-1");
+                li.textContent = cat;
+                li.addEventListener("click", function () {
+                    filterTags.push(cat);
+                    comboInput.value = "";
+                    listbox.hidden = true;
+                    combobox.setAttribute("aria-expanded", "false");
+                    renderTags();
+                    renderProducts();
+                });
+                listbox.appendChild(li);
+            });
+            listbox.hidden = false;
+            combobox.setAttribute("aria-expanded", "true");
+        } else {
+            listbox.hidden = true;
+            combobox.setAttribute("aria-expanded", "false");
+        }
+    }
+
+    // Search input
+    document.getElementById("search-input").addEventListener("input", function (e) {
+        searchQuery = e.target.value;
+        renderProducts();
+    });
+
+    // Combobox input
+    document.getElementById("combo-input").addEventListener("input", updateSuggestions);
+
+    // Initial render
     renderProducts();
-  });
-
-  // Combobox input
-  document.getElementById('combo-input').addEventListener('input', updateSuggestions);
-
-  // Initial render
-  renderProducts();
-  renderTags();
+    renderTags();
 })();

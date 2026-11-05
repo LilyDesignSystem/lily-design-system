@@ -29,7 +29,9 @@
         if (!root || !["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
         const items = Array.from(root.querySelectorAll<HTMLElement>('[role="treeitem"]'));
         if (items.length === 0) return;
-        const current = items.indexOf((event.target as Element).closest('[role="treeitem"]') as HTMLElement);
+        const current = items.indexOf(
+            (event.target as Element).closest('[role="treeitem"]') as HTMLElement,
+        );
         const last = items.length - 1;
         const next =
             event.key === "Home"
@@ -37,8 +39,12 @@
                 : event.key === "End"
                   ? last
                   : event.key === "ArrowDown"
-                    ? current >= last ? 0 : current + 1
-                    : current <= 0 ? last : current - 1;
+                    ? current >= last
+                        ? 0
+                        : current + 1
+                    : current <= 0
+                      ? last
+                      : current - 1;
         event.preventDefault();
         items[next].focus();
     }

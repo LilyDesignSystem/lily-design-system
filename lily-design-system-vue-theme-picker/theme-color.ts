@@ -29,6 +29,9 @@ export function applyThemeColor(root: HTMLElement = document.documentElement): b
  * Applies the theme colour once the managed stylesheet has loaded, because the new theme's custom properties exist only
  * then. Call it right after changing the link's `href`; a link that fails to load leaves the tag unchanged.
  */
-export function applyThemeColorWhenLoaded(link: HTMLLinkElement, root: HTMLElement = document.documentElement): void {
+export function applyThemeColorWhenLoaded(
+    link: HTMLLinkElement,
+    root: HTMLElement = document.documentElement,
+): void {
     link.addEventListener("load", () => applyThemeColor(root), { once: true });
 }

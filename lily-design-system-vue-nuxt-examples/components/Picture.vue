@@ -32,7 +32,6 @@
 //
 // References:
 //   - MDN <picture>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture
-
 </script>
 
 <template>

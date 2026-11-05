@@ -84,7 +84,10 @@ test.describe("rating and feedback", () => {
             .getByRole("radiogroup", { name: "Service satisfaction" })
             .getByRole("radio", { name: "Very satisfied" })
             .check();
-        await page.getByRole("radiogroup", { name: "Recommendation likelihood" }).getByRole("radio", { name: "9", exact: true }).check();
+        await page
+            .getByRole("radiogroup", { name: "Recommendation likelihood" })
+            .getByRole("radio", { name: "9", exact: true })
+            .check();
         await page.locator("#comment").fill("Great service overall.");
         await page.getByRole("button", { name: "Submit Feedback" }).click();
 

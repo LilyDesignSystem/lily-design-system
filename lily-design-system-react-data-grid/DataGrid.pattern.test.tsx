@@ -22,5 +22,9 @@ test("meets the grid-actions contract", async () => {
             label="People"
         />,
     );
-    await runPattern("grid-actions", { root: container, hook: "data-grid", act: (run) => act(run) });
+    await runPattern("grid-actions", {
+        root: container,
+        hook: "data-grid",
+        act: (run) => act(run),
+    });
 });

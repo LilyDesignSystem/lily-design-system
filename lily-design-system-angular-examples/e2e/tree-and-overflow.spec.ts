@@ -12,10 +12,16 @@ const url = "/demos/tree-and-overflow";
 test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await page.goto(url);
-    await expect(page.locator(".navigation-menu-more-button")).toHaveAttribute("aria-controls", /.+/);
+    await expect(page.locator(".navigation-menu-more-button")).toHaveAttribute(
+        "aria-controls",
+        /.+/,
+    );
 });
 
-test("the prerendered page has every component's content and hydrates cleanly", async ({ page, request }) => {
+test("the prerendered page has every component's content and hydrates cleanly", async ({
+    page,
+    request,
+}) => {
     const html = await (await request.get(url + "/")).text();
     expect(html).toContain('aria-label="Sections"');
     expect(html).toContain(">report-final-version-of-the-third-quarter-for-the-board.pdf</span>");
@@ -26,11 +32,16 @@ test("the prerendered page has every component's content and hydrates cleanly", 
         if (m.type() === "error" && /NG0|hydrat/i.test(m.text())) problems.push(m.text());
     });
     await page.reload();
-    await expect(page.locator(".navigation-menu-more-button")).toHaveAttribute("aria-controls", /.+/);
+    await expect(page.locator(".navigation-menu-more-button")).toHaveAttribute(
+        "aria-controls",
+        /.+/,
+    );
     expect(problems).toEqual([]);
 });
 
-test("accordion checkbox: Space and a click reveal the panel, and a form reset closes it", async ({ page }) => {
+test("accordion checkbox: Space and a click reveal the panel, and a form reset closes it", async ({
+    page,
+}) => {
     const box = page.getByRole("checkbox", { name: "Send me updates" });
     const topics = page.getByRole("textbox", { name: "Topics" });
     const state = page.getByTestId("accordion-state");
@@ -73,10 +84,15 @@ test("navigation menu: items move into More when narrow, and back when wide", as
     await page.setViewportSize({ width: 1280, height: 800 });
     await expect(more).toBeHidden();
     await expect(moved).toHaveCount(0);
-    await expect(page.locator(".navigation-menu-list > li:not(.navigation-menu-more)")).toHaveCount(8);
+    await expect(page.locator(".navigation-menu-list > li:not(.navigation-menu-more)")).toHaveCount(
+        8,
+    );
 });
 
-test("navigation menu: More opens by key, Escape refocuses it, a click outside closes it", async ({ page, browserName }) => {
+test("navigation menu: More opens by key, Escape refocuses it, a click outside closes it", async ({
+    page,
+    browserName,
+}) => {
     await page.setViewportSize({ width: 420, height: 800 });
     const button = page.getByRole("button", { name: "More" });
     await expect(button).toBeVisible();
@@ -116,7 +132,9 @@ test("navigation menu: a moved link is still the same link", async ({ page }) =>
     await expect(page).toHaveURL(/#Results$/);
 });
 
-test("middle truncation: the text fits, keeps its ends, and re-measures on resize", async ({ page }) => {
+test("middle truncation: the text fits, keeps its ends, and re-measures on resize", async ({
+    page,
+}) => {
     const root = page.locator(".middle-truncation");
     const visual = page.locator(".middle-truncation-visual");
     const full = "report-final-version-of-the-third-quarter-for-the-board.pdf";
@@ -163,7 +181,10 @@ test("tree list item: the arrow keys expand, enter, leave and collapse", async (
 
     await page.keyboard.press("ArrowDown");
     await expect(page.getByRole("treeitem", { name: "Music" })).toBeFocused();
-    await expect(page.getByRole("treeitem", { name: "Music" })).not.toHaveAttribute("aria-expanded", /.*/);
+    await expect(page.getByRole("treeitem", { name: "Music" })).not.toHaveAttribute(
+        "aria-expanded",
+        /.*/,
+    );
 });
 
 test("tree list item: the keys swap right to left", async ({ page }) => {

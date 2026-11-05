@@ -48,14 +48,18 @@ test("the arrows skip a disabled control", () => {
 });
 
 test("right-to-left swaps the arrows, and aria-orientation turns them", () => {
-    const rtl = mount(`<div role="toolbar" style="direction: rtl"><button>A</button><button>B</button></div>`);
+    const rtl = mount(
+        `<div role="toolbar" style="direction: rtl"><button>A</button><button>B</button></div>`,
+    );
     const detachRtl = attachToolbar(rtl);
     const [a, b] = rtl.querySelectorAll("button");
     a.focus();
     press(a, "ArrowLeft");
     expect(document.activeElement).toBe(b);
     detachRtl();
-    const tall = mount(`<div role="toolbar" aria-orientation="vertical"><button>A</button><button>B</button></div>`);
+    const tall = mount(
+        `<div role="toolbar" aria-orientation="vertical"><button>A</button><button>B</button></div>`,
+    );
     const detachTall = attachToolbar(tall);
     const [c, d] = tall.querySelectorAll("button");
     c.focus();
@@ -76,7 +80,9 @@ test("an input keeps its own arrows", () => {
 
 test("a popup is left alone, in both of its forms", () => {
     for (const panel of ['popover="auto"', 'role="menu"']) {
-        const root = mount(`<div role="group"><button>A</button><div ${panel}><button>In</button></div></div>`);
+        const root = mount(
+            `<div role="group"><button>A</button><div ${panel}><button>In</button></div></div>`,
+        );
         const detach = attachToolbar(root);
         const inner = root.querySelectorAll("button")[1];
         expect(press(inner, "ArrowRight").defaultPrevented).toBe(false);
@@ -86,7 +92,9 @@ test("a popup is left alone, in both of its forms", () => {
 });
 
 test("Escape presses the dismiss button, and is left alone without one", () => {
-    const root = mount(`<div role="toolbar"><button>A</button><button class="clear">x</button></div>`);
+    const root = mount(
+        `<div role="toolbar"><button>A</button><button class="clear">x</button></div>`,
+    );
     const detach = attachToolbar(root, { dismiss: ".clear" });
     const clicked = vi.fn();
     root.querySelector(".clear")!.addEventListener("click", clicked);
@@ -131,7 +139,9 @@ test("the arrows skip a disabled radio, click the next, and swap in right-to-lef
 });
 
 test("Space checks a radio that is not a button; a button does it natively", () => {
-    const root = mount(`<div role="radiogroup"><div role="radio" tabindex="0" aria-checked="false">A</div></div>`);
+    const root = mount(
+        `<div role="radiogroup"><div role="radio" tabindex="0" aria-checked="false">A</div></div>`,
+    );
     const detach = attachRadioGroup(root);
     const radio = root.querySelector<HTMLElement>("[role='radio']")!;
     radio.focus();
@@ -280,7 +290,9 @@ test("right-to-left swaps the tree's arrows, and leaving closes it", () => {
     expect(item(root, "Fruit").getAttribute("aria-expanded")).toBe("true");
     const outside = document.createElement("button");
     document.body.append(outside);
-    item(root, "Fruit").dispatchEvent(new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }));
+    item(root, "Fruit").dispatchEvent(
+        new FocusEvent("focusout", { bubbles: true, relatedTarget: outside }),
+    );
     expect(onOpen).toHaveBeenLastCalledWith(false);
     detach();
 });
@@ -334,7 +346,9 @@ test("a key during IME composition is the IME's, and blur closes", () => {
 });
 
 test("a crop starts where it is told, or from its attributes, and reports each change", () => {
-    const root = mount(`<div data-crop-x="10" data-crop-y="20" data-crop-width="30" data-crop-height="40"></div>`);
+    const root = mount(
+        `<div data-crop-x="10" data-crop-y="20" data-crop-width="30" data-crop-height="40"></div>`,
+    );
     const onChange = vi.fn();
     const heard = vi.fn();
     root.addEventListener("image-cropper-change", (e) => heard((e as CustomEvent).detail.x));

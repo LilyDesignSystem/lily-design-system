@@ -53,19 +53,27 @@ const lastScroll = (page: import("@playwright/test").Page, testId: string) =>
     page.getByTestId(testId).evaluate((node) => node.scrollIntoView({ block: "center" }));
 
 test("clipboard copy: the text reaches the clipboard, and the mark clears", async ({ page }) => {
-    expect(await page.evaluate(() => (window as unknown as { copied: string[] }).copied)).toContain("copy me");
-    await expect(page.getByTestId("copy")).toHaveAttribute("data-copied", "false", { timeout: 4000 });
+    expect(await page.evaluate(() => (window as unknown as { copied: string[] }).copied)).toContain(
+        "copy me",
+    );
+    await expect(page.getByTestId("copy")).toHaveAttribute("data-copied", "false", {
+        timeout: 4000,
+    });
 });
 
 test("clipboard copy: a refusal reports and marks nothing", async ({ page }) => {
-    await expect(page.getByTestId("copy")).toHaveAttribute("data-copied", "false", { timeout: 4000 });
+    await expect(page.getByTestId("copy")).toHaveAttribute("data-copied", "false", {
+        timeout: 4000,
+    });
     await page.evaluate(() => ((window as unknown as { refuse: boolean }).refuse = true));
     await page.getByTestId("copy").click();
     await expect(page.getByTestId("copy-state")).toContainText("failed: yes");
     await expect(page.getByTestId("copy")).toHaveAttribute("data-copied", "false");
 });
 
-test("timer button: fires once at the end of its countdown, and a press fires at once", async ({ page }) => {
+test("timer button: fires once at the end of its countdown, and a press fires at once", async ({
+    page,
+}) => {
     await expect(page.getByTestId("timer-state")).toContainText("Timer: 1", { timeout: 5000 });
     await page.getByRole("button", { name: "Long" }).click();
     await expect(page.getByTestId("timer-state")).toContainText("pressed: 1");
@@ -96,15 +104,24 @@ test("visible: follows the viewport", async ({ page }) => {
 
 test("video player: plays in view and pauses out of it", async ({ page }) => {
     const calls = () => page.evaluate(() => (window as unknown as { media: string[] }).media);
-    await page.locator("video.video-player-element").evaluate((node) => node.scrollIntoView({ block: "center" }));
+    await page
+        .locator("video.video-player-element")
+        .evaluate((node) => node.scrollIntoView({ block: "center" }));
     await expect.poll(calls).toContain("play");
     await page.evaluate(() => window.scrollTo(0, 0));
     await expect.poll(calls).toContain("pause");
-    expect(await page.locator("video.video-player-element").evaluate((node: HTMLVideoElement) => node.muted)).toBe(true);
+    expect(
+        await page
+            .locator("video.video-player-element")
+            .evaluate((node: HTMLVideoElement) => node.muted),
+    ).toBe(true);
 });
 
 test("scroller video: the step and the video's time follow the scroll", async ({ page }) => {
-    await page.locator(".scroller-base section").nth(1).evaluate((node) => node.scrollIntoView({ block: "center" }));
+    await page
+        .locator(".scroller-base section")
+        .nth(1)
+        .evaluate((node) => node.scrollIntoView({ block: "center" }));
     await expect(page.getByTestId("scroller-state")).toContainText("Step: 1");
     await expect(page.getByTestId("scroller-state")).toContainText(/moved: true/i);
     await expect

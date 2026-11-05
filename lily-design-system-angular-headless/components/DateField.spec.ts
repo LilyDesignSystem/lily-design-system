@@ -5,7 +5,8 @@ import { DateField } from "./DateField";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(DateField);
-    for (const [key, value] of Object.entries({ label: "Birthday", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ label: "Birthday", ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
@@ -33,7 +34,9 @@ describe("DateField", () => {
     test("an id is generated without one given", () => {
         const root = make().nativeElement;
         expect(root.querySelector("input").id).not.toBe("");
-        expect(root.querySelector("label").getAttribute("for")).toBe(root.querySelector("input").id);
+        expect(root.querySelector("label").getAttribute("for")).toBe(
+            root.querySelector("input").id,
+        );
     });
 
     test("description and error are linked", () => {

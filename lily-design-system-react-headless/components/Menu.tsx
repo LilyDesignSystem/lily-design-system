@@ -77,7 +77,6 @@ export default function Menu({ className = "", label, children, ...restProps }: 
 
     useEffect(() => attachMenu(menuRef.current!, "vertical"), []);
 
-
     return (
         <div
             className={`menu ${className}`}

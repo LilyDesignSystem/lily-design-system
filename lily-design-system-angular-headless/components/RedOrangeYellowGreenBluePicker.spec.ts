@@ -5,14 +5,25 @@ import { RedOrangeYellowGreenBluePicker } from "./RedOrangeYellowGreenBluePicker
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(RedOrangeYellowGreenBluePicker);
-    for (const [key, value] of Object.entries({ label: "Status", redLabel: "RED", orangeLabel: "ORANGE", yellowLabel: "YELLOW", greenLabel: "GREEN", blueLabel: "BLUE", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({
+        label: "Status",
+        redLabel: "RED",
+        orangeLabel: "ORANGE",
+        yellowLabel: "YELLOW",
+        greenLabel: "GREEN",
+        blueLabel: "BLUE",
+        ...inputs,
+    }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
 
 describe("RedOrangeYellowGreenBluePicker", () => {
     test("renders the root with the base class and the className input", () => {
-        const el = make({ className: "extra" }).nativeElement.querySelector("div.red-orange-yellow-green-blue-picker");
+        const el = make({ className: "extra" }).nativeElement.querySelector(
+            "div.red-orange-yellow-green-blue-picker",
+        );
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
@@ -22,8 +33,20 @@ describe("RedOrangeYellowGreenBluePicker", () => {
         const select = root.querySelector("select");
         expect(select.getAttribute("aria-label")).toBe("Status");
         const options = [...select.querySelectorAll("option:not([hidden])")] as HTMLOptionElement[];
-        expect(options.map((option) => option.value)).toEqual(["red", "orange", "yellow", "green", "blue"]);
-        expect(options.map((option) => option.textContent)).toEqual(["RED", "ORANGE", "YELLOW", "GREEN", "BLUE"]);
+        expect(options.map((option) => option.value)).toEqual([
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+        ]);
+        expect(options.map((option) => option.textContent)).toEqual([
+            "RED",
+            "ORANGE",
+            "YELLOW",
+            "GREEN",
+            "BLUE",
+        ]);
     });
 
     test("an empty value shows no status", () => {

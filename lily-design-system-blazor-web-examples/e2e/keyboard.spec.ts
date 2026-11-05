@@ -29,7 +29,9 @@ test("the combobox's keys reach its parameters", async ({ page }) => {
     const active = await input.getAttribute("aria-activedescendant");
     await expect(page.locator(`[id="${active}"]`)).toHaveText("Banana");
     await page.keyboard.press("Enter");
-    await expect(page.getByTestId("fruit-state")).toContainText("Value: Banana; chosen: Banana; open: no");
+    await expect(page.getByTestId("fruit-state")).toContainText(
+        "Value: Banana; chosen: Banana; open: no",
+    );
     await expect(input).toHaveValue("Banana");
 });
 
@@ -37,7 +39,9 @@ test("a click on an option chooses it and focus stays in the input", async ({ pa
     const input = page.getByRole("combobox", { name: "Fruit" });
     await page.keyboard.press("ArrowDown");
     await page.locator('[data-testid="fruit"] [role="option"]', { hasText: "Cherry" }).click();
-    await expect(page.getByTestId("fruit-state")).toContainText("Value: Cherry; chosen: Cherry; open: no");
+    await expect(page.getByTestId("fruit-state")).toContainText(
+        "Value: Cherry; chosen: Cherry; open: no",
+    );
     await expect(input).toBeFocused();
 });
 

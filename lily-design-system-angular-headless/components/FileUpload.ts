@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    input,
-    output,
-    signal,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, output, signal } from "@angular/core";
 
 /**
  * FileUpload — a drag-and-drop area for uploading files

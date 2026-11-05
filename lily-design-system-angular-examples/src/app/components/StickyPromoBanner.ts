@@ -38,6 +38,7 @@ export class StickyPromoBanner {
     readonly dismissed = output<MouseEvent>();
 
     protected readonly stickyStyle = computed(
-        () => `position: fixed; left: 0; right: 0; ${this.position() === "top" ? "top" : "bottom"}: 0;`,
+        () =>
+            `position: fixed; left: 0; right: 0; ${this.position() === "top" ? "top" : "bottom"}: 0;`,
     );
 }

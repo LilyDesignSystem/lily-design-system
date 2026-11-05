@@ -130,20 +130,35 @@ describe("IconButton — development warnings", () => {
 
     test("a missing label warns", () => {
         const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-        render(<Subject label=""><i /></Subject>);
+        render(
+            <Subject label="">
+                <i />
+            </Subject>,
+        );
         expect(warn).toHaveBeenCalledOnce();
     });
 
     test("aria-labelledby is a name, so it does not warn", () => {
         const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-        render(<Subject label="" aria-labelledby="x"><i /></Subject>);
+        render(
+            <Subject
+                label=""
+                aria-labelledby="x"
+            >
+                <i />
+            </Subject>,
+        );
         expect(warn).not.toHaveBeenCalled();
     });
 
     test("production is silent", () => {
         vi.stubEnv("NODE_ENV", "production");
         const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-        render(<Subject label=""><i /></Subject>);
+        render(
+            <Subject label="">
+                <i />
+            </Subject>,
+        );
         expect(warn).not.toHaveBeenCalled();
     });
 });

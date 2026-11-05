@@ -3,7 +3,8 @@ import { afterEach, test } from "vitest";
 import { runPattern } from "../../shared/pattern-tester";
 import { SlideOutDrawer } from "./slide-out-drawer.js";
 
-if (!customElements.get("lily-slide-out-drawer")) customElements.define("lily-slide-out-drawer", SlideOutDrawer);
+if (!customElements.get("lily-slide-out-drawer"))
+    customElements.define("lily-slide-out-drawer", SlideOutDrawer);
 
 afterEach(() => {
     document.body.innerHTML = "";

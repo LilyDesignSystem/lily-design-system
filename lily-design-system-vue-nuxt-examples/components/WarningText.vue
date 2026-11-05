@@ -26,7 +26,12 @@ const slots = useSlots();
 <template>
     <!-- WarningText.vue -->
     <div class="warning-text">
-        <span v-if="slots.icon" class="warning-text-icon" aria-hidden="true"><slot name="icon" /></span>
+        <span
+            v-if="slots.icon"
+            class="warning-text-icon"
+            aria-hidden="true"
+            ><slot name="icon"
+        /></span>
         <strong class="warning-text-text"><slot /></strong>
     </div>
 </template>

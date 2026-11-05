@@ -8,7 +8,13 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-banner label="Notice" [dismissible]="true" closeLabel="Dismiss" (closed)="onClosed()">...</lily-banner>
+<lily-banner
+  label="Notice"
+  [dismissible]="true"
+  closeLabel="Dismiss"
+  (closed)="onClosed()"
+  >...</lily-banner
+>
 ```
 
 ## Files

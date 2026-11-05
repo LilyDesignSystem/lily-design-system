@@ -19,12 +19,7 @@ export interface EndNotesProps {
     [key: string]: unknown;
 }
 
-export default function EndNotes({
-    className = "",
-    label,
-    children,
-    ...restProps
-}: EndNotesProps) {
+export default function EndNotes({ className = "", label, children, ...restProps }: EndNotesProps) {
     return (
         <section
             className={`end-notes ${className}`}

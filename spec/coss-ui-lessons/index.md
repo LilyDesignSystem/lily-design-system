@@ -168,12 +168,12 @@ behaves this way (class-first rule, suffix to element table, per-component
 
 Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
 
-| Item | Task |
-| --- | --- |
-| 1 | P22-T27 |
-| 4 | P22-T28 |
-| 5 | P22-T9 |
-| 6 | P22-T29 |
+| Item | Task    |
+| ---- | ------- |
+| 1    | P22-T27 |
+| 4    | P22-T28 |
+| 5    | P22-T9  |
+| 6    | P22-T29 |
 
 ## Acceptance criteria
 

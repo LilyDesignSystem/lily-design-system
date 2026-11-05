@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, input, model, OnInit } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    inject,
+    input,
+    model,
+    OnInit,
+} from "@angular/core";
 import { warnMissingName } from "./dev-warning";
 
 let nextId = 0;

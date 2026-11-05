@@ -5,7 +5,8 @@ import { Collapsible } from "./Collapsible";
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(Collapsible);
-    for (const [key, value] of Object.entries({ summary: "More", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({ summary: "More", ...inputs }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
@@ -18,7 +19,9 @@ describe("Collapsible", () => {
     });
 
     test("the summary is the toggle", () => {
-        expect(make().nativeElement.querySelector("details > summary").textContent.trim()).toBe("More");
+        expect(make().nativeElement.querySelector("details > summary").textContent.trim()).toBe(
+            "More",
+        );
     });
 
     test("open renders the attribute", () => {

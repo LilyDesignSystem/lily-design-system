@@ -8,7 +8,11 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-password-input-or-text-input-div label="Password" toggleLabel="Show password" [(value)]="password" />
+<lily-password-input-or-text-input-div
+  label="Password"
+  toggleLabel="Show password"
+  [(value)]="password"
+/>
 ```
 
 ## Files

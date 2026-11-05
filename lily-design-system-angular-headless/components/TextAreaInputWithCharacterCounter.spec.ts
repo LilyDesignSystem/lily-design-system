@@ -5,7 +5,13 @@ import { TextAreaInputWithCharacterCounter } from "./TextAreaInputWithCharacterC
 
 function make(inputs: Record<string, unknown> = {}) {
     const fixture = TestBed.createComponent(TextAreaInputWithCharacterCounter);
-    for (const [key, value] of Object.entries({ label: "Notes", maxLength: 10, counterTemplate: "{count}/{max}", ...inputs })) fixture.componentRef.setInput(key, value);
+    for (const [key, value] of Object.entries({
+        label: "Notes",
+        maxLength: 10,
+        counterTemplate: "{count}/{max}",
+        ...inputs,
+    }))
+        fixture.componentRef.setInput(key, value);
     fixture.detectChanges();
     return fixture;
 }
@@ -17,7 +23,9 @@ const type = (el: HTMLInputElement | HTMLTextAreaElement, value: string) => {
 
 describe("TextAreaInputWithCharacterCounter", () => {
     test("renders the root with the base class and the className input", () => {
-        const el = make({ className: "extra" }).nativeElement.querySelector("div.text-area-input-with-character-counter");
+        const el = make({ className: "extra" }).nativeElement.querySelector(
+            "div.text-area-input-with-character-counter",
+        );
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

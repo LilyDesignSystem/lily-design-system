@@ -1458,11 +1458,14 @@ export class DateTimePicker {
     protected readonly periodText = computed(() => {
         const viewStart = this.viewStart();
         try {
-            return new Intl.DateTimeFormat(calendarLocale(this.locale() || undefined, this.calendar()), {
-                month: "long",
-                year: "numeric",
-                timeZone: "UTC",
-            }).format(new Date(`${viewStart}T00:00:00Z`));
+            return new Intl.DateTimeFormat(
+                calendarLocale(this.locale() || undefined, this.calendar()),
+                {
+                    month: "long",
+                    year: "numeric",
+                    timeZone: "UTC",
+                },
+            ).format(new Date(`${viewStart}T00:00:00Z`));
         } catch {
             return viewStart.slice(0, 7);
         }
@@ -1632,13 +1635,16 @@ export class DateTimePicker {
         const parsed = parseIsoDate(isoDate);
         if (!parsed) return isoDate;
         try {
-            return new Intl.DateTimeFormat(calendarLocale(this.locale() || undefined, this.calendar()), {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-                year: "numeric",
-                timeZone: "UTC",
-            }).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)));
+            return new Intl.DateTimeFormat(
+                calendarLocale(this.locale() || undefined, this.calendar()),
+                {
+                    weekday: "long",
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                    timeZone: "UTC",
+                },
+            ).format(new Date(Date.UTC(parsed.year, parsed.month - 1, parsed.day)));
         } catch {
             return isoDate;
         }
@@ -1876,7 +1882,13 @@ export class DateTimePicker {
         const c = parseIsoDate(this.cursor());
         if (c) {
             this.cursor.set(
-                addDays(next, Math.min(calendarDay(formatIsoDate(c), this.calendar()), calendarMonthLength(next, this.calendar())) - 1),
+                addDays(
+                    next,
+                    Math.min(
+                        calendarDay(formatIsoDate(c), this.calendar()),
+                        calendarMonthLength(next, this.calendar()),
+                    ) - 1,
+                ),
             );
             if (hadGridFocus) {
                 // Render-then-focus, synchronously — the target cell does not

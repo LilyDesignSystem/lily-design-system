@@ -83,18 +83,14 @@ export class Combobox implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const detach = attachCombobox(
-            this.field()!.nativeElement,
-            this.panel()!.nativeElement,
-            {
-                open: () => this.open(),
-                setOpen: (next) => this.open.set(next),
-                choose: (chosen) => {
-                    this.value.set(chosen);
-                    this.selected.emit(chosen);
-                },
+        const detach = attachCombobox(this.field()!.nativeElement, this.panel()!.nativeElement, {
+            open: () => this.open(),
+            setOpen: (next) => this.open.set(next),
+            choose: (chosen) => {
+                this.value.set(chosen);
+                this.selected.emit(chosen);
             },
-        );
+        });
         this.destroyRef.onDestroy(detach);
     }
 

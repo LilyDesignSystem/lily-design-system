@@ -42,7 +42,9 @@ describe("AccordionListItem", () => {
     test("the li holds a native details with the summary and the content", () => {
         const fixture = TestBed.createComponent(TestHost);
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector("li > details > summary").textContent.trim()).toBe("Head");
+        expect(
+            fixture.nativeElement.querySelector("li > details > summary").textContent.trim(),
+        ).toBe("Head");
         expect(fixture.nativeElement.querySelector("li > details > p")).toBeTruthy();
     });
 

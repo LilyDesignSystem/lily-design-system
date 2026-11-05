@@ -6,23 +6,42 @@ import Subject from "./ContextualHelp";
 
 describe("ContextualHelp", () => {
     test("applies the contextual-help root class", () => {
-        const { container } = render(<Subject label="Help" triggerLabel="?">Content</Subject>);
+        const { container } = render(
+            <Subject
+                label="Help"
+                triggerLabel="?"
+            >
+                Content
+            </Subject>,
+        );
 
         const root: HTMLElement | null = container.querySelector(".contextual-help");
         expect(root).toBeTruthy();
     });
 
     test("renders the trigger button with the required aria-label", () => {
-        render(<Subject label="Show help"
-                triggerLabel="?">Content</Subject>);
+        render(
+            <Subject
+                label="Show help"
+                triggerLabel="?"
+            >
+                Content
+            </Subject>,
+        );
 
         const trigger: HTMLElement = screen.getByRole("button", { name: "Show help" });
         expect(trigger).toBeTruthy();
     });
 
     test("trigger has aria-haspopup, aria-expanded, and aria-controls", () => {
-        render(<Subject label="Show help"
-                triggerLabel="?">Content</Subject>);
+        render(
+            <Subject
+                label="Show help"
+                triggerLabel="?"
+            >
+                Content
+            </Subject>,
+        );
 
         const trigger: HTMLElement = screen.getByRole("button", { name: "Show help" });
         expect(trigger.getAttribute("aria-haspopup")).toBe("dialog");
@@ -50,8 +69,14 @@ describe("ContextualHelp", () => {
     });
 
     test("panel is hidden when expanded is false", () => {
-        const { container } = render(<Subject label="Show help"
-                triggerLabel="?">Content</Subject>);
+        const { container } = render(
+            <Subject
+                label="Show help"
+                triggerLabel="?"
+            >
+                Content
+            </Subject>,
+        );
 
         const panel: HTMLElement | null = container.querySelector(".contextual-help-panel");
         expect(panel).toBeTruthy();

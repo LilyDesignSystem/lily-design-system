@@ -8,7 +8,13 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-tree-select label="Department" placeholder="Choose" [value]="chosen" [expanded]="open" (triggerClick)="open = !open">
+<lily-tree-select
+  label="Department"
+  placeholder="Choose"
+  [value]="chosen"
+  [expanded]="open"
+  (triggerClick)="open = !open"
+>
   <lily-tree-nav label="Departments">…</lily-tree-nav>
 </lily-tree-select>
 ```

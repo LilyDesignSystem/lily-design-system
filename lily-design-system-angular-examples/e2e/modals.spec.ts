@@ -1,6 +1,14 @@
 import { expect, test } from "@playwright/test";
 
-const KINDS = ["dialog", "alert-dialog", "file-dialog", "timeout-dialog", "drawer", "sheet", "slide-out-drawer"];
+const KINDS = [
+    "dialog",
+    "alert-dialog",
+    "file-dialog",
+    "timeout-dialog",
+    "drawer",
+    "sheet",
+    "slide-out-drawer",
+];
 
 for (const kind of KINDS) {
     test(`${kind}: opens as a real modal, takes focus and gives it back`, async ({ page }) => {
@@ -38,7 +46,10 @@ test("dialog: Escape closes it", async ({ page }) => {
     await expect(page.getByTestId("open-dialog")).toBeFocused();
 });
 
-test("modals open on first render: the static page is whole, and the browser opens them", async ({ page, request }) => {
+test("modals open on first render: the static page is whole, and the browser opens them", async ({
+    page,
+    request,
+}) => {
     const html = await (await request.get("/demos/modals-open")).text();
     expect(html).toContain("The page around them is still in the static HTML.");
     expect(html).toContain("Dialog body");

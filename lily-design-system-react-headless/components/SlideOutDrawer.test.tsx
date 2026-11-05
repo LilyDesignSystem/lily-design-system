@@ -164,7 +164,10 @@ describe("SlideOutDrawer modality", () => {
 
     test("is a <dialog> opened with showModal() and says aria-modal", () => {
         render(
-            <Subject label="L" open>
+            <Subject
+                label="L"
+                open
+            >
                 <button>Inside</button>
             </Subject>,
         );
@@ -177,7 +180,10 @@ describe("SlideOutDrawer modality", () => {
 
     test("opening moves focus inside", () => {
         render(
-            <Subject label="L" open>
+            <Subject
+                label="L"
+                open
+            >
                 <button>Inside</button>
             </Subject>,
         );
@@ -187,7 +193,11 @@ describe("SlideOutDrawer modality", () => {
     test("the native cancel event (Escape) closes it and reports it", () => {
         const onChange = vi.fn();
         render(
-            <Subject label="L" open onOpenChange={onChange}>
+            <Subject
+                label="L"
+                open
+                onOpenChange={onChange}
+            >
                 <button>Inside</button>
             </Subject>,
         );
@@ -198,13 +208,19 @@ describe("SlideOutDrawer modality", () => {
 
     test("closing returns focus to the trigger", () => {
         const { rerender } = render(
-            <Subject label="L" open>
+            <Subject
+                label="L"
+                open
+            >
                 <button>Inside</button>
             </Subject>,
         );
         expect(document.activeElement).not.toBe(trigger);
         rerender(
-            <Subject label="L" open={false}>
+            <Subject
+                label="L"
+                open={false}
+            >
                 <button>Inside</button>
             </Subject>,
         );

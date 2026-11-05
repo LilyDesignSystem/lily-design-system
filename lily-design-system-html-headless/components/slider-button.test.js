@@ -36,13 +36,18 @@ describe("SliderButton keyboard", function () {
             const b = document.querySelector(".slider-button");
             b.setAttribute("aria-label", "Confirm order");
             b.setAttribute("data-step", "25");
-            Object.keys(e).forEach((k) => (k === "disabled" ? (b.disabled = true) : b.setAttribute(k, e[k])));
+            Object.keys(e).forEach((k) =>
+                k === "disabled" ? (b.disabled = true) : b.setAttribute(k, e[k]),
+            );
             window.confirms = 0;
             b.addEventListener("confirm", () => (window.confirms += 1));
             b.focus();
         }, extra || {});
     }
-    const now = () => browser.execute(() => document.querySelector(".slider-button").getAttribute("aria-valuenow"));
+    const now = () =>
+        browser.execute(() =>
+            document.querySelector(".slider-button").getAttribute("aria-valuenow"),
+        );
     const confirms = () => browser.execute(() => window.confirms);
 
     it("ArrowRight and ArrowLeft move by data-step; Home returns to 0", async function () {
@@ -79,7 +84,9 @@ describe("SliderButton keyboard", function () {
         await browser.execute(() => {
             const b = document.querySelector(".slider-button");
             ["End", "ArrowRight"].forEach((key) =>
-                b.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true })),
+                b.dispatchEvent(
+                    new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }),
+                ),
             );
         });
         expect(await confirms()).toBe(0);

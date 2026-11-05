@@ -10,4 +10,6 @@ const meta: Meta<RedAmberGreenPicker> = {
 export default meta;
 type Story = StoryObj<RedAmberGreenPicker>;
 
-export const Default: Story = { args: { label: "Status", redLabel: "Red", amberLabel: "Amber", greenLabel: "Green" } };
+export const Default: Story = {
+    args: { label: "Status", redLabel: "Red", amberLabel: "Amber", greenLabel: "Green" },
+};

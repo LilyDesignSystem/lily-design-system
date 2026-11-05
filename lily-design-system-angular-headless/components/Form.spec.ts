@@ -36,6 +36,8 @@ describe("Form", () => {
         const fixture = TestBed.createComponent(Form);
         fixture.componentRef.setInput("label", "Named");
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector("form.form").getAttribute("aria-label")).toBe("Named");
+        expect(fixture.nativeElement.querySelector("form.form").getAttribute("aria-label")).toBe(
+            "Named",
+        );
     });
 });

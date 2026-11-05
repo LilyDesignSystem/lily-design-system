@@ -48,7 +48,9 @@ test("text area: the count follows typing and stops at the limit", async ({ page
 });
 
 test("input with mask: shows the mask", async ({ page }) => {
-    await expect(page.getByTestId("mask").locator(".input-with-mask-display")).toHaveText("___-____");
+    await expect(page.getByTestId("mask").locator(".input-with-mask-display")).toHaveText(
+        "___-____",
+    );
 });
 
 test("select with extras: the extras are beside it, and it binds", async ({ page }) => {
@@ -76,11 +78,15 @@ test("field: the label names the control inside", async ({ page }) => {
     await expect(root.getByRole("alert")).toHaveText("Enter a town");
 });
 
-test("file upload: the button opens the chooser, and the count is the consumer's words", async ({ page }) => {
+test("file upload: the button opens the chooser, and the count is the consumer's words", async ({
+    page,
+}) => {
     const root = page.getByTestId("upload");
     const chooser = page.waitForEvent("filechooser");
     await root.getByRole("button", { name: "Choose files" }).click();
-    await (await chooser).setFiles([
+    await (
+        await chooser
+    ).setFiles([
         { name: "a.txt", mimeType: "text/plain", buffer: Buffer.from("a") },
         { name: "b.txt", mimeType: "text/plain", buffer: Buffer.from("b") },
     ]);
