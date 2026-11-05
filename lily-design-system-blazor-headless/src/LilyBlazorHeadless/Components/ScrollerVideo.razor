@@ -2,13 +2,31 @@
 
 @*
     ScrollerVideo component
-    a video-driven scrollytelling component with frame-by-frame scrubbing
+    a video whose time follows the scroll
+
+    A muted background video behind a ScrollerBase. ScrollerBase.razor.js moves the video.
+
+    Parameters:
+        Src, Label, Alt — string, required. Alt describes the video.
+        Offset — double, default 0.5.
+        OnIndexChange — EventCallback<int>. OnProgressChange — EventCallback<double>.
+        ChildContent — the steps. CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"scroller-video {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"scroller-video {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">
+    <div class="scroller-video-background" role="img" aria-roledescription="scrollable video" aria-label="@Alt">
+        <video class="scroller-video-element" src="@Src" muted playsinline preload="auto"></video>
+    </div>
+    <ScrollerBase CssClass="scroller-video-foreground" Offset="Offset" OnIndexChange="OnIndexChange" OnProgressChange="OnProgressChange">@ChildContent</ScrollerBase>
+</div>
 
 @code {
+    [Parameter, EditorRequired] public string Src { get; set; } = "";
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string Alt { get; set; } = "";
+    [Parameter] public double Offset { get; set; } = 0.5;
+    [Parameter] public EventCallback<int> OnIndexChange { get; set; }
+    [Parameter] public EventCallback<double> OnProgressChange { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

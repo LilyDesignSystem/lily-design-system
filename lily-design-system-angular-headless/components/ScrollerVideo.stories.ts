@@ -10,4 +10,4 @@ const meta: Meta<ScrollerVideo> = {
 export default meta;
 type Story = StoryObj<ScrollerVideo>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { src: "/video.webm", alt: "A river", label: "Story" } };

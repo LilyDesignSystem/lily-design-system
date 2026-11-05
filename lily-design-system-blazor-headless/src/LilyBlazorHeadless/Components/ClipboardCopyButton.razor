@@ -1,15 +1,63 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@implements IDisposable
+@inject IJSRuntime JS
 
 @*
     ClipboardCopyButton component
     a button that copies text to the clipboard
+
+    data-copied is "true" for two seconds after a copy, for the consumer's CSS. The words that say so are the consumer's.
+
+    Parameters:
+        Text, Label — string, required. What to copy, and the button's aria-label.
+        OnSuccess — EventCallback. OnError — EventCallback<string>, with the browser's message: copying needs a secure
+            context and a user gesture.
+        ChildContent, CssClass, AdditionalAttributes (spread onto the button).
 *@
 
-<button class="@($"clipboard-copy-button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"clipboard-copy-button {CssClass}".Trim())" type="button" aria-label="@Label" data-copied="@(_copied ? "true" : "false")" @onclick="CopyAsync" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
+    [Parameter, EditorRequired] public string Text { get; set; } = "";
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public EventCallback OnSuccess { get; set; }
+    [Parameter] public EventCallback<string> OnError { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool _copied;
+    private CancellationTokenSource? _reset;
+
+    private async Task CopyAsync()
+    {
+        try
+        {
+            await JS.InvokeVoidAsync("navigator.clipboard.writeText", Text);
+        }
+        catch (JSException error)
+        {
+            await OnError.InvokeAsync(error.Message);
+            return;
+        }
+        _copied = true;
+        await OnSuccess.InvokeAsync();
+        _ = ResetAsync();
+    }
+
+    private async Task ResetAsync()
+    {
+        _reset?.Cancel();
+        _reset = new CancellationTokenSource();
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(2), _reset.Token);
+            _copied = false;
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (OperationCanceledException) { }
+    }
+
+    public void Dispose() => _reset?.Cancel();
 }

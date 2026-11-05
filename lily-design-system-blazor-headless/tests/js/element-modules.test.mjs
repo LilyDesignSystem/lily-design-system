@@ -161,3 +161,125 @@ test("FileUpload: the button clicks the input until disposed", () => {
     button.click();
     assert.equal(clicks, 1);
 });
+
+const video = await import(`${modules}VideoPlayer.razor.js`);
+const scrollerBase = await import(`${modules}ScrollerBase.razor.js`);
+const visible = await import(`${modules}Visible.razor.js`);
+
+// jsdom has no IntersectionObserver or layout; these report when told to.
+const observers = [];
+globalThis.IntersectionObserver = class {
+    constructor(callback, options) {
+        Object.assign(this, { callback, options, targets: [], disconnected: false });
+        observers.push(this);
+    }
+    observe(target) {
+        this.targets.push(target);
+    }
+    disconnect() {
+        this.disconnected = true;
+    }
+};
+globalThis.window = dom.window;
+globalThis.requestAnimationFrame = (callback) => setTimeout(callback, 0);
+globalThis.cancelAnimationFrame = clearTimeout;
+const frame = () => new Promise((resolve) => setTimeout(resolve, 5));
+const say = (observer, target, isIntersecting) => observer.callback([{ target, isIntersecting }]);
+
+test("VideoPlayer: sets muted, and plays only while in view", async () => {
+    const calls = [];
+    const node = {
+        muted: false,
+        play: () => (calls.push("play"), Promise.resolve()),
+        pause: () => calls.push("pause"),
+    };
+    const handle = video.attach(node, true, true);
+    assert.equal(node.muted, true);
+    const observer = observers.at(-1);
+    assert.equal(observer.options.threshold, 0.5);
+    say(observer, node, true);
+    say(observer, node, false);
+    assert.deepEqual(calls, ["play", "pause"]);
+    handle.dispose();
+    assert.equal(observer.disconnected, true);
+});
+
+test("VideoPlayer: without autoplay nothing watches it", () => {
+    const before = observers.length;
+    video.attach({ muted: false }, false, false);
+    assert.equal(observers.length, before);
+});
+
+const steps = (top, height = 100) => {
+    const root = document.createElement("div");
+    root.append(document.createElement("section"), document.createElement("section"));
+    root.getBoundingClientRect = () => ({ top, height });
+    return root;
+};
+
+test("ScrollerBase: reports the step at the offset line, not one that leaves", () => {
+    const root = steps(0);
+    const dotnet = recorder();
+    const handle = scrollerBase.attach(root, dotnet, 0.25, true, false);
+    const observer = observers.at(-1);
+    assert.equal(observer.options.rootMargin, "-25.00% 0px -75.00% 0px");
+    say(observer, root.children[1], true);
+    say(observer, root.children[1], false);
+    assert.deepEqual(dotnet.calls, [["OnScrollerIndex", 1]]);
+    handle.dispose();
+});
+
+test("ScrollerBase: progress is kept to 0 to 1, sent once a frame, and only when wanted", async () => {
+    const root = steps(-10000000);
+    const dotnet = recorder();
+    const handle = scrollerBase.attach(root, dotnet, 0.5, false, true);
+    assert.deepEqual(dotnet.calls, [["OnScrollerProgress", 1]]);
+    root.getBoundingClientRect = () => ({ top: 10000000, height: 100 });
+    for (let i = 0; i < 5; i++) dom.window.dispatchEvent(new Event("scroll"));
+    await frame();
+    assert.deepEqual(dotnet.calls, [
+        ["OnScrollerProgress", 1],
+        ["OnScrollerProgress", 0],
+    ]);
+    handle.dispose();
+    dotnet.calls.length = 0;
+    root.getBoundingClientRect = () => ({ top: -10000000, height: 100 });
+    dom.window.dispatchEvent(new Event("scroll"));
+    await frame();
+    assert.deepEqual(dotnet.calls, []);
+    const quiet = recorder();
+    scrollerBase.attach(steps(0), quiet, 0.5, false, false).dispose();
+    assert.deepEqual(quiet.calls, []);
+});
+
+test("ScrollerBase: inside a ScrollerVideo the video follows, with no round trip", () => {
+    const wrapper = document.createElement("div");
+    wrapper.className = "scroller-video";
+    const media = document.createElement("video");
+    Object.defineProperty(media, "duration", { value: 100 });
+    const root = steps(-10000000);
+    wrapper.append(media, root);
+    const dotnet = recorder();
+    const handle = scrollerBase.attach(root, dotnet, 0.5, false, false);
+    assert.equal(media.muted, true);
+    assert.equal(media.currentTime, 100);
+    assert.deepEqual(dotnet.calls, []);
+    handle.dispose();
+});
+
+test("Visible: reports on and off, and Once stops at the first sighting", () => {
+    const node = document.createElement("div");
+    const dotnet = recorder();
+    visible.attach(node, dotnet, false, 0.5, "10px");
+    const observer = observers.at(-1);
+    assert.deepEqual(observer.options, { threshold: 0.5, rootMargin: "10px" });
+    say(observer, node, true);
+    say(observer, node, false);
+    assert.deepEqual(dotnet.calls, [
+        ["OnVisibleChange", true],
+        ["OnVisibleChange", false],
+    ]);
+    visible.attach(node, recorder(), true, 0, "0px");
+    say(observers.at(-1), node, true);
+    assert.equal(observers.at(-1).disconnected, true);
+});

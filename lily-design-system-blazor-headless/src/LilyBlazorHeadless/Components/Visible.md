@@ -6,15 +6,15 @@ See `components/visible/index.md` for canonical documentation.
 
 ## Parameters
 
-- `Label`: string (optional) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `visible`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Once`: bool — stops at the first sighting
+- `Threshold`: double; `RootMargin`: string
+- `ChildContent`: RenderFragment<bool> — `context` says whether it is on screen
+- `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<Visible>
-    Content
+<Visible Once="true">
+    @if (context) { <Chart /> }
 </Visible>
 ```

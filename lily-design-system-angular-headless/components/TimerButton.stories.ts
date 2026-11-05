@@ -10,4 +10,4 @@ const meta: Meta<TimerButton> = {
 export default meta;
 type Story = StoryObj<TimerButton>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { label: "Continue", duration: 30 } };

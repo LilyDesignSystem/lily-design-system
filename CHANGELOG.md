@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Actions and media in Angular and Blazor — 2026-11-05
+
+- **Fixed (Angular, Blazor): 8 components were stubs.** `clipboard-copy-button` copies, with `data-copied` for two seconds. `timer-button` counts down and acts once. `float-button` is fixed to a corner. `call-to-action` holds a link or a button. `video-player` renders its `<video>` and plays in view. `scroller-base` reports its step and progress, and `scroller-video` moves its video with the scroll. `visible` says whether it is on screen.
+- **Changed (Angular, Blazor), breaking:** `clipboard-copy-button` requires `text`, `timer-button` `duration`, `video-player` `src`, and `scroller-video` `src` and `alt`. Blazor's `Visible` content is `RenderFragment<bool>`.
+- **Fixed (Blazor): `ScrollerVideo` had `role="img"` on the root**, which hid the steps from assistive technology. The role is on the video's background now, as in Svelte.
+- **Tests:** `e2e/actions.spec.ts` on `/demos/actions` in the Angular and Blazor examples, Chromium and WebKit, with the clipboard and `<video>` stubbed.
+
 ## Composed inputs in Angular and Blazor — 2026-11-05
 
 - **Fixed (Angular, Blazor): 13 composed inputs were stubs that rendered no input.** `text-input-with-search`, `password-input-or-text-input-div`, `text-area-input-with-character-counter`, `input-with-mask`, `select-with-extras`, `date-field`, `net-promoter-score-picker`, `red-amber-green-picker`, `red-orange-yellow-green-blue-picker` and `task-list-item` now have their controls and two-way state. `file-upload` opens a real chooser. `tour-list-item` shows only the current step. `field` draws its label, description and error.

@@ -41,6 +41,10 @@ export const routes: Routes = [
         loadComponent: () => import("./views/dialog-flow").then((m) => m.default),
     },
     {
+        path: "demos/actions",
+        loadComponent: () => import("./views/actions").then((m) => m.default),
+    },
+    {
         path: "demos/composed-inputs",
         loadComponent: () => import("./views/composed-inputs").then((m) => m.default),
     },

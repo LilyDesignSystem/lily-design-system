@@ -10,4 +10,4 @@ const meta: Meta<ClipboardCopyButton> = {
 export default meta;
 type Story = StoryObj<ClipboardCopyButton>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { text: "copy me", label: "Copy" } };

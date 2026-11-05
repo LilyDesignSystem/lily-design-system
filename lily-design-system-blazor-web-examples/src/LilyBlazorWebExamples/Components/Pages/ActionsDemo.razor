@@ -1,0 +1,51 @@
+@page "/demos/actions"
+<PageTitle>Actions and media — Lily Blazor examples</PageTitle>
+
+@*
+    Actions and media, driven by e2e/actions.spec.ts. The video files do not exist: the spec stubs playback.
+*@
+
+<h1>Actions and media</h1>
+
+<ClipboardCopyButton Text="copy me" Label="Copy" OnSuccess="@(() => _copies++)" OnError="@(e => _copyError = "yes")" data-testid="copy">Copy</ClipboardCopyButton>
+<p data-testid="copy-state">Copies: @_copies, failed: @_copyError</p>
+
+<TimerButton Label="Continue" Duration="2" OnClick="@(() => _timer++)" data-testid="timer">Continue</TimerButton>
+<TimerButton Label="Long" Duration="60" OnClick="@(() => _pressed++)" data-testid="timer-long">Long</TimerButton>
+<p data-testid="timer-state">Timer: @_timer, pressed: @_pressed</p>
+
+<FloatButton Label="Help" Position="top-right" OnClick="@(() => _floats++)" data-testid="float">?</FloatButton>
+<p data-testid="float-state">Floats: @_floats</p>
+
+<CallToAction Href="#join" data-testid="cta-link">Join</CallToAction>
+<CallToAction OnClick="@(() => _cta++)" data-testid="cta-button">Act</CallToAction>
+<p data-testid="cta-state">Acted: @_cta</p>
+
+<div style="block-size: 150vh" data-testid="spacer">Scroll down</div>
+
+<Visible data-testid="visible">
+    @if (context)
+    {
+        <p>On screen</p>
+    }
+    else
+    {
+        <p>Off screen</p>
+    }
+</Visible>
+
+<VideoPlayer Src="/none.webm" Label="Tour" Autoplay="true" Muted="true" data-testid="video" />
+
+<div style="block-size: 150vh"></div>
+
+<ScrollerVideo Src="/none.webm" Label="Story" Alt="A river" OnIndexChange="@(i => _index = i)" OnProgressChange="@(p => _progress = p)" data-testid="scroller">
+    <section style="block-size: 100vh">One</section>
+    <section style="block-size: 100vh">Two</section>
+</ScrollerVideo>
+<p data-testid="scroller-state" style="position: fixed; bottom: 0">Step: @_index, moved: @(_progress > 0)</p>
+
+@code {
+    private int _copies, _timer, _pressed, _floats, _cta, _index = -1;
+    private double _progress;
+    private string _copyError = "no";
+}

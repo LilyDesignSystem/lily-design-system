@@ -5,10 +5,12 @@ an IntersectionObserver wrapper that exposes element visibility state
 This is the Angular headless implementation. See `components/visible/index.md`
 in the canonical repo root for the cross-framework documentation.
 
+`data-visible` and `[(visible)]` say whether it is on screen.
+
 ## Selector
 
 ```html
-<lily-visible></lily-visible>
+<lily-visible [once]="true" [(visible)]="seen">...</lily-visible>
 ```
 
 ## Files

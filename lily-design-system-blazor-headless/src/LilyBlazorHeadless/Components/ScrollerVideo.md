@@ -4,17 +4,19 @@ A video-driven scrollytelling component with frame-by-frame scrubbing.
 
 See `components/scroller-video/index.md` for canonical documentation.
 
+A muted background video whose time follows the scroll, moved in the browser rather than through C#, so it keeps up.
+
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `scroller-video`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Src`, `Label`, `Alt`: string (required)
+- `Offset`: double, default 0.5
+- `OnIndexChange`, `OnProgressChange`
+- `ChildContent` — the steps; `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<ScrollerVideo Label="...">
-    Content
+<ScrollerVideo Src="/river.webm" Label="The river" Alt="A river from the air">
+    <section>One</section>
 </ScrollerVideo>
 ```

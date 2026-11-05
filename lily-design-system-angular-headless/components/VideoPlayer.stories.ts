@@ -10,4 +10,4 @@ const meta: Meta<VideoPlayer> = {
 export default meta;
 type Story = StoryObj<VideoPlayer>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { src: "/video.webm", label: "Tour" } };

@@ -2,14 +2,35 @@
 
 @*
     FloatButton component
-    a floating action button anchored to a viewport corner
+    a button fixed to a corner of the viewport
+
+    Fixed by an inline style, which is structural.
+
+    Parameters:
+        Label — string, required. aria-label.
+        Position — "top-left", "top-right", "bottom-left" or "bottom-right" (default). Rendered as data-position.
+        Disabled — bool. Type — "button" (default), "submit" or "reset".
+        OnClick — EventCallback<MouseEventArgs>.
+        ChildContent — the icon. CssClass, AdditionalAttributes (spread onto the button).
 *@
 
-<button class="@($"float-button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"float-button {CssClass}".Trim())" type="@Type" disabled="@Disabled" aria-label="@Label" data-position="@Position" style="@PositionStyle" @onclick="OnClick" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string Position { get; set; } = "bottom-right";
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string Type { get; set; } = "button";
+    [Parameter] public EventCallback<MouseEventArgs> OnClick { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string PositionStyle => Position switch
+    {
+        "top-left" => "position: fixed; top: 1rem; left: 1rem;",
+        "top-right" => "position: fixed; top: 1rem; right: 1rem;",
+        "bottom-left" => "position: fixed; bottom: 1rem; left: 1rem;",
+        _ => "position: fixed; bottom: 1rem; right: 1rem;",
+    };
 }

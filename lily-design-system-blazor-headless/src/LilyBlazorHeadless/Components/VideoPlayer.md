@@ -4,17 +4,17 @@ A video player with play-in-view behavior, custom controls, and IntersectionObse
 
 See `components/video-player/index.md` for canonical documentation.
 
+The contract's `<div>` holding a native `<video>`. `Autoplay` means play while in view, and browsers block sound, so pair it with `Muted`.
+
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `video-player`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Src`, `Label`: string (required)
+- `Poster`: string; `Autoplay`, `Muted`, `Loop`: bool; `Controls`: bool, default true
+- `Caption`: RenderFragment; `ChildContent` — custom controls
+- `CssClass`, `AdditionalAttributes` (on the root)
 
 ## Usage
 
 ```razor
-<VideoPlayer Label="...">
-    Content
-</VideoPlayer>
+<VideoPlayer Src="/tour.webm" Label="Product tour" Autoplay="true" Muted="true" />
 ```

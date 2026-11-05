@@ -4,17 +4,16 @@ A button that copies text to the clipboard.
 
 See `components/clipboard-copy-button/index.md` for canonical documentation.
 
+`data-copied` is `true` for two seconds after a copy. Copying needs a secure context and a user gesture, so handle `OnError`.
+
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `clipboard-copy-button`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Text`, `Label`: string (required)
+- `OnSuccess`: EventCallback; `OnError`: EventCallback<string>
+- `ChildContent`, `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<ClipboardCopyButton Label="...">
-    Content
-</ClipboardCopyButton>
+<ClipboardCopyButton Text="@link" Label="Copy link" OnSuccess="Copied">Copy</ClipboardCopyButton>
 ```

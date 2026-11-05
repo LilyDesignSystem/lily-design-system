@@ -1,15 +1,71 @@
 @namespace LilyBlazorHeadless.Components
+@implements IDisposable
+@using System.Diagnostics
 
 @*
     TimerButton component
-    a button with a timer that will automatically click after a given amount of time
+    a button that acts by itself when a countdown ends
+
+    The action runs once: when the countdown ends, or when the button is pressed first. The countdown starts after the
+    first interactive render, and data-remaining-seconds carries it; the time shown is the consumer's.
+
+    Parameters:
+        Label — string, required. aria-label.
+        Duration — int, required. Seconds.
+        Disabled — bool. No countdown and no click.
+        OnClick — EventCallback. The action.
+        ChildContent, CssClass, AdditionalAttributes (spread onto the button).
 *@
 
-<button class="@($"timer-button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"timer-button {CssClass}".Trim())" type="button" aria-label="@Label" aria-live="polite" data-remaining-seconds="@_remaining" disabled="@Disabled" @onclick="FireAsync" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public int Duration { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public EventCallback OnClick { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private int _remaining;
+    private bool _fired;
+    private PeriodicTimer? _timer;
+
+    protected override void OnInitialized() => _remaining = Duration;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender && !Disabled) _ = CountDownAsync();
+    }
+
+    private async Task CountDownAsync()
+    {
+        var started = Stopwatch.StartNew();
+        _timer = new PeriodicTimer(TimeSpan.FromMilliseconds(250));
+        try
+        {
+            while (!_fired && await _timer.WaitForNextTickAsync())
+            {
+                await InvokeAsync(async () =>
+                {
+                    if (_fired) return;
+                    _remaining = Math.Max(0, Duration - (int)started.Elapsed.TotalSeconds);
+                    if (_remaining == 0) await FireAsync();
+                    StateHasChanged();
+                });
+            }
+        }
+        catch (ObjectDisposedException) { }
+    }
+
+    private async Task FireAsync()
+    {
+        if (_fired || Disabled) return;
+        _fired = true;
+        _timer?.Dispose();
+        await OnClick.InvokeAsync();
+    }
+
+    public void Dispose() => _timer?.Dispose();
 }
