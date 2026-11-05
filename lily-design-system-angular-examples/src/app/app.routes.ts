@@ -45,6 +45,10 @@ export const routes: Routes = [
         loadComponent: () => import("./views/actions").then((m) => m.default),
     },
     {
+        path: "demos/tree-and-overflow",
+        loadComponent: () => import("./views/tree-and-overflow").then((m) => m.default),
+    },
+    {
         path: "demos/composed-inputs",
         loadComponent: () => import("./views/composed-inputs").then((m) => m.default),
     },

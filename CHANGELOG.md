@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Accordion checkbox and prerendering in Angular — 2026-11-05
+
+- **Fixed (Angular): `accordion-checkbox` was a stub.** It renders a checkbox, its label and a panel, with `[(checked)]`, and a form reset restores it. The `aria-label` on its plain `div` root is gone.
+- **Fixed (Angular): `middle-truncation` broke prerendering.** Its effect threw `document is not defined`, and the page came out without its `<nav>` or the text. It now measures only in the browser, so a prerendered page shows the full text until hydration.
+- **Added (Angular):** `tree-list-item` takes `label`, the `aria-label` on the `<li>`, as in Svelte.
+- **Tests:** `e2e/tree-and-overflow.spec.ts` on `/demos/tree-and-overflow` in the Angular example, Chromium and WebKit, on the prerendered page.
+
 ## Actions and media in Angular and Blazor — 2026-11-05
 
 - **Fixed (Angular, Blazor): 8 components were stubs.** `clipboard-copy-button` copies, with `data-copied` for two seconds. `timer-button` counts down and acts once. `float-button` is fixed to a corner. `call-to-action` holds a link or a button. `video-player` renders its `<video>` and plays in view. `scroller-base` reports its step and progress, and `scroller-video` moves its video with the scroll. `visible` says whether it is on screen.

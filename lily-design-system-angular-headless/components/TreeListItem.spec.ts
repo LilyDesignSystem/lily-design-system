@@ -1,5 +1,5 @@
 import { Component, signal } from "@angular/core";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { TestBed } from "@angular/core/testing";
 
 import { TreeListItem } from "./TreeListItem";
@@ -46,7 +46,8 @@ describe("TreeListItem", () => {
 @Component({
     standalone: true,
     imports: [TreeListItem],
-    template: `<ol role="tree">
+    template: `<ol role="tree" [attr.dir]="dir">
+    <li lily-tree-list-item id="named" label="Documents" tabindex="0">Docs</li>
     <li lily-tree-list-item id="parent" [(expanded)]="parentOpen">
       Parent
       <ol role="group">
@@ -58,6 +59,7 @@ describe("TreeListItem", () => {
 })
 class NestedHost {
     parentOpen = signal<boolean | undefined>(false);
+    dir: string | null = null;
 }
 
 function key(el: Element, k: string) {
@@ -67,8 +69,9 @@ function key(el: Element, k: string) {
 }
 
 describe("TreeListItem — expand, collapse and move between levels", () => {
-    function create() {
+    function create(dir: string | null = null) {
         const fixture = TestBed.createComponent(NestedHost);
+        fixture.componentInstance.dir = dir;
         document.body.appendChild(fixture.nativeElement);
         fixture.detectChanges();
         const q = (id: string) => fixture.nativeElement.querySelector("#" + id) as HTMLElement;
@@ -123,6 +126,41 @@ describe("TreeListItem — expand, collapse and move between levels", () => {
         child.focus();
         key(child, "ArrowLeft");
         expect(document.activeElement).toBe(parent);
+        fixture.nativeElement.remove();
+    });
+
+    test("the label input is the accessible name; without it there is no aria-label", () => {
+        const { fixture, parent } = create();
+        expect(fixture.nativeElement.querySelector("#named").getAttribute("aria-label")).toBe(
+            "Documents",
+        );
+        expect(parent.hasAttribute("aria-label")).toBe(false);
+        fixture.nativeElement.remove();
+    });
+
+    test("a consumer tabindex overrides the default (roving tabindex: the active item is 0)", () => {
+        const { fixture, parent } = create();
+        expect(fixture.nativeElement.querySelector("#named").getAttribute("tabindex")).toBe("0");
+        expect(parent.getAttribute("tabindex")).toBe("-1");
+        fixture.nativeElement.remove();
+    });
+
+    test("in a right-to-left item the keys swap", () => {
+        const { fixture, parent } = create("rtl");
+        const spy = vi
+            .spyOn(window, "getComputedStyle")
+            .mockReturnValue({ direction: "rtl" } as CSSStyleDeclaration);
+        parent.focus();
+        key(parent, "ArrowRight");
+        fixture.detectChanges();
+        expect(fixture.componentInstance.parentOpen()).toBe(false);
+        key(parent, "ArrowLeft");
+        fixture.detectChanges();
+        expect(fixture.componentInstance.parentOpen()).toBe(true);
+        key(parent, "ArrowRight");
+        fixture.detectChanges();
+        expect(fixture.componentInstance.parentOpen()).toBe(false);
+        spy.mockRestore();
         fixture.nativeElement.remove();
     });
 

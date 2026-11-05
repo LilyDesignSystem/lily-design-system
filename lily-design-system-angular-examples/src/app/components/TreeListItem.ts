@@ -20,6 +20,7 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
         "[class]": '"tree-list-item " + className()',
         role: "treeitem",
         tabindex: "-1",
+        "[attr.aria-label]": "label() || null",
         "[attr.aria-expanded]": "expanded() ?? null",
         "(keydown)": "onKeydown($event)",
     },
@@ -27,6 +28,8 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
 })
 export class TreeListItem {
     readonly className = input<string>("");
+    /** Accessible name, as aria-label on the host. */
+    readonly label = input<string | undefined>(undefined);
     /** Expanded state, two-way bindable. Leave undefined for a leaf (no aria-expanded). */
     readonly expanded = model<boolean | undefined>(undefined);
 

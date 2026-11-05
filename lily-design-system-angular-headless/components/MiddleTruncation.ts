@@ -3,10 +3,13 @@ import {
     Component,
     ElementRef,
     effect,
+    inject,
     input,
+    PLATFORM_ID,
     signal,
     viewChild,
 } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 import { truncateMiddle, type TruncationStrategy } from "./middle-truncation";
 
 /**
@@ -43,13 +46,15 @@ export class MiddleTruncation {
     private context: CanvasRenderingContext2D | null | undefined;
 
     constructor() {
+        const browser = isPlatformBrowser(inject(PLATFORM_ID));
         effect((onCleanup) => {
             const el = this.root()?.nativeElement;
             const text = this.text();
             const ellipsis = this.ellipsis();
             const strategy = this.strategy();
             const end = this.end();
-            if (!el) return;
+            // Effects also run while prerendering, where there is no document to measure with: show the full text.
+            if (!el || !browser) return;
 
             const recalculate = (): void => {
                 const width = el.clientWidth;

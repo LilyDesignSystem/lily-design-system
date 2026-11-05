@@ -10,4 +10,6 @@ const meta: Meta<AccordionCheckbox> = {
 export default meta;
 type Story = StoryObj<AccordionCheckbox>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: { label: "Send me updates" },
+};

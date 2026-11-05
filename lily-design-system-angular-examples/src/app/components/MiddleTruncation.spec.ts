@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { PLATFORM_ID } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 
 import { MiddleTruncation } from "./MiddleTruncation";
@@ -109,5 +110,13 @@ describe("MiddleTruncation", () => {
     test("shows the full text when there is no layout width", () => {
         width = 0;
         expect(visual(make())).toBe(text);
+    });
+
+    test("measures nothing while prerendering: effects run on a server, which has no document", () => {
+        TestBed.configureTestingModule({ providers: [{ provide: PLATFORM_ID, useValue: "server" }] });
+        const f = make();
+        expect(visual(f)).toBe(text);
+        expect(root(f).hasAttribute("data-truncated")).toBe(false);
+        expect(observers.length).toBe(0);
     });
 });

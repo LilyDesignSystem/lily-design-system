@@ -13,8 +13,10 @@ for list/table sub-elements, so there is no wrapper element between this
 content-model relationship for assistive technology).
 
 ```html
-<li lily-tree-list-item></li>
+<li lily-tree-list-item label="Documents" [(expanded)]="open"></li>
 ```
+
+`label` is the accessible name, as `aria-label` on the `<li>`. Leave `expanded` undefined for a leaf.
 
 ## Files
 
