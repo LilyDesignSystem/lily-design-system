@@ -13,8 +13,8 @@ See `components/contents-nav/index.md` for canonical documentation.
 
 ## Scrollspy
 
-Blazor cannot observe scrolling, and this library has no JS interop, so `Spy="true"` renders data attributes and a
-static web asset does the work. Load it once and call `autoInit()`:
+With `Spy="true"` an interactive component runs the scrollspy itself and writes the section in view to `Active`
+(`@bind-Active`). Under static rendering nothing runs it, so load the static web asset once and call `autoInit()`:
 
 ```razor
 <ContentsNav Label="On this page" Spy="true" SpyOffset="64">
@@ -33,8 +33,8 @@ static web asset does the work. Load it once and call `autoInit()`:
 ```
 
 Parameters: `Spy`, `SpyOffset` (px, default 0), `SpyCurrent` (default `"true"`), `SpyRoot` (CSS selector, default the viewport).
-**Deviation:** the component is not told which section is active (that would need JS interop); read `[data-active]` or use
-the script's `onChange`. Re-run `autoInit()` after enhanced navigation replaces the nav.
+`Active` / `ActiveChanged` (`@bind-Active`) hold the section in view, when interactive. Under static rendering read `[data-active]`
+or use the script's `onChange`, and re-run `autoInit()` after enhanced navigation replaces the nav.
 
 - **Which section is current:** the last one whose top has passed the activation line (`offset` px below the top of the
   scroller). At the bottom of the page the last section is current; above the first section, the first is.

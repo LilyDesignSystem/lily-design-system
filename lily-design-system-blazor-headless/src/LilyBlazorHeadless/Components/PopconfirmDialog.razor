@@ -1,15 +1,74 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 @*
     PopconfirmDialog component
     a popover dialog with confirm and cancel buttons
+
+    A non-modal alertdialog, always rendered with popover="manual" and shown from Open through Popover.razor.js. A
+    manual popover has no light dismiss or Escape: the consumer closes it from OnCancel or a key handler. A confirmation
+    that must block uses AlertDialog.
+
+    Parameters:
+        Title, ConfirmLabel, CancelLabel — string, required.
+        Description — string, optional.
+        Open — bool. The consumer owns it.
+        OnConfirm, OnCancel — EventCallback<MouseEventArgs>.
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"popconfirm-dialog {CssClass}".Trim())" role="alertdialog" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"popconfirm-dialog {CssClass}".Trim())" role="alertdialog" aria-modal="false" aria-labelledby="@_titleId" aria-describedby="@(string.IsNullOrEmpty(Description) ? null : _descriptionId)" popover="manual" @ref="_root" @attributes="AdditionalAttributes">
+    <h2 class="popconfirm-dialog-title" id="@_titleId">@Title</h2>
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <p class="popconfirm-dialog-description" id="@_descriptionId">@Description</p>
+    }
+    <button class="popconfirm-dialog-cancel" type="button" @onclick="OnCancel">@CancelLabel</button>
+    <button class="popconfirm-dialog-confirm" type="button" @onclick="OnConfirm">@ConfirmLabel</button>
+</div>
 
 @code {
-    [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Open { get; set; }
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+    [Parameter] public string? Description { get; set; }
+    [Parameter, EditorRequired] public string ConfirmLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string CancelLabel { get; set; } = "";
+    [Parameter] public EventCallback<MouseEventArgs> OnConfirm { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnCancel { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _titleId = $"popconfirm-dialog-title-{Guid.NewGuid():N}";
+    private readonly string _descriptionId = $"popconfirm-dialog-description-{Guid.NewGuid():N}";
+    private ElementReference _root;
+    private ElementModule? _module;
+    private DotNetObjectReference<PopconfirmDialog>? _self;
+    private bool _synced;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _self = DotNetObjectReference.Create(this);
+            _module = await ElementModule.AttachAsync(JS, Popover.ModulePath, _root, _self, Open, null);
+            _synced = Open;
+        }
+        else if (_module is not null && _synced != Open)
+        {
+            _synced = Open;
+            await _module.SetAsync(Open);
+        }
+    }
+
+    /// <summary>Called from the element's toggle event. Only Open opens or closes this one, so there is nothing to do.</summary>
+    [JSInvokable]
+    public Task OnPopoverToggle(bool open) => Task.CompletedTask;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null) await _module.DisposeAsync();
+        _self?.Dispose();
+    }
 }

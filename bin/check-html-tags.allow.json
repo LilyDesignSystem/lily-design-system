@@ -41,8 +41,6 @@
   "blazor:icon-button": "unreviewed: no element leads its class list with the base class (P10-T12 baseline, 2026-10-31)",
   "blazor:listbox": "unreviewed: no element leads its class list with the base class (P10-T12 baseline, 2026-10-31)",
   "blazor:signature-pad": "unreviewed: renders <canvas>, contract says <div> (P10-T12 baseline, 2026-10-31)",
-  "blazor:slider": "unreviewed: renders <div>, contract says <input> (P10-T12 baseline, 2026-10-31)",
-  "blazor:time-picker-input": "unreviewed: renders <div>, contract says <input> (P10-T12 baseline, 2026-10-31)",
   "html:accordion-list": "unreviewed: renders <div>, contract says <ol> (P10-T12 baseline, 2026-10-31)",
   "html:address-input": "unreviewed: renders <div>, contract says <input> (P10-T12 baseline, 2026-10-31)",
   "html:avatar-image": "unreviewed: renders <div>, contract says <img> (P10-T12 baseline, 2026-10-31)",

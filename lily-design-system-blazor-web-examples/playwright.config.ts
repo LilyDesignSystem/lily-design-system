@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 // Specs that also run in Firefox and WebKit (P18-T1).
-const crossEngineSpecs = /(responsive|focus-obscured|accessibility|overflow-navigation|menu-popover|dialog-modality|keyboard|widget-keys)\.spec\.ts$/;
+const crossEngineSpecs = /(responsive|focus-obscured|accessibility|overflow-navigation|menu-popover|dialog-modality|keyboard|widget-keys|controls)\.spec\.ts$/;
 
 export default defineConfig({
     testDir: "./e2e",

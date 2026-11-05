@@ -4,17 +4,19 @@ A button that toggles between pressed and unpressed states.
 
 See `components/toggle-button/index.md` for canonical documentation.
 
+Enter and Space click the native button, so Space has no handler of its own.
+
 ## Parameters
 
-- `Label`: string (optional) — accessible label set on `aria-label`
+- `Label`: string (required) — accessible name
+- `Pressed`, `PressedChanged`: bool — two-way with `@bind-Pressed`, reported in `aria-checked`
+- `Disabled`: bool
 - `CssClass`: string — extra CSS classes appended to `toggle-button`
-- `ChildContent`: RenderFragment — component content
+- `ChildContent`: RenderFragment — button content
 - `AdditionalAttributes`: catches unmatched HTML attributes
 
 ## Usage
 
 ```razor
-<ToggleButton>
-    Content
-</ToggleButton>
+<ToggleButton Label="Mute" @bind-Pressed="muted">Mute</ToggleButton>
 ```

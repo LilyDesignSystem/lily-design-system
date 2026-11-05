@@ -1,9 +1,9 @@
 // contents-nav-spy.js — scrollspy for the ContentsNav component's `Spy` parameter.
 //
-// Blazor cannot observe scrolling, and this headless library has no JS interop, so the component only
-// renders data attributes (`data-lily-contents-nav-spy`, `data-spy-offset`, `data-spy-current`,
-// `data-spy-root`); this plain ES module, served as a static web asset, reads them and does the work.
-// Load it once from your host page or layout and call `autoInit()`:
+// The component renders data attributes (`data-lily-contents-nav-spy`, `data-spy-offset`, `data-spy-current`,
+// `data-spy-root`); this plain ES module, served as a static web asset, reads them and does the work. An
+// interactive component starts it through ContentsNav.razor.js. Under static rendering, load it once from
+// your host page or layout and call `autoInit()`:
 //
 //   <script type="module">
 //     import { autoInit } from "./_content/LilyDesignSystem.Blazor.Headless/contents-nav-spy.js";
@@ -19,7 +19,7 @@
 // active link gets aria-current (default "true") and data-active; its ancestor <li>s get
 // data-descendant-active. A click makes its link active at once and holds it until the scroll settles.
 // Nothing here animates scrolling, moves focus or touches the URL. Same module as the Nunjucks and
-// HTML ports; the C# side cannot be told which section is active (a documented deviation).
+// HTML ports.
 
 // ---------------------------------------------------------------------
 // Scrollspy (the `spy` option). Framework-free; the component calls

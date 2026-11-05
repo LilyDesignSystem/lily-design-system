@@ -27,7 +27,7 @@
     <Field Label="Language">
         <Label For="language">Language</Label>
         <Select id="language" Label="Language"
-                value="@language" @onchange="@((ChangeEventArgs e) => language = e.Value?.ToString() ?? "en")">
+                @bind-Value="language">
             <Option value="en">English</Option>
             <Option value="es">Espa&#241;ol</Option>
             <Option value="fr">Fran&#231;ais</Option>

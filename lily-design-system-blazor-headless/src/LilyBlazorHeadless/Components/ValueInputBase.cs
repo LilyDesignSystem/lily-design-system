@@ -19,4 +19,11 @@ public abstract class ValueInputBase : ComponentBase
         Value = value ?? "";
         await ValueChanged.InvokeAsync(Value);
     }
+
+    /// <summary>
+    /// Takes the text of a time or datetime-local input. Blazor's event code always adds seconds ("10:15:00"), though the
+    /// element and every other Lily port say "10:15". Seconds of zero go back; real ones ("10:15:30") stay.
+    /// </summary>
+    protected Task SetTimeValueAsync(string? value) =>
+        SetValueAsync(value is not null && value.EndsWith(":00") && value.Count(c => c == ':') == 2 ? value[..^3] : value);
 }

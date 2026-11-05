@@ -172,6 +172,7 @@ public class ComponentSmokeTests : TestContext
     [Fact]
     public void HorizontalScroller_renders_role_region_with_tabindex_zero()
     {
+        JSInterop.Mode = JSRuntimeMode.Loose;
         var cut = RenderComponent<HorizontalScroller>(p => p.Add(x => x.Label, "Gallery").AddChildContent("x"));
         var root = cut.Find("div.horizontal-scroller");
         Assert.Equal("region", root.GetAttribute("role"));

@@ -61,13 +61,17 @@ framework's prop names:
   regardless.
 - **The value inputs bind.** Every text-style `*Input` takes `@bind-Value`,
   the numeric ones a `double` or `double?`, and `CheckboxInput` `@bind-Checked`.
-- **The other form primitives do NOT wire a value or `OnSubmit`.** `Select`,
-  `Option`, `RadioInput`, `Form`, `Field`, `Fieldset`, `SummaryListItem` and most
-  others are thin wrappers around the native element: a PascalCase `Value="..."`
-  compiles (it lands silently in `AdditionalAttributes`) but does nothing. Use
-  native lowercase HTML attributes (`value="@x"`, `checked="@x"`, `name="@x"`)
-  plus a `@onchange` directive with a `ChangeEventArgs` handler, and
-  `novalidate @onsubmit="Handler"` on `Form`.
+- **So do the other controls.** `Select`, `ThemeSelect`, `Slider`,
+  `TimePickerInput` and `TagInput` take `@bind-Value`, `ToggleButton`
+  `@bind-Pressed`, `Details` `@bind-Open`. `Form` and `DataFilterForm` take
+  `OnSubmit` and `OnReset` and always prevent the default submit; `@onsubmit`
+  reaches the same parameter. A lowercase `oninput` or `onchange` replaces the
+  component's own handler, so use the bind.
+- **Thin wrappers do NOT bind.** `Option`, `RadioInput`, `Field`, `Fieldset`,
+  `SummaryListItem`: a PascalCase `Value="..."` compiles (it lands silently in
+  `AdditionalAttributes`) but does nothing. Use native lowercase HTML attributes
+  (`value="@x"`, `checked="@x"`, `name="@x"`) plus a `@onchange` directive with a
+  `ChangeEventArgs` handler.
   Others that own a real `EventCallback<T>` pair: `SwitchButton` (`Checked`/`CheckedChanged`),
   `Combobox` (`Value`/`ValueChanged`, `Open`/`OpenChanged`),
   `AccordionCheckbox` (`Checked`/`CheckedChanged`), and the `Dialog`/`Drawer`

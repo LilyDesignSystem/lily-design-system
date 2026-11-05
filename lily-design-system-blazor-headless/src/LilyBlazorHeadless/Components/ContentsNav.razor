@@ -1,4 +1,7 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 @*
     ContentsNav component
@@ -6,6 +9,7 @@
 *@
 
 <nav class="@($"contents-nav {CssClass}".Trim())"
+     @ref="_nav"
      aria-label="@Label"
      data-lily-contents-nav-spy="@(Spy ? "" : null)"
      data-spy-offset="@(Spy ? SpyOffset?.ToString() : null)"
@@ -16,8 +20,8 @@
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
 
-    /// <summary>Scrollspy: mark the link of the section in view. This only renders data attributes; load
-    /// <c>_content/LilyDesignSystem.Blazor.Headless/contents-nav-spy.js</c> and call <c>autoInit()</c> (see that file).</summary>
+    /// <summary>Scrollspy: mark the link of the section in view. An interactive component runs it itself; under static
+    /// rendering, load <c>_content/LilyDesignSystem.Blazor.Headless/contents-nav-spy.js</c> and call <c>autoInit()</c>.</summary>
     [Parameter] public bool Spy { get; set; }
 
     /// <summary>Activation line, px below the top of the scroller; set to a fixed header's height.</summary>
@@ -29,7 +33,46 @@
     /// <summary>CSS selector of a scrolling element other than the viewport.</summary>
     [Parameter] public string? SpyRoot { get; set; }
 
+    /// <summary>The id of the section in view; two-way (<c>@bind-Active</c>). Spy only, and only when interactive.</summary>
+    [Parameter] public string Active { get; set; } = "";
+    [Parameter] public EventCallback<string> ActiveChanged { get; set; }
+
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>Module path, relative to the app base (static web asset of this library).</summary>
+    public const string ModulePath = "./_content/LilyDesignSystem.Blazor.Headless/Components/ContentsNav.razor.js";
+
+    private ElementReference _nav;
+    private ElementModule? _module;
+    private DotNetObjectReference<ContentsNav>? _self;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Spy && _module is null)
+        {
+            _self ??= DotNetObjectReference.Create(this);
+            _module = await ElementModule.AttachAsync(JS, ModulePath, _nav, _self);
+        }
+        else if (!Spy && _module is not null)
+        {
+            await _module.DisposeAsync();
+            _module = null;
+        }
+    }
+
+    /// <summary>Called from JS: the section in view changed.</summary>
+    [JSInvokable]
+    public async Task OnSpyChange(string id)
+    {
+        Active = id;
+        await ActiveChanged.InvokeAsync(id);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null) await _module.DisposeAsync();
+        _self?.Dispose();
+    }
 }

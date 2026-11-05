@@ -5,7 +5,7 @@
     a range input for selecting an angle in degrees
 *@
 
-<input class="@($"angle-slider-range-input {CssClass}".Trim())" type="range" min="@Min" max="@Max" step="@Step" aria-valuemin="@Min" aria-valuemax="@Max" aria-valuenow="@Value" aria-valuetext="@($"{Value}{ValueTextSuffix}")" aria-label="@Label" @attributes="AdditionalAttributes" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" />
+<input class="@($"angle-slider-range-input {CssClass}".Trim())" type="range" min="@Number(Min)" max="@Number(Max)" step="@Number(Step)" aria-valuemin="@Number(Min)" aria-valuemax="@Number(Max)" aria-valuenow="@Number(Value)" aria-valuetext="@($"{Number(Value)}{ValueTextSuffix}")" aria-label="@Label" @attributes="AdditionalAttributes" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
@@ -19,6 +19,8 @@
     [Parameter] public string ValueTextSuffix { get; set; } = "°";
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private static string Number(double value) => value.ToString(System.Globalization.CultureInfo.InvariantCulture);
 
     private async Task SetValueAsync(double value)
     {

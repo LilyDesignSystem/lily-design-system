@@ -3,13 +3,32 @@
 @*
     ToggleButton component
     a button that toggles between pressed and unpressed states
+
+    A native <button> with role="switch" and aria-checked. Enter and Space click it natively, so Space needs no key
+    handler here (Svelte's handler stops the page scrolling, which a focused button does not do).
+
+    Parameters:
+        Label — string, required. aria-label.
+        Pressed / PressedChanged — two-way (@bind-Pressed).
+        Disabled — bool. Native disabled.
+        ChildContent, CssClass, AdditionalAttributes (spread onto the button).
 *@
 
-<button class="@($"toggle-button {CssClass}".Trim())" role="switch" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"toggle-button {CssClass}".Trim())" type="button" role="switch" aria-checked="@(Pressed ? "true" : "false")" aria-label="@Label" disabled="@Disabled" @onclick="ToggleAsync" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
-    [Parameter] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Pressed { get; set; }
+    [Parameter] public EventCallback<bool> PressedChanged { get; set; }
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task ToggleAsync()
+    {
+        if (Disabled) return;
+        Pressed = !Pressed;
+        await PressedChanged.InvokeAsync(Pressed);
+    }
 }

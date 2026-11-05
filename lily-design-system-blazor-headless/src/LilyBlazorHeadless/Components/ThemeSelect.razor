@@ -1,14 +1,25 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     ThemeSelect component
     a select dropdown for choosing a theme
+
+    A native <select>; the browser supplies the keys. An empty Value renders no value attribute, so the browser's own
+    choice stands (the first option, or one marked selected) until the reader changes it.
+    It does not apply the theme: the consumer reacts to Value.
+
+    Parameters:
+        Label — string, required. aria-label.
+        Value / ValueChanged — the chosen option's value, two-way (@bind-Value).
+        ChildContent — the options.
+        CssClass, AdditionalAttributes (spread onto the select).
 *@
 
-<select class="@($"theme-select {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</select>
+<select class="@($"theme-select {CssClass}".Trim())" aria-label="@Label" value="@(Value == "" ? null : Value)" @onchange="@(e => SetValueAsync(e.Value as string))" @attributes="AdditionalAttributes">@ChildContent</select>
 
 @code {
-    [Parameter] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

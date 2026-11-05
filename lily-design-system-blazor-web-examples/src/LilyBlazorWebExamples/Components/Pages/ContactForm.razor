@@ -51,7 +51,7 @@ else
         <Field Label="Subject">
             <Label For="subject">Subject</Label>
             <Select id="subject" Label="Subject"
-                    value="@data.Subject" @onchange="@((ChangeEventArgs e) => data.Subject = e.Value?.ToString() ?? "general")">
+                    @bind-Value="data.Subject">
                 <Option value="general">General enquiry</Option>
                 <Option value="support">Technical support</Option>
                 <Option value="billing">Billing</Option>

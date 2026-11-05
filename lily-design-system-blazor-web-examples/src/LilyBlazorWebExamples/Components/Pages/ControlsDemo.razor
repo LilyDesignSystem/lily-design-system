@@ -1,0 +1,108 @@
+@page "/demos/controls"
+<PageTitle>Controls — Lily Blazor examples</PageTitle>
+
+@*
+    The controls that need the browser and C# together: a native event or a small module on one side, a parameter on
+    the other. e2e/controls.spec.ts drives this page.
+*@
+
+<h1>Controls</h1>
+
+<ToggleButton Label="Mute" @bind-Pressed="_pressed" data-testid="toggle">Mute</ToggleButton>
+<p data-testid="toggle-state">Pressed: @_pressed</p>
+
+<Slider Label="Volume" @bind-Value="_volume" Max="200" data-testid="slider" />
+<p data-testid="slider-state">Volume: @_volume</p>
+
+<TimePickerInput Label="Start" @bind-Value="_time" data-testid="time" />
+<p data-testid="time-state">Time: @_time</p>
+
+<TimeInput Label="Time" @bind-Value="_timeInput" data-testid="time-input" />
+<p data-testid="time-input-state">Time input: @_timeInput</p>
+
+<DateTimeLocalInput Label="Date and time" @bind-Value="_dateTime" data-testid="datetime" />
+<p data-testid="datetime-state">Date and time: @_dateTime</p>
+
+<Select Label="Colour" @bind-Value="_colour" data-testid="select">
+    <option value="">Choose</option>
+    <option value="red">Red</option>
+    <option value="blue">Blue</option>
+</Select>
+<p data-testid="select-state">Colour: @_colour</p>
+
+<Select Label="Size" data-testid="select-unbound">
+    <option value="s">Small</option>
+    <option value="m" selected>Medium</option>
+</Select>
+
+<ThemeSelect Label="Theme" @bind-Value="_theme" data-testid="theme">
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+</ThemeSelect>
+<p data-testid="theme-state">Theme: @_theme</p>
+
+<Details Summary="More" @bind-Open="_open" data-testid="details"><p>Body</p></Details>
+<p data-testid="details-state">Open: @_open</p>
+<button type="button" data-testid="details-from-csharp" @onclick="@(() => _open = !_open)">Toggle from C#</button>
+
+<Form Label="Tags" OnSubmit="@(() => _submits++)" OnReset="@(() => _resets++)" data-testid="form">
+    <TagInput Label="Tag" @bind-Value="_tag" OnAdd="@(tag => _tags.Add(tag))" data-testid="tags">
+        @foreach (var tag in _tags)
+        {
+            <span class="tag">@tag</span>
+        }
+    </TagInput>
+    <button type="submit">Save</button>
+    <button type="reset">Reset</button>
+</Form>
+<p data-testid="tags-state">Tags: @string.Join(",", _tags)</p>
+<p data-testid="form-state">Submits: @_submits, resets: @_resets</p>
+
+<DataFilterForm Label="Filter" OnSubmit="@(() => _filters++)" data-testid="filter">
+    <button type="submit">Filter</button>
+</DataFilterForm>
+<p data-testid="filter-state">Filters: @_filters</p>
+
+<NewsletterSignup Label="Newsletter" EmailLabel="Email" SubmitLabel="Join" State="@_signup" SuccessMessage="Thank you"
+                  @bind-Email="_email" OnSubmit="Subscribe" data-testid="newsletter" />
+<p data-testid="newsletter-state">Email: @_email</p>
+
+<button type="button" style="anchor-name: --delete" data-testid="popconfirm-open" @onclick="@(() => _confirming = true)">Delete</button>
+<PopconfirmDialog Open="_confirming" Title="Delete it?" ConfirmLabel="Yes" CancelLabel="No"
+                  OnConfirm="@(() => { _confirmed++; _confirming = false; })" OnCancel="@(() => _confirming = false)" style="position-anchor: --delete" data-testid="popconfirm" />
+<p data-testid="popconfirm-state">Confirmed: @_confirmed</p>
+
+<HorizontalScroller Label="Gallery" Step="40" style="overflow-x: auto; max-inline-size: 12rem" data-testid="scroller">
+    <div style="display: flex"><div style="flex: 0 0 60rem">Wide</div></div>
+</HorizontalScroller>
+
+<ContentsNav Label="On this page" Spy="true" @bind-Active="_active" data-testid="contents">
+    <ul>
+        <li><a href="#first">First</a></li>
+        <li><a href="#second">Second</a></li>
+    </ul>
+</ContentsNav>
+<p data-testid="contents-state">Active: @_active</p>
+<h2 id="first" style="min-block-size: 120vh">First</h2>
+<h2 id="second" style="min-block-size: 120vh">Second</h2>
+
+@code {
+    private bool _pressed;
+    private double _volume = 150;
+    private string _time = "09:30";
+    private string _timeInput = "";
+    private string _dateTime = "";
+    private string _colour = "";
+    private string _theme = "dark";
+    private bool _open;
+    private string _tag = "";
+    private readonly List<string> _tags = new();
+    private int _submits, _resets, _filters;
+    private string _email = "";
+    private string _signup = "idle";
+    private bool _confirming;
+    private int _confirmed;
+    private string _active = "";
+
+    private void Subscribe() => _signup = "success";
+}

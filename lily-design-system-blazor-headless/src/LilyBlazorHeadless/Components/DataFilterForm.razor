@@ -3,12 +3,23 @@
 @*
     DataFilterForm component
     a form for filtering data by criteria
+
+    The default submit is always prevented, so OnSubmit runs instead of a page load. Read the values through
+    @bind-Value on the inputs: the event has no form data in C#.
+
+    Parameters:
+        Label — string, required. aria-label.
+        OnSubmit — EventCallback<EventArgs>. Also matches @onsubmit, as Blazor parameter names ignore case.
+        OnReset — EventCallback<EventArgs>. Also matches @onreset. The native reset still happens.
+        ChildContent, CssClass, AdditionalAttributes (spread onto the form).
 *@
 
-<form class="@($"data-filter-form {CssClass}".Trim())" role="search" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</form>
+<form class="@($"data-filter-form {CssClass}".Trim())" role="search" aria-label="@Label" @onsubmit="OnSubmit" @onsubmit:preventDefault @onreset="OnReset" @attributes="AdditionalAttributes">@ChildContent</form>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public EventCallback<EventArgs> OnSubmit { get; set; }
+    [Parameter] public EventCallback<EventArgs> OnReset { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

@@ -24,8 +24,6 @@ public class ValueBindingTests : TestContext
         ["CheckboxInput"] = "binds Checked",
         ["DateTimeNowInput"] = "binds DateValue and TimeValue",
         ["TextInputWithSearch"] = "P23-T16 stage 4",
-        ["TagInput"] = "P23-T16 stage 2",
-        ["TimePickerInput"] = "P23-T16 stage 2",
     };
 
     public static IEnumerable<object[]> InputTypes() => typeof(ValueInputBase).Assembly.GetTypes()
@@ -35,7 +33,7 @@ public class ValueBindingTests : TestContext
 
     public static IEnumerable<object[]> TextInputs() => typeof(ValueInputBase).Assembly.GetTypes()
         .Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(ValueInputBase)))
-        .Where(t => !new[] { "ColorInput", "DateInput", "DateTimeLocalInput", "MonthInput", "TextAreaInput", "TimeInput", "WeekInput" }.Contains(t.Name))
+        .Where(t => !new[] { "ColorInput", "DateInput", "DateTimeLocalInput", "MonthInput", "Select", "TextAreaInput", "ThemeSelect", "TimeInput", "WeekInput" }.Contains(t.Name))
         .Select(t => new object[] { t });
 
     [Theory]
@@ -90,6 +88,30 @@ public class ValueBindingTests : TestContext
             cut.Find("input").Input(text);
             Assert.Equal(text, seen);
         }
+    }
+
+    [Theory]
+    [InlineData("10:15:00", "10:15")]
+    [InlineData("10:00:00", "10:00")]
+    [InlineData("10:00", "10:00")]
+    [InlineData("10:15:30", "10:15:30")]
+    public void Time_inputs_drop_the_seconds_Blazor_adds(string sent, string expected)
+    {
+        string? time = null, picker = null;
+        RenderComponent<TimeInput>(p => p.Add(x => x.ValueChanged, (string v) => time = v)).Find("input").Input(sent);
+        RenderComponent<TimePickerInput>(p => p.Add(x => x.ValueChanged, (string v) => picker = v)).Find("input").Input(sent);
+        Assert.Equal(expected, time);
+        Assert.Equal(expected, picker);
+    }
+
+    [Theory]
+    [InlineData("2026-11-05T10:15:00", "2026-11-05T10:15")]
+    [InlineData("2026-11-05T10:15:30", "2026-11-05T10:15:30")]
+    public void DateTimeLocalInput_drops_them_too(string sent, string expected)
+    {
+        string? seen = null;
+        RenderComponent<DateTimeLocalInput>(p => p.Add(x => x.ValueChanged, (string v) => seen = v)).Find("input").Input(sent);
+        Assert.Equal(expected, seen);
     }
 
     [Fact]

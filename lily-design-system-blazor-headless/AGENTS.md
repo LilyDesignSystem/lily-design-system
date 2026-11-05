@@ -77,7 +77,9 @@ Every component's first HTML element sets a class combining the kebab-case name 
 
 **The value inputs bind.** Every text-style `*Input` takes `@bind-Value` (`ValueInputBase`), `NumberInput` and `CurrencyInput` a `double?`, `RangeInput` and `AngleSliderRangeInput` a `double`, and `CheckboxInput` `@bind-Checked`. Bind with `@bind:get` and `@bind:set` inside a component, never `value=` with `@oninput`: a server re-render can overwrite what was typed since. `ValueBindingTests` fails on a new input that does not bind, unless it is listed with a reason.
 
-**The other form primitives do NOT declare a bound value or `OnSubmit`:** `Select`, `Option`, `RadioInput`, `Form`, `Field`, `Fieldset`, `SummaryListItem` and most others are thin wrappers around the native element, so PascalCase `Value="..."` lands in `AdditionalAttributes` and does nothing. For these, use lowercase `value="@x"` / `checked="@x"` / `name="@x"` plus an `@onchange` directive with a `ChangeEventArgs` handler, and `novalidate @onsubmit="Handler"` on `Form`. Razor compiles a directive attribute to its lowercase DOM event name whatever the component declares.
+**So do the other controls.** `Select`, `ThemeSelect`, `Slider`, `TimePickerInput` and `TagInput` take `@bind-Value`, `ToggleButton` `@bind-Pressed`, `Details` `@bind-Open`. `Form` and `DataFilterForm` take `OnSubmit` and `OnReset`, and always prevent the default submit; `@onsubmit` reaches the same parameter, because Blazor parameter names ignore case. A consumer's lowercase `oninput` or `onchange` replaces the component's own handler, so use the bind.
+
+**These do NOT bind:** `Option`, `RadioInput`, `Field`, `Fieldset`, `SummaryListItem` and other thin wrappers around a native element. PascalCase `Value="..."` lands in `AdditionalAttributes` and does nothing. Use lowercase `value="@x"` / `checked="@x"` / `name="@x"` plus an `@onchange` directive with a `ChangeEventArgs` handler.
 
 Beyond the inputs, a number of components declare a real bindable pair, and `@bind-X`/`XChanged` works as expected on them — check the component's own `.razor` source before assuming either way:
 
@@ -189,6 +191,6 @@ dotnet test     # Run all tests
 - `ErrorSummary` uses `Label` parameter (not `Title`) + `ChildContent` (no `Errors` parameter -- render errors as children)
 - `TabBarButton` requires `Controls` parameter (id of the associated panel)
 - `Combobox` has real `Value`/`ValueChanged` and separate `Open`/`OpenChanged` callbacks; renders its own `<input role="combobox">` internally -- `ChildContent` is the option elements only
-- `TextInput`/`EmailInput`/`TextAreaInput`/`Select`/`Option`/`RadioInput`/`CheckboxInput`/`Form`/`Field`/`Fieldset` have NO `Value`/`ValueChanged`/`Checked`/`CheckedChanged`/`OnSubmit`/`Legend` parameters -- only `Label`/`CssClass`/`ChildContent`/`AdditionalAttributes`. Use the native-attribute idiom (see "State Management" above).
+- `Option`/`RadioInput`/`Field`/`Fieldset` have NO `Value`/`ValueChanged`/`Checked`/`CheckedChanged`/`Legend` parameters -- only `Label`/`CssClass`/`ChildContent`/`AdditionalAttributes`. Use the native-attribute idiom (see "State Management" above). The `*Input` components, `Select` and `Form` do bind.
 - `SwitchButton` has real `Checked`/`CheckedChanged`, invoked internally on click -- `@bind-Checked` works
 - Blazor uses `EventCallback` not plain delegates for component callbacks

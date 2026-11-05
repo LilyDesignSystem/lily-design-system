@@ -1,15 +1,39 @@
 @namespace LilyBlazorHeadless.Components
+@using System.Globalization
 
 @*
     Slider component
     a draggable control for selecting a value along a track
+
+    A native <input type="range">, which supplies the keys and the slider role. Min, Max and Step go before the bind,
+    because the browser clamps the value to the limits present when the value arrives.
+
+    Parameters:
+        Label — string, required. aria-label.
+        Value / ValueChanged — double, default 50, two-way (@bind-Value).
+        Min — double, default 0. Max — double, default 100. Step — double, default 1.
+        Disabled — bool. Native disabled.
+        CssClass, AdditionalAttributes (spread onto the input; aria-valuetext goes here).
 *@
 
-<div class="@($"slider {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<input class="@($"slider {CssClass}".Trim())" type="range" aria-label="@Label" min="@Number(Min)" max="@Number(Max)" step="@Number(Step)" disabled="@Disabled" @attributes="AdditionalAttributes" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public double Value { get; set; } = 50;
+    [Parameter] public EventCallback<double> ValueChanged { get; set; }
+    [Parameter] public double Min { get; set; } = 0;
+    [Parameter] public double Max { get; set; } = 100;
+    [Parameter] public double Step { get; set; } = 1;
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private static string Number(double value) => value.ToString(CultureInfo.InvariantCulture);
+
+    private async Task SetValueAsync(double value)
+    {
+        Value = value;
+        await ValueChanged.InvokeAsync(value);
+    }
 }

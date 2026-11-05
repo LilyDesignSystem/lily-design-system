@@ -9,6 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Blazor controls — 2026-11-05
+
+- **Fixed (Blazor): 13 components were stubs that rendered a class and a name and did nothing.** `ToggleButton` toggles, with `aria-checked` and `@bind-Pressed`. `Slider` and `TimePickerInput` were a `div` and are now the contract's `<input>`. `Select` and `ThemeSelect` take `@bind-Value`. `Form` and `DataFilterForm` take `OnSubmit` and `OnReset` and prevent the default submit. `Details` renders its `Summary` and binds `Open`. `TagInput` has a field, with Enter adding a tag and an empty Enter still submitting the form. `PopconfirmDialog`, `NewsletterSignup` and `HorizontalScroller` have their real markup and keys (`NewsletterSignup` had `role="status"` on the form itself). `ContentsNav` tells C# the section in view through `@bind-Active`.
+- **Fixed (Blazor): `TimeInput`, `TimePickerInput` and `DateTimeLocalInput` reported `10:15:00` for `10:15`**, because Blazor's event code adds the seconds. Seconds of zero are removed; real ones stay.
+- **Fixed (Blazor): the Blazor example's file upload form never ran its handler**: `OnSubmit` was not a parameter, so it was rendered as a text attribute.
+- **Fixed (Blazor): `AngleSliderRangeInput` wrote its limits with the server's culture**, so `0,5` in a comma locale.
+- **Changed (Blazor), breaking:** `Details` takes `Summary` and no `Label`; do not also put a `<summary>` in its content. `PopconfirmDialog` takes `Title`, `ConfirmLabel` and `CancelLabel`, not `Label` and child content. `NewsletterSignup` requires `EmailLabel` and `SubmitLabel`, not child content. `Slider` and `TimePickerInput` have no child content. Lowercase `@onchange` on `Select` replaces the component's own handler: use `@bind-Value`. `Email` on `NewsletterSignup` is Blazor only, because a submit event has no form data in C#.
+- **Tests:** `e2e/controls.spec.ts` on `/demos/controls` drives all 13 with real input in Chromium and WebKit.
+
 ## Blazor value binding — 2026-11-05
 
 - **Fixed (Blazor): 107 inputs had no value parameters, so `@bind-Value` could not compile**, every national identifier input among them. 102 text-style inputs now bind `Value`, on a new `ValueInputBase`; `NumberInput` and `CurrencyInput` bind `double?`, `RangeInput` and `AngleSliderRangeInput` `double`; `CheckboxInput` binds `Checked`. All use `@bind:get` and `@bind:set`, so a re-render cannot overwrite what was typed. `ValueBindingTests` fails on any new input that does not bind, unless it is listed with a reason.

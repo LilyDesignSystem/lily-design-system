@@ -87,8 +87,7 @@
         Appointments are available Monday to Friday, 8am to 6pm. Most requests are confirmed within 2 working days.
     </InsetText>
 
-    <Details Label="What happens at your appointment">
-        <summary>What happens at your appointment</summary>
+    <Details Summary="What happens at your appointment">
         <p>A clinician will review the reason you gave for the appointment and may ask follow-up questions. Bring a list of any medicines you are currently taking.</p>
     </Details>
 
@@ -157,7 +156,7 @@ else if (step == 2)
             <Field Label="Preferred time of day" data-required="true">
                 <Label For="appointment-time">Preferred time of day</Label>
                 <Select id="appointment-time" Label="Preferred time of day"
-                        value="@appointmentTime" @onchange="@((ChangeEventArgs e) => appointmentTime = e.Value?.ToString() ?? string.Empty)"
+                        @bind-Value="appointmentTime"
                         required>
                     <Option value="">Select a time of day</Option>
                     @foreach (var option in TimeOptions)

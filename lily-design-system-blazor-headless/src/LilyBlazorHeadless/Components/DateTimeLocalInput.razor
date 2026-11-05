@@ -7,7 +7,7 @@
 *@
 
 @* The type is an expression because a literal one makes Razor bind DateTime, and the value is the text the browser holds. *@
-<input class="@($"date-time-local-input {CssClass}".Trim())" type="@("datetime-local")" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+<input class="@($"date-time-local-input {CssClass}".Trim())" type="@("datetime-local")" aria-label="@Label" @bind:get="Value" @bind:set="SetTimeValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

@@ -8,6 +8,35 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class ContentsNavTests : TestContext
 {
+    public ContentsNavTests() => JSInterop.Mode = JSRuntimeMode.Loose;
+
+    [Fact]
+    public void Spy_starts_the_module_and_stops_it_when_turned_off()
+    {
+        var cut = RenderComponent<ContentsNav>(p => p.Add(x => x.Label, "Contents").Add(x => x.Spy, true));
+        Assert.Contains(JSInterop.Invocations, i => i.Identifier == "import" && (string?)i.Arguments[0] == ContentsNav.ModulePath);
+        cut.SetParametersAndRender(p => p.Add(x => x.Spy, false));
+        Assert.Contains(JSInterop.Invocations, i => i.Identifier == "dispose");
+    }
+
+    [Fact]
+    public void Without_Spy_no_module_loads()
+    {
+        RenderComponent<ContentsNav>(p => p.Add(x => x.Label, "Contents"));
+        Assert.DoesNotContain(JSInterop.Invocations, i => i.Identifier == "import");
+    }
+
+    [Fact]
+    public async Task The_section_in_view_reaches_Active()
+    {
+        string? seen = null;
+        var cut = RenderComponent<ContentsNav>(p => p
+            .Add(x => x.Label, "Contents").Add(x => x.Spy, true).Add(x => x.ActiveChanged, (string v) => seen = v));
+        await cut.InvokeAsync(() => cut.Instance.OnSpyChange("usage"));
+        Assert.Equal("usage", seen);
+        Assert.Equal("usage", cut.Instance.Active);
+    }
+
     [Fact]
     public void Renders_with_kebab_base_class()
     {

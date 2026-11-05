@@ -1,15 +1,26 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     TimePickerInput component
     an input with a dropdown for picking a time
+
+    A native <input type="time">; the browser supplies the keys and the 12 or 24 hour display. The type is an
+    expression because a literal one makes Razor bind a DateTime, and Value is a string, "HH:MM".
+
+    Parameters:
+        Label — string, required. aria-label.
+        Value / ValueChanged — string "HH:MM", two-way (@bind-Value).
+        Required, Disabled — bool. Native attributes.
+        CssClass, AdditionalAttributes (spread onto the input).
 *@
 
-<div class="@($"time-picker-input {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<input class="@($"time-picker-input {CssClass}".Trim())" type="@("time")" aria-label="@Label" required="@Required" disabled="@Disabled" @attributes="AdditionalAttributes" @bind:get="Value" @bind:set="SetTimeValueAsync" @bind:event="oninput" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

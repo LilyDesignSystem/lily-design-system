@@ -3,13 +3,64 @@
 @*
     NewsletterSignup component
     an email subscription form composition with idle, submitting, success, and error states
+
+    The consumer sends the address and sets State. The success and error messages are always in the DOM, hidden until
+    their state, so a live region exists before its text is announced.
+
+    Parameters:
+        Label, EmailLabel, SubmitLabel — string, required.
+        Heading, Description, EmailPlaceholder, SuccessMessage, ErrorMessage — string, optional.
+        State — "idle", "submitting", "success" or "error", default "idle". Rendered as data-state.
+        Email / EmailChanged — the address, two-way (@bind-Email). Blazor only: other ports read it from the submit
+            event's form data, which C# does not get.
+        OnSubmit — EventCallback<EventArgs>. With a handler the page does not reload.
+        CssClass, AdditionalAttributes (spread onto the form).
 *@
 
-<form class="@($"newsletter-signup {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</form>
+<form class="@($"newsletter-signup {CssClass}".Trim())" aria-label="@Label" data-state="@State" @onsubmit="OnSubmit" @onsubmit:preventDefault="OnSubmit.HasDelegate" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Heading) || !string.IsNullOrEmpty(Description))
+    {
+        <header class="newsletter-signup-header">
+            @if (!string.IsNullOrEmpty(Heading))
+            {
+                <h3 class="newsletter-signup-heading">@Heading</h3>
+            }
+            @if (!string.IsNullOrEmpty(Description))
+            {
+                <p class="newsletter-signup-description">@Description</p>
+            }
+        </header>
+    }
+    <label class="newsletter-signup-label">
+        @EmailLabel
+        <input class="newsletter-signup-input" type="email" disabled="@IsSubmitting" placeholder="@EmailPlaceholder" @bind:get="Email" @bind:set="SetEmailAsync" @bind:event="oninput" />
+    </label>
+    <button class="newsletter-signup-submit" type="submit" disabled="@IsSubmitting">@SubmitLabel</button>
+    <p class="newsletter-signup-success" role="status" aria-live="polite" hidden="@(State != "success")">@SuccessMessage</p>
+    <p class="newsletter-signup-error" role="alert" hidden="@(State != "error")">@ErrorMessage</p>
+</form>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Heading { get; set; }
+    [Parameter] public string? Description { get; set; }
+    [Parameter, EditorRequired] public string EmailLabel { get; set; } = "";
+    [Parameter] public string? EmailPlaceholder { get; set; }
+    [Parameter, EditorRequired] public string SubmitLabel { get; set; } = "";
+    [Parameter] public string State { get; set; } = "idle";
+    [Parameter] public string? SuccessMessage { get; set; }
+    [Parameter] public string? ErrorMessage { get; set; }
+    [Parameter] public string Email { get; set; } = "";
+    [Parameter] public EventCallback<string> EmailChanged { get; set; }
+    [Parameter] public EventCallback<EventArgs> OnSubmit { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool IsSubmitting => State == "submitting";
+
+    private async Task SetEmailAsync(string? value)
+    {
+        Email = value ?? "";
+        await EmailChanged.InvokeAsync(Email);
+    }
 }
