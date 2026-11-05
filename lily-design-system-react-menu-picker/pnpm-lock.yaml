@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/react-headless':
-        specifier: ^0.6.0
-        version: 0.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: ^0.7.0
+        version: 0.7.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
     devDependencies:
       '@testing-library/react':
         specifier: ^16.3.3
@@ -289,8 +289,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/react-headless@0.6.0':
-    resolution: {integrity: sha512-RGpS1RByuSyexqd5XywJ1KELWmIWaG/L67GjHNc+OpzKU2ErN7tb5uPo3+OEo9vrZ68yCdQ4PSi6LJYFHXmSEQ==}
+  '@lilydesignsystem/react-headless@0.7.0':
+    resolution: {integrity: sha512-ZkvU3g5MUD0/OwlNuA2C5mEyNQUDrzB5JSNMglHzKfNoKXAeoiyRToe9o22tVEeLwRsyxhouiDkJCB88rHiizw==}
     engines: {node: '>=26'}
     peerDependencies:
       react: ^18.0.0 || ^19.0.0
@@ -1319,7 +1319,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/react-headless@0.6.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@lilydesignsystem/react-headless@0.7.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)

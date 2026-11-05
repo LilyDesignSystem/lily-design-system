@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.8.2 — 2026-11-05
+
+- Depends on `nunjucks-headless` ^0.7.0.
+
 ## 0.8.1 — 2026-10-18
 
 - No code change; the version follows the other catalogs, whose card cell no longer carries a title-only `aria-label`. This catalog already named the cell by its content.

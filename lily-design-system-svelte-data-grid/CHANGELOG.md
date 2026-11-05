@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.11.1 — 2026-11-05
+
+- Depends on `svelte-headless` ^0.7.0.
+
 ## 0.11.0 — 2026-10-18
 
 - The `footer` snippet also receives `allRows` (every row passing the filter, across pages) and `aggregate(columnId, kind)` for totals over them, not only the current page.

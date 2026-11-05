@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.3.1 — 2026-11-05
+
+- Depends on `angular-headless` ^0.8.0.
+
 ## Unreleased
 
 - `variant="select"` renders a native `<select>` instead of the icon button and listbox (RFC 3 prototype, ported from

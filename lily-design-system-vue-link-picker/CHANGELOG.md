@@ -2,6 +2,10 @@
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/); the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.1 — 2026-11-05
+
+- Depends on `vue-headless` ^0.7.0.
+
 ## 0.2.0 — 2026-10-16
 
 - Added `v-model:open` and `disabled`, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). `update:open` is emitted once for each change the picker makes (the Vue form of `onOpenChange`); `disabled` disables the button and closes an open popup.

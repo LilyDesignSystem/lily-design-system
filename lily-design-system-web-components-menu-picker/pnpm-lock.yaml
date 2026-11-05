@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/web-components-headless':
-        specifier: ^0.7.0
-        version: 0.7.0
+        specifier: ^0.8.0
+        version: 0.8.0
     devDependencies:
       jsdom:
         specifier: ^30.1.3
@@ -256,8 +256,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/web-components-headless@0.7.0':
-    resolution: {integrity: sha512-hiwBWJAPEVFoiHDeqaeAjuH7Q6AaIU/Svzl3MVpCEpHxkGZM98xJ3Fgb7YOW92Envn5/d/MfkHG/zUbVBIRgqQ==}
+  '@lilydesignsystem/web-components-headless@0.8.0':
+    resolution: {integrity: sha512-fE3PmgFXc8luwU2s28FGQOo9lLJzWC44RcKGfrOAxE0eJ/m6Y4LOUDYGlciUuMb5/RUrSfpnP4mjFVe3Bwug/Q==}
     engines: {node: '>=26'}
 
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
@@ -1174,7 +1174,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/web-components-headless@0.7.0': {}
+  '@lilydesignsystem/web-components-headless@0.8.0': {}
 
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true

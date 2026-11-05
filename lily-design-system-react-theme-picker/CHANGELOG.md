@@ -1,5 +1,9 @@
 # CHANGELOG — @lilydesignsystem/react-theme-picker
 
+## 0.3.1 — 2026-11-05
+
+- Depends on `react-headless` ^0.7.0.
+
 ## Unreleased
 
 - `variant="select"` renders a native `<select>` instead of the icon button and listbox (RFC 3 prototype, ported from

@@ -1,5 +1,7 @@
 allowBuilds:
   esbuild: true
+minimumReleaseAgeExclude:
+  - '@lilydesignsystem/nunjucks-headless@0.7.0'
 # vite's optional esbuild peer resolves to 0.27.7 (below the
 # 0.28.1 GHSA fix) alongside a separately-patched 0.28.2 pulled in
 # elsewhere in the tree -- two copies. vite's own peer range

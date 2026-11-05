@@ -11,9 +11,9 @@ highlights.
 
 ## Versions — 2026-11-05
 
-Not yet published. `html-headless` 0.9.0, `svelte-headless` 0.7.0, `react-headless` 0.7.0, `vue-headless` 0.7.0, `angular-headless` 0.8.0, `nunjucks-headless` 0.7.0, `web-components-headless` 0.8.0, `LilyDesignSystem.Blazor.Headless` 0.7.0: minor bumps, for the breaking changes below. `alpine-headless` stays 0.1.0, which has never been published.
+Published 2026-11-05: `html-headless` 0.9.0, `svelte-headless` 0.7.0, `react-headless` 0.7.0, `vue-headless` 0.7.0, `angular-headless` 0.8.0, `nunjucks-headless` 0.7.0, `web-components-headless` 0.8.0, `LilyDesignSystem.Blazor.Headless` 0.7.0: minor bumps, for the breaking changes below. `alpine-headless` stays 0.1.0, which has never been published.
 
-The helper packages keep their headless ranges (`^0.6.0` and so on) until these versions are on the registries, because their lockfiles resolve from npm. No helper uses `tag-input`, `hamburger-menu` or `collapsible`.
+83 helper packages move to these ranges with a patch version each. The four `time-zone-picker` packages catch up from one release further back. `nunjucks-date-time-picker` 0.2.1 carries the `dayLabel` fix and `themes` 0.6.1 the `hamburger-menu` selector. Each helper's `pnpm-workspace.yaml` gains a `minimumReleaseAgeExclude` entry, because the new versions are younger than pnpm's minimum release age. Remove them once they have aged.
 
 ## `hamburger-menu` and `collapsible` match their contracts — 2026-11-05
 

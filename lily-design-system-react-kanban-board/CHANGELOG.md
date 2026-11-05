@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.8.2 — 2026-11-05
+
+- Depends on `react-headless` ^0.7.0.
+
 ## 0.8.1 — 2026-10-18
 
 - Fixed: a card's cell no longer carries an `aria-label` of the title alone. Its accessible name was the title while a sighted user also saw the subtitle, badges and fields (WCAG 2.5.3, label in name; reported against a waitlist board). The cell is now named by its content, so the name includes everything visible. `cardLabel` still drives the title text, the title editor and the announcements.

@@ -70,3 +70,9 @@ lily-design-system-nunjucks-theme-picker/theme-color.js
 # Written by bin/generate-core
 docs/core.md
 docs/accessibility-conformance-report.md
+# Rewritten by each package build.mjs
+lily-design-system-angular-headless/index.ts
+lily-design-system-react-headless/index.ts
+lily-design-system-web-components-headless/index.ts
+# Rewritten by pnpm
+**/pnpm-workspace.yaml

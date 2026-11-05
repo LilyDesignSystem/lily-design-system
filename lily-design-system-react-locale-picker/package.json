@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/react-locale-picker",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "engines": {
     "node": ">=26"
   },
@@ -28,7 +28,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/react-headless": "^0.6.0"
+    "@lilydesignsystem/react-headless": "^0.7.0"
   },
   "peerDependencies": {
     "react": ">=18",

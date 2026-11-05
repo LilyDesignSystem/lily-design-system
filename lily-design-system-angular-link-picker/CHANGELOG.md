@@ -2,6 +2,10 @@
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/); the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.1 — 2026-11-05
+
+- Depends on `angular-headless` ^0.8.0.
+
 ## 0.2.0 — 2026-10-16
 
 - Added `[(open)]` (a `model`, with `openChange`) and `disabled`, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). `openChange` fires once for each change, by the user or from outside, and not for the initial value; `disabled` disables the button and closes an open popup.

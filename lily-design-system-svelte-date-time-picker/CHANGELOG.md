@@ -4,6 +4,10 @@ All notable changes to this package. Format follows
 [Keep a Changelog](https://keepachangelog.com/); versions follow
 [Semantic Versioning](https://semver.org/).
 
+## 0.2.1 — 2026-11-05
+
+- Depends on `svelte-headless` ^0.7.0.
+
 ## Unreleased — 2026-10-11
 
 Fixed: a form reset now restores the initial date (and time zone) in the field, the bound `value` and the submitted value,

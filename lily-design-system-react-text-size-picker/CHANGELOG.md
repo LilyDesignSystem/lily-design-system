@@ -1,5 +1,9 @@
 # CHANGELOG — @lilydesignsystem/react-text-size-picker
 
+## 0.3.1 — 2026-11-05
+
+- Depends on `react-headless` ^0.7.0.
+
 ## 0.3.0 — 2026-10-16
 
 - Added `open`, `onOpenChange` and `disabled`, ported from the Svelte package (spec "Open state and disabled"). `open` makes the popup controlled (`defaultOpen` starts an uncontrolled one); `onOpenChange(open)` is called once for each change the picker makes, and not for the initial value; `disabled` disables the button and closes an open popup.

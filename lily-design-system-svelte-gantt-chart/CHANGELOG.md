@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.8.1 — 2026-11-05
+
+- Depends on `svelte-headless` ^0.7.0.
+
 ## 0.8.0 — 2026-10-18
 
 - Added `criticalPath()` / `applyCriticalPath()` (optional, single-sourced in `shared/critical-path.ts`): critical flag and slack from dependencies of all four kinds with lags; 12 tests.

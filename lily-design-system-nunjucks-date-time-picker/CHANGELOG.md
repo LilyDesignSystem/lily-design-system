@@ -4,6 +4,10 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.1 — 2026-11-05
+
+- Fixed: day cells are named by their date in words, not their ISO date. `dayLabel` threw inside a `try`.
+
 ## Unreleased — 2026-10-11
 
 Fixed: a form reset now restores the initial date (and time zone) in the field, the controller and the submitted value,
