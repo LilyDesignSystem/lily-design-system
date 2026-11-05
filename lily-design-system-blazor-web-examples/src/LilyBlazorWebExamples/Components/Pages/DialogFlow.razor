@@ -5,12 +5,12 @@
 
 <section class="section">
     <h2>Confirmation Dialog</h2>
-    <span @onmouseenter="() => tooltipVisible = true" @onmouseleave="() => tooltipVisible = false"
+    <span style="anchor-name: --delete-account" @onmouseenter="() => tooltipVisible = true" @onmouseleave="() => tooltipVisible = false"
           @onfocusin="() => tooltipVisible = true" @onfocusout="() => tooltipVisible = false">
         <Button @onclick="() => confirmOpen = true" Disabled="@deleted"
                 aria-describedby="delete-tip">Delete Account</Button>
     </span>
-    <Tooltip Id="delete-tip" Label="Opens a confirmation dialog" Visible="@tooltipVisible" />
+    <Tooltip Id="delete-tip" Label="Opens a confirmation dialog" Visible="@tooltipVisible" style="position-anchor: --delete-account" />
 
     <Dialog Open="@confirmOpen" OpenChanged="v => confirmOpen = v" Label="Confirm account deletion" Modal="true">
         <h2>Are you sure?</h2>

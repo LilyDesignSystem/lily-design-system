@@ -4,17 +4,16 @@ A card that appears on hover over a trigger element.
 
 See `components/hover-card/index.md` for canonical documentation.
 
+The consumer's trigger sets `Open` on hover and focus.
+
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `hover-card`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`: string (required)
+- `Open`: bool — the consumer owns it
+- `ChildContent`, `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<HoverCard Label="...">
-    Content
-</HoverCard>
+<HoverCard Label="Profile" Open="open" style="position-anchor: --card">...</HoverCard>
 ```

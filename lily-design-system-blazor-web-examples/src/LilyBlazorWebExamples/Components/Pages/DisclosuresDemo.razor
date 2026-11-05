@@ -1,0 +1,52 @@
+@page "/demos/disclosures"
+<PageTitle>Disclosures — Lily Blazor examples</PageTitle>
+
+@*
+    Components that open, close or dismiss, with C# state and a native element or popover behind them.
+    e2e/disclosures.spec.ts drives this page.
+*@
+
+<h1>Disclosures</h1>
+
+<Expander Label="More" @bind-Expanded="_expanded" data-testid="expander">Expanded body</Expander>
+<p data-testid="expander-state">Expanded: @_expanded</p>
+
+<Collapsible Summary="Collapsible" @bind-Open="_collapsible" data-testid="collapsible"><p>Body</p></Collapsible>
+<p data-testid="collapsible-state">Collapsible: @_collapsible</p>
+
+<AccordionList Label="Questions">
+    <AccordionListItem Summary="First question" @bind-Open="_item" data-testid="item"><p>Answer</p></AccordionListItem>
+</AccordionList>
+<p data-testid="item-state">Item: @_item</p>
+
+<Banner Label="Notice" Type="warning" Dismissible="true" CloseLabel="Dismiss notice" OnClose="@(() => _closed++)" data-testid="banner">Notice</Banner>
+<MedicalBanner Label="Allergy" Dismissible="true" CloseLabel="Dismiss allergy" OnClose="@(() => _closed++)" data-testid="medical">Allergy</MedicalBanner>
+<p data-testid="banner-state">Closed: @_closed</p>
+
+<GovernmentBanner Label="Official" HeaderText="An official site" ExpandLabel="How you know" @bind-Expanded="_official" data-testid="government">
+    <p>Official sites use a secure address.</p>
+</GovernmentBanner>
+<p data-testid="government-state">Official: @_official</p>
+
+<StickyPromoBanner Label="Offer" DismissLabel="Dismiss offer" Open="_promo" OnDismiss="@(() => _promo = false)" data-testid="promo">Sale</StickyPromoBanner>
+
+<button type="button" style="anchor-name: --feature" data-testid="coachmark-open" @onclick="@(() => _coachmark = true)">Show tip</button>
+<Coachmark Open="_coachmark" Title="New" DismissLabel="Close tip" OnDismiss="@(() => _coachmark = false)" style="position-anchor: --feature" data-testid="coachmark" />
+
+<span style="anchor-name: --card" tabindex="0" data-testid="card-trigger" @onmouseenter="@(() => _card = true)" @onmouseleave="@(() => _card = false)">Profile</span>
+<HoverCard Label="Profile" Open="_card" style="position-anchor: --card" data-testid="card">Card body</HoverCard>
+
+<button type="button" style="anchor-name: --tip" aria-describedby="tip" data-testid="tooltip-trigger"
+        @onfocusin="@(() => _tooltip = true)" @onfocusout="@(() => _tooltip = false)">Help</button>
+<Tooltip Id="tip" Label="Helpful text" Visible="_tooltip" style="position-anchor: --tip" data-testid="tooltip" />
+
+<button type="button" data-testid="timeout-open" @onclick="@(() => _timeout = true)">Warn</button>
+<TimeoutDialog Label="Session ending" Open="_timeout" data-testid="timeout">
+    <button type="button" @onclick="@(() => _timeout = false)">Stay signed in</button>
+</TimeoutDialog>
+
+@code {
+    private bool _expanded, _collapsible, _item, _official, _coachmark, _card, _tooltip, _timeout;
+    private bool _promo = true;
+    private int _closed;
+}

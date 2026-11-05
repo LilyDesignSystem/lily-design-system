@@ -41,6 +41,10 @@ export const routes: Routes = [
         loadComponent: () => import("./views/dialog-flow").then((m) => m.default),
     },
     {
+        path: "demos/disclosures",
+        loadComponent: () => import("./views/disclosures").then((m) => m.default),
+    },
+    {
         path: "file-upload-form",
         loadComponent: () => import("./views/file-upload-form").then((m) => m.default),
     },

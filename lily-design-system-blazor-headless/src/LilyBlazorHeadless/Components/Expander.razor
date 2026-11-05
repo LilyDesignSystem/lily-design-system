@@ -3,13 +3,37 @@
 @*
     Expander component
     a control that expands to reveal more content
+
+    A button with aria-expanded and aria-controls, and a labelled region that exists only while expanded. Use Details
+    for the native version.
+
+    Parameters:
+        Label — string, required. The button's text, and the region's name.
+        Expanded / ExpandedChanged — two-way (@bind-Expanded).
+        ChildContent, CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"expander {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"expander {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <button type="button" aria-expanded="@(Expanded ? "true" : "false")" aria-controls="@_contentId" @onclick="ToggleAsync">@Label</button>
+    @if (Expanded)
+    {
+        <div id="@_contentId" role="region" aria-label="@Label">@ChildContent</div>
+    }
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Expanded { get; set; }
+    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _contentId = $"expander-{Guid.NewGuid():N}";
+
+    private async Task ToggleAsync()
+    {
+        Expanded = !Expanded;
+        await ExpandedChanged.InvokeAsync(Expanded);
+    }
 }

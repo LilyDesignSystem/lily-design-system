@@ -4,17 +4,16 @@ A control that expands to reveal more content.
 
 See `components/expander/index.md` for canonical documentation.
 
+The region exists only while expanded.
+
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `expander`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`: string (required) — the button's text and the region's name
+- `Expanded`, `ExpandedChanged`: bool — two-way with `@bind-Expanded`
+- `ChildContent`, `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<Expander Label="...">
-    Content
-</Expander>
+<Expander Label="More" @bind-Expanded="expanded">...</Expander>
 ```

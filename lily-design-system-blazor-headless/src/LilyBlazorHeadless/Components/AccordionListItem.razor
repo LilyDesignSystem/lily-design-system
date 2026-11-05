@@ -1,14 +1,30 @@
 @namespace LilyBlazorHeadless.Components
+@inherits DetailsBase
 
 @*
     AccordionListItem component
     an accordion list item component
+
+    The contract's <li>, holding a native <details>, so it stays valid inside AccordionList.
+
+    Parameters:
+        Summary — string, optional. The header. Leave it out to put your own <summary> in ChildContent.
+        Open / OpenChanged — two-way (@bind-Open).
+        ChildContent, CssClass, AdditionalAttributes (spread onto the li).
 *@
 
-<li class="@($"accordion-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"accordion-list-item {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <details open="@Open" @ref="Root">
+        @if (!string.IsNullOrEmpty(Summary))
+        {
+            <summary>@Summary</summary>
+        }
+        @ChildContent
+    </details>
+</li>
 
 @code {
-    [Parameter] public string Label { get; set; } = "";
+    [Parameter] public string? Summary { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

@@ -10,4 +10,4 @@ const meta: Meta<StickyPromoBanner> = {
 export default meta;
 type Story = StoryObj<StickyPromoBanner>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { label: "Offer", dismissLabel: "Dismiss" } };

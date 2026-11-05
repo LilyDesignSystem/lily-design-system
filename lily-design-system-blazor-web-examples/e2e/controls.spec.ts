@@ -126,6 +126,7 @@ test("popconfirm: Open shows it, and the buttons reach C#", async ({ page }) => 
 
 test("popconfirm: opens under its anchor, and in the viewport with none", async ({ page }) => {
     await page.getByTestId("popconfirm-open").click();
+    await expect(page.getByTestId("popconfirm")).toBeVisible();
     const trigger = (await page.getByTestId("popconfirm-open").boundingBox())!;
     const box = (await page.getByTestId("popconfirm").boundingBox())!;
     expect(Math.abs(box.x - trigger.x)).toBeLessThan(2);

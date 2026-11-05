@@ -1,14 +1,22 @@
 @namespace LilyBlazorHeadless.Components
+@inherits DetailsBase
 
 @*
     Collapsible component
     a container that can be expanded or collapsed
+
+    Native <details> and <summary>, like the Svelte, React, Vue and Nunjucks ports.
+
+    Parameters:
+        Summary — string, required. The toggle's text.
+        Open / OpenChanged — two-way (@bind-Open).
+        ChildContent, CssClass, AdditionalAttributes (spread onto the details).
 *@
 
-<div class="@($"collapsible {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<details class="@($"collapsible {CssClass}".Trim())" open="@Open" @ref="Root" @attributes="AdditionalAttributes"><summary>@Summary</summary>@ChildContent</details>
 
 @code {
-    [Parameter] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string Summary { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

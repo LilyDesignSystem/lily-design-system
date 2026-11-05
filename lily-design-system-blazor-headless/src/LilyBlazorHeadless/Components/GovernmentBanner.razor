@@ -3,13 +3,38 @@
 @*
     GovernmentBanner component
     a banner identifying a website as belonging to a government, with an expandable details panel
+
+    Parameters:
+        Label — string, required. aria-label of the aside.
+        HeaderText, ExpandLabel — string, required. The headline, and the toggle's text.
+        Expanded / ExpandedChanged — two-way (@bind-Expanded).
+        PanelId — string, optional. The panel's id.
+        ChildContent — the panel, hidden until expanded.
+        CssClass, AdditionalAttributes (spread onto the aside).
 *@
 
-<aside class="@($"government-banner {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</aside>
+<aside class="@($"government-banner {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">
+    <header class="government-banner-header">
+        <span class="government-banner-headline">@HeaderText</span>
+        <button type="button" class="government-banner-toggle" aria-expanded="@(Expanded ? "true" : "false")" aria-controls="@PanelId" @onclick="ToggleAsync">@ExpandLabel</button>
+    </header>
+    <div class="government-banner-details" id="@PanelId" hidden="@(!Expanded)">@ChildContent</div>
+</aside>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string HeaderText { get; set; } = "";
+    [Parameter, EditorRequired] public string ExpandLabel { get; set; } = "";
+    [Parameter] public bool Expanded { get; set; }
+    [Parameter] public EventCallback<bool> ExpandedChanged { get; set; }
+    [Parameter] public string PanelId { get; set; } = $"government-banner-panel-{Guid.NewGuid():N}";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task ToggleAsync()
+    {
+        Expanded = !Expanded;
+        await ExpandedChanged.InvokeAsync(Expanded);
+    }
 }

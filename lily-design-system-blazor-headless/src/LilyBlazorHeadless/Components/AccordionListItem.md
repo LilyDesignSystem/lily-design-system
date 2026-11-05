@@ -4,17 +4,16 @@ An accordion list item component.
 
 See `components/accordion-list-item/index.md` for canonical documentation.
 
+The contract's `<li>`, holding a native `<details>`.
+
 ## Parameters
 
-- `Label`: string (optional) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `accordion-list-item`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Summary`: string — the header; leave it out to put your own `<summary>` in the content
+- `Open`, `OpenChanged`: bool — two-way with `@bind-Open`
+- `ChildContent`, `CssClass`, `AdditionalAttributes` (on the `<li>`)
 
 ## Usage
 
 ```razor
-<AccordionListItem>
-    Content
-</AccordionListItem>
+<AccordionListItem Summary="First question" @bind-Open="open"><p>Answer</p></AccordionListItem>
 ```

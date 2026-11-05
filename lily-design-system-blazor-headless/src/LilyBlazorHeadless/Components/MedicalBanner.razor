@@ -3,13 +3,44 @@
 @*
     MedicalBanner component
     a prominent message bar across the top of a page, with medical information
+
+    Dismissing removes it, and it stays gone: a parent cannot bring it back by re-rendering.
+
+    Parameters:
+        Label — string, required. aria-label.
+        Type — "info", "success", "warning" or "error", default "info". Rendered as data-type.
+        Dismissible — bool. Adds a button named by CloseLabel; its content is the consumer's CSS.
+        CloseLabel — string. The button's aria-label.
+        OnClose — EventCallback. After it is dismissed.
+        ChildContent, CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"medical-banner {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+@if (_visible)
+{
+    <div class="@($"medical-banner {CssClass}".Trim())" role="region" aria-live="polite" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" data-type="@Type" data-context="medical" @attributes="AdditionalAttributes">
+        @ChildContent
+        @if (Dismissible)
+        {
+            <button type="button" aria-label="@CloseLabel" @onclick="DismissAsync"></button>
+        }
+    </div>
+}
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string Type { get; set; } = "info";
+    [Parameter] public bool Dismissible { get; set; }
+    [Parameter] public string? CloseLabel { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private bool _visible = true;
+
+    private async Task DismissAsync()
+    {
+        _visible = false;
+        await OnClose.InvokeAsync();
+    }
 }

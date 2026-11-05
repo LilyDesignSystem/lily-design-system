@@ -1,15 +1,27 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ManualPopoverBase
 
 @*
     HoverCard component
     a card that appears on hover over a trigger element
+
+    Always rendered with popover="manual" and shown from Open. The consumer's trigger sets Open on hover and focus, and
+    names this card's anchor with position-anchor.
+
+    Parameters:
+        Label — string, required. aria-label.
+        Open — bool. The consumer owns it.
+        ChildContent, CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"hover-card {CssClass}".Trim())" role="tooltip" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"hover-card {CssClass}".Trim())" role="tooltip" popover="manual" aria-label="@Label" @ref="Root" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Open { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override bool Shown => Open;
 }

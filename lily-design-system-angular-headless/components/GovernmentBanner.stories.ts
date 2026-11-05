@@ -10,4 +10,4 @@ const meta: Meta<GovernmentBanner> = {
 export default meta;
 type Story = StoryObj<GovernmentBanner>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { label: "Official", headerText: "An official site", expandLabel: "How you know" } };

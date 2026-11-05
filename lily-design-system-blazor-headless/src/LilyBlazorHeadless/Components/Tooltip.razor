@@ -1,15 +1,28 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ManualPopoverBase
 
 @*
     Tooltip component
     a small popup showing descriptive text on hover or focus
+
+    Always rendered with popover="manual" and shown from Visible. The consumer's trigger sets Visible on hover and
+    focus, and points aria-describedby at Id.
+
+    Parameters:
+        Label — string, required. The tooltip's text.
+        Visible — bool. The consumer owns it.
+        Id — string, optional.
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"tooltip {CssClass}".Trim())" role="tooltip" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"tooltip {CssClass}".Trim())" role="tooltip" popover="manual" id="@Id" @ref="Root" @attributes="AdditionalAttributes">@Label</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Visible { get; set; }
+    [Parameter] public string? Id { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override bool Shown => Visible;
 }

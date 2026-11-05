@@ -4,17 +4,18 @@ A banner identifying a website as belonging to a government, with an expandable 
 
 See `components/government-banner/index.md` for canonical documentation.
 
+The Svelte port leaves `expanded` to the consumer; this one also updates itself, so it works unbound.
+
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `government-banner`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`, `HeaderText`, `ExpandLabel`: string (required)
+- `Expanded`, `ExpandedChanged`: bool — two-way with `@bind-Expanded`
+- `PanelId`: string — the panel's id
+- `ChildContent` — the panel
+- `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<GovernmentBanner Label="...">
-    Content
-</GovernmentBanner>
+<GovernmentBanner Label="Official" HeaderText="An official site" ExpandLabel="How you know" @bind-Expanded="open">...</GovernmentBanner>
 ```

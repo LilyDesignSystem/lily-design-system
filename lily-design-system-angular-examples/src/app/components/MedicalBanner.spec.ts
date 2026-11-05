@@ -3,20 +3,49 @@ import { TestBed } from "@angular/core/testing";
 
 import { MedicalBanner } from "./MedicalBanner";
 
-describe("MedicalBanner", () => {
-    test("renders the div root with the base class", () => {
-        const fixture = TestBed.createComponent(MedicalBanner);
-        fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.medical-banner");
-        expect(el).toBeTruthy();
-    });
+function make(inputs: Record<string, unknown> = {}) {
+    const fixture = TestBed.createComponent(MedicalBanner);
+    for (const [key, value] of Object.entries({ label: "Notice", ...inputs })) fixture.componentRef.setInput(key, value);
+    fixture.detectChanges();
+    return fixture;
+}
 
-    test("appends the className input to the root class list", () => {
-        const fixture = TestBed.createComponent(MedicalBanner);
-        fixture.componentRef.setInput("className", "extra");
-        fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.medical-banner");
+describe("MedicalBanner", () => {
+    test("renders the root with the base class and the className input", () => {
+        const el = make({ className: "extra" }).nativeElement.querySelector("div.medical-banner");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
+    });
+
+    test("is a polite region with its type", () => {
+        const root = make({ type: "warning" }).nativeElement.querySelector("div");
+        expect(root.getAttribute("role")).toBe("region");
+        expect(root.getAttribute("aria-live")).toBe("polite");
+        expect(root.getAttribute("aria-label")).toBe("Notice");
+        expect(root.getAttribute("data-type")).toBe("warning");
+    });
+
+    test("type defaults to info", () => {
+        expect(make().nativeElement.querySelector("div").getAttribute("data-type")).toBe("info");
+    });
+
+    test("there is no button unless dismissible", () => {
+        expect(make().nativeElement.querySelector("button")).toBeNull();
+    });
+
+    test("dismissing removes it and emits closed", async () => {
+        const fixture = make({ dismissible: true, closeLabel: "Dismiss" });
+        let closed = 0;
+        fixture.componentInstance.closed.subscribe(() => closed++);
+        const button = fixture.nativeElement.querySelector("button");
+        expect(button.getAttribute("aria-label")).toBe("Dismiss");
+        button.click();
+        await fixture.whenStable();
+        expect(closed).toBe(1);
+        expect(fixture.nativeElement.querySelector("div.medical-banner")).toBeNull();
+    });
+
+    test("is marked medical", () => {
+        expect(make().nativeElement.querySelector("div").getAttribute("data-context")).toBe("medical");
     });
 });

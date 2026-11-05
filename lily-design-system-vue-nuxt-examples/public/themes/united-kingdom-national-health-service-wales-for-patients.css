@@ -2191,11 +2191,15 @@
         padding: 0.75rem 1rem;
     }
 
-    /* Sticky promo — sits at the very top of the viewport on scroll. */
+    /* Sticky promo — stays at one edge of the viewport on scroll. A bottom banner must not also pin its top edge: with
+       the component's own bottom: 0 it would stretch over the whole page and take every click. */
     :where(.sticky-promo-banner) {
         position: sticky;
-        inset-block-start: 0;
         z-index: 10;
+    }
+
+    :where(.sticky-promo-banner:not([data-position="bottom"])) {
+        inset-block-start: 0;
     }
 
     /* Error message — inline form-validation message. */

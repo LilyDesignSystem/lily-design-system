@@ -4,17 +4,17 @@ A small popup showing descriptive text on hover or focus.
 
 See `components/tooltip/index.md` for canonical documentation.
 
+The consumer's trigger sets `Visible` on hover and focus.
+
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `tooltip`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`: string (required) — the text
+- `Visible`: bool — the consumer owns it
+- `Id`: string — for `aria-describedby`
+- `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<Tooltip Label="...">
-    Content
-</Tooltip>
+<Tooltip Id="tip" Label="Help" Visible="visible" style="position-anchor: --trigger" />
 ```

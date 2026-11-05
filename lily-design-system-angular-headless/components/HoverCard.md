@@ -5,10 +5,12 @@ a card that appears on hover over a trigger element
 This is the Angular headless implementation. See `components/hover-card/index.md`
 in the canonical repo root for the cross-framework documentation.
 
+Angular inputs do not reach the inner element, so name the anchor in CSS on the class hook: `.hover-card { position-anchor: --feature; }`.
+
 ## Selector
 
 ```html
-<lily-hover-card></lily-hover-card>
+<lily-hover-card label="Profile" [open]="open()">...</lily-hover-card>
 ```
 
 ## Files

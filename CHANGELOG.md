@@ -9,8 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Disclosures and dismissal in Angular and Blazor — 2026-11-05
+
+- **Fixed (Angular, Blazor): 10 components were stubs.** `expander`, `collapsible`, `accordion-list-item` and `government-banner` now open and close, with two-way state. `banner` and `medical-banner` dismiss. `sticky-promo-banner` is fixed to the viewport with a dismiss button. `coachmark`, `hover-card` and `tooltip` are manual popovers shown from their state. In Blazor the example dashboard's `Dismissible` and `CloseLabel` had been rendered as plain attributes and did nothing.
+- **Changed (Angular, Blazor), breaking:** `collapsible` takes `summary`, and its root is `<details>`. `coachmark` takes `title` and `dismissLabel`, not `label` and content. `government-banner` requires `headerText` and `expandLabel`; `sticky-promo-banner` requires `dismissLabel`. `tooltip`'s text is `label`, not content. Each stays hidden until its state says otherwise, where before it was always on the page.
+- **Tests:** `e2e/disclosures.spec.ts` on `/demos/disclosures` in the Angular and Blazor examples, Chromium and WebKit.
+
 ## Popups with no anchor — 2026-11-05
 
+- **Fixed (themes): a bottom `sticky-promo-banner` covered the whole viewport and blocked every click**, in every port: the themes pinned its top edge while the component pinned its bottom. Only a `data-position="bottom"` banner changes.
 - **Fixed (themes): `tooltip`, `hover-card`, `floating-panel`, `coachmark` and `popconfirm-dialog` with no `position-anchor` could open off screen.** In WebKit one opened at its place in the page, which is outside the viewport once scrolled; in Chromium, at the top left. All 63 themes now place the five with `anchor()` and a 25% fallback, in the viewport in both engines. With an anchor they open under it, as before. `e2e/controls.spec.ts` checks both in Chromium and WebKit. Firefox was not run.
 
 ## Blazor controls — 2026-11-05

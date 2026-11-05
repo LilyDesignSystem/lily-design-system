@@ -8,7 +8,7 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-medical-banner></lily-medical-banner>
+<lily-medical-banner label="Allergy" type="warning">...</lily-medical-banner>
 ```
 
 ## Files

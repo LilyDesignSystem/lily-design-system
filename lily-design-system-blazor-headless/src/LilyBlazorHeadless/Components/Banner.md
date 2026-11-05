@@ -4,17 +4,18 @@ A prominent message bar across the top of a page.
 
 See `components/banner/index.md` for canonical documentation.
 
+Dismissing removes it for good.
+
 ## Parameters
 
-- `Label`: string (optional) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `banner`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`: string — names the region
+- `Type`: `info`, `success`, `warning` or `error`, rendered as `data-type`
+- `Dismissible`: bool; `CloseLabel`: string — the button's `aria-label`
+- `OnClose`: EventCallback
+- `ChildContent`, `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<Banner>
-    Content
-</Banner>
+<Banner Label="Notice" Dismissible="true" CloseLabel="Dismiss" OnClose="Closed">...</Banner>
 ```

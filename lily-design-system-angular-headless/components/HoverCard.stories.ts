@@ -10,4 +10,4 @@ const meta: Meta<HoverCard> = {
 export default meta;
 type Story = StoryObj<HoverCard>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { label: "Card", open: true } };

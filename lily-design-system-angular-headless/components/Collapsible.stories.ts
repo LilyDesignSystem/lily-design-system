@@ -10,4 +10,4 @@ const meta: Meta<Collapsible> = {
 export default meta;
 type Story = StoryObj<Collapsible>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { summary: "More" } };

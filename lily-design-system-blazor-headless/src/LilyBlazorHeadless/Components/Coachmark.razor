@@ -1,15 +1,41 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ManualPopoverBase
 
 @*
     Coachmark component
     an anchored popover that spotlights and explains a single feature
+
+    A non-modal dialog, always rendered with popover="manual" and shown from Open. Name the feature with
+    position-anchor; the themes place it under that element.
+
+    Parameters:
+        Title, DismissLabel — string, required. The heading, and the button's aria-label.
+        Description — string, optional.
+        Open — bool. The consumer owns it.
+        OnDismiss — EventCallback<MouseEventArgs>.
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"coachmark {CssClass}".Trim())" role="dialog" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"coachmark {CssClass}".Trim())" role="dialog" aria-modal="false" aria-labelledby="@_titleId" aria-describedby="@(string.IsNullOrEmpty(Description) ? null : _descriptionId)" popover="manual" @ref="Root" @attributes="AdditionalAttributes">
+    <h2 class="coachmark-title" id="@_titleId">@Title</h2>
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <p class="coachmark-description" id="@_descriptionId">@Description</p>
+    }
+    <button class="coachmark-dismiss" type="button" aria-label="@DismissLabel" @onclick="OnDismiss">×</button>
+</div>
 
 @code {
-    [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public bool Open { get; set; }
+    [Parameter, EditorRequired] public string Title { get; set; } = "";
+    [Parameter] public string? Description { get; set; }
+    [Parameter, EditorRequired] public string DismissLabel { get; set; } = "";
+    [Parameter] public EventCallback<MouseEventArgs> OnDismiss { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _titleId = $"coachmark-title-{Guid.NewGuid():N}";
+    private readonly string _descriptionId = $"coachmark-desc-{Guid.NewGuid():N}";
+
+    protected override bool Shown => Open;
 }

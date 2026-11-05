@@ -3,12 +3,32 @@
 @*
     StickyPromoBanner component
     a fixed-position promotional banner with a dismiss button
+
+    Fixed to the viewport by an inline style, which is structural. A consumer that keeps it open sets
+    --lily-fixed-bar-block-start or --lily-fixed-bar-block-end, so a focused control is not hidden behind it.
+
+    Parameters:
+        Label, DismissLabel — string, required. aria-label of the aside and of the button.
+        Open — bool, default true. The consumer owns it.
+        Position — "top" or "bottom", default "bottom". Rendered as data-position.
+        OnDismiss — EventCallback<MouseEventArgs>. The button exists only with a handler.
+        ChildContent, CssClass, AdditionalAttributes (spread onto the aside).
 *@
 
-<aside class="@($"sticky-promo-banner {CssClass}".Trim())" role="complementary" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</aside>
+<aside class="@($"sticky-promo-banner {CssClass}".Trim())" role="complementary" aria-label="@Label" data-position="@Position" hidden="@(!Open)" style="@($"position: fixed; left: 0; right: 0; {(Position == "top" ? "top" : "bottom")}: 0;")" @attributes="AdditionalAttributes">
+    <div class="sticky-promo-banner-content">@ChildContent</div>
+    @if (OnDismiss.HasDelegate)
+    {
+        <button type="button" class="sticky-promo-banner-dismiss" aria-label="@DismissLabel" @onclick="OnDismiss">×</button>
+    }
+</aside>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Open { get; set; } = true;
+    [Parameter] public string Position { get; set; } = "bottom";
+    [Parameter, EditorRequired] public string DismissLabel { get; set; } = "";
+    [Parameter] public EventCallback<MouseEventArgs> OnDismiss { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

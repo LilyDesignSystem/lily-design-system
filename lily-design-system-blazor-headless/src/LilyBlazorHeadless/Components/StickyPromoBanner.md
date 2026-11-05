@@ -4,17 +4,18 @@ A fixed-position promotional banner with a dismiss button.
 
 See `components/sticky-promo-banner/index.md` for canonical documentation.
 
+Fixed by an inline style, which is structural. Set `--lily-fixed-bar-block-start` or `--lily-fixed-bar-block-end` while it is open, so a focused control is not hidden behind it.
+
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `sticky-promo-banner`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`, `DismissLabel`: string (required)
+- `Open`: bool, default true — the consumer owns it
+- `Position`: `top` or `bottom`, rendered as `data-position`
+- `OnDismiss`: EventCallback<MouseEventArgs> — the button exists only with a handler
+- `ChildContent`, `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<StickyPromoBanner Label="...">
-    Content
-</StickyPromoBanner>
+<StickyPromoBanner Label="Offer" DismissLabel="Dismiss" Open="open" OnDismiss="@(() => open = false)">...</StickyPromoBanner>
 ```
