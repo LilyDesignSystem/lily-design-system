@@ -9,8 +9,8 @@
   "interactive": false,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`role=\"region\"` -- identifies the accordion as a landmark region",
-    "`aria-label` -- provides an accessible name for the region, allowing screen readers to announce it"
+    "Native `<nav>` -- identifies the accordion as a navigation landmark; a `role` here would replace that",
+    "`aria-label` -- provides an accessible name for the landmark, allowing screen readers to announce it"
   ],
   "keyboard": [
     "No keyboard interactions — this is a passive element"
