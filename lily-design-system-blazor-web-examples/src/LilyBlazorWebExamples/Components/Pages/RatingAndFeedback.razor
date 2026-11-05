@@ -41,25 +41,14 @@ else
 
         <section class="section">
             <h2>Recommendation</h2>
-            <NetPromoterScorePicker Label="Recommendation likelihood">
-                @for (var i = 0; i <= 10; i++)
-                {
-                    var n = i;
-                    <Label>
-                        <RadioInput id="@($"nps-{n}")" Label="@n.ToString()" name="nps" value="@n.ToString()"
-                                    checked="@(nps == n.ToString())" @onchange="@(() => nps = n.ToString())" />
-                        @n
-                    </Label>
-                }
-            </NetPromoterScorePicker>
+            <NetPromoterScorePicker Label="Recommendation likelihood" @bind-Value="nps" />
         </section>
 
         <Separator />
 
         <section class="section">
             <h2>Additional Comments</h2>
-            <Field Label="Comments">
-                <Label For="comment">Comments</Label>
+            <Field Label="Comments" InputId="comment">
                 <TextAreaInput id="comment" Label="Comments"
                                @bind-Value="comment"
                                rows="4" />
@@ -76,7 +65,7 @@ else
 
     private int stars;
     private int satisfaction;
-    private string? nps;
+    private string nps = "";
     private string comment = "";
     private bool submitted;
 

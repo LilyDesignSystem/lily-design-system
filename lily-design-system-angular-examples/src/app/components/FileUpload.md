@@ -5,10 +5,12 @@ a drag-and-drop area for uploading files
 This is the Angular headless implementation. See `components/file-upload/index.md`
 in the canonical repo root for the cross-framework documentation.
 
+The status is the consumer's words, from `selectedLabel`.
+
 ## Selector
 
 ```html
-<lily-file-upload></lily-file-upload>
+<lily-file-upload label="Choose files" [multiple]="true" [selectedLabel]="chosen" (filesChange)="add($event)" />
 ```
 
 ## Files

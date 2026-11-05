@@ -29,7 +29,7 @@ Why none has met them: the [screen-reader matrix](https://github.com/LilyDesignS
 | Candidate | Keyboard and ARIA tests | End-to-end browsers | Screen-reader row | Core |
 | --- | --- | --- | --- | --- |
 | [form](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#form) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
-| [field](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#field) | 5 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
+| [field](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#field) | 7 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [label](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#label) | 1 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
 | [hint](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#hint) | 1 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |
 | [error-message](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#error-message) | 1 of 8 libraries | Chromium, Firefox, WebKit | no row yet | no |

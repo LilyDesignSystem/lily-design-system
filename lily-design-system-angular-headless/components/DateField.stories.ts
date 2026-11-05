@@ -10,4 +10,4 @@ const meta: Meta<DateField> = {
 export default meta;
 type Story = StoryObj<DateField>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { label: "Birthday" } };

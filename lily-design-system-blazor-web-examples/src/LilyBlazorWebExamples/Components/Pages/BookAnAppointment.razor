@@ -115,8 +115,7 @@ else if (step == 1)
 
         @if (reason == "other")
         {
-            <Field Label="Tell us more" data-required="true">
-                <Label For="reason-other-detail">Tell us more about the reason for your appointment</Label>
+            <Field Label="Tell us more" data-required="true" InputId="reason-other-detail">
                 <TextAreaInput id="reason-other-detail" Label="Tell us more about the reason for your appointment"
                                @bind-Value="reasonOther"
                                rows="4" maxlength="250" required />
@@ -141,8 +140,7 @@ else if (step == 2)
         <Fieldset Label="Preferred date and time">
             <legend>Preferred date and time</legend>
 
-            <Field Label="Preferred date" data-required="true">
-                <Label For="appointment-date">Preferred date</Label>
+            <Field Label="Preferred date" data-required="true" InputId="appointment-date">
                 <Hint id="appointment-date-hint">We will try to match your preference, but availability may vary.</Hint>
                 <DateInput id="appointment-date" Label="Preferred date"
                            @bind-Value="appointmentDate"
@@ -153,8 +151,7 @@ else if (step == 2)
                 }
             </Field>
 
-            <Field Label="Preferred time of day" data-required="true">
-                <Label For="appointment-time">Preferred time of day</Label>
+            <Field Label="Preferred time of day" data-required="true" InputId="appointment-time">
                 <Select id="appointment-time" Label="Preferred time of day"
                         @bind-Value="appointmentTime"
                         required>
@@ -182,8 +179,7 @@ else if (step == 3)
     <h2 id="step-heading" tabindex="-1">Your details</h2>
 
     <Form Label="Your details" novalidate @onsubmit="@(() => GoNext(ValidateDetails, 4))">
-        <Field Label="Full name" data-required="true">
-            <Label For="full-name">Full name</Label>
+        <Field Label="Full name" data-required="true" InputId="full-name">
             <TextInput id="full-name" Label="Full name"
                        @bind-Value="fullName"
                        required />
@@ -193,8 +189,7 @@ else if (step == 3)
             }
         </Field>
 
-        <Field Label="Email address" data-required="true">
-            <Label For="email">Email address</Label>
+        <Field Label="Email address" data-required="true" InputId="email">
             <Hint id="email-hint">We will use this to send your confirmation.</Hint>
             <EmailInput id="email" Label="Email address"
                         @bind-Value="email"
@@ -205,8 +200,7 @@ else if (step == 3)
             }
         </Field>
 
-        <Field Label="Phone number">
-            <Label For="phone">Phone number</Label>
+        <Field Label="Phone number" InputId="phone">
             <Hint id="phone-hint">Optional — only needed if we must contact you about a change.</Hint>
             <TelInput id="phone" Label="Phone number"
                       @bind-Value="phone"

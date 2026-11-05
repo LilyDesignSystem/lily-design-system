@@ -4,17 +4,16 @@ A picker for selecting a five-level color status.
 
 See `components/red-orange-yellow-green-blue-picker/index.md` for canonical documentation.
 
+A native `<select>` in the contract's `<div>`. The option names are the consumer's, and an empty `Value` shows no status.
+
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `red-orange-yellow-green-blue-picker`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`, `RedLabel`, `OrangeLabel`, `YellowLabel`, `GreenLabel`, `BlueLabel`: string (required)
+- `Value`, `ValueChanged`: two-way with `@bind-Value`
+- `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<RedOrangeYellowGreenBluePicker Label="...">
-    Content
-</RedOrangeYellowGreenBluePicker>
+<RedOrangeYellowGreenBluePicker Label="Rating" RedLabel="Red" OrangeLabel="Orange" YellowLabel="Yellow" GreenLabel="Green" BlueLabel="Blue" @bind-Value="rating" />
 ```

@@ -23,7 +23,6 @@ public class ValueBindingTests : TestContext
         ["ToolCallInput"] = "displays a tool's input",
         ["CheckboxInput"] = "binds Checked",
         ["DateTimeNowInput"] = "binds DateValue and TimeValue",
-        ["TextInputWithSearch"] = "P23-T16 stage 4",
     };
 
     public static IEnumerable<object[]> InputTypes() => typeof(ValueInputBase).Assembly.GetTypes()
@@ -33,7 +32,7 @@ public class ValueBindingTests : TestContext
 
     public static IEnumerable<object[]> TextInputs() => typeof(ValueInputBase).Assembly.GetTypes()
         .Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(ValueInputBase)))
-        .Where(t => !new[] { "ColorInput", "DateInput", "DateTimeLocalInput", "MonthInput", "Select", "TextAreaInput", "ThemeSelect", "TimeInput", "WeekInput" }.Contains(t.Name))
+        .Where(t => !new[] { "ColorInput", "DateField", "DateInput", "DateTimeLocalInput", "MonthInput", "NetPromoterScorePicker", "RedAmberGreenPicker", "RedOrangeYellowGreenBluePicker", "Select", "SelectWithExtras", "TextAreaInput", "TextAreaInputWithCharacterCounter", "ThemeSelect", "TimeInput", "WeekInput" }.Contains(t.Name))
         .Select(t => new object[] { t });
 
     [Theory]

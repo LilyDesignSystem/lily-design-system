@@ -1,0 +1,67 @@
+@page "/demos/composed-inputs"
+<PageTitle>Composed inputs — Lily Blazor examples</PageTitle>
+
+@*
+    Inputs made of several parts, driven by e2e/composed-inputs.spec.ts.
+*@
+
+<h1>Composed inputs</h1>
+
+<form data-testid="search-form" @onsubmit="@(() => _submits++)" @onsubmit:preventDefault>
+    <TextInputWithSearch Label="Site" InputLabel="Terms" SearchLabel="Search" @bind-Value="_terms" OnSearch="@(v => _searched = v)" data-testid="search" />
+    <button type="submit">Send</button>
+</form>
+<p data-testid="search-state">Searched: @_searched, submits: @_submits</p>
+
+<PasswordInputOrTextInputDiv Label="Password" ToggleLabel="Show password" @bind-Value="_password" data-testid="password" />
+<p data-testid="password-state">Password: @_password</p>
+
+<TextAreaInputWithCharacterCounter Label="Notes" MaxLength="10" CounterTemplate="{count} of {max}" @bind-Value="_notes" data-testid="notes" />
+
+<InputWithMask Label="Phone" Mask="___-____" @bind-Value="_phone" data-testid="mask" />
+<p data-testid="mask-state">Phone: @_phone</p>
+
+<SelectWithExtras Label="Colour" @bind-Value="_colour" data-testid="extras">
+    <Before><span>Before</span></Before>
+    <After><span>After</span></After>
+    <ChildContent>
+        <option value="">Choose</option>
+        <option value="red">Red</option>
+    </ChildContent>
+</SelectWithExtras>
+<p data-testid="extras-state">Colour: @_colour</p>
+
+<DateField Label="Birthday" Description="Your date of birth" Error="@(_date == "" ? "Enter a date" : null)" @bind-Value="_date" data-testid="date" />
+<p data-testid="date-state">Date: @_date</p>
+
+<Field Label="Town" InputId="town" Required="true" Description="Where you live" Error="Enter a town" data-testid="field">
+    <TextInput id="town" Label="Town" />
+</Field>
+
+<FileUpload Label="Choose files" Multiple="true" SelectedLabel="@(count => $"Chosen: {count}")" data-testid="upload" />
+
+<NetPromoterScorePicker Label="Score" @bind-Value="_score" data-testid="nps" />
+<p data-testid="nps-state">Score: @_score</p>
+
+<RedAmberGreenPicker Label="Status" RedLabel="Red" AmberLabel="Amber" GreenLabel="Green" @bind-Value="_rag" data-testid="rag" />
+<p data-testid="rag-state">Status: @_rag</p>
+
+<RedOrangeYellowGreenBluePicker Label="Rating" RedLabel="Red" OrangeLabel="Orange" YellowLabel="Yellow" GreenLabel="Green" BlueLabel="Blue" @bind-Value="_roygb" data-testid="roygb" />
+<p data-testid="roygb-state">Rating: @_roygb</p>
+
+<TaskList Label="Tasks">
+    <TaskListItem Label="Write" @bind-Checked="_task" data-testid="task" />
+</TaskList>
+<p data-testid="task-state">Task: @_task</p>
+
+<TourList Label="Tour" Active="true">
+    <TourListItem Label="One" Current="@(_step == 1)" data-testid="step-1"><p>First step</p></TourListItem>
+    <TourListItem Label="Two" Current="@(_step == 2)" data-testid="step-2"><p>Second step</p></TourListItem>
+</TourList>
+<button type="button" data-testid="next" @onclick="@(() => _step = 2)">Next</button>
+
+@code {
+    private string _terms = "", _searched = "", _password = "", _notes = "", _phone = "", _colour = "", _date = "", _score = "", _rag = "", _roygb = "";
+    private int _submits, _step = 1;
+    private bool _task;
+}

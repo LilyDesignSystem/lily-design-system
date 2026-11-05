@@ -2,14 +2,43 @@
 
 @*
     Field component
-    a form field wrapper with label, input, and error message
+    a form field wrapper with a label, description and error
+
+    Give the control the same id as InputId, so the label names it. The control's aria-describedby is the consumer's:
+    it can point at "{InputId}-desc" and "{InputId}-error".
+
+    Parameters:
+        Label — string, required. The visible label.
+        Description, Error — string, optional.
+        Required — bool. Adds a hidden asterisk and data-required.
+        InputId — string, optional. The id of the control inside.
+        ChildContent, CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"field {CssClass}".Trim())" role="alert" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"field {CssClass}".Trim())" data-required="@(Required ? "true" : null)" @attributes="AdditionalAttributes">
+    <label for="@FieldId">@Label@if (Required) {<span aria-hidden="true"> *</span>}</label>
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <p id="@($"{FieldId}-desc")">@Description</p>
+    }
+    @ChildContent
+    @if (!string.IsNullOrEmpty(Error))
+    {
+        <p id="@($"{FieldId}-error")" role="alert">@Error</p>
+    }
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public string? Error { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public string? InputId { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _generatedId = $"field-{Guid.NewGuid():N}";
+
+    private string FieldId => InputId ?? _generatedId;
 }

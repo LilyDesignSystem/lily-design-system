@@ -21,7 +21,7 @@ A candidate enters Core only when all three hold:
 | (c) screen-reader row filled, six combinations | 0 of 40 |
 | All three (Core) | 0 of 40 |
 
-Per library, candidates meeting (a): Svelte 15, React 15, Vue 15, Angular 13, HTML 23, Web Components 20, Nunjucks 15, Blazor 11.
+Per library, candidates meeting (a): Svelte 15, React 15, Vue 15, Angular 14, HTML 23, Web Components 20, Nunjucks 15, Blazor 12.
 
 Browsers any e2e app runs: Chromium, Firefox, WebKit. Screen-reader matrix cells with any result: 0 of 120. Candidates with a matrix row: 23 of 40.
 
@@ -30,7 +30,7 @@ Browsers any e2e app runs: Chromium, Firefox, WebKit. Screen-reader matrix cells
 | Candidate | Group | (a) libraries met | (b) browsers | (c) cells filled | Core |
 | --- | --- | --- | --- | --- | --- |
 | [form](#form) | form family | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 11) | no |
-| [field](#field) | form family | 5 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 11) | no |
+| [field](#field) | form family | 7 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 11) | no |
 | [label](#label) | form family | 1 of 8 | Chromium, Firefox, WebKit | no row | no |
 | [hint](#hint) | form family | 1 of 8 | Chromium, Firefox, WebKit | no row | no |
 | [error-message](#error-message) | form family | 1 of 8 | Chromium, Firefox, WebKit | no row | no |
@@ -99,15 +99,15 @@ Catalog component; keyboard contract: none declared in AGENTS.md.
 
 Catalog component; keyboard contract: none declared in AGENTS.md.
 
-- (a) not met, 5 of 8 libraries:
+- (a) not met, 7 of 8 libraries:
   - Svelte: met. [lily-design-system-svelte-headless/components/Field/Field.test.ts](../lily-design-system-svelte-headless/components/Field/Field.test.ts)
   - React: met. [lily-design-system-react-headless/components/Field.test.tsx](../lily-design-system-react-headless/components/Field.test.tsx)
   - Vue: met. [lily-design-system-vue-headless/components/Field.test.ts](../lily-design-system-vue-headless/components/Field.test.ts)
-  - Angular: no ARIA assertion. [lily-design-system-angular-headless/components/Field.spec.ts](../lily-design-system-angular-headless/components/Field.spec.ts)
+  - Angular: met. [lily-design-system-angular-headless/components/Field.spec.ts](../lily-design-system-angular-headless/components/Field.spec.ts)
   - HTML: met. [lily-design-system-html-headless/components/field.test.js](../lily-design-system-html-headless/components/field.test.js)
   - Web Components: met. [lily-design-system-web-components-headless/components/field.test.ts](../lily-design-system-web-components-headless/components/field.test.ts)
   - Nunjucks: no ARIA assertion. [lily-design-system-nunjucks-headless/components/field/macro.test.js](../lily-design-system-nunjucks-headless/components/field/macro.test.js)
-  - Blazor: no ARIA assertion. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/FieldTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/FieldTests.cs)
+  - Blazor: met. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/FieldTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/FieldTests.cs)
 - (b) met; browsers: Chromium, Firefox, WebKit; 7 covering spec(s):
   - [lily-design-system-svelte-sveltekit-examples/e2e/components/field.spec.ts](../lily-design-system-svelte-sveltekit-examples/e2e/components/field.spec.ts) (Chromium, Firefox, WebKit)
   - [lily-design-system-react-next-examples/e2e/components/field.spec.ts](../lily-design-system-react-next-examples/e2e/components/field.spec.ts) (Chromium, Firefox, WebKit)
@@ -526,11 +526,11 @@ Catalog component; keyboard contract: keys named.
   - Svelte: no key event. [lily-design-system-svelte-headless/components/NetPromoterScorePicker/NetPromoterScorePicker.test.ts](../lily-design-system-svelte-headless/components/NetPromoterScorePicker/NetPromoterScorePicker.test.ts)
   - React: no key event. [lily-design-system-react-headless/components/NetPromoterScorePicker.test.tsx](../lily-design-system-react-headless/components/NetPromoterScorePicker.test.tsx)
   - Vue: no key event. [lily-design-system-vue-headless/components/NetPromoterScorePicker.test.ts](../lily-design-system-vue-headless/components/NetPromoterScorePicker.test.ts)
-  - Angular: no key event, no ARIA assertion. [lily-design-system-angular-headless/components/NetPromoterScorePicker.spec.ts](../lily-design-system-angular-headless/components/NetPromoterScorePicker.spec.ts)
+  - Angular: no key event. [lily-design-system-angular-headless/components/NetPromoterScorePicker.spec.ts](../lily-design-system-angular-headless/components/NetPromoterScorePicker.spec.ts)
   - HTML: no key event. [lily-design-system-html-headless/components/net-promoter-score-picker.test.js](../lily-design-system-html-headless/components/net-promoter-score-picker.test.js)
   - Web Components: no key event. [lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts](../lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts)
   - Nunjucks: no key event. [lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js](../lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js)
-  - Blazor: no key event, no ARIA assertion. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScorePickerTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScorePickerTests.cs)
+  - Blazor: no key event. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScorePickerTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScorePickerTests.cs)
 - (b) met; browsers: Chromium, Firefox, WebKit; 7 covering spec(s):
   - [lily-design-system-svelte-sveltekit-examples/e2e/components/net-promoter-score-picker.spec.ts](../lily-design-system-svelte-sveltekit-examples/e2e/components/net-promoter-score-picker.spec.ts) (Chromium, Firefox, WebKit)
   - [lily-design-system-react-next-examples/e2e/components/net-promoter-score-picker.spec.ts](../lily-design-system-react-next-examples/e2e/components/net-promoter-score-picker.spec.ts) (Chromium, Firefox, WebKit)

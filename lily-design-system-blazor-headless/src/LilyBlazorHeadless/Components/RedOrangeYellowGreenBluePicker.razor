@@ -1,15 +1,36 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     RedOrangeYellowGreenBluePicker component
-    a picker for selecting a five-level color status
+    a picker for a red, orange, yellow, green or blue status
+
+    A native <select> in the contract's <div>, as RedAmberGreenPicker. The option names are the consumer's.
+
+    Parameters:
+        Label, RedLabel, OrangeLabel, YellowLabel, GreenLabel, BlueLabel — string, required.
+        Value / ValueChanged — "red", "orange", "yellow", "green" or "blue", two-way (@bind-Value).
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"red-orange-yellow-green-blue-picker {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"red-orange-yellow-green-blue-picker {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <select aria-label="@Label" value="@Value" @onchange="@(e => SetValueAsync(e.Value as string))">
+        <option value="" hidden></option>
+        <option value="red">@RedLabel</option>
+        <option value="orange">@OrangeLabel</option>
+        <option value="yellow">@YellowLabel</option>
+        <option value="green">@GreenLabel</option>
+        <option value="blue">@BlueLabel</option>
+    </select>
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter, EditorRequired] public string RedLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string OrangeLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string YellowLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string GreenLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string BlueLabel { get; set; } = "";
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

@@ -113,11 +113,11 @@
       "svelte": 15,
       "react": 15,
       "vue": 15,
-      "angular": 13,
+      "angular": 14,
       "html": 23,
       "web-components": 20,
       "nunjucks": 15,
-      "blazor": 11
+      "blazor": 12
     },
     "matrixRows": 23,
     "matrixCellsFilled": 0,
@@ -270,7 +270,7 @@
       "helper": false,
       "keyboard": {
         "met": false,
-        "metCount": 5,
+        "metCount": 7,
         "keyboardContract": "none",
         "libraries": {
           "svelte": {
@@ -301,13 +301,13 @@
             "ariaAssertion": "lily-design-system-vue-headless/components/Field.test.ts"
           },
           "angular": {
-            "status": "no ARIA assertion",
-            "met": false,
+            "status": "met",
+            "met": true,
             "testFiles": [
               "lily-design-system-angular-headless/components/Field.spec.ts"
             ],
             "keyEvent": "not required (AGENTS.md: no keyboard interactions)",
-            "ariaAssertion": null
+            "ariaAssertion": "lily-design-system-angular-headless/components/Field.spec.ts"
           },
           "html": {
             "status": "met",
@@ -337,13 +337,13 @@
             "ariaAssertion": null
           },
           "blazor": {
-            "status": "no ARIA assertion",
-            "met": false,
+            "status": "met",
+            "met": true,
             "testFiles": [
               "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/FieldTests.cs"
             ],
             "keyEvent": "not required (AGENTS.md: no keyboard interactions)",
-            "ariaAssertion": null
+            "ariaAssertion": "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/FieldTests.cs"
           }
         }
       },
@@ -2447,13 +2447,13 @@
             "ariaAssertion": "lily-design-system-vue-headless/components/NetPromoterScorePicker.test.ts"
           },
           "angular": {
-            "status": "no key event, no ARIA assertion",
+            "status": "no key event",
             "met": false,
             "testFiles": [
               "lily-design-system-angular-headless/components/NetPromoterScorePicker.spec.ts"
             ],
             "keyEvent": null,
-            "ariaAssertion": null
+            "ariaAssertion": "lily-design-system-angular-headless/components/NetPromoterScorePicker.spec.ts"
           },
           "html": {
             "status": "no key event",
@@ -2483,13 +2483,13 @@
             "ariaAssertion": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js"
           },
           "blazor": {
-            "status": "no key event, no ARIA assertion",
+            "status": "no key event",
             "met": false,
             "testFiles": [
               "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScorePickerTests.cs"
             ],
             "keyEvent": null,
-            "ariaAssertion": null
+            "ariaAssertion": "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScorePickerTests.cs"
           }
         }
       },

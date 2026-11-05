@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Composed inputs in Angular and Blazor — 2026-11-05
+
+- **Fixed (Angular, Blazor): 13 composed inputs were stubs that rendered no input.** `text-input-with-search`, `password-input-or-text-input-div`, `text-area-input-with-character-counter`, `input-with-mask`, `select-with-extras`, `date-field`, `net-promoter-score-picker`, `red-amber-green-picker`, `red-orange-yellow-green-blue-picker` and `task-list-item` now have their controls and two-way state. `file-upload` opens a real chooser. `tour-list-item` shows only the current step. `field` draws its label, description and error.
+- **Fixed (Blazor): `field` and `date-field` had `role="alert"` on the root**, so a whole field was announced as an alert. `file-upload` had `role="region"`. The file upload example could not add a file.
+- **Changed (Angular, Blazor), breaking:** the new required inputs are in each component's `.md`. The status pickers take their option names, `file-upload` takes `selectedLabel`, `text-area-input-with-character-counter` requires `counterTemplate`, and `tour-list-item` takes `stepTemplate`, because the Svelte reference's English is not ported. Blazor's `Field` draws the label, so remove any `<Label>` inside it and pass `InputId`.
+- **Tests:** `e2e/composed-inputs.spec.ts` on `/demos/composed-inputs` in the Angular and Blazor examples, Chromium and WebKit.
+
 ## Disclosures and dismissal in Angular and Blazor — 2026-11-05
 
 - **Fixed (Angular, Blazor): 10 components were stubs.** `expander`, `collapsible`, `accordion-list-item` and `government-banner` now open and close, with two-way state. `banner` and `medical-banner` dismiss. `sticky-promo-banner` is fixed to the viewport with a dismiss button. `coachmark`, `hover-card` and `tooltip` are manual popovers shown from their state. In Blazor the example dashboard's `Dismissible` and `CloseLabel` had been rendered as plain attributes and did nothing.

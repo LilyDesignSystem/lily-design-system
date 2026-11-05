@@ -4,17 +4,17 @@ A picker for selecting a 0-10 Net Promoter Score.
 
 See `components/net-promoter-score-picker/index.md` for canonical documentation.
 
+Eleven native radios in the contract's `<div role="radiogroup">`.
+
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `net-promoter-score-picker`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`: string (required)
+- `Value`, `ValueChanged`: `0` to `10`, two-way with `@bind-Value`
+- `Name`: string, default `nps`
+- `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<NetPromoterScorePicker Label="...">
-    Content
-</NetPromoterScorePicker>
+<NetPromoterScorePicker Label="How likely are you to recommend us?" @bind-Value="score" />
 ```

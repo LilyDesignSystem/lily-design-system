@@ -1,15 +1,40 @@
 @namespace LilyBlazorHeadless.Components
+@using System.Globalization
+@inherits ValueInputBase
 
 @*
     TextAreaInputWithCharacterCounter component
-    a multi-line text area input with a caption below that is a character counter "[number] of [maximum] characters"
+    a textarea with a live character count
+
+    Parameters:
+        Label — string, required. The textarea's name.
+        MaxLength — int, required.
+        CounterTemplate — string, required. The counter's text; {count} and {max} are filled in. No default: the words
+            are the consumer's, in the consumer's language.
+        Value / ValueChanged — two-way (@bind-Value).
+        Rows — int?. Placeholder — string. Required, Disabled — bool.
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"text-area-input-with-character-counter {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"text-area-input-with-character-counter {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <textarea aria-label="@Label" aria-describedby="@_counterId" maxlength="@MaxLength" rows="@Rows" placeholder="@Placeholder" required="@Required" disabled="@Disabled" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput"></textarea>
+    <span id="@_counterId" aria-live="polite">@CounterText</span>
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter, EditorRequired] public int MaxLength { get; set; }
+    [Parameter, EditorRequired] public string CounterTemplate { get; set; } = "";
+    [Parameter] public int? Rows { get; set; }
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _counterId = $"counter-{Guid.NewGuid():N}";
+
+    private string CounterText => CounterTemplate
+        .Replace("{count}", Value.Length.ToString(CultureInfo.InvariantCulture))
+        .Replace("{max}", MaxLength.ToString(CultureInfo.InvariantCulture));
 }

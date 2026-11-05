@@ -67,7 +67,7 @@ framework's prop names:
   `OnSubmit` and `OnReset` and always prevent the default submit; `@onsubmit`
   reaches the same parameter. A lowercase `oninput` or `onchange` replaces the
   component's own handler, so use the bind.
-- **Thin wrappers do NOT bind.** `Option`, `RadioInput`, `Field`, `Fieldset`,
+- **Thin wrappers do NOT bind.** `Option`, `RadioInput`, `Fieldset`,
   `SummaryListItem`: a PascalCase `Value="..."` compiles (it lands silently in
   `AdditionalAttributes`) but does nothing. Use native lowercase HTML attributes
   (`value="@x"`, `checked="@x"`, `name="@x"`) plus a `@onchange` directive with a

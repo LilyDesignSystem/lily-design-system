@@ -6,15 +6,13 @@ See `components/task-list-item/index.md` for canonical documentation.
 
 ## Parameters
 
-- `Label`: string (optional) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `task-list-item`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`: string (required)
+- `Checked`, `CheckedChanged`: two-way with `@bind-Checked`, rendered as `data-checked`
+- `Disabled`: bool, rendered as `data-disabled`
+- `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<TaskListItem>
-    Content
-</TaskListItem>
+<TaskListItem Label="Write the spec" @bind-Checked="done" />
 ```

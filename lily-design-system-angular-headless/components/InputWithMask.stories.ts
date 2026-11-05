@@ -10,4 +10,4 @@ const meta: Meta<InputWithMask> = {
 export default meta;
 type Story = StoryObj<InputWithMask>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { label: "Phone", mask: "___-____" } };

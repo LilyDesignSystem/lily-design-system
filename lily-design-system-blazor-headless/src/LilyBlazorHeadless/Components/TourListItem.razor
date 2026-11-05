@@ -1,15 +1,37 @@
 @namespace LilyBlazorHeadless.Components
+@using System.Globalization
 
 @*
     TourListItem component
-    one step in a tour guide list
+    a step in a tour
+
+    Only the current step is shown. The step's name is the consumer's: the Svelte component's English "(Step 1 of 3)" is
+    not ported.
+
+    Parameters:
+        Label — string, required. aria-label.
+        Current — bool. Rendered as data-current; the others are hidden.
+        StepNumber, TotalSteps — int?.
+        StepTemplate — string. With both numbers, replaces Label: {label}, {step} and {total} are filled in.
+        ChildContent, CssClass, AdditionalAttributes (spread onto the li).
 *@
 
-<li class="@($"tour-list-item {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"tour-list-item {CssClass}".Trim())" role="group" aria-roledescription="step" aria-label="@FullLabel" data-current="@(Current ? "" : null)" aria-hidden="@(Current ? null : "true")" hidden="@(!Current)" @attributes="AdditionalAttributes">@ChildContent</li>
 
 @code {
-    [Parameter] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Current { get; set; }
+    [Parameter] public int? StepNumber { get; set; }
+    [Parameter] public int? TotalSteps { get; set; }
+    [Parameter] public string? StepTemplate { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string FullLabel => StepTemplate is not null && StepNumber is { } step && TotalSteps is { } total
+        ? StepTemplate
+            .Replace("{label}", Label)
+            .Replace("{step}", step.ToString(CultureInfo.InvariantCulture))
+            .Replace("{total}", total.ToString(CultureInfo.InvariantCulture))
+        : Label;
 }

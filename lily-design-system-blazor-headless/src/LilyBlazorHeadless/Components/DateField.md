@@ -6,15 +6,14 @@ See `components/date-field/index.md` for canonical documentation.
 
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `date-field`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`: string (required)
+- `Value`, `ValueChanged`: `YYYY-MM-DD`, two-way with `@bind-Value`
+- `Description`, `Error`: string; `Required`, `Disabled`: bool
+- `Id`: string — the input's id
+- `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<DateField Label="...">
-    Content
-</DateField>
+<DateField Label="Birthday" Error="@error" @bind-Value="birthday" />
 ```

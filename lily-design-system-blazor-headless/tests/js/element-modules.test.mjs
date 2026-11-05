@@ -127,3 +127,37 @@ test("Details: a reader who opened it before the module loaded is reported", () 
     details.attach(node, dotnet, false);
     assert.deepEqual(dotnet.calls, [["OnDetailsToggle", true]]);
 });
+
+const search = await import(`${modules}TextInputWithSearch.razor.js`);
+const upload = await import(`${modules}FileUpload.razor.js`);
+
+test("TextInputWithSearch: Enter searches with the field's text and never submits", () => {
+    const input = field("lily");
+    const dotnet = recorder();
+    search.attach(input, dotnet);
+    assert.equal(press(input, "Enter").defaultPrevented, true);
+    input.value = "";
+    assert.equal(press(input, "Enter").defaultPrevented, true);
+    assert.deepEqual(dotnet.calls, [
+        ["OnEnter", "lily"],
+        ["OnEnter", ""],
+    ]);
+});
+
+test("TextInputWithSearch: Enter that confirms an IME composition does nothing", () => {
+    const input = field("にほん");
+    const dotnet = recorder();
+    search.attach(input, dotnet);
+    assert.equal(press(input, "Enter", { isComposing: true }).defaultPrevented, false);
+    assert.deepEqual(dotnet.calls, []);
+});
+
+test("FileUpload: the button clicks the input until disposed", () => {
+    const button = document.createElement("button");
+    let clicks = 0;
+    const handle = upload.attach(button, { click: () => clicks++ });
+    button.click();
+    handle.dispose();
+    button.click();
+    assert.equal(clicks, 1);
+});

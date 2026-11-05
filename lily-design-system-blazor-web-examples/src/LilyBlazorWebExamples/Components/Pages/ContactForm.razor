@@ -26,8 +26,7 @@ else
             </ErrorSummary>
         }
 
-        <Field Label="Full name" data-required="true">
-            <Label For="name">Full name</Label>
+        <Field Label="Full name" data-required="true" InputId="name">
             <TextInput id="name" Label="Full name"
                        @bind-Value="data.Name"
                        required />
@@ -37,8 +36,7 @@ else
             }
         </Field>
 
-        <Field Label="Email address" data-required="true">
-            <Label For="email">Email address</Label>
+        <Field Label="Email address" data-required="true" InputId="email">
             <EmailInput id="email" Label="Email address"
                         @bind-Value="data.Email"
                         required />
@@ -48,8 +46,7 @@ else
             }
         </Field>
 
-        <Field Label="Subject">
-            <Label For="subject">Subject</Label>
+        <Field Label="Subject" InputId="subject">
             <Select id="subject" Label="Subject"
                     @bind-Value="data.Subject">
                 <Option value="general">General enquiry</Option>
@@ -59,8 +56,7 @@ else
             </Select>
         </Field>
 
-        <Field Label="Message" data-required="true">
-            <Label For="message">Message</Label>
+        <Field Label="Message" data-required="true" InputId="message">
             <TextAreaInput id="message" Label="Message"
                            @bind-Value="data.Message"
                            rows="5" required />

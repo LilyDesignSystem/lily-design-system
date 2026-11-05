@@ -10,4 +10,4 @@ const meta: Meta<PasswordInputOrTextInputDiv> = {
 export default meta;
 type Story = StoryObj<PasswordInputOrTextInputDiv>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { label: "Password", toggleLabel: "Show" } };

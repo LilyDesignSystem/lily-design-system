@@ -1,15 +1,65 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@inherits ValueInputBase
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 @*
     TextInputWithSearch component
-    a single-line text input field <input type="text"> with search capability
+    a text input with a search button
+
+    A search landmark with a field and a button. Enter in the field searches instead of submitting a surrounding form;
+    C# cannot prevent a default per key, so that is in TextInputWithSearch.razor.js.
+
+    Parameters:
+        Label, InputLabel, SearchLabel — string, required. The landmark's, the field's and the button's names.
+        Value / ValueChanged — two-way (@bind-Value).
+        Placeholder — string. Required, Disabled — bool.
+        OnSearch — EventCallback<string>. The field's text.
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"text-input-with-search {CssClass}".Trim())" role="search" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"text-input-with-search {CssClass}".Trim())" role="search" aria-label="@Label" @attributes="AdditionalAttributes">
+    <input type="text" aria-label="@InputLabel" placeholder="@Placeholder" required="@Required" disabled="@Disabled" @ref="_field" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" />
+    <button type="button" aria-label="@SearchLabel" disabled="@Disabled" @onclick="@(() => OnSearch.InvokeAsync(Value))">@SearchLabel</button>
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter, EditorRequired] public string InputLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string SearchLabel { get; set; } = "";
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public EventCallback<string> OnSearch { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>Module path, relative to the app base (static web asset of this library).</summary>
+    public const string ModulePath = "./_content/LilyDesignSystem.Blazor.Headless/Components/TextInputWithSearch.razor.js";
+
+    private ElementReference _field;
+    private ElementModule? _module;
+    private DotNetObjectReference<TextInputWithSearch>? _self;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+        _self = DotNetObjectReference.Create(this);
+        _module = await ElementModule.AttachAsync(JS, ModulePath, _field, _self);
+    }
+
+    /// <summary>Called from JS: Enter in the field, with its text.</summary>
+    [JSInvokable]
+    public async Task OnEnter(string value)
+    {
+        await SetValueAsync(value);
+        await OnSearch.InvokeAsync(value);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null) await _module.DisposeAsync();
+        _self?.Dispose();
+    }
 }

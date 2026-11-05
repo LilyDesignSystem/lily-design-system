@@ -31,8 +31,8 @@ Add a ProjectReference to the library:
 @using LilyBlazorHeadless.Components
 
 <Form Label="Contact" OnSubmit="HandleSubmit">
-    <Field Label="Name" Required="true" Error="@GetError("name")">
-        <TextInput Label="Name" Value="@name" ValueChanged="v => name = v" Required="true" />
+    <Field Label="Name" InputId="name" Required="true" Error="@GetError("name")">
+        <TextInput id="name" Label="Name" @bind-Value="name" required />
     </Field>
     <Button Type="submit">Submit</Button>
 </Form>

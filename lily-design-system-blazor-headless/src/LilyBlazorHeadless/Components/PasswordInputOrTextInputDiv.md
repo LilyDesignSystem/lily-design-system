@@ -6,15 +6,13 @@ See `components/password-input-or-text-input-div/index.md` for canonical documen
 
 ## Parameters
 
-- `Label`: string (required) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `password-input-or-text-input-div`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`, `ToggleLabel`: string (required)
+- `Value`, `ValueChanged`: two-way with `@bind-Value`
+- `ShowToggle`: bool, default true; `Required`, `Disabled`: bool
+- `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<PasswordInputOrTextInputDiv Label="...">
-    Content
-</PasswordInputOrTextInputDiv>
+<PasswordInputOrTextInputDiv Label="Password" ToggleLabel="Show password" @bind-Value="password" />
 ```

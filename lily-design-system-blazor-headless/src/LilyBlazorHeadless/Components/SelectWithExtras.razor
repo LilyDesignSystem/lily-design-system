@@ -1,15 +1,31 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     SelectWithExtras component
-    a select dropdown with additional features like search or groups
+    a select with content before and after it
+
+    Parameters:
+        Label — string, required. aria-label of the select.
+        Value / ValueChanged — two-way (@bind-Value). Empty leaves the browser's own choice, as in Select.
+        Required, Disabled — bool.
+        ChildContent — the options. Before, After — RenderFragment.
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"select-with-extras {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"select-with-extras {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    @Before
+    <select aria-label="@Label" required="@Required" disabled="@Disabled" value="@(Value == "" ? null : Value)" @onchange="@(e => SetValueAsync(e.Value as string))">@ChildContent</select>
+    @After
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public RenderFragment? Before { get; set; }
+    [Parameter] public RenderFragment? After { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

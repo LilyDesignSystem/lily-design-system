@@ -1,15 +1,46 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     DateField component
-    a structured field for entering date components
+    a labelled date input with a description and an error
+
+    Parameters:
+        Label — string, required. The visible label.
+        Value / ValueChanged — "YYYY-MM-DD", two-way (@bind-Value).
+        Description, Error — string, optional. Required, Disabled — bool.
+        Id — string, optional. The input's id.
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"date-field {CssClass}".Trim())" role="alert" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"date-field {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <label for="@InputId">@Label</label>
+    <input class="date-input" id="@InputId" type="@("date")" required="@Required" disabled="@Disabled"
+           aria-describedby="@(string.IsNullOrEmpty(Description) ? null : $"{InputId}-desc")"
+           aria-invalid="@(string.IsNullOrEmpty(Error) ? null : "true")"
+           aria-errormessage="@(string.IsNullOrEmpty(Error) ? null : $"{InputId}-error")"
+           @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" />
+    @if (!string.IsNullOrEmpty(Description))
+    {
+        <p id="@($"{InputId}-desc")">@Description</p>
+    }
+    @if (!string.IsNullOrEmpty(Error))
+    {
+        <p id="@($"{InputId}-error")" role="alert">@Error</p>
+    }
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Description { get; set; }
+    [Parameter] public string? Error { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Id { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _generatedId = $"date-field-{Guid.NewGuid():N}";
+
+    private string InputId => Id ?? _generatedId;
 }

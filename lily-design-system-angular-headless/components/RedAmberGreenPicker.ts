@@ -1,31 +1,51 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    input,
     ElementRef,
-    OnInit,
     inject,
+    input,
+    model,
+    OnInit,
 } from "@angular/core";
+import { restoreOnFormReset } from "./form-reset";
 import { warnMissingName } from "./dev-warning";
 
 /**
  * RedAmberGreenPicker — a picker for selecting a red/amber/green status
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `red-amber-green-picker` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * Headless Angular component: a native `<select>` in the contract's `<div>`. The option names are the consumer's: the Svelte
+ * component's English is not ported. A hidden empty option holds "nothing chosen". Ships zero CSS.
  */
 @Component({
     selector: "lily-red-amber-green-picker",
     standalone: true,
-    template: `<div class="red-amber-green-picker {{ className() }}" role="radiogroup" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="red-amber-green-picker {{ className() }}">
+        <select
+            [attr.aria-label]="label() || null"
+            [value]="value()"
+            (change)="value.set($any($event.target).value)"
+        >
+            <option value="" hidden></option>
+            <option value="red">{{ redLabel() }}</option>
+            <option value="amber">{{ amberLabel() }}</option>
+            <option value="green">{{ greenLabel() }}</option>
+        </select>
+    </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RedAmberGreenPicker implements OnInit {
     private readonly lilyHost = inject(ElementRef);
 
     readonly label = input<string>("");
+    readonly redLabel = input.required<string>();
+    readonly amberLabel = input.required<string>();
+    readonly greenLabel = input.required<string>();
+    readonly value = model<string>("");
     readonly className = input<string>("");
+
+    constructor() {
+        restoreOnFormReset(this.value);
+    }
 
     ngOnInit(): void {
         const host: HTMLElement = this.lilyHost.nativeElement;

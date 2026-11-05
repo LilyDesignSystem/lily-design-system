@@ -10,4 +10,4 @@ const meta: Meta<TextAreaInputWithCharacterCounter> = {
 export default meta;
 type Story = StoryObj<TextAreaInputWithCharacterCounter>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { label: "Notes", maxLength: 100, counterTemplate: "{count} of {max}" } };

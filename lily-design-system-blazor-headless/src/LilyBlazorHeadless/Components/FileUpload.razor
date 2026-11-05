@@ -1,15 +1,60 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 @*
     FileUpload component
-    a drag-and-drop area for uploading files
+    a button that opens the file chooser
+
+    The button clicks a hidden file input, through FileUpload.razor.js. The status is the consumer's words: the Svelte
+    component's English "files selected" is not ported.
+
+    Parameters:
+        Label — string, required. The button's text and name.
+        Accept — string. Multiple, Disabled — bool.
+        SelectedLabel — Func<int, string>. The status for a count of files; plural forms are the consumer's.
+        OnChange — EventCallback<InputFileChangeEventArgs>.
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"file-upload {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"file-upload {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <button type="button" aria-label="@Label" disabled="@Disabled" @ref="_button">@Label</button>
+    <InputFile @ref="_input" accept="@Accept" multiple="@Multiple" hidden OnChange="ChangedAsync" />
+    <span aria-live="polite" data-file-count="@_fileCount">@(_fileCount > 0 ? SelectedLabel?.Invoke(_fileCount) : null)</span>
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string? Accept { get; set; }
+    [Parameter] public bool Multiple { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public Func<int, string>? SelectedLabel { get; set; }
+    [Parameter] public EventCallback<InputFileChangeEventArgs> OnChange { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    /// <summary>Module path, relative to the app base (static web asset of this library).</summary>
+    public const string ModulePath = "./_content/LilyDesignSystem.Blazor.Headless/Components/FileUpload.razor.js";
+
+    private ElementReference _button;
+    private InputFile? _input;
+    private ElementModule? _module;
+    private int _fileCount;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) _module = await ElementModule.AttachAsync(JS, ModulePath, _button, _input!.Element);
+    }
+
+    private async Task ChangedAsync(InputFileChangeEventArgs args)
+    {
+        _fileCount = args.FileCount;
+        await OnChange.InvokeAsync(args);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null) await _module.DisposeAsync();
+    }
 }

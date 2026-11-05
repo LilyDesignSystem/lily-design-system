@@ -115,8 +115,7 @@
 
     <h2>نموذج التواصل</h2>
     <Form Label="نموذج التواصل" @onsubmit="@(() => { })">
-        <Field Label="الاسم الكامل">
-            <Label For="rtl-full-name">الاسم الكامل</Label>
+        <Field Label="الاسم الكامل" InputId="rtl-full-name">
             <TextInput id="rtl-full-name" Label="الاسم الكامل"
                        @bind-Value="fullName" />
         </Field>

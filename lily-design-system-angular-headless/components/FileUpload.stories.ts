@@ -10,4 +10,4 @@ const meta: Meta<FileUpload> = {
 export default meta;
 type Story = StoryObj<FileUpload>;
 
-export const Default: Story = {};
+export const Default: Story = { args: { label: "Choose" } };

@@ -1,15 +1,30 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     InputWithMask component
-    an input displaying a format mask placeholder for the user to fill in
+    an input showing a format mask
+
+    The mask is shown, and exposed as data-mask; the component does not change what is typed. Format the value in
+    ValueChanged.
+
+    Parameters:
+        Label, Mask — string, required.
+        Value / ValueChanged — two-way (@bind-Value).
+        Placeholder — string. Disabled — bool.
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"input-with-mask {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"input-with-mask {CssClass}".Trim())" data-mask="@Mask" @attributes="AdditionalAttributes">
+    <span class="input-with-mask-display" aria-hidden="true">@Mask</span>
+    <input class="input-with-mask-control" type="text" aria-label="@Label" placeholder="@Placeholder" disabled="@Disabled" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" />
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter, EditorRequired] public string Mask { get; set; } = "";
+    [Parameter] public string? Placeholder { get; set; }
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

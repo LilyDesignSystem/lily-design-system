@@ -1,15 +1,34 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     RedAmberGreenPicker component
-    a picker for selecting a red/amber/green status
+    a picker for a red, amber or green status
+
+    A native <select> in the contract's <div>, so the browser supplies the keys. The option names are the consumer's: the
+    Svelte component's English is not ported. A hidden empty option holds "nothing chosen", so an empty Value is not
+    shown as red.
+
+    Parameters:
+        Label, RedLabel, AmberLabel, GreenLabel — string, required.
+        Value / ValueChanged — "red", "amber" or "green", two-way (@bind-Value).
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"red-amber-green-picker {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"red-amber-green-picker {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <select aria-label="@Label" value="@Value" @onchange="@(e => SetValueAsync(e.Value as string))">
+        <option value="" hidden></option>
+        <option value="red">@RedLabel</option>
+        <option value="amber">@AmberLabel</option>
+        <option value="green">@GreenLabel</option>
+    </select>
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter, EditorRequired] public string RedLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string AmberLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string GreenLabel { get; set; } = "";
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

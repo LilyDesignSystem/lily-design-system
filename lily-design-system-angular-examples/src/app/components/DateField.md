@@ -8,7 +8,7 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-date-field></lily-date-field>
+<lily-date-field label="Birthday" [error]="error()" [(value)]="birthday" />
 ```
 
 ## Files

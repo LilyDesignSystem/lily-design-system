@@ -8,7 +8,7 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-text-input-with-search></lily-text-input-with-search>
+<lily-text-input-with-search label="Site" inputLabel="Terms" searchLabel="Search" [(value)]="terms" (search)="find($event)" />
 ```
 
 ## Files

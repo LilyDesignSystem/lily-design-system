@@ -8,7 +8,7 @@ in the canonical repo root for the cross-framework documentation.
 ## Selector
 
 ```html
-<lily-input-with-mask></lily-input-with-mask>
+<lily-input-with-mask label="Phone" mask="___-____" [(value)]="phone" />
 ```
 
 ## Files

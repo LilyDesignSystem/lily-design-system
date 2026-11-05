@@ -1,15 +1,33 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     NetPromoterScorePicker component
-    a picker for selecting a 0-10 Net Promoter Score
+    a picker for a score from 0 to 10
+
+    Eleven native radios in the contract's <div role="radiogroup">, so the browser supplies the arrow keys.
+
+    Parameters:
+        Label — string, required. aria-label of the group.
+        Value / ValueChanged — "0" to "10", two-way (@bind-Value).
+        Name — string, default "nps".
+        CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"net-promoter-score-picker {CssClass}".Trim())" role="radiogroup" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"net-promoter-score-picker {CssClass}".Trim())" role="radiogroup" aria-label="@Label" @attributes="AdditionalAttributes">
+    @for (var i = 0; i <= 10; i++)
+    {
+        var score = i.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        <label>
+            <input type="radio" name="@Name" value="@score" checked="@(Value == score)" aria-label="@score" @onchange="@(() => SetValueAsync(score))" />
+            @score
+        </label>
+    }
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string Name { get; set; } = "nps";
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

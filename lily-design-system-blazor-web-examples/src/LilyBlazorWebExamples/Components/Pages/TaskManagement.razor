@@ -35,13 +35,7 @@
     @foreach (var task in VisibleTasks)
     {
         var t = task;
-        <TaskListItem Label="@t.Title">
-            <Label>
-                <CheckboxInput id="@($"task-{t.Id}")" Label="@t.Title"
-                               checked="@t.Done" @onchange="@((ChangeEventArgs e) => ToggleTask(t.Id, (bool)(e.Value ?? false)))" />
-                @t.Title
-            </Label>
-        </TaskListItem>
+        <TaskListItem Label="@t.Title" Checked="@t.Done" CheckedChanged="@(done => ToggleTask(t.Id, done))" />
     }
 </TaskList>
 

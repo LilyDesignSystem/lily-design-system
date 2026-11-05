@@ -4,17 +4,18 @@ One step in a tour guide list.
 
 See `components/tour-list-item/index.md` for canonical documentation.
 
+The step's name is the consumer's words.
+
 ## Parameters
 
-- `Label`: string (optional) — accessible label set on `aria-label`
-- `CssClass`: string — extra CSS classes appended to `tour-list-item`
-- `ChildContent`: RenderFragment — component content
-- `AdditionalAttributes`: catches unmatched HTML attributes
+- `Label`: string (required)
+- `Current`: bool — only the current step shows
+- `StepNumber`, `TotalSteps`: int?
+- `StepTemplate`: string — with both numbers, replaces `Label`; `{label}`, `{step}` and `{total}` are filled in
+- `ChildContent`, `CssClass`, `AdditionalAttributes`
 
 ## Usage
 
 ```razor
-<TourListItem>
-    Content
-</TourListItem>
+<TourListItem Label="Welcome" Current="true" StepNumber="1" TotalSteps="3" StepTemplate="{label}, step {step} of {total}">...</TourListItem>
 ```

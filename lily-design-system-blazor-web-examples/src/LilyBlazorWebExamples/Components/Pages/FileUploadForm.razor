@@ -16,7 +16,9 @@
         <FileUpload Label="Choose files"
                     Accept=".pdf,.doc,.docx,.txt"
                     Multiple="true"
-                    Disabled="@uploading" />
+                    Disabled="@uploading"
+                    SelectedLabel="@(count => count == 1 ? "1 file selected" : $"{count} files selected")"
+                    OnChange="AddFiles" />
     </Field>
 
     @if (files.Count > 0)
@@ -70,6 +72,12 @@
         if (bytes < 1024) return $"{bytes} B";
         if (bytes < 1024 * 1024) return $"{bytes / 1024.0:F1} KB";
         return $"{bytes / (1024.0 * 1024.0):F1} MB";
+    }
+
+    private void AddFiles(InputFileChangeEventArgs args)
+    {
+        files.AddRange(args.GetMultipleFiles().Select(f => new UploadedFile(f.Name, f.Size)));
+        done = false;
     }
 
     private void RemoveFile(int index)
