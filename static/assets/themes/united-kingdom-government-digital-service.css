@@ -2853,7 +2853,8 @@
        where the Popover API is missing). Where anchor positioning exists, the four that live inside a component
        open under that component's trigger or input, as wide as it at least; the five that stand alone (tooltip,
        hover card, floating panel, coachmark, popconfirm) open under the element the consumer names with
-       `position-anchor`, or the invoker of a `popovertarget`, and stay where the browser puts them without one. */
+       `position-anchor`, or the invoker of a `popovertarget`. Those five use anchor() with a fallback, not
+       position-area: with no anchor, position-area does nothing and a static position can be off screen. */
     :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"], .tooltip, .hover-card, .floating-panel, .coachmark, .popconfirm-dialog)[hidden] {
         display: none;
     }
@@ -2875,10 +2876,16 @@
             position: fixed;
             inset: auto;
             margin: 0;
-            position-area: block-end span-inline-end;
             position-try-fallbacks: flip-inline, flip-block, flip-block flip-inline;
             width: max-content;
             max-width: calc(100vw - 1rem);
+        }
+        :where(.tooltip, .hover-card, .floating-panel, .coachmark, .popconfirm-dialog)[popover] {
+            inset-block-start: anchor(end, 25%);
+            inset-inline-start: anchor(start, 25%);
+        }
+        :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"])[popover] {
+            position-area: block-end span-inline-end;
         }
         :where(.cascader-panel, .tree-select-panel, .mentions-input-suggestions, .combobox > [role="listbox"])[popover] {
             min-inline-size: anchor-size(inline);
