@@ -5,9 +5,19 @@
     a summary of all validation errors on a form
 *@
 
-<div class="@($"error-summary {CssClass}".Trim())" role="alert" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"error-summary {CssClass}".Trim())" role="alert" tabindex="-1" aria-labelledby="@(HasTitle ? _titleId : null)" aria-label="@(HasTitle ? null : Label)" @attributes="AdditionalAttributes">
+    @if (HasTitle)
+    {
+        <h2 id="@_titleId">@Title</h2>
+    }
+    @ChildContent
+</div>
 
 @code {
+    private readonly string _titleId = $"error-summary-{Guid.NewGuid():N}";
+    private bool HasTitle => !string.IsNullOrEmpty(Title);
+
+    [Parameter] public string Title { get; set; } = "";
     [Parameter] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";

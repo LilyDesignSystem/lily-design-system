@@ -63,8 +63,8 @@ _Table 1: Success Criteria, Level A — Self-assessed — not an independent aud
 | [1.3.3 Sensory Characteristics](https://www.w3.org/WAI/WCAG22/Understanding/sensory-characteristics.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
 | [1.4.1 Use of Color](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
 | [1.4.2 Audio Control](https://www.w3.org/WAI/WCAG22/Understanding/audio-control.html) (Level A) | Not Applicable | None of the candidate components plays audio or video, so this criterion does not apply to them. Assessed by inspection of the candidate list, not by a test. |
-| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html) (Level A) | Not Evaluated | Not evaluated. Partial automated evidence only, which is not an evaluation: keyboard and ARIA-state tests in all eight libraries for 10 of 40 candidates ([evidence](core.md#candidates)). |
-| [2.1.2 No Keyboard Trap](https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html) (Level A) | Not Evaluated | Not evaluated. Partial automated evidence only, which is not an evaluation: keyboard and ARIA-state tests in all eight libraries for 10 of 40 candidates ([evidence](core.md#candidates)). |
+| [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html) (Level A) | Supports | Every candidate has: keyboard and ARIA-state tests in all eight libraries for 40 of 40 candidates ([evidence](core.md#candidates)). |
+| [2.1.2 No Keyboard Trap](https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html) (Level A) | Supports | Every candidate has: keyboard and ARIA-state tests in all eight libraries for 40 of 40 candidates ([evidence](core.md#candidates)). |
 | [2.1.4 Character Key Shortcuts](https://www.w3.org/WAI/WCAG22/Understanding/character-key-shortcuts.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
 | [2.2.1 Timing Adjustable](https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
 | [2.2.2 Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
@@ -84,7 +84,7 @@ _Table 1: Success Criteria, Level A — Self-assessed — not an independent aud
 | [3.3.1 Error Identification](https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
 | [3.3.2 Labels or Instructions](https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
 | [3.3.7 Redundant Entry](https://www.w3.org/WAI/WCAG22/Understanding/redundant-entry.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
-| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html) (Level A) | Not Evaluated | Not evaluated. Partial automated evidence only, which is not an evaluation: keyboard and ARIA-state tests in all eight libraries for 10 of 40 candidates ([evidence](core.md#candidates)); screen-reader matrix rows filled for 0 of 40 candidates ([matrix](screen-reader-matrix.md#the-representative-twenty)). |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html) (Level A) | Not Evaluated | Not evaluated. Partial automated evidence only, which is not an evaluation: keyboard and ARIA-state tests in all eight libraries for 40 of 40 candidates ([evidence](core.md#candidates)); screen-reader matrix rows filled for 0 of 40 candidates ([matrix](screen-reader-matrix.md#the-representative-twenty)). |
 
 ### Table 2: Success Criteria, Level AA
 
@@ -157,7 +157,7 @@ _Table 3: Success Criteria, Level AAA — Self-assessed — not an independent a
 
 ## Summary
 
-_Self-assessed — not an independent audit._ Supports: 0; Partially Supports: 0; Does Not Support: 0; Not Applicable: 11; Not Evaluated: 75.
+_Self-assessed — not an independent audit._ Supports: 2; Partially Supports: 0; Does Not Support: 0; Not Applicable: 11; Not Evaluated: 73.
 
 ## Legal Disclaimer (Lily Design System)
 

@@ -34,4 +34,11 @@ public class PaginationNavTests : TestContext
         var root = cut.Find(".pagination-nav");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Names_itself_with_aria_label()
+    {
+        var cut = RenderComponent<PaginationNav>(p => p.Add(x => x.Label, "Name"));
+        Assert.Equal("Name", cut.Find("nav.pagination-nav").GetAttribute("aria-label"));
+    }
 }

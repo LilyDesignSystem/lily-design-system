@@ -1,0 +1,20 @@
+import userEvent from "@testing-library/user-event";
+import { describe, expect, test } from "vitest";
+import { render } from "@testing-library/svelte";
+
+import Subject from "./NetPromoterScorePicker.svelte";
+
+describe("NetPromoterScorePicker keyboard", () => {
+    test("arrows walk the scores inside the named radio group", async () => {
+        render(Subject, { props: { label: "Score", name: "nps" } });
+        const user = userEvent.setup();
+        await user.tab();
+        const first = document.activeElement as HTMLInputElement;
+        expect(first.closest('[role="radiogroup"]')?.getAttribute("aria-label")).toBe("Score");
+        expect(first.getAttribute("aria-label")).toBe("0");
+        await user.keyboard("{ArrowRight}");
+        const next = document.activeElement as HTMLInputElement;
+        expect(next.getAttribute("aria-label")).toBe("1");
+        expect(next.checked).toBe(true);
+    });
+});

@@ -5,7 +5,7 @@
     an accordion navigation area for collapsible accordion information
 *@
 
-<nav class="@($"accordion-nav {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>
+<nav class="@($"accordion-nav {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

@@ -75,8 +75,8 @@ None -- this component is a passive container. Keyboard interactions are handled
 
 ## ARIA
 
-- `role="region"` -- identifies the accordion as a landmark region
-- `aria-label` -- provides an accessible name for the region, allowing screen readers to announce it
+- Native `<nav>` -- identifies the accordion as a navigation landmark; a `role` here would replace that
+- `aria-label` -- provides an accessible name for the landmark, allowing screen readers to announce it
 
 ## When to Use
 
@@ -95,7 +95,7 @@ None -- this component is a passive container. Keyboard interactions are handled
 
 ## Headless
 
-This component provides a `<nav>` landmark with `role="region"` and `aria-label` for accessibility, with zero visual styling. The consumer is responsible for all CSS including container borders, background colors, spacing, and overall layout. Use the `data-*` attributes or element selectors as styling hooks.
+This component provides a `<nav>` landmark with `aria-label` for accessibility, with zero visual styling. The consumer is responsible for all CSS including container borders, background colors, spacing, and overall layout. Use the `data-*` attributes or element selectors as styling hooks.
 
 ## Styles
 
@@ -104,8 +104,8 @@ The consumer provides all CSS styling. The component renders with a `.accordion-
 ## Testing
 
 - Verify the component renders a `<nav>` element with class `accordion-nav`
-- Verify role="region"` -- identifies the accordion as a landmark region
-- Verify aria-label` -- provides an accessible name for the region, allowing screen readers to announce it
+- Verify the root is a `<nav>` with no `role` override
+- Verify aria-label` -- provides an accessible name for the landmark, allowing screen readers to announce it
 - Verify pass-through attributes are applied
 
 ## Advice

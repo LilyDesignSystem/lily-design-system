@@ -5,7 +5,7 @@
     a hierarchical navigation with expandable branches
 *@
 
-<nav class="@($"tree-nav {CssClass}".Trim())" role="tree" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>
+<nav class="@($"tree-nav {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</nav>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

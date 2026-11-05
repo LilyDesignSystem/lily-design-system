@@ -31,4 +31,11 @@ public class TextAreaInputTests : TestContext
         var root = cut.Find(".text-area-input");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Names_itself_with_aria_label()
+    {
+        var cut = RenderComponent<TextAreaInput>(p => p.Add(x => x.Label, "Name"));
+        Assert.Equal("Name", cut.Find("textarea.text-area-input").GetAttribute("aria-label"));
+    }
 }

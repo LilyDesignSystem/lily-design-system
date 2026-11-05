@@ -31,4 +31,11 @@ public class CheckboxInputTests : TestContext
         var root = cut.Find(".checkbox-input");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Names_itself_with_aria_label()
+    {
+        var cut = RenderComponent<CheckboxInput>(p => p.Add(x => x.Label, "Name"));
+        Assert.Equal("Name", cut.Find("input.checkbox-input").GetAttribute("aria-label"));
+    }
 }

@@ -34,4 +34,19 @@ public class HintTests : TestContext
         var root = cut.Find(".hint");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Takes_the_id_that_aria_describedby_points_at()
+    {
+        var cut = Render(builder =>
+        {
+            builder.OpenElement(0, "input");
+            builder.AddAttribute(1, "aria-describedby", "name-hint");
+            builder.CloseElement();
+            builder.OpenComponent<Hint>(2);
+            builder.AddAttribute(3, "id", "name-hint");
+            builder.CloseComponent();
+        });
+        Assert.Equal(cut.Find(".hint").GetAttribute("id"), cut.Find("input").GetAttribute("aria-describedby"));
+    }
 }

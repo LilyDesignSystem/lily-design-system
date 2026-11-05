@@ -10,7 +10,7 @@
   No script (tasks.md P18-T11): the menu is popover="auto", so the consumer's trigger button opens it with
   command="toggle-popover" commandfor="<id>" (and popovertarget="<id>"), and the browser closes it on Escape and on a
   click outside it. `open: true` renders it shown in place, without the popover attribute (a popover cannot start
-  open without script). The arrow-key focus movement over the items is the consumer's script.
+  open without script). The arrow keys over the items come from menu/menu.js (autoInit).
 
   Usage:
     <button type="button" aria-haspopup="true" aria-controls="file-menu"

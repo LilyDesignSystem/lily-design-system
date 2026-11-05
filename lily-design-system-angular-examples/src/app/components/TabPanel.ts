@@ -10,10 +10,21 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-tab-panel",
     standalone: true,
-    template: `<div class="tab-panel {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div
+        class="tab-panel {{ className() }}"
+        role="tabpanel"
+        tabindex="0"
+        [attr.aria-labelledby]="labelledBy() || null"
+        [attr.aria-label]="labelledBy() ? null : label() || null"
+        [hidden]="!selected()"
+    >
+        <ng-content />
+    </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabPanel {
     readonly label = input<string>("");
+    readonly labelledBy = input<string>("");
+    readonly selected = input<boolean>(false);
     readonly className = input<string>("");
 }

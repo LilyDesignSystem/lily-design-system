@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<span
   class="error-message"
+  role="alert"
   aria-label=""
 >
   <!-- Consumer provides text content -->

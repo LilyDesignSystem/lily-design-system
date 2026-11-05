@@ -5,10 +5,12 @@
     one tab button in a tab group
 *@
 
-<button class="@($"tab-bar-button {CssClass}".Trim())" role="tab" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"tab-bar-button {CssClass}".Trim())" type="button" role="tab" aria-label="@Label" aria-selected="@(Selected ? "true" : "false")" aria-controls="@(string.IsNullOrEmpty(Controls) ? null : Controls)" tabindex="@(Selected ? 0 : -1)" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    [Parameter] public bool Selected { get; set; }
+    [Parameter] public string Controls { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

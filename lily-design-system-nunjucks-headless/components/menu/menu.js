@@ -1,4 +1,4 @@
-// menu/menu.js — the keys for the menu macro, which is markup only. Load it once and call `autoInit()`:
+// menu/menu.js — the keys for the menu, dropdown-menu and context-menu macros, which are markup only. Load it once and call `autoInit()`:
 //
 //   import { autoInit } from "@lilydesignsystem/nunjucks-headless/components/menu/menu.js";
 //   autoInit();
@@ -10,7 +10,7 @@ import { attachMenu } from "./menu-keys.js";
 /** Wire one menu. Returns the cleanup. */
 export const initMenu = (root) => attachMenu(root, "vertical");
 
-/** Wire every `.menu` on the page, once. */
+/** Wire every `.menu`, `.dropdown-menu` and `.context-menu` on the page, once. */
 export function autoInit(doc = document) {
-    return [...doc.querySelectorAll(".menu")].map(initMenu);
+    return [...doc.querySelectorAll(".menu, .dropdown-menu, .context-menu")].map(initMenu);
 }

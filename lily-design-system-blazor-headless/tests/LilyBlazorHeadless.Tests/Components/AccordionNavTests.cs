@@ -34,4 +34,13 @@ public class AccordionNavTests : TestContext
         var root = cut.Find(".accordion-nav");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Is_a_named_navigation_landmark()
+    {
+        var cut = RenderComponent<AccordionNav>(p => p.Add(x => x.Label, "Sections"));
+        var root = cut.Find("nav.accordion-nav");
+        Assert.False(root.HasAttribute("role"));
+        Assert.Equal("Sections", root.GetAttribute("aria-label"));
+    }
 }

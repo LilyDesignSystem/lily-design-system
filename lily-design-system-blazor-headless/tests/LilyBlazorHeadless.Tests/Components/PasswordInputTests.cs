@@ -31,4 +31,11 @@ public class PasswordInputTests : TestContext
         var root = cut.Find(".password-input");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Names_itself_with_aria_label()
+    {
+        var cut = RenderComponent<PasswordInput>(p => p.Add(x => x.Label, "Name"));
+        Assert.Equal("Name", cut.Find("input.password-input").GetAttribute("aria-label"));
+    }
 }

@@ -5,10 +5,12 @@
     a content panel associated with a tab in a tab bar
 *@
 
-<div class="@($"tab-panel {CssClass}".Trim())" role="tabpanel" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"tab-panel {CssClass}".Trim())" role="tabpanel" aria-label="@(string.IsNullOrEmpty(LabelledBy) ? Label : null)" aria-labelledby="@(string.IsNullOrEmpty(LabelledBy) ? null : LabelledBy)" hidden="@(!Selected)" tabindex="0" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string LabelledBy { get; set; } = "";
+    [Parameter] public bool Selected { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

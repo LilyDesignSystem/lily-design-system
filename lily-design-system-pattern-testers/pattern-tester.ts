@@ -633,14 +633,24 @@ function stubModal(doc: Document): { calls: () => number; restore: () => void } 
     const nativeClose = proto.close;
     let calls = 0;
     let previous: HTMLElement | null = null;
+    // A modal's Escape in a browser: cancel, then close, unless something handled the key or the cancel.
+    const onEscape = (event: KeyboardEvent): void => {
+        if (event.key !== "Escape" || event.defaultPrevented) return;
+        const open = doc.querySelector<HTMLDialogElement>("dialog[open]");
+        if (!open?.dispatchEvent(new Event("cancel", { cancelable: true }))) return;
+        open.close();
+        open.dispatchEvent(new Event("close"));
+    };
+    if (!nativeShow) doc.addEventListener("keydown", onEscape);
     proto.showModal = function (this: HTMLDialogElement) {
         calls += 1;
         if (nativeShow) return nativeShow.call(this);
         previous = doc.activeElement as HTMLElement | null;
         this.setAttribute("open", "");
-        (
-            this.querySelector<HTMLElement>("button, [href], input, select, textarea") ?? this
-        ).focus();
+        const inside = this.querySelector<HTMLElement>("button, [href], input, select, textarea");
+        // With nothing focusable inside, the browser focuses the dialog itself, which jsdom will not without a tabindex.
+        if (!inside && !this.hasAttribute("tabindex")) this.setAttribute("tabindex", "-1");
+        (inside ?? this).focus();
     };
     if (!nativeClose)
         proto.close = function (this: HTMLDialogElement) {
@@ -650,6 +660,7 @@ function stubModal(doc: Document): { calls: () => number; restore: () => void } 
     return {
         calls: () => calls,
         restore: () => {
+            doc.removeEventListener("keydown", onEscape);
             proto.showModal = nativeShow;
             proto.close = nativeClose;
         },

@@ -31,4 +31,11 @@ public class EmailInputTests : TestContext
         var root = cut.Find(".email-input");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Names_itself_with_aria_label()
+    {
+        var cut = RenderComponent<EmailInput>(p => p.Add(x => x.Label, "Name"));
+        Assert.Equal("Name", cut.Find("input.email-input").GetAttribute("aria-label"));
+    }
 }

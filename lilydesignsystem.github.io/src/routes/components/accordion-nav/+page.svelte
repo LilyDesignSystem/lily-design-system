@@ -82,8 +82,8 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>role="region"</code> -- identifies the accordion as a landmark region</li>
-      <li><code>aria-label</code> -- provides an accessible name for the region, allowing screen readers to announce it</li>
+      <li>Native <code>&lt;nav&gt;</code> -- identifies the accordion as a navigation landmark; a <code>role</code> here would replace that</li>
+      <li><code>aria-label</code> -- provides an accessible name for the landmark, allowing screen readers to announce it</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>

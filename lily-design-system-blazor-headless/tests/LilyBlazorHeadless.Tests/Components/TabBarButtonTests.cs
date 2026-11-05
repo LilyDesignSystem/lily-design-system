@@ -34,4 +34,23 @@ public class TabBarButtonTests : TestContext
         var root = cut.Find(".tab-bar-button");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void The_selected_tab_is_the_tab_stop()
+    {
+        var cut = RenderComponent<TabBarButton>(p => p.Add(x => x.Selected, true).Add(x => x.Controls, "panel-1"));
+        var tab = cut.Find("button.tab-bar-button");
+        Assert.Equal("true", tab.GetAttribute("aria-selected"));
+        Assert.Equal("panel-1", tab.GetAttribute("aria-controls"));
+        Assert.Equal("0", tab.GetAttribute("tabindex"));
+    }
+
+    [Fact]
+    public void An_unselected_tab_is_out_of_the_tab_order()
+    {
+        var cut = RenderComponent<TabBarButton>();
+        var tab = cut.Find("button.tab-bar-button");
+        Assert.Equal("false", tab.GetAttribute("aria-selected"));
+        Assert.Equal("-1", tab.GetAttribute("tabindex"));
+    }
 }

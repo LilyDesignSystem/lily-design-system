@@ -34,4 +34,11 @@ public class ErrorMessageTests : TestContext
         var root = cut.Find(".error-message");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Is_announced_as_an_alert()
+    {
+        var cut = RenderComponent<ErrorMessage>();
+        Assert.Equal("alert", cut.Find(".error-message").GetAttribute("role"));
+    }
 }

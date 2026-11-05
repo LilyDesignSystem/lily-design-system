@@ -1,6 +1,14 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
+describe("field: the error inside it", () => {
+    it("is announced when it is an error-message", () => {
+        const message = render("error-message", { text: "Enter your name" }).html;
+        const { document } = render("field", { error: true, html: message });
+        expect(document.querySelector(".error-message").getAttribute("role")).toBe("alert");
+    });
+});
+
 describe("field", () => {
     it("renders a <div> with the base class", () => {
         const { document } = render("field", {});

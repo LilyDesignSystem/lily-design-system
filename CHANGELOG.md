@@ -9,6 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Keyboard and ARIA tests for all 40 Core candidates — 2026-11-05
+
+Criterion (a) of `bin/generate-core` is 40 of 40, up from 10. Screen-reader evidence is still 0 of 40, so Lily Core still has no members.
+
+- **Fixed (Angular): `ErrorSummary` and `TabPanel` were shells.** `ErrorSummary` gains `title`, `role="alert"`, `tabindex="-1"` and `aria-labelledby`. `TabPanel` gains `labelledBy`, `selected`, `role="tabpanel"`, `tabindex="0"` and `hidden`. **A `TabPanel` with no `selected` is now hidden, as in every other catalog.**
+- **Fixed (Blazor):** `TabBarButton` gains `Selected`, `Controls`, `aria-selected` and a roving `tabindex`. `TabPanel` gains `Selected`, `LabelledBy`, `tabindex` and `hidden`, so **one with no `Selected` is now hidden.** `ErrorSummary` gains `Title`, `tabindex` and `aria-labelledby`. `TreeNav` and `AccordionNav` no longer replace their `<nav>` landmark with a role.
+- **Fixed (Angular, Nunjucks, HTML, Alpine): `error-message` has `role="alert"`.** HTML and Alpine `error-summary` gain `role="alert"` and `tabindex="-1"`.
+- **Fixed (Nunjucks): `dropdown-menu` and `context-menu` had no arrow keys.** `menu/menu.js` now wires them.
+- **Contract:** `accordion-nav` is a native `<nav>` landmark, not `role="region"`, which would have removed the landmark.
+- **Tests:** new `*.keyboard.*` tests send real keys, and `alert-dialog` runs the `dialog` pattern contract. `bin/generate-core` counts `role` as ARIA, waives the ARIA half where a contract needs none, and waives the key half in Blazor where a component has no key handler, because bUnit runs no browser, and for the bare native dialogs in Nunjucks.
+
 ## Versions — 2026-11-05
 
 Published 2026-11-05: `html-headless` 0.9.0, `svelte-headless` 0.7.0, `react-headless` 0.7.0, `vue-headless` 0.7.0, `angular-headless` 0.8.0, `nunjucks-headless` 0.7.0, `web-components-headless` 0.8.0, `LilyDesignSystem.Blazor.Headless` 0.7.0: minor bumps, for the breaking changes below. `alpine-headless` stays 0.1.0, which has never been published.

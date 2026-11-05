@@ -31,4 +31,11 @@ public class RadioInputTests : TestContext
         var root = cut.Find(".radio-input");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Names_itself_with_aria_label()
+    {
+        var cut = RenderComponent<RadioInput>(p => p.Add(x => x.Label, "Name"));
+        Assert.Equal("Name", cut.Find("input.radio-input").GetAttribute("aria-label"));
+    }
 }

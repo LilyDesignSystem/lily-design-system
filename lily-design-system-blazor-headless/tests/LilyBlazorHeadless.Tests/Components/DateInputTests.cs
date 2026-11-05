@@ -31,4 +31,11 @@ public class DateInputTests : TestContext
         var root = cut.Find(".date-input");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Names_itself_with_aria_label()
+    {
+        var cut = RenderComponent<DateInput>(p => p.Add(x => x.Label, "Name"));
+        Assert.Equal("Name", cut.Find("input.date-input").GetAttribute("aria-label"));
+    }
 }

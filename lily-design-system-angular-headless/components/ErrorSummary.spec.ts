@@ -19,4 +19,24 @@ describe("ErrorSummary", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is an alert named by its title, and can take focus", () => {
+        const fixture = TestBed.createComponent(ErrorSummary);
+        fixture.componentRef.setInput("title", "There is a problem");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".error-summary");
+        expect(el.getAttribute("role")).toBe("alert");
+        expect(el.getAttribute("tabindex")).toBe("-1");
+        expect(el.getAttribute("aria-labelledby")).toBe(el.querySelector("h2").id);
+        expect(el.hasAttribute("aria-label")).toBe(false);
+    });
+
+    test("with no title, label names it", () => {
+        const fixture = TestBed.createComponent(ErrorSummary);
+        fixture.componentRef.setInput("label", "Errors");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".error-summary");
+        expect(el.getAttribute("aria-label")).toBe("Errors");
+        expect(el.hasAttribute("aria-labelledby")).toBe(false);
+    });
 });

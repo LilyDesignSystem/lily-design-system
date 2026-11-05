@@ -34,4 +34,25 @@ public class TabPanelTests : TestContext
         var root = cut.Find(".tab-panel");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void The_selected_panel_shows_and_takes_focus()
+    {
+        var cut = RenderComponent<TabPanel>(p => p.Add(x => x.Label, "Details").Add(x => x.Selected, true));
+        var panel = cut.Find(".tab-panel");
+        Assert.Equal("tabpanel", panel.GetAttribute("role"));
+        Assert.Equal("Details", panel.GetAttribute("aria-label"));
+        Assert.Equal("0", panel.GetAttribute("tabindex"));
+        Assert.False(panel.HasAttribute("hidden"));
+    }
+
+    [Fact]
+    public void An_unselected_panel_is_hidden_and_labelledBy_wins()
+    {
+        var cut = RenderComponent<TabPanel>(p => p.Add(x => x.Label, "Details").Add(x => x.LabelledBy, "tab-1"));
+        var panel = cut.Find(".tab-panel");
+        Assert.True(panel.HasAttribute("hidden"));
+        Assert.Equal("tab-1", panel.GetAttribute("aria-labelledby"));
+        Assert.False(panel.HasAttribute("aria-label"));
+    }
 }

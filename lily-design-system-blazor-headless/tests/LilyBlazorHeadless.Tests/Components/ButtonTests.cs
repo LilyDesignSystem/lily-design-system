@@ -34,4 +34,11 @@ public class ButtonTests : TestContext
         var root = cut.Find(".button");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Names_itself_with_aria_label()
+    {
+        var cut = RenderComponent<Button>(p => p.Add(x => x.Label, "Name"));
+        Assert.Equal("Name", cut.Find("button.button").GetAttribute("aria-label"));
+    }
 }

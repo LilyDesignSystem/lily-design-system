@@ -34,4 +34,13 @@ public class TreeNavTests : TestContext
         var root = cut.Find(".tree-nav");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Stays_a_named_navigation_landmark()
+    {
+        var cut = RenderComponent<TreeNav>(p => p.Add(x => x.Label, "Files"));
+        var root = cut.Find("nav.tree-nav");
+        Assert.Equal("Files", root.GetAttribute("aria-label"));
+        Assert.False(root.HasAttribute("role"));
+    }
 }

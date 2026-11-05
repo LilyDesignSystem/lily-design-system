@@ -34,4 +34,11 @@ public class BreadcrumbNavTests : TestContext
         var root = cut.Find(".breadcrumb-nav");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Names_itself_with_aria_label()
+    {
+        var cut = RenderComponent<BreadcrumbNav>(p => p.Add(x => x.Label, "Name"));
+        Assert.Equal("Name", cut.Find("nav.breadcrumb-nav").GetAttribute("aria-label"));
+    }
 }
