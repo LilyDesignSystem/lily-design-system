@@ -2,7 +2,12 @@ import { render, screen } from "@testing-library/svelte";
 import { userEvent, type UserEvent } from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./PasswordInputOrTextInputDiv.svelte";
+import type { Component } from "svelte";
+
+import Tested from "./PasswordInputOrTextInputDiv.svelte";
+
+// These tests leave required props out on purpose, to prove what the component does then.
+const Subject = Tested as unknown as Component<Record<string, unknown>>;
 
 describe("PasswordInputOrTextInputDiv", () => {
     test("renders a password input", () => {

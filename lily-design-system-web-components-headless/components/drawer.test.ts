@@ -126,4 +126,14 @@ describe("Drawer", () => {
         const host = render('<lily-drawer label="L" open><nav>Menu content</nav></lily-drawer>');
         expect(inner(host).querySelector("nav")?.textContent).toBe("Menu content");
     });
+
+    test("stays open when it reopens before the queued close event fires", () => {
+        const host = render('<lily-drawer label="L" open></lily-drawer>');
+        const dialog = host.querySelector("dialog") as HTMLDialogElement;
+        dialog.setAttribute("open", "");
+
+        dialog.dispatchEvent(new Event("close"));
+
+        expect(host.hasAttribute("open")).toBe(true);
+    });
 });

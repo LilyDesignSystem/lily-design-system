@@ -106,3 +106,22 @@ describe("Sheet keyboard and modality", function () {
         expect(await active()).toBe("opener");
     });
 });
+
+describe("sheet reopened at once", function () {
+    it("stays open when it opens before the native close event fires", async function () {
+        await browser.url("file://" + path.resolve(__dirname, "sheet.html"));
+        const open = await browser.execute(async function () {
+            const el = document.querySelector("dialog.sheet");
+            const settle = () => new Promise((resolve) => queueMicrotask(resolve));
+            el.setAttribute("data-open", "true");
+            await settle();
+            el.setAttribute("data-open", "false");
+            await settle();
+            el.setAttribute("data-open", "true");
+            await settle();
+            await new Promise((resolve) => setTimeout(resolve, 50));
+            return el.open;
+        });
+        expect(open).toBe(true);
+    });
+});

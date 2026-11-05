@@ -119,4 +119,14 @@ describe("SlideOutDrawer", () => {
         const host = render('<lily-slide-out-drawer label="L" open><nav>Menu content</nav></lily-slide-out-drawer>');
         expect(inner(host).querySelector("nav")?.textContent).toBe("Menu content");
     });
+
+    test("stays open when it reopens before the queued close event fires", () => {
+        const host = render('<lily-slide-out-drawer label="L" open></lily-slide-out-drawer>');
+        const dialog = host.querySelector("dialog") as HTMLDialogElement;
+        dialog.setAttribute("open", "");
+
+        dialog.dispatchEvent(new Event("close"));
+
+        expect(host.hasAttribute("open")).toBe(true);
+    });
 });

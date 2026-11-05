@@ -1134,6 +1134,16 @@ describe("DateTimePicker -- Nunjucks surface and deviations", () => {
         expect(hiddenInput.value).toBe("2026-03-01");
     });
 
+    test("dayLabel names the date in words, in the Gregorian calendar by default", () => {
+        const label = dayLabel("2026-03-01", "en-GB");
+        expect(label).toContain("March");
+        expect(label).not.toContain("2026-03-01");
+    });
+
+    test("dayLabel names the date in the calendar it is given", () => {
+        expect(dayLabel("2026-03-21", "en-GB", "persian")).toContain("Farvardin");
+    });
+
     test("defaultFormatValue and dayLabel are exported for consumers composing their own formatValue", () => {
         expect(defaultFormatValue("2026-03-01", "date", "en-GB", false)).toContain("2026");
         expect(dayLabel("2026-03-01", "en-GB")).toContain("2026");

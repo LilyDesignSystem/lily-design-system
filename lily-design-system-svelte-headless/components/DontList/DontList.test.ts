@@ -1,7 +1,12 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./DontList.svelte";
+import type { Component } from "svelte";
+
+import Tested from "./DontList.svelte";
+
+// These tests leave required props out on purpose, to prove what the component does then.
+const Subject = Tested as unknown as Component<Record<string, unknown>>;
 
 function textSnippet(text: string) {
     return (($$anchor: Comment) => {

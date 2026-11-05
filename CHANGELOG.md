@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## CI failures, and four bugs behind them — 2026-11-05
+
+- **Fixed (Svelte): the package failed on import.** `build.mjs` left out `dev-warning` and `widget-keys`, which 171 components import. The published 0.6.2 is not affected; the next release would have been.
+- **Fixed (Nunjucks): `date-time-picker` day cells were named by their ISO date,** not "Sunday 1 March 2026". `dayLabel` threw inside a `try`.
+- **Fixed (Web Components): `tree-list`.** A key with no job could collapse an expanded branch, or move focus to the parent.
+- **Fixed (HTML, Web Components): `drawer`, `sheet`, `slide-out-drawer`.** Reopening before the queued `close` event fired closed the dialog again.
+- **CI:** the `verify` job installs the docs site, the helper job installs the root, `@types/node` is a root dev dependency, and the Solid recipe is out of its parent's Vitest. Typecheck and lint pass in every catalog. The Alpine example's test reads the catalog size rather than a stale count.
+
 ## `tag-input` is now `tag-input-div` — 2026-11-05
 
 **Breaking, in every catalog.** The component held five different shapes under one name, and its name promised an `<input>` that could not hold its tags. It is now `tag-input-div` / `TagInputDiv` (`<lily-tag-input-div>`, `tagInputDiv()`, `lilyTagInputDiv`), the same shape everywhere: a `<div role="group">` holding the consumer's tags and a field.

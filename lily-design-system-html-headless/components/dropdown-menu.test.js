@@ -115,7 +115,7 @@ describe("DropdownMenu Popover API", function () {
                 );
             document.body.insertAdjacentHTML(
                 "beforeend",
-                '<p id="outside" style="margin-top:200px">outside</p>',
+                '<p id="outside" style="position:fixed;inset-block-end:0;inset-inline-end:0;margin:0">outside</p>',
             );
         });
         await (await $(".dropdown-menu button")).click();

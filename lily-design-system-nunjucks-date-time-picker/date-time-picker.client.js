@@ -539,7 +539,7 @@ export function dayPeriodName(locale, pm) {
 }
 
 /** Accessible name for one day cell, e.g. "Sunday 1 March 2026". */
-export function dayLabel(isoDate, locale) {
+export function dayLabel(isoDate, locale, calendar = "gregory") {
     const parsed = parseIsoDate(isoDate);
     if (!parsed) return isoDate;
     try {
@@ -1126,7 +1126,7 @@ export function initDateTimePicker(root, opts = {}) {
                 if (isToday) dayButton.setAttribute("data-today", "");
                 if (isSelected) dayButton.setAttribute("data-selected", "");
                 dayButton.setAttribute("tabindex", isoDate === state.cursor ? "0" : "-1");
-                dayButton.setAttribute("aria-label", dayLabel(isoDate, locale));
+                dayButton.setAttribute("aria-label", dayLabel(isoDate, locale, calendar));
                 if (isToday) dayButton.setAttribute("aria-current", "date");
                 // aria-disabled, not the `disabled` attribute: a vetoed day must
                 // stay focusable so the roving cursor can land on it and a screen

@@ -75,6 +75,7 @@ export class TreeList extends HTMLElement {
             }
             default:
                 treeItemKey(event, items);
+                break;
             case "ArrowRight":
             case "ArrowLeft":
                 if (event.target === current && index >= 0) this.#expandKey(event, current);

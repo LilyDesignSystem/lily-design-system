@@ -1159,7 +1159,7 @@ const weekdays = computed(() => {
     return out;
 });
 
-const weeks = computed(() => calendarMonthMatrix(viewStart.value, weekStart.value), props.calendar);
+const weeks = computed(() => calendarMonthMatrix(viewStart.value, weekStart.value, props.calendar));
 
 // ---------------------------------------------------------------
 // Selectability

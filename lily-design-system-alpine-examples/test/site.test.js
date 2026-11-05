@@ -5,6 +5,11 @@ import { join } from "node:path";
 import { afterAll, beforeAll, describe, expect, test } from "vitest";
 import { buildSite, catalog } from "../build.mjs";
 
+// One row per component in the canonical catalog.
+const components = readFileSync(new URL("../../components.tsv", import.meta.url), "utf8")
+    .split("\n")
+    .filter((row) => row.trim()).length;
+
 let out;
 let pages;
 const read = (path) => readFileSync(join(out, path), "utf8");
@@ -27,7 +32,7 @@ describe("the three required routes", () => {
     test("/components/ lists every catalog component once, each linking to its page", () => {
         const html = read("components/index.html");
         const all = catalog();
-        expect(all).toHaveLength(571);
+        expect(all).toHaveLength(components);
         expect((html.match(/<li data-text=/g) ?? []).length).toBe(all.length);
         for (const c of all) expect(html).toContain(`href="/components/${c.slug}/"`);
         expect(html).toContain('type="search"');
@@ -70,7 +75,7 @@ describe("every page", () => {
     });
 
     test("writes the page count it reports", () => {
-        expect(pages).toBe(1 + 1 + 571 + 1 + 4);
+        expect(pages).toBe(1 + 1 + components + 1 + 4);
     });
 });
 

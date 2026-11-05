@@ -239,7 +239,7 @@
     {#if labels.timeZone && timeZoneProps.locale}
         <TimeZonePicker
             label={labels.timeZone}
-            locale={timeZoneProps.locale}
+            locale={timeZoneProps.locale as string}
             {...timeZoneProps}
         />
     {/if}

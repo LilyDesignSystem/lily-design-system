@@ -75,7 +75,8 @@
       // The native close event (e.g. a <form method="dialog">) keeps data-open in step.
       el.addEventListener('close', function(e) {
         if (e instanceof CustomEvent) return;
-        if (el.getAttribute('data-open') === 'true') el.setAttribute('data-open', 'false');
+        // A reopen can land before this queued event, so follow only a dialog that is really closed.
+        if (!el.open && el.getAttribute('data-open') === 'true') el.setAttribute('data-open', 'false');
       });
     });
   })();

@@ -1,7 +1,12 @@
 import { render, screen } from "@testing-library/svelte";
 import { describe, expect, test } from "vitest";
 
-import Subject from "./AiLabel.svelte";
+import type { Component } from "svelte";
+
+import Tested from "./AiLabel.svelte";
+
+// These tests leave required props out on purpose, to prove what the component does then.
+const Subject = Tested as unknown as Component<Record<string, unknown>>;
 
 describe("AiLabel", () => {
     test("renders a span", () => {

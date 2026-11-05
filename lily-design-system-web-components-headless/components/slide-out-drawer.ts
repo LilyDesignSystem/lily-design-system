@@ -110,6 +110,7 @@ export class SlideOutDrawer extends HTMLElement {
 
     // A <form method="dialog"> inside, or a consumer calling close(), closes the native dialog: keep `open` in step.
     #onClose = (): void => {
-        this.#dismiss();
+        // A reopen can land before this queued event, so follow only a dialog that is really closed.
+        if (!this.#dialog?.open) this.#dismiss();
     };
 }

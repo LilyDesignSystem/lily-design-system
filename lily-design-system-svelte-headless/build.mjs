@@ -80,6 +80,14 @@ for (const name of names) {
     }
 }
 
+// Modules that many components import from beside their directories, such as dev-warning.ts. Components reach them
+// with "../dev-warning", so a package without them fails on import.
+for (const file of fs.readdirSync(componentsDir)) {
+    if (/\.ts$/.test(file) && !/\.(test|spec|stories)\.ts$/.test(file) && !/\.d\.ts$/.test(file)) {
+        fs.copyFileSync(path.join(componentsDir, file), path.join(stageDir, "components", file));
+    }
+}
+
 try {
     execFileSync("npx", ["--yes", "@sveltejs/package@2.5.8", "-i", stageDir, "-o", distDir], {
         cwd: root,
@@ -91,7 +99,7 @@ try {
     fs.rmSync(path.join(root, ".svelte-kit"), { recursive: true, force: true });
 }
 
-for (const artifact of ["index.js", "index.d.ts"]) {
+for (const artifact of ["index.js", "index.d.ts", "components/dev-warning.js", "components/widget-keys.js"]) {
     const file = path.join(distDir, artifact);
     if (!fs.existsSync(file) || fs.statSync(file).size === 0) {
         throw new Error(`expected a non-empty dist/${artifact} after build.`);

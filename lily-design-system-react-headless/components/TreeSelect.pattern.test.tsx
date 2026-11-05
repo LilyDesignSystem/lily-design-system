@@ -1,3 +1,4 @@
+import type React from "react";
 import { act, render } from "@testing-library/react";
 import { useState } from "react";
 import { test } from "vitest";
@@ -13,8 +14,8 @@ test("meets the tree-popup contract", async () => {
             value,
             onChange: (e: { target: { value: string } }) => setValue(e.target.value),
             onInput: (e: { target: { value: string } }) => setValue(e.target.value),
-        } as never;
-        return <Subject {...(props as object)}>{null}</Subject>;
+        } as unknown as React.ComponentProps<typeof Subject>;
+        return <Subject {...props}>{null}</Subject>;
     }
     const { container } = render(<Harness />);
     await runPattern("tree-popup", {

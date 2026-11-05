@@ -29,6 +29,16 @@ jobs:
             exit 1
           fi
 
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 11
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - name: Install the docs site (generate-site-pages renders Markdown with its marked)
+        working-directory: lilydesignsystem.github.io
+        run: pnpm install --frozen-lockfile
+
       - name: bin/test (required files + catalog/registry consistency)
         run: bin/test
 
@@ -101,6 +111,8 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 26
+      - name: Install the repo root (its @types/node types every package's tests)
+        run: pnpm install --frozen-lockfile
       - name: Build the headless library they depend on
         # Some headless libraries (HTML) are consumed as source and have no build.
         working-directory: lily-design-system-${{ matrix.framework }}-headless

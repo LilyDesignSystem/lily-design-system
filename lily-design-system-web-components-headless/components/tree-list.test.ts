@@ -90,6 +90,36 @@ describe("TreeList", () => {
         expect(document.activeElement).toBe(items[0]);
     });
 
+    test("a key with no job leaves an expanded branch expanded", () => {
+        const host = render(`<lily-tree-list label="T">
+            <li role="treeitem" tabindex="0" aria-expanded="true">
+                Branch
+                <ol><li role="treeitem" tabindex="-1">Leaf</li></ol>
+            </li>
+        </lily-tree-list>`);
+        const branch = host.querySelector("[aria-expanded]") as HTMLElement;
+        branch.focus();
+
+        branch.dispatchEvent(new KeyboardEvent("keydown", { key: "z", bubbles: true }));
+
+        expect(branch.getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("a key with no job does not move focus to the parent", () => {
+        const host = render(`<lily-tree-list label="T">
+            <li role="treeitem" tabindex="0" aria-expanded="true">
+                Branch
+                <ol><li role="treeitem" tabindex="-1" aria-expanded="false">Child</li></ol>
+            </li>
+        </lily-tree-list>`);
+        const child = host.querySelector("[aria-expanded='false']") as HTMLElement;
+        child.focus();
+
+        child.dispatchEvent(new KeyboardEvent("keydown", { key: "z", bubbles: true }));
+
+        expect(document.activeElement).toBe(child);
+    });
+
     test("root class hook includes the consumer's class attribute", () => {
         const host = render('<lily-tree-list label="File browser" class="extra"></lily-tree-list>');
 
