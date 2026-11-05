@@ -124,6 +124,22 @@ test("popconfirm: Open shows it, and the buttons reach C#", async ({ page }) => 
     await expect(page.getByTestId("popconfirm-state")).toHaveText("Confirmed: 1");
 });
 
+test("popconfirm: opens under its anchor, and in the viewport with none", async ({ page }) => {
+    await page.getByTestId("popconfirm-open").click();
+    const trigger = (await page.getByTestId("popconfirm-open").boundingBox())!;
+    const box = (await page.getByTestId("popconfirm").boundingBox())!;
+    expect(Math.abs(box.x - trigger.x)).toBeLessThan(2);
+    expect(Math.abs(box.y - (trigger.y + trigger.height))).toBeLessThan(2);
+    await page.getByTestId("popconfirm").getByRole("button", { name: "No" }).click();
+
+    await page.getByTestId("unanchored-open").click();
+    const dialog = page.getByTestId("unanchored");
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toBeInViewport({ ratio: 1 });
+    await dialog.getByRole("button", { name: "No" }).click();
+    await expect(dialog).toBeHidden();
+});
+
 test("horizontal scroller: the keys scroll it", async ({ page }) => {
     const scroller = page.getByTestId("scroller");
     const left = () => scroller.evaluate((node) => node.scrollLeft);

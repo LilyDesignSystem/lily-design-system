@@ -70,6 +70,8 @@
 <button type="button" style="anchor-name: --delete" data-testid="popconfirm-open" @onclick="@(() => _confirming = true)">Delete</button>
 <PopconfirmDialog Open="_confirming" Title="Delete it?" ConfirmLabel="Yes" CancelLabel="No"
                   OnConfirm="@(() => { _confirmed++; _confirming = false; })" OnCancel="@(() => _confirming = false)" style="position-anchor: --delete" data-testid="popconfirm" />
+<button type="button" data-testid="unanchored-open" @onclick="@(() => _unanchored = !_unanchored)">Open with no anchor</button>
+<PopconfirmDialog Open="_unanchored" Title="No anchor" ConfirmLabel="Yes" CancelLabel="No" OnCancel="@(() => _unanchored = false)" data-testid="unanchored" />
 <p data-testid="popconfirm-state">Confirmed: @_confirmed</p>
 
 <HorizontalScroller Label="Gallery" Step="40" style="overflow-x: auto; max-inline-size: 12rem" data-testid="scroller">
@@ -102,6 +104,7 @@
     private string _signup = "idle";
     private bool _confirming;
     private int _confirmed;
+    private bool _unanchored;
     private string _active = "";
 
     private void Subscribe() => _signup = "success";

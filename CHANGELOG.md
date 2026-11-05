@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Popups with no anchor — 2026-11-05
+
+- **Fixed (themes): `tooltip`, `hover-card`, `floating-panel`, `coachmark` and `popconfirm-dialog` with no `position-anchor` could open off screen.** In WebKit one opened at its place in the page, which is outside the viewport once scrolled; in Chromium, at the top left. All 63 themes now place the five with `anchor()` and a 25% fallback, in the viewport in both engines. With an anchor they open under it, as before. `e2e/controls.spec.ts` checks both in Chromium and WebKit. Firefox was not run.
+
 ## Blazor controls — 2026-11-05
 
 - **Fixed (Blazor): 13 components were stubs that rendered a class and a name and did nothing.** `ToggleButton` toggles, with `aria-checked` and `@bind-Pressed`. `Slider` and `TimePickerInput` were a `div` and are now the contract's `<input>`. `Select` and `ThemeSelect` take `@bind-Value`. `Form` and `DataFilterForm` take `OnSubmit` and `OnReset` and prevent the default submit. `Details` renders its `Summary` and binds `Open`. `TagInput` has a field, with Enter adding a tag and an empty Enter still submitting the form. `PopconfirmDialog`, `NewsletterSignup` and `HorizontalScroller` have their real markup and keys (`NewsletterSignup` had `role="status"` on the form itself). `ContentsNav` tells C# the section in view through `@bind-Active`.
