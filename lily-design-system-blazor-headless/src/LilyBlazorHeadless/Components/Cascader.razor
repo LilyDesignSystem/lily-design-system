@@ -30,13 +30,13 @@
     protected override string Kind => "tree-popup";
     protected override object? KeyOptions => new { exclusive = true };
 
-    public override async Task OnKeyedOpen(bool open)
+    protected override async Task KeyedOpen(bool open)
     {
         Expanded = open;
         await ExpandedChanged.InvokeAsync(open);
         await InvokeAsync(StateHasChanged);
     }
 
-    public override Task OnKeyedSelect(string value, string[] path, string[] selected) =>
+    protected override Task KeyedSelect(string value, string[] path, string[] selected) =>
         OnSelect.InvokeAsync(new TreeSelection(value, path, selected));
 }

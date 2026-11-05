@@ -35,7 +35,7 @@
 
     protected override string Kind => "split-view";
 
-    public override async Task OnKeyedChange(double value)
+    protected override async Task KeyedChange(double value)
     {
         SplitPercent = value;
         await SplitPercentChanged.InvokeAsync(value);

@@ -117,6 +117,8 @@ export function attach(input, list, host) {
     return {
         /** The host closed the list itself: drop the highlight. */
         clear() {
+            // A late call from a close: the list may have been opened again since, and has its own highlight now.
+            if (isOpen(input)) return;
             setActive(input, list, null);
         },
         dispose() {

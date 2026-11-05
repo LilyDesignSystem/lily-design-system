@@ -23,7 +23,7 @@
 *@
 
 <div class="@($"command {CssClass}".Trim())" role="search" aria-label="@Label" @attributes="AdditionalAttributes">
-    <input @ref="_input" type="search" autocomplete="off" aria-label="@Label" aria-controls="@_listId" placeholder="@Placeholder" value="@Value" @oninput="HandleInput" />
+    <input @ref="_input" type="search" autocomplete="off" aria-label="@Label" aria-controls="@_listId" placeholder="@Placeholder" @bind:get="Value" @bind:set="@(v => HandleInput(new ChangeEventArgs { Value = v }))" @bind:event="oninput" />
     <div @ref="_list" role="listbox" id="@_listId" aria-label="@Label">@ChildContent</div>
 </div>
 

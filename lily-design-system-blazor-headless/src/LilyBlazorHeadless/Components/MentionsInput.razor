@@ -9,7 +9,7 @@
 *@
 
 <div @ref="Root" class="@($"mentions-input {CssClass}".Trim())" data-trigger-char="@TriggerChar" @attributes="AdditionalAttributes">
-    <input class="mentions-input-control" type="text" role="combobox" aria-label="@Label" aria-haspopup="listbox" aria-controls="@_listId" aria-expanded="@(Expanded ? "true" : "false")" aria-autocomplete="list" value="@Value" placeholder="@Placeholder" disabled="@Disabled" @oninput="HandleInput" />
+    <input class="mentions-input-control" type="text" role="combobox" aria-label="@Label" aria-haspopup="listbox" aria-controls="@_listId" aria-expanded="@(Expanded ? "true" : "false")" aria-autocomplete="list" @bind:get="Value" placeholder="@Placeholder" disabled="@Disabled" @bind:set="@(v => HandleInput(new ChangeEventArgs { Value = v }))" @bind:event="oninput" />
     <div class="mentions-input-suggestions" id="@_listId" hidden="@(!Expanded)">@ChildContent</div>
 </div>
 
@@ -40,12 +40,12 @@
         await ValueChanged.InvokeAsync(Value);
     }
 
-    public override async Task OnKeyedOpen(bool open)
+    protected override async Task KeyedOpen(bool open)
     {
         Expanded = open;
         await ExpandedChanged.InvokeAsync(open);
         await InvokeAsync(StateHasChanged);
     }
 
-    public override Task OnKeyedSelect(string value, string[] path, string[] selected) => OnSelect.InvokeAsync(value);
+    protected override Task KeyedSelect(string value, string[] path, string[] selected) => OnSelect.InvokeAsync(value);
 }

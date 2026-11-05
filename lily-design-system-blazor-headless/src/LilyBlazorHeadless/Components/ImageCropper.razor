@@ -20,5 +20,5 @@
 
     protected override string Kind => "cropper";
 
-    public override Task OnKeyedCrop(CropRect crop) => OnCropChange.InvokeAsync(crop);
+    protected override Task KeyedCrop(CropRect crop) => OnCropChange.InvokeAsync(crop);
 }

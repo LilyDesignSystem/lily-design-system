@@ -31,8 +31,8 @@
            aria-activedescendant="@(Open && _active >= 0 ? OptionId(_active) : null)"
            placeholder="@Placeholder"
            name="@Name"
-           value="@Value"
-           @oninput="OnInputChanged"
+           @bind:get="Value"
+           @bind:set="@(v => OnInputChanged(new ChangeEventArgs { Value = v }))" @bind:event="oninput"
            @onkeydown="OnKeyDown"
            @onblur="Close" />
     <ul class="autosuggest-list"

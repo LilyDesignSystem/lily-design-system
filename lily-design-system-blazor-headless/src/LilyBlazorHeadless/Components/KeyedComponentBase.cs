@@ -36,21 +36,37 @@ public abstract class KeyedComponentBase : ComponentBase, IAsyncDisposable
         _handle = await _module.InvokeAsync<IJSObjectReference>("attach", Kind, Root, KeyOptions, _self);
     }
 
-    /// <summary>The keys changed a value; a derived component that holds one overrides this.</summary>
+    // Each entry point is [JSInvokable] and not virtual, and calls a hook. Blazor reads the attribute from the runtime
+    // type without inheriting it, so an override of an invokable method cannot be reached from JS: it fails only in a
+    // real browser, because bUnit calls the C# method directly and tests/js has no C#.
+
+    /// <summary>Called from JS: the keys changed a value.</summary>
     [JSInvokable]
-    public virtual Task OnKeyedChange(double value) => Task.CompletedTask;
+    public Task OnKeyedChange(double value) => KeyedChange(value);
+
+    /// <summary>Called from JS: the keys moved a crop rectangle.</summary>
+    [JSInvokable]
+    public Task OnKeyedCrop(CropRect crop) => KeyedCrop(crop);
+
+    /// <summary>Called from JS: the keys opened or closed a popup.</summary>
+    [JSInvokable]
+    public Task OnKeyedOpen(bool open) => KeyedOpen(open);
+
+    /// <summary>Called from JS: the keys chose an item.</summary>
+    [JSInvokable]
+    public Task OnKeyedSelect(string value, string[] path, string[] selected) => KeyedSelect(value, path, selected);
+
+    /// <summary>The keys changed a value; a derived component that holds one overrides this.</summary>
+    protected virtual Task KeyedChange(double value) => Task.CompletedTask;
 
     /// <summary>The keys moved a crop rectangle.</summary>
-    [JSInvokable]
-    public virtual Task OnKeyedCrop(CropRect crop) => Task.CompletedTask;
+    protected virtual Task KeyedCrop(CropRect crop) => Task.CompletedTask;
 
     /// <summary>The keys opened or closed a popup.</summary>
-    [JSInvokable]
-    public virtual Task OnKeyedOpen(bool open) => Task.CompletedTask;
+    protected virtual Task KeyedOpen(bool open) => Task.CompletedTask;
 
     /// <summary>The keys chose an item: its value, its path, and every selected value.</summary>
-    [JSInvokable]
-    public virtual Task OnKeyedSelect(string value, string[] path, string[] selected) => Task.CompletedTask;
+    protected virtual Task KeyedSelect(string value, string[] path, string[] selected) => Task.CompletedTask;
 
     public async ValueTask DisposeAsync()
     {

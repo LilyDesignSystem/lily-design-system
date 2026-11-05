@@ -24,7 +24,7 @@
 
     protected override string Kind => "splitter";
 
-    public override async Task OnKeyedChange(double value)
+    protected override async Task KeyedChange(double value)
     {
         Value = value;
         await ValueChanged.InvokeAsync(value);

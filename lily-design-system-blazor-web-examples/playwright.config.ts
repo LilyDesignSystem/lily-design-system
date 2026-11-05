@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 // Specs that also run in Firefox and WebKit (P18-T1).
-const crossEngineSpecs = /(responsive|focus-obscured|accessibility|overflow-navigation|menu-popover|dialog-modality)\.spec\.ts$/;
+const crossEngineSpecs = /(responsive|focus-obscured|accessibility|overflow-navigation|menu-popover|dialog-modality|keyboard|widget-keys)\.spec\.ts$/;
 
 export default defineConfig({
     testDir: "./e2e",
@@ -16,7 +16,7 @@ export default defineConfig({
     },
     // Chromium runs every spec. Firefox and WebKit run the cross-engine
     // subset (P18-T1): the responsive sweep, Focus Not Obscured (2.4.11) and
-    // the axe baseline, plus the overflow-navigation case. Run one engine with
+    // the axe baseline, the overflow-navigation case, and the keyboard specs. Run one engine with
     // `npx playwright test --project=firefox`.
     projects: [
         { name: "chromium", use: { ...devices["Desktop Chrome"] } },

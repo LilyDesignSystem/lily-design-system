@@ -1,0 +1,85 @@
+@page "/demos/widget-keys"
+<PageTitle>Widget keys — Lily Blazor examples</PageTitle>
+
+@*
+    The components on KeyedComponentBase: their keys live in ActionBar.razor.js and
+    their state in C#. bUnit runs no JS and tests/js no C#, so only a browser proves
+    the two halves meet. e2e/widget-keys.spec.ts drives this page.
+*@
+
+<h1>Widget keys</h1>
+
+<ActionBar Label="Selection" SelectedCount="2" SelectedCountLabel="2 selected" ClearSelectionLabel="Clear selection" OnClearSelection="@(() => _cleared++)" data-testid="action-bar">
+    <button type="button">Archive</button>
+    <button type="button">Delete</button>
+</ActionBar>
+<p data-testid="action-bar-state">Cleared: @_cleared</p>
+
+<ActionGroup Label="Formatting" data-testid="action-group">
+    <button type="button">Bold</button>
+    <button type="button">Italic</button>
+</ActionGroup>
+
+<TaskBar Label="Windows" data-testid="task-bar">
+    <button type="button">Mail</button>
+    <button type="button">Files</button>
+</TaskBar>
+
+<SegmentGroup Label="View" data-testid="segment-group">
+    <SegmentGroupItem Label="Day" Value="day" Checked="true">Day</SegmentGroupItem>
+    <SegmentGroupItem Label="Week" Value="week">Week</SegmentGroupItem>
+    <SegmentGroupItem Label="Month" Value="month">Month</SegmentGroupItem>
+</SegmentGroup>
+
+<Splitter Label="Sidebar size" @bind-Value="_split" data-testid="splitter" />
+<p data-testid="splitter-state">Splitter: @_split</p>
+
+<SplitView Label="Reading pane" @bind-SplitPercent="_view" data-testid="split-view">
+    <Primary>Inbox</Primary>
+    <Secondary>Message</Secondary>
+</SplitView>
+<p data-testid="split-view-state">Split view: @_view</p>
+
+<Cascader Label="Place" Placeholder="Choose" Value="@_place" @bind-Expanded="_placeOpen" OnSelect="@(s => _place = string.Join("/", s.Path))" data-testid="cascader">
+    <div role="tree">
+        <div role="treeitem" aria-expanded="false" data-value="europe">
+            Europe
+            <div role="group">
+                <div role="treeitem" data-value="france">France</div>
+            </div>
+        </div>
+        <div role="treeitem" data-value="asia">Asia</div>
+    </div>
+</Cascader>
+<p data-testid="cascader-state">Place: @_place; open: @(_placeOpen ? "yes" : "no")</p>
+
+<TreeSelect Label="Folder" Placeholder="Choose" Value="@_folder" @bind-Expanded="_folderOpen" OnSelect="@(s => _folder = s.Value)" data-testid="tree-select">
+    <div role="tree">
+        <div role="treeitem" data-value="docs">Documents</div>
+        <div role="treeitem" data-value="pics">Pictures</div>
+    </div>
+</TreeSelect>
+<p data-testid="tree-select-state">Folder: @_folder; open: @(_folderOpen ? "yes" : "no")</p>
+
+<MentionsInput Label="Comment" @bind-Value="_comment" @bind-Expanded="_mentionsOpen" OnSelect="@(v => _mentioned = v)" data-testid="mentions">
+    <div role="option" data-value="ada">Ada</div>
+    <div role="option" data-value="grace">Grace</div>
+</MentionsInput>
+<p data-testid="mentions-state">Mentioned: @_mentioned; comment: @_comment; open: @(_mentionsOpen ? "yes" : "no")</p>
+
+<ImageCropper Label="Crop" OnCropChange="@(c => _crop = c)" data-testid="cropper" />
+<p data-testid="cropper-state">Crop: @_crop?.X @_crop?.Y @_crop?.Width @_crop?.Height</p>
+
+@code {
+    private int _cleared;
+    private double _split = 50;
+    private double _view = 50;
+    private string? _place;
+    private bool _placeOpen;
+    private string? _folder;
+    private bool _folderOpen;
+    private string _comment = "";
+    private bool _mentionsOpen;
+    private string _mentioned = "";
+    private CropRect? _crop;
+}

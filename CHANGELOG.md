@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Blazor keys in a real browser — 2026-11-05
+
+- **Fixed (Blazor): every callback from the keys of `splitter`, `split-view`, `cascader`, `tree-select`, `mentions-input` and `image-cropper` failed in a real browser.** The keys moved the DOM, but `@bind-Value`, `OnSelect`, `OnCropChange` and the rest never fired: `[JSInvokable]` is not inherited, so JS could not reach an override. bUnit and `tests/js` each pass without crossing that boundary. `KeyedComponentBase` now has non-virtual entry points, `JSInvokableTests` guards the rule by reflection, and `e2e/widget-keys.spec.ts` on `/demos/widget-keys` proves the path.
+- **Fixed (Blazor): typed characters could vanish** in `combobox`, `autosuggest`, `command`, `chat-composer`, `mentions-input` and `one-time-password-input`, when a re-render from the server overwrote what had been typed since (seen in WebKit). They use `@bind:get` and `@bind:set` now.
+- **Fixed (Blazor, Nunjucks): `combobox`** lost its highlight when a late close arrived after the list had been opened again, so a quick ArrowDown landed on the first option.
+- The keyboard specs now run in WebKit as well as Chromium. Firefox has not run: the installed Playwright build does not start here.
+
 ## No English defaults — 2026-11-05
 
 - **No component supplies English words any more.** About 50 Nunjucks macros, and `hamburger-menu`, `skip-link`, `do-list`, `dont-list`, `end-notes`, `ai-label`, `text-input-with-search`, `password-input-or-text-input-div` and `super-banner` in Svelte, React, Vue and Web Components, fell back to words such as "Menu" or "Skip to content". Angular and Blazor never did. `submit-input` and `reset-input` now leave the word to the browser, in the reader's language.

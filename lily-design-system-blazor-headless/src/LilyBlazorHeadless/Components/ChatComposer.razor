@@ -21,8 +21,8 @@
               placeholder="@Placeholder"
               name="@Name"
               disabled="@Disabled"
-              value="@Value"
-              @oninput="OnInputAsync"
+              @bind:get="Value"
+              @bind:set="@(v => OnInputAsync(new ChangeEventArgs { Value = v }))" @bind:event="oninput"
               @onkeydown="OnKeyDownAsync"></textarea>
     <button class="chat-composer-button"
             type="@(Busy ? "button" : "submit")"

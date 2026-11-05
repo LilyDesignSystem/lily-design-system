@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 // The JS and C# halves of Blazor's keyboard behaviour, together, on /demos/keyboard. bUnit runs no JS and tests/js no C#.
 //
-// What IS asserted, with real keys, in Chromium, Firefox and WebKit:
+// What IS asserted, with real keys, in Chromium and WebKit (Firefox is in the config too):
 //   - Combobox: the arrows open and move, Enter reaches @bind-Value and OnSelect, a real click does too;
 //   - TreeList: ArrowRight and ArrowLeft reach @bind-Expanded on TreeListItem;
 //   - Escape in a combobox inside a Dialog closes the list and leaves the dialog open; the next Escape closes it.

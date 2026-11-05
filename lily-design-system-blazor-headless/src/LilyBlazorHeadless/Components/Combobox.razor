@@ -56,8 +56,8 @@
         aria-expanded="@Open.ToString().ToLowerInvariant()"
         aria-controls="@ListboxId"
         aria-autocomplete="list"
-        value="@Value"
-        @oninput="HandleInput"
+        @bind:get="Value"
+        @bind:set="@(v => HandleInput(new ChangeEventArgs { Value = v }))" @bind:event="oninput"
         @onkeydown="HandleKeyDown"
     />
     <div role="listbox" id="@ListboxId" aria-label="@Label" popover="manual" @ref="_listbox">

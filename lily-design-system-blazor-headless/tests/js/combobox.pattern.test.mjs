@@ -39,3 +39,19 @@ test("meets the combobox contract", async () => {
     });
     handle.dispose();
 });
+
+test("a late clear leaves a list that has been opened again alone", async () => {
+    const { attachDotNet } = await import("../../src/LilyBlazorHeadless/Components/Combobox.razor.js");
+    document.body.innerHTML = `<input role="combobox" aria-expanded="false"><div id="l"><div role="option">A</div><div role="option">B</div></div>`;
+    const input = document.querySelector("input");
+    const handle = attachDotNet(input, document.querySelector("#l"), { invokeMethodAsync: async () => {} });
+    input.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }));
+    const active = input.getAttribute("aria-activedescendant");
+    if (!active) throw new Error("no highlight");
+    handle.clear();
+    if (input.getAttribute("aria-activedescendant") !== active) throw new Error("a late clear wiped the highlight");
+    input.setAttribute("aria-expanded", "false");
+    handle.clear();
+    if (input.hasAttribute("aria-activedescendant")) throw new Error("clear did nothing on a closed list");
+    handle.dispose();
+});
