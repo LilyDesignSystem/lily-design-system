@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Prerendering and hydration in Angular — 2026-11-05
+
+- **Fixed (Angular): modals broke prerendering.** `dialog`, `alert-dialog`, `file-dialog`, `timeout-dialog`, `drawer`, `sheet` and `slide-out-drawer` threw `document is not defined` when open on first render. They now open in the browser.
+- **Fixed (Angular): popovers never opened in a hydrating app.** `cascader`, `coachmark`, `combobox`, `hover-card`, `mentions-input`, `popconfirm-dialog`, `tooltip` and `tree-select` lost `popover` and gained `hidden` while prerendering, so with `provideClientHydration` they stayed closed. They now keep `popover` and sync in the browser.
+- **Added (Angular): `prerender/prerender.spec.ts`,** in the package's `pnpm test`. A real server render of all 609 components, closed and open, with `document` undefined as it is while prerendering.
+
 ## A gate against port stubs — 2026-11-05
 
 - **Added: `bin/check-port-logic`, in `bin/test`.** An Angular or Blazor port with no logic, where Svelte has behaviour, fails unless `bin/check-port-logic.allow.json` lists it with a reason, and that list can only shrink. It finds a stub, not an incomplete port.

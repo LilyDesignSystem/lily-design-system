@@ -9,7 +9,9 @@ import {
     input,
     model,
     OnInit,
+    PLATFORM_ID,
 } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 import { warnMissingName } from "./dev-warning";
 
 /**
@@ -20,9 +22,12 @@ import { warnMissingName } from "./dev-warning";
 @Directive({ selector: "dialog[lilyModal]", standalone: true })
 class ModalDialog implements AfterViewInit, OnDestroy {
     private readonly host = inject<ElementRef<HTMLDialogElement>>(ElementRef);
+    private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
     private opener: HTMLElement | null = null;
 
     ngAfterViewInit(): void {
+        // Prerendering has no document, and the dialog opens in the browser.
+        if (!this.browser) return;
         const node = this.host.nativeElement;
         this.opener = document.activeElement as HTMLElement | null;
         if (!node.open) {

@@ -1,8 +1,8 @@
 import {
+    afterRenderEffect,
     ChangeDetectionStrategy,
     Component,
     DestroyRef,
-    effect,
     ElementRef,
     inject,
     input,
@@ -42,7 +42,7 @@ export class Cascader {
     private readonly keysDestroy = inject(DestroyRef);
     private readonly panel = viewChild<ElementRef<HTMLElement>>("panel");
 
-    private readonly syncPanel = effect(() => {
+    private readonly syncPanel = afterRenderEffect(() => {
         const el = this.panel()?.nativeElement;
         if (el) syncPopover(el, this.expanded());
     });

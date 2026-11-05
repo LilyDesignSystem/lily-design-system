@@ -6,6 +6,6 @@
     "module": "esnext",
     "types": ["node", "vitest/globals"]
   },
-  "include": ["components/**/*.spec.ts", "vitest-setup.ts"],
+  "include": ["components/**/*.spec.ts", "prerender/**/*.spec.ts", "vitest-setup.ts"],
   "exclude": ["node_modules", "dist"]
 }

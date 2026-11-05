@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, input, output, viewChild } from "@angular/core";
+import {
+    afterRenderEffect,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    input,
+    output,
+    viewChild,
+} from "@angular/core";
 import { syncPopover } from "./Popover";
 
 let nextId = 0;
@@ -39,7 +47,7 @@ let nextId = 0;
 export class Coachmark {
     private readonly panel = viewChild<ElementRef<HTMLElement>>("panel");
 
-    private readonly syncPanel = effect(() => {
+    private readonly syncPanel = afterRenderEffect(() => {
         const el = this.panel()?.nativeElement;
         if (el) syncPopover(el, this.open());
     });

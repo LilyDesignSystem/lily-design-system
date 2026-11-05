@@ -7,7 +7,8 @@
   "description": "Lily Design System Angular headless component library: all 491 catalog components as standalone, signal-based, OnPush components. Unstyled, accessible, zero CSS. Targets WCAG 2.2 AAA.",
   "type": "module",
   "scripts": {
-    "test": "vitest run",
+    "test": "vitest run && pnpm run test:prerender",
+    "test:prerender": "vitest run --config vitest.prerender.config.ts --silent",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "build": "node generate-index.mjs && ng-packagr -p ng-package.json",
@@ -32,6 +33,7 @@
     "@angular/core": "^22.2.4",
     "@angular/platform-browser": "^22.2.4",
     "@angular/platform-browser-dynamic": "^22.2.4",
+    "@angular/platform-server": "^22.2.4",
     "@storybook/angular": "^10.6.5",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/user-event": "^14.6.8",

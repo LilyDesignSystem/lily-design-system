@@ -1,7 +1,7 @@
 import {
+    afterRenderEffect,
     ChangeDetectionStrategy,
     Component,
-    effect,
     ElementRef,
     input,
     output,
@@ -50,7 +50,7 @@ let nextId = 0;
 export class PopconfirmDialog {
     private readonly panel = viewChild<ElementRef<HTMLElement>>("panel");
 
-    private readonly syncPanel = effect(() => {
+    private readonly syncPanel = afterRenderEffect(() => {
         const el = this.panel()?.nativeElement;
         if (el) syncPopover(el, this.open());
     });

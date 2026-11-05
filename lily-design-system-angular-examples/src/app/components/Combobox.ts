@@ -1,16 +1,16 @@
 import {
+    afterRenderEffect,
     AfterViewInit,
     ChangeDetectionStrategy,
     Component,
     DestroyRef,
-    effect,
     ElementRef,
+    inject,
     input,
     model,
+    OnInit,
     output,
     viewChild,
-    OnInit,
-    inject,
 } from "@angular/core";
 import { warnMissingName } from "./dev-warning";
 import { syncPopover } from "./Popover";
@@ -58,7 +58,7 @@ export class Combobox implements OnInit, AfterViewInit {
     private readonly panel = viewChild<ElementRef<HTMLElement>>("panel");
     private readonly field = viewChild<ElementRef<HTMLInputElement>>("field");
 
-    private readonly syncPanel = effect(() => {
+    private readonly syncPanel = afterRenderEffect(() => {
         const el = this.panel()?.nativeElement;
         const input = this.field()?.nativeElement;
         const open = this.open();

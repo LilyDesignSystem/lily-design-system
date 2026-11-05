@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, effect, ElementRef, inject, input, OnInit, viewChild } from "@angular/core";
+import {
+    afterRenderEffect,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    inject,
+    input,
+    OnInit,
+    viewChild,
+} from "@angular/core";
 import { syncPopover } from "./Popover";
 import { warnMissingName } from "./dev-warning";
 
@@ -24,7 +33,7 @@ export class Tooltip implements OnInit {
     private readonly lilyHost = inject(ElementRef);
     private readonly panel = viewChild<ElementRef<HTMLElement>>("panel");
 
-    private readonly syncPanel = effect(() => {
+    private readonly syncPanel = afterRenderEffect(() => {
         const el = this.panel()?.nativeElement;
         if (el) syncPopover(el, this.visible());
     });

@@ -8,7 +8,9 @@ import {
     input,
     model,
     OnInit,
+    PLATFORM_ID,
 } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 import { warnMissingName } from "./dev-warning";
 
 const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -25,10 +27,13 @@ export class ModalDialog {
     readonly lilyModalDialog = input<boolean>(false);
     readonly modal = input<boolean>(true);
     private readonly host = inject<ElementRef<HTMLDialogElement>>(ElementRef);
+    private readonly browser = isPlatformBrowser(inject(PLATFORM_ID));
     private opener: HTMLElement | null = null;
 
     constructor() {
         effect(() => {
+            // Prerendering has no document, and the dialog opens in the browser.
+            if (!this.browser) return;
             const node = this.host.nativeElement;
             if (this.lilyModalDialog()) {
                 if (node.open) return;
