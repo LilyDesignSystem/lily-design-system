@@ -46,7 +46,6 @@ Each follows the WAI-ARIA APG pattern and the matching `components/{slug}/AGENTS
 | --------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------- |
 | toggle-button         | `lilyToggleButton`  | `aria-pressed` follows state                                                                                      |
 | switch-button         | `lilySwitchButton`  | `role="switch"`, `aria-checked`                                                                                   |
-| collapsible           | `lilyCollapsible`   | trigger `aria-expanded` + `aria-controls`; content `hidden` while collapsed                                       |
 | show-more             | `lilyShowMore`      | button `aria-expanded`; content `data-expanded`                                                                   |
 | popover               | `lilyPopover`       | `aria-haspopup="dialog"`, Escape closes and returns focus, outside click closes                                   |
 | tooltip               | `lilyTooltip`       | `role="tooltip"`; hover, focus; hoverable; Escape dismisses without moving focus (WCAG 1.4.13)                    |

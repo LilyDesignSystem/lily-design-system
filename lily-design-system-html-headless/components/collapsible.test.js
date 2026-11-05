@@ -8,16 +8,26 @@ describe("Collapsible", function () {
         await browser.url("file://" + path.resolve(__dirname, "collapsible.html"));
     });
 
-    it("should render the div element with correct class", async function () {
-        const el = await $("div.collapsible");
-        await expect(el).toExist();
-        const className = await el.getAttribute("class");
-        expect(className).toContain("collapsible");
+    it("should render a native details with a summary", async function () {
+        await expect($("details.collapsible > summary.collapsible-summary")).toExist();
+        await expect($("details.collapsible > .collapsible-body")).toExist();
     });
 
-    it("should have an aria-label attribute", async function () {
-        const el = await $("div.collapsible");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+    it("should start closed", async function () {
+        expect(await $("details.collapsible").getProperty("open")).toBe(false);
+    });
+
+    it("should toggle on click", async function () {
+        const summary = await $(".collapsible-summary");
+        await summary.click();
+        expect(await $("details.collapsible").getProperty("open")).toBe(true);
+        await summary.click();
+        expect(await $("details.collapsible").getProperty("open")).toBe(false);
+    });
+
+    it("should toggle with the keyboard", async function () {
+        await browser.execute(() => document.querySelector(".collapsible-summary").focus());
+        await browser.keys("Enter");
+        expect(await $("details.collapsible").getProperty("open")).toBe(true);
     });
 });

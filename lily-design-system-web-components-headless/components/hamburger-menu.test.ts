@@ -16,10 +16,27 @@ function render(html: string): HTMLElement {
 }
 
 describe("HamburgerMenu", () => {
-    test("renders a native button", () => {
+    test("renders a div holding a native button and the navigation", () => {
         const host = render("<lily-hamburger-menu></lily-hamburger-menu>");
 
-        expect(host.querySelector("button.hamburger-menu")).toBeTruthy();
+        expect(
+            host.querySelector("div.hamburger-menu > button.hamburger-menu-button"),
+        ).toBeTruthy();
+        expect(host.querySelector("div.hamburger-menu > nav.hamburger-menu-nav")).toBeTruthy();
+    });
+
+    test("each menu has its own navigation id", () => {
+        document.body.innerHTML =
+            "<lily-hamburger-menu></lily-hamburger-menu><lily-hamburger-menu></lily-hamburger-menu>";
+        const [first, second] = document.querySelectorAll("nav");
+
+        expect(first.id).not.toBe(second.id);
+    });
+
+    test("passes other attributes to the root", () => {
+        const host = render('<lily-hamburger-menu data-x="1"></lily-hamburger-menu>');
+
+        expect(host.querySelector("div.hamburger-menu")!.getAttribute("data-x")).toBe("1");
     });
 
     test("has no English accessible name of its own", () => {
@@ -71,15 +88,14 @@ describe("HamburgerMenu", () => {
         expect(button.getAttribute("aria-expanded")).toBe("false");
     });
 
-    test("toggling open syncs the hidden attribute of the referenced aria-controls target", () => {
-        document.body.innerHTML =
-            '<lily-hamburger-menu aria-controls="site-nav"></lily-hamburger-menu>' +
-            '<nav id="site-nav" hidden></nav>';
-        if (!customElements.get("lily-hamburger-menu"))
-            customElements.define("lily-hamburger-menu", HamburgerMenu);
-        const host = document.querySelector("lily-hamburger-menu")!;
+    test("the navigation is hidden while closed, and the button controls it", () => {
+        const host = render('<lily-hamburger-menu label="Main menu"></lily-hamburger-menu>');
         const button = host.querySelector("button") as HTMLButtonElement;
-        const nav = document.getElementById("site-nav") as HTMLElement;
+        const nav = host.querySelector("nav") as HTMLElement;
+
+        expect(button.getAttribute("aria-controls")).toBe(nav.id);
+        expect(nav.getAttribute("aria-label")).toBe("Main menu");
+        expect(nav.hidden).toBe(true);
 
         button.click();
         expect(nav.hidden).toBe(false);
@@ -96,15 +112,16 @@ describe("HamburgerMenu", () => {
         expect(host.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
     });
 
-    test("moves children into the button", () => {
-        const host = render("<lily-hamburger-menu><span>Menu</span></lily-hamburger-menu>");
+    test("moves children into the navigation", () => {
+        const host = render('<lily-hamburger-menu><a href="/">Home</a></lily-hamburger-menu>');
 
-        expect(host.querySelector("button > span")).toBeTruthy();
+        expect(host.querySelector("nav > a")).toBeTruthy();
+        expect(host.querySelector("button > a")).toBeNull();
     });
 
     test("root class hook includes the consumer's class attribute", () => {
         const host = render('<lily-hamburger-menu class="extra"></lily-hamburger-menu>');
 
-        expect(host.querySelector("button")!.className).toBe("hamburger-menu extra");
+        expect(host.querySelector("div")!.className).toBe("hamburger-menu extra");
     });
 });

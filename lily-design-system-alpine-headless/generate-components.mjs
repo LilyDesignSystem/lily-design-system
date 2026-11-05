@@ -187,39 +187,30 @@ let callbacks = [];
         sel: "button.switch-button",
     },
     collapsible: {
-        tag: "div",
-        keyboard: "Tab to the trigger, Enter or Space to expand and collapse",
-        aria: "aria-expanded on the trigger; the content is hidden while collapsed",
-        markup: `<div class="collapsible" x-data="lilyCollapsible(false)" x-bind="root" aria-label="">
-  <button class="collapsible-trigger" x-bind="trigger" aria-controls="collapsible-content-1">
-    <!-- Consumer provides trigger label -->
-  </button>
-  <div class="collapsible-content" id="collapsible-content-1" x-bind="content">
+        tag: "details",
+        keyboard: "Tab to the summary, Enter or Space to expand and collapse",
+        aria: "native disclosure semantics; no ARIA added",
+        markup: `<details class="collapsible">
+  <summary class="collapsible-summary">
+    <!-- Consumer provides summary -->
+  </summary>
+  <div class="collapsible-body">
     <!-- Consumer provides content -->
   </div>
-</div>`,
+</details>`,
         test: `
-  it("starts collapsed with hidden content", async () => {
+  it("is a native disclosure, closed by default", async () => {
     await mount("collapsible");
-    expect(trigger().getAttribute("aria-expanded")).toBe("false");
-    expect(content().hidden).toBe(true);
-    expect(el().getAttribute("data-expanded")).toBe("false");
+    expect(el().open).toBe(false);
+    expect(el().querySelector("summary.collapsible-summary")).not.toBeNull();
+    expect(el().querySelector(".collapsible-body")).not.toBeNull();
   });
-  it("expands and collapses", async () => {
+  it("opens from its summary", async () => {
     await mount("collapsible");
-    trigger().click(); await tick();
-    expect(trigger().getAttribute("aria-expanded")).toBe("true");
-    expect(content().hidden).toBe(false);
-    trigger().click(); await tick();
-    expect(content().hidden).toBe(true);
-  });
-  it("the trigger controls the content", async () => {
-    await mount("collapsible");
-    expect(trigger().getAttribute("aria-controls")).toBe(content().id);
+    el().querySelector("summary").click();
+    expect(el().open).toBe(true);
   });`,
-        sel: "div.collapsible",
-        extra: `const trigger = () => document.querySelector(".collapsible-trigger");
-const content = () => document.querySelector(".collapsible-content");`,
+        sel: "details.collapsible",
     },
     "show-more": {
         tag: "div",

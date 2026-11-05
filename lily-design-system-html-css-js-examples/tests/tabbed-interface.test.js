@@ -63,10 +63,9 @@ describe("Tabbed Interface", function () {
     });
 
     it("should toggle collapsible on click", async function () {
-        const trigger = await $("#all-panel .collapsible [data-trigger]");
-        await trigger.click();
-        const expanded = await trigger.getAttribute("aria-expanded");
-        expect(expanded).toBe("true");
+        const details = (await $$("#all-panel details.collapsible"))[0];
+        await details.$("summary").click();
+        expect(await details.getProperty("open")).toBe(true);
     });
 
     it("should render badges", async function () {

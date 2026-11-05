@@ -3,9 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("div.collapsible");
-const trigger = () => document.querySelector(".collapsible-trigger");
-const content = () => document.querySelector(".collapsible-content");
+const el = () => document.querySelector("details.collapsible");
 
 describe("Collapsible", () => {
     it("renders the element with its base class", async () => {
@@ -14,24 +12,15 @@ describe("Collapsible", () => {
         expect(el().classList.contains("collapsible")).toBe(true);
     });
 
-    it("starts collapsed with hidden content", async () => {
+    it("is a native disclosure, closed by default", async () => {
         await mount("collapsible");
-        expect(trigger().getAttribute("aria-expanded")).toBe("false");
-        expect(content().hidden).toBe(true);
-        expect(el().getAttribute("data-expanded")).toBe("false");
+        expect(el().open).toBe(false);
+        expect(el().querySelector("summary.collapsible-summary")).not.toBeNull();
+        expect(el().querySelector(".collapsible-body")).not.toBeNull();
     });
-    it("expands and collapses", async () => {
+    it("opens from its summary", async () => {
         await mount("collapsible");
-        trigger().click();
-        await tick();
-        expect(trigger().getAttribute("aria-expanded")).toBe("true");
-        expect(content().hidden).toBe(false);
-        trigger().click();
-        await tick();
-        expect(content().hidden).toBe(true);
-    });
-    it("the trigger controls the content", async () => {
-        await mount("collapsible");
-        expect(trigger().getAttribute("aria-controls")).toBe(content().id);
+        el().querySelector("summary").click();
+        expect(el().open).toBe(true);
     });
 });

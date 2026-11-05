@@ -5,7 +5,10 @@
   "htmlTag": "details",
   "category": "navigation",
   "baseClass": ".collapsible",
-  "subClasses": [],
+  "subClasses": [
+    "collapsible-body",
+    "collapsible-summary"
+  ],
   "interactive": true,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [

@@ -4,8 +4,7 @@
 // <details>/<summary> elements — no custom ARIA needed, since the browser
 // handles all expanded/collapsed announcements.
 //
-// Follows the canonical contract's <details>. html-headless and
-// alpine-headless are the deviations: a div with a scripted aria-expanded.
+// Follows the canonical contract's <details>.
 //
 // Attributes:
 //   summary — REQUIRED. The clickable summary text shown as the toggle

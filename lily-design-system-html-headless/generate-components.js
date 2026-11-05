@@ -696,7 +696,7 @@ function getAttributes(name, tag, role) {
         attrs.push('aria-pressed="false"');
     }
 
-    if (name === "collapsible" || name === "expander") {
+    if (name === "expander") {
         attrs.push('data-expanded="false"');
     }
 
@@ -800,9 +800,9 @@ function getActualTag(name, tag) {
     if (name === "aspect-ratio-container") return "div";
     if (name === "grail-layout") return "div";
     if (name === "sidebar") return "aside";
-    if (name === "collapsible") return "div";
+    if (name === "collapsible") return "details";
     if (name === "expander") return "div";
-    if (name === "hamburger-menu") return "button";
+    if (name === "hamburger-menu") return "div";
     if (name === "file-upload") return "div";
     if (name === "file-manager") return "div";
     if (name === "signature-pad") return "div";
@@ -948,7 +948,6 @@ function getScript(name, pascal) {
       });
     });`;
             break;
-        case "collapsible":
         case "expander":
             body = `    document.querySelectorAll('.${name}').forEach(function(el) {
       var trigger = el.querySelector('[data-trigger]');
@@ -1020,13 +1019,13 @@ function getScript(name, pascal) {
             break;
         case "hamburger-menu":
             body = `    document.querySelectorAll('.hamburger-menu').forEach(function(el) {
-      el.addEventListener('click', function() {
-        var expanded = el.getAttribute('aria-expanded') === 'true';
-        el.setAttribute('aria-expanded', String(!expanded));
-        var target = document.getElementById(el.getAttribute('aria-controls'));
-        if (target) {
-          target.setAttribute('aria-hidden', String(expanded));
-        }
+      var button = el.querySelector('.hamburger-menu-button');
+      var nav = el.querySelector('.hamburger-menu-nav');
+      if (!button || !nav) return;
+      button.addEventListener('click', function() {
+        var open = button.getAttribute('aria-expanded') !== 'true';
+        button.setAttribute('aria-expanded', String(open));
+        nav.hidden = !open;
       });
     });`;
             break;
@@ -1098,8 +1097,8 @@ function getKeyboard(name, tag) {
         return "Tab to focus, Arrow Down to open list, type to filter, Enter to select, Escape to close";
     if (name === "listbox") return "Tab to focus, Arrow Up/Down to navigate, Enter to select";
     if (name === "carousel") return "Tab to focus controls, Arrow Left/Right to navigate slides";
-    if (name === "collapsible" || name === "expander")
-        return "Tab to focus trigger, Enter or Space to toggle";
+    if (name === "collapsible") return "Tab to the summary, Enter or Space to toggle (native)";
+    if (name === "expander") return "Tab to focus trigger, Enter or Space to toggle";
     if (name === "switch-button") return "Tab to focus, Enter or Space to toggle";
     if (name === "slider" || name === "dial") return "Tab to focus, Arrow keys to adjust value";
     return "None (passive element)";

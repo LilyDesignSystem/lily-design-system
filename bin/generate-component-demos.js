@@ -99,7 +99,7 @@ const explicitDemos = {
   'toggle-button': '<button class="toggle-button" aria-pressed="false">Toggle</button>',
   'switch-button': '<button class="switch-button" role="switch" aria-checked="false">Dark mode</button>',
   'clipboard-copy-button': '<button class="clipboard-copy-button">Copy to clipboard</button>',
-  'hamburger-menu': '<button class="hamburger-menu" aria-expanded="false" aria-label="Menu">\u2630</button>',
+  'hamburger-menu': '<div class="hamburger-menu"><button class="hamburger-menu-button" type="button" aria-label="Menu" aria-expanded="false" aria-controls="hamburger-menu-nav-demo">\u2630</button><nav class="hamburger-menu-nav" id="hamburger-menu-nav-demo" aria-label="Menu" hidden><a href="#">Home</a></nav></div>',
   'slider-button': '<button class="slider-button">Slide to confirm</button>',
   'timer-button': '<button class="timer-button">Auto-click in 5s</button>',
 
@@ -267,7 +267,7 @@ const explicitDemos = {
 
   // Other specific components
   'details': '<details class="details"><summary>Click to expand</summary><p>Hidden content revealed here.</p></details>',
-  'collapsible': '<div class="collapsible"><button aria-expanded="false">Show more</button><div hidden>Collapsed content</div></div>',
+  'collapsible': '<details class="collapsible"><summary class="collapsible-summary">Show more</summary><div class="collapsible-body">Collapsed content</div></details>',
   'expander': '<div class="expander"><button aria-expanded="true">Show less</button><div>Expanded content visible here.</div></div>',
   'editable': '<div class="editable" contenteditable="true">Click to edit this text</div>',
   'diff': '<div class="diff" role="group" aria-label="Comparison"><div>Original text</div><div>Modified text</div></div>',

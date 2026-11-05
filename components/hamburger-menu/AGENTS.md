@@ -17,7 +17,7 @@
 - The navigation region uses `role="navigation"` with `aria-label` for landmark identification
 - A unique `menuId` is generated using `Math.random()` for the `aria-controls`/`id` link
 - Supports two-way binding on the `open` prop
-- Navigation content is conditionally rendered with conditional rendering, removing it from the DOM when closed
+- Navigation content is conditionally rendered, removing it from the DOM when closed; the HTML, Nunjucks, Web Components and Alpine ports, which cannot move consumer markup in and out, keep it in the DOM and set `hidden` instead
 - Uses slot for the `children` prop
 
 ## ARIA

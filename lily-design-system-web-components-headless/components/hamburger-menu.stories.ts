@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./hamburger-menu.js";
 import { h } from "../stories/render.js";
 
-const SLOT = "";
+const SLOT = '<a href="#">Home</a>';
 
 const meta: Meta = {
     title: "Navigation/HamburgerMenu",

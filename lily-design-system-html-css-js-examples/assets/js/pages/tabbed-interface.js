@@ -37,18 +37,4 @@
       }
     });
   }
-
-  // Collapsible accordion behavior
-  document.querySelectorAll('.collapsible').forEach(function(el) {
-    var trigger = el.querySelector('[data-trigger]');
-    var content = el.querySelector('[data-content]');
-    if (trigger && content) {
-      trigger.addEventListener('click', function() {
-        var expanded = trigger.getAttribute('aria-expanded') === 'true';
-        trigger.setAttribute('aria-expanded', String(!expanded));
-        content.setAttribute('aria-hidden', String(expanded));
-        el.setAttribute('data-expanded', String(!expanded));
-      });
-    }
-  });
 })();

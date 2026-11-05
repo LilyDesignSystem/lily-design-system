@@ -1,23 +1,16 @@
 // HamburgerMenu component
 //
-// A toggle <button> that reveals or hides a navigation panel, commonly
-// used on mobile layouts. Deviation note: the Svelte/React/Vue ports
-// render an outer <div> wrapping the button AND an inline <nav> that
-// only exists while open, as the canonical contract's <div> does; the
-// HTML and Nunjucks ports instead render a single <button> and leave the
-// navigation region to the consumer, referenced by aria-controls. This
-// component follows the button-only idiom too: it toggles its own
-// aria-expanded and, where aria-controls resolves to an existing
-// element, that element's `hidden` attribute, but does not create or own
-// a <nav> itself.
+// A <div> holding a toggle <button> and the <nav> it reveals, commonly used
+// on mobile layouts. The element's children become the navigation content.
+// Deviation note: the Svelte, React and Vue ports render the <nav> only while
+// open; here, as in the HTML, Nunjucks and Alpine ports, it stays in the DOM
+// and is `hidden` while closed, because light-DOM children have nowhere else
+// to wait.
 //
 // Attributes:
-//   label — accessible name, via aria-label. Required: the words are yours.
+//   label — names the button and the navigation. Required: the words are yours.
 //   open — presence-based boolean; bindable (`el.toggleAttribute("open")`
 //     works both ways), reflected as aria-expanded on the button.
-//   aria-controls — optional; passed through to reference an externally
-//     rendered navigation region's id. When that element exists, its
-//     `hidden` attribute is kept in sync with the closed state.
 //
 // Fires a bubbling, composed "lily-change" CustomEvent<{ open: boolean }>
 // whenever the state changes by user interaction.
@@ -29,7 +22,12 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 //   - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
 
-import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import {
+    moveChildrenInto,
+    nextId,
+    passThroughAttributes,
+    rootClassName,
+} from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["label", "open"]);
 
@@ -39,19 +37,30 @@ export class HamburgerMenu extends HTMLElement {
     }
 
     #button: HTMLButtonElement | null = null;
+    #nav: HTMLElement | null = null;
 
     connectedCallback(): void {
         if (this.#button) return;
 
+        const root = document.createElement("div");
+        root.className = rootClassName(this, "hamburger-menu");
+        passThroughAttributes(this, root, HANDLED);
+
+        const nav = document.createElement("nav");
+        nav.className = "hamburger-menu-nav";
+        nav.id = nextId("hamburger-menu-nav");
+
         const button = document.createElement("button");
         button.type = "button";
-        button.className = rootClassName(this, "hamburger-menu");
-        passThroughAttributes(this, button, HANDLED);
+        button.className = "hamburger-menu-button";
+        button.setAttribute("aria-controls", nav.id);
         button.addEventListener("click", this.#onClick);
 
-        moveChildrenInto(this, button);
-        this.appendChild(button);
+        moveChildrenInto(this, nav);
+        root.append(button, nav);
+        this.appendChild(root);
         this.#button = button;
+        this.#nav = nav;
         this.#sync();
     }
 
@@ -61,16 +70,17 @@ export class HamburgerMenu extends HTMLElement {
 
     #sync(): void {
         const button = this.#button;
-        if (!button) return;
+        const nav = this.#nav;
+        if (!button || !nav) return;
         const label = this.getAttribute("label");
-        if (label !== null) button.setAttribute("aria-label", label);
+        if (label !== null) {
+            button.setAttribute("aria-label", label);
+            button.textContent = label;
+            nav.setAttribute("aria-label", label);
+        }
         const open = this.hasAttribute("open");
         button.setAttribute("aria-expanded", open ? "true" : "false");
-        const controls = button.getAttribute("aria-controls");
-        if (controls) {
-            const target = document.getElementById(controls);
-            if (target) target.hidden = !open;
-        }
+        nav.hidden = !open;
     }
 
     #onClick = (): void => {

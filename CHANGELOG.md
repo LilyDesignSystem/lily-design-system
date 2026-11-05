@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `hamburger-menu` and `collapsible` match their contracts — 2026-11-05
+
+**Breaking for HTML, Nunjucks, Web Components and Alpine markup.**
+
+- **Changed (HTML, Nunjucks, Web Components): `hamburger-menu` is a `<div>`** holding `.hamburger-menu-button` and `.hamburger-menu-nav`. The navigation now belongs to the component and is `hidden` while closed, so `aria-controls` is no longer yours to set.
+- **Changed (Nunjucks):** `hamburger-menu` takes `open` and `navId` instead of `expanded` and `controls`, and its content through `html`, `text` or `caller()`. `hamburger-menu.js` toggles it; before, nothing did.
+- **Changed (Web Components):** the element's children go into the navigation, not the button.
+- **Changed (HTML, Alpine): `collapsible` is a native `<details>`** with `.collapsible-summary` and `.collapsible-body`, and needs no script. `data-trigger`, `data-content` and `data-expanded` are gone.
+- **Fixed (themes): all 63 drew the `hamburger-menu` wrapper as the button,** so a border sat around the open navigation in every catalog with a wrapper. The rule is now `.hamburger-menu > button`.
+
 ## CI failures, and four bugs behind them — 2026-11-05
 
 - **Fixed (Svelte): the package failed on import.** `build.mjs` left out `dev-warning` and `widget-keys`, which 171 components import. The published 0.6.2 is not affected; the next release would have been.

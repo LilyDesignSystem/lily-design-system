@@ -2031,7 +2031,7 @@
         gap: 0.25rem;
     }
     /* Hamburger — bordered icon-button. */
-    :where(.hamburger-menu) {
+    :where(.hamburger-menu > button) {
         display: inline-flex;
         align-items: center;
         justify-content: center;

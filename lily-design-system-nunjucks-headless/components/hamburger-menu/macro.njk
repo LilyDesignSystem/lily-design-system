@@ -1,28 +1,53 @@
 {#
   HamburgerMenu macro — a toggle button that opens a mobile navigation menu.
 
-  HTML tag: <button>
-  CSS class: hamburger-menu
+  HTML tag: <div> holding a <button> and a <nav>
+  CSS class: hamburger-menu (sub-classes hamburger-menu-button,
+    hamburger-menu-icon, hamburger-menu-nav)
+  Behavior: hamburger-menu.js toggles it. The navigation stays in the markup
+    and is `hidden` while closed.
 
-  Params: label, controls (id of menu), expanded (default false),
-    id, classes, attributes.
+  Params:
+    label       string   Names the button and the navigation. Required.
+    open        boolean  Default false.
+    id          string   The root's id.
+    navId       string   The navigation's id (default: "{id}-nav", or
+                         "hamburger-menu-nav"). Give each menu its own.
+    classes     string
+    html / text / caller()  The navigation content.
+    attributes  object   Extra attributes on the root.
 
   Usage:
     {% from "components/hamburger-menu/macro.njk" import hamburgerMenu %}
-    {{ hamburgerMenu({ id: "example", label: "Example" }) }}
+    {% call hamburgerMenu({ id: "site-menu", label: "Main menu" }) %}<ul>…</ul>{% endcall %}
 #}
 {%- macro hamburgerMenu(params) -%}
 {%- set p = params | default({}) -%}
-<button
+{%- set navId = p.navId or ((p.id ~ "-nav") if p.id else "hamburger-menu-nav") -%}
+<div
   class="hamburger-menu{% if p.classes %} {{ p.classes }}{% endif %}"
-  type="button"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
-  aria-expanded="{{ 'true' if p.expanded else 'false' }}"
-  {%- if p.controls %} aria-controls="{{ p.controls }}"{% endif %}
-  data-module="hamburger-menu"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  <span class="hamburger-menu-icon" aria-hidden="true"></span>
-</button>
+  <button
+    class="hamburger-menu-button"
+    type="button"
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    aria-expanded="{{ 'true' if p.open else 'false' }}"
+    aria-controls="{{ navId }}"
+  >
+    <span class="hamburger-menu-icon" aria-hidden="true"></span>
+  </button>
+  <nav
+    class="hamburger-menu-nav"
+    id="{{ navId }}"
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    {%- if not p.open %} hidden{% endif %}
+  >
+    {%- if p.html -%}{{ p.html | safe }}
+    {%- elif p.text -%}{{ p.text }}
+    {%- elif caller -%}{{ caller() }}
+    {%- endif -%}
+  </nav>
+</div>
 {%- endmacro -%}

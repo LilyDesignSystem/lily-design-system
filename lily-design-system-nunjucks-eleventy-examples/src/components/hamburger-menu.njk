@@ -6,7 +6,12 @@ description: a toggle button that opens a mobile navigation menu
 
 {% from "components/hamburger-menu/macro.njk" import hamburgerMenu %}
 
-{{ hamburgerMenu({ controls: "nav", label: "Open menu" }) }}
+{% call hamburgerMenu({ id: "demo-menu", label: "Main menu", open: true }) %}
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+{% endcall %}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
