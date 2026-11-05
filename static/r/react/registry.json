@@ -9637,9 +9637,9 @@
       ]
     },
     {
-      "name": "tag-input",
+      "name": "tag-input-div",
       "type": "registry:component",
-      "title": "TagInput",
+      "title": "TagInputDiv",
       "description": "An input for adding and removing tags.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
@@ -9650,9 +9650,9 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/TagInput.tsx",
+          "path": "lily-design-system-react-headless/components/TagInputDiv.tsx",
           "type": "registry:component",
-          "target": "@components/lily/TagInput.tsx"
+          "target": "@components/lily/TagInputDiv.tsx"
         }
       ]
     },

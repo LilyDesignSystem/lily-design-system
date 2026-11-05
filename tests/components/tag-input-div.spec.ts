@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const slug = 'tag-input';
+const slug = 'tag-input-div';
 const title = 'Tag Input';
 
 test.describe('component page: ' + slug, () => {

@@ -49,7 +49,7 @@ None -- this component is a passive container. Keyboard behavior depends on the 
 
 - Do not use for a single tag -- render the Tag component directly
 - Do not use for interactive chip or filter patterns -- use ToggleGroup or SegmentGroup instead
-- Do not use for tag creation and removal -- use TagInput for editable tag lists
+- Do not use for tag creation and removal -- use TagInputDiv for editable tag lists
 
 ## Headless
 
@@ -78,7 +78,7 @@ TagGroup uses the Group/Item composition pattern. Place Tag components as childr
 ## Related components
 
 - `tag` — a keyword label for categorizing content
-- `tag-input` — an input for adding and removing tags
+- `tag-input-div` — an input for adding and removing tags
 
 ## References
 

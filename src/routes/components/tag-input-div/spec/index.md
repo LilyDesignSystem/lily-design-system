@@ -1,19 +1,19 @@
-# Tag Input — Specification
+# Tag Input Div — Specification
 
-Single source of truth for spec-driven development of the Tag Input component. Consolidates the prior `plan.md` and `tasks.md`.
+Single source of truth for spec-driven development of the Tag Input Div component. Consolidates the prior `plan.md` and `tasks.md`.
 
 ## Goal
 
-Implement the Tag Input component: an input for adding and removing tags.
+Implement the Tag Input Div component: an input for adding and removing tags.
 
 ## HTML Tag and CSS Class
 
 - HTML tag: <div>
-- CSS class: .tag-input
+- CSS class: .tag-input-div
 
 ## Approach
 
-1. Use semantic <div> element with class="tag-input"
+1. Use a <div role="group"> element with class="tag-input-div", holding the consumer's tags and an <input class="tag-input-div-field">
 2. Add ARIA attributes for accessibility
 3. Implement keyboard navigation
 4. Add vanilla JavaScript for interactive behavior
@@ -24,8 +24,8 @@ Implement the Tag Input component: an input for adding and removing tags.
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> with class="tag-input"
-- [ ] `aria-label={label}` -- provides an accessible name for the text input
+- [ ] Renders <div> with class="tag-input-div"
+- [ ] `role="group"` and `aria-label={label}` on the root, and `aria-label={label}` on the field
 - [ ] Keyboard: Enter: When the input has a non-empty trimmed value, prevents default form submission, calls `onadd` with the trimmed value, and clears the input
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
@@ -37,12 +37,12 @@ Implement the Tag Input component: an input for adding and removing tags.
 
 - [x] Create component directory with index.md and README.md symlink
 - [x] Document props, usage, keyboard interactions, and ARIA in index.md
-- [x] Add CSS class .tag-input to css-style-sheet-template.css
+- [x] Add CSS class .tag-input-div to css-style-sheet-template.css
 
 ### In Progress
 
-- [ ] Implement HTML headless component (tag-input.html)
-- [ ] Implement HTML headless test (tag-input.test.js)
+- [ ] Implement HTML headless component (tag-input-div.html)
+- [ ] Implement HTML headless test (tag-input-div.test.js)
 
 ### Backlog
 
