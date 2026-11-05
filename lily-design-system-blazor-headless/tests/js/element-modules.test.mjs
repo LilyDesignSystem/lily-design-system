@@ -1,4 +1,4 @@
-// Behaviour tests for the small element modules: TagInput.razor.js, HorizontalScroller.razor.js and Details.razor.js
+// Behaviour tests for the small element modules: TagInputDiv.razor.js, HorizontalScroller.razor.js and Details.razor.js
 // (mirrors the key cases in the Svelte tests).
 // Run: JSDOM_PATH=/path/to/jsdom node --test tests/js/element-modules.test.mjs
 // Needs the `jsdom` package (resolved normally, or via the JSDOM_PATH env var).
@@ -16,7 +16,7 @@ const { JSDOM } = process.env.JSDOM_PATH
 const dom = new JSDOM("<!doctype html><body></body>", { pretendToBeVisual: true });
 const { document, KeyboardEvent, Event } = dom.window;
 const modules = "../../src/LilyBlazorHeadless/Components/";
-const tagInput = await import(`${modules}TagInput.razor.js`);
+const tagInputDiv = await import(`${modules}TagInputDiv.razor.js`);
 const scroller = await import(`${modules}HorizontalScroller.razor.js`);
 const details = await import(`${modules}Details.razor.js`);
 
@@ -35,35 +35,35 @@ const field = (value) => {
     return input;
 };
 
-test("TagInput: Enter with text adds the trimmed text, clears the field and stays out of the form", () => {
+test("TagInputDiv: Enter with text adds the trimmed text, clears the field and stays out of the form", () => {
     const input = field("  one  ");
     const dotnet = recorder();
-    tagInput.attach(input, dotnet);
+    tagInputDiv.attach(input, dotnet);
     assert.equal(press(input, "Enter").defaultPrevented, true);
     assert.deepEqual(dotnet.calls, [["OnTagAdd", "one"]]);
     assert.equal(input.value, "");
 });
 
-test("TagInput: Enter with no text is a normal Enter, so a form can submit", () => {
+test("TagInputDiv: Enter with no text is a normal Enter, so a form can submit", () => {
     const input = field("   ");
     const dotnet = recorder();
-    tagInput.attach(input, dotnet);
+    tagInputDiv.attach(input, dotnet);
     assert.equal(press(input, "Enter").defaultPrevented, false);
     assert.deepEqual(dotnet.calls, []);
 });
 
-test("TagInput: Enter that confirms an IME composition adds nothing", () => {
+test("TagInputDiv: Enter that confirms an IME composition adds nothing", () => {
     const input = field("にほん");
     const dotnet = recorder();
-    tagInput.attach(input, dotnet);
+    tagInputDiv.attach(input, dotnet);
     assert.equal(press(input, "Enter", { isComposing: true }).defaultPrevented, false);
     assert.deepEqual(dotnet.calls, []);
 });
 
-test("TagInput: other keys are left alone, and dispose detaches", () => {
+test("TagInputDiv: other keys are left alone, and dispose detaches", () => {
     const input = field("one");
     const dotnet = recorder();
-    const handle = tagInput.attach(input, dotnet);
+    const handle = tagInputDiv.attach(input, dotnet);
     assert.equal(press(input, "a").defaultPrevented, false);
     handle.dispose();
     press(input, "Enter");

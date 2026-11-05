@@ -3182,10 +3182,10 @@
       "manifest": "https://lilydesignsystem.com/r/tag-group.json"
     },
     {
-      "slug": "tag-input",
-      "name": "TagInput",
+      "slug": "tag-input-div",
+      "name": "TagInputDiv",
       "description": "an input for adding and removing tags",
-      "manifest": "https://lilydesignsystem.com/r/tag-input.json"
+      "manifest": "https://lilydesignsystem.com/r/tag-input-div.json"
     },
     {
       "slug": "taiwan-guomin-shenfenzheng-tongyi-bianhao-input",

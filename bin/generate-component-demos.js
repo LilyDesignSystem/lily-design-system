@@ -328,7 +328,7 @@ const explicitDemos = {
   'select-with-extras': '<div class="select-with-extras"><input type="text" placeholder="Search..." /><select><option>Option 1</option><option>Option 2</option></select></div>',
   'currency-input': '<label class="label" for="demo-currency">Amount</label><input class="currency-input" type="text" id="demo-currency" value="$1,234.56" />',
   'tag-group': '<div class="tag-group"><span class="tag">Design</span><span class="tag">Development</span><span class="tag">Testing</span></div>',
-  'tag-input': '<div class="tag-input"><span class="tag">React <button aria-label="Remove React">\u00d7</button></span><input type="text" placeholder="Add tag..." /></div>',
+  'tag-input-div': '<div class="tag-input-div" role="group" aria-label="Add a tag"><span class="tag">React <button aria-label="Remove React">\u00d7</button></span><input class="tag-input-div-field" type="text" aria-label="Add a tag" placeholder="Add tag..." /></div>',
   'date-field': '<div class="date-field" role="group" aria-label="Date"><input type="text" aria-label="Day" size="2" value="15" /> / <input type="text" aria-label="Month" size="2" value="03" /> / <input type="text" aria-label="Year" size="4" value="2026" /></div>',
   'time-picker-input': '<input class="time-picker-input" type="time" value="14:30" aria-label="Select time" />',
   'pin-input-div': '<div class="pin-input-div" role="group" aria-label="PIN code"><input type="text" maxlength="1" size="1" aria-label="Digit 1" /> <input type="text" maxlength="1" size="1" aria-label="Digit 2" /> <input type="text" maxlength="1" size="1" aria-label="Digit 3" /> <input type="text" maxlength="1" size="1" aria-label="Digit 4" /></div>',

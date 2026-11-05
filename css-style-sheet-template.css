@@ -1824,8 +1824,8 @@
 .tag-group {
 }
 
-/* tag-input: an input for adding and removing tags */
-.tag-input {
+/* tag-input-div: an input for adding and removing tags */
+.tag-input-div {
 }
 
 /* task-bar: a horizontal bar of task shortcuts or actions */

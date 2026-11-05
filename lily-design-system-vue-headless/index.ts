@@ -531,7 +531,7 @@ export { default as TableTD } from "./components/TableTD.vue";
 export { default as TableTH } from "./components/TableTH.vue";
 export { default as Tag } from "./components/Tag.vue";
 export { default as TagGroup } from "./components/TagGroup.vue";
-export { default as TagInput } from "./components/TagInput.vue";
+export { default as TagInputDiv } from "./components/TagInputDiv.vue";
 export { default as TaiwanGuominShenfenzhengTongyiBianhaoInput } from "./components/TaiwanGuominShenfenzhengTongyiBianhaoInput.vue";
 export { default as TaiwanGuominShenfenzhengTongyiBianhaoView } from "./components/TaiwanGuominShenfenzhengTongyiBianhaoView.vue";
 export { default as TaskBar } from "./components/TaskBar.vue";

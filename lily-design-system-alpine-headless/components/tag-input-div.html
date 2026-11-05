@@ -1,0 +1,41 @@
+<!-- tag-input-div.html -->
+<!-- TagInputDiv component (Alpine.js) -->
+<!--
+  Description: an input for adding and removing tags
+  HTML tag: <div>
+  CSS class: tag-input-div
+  Keyboard: Enter adds the trimmed text as a tag; Backspace on an empty field removes the last tag
+  Accessibility: role="group" with aria-label; the text field has its own aria-label; each remove button needs an aria-label
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<div
+  class="tag-input-div"
+  role="group"
+  aria-label=""
+  x-data="lilyTagInputDiv()"
+>
+  <ul class="tag-input-div-list">
+    <template
+      x-for="tag in tags"
+      :key="tag"
+    >
+      <li class="tag-input-div-list-item">
+        <span x-text="tag"></span>
+        <button
+          type="button"
+          class="tag-input-div-list-item-remove"
+          aria-label=""
+          @click="remove(tag)"
+        >
+          <!-- Consumer provides remove label -->
+        </button>
+      </li>
+    </template>
+  </ul>
+  <input
+    class="tag-input-div-field"
+    aria-label=""
+    x-bind="input"
+  />
+</div>

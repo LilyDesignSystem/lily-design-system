@@ -414,7 +414,7 @@ const COMPONENTS = [
     ["table-td", "a table data cell"],
     ["tag-group", "a group of tag elements"],
     ["tag", "a keyword label for categorizing content"],
-    ["tag-input", "an input for adding and removing tags"],
+    ["tag-input-div", "an input for adding and removing tags"],
     ["task-bar", "a horizontal bar of task shortcuts or actions"],
     ["task-bar-button", "one item in a task bar"],
     ["task-list", "an ordered list of task list items"],
@@ -492,7 +492,7 @@ const INPUT_TYPES = {
     "reset-input": "reset",
     "search-input": "search",
     "submit-input": "submit",
-    "tag-input": "text",
+    "tag-input-div": "text",
     "tel-input": "tel",
     "text-input": "text",
     "time-input": "time",
@@ -815,7 +815,7 @@ function getActualTag(name, tag) {
     if (name === "segment-group") return "div";
     if (name === "segment-group-item") return "button";
     if (name === "tag-group") return "div";
-    if (name === "tag-input") return "div";
+    if (name === "tag-input-div") return "div";
     if (name === "pin-input-div") return "div";
     if (name === "password-input-or-text-input-div") return "div";
     if (name === "switch-button") return "button";
@@ -887,7 +887,7 @@ function needsScript(name) {
         "splitter",
         "switch-button",
         "tab-bar",
-        "tag-input",
+        "tag-input-div",
         "theme-select",
         "time-picker-input",
         "timer",

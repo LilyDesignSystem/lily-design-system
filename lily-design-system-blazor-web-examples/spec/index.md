@@ -153,7 +153,7 @@ SvelteKit spec for the full table. The Blazor implementations live in
   the trigger and `Visible`/`VisibleChanged` to toggle.
 - **AccordionListItem** renders `<details>`; requires `<summary>` as first
   child.
-- **TagInput.Onadd** is a `string` parameter (not a callback). Use
+- **TagInputDiv.Onadd** is a `string` parameter (not a callback). Use
   `TextInput` with `@onkeydown` for tag-add functionality.
 
 ## 9. Testing

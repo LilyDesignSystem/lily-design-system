@@ -438,7 +438,7 @@ export const componentDemos: Record<string, string> = {
   'table-th': '<th class="table-th">Column heading</th>',
   'tag': '<span class="tag">Category</span>',
   'tag-group': '<div class="tag-group"><span class="tag">Design</span><span class="tag">Development</span><span class="tag">Testing</span></div>',
-  'tag-input': '<div class="tag-input"><span class="tag">React <button aria-label="Remove React">×</button></span><input type="text" aria-label="Add a tag" placeholder="Add tag..." /></div>',
+  'tag-input-div': '<div class="tag-input-div" role="group" aria-label="Add a tag"><span class="tag">React <button aria-label="Remove React">×</button></span><input class="tag-input-div-field" type="text" aria-label="Add a tag" placeholder="Add tag..." /></div>',
   'task-bar': '<div class="task-bar" role="toolbar" aria-label="Tasks"><button class="task-bar-button">New</button><button class="task-bar-button">Open</button></div>',
   'task-bar-button': '<button class="task-bar-button">Task</button>',
   'task-list': '<ol class="task-list"><li class="task-list-item"><label><input type="checkbox" /> Book the appointment</label></li></ol>',

@@ -62,7 +62,7 @@ framework's prop names:
 - **The value inputs bind.** Every text-style `*Input` takes `@bind-Value`,
   the numeric ones a `double` or `double?`, and `CheckboxInput` `@bind-Checked`.
 - **So do the other controls.** `Select`, `ThemeSelect`, `Slider`,
-  `TimePickerInput` and `TagInput` take `@bind-Value`, `ToggleButton`
+  `TimePickerInput` and `TagInputDiv` take `@bind-Value`, `ToggleButton`
   `@bind-Pressed`, `Details` `@bind-Open`. `Form` and `DataFilterForm` take
   `OnSubmit` and `OnReset` and always prevent the default submit; `@onsubmit`
   reaches the same parameter. A lowercase `oninput` or `onchange` replaces the

@@ -45,6 +45,7 @@
     "components/*/macro.njk",
     "components/autosuggest/autosuggest.js",
     "components/combobox/combobox.js",
+    "components/tag-input-div/tag-input-div.js",
     "components/command/command.js",
     "components/command/command-keys.js",
     "components/menu/menu.js",

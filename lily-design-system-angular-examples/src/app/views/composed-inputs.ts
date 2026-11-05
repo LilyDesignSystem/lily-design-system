@@ -8,6 +8,7 @@ import { PasswordInputOrTextInputDiv } from "../components/PasswordInputOrTextIn
 import { RedAmberGreenPicker } from "../components/RedAmberGreenPicker";
 import { RedOrangeYellowGreenBluePicker } from "../components/RedOrangeYellowGreenBluePicker";
 import { SelectWithExtras } from "../components/SelectWithExtras";
+import { TagInputDiv } from "../components/TagInputDiv";
 import { TaskListItem } from "../components/TaskListItem";
 import { TextAreaInputWithCharacterCounter } from "../components/TextAreaInputWithCharacterCounter";
 import { TextInputWithSearch } from "../components/TextInputWithSearch";
@@ -27,6 +28,7 @@ import { TourListItem } from "../components/TourListItem";
         RedAmberGreenPicker,
         RedOrangeYellowGreenBluePicker,
         SelectWithExtras,
+        TagInputDiv,
         TaskListItem,
         TextAreaInputWithCharacterCounter,
         TextInputWithSearch,
@@ -86,11 +88,19 @@ import { TourListItem } from "../components/TourListItem";
         <li lily-tour-list-item label="Two" [current]="step() === 2"><p>Second step</p></li>
       </ol>
       <button type="button" data-testid="next" (click)="step.set(2)">Next</button>
+
+      <lily-tag-input-div label="Tags" [(value)]="tagText" (added)="tags.set([...tags(), $event])" data-testid="tags">
+        @for (tag of tags(); track tag) {
+          <span class="tag">{{ tag }}</span>
+        }
+      </lily-tag-input-div>
     </article>
   `,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ComposedInputsPage {
+    protected readonly tagText = signal("");
+    protected readonly tags = signal<string[]>([]);
     protected readonly terms = signal("");
     protected readonly searched = signal("");
     protected readonly submits = signal(0);

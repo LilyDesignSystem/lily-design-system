@@ -92,7 +92,7 @@ Tag is designed to be used as a child of TagGroup. The TagGroup provides a `role
 ## Related components
 
 - `tag-group` — a group of tag elements
-- `tag-input` — an input for adding and removing tags
+- `tag-input-div` — an input for adding and removing tags
 - `badge` — a small label for counts, statuses, or categories
 - `status-tag` — a tag showing the current status of a task
 

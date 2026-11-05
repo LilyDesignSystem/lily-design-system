@@ -140,7 +140,7 @@ function removeTag(tag: string) {
             </div>
         </Combobox>
 
-        <TagInput
+        <TagInputDiv
             label="Add custom filter tag"
             v-model="tagValue"
             placeholder="Type and press Enter..."

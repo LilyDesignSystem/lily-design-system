@@ -231,7 +231,7 @@ name for free.
 
 Style the label (`:has(input:checked)` for the selected state, `:has(input:focus-visible)` for the focus ring) and
 hide the input visually without removing it — clip it, never `display: none` or `hidden`, which take it out of the
-form and the accessibility tree. For removable chips, use `TagInput`.
+form and the accessibility tree. For removable chips, use `TagInputDiv`.
 
 ### Summary card pattern: Card → title + header actions + SummaryList
 

@@ -37,7 +37,7 @@ The snippet fixes the element, the base class (first, as in every Lily catalog) 
   - _Menus:_ `menu`, `menu-bar` (`lilyMenu`), `dropdown-menu`, `split-button`, `action-group` (`lilyDropdownMenu`), `context-menu` (`lilyContextMenu`).
   - _Selection:_ `listbox` (`lilyListbox`), `segment-group` (`lilySegmentGroup`), `combobox` (`lilyCombobox`), `command` (`lilyCommand`); the five rating and status pickers are native radios and `<select>` bound with `x-model`.
   - _Trees:_ `tree-nav`, `tree-menu`, `file-tree` (`lilyTree`), `tree-select` (`lilyTreeSelect`), `cascader` (`lilyCascader`).
-  - _Text and form inputs:_ `character-counter`, `text-area-input-with-character-counter`, `password-input-or-text-input-div`, `pin-input-div`, `tag-input`, `currency-input`, `text-input-with-search`, `mentions-input`, `editable`, `editable-form`, `data-filter-form`, `newsletter-signup`, `date-time-now-input`, `time-picker-input`.
+  - _Text and form inputs:_ `character-counter`, `text-area-input-with-character-counter`, `password-input-or-text-input-div`, `pin-input-div`, `tag-input-div`, `currency-input`, `text-input-with-search`, `mentions-input`, `editable`, `editable-form`, `data-filter-form`, `newsletter-signup`, `date-time-now-input`, `time-picker-input`.
   - _Value controls and guided widgets:_ `slider`, `dial`, `color-picker`, `splitter`, `resizable`, `scroll-area`, `carousel`, `tour`, `coachmark`, `file-upload`.
   - _Container-only (role and name, no behaviour):_ `calendar-range-picker`, `emoji-character-picker`, `image-cropper`, `signature-pad`, `file-manager`, `float-button`, `toast`, `sonner`, `timer`.
 

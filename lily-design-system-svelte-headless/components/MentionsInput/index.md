@@ -22,7 +22,7 @@ A headless Svelte 5 component inspired by [Ant Design Mentions](https://ant.desi
 ## When not to use it
 
 - For plain text input, use `TextInput` or `TextAreaInput`.
-- For tag selection, use `TagInput`.
+- For tag selection, use `TagInputDiv`.
 
 ## Props
 

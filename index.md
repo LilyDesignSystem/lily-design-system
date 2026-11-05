@@ -660,7 +660,7 @@ slug below links to the per-component documentation.
 - [table-th](components/table-th): a table interactive grid header cell <th>
 - [tag](components/tag): a keyword label for categorizing content
 - [tag-group](components/tag-group): a group of tag elements
-- [tag-input](components/tag-input): an input for adding and removing tags
+- [tag-input-div](components/tag-input-div): an input for adding and removing tags
 - [task-bar](components/task-bar): a horizontal bar of task shortcuts or actions
 - [task-bar-button](components/task-bar-button): one item in a task bar
 - [task-list](components/task-list): an ordered list of task list items

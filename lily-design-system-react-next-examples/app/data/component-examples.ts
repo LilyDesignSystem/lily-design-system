@@ -452,7 +452,7 @@ export const componentExamples: Record<string, ComponentExample> = {
   "table-th": {"usage":{"lang":"tsx","code":"<Table label=\"Users\">\n  <TableHead>\n    <TableRow>\n      <TableTH>Name</TableTH>\n      <TableTH>Email</TableTH>\n    </TableRow>\n  </TableHead>\n  <TableBody>\n    <TableRow>\n      <TableTH scope=\"row\">Alice</TableTH>\n      <TableTD>alice@example.com</TableTD>\n    </TableRow>\n  </TableBody>\n</Table>\n"}},
   "tag": {"usage":{"lang":"tsx","code":"<Tag label=\"Category\">Design</Tag>\n"}},
   "tag-group": {"usage":{"lang":"tsx","code":"<TagGroup label=\"Technologies\">\n  <Tag>React</Tag>\n  <Tag>TypeScript</Tag>\n</TagGroup>\n"}},
-  "tag-input": {"usage":{"lang":"tsx","code":"<TagInput label=\"Add tag\" value + onChange onAdd={(tag) => tags.push(tag)} />\n"}},
+  "tag-input-div": {"usage":{"lang":"tsx","code":"<TagInputDiv label=\"Add tag\" value + onChange onAdd={(tag) => tags.push(tag)} />\n"}},
   "task-bar": {"usage":{"lang":"tsx","code":"<TaskBar label=\"Tasks\">\n  <TaskBarButton>New</TaskBarButton>\n  <TaskBarButton>Open</TaskBarButton>\n  <TaskBarButton>Save</TaskBarButton>\n</TaskBar>\n"}},
   "task-bar-button": {"usage":{"lang":"tsx","code":"<TaskBarButton>New Task</TaskBarButton>\n"}},
   "task-list": {"usage":{"lang":"tsx","code":"import TaskList from \"./TaskList\";\n\n<TaskList label=\"Today's tasks\">\n  <li>Review pull requests</li>\n  <li>Update documentation</li>\n  <li>Deploy to staging</li>\n</TaskList>;\n"}},

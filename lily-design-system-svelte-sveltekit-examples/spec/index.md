@@ -123,7 +123,7 @@ Twelve composed-page demos exercise multiple components together:
 | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu                   |
 | `/page-layout`          | Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu                          |
 | `/rating-and-feedback`  | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker              |
-| `/search-and-filter`    | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge                |
+| `/search-and-filter`    | Combobox, SearchInput, TagInputDiv, TagGroup, Tag, DataTable, Badge                |
 | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Banner                  |
 | `/tabbed-interface`     | TabBar, TabBarButton, TabPanel, AccordionNav, Badge                             |
 | `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Badge, Progress               |

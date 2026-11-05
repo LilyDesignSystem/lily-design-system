@@ -112,9 +112,9 @@ test.describe("search and filter", () => {
         await expect(page.locator(".tag-group")).toContainText("Electronics");
         await expect(page.getByRole("cell", { name: "Standing Desk" })).toHaveCount(0);
 
-        const tagInput = page.getByLabel("Add filter tag");
-        await tagInput.fill("Furniture");
-        await tagInput.press("Enter");
+        const tagInputDiv = page.getByLabel("Add filter tag");
+        await tagInputDiv.fill("Furniture");
+        await tagInputDiv.press("Enter");
         await expect(page.locator(".tag-group")).toContainText("Furniture");
     });
 });

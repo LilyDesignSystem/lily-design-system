@@ -46,12 +46,12 @@
 <button type="button" data-testid="details-from-csharp" @onclick="@(() => _open = !_open)">Toggle from C#</button>
 
 <Form Label="Tags" OnSubmit="@(() => _submits++)" OnReset="@(() => _resets++)" data-testid="form">
-    <TagInput Label="Tag" @bind-Value="_tag" OnAdd="@(tag => _tags.Add(tag))" data-testid="tags">
+    <TagInputDiv Label="Tag" @bind-Value="_tag" OnAdd="@(tag => _tags.Add(tag))" data-testid="tags">
         @foreach (var tag in _tags)
         {
             <span class="tag">@tag</span>
         }
-    </TagInput>
+    </TagInputDiv>
     <button type="submit">Save</button>
     <button type="reset">Reset</button>
 </Form>

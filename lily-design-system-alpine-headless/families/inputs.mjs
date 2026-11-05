@@ -1,6 +1,6 @@
 // Family: text and form inputs. character-counter, text-area-input-with-
 // character-counter, password-input-or-text-input-div, pin-input-div,
-// tag-input, currency-input, text-input-with-search, mentions-input,
+// tag-input-div, currency-input, text-input-with-search, mentions-input,
 // editable, editable-form, data-filter-form, newsletter-signup,
 // date-time-now-input, time-picker-input.
 
@@ -183,33 +183,33 @@ const paste = (box, text) => {
   });`,
     },
 
-    "tag-input": {
+    "tag-input-div": {
         tag: "div",
         keyboard:
             "Enter adds the trimmed text as a tag; Backspace on an empty field removes the last tag",
         aria: 'role="group" with aria-label; the text field has its own aria-label; each remove button needs an aria-label',
-        markup: `<div class="tag-input" role="group" aria-label="" x-data="lilyTagInput()">
-  <ul class="tag-input-list">
+        markup: `<div class="tag-input-div" role="group" aria-label="" x-data="lilyTagInputDiv()">
+  <ul class="tag-input-div-list">
     <template x-for="tag in tags" :key="tag">
-      <li class="tag-input-tag">
+      <li class="tag-input-div-list-item">
         <span x-text="tag"></span>
-        <button type="button" class="tag-input-remove" aria-label="" @click="remove(tag)"><!-- Consumer provides remove label --></button>
+        <button type="button" class="tag-input-div-list-item-remove" aria-label="" @click="remove(tag)"><!-- Consumer provides remove label --></button>
       </li>
     </template>
   </ul>
-  <input class="tag-input-control" aria-label="" x-bind="input">
+  <input class="tag-input-div-field" aria-label="" x-bind="input">
 </div>`,
-        sel: "div.tag-input",
+        sel: "div.tag-input-div",
         extra: `${press}\nconst field = () => el().querySelector("input");
-const tags = () => [...el().querySelectorAll(".tag-input-tag span")].map((s) => s.textContent);
+const tags = () => [...el().querySelectorAll(".tag-input-div-list-item span")].map((s) => s.textContent);
 const add = async (text) => { field().value = text; await press(field(), "Enter"); };`,
         test: `
   it("starts with no tags", async () => {
-    await mount("tag-input");
+    await mount("tag-input-div");
     expect(tags()).toEqual([]);
   });
   it("Enter adds the trimmed text, clears the field and announces it", async () => {
-    await mount("tag-input");
+    await mount("tag-input-div");
     const seen = vi.fn();
     el().addEventListener("lily:add", (e) => seen(e.detail));
     await add("  red  ");
@@ -218,7 +218,7 @@ const add = async (text) => { field().value = text; await press(field(), "Enter"
     expect(seen).toHaveBeenCalledWith({ value: "red", tags: ["red"] });
   });
   it("ignores blank text and duplicates, and does not submit a form", async () => {
-    await mount("tag-input");
+    await mount("tag-input-div");
     const added = vi.fn();
     el().addEventListener("lily:add", added);
     await add("   ");
@@ -232,11 +232,11 @@ const add = async (text) => { field().value = text; await press(field(), "Enter"
     expect(event.defaultPrevented).toBe(true);
   });
   it("Backspace on an empty field removes the last tag; a remove button removes its own", async () => {
-    await mount("tag-input");
+    await mount("tag-input-div");
     await add("red"); await add("green"); await add("blue");
     await press(field(), "Backspace");
     expect(tags()).toEqual(["red", "green"]);
-    el().querySelectorAll(".tag-input-remove")[0].click(); await tick();
+    el().querySelectorAll(".tag-input-div-list-item-remove")[0].click(); await tick();
     expect(tags()).toEqual(["green"]);
   });`,
     },

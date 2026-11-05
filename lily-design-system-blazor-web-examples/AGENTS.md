@@ -95,4 +95,4 @@ A few components genuinely DO declare a real bindable pair, where `@bind-X`/`XCh
 - **CSS**: Each component outputs its kebab-case base class (e.g., `"form"`, `"field"`, `"button"`) which NHS CSS targets
 - **Tooltip**: Is a sibling element, not a wrapper. Use `aria-describedby` on trigger, `Visible`/`VisibleChanged` to toggle
 - **AccordionListItem**: Renders `<details>`, requires `<summary>` as first child
-- **TagInput.Onadd**: Is `string` type, not a callback. Use `TextInput` with `@onkeydown` wrapper for tag-add functionality
+- **TagInputDiv.Onadd**: Is `string` type, not a callback. Use `TextInput` with `@onkeydown` wrapper for tag-add functionality

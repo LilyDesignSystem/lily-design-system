@@ -531,7 +531,7 @@ export { default as TableTD } from "./components/TableTD/TableTD.svelte";
 export { default as TableTH } from "./components/TableTH/TableTH.svelte";
 export { default as Tag } from "./components/Tag/Tag.svelte";
 export { default as TagGroup } from "./components/TagGroup/TagGroup.svelte";
-export { default as TagInput } from "./components/TagInput/TagInput.svelte";
+export { default as TagInputDiv } from "./components/TagInputDiv/TagInputDiv.svelte";
 export { default as TaiwanGuominShenfenzhengTongyiBianhaoInput } from "./components/TaiwanGuominShenfenzhengTongyiBianhaoInput/TaiwanGuominShenfenzhengTongyiBianhaoInput.svelte";
 export { default as TaiwanGuominShenfenzhengTongyiBianhaoView } from "./components/TaiwanGuominShenfenzhengTongyiBianhaoView/TaiwanGuominShenfenzhengTongyiBianhaoView.svelte";
 export { default as TaskBar } from "./components/TaskBar/TaskBar.svelte";

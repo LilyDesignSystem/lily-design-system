@@ -205,7 +205,7 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | SelectWithExtras            | Enhanced select with search/groups                                        |
 | SubmitInput                 | Form submit button                                                        |
 | SwitchButton                | Toggle switch for on/off settings                                         |
-| TagInput                    | Input for adding and removing tags                                        |
+| TagInputDiv                    | Input for adding and removing tags                                        |
 | TelInput                    | Telephone number input                                                    |
 | TextInput                   | Single-line text input                                                    |
 | TextAreaInput               | Multi-line text area                                                      |
@@ -462,7 +462,7 @@ See the `examples/` directory for comprehensive standalone examples:
 | [TaskManagement](examples/TaskManagement.tsx)         | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                              |
 | [NavigationAndMenus](examples/NavigationAndMenus.tsx) | NavigationMenu, MenuBar, MenuBarButton, ToolBar, ToolBarButton, HamburgerMenu, DropdownMenu, Separator |
 | [TimelineAndCards](examples/TimelineAndCards.tsx)     | TimelineList, TimelineListItem, Card, Badge, DateRange, ReviewDate, SummaryList, SummaryListItem       |
-| [SearchAndFilter](examples/SearchAndFilter.tsx)       | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, DataTableHead/Body/Row/Data, Badge          |
+| [SearchAndFilter](examples/SearchAndFilter.tsx)       | Combobox, SearchInput, TagInputDiv, TagGroup, Tag, DataTable, DataTableHead/Body/Row/Data, Badge          |
 
 ### Form with Validation
 

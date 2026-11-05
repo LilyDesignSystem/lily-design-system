@@ -9,6 +9,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `tag-input` is now `tag-input-div` — 2026-11-05
+
+**Breaking, in every catalog.** The component held five different shapes under one name, and its name promised an `<input>` that could not hold its tags. It is now `tag-input-div` / `TagInputDiv` (`<lily-tag-input-div>`, `tagInputDiv()`, `lilyTagInputDiv`), the same shape everywhere: a `<div role="group">` holding the consumer's tags and a field.
+
+- **Renamed.** Imports, selectors, the docs route (`/components/tag-input-div`) and the classes: `.tag-input` is `.tag-input-div`. Alpine's `.tag-input-tag`, `.tag-input-remove` and `.tag-input-control` are `.tag-input-div-list-item`, `.tag-input-div-list-item-remove` and `.tag-input-div-field`, as in Nunjucks.
+- **Changed (Svelte, React, Vue, Angular, Web Components).** The root was the `<input>`; it is now the `<div>`. `.tag-input-div` styles the wrapper, so move input styles to `.tag-input-div-field`. Rest props and `class` go on the root. `placeholder`, `name` and `required` are real props, on the field. The tags go in the default slot.
+- **Tests.** The label names both the group and the field, so `getByLabelText` finds two elements: use `getByRole("textbox", { name })`.
+- **Fixed (Angular): it could not add a tag.** It had no Enter handling and no event. Enter now emits `added`.
+- **Fixed (HTML):** was an empty stub, now a working field that fires `tag-input-div-add`.
+- **Fixed (Nunjucks):** the macro set `data-module` with no script behind it. `tag-input-div.js` handles Enter and the remove buttons. `removeLabel`, a function from tag to name, replaces the hard-coded English `Remove tag`; without it there is no remove button.
+- **Fixed (all):** Enter during an IME composition confirms the composition, and adds nothing. Only Blazor did this before.
+- **Added (Blazor):** `Placeholder`, `Name`, `Required`.
+
 ## Two contracts match what is built — 2026-11-05
 
 - **Changed: the `hamburger-menu` contract is `<div>`,** not `<button>`: a button cannot hold the navigation it opens. Svelte, React, Vue, Angular, Blazor and Alpine already render it. HTML and Nunjucks still render a single `<button>`, as does Web Components, and the first two are listed in `bin/check-html-tags.allow.json` with that reason.

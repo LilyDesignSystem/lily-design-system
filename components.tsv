@@ -437,7 +437,7 @@ table-td	TableTD	a table interactive grid data cell <td>
 table-th	TableTH	a table interactive grid header cell <th>
 tag	Tag	a keyword label for categorizing content
 tag-group	TagGroup	a group of tag elements
-tag-input	TagInput	an input for adding and removing tags
+tag-input-div	TagInputDiv	an input for adding and removing tags
 task-bar	TaskBar	a horizontal bar of task shortcuts or actions
 task-bar-button	TaskBarButton	one item in a task bar
 task-list	TaskList	an ordered list of task list items

@@ -1818,9 +1818,9 @@ export default function lily(Alpine) {
         },
     }));
 
-    // TagInput: Enter adds the trimmed text as a tag (duplicates ignored) and
+    // TagInputDiv: Enter adds the trimmed text as a tag (duplicates ignored) and
     // clears the field; Backspace on an empty field removes the last tag.
-    Alpine.data("lilyTagInput", (tags = []) => ({
+    Alpine.data("lilyTagInputDiv", (tags = []) => ({
         tags: [...tags],
         add(text) {
             const tag = text.trim();

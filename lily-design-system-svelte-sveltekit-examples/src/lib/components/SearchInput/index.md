@@ -24,7 +24,7 @@ A Svelte 5 headless component wrapping `<input type="search">`. It renders exact
 
 - A search field that needs a built-in submit button, icon, or combobox suggestions - compose with other components or use `TextInputWithSearch`/`Combobox`.
 - Generic text entry (use `TextInput`).
-- Tag entry (use `TagInput`).
+- Tag entry (use `TagInputDiv`).
 
 ## How to use it
 
@@ -144,7 +144,7 @@ References:
 - `TextInput` - generic text entry.
 - `TextInputWithSearch` - text input with search affordances.
 - `Combobox` - text input with dropdown suggestions.
-- `TagInput` - build a list of tags from typed entries.
+- `TagInputDiv` - build a list of tags from typed entries.
 
 ---
 

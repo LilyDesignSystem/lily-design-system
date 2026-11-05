@@ -124,3 +124,14 @@ test("tour list item: only the current step shows", async ({ page }) => {
     await expect(page.getByText("First step")).toBeHidden();
     await expect(page.getByText("Second step")).toBeVisible();
 });
+
+test("tag input div: Enter adds the trimmed text and clears the field", async ({ page }) => {
+    const group = page.getByRole("group", { name: "Tags" });
+    const field = group.getByRole("textbox", { name: "Tags" });
+    await field.fill("  one  ");
+    await field.press("Enter");
+    await expect(group.locator(".tag")).toHaveText(["one"]);
+    await expect(field).toHaveValue("");
+    await field.press("Enter");
+    await expect(group.locator(".tag")).toHaveCount(1);
+});

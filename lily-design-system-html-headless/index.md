@@ -288,7 +288,7 @@ A headless plain HTML component library with 609 components. All components are 
   - **table-td**: a table data cell
 - **tag-group**: a group of tag elements
 - **tag**: a keyword label for categorizing content
-- **tag-input**: an input for adding and removing tags
+- **tag-input-div**: an input for adding and removing tags
 - **task-bar**: a horizontal bar of task shortcuts or actions
 - **task-bar-button**: one item in a task bar
 - **task-list**: an ordered list of task list items

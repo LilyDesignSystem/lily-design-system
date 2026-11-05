@@ -3081,8 +3081,8 @@ export const components: Component[] = [
       category: "forms",
   },
   {
-      slug: "tag-input",
-      name: "TagInput",
+      slug: "tag-input-div",
+      name: "TagInputDiv",
       description: "an input for adding and removing tags",
       tag: "div",
       category: "content",

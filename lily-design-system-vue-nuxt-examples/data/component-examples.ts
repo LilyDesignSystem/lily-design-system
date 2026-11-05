@@ -452,7 +452,7 @@ export const componentExamples: Record<string, ComponentExample> = {
   "table-th": {"usage":{"lang":"vue","code":"<Table label=\"Users\">\n  <TableHead>\n    <TableRow>\n      <TableTH>Name</TableTH>\n      <TableTH>Email</TableTH>\n    </TableRow>\n  </TableHead>\n  <TableBody>\n    <TableRow>\n      <TableTH scope=\"row\">Alice</TableTH>\n      <TableTD>alice@example.com</TableTD>\n    </TableRow>\n  </TableBody>\n</Table>\n"}},
   "tag": {"usage":{"lang":"svelte","code":"<Tag label=\"Category\">Design</Tag>\n"}},
   "tag-group": {"usage":{"lang":"svelte","code":"<TagGroup label=\"Technologies\">\n  <Tag>Svelte</Tag>\n  <Tag>TypeScript</Tag>\n</TagGroup>\n"}},
-  "tag-input": {"usage":{"lang":"svelte","code":"<TagInput\n  label=\"Add tag\"\n  bind:value\n  onadd={(tag) => tags.push(tag)}\n/>\n"}},
+  "tag-input-div": {"usage":{"lang":"svelte","code":"<TagInputDiv\n  label=\"Add tag\"\n  bind:value\n  onadd={(tag) => tags.push(tag)}\n/>\n"}},
   "task-bar": {"usage":{"lang":"svelte","code":"<TaskBar label=\"Tasks\">\n  <TaskBarButton>New</TaskBarButton>\n  <TaskBarButton>Open</TaskBarButton>\n  <TaskBarButton>Save</TaskBarButton>\n</TaskBar>\n"}},
   "task-bar-button": {"usage":{"lang":"svelte","code":"<TaskBarButton>New Task</TaskBarButton>\n"}},
   "task-list": {"usage":{"lang":"svelte","code":"<script>\n  import TaskList from \"./TaskList.svelte\";\n</script>\n\n<TaskList label=\"Today's tasks\">\n  <li>Review pull requests</li>\n  <li>Update documentation</li>\n  <li>Deploy to staging</li>\n</TaskList>\n"}},

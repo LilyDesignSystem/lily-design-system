@@ -1,6 +1,6 @@
 // Example: Search interface with combobox autocomplete, tag filtering, and data table
 //
-// Demonstrates: Combobox, SearchInput, TagGroup, Tag, TagInput,
+// Demonstrates: Combobox, SearchInput, TagGroup, Tag, TagInputDiv,
 // DataTable, DataTableHead, DataTableBody, DataTableRow, DataTableTD, Badge
 
 import { useState } from "react";
@@ -8,7 +8,7 @@ import Combobox from "../components/Combobox";
 import SearchInput from "../components/SearchInput";
 import TagGroup from "../components/TagGroup";
 import Tag from "../components/Tag";
-import TagInput from "../components/TagInput";
+import TagInputDiv from "../components/TagInputDiv";
 import DataTable from "../components/DataTable";
 import DataTableHead from "../components/DataTableHead";
 import DataTableBody from "../components/DataTableBody";
@@ -108,7 +108,7 @@ export default function SearchAndFilter() {
                 ))}
             </Combobox>
 
-            <TagInput
+            <TagInputDiv
                 label="Add custom filter tag"
                 value={tagValue}
                 onChange={setTagValue}

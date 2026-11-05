@@ -20,7 +20,7 @@ A headless Svelte 5 component inspired by [Ant Design Transfer](https://ant.desi
 ## When not to use it
 
 - For single-select dropdowns, use `Select` or `Combobox`.
-- For tag-style multi-select, use `TagInput`.
+- For tag-style multi-select, use `TagInputDiv`.
 
 ## Props
 
@@ -83,7 +83,7 @@ A headless Svelte 5 component inspired by [Ant Design Transfer](https://ant.desi
 ## Related components
 
 - `Listbox` — selectable list often placed in source/target.
-- `TagInput` — keyword-style multi-select.
+- `TagInputDiv` — keyword-style multi-select.
 - `CheckboxGroup` — flat multi-select.
 
 ## References

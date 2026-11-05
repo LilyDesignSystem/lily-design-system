@@ -22,7 +22,7 @@
   ],
   "related": [
     "tag",
-    "tag-input"
+    "tag-input-div"
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/tag-group.html",

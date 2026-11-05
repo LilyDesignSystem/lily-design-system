@@ -5,7 +5,7 @@ import Combobox from "@lily/Combobox";
 import SearchInput from "@lily/SearchInput";
 import TagGroup from "@lily/TagGroup";
 import Tag from "@lily/Tag";
-import TagInput from "@lily/TagInput";
+import TagInputDiv from "@lily/TagInputDiv";
 import DataTable from "@lily/DataTable";
 import DataTableHead from "@lily/DataTableHead";
 import DataTableBody from "@lily/DataTableBody";
@@ -105,7 +105,7 @@ export default function SearchAndFilterPage() {
                 ))}
             </Combobox>
 
-            <TagInput
+            <TagInputDiv
                 label="Add custom filter tag"
                 value={tagValue}
                 onChange={setTagValue}

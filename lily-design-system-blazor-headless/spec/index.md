@@ -199,7 +199,7 @@ dotnet test                                                     # run bUnit test
 ## Form reset — Blazor deviation (tasks.md P10-T9)
 
 The other headless libraries restore a stateful control's initial value when its `<form>` is reset (`form-reset.ts`
-in React, Vue, Angular, Web Components and HTML; inline in Svelte): `tag-input`, `combobox`, `segment-group`,
+in React, Vue, Angular, Web Components and HTML; inline in Svelte): `tag-input-div`, `combobox`, `segment-group`,
 `multi-select-with-extras`, `editable`, `pin-input-div` and the radio rating pickers. This library does not: a Blazor
 component cannot hear a form's `reset` event without a JavaScript module calling back into .NET, and Blazor forms reset
 through their model (`EditForm` with a fresh model object, or the bound values set back), not through the browser's

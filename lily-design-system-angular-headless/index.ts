@@ -532,7 +532,7 @@ export { TableTD } from "./components/TableTD";
 export { TableTH } from "./components/TableTH";
 export { Tag } from "./components/Tag";
 export { TagGroup } from "./components/TagGroup";
-export { TagInput } from "./components/TagInput";
+export { TagInputDiv } from "./components/TagInputDiv";
 export { TaiwanGuominShenfenzhengTongyiBianhaoInput } from "./components/TaiwanGuominShenfenzhengTongyiBianhaoInput";
 export { TaiwanGuominShenfenzhengTongyiBianhaoView } from "./components/TaiwanGuominShenfenzhengTongyiBianhaoView";
 export { TaskBar } from "./components/TaskBar";

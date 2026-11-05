@@ -73,7 +73,7 @@ lily-design-system-react-next-examples/
 | Navigation   | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu, Separator                 |
 | Page Layout  | `/page-layout`          | SkipLink, Header, Footer, BreadcrumbNav, Sidebar                                         |
 | Rating       | `/rating-and-feedback`  | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker, TextAreaInput, Alert |
-| Search       | `/search-and-filter`    | Combobox, SearchInput, TagInput, TagGroup, Tag, DataTable, Badge                         |
+| Search       | `/search-and-filter`    | Combobox, SearchInput, TagInputDiv, TagGroup, Tag, DataTable, Badge                         |
 | Settings     | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Separator, Button, Banner        |
 | Tabs         | `/tabbed-interface`     | TabBar, TabBarButton, AccordionNav, Badge                                                |
 | Tasks        | `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                |

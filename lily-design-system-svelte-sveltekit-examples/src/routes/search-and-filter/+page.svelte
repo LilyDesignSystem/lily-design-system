@@ -2,7 +2,7 @@
     import SearchInput from "#lib/components/SearchInput/SearchInput.svelte";
     import Combobox from "#lib/components/Combobox/Combobox.svelte";
     import Listbox from "#lib/components/Listbox/Listbox.svelte";
-    import TagInput from "#lib/components/TagInput/TagInput.svelte";
+    import TagInputDiv from "#lib/components/TagInputDiv/TagInputDiv.svelte";
     import TagGroup from "#lib/components/TagGroup/TagGroup.svelte";
     import Tag from "#lib/components/Tag/Tag.svelte";
     import Select from "#lib/components/Select/Select.svelte";
@@ -115,7 +115,7 @@
     </TagGroup>
 
     <div style="margin-top: var(--nhs-space-3);">
-        <TagInput
+        <TagInputDiv
             label="Add a filter tag"
             onadd={addTag}
         />

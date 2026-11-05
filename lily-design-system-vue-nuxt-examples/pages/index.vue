@@ -49,7 +49,7 @@ const examples = [
     {
         href: "/search-and-filter",
         title: "Search and Filter",
-        description: "Combobox, SearchInput, TagInput, DataTable",
+        description: "Combobox, SearchInput, TagInputDiv, DataTable",
     },
     {
         href: "/settings-page",

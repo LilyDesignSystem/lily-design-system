@@ -22,7 +22,7 @@ A Svelte 5 headless component that renders `<span class="tag ...">` with `role="
 
 ## When not to use it
 
-- Removable chips backed by a button - compose with a real `<button>` child or use `TagInput` for typed entry.
+- Removable chips backed by a button - compose with a real `<button>` child or use `TagInputDiv` for typed entry.
 - Live, assertive alerts - use `Alert` or `role="alert"`.
 - Multi-item tag strips - use `TagGroup` to wrap several tags.
 - Counters or score badges - use `Badge`.
@@ -110,7 +110,7 @@ References:
 ## Related components
 
 - `TagGroup` - container for multiple tags.
-- `TagInput` - text input for creating tags.
+- `TagInputDiv` - text input for creating tags.
 - `Badge` - count/status badge.
 - `Flair` - decorative highlight.
 

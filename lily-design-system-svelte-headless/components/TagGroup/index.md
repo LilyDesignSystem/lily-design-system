@@ -70,13 +70,13 @@ Dynamic tags from data:
 </TagGroup>
 ```
 
-Paired with `TagInput` for adding tags:
+Paired with `TagInputDiv` for adding tags:
 
 ```svelte
 <script lang="ts">
   import TagGroup from "./TagGroup.svelte";
   import Tag from "../Tag/Tag.svelte";
-  import TagInput from "../TagInput/TagInput.svelte";
+  import TagInputDiv from "../TagInputDiv/TagInputDiv.svelte";
   let tags = $state<string[]>(["svelte"]);
   let newTag = $state("");
 </script>
@@ -86,7 +86,7 @@ Paired with `TagInput` for adding tags:
     <Tag label="Tag">{t}</Tag>
   {/each}
 </TagGroup>
-<TagInput
+<TagInputDiv
   label="Add tag"
   bind:value={newTag}
   onadd={(v) => (tags = [...tags, v])}
@@ -138,7 +138,7 @@ References:
 ## Related components
 
 - `Tag` - the intended child.
-- `TagInput` - input for adding new tags.
+- `TagInputDiv` - input for adding new tags.
 - `Badge` - single count/status indicator.
 - `CheckboxGroup` - multi-select form group.
 

@@ -449,7 +449,7 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "table-th", pascal: "TableTH", description: "a table interactive grid header cell <th>", status: "beta" },
   { name: "tag", pascal: "Tag", description: "a keyword label for categorizing content", status: "stable" },
   { name: "tag-group", pascal: "TagGroup", description: "a group of tag elements", status: "stable" },
-  { name: "tag-input", pascal: "TagInput", description: "an input for adding and removing tags", status: "stable" },
+  { name: "tag-input-div", pascal: "TagInputDiv", description: "an input for adding and removing tags", status: "stable" },
   { name: "task-bar", pascal: "TaskBar", description: "a horizontal bar of task shortcuts or actions", status: "beta" },
   { name: "task-bar-button", pascal: "TaskBarButton", description: "one item in a task bar", status: "beta" },
   { name: "task-list", pascal: "TaskList", description: "an ordered list of task list items", status: "stable" },

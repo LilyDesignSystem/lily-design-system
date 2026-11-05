@@ -1982,9 +1982,9 @@ export { TagGroup } from "./components/tag-group.js";
 import { TagGroup as _TagGroup } from "./components/tag-group.js";
 if (!customElements.get("lily-tag-group")) customElements.define("lily-tag-group", _TagGroup);
 
-export { TagInput } from "./components/tag-input.js";
-import { TagInput as _TagInput } from "./components/tag-input.js";
-if (!customElements.get("lily-tag-input")) customElements.define("lily-tag-input", _TagInput);
+export { TagInputDiv } from "./components/tag-input-div.js";
+import { TagInputDiv as _TagInputDiv } from "./components/tag-input-div.js";
+if (!customElements.get("lily-tag-input-div")) customElements.define("lily-tag-input-div", _TagInputDiv);
 
 export { Tag } from "./components/tag.js";
 import { Tag as _Tag } from "./components/tag.js";

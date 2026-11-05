@@ -437,7 +437,7 @@ table-td	td	tables
 table-th	th	tables
 tag	span	content
 tag-group	div	forms
-tag-input	div	content
+tag-input-div	div	content
 task-bar	div	navigation
 task-bar-button	button	navigation
 task-list	ol	lists
