@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     EnglandNationalHealthServiceNumberInput component
     an input for entering England's National Health Service Number (NHS)
 *@
 
-<input class="@($"england-national-health-service-number-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+<input class="@($"england-national-health-service-number-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

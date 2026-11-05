@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     LietuvaAsmensKodasInput component
     an input for entering Lithuania's Asmens kodas
 *@
 
-<input class="@($"lietuva-asmens-kodas-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+<input class="@($"lietuva-asmens-kodas-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

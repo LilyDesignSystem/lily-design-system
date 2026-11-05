@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Blazor value binding — 2026-11-05
+
+- **Fixed (Blazor): 107 inputs had no value parameters, so `@bind-Value` could not compile**, every national identifier input among them. 102 text-style inputs now bind `Value`, on a new `ValueInputBase`; `NumberInput` and `CurrencyInput` bind `double?`, `RangeInput` and `AngleSliderRangeInput` `double`; `CheckboxInput` binds `Checked`. All use `@bind:get` and `@bind:set`, so a re-render cannot overwrite what was typed. `ValueBindingTests` fails on any new input that does not bind, unless it is listed with a reason.
+- **Fixed (Blazor):** `AngleSliderRangeInput` was `type="text"`, and `ImageFileInput` too: they are `range` and `file` now, and the angle slider takes `Min`, `Max`, `Step` and `ValueTextSuffix`.
+- **Behaviour change:** lowercase `value` and `checked` still work, and now set the parameters. `TextAreaInput` takes `Value` in place of child content. A `value` on `NumberInput`, `RangeInput` or `CurrencyInput` must be a number.
+
 ## Hamburger menu and skip link — 2026-11-05
 
 - **Fixed (Angular, Blazor): `hamburger-menu` was a stub.** Angular had a `div` with no button; Blazor had a `<button role="navigation">` that wiped out its button role, and neither opened anything. Both now render the wrapper, a toggle with `aria-expanded` and `aria-controls`, and a `nav` that is in the DOM only while open, with two-way `open` (`Open` in Blazor). **Behaviour change:** content is hidden until the button is pressed, and Blazor's `AdditionalAttributes` and root are now on the `div`.

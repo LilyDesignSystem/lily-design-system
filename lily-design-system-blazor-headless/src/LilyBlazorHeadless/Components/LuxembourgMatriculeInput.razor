@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     LuxembourgMatriculeInput component
     an input for entering Luxembourg's Numero d'Identification Nationale (Matricule)
 *@
 
-<input class="@($"luxembourg-matricule-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+<input class="@($"luxembourg-matricule-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

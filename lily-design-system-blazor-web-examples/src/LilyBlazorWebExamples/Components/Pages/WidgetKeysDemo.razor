@@ -67,6 +67,16 @@
 </MentionsInput>
 <p data-testid="mentions-state">Mentioned: @_mentioned; comment: @_comment; open: @(_mentionsOpen ? "yes" : "no")</p>
 
+<TextInput Label="Name" @bind-Value="_name" data-testid="bound-text" />
+<UnitedKingdomNationalInsuranceNumberInput Label="National Insurance number" @bind-Value="_nino" data-testid="bound-id" />
+<p data-testid="bound-id-state">Number: @_nino</p>
+<NumberInput Label="Count" @bind-Value="_count" data-testid="bound-number" />
+<RangeInput Label="Volume" min="0" max="200" @bind-Value="_volume" data-testid="bound-range" />
+<DateInput Label="Day" @bind-Value="_day" data-testid="bound-date" />
+<TextAreaInput Label="Notes" @bind-Value="_notes" data-testid="bound-area" />
+<CheckboxInput Label="Agree" @bind-Checked="_agree" data-testid="bound-check" />
+<p data-testid="bound-state">Name: @_name; count: @_count; volume: @_volume; day: @_day; notes: @_notes; agree: @(_agree ? "yes" : "no")</p>
+
 <ImageCropper Label="Crop" OnCropChange="@(c => _crop = c)" data-testid="cropper" />
 <p data-testid="cropper-state">Crop: @_crop?.X @_crop?.Y @_crop?.Width @_crop?.Height</p>
 
@@ -82,4 +92,11 @@
     private bool _mentionsOpen;
     private string _mentioned = "";
     private CropRect? _crop;
+    private string _name = "";
+    private string _nino = "";
+    private double? _count;
+    private double _volume = 150;
+    private string _day = "";
+    private string _notes = "";
+    private bool _agree;
 }

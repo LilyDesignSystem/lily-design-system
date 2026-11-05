@@ -5,10 +5,19 @@
     a slider input for selecting a value within a range <input type="range">
 *@
 
-<input class="@($"range-input {CssClass}".Trim())" type="range" aria-label="@Label" @attributes="AdditionalAttributes" />
+<input class="@($"range-input {CssClass}".Trim())" type="range" aria-label="@Label" @attributes="AdditionalAttributes" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>The current number.</summary>
+    [Parameter] public double Value { get; set; } = 50;
+    [Parameter] public EventCallback<double> ValueChanged { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task SetValueAsync(double value)
+    {
+        Value = value;
+        await ValueChanged.InvokeAsync(value);
+    }
 }

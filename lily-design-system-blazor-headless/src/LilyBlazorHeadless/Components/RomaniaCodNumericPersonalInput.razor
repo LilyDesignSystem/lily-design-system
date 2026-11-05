@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     RomaniaCodNumericPersonalInput component
     an input for entering Romania's Cod Numeric Personal (CNP)
 *@
 
-<input class="@($"romania-cod-numeric-personal-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+<input class="@($"romania-cod-numeric-personal-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

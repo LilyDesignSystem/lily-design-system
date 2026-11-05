@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     EspanaTarjetaSanitariaIndividualInput component
     an input for entering an España Tarjeta Sanitaria Individual (TSI) unique national healthcare identifier
 *@
 
-<input class="@($"espana-tarjeta-sanitaria-individual-input {CssClass}".Trim())" type="text" aria-label="@Label" @attributes="AdditionalAttributes" />
+<input class="@($"espana-tarjeta-sanitaria-individual-input {CssClass}".Trim())" type="text" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

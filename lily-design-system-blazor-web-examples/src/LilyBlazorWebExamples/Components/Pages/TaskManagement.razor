@@ -19,14 +19,14 @@
 
 <section class="section">
     <TextInput Label="New task"
-               value="@newTitle" @oninput="@((ChangeEventArgs e) => newTitle = e.Value?.ToString() ?? "")" />
+               @bind-Value="newTitle" />
     <Button @onclick="AddTask">Add Task</Button>
 </section>
 
 <section class="section">
     <Label>
         <CheckboxInput id="show-completed" Label="Show completed tasks"
-                       checked="@showCompleted" @onchange="@((ChangeEventArgs e) => showCompleted = (bool)(e.Value ?? false))" />
+                       @bind-Checked="showCompleted" />
         Show completed tasks
     </Label>
 </section>

@@ -61,7 +61,7 @@ else
             <Field Label="Comments">
                 <Label For="comment">Comments</Label>
                 <TextAreaInput id="comment" Label="Comments"
-                               value="@comment" @oninput="@((ChangeEventArgs e) => comment = e.Value?.ToString() ?? "")"
+                               @bind-Value="comment"
                                rows="4" />
             </Field>
         </section>

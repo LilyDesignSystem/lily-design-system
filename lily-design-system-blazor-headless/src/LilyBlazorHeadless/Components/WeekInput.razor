@@ -1,11 +1,13 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     WeekInput component
     an input for selecting a week and year <input type="week">
 *@
 
-<input class="@($"week-input {CssClass}".Trim())" type="week" aria-label="@Label" @attributes="AdditionalAttributes" />
+@* The type is an expression because a literal one makes Razor bind DateTime, and the value is the text the browser holds. *@
+<input class="@($"week-input {CssClass}".Trim())" type="@("week")" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

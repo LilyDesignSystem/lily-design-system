@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     UrlInput component
     an input for entering a URL <input type="url">
 *@
 
-<input class="@($"url-input {CssClass}".Trim())" type="url" aria-label="@Label" @attributes="AdditionalAttributes" />
+<input class="@($"url-input {CssClass}".Trim())" type="url" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

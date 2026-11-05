@@ -1,11 +1,13 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     MonthInput component
     an input for selecting a month and year <input type="month">
 *@
 
-<input class="@($"month-input {CssClass}".Trim())" type="month" aria-label="@Label" @attributes="AdditionalAttributes" />
+@* The type is an expression because a literal one makes Razor bind DateTime, and the value is the text the browser holds. *@
+<input class="@($"month-input {CssClass}".Trim())" type="@("month")" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

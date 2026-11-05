@@ -118,7 +118,7 @@
         <Field Label="الاسم الكامل">
             <Label For="rtl-full-name">الاسم الكامل</Label>
             <TextInput id="rtl-full-name" Label="الاسم الكامل"
-                       value="@fullName" @onchange="@((ChangeEventArgs e) => fullName = e.Value?.ToString() ?? string.Empty)" />
+                       @bind-Value="fullName" />
         </Field>
 
         <RadioGroup Label="طريقة التواصل المفضلة">
@@ -136,8 +136,7 @@
 
         <p>
             <Label>
-                <CheckboxInput id="rtl-agree-terms" Label="أوافق على الشروط" checked="@agreeTerms"
-                               @onchange="@((ChangeEventArgs e) => agreeTerms = (bool)(e.Value ?? false))" />
+                <CheckboxInput id="rtl-agree-terms" Label="أوافق على الشروط" @bind-Checked="agreeTerms" />
                 أوافق على الشروط
             </Label>
         </p>

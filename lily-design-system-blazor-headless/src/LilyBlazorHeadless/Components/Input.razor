@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     Input component
     a generic HTML input element
 *@
 
-<input class="@($"input {CssClass}".Trim())" type="text" aria-label="@Label" @attributes="AdditionalAttributes" />
+<input class="@($"input {CssClass}".Trim())" type="text" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

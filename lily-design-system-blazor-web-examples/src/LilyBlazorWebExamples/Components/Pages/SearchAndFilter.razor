@@ -16,7 +16,7 @@
 
 <section class="section">
     <SearchInput Label="Search products"
-                 value="@query" @oninput="@((ChangeEventArgs e) => query = e.Value?.ToString() ?? "")" />
+                 @bind-Value="query" />
 </section>
 
 <section class="section">
@@ -33,7 +33,7 @@
 <section class="section">
     <div @onkeydown="HandleTagKeyDown">
         <TextInput Label="Add filter tag"
-                   value="@tagValue" @oninput="@((ChangeEventArgs e) => tagValue = e.Value?.ToString() ?? "")" />
+                   @bind-Value="tagValue" />
     </div>
 </section>
 

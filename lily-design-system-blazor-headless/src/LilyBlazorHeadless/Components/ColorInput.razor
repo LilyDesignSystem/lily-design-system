@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     ColorInput component
     an input for selecting a color value <input type="color">
 *@
 
-<input class="@($"color-input {CssClass}".Trim())" type="color" aria-label="@Label" @attributes="AdditionalAttributes" />
+<input class="@($"color-input {CssClass}".Trim())" type="color" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

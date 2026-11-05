@@ -5,7 +5,7 @@
     an input for selecting image files with preview
 *@
 
-<input class="@($"image-file-input {CssClass}".Trim())" type="text" aria-label="@Label" @attributes="AdditionalAttributes" />
+<input class="@($"image-file-input {CssClass}".Trim())" type="file" aria-label="@Label" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

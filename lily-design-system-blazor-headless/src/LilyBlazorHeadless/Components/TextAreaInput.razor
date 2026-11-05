@@ -1,15 +1,15 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     TextAreaInput component
     a multi-line text input area
 *@
 
-<textarea class="@($"text-area-input {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</textarea>
+<textarea class="@($"text-area-input {CssClass}".Trim())" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes"></textarea>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

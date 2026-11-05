@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     SearchInput component
     an input for entering a search query <input type="search">
 *@
 
-<input class="@($"search-input {CssClass}".Trim())" type="search" aria-label="@Label" @attributes="AdditionalAttributes" />
+<input class="@($"search-input {CssClass}".Trim())" type="search" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

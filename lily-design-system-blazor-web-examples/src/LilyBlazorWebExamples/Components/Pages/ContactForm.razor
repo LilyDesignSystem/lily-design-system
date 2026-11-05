@@ -1,14 +1,6 @@
 @page "/contact-form"
 <PageTitle>Contact Form — Lily Blazor examples</PageTitle>
 
-@*
-    See BookAnAppointment.razor's header comment for why this page uses
-    lowercase native `value`/`checked` attributes plus `@onchange`/`@oninput`
-    directives rather than PascalCase `Value`/`ValueChanged` — the headless
-    components here only declare Label/CssClass/AdditionalAttributes, so a
-    PascalCase attribute is captured but never wired as real two-way binding.
-*@
-
 <h1>Contact Form</h1>
 
 @if (submitted)
@@ -37,7 +29,7 @@ else
         <Field Label="Full name" data-required="true">
             <Label For="name">Full name</Label>
             <TextInput id="name" Label="Full name"
-                       value="@data.Name" @onchange="@((ChangeEventArgs e) => data.Name = e.Value?.ToString() ?? "")"
+                       @bind-Value="data.Name"
                        required />
             @if (GetError("name") is { } nameError)
             {
@@ -48,7 +40,7 @@ else
         <Field Label="Email address" data-required="true">
             <Label For="email">Email address</Label>
             <EmailInput id="email" Label="Email address"
-                        value="@data.Email" @onchange="@((ChangeEventArgs e) => data.Email = e.Value?.ToString() ?? "")"
+                        @bind-Value="data.Email"
                         required />
             @if (GetError("email") is { } emailError)
             {
@@ -70,7 +62,7 @@ else
         <Field Label="Message" data-required="true">
             <Label For="message">Message</Label>
             <TextAreaInput id="message" Label="Message"
-                           value="@data.Message" @oninput="@((ChangeEventArgs e) => data.Message = e.Value?.ToString() ?? "")"
+                           @bind-Value="data.Message"
                            rows="5" required />
             @if (GetError("message") is { } messageError)
             {

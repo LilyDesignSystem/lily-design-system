@@ -5,10 +5,19 @@
     a checkbox input for toggling a boolean value <input type="checkbox">
 *@
 
-<input class="@($"checkbox-input {CssClass}".Trim())" type="checkbox" aria-label="@Label" @attributes="AdditionalAttributes" />
+<input class="@($"checkbox-input {CssClass}".Trim())" type="checkbox" aria-label="@Label" @bind:get="Checked" @bind:set="SetCheckedAsync" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>Whether it is checked.</summary>
+    [Parameter] public bool Checked { get; set; }
+    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task SetCheckedAsync(bool value)
+    {
+        Checked = value;
+        await CheckedChanged.InvokeAsync(value);
+    }
 }

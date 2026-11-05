@@ -1,11 +1,13 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     TimeInput component
     an input for entering a time value <input type="time">
 *@
 
-<input class="@($"time-input {CssClass}".Trim())" type="time" aria-label="@Label" @attributes="AdditionalAttributes" />
+@* The type is an expression because a literal one makes Razor bind DateTime, and the value is the text the browser holds. *@
+<input class="@($"time-input {CssClass}".Trim())" type="@("time")" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

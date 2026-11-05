@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     TelInput component
     an input for entering a telephone number <input type="tel">
 *@
 
-<input class="@($"tel-input {CssClass}".Trim())" type="tel" aria-label="@Label" @attributes="AdditionalAttributes" />
+<input class="@($"tel-input {CssClass}".Trim())" type="tel" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

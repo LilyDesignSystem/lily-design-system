@@ -124,3 +124,29 @@ test("the cropper's keys reach OnCropChange", async ({ page }) => {
     await page.keyboard.press("ArrowRight");
     await expect(page.getByTestId("cropper-state")).toHaveText("Crop: 1 0 99 100");
 });
+
+test("@bind-Value and @bind-Checked work in the browser, with no character lost", async ({ page }) => {
+    const state = page.getByTestId("bound-state");
+    await page.getByTestId("bound-text").focus();
+    await page.keyboard.type("Ada Lovelace, 1815");
+    await expect(state).toContainText("Name: Ada Lovelace, 1815;");
+    await expect(page.getByTestId("bound-text")).toHaveValue("Ada Lovelace, 1815");
+    await page.getByTestId("bound-id").pressSequentially("QQ 12 34 56 C");
+    await expect(page.getByTestId("bound-id-state")).toHaveText("Number: QQ 12 34 56 C");
+    await page.getByTestId("bound-number").fill("4.5");
+    await page.getByTestId("bound-number").blur();
+    await expect(state).toContainText("count: 4.5;");
+    await page.getByTestId("bound-date").fill("2026-11-05");
+    await expect(state).toContainText("day: 2026-11-05;");
+    await page.getByTestId("bound-area").pressSequentially("two words");
+    await expect(state).toContainText("notes: two words;");
+    await page.getByTestId("bound-check").check();
+    await expect(state).toContainText("agree: yes");
+});
+
+test("a range keeps a value above 100 when its max is higher", async ({ page }) => {
+    await expect(page.getByTestId("bound-range")).toHaveValue("150");
+    await page.getByTestId("bound-range").focus();
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByTestId("bound-state")).toContainText("volume: 151;");
+});

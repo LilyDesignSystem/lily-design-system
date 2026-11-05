@@ -1,11 +1,12 @@
 @namespace LilyBlazorHeadless.Components
+@inherits ValueInputBase
 
 @*
     CymruRhifYGwasanaethIechydGwladolInput component
     an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)
 *@
 
-<input class="@($"cymru-rhif-y-gwasanaeth-iechyd-gwladol-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @attributes="AdditionalAttributes" />
+<input class="@($"cymru-rhif-y-gwasanaeth-iechyd-gwladol-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

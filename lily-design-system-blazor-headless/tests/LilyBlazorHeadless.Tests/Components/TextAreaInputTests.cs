@@ -9,8 +9,7 @@ public class TextAreaInputTests : TestContext
     [Fact]
     public void Renders_with_kebab_base_class()
     {
-        var cut = RenderComponent<TextAreaInput>(p => p
-            .AddChildContent("body"));
+        var cut = RenderComponent<TextAreaInput>();
         var root = cut.Find(".text-area-input");
         Assert.NotNull(root);
     }
@@ -19,7 +18,6 @@ public class TextAreaInputTests : TestContext
     public void CssClass_is_appended_to_kebab_base_class()
     {
         var cut = RenderComponent<TextAreaInput>(p => p
-            .AddChildContent("body")
             .Add(x => x.CssClass, "extra"));
         var root = cut.Find(".text-area-input");
         Assert.Contains("extra", root.GetAttribute("class"));
@@ -29,7 +27,6 @@ public class TextAreaInputTests : TestContext
     public void AdditionalAttributes_pass_through_to_root()
     {
         var cut = RenderComponent<TextAreaInput>(p => p
-            .AddChildContent("body")
             .AddUnmatched("data-test", "value"));
         var root = cut.Find(".text-area-input");
         Assert.Equal("value", root.GetAttribute("data-test"));
