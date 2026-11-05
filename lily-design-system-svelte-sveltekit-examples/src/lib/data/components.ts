@@ -598,8 +598,8 @@ export const components = [
       slug: "collapsible",
       name: "Collapsible",
       description: "a container that can be expanded or collapsed",
-      tag: "div",
-      category: "content",
+      tag: "details",
+      category: "navigation",
   },
   {
       slug: "collection-list",
@@ -1494,7 +1494,7 @@ export const components = [
       slug: "hamburger-menu",
       name: "HamburgerMenu",
       description: "a toggle button that opens a mobile navigation menu",
-      tag: "button",
+      tag: "div",
       category: "navigation",
   },
   {

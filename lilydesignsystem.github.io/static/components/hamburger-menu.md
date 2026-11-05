@@ -93,7 +93,7 @@ The consumer provides all CSS styling. The component renders with a `.hamburger-
 
 ## Testing
 
-- Verify the component renders a `<button>` element with class `hamburger-menu`
+- Verify the component renders a `<div>` element with class `hamburger-menu`, holding a `<button>`
 - Verify aria-label={label}` -- on the button, provides an accessible name for the toggle control
 - Verify role="navigation"` -- on the content container, identifies it as a navigation landmark
 - Verify aria-label={label}` -- on the navigation container, provides an accessible name for the landmark

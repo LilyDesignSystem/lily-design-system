@@ -104,7 +104,7 @@ The consumer provides all CSS styling. The component renders with a `.collapsibl
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `collapsible`
+- Verify the component renders a `<details>` element with class `collapsible`
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

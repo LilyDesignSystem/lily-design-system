@@ -6,13 +6,13 @@
 - PascalCase: HamburgerMenu
 - Description: a toggle button that opens a mobile navigation menu
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <button>
+- HTML tag: <div>
 - CSS class: .hamburger-menu
 - Interactive: yes
 
 ## Key Behaviors
 
-- Renders a `<div>` wrapper containing a `<button>` toggle and a conditional navigation region
+- Renders a `<div>` wrapper containing a `<button>` toggle and a conditional navigation region; a `<button>` cannot hold the navigation it opens
 - The button uses `aria-expanded` and `aria-controls` to communicate state to assistive technologies
 - The navigation region uses `role="navigation"` with `aria-label` for landmark identification
 - A unique `menuId` is generated using `Math.random()` for the `aria-controls`/`id` link
@@ -51,7 +51,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <button> element with class="hamburger-menu"
+- [ ] Renders <div> element with class="hamburger-menu", holding the <button> and the navigation region
 - [ ] Has aria-label attribute
 - [ ] Has role="navigation"
 - [ ] Keyboard navigation works correctly

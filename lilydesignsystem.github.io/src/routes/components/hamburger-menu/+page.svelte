@@ -76,7 +76,7 @@
       <li>PascalCase: HamburgerMenu</li>
       <li>Description: a toggle button that opens a mobile navigation menu</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;button&gt;</li>
+      <li>HTML tag: &lt;div&gt;</li>
       <li>CSS class: .hamburger-menu</li>
       <li>Interactive: yes</li>
     </ul>

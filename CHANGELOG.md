@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Two contracts match what is built — 2026-11-05
+
+- **Changed: the `hamburger-menu` contract is `<div>`,** not `<button>`: a button cannot hold the navigation it opens. Svelte, React, Vue, Angular, Blazor and Alpine already render it. HTML and Nunjucks still render a single `<button>`, as does Web Components, and the first two are listed in `bin/check-html-tags.allow.json` with that reason.
+- **Changed: the `collapsible` contract is `<details>`,** not `<div>`: native, as its Key Behaviors said. Svelte, React, Vue, Angular, Blazor, Nunjucks and Web Components already render it. HTML and Alpine still render a `<div>`, and are listed with that reason.
+- No component's markup changed. `collapsible` moves from the content category to navigation, because `bin/generate-component-categories` derives the category from the tag.
+
 ## Prerendering and hydration in Angular — 2026-11-05
 
 - **Fixed (Angular): modals broke prerendering.** `dialog`, `alert-dialog`, `file-dialog`, `timeout-dialog`, `drawer`, `sheet` and `slide-out-drawer` threw `document is not defined` when open on first render. They now open in the browser.

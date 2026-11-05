@@ -4,13 +4,8 @@
 // <details>/<summary> elements — no custom ARIA needed, since the browser
 // handles all expanded/collapsed announcements.
 //
-// Deviation from the canonical AGENTS.md "HTML tag" metadata field (which
-// says <div>) and from html-headless's demo (a bare div with a hand-rolled
-// aria-expanded script): svelte-headless and react-headless both confirm
-// real <details>/<summary> rendering. Followed the 2-of-3 majority and
-// headless.md's "most specific semantic element" rule — this is also the
-// component's whole documented reason to exist ("Uses native <details> and
-// <summary> elements for built-in accessibility support").
+// Follows the canonical contract's <details>. html-headless and
+// alpine-headless are the deviations: a div with a scripted aria-expanded.
 //
 // Attributes:
 //   summary — REQUIRED. The clickable summary text shown as the toggle

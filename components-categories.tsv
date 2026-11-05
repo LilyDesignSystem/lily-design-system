@@ -83,7 +83,7 @@ clipboard-copy-button	button	buttons
 coachmark	div	overlays
 code	code	content
 code-block	pre	content
-collapsible	div	content
+collapsible	details	navigation
 collection-list	ul	lists
 collection-list-item	li	lists
 color-input	input	forms
@@ -211,7 +211,7 @@ grail-layout-right-aside	aside	navigation
 grail-layout-top-header	header	navigation
 graphic-block	figure	media
 grid	div	content
-hamburger-menu	button	navigation
+hamburger-menu	div	navigation
 header	header	navigation
 headline	div	content
 hero	section	navigation

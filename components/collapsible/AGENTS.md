@@ -6,7 +6,7 @@
 - PascalCase: Collapsible
 - Description: a container that can be expanded or collapsed
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <div>
+- HTML tag: <details>
 - CSS class: .collapsible
 - Interactive: yes
 
@@ -41,7 +41,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> element with class="collapsible"
+- [ ] Renders <details> element with class="collapsible"
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

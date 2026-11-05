@@ -3,12 +3,10 @@
 // A toggle <button> that reveals or hides a navigation panel, commonly
 // used on mobile layouts. Deviation note: the Svelte/React/Vue ports
 // render an outer <div> wrapping the button AND an inline <nav> that
-// only exists while open; the HTML, Nunjucks, and Blazor ports (and this
-// catalog's own AGENTS.md "HTML tag" field) instead render a single
-// <button> and leave the navigation region to the consumer, referenced
-// by aria-controls — the only structure a native <button> can validly
-// hold is phrasing content, not a <nav> landmark's flow content. This
-// component follows the button-only idiom: it toggles its own
+// only exists while open, as the canonical contract's <div> does; the
+// HTML and Nunjucks ports instead render a single <button> and leave the
+// navigation region to the consumer, referenced by aria-controls. This
+// component follows the button-only idiom too: it toggles its own
 // aria-expanded and, where aria-controls resolves to an existing
 // element, that element's `hidden` attribute, but does not create or own
 // a <nav> itself.
