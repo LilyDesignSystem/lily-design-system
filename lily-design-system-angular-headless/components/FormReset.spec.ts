@@ -11,6 +11,13 @@ import { DateRange } from "./DateRange";
 import { MultiSelect } from "./MultiSelect";
 import { Select } from "./Select";
 
+// Vite's, which vite/client would declare; vite is not a direct dependency here.
+declare global {
+    interface ImportMeta {
+        glob(patterns: string[], options: { eager: true }): Record<string, unknown>;
+    }
+}
+
 const modules = import.meta.glob(["./*.ts", "!./*.spec.ts", "!./*.stories.ts"], {
     eager: true,
 }) as Record<string, Record<string, any>>;

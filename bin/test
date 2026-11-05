@@ -471,6 +471,12 @@ test "$dry_before" = "$(git -C "$top" status --porcelain | cksum)" \
     || err "a port (Web Components, Alpine) drifted from its reference; run bin/check-port-parity"
 "$top/bin/check-port-logic" --quiet >/dev/null 2>&1 \
     || err "an Angular or Blazor port has no logic where Svelte has behaviour; run bin/check-port-logic"
+if test -e "$top/lily-design-system-angular-headless/node_modules/.bin/vitest"; then
+    (cd "$top/lily-design-system-angular-headless" && pnpm exec vitest run --project prerender >/dev/null 2>&1) \
+        || err "an Angular component breaks while prerendering; run pnpm run test:prerender in lily-design-system-angular-headless"
+else
+    printf %s\\n "bin/test: skipped the Angular prerender sweep (no node_modules; run pnpm install there)"
+fi
 
 # Coverage drift across the 7 headless catalogs, including components with a keyboard contract whose test sends no
 # key (tasks.md P12-T5; today's gaps are listed in bin/check-coverage.keys-allow.json and may only shrink).

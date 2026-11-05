@@ -671,12 +671,13 @@ Catalog component; keyboard contract: keys named.
   - Web Components: met. [lily-design-system-web-components-headless/components/dialog.pattern.test.ts](../lily-design-system-web-components-headless/components/dialog.pattern.test.ts), [lily-design-system-web-components-headless/components/dialog.test.ts](../lily-design-system-web-components-headless/components/dialog.test.ts)
   - Nunjucks: no key event. [lily-design-system-nunjucks-headless/components/dialog/macro.test.js](../lily-design-system-nunjucks-headless/components/dialog/macro.test.js)
   - Blazor: met. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DialogTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DialogTests.cs)
-- (b) met; browsers: Chromium, Firefox, WebKit; 11 covering spec(s):
+- (b) met; browsers: Chromium, Firefox, WebKit; 12 covering spec(s):
   - [lily-design-system-svelte-sveltekit-examples/e2e/components/dialog.spec.ts](../lily-design-system-svelte-sveltekit-examples/e2e/components/dialog.spec.ts) (Chromium, Firefox, WebKit)
   - [lily-design-system-react-next-examples/e2e/components/dialog.spec.ts](../lily-design-system-react-next-examples/e2e/components/dialog.spec.ts) (Chromium, Firefox, WebKit)
   - [lily-design-system-vue-nuxt-examples/e2e/accessibility.spec.ts](../lily-design-system-vue-nuxt-examples/e2e/accessibility.spec.ts) (Chromium, Firefox, WebKit)
   - [lily-design-system-vue-nuxt-examples/e2e/components/dialog.spec.ts](../lily-design-system-vue-nuxt-examples/e2e/components/dialog.spec.ts) (Chromium, Firefox, WebKit)
   - [lily-design-system-angular-examples/e2e/components/dialog.spec.ts](../lily-design-system-angular-examples/e2e/components/dialog.spec.ts) (Chromium, Firefox, WebKit)
+  - [lily-design-system-angular-examples/e2e/hydration.spec.ts](../lily-design-system-angular-examples/e2e/hydration.spec.ts) (Chromium, Firefox, WebKit)
   - [lily-design-system-html-css-js-examples/e2e/accessibility.spec.ts](../lily-design-system-html-css-js-examples/e2e/accessibility.spec.ts) (Chromium, Firefox, WebKit)
   - [lily-design-system-html-css-js-examples/e2e/components/dialog.spec.ts](../lily-design-system-html-css-js-examples/e2e/components/dialog.spec.ts) (Chromium, Firefox, WebKit)
   - [lily-design-system-nunjucks-eleventy-examples/e2e/responsive.spec.ts](../lily-design-system-nunjucks-eleventy-examples/e2e/responsive.spec.ts) (Chromium, Firefox, WebKit)

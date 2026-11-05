@@ -13,7 +13,11 @@ highlights.
 
 - **Fixed (Angular): modals broke prerendering.** `dialog`, `alert-dialog`, `file-dialog`, `timeout-dialog`, `drawer`, `sheet` and `slide-out-drawer` threw `document is not defined` when open on first render. They now open in the browser.
 - **Fixed (Angular): popovers never opened in a hydrating app.** `cascader`, `coachmark`, `combobox`, `hover-card`, `mentions-input`, `popconfirm-dialog`, `tooltip` and `tree-select` lost `popover` and gained `hidden` while prerendering, so with `provideClientHydration` they stayed closed. They now keep `popover` and sync in the browser.
-- **Added (Angular): `prerender/prerender.spec.ts`,** in the package's `pnpm test`. A real server render of all 609 components, closed and open, with `document` undefined as it is while prerendering.
+- **Added (Angular): `prerender/prerender.spec.ts`.** A real server render of all 609 components, closed, open and populated, with `document` undefined as it is while prerendering. A Vitest project, so CI runs it; `bin/test` runs it too when the package is installed.
+- **Changed (Angular example): the app hydrates,** with event replay, as a consumer's would. `/demos/modals` and `/demos/modals-open` show all seven modals.
+- **Fixed (Angular):** `pnpm run check` passes. It failed on four dataset reads in the shared key modules, fixed at the source, so every catalog's copy changes, and on `import.meta.glob` in a spec.
+- **Fixed (Angular example):** the two rating-picker specs load; `@testing-library/user-event` was missing.
+- **Tests:** `e2e/modals.spec.ts` and `e2e/hydration.spec.ts`, Chromium and WebKit.
 
 ## A gate against port stubs — 2026-11-05
 

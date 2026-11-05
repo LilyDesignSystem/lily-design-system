@@ -56,7 +56,7 @@ Based on the Angular 2026 research summary:
 - **`@analogjs/vite-plugin-angular`** + Vitest for tests (parity with the other Lily headless libraries).
 - **`ng-packagr`** for library publishing (Angular Package Format).
 
-- **Nothing touches the browser while prerendering.** A plain `effect()` runs on the server, and `document` is undefined there. Use `afterRenderEffect`, which does not run on the server, or guard with `isPlatformBrowser(inject(PLATFORM_ID))`. Never change server markup that the browser needs: hydration keeps the element it finds, so a `popover` stripped on the server stays stripped. `prerender/prerender.spec.ts` renders all 609 components, closed and open, in plain Node; jsdom defines `document`, so a unit test cannot see this.
+- **Nothing touches the browser while prerendering.** A plain `effect()` runs on the server, and `document` is undefined there. Use `afterRenderEffect`, which does not run on the server, or guard with `isPlatformBrowser(inject(PLATFORM_ID))`. Never change server markup that the browser needs: hydration keeps the element it finds, so a `popover` stripped on the server stays stripped. `prerender/prerender.spec.ts` renders all 609 components, closed, open and populated, in plain Node; jsdom defines `document`, so a unit test cannot see this.
 
 ## File layout
 

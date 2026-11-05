@@ -254,7 +254,7 @@ export function attachTreePopup(root             , options                   = {
             .map((n) => n.textContent ?? "")
             .join("")
             .trim();
-    const valueOf = (item             )         => item.dataset.value ?? ownText(item);
+    const valueOf = (item             )         => item.dataset["value"] ?? ownText(item);
     const multiple = ()          => root.hasAttribute("data-multiple");
     const isOpen = ()          => root.getAttribute("aria-expanded") === "true";
 
@@ -408,7 +408,7 @@ export function attachMentions(root             , options                  = {})
     const input = root.querySelector                  ('input,textarea,[role="combobox"]');
     const panel = input && root.ownerDocument.getElementById(input.getAttribute("aria-controls") ?? "");
     if (!input || !panel) return () => {};
-    const trigger = ()         => root.dataset.triggerChar || "@";
+    const trigger = ()         => root.dataset["triggerChar"] || "@";
     const isOpen = ()          => input.getAttribute("aria-expanded") === "true";
     const shown = ()                =>
         [...panel.querySelectorAll             ('[role="option"]')].filter(
@@ -445,7 +445,7 @@ export function attachMentions(root             , options                  = {})
     function write(option             )       {
         const found = mention();
         if (!found) return;
-        const value = option.dataset.value ?? (option.textContent ?? "").trim();
+        const value = option.dataset["value"] ?? (option.textContent ?? "").trim();
         const end = found.at + trigger().length + found.query.length;
         const text = input .value;
         const inserted = `${trigger()}${value} `;

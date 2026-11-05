@@ -3333,6 +3333,7 @@
           "lily-design-system-vue-nuxt-examples/e2e/accessibility.spec.ts",
           "lily-design-system-vue-nuxt-examples/e2e/components/dialog.spec.ts",
           "lily-design-system-angular-examples/e2e/components/dialog.spec.ts",
+          "lily-design-system-angular-examples/e2e/hydration.spec.ts",
           "lily-design-system-html-css-js-examples/e2e/accessibility.spec.ts",
           "lily-design-system-html-css-js-examples/e2e/components/dialog.spec.ts",
           "lily-design-system-nunjucks-eleventy-examples/e2e/responsive.spec.ts",

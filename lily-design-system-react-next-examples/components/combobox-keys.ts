@@ -28,7 +28,7 @@ const usable = (list: HTMLElement): HTMLElement[] =>
     allOptions(list).filter((o) => !o.hidden && o.getAttribute("aria-disabled") !== "true");
 
 const optionValue = (option: HTMLElement): string =>
-    option.dataset.value ?? (option.textContent ?? "").trim();
+    option.dataset["value"] ?? (option.textContent ?? "").trim();
 
 /** Highlight one option, or none. An option with no id gets one, so aria-activedescendant can name it. */
 export function setActiveOption(

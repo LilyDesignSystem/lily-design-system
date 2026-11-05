@@ -100,7 +100,8 @@ always exits 0.
 gate scripts marked above. Each subject must have `index.md`, a `README.md` symlink, a non-empty `AGENTS.md` and a
 non-empty `spec/index.md`; `AGENTS.md` and `spec/index.md` must not contain the "Not yet implemented." marker. It took
 about 5 to 6 minutes on 2026-10-21 and about 50 seconds since 2026-10-31 (P12-T7); keep per-file process loops and
-unbounded `find` walks out of it.
+unbounded `find` walks out of it. One unit-test project runs here, because nothing else catches it locally: the Angular
+prerender sweep, about 20 seconds, skipped with a note when `lily-design-system-angular-headless` is not installed.
 
 | Check function                          | What it verifies                                                                                                                                                                             |
 | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

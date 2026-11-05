@@ -19,6 +19,8 @@ const composedPages = [
     "/demos/actions",
     "/demos/composed-inputs",
     "/demos/disclosures",
+    "/demos/modals",
+    "/demos/modals-open",
     "/demos/tree-and-overflow",
     "/book-an-appointment",
     "/contact-form",

@@ -53,6 +53,14 @@ export const routes: Routes = [
         loadComponent: () => import("./views/composed-inputs").then((m) => m.default),
     },
     {
+        path: "demos/modals",
+        loadComponent: () => import("./views/modals").then((m) => m.default),
+    },
+    {
+        path: "demos/modals-open",
+        loadComponent: () => import("./views/modals-open").then((m) => m.default),
+    },
+    {
         path: "demos/disclosures",
         loadComponent: () => import("./views/disclosures").then((m) => m.default),
     },
