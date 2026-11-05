@@ -59,17 +59,16 @@ framework's prop names:
   root even on a component that never declared that parameter by name —
   directive attributes always compile to their fixed lowercase DOM event name
   regardless.
-- **Most primitives do NOT wire `Value`/`ValueChanged`, `Checked`/`CheckedChanged`,
-  or `OnSubmit`.** The form-field primitives (`TextInput`, `EmailInput`,
-  `TextAreaInput`, `Select`, `Option`, `RadioInput`, `CheckboxInput`, `Form`,
-  `Field`, `Fieldset`, `SummaryListItem`, and most others) are thin wrappers
-  around the native element — passing a PascalCase `Value="..."` compiles
-  (it lands silently in `AdditionalAttributes`) but does nothing. The correct
-  idiom for these is native lowercase HTML attributes (`value="@x"`,
-  `checked="@x"`, `name="@x"`) plus a `@onchange`/`@oninput` directive with a
-  `ChangeEventArgs` handler, and `novalidate @onsubmit="Handler"` on `Form`.
-  A short, explicit list of components genuinely DO own a real
-  `EventCallback<T>` pair — `SwitchButton` (`Checked`/`CheckedChanged`),
+- **The value inputs bind.** Every text-style `*Input` takes `@bind-Value`,
+  the numeric ones a `double` or `double?`, and `CheckboxInput` `@bind-Checked`.
+- **The other form primitives do NOT wire a value or `OnSubmit`.** `Select`,
+  `Option`, `RadioInput`, `Form`, `Field`, `Fieldset`, `SummaryListItem` and most
+  others are thin wrappers around the native element: a PascalCase `Value="..."`
+  compiles (it lands silently in `AdditionalAttributes`) but does nothing. Use
+  native lowercase HTML attributes (`value="@x"`, `checked="@x"`, `name="@x"`)
+  plus a `@onchange` directive with a `ChangeEventArgs` handler, and
+  `novalidate @onsubmit="Handler"` on `Form`.
+  Others that own a real `EventCallback<T>` pair: `SwitchButton` (`Checked`/`CheckedChanged`),
   `Combobox` (`Value`/`ValueChanged`, `Open`/`OpenChanged`),
   `AccordionCheckbox` (`Checked`/`CheckedChanged`), and the `Dialog`/`Drawer`
   family (`Open`/`OpenChanged`, checked individually). Always check the
