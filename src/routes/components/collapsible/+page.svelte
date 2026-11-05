@@ -76,7 +76,7 @@
       <li>PascalCase: Collapsible</li>
       <li>Description: a container that can be expanded or collapsed</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;details&gt;</li>
       <li>CSS class: .collapsible</li>
       <li>Interactive: yes</li>
     </ul>

@@ -1935,7 +1935,7 @@
       "description": "A container that can be expanded or collapsed.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "categories": [
-        "content"
+        "navigation"
       ],
       "files": [
         {
