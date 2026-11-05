@@ -5,6 +5,13 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.9.0 — 2026-11-05 (breaking)
+
+- Breaking: `tag-input` is `tag-input-div` (`tag-input-div.html`), rooted on a `<div role="group">`, with one shape in every catalog. The class `.tag-input` is `.tag-input-div`, and the field is `.tag-input-div-field`.
+- Breaking: `hamburger-menu` is a `<div>` holding `.hamburger-menu-button` and `.hamburger-menu-nav`; `collapsible` is a native `<details>` with `.collapsible-summary` and `.collapsible-body`.
+- Fixed: reopening `drawer`, `sheet` or `slide-out-drawer` straight after closing no longer closes it again.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
+
 ## 0.8.0 — 2026-10-23 (three components)
 
 - New: `heatmap-chart-with-year-of-days`, `middle-truncation` (inline script) and `wheel-picker` (inline script) snippets.

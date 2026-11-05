@@ -5,6 +5,13 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.8.0 — 2026-11-05 (breaking)
+
+- Breaking: `tag-input` is `tag-input-div` (`TagInputDiv`), rooted on a `<div role="group">`, with one shape in every catalog. The class `.tag-input` is `.tag-input-div`, and the field is `.tag-input-div-field`.
+- Fixed: Enter adds a tag, through the new `added` output; before, it could not add one.
+- Fixed: every component survives prerendering and hydration. Seven modals threw `document is not defined` when open on first render, and eight popovers lost `popover` in the static HTML.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
+
 ## 0.7.2 — 2026-11-03
 
 - Fixed: the package builds again. The internal `listbox-machine` is no longer re-exported, which had declared `ListboxNavigation` twice. The published barrel now exports every component in the catalog (recent components were missing). Dependencies updated within range (Angular 22.2.4).

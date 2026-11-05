@@ -3,6 +3,11 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.7.0 — 2026-11-05 (breaking)
+
+- Breaking: `tag-input` is `tag-input-div` (`TagInputDiv`), rooted on a `<div role="group">`, with one shape in every catalog. The class `.tag-input` is `.tag-input-div`, and the field is `.tag-input-div-field`.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
+
 ## 0.6.1 — 2026-11-03
 
 - Fixed: the package builds again; `Combobox`, `HoverCard` and `Tooltip` pass their `defineModel` ref to `usePopoverState` (it failed `vue-tsc`). The published barrel now exports every component in the catalog. Dependencies updated within range.

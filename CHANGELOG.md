@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Versions — 2026-11-05
+
+Not yet published. `html-headless` 0.9.0, `svelte-headless` 0.7.0, `react-headless` 0.7.0, `vue-headless` 0.7.0, `angular-headless` 0.8.0, `nunjucks-headless` 0.7.0, `web-components-headless` 0.8.0, `LilyDesignSystem.Blazor.Headless` 0.7.0: minor bumps, for the breaking changes below. `alpine-headless` stays 0.1.0, which has never been published.
+
+The helper packages keep their headless ranges (`^0.6.0` and so on) until these versions are on the registries, because their lockfiles resolve from npm. No helper uses `tag-input`, `hamburger-menu` or `collapsible`.
+
 ## `hamburger-menu` and `collapsible` match their contracts — 2026-11-05
 
 **Breaking for HTML, Nunjucks, Web Components and Alpine markup.**

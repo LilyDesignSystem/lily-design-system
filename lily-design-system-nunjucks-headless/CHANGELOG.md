@@ -5,6 +5,13 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.7.0 — 2026-11-05 (breaking)
+
+- Breaking: `tag-input` is `tag-input-div` (`tagInputDiv`), rooted on a `<div role="group">`, with one shape in every catalog. The class `.tag-input` is `.tag-input-div`, and the field is `.tag-input-div-field`.
+- New: `tag-input-div.js` and `hamburger-menu.js`, the behaviour of those macros.
+- Breaking: `hamburger-menu` is a `<div>` holding `.hamburger-menu-button` and `.hamburger-menu-nav`, and takes `open` and `navId` instead of `expanded` and `controls`.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
+
 ## 0.6.0 — 2026-10-23 (three components)
 
 - New: `heatmapChartWithYearOfDays`, `middleTruncation` and `wheelPicker` macros.
