@@ -9,14 +9,14 @@ This headless component uses a `<section>` element with an `aria-label` to creat
 ## Implementation Notes
 
 - Uses `<section>` element for landmark semantics
-- `aria-label` describes the endnotes section for screen readers (default: "End notes")
+- `aria-label` describes the endnotes section for screen readers
 - Each endnote item can have a title and body
 - Used for methodology, sources, credits, corrections
 - Inspired by Reuters Graphics EndNotes component
 
 ## Props
 
-- `label`: string (default: "End notes") -- accessible label for the section
+- `label`: string (required) -- accessible label for the section
 - `children`: slot (required) -- endnote content items
 - `...restProps`: Any additional HTML attributes
 
@@ -85,7 +85,7 @@ The consumer provides all CSS styling. The component renders with a `.end-notes`
 ## Testing
 
 - Verify the component renders a `<section>` element with class `end-notes`
-- Verify `aria-label` is applied (default: "End notes")
+- Verify `aria-label` is applied
 - Verify child content slots are rendered correctly
 - Verify pass-through attributes are applied
 

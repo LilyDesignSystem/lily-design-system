@@ -9,14 +9,14 @@ This component renders a semantically labeled unordered list with `role="list"` 
 ## Implementation Notes
 
 - Renders a `<ul>` element with explicit `role="list"` to preserve list semantics
-- Uses `aria-label` to provide an accessible name (defaults to "Do")
+- Uses `aria-label` to provide an accessible name
 - Children slot is rendered inside the list; each child should be an `<li>` element
 - Label prop has a sensible default but can be overridden for internationalization
 - Spreads `restProps` on the `<ul>` element
 
 ## Props
 
-- `label`: string (default: `"Do"`) -- accessible name for the list
+- `label`: string (required) -- accessible name for the list
 - `children`: slot (required) -- list items, each should be an `<li>` element
 - `...restProps`: any additional HTML attributes spread onto the `<ul>` element
 
@@ -56,7 +56,7 @@ None -- this component is a passive container for list items.
 ## ARIA
 
 - `role="list"` -- explicitly declares list semantics on the `<ul>`, ensuring assistive technology announces it as a list
-- `aria-label={label}` -- provides an accessible name for the list (defaults to "Do")
+- `aria-label={label}` -- provides an accessible name for the list
 
 ## When to Use
 
@@ -85,13 +85,13 @@ The consumer provides all CSS styling. The component renders with a `.do-list` c
 
 - Verify the component renders a `<ol>` element with class `do-list`
 - Verify role="list"`-- explicitly declares list semantics on the`<ul>`, ensuring assistive technology announces it as a list
-- Verify aria-label={label}` -- provides an accessible name for the list (defaults to "Do")
+- Verify aria-label={label}` -- provides an accessible name for the list
 - Verify pass-through attributes are applied
 
 ## Advice
 
 - **Designers**: Use a distinct visual treatment (such as a green check mark or positive color) to differentiate do-list items from dont-list items. Keep items concise and actionable.
-- **Developers**: Place DoListItem components as children. Override the `label` prop for internationalization when the default "Do" label is not appropriate.
+- **Developers**: Place DoListItem components as children. Give the `label` prop your own words for internationalization when the default "Do" label is not appropriate.
 
 ## Composition
 

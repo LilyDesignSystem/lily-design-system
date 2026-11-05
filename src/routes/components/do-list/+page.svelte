@@ -83,7 +83,7 @@
     <h3>ARIA</h3>
     <ul>
       <li><code>role="list"</code> -- explicitly declares list semantics on the <code>&lt;ul&gt;</code>, ensuring assistive technology announces it as a list</li>
-      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the list (defaults to "Do")</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the list</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
@@ -91,7 +91,7 @@
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>label</code>: string (default: <code>"Do"</code>) -- accessible name for the list</li>
+      <li><code>label</code>: string (required) -- accessible name for the list</li>
       <li><code>children</code>: slot (required) -- list items, each should be an <code>&lt;li&gt;</code> element</li>
       <li><code>...restProps</code>: any additional HTML attributes spread onto the <code>&lt;ul&gt;</code> element</li>
     </ul>

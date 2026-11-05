@@ -95,7 +95,7 @@
       <li><code>label</code>: string (required) -- accessible name for the password input via <code>aria-label</code></li>
       <li><code>value</code>: string (default: <code>""</code>) -- current password value; bindable with two-way <code>value</code> binding</li>
       <li><code>showToggle</code>: boolean (default: <code>true</code>) -- whether to render the show/hide toggle button</li>
-      <li><code>toggleLabel</code>: string (default: <code>"Show password"</code>) -- accessible label for the toggle button</li>
+      <li><code>toggleLabel</code>: string (required) -- accessible label for the toggle button</li>
       <li><code>required</code>: boolean (default: <code>false</code>) -- whether the input is required</li>
       <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the input is disabled</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the wrapper <code>&lt;div&gt;</code></li>

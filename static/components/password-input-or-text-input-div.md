@@ -22,7 +22,7 @@ This component is useful for login forms, registration forms, account settings, 
 - `label`: string (required) -- accessible name for the password input via `aria-label`
 - `value`: string (default: `""`) -- current password value; bindable with two-way `value` binding
 - `showToggle`: boolean (default: `true`) -- whether to render the show/hide toggle button
-- `toggleLabel`: string (default: `"Show password"`) -- accessible label for the toggle button
+- `toggleLabel`: string (required) -- accessible label for the toggle button
 - `required`: boolean (default: `false`) -- whether the input is required
 - `disabled`: boolean (default: `false`) -- whether the input is disabled
 - `...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`

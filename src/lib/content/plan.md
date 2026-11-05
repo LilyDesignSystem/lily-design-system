@@ -397,6 +397,18 @@ public-sector adopters are the likeliest to run strict policies); then P23-T9 an
 P22-T23. Four are maintainer decisions (T4, T6, T13, T14). On 2026-11-03 T15, T4 and T14 were finished and T1, T2, T3 and T6 taken to a first stage; each task records what is open. None of this overtakes the screen-reader matrix (P16-T9), which
 remains the first priority, and only T14 would add components.
 
+## Phase 24 — Local CI/CD (2026-11-04)
+
+Assessment of running verification and release on the maintainer's machine instead of leaning on GitHub Actions. Full findings and
+the options not taken: [spec/local-ci](spec/local-ci/index.md). Tasks: [tasks.md](tasks.md#phase-24--local-cicd-2026-11-04).
+
+The finding: the premise is half right. The repository is public, so GitHub-hosted runners cost nothing, and the self-hosted fee
+GitHub announced was postponed with no new date. Reliability is the real problem: the last six `CI` runs on `main` failed. What
+was read in the logs is the repository's own doing (Firefox and WebKit are not installed for the Playwright jobs that now run them, a
+`node:url` type error in a helper's test config, a spell-check failure), and there is no concurrency control, so six runs stacked up in
+an hour. Order: P24-T1 first, since nothing can replace a red gate; then P24-T2 (`bin/ci`), the keystone that T3, T5, T6 and T10
+build on; P24-T4 needs nothing and can go at any time. P24-T7 and T8 are trials; P24-T9 is a maintainer decision.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

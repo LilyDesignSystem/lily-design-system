@@ -15,7 +15,7 @@
     "None"
   ],
   "props": [
-    "`label`: string (default: \"End notes\") -- accessible label for the section",
+    "`label`: string (required) -- accessible label for the section",
     "`children`: slot (required) -- endnote content items",
     "`...restProps`: Any additional HTML attributes"
   ],

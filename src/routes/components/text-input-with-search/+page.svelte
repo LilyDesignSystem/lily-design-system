@@ -96,8 +96,8 @@
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name for the search region via <code>aria-label</code></li>
-      <li><code>inputLabel</code>: string (default: "Search") -- accessible name for the text input via <code>aria-label</code></li>
-      <li><code>searchLabel</code>: string (default: "Search") -- accessible label and text for the search button</li>
+      <li><code>inputLabel</code>: string (required) -- accessible name for the text input via <code>aria-label</code></li>
+      <li><code>searchLabel</code>: string (required) -- accessible label and text for the search button</li>
       <li><code>value</code>: string (default: "") -- bindable text input value</li>
       <li><code>placeholder</code>: string (optional) -- placeholder text for the input</li>
       <li><code>onsearch</code>: <code>(value: string) =&gt; void</code> (optional) -- callback when search is triggered</li>

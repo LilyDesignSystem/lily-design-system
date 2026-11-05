@@ -90,8 +90,8 @@
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>label</code>: string (default: "AI") -- accessible name for the indicator via <code>aria-label</code></li>
-      <li><code>text</code>: string (default: "AI") -- visible text displayed inside the indicator</li>
+      <li><code>label</code>: string (required) -- accessible name for the indicator via <code>aria-label</code></li>
+      <li><code>text</code>: string (required) -- visible text displayed inside the indicator</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;span&gt;</code> element</li>
     </ul>
 </section>
