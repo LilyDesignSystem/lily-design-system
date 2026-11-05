@@ -10,4 +10,6 @@ const meta: Meta<HamburgerMenu> = {
 export default meta;
 type Story = StoryObj<HamburgerMenu>;
 
-export const Default: Story = {};
+export const Default: Story = {
+    args: { label: "Menu" },
+};

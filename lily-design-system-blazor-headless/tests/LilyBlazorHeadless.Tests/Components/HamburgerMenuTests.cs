@@ -34,4 +34,40 @@ public class HamburgerMenuTests : TestContext
         var root = cut.Find(".hamburger-menu");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void The_toggle_is_a_named_button_linked_to_the_navigation()
+    {
+        var cut = RenderComponent<HamburgerMenu>(p => p
+            .Add(x => x.Label, "Main menu")
+            .AddChildContent("<a href=\"/\">Home</a>"));
+        Assert.Equal("DIV", cut.Find(".hamburger-menu").TagName);
+        var button = cut.Find(".hamburger-menu > button");
+        Assert.Equal("button", button.GetAttribute("type"));
+        Assert.Null(button.GetAttribute("role"));
+        Assert.Equal("Main menu", button.GetAttribute("aria-label"));
+        Assert.Equal("Main menu", button.TextContent);
+        Assert.Equal("false", button.GetAttribute("aria-expanded"));
+        Assert.Empty(cut.FindAll("nav"));
+
+        button.Click();
+        var nav = cut.Find("nav");
+        Assert.Equal("true", cut.Find("button").GetAttribute("aria-expanded"));
+        Assert.Equal("Main menu", nav.GetAttribute("aria-label"));
+        Assert.Equal(nav.GetAttribute("id"), cut.Find("button").GetAttribute("aria-controls"));
+    }
+
+    [Fact]
+    public void Open_is_two_way()
+    {
+        var seen = new List<bool>();
+        var cut = RenderComponent<HamburgerMenu>(p => p
+            .Add(x => x.Label, "Main menu")
+            .Add(x => x.Open, true)
+            .Add(x => x.OpenChanged, (bool v) => seen.Add(v)));
+        Assert.NotEmpty(cut.FindAll("nav"));
+        cut.Find("button").Click();
+        Assert.Equal(new[] { false }, seen);
+        Assert.Empty(cut.FindAll("nav"));
+    }
 }

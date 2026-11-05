@@ -11,11 +11,11 @@ import { warnMissingName } from "./dev-warning";
 @Component({
     selector: "lily-skip-link",
     standalone: true,
-    template: `<a class="skip-link {{ className() }}" [attr.href]="href() || '#'" [attr.aria-label]="label() || null"><ng-content /></a>`,
+    template: `<a class="skip-link {{ className() }}" [attr.href]="href()">@if (label()) {{{ label() }}} @else {<ng-content />}</a>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkipLink implements OnInit {
-    readonly href = input<string>("");
+    readonly href = input<string>("#content");
     readonly label = input<string>("");
     readonly className = input<string>("");
 

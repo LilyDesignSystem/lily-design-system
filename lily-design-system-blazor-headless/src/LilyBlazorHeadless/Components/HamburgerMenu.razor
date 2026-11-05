@@ -5,11 +5,28 @@
     a toggle button that opens a mobile navigation menu
 *@
 
-<button class="@($"hamburger-menu {CssClass}".Trim())" role="navigation" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<div class="@($"hamburger-menu {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <button type="button" aria-label="@Label" aria-expanded="@(Open ? "true" : "false")" aria-controls="@_menuId" @onclick="ToggleAsync">@Label</button>
+    @if (Open)
+    {
+        <nav id="@_menuId" aria-label="@Label">@ChildContent</nav>
+    }
+</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>Whether the navigation is showing. The button toggles it.</summary>
+    [Parameter] public bool Open { get; set; }
+    [Parameter] public EventCallback<bool> OpenChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _menuId = $"hamburger-menu-{Guid.NewGuid():N}";
+
+    private async Task ToggleAsync()
+    {
+        Open = !Open;
+        await OpenChanged.InvokeAsync(Open);
+    }
 }

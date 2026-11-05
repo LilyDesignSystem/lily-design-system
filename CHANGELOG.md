@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Hamburger menu and skip link — 2026-11-05
+
+- **Fixed (Angular, Blazor): `hamburger-menu` was a stub.** Angular had a `div` with no button; Blazor had a `<button role="navigation">` that wiped out its button role, and neither opened anything. Both now render the wrapper, a toggle with `aria-expanded` and `aria-controls`, and a `nav` that is in the DOM only while open, with two-way `open` (`Open` in Blazor). **Behaviour change:** content is hidden until the button is pressed, and Blazor's `AdditionalAttributes` and root are now on the `div`.
+- **Fixed (Angular): `skip-link` rendered an empty link from `label`.** The label is now the link's text, and `href` defaults to `#content`, as in the other catalogs. **Behaviour change:** content passed with a `label` is no longer shown; pass one or the other.
+
 ## Blazor keys in a real browser — 2026-11-05
 
 - **Fixed (Blazor): every callback from the keys of `splitter`, `split-view`, `cascader`, `tree-select`, `mentions-input` and `image-cropper` failed in a real browser.** The keys moved the DOM, but `@bind-Value`, `OnSelect`, `OnCropChange` and the rest never fired: `[JSInvokable]` is not inherited, so JS could not reach an override. bUnit and `tests/js` each pass without crossing that boundary. `KeyedComponentBase` now has non-virtual entry points, `JSInvokableTests` guards the rule by reflection, and `e2e/widget-keys.spec.ts` on `/demos/widget-keys` proves the path.
