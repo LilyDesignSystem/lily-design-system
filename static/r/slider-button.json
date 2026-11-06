@@ -9,7 +9,7 @@
   "interactive": true,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "Implicit `button` role from `<button>` element",
+    "`role=\"slider\"` on the `<button>`",
     "`aria-label` -- describes the confirmation action",
     "`aria-valuenow` -- current slider position percentage"
   ],
