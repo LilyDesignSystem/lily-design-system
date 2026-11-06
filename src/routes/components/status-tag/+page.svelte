@@ -91,7 +91,7 @@
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>label</code>: string (required) (default: —) — Status text shown to users</li>
+      <li><code>label</code>: string (optional) (default: —) — Hidden text read before the content</li>
       <li><code>tone</code>: "neutral" | "success" | "warning" | "danger" | "info" (default: "neutral") — Tone hint used by consumers to drive styling</li>
       <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;span&gt;</code></li>
     </ul>
