@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-toggle-group",
     standalone: true,
-    template: `<div class="toggle-group {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="toggle-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleGroup {

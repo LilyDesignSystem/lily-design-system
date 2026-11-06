@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-file-manager",
     standalone: true,
-    template: `<div class="file-manager {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="file-manager {{ className() }}" role="region" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FileManager {

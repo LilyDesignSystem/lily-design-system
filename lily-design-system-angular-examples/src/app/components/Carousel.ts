@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-carousel",
     standalone: true,
-    template: `<div class="carousel {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="carousel {{ className() }}" role="region" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Carousel {

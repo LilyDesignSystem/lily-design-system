@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-status-light",
     standalone: true,
-    template: `<span class="status-light {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    template: `<span class="status-light {{ className() }}" role="status" [attr.aria-label]="label() || null"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusLight {

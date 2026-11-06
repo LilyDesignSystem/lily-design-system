@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-sonner",
     standalone: true,
-    template: `<div class="sonner {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="sonner {{ className() }}" role="region" aria-live="polite" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Sonner {

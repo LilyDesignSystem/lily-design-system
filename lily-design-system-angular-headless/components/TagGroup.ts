@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-tag-group",
     standalone: true,
-    template: `<div class="tag-group {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="tag-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TagGroup {

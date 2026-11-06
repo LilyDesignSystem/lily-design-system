@@ -19,4 +19,13 @@ describe("Timer", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=timer, as in Svelte", () => {
+        const fixture = TestBed.createComponent(Timer);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".timer");
+        expect(el.getAttribute("role")).toBe("timer");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

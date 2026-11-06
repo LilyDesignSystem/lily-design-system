@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-button-group",
     standalone: true,
-    template: `<div class="button-group {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="button-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonGroup {

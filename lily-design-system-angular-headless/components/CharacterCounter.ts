@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-character-counter",
     standalone: true,
-    template: `<span class="character-counter {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    template: `<span class="character-counter {{ className() }}" role="status" aria-live="polite" [attr.aria-label]="label() || null"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CharacterCounter {

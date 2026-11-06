@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-avatar",
     standalone: true,
-    template: `<div class="avatar {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="avatar {{ className() }}" role="img" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Avatar {

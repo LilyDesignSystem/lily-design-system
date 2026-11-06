@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-footnote",
     standalone: true,
-    template: `<div class="footnote {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="footnote {{ className() }}" role="note" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Footnote {

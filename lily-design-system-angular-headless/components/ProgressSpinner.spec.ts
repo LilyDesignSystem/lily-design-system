@@ -19,4 +19,13 @@ describe("ProgressSpinner", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=status, as in Svelte", () => {
+        const fixture = TestBed.createComponent(ProgressSpinner);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".progress-spinner");
+        expect(el.getAttribute("role")).toBe("status");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

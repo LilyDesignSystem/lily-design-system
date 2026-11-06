@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-photo-pack",
     standalone: true,
-    template: `<div class="photo-pack {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="photo-pack {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoPack {

@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-mockup-phone-landscape",
     standalone: true,
-    template: `<div class="mockup-phone-landscape {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="mockup-phone-landscape {{ className() }}" role="img" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MockupPhoneLandscape {

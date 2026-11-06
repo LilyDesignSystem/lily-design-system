@@ -19,4 +19,13 @@ describe("StatusLight", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=status, as in Svelte", () => {
+        const fixture = TestBed.createComponent(StatusLight);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".status-light");
+        expect(el.getAttribute("role")).toBe("status");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-menu-group",
     standalone: true,
-    template: `<div class="menu-group {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="menu-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MenuGroup {

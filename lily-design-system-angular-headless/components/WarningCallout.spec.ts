@@ -19,4 +19,13 @@ describe("WarningCallout", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=alert, as in Svelte", () => {
+        const fixture = TestBed.createComponent(WarningCallout);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".warning-callout");
+        expect(el.getAttribute("role")).toBe("alert");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

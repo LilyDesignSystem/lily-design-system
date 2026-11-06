@@ -19,4 +19,13 @@ describe("InformationCallout", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=note, as in Svelte", () => {
+        const fixture = TestBed.createComponent(InformationCallout);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".information-callout");
+        expect(el.getAttribute("role")).toBe("note");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

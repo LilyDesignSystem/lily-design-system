@@ -19,4 +19,13 @@ describe("Sparkline", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=img, as in Svelte", () => {
+        const fixture = TestBed.createComponent(Sparkline);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".sparkline");
+        expect(el.getAttribute("role")).toBe("img");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

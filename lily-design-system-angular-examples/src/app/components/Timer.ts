@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-timer",
     standalone: true,
-    template: `<div class="timer {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="timer {{ className() }}" role="timer" aria-live="polite" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Timer {
