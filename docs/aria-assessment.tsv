@@ -49,13 +49,13 @@ belgique-numero-de-registre-national-view	ARIA evidence incomplete	no	no	no	yes	
 bharat-aadhaar-input	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 bharat-aadhaar-view	automated evidence complete	no	no	no	yes	-	8	no	-	-
 blockquote	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
-body-text	axe failure	no	no	no	no	-	-	no	aria-prohibited-attr	-
+body-text	automated evidence complete	no	no	no	no	-	-	no	-	-
 brasil-cartao-nacional-de-saude-input	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 brasil-cartao-nacional-de-saude-view	automated evidence complete	no	no	no	yes	-	8	no	-	-
 breadcrumb-link	key evidence incomplete	no	yes	no	yes	1	6	no	-	-
 breadcrumb-list	key evidence incomplete	no	yes	no	yes	1	1	no	-	-
 breadcrumb-list-item	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
-breadcrumb-nav	automated evidence complete	yes	yes	no	yes	8	8	yes	-	-
+breadcrumb-nav	automated evidence complete	yes	yes	no	yes	8	8	yes	-	landmark-unique
 bulgaria-edinen-grazhdanski-nomer-input	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 bulgaria-edinen-grazhdanski-nomer-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 button	automated evidence complete	yes	yes	no	yes	8	8	yes	-	-
@@ -226,7 +226,7 @@ floating-panel	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	heading-order
 footer	ARIA evidence incomplete	no	no	no	yes	-	6	yes	-	-
 footnote	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 form	automated evidence complete	yes	no	no	yes	-	8	yes	-	-
-framer	axe failure	no	no	no	yes	-	3	no	aria-prohibited-attr	-
+framer	automated evidence complete	no	no	no	yes	-	8	no	-	-
 france-numero-d-identification-au-repertoire-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 france-numero-d-identification-au-repertoire-view	automated evidence complete	no	no	no	no	-	-	no	-	-
 funnel-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
@@ -243,7 +243,7 @@ go-to-previous-section	key evidence incomplete	no	yes	no	no	1	-	no	-	-
 go-to-top	key evidence incomplete	no	yes	no	yes	1	2	no	-	-
 government-banner	key evidence incomplete	no	yes	no	yes	1	8	no	color-contrast	-
 government-identifier	key evidence incomplete	no	yes	no	yes	1	5	no	color-contrast	-
-grail-layout	automated evidence complete	no	no	no	no	-	-	yes	-	landmark-main-is-top-level,landmark-no-duplicate-main
+grail-layout	automated evidence complete	no	no	no	no	-	-	yes	-	landmark-main-is-top-level,landmark-no-duplicate-main,landmark-unique
 grail-layout-bottom-footer	automated evidence complete	no	no	no	no	-	-	no	-	-
 grail-layout-center-main	automated evidence complete	no	no	no	no	-	-	no	-	-
 grail-layout-left-aside	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
@@ -259,7 +259,7 @@ headline	ARIA evidence incomplete	no	no	no	yes	-	1	no	-	empty-heading
 heatmap-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
 heatmap-chart-with-year-of-days	automated evidence complete	no	no	no	yes	-	8	no	-	-
 hero	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
-hero-headline	axe failure	no	no	no	yes	-	6	no	aria-prohibited-attr	-
+hero-headline	automated evidence complete	no	no	no	yes	-	8	no	-	-
 hidden-input	automated evidence complete	no	no	no	no	-	-	no	-	-
 hint	automated evidence complete	yes	no	no	yes	-	8	yes	-	-
 hong-kong-identity-card-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
@@ -389,7 +389,7 @@ organization	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 osterreich-sozialversicherungsnummer-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 osterreich-sozialversicherungsnummer-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 overlay-container	key evidence incomplete	no	yes	yes	yes	1	6	no	-	-
-padding-reset	axe failure	no	no	no	no	-	-	no	aria-prohibited-attr	-
+padding-reset	automated evidence complete	no	no	no	no	-	-	no	-	-
 pagination-link	key evidence incomplete	no	yes	no	yes	1	6	no	-	-
 pagination-list	key evidence incomplete	no	yes	no	yes	1	2	no	-	-
 pagination-list-item	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
@@ -459,9 +459,9 @@ schweiz-ahv-nummer-view	automated evidence complete	no	no	no	yes	-	8	no	-	-
 screen-reader-span	automated evidence complete	no	no	no	no	-	-	no	-	-
 scroll-area	key evidence incomplete	no	yes	yes	yes	1	2	no	-	-
 scroll-bar	axe failure	no	yes	yes	yes	7	8	no	aria-valid-attr-value	-
-scroller	axe failure	no	yes	no	yes	1	6	no	aria-prohibited-attr	-
-scroller-base	axe failure	no	yes	no	yes	0	8	yes	aria-prohibited-attr	-
-scroller-video	axe failure	no	no	no	yes	-	8	no	aria-prohibited-attr,role-img-alt	-
+scroller	key evidence incomplete	no	yes	no	yes	1	8	no	-	-
+scroller-base	key evidence incomplete	no	yes	no	yes	0	8	yes	-	-
+scroller-video	automated evidence complete	no	no	no	yes	-	8	no	-	-
 search-input	key evidence incomplete	no	yes	yes	yes	1	3	no	-	-
 section-heading	automated evidence complete	no	no	no	no	-	-	no	-	-
 section-link	key evidence incomplete	no	yes	no	yes	1	1	no	-	-

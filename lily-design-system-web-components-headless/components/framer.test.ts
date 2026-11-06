@@ -46,4 +46,17 @@ describe("Framer", () => {
 
         expect(host.className).toBe("framer polaroid");
     });
+
+    test("is a named group when labelled", () => {
+        const host = render('<lily-framer label="Story"></lily-framer>');
+
+        expect(host.getAttribute("role")).toBe("group");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const host = render("<lily-framer></lily-framer>");
+
+        expect(host.hasAttribute("role")).toBe(false);
+    });
 });

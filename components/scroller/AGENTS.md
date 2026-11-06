@@ -21,7 +21,7 @@
 
 ## ARIA
 
-- `aria-label` on container
+- `role="group"` with `aria-label` on container, because a plain `<div>` cannot be named
 - `aria-live="polite"` on background for screen reader updates
 
 ## Keyboard
@@ -46,7 +46,7 @@
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="scroller"
-- [ ] Has aria-label attribute when label prop is provided
+- [ ] Has role="group" and aria-label when label prop is provided
 - [ ] Background content sticks while foreground scrolls
 - [ ] Exposes bindable index and progress values
 - [ ] Uses ScrollerBase internally

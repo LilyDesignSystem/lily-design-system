@@ -79,6 +79,7 @@ onMounted(() => {
     <!-- ScrollerVideo.vue -->
     <div
         class="scroller-video"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
     >
         <div

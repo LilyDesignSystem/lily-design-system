@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Seven containers stop naming a plain `<div>` — 2026-11-06
+
+- **Breaking:** `body-text` and `padding-reset` lose `label` in Angular, Blazor and Nunjucks, and `aria-label` in HTML and Alpine, matching their contract and the Svelte, React and Vue versions.
+- **Changed:** `framer`, `hero-headline`, `scroller`, `scroller-base` and `scroller-video` render `role="group"` with a `label`, so the name is valid. Without one they have no role. A consumer who sets `aria-label` directly also passes `role`.
+- **Fixed:** the `scroller-video` Nunjucks demo passes `alt`.
+- axe's `aria-prohibited-attr` is now 0 pages, and pages failing a WCAG rule fall from 31 to 24.
+- **Known gap:** 30 Nunjucks components still render a named generic root when given a `label`; their demos pass none, so axe missed them (P25-T14).
+
 ## `-view` components stop using `aria-label` — 2026-11-06
 
 - **Breaking (all eight catalogs and Alpine, 90 components): `-view` components no longer put `aria-label` on a plain `<span>`.** ARIA prohibits it. In published tests most screen readers dropped the label, and TalkBack with Chrome read the label instead of the content. `label` is now optional: leave it out when a visible caption, such as a `dt` or a `SummaryListItem` term, names the value. Passed, it renders as hidden text in a `.screen-reader-span` before the value, so an adopter without the themes needs that class hidden, and `textContent` of the root now includes it. Web Components `value` still returns the value alone.

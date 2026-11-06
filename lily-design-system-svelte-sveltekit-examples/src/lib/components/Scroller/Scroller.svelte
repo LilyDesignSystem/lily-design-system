@@ -28,7 +28,7 @@
     // Accessibility:
     //   - The background layer is aria-live="polite", so changes to it are announced; keep its text short or move it out of the live region
     //   - Content must be reachable without scrolling effects: every step is a normal block in the document
-    //   - aria-label comes from `label` when given; a <div> has no role, so add one through restProps
+    //   - With a label the root is role="group", because a plain <div> cannot be named
     //
     // Internationalization:
     //   - No hardcoded user-facing strings
@@ -67,6 +67,7 @@
 <!-- Scroller.svelte -->
 <div
     class={`scroller ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     {...restProps}
 >

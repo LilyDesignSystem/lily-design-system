@@ -32,4 +32,11 @@ describe("hero-headline", () => {
             "Big Headline",
         );
     });
+
+    it("is a named group when labelled", () => {
+        const { document } = render("hero-headline", { label: "Story" }, "x");
+        const root = document.querySelector(".hero-headline");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

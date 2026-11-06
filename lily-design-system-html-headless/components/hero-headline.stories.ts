@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="hero-headline"
+  role="group"
   aria-label=""
 >
   <div class="hero-headline-media">

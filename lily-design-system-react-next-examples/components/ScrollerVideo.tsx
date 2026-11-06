@@ -87,6 +87,7 @@ export default function ScrollerVideo({
     return (
         <div
             className={`scroller-video ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

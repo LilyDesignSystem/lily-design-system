@@ -4,7 +4,7 @@ A hero headline is a full-bleed hero section with headline content overlaid on m
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
-This headless component uses a `<div>` element with an `aria-label` to create a labeled container for the hero content overlaid on background media.
+This headless component uses a `<div>` element with `role="group"` and an `aria-label` to create a labeled container for the hero content overlaid on background media.
 
 ## Implementation Notes
 
@@ -72,7 +72,7 @@ This headless component uses a `<div>` element with an `aria-label` to create a 
 
 ## ARIA
 
-- `aria-label` on container -- describes the hero section for screen readers
+- `role="group"` with `aria-label` on container -- describes the hero section for screen readers
 - Media should have appropriate alt text
 
 ## When to Use
@@ -98,7 +98,7 @@ The consumer provides all CSS styling. The component renders with a `.hero-headl
 ## Testing
 
 - Verify the component renders a `<div>` element with class `hero-headline`
-- Verify `aria-label` is applied
+- Verify `role="group"` and `aria-label` are applied
 - Verify media slot renders background content
 - Verify children slot renders overlaid content
 - Verify pass-through attributes are applied

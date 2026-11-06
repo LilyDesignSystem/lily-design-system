@@ -88,4 +88,17 @@ describe("Scroller", () => {
         expect(host.index).toBe(1);
         expect(handler).toHaveBeenCalled();
     });
+
+    test("is a named group when labelled", () => {
+        const host = render('<lily-scroller label="Story"></lily-scroller>');
+
+        expect(host.getAttribute("role")).toBe("group");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const host = render("<lily-scroller></lily-scroller>");
+
+        expect(host.hasAttribute("role")).toBe(false);
+    });
 });

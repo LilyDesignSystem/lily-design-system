@@ -13,7 +13,7 @@
         ChildContent — the steps. CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"scroller-video {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">
+<div class="@($"scroller-video {CssClass}".Trim())" role="@(string.IsNullOrEmpty(Label) ? null : "group")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">
     <div class="scroller-video-background" role="img" aria-roledescription="scrollable video" aria-label="@Alt">
         <video class="scroller-video-element" src="@Src" muted playsinline preload="auto"></video>
     </div>

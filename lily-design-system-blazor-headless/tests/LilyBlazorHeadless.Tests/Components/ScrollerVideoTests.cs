@@ -30,7 +30,7 @@ public class ScrollerVideoTests : TestContext
     public void A_muted_described_video_behind_the_steps()
     {
         var cut = Make(p => p.AddChildContent("<section>One</section>"));
-        Assert.False(cut.Find("div.scroller-video").HasAttribute("role"));
+        Assert.Equal("group", cut.Find("div.scroller-video").GetAttribute("role"));
         var background = cut.Find(".scroller-video-background");
         Assert.Equal("img", background.GetAttribute("role"));
         Assert.Equal("A river", background.GetAttribute("aria-label"));
@@ -49,5 +49,17 @@ public class ScrollerVideoTests : TestContext
         var scroller = cut.FindComponent<ScrollerBase>();
         await cut.InvokeAsync(() => scroller.Instance.OnScrollerProgress(1));
         Assert.Equal(1, progress);
+    }
+
+    [Fact]
+    public void Is_a_named_group_when_labelled()
+    {
+        var cut = RenderComponent<ScrollerVideo>(p => p
+            .AddChildContent("body")
+            .Add(x => x.Alt, "Alt")
+            .Add(x => x.Label, "Story"));
+        var root = cut.Find(".scroller-video");
+        Assert.Equal("group", root.GetAttribute("role"));
+        Assert.Equal("Story", root.GetAttribute("aria-label"));
     }
 }

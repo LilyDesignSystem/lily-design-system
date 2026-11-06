@@ -7,8 +7,8 @@ describe("body-text", () => {
         expect(document.querySelector("div.body-text")).toBeTruthy();
     });
 
-    it("does not set aria-label by default", () => {
-        const { document } = render("body-text", {}, "x");
+    it("never sets aria-label", () => {
+        const { document } = render("body-text", { label: "Ignored" }, "x");
         expect(document.querySelector(".body-text").getAttribute("aria-label")).toBeNull();
     });
 

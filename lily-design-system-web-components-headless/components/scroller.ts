@@ -48,7 +48,10 @@ export class Scroller extends HTMLElement {
 
         applySelfClassName(this, "scroller");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
 
         const backgroundContent = this.querySelector(':scope > [slot="background"]');
         const steps = Array.from(this.children).filter((child) => child !== backgroundContent);

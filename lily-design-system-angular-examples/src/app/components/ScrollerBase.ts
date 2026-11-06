@@ -21,7 +21,7 @@ import { isPlatformBrowser } from "@angular/common";
 @Component({
     selector: "lily-scroller-base",
     standalone: true,
-    template: `<div #root class="scroller-base {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div #root class="scroller-base {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScrollerBase {

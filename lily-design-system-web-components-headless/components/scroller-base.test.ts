@@ -105,4 +105,17 @@ describe("ScrollerBase", () => {
         expect(host.children.length).toBe(2);
         expect(host.children[0].textContent).toBe("Step 1");
     });
+
+    test("is a named group when labelled", () => {
+        const host = render('<lily-scroller-base label="Story"></lily-scroller-base>');
+
+        expect(host.getAttribute("role")).toBe("group");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const host = render("<lily-scroller-base></lily-scroller-base>");
+
+        expect(host.hasAttribute("role")).toBe(false);
+    });
 });

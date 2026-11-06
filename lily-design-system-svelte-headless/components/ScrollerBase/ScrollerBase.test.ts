@@ -42,4 +42,16 @@ describe("ScrollerBase", () => {
         expect(root.children.length).toBe(3);
         expect(root.children[2].textContent).toBe("three");
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(Subject, { label: "Story", children: snippet("content") });
+        const root = container.querySelector(".scroller-base");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const { container } = render(Subject, { children: snippet("content") });
+        expect(container.querySelector(".scroller-base")?.hasAttribute("role")).toBe(false);
+    });
 });

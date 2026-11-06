@@ -61,7 +61,10 @@ export class ScrollerBase extends HTMLElement {
     #sync(): void {
         if (!this.#built) return;
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
     }
 
     get #offset(): number {

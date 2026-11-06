@@ -66,4 +66,11 @@ describe("HeroHeadline", () => {
 
         expect(host.className).toBe("hero-headline story-lead");
     });
+
+    test("is a named group when labelled", () => {
+        const host = render('<lily-hero-headline label="Story"></lily-hero-headline>');
+
+        expect(host.getAttribute("role")).toBe("group");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+    });
 });

@@ -23,7 +23,7 @@
 
     Accessibility:
       - aria-label comes from `label` when given
-      - A <div> has no role; pass role="group" through AdditionalAttributes so the label is announced
+      - With a label the root is role="group", because a plain <div> cannot be named
 
     Internationalization:
       - No hardcoded user-facing strings
@@ -35,7 +35,7 @@
       - MDN <div>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 *@
 
-<div class="@($"framer {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"framer {CssClass}".Trim())" role="@(string.IsNullOrEmpty(Label) ? null : "group")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

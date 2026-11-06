@@ -23,7 +23,7 @@
     //
     // Accessibility:
     //   - aria-label comes from `label`
-    //   - A <div> has no role; the label is only announced if the consumer adds one through restProps
+    //   - With a label the root is role="group", because a plain <div> cannot be named
     //   - The media snippet's own alt text is the consumer's
     //
     // Internationalization:
@@ -54,6 +54,7 @@
 <!-- HeroHeadline.svelte -->
 <div
     class={`hero-headline ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     {...restProps}
 >

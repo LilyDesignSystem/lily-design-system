@@ -34,4 +34,22 @@ public class ScrollerTests : TestContext
         var root = cut.Find(".scroller");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Is_a_named_group_when_labelled()
+    {
+        var cut = RenderComponent<Scroller>(p => p
+            .AddChildContent("body")
+            .Add(x => x.Label, "Story"));
+        var root = cut.Find(".scroller");
+        Assert.Equal("group", root.GetAttribute("role"));
+        Assert.Equal("Story", root.GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Has_no_role_without_a_label()
+    {
+        var cut = RenderComponent<Scroller>(p => p.AddChildContent("body"));
+        Assert.False(cut.Find(".scroller").HasAttribute("role"));
+    }
 }

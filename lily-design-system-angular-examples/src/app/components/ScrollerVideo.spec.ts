@@ -91,4 +91,11 @@ describe("ScrollerVideo", () => {
         window.dispatchEvent(new Event("scroll"));
         expect(fixture.nativeElement.querySelector("video").currentTime).toBe(0);
     });
+
+    test("is a named group when labelled", () => {
+        const fixture = make();
+        const el = fixture.nativeElement.querySelector("div.scroller-video");
+        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

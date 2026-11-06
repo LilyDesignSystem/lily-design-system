@@ -46,6 +46,7 @@ const emit = defineEmits<{
     <!-- Scroller.vue -->
     <div
         class="scroller"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
     >
         <div

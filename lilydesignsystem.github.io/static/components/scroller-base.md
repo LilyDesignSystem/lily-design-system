@@ -4,7 +4,7 @@ A low-level scroll position tracking primitive for scrollytelling. ScrollerBase 
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
-This headless component uses a `<div>` element with an `aria-label` to create a labeled scrollable region for scrollytelling content.
+This headless component uses a `<div>` element with `role="group"` and an `aria-label` to create a labeled scrollable region for scrollytelling content.
 
 ## Implementation Notes
 
@@ -60,7 +60,7 @@ This headless component uses a `<div>` element with an `aria-label` to create a 
 
 ## ARIA
 
-- `aria-label` for the scrollable region
+- `role="group"` with `aria-label` for the scrollable region
 - Steps should have appropriate roles as needed by the consumer
 
 ## When to Use
@@ -85,7 +85,7 @@ The consumer provides all CSS styling. The component renders with a `.scroller-b
 ## Testing
 
 - Verify the component renders a `<div>` element with class `scroller-base`
-- Verify `aria-label` is applied
+- Verify `role="group"` and `aria-label` are applied
 - Verify child steps are rendered correctly
 - Verify index updates as steps enter the viewport offset
 - Verify progress updates as the user scrolls
@@ -94,7 +94,7 @@ The consumer provides all CSS styling. The component renders with a `.scroller-b
 ## Advice
 
 - **Designers**: Plan step content with clear visual transitions in mind. Each step should represent a meaningful narrative beat. Consider how the viewport offset affects the reading experience.
-- **Developers**: Always provide a descriptive `aria-label` for the scrollable region. Use the bindable `index` and `progress` values to drive visual changes in sibling or parent components. Choose an appropriate `offset` value based on content type -- 0.5 (center) works well for most cases.
+- **Developers**: Provide a descriptive `label`, which gives the root `role="group"` and its `aria-label`, for the scrollable region. Use the bindable `index` and `progress` values to drive visual changes in sibling or parent components. Choose an appropriate `offset` value based on content type -- 0.5 (center) works well for most cases.
 
 ## Related components
 

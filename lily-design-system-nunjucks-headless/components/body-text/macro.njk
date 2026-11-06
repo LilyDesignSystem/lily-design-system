@@ -7,18 +7,16 @@
   Params:
     text       string  Plain text content.
     html       string  Raw HTML content (rendered via | safe).
-    label      string  aria-label.
     classes    string
     attributes object
 
   Usage:
     {% from "components/body-text/macro.njk" import bodyText %}
-    {{ bodyText({ label: "Example" }) }}
+    {{ bodyText({}) }}
 #}
 {%- macro bodyText(params) -%}
 <div
   class="body-text{% if params.classes %} {{ params.classes }}{% endif %}"
-  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
   {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
   {%- if params.html -%}

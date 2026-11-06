@@ -13,7 +13,7 @@
   "interactive": true,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "`aria-label` on container",
+    "`role=\"group\"` with `aria-label` on container, because a plain `<div>` cannot be named",
     "`aria-live=\"polite\"` on background for screen reader updates"
   ],
   "keyboard": [

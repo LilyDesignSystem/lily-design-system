@@ -61,6 +61,7 @@ export default function Scroller({
     return (
         <div
             className={`scroller ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

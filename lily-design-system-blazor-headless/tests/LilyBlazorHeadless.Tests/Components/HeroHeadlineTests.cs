@@ -34,4 +34,15 @@ public class HeroHeadlineTests : TestContext
         var root = cut.Find(".hero-headline");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Is_a_named_group_when_labelled()
+    {
+        var cut = RenderComponent<HeroHeadline>(p => p
+            .AddChildContent("body")
+            .Add(x => x.Label, "Story"));
+        var root = cut.Find(".hero-headline");
+        Assert.Equal("group", root.GetAttribute("role"));
+        Assert.Equal("Story", root.GetAttribute("aria-label"));
+    }
 }

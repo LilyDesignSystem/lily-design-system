@@ -22,7 +22,7 @@ import { ScrollerBase } from "./ScrollerBase";
     selector: "lily-scroller-video",
     standalone: true,
     imports: [ScrollerBase],
-    template: `<div class="scroller-video {{ className() }}" [attr.aria-label]="label() || null">
+    template: `<div class="scroller-video {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null">
         <div
             class="scroller-video-background"
             role="img"

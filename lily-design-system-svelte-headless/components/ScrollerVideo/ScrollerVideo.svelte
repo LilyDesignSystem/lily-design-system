@@ -96,6 +96,7 @@
 <!-- ScrollerVideo.svelte -->
 <div
     class={`scroller-video ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     {...restProps}
 >

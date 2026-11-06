@@ -25,6 +25,9 @@ export class Framer extends HTMLElement {
 
         applySelfClassName(this, "framer");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
     }
 }

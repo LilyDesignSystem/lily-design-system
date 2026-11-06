@@ -19,4 +19,13 @@ describe("HeroHeadline", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a named group when labelled", () => {
+        const fixture = TestBed.createComponent(HeroHeadline);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("div.hero-headline");
+        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

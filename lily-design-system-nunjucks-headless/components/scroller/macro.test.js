@@ -49,4 +49,16 @@ describe("scroller", () => {
         );
         expect(document.querySelector(".scroller").getAttribute("aria-label")).toBe("Story");
     });
+
+    it("is a named group when labelled", () => {
+        const { document } = render("scroller", { label: "Story" }, "x");
+        const root = document.querySelector(".scroller");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
+
+    it("has no role without a label", () => {
+        const { document } = render("scroller", {}, "x");
+        expect(document.querySelector(".scroller").hasAttribute("role")).toBe(false);
+    });
 });

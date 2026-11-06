@@ -20,4 +20,9 @@ describe("ScrollerVideo", function () {
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });
+
+    it("should be a group, so that its label is valid", async function () {
+        const el = await $("div.scroller-video");
+        expect(await el.getAttribute("role")).toBe("group");
+    });
 });

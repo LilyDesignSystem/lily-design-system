@@ -41,7 +41,10 @@ export class ScrollerVideo extends HTMLElement {
 
         applySelfClassName(this, "scroller-video");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
 
         const steps = Array.from(this.children);
 

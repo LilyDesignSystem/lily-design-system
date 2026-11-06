@@ -50,4 +50,22 @@ public class ScrollerBaseTests : TestContext
         Assert.Equal(2, index);
         Assert.Equal(0.5, progress);
     }
+
+    [Fact]
+    public void Is_a_named_group_when_labelled()
+    {
+        var cut = RenderComponent<ScrollerBase>(p => p
+            .AddChildContent("body")
+            .Add(x => x.Label, "Story"));
+        var root = cut.Find(".scroller-base");
+        Assert.Equal("group", root.GetAttribute("role"));
+        Assert.Equal("Story", root.GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Has_no_role_without_a_label()
+    {
+        var cut = RenderComponent<ScrollerBase>(p => p.AddChildContent("body"));
+        Assert.False(cut.Find(".scroller-base").HasAttribute("role"));
+    }
 }

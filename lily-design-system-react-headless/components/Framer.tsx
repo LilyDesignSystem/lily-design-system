@@ -28,6 +28,7 @@ export default function Framer({
     return (
         <div
             className={`framer ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

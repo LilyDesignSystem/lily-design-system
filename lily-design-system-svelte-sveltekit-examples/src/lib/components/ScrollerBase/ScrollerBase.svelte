@@ -24,7 +24,7 @@
     //   - None -- not interactive; any interactive children handle their own keys; the page scrolls with the usual keys
     //
     // Accessibility:
-    //   - No role of its own; aria-label comes from `label` when given
+    //   - With a label the root is role="group", because a plain <div> cannot be named
     //   - Every step is an ordinary block, so the content reads in document order without scrolling effects
     //
     // Internationalization:
@@ -106,6 +106,7 @@
 <div
     bind:this={scrollerEl}
     class={`scroller-base ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     {...restProps}
 >

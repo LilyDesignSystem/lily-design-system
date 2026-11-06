@@ -20,7 +20,7 @@
 
 ## ARIA
 
-- `aria-label` for the scrollable region
+- `role="group"` with `aria-label` for the scrollable region, because a plain `<div>` cannot be named
 - Steps should have appropriate roles
 
 ## Keyboard
@@ -39,7 +39,7 @@
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="scroller-base"
-- [ ] Has aria-label attribute
+- [ ] Has role="group" and aria-label
 - [ ] Tracks scroll position via IntersectionObserver
 - [ ] Exposes bindable index and progress values
 - [ ] WCAG 2.2 AAA compliant

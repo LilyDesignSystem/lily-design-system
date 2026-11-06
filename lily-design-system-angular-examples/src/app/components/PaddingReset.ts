@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-padding-reset",
     standalone: true,
-    template: `<div class="padding-reset {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="padding-reset {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaddingReset {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

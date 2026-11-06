@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-body-text",
     standalone: true,
-    template: `<div class="body-text {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="body-text {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BodyText {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

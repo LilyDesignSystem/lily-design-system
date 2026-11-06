@@ -23,7 +23,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *
  * Accessibility:
  *   - aria-label comes from `label` when given
- *   - A <div> has no role; pass role="group" on the host element (Angular has no rest props) so the label is announced
+ *   - With a label the root is role="group", because a plain <div> cannot be named
  *
  * Internationalization:
  *   - No hardcoded user-facing strings
@@ -37,7 +37,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-framer",
     standalone: true,
-    template: `<div class="framer {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="framer {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Framer {

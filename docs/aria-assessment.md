@@ -3,8 +3,8 @@
 _Measured 2026-11-06 across all 609 components, and remeasured the same day after 90 `-view` components stopped using `aria-label` ([P25-T1](../tasks.md)). Per-component data: [aria-assessment.tsv](aria-assessment.tsv). Work
 that follows from it: [tasks.md](../tasks.md) Phase 25._
 
-**Verdict: Lily is not WAI-ARIA compliant, and no component can yet be shown to be.** No screen reader has been used on any component, 31
-components have a confirmed axe failure, and 431 have incomplete keyboard or ARIA test evidence. WAI-ARIA has no certification; this is a
+**Verdict: Lily is not WAI-ARIA compliant, and no component can yet be shown to be.** No screen reader has been used on any component, 24
+components have a confirmed axe failure, and 433 have incomplete keyboard or ARIA test evidence. WAI-ARIA has no certification; this is a
 self-assessment of evidence, not an audit.
 
 ## Result
@@ -13,18 +13,18 @@ Each component is in the first band it falls into, so the bands add up to 609.
 
 | Band                              | Components | What it means                                                                      |
 | --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
-| 1. axe failure                    | 31         | A WCAG A or AA rule failed on its live Nunjucks page, excluding colour contrast    |
-| 2. Key evidence incomplete        | 131        | Its contract names keys, and fewer than eight libraries have a test that sends one |
+| 1. axe failure                    | 24         | A WCAG A or AA rule failed on its live Nunjucks page, excluding colour contrast    |
+| 2. Key evidence incomplete        | 133        | Its contract names keys, and fewer than eight libraries have a test that sends one |
 | 3. ARIA evidence incomplete       | 300        | Its contract names ARIA, and fewer than eight libraries assert it                  |
 | 4. Contrast unconfirmed           | 1          | Evidence complete, but axe reported colour contrast, which this run cannot confirm |
-| 5. Automated evidence complete    | 146        | Nothing above. This is a floor, not a pass                                         |
+| 5. Automated evidence complete    | 151        | Nothing above. This is a floor, not a pass                                         |
 | Screen-reader evidence, all bands | **0**      | 0 of 222 matrix cells filled. Only 40 components have a row                        |
 
 | Measure                                                   | Result     |
 | --------------------------------------------------------- | ---------- |
 | Key contracts with a key test in all eight libraries      | 37 of 180  |
 | Custom-key widgets (arrows, Home, End, Escape), all eight | 28 of 86   |
-| ARIA contracts asserted in all eight libraries            | 129 of 526 |
+| ARIA contracts asserted in all eight libraries            | 132 of 526 |
 | End-to-end evidence in Chromium, Firefox and WebKit       | 45 of 609  |
 | No keyboard or ARIA contract at all                       | 71 of 609  |
 
@@ -50,24 +50,22 @@ The custom-key row matters most: those are the widgets where script, not the bro
 **Contract** means the markup a consumer gets is wrong, so the fix is to the component and its contract. **Demo** means the example page is wrong.
 **Check** means it has not been traced.
 
-| Rule                                            | Components | Cause    | Finding                                                                                                                                                                                                              |
-| ----------------------------------------------- | ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `aria-prohibited-attr`                          | 7          | Contract | `aria-label` on a plain `<div>`, which ARIA prohibits: `body-text`, `framer`, `hero-headline`, `padding-reset`, `scroller`, `scroller-base`, `scroller-video`. It was 43 before the 90 `-view` components were fixed |
-| `aria-required-attr`                            | 2          | Contract | `cascader` and `tree-select`: `role="combobox"` without a required attribute. Read in Svelte too                                                                                                                     |
-| `aria-allowed-attr`                             | 1          | Contract | `slider-button`: `aria-valuenow` on `role="button"`                                                                                                                                                                  |
-| `aria-dialog-name`                              | 1          | Contract | `contextual-help`: the panel is a `role="dialog"` with no name, and only the trigger is named. Read in Svelte too                                                                                                    |
-| `aria-input-field-name`                         | 2          | Check    | `mentions-input`, `transfer-list`: a `role="listbox"` with no name                                                                                                                                                   |
-| `listitem`, `aria-allowed-role`                 | 2          | Contract | `chat-list`, `chat-nav`: Nunjucks puts `role="log"` on the `<ol>`, which removes the list. Svelte has no role there, so this is also a port difference                                                               |
-| `role-img-alt`                                  | 1          | Check    | `scroller-video`: `role="img"` with no name                                                                                                                                                                          |
-| `aria-valid-attr-value`                         | 3          | Check    | `menu-bar`, `menu-bar-button`: `aria-controls` names a menu that is not on the page. `scroll-bar`: its value                                                                                                         |
-| `button-name`, `label`                          | 5          | Check    | `date-time-now-input`, `autosuggest`, `editable-form`, `input-group`, `text-area-input-with-character-counter`                                                                                                       |
-| `target-size`                                   | 1          | Check    | `tree-nav`: links smaller than 24 by 24 CSS pixels in the default theme                                                                                                                                              |
-| `aria-required-children`                        | 1          | Demo     | `command`: its listbox is empty on the page                                                                                                                                                                          |
-| `list`, `listitem`, `definition-list`           | 5          | Demo     | `document-list`, `section-list`, `description-list` and items: placeholder text directly in the list. `timeline-list-item` has no list around it                                                                     |
-| `aria-required-parent`, `aria-valid-attr-value` | 1          | Demo     | `tab-panel`: a loose `role="tab"` outside a tablist, on the page                                                                                                                                                     |
-| `landmark-*`, `empty-heading`                   | 3          | Demo     | `grail-layout` nests a second `<main>` in the page's; `newsletter-signup` shares a landmark name; `headline` shows an empty heading                                                                                  |
-| `heading-order`                                 | 15         | Check    | Best practice, not WCAG. Mostly the demo's heading levels                                                                                                                                                            |
-| `color-contrast`                                | 10         | Check    | `alert`, `coachmark`, `download-button`, `government-banner`, `government-identifier`, `panel`, `split-button`, `sticky-promo-banner`, `tag`, `watermark`. Unconfirmed, see above                                    |
+| Rule                                            | Components | Cause    | Finding                                                                                                                                                                           |
+| ----------------------------------------------- | ---------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aria-required-attr`                            | 2          | Contract | `cascader` and `tree-select`: `role="combobox"` without a required attribute. Read in Svelte too                                                                                  |
+| `aria-allowed-attr`                             | 1          | Contract | `slider-button`: `aria-valuenow` on `role="button"`                                                                                                                               |
+| `aria-dialog-name`                              | 1          | Contract | `contextual-help`: the panel is a `role="dialog"` with no name, and only the trigger is named. Read in Svelte too                                                                 |
+| `aria-input-field-name`                         | 2          | Check    | `mentions-input`, `transfer-list`: a `role="listbox"` with no name                                                                                                                |
+| `listitem`, `aria-allowed-role`                 | 2          | Contract | `chat-list`, `chat-nav`: Nunjucks puts `role="log"` on the `<ol>`, which removes the list. Svelte has no role there, so this is also a port difference                            |
+| `aria-valid-attr-value`                         | 3          | Check    | `menu-bar`, `menu-bar-button`: `aria-controls` names a menu that is not on the page. `scroll-bar`: its value                                                                      |
+| `button-name`, `label`                          | 5          | Check    | `date-time-now-input`, `autosuggest`, `editable-form`, `input-group`, `text-area-input-with-character-counter`                                                                    |
+| `target-size`                                   | 1          | Check    | `tree-nav`: links smaller than 24 by 24 CSS pixels in the default theme                                                                                                           |
+| `aria-required-children`                        | 1          | Demo     | `command`: its listbox is empty on the page                                                                                                                                       |
+| `list`, `listitem`, `definition-list`           | 5          | Demo     | `document-list`, `section-list`, `description-list` and items: placeholder text directly in the list. `timeline-list-item` has no list around it                                  |
+| `aria-required-parent`, `aria-valid-attr-value` | 1          | Demo     | `tab-panel`: a loose `role="tab"` outside a tablist, on the page                                                                                                                  |
+| `landmark-*`, `empty-heading`                   | 3          | Demo     | `grail-layout` nests a second `<main>` in the page's; `newsletter-signup` shares a landmark name; `headline` shows an empty heading                                               |
+| `heading-order`                                 | 15         | Check    | Best practice, not WCAG. Mostly the demo's heading levels                                                                                                                         |
+| `color-contrast`                                | 10         | Check    | `alert`, `coachmark`, `download-button`, `government-banner`, `government-identifier`, `panel`, `split-button`, `sticky-promo-banner`, `tag`, `watermark`. Unconfirmed, see above |
 
 ## Widgets with the least key evidence
 
@@ -86,3 +84,10 @@ not committed; P25-T10 makes it permanent.
 ---
 
 Lily™ and Lily Design System™ are trademarks.
+
+## What axe cannot see
+
+axe tests what a demo renders, so a clean page does not clear a component. Rendering every Nunjucks macro with a `label` (2026-11-06)
+found 30 components whose root is a `<div>` or `<span>` with `aria-label` and no role, the defect `aria-prohibited-attr` reports. Their
+demos pass no label, so axe never saw it: `address-input`, `addressograph-box`, `affix`, `ai-label`, `announcement-banner`, `answer`, `badge`, `banner-box`, `character`, `clamp-text`, `comment`, `container-with-fixed-width`, `container-with-fluid-width`, `description-list-item`, `draft`, `flair`, `flex-stack`, `grid`, `inset-text`, `masonry`, `medical-banner-box`, `medical-banner-box-for-advice`, `phase-banner`, `postal-code-view`, `question`, `scroll-area`, `share-page`, `split-view`, `status-tag`, `success-panel`. Other catalogs were not rendered this way, and a rough source scan suggests the
+count is higher there. Tracked as [P25-T14](../tasks.md).

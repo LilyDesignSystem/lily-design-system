@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html =
-    '<div\n  class="padding-reset"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+const html = '<div class="padding-reset">\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
     title: "Headless/Padding Reset",

@@ -14,6 +14,7 @@ defineProps<{
     <!-- HeroHeadline.vue -->
     <div
         class="hero-headline"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
     >
         <slot name="media" />

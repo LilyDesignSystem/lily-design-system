@@ -55,4 +55,11 @@ describe("HeroHeadline", () => {
         expect(container.textContent).toContain("MEDIA");
         expect(container.textContent).toContain("HEADLINE");
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(<Subject label="Story">content</Subject>);
+        const root = container.querySelector(".hero-headline");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
 });

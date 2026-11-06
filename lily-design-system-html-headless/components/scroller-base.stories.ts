@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="scroller-base"
+  role="group"
   aria-label=""
   data-offset="0.5"
 >

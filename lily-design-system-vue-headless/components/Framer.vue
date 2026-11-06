@@ -21,7 +21,7 @@
 //
 // Accessibility:
 //   - aria-label comes from `label` when given
-//   - A <div> has no role; pass role="group" through attrs so the label is announced
+//   - With a label the root is role="group", because a plain <div> cannot be named
 //
 // Internationalization:
 //   - No hardcoded user-facing strings
@@ -47,6 +47,7 @@ withDefaults(
     <!-- Framer.vue -->
     <div
         class="framer"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
     >
         <slot />

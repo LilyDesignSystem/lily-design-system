@@ -7,8 +7,8 @@ describe("padding-reset", () => {
         expect(document.querySelector("div.padding-reset")).toBeTruthy();
     });
 
-    it("does not set aria-label by default", () => {
-        const { document } = render("padding-reset", {}, "x");
+    it("never sets aria-label", () => {
+        const { document } = render("padding-reset", { label: "Ignored" }, "x");
         expect(document.querySelector(".padding-reset").getAttribute("aria-label")).toBeNull();
     });
 

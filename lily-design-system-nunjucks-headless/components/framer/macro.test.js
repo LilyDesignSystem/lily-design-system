@@ -16,4 +16,16 @@ describe("framer", () => {
         const { document } = render("framer", {}, "<span>hello</span>");
         expect(document.querySelector(".framer span").textContent).toBe("hello");
     });
+
+    it("is a named group when labelled", () => {
+        const { document } = render("framer", { label: "Story" }, "x");
+        const root = document.querySelector(".framer");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
+
+    it("has no role without a label", () => {
+        const { document } = render("framer", {}, "x");
+        expect(document.querySelector(".framer").hasAttribute("role")).toBe(false);
+    });
 });

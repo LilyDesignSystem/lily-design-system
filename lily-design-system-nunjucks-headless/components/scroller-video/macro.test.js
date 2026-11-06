@@ -71,4 +71,15 @@ describe("scroller-video", () => {
         const fg = document.querySelector(".scroller-video-foreground");
         expect(fg.querySelectorAll("section").length).toBe(2);
     });
+
+    it("is a named group when labelled", () => {
+        const { document } = render(
+            "scroller-video",
+            { label: "Story", src: "a.mp4", alt: "Alt" },
+            "x",
+        );
+        const root = document.querySelector(".scroller-video");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

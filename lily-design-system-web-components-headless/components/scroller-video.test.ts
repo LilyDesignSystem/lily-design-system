@@ -96,4 +96,11 @@ describe("ScrollerVideo", () => {
         expect(host.index).toBe(1);
         expect(handler).toHaveBeenCalled();
     });
+
+    test("is a named group when labelled", () => {
+        const host = render('<lily-scroller-video label="Story"></lily-scroller-video>');
+
+        expect(host.getAttribute("role")).toBe("group");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+    });
 });

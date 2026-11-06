@@ -91,6 +91,7 @@ onBeforeUnmount(() => {
     <div
         ref="scrollerEl"
         class="scroller-base"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
     >
         <slot />

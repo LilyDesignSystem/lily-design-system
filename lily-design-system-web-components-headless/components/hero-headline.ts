@@ -32,7 +32,10 @@ export class HeroHeadline extends HTMLElement {
 
         applySelfClassName(this, "hero-headline");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
 
         const media = this.querySelector('[slot="media"]');
         const mediaWrap = document.createElement("div");

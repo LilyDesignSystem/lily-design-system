@@ -58,4 +58,16 @@ describe("ScrollerBase", () => {
         );
         expect(container.querySelector("[data-testid='sb']")).toBeTruthy();
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(<Subject label="Story">content</Subject>);
+        const root = container.querySelector(".scroller-base");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const { container } = render(<Subject>content</Subject>);
+        expect(container.querySelector(".scroller-base")?.hasAttribute("role")).toBe(false);
+    });
 });

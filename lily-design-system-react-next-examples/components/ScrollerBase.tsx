@@ -97,6 +97,7 @@ export default function ScrollerBase({
         <div
             ref={ref}
             className={`scroller-base ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

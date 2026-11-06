@@ -17,7 +17,7 @@
         ChildContent, CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"scroller-base {CssClass}".Trim())" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @ref="_root" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"scroller-base {CssClass}".Trim())" role="@(string.IsNullOrEmpty(Label) ? null : "group")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @ref="_root" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string? Label { get; set; }

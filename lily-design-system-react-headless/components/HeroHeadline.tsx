@@ -31,6 +31,7 @@ export default function HeroHeadline({
     return (
         <div
             className={`hero-headline ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

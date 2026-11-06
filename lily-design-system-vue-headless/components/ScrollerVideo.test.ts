@@ -54,4 +54,14 @@ describe("ScrollerVideo", () => {
         expect(fg).toBeTruthy();
         expect(fg?.children.length).toBe(2);
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(Subject, {
+            props: { label: "Story", src: "a.mp4", alt: "Alt" },
+            slots: { default: "content" },
+        });
+        const root = container.querySelector(".scroller-video");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
 });

@@ -9,7 +9,7 @@
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "Optional `aria-label` when frame has semantic meaning; otherwise presentational"
+    "With `label`: `role=\"group\"` and `aria-label`, because a plain `<div>` cannot be named. A consumer who names it with `aria-label` directly passes `role` too. Without `label`: no role, presentational"
   ],
   "keyboard": [
     "None"

@@ -18,7 +18,7 @@
 
 ## ARIA
 
-- Optional `aria-label` when frame has semantic meaning; otherwise presentational
+- With `label`: `role="group"` and `aria-label`, because a plain `<div>` cannot be named. A consumer who names it with `aria-label` directly passes `role` too. Without `label`: no role, presentational
 
 ## Keyboard
 
@@ -33,7 +33,7 @@
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="framer"
-- [ ] Supports optional aria-label attribute
+- [ ] Has role="group" and aria-label with a label, and no role without one
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
 

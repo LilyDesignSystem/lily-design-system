@@ -117,4 +117,21 @@ describe("ScrollerBase", () => {
         expect(host.progress.length).toBe(before);
         expect(observers[0].disconnected).toBe(true);
     });
+
+    test("is a named group when labelled", () => {
+        const fixture = TestBed.createComponent(ScrollerBase);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("div.scroller-base");
+        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const fixture = TestBed.createComponent(ScrollerBase);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector("div.scroller-base").hasAttribute("role")).toBe(
+            false,
+        );
+    });
 });
