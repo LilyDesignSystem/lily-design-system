@@ -3007,6 +3007,12 @@
         }
     }
 
+    /* A closed popover stays closed. Author `display` beats the browser's own rule for a closed popover, so the
+       menu rule above would otherwise leave every closed dropdown-menu and context-menu on the page. */
+    :where([popover]:not(:popover-open)) {
+        display: none;
+    }
+
     /* Anchored popups (P16-T4). These nine render `popover="manual"`, which puts them in the top layer; the
        browser's own popover style would centre them in the viewport. Closed, they are display: none (or `hidden`
        where the Popover API is missing). Where anchor positioning exists, the four that live inside a component
