@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-figure",
     standalone: true,
-    template: `<figure class="figure {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></figure>`,
+    template: `<figure class="figure {{ className() }}" role="img" [attr.aria-label]="label() || null"><ng-content /></figure>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Figure {

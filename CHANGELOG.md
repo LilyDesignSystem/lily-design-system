@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Ports are checked against what Svelte renders — 2026-11-06
+
+- **Added:** `shared/aria-baseline.json` records each Svelte root's role and `aria-*` names, and the render sweeps in React, Vue, Angular, Nunjucks and Web Components compare with it, with allow-lists that may only shrink.
+- **Fixed:** the eight `mockup-*` components in React and Vue are `role="img"` and take `label`, and `loading` has `aria-live`. Angular gets back `role="list"` on `check-list`, `do-list`, `dont-list` and `task-list`, `role="img"` on `figure`, `role="search"` on `data-filter-form`, `aria-roledescription` on `carousel`, `aria-hidden` on `skeleton` and `avatar-text`, and `aria-live` on `validation-list`, and `calendar-range-picker` and `emoji-character-picker` take the roles Svelte has.
+- **Fixed:** the 41 `-view` contracts no longer claim `role="text"`.
+
 ## The key check reads pattern tests — 2026-11-06
 
 - **Fixed:** `bin/check-coverage` did not count a `runPattern` test as sending keys, so 65 allow-list entries were false, and said components such as `splitter` handled no keys. The list falls from 359 to 294.

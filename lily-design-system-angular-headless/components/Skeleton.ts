@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-skeleton",
     standalone: true,
-    template: `<div class="skeleton {{ className() }}"><ng-content /></div>`,
+    template: `<div class="skeleton {{ className() }}" aria-hidden="true" aria-busy="true"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Skeleton {
