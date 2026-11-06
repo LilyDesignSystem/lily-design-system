@@ -26,7 +26,11 @@ describe("MeasurementInstanceView", () => {
                 label="Blood pressure"
             />,
         );
-        expect(screen.getByText("120/80").getAttribute("aria-label")).toBe("Blood pressure");
+        expect(
+            (document.querySelector(".measurement-instance-view") as HTMLElement).querySelector(
+                ".screen-reader-span",
+            )?.textContent,
+        ).toBe(`${"Blood pressure"} `);
     });
 
     test("passes through attributes", () => {

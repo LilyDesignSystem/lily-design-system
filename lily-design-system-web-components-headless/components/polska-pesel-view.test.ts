@@ -27,7 +27,17 @@ describe("PolskaPeselView", () => {
     test("uses label as the accessible name", () => {
         const host = render('<lily-polska-pesel-view label="PESEL"></lily-polska-pesel-view>');
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("PESEL");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"PESEL"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -36,16 +46,26 @@ describe("PolskaPeselView", () => {
         ) as unknown as PolskaPeselView;
 
         expect(host.value).toBe("44051401359");
-        expect(host.querySelector("span")!.textContent).toBe("44051401359");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("44051401359");
 
         host.value = "02070803628";
-        expect(host.querySelector("span")!.textContent).toBe("02070803628");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("02070803628");
         expect(host.value).toBe("02070803628");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render('<lily-polska-pesel-view label="PESEL"></lily-polska-pesel-view>');
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

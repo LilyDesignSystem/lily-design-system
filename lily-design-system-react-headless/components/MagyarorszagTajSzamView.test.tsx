@@ -12,7 +12,7 @@ describe("MagyarorszagTajSzamView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Társadalombiztosítási Azonosító Jel (TAJ)");
+        const el = document.querySelector(".magyarorszag-taj-szam-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("magyarorszag-taj-szam-view");
     });
@@ -25,14 +25,19 @@ describe("MagyarorszagTajSzamView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Társadalombiztosítási Azonosító Jel (TAJ)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".magyarorszag-taj-szam-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Társadalombiztosítási Azonosító Jel (TAJ)" />);
 
-        const el = screen.getByLabelText("Társadalombiztosítási Azonosító Jel (TAJ)");
-        expect(el.getAttribute("aria-label")).toBe("Társadalombiztosítási Azonosító Jel (TAJ)");
+        const el = document.querySelector(".magyarorszag-taj-szam-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Társadalombiztosítási Azonosító Jel (TAJ)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

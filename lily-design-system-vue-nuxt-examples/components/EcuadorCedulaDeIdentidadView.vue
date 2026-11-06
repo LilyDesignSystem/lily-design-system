@@ -9,7 +9,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -20,9 +20,11 @@ withDefaults(
 
 <template>
     <!-- EcuadorCedulaDeIdentidadView.vue -->
-    <span
-        class="ecuador-cedula-de-identidad-view"
-        :aria-label="label"
+    <span class="ecuador-cedula-de-identidad-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

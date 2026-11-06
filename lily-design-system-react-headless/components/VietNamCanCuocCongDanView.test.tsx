@@ -12,7 +12,7 @@ describe("VietNamCanCuocCongDanView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Citizen Identification Number (CCCD)");
+        const el = document.querySelector(".viet-nam-can-cuoc-cong-dan-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("viet-nam-can-cuoc-cong-dan-view");
     });
@@ -25,14 +25,19 @@ describe("VietNamCanCuocCongDanView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Citizen Identification Number (CCCD)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".viet-nam-can-cuoc-cong-dan-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Citizen Identification Number (CCCD)" />);
 
-        const el = screen.getByLabelText("Citizen Identification Number (CCCD)");
-        expect(el.getAttribute("aria-label")).toBe("Citizen Identification Number (CCCD)");
+        const el = document.querySelector(".viet-nam-can-cuoc-cong-dan-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Citizen Identification Number (CCCD)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

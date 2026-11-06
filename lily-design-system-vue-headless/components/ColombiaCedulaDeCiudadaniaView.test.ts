@@ -9,7 +9,7 @@ describe("ColombiaCedulaDeCiudadaniaView", () => {
             props: { label: "National Identification Number", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("National Identification Number");
+        const el = document.querySelector(".colombia-cedula-de-ciudadania-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("colombia-cedula-de-ciudadania-view");
     });
@@ -19,14 +19,19 @@ describe("ColombiaCedulaDeCiudadaniaView", () => {
             props: { label: "National Identification Number", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("National Identification Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".colombia-cedula-de-ciudadania-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "National Identification Number" } });
 
-        const el = screen.getByLabelText("National Identification Number");
-        expect(el.getAttribute("aria-label")).toBe("National Identification Number");
+        const el = document.querySelector(".colombia-cedula-de-ciudadania-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"National Identification Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

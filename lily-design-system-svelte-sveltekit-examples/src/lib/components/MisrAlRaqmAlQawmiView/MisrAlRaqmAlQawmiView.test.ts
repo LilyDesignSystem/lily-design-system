@@ -9,7 +9,7 @@ describe("MisrAlRaqmAlQawmiView", () => {
             props: { label: "الرقم القومي (Al-Raqm Al-Qawmi)", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("الرقم القومي (Al-Raqm Al-Qawmi)");
+        const el = document.querySelector(".misr-al-raqm-al-qawmi-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("misr-al-raqm-al-qawmi-view");
     });
@@ -19,14 +19,19 @@ describe("MisrAlRaqmAlQawmiView", () => {
             props: { label: "الرقم القومي (Al-Raqm Al-Qawmi)", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("الرقم القومي (Al-Raqm Al-Qawmi)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".misr-al-raqm-al-qawmi-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "الرقم القومي (Al-Raqm Al-Qawmi)" } });
 
-        const el = screen.getByLabelText("الرقم القومي (Al-Raqm Al-Qawmi)");
-        expect(el.getAttribute("aria-label")).toBe("الرقم القومي (Al-Raqm Al-Qawmi)");
+        const el = document.querySelector(".misr-al-raqm-al-qawmi-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"الرقم القومي (Al-Raqm Al-Qawmi)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

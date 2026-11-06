@@ -17,9 +17,8 @@ describe("ChileRolUnicoNacionalView", function () {
         expect(className).toContain("chile-rol-unico-nacional-view");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not put aria-label on a plain span", async function () {
         const el = await $("span.chile-rol-unico-nacional-view");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

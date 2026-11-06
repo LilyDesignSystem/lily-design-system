@@ -31,7 +31,17 @@ describe("RedOrangeYellowGreenBlueView", () => {
             '<lily-red-orange-yellow-green-blue-view label="Risk level"></lily-red-orange-yellow-green-blue-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Risk level");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Risk level"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -39,11 +49,27 @@ describe("RedOrangeYellowGreenBlueView", () => {
             '<lily-red-orange-yellow-green-blue-view label="Risk level" value="yellow"></lily-red-orange-yellow-green-blue-view>',
         ) as unknown as RedOrangeYellowGreenBlueView;
 
-        expect(host.querySelector("span")!.textContent).toBe("yellow");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("yellow");
         expect(host.value).toBe("yellow");
 
         host.value = "blue";
-        expect(host.querySelector("span")!.textContent).toBe("blue");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("blue");
         expect(host.value).toBe("blue");
     });
 
@@ -52,7 +78,15 @@ describe("RedOrangeYellowGreenBlueView", () => {
             '<lily-red-orange-yellow-green-blue-view label="Risk level"></lily-red-orange-yellow-green-blue-view>',
         );
 
-        expect(host.querySelector("span")!.textContent).toBe("");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("");
     });
 
     test("appends the consumer's class onto the base class", () => {

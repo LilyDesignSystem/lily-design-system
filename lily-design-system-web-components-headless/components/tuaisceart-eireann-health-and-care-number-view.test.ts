@@ -34,9 +34,17 @@ describe("TuaisceartEireannHealthAndCareNumberView", () => {
             '<lily-tuaisceart-eireann-health-and-care-number-view label="Health and Care (H&C) Number" value="123 456 7890"></lily-tuaisceart-eireann-health-and-care-number-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Health and Care (H&C) Number",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Health and Care (H&C) Number"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -44,11 +52,23 @@ describe("TuaisceartEireannHealthAndCareNumberView", () => {
             '<lily-tuaisceart-eireann-health-and-care-number-view label="Health and Care (H&C) Number" value="123 456 7890"></lily-tuaisceart-eireann-health-and-care-number-view>',
         ) as unknown as TuaisceartEireannHealthAndCareNumberView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("123 456 7890");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("123 456 7890");
         expect(host.value).toBe("123 456 7890");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
     });
 });

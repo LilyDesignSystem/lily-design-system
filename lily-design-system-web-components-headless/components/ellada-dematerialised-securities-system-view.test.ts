@@ -34,17 +34,17 @@ describe("ElladaDematerialisedSecuritiesSystemView", () => {
             '<lily-ellada-dematerialised-securities-system-view label="Dematerialised Securities System"></lily-ellada-dematerialised-securities-system-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Dematerialised Securities System",
-        );
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-ellada-dematerialised-securities-system-view label="ID"></lily-ellada-dematerialised-securities-system-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Dematerialised Securities System"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -52,11 +52,27 @@ describe("ElladaDematerialisedSecuritiesSystemView", () => {
             '<lily-ellada-dematerialised-securities-system-view label="ID" value="1234567890"></lily-ellada-dematerialised-securities-system-view>',
         ) as unknown as ElladaDematerialisedSecuritiesSystemView;
 
-        expect(host.querySelector("span")!.textContent).toBe("1234567890");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("1234567890");
         expect(host.value).toBe("1234567890");
 
         host.value = "changed";
-        expect(host.querySelector("span")!.textContent).toBe("changed");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
     });
 });

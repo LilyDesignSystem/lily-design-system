@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "lily-design-system-react-headless/components/TuaisceartEireannHealthAndCareNumberView.tsx",
-      "content": "import React from \"react\";\n\n// TuaisceartEireannHealthAndCareNumberView component\n\nexport interface TuaisceartEireannHealthAndCareNumberViewProps {\n    className?: string;\n    label: string;\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function TuaisceartEireannHealthAndCareNumberView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: TuaisceartEireannHealthAndCareNumberViewProps) {\n    return (\n        <span\n            className={`tuaisceart-eireann-health-and-care-number-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "content": "import React from \"react\";\n\n// TuaisceartEireannHealthAndCareNumberView component\n\nexport interface TuaisceartEireannHealthAndCareNumberViewProps {\n    className?: string;\n    label?: string;\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function TuaisceartEireannHealthAndCareNumberView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: TuaisceartEireannHealthAndCareNumberViewProps) {\n    return (\n        <span\n            className={`tuaisceart-eireann-health-and-care-number-view ${className}`}\n            {...restProps}\n        >\n            {label ? <span className=\"screen-reader-span\">{`${label} `}</span> : null}\n            {value}\n        </span>\n    );\n}\n",
       "type": "registry:component",
       "target": "@components/lily/TuaisceartEireannHealthAndCareNumberView.tsx"
     }

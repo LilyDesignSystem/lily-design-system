@@ -12,7 +12,7 @@ describe("YisraelTeudatZehutView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Teudat Zehut (תעודת זהות)");
+        const el = document.querySelector(".yisrael-teudat-zehut-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("yisrael-teudat-zehut-view");
     });
@@ -25,14 +25,19 @@ describe("YisraelTeudatZehutView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Teudat Zehut (תעודת זהות)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".yisrael-teudat-zehut-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Teudat Zehut (תעודת זהות)" />);
 
-        const el = screen.getByLabelText("Teudat Zehut (תעודת זהות)");
-        expect(el.getAttribute("aria-label")).toBe("Teudat Zehut (תעודת זהות)");
+        const el = document.querySelector(".yisrael-teudat-zehut-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Teudat Zehut (תעודת זהות)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

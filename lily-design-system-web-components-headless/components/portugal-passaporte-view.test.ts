@@ -31,7 +31,17 @@ describe("PortugalPassaporteView", () => {
             '<lily-portugal-passaporte-view label="Passaporte"></lily-portugal-passaporte-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Passaporte");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Passaporte"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -40,18 +50,26 @@ describe("PortugalPassaporteView", () => {
         ) as unknown as PortugalPassaporteView;
 
         expect(host.value).toBe("N123456");
-        expect(host.querySelector("span")!.textContent).toBe("N123456");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("N123456");
 
         host.value = "P654321";
-        expect(host.querySelector("span")!.textContent).toBe("P654321");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("P654321");
         expect(host.value).toBe("P654321");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render(
-            '<lily-portugal-passaporte-view label="Passaporte"></lily-portugal-passaporte-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

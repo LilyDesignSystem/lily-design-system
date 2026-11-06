@@ -12,14 +12,12 @@
 
 ## Key Behaviors
 
-- Renders as a `<span>` element with `aria-label` for accessible naming
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the IHI value as inline text content
 - Read-only display component; pairs with EireIndividualHealthIdentifierInput for editing
 - No formatting or validation logic; the consumer provides the value pre-formatted
 
 ## ARIA
-
-- `aria-label` -- provides the accessible name from the `label` prop
 
 ## Keyboard
 
@@ -27,14 +25,14 @@
 
 ## Props
 
-- `label`: string (required) -- accessible label via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: `""`) -- the IHI string to display
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>`
 
 ## Acceptance Criteria
 
 - [ ] Renders <span> element with class="eire-individual-health-identifier-view"
-- [ ] Has aria-label attribute
+- [ ] Has no `aria-label` on the root
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
 

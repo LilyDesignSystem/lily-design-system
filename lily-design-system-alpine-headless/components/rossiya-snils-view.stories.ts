@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="rossiya-snils-view"\n  aria-label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)"\n></span>';
+    '<span class="rossiya-snils-view"\n  ><span class="screen-reader-span"\n    >СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)\n  </span></span\n>';
 
 const meta = {
     title: "Headless/Rossiya Snils View",

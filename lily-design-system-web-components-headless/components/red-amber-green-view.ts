@@ -1,13 +1,13 @@
 // RedAmberGreenView component
 //
 // A headless read-only display of a red/amber/green status. Companion:
-// red-amber-green-picker. Same `<span aria-label>` display shape as
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 // AlbaCommunityHealthIndexView, adjusted for this component's own
 // `value` default of "".
 //
 // Attributes:
 //   label — REQUIRED. Accessible label for screen readers, via
-//     aria-label.
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 //   value — the RAG status to display (e.g. "red", "amber", "green"),
 //     as text content. Default "".
 //   ...rest — spread onto the <span>.
@@ -22,6 +22,7 @@ const HANDLED = new Set(["label", "value"]);
 
 export class RedAmberGreenView extends HTMLElement {
     #span: HTMLSpanElement | null = null;
+    #text: Text | null = null;
 
     connectedCallback(): void {
         if (this.#span) return;
@@ -29,8 +30,14 @@ export class RedAmberGreenView extends HTMLElement {
         const span = document.createElement("span");
         span.className = rootClassName(this, "red-amber-green-view");
         const label = this.getAttribute("label");
-        if (label !== null) span.setAttribute("aria-label", label);
-        span.textContent = this.getAttribute("value") ?? "";
+        if (label) {
+            const hidden = document.createElement("span");
+            hidden.className = "screen-reader-span";
+            hidden.textContent = `${label} `;
+            span.append(hidden);
+        }
+        this.#text = document.createTextNode(this.getAttribute("value") ?? "");
+        span.append(this.#text);
         passThroughAttributes(this, span, HANDLED);
 
         this.appendChild(span);
@@ -38,11 +45,11 @@ export class RedAmberGreenView extends HTMLElement {
     }
 
     get value(): string {
-        return this.#span?.textContent ?? this.getAttribute("value") ?? "";
+        return this.#text?.data ?? this.getAttribute("value") ?? "";
     }
 
     set value(v: string) {
-        if (this.#span) this.#span.textContent = v;
+        if (this.#text) this.#text.data = v;
         else this.setAttribute("value", v);
     }
 }

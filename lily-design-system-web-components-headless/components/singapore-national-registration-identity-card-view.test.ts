@@ -34,9 +34,19 @@ describe("SingaporeNationalRegistrationIdentityCardView", () => {
             '<lily-singapore-national-registration-identity-card-view label="National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)" value="S1234567D"></lily-singapore-national-registration-identity-card-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)",
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(
+            `${"National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)"} `,
         );
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -44,19 +54,23 @@ describe("SingaporeNationalRegistrationIdentityCardView", () => {
             '<lily-singapore-national-registration-identity-card-view label="National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)" value="S1234567D"></lily-singapore-national-registration-identity-card-view>',
         ) as unknown as SingaporeNationalRegistrationIdentityCardView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("S1234567D");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("S1234567D");
         expect(host.value).toBe("S1234567D");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-singapore-national-registration-identity-card-view label="National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)" value="S1234567D"></lily-singapore-national-registration-identity-card-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

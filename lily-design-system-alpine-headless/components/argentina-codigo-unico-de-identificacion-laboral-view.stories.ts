@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="argentina-codigo-unico-de-identificacion-laboral-view"\n  aria-label="Código Único de Identificación Laboral (CUIL)"\n></span>';
+    '<span class="argentina-codigo-unico-de-identificacion-laboral-view"\n  ><span class="screen-reader-span">Código Único de Identificación Laboral (CUIL) </span></span\n>';
 
 const meta = {
     title: "Headless/Argentina Codigo Unico De Identificacion Laboral View",

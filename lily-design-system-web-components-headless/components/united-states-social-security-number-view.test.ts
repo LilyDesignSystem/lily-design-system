@@ -34,9 +34,17 @@ describe("UnitedStatesSocialSecurityNumberView", () => {
             '<lily-united-states-social-security-number-view label="Social Security number"></lily-united-states-social-security-number-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Social Security number",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Social Security number"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -45,10 +53,26 @@ describe("UnitedStatesSocialSecurityNumberView", () => {
         ) as unknown as UnitedStatesSocialSecurityNumberView;
 
         expect(host.value).toBe("123-45-6789");
-        expect(host.querySelector("span")!.textContent).toBe("123-45-6789");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("123-45-6789");
 
         host.value = "987-65-4321";
-        expect(host.querySelector("span")!.textContent).toBe("987-65-4321");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("987-65-4321");
         expect(host.value).toBe("987-65-4321");
     });
 });

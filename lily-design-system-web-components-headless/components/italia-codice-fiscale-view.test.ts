@@ -31,7 +31,17 @@ describe("ItaliaCodiceFiscaleView", () => {
             '<lily-italia-codice-fiscale-view label="Codice Fiscale" value="RSSMRA85M01H501Z"></lily-italia-codice-fiscale-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Codice Fiscale");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Codice Fiscale"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -39,21 +49,23 @@ describe("ItaliaCodiceFiscaleView", () => {
             '<lily-italia-codice-fiscale-view label="Codice Fiscale" value="RSSMRA85M01H501Z"></lily-italia-codice-fiscale-view>',
         ) as unknown as ItaliaCodiceFiscaleView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe(
-            "RSSMRA85M01H501Z",
-        );
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("RSSMRA85M01H501Z");
         expect(host.value).toBe("RSSMRA85M01H501Z");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-italia-codice-fiscale-view label="Codice Fiscale" value="RSSMRA85M01H501Z"></lily-italia-codice-fiscale-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

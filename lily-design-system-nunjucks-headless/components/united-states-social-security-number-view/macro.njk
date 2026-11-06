@@ -29,9 +29,8 @@
 <span
   class="united-states-social-security-number-view{% if params.classes %} {{ params.classes }}{% endif %}"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
-  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
   {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->
+>{% if params.label %}<span class="screen-reader-span">{{ params.label }} </span>{% endif %}
   {%- if isNineDigits -%}
     {{ stripped.slice(0, 3) }}-{{ stripped.slice(3, 5) }}-{{ stripped.slice(5, 9) }}
   {%- else -%}

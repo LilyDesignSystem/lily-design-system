@@ -5,11 +5,10 @@
   HTML tag: <span>
   CSS class: brasil-cartao-nacional-de-saude-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<span
-  class="brasil-cartao-nacional-de-saude-view"
-  aria-label="Cartão Nacional de Saúde (CNS)"
-></span>
+<span class="brasil-cartao-nacional-de-saude-view"
+  ><span class="screen-reader-span">Cartão Nacional de Saúde (CNS) </span></span
+>

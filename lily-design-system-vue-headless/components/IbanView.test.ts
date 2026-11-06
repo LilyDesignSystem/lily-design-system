@@ -7,7 +7,7 @@ describe("IbanView", () => {
     test("renders with the correct class", () => {
         render(Subject, { props: { label: "IBAN", value: "test-value" } });
 
-        const el = screen.getByLabelText("IBAN");
+        const el = document.querySelector(".iban-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("iban-view");
     });
@@ -15,14 +15,17 @@ describe("IbanView", () => {
     test("renders the value as text content", () => {
         render(Subject, { props: { label: "IBAN", value: "test-value" } });
 
-        const el = screen.getByLabelText("IBAN");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".iban-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "IBAN" } });
 
-        const el = screen.getByLabelText("IBAN");
-        expect(el.getAttribute("aria-label")).toBe("IBAN");
+        const el = document.querySelector(".iban-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(`${"IBAN"} `);
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

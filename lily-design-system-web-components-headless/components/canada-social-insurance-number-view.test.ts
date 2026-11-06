@@ -34,9 +34,17 @@ describe("CanadaSocialInsuranceNumberView", () => {
             '<lily-canada-social-insurance-number-view label="Social Insurance Number (SIN)" value="123 456 782"></lily-canada-social-insurance-number-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Social Insurance Number (SIN)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Social Insurance Number (SIN)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -44,19 +52,23 @@ describe("CanadaSocialInsuranceNumberView", () => {
             '<lily-canada-social-insurance-number-view label="Social Insurance Number (SIN)" value="123 456 782"></lily-canada-social-insurance-number-view>',
         ) as unknown as CanadaSocialInsuranceNumberView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("123 456 782");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("123 456 782");
         expect(host.value).toBe("123 456 782");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-canada-social-insurance-number-view label="Social Insurance Number (SIN)" value="123 456 782"></lily-canada-social-insurance-number-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

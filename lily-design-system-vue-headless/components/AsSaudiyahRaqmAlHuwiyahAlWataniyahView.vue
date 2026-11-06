@@ -9,7 +9,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -20,9 +20,11 @@ withDefaults(
 
 <template>
     <!-- AsSaudiyahRaqmAlHuwiyahAlWataniyahView.vue -->
-    <span
-        class="as-saudiyah-raqm-al-huwiyah-al-wataniyah-view"
-        :aria-label="label"
+    <span class="as-saudiyah-raqm-al-huwiyah-al-wataniyah-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

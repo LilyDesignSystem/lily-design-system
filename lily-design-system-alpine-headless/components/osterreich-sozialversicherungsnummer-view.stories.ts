@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="osterreich-sozialversicherungsnummer-view"\n  aria-label="Sozialversicherungsnummer (SVNR)"\n></span>';
+    '<span class="osterreich-sozialversicherungsnummer-view"\n  ><span class="screen-reader-span">Sozialversicherungsnummer (SVNR) </span></span\n>';
 
 const meta = {
     title: "Headless/Osterreich Sozialversicherungsnummer View",

@@ -5,11 +5,10 @@
   HTML tag: <span>
   CSS class: malta-national-identification-number-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<span
-  class="malta-national-identification-number-view"
-  aria-label="Malta National Identification Number"
-></span>
+<span class="malta-national-identification-number-view"
+  ><span class="screen-reader-span">Malta National Identification Number </span></span
+>

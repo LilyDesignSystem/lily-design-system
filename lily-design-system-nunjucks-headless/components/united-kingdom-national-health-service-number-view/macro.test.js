@@ -50,7 +50,8 @@ describe("united-kingdom-national-health-service-number-view", () => {
             value: "4857773456",
             label: "NHS number",
         });
-        expect(document.querySelector("span").getAttribute("aria-label")).toBe("NHS number");
+        expect(document.querySelector(".screen-reader-span").textContent).toBe(`${"NHS number"} `);
+        expect(document.querySelector("span").hasAttribute("aria-label")).toBe(false);
     });
 
     it("appends params.classes", () => {

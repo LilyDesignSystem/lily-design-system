@@ -25,7 +25,7 @@
 //   - None — this is a display-only component with no interactive behavior.
 //
 // Accessibility:
-//   - aria-label optionally provides additional context beyond the displayed value
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 //   - Text content is inherently accessible to screen readers
 //
 // Internationalization:
@@ -59,9 +59,9 @@ export default function MeasurementInstanceView({
     return (
         <span
             className={`measurement-instance-view ${className}`}
-            aria-label={label}
             {...restProps}
         >
+            {label ? <span className="screen-reader-span">{`${label} `}</span> : null}
             {value}
         </span>
     );

@@ -31,9 +31,17 @@ describe("HangukJuminDeungnokBeonhoView", () => {
             '<lily-hanguk-jumin-deungnok-beonho-view label="Resident Registration Number (주민등록번호)" value="900101-1234567"></lily-hanguk-jumin-deungnok-beonho-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Resident Registration Number (주민등록번호)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Resident Registration Number (주민등록번호)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -41,19 +49,23 @@ describe("HangukJuminDeungnokBeonhoView", () => {
             '<lily-hanguk-jumin-deungnok-beonho-view label="Resident Registration Number (주민등록번호)" value="900101-1234567"></lily-hanguk-jumin-deungnok-beonho-view>',
         ) as unknown as HangukJuminDeungnokBeonhoView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("900101-1234567");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("900101-1234567");
         expect(host.value).toBe("900101-1234567");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-hanguk-jumin-deungnok-beonho-view label="Resident Registration Number (주민등록번호)" value="900101-1234567"></lily-hanguk-jumin-deungnok-beonho-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

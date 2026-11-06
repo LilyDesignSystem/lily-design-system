@@ -9,7 +9,7 @@ describe("HangukJuminDeungnokBeonhoView", () => {
             props: { label: "Resident Registration Number (주민등록번호)", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Resident Registration Number (주민등록번호)");
+        const el = document.querySelector(".hanguk-jumin-deungnok-beonho-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("hanguk-jumin-deungnok-beonho-view");
     });
@@ -19,14 +19,19 @@ describe("HangukJuminDeungnokBeonhoView", () => {
             props: { label: "Resident Registration Number (주민등록번호)", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Resident Registration Number (주민등록번호)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".hanguk-jumin-deungnok-beonho-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "Resident Registration Number (주민등록번호)" } });
 
-        const el = screen.getByLabelText("Resident Registration Number (주민등록번호)");
-        expect(el.getAttribute("aria-label")).toBe("Resident Registration Number (주민등록번호)");
+        const el = document.querySelector(".hanguk-jumin-deungnok-beonho-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Resident Registration Number (주민등록번호)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

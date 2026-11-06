@@ -5,11 +5,10 @@
   HTML tag: <span>
   CSS class: belgique-numero-de-registre-national-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<span
-  class="belgique-numero-de-registre-national-view"
-  aria-label="National Register Number"
-></span>
+<span class="belgique-numero-de-registre-national-view"
+  ><span class="screen-reader-span">National Register Number </span></span
+>

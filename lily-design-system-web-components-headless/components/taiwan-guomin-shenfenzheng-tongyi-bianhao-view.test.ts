@@ -34,9 +34,17 @@ describe("TaiwanGuominShenfenzhengTongyiBianhaoView", () => {
             '<lily-taiwan-guomin-shenfenzheng-tongyi-bianhao-view label="National Identification Card Number" value="A123456789"></lily-taiwan-guomin-shenfenzheng-tongyi-bianhao-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "National Identification Card Number",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"National Identification Card Number"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -44,19 +52,23 @@ describe("TaiwanGuominShenfenzhengTongyiBianhaoView", () => {
             '<lily-taiwan-guomin-shenfenzheng-tongyi-bianhao-view label="National Identification Card Number" value="A123456789"></lily-taiwan-guomin-shenfenzheng-tongyi-bianhao-view>',
         ) as unknown as TaiwanGuominShenfenzhengTongyiBianhaoView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("A123456789");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("A123456789");
         expect(host.value).toBe("A123456789");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-taiwan-guomin-shenfenzheng-tongyi-bianhao-view label="National Identification Card Number" value="A123456789"></lily-taiwan-guomin-shenfenzheng-tongyi-bianhao-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

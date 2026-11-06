@@ -9,7 +9,9 @@ describe("TaiwanGuominShenfenzhengTongyiBianhaoView", () => {
             props: { label: "National Identification Card Number", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("National Identification Card Number");
+        const el = document.querySelector(
+            ".taiwan-guomin-shenfenzheng-tongyi-bianhao-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain(
             "taiwan-guomin-shenfenzheng-tongyi-bianhao-view",
@@ -21,14 +23,23 @@ describe("TaiwanGuominShenfenzhengTongyiBianhaoView", () => {
             props: { label: "National Identification Card Number", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("National Identification Card Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".taiwan-guomin-shenfenzheng-tongyi-bianhao-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "National Identification Card Number" } });
 
-        const el = screen.getByLabelText("National Identification Card Number");
-        expect(el.getAttribute("aria-label")).toBe("National Identification Card Number");
+        const el = document.querySelector(
+            ".taiwan-guomin-shenfenzheng-tongyi-bianhao-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"National Identification Card Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

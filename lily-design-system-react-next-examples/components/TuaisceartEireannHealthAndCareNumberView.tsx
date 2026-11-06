@@ -4,7 +4,7 @@ import React from "react";
 
 export interface TuaisceartEireannHealthAndCareNumberViewProps {
     className?: string;
-    label: string;
+    label?: string;
     value?: string;
     [key: string]: unknown;
 }
@@ -18,9 +18,9 @@ export default function TuaisceartEireannHealthAndCareNumberView({
     return (
         <span
             className={`tuaisceart-eireann-health-and-care-number-view ${className}`}
-            aria-label={label}
             {...restProps}
         >
+            {label ? <span className="screen-reader-span">{`${label} `}</span> : null}
             {value}
         </span>
     );

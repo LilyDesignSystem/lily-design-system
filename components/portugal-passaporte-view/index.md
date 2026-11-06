@@ -14,7 +14,7 @@ PortugalPassaporteView is a headless read-only display of Portugal's Passaporte,
 ## Props
 
 - `value`: string (required) — the identifier to display
-- `label`: string (optional) — accessible label override via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `...restProps`: any — additional HTML attributes spread onto the `<span>`
 
 ## Usage
@@ -51,7 +51,7 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 - Verify renders a `<span>` with the correct class and `role="text"`
 - Verify the `value` prop is rendered as text content
-- Verify `aria-label` overrides the accessible name when supplied
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 
 ## Domain Knowledge
 

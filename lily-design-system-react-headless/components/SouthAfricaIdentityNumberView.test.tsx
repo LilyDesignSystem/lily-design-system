@@ -12,7 +12,7 @@ describe("SouthAfricaIdentityNumberView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("South African Identity Number");
+        const el = document.querySelector(".south-africa-identity-number-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("south-africa-identity-number-view");
     });
@@ -25,14 +25,19 @@ describe("SouthAfricaIdentityNumberView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("South African Identity Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".south-africa-identity-number-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="South African Identity Number" />);
 
-        const el = screen.getByLabelText("South African Identity Number");
-        expect(el.getAttribute("aria-label")).toBe("South African Identity Number");
+        const el = document.querySelector(".south-africa-identity-number-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"South African Identity Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

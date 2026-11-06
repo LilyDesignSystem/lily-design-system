@@ -27,7 +27,17 @@ describe("SlovenskoPasView", () => {
     test("uses label as the accessible name", () => {
         const host = render('<lily-slovensko-pas-view label="Pas"></lily-slovensko-pas-view>');
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Pas");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Pas"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -36,16 +46,26 @@ describe("SlovenskoPasView", () => {
         ) as unknown as SlovenskoPasView;
 
         expect(host.value).toBe("AB1234567");
-        expect(host.querySelector("span")!.textContent).toBe("AB1234567");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("AB1234567");
 
         host.value = "CD7654321";
-        expect(host.querySelector("span")!.textContent).toBe("CD7654321");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("CD7654321");
         expect(host.value).toBe("CD7654321");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render('<lily-slovensko-pas-view label="Pas"></lily-slovensko-pas-view>');
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

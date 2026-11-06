@@ -7,7 +7,7 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, required. Accessible label via aria-label.
+    //   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
     //   value — string, default "". The IHI string to display.
     //   ...restProps — additional HTML attributes spread onto the <span>.
     //
@@ -24,7 +24,7 @@
         value = "",
         ...restProps
     }: {
-        label: string;
+        label?: string;
         value?: string;
         [key: string]: unknown;
     } = $props();
@@ -33,6 +33,6 @@
 <!-- EireIndividualHealthIdentifierView.svelte -->
 <span
     class={`eire-individual-health-identifier-view ${className}`}
-    aria-label={label}
-    {...restProps}>{value}</span
+    {...restProps}
+    >{#if label}<span class="screen-reader-span">{`${label} `}</span>{/if}{value}</span
 >

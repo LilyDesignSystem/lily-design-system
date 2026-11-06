@@ -80,10 +80,6 @@
       <li>CSS class: .measurement-unit-view</li>
       <li>Interactive: no</li>
     </ul>
-    <h3>ARIA</h3>
-    <ul>
-      <li><code>aria-label</code> -- optionally set from the <code>label</code> prop to provide additional context beyond the displayed unit abbreviation</li>
-    </ul>
     <h3>Keyboard</h3>
     <ul>
       <li>No keyboard interactions — this is a passive element</li>
@@ -91,7 +87,7 @@
     <h3>Props</h3>
     <ul>
       <li><code>value</code>: string (required) -- the measurement unit to display</li>
-      <li><code>label</code>: string (optional) -- accessible name via aria-label for additional context</li>
+      <li><code>label</code>: string (optional) — hidden text naming the value, in a <code>.screen-reader-span</code>. Leave it out when a visible caption names the value</li>
     </ul>
 </section>
 <!-- END generated: canonical contract -->

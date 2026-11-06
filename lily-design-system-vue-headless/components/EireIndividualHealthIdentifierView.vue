@@ -3,7 +3,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -14,9 +14,11 @@ withDefaults(
 
 <template>
     <!-- EireIndividualHealthIdentifierView.vue -->
-    <span
-        class="eire-individual-health-identifier-view"
-        :aria-label="label"
+    <span class="eire-individual-health-identifier-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

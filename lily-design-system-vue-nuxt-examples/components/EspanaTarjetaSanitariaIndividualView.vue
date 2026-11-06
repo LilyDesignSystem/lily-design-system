@@ -5,7 +5,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -16,9 +16,11 @@ withDefaults(
 
 <template>
     <!-- EspanaTarjetaSanitariaIndividualView.vue -->
-    <span
-        class="espana-tarjeta-sanitaria-individual-view"
-        :aria-label="label"
+    <span class="espana-tarjeta-sanitaria-individual-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

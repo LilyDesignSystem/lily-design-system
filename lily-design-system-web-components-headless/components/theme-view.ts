@@ -4,7 +4,7 @@
 // with ThemeSelect (already in this catalog) in an Input/View pattern.
 //
 // Attributes:
-//   label — REQUIRED. Accessible name, via aria-label.
+//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
 //   value — REQUIRED. The current theme name, rendered as text content.
 //
 // References:
@@ -22,8 +22,13 @@ export class ThemeView extends HTMLElement {
         const span = document.createElement("span");
         span.className = rootClassName(this, "theme-view");
         const label = this.getAttribute("label");
-        if (label !== null) span.setAttribute("aria-label", label);
-        span.textContent = this.getAttribute("value") ?? "";
+        if (label) {
+            const hidden = document.createElement("span");
+            hidden.className = "screen-reader-span";
+            hidden.textContent = `${label} `;
+            span.append(hidden);
+        }
+        span.append(this.getAttribute("value") ?? "");
         passThroughAttributes(this, span, HANDLED);
 
         this.replaceChildren();

@@ -12,7 +12,7 @@ describe("ZhongguoJuminShenfenzhengHaomaView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Resident Identity Card Number (居民身份证号码)");
+        const el = document.querySelector(".zhongguo-jumin-shenfenzheng-haoma-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("zhongguo-jumin-shenfenzheng-haoma-view");
     });
@@ -25,16 +25,19 @@ describe("ZhongguoJuminShenfenzhengHaomaView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Resident Identity Card Number (居民身份证号码)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".zhongguo-jumin-shenfenzheng-haoma-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Resident Identity Card Number (居民身份证号码)" />);
 
-        const el = screen.getByLabelText("Resident Identity Card Number (居民身份证号码)");
-        expect(el.getAttribute("aria-label")).toBe(
-            "Resident Identity Card Number (居民身份证号码)",
+        const el = document.querySelector(".zhongguo-jumin-shenfenzheng-haoma-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Resident Identity Card Number (居民身份证号码)"} `,
         );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

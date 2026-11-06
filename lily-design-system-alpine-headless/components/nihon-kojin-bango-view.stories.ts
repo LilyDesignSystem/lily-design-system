@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="nihon-kojin-bango-view"\n  aria-label="Individual Number / My Number (マイナンバー)"\n></span>';
+    '<span class="nihon-kojin-bango-view"\n  ><span class="screen-reader-span">Individual Number / My Number (マイナンバー) </span></span\n>';
 
 const meta = {
     title: "Headless/Nihon Kojin Bango View",

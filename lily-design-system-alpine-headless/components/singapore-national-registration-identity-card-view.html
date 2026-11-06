@@ -5,11 +5,12 @@
   HTML tag: <span>
   CSS class: singapore-national-registration-identity-card-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<span
-  class="singapore-national-registration-identity-card-view"
-  aria-label="National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)"
-></span>
+<span class="singapore-national-registration-identity-card-view"
+  ><span class="screen-reader-span"
+    >National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)
+  </span></span
+>

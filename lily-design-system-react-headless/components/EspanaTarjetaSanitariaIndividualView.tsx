@@ -10,7 +10,7 @@ import React from "react";
 
 export interface EspanaTarjetaSanitariaIndividualViewProps {
     className?: string;
-    label: string;
+    label?: string;
     value?: string;
     [key: string]: unknown;
 }
@@ -24,9 +24,9 @@ export default function EspanaTarjetaSanitariaIndividualView({
     return (
         <span
             className={`espana-tarjeta-sanitaria-individual-view ${className}`}
-            aria-label={label}
             {...restProps}
         >
+            {label ? <span className="screen-reader-span">{`${label} `}</span> : null}
             {value}
         </span>
     );

@@ -12,9 +12,7 @@ describe("RossiyaSnilsView", () => {
             },
         });
 
-        const el = screen.getByLabelText(
-            "СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)",
-        );
+        const el = document.querySelector(".rossiya-snils-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("rossiya-snils-view");
     });
@@ -27,10 +25,10 @@ describe("RossiyaSnilsView", () => {
             },
         });
 
-        const el = screen.getByLabelText(
-            "СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)",
-        );
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".rossiya-snils-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
@@ -38,11 +36,10 @@ describe("RossiyaSnilsView", () => {
             props: { label: "СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)" },
         });
 
-        const el = screen.getByLabelText(
-            "СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)",
+        const el = document.querySelector(".rossiya-snils-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)"} `,
         );
-        expect(el.getAttribute("aria-label")).toBe(
-            "СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)",
-        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

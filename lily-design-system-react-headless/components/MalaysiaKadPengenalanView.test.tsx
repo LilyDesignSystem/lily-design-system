@@ -12,7 +12,7 @@ describe("MalaysiaKadPengenalanView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("MyKad Number (NRIC)");
+        const el = document.querySelector(".malaysia-kad-pengenalan-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("malaysia-kad-pengenalan-view");
     });
@@ -25,14 +25,19 @@ describe("MalaysiaKadPengenalanView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("MyKad Number (NRIC)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".malaysia-kad-pengenalan-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="MyKad Number (NRIC)" />);
 
-        const el = screen.getByLabelText("MyKad Number (NRIC)");
-        expect(el.getAttribute("aria-label")).toBe("MyKad Number (NRIC)");
+        const el = document.querySelector(".malaysia-kad-pengenalan-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"MyKad Number (NRIC)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

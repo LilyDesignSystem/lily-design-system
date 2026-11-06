@@ -10,11 +10,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-aotearoa-national-health-index-view",
     standalone: true,
-    template: `<span class="aotearoa-national-health-index-view {{ className() }}" role="text" [attr.aria-label]="label() || null">{{ value() }}</span>`,
+    template: `<span class="aotearoa-national-health-index-view {{ className() }}">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}{{ value() }}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AotearoaNationalHealthIndexView {
-    /** Optional accessible label override (aria-label). */
+    /** Hidden text naming the value, for when no visible caption does. */
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");

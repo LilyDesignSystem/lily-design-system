@@ -31,7 +31,17 @@ describe("RomaniaPasaportView", () => {
             '<lily-romania-pasaport-view label="Pașaport"></lily-romania-pasaport-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Pașaport");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Pașaport"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -40,18 +50,26 @@ describe("RomaniaPasaportView", () => {
         ) as unknown as RomaniaPasaportView;
 
         expect(host.value).toBe("AB123456");
-        expect(host.querySelector("span")!.textContent).toBe("AB123456");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("AB123456");
 
         host.value = "CD654321";
-        expect(host.querySelector("span")!.textContent).toBe("CD654321");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("CD654321");
         expect(host.value).toBe("CD654321");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render(
-            '<lily-romania-pasaport-view label="Pașaport"></lily-romania-pasaport-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

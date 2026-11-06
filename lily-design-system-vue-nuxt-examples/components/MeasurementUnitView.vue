@@ -27,7 +27,7 @@
 //   - None — this is a display-only component with no interactive behavior.
 //
 // Accessibility:
-//   - aria-label optionally provides additional context beyond the displayed unit
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 //   - Text content is inherently accessible to screen readers
 //
 // Internationalization:
@@ -56,9 +56,11 @@ withDefaults(
 
 <template>
     <!-- MeasurementUnitView.vue -->
-    <span
-        class="measurement-unit-view"
-        :aria-label="label"
+    <span class="measurement-unit-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

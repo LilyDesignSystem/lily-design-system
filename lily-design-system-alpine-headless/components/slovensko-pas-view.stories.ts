@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = '<span\n  class="slovensko-pas-view"\n  aria-label="Slovak Passport"\n></span>';
+const html =
+    '<span class="slovensko-pas-view"><span class="screen-reader-span">Slovak Passport </span></span>';
 
 const meta = {
     title: "Headless/Slovensko Pas View",

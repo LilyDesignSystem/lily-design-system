@@ -9,7 +9,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -20,9 +20,11 @@ withDefaults(
 
 <template>
     <!-- PakistanComputerizedNationalIdentityCardView.vue -->
-    <span
-        class="pakistan-computerized-national-identity-card-view"
-        :aria-label="label"
+    <span class="pakistan-computerized-national-identity-card-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

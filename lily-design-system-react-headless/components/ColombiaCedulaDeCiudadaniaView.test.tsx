@@ -12,7 +12,7 @@ describe("ColombiaCedulaDeCiudadaniaView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Cedula de Ciudadania Number");
+        const el = document.querySelector(".colombia-cedula-de-ciudadania-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("colombia-cedula-de-ciudadania-view");
     });
@@ -25,14 +25,19 @@ describe("ColombiaCedulaDeCiudadaniaView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Cedula de Ciudadania Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".colombia-cedula-de-ciudadania-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Cedula de Ciudadania Number" />);
 
-        const el = screen.getByLabelText("Cedula de Ciudadania Number");
-        expect(el.getAttribute("aria-label")).toBe("Cedula de Ciudadania Number");
+        const el = document.querySelector(".colombia-cedula-de-ciudadania-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Cedula de Ciudadania Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

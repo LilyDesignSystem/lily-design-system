@@ -5,7 +5,7 @@ import EireIndividualHealthIdentifierView from "./EireIndividualHealthIdentifier
 describe("EireIndividualHealthIdentifierView", () => {
     test("renders with content", () => {
         render(EireIndividualHealthIdentifierView, { props: { label: "Test" } });
-        const el = screen.getByLabelText("Test");
+        const el = document.querySelector(".eire-individual-health-identifier-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("eire-individual-health-identifier-view");
     });

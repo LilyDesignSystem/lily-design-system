@@ -9,7 +9,7 @@ describe("LuxembourgMatriculeView", () => {
             props: { label: "Numéro d'Identification Nationale (Matricule)", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Numéro d'Identification Nationale (Matricule)");
+        const el = document.querySelector(".luxembourg-matricule-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("luxembourg-matricule-view");
     });
@@ -19,14 +19,19 @@ describe("LuxembourgMatriculeView", () => {
             props: { label: "Numéro d'Identification Nationale (Matricule)", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Numéro d'Identification Nationale (Matricule)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".luxembourg-matricule-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "Numéro d'Identification Nationale (Matricule)" } });
 
-        const el = screen.getByLabelText("Numéro d'Identification Nationale (Matricule)");
-        expect(el.getAttribute("aria-label")).toBe("Numéro d'Identification Nationale (Matricule)");
+        const el = document.querySelector(".luxembourg-matricule-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Numéro d'Identification Nationale (Matricule)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

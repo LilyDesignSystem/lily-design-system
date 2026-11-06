@@ -9,7 +9,7 @@ describe("BrasilCartaoNacionalDeSaudeView", () => {
             props: { label: "Brasil Cartao Nacional De Saude", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Brasil Cartao Nacional De Saude");
+        const el = document.querySelector(".brasil-cartao-nacional-de-saude-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("brasil-cartao-nacional-de-saude-view");
     });
@@ -19,14 +19,19 @@ describe("BrasilCartaoNacionalDeSaudeView", () => {
             props: { label: "Brasil Cartao Nacional De Saude", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Brasil Cartao Nacional De Saude");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".brasil-cartao-nacional-de-saude-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "Brasil Cartao Nacional De Saude" } });
 
-        const el = screen.getByLabelText("Brasil Cartao Nacional De Saude");
-        expect(el.getAttribute("aria-label")).toBe("Brasil Cartao Nacional De Saude");
+        const el = document.querySelector(".brasil-cartao-nacional-de-saude-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Brasil Cartao Nacional De Saude"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

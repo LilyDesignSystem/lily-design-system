@@ -34,7 +34,17 @@ describe("UnitedKingdomNationalHealthServiceNumberView", () => {
             '<lily-united-kingdom-national-health-service-number-view label="NHS number"></lily-united-kingdom-national-health-service-number-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("NHS number");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"NHS number"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -43,10 +53,26 @@ describe("UnitedKingdomNationalHealthServiceNumberView", () => {
         ) as unknown as UnitedKingdomNationalHealthServiceNumberView;
 
         expect(host.value).toBe("943 476 5919");
-        expect(host.querySelector("span")!.textContent).toBe("943 476 5919");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("943 476 5919");
 
         host.value = "485 777 3456";
-        expect(host.querySelector("span")!.textContent).toBe("485 777 3456");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("485 777 3456");
         expect(host.value).toBe("485 777 3456");
     });
 });

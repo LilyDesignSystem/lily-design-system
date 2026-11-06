@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="alba-community-health-index-view"\n  aria-label="Community Health Index"\n></span>';
+    '<span class="alba-community-health-index-view"\n  ><span class="screen-reader-span">Community Health Index </span></span\n>';
 
 const meta = {
     title: "Headless/Alba Community Health Index View",

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="brasil-cartao-nacional-de-saude-view"\n  aria-label="Cartão Nacional de Saúde (CNS)"\n></span>';
+    '<span class="brasil-cartao-nacional-de-saude-view"\n  ><span class="screen-reader-span">Cartão Nacional de Saúde (CNS) </span></span\n>';
 
 const meta = {
     title: "Headless/Brasil Cartao Nacional De Saude View",

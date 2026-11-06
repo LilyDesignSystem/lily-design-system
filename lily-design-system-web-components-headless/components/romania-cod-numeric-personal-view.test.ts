@@ -31,9 +31,17 @@ describe("RomaniaCodNumericPersonalView", () => {
             '<lily-romania-cod-numeric-personal-view label="Cod Numeric Personal (CNP)"></lily-romania-cod-numeric-personal-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Cod Numeric Personal (CNP)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Cod Numeric Personal (CNP)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -42,18 +50,26 @@ describe("RomaniaCodNumericPersonalView", () => {
         ) as unknown as RomaniaCodNumericPersonalView;
 
         expect(host.value).toBe("1900101221144");
-        expect(host.querySelector("span")!.textContent).toBe("1900101221144");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("1900101221144");
 
         host.value = "2900101221159";
-        expect(host.querySelector("span")!.textContent).toBe("2900101221159");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("2900101221159");
         expect(host.value).toBe("2900101221159");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render(
-            '<lily-romania-cod-numeric-personal-view label="Cod Numeric Personal (CNP)"></lily-romania-cod-numeric-personal-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

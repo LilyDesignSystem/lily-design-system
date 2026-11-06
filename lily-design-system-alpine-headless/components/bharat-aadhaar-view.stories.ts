@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = '<span\n  class="bharat-aadhaar-view"\n  aria-label="Aadhaar (आधार)"\n></span>';
+const html =
+    '<span class="bharat-aadhaar-view"><span class="screen-reader-span">Aadhaar (आधार) </span></span>';
 
 const meta = {
     title: "Headless/Bharat Aadhaar View",

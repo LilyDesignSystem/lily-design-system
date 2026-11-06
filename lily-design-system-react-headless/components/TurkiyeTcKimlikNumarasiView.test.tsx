@@ -12,7 +12,7 @@ describe("TurkiyeTcKimlikNumarasiView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("T.C. Kimlik Numarası");
+        const el = document.querySelector(".turkiye-tc-kimlik-numarasi-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("turkiye-tc-kimlik-numarasi-view");
     });
@@ -25,14 +25,19 @@ describe("TurkiyeTcKimlikNumarasiView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("T.C. Kimlik Numarası");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".turkiye-tc-kimlik-numarasi-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="T.C. Kimlik Numarası" />);
 
-        const el = screen.getByLabelText("T.C. Kimlik Numarası");
-        expect(el.getAttribute("aria-label")).toBe("T.C. Kimlik Numarası");
+        const el = document.querySelector(".turkiye-tc-kimlik-numarasi-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"T.C. Kimlik Numarası"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="bulgaria-edinen-grazhdanski-nomer-view"\n  aria-label="Uniform Civil Number"\n></span>';
+    '<span class="bulgaria-edinen-grazhdanski-nomer-view"\n  ><span class="screen-reader-span">Uniform Civil Number </span></span\n>';
 
 const meta = {
     title: "Headless/Bulgaria Edinen Grazhdanski Nomer View",

@@ -32,7 +32,7 @@ describe("ThemeView", () => {
                 value="light"
             />,
         );
-        expect(screen.getByLabelText("Current theme")).toBeTruthy();
+        expect(document.querySelector(".theme-view") as HTMLElement).toBeTruthy();
     });
 
     test("passes through attributes", () => {

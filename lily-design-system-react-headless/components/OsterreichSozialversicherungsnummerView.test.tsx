@@ -12,7 +12,9 @@ describe("OsterreichSozialversicherungsnummerView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Sozialversicherungsnummer (SVNR)");
+        const el = document.querySelector(
+            ".osterreich-sozialversicherungsnummer-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("osterreich-sozialversicherungsnummer-view");
     });
@@ -25,14 +27,23 @@ describe("OsterreichSozialversicherungsnummerView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Sozialversicherungsnummer (SVNR)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".osterreich-sozialversicherungsnummer-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Sozialversicherungsnummer (SVNR)" />);
 
-        const el = screen.getByLabelText("Sozialversicherungsnummer (SVNR)");
-        expect(el.getAttribute("aria-label")).toBe("Sozialversicherungsnummer (SVNR)");
+        const el = document.querySelector(
+            ".osterreich-sozialversicherungsnummer-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Sozialversicherungsnummer (SVNR)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

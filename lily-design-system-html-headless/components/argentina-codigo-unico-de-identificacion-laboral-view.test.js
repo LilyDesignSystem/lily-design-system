@@ -21,9 +21,8 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralView", function () {
         expect(className).toContain("argentina-codigo-unico-de-identificacion-laboral-view");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not put aria-label on a plain span", async function () {
         const el = await $("span.argentina-codigo-unico-de-identificacion-laboral-view");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

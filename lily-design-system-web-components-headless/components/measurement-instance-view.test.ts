@@ -31,7 +31,15 @@ describe("MeasurementInstanceView", () => {
             '<lily-measurement-instance-view value="98.6 F"></lily-measurement-instance-view>',
         );
 
-        expect(host.querySelector("span")!.textContent).toBe("98.6 F");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("98.6 F");
     });
 
     test("uses label as additional accessible context when provided", () => {
@@ -39,7 +47,17 @@ describe("MeasurementInstanceView", () => {
             '<lily-measurement-instance-view value="72 kg" label="Patient weight"></lily-measurement-instance-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Patient weight");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Patient weight"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("omits aria-label when label is not provided", () => {
@@ -57,7 +75,15 @@ describe("MeasurementInstanceView", () => {
 
         expect(host.value).toBe("72 kg");
         host.value = "75 kg";
-        expect(host.querySelector("span")!.textContent).toBe("75 kg");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("75 kg");
         expect(host.value).toBe("75 kg");
     });
 

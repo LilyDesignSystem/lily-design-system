@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="cesko-rodne-cislo-view"\n  aria-label="Czech Personal Number"\n></span>';
+    '<span class="cesko-rodne-cislo-view"\n  ><span class="screen-reader-span">Czech Personal Number </span></span\n>';
 
 const meta = {
     title: "Headless/Cesko Rodne Cislo View",

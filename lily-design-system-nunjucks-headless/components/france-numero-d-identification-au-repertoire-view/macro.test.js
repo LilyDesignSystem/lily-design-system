@@ -45,7 +45,10 @@ describe("france-numero-d-identification-au-repertoire-view", () => {
             value: "185127846310038",
             label: "Numéro INSEE",
         });
-        expect(document.querySelector("span").getAttribute("aria-label")).toBe("Numéro INSEE");
+        expect(document.querySelector(".screen-reader-span").textContent).toBe(
+            `${"Numéro INSEE"} `,
+        );
+        expect(document.querySelector("span").hasAttribute("aria-label")).toBe(false);
     });
 
     it("contains no <style> or <script> tags", () => {

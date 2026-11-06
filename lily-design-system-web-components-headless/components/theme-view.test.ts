@@ -30,7 +30,17 @@ describe("ThemeView", () => {
             '<lily-theme-view label="Current theme" value="dark"></lily-theme-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Current theme");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Current theme"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("renders value as the text content", () => {
@@ -38,7 +48,15 @@ describe("ThemeView", () => {
             '<lily-theme-view label="Current theme" value="dark"></lily-theme-view>',
         );
 
-        expect(host.querySelector("span")!.textContent).toBe("dark");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("dark");
     });
 
     test("passes through rest attributes onto the span", () => {

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="zhongguo-jumin-shenfenzheng-haoma-view"\n  aria-label="居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)"\n></span>';
+    '<span class="zhongguo-jumin-shenfenzheng-haoma-view"\n  ><span class="screen-reader-span">居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ) </span></span\n>';
 
 const meta = {
     title: "Headless/Zhongguo Jumin Shenfenzheng Haoma View",

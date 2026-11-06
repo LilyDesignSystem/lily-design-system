@@ -31,7 +31,17 @@ describe("NetPromoterScoreView", () => {
             '<lily-net-promoter-score-view label="NPS Score"></lily-net-promoter-score-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("NPS Score");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"NPS Score"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("defaults value to an empty string", () => {
@@ -39,7 +49,15 @@ describe("NetPromoterScoreView", () => {
             '<lily-net-promoter-score-view label="NPS Score"></lily-net-promoter-score-view>',
         );
 
-        expect(host.querySelector("span")!.textContent).toBe("");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("");
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -47,11 +65,27 @@ describe("NetPromoterScoreView", () => {
             '<lily-net-promoter-score-view label="NPS Score" value="8"></lily-net-promoter-score-view>',
         ) as unknown as NetPromoterScoreView;
 
-        expect(host.querySelector("span")!.textContent).toBe("8");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("8");
         expect(host.value).toBe("8");
 
         host.value = "9";
-        expect(host.querySelector("span")!.textContent).toBe("9");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("9");
         expect(host.value).toBe("9");
     });
 

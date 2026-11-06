@@ -17,9 +17,8 @@ describe("RomaniaCodNumericPersonalView", function () {
         expect(className).toContain("romania-cod-numeric-personal-view");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not put aria-label on a plain span", async function () {
         const el = await $("span.romania-cod-numeric-personal-view");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

@@ -8,7 +8,7 @@ This component renders the NHS number as an inline `<span>` element with an acce
 
 ## Implementation Notes
 
-- Renders as a `<span>` element with `aria-label` for accessible naming
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the NHS number value as inline text content
 - Read-only display component (not an input); pairs with an Input component for editing
 - Uses props for prop destructuring with rest props spread
@@ -17,7 +17,7 @@ This component renders the NHS number as an inline `<span>` element with an acce
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: `""`) -- the NHS number string to display
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>` element
 
@@ -43,7 +43,6 @@ This component renders the NHS number as an inline `<span>` element with an acce
 
 ## ARIA
 
-- `aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the purpose of the displayed number
 - Screen readers announce the label followed by the text content (the number value)
 
 ## When to Use
@@ -70,7 +69,7 @@ The consumer provides all CSS styling. The component renders with a `.united-kin
 ## Testing
 
 - Verify the component renders a `<div>` element with class `united-kingdom-national-health-service-number-view`
-- Verify aria-label`-- provides the accessible name from the`label` prop so screen readers can announce the purpose of the displayed number
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

@@ -12,7 +12,7 @@
 
 ## Key Behaviors
 
-- Renders as a `<span>` element with `aria-label` for accessible naming
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the TSI/CIP-SNS value as inline text content
 - Read-only display component; pairs with EspanaTarjetaSanitariaIndividualInput for editing
 - No formatting or validation logic; the consumer provides the value pre-formatted
@@ -20,22 +20,20 @@
 
 ## ARIA
 
-- `aria-label` -- provides the accessible name from the `label` prop
-
 ## Keyboard
 
 - None -- this is a passive display-only component
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: `""`) -- the TSI string to display
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>` element
 
 ## Acceptance Criteria
 
 - [ ] Renders <span> element with class="espana-tarjeta-sanitaria-individual-view"
-- [ ] Has aria-label attribute
+- [ ] Has no `aria-label` on the root
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless
 

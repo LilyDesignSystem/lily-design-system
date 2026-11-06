@@ -12,7 +12,9 @@ describe("IndonesiaNomorIndukKependudukanView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Nomor Induk Kependudukan (NIK)");
+        const el = document.querySelector(
+            ".indonesia-nomor-induk-kependudukan-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("indonesia-nomor-induk-kependudukan-view");
     });
@@ -25,14 +27,23 @@ describe("IndonesiaNomorIndukKependudukanView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Nomor Induk Kependudukan (NIK)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".indonesia-nomor-induk-kependudukan-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Nomor Induk Kependudukan (NIK)" />);
 
-        const el = screen.getByLabelText("Nomor Induk Kependudukan (NIK)");
-        expect(el.getAttribute("aria-label")).toBe("Nomor Induk Kependudukan (NIK)");
+        const el = document.querySelector(
+            ".indonesia-nomor-induk-kependudukan-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Nomor Induk Kependudukan (NIK)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

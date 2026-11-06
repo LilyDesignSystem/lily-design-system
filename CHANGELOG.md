@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `-view` components stop using `aria-label` — 2026-11-06
+
+- **Breaking (all eight catalogs and Alpine, 90 components): `-view` components no longer put `aria-label` on a plain `<span>`.** ARIA prohibits it. In published tests most screen readers dropped the label, and TalkBack with Chrome read the label instead of the content. `label` is now optional: leave it out when a visible caption, such as a `dt` or a `SummaryListItem` term, names the value. Passed, it renders as hidden text in a `.screen-reader-span` before the value, so an adopter without the themes needs that class hidden, and `textContent` of the root now includes it. Web Components `value` still returns the value alone.
+- **Removed (Angular, Web Components): `role="text"` on those components.** It is not an ARIA role; the working group closed the request to add it in 2023.
+- **Result:** axe's `aria-prohibited-attr` fell from 43 pages to 7, and pages failing a WCAG rule from 67 to 31 of 609. See [docs/aria-assessment.md](docs/aria-assessment.md).
+
 ## End-to-end evidence in three browsers, and closed popovers — 2026-11-06
 
 - **Fixed (all 63 themes): a closed `dropdown-menu` or `context-menu` was on the page.** Author `display` beats the browser's own rule for a closed popover, and the shared menu rule set `display: block`. Every theme now has `:where([popover]:not(:popover-open)) { display: none; }`.

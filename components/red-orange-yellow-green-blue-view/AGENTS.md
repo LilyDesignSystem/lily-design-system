@@ -16,7 +16,7 @@
 
 ## Key Behaviors
 
-- Renders as `<span aria-label={label}>` displaying a ROYGB status value as text content
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Five-level status scale: red, orange, yellow, green, blue
 - Read-only display component, not interactive
 - Value defaults to an empty string when not provided
@@ -26,22 +26,20 @@
 
 ## ARIA
 
-- `aria-label={label}` -- provides the accessible name for the status display, allowing screen readers to announce the context of the value
-
 ## Keyboard
 
 - No keyboard interactions — this is a passive element
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: `""`) -- the ROYGB status to display (e.g., "red", "orange", "yellow", "green", "blue")
 - `...restProps`: any additional HTML attributes spread onto the `<span>` element
 
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="red-orange-yellow-green-blue-view"
-- [ ] Has aria-label attribute
+- [ ] Has no `aria-label` on the root
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 

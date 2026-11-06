@@ -31,7 +31,8 @@ describe("SingaporeNationalRegistrationIdentityCardView", () => {
         const el = fixture.nativeElement.querySelector(
             "span.singapore-national-registration-identity-card-view",
         );
-        expect(el.getAttribute("aria-label")).toBe("Hello");
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(`${"Hello"} `);
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
     test("renders the value as text content", () => {

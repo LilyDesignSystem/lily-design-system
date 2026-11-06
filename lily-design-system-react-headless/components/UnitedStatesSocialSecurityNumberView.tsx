@@ -9,7 +9,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, required. Accessible label for screen readers via aria-label.
+//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
 //   value — string, default "". The SSN string to display (e.g., "123-45-6789").
 //   ...restProps — additional HTML attributes spread onto the <span>.
 //
@@ -24,7 +24,7 @@
 //   - None -- passive display-only component
 //
 // Accessibility:
-//   - aria-label provides the accessible name so screen readers announce the purpose
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 //   - Screen readers announce the label followed by the text content (the number)
 //
 // Internationalization:
@@ -44,7 +44,7 @@ import React from "react";
 export interface UnitedStatesSocialSecurityNumberViewProps {
     className?: string;
     /** Accessible label for screen readers */
-    label: string;
+    label?: string;
     /** The SSN to display */
     value?: string;
     /** Additional HTML attributes */
@@ -60,9 +60,9 @@ export default function UnitedStatesSocialSecurityNumberView({
     return (
         <span
             className={`united-states-social-security-number-view ${className}`}
-            aria-label={label}
             {...restProps}
         >
+            {label ? <span className="screen-reader-span">{`${label} `}</span> : null}
             {value}
         </span>
     );

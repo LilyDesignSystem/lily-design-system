@@ -12,7 +12,9 @@ describe("PakistanComputerizedNationalIdentityCardView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Computerized National Identity Card Number (CNIC)");
+        const el = document.querySelector(
+            ".pakistan-computerized-national-identity-card-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain(
             "pakistan-computerized-national-identity-card-view",
@@ -27,16 +29,23 @@ describe("PakistanComputerizedNationalIdentityCardView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Computerized National Identity Card Number (CNIC)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".pakistan-computerized-national-identity-card-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Computerized National Identity Card Number (CNIC)" />);
 
-        const el = screen.getByLabelText("Computerized National Identity Card Number (CNIC)");
-        expect(el.getAttribute("aria-label")).toBe(
-            "Computerized National Identity Card Number (CNIC)",
+        const el = document.querySelector(
+            ".pakistan-computerized-national-identity-card-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Computerized National Identity Card Number (CNIC)"} `,
         );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

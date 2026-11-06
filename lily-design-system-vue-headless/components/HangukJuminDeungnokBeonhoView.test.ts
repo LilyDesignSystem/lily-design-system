@@ -7,7 +7,7 @@ describe("HangukJuminDeungnokBeonhoView", () => {
     test("renders with the correct class", () => {
         render(Subject, { props: { label: "Hanguk Jumin Deungnok Beonho", value: "test-value" } });
 
-        const el = screen.getByLabelText("Hanguk Jumin Deungnok Beonho");
+        const el = document.querySelector(".hanguk-jumin-deungnok-beonho-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("hanguk-jumin-deungnok-beonho-view");
     });
@@ -15,14 +15,19 @@ describe("HangukJuminDeungnokBeonhoView", () => {
     test("renders the value as text content", () => {
         render(Subject, { props: { label: "Hanguk Jumin Deungnok Beonho", value: "test-value" } });
 
-        const el = screen.getByLabelText("Hanguk Jumin Deungnok Beonho");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".hanguk-jumin-deungnok-beonho-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "Hanguk Jumin Deungnok Beonho" } });
 
-        const el = screen.getByLabelText("Hanguk Jumin Deungnok Beonho");
-        expect(el.getAttribute("aria-label")).toBe("Hanguk Jumin Deungnok Beonho");
+        const el = document.querySelector(".hanguk-jumin-deungnok-beonho-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Hanguk Jumin Deungnok Beonho"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

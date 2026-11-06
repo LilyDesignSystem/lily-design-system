@@ -34,9 +34,17 @@ describe("LiechtensteinNationalIdentityCardNumberView", () => {
             '<lily-liechtenstein-national-identity-card-number-view label="National Identity Card Number" value="ID022143586"></lily-liechtenstein-national-identity-card-number-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "National Identity Card Number",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"National Identity Card Number"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -44,19 +52,23 @@ describe("LiechtensteinNationalIdentityCardNumberView", () => {
             '<lily-liechtenstein-national-identity-card-number-view label="National Identity Card Number" value="ID022143586"></lily-liechtenstein-national-identity-card-number-view>',
         ) as unknown as LiechtensteinNationalIdentityCardNumberView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("ID022143586");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("ID022143586");
         expect(host.value).toBe("ID022143586");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-liechtenstein-national-identity-card-number-view label="National Identity Card Number" value="ID022143586"></lily-liechtenstein-national-identity-card-number-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

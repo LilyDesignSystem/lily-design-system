@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="norge-fodselsnummer-view"\n  aria-label="Norwegian Birth Number"\n></span>';
+    '<span class="norge-fodselsnummer-view"\n  ><span class="screen-reader-span">Norwegian Birth Number </span></span\n>';
 
 const meta = {
     title: "Headless/Norge Fodselsnummer View",

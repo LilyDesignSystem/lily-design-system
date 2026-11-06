@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="australia-individual-healthcare-identifier-view"\n  aria-label="Individual Healthcare Identifier"\n></span>';
+    '<span class="australia-individual-healthcare-identifier-view"\n  ><span class="screen-reader-span">Individual Healthcare Identifier </span></span\n>';
 
 const meta = {
     title: "Headless/Australia Individual Healthcare Identifier View",

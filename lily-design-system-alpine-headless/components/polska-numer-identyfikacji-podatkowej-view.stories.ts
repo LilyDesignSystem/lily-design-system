@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="polska-numer-identyfikacji-podatkowej-view"\n  aria-label="Tax Identification Number"\n></span>';
+    '<span class="polska-numer-identyfikacji-podatkowej-view"\n  ><span class="screen-reader-span">Tax Identification Number </span></span\n>';
 
 const meta = {
     title: "Headless/Polska Numer Identyfikacji Podatkowej View",

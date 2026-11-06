@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="luxembourg-matricule-view"\n  aria-label="Numéro d\'Identification Nationale (Matricule)"\n></span>';
+    '<span class="luxembourg-matricule-view"\n  ><span class="screen-reader-span">Numéro d\'Identification Nationale (Matricule) </span></span\n>';
 
 const meta = {
     title: "Headless/Luxembourg Matricule View",

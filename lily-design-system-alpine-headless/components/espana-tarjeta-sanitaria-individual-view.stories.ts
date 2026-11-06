@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="espana-tarjeta-sanitaria-individual-view"\n  aria-label="TSI"\n></span>';
+    '<span class="espana-tarjeta-sanitaria-individual-view"\n  ><span class="screen-reader-span">TSI </span></span\n>';
 
 const meta = {
     title: "Headless/Espana Tarjeta Sanitaria Individual View",

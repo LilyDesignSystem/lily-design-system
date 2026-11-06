@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="taiwan-guomin-shenfenzheng-tongyi-bianhao-view"\n  aria-label="National Identification Card Number"\n></span>';
+    '<span class="taiwan-guomin-shenfenzheng-tongyi-bianhao-view"\n  ><span class="screen-reader-span">National Identification Card Number </span></span\n>';
 
 const meta = {
     title: "Headless/Taiwan Guomin Shenfenzheng Tongyi Bianhao View",

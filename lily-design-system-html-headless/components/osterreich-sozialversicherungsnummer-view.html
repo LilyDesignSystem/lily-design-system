@@ -5,13 +5,12 @@
   HTML tag: <span>
   CSS class: osterreich-sozialversicherungsnummer-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Format: Ten digits, displayed as NNNN DDMMYY. The first three digits are a serial number followed by a Modulus-11 check digit as the fourth digit; the remaining six digits encode date of birth (DDMMYY).
   Usage:
-    <span class="osterreich-sozialversicherungsnummer-view" aria-label="Sozialversicherungsnummer (SVNR)">value-here</span>
+    <span class="osterreich-sozialversicherungsnummer-view">value-here</span>
 -->
 
-<span
-  class="osterreich-sozialversicherungsnummer-view"
-  aria-label="Sozialversicherungsnummer (SVNR)"
-></span>
+<span class="osterreich-sozialversicherungsnummer-view"
+  ><span class="screen-reader-span">Sozialversicherungsnummer (SVNR) </span></span
+>

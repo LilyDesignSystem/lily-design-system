@@ -31,7 +31,17 @@ describe("SverigePersonnummerView", () => {
             '<lily-sverige-personnummer-view label="Personnummer"></lily-sverige-personnummer-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Personnummer");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Personnummer"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -40,18 +50,26 @@ describe("SverigePersonnummerView", () => {
         ) as unknown as SverigePersonnummerView;
 
         expect(host.value).toBe("198507099805");
-        expect(host.querySelector("span")!.textContent).toBe("198507099805");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("198507099805");
 
         host.value = "199001011234";
-        expect(host.querySelector("span")!.textContent).toBe("199001011234");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("199001011234");
         expect(host.value).toBe("199001011234");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render(
-            '<lily-sverige-personnummer-view label="Personnummer"></lily-sverige-personnummer-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="united-kingdom-national-insurance-number-view"\n  aria-label="National Insurance Number"\n></span>';
+    '<span class="united-kingdom-national-insurance-number-view"\n  ><span class="screen-reader-span">National Insurance Number </span></span\n>';
 
 const meta = {
     title: "Headless/United Kingdom National Insurance Number View",

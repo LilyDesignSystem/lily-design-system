@@ -34,17 +34,17 @@ describe("BulgariaEdinenGrazhdanskiNomerView", () => {
             '<lily-bulgaria-edinen-grazhdanski-nomer-view label="Edinen Grazhdanski Nomer"></lily-bulgaria-edinen-grazhdanski-nomer-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Edinen Grazhdanski Nomer",
-        );
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-bulgaria-edinen-grazhdanski-nomer-view label="ID"></lily-bulgaria-edinen-grazhdanski-nomer-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Edinen Grazhdanski Nomer"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -52,11 +52,27 @@ describe("BulgariaEdinenGrazhdanskiNomerView", () => {
             '<lily-bulgaria-edinen-grazhdanski-nomer-view label="ID" value="7523169263"></lily-bulgaria-edinen-grazhdanski-nomer-view>',
         ) as unknown as BulgariaEdinenGrazhdanskiNomerView;
 
-        expect(host.querySelector("span")!.textContent).toBe("7523169263");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("7523169263");
         expect(host.value).toBe("7523169263");
 
         host.value = "changed";
-        expect(host.querySelector("span")!.textContent).toBe("changed");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
     });
 });

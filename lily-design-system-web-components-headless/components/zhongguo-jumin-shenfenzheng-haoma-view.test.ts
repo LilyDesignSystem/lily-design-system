@@ -34,9 +34,17 @@ describe("ZhongguoJuminShenfenzhengHaomaView", () => {
             '<lily-zhongguo-jumin-shenfenzheng-haoma-view label="Resident Identity Card Number (居民身份证号码)" value="11010119800101123X"></lily-zhongguo-jumin-shenfenzheng-haoma-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Resident Identity Card Number (居民身份证号码)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Resident Identity Card Number (居民身份证号码)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -44,21 +52,23 @@ describe("ZhongguoJuminShenfenzhengHaomaView", () => {
             '<lily-zhongguo-jumin-shenfenzheng-haoma-view label="Resident Identity Card Number (居民身份证号码)" value="11010119800101123X"></lily-zhongguo-jumin-shenfenzheng-haoma-view>',
         ) as unknown as ZhongguoJuminShenfenzhengHaomaView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe(
-            "11010119800101123X",
-        );
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("11010119800101123X");
         expect(host.value).toBe("11010119800101123X");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-zhongguo-jumin-shenfenzheng-haoma-view label="Resident Identity Card Number (居民身份证号码)" value="11010119800101123X"></lily-zhongguo-jumin-shenfenzheng-haoma-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

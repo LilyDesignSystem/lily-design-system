@@ -27,7 +27,17 @@ describe("IbanView", () => {
     test("uses label as the accessible name", () => {
         const host = render('<lily-iban-view label="IBAN"></lily-iban-view>');
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("IBAN");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"IBAN"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -36,16 +46,26 @@ describe("IbanView", () => {
         ) as unknown as IbanView;
 
         expect(host.value).toBe("GB82WEST12345698765432");
-        expect(host.querySelector("span")!.textContent).toBe("GB82WEST12345698765432");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("GB82WEST12345698765432");
 
         host.value = "DE89370400440532013000";
-        expect(host.querySelector("span")!.textContent).toBe("DE89370400440532013000");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("DE89370400440532013000");
         expect(host.value).toBe("DE89370400440532013000");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render('<lily-iban-view label="IBAN"></lily-iban-view>');
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

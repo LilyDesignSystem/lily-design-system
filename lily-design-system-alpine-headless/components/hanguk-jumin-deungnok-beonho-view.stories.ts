@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="hanguk-jumin-deungnok-beonho-view"\n  aria-label="Resident Registration Number (주민등록번호)"\n></span>';
+    '<span class="hanguk-jumin-deungnok-beonho-view"\n  ><span class="screen-reader-span">Resident Registration Number (주민등록번호) </span></span\n>';
 
 const meta = {
     title: "Headless/Hanguk Jumin Deungnok Beonho View",

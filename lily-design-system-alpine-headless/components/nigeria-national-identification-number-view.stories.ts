@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="nigeria-national-identification-number-view"\n  aria-label="National Identification Number (NIN)"\n></span>';
+    '<span class="nigeria-national-identification-number-view"\n  ><span class="screen-reader-span">National Identification Number (NIN) </span></span\n>';
 
 const meta = {
     title: "Headless/Nigeria National Identification Number View",

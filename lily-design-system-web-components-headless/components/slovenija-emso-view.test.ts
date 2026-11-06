@@ -31,9 +31,17 @@ describe("SlovenijaEmsoView", () => {
             '<lily-slovenija-emso-view label="Enotna Matična Številka Občana (EMŠO)"></lily-slovenija-emso-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Enotna Matična Številka Občana (EMŠO)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Enotna Matična Številka Občana (EMŠO)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -42,18 +50,26 @@ describe("SlovenijaEmsoView", () => {
         ) as unknown as SlovenijaEmsoView;
 
         expect(host.value).toBe("0101006500006");
-        expect(host.querySelector("span")!.textContent).toBe("0101006500006");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("0101006500006");
 
         host.value = "1502985500013";
-        expect(host.querySelector("span")!.textContent).toBe("1502985500013");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("1502985500013");
         expect(host.value).toBe("1502985500013");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render(
-            '<lily-slovenija-emso-view label="Enotna Matična Številka Občana (EMŠO)"></lily-slovenija-emso-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

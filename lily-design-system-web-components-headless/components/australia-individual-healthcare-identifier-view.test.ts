@@ -34,17 +34,17 @@ describe("AustraliaIndividualHealthcareIdentifierView", () => {
             '<lily-australia-individual-healthcare-identifier-view label="Individual Healthcare Identifier"></lily-australia-individual-healthcare-identifier-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Individual Healthcare Identifier",
-        );
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-australia-individual-healthcare-identifier-view label="ID"></lily-australia-individual-healthcare-identifier-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Individual Healthcare Identifier"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -52,11 +52,27 @@ describe("AustraliaIndividualHealthcareIdentifierView", () => {
             '<lily-australia-individual-healthcare-identifier-view label="ID" value="8003608833357361"></lily-australia-individual-healthcare-identifier-view>',
         ) as unknown as AustraliaIndividualHealthcareIdentifierView;
 
-        expect(host.querySelector("span")!.textContent).toBe("8003608833357361");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("8003608833357361");
         expect(host.value).toBe("8003608833357361");
 
         host.value = "changed";
-        expect(host.querySelector("span")!.textContent).toBe("changed");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
     });
 });

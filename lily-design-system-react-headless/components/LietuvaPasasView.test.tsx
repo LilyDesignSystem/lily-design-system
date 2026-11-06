@@ -12,7 +12,7 @@ describe("LietuvaPasasView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Lithuanian Passport");
+        const el = document.querySelector(".lietuva-pasas-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("lietuva-pasas-view");
     });
@@ -25,14 +25,19 @@ describe("LietuvaPasasView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Lithuanian Passport");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".lietuva-pasas-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Lithuanian Passport" />);
 
-        const el = screen.getByLabelText("Lithuanian Passport");
-        expect(el.getAttribute("aria-label")).toBe("Lithuanian Passport");
+        const el = document.querySelector(".lietuva-pasas-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Lithuanian Passport"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

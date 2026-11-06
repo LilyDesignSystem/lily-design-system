@@ -34,9 +34,17 @@ describe("MexicoClaveUnicaDeRegistroDePoblacionView", () => {
             '<lily-mexico-clave-unica-de-registro-de-poblacion-view label="Clave Única de Registro de Población (CURP)" value="XAXX010101HNEXXXA4"></lily-mexico-clave-unica-de-registro-de-poblacion-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Clave Única de Registro de Población (CURP)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Clave Única de Registro de Población (CURP)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -44,21 +52,23 @@ describe("MexicoClaveUnicaDeRegistroDePoblacionView", () => {
             '<lily-mexico-clave-unica-de-registro-de-poblacion-view label="Clave Única de Registro de Población (CURP)" value="XAXX010101HNEXXXA4"></lily-mexico-clave-unica-de-registro-de-poblacion-view>',
         ) as unknown as MexicoClaveUnicaDeRegistroDePoblacionView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe(
-            "XAXX010101HNEXXXA4",
-        );
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("XAXX010101HNEXXXA4");
         expect(host.value).toBe("XAXX010101HNEXXXA4");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-mexico-clave-unica-de-registro-de-poblacion-view label="Clave Única de Registro de Población (CURP)" value="XAXX010101HNEXXXA4"></lily-mexico-clave-unica-de-registro-de-poblacion-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

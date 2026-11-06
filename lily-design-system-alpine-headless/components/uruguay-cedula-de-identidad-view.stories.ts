@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="uruguay-cedula-de-identidad-view"\n  aria-label="Cedula de Identidad Number"\n></span>';
+    '<span class="uruguay-cedula-de-identidad-view"\n  ><span class="screen-reader-span">Cedula de Identidad Number </span></span\n>';
 
 const meta = {
     title: "Headless/Uruguay Cedula De Identidad View",

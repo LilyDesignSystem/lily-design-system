@@ -44,7 +44,8 @@ describe("united-states-social-security-number-view", () => {
             value: "123456789",
             label: "SSN",
         });
-        expect(document.querySelector("span").getAttribute("aria-label")).toBe("SSN");
+        expect(document.querySelector(".screen-reader-span").textContent).toBe(`${"SSN"} `);
+        expect(document.querySelector("span").hasAttribute("aria-label")).toBe(false);
     });
 
     it("contains no <style> or <script> tags", () => {

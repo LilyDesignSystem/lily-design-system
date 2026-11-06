@@ -6,7 +6,7 @@
 // Attributes:
 //   value — REQUIRED. The measurement system name to display, as text
 //     content.
-//   label — optional. Additional accessible context via aria-label
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 //     (e.g. labeling "SI" as "International System of Units").
 //   ...rest — spread onto the <span>.
 //
@@ -27,6 +27,7 @@ const HANDLED = new Set(["value", "label"]);
 
 export class MeasurementSystemView extends HTMLElement {
     #span: HTMLSpanElement | null = null;
+    #text: Text | null = null;
 
     connectedCallback(): void {
         if (this.#span) return;
@@ -34,8 +35,14 @@ export class MeasurementSystemView extends HTMLElement {
         const span = document.createElement("span");
         span.className = rootClassName(this, "measurement-system-view");
         const label = this.getAttribute("label");
-        if (label !== null) span.setAttribute("aria-label", label);
-        span.textContent = this.getAttribute("value") ?? "";
+        if (label) {
+            const hidden = document.createElement("span");
+            hidden.className = "screen-reader-span";
+            hidden.textContent = `${label} `;
+            span.append(hidden);
+        }
+        this.#text = document.createTextNode(this.getAttribute("value") ?? "");
+        span.append(this.#text);
         passThroughAttributes(this, span, HANDLED);
 
         this.appendChild(span);
@@ -43,11 +50,11 @@ export class MeasurementSystemView extends HTMLElement {
     }
 
     get value(): string {
-        return this.#span?.textContent ?? this.getAttribute("value") ?? "";
+        return this.#text?.data ?? this.getAttribute("value") ?? "";
     }
 
     set value(v: string) {
-        if (this.#span) this.#span.textContent = v;
+        if (this.#text) this.#text.data = v;
         else this.setAttribute("value", v);
     }
 }

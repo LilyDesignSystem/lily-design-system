@@ -29,13 +29,17 @@ describe("EestiIsikukoodView", () => {
             '<lily-eesti-isikukood-view label="Isikukood"></lily-eesti-isikukood-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Isikukood");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render('<lily-eesti-isikukood-view label="ID"></lily-eesti-isikukood-view>');
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Isikukood"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -43,11 +47,27 @@ describe("EestiIsikukoodView", () => {
             '<lily-eesti-isikukood-view label="ID" value="38001085718"></lily-eesti-isikukood-view>',
         ) as unknown as EestiIsikukoodView;
 
-        expect(host.querySelector("span")!.textContent).toBe("38001085718");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("38001085718");
         expect(host.value).toBe("38001085718");
 
         host.value = "changed";
-        expect(host.querySelector("span")!.textContent).toBe("changed");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
     });
 });

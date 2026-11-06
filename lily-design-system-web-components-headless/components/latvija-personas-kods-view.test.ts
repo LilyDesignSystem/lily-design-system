@@ -31,7 +31,17 @@ describe("LatvijaPersonasKodsView", () => {
             '<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Personas kods");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Personas kods"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -39,19 +49,23 @@ describe("LatvijaPersonasKodsView", () => {
             '<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>',
         ) as unknown as LatvijaPersonasKodsView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("090482-11234");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("090482-11234");
         expect(host.value).toBe("090482-11234");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-latvija-personas-kods-view label="Personas kods" value="090482-11234"></lily-latvija-personas-kods-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

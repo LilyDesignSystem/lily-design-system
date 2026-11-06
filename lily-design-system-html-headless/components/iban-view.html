@@ -5,13 +5,10 @@
   HTML tag: <span>
   CSS class: iban-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Format: Up to 34 letters and digits: a two-letter country code, two check digits, then the national account number
   Usage:
-    <span class="iban-view" aria-label="IBAN">value-here</span>
+    <span class="iban-view">value-here</span>
 -->
 
-<span
-  class="iban-view"
-  aria-label="IBAN"
-></span>
+<span class="iban-view"><span class="screen-reader-span">IBAN </span></span>

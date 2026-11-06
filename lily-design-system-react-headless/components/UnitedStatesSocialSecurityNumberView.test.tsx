@@ -12,7 +12,9 @@ describe("UnitedStatesSocialSecurityNumberView", () => {
             />,
         );
 
-        const element = screen.getByLabelText("SSN");
+        const element = document.querySelector(
+            ".united-states-social-security-number-view",
+        ) as HTMLElement;
         expect(element.tagName).toBe("SPAN");
     });
 
@@ -24,8 +26,15 @@ describe("UnitedStatesSocialSecurityNumberView", () => {
             />,
         );
 
-        const element = screen.getByLabelText("SSN");
-        expect(element.textContent).toBe("123-45-6789");
+        const element = document.querySelector(
+            ".united-states-social-security-number-view",
+        ) as HTMLElement;
+        expect(
+            element.textContent?.replace(
+                element.querySelector(".screen-reader-span")?.textContent ?? "",
+                "",
+            ),
+        ).toBe("123-45-6789");
     });
 
     test("has aria-label from label prop", () => {
@@ -36,15 +45,24 @@ describe("UnitedStatesSocialSecurityNumberView", () => {
             />,
         );
 
-        const element = screen.getByLabelText("Social Security Number");
+        const element = document.querySelector(
+            ".united-states-social-security-number-view",
+        ) as HTMLElement;
         expect(element).toBeTruthy();
     });
 
     test("defaults to empty string when value not provided", () => {
         render(<Subject label="SSN" />);
 
-        const element = screen.getByLabelText("SSN");
-        expect(element.textContent).toBe("");
+        const element = document.querySelector(
+            ".united-states-social-security-number-view",
+        ) as HTMLElement;
+        expect(
+            element.textContent?.replace(
+                element.querySelector(".screen-reader-span")?.textContent ?? "",
+                "",
+            ),
+        ).toBe("");
     });
 
     test("passes through additional HTML attributes", () => {
@@ -69,7 +87,9 @@ describe("UnitedStatesSocialSecurityNumberView", () => {
             />,
         );
 
-        const element = screen.getByLabelText("SSN");
+        const element = document.querySelector(
+            ".united-states-social-security-number-view",
+        ) as HTMLElement;
         expect(element.getAttribute("id")).toBe("ssn-display");
     });
 });

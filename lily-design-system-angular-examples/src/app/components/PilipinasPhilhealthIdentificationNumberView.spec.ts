@@ -31,7 +31,8 @@ describe("PilipinasPhilhealthIdentificationNumberView", () => {
         const el = fixture.nativeElement.querySelector(
             "span.pilipinas-philhealth-identification-number-view",
         );
-        expect(el.getAttribute("aria-label")).toBe("Hello");
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(`${"Hello"} `);
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
     test("renders the value as text content", () => {

@@ -10,11 +10,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-malta-passport-number-view",
     standalone: true,
-    template: `<span class="malta-passport-number-view {{ className() }}" role="text" [attr.aria-label]="label() || null">{{ value() }}</span>`,
+    template: `<span class="malta-passport-number-view {{ className() }}">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}{{ value() }}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MaltaPassportNumberView {
-    /** Optional accessible label override (aria-label). */
+    /** Hidden text naming the value, for when no visible caption does. */
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");

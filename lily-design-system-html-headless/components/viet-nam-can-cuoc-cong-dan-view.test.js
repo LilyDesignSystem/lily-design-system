@@ -17,9 +17,8 @@ describe("VietNamCanCuocCongDanView", function () {
         expect(className).toContain("viet-nam-can-cuoc-cong-dan-view");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not put aria-label on a plain span", async function () {
         const el = await $("span.viet-nam-can-cuoc-cong-dan-view");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

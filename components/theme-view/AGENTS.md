@@ -13,14 +13,12 @@
 ## Key Behaviors
 
 - Renders a `<span>` element containing the theme value as text content
-- Uses `aria-label` to provide an accessible name for the displayed value
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Both `label` and `value` are required props
 - Spreads `restProps` onto the span for consumer customization
 - pattern: standard props destructuring with typed props
 
 ## ARIA
-
-- `aria-label={label}` -- provides an accessible name describing what the displayed value represents
 
 ## Keyboard
 
@@ -28,14 +26,14 @@
 
 ## Props
 
-- `label`: string (required) -- accessible name for the display element via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (required) -- the current theme name to display as text content
 - `...restProps`: unknown -- additional attributes spread onto the `<span>` element
 
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="theme-view"
-- [ ] Has aria-label attribute
+- [ ] Has no `aria-label` on the root
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 

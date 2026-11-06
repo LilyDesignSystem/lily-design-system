@@ -28,9 +28,10 @@ describe("espana-tarjeta-sanitaria-individual-view", () => {
             value: "BBBB090810C003",
             label: "Tarjeta Sanitaria Individual",
         });
-        expect(document.querySelector("span").getAttribute("aria-label")).toBe(
-            "Tarjeta Sanitaria Individual",
+        expect(document.querySelector(".screen-reader-span").textContent).toBe(
+            `${"Tarjeta Sanitaria Individual"} `,
         );
+        expect(document.querySelector("span").hasAttribute("aria-label")).toBe(false);
     });
 
     it("contains no <style> or <script> tags", () => {

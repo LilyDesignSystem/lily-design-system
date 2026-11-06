@@ -12,7 +12,7 @@
 
 ## Key Behaviors
 
-- Renders as a `<span>` element with `aria-label` for accessible naming
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the NHS number value as inline text content
 - Read-only display component (not an input); pairs with an Input component for editing
 - Uses props for prop destructuring with rest props spread
@@ -21,7 +21,6 @@
 
 ## ARIA
 
-- `aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the purpose of the displayed number
 - Screen readers announce the label followed by the text content (the number value)
 
 ## Keyboard
@@ -30,14 +29,14 @@
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: `""`) -- the NHS number string to display
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>` element
 
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="united-kingdom-national-health-service-number-view"
-- [ ] Has aria-label attribute
+- [ ] Has no `aria-label` on the root
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

@@ -31,7 +31,17 @@ describe("MalaysiaKadPengenalanView", () => {
             '<lily-malaysia-kad-pengenalan-view label="MyKad Number (NRIC)" value="900101-14-5678"></lily-malaysia-kad-pengenalan-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("MyKad Number (NRIC)");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"MyKad Number (NRIC)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -39,19 +49,23 @@ describe("MalaysiaKadPengenalanView", () => {
             '<lily-malaysia-kad-pengenalan-view label="MyKad Number (NRIC)" value="900101-14-5678"></lily-malaysia-kad-pengenalan-view>',
         ) as unknown as MalaysiaKadPengenalanView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("900101-14-5678");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("900101-14-5678");
         expect(host.value).toBe("900101-14-5678");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-malaysia-kad-pengenalan-view label="MyKad Number (NRIC)" value="900101-14-5678"></lily-malaysia-kad-pengenalan-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

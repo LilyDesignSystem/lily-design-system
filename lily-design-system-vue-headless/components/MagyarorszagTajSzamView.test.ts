@@ -9,7 +9,7 @@ describe("MagyarorszagTajSzamView", () => {
             props: { label: "Health Insurance Identification Number", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Health Insurance Identification Number");
+        const el = document.querySelector(".magyarorszag-taj-szam-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("magyarorszag-taj-szam-view");
     });
@@ -19,14 +19,19 @@ describe("MagyarorszagTajSzamView", () => {
             props: { label: "Health Insurance Identification Number", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Health Insurance Identification Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".magyarorszag-taj-szam-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "Health Insurance Identification Number" } });
 
-        const el = screen.getByLabelText("Health Insurance Identification Number");
-        expect(el.getAttribute("aria-label")).toBe("Health Insurance Identification Number");
+        const el = document.querySelector(".magyarorszag-taj-szam-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Health Insurance Identification Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

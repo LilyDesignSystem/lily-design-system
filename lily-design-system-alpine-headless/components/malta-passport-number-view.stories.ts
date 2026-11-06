@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="malta-passport-number-view"\n  aria-label="Malta Passport Number"\n></span>';
+    '<span class="malta-passport-number-view"\n  ><span class="screen-reader-span">Malta Passport Number </span></span\n>';
 
 const meta = {
     title: "Headless/Malta Passport Number View",

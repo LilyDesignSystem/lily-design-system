@@ -10,11 +10,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-deutschland-krankenversichertennummer-view",
     standalone: true,
-    template: `<span class="deutschland-krankenversichertennummer-view {{ className() }}" role="text" [attr.aria-label]="label() || null">{{ value() }}</span>`,
+    template: `<span class="deutschland-krankenversichertennummer-view {{ className() }}">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}{{ value() }}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeutschlandKrankenversichertennummerView {
-    /** Optional accessible label override (aria-label). */
+    /** Hidden text naming the value, for when no visible caption does. */
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");

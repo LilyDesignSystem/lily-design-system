@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="net-promoter-score-view"\n  aria-label=""\n>\n  <!-- Consumer provides text content -->\n</span>';
+    '<span class="net-promoter-score-view">\n  <!-- Consumer provides text content -->\n</span>';
 
 const meta = {
     title: "Headless/Net Promoter Score View",

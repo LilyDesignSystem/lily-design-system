@@ -9,7 +9,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -20,9 +20,11 @@ withDefaults(
 
 <template>
     <!-- MexicoClaveUnicaDeRegistroDePoblacionView.vue -->
-    <span
-        class="mexico-clave-unica-de-registro-de-poblacion-view"
-        :aria-label="label"
+    <span class="mexico-clave-unica-de-registro-de-poblacion-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

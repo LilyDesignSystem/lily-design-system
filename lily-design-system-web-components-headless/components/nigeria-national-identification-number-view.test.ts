@@ -34,9 +34,17 @@ describe("NigeriaNationalIdentificationNumberView", () => {
             '<lily-nigeria-national-identification-number-view label="National Identification Number (NIN)" value="12345678901"></lily-nigeria-national-identification-number-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "National Identification Number (NIN)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"National Identification Number (NIN)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -44,19 +52,23 @@ describe("NigeriaNationalIdentificationNumberView", () => {
             '<lily-nigeria-national-identification-number-view label="National Identification Number (NIN)" value="12345678901"></lily-nigeria-national-identification-number-view>',
         ) as unknown as NigeriaNationalIdentificationNumberView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("12345678901");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("12345678901");
         expect(host.value).toBe("12345678901");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-nigeria-national-identification-number-view label="National Identification Number (NIN)" value="12345678901"></lily-nigeria-national-identification-number-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

@@ -5,13 +5,14 @@
   HTML tag: <span>
   CSS class: rossiya-snils-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Format: Eleven digits, NNN-NNN-NNN CC, a Modulus-101 check value over the first nine.
   Usage:
-    <span class="rossiya-snils-view" aria-label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)">value-here</span>
+    <span class="rossiya-snils-view">value-here</span>
 -->
 
-<span
-  class="rossiya-snils-view"
-  aria-label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)"
-></span>
+<span class="rossiya-snils-view"
+  ><span class="screen-reader-span"
+    >СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)
+  </span></span
+>

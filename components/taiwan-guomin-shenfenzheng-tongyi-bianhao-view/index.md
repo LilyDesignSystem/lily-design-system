@@ -14,7 +14,7 @@ TaiwanGuominShenfenzhengTongyiBianhaoView is a headless read-only display of Tai
 ## Props
 
 - `value`: string (default: "") — the identifier to display
-- `label`: string (required) — accessible label via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `...restProps`: any — additional HTML attributes spread onto the `<span>`
 
 ## Usage
@@ -32,7 +32,7 @@ TaiwanGuominShenfenzhengTongyiBianhaoView is a headless read-only display of Tai
 
 ## ARIA
 
-- `aria-label={label}` — provides the accessible name
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 
 ## When to Use
 
@@ -54,7 +54,7 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 - Verify renders a `<span>` with the correct class
 - Verify the `value` prop is rendered as text content
-- Verify `aria-label` is set from the `label` prop
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 
 ## Domain Knowledge
 

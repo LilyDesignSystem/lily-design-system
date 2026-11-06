@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html =
-    '<span\n  class="theme-view"\n  aria-label=""\n>\n  <!-- Consumer provides text content -->\n</span>';
+const html = '<span class="theme-view">\n  <!-- Consumer provides text content -->\n</span>';
 
 const meta = {
     title: "Headless/Theme View",

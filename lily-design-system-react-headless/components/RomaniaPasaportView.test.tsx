@@ -12,7 +12,7 @@ describe("RomaniaPasaportView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Romanian Passport");
+        const el = document.querySelector(".romania-pasaport-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("romania-pasaport-view");
     });
@@ -25,14 +25,19 @@ describe("RomaniaPasaportView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Romanian Passport");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".romania-pasaport-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Romanian Passport" />);
 
-        const el = screen.getByLabelText("Romanian Passport");
-        expect(el.getAttribute("aria-label")).toBe("Romanian Passport");
+        const el = document.querySelector(".romania-pasaport-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Romanian Passport"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

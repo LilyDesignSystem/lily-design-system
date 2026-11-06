@@ -25,7 +25,8 @@ describe("CanadaSocialInsuranceNumberView", () => {
         fixture.componentRef.setInput("label", "Hello");
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector("span.canada-social-insurance-number-view");
-        expect(el.getAttribute("aria-label")).toBe("Hello");
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(`${"Hello"} `);
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
     test("renders the value as text content", () => {

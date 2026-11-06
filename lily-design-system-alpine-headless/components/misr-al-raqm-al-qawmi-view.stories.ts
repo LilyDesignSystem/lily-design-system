@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="misr-al-raqm-al-qawmi-view"\n  aria-label="الرقم القومي (Al-Raqm Al-Qawmi)"\n></span>';
+    '<span class="misr-al-raqm-al-qawmi-view"\n  ><span class="screen-reader-span">الرقم القومي (Al-Raqm Al-Qawmi) </span></span\n>';
 
 const meta = {
     title: "Headless/Misr Al Raqm Al Qawmi View",

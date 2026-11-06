@@ -34,17 +34,17 @@ describe("DeutschlandKrankenversichertennummerView", () => {
             '<lily-deutschland-krankenversichertennummer-view label="Krankenversichertennummer"></lily-deutschland-krankenversichertennummer-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Krankenversichertennummer",
-        );
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-deutschland-krankenversichertennummer-view label="ID"></lily-deutschland-krankenversichertennummer-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Krankenversichertennummer"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -52,11 +52,27 @@ describe("DeutschlandKrankenversichertennummerView", () => {
             '<lily-deutschland-krankenversichertennummer-view label="ID" value="A123456789"></lily-deutschland-krankenversichertennummer-view>',
         ) as unknown as DeutschlandKrankenversichertennummerView;
 
-        expect(host.querySelector("span")!.textContent).toBe("A123456789");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("A123456789");
         expect(host.value).toBe("A123456789");
 
         host.value = "changed";
-        expect(host.querySelector("span")!.textContent).toBe("changed");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
     });
 });

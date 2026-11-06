@@ -12,7 +12,7 @@ describe("NihonKojinBangoView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Individual Number / My Number (マイナンバー)");
+        const el = document.querySelector(".nihon-kojin-bango-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("nihon-kojin-bango-view");
     });
@@ -25,14 +25,19 @@ describe("NihonKojinBangoView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Individual Number / My Number (マイナンバー)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".nihon-kojin-bango-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Individual Number / My Number (マイナンバー)" />);
 
-        const el = screen.getByLabelText("Individual Number / My Number (マイナンバー)");
-        expect(el.getAttribute("aria-label")).toBe("Individual Number / My Number (マイナンバー)");
+        const el = document.querySelector(".nihon-kojin-bango-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Individual Number / My Number (マイナンバー)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

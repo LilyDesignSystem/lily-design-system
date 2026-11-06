@@ -34,9 +34,17 @@ describe("PolskaNumerIdentyfikacjiPodatkowejView", () => {
             '<lily-polska-numer-identyfikacji-podatkowej-view label="Numer Identyfikacji Podatkowej (NIP)"></lily-polska-numer-identyfikacji-podatkowej-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Numer Identyfikacji Podatkowej (NIP)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Numer Identyfikacji Podatkowej (NIP)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -45,18 +53,26 @@ describe("PolskaNumerIdentyfikacjiPodatkowejView", () => {
         ) as unknown as PolskaNumerIdentyfikacjiPodatkowejView;
 
         expect(host.value).toBe("1234563218");
-        expect(host.querySelector("span")!.textContent).toBe("1234563218");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("1234563218");
 
         host.value = "5252445218";
-        expect(host.querySelector("span")!.textContent).toBe("5252445218");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("5252445218");
         expect(host.value).toBe("5252445218");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render(
-            '<lily-polska-numer-identyfikacji-podatkowej-view label="Numer Identyfikacji Podatkowej (NIP)"></lily-polska-numer-identyfikacji-podatkowej-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

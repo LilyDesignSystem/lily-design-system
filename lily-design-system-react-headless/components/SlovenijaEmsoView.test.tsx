@@ -12,7 +12,7 @@ describe("SlovenijaEmsoView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Unique Master Citizen Number");
+        const el = document.querySelector(".slovenija-emso-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("slovenija-emso-view");
     });
@@ -25,14 +25,19 @@ describe("SlovenijaEmsoView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Unique Master Citizen Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".slovenija-emso-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Unique Master Citizen Number" />);
 
-        const el = screen.getByLabelText("Unique Master Citizen Number");
-        expect(el.getAttribute("aria-label")).toBe("Unique Master Citizen Number");
+        const el = document.querySelector(".slovenija-emso-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Unique Master Citizen Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

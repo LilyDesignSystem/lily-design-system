@@ -12,7 +12,9 @@ describe("UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView", () 
             />,
         );
 
-        const el = screen.getByLabelText("Реєстраційний номер платника податків (РНОКПП)");
+        const el = document.querySelector(
+            ".ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain(
             "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view",
@@ -27,16 +29,23 @@ describe("UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView", () 
             />,
         );
 
-        const el = screen.getByLabelText("Реєстраційний номер платника податків (РНОКПП)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Реєстраційний номер платника податків (РНОКПП)" />);
 
-        const el = screen.getByLabelText("Реєстраційний номер платника податків (РНОКПП)");
-        expect(el.getAttribute("aria-label")).toBe(
-            "Реєстраційний номер платника податків (РНОКПП)",
+        const el = document.querySelector(
+            ".ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Реєстраційний номер платника податків (РНОКПП)"} `,
         );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

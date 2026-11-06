@@ -12,7 +12,7 @@ describe("MisrAlRaqmAlQawmiView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("National Number (الرقم القومي)");
+        const el = document.querySelector(".misr-al-raqm-al-qawmi-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("misr-al-raqm-al-qawmi-view");
     });
@@ -25,14 +25,19 @@ describe("MisrAlRaqmAlQawmiView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("National Number (الرقم القومي)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".misr-al-raqm-al-qawmi-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="National Number (الرقم القومي)" />);
 
-        const el = screen.getByLabelText("National Number (الرقم القومي)");
-        expect(el.getAttribute("aria-label")).toBe("National Number (الرقم القومي)");
+        const el = document.querySelector(".misr-al-raqm-al-qawmi-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"National Number (الرقم القومي)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

@@ -12,7 +12,7 @@ describe("SchweizAhvNummerView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("AHV-Nummer / Numéro AVS");
+        const el = document.querySelector(".schweiz-ahv-nummer-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("schweiz-ahv-nummer-view");
     });
@@ -25,14 +25,19 @@ describe("SchweizAhvNummerView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("AHV-Nummer / Numéro AVS");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".schweiz-ahv-nummer-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="AHV-Nummer / Numéro AVS" />);
 
-        const el = screen.getByLabelText("AHV-Nummer / Numéro AVS");
-        expect(el.getAttribute("aria-label")).toBe("AHV-Nummer / Numéro AVS");
+        const el = document.querySelector(".schweiz-ahv-nummer-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"AHV-Nummer / Numéro AVS"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

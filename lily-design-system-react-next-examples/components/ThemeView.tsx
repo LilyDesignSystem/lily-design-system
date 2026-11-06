@@ -9,7 +9,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, required. Accessible name for the display element via aria-label.
+//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
 //   value — string, required. The current theme name to display as text content.
 //   ...restProps — additional HTML attributes spread onto the <span>.
 //
@@ -24,7 +24,7 @@
 //   - None -- passive display element with no interactive behavior
 //
 // Accessibility:
-//   - aria-label={label} provides an accessible name describing what the displayed value represents
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 //
 // Internationalization:
 //   - The label prop accepts any translated string
@@ -42,7 +42,7 @@ import React from "react";
 export interface ThemeViewProps {
     className?: string;
     /** Accessible label. */
-    label: string;
+    label?: string;
     /** Theme value to display. */
     value: string;
     [key: string]: unknown;
@@ -52,9 +52,9 @@ export default function ThemeView({ className = "", label, value, ...restProps }
     return (
         <span
             className={`theme-view ${className}`}
-            aria-label={label}
             {...restProps}
         >
+            {label ? <span className="screen-reader-span">{`${label} `}</span> : null}
             {value}
         </span>
     );

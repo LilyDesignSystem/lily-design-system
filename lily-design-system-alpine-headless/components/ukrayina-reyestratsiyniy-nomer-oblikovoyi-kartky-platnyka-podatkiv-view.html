@@ -5,11 +5,12 @@
   HTML tag: <span>
   CSS class: ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<span
-  class="ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view"
-  aria-label="Реєстраційний номер облікової картки платника податків (РНОКПП)"
-></span>
+<span class="ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view"
+  ><span class="screen-reader-span"
+    >Реєстраційний номер облікової картки платника податків (РНОКПП)
+  </span></span
+>

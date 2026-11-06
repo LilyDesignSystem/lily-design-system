@@ -19,7 +19,8 @@ public class TaiwanGuominShenfenzhengTongyiBianhaoViewTests : TestContext
     {
         var cut = RenderComponent<TaiwanGuominShenfenzhengTongyiBianhaoView>(p => p.Add(x => x.Label, "Label"));
         var root = cut.Find(".taiwan-guomin-shenfenzheng-tongyi-bianhao-view");
-        Assert.Equal("Label", root.GetAttribute("aria-label"));
+        Assert.Equal("Label" + " ", root.QuerySelector(".screen-reader-span")!.TextContent);
+        Assert.False(root.HasAttribute("aria-label"));
     }
 
     [Fact]
@@ -29,7 +30,7 @@ public class TaiwanGuominShenfenzhengTongyiBianhaoViewTests : TestContext
             .Add(x => x.Label, "Label")
             .AddChildContent("123456789"));
         var root = cut.Find(".taiwan-guomin-shenfenzheng-tongyi-bianhao-view");
-        Assert.Equal("123456789", root.TextContent);
+        Assert.Equal("Label" + " " + "123456789", root.TextContent);
     }
 
     [Fact]

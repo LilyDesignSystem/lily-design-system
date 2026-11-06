@@ -31,9 +31,17 @@ describe("LietuvaPasasView", () => {
             '<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Pasas (Passport Number)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Pasas (Passport Number)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -41,19 +49,23 @@ describe("LietuvaPasasView", () => {
             '<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>',
         ) as unknown as LietuvaPasasView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("12345678");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("12345678");
         expect(host.value).toBe("12345678");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-lietuva-pasas-view label="Pasas (Passport Number)" value="12345678"></lily-lietuva-pasas-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

@@ -12,7 +12,9 @@ describe("HrvatskaOsobniIdentifikacijskiBrojView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Personal Identification Number");
+        const el = document.querySelector(
+            ".hrvatska-osobni-identifikacijski-broj-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("hrvatska-osobni-identifikacijski-broj-view");
     });
@@ -25,14 +27,23 @@ describe("HrvatskaOsobniIdentifikacijskiBrojView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Personal Identification Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".hrvatska-osobni-identifikacijski-broj-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Personal Identification Number" />);
 
-        const el = screen.getByLabelText("Personal Identification Number");
-        expect(el.getAttribute("aria-label")).toBe("Personal Identification Number");
+        const el = document.querySelector(
+            ".hrvatska-osobni-identifikacijski-broj-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Personal Identification Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

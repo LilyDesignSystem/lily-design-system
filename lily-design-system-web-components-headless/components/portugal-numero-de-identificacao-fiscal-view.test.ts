@@ -34,9 +34,17 @@ describe("PortugalNumeroDeIdentificacaoFiscalView", () => {
             '<lily-portugal-numero-de-identificacao-fiscal-view label="Número de Identificação Fiscal (NIF)"></lily-portugal-numero-de-identificacao-fiscal-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Número de Identificação Fiscal (NIF)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Número de Identificação Fiscal (NIF)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -45,18 +53,26 @@ describe("PortugalNumeroDeIdentificacaoFiscalView", () => {
         ) as unknown as PortugalNumeroDeIdentificacaoFiscalView;
 
         expect(host.value).toBe("123456789");
-        expect(host.querySelector("span")!.textContent).toBe("123456789");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("123456789");
 
         host.value = "198765432";
-        expect(host.querySelector("span")!.textContent).toBe("198765432");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("198765432");
         expect(host.value).toBe("198765432");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render(
-            '<lily-portugal-numero-de-identificacao-fiscal-view label="Número de Identificação Fiscal (NIF)"></lily-portugal-numero-de-identificacao-fiscal-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

@@ -12,7 +12,7 @@ describe("CanadaSocialInsuranceNumberView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Social Insurance Number (SIN)");
+        const el = document.querySelector(".canada-social-insurance-number-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("canada-social-insurance-number-view");
     });
@@ -25,14 +25,19 @@ describe("CanadaSocialInsuranceNumberView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Social Insurance Number (SIN)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".canada-social-insurance-number-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Social Insurance Number (SIN)" />);
 
-        const el = screen.getByLabelText("Social Insurance Number (SIN)");
-        expect(el.getAttribute("aria-label")).toBe("Social Insurance Number (SIN)");
+        const el = document.querySelector(".canada-social-insurance-number-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Social Insurance Number (SIN)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

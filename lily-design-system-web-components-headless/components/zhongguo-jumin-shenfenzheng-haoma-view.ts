@@ -4,10 +4,9 @@
 // Format: Eighteen characters (GB 11643): region, date of birth, sequence with sex parity, then an ISO 7064 MOD 11-2 check character (may be X).
 //
 // Attributes:
-//   label — REQUIRED. Accessible name, via aria-label.
+//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
 //   value — the identifier string to display, as text content.
 //   ...rest — spread onto the <span>.
-//   role="text" — the identifier announces as a single unit, not broken into words/chunks.
 //
 // References:
 //   - components/zhongguo-jumin-shenfenzheng-haoma-view/index.md (canonical contract)
@@ -19,6 +18,7 @@ const HANDLED = new Set(["label", "value"]);
 
 export class ZhongguoJuminShenfenzhengHaomaView extends HTMLElement {
     #span: HTMLSpanElement | null = null;
+    #text: Text | null = null;
 
     connectedCallback(): void {
         if (this.#span) return;
@@ -26,9 +26,14 @@ export class ZhongguoJuminShenfenzhengHaomaView extends HTMLElement {
         const span = document.createElement("span");
         span.className = rootClassName(this, "zhongguo-jumin-shenfenzheng-haoma-view");
         const label = this.getAttribute("label");
-        if (label !== null) span.setAttribute("aria-label", label);
-        span.textContent = this.getAttribute("value") ?? "";
-        span.setAttribute("role", "text");
+        if (label) {
+            const hidden = document.createElement("span");
+            hidden.className = "screen-reader-span";
+            hidden.textContent = `${label} `;
+            span.append(hidden);
+        }
+        this.#text = document.createTextNode(this.getAttribute("value") ?? "");
+        span.append(this.#text);
         passThroughAttributes(this, span, HANDLED);
 
         this.appendChild(span);
@@ -36,11 +41,11 @@ export class ZhongguoJuminShenfenzhengHaomaView extends HTMLElement {
     }
 
     get value(): string {
-        return this.#span?.textContent ?? this.getAttribute("value") ?? "";
+        return this.#text?.data ?? this.getAttribute("value") ?? "";
     }
 
     set value(v: string) {
-        if (this.#span) this.#span.textContent = v;
+        if (this.#text) this.#text.data = v;
         else this.setAttribute("value", v);
     }
 }

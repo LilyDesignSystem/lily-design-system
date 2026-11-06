@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="prathet-thai-lek-prajam-tua-prachachon-view"\n  aria-label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)"\n></span>';
+    '<span class="prathet-thai-lek-prajam-tua-prachachon-view"\n  ><span class="screen-reader-span">เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon) </span></span\n>';
 
 const meta = {
     title: "Headless/Prathet Thai Lek Prajam Tua Prachachon View",

@@ -8,7 +8,7 @@
   Params:
     system      string   System identifier.
     text        string   Visible label. Default: system.
-    label       string   aria-label override.
+    label       string   Hidden text naming the value.
     id          string
     classes     string
     attributes  object
@@ -23,7 +23,6 @@
   class="measurement-system-view{% if p.classes %} {{ p.classes }}{% endif %}"
   data-system="{{ p.system | default('') }}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->{{ p.text | default(p.system) }}</span>
+>{% if p.label %}<span class="screen-reader-span">{{ p.label }} </span>{% endif %}{{ p.text | default(p.system) }}</span>
 {%- endmacro -%}

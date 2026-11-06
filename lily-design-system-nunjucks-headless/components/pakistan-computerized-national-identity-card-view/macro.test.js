@@ -25,7 +25,8 @@ describe("pakistan-computerized-national-identity-card-view", () => {
             value: "v",
             label: "lbl",
         });
-        expect(document.querySelector("span").getAttribute("aria-label")).toBe("lbl");
+        expect(document.querySelector(".screen-reader-span").textContent).toBe(`${"lbl"} `);
+        expect(document.querySelector("span").hasAttribute("aria-label")).toBe(false);
     });
 
     it("appends params.classes", () => {

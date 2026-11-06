@@ -31,7 +31,17 @@ describe("RedAmberGreenView", () => {
             '<lily-red-amber-green-view label="Project status"></lily-red-amber-green-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Project status");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Project status"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -39,11 +49,27 @@ describe("RedAmberGreenView", () => {
             '<lily-red-amber-green-view label="Project status" value="green"></lily-red-amber-green-view>',
         ) as unknown as RedAmberGreenView;
 
-        expect(host.querySelector("span")!.textContent).toBe("green");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("green");
         expect(host.value).toBe("green");
 
         host.value = "red";
-        expect(host.querySelector("span")!.textContent).toBe("red");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("red");
         expect(host.value).toBe("red");
     });
 
@@ -52,7 +78,15 @@ describe("RedAmberGreenView", () => {
             '<lily-red-amber-green-view label="Project status"></lily-red-amber-green-view>',
         );
 
-        expect(host.querySelector("span")!.textContent).toBe("");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("");
     });
 
     test("appends the consumer's class onto the base class", () => {

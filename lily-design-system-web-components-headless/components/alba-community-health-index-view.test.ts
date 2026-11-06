@@ -31,17 +31,17 @@ describe("AlbaCommunityHealthIndexView", () => {
             '<lily-alba-community-health-index-view label="Community Health Index"></lily-alba-community-health-index-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Community Health Index",
-        );
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-alba-community-health-index-view label="ID"></lily-alba-community-health-index-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Community Health Index"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -49,11 +49,27 @@ describe("AlbaCommunityHealthIndexView", () => {
             '<lily-alba-community-health-index-view label="ID" value="1505850123"></lily-alba-community-health-index-view>',
         ) as unknown as AlbaCommunityHealthIndexView;
 
-        expect(host.querySelector("span")!.textContent).toBe("1505850123");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("1505850123");
         expect(host.value).toBe("1505850123");
 
         host.value = "changed";
-        expect(host.querySelector("span")!.textContent).toBe("changed");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
     });
 });

@@ -5,11 +5,10 @@
   HTML tag: <span>
   CSS class: liechtenstein-national-identity-card-number-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<span
-  class="liechtenstein-national-identity-card-number-view"
-  aria-label="Liechtenstein National Identity Card Number"
-></span>
+<span class="liechtenstein-national-identity-card-number-view"
+  ><span class="screen-reader-span">Liechtenstein National Identity Card Number </span></span
+>

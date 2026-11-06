@@ -5,11 +5,10 @@
   HTML tag: <span>
   CSS class: romania-pasaport-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<span
-  class="romania-pasaport-view"
-  aria-label="Romanian Passport"
-></span>
+<span class="romania-pasaport-view"
+  ><span class="screen-reader-span">Romanian Passport </span></span
+>

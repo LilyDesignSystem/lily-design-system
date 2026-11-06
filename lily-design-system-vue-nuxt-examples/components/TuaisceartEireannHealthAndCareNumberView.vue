@@ -3,7 +3,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -14,9 +14,11 @@ withDefaults(
 
 <template>
     <!-- TuaisceartEireannHealthAndCareNumberView.vue -->
-    <span
-        class="tuaisceart-eireann-health-and-care-number-view"
-        :aria-label="label"
+    <span class="tuaisceart-eireann-health-and-care-number-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

@@ -12,7 +12,7 @@ describe("IbanView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("IBAN");
+        const el = document.querySelector(".iban-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("iban-view");
     });
@@ -25,14 +25,17 @@ describe("IbanView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("IBAN");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".iban-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="IBAN" />);
 
-        const el = screen.getByLabelText("IBAN");
-        expect(el.getAttribute("aria-label")).toBe("IBAN");
+        const el = document.querySelector(".iban-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(`${"IBAN"} `);
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

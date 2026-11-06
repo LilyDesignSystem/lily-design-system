@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="pilipinas-philhealth-identification-number-view"\n  aria-label="PhilHealth Identification Number (PIN)"\n></span>';
+    '<span class="pilipinas-philhealth-identification-number-view"\n  ><span class="screen-reader-span">PhilHealth Identification Number (PIN) </span></span\n>';
 
 const meta = {
     title: "Headless/Pilipinas Philhealth Identification Number View",

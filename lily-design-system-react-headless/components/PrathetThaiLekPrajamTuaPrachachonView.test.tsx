@@ -12,7 +12,9 @@ describe("PrathetThaiLekPrajamTuaPrachachonView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("National Identification Number (เลขประจำตัวประชาชน)");
+        const el = document.querySelector(
+            ".prathet-thai-lek-prajam-tua-prachachon-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("prathet-thai-lek-prajam-tua-prachachon-view");
     });
@@ -25,16 +27,23 @@ describe("PrathetThaiLekPrajamTuaPrachachonView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("National Identification Number (เลขประจำตัวประชาชน)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".prathet-thai-lek-prajam-tua-prachachon-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="National Identification Number (เลขประจำตัวประชาชน)" />);
 
-        const el = screen.getByLabelText("National Identification Number (เลขประจำตัวประชาชน)");
-        expect(el.getAttribute("aria-label")).toBe(
-            "National Identification Number (เลขประจำตัวประชาชน)",
+        const el = document.querySelector(
+            ".prathet-thai-lek-prajam-tua-prachachon-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"National Identification Number (เลขประจำตัวประชาชน)"} `,
         );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

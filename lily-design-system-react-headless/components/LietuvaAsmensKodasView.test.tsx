@@ -12,7 +12,7 @@ describe("LietuvaAsmensKodasView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Personal Code");
+        const el = document.querySelector(".lietuva-asmens-kodas-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("lietuva-asmens-kodas-view");
     });
@@ -25,14 +25,17 @@ describe("LietuvaAsmensKodasView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Personal Code");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".lietuva-asmens-kodas-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Personal Code" />);
 
-        const el = screen.getByLabelText("Personal Code");
-        expect(el.getAttribute("aria-label")).toBe("Personal Code");
+        const el = document.querySelector(".lietuva-asmens-kodas-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(`${"Personal Code"} `);
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

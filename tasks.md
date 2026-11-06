@@ -3325,10 +3325,10 @@ Nothing below was built when the phase was written. Web claims are marked unveri
 
 ## Phase 25 — WAI-ARIA across the full catalog (2026-11-06)
 
-From [docs/aria-assessment.md](docs/aria-assessment.md), measured on all 609 components with `docs/aria-assessment.tsv` per component: 67 confirmed axe failures, 131 with incomplete key evidence, 289 with incomplete ARIA evidence, 121 with complete automated evidence, and no screen-reader result at all. Contract fixes go to every catalog, Svelte first. In order of harm:
+From [docs/aria-assessment.md](docs/aria-assessment.md), measured on all 609 components with `docs/aria-assessment.tsv` per component: 31 confirmed axe failures, 131 with incomplete key evidence, 300 with incomplete ARIA evidence, 146 with complete automated evidence, and no screen-reader result at all. Contract fixes go to every catalog, Svelte first. In order of harm:
 
-- [ ] **P25-T1 Stop naming generic elements.** `aria-label` on a plain `<span>` or `<div>` is prohibited: at least 36 identifier `-view` components, plus `body-text`, `framer`, `hero-headline`, `padding-reset`, `scroller`, `scroller-base` and `scroller-video`. Decide one contract (a real role, or visible text beside the value), apply it in all eight catalogs and Alpine, and audit every `-view`, not only those axe saw.
-      Verify: axe reports no `aria-prohibited-attr` on any Nunjucks page; a test in each catalog asserts the new shape.
+- [~] **P25-T1 Stop naming generic elements.** _(2026-11-06: the 90 `-view` components with a plain `<span>` root are done in all eight catalogs, with Alpine regenerated. `aria-label` and Angular's and Web Components' invalid `role="text"` are gone; `label` is optional and renders as hidden text in a `.screen-reader-span`, with no inline style so strict CSP is unaffected. axe's `aria-prohibited-attr` fell from 43 pages to 7, and pages failing a WCAG rule from 67 to 31. Left: `body-text`, `framer`, `hero-headline`, `padding-reset`, `scroller`, `scroller-base`, `scroller-video`, which need their own contract. `five-star-rating-view`, `five-face-rating-view`, `red-orange-yellow-green-blue-view` and `split-view` have other roots, and `date-time-view` is a `<time>`: check them against the same rule.)_
+  Verify: axe reports no `aria-prohibited-attr` on any Nunjucks page; a test in each catalog asserts the new shape.
 - [ ] **P25-T2 Fix the invalid roles and attributes.** `cascader` and `tree-select` (`role="combobox"` missing a required attribute), `slider-button` (`aria-valuenow` on a button), `chat-list` and `chat-nav` (`role="log"` removing the list in Nunjucks, absent in Svelte; choose one and port it).
       Verify: axe is clean on those pages, in each catalog that can run it.
 - [ ] **P25-T3 Name every popup and field.** `contextual-help` panel; then trace `mentions-input`, `transfer-list`, `scroller-video` (`role="img"` with no name), `date-time-now-input`, `autosuggest`, `editable-form`, `input-group` and `text-area-input-with-character-counter` to the macro or the demo, and fix whichever it is.
@@ -3339,8 +3339,8 @@ From [docs/aria-assessment.md](docs/aria-assessment.md), measured on all 609 com
       Verify: each has a key test in all eight libraries, or a recorded reason; each new test is shown to fail when the behaviour is removed.
 - [ ] **P25-T6 Key tests for the rest of the 86 custom-key widgets.** The other 29 not yet in all eight libraries.
       Verify: 86 of 86 in the assessment.
-- [ ] **P25-T7 ARIA assertions.** 410 of the 539 ARIA contracts are not asserted in all eight libraries. Generate them from each `## ARIA` section where possible, as `bin/check-coverage` does for keys, and add a gap list that may only shrink.
-      Verify: 539 of 539, or an allow-listed reason each; the gate is in `bin/test`.
+- [ ] **P25-T7 ARIA assertions.** 397 of the 526 ARIA contracts are not asserted in all eight libraries. Generate them from each `## ARIA` section where possible, as `bin/check-coverage` does for keys, and add a gap list that may only shrink.
+      Verify: 526 of 526, or an allow-listed reason each; the gate is in `bin/test`.
 - [ ] **P25-T8 A second Core tier.** Add the hardest APG widgets to `bin/generate-core` as their own tier, with separate figures: `combobox`, `listbox`, `slider`, `splitter`, `tooltip`, `popover`, `autosuggest`, `multi-select`, `tool-bar`, `segment-group`, `file-tree`, `tree-menu`, `command`, `carousel`. Add e2e in three browsers and matrix rows.
       Verify: `bin/generate-core --check`; the first tier's figures do not change.
 - [ ] **P25-T9 Settle colour contrast.** Rerun the ten pages after the theme and transitions settle, in the default theme and a dark one.

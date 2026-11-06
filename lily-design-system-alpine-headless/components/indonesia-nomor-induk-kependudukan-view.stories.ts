@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="indonesia-nomor-induk-kependudukan-view"\n  aria-label="Nomor Induk Kependudukan (NIK)"\n></span>';
+    '<span class="indonesia-nomor-induk-kependudukan-view"\n  ><span class="screen-reader-span">Nomor Induk Kependudukan (NIK) </span></span\n>';
 
 const meta = {
     title: "Headless/Indonesia Nomor Induk Kependudukan View",

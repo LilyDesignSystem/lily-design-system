@@ -5,7 +5,9 @@ import TuaisceartEireannHealthAndCareNumberView from "./TuaisceartEireannHealthA
 describe("TuaisceartEireannHealthAndCareNumberView", () => {
     test("renders with content", () => {
         render(TuaisceartEireannHealthAndCareNumberView, { props: { label: "Test" } });
-        const el = screen.getByLabelText("Test");
+        const el = document.querySelector(
+            ".tuaisceart-eireann-health-and-care-number-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain(
             "tuaisceart-eireann-health-and-care-number-view",

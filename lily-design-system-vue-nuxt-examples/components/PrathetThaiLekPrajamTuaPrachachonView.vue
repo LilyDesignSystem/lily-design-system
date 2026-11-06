@@ -9,7 +9,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -20,9 +20,11 @@ withDefaults(
 
 <template>
     <!-- PrathetThaiLekPrajamTuaPrachachonView.vue -->
-    <span
-        class="prathet-thai-lek-prajam-tua-prachachon-view"
-        :aria-label="label"
+    <span class="prathet-thai-lek-prajam-tua-prachachon-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

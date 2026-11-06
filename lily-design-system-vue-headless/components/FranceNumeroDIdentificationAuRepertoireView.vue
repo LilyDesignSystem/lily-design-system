@@ -10,7 +10,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, required. Accessible label for screen readers via aria-label.
+//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
 //   value — string, default "". The NIR string to display.
 //   ...restProps — additional HTML attributes spread onto the <span>.
 //
@@ -25,7 +25,7 @@
 //   - None -- passive display-only component
 //
 // Accessibility:
-//   - aria-label provides the accessible name so screen readers announce the purpose
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 //   - Screen readers announce the label followed by the text content (the number)
 //
 // Internationalization:
@@ -43,7 +43,7 @@
 withDefaults(
     defineProps<{
         /** Accessible label for screen readers */
-        label: string;
+        label?: string;
         /** The NIR to display */
         value?: string;
     }>(),
@@ -55,9 +55,11 @@ withDefaults(
 
 <template>
     <!-- FranceNumeroDIdentificationAuRepertoireView.vue -->
-    <span
-        class="france-numero-d-identification-au-repertoire-view"
-        :aria-label="label"
+    <span class="france-numero-d-identification-au-repertoire-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

@@ -9,7 +9,7 @@
     value       number|string  The numeric value.
     unit        string         Unit symbol ("cm", "kg", etc.).
     unitLabel   string         Unit long name for screen readers.
-    label       string         aria-label override.
+    label       string         Hidden text naming the value.
     id          string
     classes     string
     attributes  object
@@ -23,9 +23,8 @@
 <span
   class="measurement-instance-view{% if p.classes %} {{ p.classes }}{% endif %}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->
+>{% if p.label %}<span class="screen-reader-span">{{ p.label }} </span>{% endif %}
   <span class="measurement-instance-view-value">{{ p.value | default('') }}</span>&nbsp;<abbr class="measurement-instance-view-unit"{% if p.unitLabel %} title="{{ p.unitLabel }}"{% endif %}>{{ p.unit | default('') }}</abbr>
 </span>
 {%- endmacro -%}

@@ -7,7 +7,9 @@ describe("OsterreichSozialversicherungsnummerView", () => {
     test("renders with the correct class", () => {
         render(Subject, { props: { label: "Social Insurance Number", value: "test-value" } });
 
-        const el = screen.getByLabelText("Social Insurance Number");
+        const el = document.querySelector(
+            ".osterreich-sozialversicherungsnummer-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("osterreich-sozialversicherungsnummer-view");
     });
@@ -15,14 +17,23 @@ describe("OsterreichSozialversicherungsnummerView", () => {
     test("renders the value as text content", () => {
         render(Subject, { props: { label: "Social Insurance Number", value: "test-value" } });
 
-        const el = screen.getByLabelText("Social Insurance Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".osterreich-sozialversicherungsnummer-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "Social Insurance Number" } });
 
-        const el = screen.getByLabelText("Social Insurance Number");
-        expect(el.getAttribute("aria-label")).toBe("Social Insurance Number");
+        const el = document.querySelector(
+            ".osterreich-sozialversicherungsnummer-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Social Insurance Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

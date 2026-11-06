@@ -31,9 +31,17 @@ describe("YisraelTeudatZehutView", () => {
             '<lily-yisrael-teudat-zehut-view label="Teudat Zehut (תעודת זהות)" value="123456782"></lily-yisrael-teudat-zehut-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Teudat Zehut (תעודת זהות)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Teudat Zehut (תעודת זהות)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -41,19 +49,23 @@ describe("YisraelTeudatZehutView", () => {
             '<lily-yisrael-teudat-zehut-view label="Teudat Zehut (תעודת זהות)" value="123456782"></lily-yisrael-teudat-zehut-view>',
         ) as unknown as YisraelTeudatZehutView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("123456782");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("123456782");
         expect(host.value).toBe("123456782");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-yisrael-teudat-zehut-view label="Teudat Zehut (תעודת זהות)" value="123456782"></lily-yisrael-teudat-zehut-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

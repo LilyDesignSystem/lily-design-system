@@ -18,9 +18,8 @@ describe("MexicoClaveUnicaDeRegistroDePoblacionView", function () {
         expect(className).toContain("mexico-clave-unica-de-registro-de-poblacion-view");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not put aria-label on a plain span", async function () {
         const el = await $("span.mexico-clave-unica-de-registro-de-poblacion-view");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

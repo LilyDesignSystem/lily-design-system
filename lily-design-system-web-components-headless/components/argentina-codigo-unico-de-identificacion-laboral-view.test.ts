@@ -34,9 +34,17 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralView", () => {
             '<lily-argentina-codigo-unico-de-identificacion-laboral-view label="Código Único de Identificación Laboral (CUIL)" value="20-12345678-9"></lily-argentina-codigo-unico-de-identificacion-laboral-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Código Único de Identificación Laboral (CUIL)",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Código Único de Identificación Laboral (CUIL)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -44,19 +52,23 @@ describe("ArgentinaCodigoUnicoDeIdentificacionLaboralView", () => {
             '<lily-argentina-codigo-unico-de-identificacion-laboral-view label="Código Único de Identificación Laboral (CUIL)" value="20-12345678-9"></lily-argentina-codigo-unico-de-identificacion-laboral-view>',
         ) as unknown as ArgentinaCodigoUnicoDeIdentificacionLaboralView;
 
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("20-12345678-9");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("20-12345678-9");
         expect(host.value).toBe("20-12345678-9");
 
         host.value = "changed";
-        expect((host.querySelector("span") as HTMLSpanElement).textContent).toBe("changed");
+        expect(
+            (host.querySelector("span") as HTMLSpanElement).textContent?.replace(
+                (host.querySelector("span") as HTMLSpanElement).querySelector(".screen-reader-span")
+                    ?.textContent ?? "",
+                "",
+            ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-argentina-codigo-unico-de-identificacion-laboral-view label="Código Único de Identificación Laboral (CUIL)" value="20-12345678-9"></lily-argentina-codigo-unico-de-identificacion-laboral-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

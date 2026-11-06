@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = '<span\n  class="lietuva-asmens-kodas-view"\n  aria-label="Personal Code"\n></span>';
+const html =
+    '<span class="lietuva-asmens-kodas-view"\n  ><span class="screen-reader-span">Personal Code </span></span\n>';
 
 const meta = {
     title: "Headless/Lietuva Asmens Kodas View",

@@ -31,7 +31,15 @@ describe("MeasurementSystemView", () => {
             '<lily-measurement-system-view value="imperial"></lily-measurement-system-view>',
         );
 
-        expect(host.querySelector("span")!.textContent).toBe("imperial");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("imperial");
     });
 
     test("uses label as additional accessible context when provided", () => {
@@ -39,9 +47,17 @@ describe("MeasurementSystemView", () => {
             '<lily-measurement-system-view value="SI" label="International System of Units"></lily-measurement-system-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "International System of Units",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"International System of Units"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("omits aria-label when label is not provided", () => {
@@ -59,7 +75,15 @@ describe("MeasurementSystemView", () => {
 
         expect(host.value).toBe("metric");
         host.value = "imperial";
-        expect(host.querySelector("span")!.textContent).toBe("imperial");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("imperial");
         expect(host.value).toBe("imperial");
     });
 

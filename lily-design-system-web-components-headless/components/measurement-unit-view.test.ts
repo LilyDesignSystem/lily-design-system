@@ -27,7 +27,15 @@ describe("MeasurementUnitView", () => {
     test("seeds the initial value as textContent", () => {
         const host = render('<lily-measurement-unit-view value="kg"></lily-measurement-unit-view>');
 
-        expect(host.querySelector("span")!.textContent).toBe("kg");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("kg");
     });
 
     test("label is optional and maps to aria-label when provided", () => {
@@ -35,7 +43,17 @@ describe("MeasurementUnitView", () => {
             '<lily-measurement-unit-view value="lb" label="Pounds"></lily-measurement-unit-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Pounds");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Pounds"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("omits aria-label when label is not provided", () => {
@@ -51,7 +69,15 @@ describe("MeasurementUnitView", () => {
 
         expect(host.value).toBe("kg");
         host.value = "cm";
-        expect(host.querySelector("span")!.textContent).toBe("cm");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("cm");
         expect(host.value).toBe("cm");
     });
 

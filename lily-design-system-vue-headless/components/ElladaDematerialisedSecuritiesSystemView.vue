@@ -9,7 +9,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -20,9 +20,11 @@ withDefaults(
 
 <template>
     <!-- ElladaDematerialisedSecuritiesSystemView.vue -->
-    <span
-        class="ellada-dematerialised-securities-system-view"
-        :aria-label="label"
+    <span class="ellada-dematerialised-securities-system-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

@@ -34,9 +34,17 @@ describe("FranceNumeroDIdentificationAuRepertoireView", () => {
             '<lily-france-numero-d-identification-au-repertoire-view label="Numéro d\'Identification au Répertoire"></lily-france-numero-d-identification-au-repertoire-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Numéro d'Identification au Répertoire",
-        );
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Numéro d'Identification au Répertoire"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -44,11 +52,27 @@ describe("FranceNumeroDIdentificationAuRepertoireView", () => {
             '<lily-france-numero-d-identification-au-repertoire-view label="ID" value="1 85 05 75 116 001 23"></lily-france-numero-d-identification-au-repertoire-view>',
         ) as unknown as FranceNumeroDIdentificationAuRepertoireView;
 
-        expect(host.querySelector("span")!.textContent).toBe("1 85 05 75 116 001 23");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("1 85 05 75 116 001 23");
         expect(host.value).toBe("1 85 05 75 116 001 23");
 
         host.value = "changed";
-        expect(host.querySelector("span")!.textContent).toBe("changed");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
     });
 });

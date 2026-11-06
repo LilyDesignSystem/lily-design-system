@@ -12,7 +12,7 @@ describe("SuomiHenkilotunnusView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Personal Identity Code");
+        const el = document.querySelector(".suomi-henkilotunnus-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("suomi-henkilotunnus-view");
     });
@@ -25,14 +25,19 @@ describe("SuomiHenkilotunnusView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Personal Identity Code");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".suomi-henkilotunnus-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Personal Identity Code" />);
 
-        const el = screen.getByLabelText("Personal Identity Code");
-        expect(el.getAttribute("aria-label")).toBe("Personal Identity Code");
+        const el = document.querySelector(".suomi-henkilotunnus-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Personal Identity Code"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

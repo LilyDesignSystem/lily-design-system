@@ -4,10 +4,9 @@
 // Format: 11 characters in the format DDMMYYCZZZQ: DDMMYY is the date of birth, C is the century sign (+, -, or A), ZZZ is an individual number (odd male, even female), Q is the checksum.
 //
 // Attributes:
-//   label — REQUIRED. Accessible name, via aria-label.
+//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
 //   value — the identifier string to display, as text content.
 //   ...rest — spread onto the <span>.
-//   role="text" — set on the <span> so the identifier announces as a single unit.
 //
 // References:
 //   - components/suomi-henkilotunnus-view/index.md (canonical contract)
@@ -19,6 +18,7 @@ const HANDLED = new Set(["label", "value"]);
 
 export class SuomiHenkilotunnusView extends HTMLElement {
     #span: HTMLSpanElement | null = null;
+    #text: Text | null = null;
 
     connectedCallback(): void {
         if (this.#span) return;
@@ -26,9 +26,14 @@ export class SuomiHenkilotunnusView extends HTMLElement {
         const span = document.createElement("span");
         span.className = rootClassName(this, "suomi-henkilotunnus-view");
         const label = this.getAttribute("label");
-        if (label !== null) span.setAttribute("aria-label", label);
-        span.setAttribute("role", "text");
-        span.textContent = this.getAttribute("value") ?? "";
+        if (label) {
+            const hidden = document.createElement("span");
+            hidden.className = "screen-reader-span";
+            hidden.textContent = `${label} `;
+            span.append(hidden);
+        }
+        this.#text = document.createTextNode(this.getAttribute("value") ?? "");
+        span.append(this.#text);
         passThroughAttributes(this, span, HANDLED);
 
         this.appendChild(span);
@@ -36,11 +41,11 @@ export class SuomiHenkilotunnusView extends HTMLElement {
     }
 
     get value(): string {
-        return this.#span?.textContent ?? this.getAttribute("value") ?? "";
+        return this.#text?.data ?? this.getAttribute("value") ?? "";
     }
 
     set value(v: string) {
-        if (this.#span) this.#span.textContent = v;
+        if (this.#text) this.#text.data = v;
         else this.setAttribute("value", v);
     }
 }

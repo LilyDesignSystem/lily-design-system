@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="hong-kong-identity-card-view"\n  aria-label="Hong Kong Identity Card Number"\n></span>';
+    '<span class="hong-kong-identity-card-view"\n  ><span class="screen-reader-span">Hong Kong Identity Card Number </span></span\n>';
 
 const meta = {
     title: "Headless/Hong Kong Identity Card View",

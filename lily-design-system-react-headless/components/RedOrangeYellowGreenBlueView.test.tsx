@@ -7,15 +7,16 @@ describe("RedOrangeYellowGreenBlueView", () => {
     test("renders a span element", () => {
         render(<Subject label="Status" />);
 
-        const el = screen.getByLabelText("Status");
+        const el = document.querySelector(".red-orange-yellow-green-blue-view") as HTMLElement;
         expect(el.tagName).toBe("SPAN");
     });
 
     test("has aria-label from label prop", () => {
         render(<Subject label="Status" />);
 
-        const el = screen.getByLabelText("Status");
-        expect(el.getAttribute("aria-label")).toBe("Status");
+        const el = document.querySelector(".red-orange-yellow-green-blue-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(`${"Status"} `);
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
     test("displays red status", () => {
@@ -26,8 +27,10 @@ describe("RedOrangeYellowGreenBlueView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Status");
-        expect(el.textContent).toBe("red");
+        const el = document.querySelector(".red-orange-yellow-green-blue-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("red");
     });
 
     test("displays orange status", () => {
@@ -38,8 +41,10 @@ describe("RedOrangeYellowGreenBlueView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Status");
-        expect(el.textContent).toBe("orange");
+        const el = document.querySelector(".red-orange-yellow-green-blue-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("orange");
     });
 
     test("displays yellow status", () => {
@@ -50,8 +55,10 @@ describe("RedOrangeYellowGreenBlueView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Status");
-        expect(el.textContent).toBe("yellow");
+        const el = document.querySelector(".red-orange-yellow-green-blue-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("yellow");
     });
 
     test("displays green status", () => {
@@ -62,8 +69,10 @@ describe("RedOrangeYellowGreenBlueView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Status");
-        expect(el.textContent).toBe("green");
+        const el = document.querySelector(".red-orange-yellow-green-blue-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("green");
     });
 
     test("displays blue status", () => {
@@ -74,15 +83,19 @@ describe("RedOrangeYellowGreenBlueView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Status");
-        expect(el.textContent).toBe("blue");
+        const el = document.querySelector(".red-orange-yellow-green-blue-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("blue");
     });
 
     test("defaults to empty string when no value provided", () => {
         render(<Subject label="Status" />);
 
-        const el = screen.getByLabelText("Status");
-        expect(el.textContent).toBe("");
+        const el = document.querySelector(".red-orange-yellow-green-blue-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("");
     });
 
     test("passes through additional HTML attributes", () => {

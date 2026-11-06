@@ -9,7 +9,7 @@ describe("ZhongguoJuminShenfenzhengHaomaView", () => {
             props: { label: "居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)");
+        const el = document.querySelector(".zhongguo-jumin-shenfenzheng-haoma-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("zhongguo-jumin-shenfenzheng-haoma-view");
     });
@@ -19,14 +19,19 @@ describe("ZhongguoJuminShenfenzhengHaomaView", () => {
             props: { label: "居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".zhongguo-jumin-shenfenzheng-haoma-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)" } });
 
-        const el = screen.getByLabelText("居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)");
-        expect(el.getAttribute("aria-label")).toBe("居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)");
+        const el = document.querySelector(".zhongguo-jumin-shenfenzheng-haoma-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

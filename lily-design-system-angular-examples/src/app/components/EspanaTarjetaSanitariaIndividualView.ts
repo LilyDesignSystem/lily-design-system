@@ -10,11 +10,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-espana-tarjeta-sanitaria-individual-view",
     standalone: true,
-    template: `<span class="espana-tarjeta-sanitaria-individual-view {{ className() }}" role="text" [attr.aria-label]="label() || null">{{ value() }}</span>`,
+    template: `<span class="espana-tarjeta-sanitaria-individual-view {{ className() }}">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}{{ value() }}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EspanaTarjetaSanitariaIndividualView {
-    /** Optional accessible label override (aria-label). */
+    /** Hidden text naming the value, for when no visible caption does. */
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");

@@ -82,7 +82,6 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>aria-label</code> -- provides the accessible name from the <code>label</code> prop so screen readers can announce the purpose of the displayed number</li>
       <li>Screen readers announce the label followed by the text content (the number value)</li>
     </ul>
     <h3>Keyboard</h3>
@@ -91,7 +90,7 @@
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>label</code>: string (required) -- accessible label for screen readers via <code>aria-label</code></li>
+      <li><code>label</code>: string (optional) — hidden text naming the value, in a <code>.screen-reader-span</code>. Leave it out when a visible caption names the value</li>
       <li><code>value</code>: string (default: <code>""</code>) -- the NHS number string to display</li>
       <li><code>...restProps</code>: any -- additional HTML attributes spread onto the <code>&lt;span&gt;</code> element</li>
     </ul>

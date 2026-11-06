@@ -9,7 +9,9 @@ describe("AsSaudiyahRaqmAlHuwiyahAlWataniyahView", () => {
             props: { label: "National Identification Number", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("National Identification Number");
+        const el = document.querySelector(
+            ".as-saudiyah-raqm-al-huwiyah-al-wataniyah-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("as-saudiyah-raqm-al-huwiyah-al-wataniyah-view");
     });
@@ -19,14 +21,23 @@ describe("AsSaudiyahRaqmAlHuwiyahAlWataniyahView", () => {
             props: { label: "National Identification Number", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("National Identification Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".as-saudiyah-raqm-al-huwiyah-al-wataniyah-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "National Identification Number" } });
 
-        const el = screen.getByLabelText("National Identification Number");
-        expect(el.getAttribute("aria-label")).toBe("National Identification Number");
+        const el = document.querySelector(
+            ".as-saudiyah-raqm-al-huwiyah-al-wataniyah-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"National Identification Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

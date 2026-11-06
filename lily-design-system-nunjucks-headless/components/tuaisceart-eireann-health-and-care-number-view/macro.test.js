@@ -37,7 +37,8 @@ describe("tuaisceart-eireann-health-and-care-number-view", () => {
             value: "4857773456",
             label: "H&C number",
         });
-        expect(document.querySelector("span").getAttribute("aria-label")).toBe("H&C number");
+        expect(document.querySelector(".screen-reader-span").textContent).toBe(`${"H&C number"} `);
+        expect(document.querySelector("span").hasAttribute("aria-label")).toBe(false);
     });
 
     it("contains no <style> or <script> tags", () => {

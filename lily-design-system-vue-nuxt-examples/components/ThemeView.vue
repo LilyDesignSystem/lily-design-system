@@ -10,7 +10,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, required. Accessible name for the display element via aria-label.
+//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
 //   value — string, required. The current theme name to display as text content.
 //   ...restProps — additional HTML attributes spread onto the <span>.
 //
@@ -25,7 +25,7 @@
 //   - None -- passive display element with no interactive behavior
 //
 // Accessibility:
-//   - aria-label={label} provides an accessible name describing what the displayed value represents
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 //
 // Internationalization:
 //   - The label prop accepts any translated string
@@ -40,7 +40,7 @@
 
 defineProps<{
     /** Accessible label. */
-    label: string;
+    label?: string;
     /** Theme value to display. */
     value: string;
 }>();
@@ -48,9 +48,11 @@ defineProps<{
 
 <template>
     <!-- ThemeView.vue -->
-    <span
-        class="theme-view"
-        :aria-label="label"
+    <span class="theme-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

@@ -31,15 +31,17 @@ describe("CeskoRodneCisloView", () => {
             '<lily-cesko-rodne-cislo-view label="Rodné Číslo"></lily-cesko-rodne-cislo-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Rodné Číslo");
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-cesko-rodne-cislo-view label="ID"></lily-cesko-rodne-cislo-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Rodné Číslo"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -47,11 +49,27 @@ describe("CeskoRodneCisloView", () => {
             '<lily-cesko-rodne-cislo-view label="ID" value="855323/1237"></lily-cesko-rodne-cislo-view>',
         ) as unknown as CeskoRodneCisloView;
 
-        expect(host.querySelector("span")!.textContent).toBe("855323/1237");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("855323/1237");
         expect(host.value).toBe("855323/1237");
 
         host.value = "changed";
-        expect(host.querySelector("span")!.textContent).toBe("changed");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
     });
 });

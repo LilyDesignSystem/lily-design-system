@@ -9,7 +9,7 @@ describe("HongKongIdentityCardView", () => {
             props: { label: "Hong Kong Identity Card Number", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Hong Kong Identity Card Number");
+        const el = document.querySelector(".hong-kong-identity-card-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("hong-kong-identity-card-view");
     });
@@ -19,14 +19,19 @@ describe("HongKongIdentityCardView", () => {
             props: { label: "Hong Kong Identity Card Number", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Hong Kong Identity Card Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".hong-kong-identity-card-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "Hong Kong Identity Card Number" } });
 
-        const el = screen.getByLabelText("Hong Kong Identity Card Number");
-        expect(el.getAttribute("aria-label")).toBe("Hong Kong Identity Card Number");
+        const el = document.querySelector(".hong-kong-identity-card-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Hong Kong Identity Card Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

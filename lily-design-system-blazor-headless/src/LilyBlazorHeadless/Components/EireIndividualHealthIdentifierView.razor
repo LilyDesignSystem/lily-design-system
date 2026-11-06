@@ -5,10 +5,10 @@
     a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier
 *@
 
-<span class="@($"eire-individual-health-identifier-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<span class="@($"eire-individual-health-identifier-view {CssClass}".Trim())" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@ChildContent</span>
 
 @code {
-    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string? Label { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

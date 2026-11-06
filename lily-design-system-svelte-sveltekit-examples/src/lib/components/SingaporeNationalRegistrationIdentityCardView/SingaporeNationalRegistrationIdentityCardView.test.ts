@@ -12,9 +12,9 @@ describe("SingaporeNationalRegistrationIdentityCardView", () => {
             },
         });
 
-        const el = screen.getByLabelText(
-            "National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)",
-        );
+        const el = document.querySelector(
+            ".singapore-national-registration-identity-card-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain(
             "singapore-national-registration-identity-card-view",
@@ -29,10 +29,12 @@ describe("SingaporeNationalRegistrationIdentityCardView", () => {
             },
         });
 
-        const el = screen.getByLabelText(
-            "National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)",
-        );
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".singapore-national-registration-identity-card-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
@@ -42,11 +44,12 @@ describe("SingaporeNationalRegistrationIdentityCardView", () => {
             },
         });
 
-        const el = screen.getByLabelText(
-            "National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)",
+        const el = document.querySelector(
+            ".singapore-national-registration-identity-card-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)"} `,
         );
-        expect(el.getAttribute("aria-label")).toBe(
-            "National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN)",
-        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

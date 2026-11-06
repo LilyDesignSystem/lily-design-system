@@ -12,7 +12,9 @@ describe("UnitedKingdomNationalHealthServiceNumberView", () => {
             />,
         );
 
-        const element = screen.getByLabelText("NHS Number");
+        const element = document.querySelector(
+            ".united-kingdom-national-health-service-number-view",
+        ) as HTMLElement;
         expect(element.tagName).toBe("SPAN");
     });
 
@@ -24,8 +26,15 @@ describe("UnitedKingdomNationalHealthServiceNumberView", () => {
             />,
         );
 
-        const element = screen.getByLabelText("NHS Number");
-        expect(element.textContent).toBe("123 456 7890");
+        const element = document.querySelector(
+            ".united-kingdom-national-health-service-number-view",
+        ) as HTMLElement;
+        expect(
+            element.textContent?.replace(
+                element.querySelector(".screen-reader-span")?.textContent ?? "",
+                "",
+            ),
+        ).toBe("123 456 7890");
     });
 
     test("has aria-label from label prop", () => {
@@ -36,15 +45,24 @@ describe("UnitedKingdomNationalHealthServiceNumberView", () => {
             />,
         );
 
-        const element = screen.getByLabelText("Patient NHS Number");
+        const element = document.querySelector(
+            ".united-kingdom-national-health-service-number-view",
+        ) as HTMLElement;
         expect(element).toBeTruthy();
     });
 
     test("defaults to empty string when value not provided", () => {
         render(<Subject label="NHS Number" />);
 
-        const element = screen.getByLabelText("NHS Number");
-        expect(element.textContent).toBe("");
+        const element = document.querySelector(
+            ".united-kingdom-national-health-service-number-view",
+        ) as HTMLElement;
+        expect(
+            element.textContent?.replace(
+                element.querySelector(".screen-reader-span")?.textContent ?? "",
+                "",
+            ),
+        ).toBe("");
     });
 
     test("passes through additional HTML attributes", () => {
@@ -69,7 +87,9 @@ describe("UnitedKingdomNationalHealthServiceNumberView", () => {
             />,
         );
 
-        const element = screen.getByLabelText("NHS Number");
+        const element = document.querySelector(
+            ".united-kingdom-national-health-service-number-view",
+        ) as HTMLElement;
         expect(element.getAttribute("id")).toBe("nhs-display");
     });
 });

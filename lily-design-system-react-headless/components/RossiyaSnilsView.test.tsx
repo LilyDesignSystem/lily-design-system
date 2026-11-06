@@ -12,7 +12,7 @@ describe("RossiyaSnilsView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("SNILS (СНИЛС)");
+        const el = document.querySelector(".rossiya-snils-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("rossiya-snils-view");
     });
@@ -25,14 +25,17 @@ describe("RossiyaSnilsView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("SNILS (СНИЛС)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".rossiya-snils-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="SNILS (СНИЛС)" />);
 
-        const el = screen.getByLabelText("SNILS (СНИЛС)");
-        expect(el.getAttribute("aria-label")).toBe("SNILS (СНИЛС)");
+        const el = document.querySelector(".rossiya-snils-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(`${"SNILS (СНИЛС)"} `);
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

@@ -31,7 +31,17 @@ describe("SlovenskoRodneCisloView", () => {
             '<lily-slovensko-rodne-cislo-view label="Rodné číslo (RČ)"></lily-slovensko-rodne-cislo-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Rodné číslo (RČ)");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Rodné číslo (RČ)"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as text content and exposes a live value property", () => {
@@ -40,18 +50,26 @@ describe("SlovenskoRodneCisloView", () => {
         ) as unknown as SlovenskoRodneCisloView;
 
         expect(host.value).toBe("9606234816");
-        expect(host.querySelector("span")!.textContent).toBe("9606234816");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("9606234816");
 
         host.value = "0055998273";
-        expect(host.querySelector("span")!.textContent).toBe("0055998273");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("0055998273");
         expect(host.value).toBe("0055998273");
-    });
-
-    test('sets role="text" so the identifier announces as a single unit', () => {
-        const host = render(
-            '<lily-slovensko-rodne-cislo-view label="Rodné číslo (RČ)"></lily-slovensko-rodne-cislo-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
     });
 });

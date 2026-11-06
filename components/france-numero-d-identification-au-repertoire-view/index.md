@@ -8,14 +8,14 @@ The NIR (also known as the Social Security number) is a 15-digit number printed 
 
 ## Implementation Notes
 
-- Renders a `<span>` with `aria-label`
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the value as text content
 - No formatting or validation; consumer provides the value pre-formatted
 - Companion to FranceNumeroDIdentificationAuRepertoireInput for the Input/View pattern
 
 ## Props
 
-- `label`: string (required) -- accessible label via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: "") -- the NIR string to display
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>`
 
@@ -41,8 +41,6 @@ The NIR (also known as the Social Security number) is a 15-digit number printed 
 
 ## ARIA
 
-- `aria-label={label}` -- provides accessible name for the displayed number
-
 ## When to Use
 
 - Use to display a French NIR / Social Security number in a formatted, read-only view.
@@ -66,7 +64,7 @@ The consumer provides all CSS styling. The component renders with a `.france-num
 ## Testing
 
 - Verify renders a `<span>` with the correct class
-- Verify `aria-label` is set from the label prop
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify value is displayed as text content
 - Verify pass-through attributes are applied
 

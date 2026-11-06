@@ -9,7 +9,9 @@ describe("ElladaDematerialisedSecuritiesSystemView", () => {
             props: { label: "Dematerialised Securities System", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Dematerialised Securities System");
+        const el = document.querySelector(
+            ".ellada-dematerialised-securities-system-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("ellada-dematerialised-securities-system-view");
     });
@@ -19,14 +21,23 @@ describe("ElladaDematerialisedSecuritiesSystemView", () => {
             props: { label: "Dematerialised Securities System", value: "test-value" },
         });
 
-        const el = screen.getByLabelText("Dematerialised Securities System");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".ellada-dematerialised-securities-system-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(Subject, { props: { label: "Dematerialised Securities System" } });
 
-        const el = screen.getByLabelText("Dematerialised Securities System");
-        expect(el.getAttribute("aria-label")).toBe("Dematerialised Securities System");
+        const el = document.querySelector(
+            ".ellada-dematerialised-securities-system-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Dematerialised Securities System"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

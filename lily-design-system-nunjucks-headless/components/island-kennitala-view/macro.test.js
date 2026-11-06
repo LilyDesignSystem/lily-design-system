@@ -16,7 +16,8 @@ describe("island-kennitala-view", () => {
 
     it("sets aria-label from the label param", () => {
         const { document } = render("island-kennitala-view", { value: "v", label: "lbl" });
-        expect(document.querySelector("span").getAttribute("aria-label")).toBe("lbl");
+        expect(document.querySelector(".screen-reader-span").textContent).toBe(`${"lbl"} `);
+        expect(document.querySelector("span").hasAttribute("aria-label")).toBe(false);
     });
 
     it("appends params.classes", () => {

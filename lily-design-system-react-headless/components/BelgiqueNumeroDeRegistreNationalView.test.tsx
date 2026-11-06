@@ -12,7 +12,9 @@ describe("BelgiqueNumeroDeRegistreNationalView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("National Register Number");
+        const el = document.querySelector(
+            ".belgique-numero-de-registre-national-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("belgique-numero-de-registre-national-view");
     });
@@ -25,14 +27,23 @@ describe("BelgiqueNumeroDeRegistreNationalView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("National Register Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".belgique-numero-de-registre-national-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="National Register Number" />);
 
-        const el = screen.getByLabelText("National Register Number");
-        expect(el.getAttribute("aria-label")).toBe("National Register Number");
+        const el = document.querySelector(
+            ".belgique-numero-de-registre-national-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"National Register Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

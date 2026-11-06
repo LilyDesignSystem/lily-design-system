@@ -12,7 +12,7 @@ describe("MaltaPassportNumberView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Malta Passport Number");
+        const el = document.querySelector(".malta-passport-number-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("malta-passport-number-view");
     });
@@ -25,14 +25,19 @@ describe("MaltaPassportNumberView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Malta Passport Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".malta-passport-number-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Malta Passport Number" />);
 
-        const el = screen.getByLabelText("Malta Passport Number");
-        expect(el.getAttribute("aria-label")).toBe("Malta Passport Number");
+        const el = document.querySelector(".malta-passport-number-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Malta Passport Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

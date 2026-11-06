@@ -9,7 +9,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -20,9 +20,11 @@ withDefaults(
 
 <template>
     <!-- NederlandBurgerserviceNummerView.vue -->
-    <span
-        class="nederland-burgerservice-nummer-view"
-        :aria-label="label"
+    <span class="nederland-burgerservice-nummer-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

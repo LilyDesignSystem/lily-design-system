@@ -5,10 +5,10 @@
     a read-only display of Romania's Cod Numeric Personal (CNP)
 *@
 
-<span class="@($"romania-cod-numeric-personal-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<span class="@($"romania-cod-numeric-personal-view {CssClass}".Trim())" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@ChildContent</span>
 
 @code {
-    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string? Label { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

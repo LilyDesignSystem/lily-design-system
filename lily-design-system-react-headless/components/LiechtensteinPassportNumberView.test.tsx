@@ -12,7 +12,7 @@ describe("LiechtensteinPassportNumberView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Liechtenstein Passport Number");
+        const el = document.querySelector(".liechtenstein-passport-number-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("liechtenstein-passport-number-view");
     });
@@ -25,14 +25,19 @@ describe("LiechtensteinPassportNumberView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Liechtenstein Passport Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".liechtenstein-passport-number-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Liechtenstein Passport Number" />);
 
-        const el = screen.getByLabelText("Liechtenstein Passport Number");
-        expect(el.getAttribute("aria-label")).toBe("Liechtenstein Passport Number");
+        const el = document.querySelector(".liechtenstein-passport-number-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Liechtenstein Passport Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

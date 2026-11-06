@@ -8,7 +8,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, required. Accessible label for screen readers via aria-label.
+//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
 //   value — string, default "". The ROYGB status to display (e.g. "red", "orange", "yellow", "green", "blue").
 //   ...restProps — additional HTML attributes spread onto the <span>.
 //
@@ -26,7 +26,7 @@
 //   - None — this is a passive informational display, not an interactive element.
 //
 // Accessibility:
-//   - aria-label on the <span> for screen reader context
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 //   - Screen readers announce the label and displayed status value
 //   - WCAG 2.2 AAA: properly labeled for assistive technology
 //
@@ -46,7 +46,7 @@
 withDefaults(
     defineProps<{
         /** Accessible label for screen readers */
-        label: string;
+        label?: string;
         /** The ROYGB status value to display */
         value?: string;
     }>(),
@@ -58,9 +58,11 @@ withDefaults(
 
 <template>
     <!-- RedOrangeYellowGreenBlueView: displays a ROYGB status value as text -->
-    <span
-        class="red-orange-yellow-green-blue-view"
-        :aria-label="label"
+    <span class="red-orange-yellow-green-blue-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

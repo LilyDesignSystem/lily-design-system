@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="viet-nam-can-cuoc-cong-dan-view"\n  aria-label="Citizen Identification Number (CCCD)"\n></span>';
+    '<span class="viet-nam-can-cuoc-cong-dan-view"\n  ><span class="screen-reader-span">Citizen Identification Number (CCCD) </span></span\n>';
 
 const meta = {
     title: "Headless/Viet Nam Can Cuoc Cong Dan View",

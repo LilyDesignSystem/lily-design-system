@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="belgique-numero-de-registre-national-view"\n  aria-label="National Register Number"\n></span>';
+    '<span class="belgique-numero-de-registre-national-view"\n  ><span class="screen-reader-span">National Register Number </span></span\n>';
 
 const meta = {
     title: "Headless/Belgique Numero De Registre National View",

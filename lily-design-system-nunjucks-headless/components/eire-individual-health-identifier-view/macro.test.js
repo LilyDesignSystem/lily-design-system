@@ -29,7 +29,8 @@ describe("eire-individual-health-identifier-view", () => {
             value: "1234567",
             label: "IHI",
         });
-        expect(document.querySelector("span").getAttribute("aria-label")).toBe("IHI");
+        expect(document.querySelector(".screen-reader-span").textContent).toBe(`${"IHI"} `);
+        expect(document.querySelector("span").hasAttribute("aria-label")).toBe(false);
     });
 
     it("contains no <style> or <script> tags", () => {

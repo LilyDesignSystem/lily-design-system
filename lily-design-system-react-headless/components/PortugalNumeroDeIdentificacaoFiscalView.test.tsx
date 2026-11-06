@@ -12,7 +12,9 @@ describe("PortugalNumeroDeIdentificacaoFiscalView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Tax Identification Number");
+        const el = document.querySelector(
+            ".portugal-numero-de-identificacao-fiscal-view",
+        ) as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("portugal-numero-de-identificacao-fiscal-view");
     });
@@ -25,14 +27,23 @@ describe("PortugalNumeroDeIdentificacaoFiscalView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Tax Identification Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(
+            ".portugal-numero-de-identificacao-fiscal-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Tax Identification Number" />);
 
-        const el = screen.getByLabelText("Tax Identification Number");
-        expect(el.getAttribute("aria-label")).toBe("Tax Identification Number");
+        const el = document.querySelector(
+            ".portugal-numero-de-identificacao-fiscal-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Tax Identification Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

@@ -5,13 +5,12 @@
   HTML tag: <span>
   CSS class: luxembourg-matricule-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Format: Thirteen digits, YYYYMMDDNNNCC: date of birth, sequence number, a Luhn check digit, then a Verhoeff check digit.
   Usage:
-    <span class="luxembourg-matricule-view" aria-label="Numéro d'Identification Nationale (Matricule)">value-here</span>
+    <span class="luxembourg-matricule-view">value-here</span>
 -->
 
-<span
-  class="luxembourg-matricule-view"
-  aria-label="Numéro d'Identification Nationale (Matricule)"
-></span>
+<span class="luxembourg-matricule-view"
+  ><span class="screen-reader-span">Numéro d'Identification Nationale (Matricule) </span></span
+>

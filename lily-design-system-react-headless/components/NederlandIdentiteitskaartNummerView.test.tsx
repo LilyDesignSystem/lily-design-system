@@ -12,7 +12,7 @@ describe("NederlandIdentiteitskaartNummerView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Dutch National Identity Card Number");
+        const el = document.querySelector(".nederland-identiteitskaart-nummer-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("nederland-identiteitskaart-nummer-view");
     });
@@ -25,14 +25,19 @@ describe("NederlandIdentiteitskaartNummerView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Dutch National Identity Card Number");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".nederland-identiteitskaart-nummer-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Dutch National Identity Card Number" />);
 
-        const el = screen.getByLabelText("Dutch National Identity Card Number");
-        expect(el.getAttribute("aria-label")).toBe("Dutch National Identity Card Number");
+        const el = document.querySelector(".nederland-identiteitskaart-nummer-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Dutch National Identity Card Number"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

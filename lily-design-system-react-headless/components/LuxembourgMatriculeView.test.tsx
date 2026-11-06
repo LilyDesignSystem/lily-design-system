@@ -12,7 +12,7 @@ describe("LuxembourgMatriculeView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Matricule National");
+        const el = document.querySelector(".luxembourg-matricule-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("luxembourg-matricule-view");
     });
@@ -25,14 +25,19 @@ describe("LuxembourgMatriculeView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Matricule National");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".luxembourg-matricule-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Matricule National" />);
 
-        const el = screen.getByLabelText("Matricule National");
-        expect(el.getAttribute("aria-label")).toBe("Matricule National");
+        const el = document.querySelector(".luxembourg-matricule-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Matricule National"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

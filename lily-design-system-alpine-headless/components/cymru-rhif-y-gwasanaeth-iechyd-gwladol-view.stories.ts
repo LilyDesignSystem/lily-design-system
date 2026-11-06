@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="cymru-rhif-y-gwasanaeth-iechyd-gwladol-view"\n  aria-label="National Health Service Number"\n></span>';
+    '<span class="cymru-rhif-y-gwasanaeth-iechyd-gwladol-view"\n  ><span class="screen-reader-span">National Health Service Number </span></span\n>';
 
 const meta = {
     title: "Headless/Cymru Rhif YGwasanaeth Iechyd Gwladol View",

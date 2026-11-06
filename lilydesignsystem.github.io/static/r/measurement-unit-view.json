@@ -8,15 +8,13 @@
   "subClasses": [],
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
-  "aria": [
-    "`aria-label` -- optionally set from the `label` prop to provide additional context beyond the displayed unit abbreviation"
-  ],
+  "aria": [],
   "keyboard": [
     "No keyboard interactions — this is a passive element"
   ],
   "props": [
     "`value`: string (required) -- the measurement unit to display",
-    "`label`: string (optional) -- accessible name via aria-label for additional context"
+    "`label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value"
   ],
   "related": [
     "measurement-unit-input"

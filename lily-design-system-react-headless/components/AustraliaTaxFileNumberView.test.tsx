@@ -12,7 +12,7 @@ describe("AustraliaTaxFileNumberView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Tax File Number (TFN)");
+        const el = document.querySelector(".australia-tax-file-number-view") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("australia-tax-file-number-view");
     });
@@ -25,14 +25,19 @@ describe("AustraliaTaxFileNumberView", () => {
             />,
         );
 
-        const el = screen.getByLabelText("Tax File Number (TFN)");
-        expect(el.textContent).toBe("test-value");
+        const el = document.querySelector(".australia-tax-file-number-view") as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
     });
 
     test("has aria-label from the label prop", () => {
         render(<Subject label="Tax File Number (TFN)" />);
 
-        const el = screen.getByLabelText("Tax File Number (TFN)");
-        expect(el.getAttribute("aria-label")).toBe("Tax File Number (TFN)");
+        const el = document.querySelector(".australia-tax-file-number-view") as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Tax File Number (TFN)"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 });

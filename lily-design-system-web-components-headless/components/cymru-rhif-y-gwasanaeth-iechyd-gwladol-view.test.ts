@@ -34,17 +34,17 @@ describe("CymruRhifYGwasanaethIechydGwladolView", () => {
             '<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-view label="Rhif y Gwasanaeth Iechyd Gwladol"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-view>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Rhif y Gwasanaeth Iechyd Gwladol",
-        );
-    });
-
-    test("has role=text so the identifier announces as a single unit", () => {
-        const host = render(
-            '<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-view label="ID"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-view>',
-        );
-
-        expect(host.querySelector("span")!.getAttribute("role")).toBe("text");
+        expect(
+            host
+                .querySelector("span .screen-reader-span")
+                ?.textContent?.replace(
+                    host
+                        .querySelector("span .screen-reader-span")
+                        ?.querySelector(".screen-reader-span")?.textContent ?? "",
+                    "",
+                ),
+        ).toBe(`${"Rhif y Gwasanaeth Iechyd Gwladol"} `);
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("seeds the initial value as textContent and exposes a live value property", () => {
@@ -52,11 +52,27 @@ describe("CymruRhifYGwasanaethIechydGwladolView", () => {
             '<lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-view label="ID" value="943 476 5919"></lily-cymru-rhif-y-gwasanaeth-iechyd-gwladol-view>',
         ) as unknown as CymruRhifYGwasanaethIechydGwladolView;
 
-        expect(host.querySelector("span")!.textContent).toBe("943 476 5919");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("943 476 5919");
         expect(host.value).toBe("943 476 5919");
 
         host.value = "changed";
-        expect(host.querySelector("span")!.textContent).toBe("changed");
+        expect(
+            host
+                .querySelector("span")!
+                .textContent?.replace(
+                    host.querySelector("span")!.querySelector(".screen-reader-span")?.textContent ??
+                        "",
+                    "",
+                ),
+        ).toBe("changed");
         expect(host.value).toBe("changed");
     });
 });

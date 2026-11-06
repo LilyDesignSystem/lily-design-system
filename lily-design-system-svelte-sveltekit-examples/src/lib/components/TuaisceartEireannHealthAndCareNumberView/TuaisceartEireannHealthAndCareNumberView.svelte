@@ -6,7 +6,7 @@
     //
     // Props:
     //   className — string, optional.
-    //   label — string, required. Accessible label via aria-label.
+    //   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
     //   value — string, default "".
     //   ...restProps — spread onto the <span>.
     //
@@ -23,7 +23,7 @@
         value = "",
         ...restProps
     }: {
-        label: string;
+        label?: string;
         value?: string;
         [key: string]: unknown;
     } = $props();
@@ -32,6 +32,6 @@
 <!-- TuaisceartEireannHealthAndCareNumberView.svelte -->
 <span
     class={`tuaisceart-eireann-health-and-care-number-view ${className}`}
-    aria-label={label}
-    {...restProps}>{value}</span
+    {...restProps}
+    >{#if label}<span class="screen-reader-span">{`${label} `}</span>{/if}{value}</span
 >

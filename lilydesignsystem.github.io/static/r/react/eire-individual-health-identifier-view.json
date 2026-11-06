@@ -8,7 +8,7 @@
   "files": [
     {
       "path": "lily-design-system-react-headless/components/EireIndividualHealthIdentifierView.tsx",
-      "content": "import React from \"react\";\n\n// EireIndividualHealthIdentifierView component\n//\n// A headless display for an Eire IHI in read-only format.\n\nexport interface EireIndividualHealthIdentifierViewProps {\n    className?: string;\n    label: string;\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function EireIndividualHealthIdentifierView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: EireIndividualHealthIdentifierViewProps) {\n    return (\n        <span\n            className={`eire-individual-health-identifier-view ${className}`}\n            aria-label={label}\n            {...restProps}\n        >\n            {value}\n        </span>\n    );\n}\n",
+      "content": "import React from \"react\";\n\n// EireIndividualHealthIdentifierView component\n//\n// A headless display for an Eire IHI in read-only format.\n\nexport interface EireIndividualHealthIdentifierViewProps {\n    className?: string;\n    label?: string;\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function EireIndividualHealthIdentifierView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: EireIndividualHealthIdentifierViewProps) {\n    return (\n        <span\n            className={`eire-individual-health-identifier-view ${className}`}\n            {...restProps}\n        >\n            {label ? <span className=\"screen-reader-span\">{`${label} `}</span> : null}\n            {value}\n        </span>\n    );\n}\n",
       "type": "registry:component",
       "target": "@components/lily/EireIndividualHealthIdentifierView.tsx"
     }

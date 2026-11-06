@@ -9,7 +9,7 @@
 
 withDefaults(
     defineProps<{
-        label: string;
+        label?: string;
         value?: string;
     }>(),
     {
@@ -20,9 +20,11 @@ withDefaults(
 
 <template>
     <!-- EspanaCodigoDeIdentificacionFiscalView.vue -->
-    <span
-        class="espana-codigo-de-identificacion-fiscal-view"
-        :aria-label="label"
+    <span class="espana-codigo-de-identificacion-fiscal-view"
+        ><span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
         >{{ value }}</span
     >
 </template>

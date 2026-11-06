@@ -5,11 +5,10 @@
   HTML tag: <span>
   CSS class: schweiz-ahv-nummer-view
   Keyboard: None (passive element)
-  Accessibility: aria-label for accessible name
+  Accessibility: a visible caption names the value, or the screen-reader-span does. A plain span cannot take aria-label
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<span
-  class="schweiz-ahv-nummer-view"
-  aria-label="AHV-Nummer / Numéro AVS"
-></span>
+<span class="schweiz-ahv-nummer-view"
+  ><span class="screen-reader-span">AHV-Nummer / Numéro AVS </span></span
+>

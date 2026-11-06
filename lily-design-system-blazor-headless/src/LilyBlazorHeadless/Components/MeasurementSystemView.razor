@@ -5,7 +5,7 @@
     a read-only display of a measurement system
 *@
 
-<span class="@($"measurement-system-view {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<span class="@($"measurement-system-view {CssClass}".Trim())" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@ChildContent</span>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
