@@ -8,7 +8,7 @@ This headless component renders as a `<span>` element with an accessible label, 
 
 ## Implementation Notes
 
-- Renders as a `<span>` element with `aria-label` for accessible naming
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the NPS score value as inline text content
 - Read-only display component, not interactive
 - Uses props for prop destructuring with rest props spread
@@ -18,7 +18,7 @@ This headless component renders as a `<span>` element with an accessible label, 
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: `""`) -- the NPS score to display
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>` element
 
@@ -50,8 +50,6 @@ In an analytics dashboard:
 
 ## ARIA
 
-- `aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the context of the displayed score
-
 ## When to Use
 
 - Use to display a previously captured NPS score in dashboards, reports, or detail views.
@@ -74,7 +72,7 @@ The consumer provides all CSS styling. The component renders with a `.net-promot
 ## Testing
 
 - Verify the component renders a `<div>` element with class `net-promoter-score-view`
-- Verify aria-label`-- provides the accessible name from the`label` prop so screen readers can announce the context of the displayed score
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
 

@@ -10,7 +10,7 @@ The component supports an optional `aria-label` for additional accessible contex
 
 - Renders as a `<span>` element displaying the measurement value as text content
 - A measurement instance is a specific measured value (e.g., "72 kg", "98.6 F", "120/80 mmHg")
-- Optional `label` prop maps to `aria-label` for additional accessible context
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Text content is inherently accessible to screen readers
 - Spreads `...restProps` on the root `<span>` element for consumer customization
 - No hardcoded user-facing strings; all text comes through props
@@ -18,7 +18,7 @@ The component supports an optional `aria-label` for additional accessible contex
 ## Props
 
 - `value`: string (required) -- the measurement instance value to display
-- `label`: string (optional) -- accessible name via aria-label for additional context
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 
 ## Usage
 
@@ -55,8 +55,6 @@ None -- this is a display-only component.
 
 ## ARIA
 
-- `aria-label` -- optionally set from the `label` prop to provide additional context beyond the displayed value
-
 ## When to Use
 
 - Use to display a measurement value and unit in read-only format.
@@ -78,7 +76,7 @@ The consumer provides all CSS styling. The component renders with a `.measuremen
 ## Testing
 
 - Verify the component renders a `<div>` element with class `measurement-instance-view`
-- Verify aria-label`-- optionally set from the`label` prop to provide additional context beyond the displayed value
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify pass-through attributes are applied
 
 ## Advice

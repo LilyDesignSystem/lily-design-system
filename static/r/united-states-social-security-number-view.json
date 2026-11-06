@@ -9,14 +9,13 @@
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "`aria-label` -- provides the accessible name from the `label` prop so screen readers can announce the purpose of the displayed number",
     "Screen readers announce the label followed by the text content (the number value)"
   ],
   "keyboard": [
     "None -- this is a passive display-only component"
   ],
   "props": [
-    "`label`: string (required) -- accessible label for screen readers via `aria-label`",
+    "`label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value",
     "`value`: string (default: `\"\"`) -- the SSN string to display (e.g., \"123-45-6789\")",
     "`...restProps`: any -- additional HTML attributes spread onto the `<span>` element"
   ],

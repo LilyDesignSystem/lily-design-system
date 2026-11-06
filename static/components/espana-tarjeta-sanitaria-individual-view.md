@@ -6,14 +6,14 @@ EspanaTarjetaSanitariaIndividualView is a read-only display of a España Tarjeta
 
 ## Implementation Notes
 
-- Renders a `<span>` with `aria-label`
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the value as text content
 - No formatting or validation; consumer provides the value pre-formatted
 - Companion to EspanaTarjetaSanitariaIndividualInput for the Input/View pattern
 
 ## Props
 
-- `label`: string (required) -- accessible label via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: "") -- the TSI string to display
 - `...restProps`: any -- additional HTML attributes spread onto the `<span>`
 
@@ -39,8 +39,6 @@ EspanaTarjetaSanitariaIndividualView is a read-only display of a España Tarjeta
 
 ## ARIA
 
-- `aria-label={label}` -- provides accessible name for the displayed identifier
-
 ## When to Use
 
 - Use to display a Spanish TSI / CIP-SNS healthcare identifier in a formatted, read-only view.
@@ -64,7 +62,7 @@ The consumer provides all CSS styling. The component renders with a `.espana-tar
 ## Testing
 
 - Verify renders a `<span>` with the correct class
-- Verify `aria-label` is set from the label prop
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify value is displayed as text content
 
 ## Domain Knowledge

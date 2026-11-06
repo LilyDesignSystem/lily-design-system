@@ -6,13 +6,13 @@ TuaisceartEireannHealthAndCareNumberView is a read-only display of a Tuaisceart 
 
 ## Implementation Notes
 
-- Renders a `<span>` with `aria-label`
+- No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Displays the value as text content
 - Companion to TuaisceartEireannHealthAndCareNumberInput
 
 ## Props
 
-- `label`: string (required) -- accessible label via `aria-label`
+- `label`: string (optional) — hidden text naming the value, in a `.screen-reader-span`. Leave it out when a visible caption names the value
 - `value`: string (default: "") -- the H&C Number to display
 - `...restProps`: any -- spread onto the `<span>`
 
@@ -38,8 +38,6 @@ TuaisceartEireannHealthAndCareNumberView is a read-only display of a Tuaisceart 
 
 ## ARIA
 
-- `aria-label={label}` -- provides accessible name
-
 ## When to Use
 
 - Use to display a Tuaisceart Eireann Health and Care (H&C) Number in a formatted, read-only view.
@@ -62,7 +60,7 @@ Consumer provides all CSS. Class: `.tuaisceart-eireann-health-and-care-number-vi
 
 ## Testing
 
-- Verify renders `<span>` with correct class and aria-label
+- Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify value displayed as text content
 
 ## Domain Knowledge

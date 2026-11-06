@@ -3,7 +3,7 @@
   const usage: string = "";
   const rest: string = "";
   // BEGIN auto-generated component example consts
-  const demoHtml: string = "<span class=\"kypros-national-passport-number-view\" aria-label=\"a read-only display of Kypros's National Passport Number\">KyprosNationalPassportNumberView</span>";
+  const demoHtml: string = "<span class=\"kypros-national-passport-number-view\">KyprosNationalPassportNumberView</span>";
   const svelteSource: string = "// In your Svelte component:\nimport KyprosNationalPassportNumberView from \"lily-design-system-svelte-headless/components/KyprosNationalPassportNumberView/KyprosNationalPassportNumberView.svelte\";\n\n<KyprosNationalPassportNumberView label=\"Label\" value=\"Sample value\" />\n";
   const usageCode: string = "<SummaryList>\n  <SummaryListItem term=\"National Passport Number\">\n    <KyprosNationalPassportNumberView value=\"{value}\" />\n  </SummaryListItem>\n</SummaryList>\n";
   const variants: { title: string; html: string }[] = [];
@@ -82,7 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>aria-label</code> provides accessible name from label prop</li>
+      <li>No ARIA. A plain <code>&lt;span&gt;</code> cannot be named: <code>aria-label</code> is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional <code>label</code> renders as hidden text</li>
       <li><code>role="text"</code> so the identifier announces as a single unit</li>
     </ul>
     <h3>Keyboard</h3>
@@ -92,7 +92,7 @@
     <h3>Props</h3>
     <ul>
       <li><code>value</code>: string (required) — the identifier to display</li>
-      <li><code>label</code>: string (optional) — accessible name override via <code>aria-label</code></li>
+      <li><code>label</code>: string (optional) — hidden text naming the value, in a <code>.screen-reader-span</code>. Leave it out when a visible caption names the value</li>
       <li><code>...restProps</code>: any additional HTML attributes spread onto the root</li>
     </ul>
 </section>
