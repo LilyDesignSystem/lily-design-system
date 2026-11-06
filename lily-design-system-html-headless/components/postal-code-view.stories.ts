@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<span
   class="postal-code-view"
-  aria-label=""
 >
   <!-- Consumer provides text content -->
 </span>`;

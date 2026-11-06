@@ -19,4 +19,12 @@ describe("Affix", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(Affix);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".affix");
+        expect(el.hasAttribute("aria-label")).toBe(false);
+        expect(el.hasAttribute("role")).toBe(false);
+    });
 });

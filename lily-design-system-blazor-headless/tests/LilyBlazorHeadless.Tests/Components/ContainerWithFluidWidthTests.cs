@@ -34,4 +34,11 @@ public class ContainerWithFluidWidthTests : TestContext
         var root = cut.Find(".container-with-fluid-width");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<ContainerWithFluidWidth>();
+        Assert.False(cut.Find(".container-with-fluid-width").HasAttribute("aria-label"));
+    }
 }

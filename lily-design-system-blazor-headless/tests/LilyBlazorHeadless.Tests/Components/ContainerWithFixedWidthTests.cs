@@ -34,4 +34,11 @@ public class ContainerWithFixedWidthTests : TestContext
         var root = cut.Find(".container-with-fixed-width");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<ContainerWithFixedWidth>();
+        Assert.False(cut.Find(".container-with-fixed-width").HasAttribute("aria-label"));
+    }
 }

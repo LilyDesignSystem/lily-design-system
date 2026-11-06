@@ -44,4 +44,12 @@ describe("Grid", () => {
         expect(s).toContain("min(120px, 100%)");
         expect(s).not.toContain("repeat(3,");
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(Grid);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".grid");
+        expect(el.hasAttribute("aria-label")).toBe(false);
+        expect(el.hasAttribute("role")).toBe(false);
+    });
 });

@@ -34,4 +34,11 @@ public class FlexStackTests : TestContext
         var root = cut.Find(".flex-stack");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<FlexStack>();
+        Assert.False(cut.Find(".flex-stack").HasAttribute("aria-label"));
+    }
 }

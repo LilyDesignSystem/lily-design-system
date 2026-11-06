@@ -22,7 +22,6 @@ exceed a specific breakpoint.
 - `text` — string. Plain text content (escaped).
 - `html` — string. Raw HTML content (rendered via `| safe`).
 - `maxWidth` — string. Max width CSS value. Default `"1200px"`.
-- `label` — string. Optional `aria-label`.
 - `id` — string.
 - `classes` — string. Consumer-provided extra CSS classes.
 - `attributes` — object. Extra HTML attributes as key/value pairs.

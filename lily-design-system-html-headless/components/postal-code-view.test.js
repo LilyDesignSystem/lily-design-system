@@ -15,9 +15,8 @@ describe("PostalCodeView", function () {
         expect(className).toContain("postal-code-view");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not have an aria-label attribute", async function () {
         const el = await $("span.postal-code-view");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

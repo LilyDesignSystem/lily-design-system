@@ -17,7 +17,6 @@
   Params:
     text          string   Plain text content (escaped).
     html          string   Raw HTML content (rendered via `| safe`).
-    label         string   Optional aria-label (rare for affix).
     offsetTop     number   Distance from top edge in px when affixed.
     offsetBottom  number   Distance from bottom edge in px when affixed.
     classes       string   Consumer-provided extra CSS classes.
@@ -43,7 +42,6 @@
   style="{{ styleString }}"
   {%- if p.offsetTop !== undefined and p.offsetTop !== null %} data-offset-top="{{ p.offsetTop }}"{% endif %}
   {%- if p.offsetBottom !== undefined and p.offsetBottom !== null %} data-offset-bottom="{{ p.offsetBottom }}"{% endif %}
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
   {%- if p.html -%}{{ p.html | safe }}

@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-flex-stack",
     standalone: true,
-    template: `<div class="flex-stack {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="flex-stack {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlexStack {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

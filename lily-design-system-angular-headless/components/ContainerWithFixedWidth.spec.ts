@@ -19,4 +19,12 @@ describe("ContainerWithFixedWidth", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(ContainerWithFixedWidth);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".container-with-fixed-width");
+        expect(el.hasAttribute("aria-label")).toBe(false);
+        expect(el.hasAttribute("role")).toBe(false);
+    });
 });

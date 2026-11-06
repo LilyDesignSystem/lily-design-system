@@ -79,4 +79,9 @@ describe("grid", () => {
             false,
         );
     });
+
+    it("never sets aria-label", () => {
+        const { document } = render("grid", { label: "Ignored" }, "x");
+        expect(document.querySelector(".grid").hasAttribute("aria-label")).toBe(false);
+    });
 });

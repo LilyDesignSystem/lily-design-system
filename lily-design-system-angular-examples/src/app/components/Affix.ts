@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-affix",
     standalone: true,
-    template: `<div class="affix {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="affix {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Affix {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

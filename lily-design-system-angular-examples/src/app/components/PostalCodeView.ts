@@ -10,12 +10,10 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-postal-code-view",
     standalone: true,
-    template: `<span class="postal-code-view {{ className() }}" role="text" [attr.aria-label]="label() || null">{{ value() }}</span>`,
+    template: `<span class="postal-code-view {{ className() }}">{{ value() }}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostalCodeView {
-    /** Optional accessible label override (aria-label). */
-    readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
     /** The value to display read-only. */

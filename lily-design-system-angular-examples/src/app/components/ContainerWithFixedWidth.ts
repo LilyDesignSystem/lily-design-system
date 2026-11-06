@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-container-with-fixed-width",
     standalone: true,
-    template: `<div class="container-with-fixed-width {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="container-with-fixed-width {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContainerWithFixedWidth {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

@@ -19,14 +19,6 @@ describe("postal-code-view", () => {
         expect(document.querySelector("span").textContent.trim()).toBe("<X>");
     });
 
-    it("sets aria-label from params.label", () => {
-        const { document } = render("postal-code-view", {
-            value: "SW1A 1AA",
-            label: "Postcode",
-        });
-        expect(document.querySelector("span").getAttribute("aria-label")).toBe("Postcode");
-    });
-
     it("appends params.classes", () => {
         const { document } = render("postal-code-view", {
             value: "SW1A 1AA",
@@ -40,5 +32,14 @@ describe("postal-code-view", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
         expect(html).not.toContain("style=");
+    });
+
+    it("never sets aria-label", () => {
+        const { document } = render(
+            "postal-code-view",
+            { label: "Ignored", value: "SW1A 1AA" },
+            "x",
+        );
+        expect(document.querySelector(".postal-code-view").hasAttribute("aria-label")).toBe(false);
     });
 });

@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-container-with-fluid-width",
     standalone: true,
-    template: `<div class="container-with-fluid-width {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="container-with-fluid-width {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContainerWithFluidWidth {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

@@ -34,4 +34,11 @@ public class AffixTests : TestContext
         var root = cut.Find(".affix");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<Affix>();
+        Assert.False(cut.Find(".affix").HasAttribute("aria-label"));
+    }
 }

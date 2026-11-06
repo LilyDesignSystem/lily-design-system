@@ -62,4 +62,9 @@ describe("flex-stack", () => {
         const { html } = render("flex-stack", {});
         expect(html).not.toContain("<script");
     });
+
+    it("never sets aria-label", () => {
+        const { document } = render("flex-stack", { label: "Ignored" }, "x");
+        expect(document.querySelector(".flex-stack").hasAttribute("aria-label")).toBe(false);
+    });
 });

@@ -19,4 +19,13 @@ describe("PostalCodeView", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(PostalCodeView);
+        fixture.componentRef.setInput("value", "SW1A 1AA");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".postal-code-view");
+        expect(el.hasAttribute("aria-label")).toBe(false);
+        expect(el.hasAttribute("role")).toBe(false);
+    });
 });

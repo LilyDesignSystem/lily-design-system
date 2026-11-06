@@ -45,4 +45,11 @@ describe("container-with-fluid-width", () => {
         const { html } = render("container-with-fluid-width", {});
         expect(html).not.toContain("<script");
     });
+
+    it("never sets aria-label", () => {
+        const { document } = render("container-with-fluid-width", { label: "Ignored" }, "x");
+        expect(
+            document.querySelector(".container-with-fluid-width").hasAttribute("aria-label"),
+        ).toBe(false);
+    });
 });

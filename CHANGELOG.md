@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Seven more components lose a label their ports added — 2026-11-06
+
+- **Breaking:** `affix`, `container-with-fixed-width`, `container-with-fluid-width`, `flex-stack`, `grid`, `masonry` and `postal-code-view` lose `label` in Angular, Blazor and Nunjucks, and `aria-label` in the HTML `postal-code-view`, matching their contract and the Svelte, React, Vue and Web Components versions.
+- **Fixed:** Angular `postal-code-view` loses the invalid `role="text"`, and its contract no longer tells consumers to add `aria-label` to a `<span>`.
+- 77 of the 91 components that name a generic root are left (P25-T14).
+
 ## Seven ports get back the role they dropped — 2026-11-06
 
 - **Fixed:** `announcement-banner`, `badge`, `inset-text`, `medical-banner-box-for-advice`, `scroll-area`, `share-page` and `success-panel` render the role their Svelte component has in every catalog. Angular had dropped it on all seven, Nunjucks too, and HTML, React and Vue on some.

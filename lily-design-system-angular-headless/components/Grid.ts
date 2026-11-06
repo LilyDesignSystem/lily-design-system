@@ -10,11 +10,10 @@ import { ChangeDetectionStrategy, Component, computed, input } from "@angular/co
 @Component({
     selector: "lily-grid",
     standalone: true,
-    template: `<div class="grid {{ className() }}" [attr.aria-label]="label() || null" [attr.data-columns]="columns()" [attr.data-min-column-width]="minColumnWidth() || null" [style.display]="'grid'" [style.grid-template-columns]="gridTemplateColumns()" [style.gap]="gap()"><ng-content /></div>`,
+    template: `<div class="grid {{ className() }}" [attr.data-columns]="columns()" [attr.data-min-column-width]="minColumnWidth() || null" [style.display]="'grid'" [style.grid-template-columns]="gridTemplateColumns()" [style.gap]="gap()"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Grid {
-    readonly label = input<string>("");
     readonly className = input<string>("");
     /** Number of equal columns OR a custom grid-template-columns string. */
     readonly columns = input<number | string>(12);

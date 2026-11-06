@@ -23,7 +23,6 @@ columns. To keep individual cards intact, consumers should add
 - `html` — string. Raw HTML content (rendered via `| safe`).
 - `columns` — number. Number of columns. Default `3`.
 - `gap` — string. Gap CSS value. Default `"1rem"`.
-- `label` — string. Optional `aria-label`.
 - `id` — string.
 - `classes` — string. Consumer-provided extra CSS classes.
 - `attributes` — object. Extra HTML attributes as key/value pairs.

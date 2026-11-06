@@ -61,4 +61,9 @@ describe("affix", () => {
         const { html } = render("affix", {}, "<p>x</p>");
         expect(html).not.toContain("<style");
     });
+
+    it("never sets aria-label", () => {
+        const { document } = render("affix", { label: "Ignored" }, "x");
+        expect(document.querySelector(".affix").hasAttribute("aria-label")).toBe(false);
+    });
 });

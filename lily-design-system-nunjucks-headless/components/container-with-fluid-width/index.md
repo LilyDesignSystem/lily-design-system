@@ -21,7 +21,6 @@ keeps content from touching the viewport edges.
 - `text` — string. Plain text content (escaped).
 - `html` — string. Raw HTML content (rendered via `| safe`).
 - `paddingInline` — string. Horizontal padding CSS value. Default `"1rem"`.
-- `label` — string. Optional `aria-label`.
 - `id` — string.
 - `classes` — string. Consumer-provided extra CSS classes.
 - `attributes` — object. Extra HTML attributes as key/value pairs.

@@ -34,4 +34,11 @@ public class PostalCodeViewTests : TestContext
         var root = cut.Find(".postal-code-view");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<PostalCodeView>();
+        Assert.False(cut.Find(".postal-code-view").HasAttribute("aria-label"));
+    }
 }

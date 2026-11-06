@@ -35,7 +35,7 @@
 
 - Renders a `<span>` that displays the postal/ZIP code as text content
 - No specific ARIA needed — the visible text provides the accessible name
-- Consumers may add `aria-label` for additional context (e.g. "Postal code: SW1A 1AA")
+- For more context, put it in visible text or a `screen-reader-span` beside the value, because a `<span>` cannot take `aria-label`
 
 ## Acceptance Criteria
 

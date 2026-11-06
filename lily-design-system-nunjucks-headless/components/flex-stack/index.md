@@ -26,7 +26,6 @@ writing custom CSS for simple cases.
 - `gap` — string. Gap CSS value. Default `"1rem"`.
 - `align` — string. Optional `align-items` value.
 - `justify` — string. Optional `justify-content` value.
-- `label` — string. Optional `aria-label`.
 - `id` — string.
 - `classes` — string. Consumer-provided extra CSS classes.
 - `attributes` — object. Extra HTML attributes as key/value pairs.
@@ -44,7 +43,7 @@ writing custom CSS for simple cases.
 
 ## Accessibility
 
-- Purely structural; no ARIA role unless `label` is supplied.
+- Purely structural; no ARIA role.
 
 ## When to use
 

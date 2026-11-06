@@ -27,7 +27,6 @@ because it does not change the meaning of the content it wraps.
   affixed. If both are omitted, defaults to `top: 0`.
 - `text` — string. Plain text content (escaped).
 - `html` — string. Raw HTML content (rendered via `| safe`).
-- `label` — string. Optional `aria-label`.
 - `classes` — string. Consumer-provided extra CSS classes.
 - `attributes` — object. Extra HTML attributes as key/value pairs.
 

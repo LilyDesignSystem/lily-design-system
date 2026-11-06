@@ -26,7 +26,6 @@ value is used verbatim — useful for custom track lists.
 - `minColumnWidth` — string. A CSS length. Fluid mode: the template is
   `repeat(auto-fit, minmax(min(W, 100%), 1fr))` and wins over `columns`.
 - `gap` — string. Gap CSS value. Default `"1rem"`.
-- `label` — string. Optional `aria-label`.
 - `id` — string.
 - `classes` — string. Consumer-provided extra CSS classes.
 - `attributes` — object. Extra HTML attributes as key/value pairs.
@@ -61,7 +60,7 @@ In a 120px container this is one column with no overflow (the `min(W, 100%)` cap
 
 ## Accessibility
 
-- Purely structural; no ARIA role unless `label` is supplied.
+- Purely structural; no ARIA role.
 
 ## When to use
 

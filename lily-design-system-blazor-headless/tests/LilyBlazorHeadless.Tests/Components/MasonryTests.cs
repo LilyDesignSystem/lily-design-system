@@ -34,4 +34,11 @@ public class MasonryTests : TestContext
         var root = cut.Find(".masonry");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<Masonry>();
+        Assert.False(cut.Find(".masonry").HasAttribute("aria-label"));
+    }
 }

@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-masonry",
     standalone: true,
-    template: `<div class="masonry {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="masonry {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Masonry {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

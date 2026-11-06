@@ -47,4 +47,9 @@ describe("masonry", () => {
         const { html } = render("masonry", {});
         expect(html).not.toContain("<script");
     });
+
+    it("never sets aria-label", () => {
+        const { document } = render("masonry", { label: "Ignored" }, "x");
+        expect(document.querySelector(".masonry").hasAttribute("aria-label")).toBe(false);
+    });
 });

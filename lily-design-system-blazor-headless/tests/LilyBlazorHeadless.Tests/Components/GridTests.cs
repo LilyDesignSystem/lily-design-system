@@ -64,4 +64,11 @@ public class GridTests : TestContext
         Assert.Contains("min(120px, 100%)", style);
         Assert.DoesNotContain("repeat(3,", style);
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<Grid>();
+        Assert.False(cut.Find(".grid").HasAttribute("aria-label"));
+    }
 }
