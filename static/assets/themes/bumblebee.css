@@ -645,6 +645,24 @@
         padding-inline-end: 0.5rem;
     }
 
+    /* The primary half of a split button, and a banner's toggle. Without these they fall back to the browser's grey
+       button under inherited text. */
+    :where(.split-button-primary) {
+        background-color: var(--color-primary);
+        color: var(--color-primary-content);
+    }
+
+    :where(.government-banner-toggle) {
+        background-color: transparent;
+        color: inherit;
+    }
+
+    /* Links on dark government chrome keep the bar's text colour. */
+    .government-banner a,
+    .government-identifier a {
+        color: inherit;
+    }
+
     /* Download button — stacks the action label over a hint (filesize, etc.). */
     :where(.download-button) {
         flex-direction: column;
@@ -693,10 +711,12 @@
         .skip-link,
         .go-to-top,
         .go-to-next-section,
-        .go-to-previous-section
+        .go-to-previous-section,
+        .section-link
     ) {
         background-color: transparent;
-        color: var(--color-primary);
+        /* Primary alone can miss 4.5:1 on the page; a dark theme's did, at 3.39:1. */
+        color: color-mix(in oklab, var(--color-primary) 55%, var(--color-base-content));
         border-color: transparent;
         text-decoration: underline;
         text-underline-offset: 0.2em;
@@ -771,7 +791,7 @@
      * ====================================================================== */
 
     :where([class$="-link"]:not(.skip-link):not(.back-link)) {
-        color: var(--color-primary);
+        color: color-mix(in oklab, var(--color-primary) 55%, var(--color-base-content));
         text-decoration: underline;
         text-underline-offset: 0.15em;
     }
@@ -1480,6 +1500,8 @@
     :where(.sticky-promo-banner) {
         position: sticky;
         z-index: 10;
+        background-color: var(--lily-surface-alt);
+        color: var(--lily-text);
     }
 
     :where(.sticky-promo-banner:not([data-position="bottom"])) {
@@ -3550,7 +3572,12 @@
         color: var(--color-primary);
     }
     /* Watermark — diagonal repeating-line pattern at 8% opacity behind content. */
+    /* The root wraps the content; only the overlay is faded and laid over it. */
     :where(.watermark) {
+        position: relative;
+    }
+
+    :where(.watermark-overlay) {
         position: absolute;
         inset: 0;
         pointer-events: none;
