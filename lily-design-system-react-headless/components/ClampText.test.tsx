@@ -65,4 +65,16 @@ describe("ClampText", () => {
         const el: HTMLElement = screen.getByTestId("ct");
         expect(el.getAttribute("id")).toBe("bio");
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(<Subject label="Story">content</Subject>);
+        const root = container.querySelector(".clamp-text");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const { container } = render(<Subject>content</Subject>);
+        expect(container.querySelector(".clamp-text")?.hasAttribute("role")).toBe(false);
+    });
 });

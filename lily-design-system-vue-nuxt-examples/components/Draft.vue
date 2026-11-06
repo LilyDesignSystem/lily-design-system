@@ -35,6 +35,7 @@ withDefaults(
     <!-- Draft.vue -->
     <div
         class="draft"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
         :data-status="status"
         v-bind="$attrs"

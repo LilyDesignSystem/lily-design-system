@@ -5,7 +5,7 @@
     a text container that truncates content to a maximum number of lines
 *@
 
-<div class="@($"clamp-text {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"clamp-text {CssClass}".Trim())" role="@(string.IsNullOrEmpty(Label) ? null : "group")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

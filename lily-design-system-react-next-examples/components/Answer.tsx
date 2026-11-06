@@ -34,6 +34,7 @@ export default function Answer({
     return (
         <div
             className={`answer ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

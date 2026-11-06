@@ -44,6 +44,7 @@ export default function MedicalBannerBox({
     return (
         <div
             className={`medical-banner-box ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             data-context="medical"
             {...restProps}

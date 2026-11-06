@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="draft"\n  aria-label=""\n  data-status=""\n>\n  <!-- Consumer provides content -->\n</div>';
+    '<div\n  class="draft"\n  role="group"\n  aria-label=""\n  data-status=""\n>\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
     title: "Headless/Draft",

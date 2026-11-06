@@ -15,4 +15,16 @@ describe("Draft", () => {
         const el = screen.getByLabelText("Q1 report");
         expect(el.getAttribute("data-status")).toBe("review");
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(Draft, { props: { label: "Story" } as any });
+        const root = container.querySelector(".draft");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const { container } = render(Draft, { props: {} as any });
+        expect(container.querySelector(".draft")?.hasAttribute("role")).toBe(false);
+    });
 });

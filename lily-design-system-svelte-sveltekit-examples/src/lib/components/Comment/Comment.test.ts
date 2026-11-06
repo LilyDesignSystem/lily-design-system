@@ -9,4 +9,16 @@ describe("Comment", () => {
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("comment");
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(Comment, { props: { label: "Story" } as any });
+        const root = container.querySelector(".comment");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const { container } = render(Comment, { props: {} as any });
+        expect(container.querySelector(".comment")?.hasAttribute("role")).toBe(false);
+    });
 });

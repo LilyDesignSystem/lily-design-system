@@ -24,7 +24,7 @@
 
     Accessibility:
       - aria-label comes from `label` when given; use it when no visible heading names the answer
-      - A <div> has no role, so add one through AdditionalAttributes if the label must be announced
+      - With a label the root is role="group", because a plain <div> cannot be named
 
     Internationalization:
       - No hardcoded user-facing strings
@@ -37,7 +37,7 @@
       - MDN aria-label: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-label
 *@
 
-<div class="@($"answer {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"answer {CssClass}".Trim())" role="@(string.IsNullOrEmpty(Label) ? null : "group")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

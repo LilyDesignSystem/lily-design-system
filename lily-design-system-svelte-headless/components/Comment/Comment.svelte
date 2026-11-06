@@ -47,6 +47,7 @@
 <!-- Comment.svelte -->
 <div
     class={`comment ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     {...restProps}
 >

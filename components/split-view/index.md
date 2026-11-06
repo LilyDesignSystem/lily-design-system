@@ -51,6 +51,7 @@ panels.
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - Container: `aria-label` (required), `data-orientation`, `data-split-percent`
 - Default divider: `role="separator"`, `aria-orientation`, `aria-valuenow={splitPercent}`, `aria-valuemin="0"`, `aria-valuemax="100"`, `tabindex="0"`
 

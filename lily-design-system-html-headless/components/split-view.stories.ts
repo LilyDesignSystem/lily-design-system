@@ -14,6 +14,7 @@ const html = `</section>
 
 <div
   class="split-view"
+  role="group"
   aria-label=""
   data-orientation="horizontal"
   data-split-percent="50"

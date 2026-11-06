@@ -27,6 +27,9 @@ export class MedicalBannerBox extends HTMLElement {
         applySelfClassName(this, "medical-banner-box");
         this.setAttribute("data-context", "medical");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
     }
 }

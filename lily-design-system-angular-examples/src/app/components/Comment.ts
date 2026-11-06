@@ -36,7 +36,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-comment",
     standalone: true,
-    template: `<div class="comment {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="comment {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Comment {

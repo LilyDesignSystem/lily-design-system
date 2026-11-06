@@ -93,4 +93,16 @@ describe("ClampText", () => {
         expect(root.className).toContain("clamp-text");
         expect(root.className).toContain("my-extra-class");
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(Subject, { props: { label: "Story" } as any });
+        const root = container.querySelector(".clamp-text");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const { container } = render(Subject, { props: {} as any });
+        expect(container.querySelector(".clamp-text")?.hasAttribute("role")).toBe(false);
+    });
 });

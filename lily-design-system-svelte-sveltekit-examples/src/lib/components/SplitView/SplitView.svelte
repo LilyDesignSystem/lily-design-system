@@ -80,6 +80,7 @@
 <div
     bind:this={rootEl}
     class={`split-view ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     data-orientation={orientation}
     data-split-percent={splitPercent}

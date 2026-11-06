@@ -43,7 +43,7 @@
       - CSS Flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout
 *@
 
-<div class="@($"banner-box {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"banner-box {CssClass}".Trim())" role="@(string.IsNullOrEmpty(Label) ? null : "group")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

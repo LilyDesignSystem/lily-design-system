@@ -9,6 +9,7 @@
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
+    "With a `label`, the root is `role=\"group\"`, because a plain `<div>` cannot be named. Without one it has no role",
     "No additional ARIA attributes required; the parent Banner provides the landmark role and aria-live region"
   ],
   "keyboard": [

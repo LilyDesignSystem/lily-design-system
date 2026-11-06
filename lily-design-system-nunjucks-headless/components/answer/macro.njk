@@ -22,7 +22,7 @@
 {%- macro answer(params) -%}
 <div
   class="answer{% if params.classes %} {{ params.classes }}{% endif %}"
-  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
+  {%- if params.label %} role="group" aria-label="{{ params.label }}"{% endif %}
 >
   {%- if params.html -%}{{ params.html | safe }}
   {%- elif params.text -%}{{ params.text }}

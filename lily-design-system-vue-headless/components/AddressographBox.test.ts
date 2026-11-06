@@ -30,4 +30,19 @@ describe("AddressographBox", () => {
         const root = container.querySelector(".addressograph-box");
         expect(root?.getAttribute("aria-label")).toBe("Patient ID");
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(Subject, {
+            props: { label: "Story" },
+            slots: { default: "content" },
+        });
+        const root = container.querySelector(".addressograph-box");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const { container } = render(Subject, { props: {}, slots: { default: "content" } });
+        expect(container.querySelector(".addressograph-box")?.hasAttribute("role")).toBe(false);
+    });
 });

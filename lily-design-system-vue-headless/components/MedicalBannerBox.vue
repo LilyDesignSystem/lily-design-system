@@ -36,6 +36,7 @@ withDefaults(
     <!-- MedicalBannerBox.vue -->
     <div
         class="medical-banner-box"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
         data-context="medical"
     >

@@ -53,6 +53,7 @@ This component is useful for structuring medical banner content into a horizonta
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - No additional ARIA attributes required; the parent MedicalBanner provides the landmark role and aria-live region
 - Optional `aria-label` via `label` prop if the box needs an accessible name
 

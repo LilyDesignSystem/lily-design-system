@@ -19,4 +19,19 @@ describe("Question", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a named group when labelled", () => {
+        const fixture = TestBed.createComponent(Question);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".question");
+        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const fixture = TestBed.createComponent(Question);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".question").hasAttribute("role")).toBe(false);
+    });
 });

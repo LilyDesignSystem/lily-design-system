@@ -61,6 +61,7 @@ withDefaults(
         class="clamp-text"
         :data-lines="lines"
         :style="{ '--clamp-text-lines': lines }"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
     >
         <slot />

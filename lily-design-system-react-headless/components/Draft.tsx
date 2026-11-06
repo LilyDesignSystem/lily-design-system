@@ -42,6 +42,7 @@ export default function Draft({
     return (
         <div
             className={`draft ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             data-status={status}
             {...restProps}

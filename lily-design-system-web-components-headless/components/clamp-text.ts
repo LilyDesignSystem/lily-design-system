@@ -45,7 +45,9 @@ export class ClampText extends HTMLElement {
         this.style.setProperty("--clamp-text-lines", lines);
 
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
-        else this.removeAttribute("aria-label");
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        } else this.removeAttribute("aria-label");
     }
 }

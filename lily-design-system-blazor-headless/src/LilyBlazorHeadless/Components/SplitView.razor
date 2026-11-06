@@ -7,7 +7,7 @@
     shared/widget-keys.ts: as Splitter, on the divider.
 *@
 
-<div @ref="Root" class="@($"split-view {CssClass}".Trim())" aria-label="@Label" data-orientation="@Orientation" data-split-percent="@SplitPercent" @attributes="AdditionalAttributes">
+<div @ref="Root" class="@($"split-view {CssClass}".Trim())" role="@(string.IsNullOrEmpty(Label) ? null : "group")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" data-orientation="@Orientation" data-split-percent="@SplitPercent" @attributes="AdditionalAttributes">
     <section class="split-view-primary">@Primary</section>
     @if (Divider is not null)
     {

@@ -26,4 +26,16 @@ describe("draft", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("is a named group when labelled", () => {
+        const { document } = render("draft", { label: "Story" }, "x");
+        const root = document.querySelector(".draft");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
+
+    it("has no role without a label", () => {
+        const { document } = render("draft", {}, "x");
+        expect(document.querySelector(".draft").hasAttribute("role")).toBe(false);
+    });
 });

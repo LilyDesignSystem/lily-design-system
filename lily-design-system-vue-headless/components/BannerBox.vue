@@ -51,6 +51,7 @@ withDefaults(
     <!-- BannerBox.vue -->
     <div
         class="banner-box"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
     >
         <slot />

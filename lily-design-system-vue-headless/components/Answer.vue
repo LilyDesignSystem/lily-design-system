@@ -29,6 +29,7 @@ withDefaults(
     <!-- Answer.vue -->
     <div
         class="answer"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
         v-bind="$attrs"
     >

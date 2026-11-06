@@ -3,7 +3,7 @@
   const usage: string = "";
   const rest: string = "<h2>Props</h2>\n\n<ul>\n<li><code>label</code>: string (optional) -- accessible label for the addressograph-box box</li>\n<li><code>children</code>: slot (required) -- identifying content (name, DOB, identifier, notations)</li>\n<li><code>...restProps</code>: Any additional HTML attributes</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li><code>aria-label</code> -- describes the box for screen readers (e.g., \"Patient identification\")</li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Use to display a single subject's identifying details together in a compact, scannable block.</li>\n<li>Use in clinical contexts to show patient identification alongside admission, ward, and salient alert information.</li>\n<li>Use in logistics or mail-handling contexts to show recipient details and tracking information together.</li>\n<li>Use when staff need to verify identity at a glance before performing an action.</li>\n</ul>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>person</code> — a person component that contains other person-related information</li>\n<li><code>government-identifier</code> — an identifier section with a parent agency logo, agency name, and required government links</li>\n</ul>";
   // BEGIN auto-generated component example consts
-  const demoHtml: string = "<div class=\"addressograph-box\" aria-label=\"Patient identification\"><p>Jane Doe</p><p>DOB: 1980-05-12</p><p>NHS: 943 476 5919</p><p>Ward: A3</p></div>";
+  const demoHtml: string = "<div class=\"addressograph-box\" role=\"group\" aria-label=\"Patient identification\"><p>Jane Doe</p><p>DOB: 1980-05-12</p><p>NHS: 943 476 5919</p><p>Ward: A3</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport AddressographBox from \"lily-design-system-svelte-headless/components/AddressographBox/AddressographBox.svelte\";\n\n<AddressographBox label=\"Patient identification\">\n  <p>Jane Doe</p>\n</AddressographBox>\n";
   const usageCode: string = "<AddressographBox label=\"Patient identification\">\n  <p>Jane Doe</p>\n  <p>Date of birth: 1980-05-12</p>\n  <p>NHS number: 943 476 5919</p>\n  <p>Ward: A3</p>\n  <p>Allergy alert: penicillin</p>\n</AddressographBox>\n";
   const variants: { title: string; html: string }[] = [];
@@ -82,6 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
+      <li>With a <code>label</code>, the root is <code>role="group"</code>, because a plain <code>&lt;div&gt;</code> cannot be named. Without one it has no role</li>
       <li><code>aria-label</code> -- describes the box for screen readers</li>
     </ul>
     <h3>Keyboard</h3>

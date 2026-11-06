@@ -22,7 +22,7 @@
     //
     // Accessibility:
     //   - aria-label comes from `label` when given
-    //   - A <div> has no role; do not rely on the CSS watermark alone to say the content is a draft (WCAG 1.4.1), include visible text
+    //   - Do not rely on the CSS watermark alone to say the content is a draft (WCAG 1.4.1), include visible text
     //
     // Internationalization:
     //   - No hardcoded user-facing strings
@@ -52,6 +52,7 @@
 <!-- Draft.svelte -->
 <div
     class={`draft ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     data-status={status}
     {...restProps}

@@ -3,7 +3,7 @@
   const usage: string = "";
   const rest: string = "<h2>Props</h2>\n\n<ul>\n<li><code>label</code>: string (optional) -- accessible label for the answer</li>\n<li><code>children</code>: slot (required) -- answer content (body, citations, related links, action buttons)</li>\n<li><code>...restProps</code>: Any additional HTML attributes</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li><code>aria-label</code> -- describes the answer for screen readers when no visible heading is present</li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Use to pair with a <code>question</code> for FAQ and Q&amp;A patterns.</li>\n<li>Use for quiz answer reveals or feedback panels.</li>\n<li>Use for forum replies displayed beneath the original question.</li>\n</ul>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>question</code> — a question is anything that asks for information, invites a response, tests knowledge, etc.</li>\n<li><code>comment</code> — a comment is anything that expresses an opinion, observation, explanation, etc.</li>\n</ul>";
   // BEGIN auto-generated component example consts
-  const demoHtml: string = "<div class=\"answer\" aria-label=\"Answer\"><p>The clinic opens at 8:00 a.m. on weekdays.</p></div>";
+  const demoHtml: string = "<div class=\"answer\" role=\"group\" aria-label=\"Answer\"><p>The clinic opens at 8:00 a.m. on weekdays.</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Answer from \"lily-design-system-svelte-headless/components/Answer/Answer.svelte\";\n\n<Answer>\n  <!-- content -->\n</Answer>\n";
   const usageCode: string = "<Answer label=\"Sample FAQ answer\">\n  <p>The clinic opens at 8:00 a.m. on weekdays.</p>\n</Answer>\n";
   const variants: { title: string; html: string }[] = [];
@@ -82,6 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
+      <li>With a <code>label</code>, the root is <code>role="group"</code>, because a plain <code>&lt;div&gt;</code> cannot be named. Without one it has no role</li>
       <li><code>aria-label</code> -- describes the answer for screen readers when no visible heading is present</li>
     </ul>
     <h3>Keyboard</h3>

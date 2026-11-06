@@ -53,4 +53,20 @@ public class DraftTests : TestContext
         var root = cut.Find(".draft");
         Assert.False(root.HasAttribute("data-status"));
     }
+
+    [Fact]
+    public void Is_a_named_group_when_labelled()
+    {
+        var cut = RenderComponent<Draft>(p => p.Add(x => x.Label, "Story"));
+        var root = cut.Find(".draft");
+        Assert.Equal("group", root.GetAttribute("role"));
+        Assert.Equal("Story", root.GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Has_no_role_without_a_label()
+    {
+        var cut = RenderComponent<Draft>();
+        Assert.False(cut.Find(".draft").HasAttribute("role"));
+    }
 }

@@ -28,4 +28,19 @@ describe("Draft", () => {
         expect(el).toBeTruthy();
         expect(el.getAttribute("data-status")).toBe("in-progress");
     });
+
+    test("is a named group when labelled", () => {
+        const fixture = TestBed.createComponent(Draft);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".draft");
+        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const fixture = TestBed.createComponent(Draft);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".draft").hasAttribute("role")).toBe(false);
+    });
 });

@@ -79,4 +79,13 @@ describe("SplitView", () => {
         expect(el.children[1].classList.contains("custom-divider")).toBe(true);
         expect(el.textContent).not.toContain("stray");
     });
+
+    test("is a named group when labelled", () => {
+        const fixture = TestBed.createComponent(SplitView);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".split-view");
+        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

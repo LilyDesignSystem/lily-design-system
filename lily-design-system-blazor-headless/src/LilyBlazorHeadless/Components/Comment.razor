@@ -34,7 +34,7 @@
       - MDN <div>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 *@
 
-<div class="@($"comment {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"comment {CssClass}".Trim())" role="@(string.IsNullOrEmpty(Label) ? null : "group")" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

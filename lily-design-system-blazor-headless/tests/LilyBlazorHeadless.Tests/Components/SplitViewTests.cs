@@ -39,4 +39,13 @@ public class SplitViewTests : TestContext
         var root = cut.Find(".split-view");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Is_a_named_group_when_labelled()
+    {
+        var cut = RenderComponent<SplitView>(p => p.Add(x => x.Label, "Story"));
+        var root = cut.Find(".split-view");
+        Assert.Equal("group", root.GetAttribute("role"));
+        Assert.Equal("Story", root.GetAttribute("aria-label"));
+    }
 }

@@ -37,6 +37,7 @@ export default function AddressographBox({
     return (
         <div
             className={`addressograph-box ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

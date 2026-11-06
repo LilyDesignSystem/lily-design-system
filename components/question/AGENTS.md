@@ -18,6 +18,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` -- describes the question for screen readers when no visible heading is present
 
 ## Keyboard

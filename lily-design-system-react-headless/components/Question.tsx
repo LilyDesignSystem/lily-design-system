@@ -34,6 +34,7 @@ export default function Question({
     return (
         <div
             className={`question ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

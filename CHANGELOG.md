@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Nine more components become a named group — 2026-11-06
+
+- **Changed:** `addressograph-box`, `answer`, `banner-box`, `clamp-text`, `comment`, `draft`, `medical-banner-box`, `question` and `split-view` render `role="group"` with a `label`, so the name is valid. Without one they have no role. A consumer who sets `aria-label` directly also passes `role`.
+- 68 of the 91 components that name a generic root are left (P25-T14).
+
 ## Seven more components lose a label their ports added — 2026-11-06
 
 - **Breaking:** `affix`, `container-with-fixed-width`, `container-with-fluid-width`, `flex-stack`, `grid`, `masonry` and `postal-code-view` lose `label` in Angular, Blazor and Nunjucks, and `aria-label` in the HTML `postal-code-view`, matching their contract and the Svelte, React, Vue and Web Components versions.

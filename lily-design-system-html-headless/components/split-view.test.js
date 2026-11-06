@@ -45,4 +45,9 @@ describe("SplitView", function () {
         expect(await divider.getAttribute("aria-valuemax")).toBe("100");
         expect(await divider.getAttribute("tabindex")).toBe("0");
     });
+
+    it("should be a group, so that its label is valid", async function () {
+        const el = await $(".split-view");
+        expect(await el.getAttribute("role")).toBe("group");
+    });
 });

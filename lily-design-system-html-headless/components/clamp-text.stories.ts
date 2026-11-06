@@ -4,6 +4,7 @@ const html = `<div
   class="clamp-text"
   data-lines="2"
   style="--clamp-text-lines: 2;"
+  role="group"
   aria-label=""
 >
   <!-- Consumer provides text content; full text remains in DOM and accessible to screen readers -->

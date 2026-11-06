@@ -24,7 +24,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *
  * Accessibility:
  *   - aria-label comes from `label` when given; use it when no visible heading names the answer
- *   - A <div> has no role, so add one on the host element (Angular has no rest props) if the label must be announced
+ *   - With a label the root is role="group", because a plain <div> cannot be named
  *
  * Internationalization:
  *   - No hardcoded user-facing strings
@@ -39,7 +39,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-answer",
     standalone: true,
-    template: `<div class="answer {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="answer {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Answer {

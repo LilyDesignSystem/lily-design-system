@@ -60,4 +60,17 @@ describe("Question", () => {
         expect(host.getAttribute("aria-label")).toBe("Q1");
         expect(host.classList.contains("question")).toBe(true);
     });
+
+    test("is a named group when labelled", () => {
+        const host = render('<lily-question label="Story"></lily-question>');
+
+        expect(host.getAttribute("role")).toBe("group");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const host = render("<lily-question></lily-question>");
+
+        expect(host.hasAttribute("role")).toBe(false);
+    });
 });

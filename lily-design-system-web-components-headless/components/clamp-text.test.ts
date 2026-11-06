@@ -55,4 +55,17 @@ describe("ClampText", () => {
 
         expect(host.textContent).toBe("Long paragraph text.");
     });
+
+    test("is a named group when labelled", () => {
+        const host = render('<lily-clamp-text label="Story"></lily-clamp-text>');
+
+        expect(host.getAttribute("role")).toBe("group");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const host = render("<lily-clamp-text></lily-clamp-text>");
+
+        expect(host.hasAttribute("role")).toBe(false);
+    });
 });

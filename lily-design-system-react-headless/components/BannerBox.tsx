@@ -59,6 +59,7 @@ export default function BannerBox({
     return (
         <div
             className={`banner-box ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

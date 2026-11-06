@@ -47,6 +47,7 @@
 <!-- Question.svelte -->
 <div
     class={`question ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     {...restProps}
 >

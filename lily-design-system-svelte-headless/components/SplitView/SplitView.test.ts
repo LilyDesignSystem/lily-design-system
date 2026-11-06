@@ -127,4 +127,17 @@ describe("SplitView", () => {
         expect(root.className).toContain("split-view");
         expect(root.className).toContain("extra");
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(Subject, {
+            props: {
+                label: "Story",
+                primary: textSnippet("P"),
+                secondary: textSnippet("S"),
+            } as any,
+        });
+        const root = container.querySelector(".split-view");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
 });

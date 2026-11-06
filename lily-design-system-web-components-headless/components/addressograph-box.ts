@@ -23,6 +23,9 @@ export class AddressographBox extends HTMLElement {
 
         applySelfClassName(this, "addressograph-box");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
     }
 }

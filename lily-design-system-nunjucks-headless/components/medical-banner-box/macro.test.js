@@ -42,4 +42,16 @@ describe("medical-banner-box", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("is a named group when labelled", () => {
+        const { document } = render("medical-banner-box", { label: "Story" }, "x");
+        const root = document.querySelector(".medical-banner-box");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
+
+    it("has no role without a label", () => {
+        const { document } = render("medical-banner-box", {}, "x");
+        expect(document.querySelector(".medical-banner-box").hasAttribute("role")).toBe(false);
+    });
 });

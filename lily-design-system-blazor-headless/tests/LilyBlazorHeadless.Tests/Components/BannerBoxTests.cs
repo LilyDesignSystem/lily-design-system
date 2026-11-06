@@ -34,4 +34,20 @@ public class BannerBoxTests : TestContext
         var root = cut.Find(".banner-box");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Is_a_named_group_when_labelled()
+    {
+        var cut = RenderComponent<BannerBox>(p => p.Add(x => x.Label, "Story"));
+        var root = cut.Find(".banner-box");
+        Assert.Equal("group", root.GetAttribute("role"));
+        Assert.Equal("Story", root.GetAttribute("aria-label"));
+    }
+
+    [Fact]
+    public void Has_no_role_without_a_label()
+    {
+        var cut = RenderComponent<BannerBox>();
+        Assert.False(cut.Find(".banner-box").HasAttribute("role"));
+    }
 }

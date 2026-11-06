@@ -46,4 +46,17 @@ describe("Draft", () => {
 
         expect(host.querySelector("p")!.textContent).toBe("Draft body text.");
     });
+
+    test("is a named group when labelled", () => {
+        const host = render('<lily-draft label="Story"></lily-draft>');
+
+        expect(host.getAttribute("role")).toBe("group");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const host = render("<lily-draft></lily-draft>");
+
+        expect(host.hasAttribute("role")).toBe(false);
+    });
 });

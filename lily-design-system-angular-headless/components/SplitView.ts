@@ -26,7 +26,7 @@ import { attachSplitView } from "./widget-keys";
     standalone: true,
     template: `<div
         class="split-view {{ className() }}"
-        [attr.aria-label]="label()"
+        [attr.role]="label() ? 'group' : null" [attr.aria-label]="label()"
         [attr.data-orientation]="orientation()"
         [attr.data-split-percent]="splitPercent()"
     >

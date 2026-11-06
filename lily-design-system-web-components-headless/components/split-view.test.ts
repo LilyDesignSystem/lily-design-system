@@ -108,4 +108,11 @@ describe("SplitView", () => {
         expect(children[1].className).toBe("split-view-divider");
         expect(children[2].className).toBe("split-view-secondary");
     });
+
+    test("is a named group when labelled", () => {
+        const host = render('<lily-split-view label="Story"></lily-split-view>');
+
+        expect(host.getAttribute("role")).toBe("group");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+    });
 });

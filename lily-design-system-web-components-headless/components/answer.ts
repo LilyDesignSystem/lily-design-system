@@ -23,6 +23,9 @@ export class Answer extends HTMLElement {
 
         applySelfClassName(this, "answer");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
     }
 }

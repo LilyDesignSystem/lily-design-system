@@ -19,4 +19,19 @@ describe("Comment", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a named group when labelled", () => {
+        const fixture = TestBed.createComponent(Comment);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".comment");
+        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const fixture = TestBed.createComponent(Comment);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".comment").hasAttribute("role")).toBe(false);
+    });
 });

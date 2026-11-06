@@ -95,4 +95,14 @@ describe("SplitView", () => {
         expect(screen.queryByRole("separator")).toBeNull();
         expect(screen.getByText("CUSTOM")).toBeTruthy();
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(Subject, {
+            props: { label: "Story" },
+            slots: { default: "content" },
+        });
+        const root = container.querySelector(".split-view");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
 });

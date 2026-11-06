@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="clamp-text"\n  data-lines="2"\n  style="--clamp-text-lines: 2;"\n  aria-label=""\n>\n  <!-- Consumer provides text content; full text remains in DOM and accessible to screen readers -->\n</div>';
+    '<div\n  class="clamp-text"\n  data-lines="2"\n  style="--clamp-text-lines: 2;"\n  role="group"\n  aria-label=""\n>\n  <!-- Consumer provides text content; full text remains in DOM and accessible to screen readers -->\n</div>';
 
 const meta = {
     title: "Headless/Clamp Text",

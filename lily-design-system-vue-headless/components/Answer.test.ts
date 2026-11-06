@@ -30,4 +30,19 @@ describe("Answer", () => {
         const root = container.querySelector(".answer");
         expect(root?.getAttribute("aria-label")).toBe("Hello");
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(Subject, {
+            props: { label: "Story" },
+            slots: { default: "content" },
+        });
+        const root = container.querySelector(".answer");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const { container } = render(Subject, { props: {}, slots: { default: "content" } });
+        expect(container.querySelector(".answer")?.hasAttribute("role")).toBe(false);
+    });
 });

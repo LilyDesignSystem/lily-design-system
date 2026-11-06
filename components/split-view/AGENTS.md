@@ -21,6 +21,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - Container: aria-label (required)
 - Container: data-orientation, data-split-percent for consumer CSS
 - Default divider: role="separator", aria-orientation, aria-valuenow, aria-valuemin, aria-valuemax, tabindex="0"

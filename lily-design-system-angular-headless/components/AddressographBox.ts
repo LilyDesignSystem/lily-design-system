@@ -24,7 +24,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *
  * Accessibility:
  *   - aria-label comes from `label` when given, naming the box for assistive technology
- *   - A <div> has no role, so the label is only reliably announced if the consumer adds one (for example role="group") on the host element (Angular has no rest props)
+ *   - With a label the root is role="group", because a plain <div> cannot be named
  *
  * Internationalization:
  *   - No hardcoded user-facing strings
@@ -39,7 +39,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-addressograph-box",
     standalone: true,
-    template: `<div class="addressograph-box {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="addressograph-box {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressographBox {

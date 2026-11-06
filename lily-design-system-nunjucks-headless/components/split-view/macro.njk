@@ -37,7 +37,7 @@
 {%- set splitPercent = p.splitPercent if p.splitPercent != undefined else 50 -%}
 <div
   class="split-view{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.label %} role="group" aria-label="{{ p.label }}"{% endif %}
   data-orientation="{{ orientation }}"
   data-split-percent="{{ splitPercent }}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}

@@ -55,4 +55,16 @@ describe("clamp-text", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("is a named group when labelled", () => {
+        const { document } = render("clamp-text", { label: "Story" }, "x");
+        const root = document.querySelector(".clamp-text");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
+
+    it("has no role without a label", () => {
+        const { document } = render("clamp-text", {}, "x");
+        expect(document.querySelector(".clamp-text").hasAttribute("role")).toBe(false);
+    });
 });

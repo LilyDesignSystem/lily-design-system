@@ -57,4 +57,17 @@ describe("MedicalBannerBox", () => {
 
         expect(host.className).toBe("medical-banner-box extra");
     });
+
+    test("is a named group when labelled", () => {
+        const host = render('<lily-medical-banner-box label="Story"></lily-medical-banner-box>');
+
+        expect(host.getAttribute("role")).toBe("group");
+        expect(host.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const host = render("<lily-medical-banner-box></lily-medical-banner-box>");
+
+        expect(host.hasAttribute("role")).toBe(false);
+    });
 });

@@ -29,6 +29,7 @@ withDefaults(
     <!-- Comment.vue -->
     <div
         class="comment"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
         v-bind="$attrs"
     >

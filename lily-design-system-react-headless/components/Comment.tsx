@@ -34,6 +34,7 @@ export default function Comment({
     return (
         <div
             className={`comment ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

@@ -104,4 +104,11 @@ describe("split-view", () => {
         });
         expect(html).not.toContain("<style");
     });
+
+    it("is a named group when labelled", () => {
+        const { document } = render("split-view", { label: "Story" }, "x");
+        const root = document.querySelector(".split-view");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

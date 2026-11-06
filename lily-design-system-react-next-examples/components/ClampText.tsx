@@ -69,6 +69,7 @@ export default function ClampText({
             className={`clamp-text ${className}`}
             data-lines={lines}
             style={{ "--clamp-text-lines": lines } as React.CSSProperties}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

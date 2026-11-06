@@ -26,4 +26,9 @@ describe("ClampText", function () {
         const style = await el.getAttribute("style");
         expect(style).toContain("--clamp-text-lines");
     });
+
+    it("should be a group, so that its label is valid", async function () {
+        const el = await $(".clamp-text");
+        expect(await el.getAttribute("role")).toBe("group");
+    });
 });

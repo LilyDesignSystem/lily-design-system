@@ -26,4 +26,9 @@ describe("Draft", function () {
         const status = await el.getAttribute("data-status");
         expect(status).not.toBeNull();
     });
+
+    it("should be a group, so that its label is valid", async function () {
+        const el = await $(".draft");
+        expect(await el.getAttribute("role")).toBe("group");
+    });
 });

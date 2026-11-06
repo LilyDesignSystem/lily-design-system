@@ -22,7 +22,7 @@
     //
     // Accessibility:
     //   - aria-label comes from `label` when given; use it when no visible heading names the answer
-    //   - A <div> has no role, so add one through restProps if the label must be announced
+    //   - With a label the root is role="group", because a plain <div> cannot be named
     //
     // Internationalization:
     //   - No hardcoded user-facing strings
@@ -50,6 +50,7 @@
 <!-- Answer.svelte -->
 <div
     class={`answer ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     {...restProps}
 >

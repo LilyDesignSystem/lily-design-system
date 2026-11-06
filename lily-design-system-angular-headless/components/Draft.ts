@@ -24,7 +24,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *
  * Accessibility:
  *   - aria-label comes from `label` when given
- *   - A <div> has no role; do not rely on the CSS watermark alone to say the content is a draft (WCAG 1.4.1), include visible text
+ *   - Do not rely on the CSS watermark alone to say the content is a draft (WCAG 1.4.1), include visible text
  *
  * Internationalization:
  *   - No hardcoded user-facing strings
@@ -39,7 +39,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-draft",
     standalone: true,
-    template: `<div class="draft {{ className() }}" [attr.aria-label]="label() || null" [attr.data-status]="status() || null"><ng-content /></div>`,
+    template: `<div class="draft {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null" [attr.data-status]="status() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Draft {

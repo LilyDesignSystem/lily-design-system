@@ -20,8 +20,8 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` rendered only when the `label` prop is provided
-- No role is forced — this is a generic presentation container
 
 ## Keyboard
 

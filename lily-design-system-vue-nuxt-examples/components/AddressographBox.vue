@@ -30,6 +30,7 @@ withDefaults(
     <!-- AddressographBox.vue -->
     <div
         class="addressograph-box"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
         v-bind="$attrs"
     >

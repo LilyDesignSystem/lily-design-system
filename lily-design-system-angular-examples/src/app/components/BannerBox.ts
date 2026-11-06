@@ -45,7 +45,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-banner-box",
     standalone: true,
-    template: `<div class="banner-box {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="banner-box {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerBox {

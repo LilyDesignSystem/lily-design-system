@@ -70,6 +70,7 @@ export default function SplitView({
         <div
             ref={root}
             className={`split-view ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             data-orientation={orientation}
             data-split-percent={splitPercent}

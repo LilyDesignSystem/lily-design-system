@@ -23,7 +23,10 @@ export class Draft extends HTMLElement {
 
         applySelfClassName(this, "draft");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
         const status = this.getAttribute("status");
         if (status !== null) this.setAttribute("data-status", status);
     }

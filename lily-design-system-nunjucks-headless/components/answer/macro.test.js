@@ -21,4 +21,16 @@ describe("answer", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("is a named group when labelled", () => {
+        const { document } = render("answer", { label: "Story" }, "x");
+        const root = document.querySelector(".answer");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
+
+    it("has no role without a label", () => {
+        const { document } = render("answer", {}, "x");
+        expect(document.querySelector(".answer").hasAttribute("role")).toBe(false);
+    });
 });

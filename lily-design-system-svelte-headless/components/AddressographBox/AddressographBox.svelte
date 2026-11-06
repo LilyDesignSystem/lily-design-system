@@ -22,7 +22,7 @@
     //
     // Accessibility:
     //   - aria-label comes from `label` when given, naming the box for assistive technology
-    //   - A <div> has no role, so the label is only reliably announced if the consumer adds one (for example role="group") through restProps
+    //   - With a label the root is role="group", because a plain <div> cannot be named
     //
     // Internationalization:
     //   - No hardcoded user-facing strings
@@ -50,6 +50,7 @@
 <!-- AddressographBox.svelte -->
 <div
     class={`addressograph-box ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     {...restProps}
 >

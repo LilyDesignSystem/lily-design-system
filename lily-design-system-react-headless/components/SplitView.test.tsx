@@ -142,4 +142,17 @@ describe("SplitView", () => {
         const separator: HTMLElement = screen.getByRole("separator");
         expect(separator.getAttribute("aria-orientation")).toBe("vertical");
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(
+            <Subject
+                label="Story"
+                primary={<div>P</div>}
+                secondary={<div>S</div>}
+            />,
+        );
+        const root = container.querySelector(".split-view");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
 });

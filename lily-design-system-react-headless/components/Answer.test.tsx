@@ -32,4 +32,16 @@ describe("Answer", () => {
         const { container } = render(<Subject data-testid="subject">content</Subject>);
         expect(container.querySelector("[data-testid='subject']")).toBeTruthy();
     });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(<Subject label="Story">content</Subject>);
+        const root = container.querySelector(".answer");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("has no role without a label", () => {
+        const { container } = render(<Subject>content</Subject>);
+        expect(container.querySelector(".answer")?.hasAttribute("role")).toBe(false);
+    });
 });

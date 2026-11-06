@@ -68,6 +68,7 @@ const hasDivider = (): boolean => Boolean(slots.divider);
     <div
         ref="rootEl"
         class="split-view"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
         :data-orientation="orientation"
         :data-split-percent="splitPercent"

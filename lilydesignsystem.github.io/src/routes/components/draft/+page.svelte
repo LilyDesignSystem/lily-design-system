@@ -3,7 +3,7 @@
   const usage: string = "";
   const rest: string = "<h2>Props</h2>\n\n<ul>\n<li><code>label</code>: string (optional) -- accessible label for the draft</li>\n<li><code>status</code>: string (optional) -- editorial state, exposed as <code>data-status</code> for consumer CSS/JS</li>\n<li><code>children</code>: slot (required) -- draft content</li>\n<li><code>...restProps</code>: Any additional HTML attributes</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li><code>aria-label</code> -- describes the draft for screen readers when no visible heading is present</li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Use to wrap in-progress content in an authoring or CMS context so downstream code can detect and treat draft state distinctly.</li>\n<li>Use to flag a section as preliminary so reviewers know it is open for comment or revision.</li>\n<li>Use to gate rendering of unfinished material in public listings, RSS feeds, or search indexes.</li>\n</ul>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>question</code> — a question is anything that asks for information, invites a response, tests knowledge, etc.</li>\n<li><code>answer</code> — an answer is anything that responds to a question, request, action, etc.</li>\n<li><code>comment</code> — a comment is anything that expresses an opinion, observation, explanation, etc.</li>\n<li><code>editable</code> — an inline-editable text element that toggles between view and edit modes</li>\n<li><code>editable-form</code> — a form wrapper for inline editing of content</li>\n</ul>";
   // BEGIN auto-generated component example consts
-  const demoHtml: string = "<div class=\"draft\" aria-label=\"Draft article\" data-status=\"in-progress\"><h3>Working title</h3><p>Opening paragraph still needs a hook.</p></div>";
+  const demoHtml: string = "<div class=\"draft\" role=\"group\" aria-label=\"Draft article\" data-status=\"in-progress\"><h3>Working title</h3><p>Opening paragraph still needs a hook.</p></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Draft from \"lily-design-system-svelte-headless/components/Draft/Draft.svelte\";\n\n<Draft label=\"Draft article\" status=\"in-progress\">\n  <h1>Working title</h1>\n</Draft>\n";
   const usageCode: string = "<Draft label=\"Draft article\">\n  <h1>Working title</h1>\n  <p>Opening paragraph still needs a hook.</p>\n</Draft>\n";
   const variants: { title: string; html: string }[] = [];
@@ -82,6 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
+      <li>With a <code>label</code>, the root is <code>role="group"</code>, because a plain <code>&lt;div&gt;</code> cannot be named. Without one it has no role</li>
       <li><code>aria-label</code> -- describes the draft for screen readers when no visible heading is present</li>
     </ul>
     <h3>Keyboard</h3>

@@ -24,6 +24,9 @@ export class Comment extends HTMLElement {
 
         applySelfClassName(this, "comment");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
     }
 }
