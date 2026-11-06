@@ -57,7 +57,14 @@ describe("HeroHeadline", () => {
     });
 
     test("is a named group when labelled", () => {
-        const { container } = render(<Subject label="Story">content</Subject>);
+        const { container } = render(
+            <Subject
+                label="Story"
+                media={<div />}
+            >
+                content
+            </Subject>,
+        );
         const root = container.querySelector(".hero-headline");
         expect(root?.getAttribute("role")).toBe("group");
         expect(root?.getAttribute("aria-label")).toBe("Story");
