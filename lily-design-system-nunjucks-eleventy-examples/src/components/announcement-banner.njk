@@ -7,10 +7,10 @@ description: a banner highlighting important messages for all users
 {% from "components/announcement-banner/macro.njk" import announcementBanner %}
 
 <h2>Default</h2>
-{{ announcementBanner({ text: "Example AnnouncementBanner content" }) }}
+{{ announcementBanner({ text: "The service will be closed on Monday for maintenance.", label: "Service announcement" }) }}
 
 <h2>With accessible label</h2>
-{{ announcementBanner({ text: "Example content", label: "AnnouncementBanner example" }) }}
+{{ announcementBanner({ html: "New opening hours start next week. <a href='#hours'>See the hours</a>.", label: "Opening hours" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

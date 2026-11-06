@@ -7,10 +7,10 @@ description: an input for searching or manually entering an address
 {% from "components/address-input/macro.njk" import addressInput %}
 
 <h2>Default</h2>
-{{ addressInput({ text: "Example AddressInput content" }) }}
+{{ addressInput({ label: "Home address", html: "<label>Address line 1 <input type='text' autocomplete='address-line1'></label><label>Town or city <input type='text' autocomplete='address-level2'></label><label>Postal code <input type='text' autocomplete='postal-code'></label>" }) }}
 
 <h2>With accessible label</h2>
-{{ addressInput({ text: "Example content", label: "AddressInput example" }) }}
+{{ addressInput({ label: "Delivery address", html: "<label>Find an address <input type='search' autocomplete='street-address'></label>" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

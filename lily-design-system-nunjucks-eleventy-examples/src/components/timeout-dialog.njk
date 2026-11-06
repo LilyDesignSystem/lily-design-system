@@ -7,10 +7,10 @@ description: a dialog warning about session timeout
 {% from "components/timeout-dialog/macro.njk" import timeoutDialog %}
 
 <h2>Default</h2>
-{{ timeoutDialog({ text: "Example TimeoutDialog content" }) }}
+{{ timeoutDialog({ text: "You will be signed out in 2 minutes.", label: "Session timeout" }) }}
 
 <h2>With accessible label</h2>
-{{ timeoutDialog({ text: "Example content", label: "TimeoutDialog example" }) }}
+{{ timeoutDialog({ text: "Your session is about to end.", label: "Session ending soon" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

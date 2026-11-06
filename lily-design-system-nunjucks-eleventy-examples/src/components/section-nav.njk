@@ -7,10 +7,10 @@ description: a navigation container for section links
 {% from "components/section-nav/macro.njk" import sectionNav %}
 
 <h2>Default</h2>
-{{ sectionNav({ text: "Example SectionNav content" }) }}
+{{ sectionNav({ label: "On this page", html: "<ul><li><a href='#symptoms'>Symptoms</a></li><li><a href='#treatment'>Treatment</a></li></ul>" }) }}
 
 <h2>With accessible label</h2>
-{{ sectionNav({ text: "Example content", label: "SectionNav example" }) }}
+{{ sectionNav({ label: "In this guide", html: "<ul><li><a href='#overview'>Overview</a></li></ul>" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

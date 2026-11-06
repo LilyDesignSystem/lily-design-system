@@ -14,6 +14,7 @@
   Params:
     text        string   Plain text content (escaped).
     html        string   Raw HTML content (rendered via `| safe`).
+    href        string   The link's target. Default "#top".
     label       string   Accessible name (aria-label).
     id          string
     classes     string   Extra classes, after the `go-to-top` base class.
@@ -29,6 +30,7 @@
 {%- set p = params | default({}) -%}
 <a
   class="go-to-top{% if p.classes %} {{ p.classes }}{% endif %}"
+  href="{{ p.href | default('#top') }}"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

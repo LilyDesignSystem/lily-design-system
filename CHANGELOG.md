@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Two links get a target — 2026-11-06
+
+- **Fixed:** Nunjucks and HTML `section-link` and `go-to-top` were `<a>`s with no `href`, so not links. They take `href`, default `#top`, as in Svelte.
+- **Changed:** the last 14 placeholder demos in the Nunjucks app hold real content.
+
 ## Every component page passes axe — 2026-11-06
 
 - **Added:** `e2e/axe-sweep.spec.ts` in the Nunjucks app runs axe's WCAG 2.2 A and AA rules on all 609 component pages, with an allow-list that may only shrink and is empty. Colour contrast is left out until P25-T9, and popups are not opened yet.

@@ -7,10 +7,10 @@ description: one key-value pair in a description list
 {% from "components/description-list-item/macro.njk" import descriptionListItem %}
 
 <h2>Default</h2>
-{{ descriptionListItem({ text: "Example DescriptionListItem content" }) }}
+<dl>{{ descriptionListItem({ html: "<dt>Name</dt><dd>Alex Morgan</dd>" }) }}</dl>
 
 <h2>With accessible label</h2>
-{{ descriptionListItem({ text: "Example content", label: "DescriptionListItem example" }) }}
+<dl>{{ descriptionListItem({ html: "<dt>Date of birth</dt><dd>2 March 1984</dd>" }) }}</dl>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

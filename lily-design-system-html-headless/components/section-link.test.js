@@ -14,4 +14,9 @@ describe("SectionLink", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("section-link");
     });
+
+    it("should be a real link", async function () {
+        const el = await $("a.section-link");
+        expect(await el.getAttribute("href")).toBe("#top");
+    });
 });

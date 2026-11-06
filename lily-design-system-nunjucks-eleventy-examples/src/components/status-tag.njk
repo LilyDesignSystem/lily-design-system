@@ -7,10 +7,10 @@ description: a tag indicating status
 {% from "components/status-tag/macro.njk" import statusTag %}
 
 <h2>Default</h2>
-{{ statusTag({ text: "Example StatusTag content" }) }}
+{{ statusTag({ text: "Completed" }) }}
 
 <h2>With accessible label</h2>
-{{ statusTag({ text: "Example content", label: "StatusTag example" }) }}
+{{ statusTag({ text: "In progress", label: "Application status:" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

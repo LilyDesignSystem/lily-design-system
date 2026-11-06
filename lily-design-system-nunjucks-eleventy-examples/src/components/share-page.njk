@@ -7,10 +7,10 @@ description: a group of social sharing links
 {% from "components/share-page/macro.njk" import sharePage %}
 
 <h2>Default</h2>
-{{ sharePage({ text: "Example SharePage content" }) }}
+{{ sharePage({ label: "Share this page", html: "<ul><li><a href='#email'>Share by email</a></li><li><a href='#print'>Print this page</a></li></ul>" }) }}
 
 <h2>With accessible label</h2>
-{{ sharePage({ text: "Example content", label: "SharePage example" }) }}
+{{ sharePage({ label: "Share this guide", html: "<ul><li><a href='#copy'>Copy the link</a></li></ul>" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

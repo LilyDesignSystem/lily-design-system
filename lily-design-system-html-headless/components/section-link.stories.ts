@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<a
   class="section-link"
+  href="#top"
   aria-label=""
 >
   <!-- Consumer provides content -->

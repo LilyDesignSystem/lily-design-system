@@ -19,4 +19,11 @@ describe("section-link", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("is a real link, to the top by default", () => {
+        expect(render("section-link", { text: "Top" }).document.querySelector("a").getAttribute("href")).toBe("#top");
+        expect(
+            render("section-link", { text: "Part", href: "#part" }).document.querySelector("a").getAttribute("href"),
+        ).toBe("#part");
+    });
 });

@@ -7,10 +7,10 @@ description: a panel confirming a successful action
 {% from "components/success-panel/macro.njk" import successPanel %}
 
 <h2>Default</h2>
-{{ successPanel({ text: "Example SuccessPanel content" }) }}
+{{ successPanel({ text: "Your appointment is booked for 20 April." }) }}
 
 <h2>With accessible label</h2>
-{{ successPanel({ text: "Example content", label: "SuccessPanel example" }) }}
+{{ successPanel({ text: "Your details were saved.", label: "Saved" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
