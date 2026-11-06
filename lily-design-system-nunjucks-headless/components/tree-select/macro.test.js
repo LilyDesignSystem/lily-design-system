@@ -2,24 +2,24 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("tree-select", () => {
-    it("renders a <div> with the base class and combobox role", () => {
+    it("renders a <div> with the base class and combobox trigger", () => {
         const { document } = render("tree-select", { label: "Category" });
         const el = document.querySelector("div.tree-select");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("role")).toBe("combobox");
-        expect(el.getAttribute("aria-haspopup")).toBe("tree");
+        expect(el.querySelector("button").getAttribute("role")).toBe("combobox");
+        expect(el.querySelector("button").getAttribute("aria-haspopup")).toBe("tree");
     });
 
     it("requires and renders aria-label", () => {
         const { document } = render("tree-select", { label: "Category" });
-        expect(document.querySelector("div.tree-select").getAttribute("aria-label")).toBe(
+        expect(document.querySelector("div.tree-select").querySelector("button").getAttribute("aria-label")).toBe(
             "Category",
         );
     });
 
     it("renders aria-expanded='false' by default", () => {
         const { document } = render("tree-select", { label: "Category" });
-        expect(document.querySelector("div.tree-select").getAttribute("aria-expanded")).toBe(
+        expect(document.querySelector("div.tree-select").querySelector("button").getAttribute("aria-expanded")).toBe(
             "false",
         );
     });
@@ -29,7 +29,7 @@ describe("tree-select", () => {
             label: "Category",
             expanded: true,
         });
-        expect(document.querySelector("div.tree-select").getAttribute("aria-expanded")).toBe(
+        expect(document.querySelector("div.tree-select").querySelector("button").getAttribute("aria-expanded")).toBe(
             "true",
         );
     });

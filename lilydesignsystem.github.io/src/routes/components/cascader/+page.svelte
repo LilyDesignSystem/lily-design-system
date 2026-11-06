@@ -82,7 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li>role="combobox" on the container</li>
+      <li>role="combobox" on the trigger button, the focusable element, as the APG select-only combobox has it</li>
       <li>aria-haspopup="tree"</li>
       <li>aria-expanded reflects the expanded prop</li>
       <li>aria-label is the accessible name (required)</li>

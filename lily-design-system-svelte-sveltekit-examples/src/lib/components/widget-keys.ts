@@ -268,12 +268,17 @@ export interface TreePopupOptions {
 }
 
 const TREE_ITEM = '[role="treeitem"]';
+let treePopupCount = 0;
 
 export function attachTreePopup(root: HTMLElement, options: TreePopupOptions = {}): () => void {
     const hook = root.classList[0];
     const trigger = root.querySelector<HTMLButtonElement>(`.${hook}-trigger`);
     const panel = root.querySelector<HTMLElement>(`.${hook}-panel`);
     if (!trigger || !panel) return () => {};
+
+    // The trigger is the combobox, so it carries the state and names the popup it controls.
+    if (!panel.id) panel.id = `${hook}-panel-${++treePopupCount}`;
+    trigger.setAttribute("aria-controls", panel.id);
 
     const items = (): HTMLElement[] => [...panel.querySelectorAll<HTMLElement>(TREE_ITEM)];
     const parentOf = (item: HTMLElement): HTMLElement | null =>
@@ -292,7 +297,7 @@ export function attachTreePopup(root: HTMLElement, options: TreePopupOptions = {
             .trim();
     const valueOf = (item: HTMLElement): string => item.dataset["value"] ?? ownText(item);
     const multiple = (): boolean => root.hasAttribute("data-multiple");
-    const isOpen = (): boolean => root.getAttribute("aria-expanded") === "true";
+    const isOpen = (): boolean => trigger.getAttribute("aria-expanded") === "true";
 
     function setExpanded(item: HTMLElement, open: boolean): void {
         item.setAttribute("aria-expanded", String(open));
@@ -316,7 +321,7 @@ export function attachTreePopup(root: HTMLElement, options: TreePopupOptions = {
     }
     function setOpen(open: boolean): void {
         if (open === isOpen()) return;
-        root.setAttribute("aria-expanded", String(open));
+        (trigger as HTMLElement).setAttribute("aria-expanded", String(open));
         showPanel(panel as HTMLElement, open);
         options.onOpen?.(open);
     }

@@ -92,15 +92,15 @@
 <div
     bind:this={rootEl}
     class={`cascader ${className}`}
-    role="combobox"
-    aria-haspopup="tree"
-    aria-expanded={expanded}
-    aria-label={label}
     {...restProps}
 >
     <button
         class="cascader-trigger"
         type="button"
+        role="combobox"
+        aria-haspopup="tree"
+        aria-expanded={expanded}
+        aria-label={label}
         {disabled}
         {onclick}
     >

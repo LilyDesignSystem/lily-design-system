@@ -20,15 +20,15 @@ describe("TreeSelect", () => {
         const host = render('<lily-tree-select label="Select category"></lily-tree-select>');
 
         expect(host.classList.contains("tree-select")).toBe(true);
-        expect(host.getAttribute("role")).toBe("combobox");
-        expect(host.getAttribute("aria-haspopup")).toBe("tree");
-        expect(host.getAttribute("aria-label")).toBe("Select category");
+        expect(host.querySelector("button")!.getAttribute("role")).toBe("combobox");
+        expect(host.querySelector("button")!.getAttribute("aria-haspopup")).toBe("tree");
+        expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Select category");
     });
 
     test("aria-expanded defaults to false and the panel starts hidden", () => {
         const host = render('<lily-tree-select label="Select category"></lily-tree-select>');
 
-        expect(host.getAttribute("aria-expanded")).toBe("false");
+        expect(host.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
         expect((host.querySelector(".tree-select-panel") as HTMLElement).hidden).toBe(true);
     });
 
@@ -37,7 +37,7 @@ describe("TreeSelect", () => {
             '<lily-tree-select label="Select category" expanded></lily-tree-select>',
         );
 
-        expect(host.getAttribute("aria-expanded")).toBe("true");
+        expect(host.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
         expect((host.querySelector(".tree-select-panel") as HTMLElement).hidden).toBe(false);
     });
 
@@ -87,7 +87,7 @@ describe("TreeSelect", () => {
         host.addEventListener("lily-expanded-change", handler);
 
         trigger.click();
-        expect(host.getAttribute("aria-expanded")).toBe("true");
+        expect(host.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
         expect(panel.hidden).toBe(false);
         expect(host.expanded).toBe(true);
         expect(handler).toHaveBeenCalledTimes(1);
@@ -96,7 +96,7 @@ describe("TreeSelect", () => {
         });
 
         trigger.click();
-        expect(host.getAttribute("aria-expanded")).toBe("false");
+        expect(host.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
         expect(panel.hidden).toBe(true);
         expect(handler).toHaveBeenCalledTimes(2);
     });
@@ -109,7 +109,7 @@ describe("TreeSelect", () => {
 
         trigger.click();
 
-        expect(host.getAttribute("aria-expanded")).toBe("false");
+        expect(host.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
     });
 
     test("Escape closes the panel and returns focus to the trigger", () => {
@@ -120,7 +120,7 @@ describe("TreeSelect", () => {
 
         host.dispatchEvent(new KeyboardEvent("keydown", { key: "Escape", bubbles: true }));
 
-        expect(host.getAttribute("aria-expanded")).toBe("false");
+        expect(host.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
         expect(document.activeElement).toBe(trigger);
     });
 
@@ -132,7 +132,7 @@ describe("TreeSelect", () => {
         host.addEventListener("lily-expanded-change", handler);
 
         host.expanded = true;
-        expect(host.getAttribute("aria-expanded")).toBe("true");
+        expect(host.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
         expect(handler).toHaveBeenCalledTimes(1);
 
         host.expanded = true;

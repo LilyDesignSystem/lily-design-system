@@ -82,7 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li>Implicit <code>button</code> role from <code>&lt;button&gt;</code> element</li>
+      <li><code>role="slider"</code> on the <code>&lt;button&gt;</code></li>
       <li><code>aria-label</code> -- describes the confirmation action</li>
       <li><code>aria-valuenow</code> -- current slider position percentage</li>
     </ul>

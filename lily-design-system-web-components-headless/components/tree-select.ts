@@ -1,7 +1,7 @@
 // TreeSelect component
 //
 // A select dropdown showing a tree of hierarchical options. Renders a
-// <div role="combobox">; the custom element stands in for that div
+// <div> around a <button role="combobox">; the custom element stands in for that div
 // directly (see lib/dom-utils.applySelfClassName) since <div> has no
 // native behaviour worth preserving as a separate element. Behaviour
 // idiom follows this catalog's own split-button.ts: internal open/closed
@@ -46,15 +46,15 @@ export class TreeSelect extends HTMLElement {
         this.#built = true;
 
         applySelfClassName(this, "tree-select");
-        this.setAttribute("role", "combobox");
-        this.setAttribute("aria-haspopup", "tree");
-        const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
         if (this.hasAttribute("multiple")) this.setAttribute("data-multiple", "true");
 
         const trigger = document.createElement("button");
         trigger.type = "button";
         trigger.className = "tree-select-trigger";
+        trigger.setAttribute("role", "combobox");
+        trigger.setAttribute("aria-haspopup", "tree");
+        const label = this.getAttribute("label");
+        if (label !== null) trigger.setAttribute("aria-label", label);
         trigger.textContent = this.getAttribute("value") ?? this.getAttribute("placeholder") ?? "";
         trigger.disabled = this.hasAttribute("disabled");
 
@@ -64,7 +64,7 @@ export class TreeSelect extends HTMLElement {
         moveChildrenInto(this, panel);
 
         const initiallyExpanded = this.hasAttribute("expanded");
-        this.setAttribute("aria-expanded", initiallyExpanded ? "true" : "false");
+        trigger.setAttribute("aria-expanded", initiallyExpanded ? "true" : "false");
         syncManualPopover(panel, initiallyExpanded);
 
         this.appendChild(trigger);
@@ -75,12 +75,12 @@ export class TreeSelect extends HTMLElement {
     }
 
     get expanded(): boolean {
-        return this.getAttribute("aria-expanded") === "true";
+        return this.#trigger?.getAttribute("aria-expanded") === "true";
     }
 
     set expanded(value: boolean) {
-        if (this.getAttribute("aria-expanded") === (value ? "true" : "false")) return;
-        this.setAttribute("aria-expanded", value ? "true" : "false");
+        if (this.expanded === value) return;
+        this.#trigger?.setAttribute("aria-expanded", value ? "true" : "false");
         if (this.#panel) syncManualPopover(this.#panel, value);
         this.#announce(value);
     }

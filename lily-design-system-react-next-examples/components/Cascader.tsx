@@ -102,15 +102,15 @@ export default function Cascader({
         <div
             ref={rootRef}
             className={`cascader ${className}`}
-            role="combobox"
-            aria-haspopup="tree"
-            aria-expanded={expanded}
-            aria-label={label}
             {...restProps}
         >
             <button
                 className="cascader-trigger"
                 type="button"
+                role="combobox"
+                aria-haspopup="tree"
+                aria-expanded={expanded}
+                aria-label={label}
                 disabled={disabled}
                 onClick={onClick}
             >

@@ -5,40 +5,40 @@ import { describe, expect, test, vi } from "vitest";
 import Subject from "./Cascader.vue";
 
 describe("Cascader", () => {
-    test("renders with cascader class and combobox role", () => {
+    test("renders with cascader class and combobox trigger", () => {
         const { container } = render(Subject, { props: { label: "Region" } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
         expect(root.classList.contains("cascader")).toBe(true);
-        expect(root.getAttribute("role")).toBe("combobox");
+        expect(root.querySelector("button")!.getAttribute("role")).toBe("combobox");
     });
 
     test("sets aria-haspopup tree and aria-label", () => {
         const { container } = render(Subject, { props: { label: "Region" } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
-        expect(root.getAttribute("aria-haspopup")).toBe("tree");
-        expect(root.getAttribute("aria-label")).toBe("Region");
+        expect(root.querySelector("button")!.getAttribute("aria-haspopup")).toBe("tree");
+        expect(root.querySelector("button")!.getAttribute("aria-label")).toBe("Region");
     });
 
     test("aria-expanded false by default", () => {
         const { container } = render(Subject, { props: { label: "Region" } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
-        expect(root.getAttribute("aria-expanded")).toBe("false");
+        expect(root.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
     });
 
     test("aria-expanded true when expanded", () => {
         const { container } = render(Subject, { props: { label: "Region", expanded: true } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
-        expect(root.getAttribute("aria-expanded")).toBe("true");
+        expect(root.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
     });
 
     test("renders trigger button with placeholder when no value", () => {
         render(Subject, { props: { label: "Region", placeholder: "Select…" } });
 
-        const trigger: HTMLElement = screen.getByRole("button");
+        const trigger: HTMLElement = screen.getByRole("combobox");
         expect(trigger.classList.contains("cascader-trigger")).toBe(true);
         expect(trigger.textContent).toContain("Select…");
     });
@@ -48,14 +48,14 @@ describe("Cascader", () => {
             props: { label: "Region", value: "USA / California", placeholder: "Select…" },
         });
 
-        const trigger: HTMLElement = screen.getByRole("button");
+        const trigger: HTMLElement = screen.getByRole("combobox");
         expect(trigger.textContent).toContain("USA / California");
     });
 
     test("trigger respects disabled prop", () => {
         render(Subject, { props: { label: "Region", disabled: true } });
 
-        const trigger: HTMLButtonElement = screen.getByRole("button") as HTMLButtonElement;
+        const trigger: HTMLButtonElement = screen.getByRole("combobox") as HTMLButtonElement;
         expect(trigger.disabled).toBe(true);
     });
 
@@ -87,7 +87,7 @@ describe("Cascader", () => {
         const onClick = vi.fn();
         render(Subject, { props: { label: "Region", onClick } });
 
-        const trigger: HTMLElement = screen.getByRole("button");
+        const trigger: HTMLElement = screen.getByRole("combobox");
         await user.click(trigger);
         expect(onClick).toHaveBeenCalledOnce();
     });

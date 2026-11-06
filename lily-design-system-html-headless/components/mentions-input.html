@@ -313,12 +313,17 @@ function typeahead(
 }
 
 const TREE_ITEM = '[role="treeitem"]';
+let treePopupCount = 0;
 
 function attachTreePopup(root             , options                   = {})             {
     const hook = root.classList[0];
     const trigger = root.querySelector                   (`.${hook}-trigger`);
     const panel = root.querySelector             (`.${hook}-panel`);
     if (!trigger || !panel) return () => {};
+
+    // The trigger is the combobox, so it carries the state and names the popup it controls.
+    if (!panel.id) panel.id = `${hook}-panel-${++treePopupCount}`;
+    trigger.setAttribute("aria-controls", panel.id);
 
     const items = ()                => [...panel.querySelectorAll             (TREE_ITEM)];
     const parentOf = (item             )                     =>
@@ -337,7 +342,7 @@ function attachTreePopup(root             , options                   = {})     
             .trim();
     const valueOf = (item             )         => item.dataset["value"] ?? ownText(item);
     const multiple = ()          => root.hasAttribute("data-multiple");
-    const isOpen = ()          => root.getAttribute("aria-expanded") === "true";
+    const isOpen = ()          => trigger.getAttribute("aria-expanded") === "true";
 
     function setExpanded(item             , open         )       {
         item.setAttribute("aria-expanded", String(open));
@@ -361,7 +366,7 @@ function attachTreePopup(root             , options                   = {})     
     }
     function setOpen(open         )       {
         if (open === isOpen()) return;
-        root.setAttribute("aria-expanded", String(open));
+        (trigger               ).setAttribute("aria-expanded", String(open));
         showPanel(panel               , open);
         options.onOpen?.(open);
     }

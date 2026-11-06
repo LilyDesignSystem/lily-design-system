@@ -416,8 +416,11 @@ async function runTreePopup(options: PatternOptions): Promise<void> {
     const trigger = root.querySelector<HTMLElement>(`.${hook}-trigger`);
     const panel = root.querySelector<HTMLElement>(`.${hook}-panel`);
     if (!trigger || !panel) return fail("setup", "no trigger or panel");
-    if (root.getAttribute("aria-haspopup") !== "tree") fail("setup", 'no aria-haspopup="tree"');
-    if (!named(root)) fail("setup", "it has no name");
+    if (trigger.getAttribute("aria-haspopup") !== "tree") fail("setup", 'no aria-haspopup="tree"');
+    if (!named(trigger)) fail("setup", "it has no name");
+    if (trigger.getAttribute("role") !== "combobox") fail("the trigger", "is not the combobox");
+    if (!panel.id || trigger.getAttribute("aria-controls") !== panel.id)
+        fail("the trigger", "does not control the panel");
     if (!panel.querySelector('[role="tree"]')) panel.innerHTML = contracts["tree-popup"].fixture;
     const item = (text: string): HTMLElement =>
         [...panel.querySelectorAll<HTMLElement>('[role="treeitem"]')].find(
@@ -433,7 +436,7 @@ async function runTreePopup(options: PatternOptions): Promise<void> {
             prevented = await fire(target, escape(step.press), options);
         }
         const { expanded, focus, branch, selected, prevented: wantPrevented } = step.expect;
-        const open = root.getAttribute("aria-expanded");
+        const open = trigger.getAttribute("aria-expanded");
         if (open !== String(expanded)) fail(step.name, `aria-expanded is ${open}`);
         if (listShown(panel) !== expanded) fail(step.name, `panel shown is ${listShown(panel)}`);
         if (focus) {

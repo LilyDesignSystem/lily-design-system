@@ -22,18 +22,18 @@ describe("TreeSelect", () => {
 
     test("renders a labelled tree combobox div with the base class and className", () => {
         const { root } = parts(render({ className: "extra" }));
-        expect(root.getAttribute("role")).toBe("combobox");
-        expect(root.getAttribute("aria-haspopup")).toBe("tree");
-        expect(root.getAttribute("aria-label")).toBe("Department");
+        expect(root.querySelector("button")!.getAttribute("role")).toBe("combobox");
+        expect(root.querySelector("button")!.getAttribute("aria-haspopup")).toBe("tree");
+        expect(root.querySelector("button")!.getAttribute("aria-label")).toBe("Department");
         expect(root.classList.contains("extra")).toBe(true);
     });
 
     test("expanded shows the panel and sets aria-expanded", () => {
         const closed = parts(render());
-        expect(closed.root.getAttribute("aria-expanded")).toBe("false");
+        expect(closed.root.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
         expect(closed.panel.hidden).toBe(true);
         const open = parts(render({ expanded: true }));
-        expect(open.root.getAttribute("aria-expanded")).toBe("true");
+        expect(open.root.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
         expect(open.panel.hidden).toBe(false);
     });
 

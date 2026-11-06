@@ -2,12 +2,12 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("chat-list", () => {
-    it("renders an <ol> with the base class and role=log", () => {
+    it("renders an <ol> with the base class and keeps its list role", () => {
         const { document } = render("chat-list", {});
         const el = document.querySelector("ol.chat-list");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("role")).toBe("log");
-        expect(el.getAttribute("aria-live")).toBe("polite");
+        expect(el.hasAttribute("role")).toBe(false);
+        expect(el.hasAttribute("aria-live")).toBe(false);
     });
 
     it("respects params.live", () => {

@@ -44,8 +44,6 @@ export class Cascader extends HTMLElement {
         if (!this.#built) {
             this.#built = true;
             applySelfClassName(this, "cascader");
-            this.setAttribute("role", "combobox");
-            this.setAttribute("aria-haspopup", "tree");
             this.id = this.id || nextId("cascader");
 
             // Capture the host's original children as the panel content.
@@ -54,6 +52,8 @@ export class Cascader extends HTMLElement {
             const trigger = document.createElement("button");
             trigger.type = "button";
             trigger.className = "cascader-trigger";
+            trigger.setAttribute("role", "combobox");
+            trigger.setAttribute("aria-haspopup", "tree");
 
             const panel = document.createElement("div");
             panel.className = "cascader-panel";
@@ -78,11 +78,11 @@ export class Cascader extends HTMLElement {
     #sync(): void {
         if (!this.#built || !this.#trigger || !this.#panel) return;
         const expanded = this.hasAttribute("expanded");
-        this.setAttribute("aria-expanded", expanded ? "true" : "false");
+        this.#trigger.setAttribute("aria-expanded", expanded ? "true" : "false");
         syncManualPopover(this.#panel, expanded);
 
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) this.#trigger.setAttribute("aria-label", label);
 
         this.#trigger.disabled = this.hasAttribute("disabled");
         this.#trigger.textContent =

@@ -91,16 +91,16 @@
 <div
     bind:this={rootEl}
     class={`tree-select ${className}`}
-    role="combobox"
-    aria-haspopup="tree"
-    aria-expanded={expanded}
-    aria-label={label}
     data-multiple={multiple || undefined}
     {...restProps}
 >
     <button
         class="tree-select-trigger"
         type="button"
+        role="combobox"
+        aria-haspopup="tree"
+        aria-expanded={expanded}
+        aria-label={label}
         {disabled}
         {onclick}
     >

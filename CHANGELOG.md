@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The tree combobox is its trigger — 2026-11-06
+
+- **Fixed:** `cascader` and `tree-select` put `role="combobox"` on an unfocusable `<div>`. The role, `aria-haspopup`, `aria-expanded`, `aria-label` and a new `aria-controls` are on the trigger button in all nine catalogs.
+- **Fixed:** Nunjucks `slider-button` is a `<button role="slider">`, and Nunjucks `chat-list` no longer has `role="log"`, which removed its list semantics; `live` is opt-in and it takes `label`.
+- **Breaking:** the two tree comboboxes' `aria-label` and `aria-expanded` move from the root to the trigger, for anything selecting on them.
+
 ## No catalog names a generic root — 2026-11-06
 
 - **Added:** `bin/check-generic-names` covers HTML and Blazor, the two catalogs without a rendered `generic-name` test. Its allow-list is empty.

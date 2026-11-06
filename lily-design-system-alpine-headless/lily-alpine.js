@@ -1600,15 +1600,17 @@ export default function lily(Alpine) {
         ...treeCore({ wrap, expanded }),
     }));
 
-    // TreeSelect / Cascader: a role="combobox" holding a trigger and a panel
+    // TreeSelect / Cascader: a role="combobox" trigger and a panel
     // with a tree. Opening moves focus into the tree; Escape returns it to the
     // trigger; choosing a leaf sets the selection and (single mode) closes.
     // `exclusive` opens one branch per level, which is the cascader.
+    let treePopupCount = 0;
     const popupTree = (name, exclusive) =>
         Alpine.data(name, (multiple = false, expanded = []) => ({
             ...treeCore({ exclusive, expanded }),
             multiple,
             open: false,
+            popupId: `tree-popup-${++treePopupCount}`,
             init() {
                 this.$watch("open", (value) => {
                     if (value)
@@ -1635,9 +1637,6 @@ export default function lily(Alpine) {
                 });
             },
             root: {
-                ":aria-expanded"() {
-                    return String(this.open);
-                },
                 ":data-multiple"() {
                     return this.multiple ? "true" : null;
                 },
@@ -1652,7 +1651,15 @@ export default function lily(Alpine) {
             },
             trigger: {
                 type: "button",
+                role: "combobox",
+                "aria-haspopup": "tree",
                 "x-ref": "trigger",
+                ":aria-expanded"() {
+                    return String(this.open);
+                },
+                ":aria-controls"() {
+                    return this.popupId;
+                },
                 "@click"() {
                     this.open = !this.open;
                 },
@@ -1662,6 +1669,9 @@ export default function lily(Alpine) {
             },
             panel: {
                 ...manualPopover((o) => o.open),
+                ":id"() {
+                    return this.popupId;
+                },
             },
             // aria-multiselectable is valid on the tree, not on the combobox root.
             tree: {

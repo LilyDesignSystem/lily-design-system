@@ -129,20 +129,22 @@ describe("TreeSelect", () => {
     };
     it("is a combobox popping a tree, closed at first", async () => {
         await mount("tree-select");
-        expect(el().getAttribute("role")).toBe("combobox");
-        expect(el().getAttribute("aria-haspopup")).toBe("tree");
-        expect(el().getAttribute("aria-expanded")).toBe("false");
+        const trigger = el().querySelector("button");
+        expect(trigger.getAttribute("role")).toBe("combobox");
+        expect(trigger.getAttribute("aria-haspopup")).toBe("tree");
+        expect(trigger.getAttribute("aria-expanded")).toBe("false");
+        expect(trigger.getAttribute("aria-controls")).toBe(panel().id);
         expect(panel().hidden).toBe(true);
     });
     it("the trigger opens the panel and moves focus into the tree; Escape returns it", async () => {
         await mount("tree-select");
         trigger().focus();
         await open();
-        expect(el().getAttribute("aria-expanded")).toBe("true");
+        expect(el().querySelector("button").getAttribute("aria-expanded")).toBe("true");
         expect(panel().hidden).toBe(false);
         expect(document.activeElement).toBe(item("one"));
         await press(document.activeElement, "Escape");
-        expect(el().getAttribute("aria-expanded")).toBe("false");
+        expect(el().querySelector("button").getAttribute("aria-expanded")).toBe("false");
         expect(panel().hidden).toBe(true);
         expect(document.activeElement).toBe(trigger());
     });

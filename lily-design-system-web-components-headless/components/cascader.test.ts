@@ -16,24 +16,24 @@ function render(html: string): HTMLElement {
 }
 
 describe("Cascader", () => {
-    test("the custom element itself is the combobox (self-is-the-wrapper)", () => {
+    test("the trigger is the combobox", () => {
         const host = render('<lily-cascader label="Region"><ul>Options</ul></lily-cascader>');
 
         expect(host.className).toBe("cascader");
-        expect(host.getAttribute("role")).toBe("combobox");
-        expect(host.getAttribute("aria-haspopup")).toBe("tree");
+        expect(host.querySelector("button")!.getAttribute("role")).toBe("combobox");
+        expect(host.querySelector("button")!.getAttribute("aria-haspopup")).toBe("tree");
     });
 
     test("uses label as the accessible name", () => {
         const host = render('<lily-cascader label="Region"></lily-cascader>');
 
-        expect(host.getAttribute("aria-label")).toBe("Region");
+        expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Region");
     });
 
     test("defaults aria-expanded to false and hides the panel", () => {
         const host = render('<lily-cascader label="Region"><ul>Options</ul></lily-cascader>');
 
-        expect(host.getAttribute("aria-expanded")).toBe("false");
+        expect(host.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
         expect((host.querySelector(".cascader-panel") as HTMLElement).hidden).toBe(true);
     });
 
@@ -56,7 +56,7 @@ describe("Cascader", () => {
         trigger.click();
 
         expect(host.hasAttribute("expanded")).toBe(true);
-        expect(host.getAttribute("aria-expanded")).toBe("true");
+        expect(host.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
         expect((host.querySelector(".cascader-panel") as HTMLElement).hidden).toBe(false);
 
         trigger.click();

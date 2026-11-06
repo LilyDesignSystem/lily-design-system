@@ -75,7 +75,6 @@
   "nunjucks:section-list": "unreviewed: renders <ul>, contract says <ol> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:select-with-extras": "unreviewed: renders <select>, contract says <div> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:separator": "unreviewed: renders <div>, contract says <hr> (P10-T12 baseline, 2026-10-31)",
-  "nunjucks:slider-button": "unreviewed: renders <div>, contract says <button> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:sparkline": "unreviewed: renders <svg>, contract says <span> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:tag-group": "unreviewed: renders <ul>, contract says <div> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:tile": "unreviewed: renders <a>, contract says <div> (P10-T12 baseline, 2026-10-31)",

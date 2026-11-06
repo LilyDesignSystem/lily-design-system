@@ -211,8 +211,8 @@ test("a split view keeps data-split-percent, and one with no separator is left a
     expect(() => attachSplitView(mount("<div></div>"))()).not.toThrow();
 });
 
-const POPUP = (attrs = "", tree = "") => `<div class="tree-select" aria-expanded="false" ${attrs}>
-  <button class="tree-select-trigger" type="button">Pick</button>
+const POPUP = (attrs = "", tree = "") => `<div class="tree-select" ${attrs}>
+  <button class="tree-select-trigger" type="button" role="combobox" aria-expanded="false">Pick</button>
   <div class="tree-select-panel" hidden>${
       tree ||
       `<ul role="tree"><li role="treeitem" aria-expanded="false">Fruit<ul role="group"><li role="treeitem" data-value="a">Apple</li></ul></li><li role="treeitem" aria-expanded="false">Veg<ul role="group"><li role="treeitem">Leek</li></ul></li><li role="treeitem">Tea</li></ul>`
@@ -257,7 +257,7 @@ test("multiple stays open, toggles, and marks the tree", () => {
     root.querySelector("button")!.click();
     expect(root.querySelector('[role="tree"]')!.getAttribute("aria-multiselectable")).toBe("true");
     press(item(root, "Tea"), " ");
-    expect(root.getAttribute("aria-expanded")).toBe("true");
+    expect(root.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
     expect(onSelect).toHaveBeenLastCalledWith({ value: "Tea", path: ["Tea"], selected: ["Tea"] });
     press(item(root, "Tea"), " ");
     expect(item(root, "Tea").getAttribute("aria-selected")).toBe("false");
@@ -271,13 +271,13 @@ test("a click toggles a branch and chooses a leaf; a disabled trigger stays shut
     item(root, "Fruit").click();
     expect(item(root, "Fruit").getAttribute("aria-expanded")).toBe("true");
     item(root, "Tea").click();
-    expect(root.getAttribute("aria-expanded")).toBe("false");
+    expect(root.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
     detach();
     const off = mount(POPUP());
     off.querySelector("button")!.disabled = true;
     const detachOff = attachTreePopup(off);
     off.querySelector("button")!.click();
-    expect(off.getAttribute("aria-expanded")).toBe("false");
+    expect(off.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
     detachOff();
 });
 

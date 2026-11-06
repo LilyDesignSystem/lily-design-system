@@ -3,14 +3,14 @@
 <!--
   Description: a select dropdown showing a tree of hierarchical options
 
-  HTML tag: <div> with role="combobox"
+  HTML tag: <div> holding a <button role="combobox">
   CSS class: tree-select
   Keyboard:
     - Tab to focus the trigger button
     - Enter or Space to toggle the panel open/closed
     - Escape to close the panel
   Accessibility:
-    - role="combobox" on the root container
+    - role="combobox" on the trigger button
     - aria-haspopup="tree" indicates a hierarchical popup
     - aria-expanded reflects panel visibility
     - aria-label is REQUIRED — the accessible name
@@ -18,19 +18,13 @@
       invalid on a combobox; put it on the consumer's role="tree" instead)
 
   Behavior:
-    Renders a <div role="combobox"> with a <button class="tree-select-trigger">
+    Renders a <div> with a <button role="combobox" class="tree-select-trigger">
     and a <div class="tree-select-panel"> child. The script wires the trigger
     button to toggle the panel and aria-expanded.
 
   Usage:
-    <div
-      class="tree-select"
-      role="combobox"
-      aria-haspopup="tree"
-      aria-expanded="false"
-      aria-label="Choose category"
-    >
-      <button class="tree-select-trigger" type="button">Select…</button>
+    <div class="tree-select">
+      <button class="tree-select-trigger" type="button" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="">Select…</button>
       <div class="tree-select-panel" popover="manual">
         … consumer-supplied tree (e.g. TreeNav / TreeList) …
       </div>
@@ -39,13 +33,9 @@
 
 <div
   class="tree-select"
-  role="combobox"
-  aria-haspopup="tree"
-  aria-expanded="false"
-  aria-label=""
 >
   <!-- Trigger button: opens and closes the tree panel. -->
-  <button class="tree-select-trigger" type="button">
+  <button class="tree-select-trigger" type="button" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="">
     <!-- Consumer provides the display value or placeholder text -->
   </button>
 
@@ -302,12 +292,17 @@ function typeahead(
 }
 
 const TREE_ITEM = '[role="treeitem"]';
+let treePopupCount = 0;
 
 function attachTreePopup(root             , options                   = {})             {
     const hook = root.classList[0];
     const trigger = root.querySelector                   (`.${hook}-trigger`);
     const panel = root.querySelector             (`.${hook}-panel`);
     if (!trigger || !panel) return () => {};
+
+    // The trigger is the combobox, so it carries the state and names the popup it controls.
+    if (!panel.id) panel.id = `${hook}-panel-${++treePopupCount}`;
+    trigger.setAttribute("aria-controls", panel.id);
 
     const items = ()                => [...panel.querySelectorAll             (TREE_ITEM)];
     const parentOf = (item             )                     =>
@@ -326,7 +321,7 @@ function attachTreePopup(root             , options                   = {})     
             .trim();
     const valueOf = (item             )         => item.dataset["value"] ?? ownText(item);
     const multiple = ()          => root.hasAttribute("data-multiple");
-    const isOpen = ()          => root.getAttribute("aria-expanded") === "true";
+    const isOpen = ()          => trigger.getAttribute("aria-expanded") === "true";
 
     function setExpanded(item             , open         )       {
         item.setAttribute("aria-expanded", String(open));
@@ -350,7 +345,7 @@ function attachTreePopup(root             , options                   = {})     
     }
     function setOpen(open         )       {
         if (open === isOpen()) return;
-        root.setAttribute("aria-expanded", String(open));
+        (trigger               ).setAttribute("aria-expanded", String(open));
         showPanel(panel               , open);
         options.onOpen?.(open);
     }

@@ -24,13 +24,9 @@ import { attachTreePopup, type TreeSelection } from "./widget-keys";
     standalone: true,
     template: `<div
         class="cascader {{ className() }}"
-        role="combobox"
-        aria-haspopup="tree"
-        [attr.aria-expanded]="expanded() ? 'true' : 'false'"
-        [attr.aria-label]="label()"
         [attr.data-multiple]="multiple() ? 'true' : null"
     >
-        <button class="cascader-trigger" type="button" [disabled]="disabled()" (click)="triggerClick.emit($event)">
+        <button class="cascader-trigger" type="button" role="combobox" aria-haspopup="tree" [attr.aria-expanded]="expanded() ? 'true' : 'false'" [attr.aria-label]="label()" [disabled]="disabled()" (click)="triggerClick.emit($event)">
             {{ value() || placeholder() }}
         </button>
         <div #panel popover="manual" class="cascader-panel"><ng-content /></div>

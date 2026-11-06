@@ -12,7 +12,7 @@
 
 ## Key Behaviors
 
-- Renders <div role="combobox" aria-haspopup="tree" aria-expanded aria-label> as container
+- Renders a <div> container; its trigger is the <button role="combobox" aria-haspopup="tree" aria-expanded aria-controls aria-label>
 - Trigger is a native <button class="cascader-trigger" type="button"> showing value or placeholder
 - Panel is a <div class="cascader-panel"> `popover="manual"`, shown while `expanded` (the hidden attribute where the Popover API is missing)
 - label prop is REQUIRED and sets aria-label on the combobox container
@@ -21,7 +21,7 @@
 
 ## ARIA
 
-- role="combobox" on the container
+- role="combobox" on the trigger button, the focusable element, as the APG select-only combobox has it
 - aria-haspopup="tree"
 - aria-expanded reflects the expanded prop
 - aria-label is the accessible name (required)

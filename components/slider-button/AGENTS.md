@@ -19,7 +19,7 @@
 
 ## ARIA
 
-- Implicit `button` role from `<button>` element
+- `role="slider"` on the `<button>`
 - `aria-label` -- describes the confirmation action
 - `aria-valuenow` -- current slider position percentage
 

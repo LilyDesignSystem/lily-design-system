@@ -58,7 +58,7 @@ describe("TreeSelect", () => {
                 <ul>x</ul>
             </Subject>,
         );
-        expect(screen.getByRole("combobox").getAttribute("data-multiple")).toBe("true");
+        expect(document.querySelector(".tree-select")!.getAttribute("data-multiple")).toBe("true");
     });
 
     test("no data-multiple when single select", () => {
@@ -67,7 +67,7 @@ describe("TreeSelect", () => {
                 <ul>x</ul>
             </Subject>,
         );
-        expect(screen.getByRole("combobox").getAttribute("data-multiple")).toBeNull();
+        expect(document.querySelector(".tree-select")!.getAttribute("data-multiple")).toBeNull();
     });
 
     test("trigger displays value when provided", () => {
@@ -79,7 +79,7 @@ describe("TreeSelect", () => {
                 <ul>x</ul>
             </Subject>,
         );
-        expect(screen.getByRole("button").textContent).toBe("Fruits / Apple");
+        expect(screen.getByRole("combobox").textContent).toBe("Fruits / Apple");
     });
 
     test("trigger displays placeholder when no value", () => {
@@ -91,7 +91,7 @@ describe("TreeSelect", () => {
                 <ul>x</ul>
             </Subject>,
         );
-        expect(screen.getByRole("button").textContent).toBe("Pick…");
+        expect(screen.getByRole("combobox").textContent).toBe("Pick…");
     });
 
     test("disables the trigger when disabled", () => {
@@ -103,7 +103,7 @@ describe("TreeSelect", () => {
                 <ul>x</ul>
             </Subject>,
         );
-        const trigger: HTMLButtonElement = screen.getByRole("button") as HTMLButtonElement;
+        const trigger: HTMLButtonElement = screen.getByRole("combobox") as HTMLButtonElement;
         expect(trigger.disabled).toBe(true);
     });
 
@@ -144,7 +144,7 @@ describe("TreeSelect", () => {
                 <ul>x</ul>
             </Subject>,
         );
-        await user.click(screen.getByRole("button"));
+        await user.click(screen.getByRole("combobox"));
         expect(handleClick).toHaveBeenCalledOnce();
     });
 });

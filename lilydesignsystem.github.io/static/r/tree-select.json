@@ -12,7 +12,7 @@
   "interactive": true,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "role=\"combobox\" on the container",
+    "role=\"combobox\" on the trigger button, the focusable element, as the APG select-only combobox has it",
     "aria-haspopup=\"tree\"",
     "aria-expanded reflects expanded prop",
     "aria-label is the accessible name (required)",

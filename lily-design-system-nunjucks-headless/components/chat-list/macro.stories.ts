@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<ol
-  class="chat-list"
-  role="log"
-  aria-live="polite"></ol>`;
+  class="chat-list"></ol>`;
 
 const meta = {
     title: "Headless/ChatList",
