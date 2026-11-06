@@ -48,6 +48,7 @@
 <!-- MockupWindow.svelte -->
 <div
     class={`mockup-window ${className}`}
+    role="img"
     aria-label={label}
     {...restProps}
 >

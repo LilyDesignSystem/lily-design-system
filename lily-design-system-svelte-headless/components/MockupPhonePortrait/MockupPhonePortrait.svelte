@@ -49,6 +49,7 @@
 <!-- MockupPhonePortrait.svelte -->
 <div
     class={`mockup-phone-portrait ${className}`}
+    role="img"
     aria-label={label}
     {...restProps}
 >

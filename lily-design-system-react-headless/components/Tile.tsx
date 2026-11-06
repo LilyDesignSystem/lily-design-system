@@ -38,6 +38,7 @@ export default function Tile({
     return (
         <div
             className={`tile ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

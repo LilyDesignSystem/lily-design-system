@@ -37,7 +37,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-loading",
     standalone: true,
-    template: `<div class="loading {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="loading {{ className() }}" role="status" aria-live="polite" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Loading {

@@ -25,8 +25,10 @@ export class Flair extends HTMLElement {
         const span = document.createElement("span");
         span.className = rootClassName(this, "flair");
         const label = this.getAttribute("label");
-        if (label !== null) span.setAttribute("aria-label", label);
-        else span.setAttribute("aria-hidden", "true");
+        if (label !== null) {
+            span.setAttribute("aria-label", label);
+            span.setAttribute("role", "img");
+        } else span.setAttribute("aria-hidden", "true");
         passThroughAttributes(this, span, HANDLED);
 
         moveChildrenInto(this, span);

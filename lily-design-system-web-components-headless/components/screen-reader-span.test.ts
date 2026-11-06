@@ -34,12 +34,12 @@ describe("ScreenReaderSpan", () => {
         expect(host.querySelector("span")!.textContent).toBe("Opens in a new tab");
     });
 
-    test("sets aria-label when label is provided", () => {
+    test("never names itself: its content is the accessible text", () => {
         const host = render(
             '<lily-screen-reader-span label="Additional context">Opens in a new tab</lily-screen-reader-span>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Additional context");
+        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
     });
 
     test("omits aria-label when label is absent", () => {

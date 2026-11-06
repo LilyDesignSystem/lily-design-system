@@ -9,4 +9,11 @@ describe("AvatarGroup", () => {
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("avatar-group");
     });
+
+    test("has role=group with a label", () => {
+        const { container } = render(AvatarGroup, { props: { label: "Story" } as any });
+        const root = container.querySelector(".avatar-group")!;
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

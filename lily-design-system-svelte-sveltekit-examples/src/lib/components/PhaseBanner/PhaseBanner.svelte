@@ -49,6 +49,7 @@
 <!-- PhaseBanner.svelte -->
 <div
     class={`phase-banner ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     {...restProps}
 >

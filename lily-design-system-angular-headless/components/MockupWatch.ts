@@ -37,7 +37,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-mockup-watch",
     standalone: true,
-    template: `<div class="mockup-watch {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="mockup-watch {{ className() }}" role="img" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MockupWatch {

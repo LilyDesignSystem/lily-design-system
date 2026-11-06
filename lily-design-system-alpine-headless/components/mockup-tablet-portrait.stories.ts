@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="mockup-tablet-portrait"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+    '<div\n  class="mockup-tablet-portrait"\n  role="img"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
     title: "Headless/Mockup Tablet Portrait",

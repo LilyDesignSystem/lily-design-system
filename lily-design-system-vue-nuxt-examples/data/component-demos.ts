@@ -11,7 +11,7 @@ export const componentDemos: Record<string, string> = {
   'address-input': '<label class="label" for="demo-input">Label</label><input class="address-input" id="demo-input" aria-label="an input for searching or manually entering an address" />',
   'addressograph-box': '<div class="addressograph-box" role="group" aria-label="Patient identification"><p>Jane Doe</p><p>DOB: 1980-05-12</p><p>NHS: 943 476 5919</p><p>Ward: A3</p></div>',
   'affix': '<div class="affix">Affix</div>',
-  'ai-label': '<span class="ai-label" aria-label="AI-generated content">AI</span>',
+  'ai-label': '<span class="ai-label" role="img" aria-label="AI-generated content">AI</span>',
   'alba-community-health-index-input': '<label class="label" for="demo-input">Label</label><input class="alba-community-health-index-input" id="demo-input" aria-label="an input for entering Scotland\'s Community Health Index (CHI)" />',
   'alba-community-health-index-view': '<span class="alba-community-health-index-view">AlbaCommunityHealthIndexView</span>',
   'alert': '<div class="alert" role="alert">This is an alert message</div>',

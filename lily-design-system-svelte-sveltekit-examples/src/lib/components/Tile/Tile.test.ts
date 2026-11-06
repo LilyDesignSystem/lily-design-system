@@ -9,4 +9,11 @@ describe("Tile", () => {
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("tile");
     });
+
+    test("has role=group with a label", () => {
+        const { container } = render(Tile, { props: { label: "Story" } as any });
+        const root = container.querySelector(".tile")!;
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

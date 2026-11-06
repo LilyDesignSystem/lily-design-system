@@ -56,6 +56,7 @@ export default function Flair({
     return (
         <span
             className={`flair ${className}`}
+            role={label ? "img" : undefined}
             aria-label={label}
             aria-hidden={label ? undefined : "true"}
             {...restProps}

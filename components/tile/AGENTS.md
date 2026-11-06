@@ -18,6 +18,7 @@
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named
 - `aria-label` -- describes the tile for screen readers
 - `tabindex="0"` when interactive
 - `role="button"` when interactive

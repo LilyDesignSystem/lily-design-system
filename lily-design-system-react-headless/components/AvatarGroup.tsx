@@ -38,6 +38,7 @@ export default function AvatarGroup({
     return (
         <div
             className={`avatar-group ${className}`}
+            role="group"
             aria-label={label}
             {...restProps}
         >

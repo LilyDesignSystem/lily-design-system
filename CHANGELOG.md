@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## 18 more components stop naming a generic root — 2026-11-06
+
+- **Fixed:** the eight mockups that lacked it are `role="img"`, as their contracts say. `super-banner` is `role="alert"` with `aria-live="assertive"`, and `loading` is `role="status"` with `aria-live="polite"`, so both are announced.
+- **Changed:** `avatar-group`, `dial-group` and `diff` are `role="group"`. `tile` and `phase-banner` are `role="group"` with a `label`. `ai-label` is `role="img"`, and so is `flair` with a `label`.
+- **Breaking:** `screen-reader-span` loses `label` everywhere: it is hidden text, so its content is the accessible text.
+
 ## A test stops new generic names — 2026-11-06
 
 - **Added:** a `generic-name` test in Svelte, React, Vue, Angular, Web Components and Nunjucks renders every component with a `label` and fails on a named `<div>` or `<span>` with no role. Its allow-list holds the 37 known components and may only shrink.

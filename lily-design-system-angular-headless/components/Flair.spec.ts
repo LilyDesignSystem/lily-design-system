@@ -19,4 +19,13 @@ describe("Flair", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=img with a label", () => {
+        const fixture = TestBed.createComponent(Flair);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".flair");
+        expect(el.getAttribute("role")).toBe("img");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

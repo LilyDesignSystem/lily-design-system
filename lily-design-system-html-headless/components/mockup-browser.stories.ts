@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="mockup-browser"
+  role="img"
   aria-label=""
 >
   <!-- Consumer provides content -->

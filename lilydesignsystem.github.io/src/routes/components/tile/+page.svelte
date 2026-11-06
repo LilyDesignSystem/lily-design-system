@@ -82,6 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
+      <li>With a <code>label</code>, the root is <code>role="group"</code>, because a plain <code>&lt;div&gt;</code> cannot be named</li>
       <li><code>aria-label</code> -- describes the tile for screen readers</li>
       <li><code>tabindex="0"</code> when interactive</li>
       <li><code>role="button"</code> when interactive</li>

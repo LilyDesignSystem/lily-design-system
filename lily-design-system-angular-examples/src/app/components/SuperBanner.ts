@@ -37,7 +37,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-super-banner",
     standalone: true,
-    template: `<div class="super-banner {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="super-banner {{ className() }}" role="alert" aria-live="assertive" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuperBanner {

@@ -24,6 +24,7 @@ export class MockupPhonePortrait extends HTMLElement {
 
         applySelfClassName(this, "mockup-phone-portrait");
         const label = this.getAttribute("label");
+        if (!this.hasAttribute("role")) this.setAttribute("role", "img");
         if (label !== null) this.setAttribute("aria-label", label);
     }
 }

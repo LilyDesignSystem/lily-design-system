@@ -47,6 +47,7 @@
 <!-- DialGroup.svelte -->
 <div
     class={`dial-group ${className}`}
+    role="group"
     aria-label={label}
     {...restProps}
 >

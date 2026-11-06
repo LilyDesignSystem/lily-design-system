@@ -9,4 +9,11 @@ describe("Diff", () => {
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("diff");
     });
+
+    test("has role=group with a label", () => {
+        const { container } = render(Diff, { props: { label: "Story" } as any });
+        const root = container.querySelector(".diff")!;
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

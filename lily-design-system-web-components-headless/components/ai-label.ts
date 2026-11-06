@@ -42,6 +42,7 @@ export class AiLabel extends HTMLElement {
     #sync(): void {
         const span = this.#span;
         if (!span) return;
+        span.setAttribute("role", "img");
         span.setAttribute("aria-label", this.getAttribute("label") ?? "AI");
         span.textContent = this.getAttribute("text") ?? "AI";
     }

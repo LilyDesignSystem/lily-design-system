@@ -17,23 +17,12 @@
 // References:
 //   - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
 
-withDefaults(
-    defineProps<{
-        /** Optional accessible label set on aria-label. */
-        label?: string;
-    }>(),
-    {
-        label: undefined,
-    },
-);
+withDefaults(defineProps<{}>(), {});
 </script>
 
 <template>
     <!-- ScreenReaderSpan.vue -->
-    <span
-        class="screen-reader-span"
-        :aria-label="label"
-    >
+    <span class="screen-reader-span">
         <slot />
     </span>
 </template>

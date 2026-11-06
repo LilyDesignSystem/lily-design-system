@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<span
   class="screen-reader-span"
-  aria-label=""
 >
   <!-- Consumer provides content -->
 </span>`;

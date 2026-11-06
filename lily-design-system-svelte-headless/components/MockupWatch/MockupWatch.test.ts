@@ -9,4 +9,11 @@ describe("MockupWatch", () => {
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("mockup-watch");
     });
+
+    test("has role=img with a label", () => {
+        const { container } = render(MockupWatch, { props: { label: "Story" } as any });
+        const root = container.querySelector(".mockup-watch")!;
+        expect(root.getAttribute("role")).toBe("img");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

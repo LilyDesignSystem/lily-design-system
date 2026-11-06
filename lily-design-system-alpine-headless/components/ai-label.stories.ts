@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="ai-label"\n  aria-label=""\n>\n  <!-- Consumer provides text content -->\n</span>';
+    '<span\n  class="ai-label"\n  role="img"\n  aria-label=""\n>\n  <!-- Consumer provides text content -->\n</span>';
 
 const meta = {
     title: "Headless/Ai Label",

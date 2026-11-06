@@ -19,6 +19,7 @@
 
 ## ARIA
 
+- `role="img"` with `aria-label` when `label` is given, because a `<span>` cannot be named
 - `aria-hidden="true"` -- applied when no `label` is provided, marking the flair as decorative
 - `aria-label` -- applied when `label` is provided, giving the flair an accessible name for screen readers
 

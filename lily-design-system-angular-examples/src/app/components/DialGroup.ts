@@ -36,7 +36,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-dial-group",
     standalone: true,
-    template: `<div class="dial-group {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="dial-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialGroup {

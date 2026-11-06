@@ -25,8 +25,6 @@ export class ScreenReaderSpan extends HTMLElement {
 
         const span = document.createElement("span");
         span.className = rootClassName(this, "screen-reader-span");
-        const label = this.getAttribute("label");
-        if (label !== null) span.setAttribute("aria-label", label);
         passThroughAttributes(this, span, HANDLED);
 
         moveChildrenInto(this, span);
