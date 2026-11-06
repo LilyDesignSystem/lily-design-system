@@ -84,7 +84,7 @@
     <ul>
       <li>Renders a <code>&lt;span&gt;</code> that displays the postal/ZIP code as text content</li>
       <li>No specific ARIA needed — the visible text provides the accessible name</li>
-      <li>Consumers may add <code>aria-label</code> for additional context (e.g. "Postal code: SW1A 1AA")</li>
+      <li>For more context, put it in visible text or a <code>screen-reader-span</code> beside the value, because a <code>&lt;span&gt;</code> cannot take <code>aria-label</code></li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
