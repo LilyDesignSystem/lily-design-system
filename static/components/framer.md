@@ -4,12 +4,12 @@ A container for framed content display with a decorative border, used to visuall
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
-This headless component uses a `<div>` element with an optional `aria-label` for semantic framing of visual content.
+This headless component uses a `<div>` element with an optional `role="group"` and `aria-label` for semantic framing of visual content.
 
 ## Implementation Notes
 
 - Uses `<div>` element as a frame container
-- Supports optional `aria-label` when the frame has semantic meaning
+- Supports optional `role="group"` and `aria-label` when the frame has semantic meaning
 - Consumer provides frame styling (border, shadow, background)
 - Can be used for screenshots, artwork, embedded content
 
@@ -54,7 +54,7 @@ This headless component uses a `<div>` element with an optional `aria-label` for
 
 ## ARIA
 
-- Optional `aria-label` when frame has semantic meaning; otherwise presentational
+- With `label`: `role="group"` and `aria-label`, because a plain `<div>` cannot be named. A consumer who names it with `aria-label` directly passes `role` too. Without `label`: no role, presentational
 - When `label` is provided, the container is labeled for assistive technology
 
 ## When to Use
@@ -71,7 +71,7 @@ This headless component uses a `<div>` element with an optional `aria-label` for
 
 ## Headless
 
-This component provides a `<div>` element with an optional `aria-label` for framing content, with zero visual styling. The consumer is responsible for all CSS including borders, shadows, padding, background color, and responsive sizing.
+This component provides a `<div>` element with an optional `role="group"` and `aria-label` for framing content, with zero visual styling. The consumer is responsible for all CSS including borders, shadows, padding, background color, and responsive sizing.
 
 ## Styles
 
@@ -80,8 +80,8 @@ The consumer provides all CSS styling. The component renders with a `.framer` cl
 ## Testing
 
 - Verify the component renders a `<div>` element with class `framer`
-- Verify `aria-label` is applied when `label` prop is provided
-- Verify `aria-label` is omitted when `label` prop is not provided
+- Verify `role="group"` and `aria-label` are applied when `label` prop is provided
+- Verify `role` and `aria-label` are omitted when `label` prop is not provided
 - Verify child content is rendered correctly
 - Verify pass-through attributes are applied
 

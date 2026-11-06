@@ -4,7 +4,7 @@ A video-driven scrollytelling component with frame-by-frame scrubbing. The video
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
-This headless component uses a `<div>` element with an `aria-label` and a muted video element whose playback is driven entirely by scroll position.
+This headless component uses a `<div>` element with `role="group"` and an `aria-label` and a muted video element whose playback is driven entirely by scroll position.
 
 ## Implementation Notes
 
@@ -62,7 +62,7 @@ This headless component uses a `<div>` element with an `aria-label` and a muted 
 
 ## ARIA
 
-- `aria-label` on container describing the video story
+- `role="group"` with `aria-label` on container describing the video story
 - `role="img"` with `aria-roledescription="scrollable video"` on video area
 - `alt` text provides a text alternative for non-visual access
 
@@ -96,7 +96,7 @@ The consumer provides all CSS styling. The component renders with a `.scroller-v
 ## Testing
 
 - Verify the component renders a `<div>` element with class `scroller-video`
-- Verify `aria-label` is applied
+- Verify `role="group"` and `aria-label` are applied
 - Verify `alt` text is provided for non-visual access
 - Verify video is muted
 - Verify video playback position maps to scroll position

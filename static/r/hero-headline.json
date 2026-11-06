@@ -12,7 +12,7 @@
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "`aria-label` on container",
+    "`role=\"group\"` with `aria-label` on container, because a plain `<div>` cannot be named",
     "Media should have appropriate alt text"
   ],
   "keyboard": [

@@ -4,7 +4,7 @@ A scrollytelling container with step-based foreground and background composition
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
-This headless component uses a `<div>` element with an optional `aria-label` to create a scrollytelling region with separate background and foreground slots.
+This headless component uses a `<div>` element with `role="group"` and an optional `aria-label` to create a scrollytelling region with separate background and foreground slots.
 
 ## Implementation Notes
 
@@ -79,7 +79,7 @@ This headless component uses a `<div>` element with an optional `aria-label` to 
 
 ## ARIA
 
-- `aria-label` on container when `label` prop is provided
+- `role="group"` with `aria-label` on container when `label` prop is provided
 - `aria-live="polite"` on background for screen reader updates when content changes
 
 ## Composition
@@ -118,7 +118,7 @@ The consumer provides all CSS styling. The component renders with a `.scroller` 
 ## Testing
 
 - Verify the component renders a `<div>` element with class `scroller`
-- Verify `aria-label` is applied when label prop is provided
+- Verify `role="group"` and `aria-label` are applied when label prop is provided
 - Verify background slot content is rendered
 - Verify foreground step content is rendered
 - Verify index updates as steps scroll into view
