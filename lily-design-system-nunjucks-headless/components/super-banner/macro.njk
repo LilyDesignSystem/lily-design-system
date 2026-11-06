@@ -16,6 +16,7 @@
 {%- set p = params | default({}) -%}
 <div
   class="super-banner{% if p.classes %} {{ p.classes }}{% endif %}"
+  aria-live="assertive"
   role="alert"
   data-level="{{ p.level | default('warning') }}"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}

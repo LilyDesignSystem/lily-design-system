@@ -21,6 +21,7 @@
 {%- set p = params | default({}) -%}
 <img
   class="qr-code-image{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   src="{{ p.src }}"
   alt="{{ p.alt }}"
   {%- if p.size %} width="{{ p.size }}" height="{{ p.size }}"{% endif %}

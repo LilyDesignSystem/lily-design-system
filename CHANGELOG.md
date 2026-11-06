@@ -14,6 +14,7 @@ highlights.
 - **Added:** `shared/aria-baseline.json` records each Svelte root's role and `aria-*` names, and the render sweeps in React, Vue, Angular, Nunjucks and Web Components compare with it, with allow-lists that may only shrink.
 - **Fixed:** the eight `mockup-*` components in React and Vue are `role="img"` and take `label`, and `loading` has `aria-live`. Angular gets back `role="list"` on `check-list`, `do-list`, `dont-list` and `task-list`, `role="img"` on `figure`, `role="search"` on `data-filter-form`, `aria-roledescription` on `carousel`, `aria-hidden` on `skeleton` and `avatar-text`, and `aria-live` on `validation-list`, and `calendar-range-picker` and `emoji-character-picker` take the roles Svelte has.
 - **Fixed:** the 41 `-view` contracts no longer claim `role="text"`.
+- **Fixed:** 35 Nunjucks macros gain what Svelte has on the root: `role="grid"` and `gridcell` on the tables, `role="list"`, `aria-live` on `alert`, `banner`, `notification`, `toast` and `super-banner`, and `role="img"` with `label` on the mockups. `alert` is polite when its role is `status`.
 
 ## The key check reads pattern tests — 2026-11-06
 

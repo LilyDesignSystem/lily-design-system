@@ -31,6 +31,8 @@
 {%- endif -%}
 <output
   class="character-counter{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="status"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   aria-live="polite"
   {%- if p.for %} for="{{ p.for }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}

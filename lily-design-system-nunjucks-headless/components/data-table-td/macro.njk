@@ -23,6 +23,7 @@
 {%- macro dataTableTd(params) -%}
 <td
   class="data-table-td{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="gridcell"
   {%- if params.colspan %} colspan="{{ params.colspan }}"{% endif %}
   {%- if params.rowspan %} rowspan="{{ params.rowspan }}"{% endif %}
   {%- if params.headers %} headers="{{ params.headers }}"{% endif %}

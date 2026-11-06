@@ -47,6 +47,7 @@
 {%- set role = params.role | default(defaultRole) -%}
 <div
   class="notification{% if params.classes %} {{ params.classes }}{% endif %}"
+  aria-live="polite"
   role="{{ role }}"
   data-variant="{{ variant }}"
   {%- if params.heading %} aria-labelledby="{{ headingId }}"

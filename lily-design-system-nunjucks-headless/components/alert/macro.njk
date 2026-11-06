@@ -25,6 +25,8 @@
 {%- macro alert(params) -%}
 <div
   class="alert{% if params.classes %} {{ params.classes }}{% endif %}"
+  aria-live="{{ 'polite' if params.role == 'status' else 'assertive' }}"
+  aria-atomic="true"
   role="{{ params.role | default('alert') }}"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.label %} aria-label="{{ params.label }}"{% endif %}

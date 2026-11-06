@@ -26,6 +26,7 @@
 {%- macro avatarImage(params) -%}
 <img
   class="avatar-image{% if params.classes %} {{ params.classes }}{% endif %}"
+  aria-hidden="true"
   src="{{ params.src }}"
   alt="{{ params.alt | default('') }}"
   loading="{{ params.loading | default('lazy') }}"
