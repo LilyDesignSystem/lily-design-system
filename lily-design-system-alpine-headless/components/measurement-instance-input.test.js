@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("div.measurement-instance-input");
+const el = () => document.querySelector("input.measurement-instance-input");
 
 describe("MeasurementInstanceInput", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("MeasurementInstanceInput", () => {
         expect(el().classList.contains("measurement-instance-input")).toBe(true);
     });
 
-    it("uses the div element", async () => {
+    it("uses the input element", async () => {
         await mount("measurement-instance-input");
-        expect(el().tagName.toLowerCase()).toBe("div");
+        expect(el().tagName.toLowerCase()).toBe("input");
     });
 });

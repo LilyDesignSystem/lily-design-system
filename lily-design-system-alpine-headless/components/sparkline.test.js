@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("div.sparkline");
+const el = () => document.querySelector("span.sparkline");
 
 describe("Sparkline", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("Sparkline", () => {
         expect(el().classList.contains("sparkline")).toBe(true);
     });
 
-    it("uses the div element", async () => {
+    it("uses the span element", async () => {
         await mount("sparkline");
-        expect(el().tagName.toLowerCase()).toBe("div");
+        expect(el().tagName.toLowerCase()).toBe("span");
     });
 });

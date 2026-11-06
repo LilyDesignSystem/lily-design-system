@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html =
-    '<div\n  class="call-to-action"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+const html = '<div\n  class="call-to-action"\n>\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
     title: "Headless/Call To Action",

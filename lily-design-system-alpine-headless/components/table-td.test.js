@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("div.table-td");
+const el = () => document.querySelector("td.table-td");
 
 describe("TableTD", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("TableTD", () => {
         expect(el().classList.contains("table-td")).toBe(true);
     });
 
-    it("uses the div element", async () => {
+    it("uses the td element", async () => {
         await mount("table-td");
-        expect(el().tagName.toLowerCase()).toBe("div");
+        expect(el().tagName.toLowerCase()).toBe("td");
     });
 });

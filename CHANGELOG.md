@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## No catalog names a generic root — 2026-11-06
+
+- **Added:** `bin/check-generic-names` covers HTML and Blazor, the two catalogs without a rendered `generic-name` test. Its allow-list is empty.
+- **Fixed:** the HTML catalog's `table`, `table-head`, `table-body`, `table-foot`, `table-row` and `table-td` were `<div>`s, and so were `currency-input`, the three `measurement-*-input`s, `avatar-image`, `sparkline` and `timer`. Each now has its contract's element, in Alpine too.
+- **Fixed:** 25 HTML components have the role Svelte has, or lose a name it does not have. Blazor `card` and `panel` are `role="group"` when labelled, and `theme-provider` loses `Label`.
+
 ## status-tag is a static label — 2026-11-06
 
 - **Changed:** `status-tag` has no `role="status"` in any catalog, as its contract and the live-region rule say, and `label` is hidden text in a `screen-reader-span`. To announce a change, wrap it in a live region.

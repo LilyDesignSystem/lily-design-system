@@ -14,10 +14,4 @@ describe("DateField", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("date-field");
     });
-
-    it("should have an aria-label attribute", async function () {
-        const el = await $("div.date-field");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
-    });
 });

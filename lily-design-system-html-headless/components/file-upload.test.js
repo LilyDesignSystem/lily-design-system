@@ -14,10 +14,4 @@ describe("FileUpload", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("file-upload");
     });
-
-    it("should have an aria-label attribute", async function () {
-        const el = await $("div.file-upload");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
-    });
 });

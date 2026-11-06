@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
+const html = `<span
   class="timer"
+  role="timer"
+  aria-live="polite"
   aria-label=""
 >
   <!-- Consumer provides content -->
-</div>
+</span>
 
 <script>
   // Timer behavior

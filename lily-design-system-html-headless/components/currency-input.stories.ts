@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
+const html = `<input
   class="currency-input"
+  type="text"
+  inputmode="decimal"
   aria-label=""
->
-  <!-- Consumer provides content -->
-</div>
+  data-currency-code=""
+/>
 
 <script>
   // CurrencyInput behavior

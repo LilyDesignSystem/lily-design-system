@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
+const html = `<table
   class="table"
   aria-label=""
 >
   <!-- Consumer provides content -->
-</div>`;
+</table>`;
 
 const meta = {
     title: "Headless/Table",

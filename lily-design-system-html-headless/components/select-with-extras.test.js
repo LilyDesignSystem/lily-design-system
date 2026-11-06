@@ -14,10 +14,4 @@ describe("SelectWithExtras", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("select-with-extras");
     });
-
-    it("should have an aria-label attribute", async function () {
-        const el = await $("div.select-with-extras");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
-    });
 });

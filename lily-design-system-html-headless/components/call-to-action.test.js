@@ -14,10 +14,4 @@ describe("CallToAction", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("call-to-action");
     });
-
-    it("should have an aria-label attribute", async function () {
-        const el = await $("div.call-to-action");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
-    });
 });

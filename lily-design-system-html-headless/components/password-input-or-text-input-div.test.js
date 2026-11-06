@@ -16,10 +16,4 @@ describe("PasswordInputOrTextInputDiv", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("password-input-or-text-input-div");
     });
-
-    it("should have an aria-label attribute", async function () {
-        const el = await $("div.password-input-or-text-input-div");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
-    });
 });

@@ -155,6 +155,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [check-port-parity](../bin/check-port-parity): Web Components helpers vs the HTML ones, Alpine vs Svelte: class hooks, events and attributes missing from the port, unless allow-listed with a reason
 - [generate-comparisons](../bin/generate-comparisons): The component matrix in `compare/index.md` from `compare/compare.tsv` — `--check` (in bin/test) fails on drift, `--counts` prints each system's rows matched
 - [check-port-logic](../bin/check-port-logic): Angular and Blazor vs Svelte: a port with no logic where Svelte has behaviour, and any Svelte prop missing from Angular, unless allow-listed with a reason; the list may only shrink (in bin/test). It finds a stub or a missing prop, it does not prove a port behaves the same
+- [check-generic-names](../bin/check-generic-names): No HTML or Blazor component names a generic root, unless allow-listed with a reason; the list may only shrink (in bin/test). The other catalogs have a rendered `generic-name` test
 - [check-generated-files](../bin/check-generated-files): The Generated files table above lists every generator and its `--check`, and none is missing or invented
 - [check-package-metadata](../bin/check-package-metadata): Every published npm/NuGet package names the monorepo as its source repository — packages publish from the monorepo
 - [create-component-directory](../bin/create-component-directory): Scaffold one component directory

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="sparkline"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+    '<span\n  class="sparkline"\n  role="img"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</span>';
 
 const meta = {
     title: "Headless/Sparkline",

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="qr-code-image"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+    '<div\n  class="qr-code-image"\n  role="img"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
     title: "Headless/Qr Code Image",

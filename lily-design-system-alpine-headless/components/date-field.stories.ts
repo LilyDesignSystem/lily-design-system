@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html =
-    '<div\n  class="date-field"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+const html = '<div\n  class="date-field"\n>\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
     title: "Headless/Date Field",

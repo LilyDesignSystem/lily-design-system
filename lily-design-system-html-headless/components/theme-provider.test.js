@@ -14,10 +14,4 @@ describe("ThemeProvider", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("theme-provider");
     });
-
-    it("should have an aria-label attribute", async function () {
-        const el = await $("div.theme-provider");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
-    });
 });

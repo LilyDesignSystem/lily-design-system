@@ -14,10 +14,4 @@ describe("Expander", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("expander");
     });
-
-    it("should have an aria-label attribute", async function () {
-        const el = await $("div.expander");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
-    });
 });
