@@ -1,12 +1,12 @@
 # Italia Codice Fiscale View
 
-ItaliaCodiceFiscaleView is a headless read-only display of Italy's Codice fiscale (CF), Italy's tax/healthcare identifier. It renders as a `<span>` with `role="text"` so assistive technology announces the identifier as a single unit. It is the read-only companion to ItaliaCodiceFiscaleInput.
+ItaliaCodiceFiscaleView is a headless read-only display of Italy's Codice fiscale (CF), Italy's tax/healthcare identifier. It renders as a `<span>`. It is the read-only companion to ItaliaCodiceFiscaleInput.
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
 ## Implementation Notes
 
-- Renders as `<span>` with `role="text"`
+- Renders as `<span>`, with no role
 - Format: 16 alphanumeric characters: 3 from the surname, 3 from the given name, 5 encoding date of birth and sex, 4 encoding place of birth, and 1 check character
 - Provides accessible name via the `value` content
 - Companion to ItaliaCodiceFiscaleInput
@@ -29,7 +29,7 @@ ItaliaCodiceFiscaleView is a headless read-only display of Italy's Codice fiscal
 
 ## ARIA
 
-- `role="text"` ensures the identifier is announced as a single unit
+- No role, and no `aria-label`: a `<span>` cannot take a name, so `label` renders as hidden text in a `screen-reader-span`
 
 ## When to Use
 
@@ -49,7 +49,7 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Testing
 
-- Verify renders a `<span>` with the correct class and `role="text"`
+- Verify renders a `<span>` with the correct class, no role and no `aria-label`
 - Verify the `value` prop is rendered as text content
 - Verify `label` renders as hidden text, and that the root has no `aria-label`
 

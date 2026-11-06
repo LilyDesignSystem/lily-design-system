@@ -83,7 +83,6 @@
     <h3>ARIA</h3>
     <ul>
       <li>No ARIA. A plain <code>&lt;span&gt;</code> cannot be named: <code>aria-label</code> is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional <code>label</code> renders as hidden text</li>
-      <li><code>role="text"</code> so the identifier announces as a single unit</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>

@@ -12,14 +12,13 @@
 
 ## Key Behaviors
 
-- Renders as `<span>` with class `slovensko-rodne-cislo-view` and `role="text"`
+- Renders as `<span>` with class `slovensko-rodne-cislo-view`, and no role
 - Format: 10 digits in the form YYMMDDCCCX where MM is 01-12 for males and 51-62 for females; X is a check digit and the whole number is divisible by 11
 - Read-only; not editable
 
 ## ARIA
 
 - No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
-- `role="text"` so the identifier announces as a single unit
 
 ## Keyboard
 
@@ -33,7 +32,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <span> element with class="slovensko-rodne-cislo-view" and role="text"
+- [ ] Renders <span> element with class="slovensko-rodne-cislo-view"
 - [ ] Renders `value` as text content
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

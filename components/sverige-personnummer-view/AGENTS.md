@@ -12,14 +12,13 @@
 
 ## Key Behaviors
 
-- Renders as `<span>` with class `sverige-personnummer-view` and `role="text"`
+- Renders as `<span>` with class `sverige-personnummer-view`, and no role
 - Format: 12 digits in the format CCYYMMDDZZZQ: CCYYMMDD is the date of birth, ZZZ a serial (odd male, even female), and Q a Luhn check digit
 - Read-only; not editable
 
 ## ARIA
 
 - No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
-- `role="text"` so the identifier announces as a single unit
 
 ## Keyboard
 
@@ -33,7 +32,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <span> element with class="sverige-personnummer-view" and role="text"
+- [ ] Renders <span> element with class="sverige-personnummer-view"
 - [ ] Renders `value` as text content
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

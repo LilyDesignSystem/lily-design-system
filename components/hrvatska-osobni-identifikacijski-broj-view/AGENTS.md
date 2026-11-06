@@ -12,14 +12,13 @@
 
 ## Key Behaviors
 
-- Renders as `<span>` with class `hrvatska-osobni-identifikacijski-broj-view` and `role="text"`
+- Renders as `<span>` with class `hrvatska-osobni-identifikacijski-broj-view`, and no role
 - Format: 11 digits — 10 random digits plus a check digit; permanent, unique, and assigned to every Croatian citizen and legal person
 - Read-only; not editable
 
 ## ARIA
 
 - No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
-- `role="text"` so the identifier announces as a single unit
 
 ## Keyboard
 
@@ -33,7 +32,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <span> element with class="hrvatska-osobni-identifikacijski-broj-view" and role="text"
+- [ ] Renders <span> element with class="hrvatska-osobni-identifikacijski-broj-view"
 - [ ] Renders `value` as text content
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

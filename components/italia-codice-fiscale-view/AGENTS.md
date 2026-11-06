@@ -12,14 +12,13 @@
 
 ## Key Behaviors
 
-- Renders as `<span>` with class `italia-codice-fiscale-view` and `role="text"`
+- Renders as `<span>` with class `italia-codice-fiscale-view`, and no role
 - Format: 16 alphanumeric characters: 3 from the surname, 3 from the given name, 5 encoding date of birth and sex, 4 encoding place of birth, and 1 check character
 - Read-only; not editable
 
 ## ARIA
 
 - No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
-- `role="text"` so the identifier announces as a single unit
 
 ## Keyboard
 
@@ -33,7 +32,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <span> element with class="italia-codice-fiscale-view" and role="text"
+- [ ] Renders <span> element with class="italia-codice-fiscale-view"
 - [ ] Renders `value` as text content
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

@@ -12,14 +12,13 @@
 
 ## Key Behaviors
 
-- Renders as `<span>` with class `kypros-national-passport-number-view` and `role="text"`
+- Renders as `<span>` with class `kypros-national-passport-number-view`, and no role
 - Format: passports before 13/12/2010 begin with 'E' followed by 6 digits (e.g. E123456); biometric passports issued after 13/12/2010 begin with 'K' followed by 8 digits (e.g. K12345678)
 - Read-only; not editable
 
 ## ARIA
 
 - No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
-- `role="text"` so the identifier announces as a single unit
 
 ## Keyboard
 
@@ -33,7 +32,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <span> element with class="kypros-national-passport-number-view" and role="text"
+- [ ] Renders <span> element with class="kypros-national-passport-number-view"
 - [ ] Renders `value` as text content
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

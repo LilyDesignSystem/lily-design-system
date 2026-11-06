@@ -38,10 +38,7 @@ excluded, above), built in four passes on 2026-09-06:
   `UnitedStatesSocialSecurityNumberInput`/`View`), each following the same
   `TextInput`/`EmailInput`-shaped -input pattern (with `autocomplete="off"`
   always forced, and `pattern`/`inputmode` hardcoded for the handful whose
-  canonical contract documents a fixed format) paired with a `<span
-aria-label>`-shaped -view — `role="text"` is added to the -view's span
-  wherever that identifier's own canonical `AGENTS.md` calls for it (32 of
-  the 49 do; 14 don't).
+  canonical contract documents a fixed format) paired with a `<span>` -view, whose `label` renders as hidden text in a `screen-reader-span`.
 - 136 more across lists (including 13 more passive `*ListItem` families
   via "upgrade in place"), forms, pickers, links, and a mixed
   overlays/tables/media/data-viz/buttons batch.

@@ -12,14 +12,13 @@
 
 ## Key Behaviors
 
-- Renders as `<span>` with class `nederland-identiteitskaart-nummer-view` and `role="text"`
+- Renders as `<span>` with class `nederland-identiteitskaart-nummer-view`, and no role
 - Format: 9 characters following the same format as the passport number; 'O' is disallowed but '0' is permitted
 - Read-only; not editable
 
 ## ARIA
 
 - No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
-- `role="text"` so the identifier announces as a single unit
 
 ## Keyboard
 
@@ -33,7 +32,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <span> element with class="nederland-identiteitskaart-nummer-view" and role="text"
+- [ ] Renders <span> element with class="nederland-identiteitskaart-nummer-view"
 - [ ] Renders `value` as text content
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

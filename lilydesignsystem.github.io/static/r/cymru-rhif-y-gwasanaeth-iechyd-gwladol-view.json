@@ -9,8 +9,7 @@
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text",
-    "`role=\"text\"` so the identifier announces as a single unit"
+    "No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text"
   ],
   "keyboard": [
     "Not interactive"

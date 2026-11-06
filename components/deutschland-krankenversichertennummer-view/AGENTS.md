@@ -12,14 +12,13 @@
 
 ## Key Behaviors
 
-- Renders as `<span>` with class `deutschland-krankenversichertennummer-view` and `role="text"`
+- Renders as `<span>` with class `deutschland-krankenversichertennummer-view`, and no role
 - Format: a random capital letter followed by eight random digits and a Luhn check digit
 - Read-only; not editable
 
 ## ARIA
 
 - No ARIA. A plain `<span>` cannot be named: `aria-label` is prohibited on it, and most screen readers drop it. A visible caption names the value, or the optional `label` renders as hidden text
-- `role="text"` so the identifier announces as a single unit
 
 ## Keyboard
 
@@ -33,7 +32,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <span> element with class="deutschland-krankenversichertennummer-view" and role="text"
+- [ ] Renders <span> element with class="deutschland-krankenversichertennummer-view"
 - [ ] Renders `value` as text content
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
