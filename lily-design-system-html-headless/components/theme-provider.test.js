@@ -14,4 +14,9 @@ describe("ThemeProvider", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("theme-provider");
     });
+
+    it("should not name the generic div", async function () {
+        const el = await $("div.theme-provider");
+        expect(await el.getAttribute("aria-label")).toBeNull();
+    });
 });

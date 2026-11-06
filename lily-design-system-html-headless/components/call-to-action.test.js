@@ -14,4 +14,9 @@ describe("CallToAction", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("call-to-action");
     });
+
+    it("should not name the generic div", async function () {
+        const el = await $("div.call-to-action");
+        expect(await el.getAttribute("aria-label")).toBeNull();
+    });
 });

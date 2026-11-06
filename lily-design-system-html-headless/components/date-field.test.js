@@ -14,4 +14,9 @@ describe("DateField", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("date-field");
     });
+
+    it("should not name the generic div", async function () {
+        const el = await $("div.date-field");
+        expect(await el.getAttribute("aria-label")).toBeNull();
+    });
 });

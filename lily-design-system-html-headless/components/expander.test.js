@@ -14,4 +14,9 @@ describe("Expander", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("expander");
     });
+
+    it("should not name the generic div", async function () {
+        const el = await $("div.expander");
+        expect(await el.getAttribute("aria-label")).toBeNull();
+    });
 });

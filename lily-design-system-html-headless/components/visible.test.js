@@ -14,4 +14,9 @@ describe("Visible", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("visible");
     });
+
+    it("should not name the generic div", async function () {
+        const el = await $("div.visible");
+        expect(await el.getAttribute("aria-label")).toBeNull();
+    });
 });

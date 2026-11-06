@@ -14,4 +14,9 @@ describe("FileUpload", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("file-upload");
     });
+
+    it("should not name the generic div", async function () {
+        const el = await $("div.file-upload");
+        expect(await el.getAttribute("aria-label")).toBeNull();
+    });
 });
