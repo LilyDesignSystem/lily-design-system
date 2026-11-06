@@ -82,6 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
+      <li><code>role="img"</code> with <code>aria-label</code> when <code>label</code> is given, because a <code>&lt;span&gt;</code> cannot be named</li>
       <li><code>aria-hidden="true"</code> -- applied when no <code>label</code> is provided, marking the flair as decorative</li>
       <li><code>aria-label</code> -- applied when <code>label</code> is provided, giving the flair an accessible name for screen readers</li>
     </ul>

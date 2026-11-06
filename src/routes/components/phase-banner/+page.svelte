@@ -82,6 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
+      <li>With a <code>label</code>, the root is <code>role="group"</code>, because a plain <code>&lt;div&gt;</code> cannot be named</li>
       <li>Native semantics — no special ARIA needed</li>
       <li>Consumers may add <code>role="region"</code> + <code>aria-label</code> if they treat this banner as a landmark</li>
     </ul>

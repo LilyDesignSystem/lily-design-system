@@ -9,6 +9,7 @@
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
+    "With a `label`, the root is `role=\"group\"`, because a plain `<div>` cannot be named",
     "Native semantics — no special ARIA needed",
     "Consumers may add `role=\"region\"` + `aria-label` if they treat this banner as a landmark"
   ],

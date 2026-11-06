@@ -38,6 +38,7 @@ For service-wide announcements that aren't about development phase, use `Announc
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named
 - Native semantics — no special ARIA needed
 - Consumers may add `role="region"` + `aria-label` if they treat this banner as a landmark
 
