@@ -10,14 +10,14 @@ description: a form element for collecting and submitting user data
 <h2>Default</h2>
 {% call form({ action: "/submit", method: "post", label: "Contact" }) %}
   <label for="contact-email" class="label">Email address</label>
-  <input id="contact-email" type="email" class="form">
+  <input id="contact-email" type="email">
   {{ button({ text: "Submit", type: "submit" }) }}
 {% endcall %}
 
 <h2>With search</h2>
 {% call form({ action: "/search", method: "get", label: "Search" }) %}
   <label for="search-q" class="label">Search</label>
-  <input id="search-q" name="q" type="search" class="form">
+  <input id="search-q" name="q" type="search">
   {{ button({ text: "Search", type: "submit" }) }}
 {% endcall %}
 

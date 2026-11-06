@@ -36,6 +36,23 @@ Allow about ten minutes a row. Two combinations are enough to finish the task: V
 | 18  | `breadcrumb-nav`                   | Move through links                                               | A named navigation landmark; current page identified                                              |
 | 19  | `skip-link` + landmarks            | Tab once from the top; activate; list landmarks                  | Skip link first and it moves focus to main; banner, navigation, main and footer listed            |
 | 20  | `net-promoter-score-picker`        | Move through values; choose one                                  | Group name, each value, the chosen state                                                          |
+| 21  | `label`                            | Move to the input; click the label                               | The input is announced with the label's text                                                      |
+| 22  | `hint`                             | Move to the input                                                | Name, then the hint as its description                                                            |
+| 23  | `error-message`                    | Move to the invalid input; submit                                | The error is read as an alert, and with the input                                                 |
+| 24  | `fieldset`                         | Tab into the group                                               | The legend is read as the group's name, once                                                      |
+| 25  | `button`                           | Tab to it; press Enter and Space                                 | Button role and name; activates on both                                                           |
+| 26  | `email-input`                      | Tab in; type                                                     | Name, role, value; required state                                                                 |
+| 27  | `password-input`                   | Tab in; type                                                     | Name and that it is a password; the text is not read aloud                                        |
+| 28  | `number-input`                     | Tab in; type; arrow up                                           | Name, role, value, and the new value                                                              |
+| 29  | `text-area-input`                  | Tab in; type two lines                                           | Name, multi-line role, value                                                                      |
+| 30  | `checkbox-group`                   | Tab through; toggle one                                          | Group name, then each name and state                                                              |
+| 31  | `radio-group`                      | Arrow within the group                                           | Group name, each name, state and position                                                         |
+| 32  | text-size-picker (helper)          | As row 1                                                         | As row 1                                                                                          |
+| 33  | `tab-bar-button`                   | Arrow to a disabled tab                                          | Tab, selected state and position; the disabled tab is skipped                                     |
+| 34  | `tab-panel`                        | Tab from the tab into the panel                                  | Tab panel role, named by its tab                                                                  |
+| 35  | `menu-bar`                         | Arrow sideways                                                   | Menu bar role and name; each item and its position                                                |
+| 36  | `dropdown-menu`                    | Open; arrow; Escape                                              | Menu role, each item; focus back on the button                                                    |
+| 37  | `context-menu`                     | Open; arrow; Escape                                              | Menu role and name; each item and its position                                                    |
 
 Row 11 also decides [P23-T9](../tasks.md): Lily uses both `role="alert"` and moved focus on `error-summary`, and Aksel says to use only focus.
 A double announcement in any combination is the evidence for removing `role="alert"`.

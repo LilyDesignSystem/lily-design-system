@@ -10,7 +10,7 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/error-summary
 <h2>Default</h2>
 {{ errorSummary({ title: "There is a problem",
   errors: [
-    { href: "#name" },
+    { text: "Enter your full name", href: "#name" },
     { text: "Enter a valid NHS number", href: "#nhs-number" },
     { text: "Enter your date of birth", href: "#dob" }
   ]
@@ -21,7 +21,7 @@ nhsuk: https://service-manual.nhs.uk/design-system/components/error-summary
   title: "There is a problem with your answers",
   description: "Check each field below and try again.",
   errors: [
-    { href: "#email" },
+    { text: "Enter your email address", href: "#email" },
     { text: "Password must be at least 8 characters", href: "#password" }
   ]
 }) }}

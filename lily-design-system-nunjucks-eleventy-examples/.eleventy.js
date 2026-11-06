@@ -45,6 +45,23 @@ export default function (eleventyConfig) {
             "assets/js/locale-picker.client.js",
         "../lily-design-system-nunjucks-text-size-picker/text-size-picker.client.js":
             "assets/js/text-size-picker.client.js",
+        "../lily-design-system-nunjucks-share-picker/share-picker.client.js":
+            "assets/js/share-picker.client.js",
+        "../lily-design-system-nunjucks-date-time-picker/dist/index.js":
+            "assets/js/date-time-picker.client.js",
+        // The keyboard behaviour of the catalog's macros, so a demo page has the same keys a consumer gets.
+        "../lily-design-system-nunjucks-headless/components/roving.js":
+            "assets/js/headless/roving.js",
+        "../lily-design-system-nunjucks-headless/components/tab-bar/tab-bar.js":
+            "assets/js/headless/tab-bar/tab-bar.js",
+        "../lily-design-system-nunjucks-headless/components/menu/menu.js":
+            "assets/js/headless/menu/menu.js",
+        "../lily-design-system-nunjucks-headless/components/menu/menu-keys.js":
+            "assets/js/headless/menu/menu-keys.js",
+        "../lily-design-system-nunjucks-headless/components/menu-bar/menu-bar.js":
+            "assets/js/headless/menu-bar/menu-bar.js",
+        "../lily-design-system-nunjucks-headless/components/tree-list/tree.js":
+            "assets/js/headless/tree-list/tree.js",
     };
     // A passthrough copy skips a missing source without a word, which would
     // ship a site whose pickers silently never open. dist/index.js needs

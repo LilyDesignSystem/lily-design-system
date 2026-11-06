@@ -1,0 +1,55 @@
+---
+layout: layouts/page.njk
+title: Pickers
+---
+
+{#
+  The two helper pickers the app shell does not mount, on a real page, so e2e/core-candidates.spec.ts can drive them with
+  real keys. The theme, locale and text-size pickers are in the shell on every page.
+#}
+{% from "lily-design-system-nunjucks-share-picker/share-picker.njk" import sharePicker %}
+{% from "lily-design-system-nunjucks-date-time-picker/date-time-picker.njk" import dateTimePicker %}
+
+<h1>Pickers</h1>
+
+<h2>Share picker</h2>
+{{ sharePicker({
+  label: "Share this page",
+  strategy: "list",
+  url: "https://example.org/page",
+  targets: [
+    { id: "email", label: "Email", href: "mailto:?body=https%3A%2F%2Fexample.org%2Fpage", newTab: false },
+    { id: "mastodon", label: "Mastodon", href: "https://mastodon.social/share?text=https%3A%2F%2Fexample.org%2Fpage" }
+  ],
+  copyLabel: "Copy link",
+  copiedLabel: "Link copied",
+  copyFailedLabel: "Could not copy the link"
+}) }}
+
+<h2>Date and time picker</h2>
+<label class="label" for="appointment-date">Appointment date</label>
+{{ dateTimePicker({
+  label: "Choose an appointment date",
+  name: "appointment",
+  inputId: "appointment-date",
+  locale: "en-GB",
+  labels: {
+    previousYear: "Previous year",
+    previousMonth: "Previous month",
+    previousWeek: "Previous week",
+    previousDay: "Previous day",
+    nextDay: "Next day",
+    nextWeek: "Next week",
+    nextMonth: "Next month",
+    nextYear: "Next year",
+    confirm: "Done",
+    cancel: "Cancel"
+  }
+}) }}
+
+<script type="module">
+  import { autoInit as sharePickers } from "/assets/js/share-picker.client.js";
+  import { autoInit as dateTimePickers } from "/assets/js/date-time-picker.client.js";
+  sharePickers();
+  dateTimePickers();
+</script>

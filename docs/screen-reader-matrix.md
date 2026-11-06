@@ -33,11 +33,12 @@ with Chrome, VoiceOver with Safari on macOS, VoiceOver on iOS, TalkBack
 with Chrome on Android). A second version of the same combination gets a
 second entry in the same cell.
 
-## The representative twenty
+## The candidates
 
 Chosen to match [audit-readiness tier 1](audit-readiness.md): the
 hand-rolled interaction patterns first, then the form family, then
-structural landmarks.
+structural landmarks. Rows 21 to 37 give each remaining [Lily Core](core.md)
+candidate its own row, added 2026-11-06.
 
 | #   | Component / package                | Demo                                    | NVDA + Firefox | NVDA + Chrome | JAWS + Chrome | VoiceOver + Safari (macOS) | VoiceOver (iOS) | TalkBack + Chrome (Android) |
 | --- | ---------------------------------- | --------------------------------------- | -------------- | ------------- | ------------- | -------------------------- | --------------- | --------------------------- |
@@ -61,6 +62,23 @@ structural landmarks.
 | 18  | `breadcrumb-nav`                   | `/components/breadcrumb-nav`            |                |               |               |                            |                 |                             |
 | 19  | `skip-link` + landmarks            | any example app page                    |                |               |               |                            |                 |                             |
 | 20  | `net-promoter-score-picker`        | `/components/net-promoter-score-picker` |                |               |               |                            |                 |                             |
+| 21  | `label`                            | `/components/label`                     |                |               |               |                            |                 |                             |
+| 22  | `hint`                             | `/components/hint`                      |                |               |               |                            |                 |                             |
+| 23  | `error-message`                    | `/components/error-message`             |                |               |               |                            |                 |                             |
+| 24  | `fieldset`                         | `/components/fieldset`                  |                |               |               |                            |                 |                             |
+| 25  | `button`                           | `/components/button`                    |                |               |               |                            |                 |                             |
+| 26  | `email-input`                      | `/components/email-input`               |                |               |               |                            |                 |                             |
+| 27  | `password-input`                   | `/components/password-input`            |                |               |               |                            |                 |                             |
+| 28  | `number-input`                     | `/components/number-input`              |                |               |               |                            |                 |                             |
+| 29  | `text-area-input`                  | `/components/text-area-input`           |                |               |               |                            |                 |                             |
+| 30  | `checkbox-group`                   | `/components/checkbox-group`            |                |               |               |                            |                 |                             |
+| 31  | `radio-group`                      | `/components/radio-group`               |                |               |               |                            |                 |                             |
+| 32  | text-size-picker (helper)          | any example app header                  |                |               |               |                            |                 |                             |
+| 33  | `tab-bar-button`                   | `/components/tab-bar-button`            |                |               |               |                            |                 |                             |
+| 34  | `tab-panel`                        | `/components/tab-panel`                 |                |               |               |                            |                 |                             |
+| 35  | `menu-bar`                         | `/components/menu-bar`                  |                |               |               |                            |                 |                             |
+| 36  | `dropdown-menu`                    | `/components/dropdown-menu`             |                |               |               |                            |                 |                             |
+| 37  | `context-menu`                     | `/components/context-menu`              |                |               |               |                            |                 |                             |
 
 ## Recorded sessions
 

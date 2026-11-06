@@ -310,6 +310,11 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm run build
+      - name: Build the date-time picker (the /pickers/ page serves its dist/index.js)
+        working-directory: lily-design-system-nunjucks-date-time-picker
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
       - name: Install
         working-directory: lily-design-system-nunjucks-eleventy-examples
         run: pnpm install --frozen-lockfile

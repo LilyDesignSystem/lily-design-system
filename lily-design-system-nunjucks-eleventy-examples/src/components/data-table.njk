@@ -10,15 +10,16 @@ description: a data table interactive grid for displaying and sorting tabular da
 {% from "components/data-table-foot/macro.njk" import dataTableFoot %}
 {% from "components/data-table-row/macro.njk" import dataTableRow %}
 {% from "components/data-table-td/macro.njk" import dataTableTd %}
+{% from "components/data-table-th/macro.njk" import dataTableTh %}
 
 <h2>Default — appointment list</h2>
 {% call dataTable({ caption: "Your upcoming appointments" }) %}
   {% call dataTableHead() %}
     {% call dataTableRow() %}
-      {{ dataTableTd({ text: "Date" }) }}
-      {{ dataTableTd({ text: "Clinician" }) }}
-      {{ dataTableTd({ text: "Type" }) }}
-      {{ dataTableTd({ text: "Location" }) }}
+      {{ dataTableTh({ text: "Date" }) }}
+      {{ dataTableTh({ text: "Clinician" }) }}
+      {{ dataTableTh({ text: "Type" }) }}
+      {{ dataTableTh({ text: "Location" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableBody() %}
@@ -47,10 +48,10 @@ description: a data table interactive grid for displaying and sorting tabular da
 {% call dataTable({ caption: "Recent weather observations" }) %}
   {% call dataTableHead() %}
     {% call dataTableRow() %}
-      {{ dataTableTd({ text: "Date" }) }}
-      {{ dataTableTd({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
-      {{ dataTableTd({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
-      {{ dataTableTd({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
+      {{ dataTableTh({ text: "Date" }) }}
+      {{ dataTableTh({ text: "Temperature (°C)", classes: "table-col-numeric" }) }}
+      {{ dataTableTh({ text: "Rainfall (mm)", classes: "table-col-numeric" }) }}
+      {{ dataTableTh({ text: "Wind (km/h)", classes: "table-col-numeric" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableBody() %}
@@ -90,9 +91,9 @@ description: a data table interactive grid for displaying and sorting tabular da
 {% call dataTable({ caption: "Dosage schedule" }) %}
   {% call dataTableHead() %}
     {% call dataTableRow() %}
-      {{ dataTableTd({ text: "Day" }) }}
-      {{ dataTableTd({ text: "Morning" }) }}
-      {{ dataTableTd({ text: "Evening" }) }}
+      {{ dataTableTh({ text: "Day" }) }}
+      {{ dataTableTh({ text: "Morning" }) }}
+      {{ dataTableTh({ text: "Evening" }) }}
     {% endcall %}
   {% endcall %}
   {% call dataTableBody() %}

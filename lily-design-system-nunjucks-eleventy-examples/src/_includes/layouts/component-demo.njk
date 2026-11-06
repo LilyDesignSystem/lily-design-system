@@ -44,4 +44,14 @@
   </section>
   {% endif %}
 </article>
+<script type="module">
+  import { autoInit as tabBars } from "/assets/js/headless/tab-bar/tab-bar.js";
+  import { autoInit as menus } from "/assets/js/headless/menu/menu.js";
+  import { autoInit as menuBars } from "/assets/js/headless/menu-bar/menu-bar.js";
+  import { autoInit as trees } from "/assets/js/headless/tree-list/tree.js";
+  tabBars();
+  menus();
+  menuBars();
+  trees();
+</script>
 {% endblock %}

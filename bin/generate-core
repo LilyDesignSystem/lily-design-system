@@ -22,8 +22,9 @@
 //       browser. The ARIA half is waived when "## ARIA" says the native element needs none. File-level, not test-level: the key event and the ARIA
 //       assertion may be in different tests, and a skipped test still counts. It is a floor, not proof.
 //   (b) e2e in Chromium, Firefox and WebKit: some Playwright spec that covers the component (its
-//       e2e/components/<slug>.spec.ts, or another spec naming its route or class hook) runs in an
-//       app whose playwright.config.* has a project for that browser; all three browsers needed.
+//       e2e/components/<slug>.spec.ts, or another spec naming its route or class hook) runs in a
+//       playwright.config.* project for that browser, and that project's testMatch selects the spec;
+//       all three browsers needed. A project with a testMatch runs only those specs (2026-11-06).
 //   (c) its row of docs/screen-reader-matrix.md filled, with a pass or minor mark, in all six
 //       combination columns (MATRIX_COLUMNS). An empty cell, a fail, or no row at all fails (c).
 //
@@ -62,38 +63,38 @@ const OUT = {
 const CANDIDATES = [
   ["form", "form family", 11],
   ["field", "form family", 11],
-  ["label", "form family", null],
-  ["hint", "form family", null],
-  ["error-message", "form family", null],
+  ["label", "form family", 21],
+  ["hint", "form family", 22],
+  ["error-message", "form family", 23],
   ["error-summary", "form family", 11],
-  ["fieldset", "form family", null],
-  ["button", "form family", null],
+  ["fieldset", "form family", 24],
+  ["button", "form family", 25],
   ["text-input", "form family", 12],
-  ["email-input", "form family", null],
-  ["password-input", "form family", null],
-  ["number-input", "form family", null],
-  ["text-area-input", "form family", null],
+  ["email-input", "form family", 26],
+  ["password-input", "form family", 27],
+  ["number-input", "form family", 28],
+  ["text-area-input", "form family", 29],
   ["date-input", "form family", 15],
   ["select", "form family", 13],
   ["checkbox-input", "form family", 14],
-  ["checkbox-group", "form family", null],
+  ["checkbox-group", "form family", 30],
   ["radio-input", "form family", 14],
-  ["radio-group", "form family", null],
+  ["radio-group", "form family", 31],
   ["net-promoter-score-picker", "form family", 20],
   ["theme-picker", "helper packages", 1, true],
   ["locale-picker", "helper packages", 2, true],
-  ["text-size-picker", "helper packages", null, true],
+  ["text-size-picker", "helper packages", 32, true],
   ["share-picker", "helper packages", 4, true],
   ["date-time-picker", "helper packages", 3, true],
   ["dialog", "dialogs", 5],
   ["alert-dialog", "dialogs", 6],
   ["tab-bar", "tabs", 7],
-  ["tab-bar-button", "tabs", null],
-  ["tab-panel", "tabs", null],
+  ["tab-bar-button", "tabs", 33],
+  ["tab-panel", "tabs", 34],
   ["menu", "menus", 9],
-  ["menu-bar", "menus", null],
-  ["dropdown-menu", "menus", null],
-  ["context-menu", "menus", null],
+  ["menu-bar", "menus", 35],
+  ["dropdown-menu", "menus", 36],
+  ["context-menu", "menus", 37],
   ["accordion-nav", "accordion", 8],
   ["tree-nav", "navigation", 10],
   ["breadcrumb-nav", "navigation", 18],
@@ -246,7 +247,17 @@ function appBrowsers(app) {
   if (/devices\[\s*["']Desktop Firefox/.test(src)) found.add("firefox");
   if (/devices\[\s*["']Desktop Safari/.test(src)) found.add("webkit");
   for (const m of src.matchAll(/browserName:\s*["'](chromium|firefox|webkit)["']/g)) found.add(m[1]);
-  return { config: cfg, browsers: BROWSERS.filter((b) => found.has(b)) };
+  // A project may run only some specs: its testMatch, a regex literal or a const holding one, is kept per browser.
+  const only = {};
+  for (const line of src.split("\n")) {
+    const b = BROWSERS.find((x) => new RegExp(`name:\\s*["']${x}["']`).test(line));
+    const m = b && line.match(/testMatch:\s*(\/.+\/|\w+)/);
+    if (!m) continue;
+    const lit = m[1].startsWith("/") ? m[1] : (src.match(new RegExp(`const ${m[1]}\\s*=\\s*(\\/.+\\/)[a-z]*;`)) || [])[1];
+    if (!lit) throw new Error(`${cfg}: cannot read testMatch for ${b}`);
+    only[b] = new RegExp(lit.slice(1, -1));
+  }
+  return { config: cfg, browsers: BROWSERS.filter((b) => found.has(b)), only };
 }
 
 function specFiles(dir, acc = []) {
@@ -275,7 +286,9 @@ function criterionB(c) {
   for (const a of APP_INFO) {
     for (const sp of a.specs) {
       const own = path.basename(sp.file) === `${c.slug}.spec.ts` || path.basename(sp.file) === `${c.slug}.spec.js`;
-      if (own || mention.test(sp.src)) specs.push({ spec: sp.file, config: a.config, browsers: a.browsers });
+      if (own || mention.test(sp.src)) {
+        specs.push({ spec: sp.file, config: a.config, browsers: a.browsers.filter((b) => !a.only[b] || a.only[b].test(sp.file)) });
+      }
     }
   }
   const covered = BROWSERS.filter((b) => specs.some((x) => x.browsers.includes(b)));
@@ -296,8 +309,8 @@ const MATRIX_COLUMNS = [
 
 function parseMatrix() {
   const src = read(MATRIX);
-  const sec = src.match(/^## The representative twenty\n([\s\S]*?)(?=^## )/m);
-  if (!sec) throw new Error(`${MATRIX}: no "## The representative twenty" section`);
+  const sec = src.match(/^## The candidates\n([\s\S]*?)(?=^## )/m);
+  if (!sec) throw new Error(`${MATRIX}: no "## The candidates" section`);
   const lines = sec[1].split("\n").filter((l) => l.startsWith("|"));
   const cells = (l) => l.trim().replace(/^\||\|$/g, "").split("|").map((x) => x.trim());
   const head = cells(lines[0]);
@@ -463,7 +476,7 @@ function renderCoreMd(date) {
     if (c.screenReader.row === null) {
       L.push("- (c) not met: the matrix has no row for this component.");
     } else {
-      L.push(`- (c) ${yes(c.screenReader.met)}: [row ${c.screenReader.row}](screen-reader-matrix.md#the-representative-twenty) (${c.screenReader.rowLabel}), ${c.screenReader.filled} of 6 cells with pass or minor.`);
+      L.push(`- (c) ${yes(c.screenReader.met)}: [row ${c.screenReader.row}](screen-reader-matrix.md#the-candidates) (${c.screenReader.rowLabel}), ${c.screenReader.filled} of 6 cells with pass or minor.`);
     }
   }
   L.push("");
@@ -535,12 +548,12 @@ function acrRow(id, name) {
   const fails = kinds.includes("c") ? candidates.filter((c) => Object.values(c.screenReader.cells || {}).some((x) => x.result === "fail")) : [];
   const parts = [];
   if (kinds.includes("a")) parts.push(`keyboard and ARIA-state tests in all eight libraries for ${counts.keyboard} of ${counts.candidates} candidates ([evidence](core.md#candidates))`);
-  if (kinds.includes("c")) parts.push(`screen-reader matrix rows filled for ${counts.screenReader} of ${counts.candidates} candidates ([matrix](screen-reader-matrix.md#the-representative-twenty))`);
+  if (kinds.includes("c")) parts.push(`screen-reader matrix rows filled for ${counts.screenReader} of ${counts.candidates} candidates ([matrix](screen-reader-matrix.md#the-candidates))`);
   if (all) return { level: "Supports", remarks: `Every candidate has: ${parts.join("; ")}.` };
   if (fails.length) {
     return {
       level: fails.length === candidates.length ? "Does Not Support" : "Partially Supports",
-      remarks: `Recorded screen-reader failures for ${fails.map((c) => `[${c.slug}](core.md#${c.slug})`).join(", ")} ([matrix](screen-reader-matrix.md#the-representative-twenty)). Automated evidence: ${parts.join("; ")}.`,
+      remarks: `Recorded screen-reader failures for ${fails.map((c) => `[${c.slug}](core.md#${c.slug})`).join(", ")} ([matrix](screen-reader-matrix.md#the-candidates)). Automated evidence: ${parts.join("; ")}.`,
     };
   }
   return { level: "Not Evaluated", remarks: `Not evaluated. Partial automated evidence only, which is not an evaluation: ${parts.join("; ")}.` };

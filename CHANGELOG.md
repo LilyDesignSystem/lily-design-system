@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## End-to-end evidence in three browsers, and closed popovers — 2026-11-06
+
+- **Fixed (all 63 themes): a closed `dropdown-menu` or `context-menu` was on the page.** Author `display` beats the browser's own rule for a closed popover, and the shared menu rule set `display: block`. Every theme now has `:where([popover]:not(:popover-open)) { display: none; }`.
+- **Corrected: `bin/generate-core` overstated criterion (b).** It counted any spec in an app that had a Firefox or WebKit project, though those projects run only their `testMatch` specs. The honest figure was 6 of 40, not the 38 of 40 reported on 2026-11-05. It now reads each project's `testMatch`.
+- **Added: `e2e/core-candidates.spec.ts` in the Nunjucks app,** 37 keyboard and ARIA tests on the real macros, covering the 35 catalog candidates and the share and date-time pickers, in Chromium, Firefox and WebKit. `site-preferences.spec.ts` joins the cross-engine set, which covers the locale and text-size pickers. Criterion (b) is 40 of 40. Demo pages now load the catalog's tab, menu, menu-bar and tree scripts, and a new `/pickers/` page mounts the share and date-time pickers.
+- **Fixed (Nunjucks demos):** `error-summary` had links with no text, from the 2026-11-02 removal of English defaults; `data-table` used `<td>` for its column headers; `dropdown-menu` had `<li>` directly in a `<div role="menu">` and no button to open it; five demos put `class="form"` on an input.
+- **Docs:** the screen-reader matrix and session script have a row for every candidate, 37 rows and 222 cells. All are still empty. The matrix section is now "The candidates".
+
 ## Versions — 2026-11-06
 
 Not yet published. `html-headless` 0.10.0, `svelte-headless` 0.8.0, `react-headless` 0.8.0, `vue-headless` 0.8.0, `angular-headless` 0.9.0, `nunjucks-headless` 0.8.0, `web-components-headless` 0.9.0, `LilyDesignSystem.Blazor.Headless` 0.8.0: minor bumps for the sections below. `TabPanel` in Angular and Blazor is the breaking change: one with no `selected` is now hidden. The helper packages keep their headless ranges until these versions are on the registries, because their lockfiles resolve from npm.
