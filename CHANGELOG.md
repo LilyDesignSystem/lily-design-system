@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Native keys are shown in a browser — 2026-11-06
+
+- **Added:** `e2e/native-keys.spec.ts` in the Nunjucks app sends the keys the contracts say the browser handles, on eight components. jsdom and bUnit do not run them, so these claims had never been tested.
+
 ## Colour contrast is settled — 2026-11-06
 
 - **Fixed:** all 609 Nunjucks pages pass axe's contrast rule in the default and dark themes, from 27 and 255 failures, and the sweep now gates both. The app's `--nhsuk-*` tokens follow the theme under `[data-theme]`, and its link rule moved into the `reset` layer so themes win.
