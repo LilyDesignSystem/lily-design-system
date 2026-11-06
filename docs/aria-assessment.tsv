@@ -9,16 +9,16 @@ action-bar-button	key evidence incomplete	no	yes	no	yes	1	5	no	-	-
 action-group	automated evidence complete	no	yes	yes	yes	8	8	no	-	-
 action-link	key evidence incomplete	no	yes	no	yes	4	6	no	-	-
 address-input	key evidence incomplete	no	yes	no	yes	1	1	no	-	-
-addressograph-box	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
+addressograph-box	automated evidence complete	no	no	no	yes	-	8	no	-	-
 affix	automated evidence complete	no	no	no	no	-	-	no	-	-
 ai-label	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 alba-community-health-index-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 alba-community-health-index-view	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
-alert	ARIA evidence incomplete	no	no	no	yes	-	6	no	color-contrast	-
+alert	ARIA evidence incomplete	no	no	no	yes	-	7	no	color-contrast	-
 alert-dialog	automated evidence complete	yes	yes	yes	yes	8	8	yes	-	-
 angle-slider-range-input	key evidence incomplete	no	yes	yes	yes	4	6	no	-	-
-announcement-banner	key evidence incomplete	no	yes	no	yes	1	1	no	-	-
-answer	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
+announcement-banner	key evidence incomplete	no	yes	no	yes	1	6	no	-	-
+answer	automated evidence complete	no	no	no	yes	-	8	no	-	-
 aotearoa-national-health-index-input	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 aotearoa-national-health-index-view	automated evidence complete	no	no	no	yes	-	8	no	-	-
 area-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
@@ -33,12 +33,12 @@ australia-individual-healthcare-identifier-view	ARIA evidence incomplete	no	no	n
 australia-tax-file-number-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 australia-tax-file-number-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 autosuggest	axe failure	no	yes	yes	yes	8	8	no	label	-
-avatar	ARIA evidence incomplete	no	no	no	yes	-	3	yes	-	-
+avatar	ARIA evidence incomplete	no	no	no	yes	-	4	yes	-	-
 avatar-group	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 avatar-image	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
-avatar-text	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+avatar-text	automated evidence complete	no	no	no	yes	-	8	no	-	-
 back-link	key evidence incomplete	no	yes	no	yes	4	6	no	-	-
-badge	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+badge	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 banner	key evidence incomplete	no	yes	no	yes	1	8	no	-	-
 banner-box	automated evidence complete	no	no	no	no	-	-	no	-	-
 bar-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
@@ -59,7 +59,7 @@ breadcrumb-nav	automated evidence complete	yes	yes	no	yes	8	8	yes	-	landmark-uni
 bulgaria-edinen-grazhdanski-nomer-input	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 bulgaria-edinen-grazhdanski-nomer-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 button	automated evidence complete	yes	yes	no	yes	8	8	yes	-	-
-button-group	key evidence incomplete	no	yes	no	yes	1	6	no	-	-
+button-group	key evidence incomplete	no	yes	no	yes	1	7	no	-	-
 button-input	key evidence incomplete	no	yes	no	yes	4	3	no	-	-
 byline	automated evidence complete	no	no	no	no	-	-	no	-	-
 calendar-day-table	automated evidence complete	no	no	no	yes	-	8	no	-	-
@@ -80,15 +80,15 @@ canada-social-insurance-number-view	automated evidence complete	no	no	no	yes	-	8
 candlestick-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
 caption	automated evidence complete	no	no	no	no	-	-	no	-	-
 card	key evidence incomplete	no	yes	no	yes	1	3	no	-	-
-care-card	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
-carousel	ARIA evidence incomplete	no	no	yes	yes	-	6	no	-	-
+care-card	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
+carousel	ARIA evidence incomplete	no	no	yes	yes	-	7	no	-	-
 cascader	axe failure	no	yes	yes	yes	8	8	no	aria-required-attr	-
 cesko-cestovni-pas-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 cesko-cestovni-pas-view	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 cesko-rodne-cislo-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 cesko-rodne-cislo-view	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 character	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
-character-counter	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+character-counter	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 chat-composer	key evidence incomplete	no	yes	no	yes	6	5	no	-	-
 chat-list	axe failure	no	yes	no	yes	1	5	no	listitem	aria-allowed-role
 chat-list-item	key evidence incomplete	no	yes	no	yes	1	7	no	-	-
@@ -102,7 +102,7 @@ chile-rol-unico-nacional-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 chile-rol-unico-nacional-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 choropleth-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
 citation	automated evidence complete	no	no	no	no	-	-	no	-	-
-clamp-text	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
+clamp-text	automated evidence complete	no	no	no	yes	-	8	no	-	-
 clipboard-copy-button	key evidence incomplete	no	yes	no	yes	4	6	no	-	-
 coachmark	key evidence incomplete	no	yes	yes	yes	1	8	no	color-contrast	-
 code	automated evidence complete	no	no	no	no	-	-	no	-	-
@@ -118,9 +118,9 @@ color-picker-button	key evidence incomplete	no	yes	no	yes	4	6	no	-	-
 column-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
 combobox	automated evidence complete	no	yes	yes	yes	8	8	no	-	-
 command	axe failure	no	yes	yes	yes	8	8	no	aria-required-children	-
-comment	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
+comment	automated evidence complete	no	no	no	yes	-	8	no	-	-
 composed-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
-container	ARIA evidence incomplete	no	no	no	yes	-	1	no	-	-
+container	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 container-with-fixed-width	automated evidence complete	no	no	no	no	-	-	no	-	-
 container-with-fluid-width	automated evidence complete	no	no	no	no	-	-	no	-	-
 content-block	automated evidence complete	no	no	no	no	-	-	no	-	-
@@ -174,7 +174,7 @@ document-list-item	axe failure	no	yes	no	no	1	-	no	listitem	-
 dont-list	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 dont-list-item	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 download-button	key evidence incomplete	no	yes	no	yes	1	6	no	color-contrast	-
-draft	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	heading-order
+draft	automated evidence complete	no	no	no	yes	-	8	no	-	heading-order
 drawer	key evidence incomplete	no	yes	yes	yes	7	8	no	-	-
 dropdown-menu	automated evidence complete	yes	yes	yes	yes	8	8	yes	-	-
 ecuador-cedula-de-identidad-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
@@ -189,7 +189,7 @@ ellada-dematerialised-securities-system-input	ARIA evidence incomplete	no	no	no	
 ellada-dematerialised-securities-system-view	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 email-input	automated evidence complete	yes	no	no	yes	-	8	yes	-	-
 email-link	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
-emoji	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+emoji	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 emoji-character-picker	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 empty-state	automated evidence complete	no	no	no	yes	-	8	no	-	-
 end-notes	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
@@ -210,7 +210,7 @@ fieldset	automated evidence complete	yes	no	no	no	-	-	yes	-	-
 figure	ARIA evidence incomplete	no	no	no	yes	-	2	no	-	-
 file-dialog	key evidence incomplete	no	yes	yes	yes	7	8	no	-	-
 file-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
-file-manager	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
+file-manager	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 file-tree	key evidence incomplete	no	yes	yes	yes	6	8	no	-	-
 file-upload	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 five-face-rating-picker	key evidence incomplete	no	yes	yes	yes	6	5	no	-	-
@@ -224,7 +224,7 @@ flex-stack	automated evidence complete	no	no	no	no	-	-	no	-	-
 float-button	key evidence incomplete	no	yes	no	yes	1	5	no	-	-
 floating-panel	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	heading-order
 footer	ARIA evidence incomplete	no	no	no	yes	-	6	yes	-	-
-footnote	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
+footnote	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 form	automated evidence complete	yes	no	no	yes	-	8	yes	-	-
 framer	automated evidence complete	no	no	no	yes	-	8	no	-	-
 france-numero-d-identification-au-repertoire-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
@@ -255,7 +255,7 @@ hamburger-menu	key evidence incomplete	no	yes	no	yes	2	8	no	-	-
 hanguk-jumin-deungnok-beonho-input	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 hanguk-jumin-deungnok-beonho-view	automated evidence complete	no	no	no	yes	-	8	no	-	-
 header	ARIA evidence incomplete	no	no	no	yes	-	6	yes	-	-
-headline	ARIA evidence incomplete	no	no	no	yes	-	1	no	-	empty-heading
+headline	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	empty-heading
 heatmap-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
 heatmap-chart-with-year-of-days	automated evidence complete	no	no	no	yes	-	8	no	-	-
 hero	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
@@ -281,11 +281,11 @@ image-input	key evidence incomplete	no	yes	no	no	1	-	no	-	-
 indonesia-nomor-induk-kependudukan-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 indonesia-nomor-induk-kependudukan-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 info-state	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
-information-callout	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+information-callout	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 input	ARIA evidence incomplete	no	no	no	yes	-	2	no	-	-
-input-group	axe failure	no	no	no	yes	-	6	no	label	-
+input-group	axe failure	no	no	no	yes	-	7	no	label	-
 input-with-mask	key evidence incomplete	no	yes	no	yes	1	8	no	-	-
-inset-text	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
+inset-text	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 iran-kod-e-melli-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 iran-kod-e-melli-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 island-kennitala-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
@@ -337,13 +337,13 @@ measurement-unit-input	ARIA evidence incomplete	no	no	no	yes	-	2	no	-	-
 measurement-unit-view	automated evidence complete	no	no	no	no	-	-	no	-	-
 medical-banner	key evidence incomplete	no	yes	no	yes	1	4	no	-	heading-order
 medical-banner-box	automated evidence complete	no	no	no	no	-	-	no	-	-
-medical-banner-box-for-advice	ARIA evidence incomplete	no	no	no	yes	-	1	no	-	heading-order
-medical-banner-box-for-danger	ARIA evidence incomplete	no	no	no	yes	-	2	no	-	heading-order
+medical-banner-box-for-advice	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	heading-order,landmark-unique
+medical-banner-box-for-danger	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	heading-order
 mentions-input	axe failure	no	yes	yes	yes	8	8	no	aria-input-field-name	-
 menu	automated evidence complete	yes	yes	yes	yes	8	8	yes	-	-
 menu-bar	axe failure	yes	yes	yes	yes	8	8	yes	aria-valid-attr-value	-
 menu-bar-button	axe failure	no	yes	yes	yes	1	4	no	aria-valid-attr-value	-
-menu-group	key evidence incomplete	no	yes	yes	yes	1	6	no	-	-
+menu-group	key evidence incomplete	no	yes	yes	yes	1	7	no	-	-
 menu-item	key evidence incomplete	no	yes	yes	yes	1	7	no	-	-
 meter	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 mexico-clave-unica-de-registro-de-poblacion-input	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
@@ -353,7 +353,7 @@ misr-al-raqm-al-qawmi-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 misr-al-raqm-al-qawmi-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 mockup-browser	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	heading-order
 mockup-laptop	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	heading-order
-mockup-phone-landscape	ARIA evidence incomplete	no	no	no	yes	-	1	no	-	-
+mockup-phone-landscape	ARIA evidence incomplete	no	no	no	yes	-	2	no	-	-
 mockup-phone-portrait	key evidence incomplete	no	yes	no	yes	1	3	no	-	heading-order
 mockup-shell	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 mockup-tablet-landscape	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	heading-order
@@ -381,7 +381,7 @@ nihon-kojin-bango-input	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 nihon-kojin-bango-view	automated evidence complete	no	no	no	yes	-	8	no	-	-
 norge-fodselsnummer-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 norge-fodselsnummer-view	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
-notification	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+notification	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 number-input	automated evidence complete	yes	no	no	yes	-	8	yes	-	-
 one-time-password-input	key evidence incomplete	no	yes	no	yes	2	8	no	-	-
 option	automated evidence complete	no	no	no	no	-	-	no	-	-
@@ -401,7 +401,7 @@ password-input	automated evidence complete	yes	no	no	yes	-	8	yes	-	-
 password-input-or-text-input-div	key evidence incomplete	no	yes	no	yes	1	8	no	-	-
 person	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 phase-banner	ARIA evidence incomplete	no	no	no	yes	-	1	no	-	-
-photo-pack	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+photo-pack	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 pictogram	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 picture	ARIA evidence incomplete	no	no	no	yes	-	0	no	-	-
 pie-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
@@ -421,16 +421,16 @@ portugal-numero-de-identificacao-fiscal-view	ARIA evidence incomplete	no	no	no	y
 portugal-passaporte-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 portugal-passaporte-view	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 postal-code-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
-postal-code-view	ARIA evidence incomplete	no	no	no	yes	-	2	no	-	-
+postal-code-view	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 prathet-thai-lek-prajam-tua-prachachon-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 prathet-thai-lek-prajam-tua-prachachon-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 product-card	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 progress	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
-progress-bar	ARIA evidence incomplete	no	no	no	yes	-	1	no	-	-
-progress-circle	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
-progress-spinner	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
-qr-code-image	ARIA evidence incomplete	no	no	no	yes	-	2	no	-	-
-question	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
+progress-bar	ARIA evidence incomplete	no	no	no	yes	-	2	no	-	-
+progress-circle	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
+progress-spinner	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
+qr-code-image	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
+question	automated evidence complete	no	no	no	yes	-	8	no	-	-
 radar-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
 radio-group	automated evidence complete	yes	yes	yes	yes	8	8	yes	-	-
 radio-input	automated evidence complete	yes	yes	yes	yes	8	8	yes	-	-
@@ -457,7 +457,7 @@ scatter-chart	automated evidence complete	no	no	no	yes	-	8	no	-	-
 schweiz-ahv-nummer-input	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 schweiz-ahv-nummer-view	automated evidence complete	no	no	no	yes	-	8	no	-	-
 screen-reader-span	automated evidence complete	no	no	no	no	-	-	no	-	-
-scroll-area	key evidence incomplete	no	yes	yes	yes	1	2	no	-	-
+scroll-area	key evidence incomplete	no	yes	yes	yes	1	4	no	-	-
 scroll-bar	axe failure	no	yes	yes	yes	7	8	no	aria-valid-attr-value	-
 scroller	key evidence incomplete	no	yes	no	yes	1	8	no	-	-
 scroller-base	key evidence incomplete	no	yes	no	yes	0	8	yes	-	-
@@ -473,14 +473,14 @@ segment-group-item	key evidence incomplete	no	yes	yes	yes	1	8	no	-	-
 select	automated evidence complete	yes	yes	yes	yes	8	8	yes	-	-
 select-with-extras	key evidence incomplete	no	yes	yes	yes	1	5	no	-	-
 separator	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
-share-page	key evidence incomplete	no	yes	no	yes	1	1	no	-	-
+share-page	key evidence incomplete	no	yes	no	yes	1	6	no	-	-
 sheet	key evidence incomplete	no	yes	yes	yes	7	8	no	-	-
 show-more	key evidence incomplete	no	yes	no	yes	5	8	no	-	-
 sidebar	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 signature-pad	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 singapore-national-registration-identity-card-input	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 singapore-national-registration-identity-card-view	automated evidence complete	no	no	no	yes	-	8	no	-	-
-skeleton	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+skeleton	automated evidence complete	no	no	no	yes	-	8	no	-	-
 skip-link	automated evidence complete	yes	yes	no	no	8	-	yes	-	-
 slide-out-drawer	key evidence incomplete	no	yes	yes	yes	7	8	no	-	-
 slider	key evidence incomplete	no	yes	yes	yes	2	8	no	-	-
@@ -491,22 +491,22 @@ slovensko-pas-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 slovensko-pas-view	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 slovensko-rodne-cislo-input	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
 slovensko-rodne-cislo-view	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
-sonner	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+sonner	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 south-africa-identity-number-input	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-
 south-africa-identity-number-view	automated evidence complete	no	no	no	yes	-	8	no	-	-
-sparkline	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
-split-button	key evidence incomplete	no	yes	yes	yes	3	8	no	color-contrast	-
+sparkline	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
+split-button	key evidence incomplete	no	yes	yes	yes	3	8	no	-	-
 split-view	automated evidence complete	no	yes	yes	yes	8	8	no	-	-
 splitter	automated evidence complete	no	yes	yes	yes	8	8	no	-	-
-statistic	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
-status-light	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+statistic	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
+status-light	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 status-tag	ARIA evidence incomplete	no	no	no	yes	-	1	no	-	-
 step-list	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 step-list-item	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 sticky-promo-banner	key evidence incomplete	no	yes	yes	yes	1	6	no	color-contrast	-
 streaming-text	automated evidence complete	no	no	no	yes	-	8	no	-	-
 submit-input	key evidence incomplete	no	yes	no	no	1	-	no	-	-
-success-panel	ARIA evidence incomplete	no	no	no	yes	-	1	no	-	-
+success-panel	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
 summary-box	key evidence incomplete	no	yes	no	yes	1	6	no	-	-
 summary-list	ARIA evidence incomplete	no	no	no	yes	-	6	yes	-	-
 summary-list-item	automated evidence complete	no	no	no	no	-	-	no	-	-
@@ -528,7 +528,7 @@ table-row	automated evidence complete	no	no	no	no	-	-	no	-	-
 table-td	automated evidence complete	no	no	no	no	-	-	no	-	-
 table-th	automated evidence complete	no	no	no	no	-	-	no	-	-
 tag	contrast unconfirmed	no	no	no	yes	-	8	yes	color-contrast	-
-tag-group	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
+tag-group	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 tag-input-div	key evidence incomplete	no	yes	no	yes	7	5	no	-	-
 taiwan-guomin-shenfenzheng-tongyi-bianhao-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 taiwan-guomin-shenfenzheng-tongyi-bianhao-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
@@ -554,11 +554,11 @@ time-picker-input	key evidence incomplete	no	yes	yes	yes	1	3	no	-	-
 timeline-list	key evidence incomplete	no	yes	no	yes	1	6	no	-	-
 timeline-list-item	axe failure	no	yes	no	no	1	-	no	listitem	heading-order
 timeout-dialog	key evidence incomplete	no	yes	yes	yes	3	2	no	-	-
-timer	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+timer	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 timer-button	key evidence incomplete	no	yes	no	yes	1	7	no	-	-
-toast	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+toast	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 toggle-button	key evidence incomplete	no	yes	no	yes	5	8	no	-	-
-toggle-group	ARIA evidence incomplete	no	no	no	yes	-	3	no	-	-
+toggle-group	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 tool-bar	key evidence incomplete	no	yes	yes	yes	7	4	no	-	-
 tool-bar-button	key evidence incomplete	no	yes	yes	yes	1	3	no	-	-
 tool-call	key evidence incomplete	no	yes	no	yes	1	8	no	-	-
@@ -599,9 +599,9 @@ video-player	key evidence incomplete	no	yes	no	yes	0	8	no	-	-
 viet-nam-can-cuoc-cong-dan-input	ARIA evidence incomplete	no	no	no	yes	-	4	no	-	-
 viet-nam-can-cuoc-cong-dan-view	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 visible	automated evidence complete	no	no	no	no	-	-	no	-	-
-warning-callout	ARIA evidence incomplete	no	no	no	yes	-	6	no	-	-
+warning-callout	ARIA evidence incomplete	no	no	no	yes	-	7	no	-	-
 warning-text	automated evidence complete	no	no	no	yes	-	8	no	-	-
-watermark	ARIA evidence incomplete	no	no	no	yes	-	6	no	color-contrast	-
+watermark	contrast unconfirmed	no	no	no	yes	-	8	no	color-contrast	-
 week-input	key evidence incomplete	no	yes	yes	yes	1	3	no	-	-
 wheel-picker	key evidence incomplete	no	yes	yes	yes	7	8	no	-	-
 yisrael-teudat-zehut-input	ARIA evidence incomplete	no	no	no	yes	-	5	no	-	-

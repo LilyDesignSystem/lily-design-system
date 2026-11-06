@@ -273,10 +273,12 @@ jobs:
       - name: Install Playwright browsers (Chromium, Firefox, WebKit)
         working-directory: lily-design-system-svelte-sveltekit-examples
         if: steps.playwright-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 10
         run: pnpm exec playwright install --with-deps chromium firefox webkit
       - name: Install Playwright OS deps only (browser cached)
         working-directory: lily-design-system-svelte-sveltekit-examples
         if: steps.playwright-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 10
         run: pnpm exec playwright install-deps chromium firefox webkit
       - name: Test (accessibility, responsive, /components search, rtl-demo, book-an-appointment)
         working-directory: lily-design-system-svelte-sveltekit-examples
@@ -330,10 +332,12 @@ jobs:
       - name: Install Playwright browsers (Chromium, Firefox, WebKit)
         working-directory: lily-design-system-nunjucks-eleventy-examples
         if: steps.playwright-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 10
         run: pnpm exec playwright install --with-deps chromium firefox webkit
       - name: Install Playwright OS deps only (browser cached)
         working-directory: lily-design-system-nunjucks-eleventy-examples
         if: steps.playwright-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 10
         run: pnpm exec playwright install-deps chromium firefox webkit
       - name: Test (every component page, /components search, pickers, accessibility, responsive)
         working-directory: lily-design-system-nunjucks-eleventy-examples
@@ -369,10 +373,12 @@ jobs:
       - name: Install Playwright Chromium
         working-directory: lily-design-system-alpine-examples
         if: steps.playwright-cache.outputs.cache-hit != 'true'
+        timeout-minutes: 10
         run: pnpm exec playwright install --with-deps chromium
       - name: Install Playwright OS deps only (browser cached)
         working-directory: lily-design-system-alpine-examples
         if: steps.playwright-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 10
         run: pnpm exec playwright install-deps chromium
       - name: Test (axe on every page, the helpers' flows)
         working-directory: lily-design-system-alpine-examples

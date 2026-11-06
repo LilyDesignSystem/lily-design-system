@@ -4,7 +4,7 @@ _Measured 2026-11-06 across all 609 components, and remeasured the same day afte
 that follows from it: [tasks.md](../tasks.md) Phase 25._
 
 **Verdict: Lily is not WAI-ARIA compliant, and no component can yet be shown to be.** No screen reader has been used on any component, 24
-components have a confirmed axe failure, and 433 have incomplete keyboard or ARIA test evidence. WAI-ARIA has no certification; this is a
+components have a confirmed axe failure, and 424 have incomplete keyboard or ARIA test evidence. WAI-ARIA has no certification; this is a
 self-assessment of evidence, not an audit.
 
 ## Result
@@ -15,16 +15,16 @@ Each component is in the first band it falls into, so the bands add up to 609.
 | --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
 | 1. axe failure                    | 24         | A WCAG A or AA rule failed on its live Nunjucks page, excluding colour contrast    |
 | 2. Key evidence incomplete        | 133        | Its contract names keys, and fewer than eight libraries have a test that sends one |
-| 3. ARIA evidence incomplete       | 300        | Its contract names ARIA, and fewer than eight libraries assert it                  |
-| 4. Contrast unconfirmed           | 1          | Evidence complete, but axe reported colour contrast, which this run cannot confirm |
-| 5. Automated evidence complete    | 151        | Nothing above. This is a floor, not a pass                                         |
+| 3. ARIA evidence incomplete       | 291        | Its contract names ARIA, and fewer than eight libraries assert it                  |
+| 4. Contrast unconfirmed           | 2          | Evidence complete, but axe reported colour contrast, which this run cannot confirm |
+| 5. Automated evidence complete    | 159        | Nothing above. This is a floor, not a pass                                         |
 | Screen-reader evidence, all bands | **0**      | 0 of 222 matrix cells filled. Only 40 components have a row                        |
 
 | Measure                                                   | Result     |
 | --------------------------------------------------------- | ---------- |
 | Key contracts with a key test in all eight libraries      | 37 of 180  |
 | Custom-key widgets (arrows, Home, End, Escape), all eight | 28 of 86   |
-| ARIA contracts asserted in all eight libraries            | 132 of 526 |
+| ARIA contracts asserted in all eight libraries            | 141 of 526 |
 | End-to-end evidence in Chromium, Firefox and WebKit       | 45 of 609  |
 | No keyboard or ARIA contract at all                       | 71 of 609  |
 
@@ -89,4 +89,4 @@ Lily™ and Lily Design System™ are trademarks.
 
 axe tests what a demo renders, so a clean page does not clear a component. Rendering every Nunjucks macro with a `label` (2026-11-06)
 found 30 components whose root is a `<div>` or `<span>` with `aria-label` and no role, the defect `aria-prohibited-attr` reports. Their
-demos pass no label, so axe never saw it: `address-input`, `addressograph-box`, `affix`, `ai-label`, `announcement-banner`, `answer`, `badge`, `banner-box`, `character`, `clamp-text`, `comment`, `container-with-fixed-width`, `container-with-fluid-width`, `description-list-item`, `draft`, `flair`, `flex-stack`, `grid`, `inset-text`, `masonry`, `medical-banner-box`, `medical-banner-box-for-advice`, `phase-banner`, `postal-code-view`, `question`, `scroll-area`, `share-page`, `split-view`, `status-tag`, `success-panel`. A later render of Svelte, React, Vue, Angular and Web Components, with Blazor's and HTML's roots read from source, found 100 still open after 23 fixes, Angular 71 of them, with 24 Angular components not checked because they failed to render. Of the 100, 38 had dropped a role Svelte has; 29 of those are now fixed in Angular, including `alert`, `notification` and `toast`, which had rendered a plain `<div>` that nothing announced. Tracked as [P25-T14](../tasks.md).
+demos pass no label, so axe never saw it: `address-input`, `addressograph-box`, `affix`, `ai-label`, `announcement-banner`, `answer`, `badge`, `banner-box`, `character`, `clamp-text`, `comment`, `container-with-fixed-width`, `container-with-fluid-width`, `description-list-item`, `draft`, `flair`, `flex-stack`, `grid`, `inset-text`, `masonry`, `medical-banner-box`, `medical-banner-box-for-advice`, `phase-banner`, `postal-code-view`, `question`, `scroll-area`, `share-page`, `split-view`, `status-tag`, `success-panel`. After fixes in every catalog, 37 rendered components remain: Angular 32, Svelte 18, Web Components 17, React 8, Vue 8, Nunjucks 6. 3 Angular components still do not render in the sweep. Blazor and HTML are not rendered: their roots were read from source. Each rendered catalog now has a `generic-name` test with an allow-list that may only shrink, so a new case fails. Tracked as [P25-T14](../tasks.md).

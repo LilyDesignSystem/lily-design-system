@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## A test stops new generic names — 2026-11-06
+
+- **Added:** a `generic-name` test in Svelte, React, Vue, Angular, Web Components and Nunjucks renders every component with a `label` and fails on a named `<div>` or `<span>` with no role. Its allow-list holds the 37 known components and may only shrink.
+- **Added:** a 10-minute timeout on CI's Playwright install steps, after one hung for 51 minutes.
+- `docs/aria-assessment.tsv` is refreshed from a new axe sweep and the current tests.
+
 ## 11 more components lose a label their ports added — 2026-11-06
 
 - **Breaking:** `aspect-ratio-container`, `avatar-text`, `byline`, `container`, `content-block`, `description-list-item`, `grail-layout`, `headline`, `hint`, `skeleton` and `watermark` lose `label` wherever a port had added it, matching their contract and Svelte.
