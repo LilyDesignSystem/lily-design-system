@@ -25,7 +25,7 @@
 }
 
 .context-menu-item[data-danger="true"] .context-menu-item-button {
-  color: var(--nhsuk-red);
+  color: var(--nhsuk-error-text);
 }
 
 .context-menu-item-button:disabled {

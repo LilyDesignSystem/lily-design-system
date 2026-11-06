@@ -7,7 +7,7 @@ that follows from it: [tasks.md](../tasks.md) Phase 25._
 components have a confirmed axe failure, and 424 have incomplete keyboard or ARIA test evidence. WAI-ARIA has no certification; this is a
 self-assessment of evidence, not an audit.
 
-> **Update, 2026-11-06, later:** the figures below predate P25-T2, T3, T4, T14 and T15. A new `e2e/axe-sweep.spec.ts` finds no WCAG A or AA failure in `<main>` on any of the 609 Nunjucks pages, colour contrast aside and with popups closed, so band 1 is out of date. The verdict stands: no screen reader has been used, and the key and ARIA evidence gaps are unchanged. See [tasks.md](../tasks.md).
+> **Update, 2026-11-06, later:** the figures below predate P25-T2, T3, T4, T14 and T15. A new `e2e/axe-sweep.spec.ts` finds no WCAG A or AA failure in `<main>` on any of the 609 Nunjucks pages, with popups closed, and no contrast failure in the default or dark theme, so bands 1 and 4 are out of date. The verdict stands: no screen reader has been used, and the key and ARIA evidence gaps are unchanged. See [tasks.md](../tasks.md).
 
 ## Result
 

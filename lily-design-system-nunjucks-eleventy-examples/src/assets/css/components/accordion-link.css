@@ -1,6 +1,6 @@
 .accordion-link {
   display: inline-block;
-  color: var(--nhsuk-blue);
+  color: var(--nhsuk-link);
   text-decoration: underline;
   padding: var(--nhsuk-spacing-1) 0;
 }

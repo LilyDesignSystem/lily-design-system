@@ -2,7 +2,7 @@
   /* 24 CSS pixels at the default size: WCAG 2.5.8 target size. */
   display: inline-block;
   min-block-size: 1.5rem;
-  color: var(--nhsuk-blue);
+  color: var(--nhsuk-link);
   text-decoration: underline;
 }
 

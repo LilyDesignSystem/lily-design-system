@@ -4,5 +4,5 @@
 
 .tour-list-item[data-current] {
   font-weight: var(--nhsuk-font-weight-bold);
-  color: var(--nhsuk-blue);
+  color: var(--nhsuk-link);
 }

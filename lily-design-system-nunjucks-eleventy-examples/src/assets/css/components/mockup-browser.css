@@ -3,7 +3,7 @@
   border: 1px solid var(--nhsuk-mid-grey);
   border-radius: 6px;
   overflow: hidden;
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
 }
 
 .mockup-browser-chrome {
@@ -24,7 +24,7 @@
 .mockup-browser-title {
   flex: 1;
   padding: 2px 8px;
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   border-radius: 3px;
   font-size: var(--nhsuk-font-size-14);
   color: var(--nhsuk-secondary-text);

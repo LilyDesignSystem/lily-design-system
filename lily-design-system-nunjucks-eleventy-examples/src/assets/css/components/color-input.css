@@ -3,7 +3,7 @@
   height: 2.5rem;
   padding: 2px;
   border: 2px solid var(--nhsuk-black);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   cursor: pointer;
 }
 

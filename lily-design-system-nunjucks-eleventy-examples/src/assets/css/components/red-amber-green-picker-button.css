@@ -1,6 +1,6 @@
 .red-amber-green-picker-button {
   padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   color: var(--nhsuk-black);
   border: 2px solid var(--nhsuk-mid-grey);
   border-radius: 3px;
@@ -27,7 +27,7 @@
 }
 .red-amber-green-picker-button[aria-checked="true"][data-status="amber"] {
   background: var(--nhsuk-warm-yellow);
-  color: var(--nhsuk-black);
+  color: var(--nhsuk-ink);
 }
 .red-amber-green-picker-button[aria-checked="true"][data-status="green"] {
   background: var(--nhsuk-green);

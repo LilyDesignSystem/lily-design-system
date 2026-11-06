@@ -3,7 +3,7 @@
   border: 14px solid var(--nhsuk-black);
   border-radius: 22px;
   overflow: hidden;
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   aspect-ratio: 3 / 4;
   max-width: 20rem;
 }

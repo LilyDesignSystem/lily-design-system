@@ -8,6 +8,6 @@
   background: var(--nhsuk-pale-grey);
 }
 .editable[contenteditable="true"] {
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   outline: 2px solid var(--nhsuk-blue);
 }

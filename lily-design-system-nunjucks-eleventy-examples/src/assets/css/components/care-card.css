@@ -32,7 +32,7 @@
 
 .care-card[data-urgency="urgent"] .care-card-heading {
   background: var(--nhsuk-warm-yellow);
-  color: var(--nhsuk-black);
+  color: var(--nhsuk-ink);
 }
 
 .care-card[data-urgency="emergency"] .care-card-heading {

@@ -2,7 +2,7 @@
   position: fixed;
   bottom: var(--nhsuk-spacing-3);
   right: var(--nhsuk-spacing-3);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   border: 1px solid var(--nhsuk-mid-grey);
   border-radius: 6px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);

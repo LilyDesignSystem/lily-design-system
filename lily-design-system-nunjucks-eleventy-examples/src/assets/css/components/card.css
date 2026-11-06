@@ -1,6 +1,6 @@
 .card {
   padding: var(--nhsuk-spacing-4);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   border: 1px solid var(--nhsuk-light-grey);
   border-bottom: 4px solid var(--nhsuk-light-grey);
   margin-bottom: var(--nhsuk-spacing-4);

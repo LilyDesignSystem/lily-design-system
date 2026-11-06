@@ -15,7 +15,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--nhsuk-red);
+  color: var(--nhsuk-error-text);
   font-size: var(--nhsuk-font-size-22);
   font-weight: var(--nhsuk-font-weight-bold);
   line-height: 1;

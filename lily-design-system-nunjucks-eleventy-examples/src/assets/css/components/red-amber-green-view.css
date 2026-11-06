@@ -21,6 +21,7 @@
 }
 .red-amber-green-view[data-status="amber"] .red-amber-green-view-indicator {
   background: var(--nhsuk-warm-yellow);
+  color: var(--nhsuk-ink);
 }
 .red-amber-green-view[data-status="green"] .red-amber-green-view-indicator {
   background: var(--nhsuk-green);

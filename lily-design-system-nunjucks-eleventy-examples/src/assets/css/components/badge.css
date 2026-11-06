@@ -14,7 +14,7 @@
 .badge.badge-grey {
   /* nhsuk-mid-grey (#768692) on white only hits 3.75:1 — needs the
      darker nhsuk-dark-grey (#425563) for >=4.5:1. */
-  background: var(--nhsuk-dark-grey);
+  background: var(--nhsuk-slate);
   color: var(--nhsuk-white);
 }
 
@@ -30,5 +30,5 @@
 
 .badge.badge-yellow {
   background: var(--nhsuk-warm-yellow);
-  color: var(--nhsuk-black);
+  color: var(--nhsuk-ink);
 }

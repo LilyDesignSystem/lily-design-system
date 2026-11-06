@@ -15,8 +15,8 @@
 }
 
 .segment-group-item[aria-checked="true"] {
-  background: var(--nhsuk-white);
-  color: var(--nhsuk-blue);
+  background: var(--nhsuk-surface);
+  color: var(--nhsuk-link);
   box-shadow: 0 1px 2px rgba(33, 43, 50, 0.1);
 }
 

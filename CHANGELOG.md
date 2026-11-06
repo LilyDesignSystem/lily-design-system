@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Colour contrast is settled — 2026-11-06
+
+- **Fixed:** all 609 Nunjucks pages pass axe's contrast rule in the default and dark themes, from 27 and 255 failures, and the sweep now gates both. The app's `--nhsuk-*` tokens follow the theme under `[data-theme]`, and its link rule moved into the `reset` layer so themes win.
+- **Fixed in the 63 themes:** `.watermark` styled the wrapper as the overlay, so a watermark's content rendered at 8% opacity; `.split-button-primary` and `.government-banner-toggle` were unstyled; links on government chrome were dark on dark; `.sticky-promo-banner` had no background; and `*-link` components could miss 4.5:1, except in the six themes that set their own link colour (`bumblebee`, `caramellatte`, `fluent`, `wireframe` and the two Wales themes).
+
 ## Two links get a target — 2026-11-06
 
 - **Fixed:** Nunjucks and HTML `section-link` and `go-to-top` were `<a>`s with no `href`, so not links. They take `href`, default `#top`, as in Svelte.

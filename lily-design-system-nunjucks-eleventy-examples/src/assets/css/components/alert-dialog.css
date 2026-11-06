@@ -2,7 +2,7 @@
   padding: var(--nhsuk-spacing-4);
   max-width: 32rem;
   border: 4px solid var(--nhsuk-red);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   color: var(--nhsuk-black);
   font-family: var(--nhsuk-font-family);
 }

@@ -1,8 +1,9 @@
 // Every component page through axe: WCAG 2.2 A and AA rules, in <main> (tasks.md P25-T10).
 //
 // axe-sweep.allow.json holds known failures as "slug rule" with a reason. A new failure fails, and so does a listed one that
-// is fixed, so the list can only shrink. Colour contrast is left out until P25-T9 settles it: it depends on the theme and on
-// transitions, so it would make this flaky. Closed popups hide most of their ARIA from axe, which this does not yet open.
+// is fixed, so the list can only shrink. Contrast has its own test in the default and dark themes, with transitions off, because
+// a colour caught mid-transition is a false failure (P25-T9). Closed popups hide most of their ARIA from axe, which this does
+// not yet open.
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import fs from "node:fs";
@@ -38,3 +39,39 @@ test("no component page fails a WCAG A or AA rule", async ({ page }) => {
         "fixed: remove from axe-sweep.allow.json",
     ).toEqual([]);
 });
+
+for (const theme of ["default", "dark"]) {
+    test(`no component page fails colour contrast in the ${theme} theme`, async ({ page }) => {
+        test.setTimeout(600_000);
+        const found: string[] = [];
+        for (const slug of slugs) {
+            await page.goto(`/components/${slug}/`);
+            await page.addStyleTag({
+                content:
+                    "*, *::before, *::after { transition: none !important; animation: none !important; }",
+            });
+            if (theme === "dark") {
+                await page.evaluate(
+                    () =>
+                        new Promise<void>((done) => {
+                            const link = document.querySelector<HTMLLinkElement>(
+                                'link[data-lily-theme-picker="theme"]',
+                            )!;
+                            document.documentElement.setAttribute("data-theme", "dark");
+                            link.onload = () => done();
+                            link.href = "/themes/dark.css";
+                        }),
+                );
+            }
+            const { violations } = await new AxeBuilder({ page })
+                .include("main")
+                .withRules(["color-contrast"])
+                .analyze();
+            if (violations.length) found.push(`${slug} ${theme} contrast`);
+        }
+        expect(
+            found.filter((key) => !allow[key]),
+            "new contrast failures",
+        ).toEqual([]);
+    });
+}

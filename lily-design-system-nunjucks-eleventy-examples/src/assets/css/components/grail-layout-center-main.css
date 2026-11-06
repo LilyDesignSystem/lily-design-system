@@ -1,7 +1,7 @@
 .grail-layout-center-main {
   grid-area: main;
   padding: var(--nhsuk-spacing-4);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
 }
 
 .grail-layout-center-main:focus {

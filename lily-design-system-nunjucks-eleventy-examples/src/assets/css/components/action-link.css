@@ -2,7 +2,7 @@
   display: inline-block;
   padding-left: 2rem;
   position: relative;
-  color: var(--nhsuk-green);
+  color: var(--nhsuk-success-text);
   font-size: var(--nhsuk-font-size-22);
   font-weight: var(--nhsuk-font-weight-bold);
   line-height: 1.3;
@@ -40,5 +40,5 @@
 }
 
 .action-link:visited {
-  color: var(--nhsuk-green);
+  color: var(--nhsuk-success-text);
 }

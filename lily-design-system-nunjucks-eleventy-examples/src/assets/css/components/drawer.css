@@ -4,7 +4,7 @@
   right: 0;
   bottom: 0;
   width: min(24rem, 90vw);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   border-left: 1px solid var(--nhsuk-mid-grey);
   box-shadow: -4px 0 16px rgba(0, 0, 0, 0.12);
   padding: var(--nhsuk-spacing-4);

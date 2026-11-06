@@ -7,7 +7,7 @@ description: a placeholder shown when a list, table, or view has nothing to disp
 {% from "components/empty-state/macro.njk" import emptyState %}
 
 <h2>Default</h2>
-{% call emptyState({ label: "No results" }) %}<h3>No results</h3><p>Try a different search.</p><button type="button">Clear filters</button>{% endcall %}
+{% call emptyState({ label: "No results" }) %}<h3>No results</h3><p>Try a different search.</p><button class="button" type="button">Clear filters</button>{% endcall %}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

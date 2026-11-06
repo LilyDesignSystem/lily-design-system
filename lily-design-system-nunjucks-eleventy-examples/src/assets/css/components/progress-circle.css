@@ -21,7 +21,7 @@
   content: "";
   position: absolute;
   inset: 6px;
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   border-radius: 50%;
 }
 

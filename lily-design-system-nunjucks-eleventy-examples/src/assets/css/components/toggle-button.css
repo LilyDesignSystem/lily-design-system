@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   color: var(--nhsuk-black);
   border: 2px solid var(--nhsuk-black);
   border-radius: 3px;

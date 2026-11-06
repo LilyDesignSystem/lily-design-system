@@ -26,6 +26,7 @@
 .red-orange-yellow-green-blue-view[data-status="yellow"]
   .red-orange-yellow-green-blue-view-indicator {
   background: var(--nhsuk-yellow);
+  color: var(--nhsuk-ink);
 }
 .red-orange-yellow-green-blue-view[data-status="green"]
   .red-orange-yellow-green-blue-view-indicator {
