@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-aspect-ratio-container",
     standalone: true,
-    template: `<div class="aspect-ratio-container {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="aspect-ratio-container {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AspectRatioContainer {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

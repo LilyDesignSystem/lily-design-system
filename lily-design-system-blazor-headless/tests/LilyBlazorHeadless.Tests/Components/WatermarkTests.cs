@@ -34,4 +34,11 @@ public class WatermarkTests : TestContext
         var root = cut.Find(".watermark");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<Watermark>();
+        Assert.False(cut.Find(".watermark").HasAttribute("aria-label"));
+    }
 }

@@ -19,4 +19,11 @@ describe("description-list-item", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("never sets aria-label", () => {
+        const { document } = render("description-list-item", { label: "Ignored" }, "x");
+        expect(document.querySelector(".description-list-item").hasAttribute("aria-label")).toBe(
+            false,
+        );
+    });
 });

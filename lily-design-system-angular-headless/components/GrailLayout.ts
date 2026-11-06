@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-grail-layout",
     standalone: true,
-    template: `<div class="grail-layout {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="grail-layout {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GrailLayout {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

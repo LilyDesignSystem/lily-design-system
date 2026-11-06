@@ -31,7 +31,5 @@ export class DescriptionListItem extends HTMLElement {
         this.#built = true;
 
         applySelfClassName(this, "description-list-item");
-        const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
     }
 }

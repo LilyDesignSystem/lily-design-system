@@ -34,4 +34,11 @@ public class ContentBlockTests : TestContext
         var root = cut.Find(".content-block");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<ContentBlock>();
+        Assert.False(cut.Find(".content-block").HasAttribute("aria-label"));
+    }
 }

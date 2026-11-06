@@ -15,9 +15,8 @@ describe("ContentBlock", function () {
         expect(className).toContain("content-block");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not have an aria-label attribute", async function () {
         const el = await $("div.content-block");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

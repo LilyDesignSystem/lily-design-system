@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="content-block"
-  aria-label=""
   data-width="normal"
 >
   <!-- Consumer provides content -->

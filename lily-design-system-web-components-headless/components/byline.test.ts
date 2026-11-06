@@ -28,10 +28,10 @@ describe("Byline", () => {
         expect(host.hasAttribute("aria-label")).toBe(false);
     });
 
-    test("uses label as aria-label", () => {
+    test("does not name its root", () => {
         const host = render('<lily-byline label="Article byline">By Jane Doe</lily-byline>');
 
-        expect(host.getAttribute("aria-label")).toBe("Article byline");
+        expect(host.hasAttribute("aria-label")).toBe(false);
     });
 
     test("preserves author and time markup as authored", () => {

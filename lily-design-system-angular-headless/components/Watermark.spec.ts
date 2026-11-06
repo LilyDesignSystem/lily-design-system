@@ -19,4 +19,12 @@ describe("Watermark", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(Watermark);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".watermark").hasAttribute("aria-label")).toBe(
+            false,
+        );
+    });
 });

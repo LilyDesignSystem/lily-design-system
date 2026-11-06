@@ -19,4 +19,12 @@ describe("Headline", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(Headline);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".headline").hasAttribute("aria-label")).toBe(
+            false,
+        );
+    });
 });

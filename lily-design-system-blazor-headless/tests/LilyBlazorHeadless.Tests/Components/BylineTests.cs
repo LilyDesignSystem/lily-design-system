@@ -34,4 +34,11 @@ public class BylineTests : TestContext
         var root = cut.Find(".byline");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<Byline>();
+        Assert.False(cut.Find(".byline").HasAttribute("aria-label"));
+    }
 }

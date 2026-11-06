@@ -15,9 +15,8 @@ describe("Headline", function () {
         expect(className).toContain("headline");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not have an aria-label attribute", async function () {
         const el = await $("div.headline");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

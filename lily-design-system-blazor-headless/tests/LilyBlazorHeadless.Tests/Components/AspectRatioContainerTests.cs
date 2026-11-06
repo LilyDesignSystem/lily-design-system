@@ -34,4 +34,11 @@ public class AspectRatioContainerTests : TestContext
         var root = cut.Find(".aspect-ratio-container");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<AspectRatioContainer>();
+        Assert.False(cut.Find(".aspect-ratio-container").HasAttribute("aria-label"));
+    }
 }

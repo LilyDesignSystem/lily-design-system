@@ -49,4 +49,11 @@ public class HintTests : TestContext
         });
         Assert.Equal(cut.Find(".hint").GetAttribute("id"), cut.Find("input").GetAttribute("aria-describedby"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<Hint>();
+        Assert.False(cut.Find(".hint").HasAttribute("aria-label"));
+    }
 }

@@ -34,4 +34,11 @@ public class AvatarTextTests : TestContext
         var root = cut.Find(".avatar-text");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<AvatarText>();
+        Assert.False(cut.Find(".avatar-text").HasAttribute("aria-label"));
+    }
 }

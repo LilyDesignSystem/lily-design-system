@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-content-block",
     standalone: true,
-    template: `<div class="content-block {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="content-block {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentBlock {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

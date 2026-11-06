@@ -34,4 +34,11 @@ public class DescriptionListItemTests : TestContext
         var root = cut.Find(".description-list-item");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<DescriptionListItem>();
+        Assert.False(cut.Find(".description-list-item").HasAttribute("aria-label"));
+    }
 }

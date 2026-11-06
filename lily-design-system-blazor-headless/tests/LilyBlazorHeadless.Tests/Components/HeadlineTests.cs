@@ -34,4 +34,11 @@ public class HeadlineTests : TestContext
         var root = cut.Find(".headline");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<Headline>();
+        Assert.False(cut.Find(".headline").HasAttribute("aria-label"));
+    }
 }

@@ -19,4 +19,12 @@ describe("ContentBlock", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(ContentBlock);
+        fixture.detectChanges();
+        expect(
+            fixture.nativeElement.querySelector(".content-block").hasAttribute("aria-label"),
+        ).toBe(false);
+    });
 });

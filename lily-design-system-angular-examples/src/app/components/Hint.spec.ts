@@ -19,4 +19,10 @@ describe("Hint", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(Hint);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".hint").hasAttribute("aria-label")).toBe(false);
+    });
 });

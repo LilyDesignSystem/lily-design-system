@@ -34,4 +34,11 @@ public class SkeletonTests : TestContext
         var root = cut.Find(".skeleton");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<Skeleton>();
+        Assert.False(cut.Find(".skeleton").HasAttribute("aria-label"));
+    }
 }

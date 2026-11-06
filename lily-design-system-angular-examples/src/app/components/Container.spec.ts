@@ -19,4 +19,12 @@ describe("Container", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(Container);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".container").hasAttribute("aria-label")).toBe(
+            false,
+        );
+    });
 });

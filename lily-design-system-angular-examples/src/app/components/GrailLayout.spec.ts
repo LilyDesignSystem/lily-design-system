@@ -19,4 +19,12 @@ describe("GrailLayout", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(GrailLayout);
+        fixture.detectChanges();
+        expect(
+            fixture.nativeElement.querySelector(".grail-layout").hasAttribute("aria-label"),
+        ).toBe(false);
+    });
 });

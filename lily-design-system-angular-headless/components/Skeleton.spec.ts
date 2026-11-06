@@ -19,4 +19,12 @@ describe("Skeleton", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(Skeleton);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".skeleton").hasAttribute("aria-label")).toBe(
+            false,
+        );
+    });
 });

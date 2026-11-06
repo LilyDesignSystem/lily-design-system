@@ -19,4 +19,14 @@ describe("AspectRatioContainer", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(AspectRatioContainer);
+        fixture.detectChanges();
+        expect(
+            fixture.nativeElement
+                .querySelector(".aspect-ratio-container")
+                .hasAttribute("aria-label"),
+        ).toBe(false);
+    });
 });

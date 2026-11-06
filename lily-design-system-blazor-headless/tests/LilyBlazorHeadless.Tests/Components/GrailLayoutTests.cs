@@ -34,4 +34,11 @@ public class GrailLayoutTests : TestContext
         var root = cut.Find(".grail-layout");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Never_names_its_root()
+    {
+        var cut = RenderComponent<GrailLayout>();
+        Assert.False(cut.Find(".grail-layout").HasAttribute("aria-label"));
+    }
 }

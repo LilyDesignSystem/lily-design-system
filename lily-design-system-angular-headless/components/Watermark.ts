@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-watermark",
     standalone: true,
-    template: `<div class="watermark {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="watermark {{ className() }}"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Watermark {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

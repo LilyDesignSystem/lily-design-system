@@ -15,9 +15,8 @@ describe("Byline", function () {
         expect(className).toContain("byline");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not have an aria-label attribute", async function () {
         const el = await $("div.byline");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

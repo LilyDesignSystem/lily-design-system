@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## 11 more components lose a label their ports added — 2026-11-06
+
+- **Breaking:** `aspect-ratio-container`, `avatar-text`, `byline`, `container`, `content-block`, `description-list-item`, `grail-layout`, `headline`, `hint`, `skeleton` and `watermark` lose `label` wherever a port had added it, matching their contract and Svelte.
+
 ## Angular announces alerts — 2026-11-06
 
 - **Fixed:** Angular `alert`, `notification` and `toast` rendered a plain `<div>`, so a screen reader announced nothing. They now match Svelte: `alert` takes `type`, `heading`, `role` and `live`, and `notification` and `toast` take `urgent`.

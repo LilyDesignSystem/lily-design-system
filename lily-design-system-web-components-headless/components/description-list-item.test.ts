@@ -32,12 +32,12 @@ describe("DescriptionListItem", () => {
         expect(host.hasAttribute("aria-label")).toBe(false);
     });
 
-    test("applies aria-label when provided", () => {
+    test("does not name its root", () => {
         const host = render(
             '<lily-description-list-item label="Name"><dt>Name</dt><dd>Ada Lovelace</dd></lily-description-list-item>',
         );
 
-        expect(host.getAttribute("aria-label")).toBe("Name");
+        expect(host.hasAttribute("aria-label")).toBe(false);
     });
 
     test("preserves the dt/dd children in place", () => {

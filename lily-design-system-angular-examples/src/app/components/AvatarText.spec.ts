@@ -19,4 +19,12 @@ describe("AvatarText", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(AvatarText);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".avatar-text").hasAttribute("aria-label")).toBe(
+            false,
+        );
+    });
 });

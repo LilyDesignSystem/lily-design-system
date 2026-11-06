@@ -19,4 +19,12 @@ describe("Byline", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("never names its root", () => {
+        const fixture = TestBed.createComponent(Byline);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".byline").hasAttribute("aria-label")).toBe(
+            false,
+        );
+    });
 });

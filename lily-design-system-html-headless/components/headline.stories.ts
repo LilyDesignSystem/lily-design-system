@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="headline"
-  aria-label=""
 >
   <h1 class="headline-heading">
     <!-- Consumer provides heading text -->

@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="byline"
-  aria-label=""
 >
   <span class="byline-authors">
     <!-- Consumer provides authors -->

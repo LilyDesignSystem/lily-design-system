@@ -3,10 +3,8 @@
 
   HTML tag: <div>
   CSS class: description-list-item
-  Accessibility: the native <div> element supplies the semantics. `label`
-    is rendered as aria-label on the root; name the element when more than
-    one of its kind is on the page. Any other ARIA is passed through
-    `attributes`.
+  Accessibility: the native <div> element supplies the semantics. Any ARIA is passed
+    through `attributes`.
 
   Internationalization: no hardcoded user-facing strings; all text is
     supplied by the caller.
@@ -14,7 +12,6 @@
   Params:
     text        string   Plain text content (escaped).
     html        string   Raw HTML content (rendered via `| safe`).
-    label       string   Accessible name (aria-label).
     id          string
     classes     string   Extra classes, after the `description-list-item` base class.
     attributes  object   Extra attributes written onto the root.
@@ -23,13 +20,12 @@
 
   Usage:
     {% from "components/description-list-item/macro.njk" import descriptionListItem %}
-    {{ descriptionListItem({ text: "…", label: "…" }) }}
+    {{ descriptionListItem({ text: "…" }) }}
 #}
 {%- macro descriptionListItem(params) -%}
 {%- set p = params | default({}) -%}
 <div
   class="description-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

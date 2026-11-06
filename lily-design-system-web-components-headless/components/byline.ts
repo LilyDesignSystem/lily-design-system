@@ -29,7 +29,5 @@ export class Byline extends HTMLElement {
         this.#built = true;
 
         applySelfClassName(this, "byline");
-        const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
     }
 }

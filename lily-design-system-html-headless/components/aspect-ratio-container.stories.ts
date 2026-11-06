@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="aspect-ratio-container"
-  aria-label=""
 >
   <!-- Consumer provides content -->
 </div>`;
