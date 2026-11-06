@@ -34,6 +34,7 @@
 //   bin/generate-core --check              exit 1 if an output is stale, or if a component recorded as
 //                                          Core in core.json no longer meets every criterion
 //   bin/generate-core --allow-demotion     write even though a recorded Core member lost evidence
+//   bin/generate-core --assess <file>      the same checks for all 609 components, as JSON (docs/aria-assessment.md)
 //
 // The report date in the ACR and core.json is kept unless something else in the output changes.
 
@@ -338,6 +339,24 @@ function criterionC(c) {
   const cells = Object.fromEntries(MATRIX_COLUMNS.map((col) => [col, { value: row.cells[col], result: cellResult(row.cells[col]) }]));
   const filled = MATRIX_COLUMNS.filter((col) => ["pass", "minor"].includes(cells[col].result)).length;
   return { met: filled === MATRIX_COLUMNS.length, row: c.row, rowLabel: row.label, filled, cells };
+}
+
+// ---------- the whole catalog (--assess <file>): the same checks for every component, written as JSON, nothing else ----------
+
+const assessAt = process.argv.indexOf("--assess");
+if (assessAt !== -1) {
+  const slugs = read("components.tsv").split("\n").filter(Boolean).map((l) => l.split("\t")[0]);
+  const rows = slugs.map((slug) => {
+    const c = { slug, group: "", helper: false, row: null };
+    const a = criterionA(c), b = criterionB(c);
+    return {
+      slug, keys: keyboardContract(c), aria: ariaContract(c), metCount: a.metCount, met: a.met,
+      missing: LIBRARIES.filter((l) => !a.libraries[l].met).map((l) => [l, a.libraries[l].status]),
+      browsers: b.browsers, specs: b.specs.length,
+    };
+  });
+  fs.writeFileSync(process.argv[assessAt + 1], JSON.stringify(rows, null, 2) + "\n");
+  process.exit(0);
 }
 
 // ---------- assemble ----------
