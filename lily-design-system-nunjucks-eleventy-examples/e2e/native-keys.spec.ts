@@ -30,13 +30,15 @@ for (const [slug, key] of [
     });
 }
 
-test("ArrowUp changes a native select", async ({ page }) => {
+test("a typed letter changes a native select", async ({ page }) => {
+    // Not arrows: on macOS they open a closed select's list instead of changing its value.
     await page.goto("/components/theme-select/");
     const select = page.locator("main select.theme-select").first();
     await select.focus();
+    const options = await select.locator("option").allTextContents();
     const before = await value(select);
-    // The demo starts on its last option, so ArrowDown has nowhere to go.
-    await page.keyboard.press("ArrowUp");
+    const other = options.find((text) => text.trim() && !text.trim().toLowerCase().startsWith(before[0]))!;
+    await page.keyboard.press(other.trim()[0].toLowerCase());
     expect(await value(select)).not.toBe(before);
 });
 
