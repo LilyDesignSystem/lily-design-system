@@ -12,8 +12,8 @@ importers:
   .:
     dependencies:
       '@lilydesignsystem/vue-headless':
-        specifier: ^0.7.0
-        version: 0.7.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.8.0
+        version: 0.8.0(vue@3.5.44(typescript@5.9.3))
     devDependencies:
       '@vitejs/plugin-vue':
         specifier: ^6.0.10
@@ -129,8 +129,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lilydesignsystem/vue-headless@0.7.0':
-    resolution: {integrity: sha512-Ch+ltQ0pFJ5ozWbYb6RoLfQgSAvgOe81BMoy28WeF4stA0MOuhb+zN012HMb6nCAmaJLMzlgzBCiJVkM4/bifA==}
+  '@lilydesignsystem/vue-headless@0.8.0':
+    resolution: {integrity: sha512-JQhQkUtvuEuk0zKg9q9dK0MijzuRmOENMBUJxPRkQQTIFiMN2O2fNw5bDeYQn2bnhApgvCZV9JZjZmu+wdixDA==}
     engines: {node: '>=26'}
     peerDependencies:
       vue: ^3.4.0
@@ -875,7 +875,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lilydesignsystem/vue-headless@0.7.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-headless@0.8.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)

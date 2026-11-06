@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/svelte-kanban-board",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "engines": {
     "node": ">=26"
   },
@@ -32,7 +32,7 @@
     "svelte": "^5.0.0"
   },
   "devDependencies": {
-    "@lilydesignsystem/svelte-headless": "^0.7.0",
+    "@lilydesignsystem/svelte-headless": "^0.8.0",
     "@sveltejs/package": "^3.0.2",
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@testing-library/svelte": "^5.4.2",

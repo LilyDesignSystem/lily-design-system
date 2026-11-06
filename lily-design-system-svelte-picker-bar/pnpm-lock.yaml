@@ -13,7 +13,7 @@ importers:
         version: 0.2.0(svelte@5.57.3)
       '@lilydesignsystem/svelte-locale-picker':
         specifier: ^0.3.1
-        version: 0.3.1(@lilydesignsystem/svelte-headless@0.7.0(svelte@5.57.3))(svelte@5.57.3)
+        version: 0.3.1(@lilydesignsystem/svelte-headless@0.8.0(svelte@5.57.3))(svelte@5.57.3)
       '@lilydesignsystem/svelte-search-picker':
         specifier: ^0.2.0
         version: 0.2.0(svelte@5.57.3)
@@ -28,11 +28,11 @@ importers:
         version: 0.3.0(svelte@5.57.3)
       '@lilydesignsystem/svelte-time-zone-picker':
         specifier: ^0.2.0
-        version: 0.2.0(@lilydesignsystem/svelte-headless@0.7.0(svelte@5.57.3))(svelte@5.57.3)
+        version: 0.2.0(@lilydesignsystem/svelte-headless@0.8.0(svelte@5.57.3))(svelte@5.57.3)
     devDependencies:
       '@lilydesignsystem/svelte-headless':
-        specifier: ^0.7.0
-        version: 0.7.0(svelte@5.57.3)
+        specifier: ^0.8.0
+        version: 0.8.0(svelte@5.57.3)
       '@sveltejs/package':
         specifier: ^3.0.2
         version: 3.0.2(svelte@5.57.3)(typescript@6.0.3)
@@ -157,8 +157,8 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
-  '@lilydesignsystem/svelte-headless@0.7.0':
-    resolution: {integrity: sha512-3yEJnLaHnEMJGdjXL4o4wyFFWXEJjDH4Ya63BapYBzOJ/IJMzG3kBUUd+TBEgP0cEZrwi9Th63i+04jcwPe84A==}
+  '@lilydesignsystem/svelte-headless@0.8.0':
+    resolution: {integrity: sha512-IJBDWHM/nlnpr20bytWl11JBY23nS56DY0bSTTcBIKUoymAyv5y8HIML69nljc9TdFeV2fPPOeKDS3YKnXh/zQ==}
     engines: {node: '>=26'}
     peerDependencies:
       svelte: ^5.0.0
@@ -964,7 +964,7 @@ snapshots:
       aria-query: 5.3.2
       svelte: 5.57.3
 
-  '@lilydesignsystem/svelte-headless@0.7.0(svelte@5.57.3)':
+  '@lilydesignsystem/svelte-headless@0.8.0(svelte@5.57.3)':
     dependencies:
       aria-query: 5.3.2
       svelte: 5.57.3
@@ -974,9 +974,9 @@ snapshots:
       '@lilydesignsystem/svelte-headless': 0.4.0(svelte@5.57.3)
       svelte: 5.57.3
 
-  '@lilydesignsystem/svelte-locale-picker@0.3.1(@lilydesignsystem/svelte-headless@0.7.0(svelte@5.57.3))(svelte@5.57.3)':
+  '@lilydesignsystem/svelte-locale-picker@0.3.1(@lilydesignsystem/svelte-headless@0.8.0(svelte@5.57.3))(svelte@5.57.3)':
     dependencies:
-      '@lilydesignsystem/svelte-headless': 0.7.0(svelte@5.57.3)
+      '@lilydesignsystem/svelte-headless': 0.8.0(svelte@5.57.3)
       svelte: 5.57.3
 
   '@lilydesignsystem/svelte-search-picker@0.2.0(svelte@5.57.3)':
@@ -999,9 +999,9 @@ snapshots:
       '@lilydesignsystem/svelte-headless': 0.4.0(svelte@5.57.3)
       svelte: 5.57.3
 
-  '@lilydesignsystem/svelte-time-zone-picker@0.2.0(@lilydesignsystem/svelte-headless@0.7.0(svelte@5.57.3))(svelte@5.57.3)':
+  '@lilydesignsystem/svelte-time-zone-picker@0.2.0(@lilydesignsystem/svelte-headless@0.8.0(svelte@5.57.3))(svelte@5.57.3)':
     dependencies:
-      '@lilydesignsystem/svelte-headless': 0.7.0(svelte@5.57.3)
+      '@lilydesignsystem/svelte-headless': 0.8.0(svelte@5.57.3)
       svelte: 5.57.3
 
   '@oxc-project/types@0.156.0': {}

@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/vue-share-picker",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "engines": {
     "node": ">=26"
   },
@@ -28,7 +28,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@lilydesignsystem/vue-headless": "^0.7.0"
+    "@lilydesignsystem/vue-headless": "^0.8.0"
   },
   "peerDependencies": {
     "vue": "^3.0.0"

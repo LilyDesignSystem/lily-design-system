@@ -2,6 +2,10 @@
 
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/); the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.2 — 2026-11-06
+
+- Depends on `react-headless` ^0.8.0.
+
 ## 0.2.1 — 2026-11-05
 
 - Depends on `react-headless` ^0.7.0.

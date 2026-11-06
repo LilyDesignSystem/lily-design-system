@@ -1,5 +1,9 @@
 # CHANGELOG — @lilydesignsystem/react-theme-picker
 
+## 0.3.2 — 2026-11-06
+
+- Depends on `react-headless` ^0.8.0.
+
 ## 0.3.1 — 2026-11-05
 
 - Depends on `react-headless` ^0.7.0.

@@ -19,7 +19,7 @@ highlights.
 
 ## Versions — 2026-11-06
 
-Not yet published. `html-headless` 0.10.0, `svelte-headless` 0.8.0, `react-headless` 0.8.0, `vue-headless` 0.8.0, `angular-headless` 0.9.0, `nunjucks-headless` 0.8.0, `web-components-headless` 0.9.0, `LilyDesignSystem.Blazor.Headless` 0.8.0: minor bumps for the sections below. `TabPanel` in Angular and Blazor is the breaking change: one with no `selected` is now hidden. The helper packages keep their headless ranges until these versions are on the registries, because their lockfiles resolve from npm.
+`html-headless` 0.10.0, `svelte-headless` 0.8.0, `react-headless` 0.8.0, `vue-headless` 0.8.0, `angular-headless` 0.9.0, `nunjucks-headless` 0.8.0, `web-components-headless` 0.9.0, `LilyDesignSystem.Blazor.Headless` 0.8.0: minor bumps for the sections below. `TabPanel` in Angular and Blazor is the breaking change: one with no `selected` is now hidden. All seven npm catalogs are published. Blazor 0.8.0 is not yet on NuGet. 83 helpers take the new headless ranges, a patch version and a re-lock; all 83 build and pass their tests against the published packages, and they are not published yet. `themes` 0.6.2 carries the closed-popover fix and is not published yet.
 
 ## Three port gaps closed — 2026-11-05
 

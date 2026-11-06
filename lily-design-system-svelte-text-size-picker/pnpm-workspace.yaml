@@ -2,3 +2,4 @@ allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:
   - '@lilydesignsystem/svelte-headless@0.7.0'
+  - '@lilydesignsystem/svelte-headless@0.8.0'

@@ -3,6 +3,10 @@
 All notable changes to this helper are documented in this file. The format is loosely based on
 [Keep a Changelog](https://keepachangelog.com/) and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.2.2 — 2026-11-06
+
+- Depends on `svelte-headless` ^0.8.0.
+
 ## 0.2.1 — 2026-11-05
 
 - Depends on `svelte-headless` ^0.7.0.
