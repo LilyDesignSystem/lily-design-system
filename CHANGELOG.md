@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Angular buttons can submit — 2026-11-06
+
+- **Fixed:** Angular `button` was hard-coded to `type="button"` with no `disabled`. It now takes `type`, `disabled` and `pressed`.
+- **Fixed:** Angular `fieldset` could not render a `legend`. It now takes `legend` and `disabled`, and `form` emits `resetted`.
+- **Changed:** the docs no longer call Angular complete: at least 74 of its components are stubs (P25-T15).
+
 ## 18 more components stop naming a generic root — 2026-11-06
 
 - **Fixed:** the eight mockups that lacked it are `role="img"`, as their contracts say. `super-banner` is `role="alert"` with `aria-live="assertive"`, and `loading` is `role="status"` with `aria-live="polite"`, so both are announced.

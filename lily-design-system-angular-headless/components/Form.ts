@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input, output } from "@angular/core
 @Component({
     selector: "lily-form",
     standalone: true,
-    template: `<form class="form {{ className() }}" [attr.aria-label]="label() || null" (submit)="onSubmit($event)"><ng-content /></form>`,
+    template: `<form class="form {{ className() }}" [attr.aria-label]="label() || null" (submit)="onSubmit($event)" (reset)="resetted.emit($event)"><ng-content /></form>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Form {
@@ -18,6 +18,8 @@ export class Form {
     readonly className = input<string>("");
     /** Emits the submit event; the native submission (a page navigation) is prevented. */
     readonly submitted = output<SubmitEvent>();
+    /** Emits when the form is reset. Not named reset, which would also catch the native bubbling event. */
+    readonly resetted = output<Event>();
 
     onSubmit(event: Event): void {
         event.preventDefault();

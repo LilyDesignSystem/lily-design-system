@@ -19,4 +19,21 @@ describe("Fieldset", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("renders its legend first, and disables its fields", () => {
+        const fixture = TestBed.createComponent(Fieldset);
+        fixture.componentRef.setInput("legend", "Address");
+        fixture.componentRef.setInput("disabled", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("fieldset");
+        expect(el.firstElementChild.tagName).toBe("LEGEND");
+        expect(el.firstElementChild.textContent).toBe("Address");
+        expect(el.disabled).toBe(true);
+    });
+
+    test("renders no empty legend", () => {
+        const fixture = TestBed.createComponent(Fieldset);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector("legend")).toBeNull();
+    });
 });

@@ -4,6 +4,8 @@ A headless Angular component library (Angular 20–22 peer range) implementing t
 
 Components are standalone, signal-based, zero-CSS, and ship semantic HTML + ARIA only. Consumers provide all styling via the kebab-case class hooks documented in `css-style-sheet-template.css`.
 
+**Not yet complete.** Angular has a file for all 609, but at least 74 are stubs with no input beyond `label` and `className` where Svelte has more ([tasks.md](../tasks.md) P25-T15). A stub renders its element and class hook but does not take that component's other props, so check a component's inputs before relying on it.
+
 ## Sibling implementations
 
 - [Svelte headless](../lily-design-system-svelte-headless)

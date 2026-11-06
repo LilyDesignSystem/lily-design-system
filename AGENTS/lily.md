@@ -9,7 +9,7 @@ Canonical component list: [components.tsv](../components.tsv) — 609 components
 ## Subprojects for headless components
 
 The seven framework pairs below are the canonical, full-catalog (609/609)
-headless libraries. An 8th headless catalog joined 2026-09-03:
+headless libraries. Angular has a file for all 609, but at least 74 are stubs with no input beyond `label` and `className` where Svelte has more ([tasks.md](../tasks.md) P25-T15). An 8th headless catalog joined 2026-09-03:
 [Lily Design System: Web Components headless](../lily-design-system-web-components-headless)
 ships its full achievable scope: 574 of the 609 (since `warning-text`, 2026-10-29)
 components as native custom elements (no framework runtime). The other 35
