@@ -10,9 +10,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-masonry",
     standalone: true,
-    template: `<div class="masonry {{ className() }}"><ng-content /></div>`,
+    template: `<div class="masonry {{ className() }}" [attr.data-columns]="columns()" [style.column-count]="columns()" [style.column-gap]="gap()"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Masonry {
     readonly className = input<string>("");
+    /** Number of columns. */
+    readonly columns = input<number>(3);
+    /** Gap between columns, any CSS length. */
+    readonly gap = input<string>("1rem");
 }

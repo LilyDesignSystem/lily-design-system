@@ -10,10 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-kanban-table",
     standalone: true,
-    template: `<table class="kanban-table {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></table>`,
+    template: `<table class="kanban-table {{ className() }}" role="grid" [attr.aria-label]="label() || null">@if (caption()) {<caption>{{ caption() }}</caption>}<ng-content /></table>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanTable {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Visible caption of the table. */
+    readonly caption = input<string | undefined>(undefined);
 }

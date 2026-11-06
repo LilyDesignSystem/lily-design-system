@@ -15,12 +15,31 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "li[lily-collection-list-item]",
     standalone: true,
-    template: `<ng-content />`,
+    template: `@if (imageUrl()) {<img class="collection-list-item-image" [attr.src]="imageUrl()" [attr.alt]="imageAlt()" />}
+        <h3 class="collection-list-item-heading">@if (href()) {<a [attr.href]="href()">{{ heading() }}</a>} @else {{{ heading() }}}</h3>
+        @if (meta()) {<p class="collection-list-item-meta">{{ meta() }}</p>}
+        @if (description()) {<p class="collection-list-item-description">{{ description() }}</p>}
+        <ng-content />`,
     host: {
         "[class]": '"collection-list-item " + className()',
+        "[attr.aria-label]": "label() || null",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionListItem {
     readonly className = input<string>("");
+    /** Accessible name. */
+    readonly label = input<string>("");
+    /** Item title. */
+    readonly heading = input<string>("");
+    /** Line of metadata. */
+    readonly meta = input<string | undefined>(undefined);
+    /** Summary. */
+    readonly description = input<string | undefined>(undefined);
+    /** Image address. */
+    readonly imageUrl = input<string | undefined>(undefined);
+    /** Text alternative of the image. */
+    readonly imageAlt = input<string>("");
+    /** Makes the title a link. */
+    readonly href = input<string | undefined>(undefined);
 }

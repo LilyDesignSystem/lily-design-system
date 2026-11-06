@@ -19,4 +19,13 @@ describe("EmailLink", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("links to the address and shows it", () => {
+        const fixture = TestBed.createComponent(EmailLink);
+        fixture.componentRef.setInput("email", "a@example.org");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("a");
+        expect(el.getAttribute("href")).toBe("mailto:a@example.org");
+        expect(el.textContent).toBe("a@example.org");
+    });
 });

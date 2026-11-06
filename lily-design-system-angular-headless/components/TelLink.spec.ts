@@ -19,4 +19,13 @@ describe("TelLink", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("links to the number and shows it", () => {
+        const fixture = TestBed.createComponent(TelLink);
+        fixture.componentRef.setInput("phone", "+441234");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("a");
+        expect(el.getAttribute("href")).toBe("tel:+441234");
+        expect(el.textContent).toBe("+441234");
+    });
 });

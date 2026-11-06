@@ -19,4 +19,14 @@ describe("SummaryBox", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("renders its heading", () => {
+        const fixture = TestBed.createComponent(SummaryBox);
+        fixture.componentRef.setInput("heading", "Key points");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".summary-box");
+        expect(el.getAttribute("aria-label")).toBe("Key points");
+        expect(el.querySelector(".summary-box-heading").textContent).toBe("Key points");
+        expect(el.querySelector(".summary-box-body")).toBeTruthy();
+    });
 });

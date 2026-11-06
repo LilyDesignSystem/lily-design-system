@@ -13,7 +13,7 @@ for list/table sub-elements, so there is no wrapper element between this
 content-model relationship for assistive technology).
 
 ```html
-<li lily-summary-list-item></li>
+<div lily-summary-list-item></div>
 ```
 
 ## Files

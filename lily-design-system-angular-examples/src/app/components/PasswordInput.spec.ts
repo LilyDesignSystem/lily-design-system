@@ -29,4 +29,19 @@ describe("PasswordInput", () => {
         const el = fixture.nativeElement.querySelector("input.password-input");
         expect(el.getAttribute("type")).toBe("password");
     });
+
+    test("lets a password manager fill it by default", () => {
+        const fixture = TestBed.createComponent(PasswordInput);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("autocomplete")).toBe("current-password");
+    });
+
+    test("takes new-password", () => {
+        const fixture = TestBed.createComponent(PasswordInput);
+        fixture.componentRef.setInput("autocomplete", "new-password");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("autocomplete")).toBe("new-password");
+    });
 });

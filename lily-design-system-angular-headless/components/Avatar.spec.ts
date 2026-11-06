@@ -22,10 +22,18 @@ describe("Avatar", () => {
 
     test("has role=img, as in Svelte", () => {
         const fixture = TestBed.createComponent(Avatar);
-        fixture.componentRef.setInput("label", "Story");
+        fixture.componentRef.setInput("alt", "Story");
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector(".avatar");
         expect(el.getAttribute("role")).toBe("img");
         expect(el.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("names itself from alt", () => {
+        const fixture = TestBed.createComponent(Avatar);
+        fixture.componentRef.setInput("alt", "Ada");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".avatar");
+        expect(el.getAttribute("aria-label")).toBe("Ada");
     });
 });

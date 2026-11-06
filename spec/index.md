@@ -117,7 +117,7 @@ committing.
 ### In scope
 
 - A canonical catalog of 609 components (`components.tsv`).
-- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks (Angular has a file for all 609, but at least 74 are stubs with no input beyond `label` and `className` where Svelte has more ([tasks.md](../tasks.md) P25-T15)) — plus an 8th, native-custom-element one (Web Components, added 2026-09-03) at its full achievable scope since 2026-09-06: 574 of 609, the remaining 35 permanently excluded by a real architectural limitation, not backlog.
+- Seven full-catalog headless component libraries: HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks (Angular has every Svelte prop, or a recorded reason in `bin/check-port-logic.allow.json`, since 2026-11-06) — plus an 8th, native-custom-element one (Web Components, added 2026-09-03) at its full achievable scope since 2026-09-06: 574 of 609, the remaining 35 permanently excluded by a real architectural limitation, not backlog.
 - Seven example applications: HTML+CSS+JS, SvelteKit, Next.js, Nuxt.js,
   Angular Analog, Blazor Web, Nunjucks Eleventy — plus an eighth, the Alpine.js
   example app (`lily-design-system-alpine-examples`, 2026-10-21).

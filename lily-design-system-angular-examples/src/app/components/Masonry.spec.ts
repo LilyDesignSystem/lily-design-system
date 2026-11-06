@@ -27,4 +27,15 @@ describe("Masonry", () => {
         expect(el.hasAttribute("aria-label")).toBe(false);
         expect(el.hasAttribute("role")).toBe(false);
     });
+
+    test("lays out its columns", () => {
+        const fixture = TestBed.createComponent(Masonry);
+        fixture.componentRef.setInput("columns", 2);
+        fixture.componentRef.setInput("gap", "2rem");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".masonry");
+        expect(el.getAttribute("data-columns")).toBe("2");
+        expect(el.style.columnCount).toBe("2");
+        expect(el.style.columnGap).toBe("2rem");
+    });
 });

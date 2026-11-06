@@ -16,6 +16,10 @@ import { restoreOnFormReset } from "./form-reset";
       type="image"
       [attr.aria-label]="label() || null"
       autocomplete="off"
+      [attr.src]="src() ?? null"
+      [attr.alt]="alt() ?? null"
+      [attr.width]="width() ?? null"
+      [attr.height]="height() ?? null"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
@@ -28,6 +32,14 @@ export class ImageInput {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Image address. */
+    readonly src = input<string | undefined>(undefined);
+    /** Text alternative: the accessible name of the button. */
+    readonly alt = input<string | undefined>(undefined);
+    /** Intrinsic width in pixels. */
+    readonly width = input<number | undefined>(undefined);
+    /** Intrinsic height in pixels. */
+    readonly height = input<number | undefined>(undefined);
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

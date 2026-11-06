@@ -57,4 +57,19 @@ describe("BreadcrumbListItem", () => {
             ),
         ).toBe(true);
     });
+
+    test("marks the current item", () => {
+        const fixture = TestBed.createComponent(BreadcrumbListItem);
+        fixture.componentRef.setInput("current", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("data-current")).toBe("");
+    });
+
+    test("is not current by default", () => {
+        const fixture = TestBed.createComponent(BreadcrumbListItem);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.hasAttribute("data-current")).toBe(false);
+    });
 });

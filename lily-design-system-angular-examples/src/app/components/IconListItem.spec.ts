@@ -33,4 +33,11 @@ describe("IconListItem", () => {
         const el = fixture.nativeElement.querySelector("li");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("hides its icon from assistive technology", () => {
+        const fixture = TestBed.createComponent(IconListItem);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.querySelector(".icon-list-item-icon").getAttribute("aria-hidden")).toBe("true");
+    });
 });

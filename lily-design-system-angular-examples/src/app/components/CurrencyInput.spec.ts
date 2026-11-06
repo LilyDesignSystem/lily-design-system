@@ -39,4 +39,16 @@ describe("CurrencyInput", () => {
         expect(() => fixture.detectChanges()).toThrow();
         expect(fixture.nativeElement.innerHTML).not.toContain("USD");
     });
+
+    test("carries the bounds and a decimal keypad", () => {
+        const fixture = TestBed.createComponent(CurrencyInput);
+        fixture.componentRef.setInput("currencyCode", "EUR");
+        fixture.componentRef.setInput("min", 1);
+        fixture.componentRef.setInput("max", 9);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("min")).toBe("1");
+        expect(el.getAttribute("max")).toBe("9");
+        expect(el.getAttribute("inputmode")).toBe("decimal");
+    });
 });

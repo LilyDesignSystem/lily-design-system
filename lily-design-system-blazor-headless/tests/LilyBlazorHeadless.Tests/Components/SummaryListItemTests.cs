@@ -34,4 +34,15 @@ public class SummaryListItemTests : TestContext
         var root = cut.Find(".summary-list-item");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Renders_a_div_holding_the_term_and_the_value()
+    {
+        var cut = RenderComponent<SummaryListItem>(p => p
+            .AddChildContent("Ada")
+            .Add(x => x.Term, "Name"));
+        Assert.Equal("DIV", cut.Find(".summary-list-item").TagName);
+        Assert.Equal("Name", cut.Find("dt").TextContent);
+        Assert.Equal("Ada", cut.Find("dd").TextContent);
+    }
 }

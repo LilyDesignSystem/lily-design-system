@@ -18,9 +18,16 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ng-content />`,
     host: {
         "[class]": '"kanban-table-td " + className()',
+        role: "gridcell",
+        "[attr.tabindex]": "active() ? 0 : -1",
+        "[attr.aria-label]": "label() || null",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanTableTD {
     readonly className = input<string>("");
+    /** Whether this cell holds the grid's roving tab stop. */
+    readonly active = input<boolean>(false);
+    /** Accessible name of the cell. */
+    readonly label = input<string>("");
 }

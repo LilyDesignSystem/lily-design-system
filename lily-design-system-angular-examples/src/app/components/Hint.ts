@@ -10,9 +10,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-hint",
     standalone: true,
-    template: `<div class="hint {{ className() }}"><ng-content /></div>`,
+    template: `<span class="hint {{ className() }}" [attr.id]="id() ?? null"><ng-content /></span>`,
+    // The id belongs on the element: left on the host too it would be a duplicate.
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Hint {
     readonly className = input<string>("");
+    /** Id a field's aria-describedby points at. */
+    readonly id = input<string | undefined>(undefined);
 }

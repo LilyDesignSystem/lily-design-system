@@ -18,9 +18,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ng-content />`,
     host: {
         "[class]": '"gantt-table-td " + className()',
+        role: "gridcell",
+        "[attr.tabindex]": "active() ? 0 : -1",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GanttTableTD {
     readonly className = input<string>("");
+    /** Whether this cell holds the grid's roving tab stop. */
+    readonly active = input<boolean>(false);
 }

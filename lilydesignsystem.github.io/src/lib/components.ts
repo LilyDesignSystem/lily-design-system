@@ -429,7 +429,7 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "submit-input", pascal: "SubmitInput", description: "a button input that submits a form <input type=\"submit\">", status: "stable" },
   { name: "success-panel", pascal: "SuccessPanel", description: "a panel confirming a task has been completed", status: "beta" },
   { name: "summary-box", pascal: "SummaryBox", description: "a boxed callout highlighting key takeaways or next steps from a longer page", status: "beta" },
-  { name: "summary-list", pascal: "SummaryList", description: "an ordered list of key-value summary pairs", status: "stable" },
+  { name: "summary-list", pascal: "SummaryList", description: "a description list of key-value summary pairs", status: "stable" },
   { name: "summary-list-item", pascal: "SummaryListItem", description: "one key-value pair in a summary list", status: "stable" },
   { name: "suomi-henkilotunnus-input", pascal: "SuomiHenkilotunnusInput", description: "an input for entering Finland's Henkilötunnus (HETU)", status: "beta" },
   { name: "suomi-henkilotunnus-view", pascal: "SuomiHenkilotunnusView", description: "a read-only display of Finland's Henkilötunnus (HETU)", status: "beta" },

@@ -15,7 +15,7 @@ import { restoreOnFormReset } from "./form-reset";
       class="password-input {{ className() }}"
       type="password"
       [attr.aria-label]="label() || null"
-      autocomplete="off"
+      [attr.autocomplete]="autocomplete()"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
@@ -28,6 +28,8 @@ export class PasswordInput {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Tells a password manager which password this is. */
+    readonly autocomplete = input<"current-password" | "new-password" | "off">("current-password");
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

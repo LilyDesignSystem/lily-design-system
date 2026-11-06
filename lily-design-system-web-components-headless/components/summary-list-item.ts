@@ -6,14 +6,6 @@
 // a <dd>), moves the host's attributes/children into it, then replaces
 // itself, exactly as BreadcrumbListItem does for <ol>/<li>.
 //
-// Deviation from the canonical AGENTS.md "HTML tag: <li>" metadata line:
-// that file's own "Key Behaviors" and "Testing" prose both describe a
-// <div> wrapping a <dt>/<dd> pair, and every real implementation (Svelte,
-// React) renders exactly that, living inside a SummaryList's <dl> (not an
-// <ol>/<ul>) — see summary-list.ts's own matching deviation note. The
-// "HTML tag: <li>" line is inconsistent with the rest of its own document
-// and was not followed.
-//
 // Attributes:
 //   term — REQUIRED. Rendered as the <dt> text.
 //   ...rest — spread onto the <div>. Children move into the <dd>.

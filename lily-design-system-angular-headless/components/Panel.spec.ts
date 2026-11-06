@@ -19,4 +19,21 @@ describe("Panel", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a group when labelled", () => {
+        const fixture = TestBed.createComponent(Panel);
+        fixture.componentRef.setInput("label", "Notes");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".panel");
+        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("aria-label")).toBe("Notes");
+    });
+
+    test("names nothing unlabelled", () => {
+        const fixture = TestBed.createComponent(Panel);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".panel");
+        expect(el.hasAttribute("role")).toBe(false);
+        expect(el.hasAttribute("aria-label")).toBe(false);
+    });
 });

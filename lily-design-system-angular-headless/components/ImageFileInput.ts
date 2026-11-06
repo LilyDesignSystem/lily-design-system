@@ -16,7 +16,7 @@ import { restoreOnFormReset } from "./form-reset";
       type="file"
       [attr.aria-label]="label() || null"
       autocomplete="off"
-      [value]="value()"
+      [attr.accept]="accept()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
       [required]="required()"
@@ -28,6 +28,8 @@ export class ImageFileInput {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** The accepted file types. */
+    readonly accept = input<string>("image/*");
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

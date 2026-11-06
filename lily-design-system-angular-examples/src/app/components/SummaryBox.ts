@@ -10,10 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-summary-box",
     standalone: true,
-    template: `<aside class="summary-box {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></aside>`,
+    template: `<aside class="summary-box {{ className() }}" [attr.aria-label]="label() || heading() || null"><h3 class="summary-box-heading">{{ heading() }}</h3><div class="summary-box-body"><ng-content /></div></aside>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SummaryBox {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Title; also its name unless label is given. */
+    readonly heading = input<string>("");
 }

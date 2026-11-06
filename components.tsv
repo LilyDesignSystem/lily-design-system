@@ -417,7 +417,7 @@ sticky-promo-banner	StickyPromoBanner	a fixed-position promotional banner with a
 submit-input	SubmitInput	a button input that submits a form <input type="submit">
 success-panel	SuccessPanel	a panel confirming a task has been completed
 summary-box	SummaryBox	a boxed callout highlighting key takeaways or next steps from a longer page
-summary-list	SummaryList	an ordered list of key-value summary pairs
+summary-list	SummaryList	a description list of key-value summary pairs
 summary-list-item	SummaryListItem	one key-value pair in a summary list
 suomi-henkilotunnus-input	SuomiHenkilotunnusInput	an input for entering Finland's Henkilötunnus (HETU)
 suomi-henkilotunnus-view	SuomiHenkilotunnusView	a read-only display of Finland's Henkilötunnus (HETU)

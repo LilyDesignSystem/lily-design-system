@@ -10,10 +10,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-blockquote",
     standalone: true,
-    template: `<blockquote class="blockquote {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></blockquote>`,
+    template: `<blockquote class="blockquote {{ className() }}" [attr.aria-label]="label() || null" [attr.cite]="cite() ?? null"><ng-content />@if (citationText()) {<footer class="blockquote-citation">{{ citationText() }}</footer>}</blockquote>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Blockquote {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Source address. */
+    readonly cite = input<string | undefined>(undefined);
+    /** Visible citation. */
+    readonly citationText = input<string | undefined>(undefined);
 }

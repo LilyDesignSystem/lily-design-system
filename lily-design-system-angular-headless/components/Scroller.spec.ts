@@ -36,4 +36,21 @@ describe("Scroller", () => {
             false,
         );
     });
+
+    test("has a live background and a foreground", () => {
+        const fixture = TestBed.createComponent(Scroller);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".scroller");
+        expect(el.querySelector(".scroller-background").getAttribute("aria-live")).toBe("polite");
+        expect(el.querySelector(".scroller-base.scroller-foreground")).toBeTruthy();
+    });
+
+    test("reports progress from its foreground", () => {
+        const fixture = TestBed.createComponent(Scroller);
+        const progress: number[] = [];
+        fixture.componentInstance.progressChange.subscribe((value) => progress.push(value));
+        fixture.detectChanges();
+        TestBed.tick();
+        expect(progress.length).toBeGreaterThan(0);
+    });
 });

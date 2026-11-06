@@ -3,7 +3,7 @@
   "name": "summary-list",
   "type": "registry:component",
   "title": "SummaryList",
-  "description": "An ordered list of key-value summary pairs.",
+  "description": "A description list of key-value summary pairs.",
   "author": "Lily Design System <https://lilydesignsystem.com>",
   "files": [
     {

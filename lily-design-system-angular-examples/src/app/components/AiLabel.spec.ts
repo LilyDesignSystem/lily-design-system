@@ -28,4 +28,13 @@ describe("AiLabel", () => {
         expect(el.getAttribute("role")).toBe("img");
         expect(el.getAttribute("aria-label")).toBe("Story");
     });
+
+    test("shows its text", () => {
+        const fixture = TestBed.createComponent(AiLabel);
+        fixture.componentRef.setInput("text", "AI");
+        fixture.componentRef.setInput("label", "Made with AI");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".ai-label");
+        expect(el.textContent).toBe("AI");
+    });
 });

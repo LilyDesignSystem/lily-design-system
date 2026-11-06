@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, computed } from "@angular/core";
 
 /**
  * TelLink — a tel hyperlink for a telephone number
@@ -10,11 +10,17 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-tel-link",
     standalone: true,
-    template: `<a class="tel-link {{ className() }}" [attr.href]="href() || '#'" [attr.aria-label]="label() || null"><ng-content /></a>`,
+    template: `<a class="tel-link {{ className() }}" [attr.href]="target()" [attr.aria-label]="label() || null"><ng-content>{{ phone() }}</ng-content></a>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TelLink {
+    protected readonly target = computed(() =>
+        this.phone() ? `tel:${this.phone()}` : this.href() || "#",
+    );
+
     readonly href = input<string>("");
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** The number. Sets the link and its text. */
+    readonly phone = input<string>("");
 }

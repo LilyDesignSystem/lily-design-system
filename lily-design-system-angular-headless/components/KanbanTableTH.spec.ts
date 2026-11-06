@@ -34,4 +34,22 @@ describe("KanbanTableTH", () => {
         const el = fixture.nativeElement.querySelector("th");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("carries its spans", () => {
+        const fixture = TestBed.createComponent(KanbanTableTH);
+        fixture.componentRef.setInput("colspan", 2);
+        fixture.componentRef.setInput("rowspan", 3);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("colspan")).toBe("2");
+        expect(el.getAttribute("rowspan")).toBe("3");
+    });
+
+    test("omits a span of 0", () => {
+        const fixture = TestBed.createComponent(KanbanTableTH);
+        fixture.componentRef.setInput("colspan", 0);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.hasAttribute("colspan")).toBe(false);
+    });
 });

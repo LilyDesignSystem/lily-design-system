@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { ErrorMessage } from "./ErrorMessage";
 
 describe("ErrorMessage", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the span root with the base class", () => {
         const fixture = TestBed.createComponent(ErrorMessage);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.error-message");
+        const el = fixture.nativeElement.querySelector("span.error-message");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("ErrorMessage", () => {
         const fixture = TestBed.createComponent(ErrorMessage);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.error-message");
+        const el = fixture.nativeElement.querySelector("span.error-message");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

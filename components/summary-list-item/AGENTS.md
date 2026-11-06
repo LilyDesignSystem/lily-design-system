@@ -6,7 +6,7 @@
 - PascalCase: SummaryListItem
 - Description: one key-value pair in a summary list
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <li>
+- HTML tag: <div>
 - CSS class: .summary-list-item
 - Interactive: no
 
@@ -42,7 +42,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <li> element with class="summary-list-item"
+- [ ] Renders <div> element with class="summary-list-item"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 

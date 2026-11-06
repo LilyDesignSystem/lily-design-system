@@ -18,9 +18,18 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ng-content />`,
     host: {
         "[class]": '"step-list-item " + className()',
+        "[attr.data-status]": "status()",
+        "[attr.data-current]": 'current() ? "" : null',
+        "[attr.aria-label]": "label() || null",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepListItem {
     readonly className = input<string>("");
+    /** Accessible name. */
+    readonly label = input<string>("");
+    /** Where this step is. */
+    readonly status = input<"waiting" | "in-progress" | "finished" | "error">("waiting");
+    /** Marks the current step for the consumer's CSS. */
+    readonly current = input<boolean>(false);
 }

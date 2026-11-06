@@ -19,9 +19,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ng-content />`,
     host: {
         "[class]": '"breadcrumb-list-item " + className()',
+        "[attr.data-current]": 'current() ? "" : null',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BreadcrumbListItem {
     readonly className = input<string>("");
+    /** Marks the current item for the consumer's CSS. */
+    readonly current = input<boolean>(false);
 }

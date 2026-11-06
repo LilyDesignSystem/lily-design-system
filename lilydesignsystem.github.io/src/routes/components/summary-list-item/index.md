@@ -74,7 +74,7 @@ SummaryListItem is designed to be used as a child of SummaryList. The SummaryLis
 
 ## Related components
 
-- `summary-list` — an ordered list of key-value summary pairs
+- `summary-list` — a description list of key-value summary pairs
 
 ## References
 

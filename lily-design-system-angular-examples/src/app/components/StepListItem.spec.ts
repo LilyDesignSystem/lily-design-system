@@ -33,4 +33,16 @@ describe("StepListItem", () => {
         const el = fixture.nativeElement.querySelector("li");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("exposes its state and name", () => {
+        const fixture = TestBed.createComponent(StepListItem);
+        fixture.componentRef.setInput("status", "finished");
+        fixture.componentRef.setInput("current", true);
+        fixture.componentRef.setInput("label", "Payment");
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("data-status")).toBe("finished");
+        expect(el.getAttribute("data-current")).toBe("");
+        expect(el.getAttribute("aria-label")).toBe("Payment");
+    });
 });

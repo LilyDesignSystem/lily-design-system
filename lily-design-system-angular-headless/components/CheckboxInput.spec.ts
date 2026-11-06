@@ -29,4 +29,27 @@ describe("CheckboxInput", () => {
         const el = fixture.nativeElement.querySelector("input.checkbox-input");
         expect(el.getAttribute("type")).toBe("checkbox");
     });
+
+    test("reflects checked, name, id and value", () => {
+        const fixture = TestBed.createComponent(CheckboxInput);
+        fixture.componentRef.setInput("checked", true);
+        fixture.componentRef.setInput("name", "agree");
+        fixture.componentRef.setInput("id", "a");
+        fixture.componentRef.setInput("value", "yes");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.checked).toBe(true);
+        expect(el.getAttribute("name")).toBe("agree");
+        expect(el.getAttribute("id")).toBe("a");
+        expect(el.getAttribute("value")).toBe("yes");
+        expect(fixture.nativeElement.hasAttribute("id")).toBe(false);
+    });
+
+    test("toggling writes the checked model", () => {
+        const fixture = TestBed.createComponent(CheckboxInput);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        el.click();
+        expect(fixture.componentInstance.checked()).toBe(true);
+    });
 });

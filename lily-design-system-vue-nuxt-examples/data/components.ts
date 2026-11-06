@@ -2943,16 +2943,16 @@ export const components: ComponentMeta[] = [
   {
       slug: "summary-list",
       name: "SummaryList",
-      description: "an ordered list of key-value summary pairs",
-      tag: "ol",
+      description: "a description list of key-value summary pairs",
+      tag: "dl",
       category: "lists",
   },
   {
       slug: "summary-list-item",
       name: "SummaryListItem",
       description: "one key-value pair in a summary list",
-      tag: "li",
-      category: "lists",
+      tag: "div",
+      category: "content",
   },
   {
       slug: "suomi-henkilotunnus-input",

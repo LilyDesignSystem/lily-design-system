@@ -212,4 +212,14 @@ describe("Listbox — roving-focus mode (the default)", () => {
         ).toBe(false);
         fixture.nativeElement.remove();
     });
+
+    test("can root on a ul", () => {
+        const fixture = TestBed.createComponent(Listbox);
+        fixture.componentRef.setInput("as", "ul");
+        fixture.componentRef.setInput("label", "Sizes");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("ul");
+        expect(el.getAttribute("role")).toBe("listbox");
+        expect(el.getAttribute("aria-label")).toBe("Sizes");
+    });
 });

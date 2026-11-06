@@ -29,4 +29,18 @@ describe("ImageInput", () => {
         const el = fixture.nativeElement.querySelector("input.image-input");
         expect(el.getAttribute("type")).toBe("image");
     });
+
+    test("carries the image", () => {
+        const fixture = TestBed.createComponent(ImageInput);
+        fixture.componentRef.setInput("src", "/a.png");
+        fixture.componentRef.setInput("alt", "Search");
+        fixture.componentRef.setInput("width", 20);
+        fixture.componentRef.setInput("height", 10);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("src")).toBe("/a.png");
+        expect(el.getAttribute("alt")).toBe("Search");
+        expect(el.getAttribute("width")).toBe("20");
+        expect(el.getAttribute("height")).toBe("10");
+    });
 });

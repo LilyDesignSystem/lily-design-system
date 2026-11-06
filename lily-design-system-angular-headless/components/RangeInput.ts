@@ -25,6 +25,9 @@ import { restoreOnFormReset } from "./form-reset";
       type="range"
       [attr.aria-label]="label() || null"
       autocomplete="off"
+      [min]="min()"
+      [max]="max()"
+      [step]="step()"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
@@ -39,6 +42,12 @@ export class RangeInput implements OnInit {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Smallest value. */
+    readonly min = input<number>(0);
+    /** Largest value. */
+    readonly max = input<number>(100);
+    /** Value step. */
+    readonly step = input<number>(1);
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

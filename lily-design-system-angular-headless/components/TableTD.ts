@@ -18,9 +18,15 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ng-content />`,
     host: {
         "[class]": '"table-td " + className()',
+        "[attr.colspan]": "colSpan() || null",
+        "[attr.rowspan]": "rowSpan() || null",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableTD {
     readonly className = input<string>("");
+    /** Columns this cell spans. */
+    readonly colSpan = input<number | undefined>(undefined);
+    /** Rows this cell spans. */
+    readonly rowSpan = input<number | undefined>(undefined);
 }

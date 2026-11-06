@@ -18,9 +18,17 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ng-content />`,
     host: {
         "[class]": '"calendar-table-td " + className()',
+        role: "gridcell",
+        "[attr.aria-selected]": "selected() || null",
+        "[attr.aria-current]": 'today() ? "date" : null',
+        "[attr.tabindex]": "selected() ? 0 : -1",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarTableTD {
     readonly className = input<string>("");
+    /** Whether this day is selected. */
+    readonly selected = input<boolean>(false);
+    /** Whether this day is today. */
+    readonly today = input<boolean>(false);
 }

@@ -18,9 +18,15 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ng-content />`,
     host: {
         "[class]": '"validation-list-item " + className()',
+        "[attr.data-status]": "status()",
+        "[attr.aria-label]": "label() || null",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ValidationListItem {
     readonly className = input<string>("");
+    /** Accessible name. */
+    readonly label = input<string>("");
+    /** Result of this rule. */
+    readonly status = input<"pending" | "passed" | "failed">("pending");
 }

@@ -20,7 +20,7 @@ import { restoreOnFormReset } from "./form-reset";
 @Component({
     selector: "lily-select",
     standalone: true,
-    template: `<select class="select {{ className() }}" [attr.aria-label]="label() || null" [value]="value()" (change)="value.set($any($event.target).value)"><ng-content /></select>`,
+    template: `<select class="select {{ className() }}" [attr.aria-label]="label() || null" [required]="required()" [disabled]="disabled()" [value]="value()" (change)="value.set($any($event.target).value)"><ng-content /></select>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Select implements OnInit {
@@ -28,6 +28,10 @@ export class Select implements OnInit {
 
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Whether a choice is required. */
+    readonly required = input<boolean>(false);
+    /** Disables the select. */
+    readonly disabled = input<boolean>(false);
     readonly value = model<string>("");
     constructor() {
         restoreOnFormReset(this.value);

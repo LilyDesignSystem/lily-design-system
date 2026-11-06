@@ -10,10 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-overlay-container",
     standalone: true,
-    template: `<div class="overlay-container {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="overlay-container {{ className() }}" role="presentation" [attr.data-open]="open()" [attr.aria-hidden]="!open()" [hidden]="!open()" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverlayContainer {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Whether the overlay shows. */
+    readonly open = input<boolean>(false);
 }

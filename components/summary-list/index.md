@@ -65,7 +65,7 @@ The consumer provides all CSS styling. The component renders with a `.summary-li
 
 ## Testing
 
-- Verify the component renders a `<ol>` element with class `summary-list`
+- Verify the component renders a `<dl>` element with class `summary-list`
 - Verify aria-label={label}` -- provides the accessible name for the description list, allowing screen readers to announce the context of the key-value pairs
 - Verify pass-through attributes are applied
 

@@ -29,4 +29,14 @@ describe("RangeInput", () => {
         const el = fixture.nativeElement.querySelector("input.range-input");
         expect(el.getAttribute("type")).toBe("range");
     });
+
+    test("sets the range before the value, so a value above 100 is not clamped", () => {
+        const fixture = TestBed.createComponent(RangeInput);
+        fixture.componentRef.setInput("max", 200);
+        fixture.componentRef.setInput("value", "150");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("max")).toBe("200");
+        expect(el.value).toBe("150");
+    });
 });

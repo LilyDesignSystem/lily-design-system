@@ -27,4 +27,12 @@ describe("ContentBlock", () => {
             fixture.nativeElement.querySelector(".content-block").hasAttribute("aria-label"),
         ).toBe(false);
     });
+
+    test("exposes the width", () => {
+        const fixture = TestBed.createComponent(ContentBlock);
+        fixture.componentRef.setInput("width", "wide");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".content-block");
+        expect(el.getAttribute("data-width")).toBe("wide");
+    });
 });

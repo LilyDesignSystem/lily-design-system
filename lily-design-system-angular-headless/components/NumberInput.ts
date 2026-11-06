@@ -16,6 +16,9 @@ import { restoreOnFormReset } from "./form-reset";
       type="number"
       [attr.aria-label]="label() || null"
       autocomplete="off"
+      [attr.min]="min() ?? null"
+      [attr.max]="max() ?? null"
+      [attr.step]="step() ?? null"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
@@ -28,6 +31,12 @@ export class NumberInput {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Smallest value. */
+    readonly min = input<number | undefined>(undefined);
+    /** Largest value. */
+    readonly max = input<number | undefined>(undefined);
+    /** Value step. */
+    readonly step = input<number | undefined>(undefined);
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

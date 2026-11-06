@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-action-bar-button",
     standalone: true,
-    template: `<button class="action-bar-button {{ className() }}" type="button" [attr.aria-label]="label() || null"><ng-content /></button>`,
+    template: `<button class="action-bar-button {{ className() }}" [attr.type]="type()" [disabled]="disabled()" [attr.aria-label]="label() || null"><ng-content /></button>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionBarButton {
@@ -18,4 +18,8 @@ export class ActionBarButton {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** The button type. */
+    readonly type = input<"button" | "submit" | "reset">("button");
+    /** Disables the button. */
+    readonly disabled = input<boolean>(false);
 }

@@ -9,6 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Angular components take their real props — 2026-11-06
+
+- **Added:** `bin/check-port-logic` compares every Svelte prop with its Angular port. 221 are ported; 14 are listed with a reason.
+- **Fixed:** `checkbox-input` had no `checked`; `calendar-table`, `data-table`, `gantt-table` and `kanban-table` lost `role="grid"` and their cells `gridcell`; `five-face-rating-view` and `five-star-rating-view` had the invalid `role="text"`; `image-file-input` bound a value, which a file input rejects; `password-input` forced `autocomplete="off"`.
+- **Fixed:** `image`, `hint`, `footnote`, `error-message` and `timer` render their contract's root element, and `caption` a `<figcaption>`. Angular's `generic-name` allow-list is empty.
+- **Changed:** `summary-list` is `<dl>` and `summary-list-item` a `<div>` holding `<dt>` and `<dd>`, in the contract and every catalog. Angular, Blazor, HTML and Alpine had `<ol>`/`<li>`.
+- **Breaking:** the Angular selector is `div[lily-summary-list-item]` with `term`, and Blazor's `SummaryListItem` takes `Term` for `Label`.
+- **Breaking:** Angular `avatar` takes `alt` for `label`, `postal-code-view` takes `text` for `value`, and `image`, `caption`, `section-heading` and `theme-provider` lose `label`.
+
 ## Angular buttons can submit — 2026-11-06
 
 - **Fixed:** Angular `button` was hard-coded to `type="button"` with no `disabled`. It now takes `type`, `disabled` and `pressed`.

@@ -18,7 +18,7 @@ import { warnMissingName } from "./dev-warning";
 @Component({
     selector: "lily-color-picker-button",
     standalone: true,
-    template: `<button class="color-picker-button {{ className() }}" type="button" [attr.aria-label]="label() || null"><ng-content /></button>`,
+    template: `<button class="color-picker-button {{ className() }}" type="button" [disabled]="disabled()" [attr.aria-pressed]="selected()" [style.background-color]="color()" [attr.data-color]="color() ?? null" [attr.aria-label]="label() || null"><ng-content /></button>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColorPickerButton implements OnInit {
@@ -28,6 +28,12 @@ export class ColorPickerButton implements OnInit {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** The colour this button picks. */
+    readonly color = input<string | undefined>(undefined);
+    /** Whether this choice is the selected one. */
+    readonly selected = input<boolean>(false);
+    /** Disables the button. */
+    readonly disabled = input<boolean>(false);
 
     ngOnInit(): void {
         const host: HTMLElement = this.lilyHost.nativeElement;

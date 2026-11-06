@@ -15,7 +15,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "li[lily-icon-list-item]",
     standalone: true,
-    template: `<ng-content />`,
+    template: `<span class="icon-list-item-icon" aria-hidden="true"><ng-content select="[icon]" /></span><span class="icon-list-item-text"><ng-content /></span>`,
     host: {
         "[class]": '"icon-list-item " + className()',
     },

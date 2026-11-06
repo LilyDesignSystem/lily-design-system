@@ -25,6 +25,8 @@ import { restoreOnFormReset } from "./form-reset";
       type="date"
       [attr.aria-label]="label() || null"
       autocomplete="off"
+      [attr.min]="min() ?? null"
+      [attr.max]="max() ?? null"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
@@ -39,6 +41,10 @@ export class DateInput implements OnInit {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Earliest date. */
+    readonly min = input<string | undefined>(undefined);
+    /** Latest date. */
+    readonly max = input<string | undefined>(undefined);
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

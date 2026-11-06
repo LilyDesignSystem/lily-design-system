@@ -28,4 +28,13 @@ describe("Emoji", () => {
         expect(el.getAttribute("role")).toBe("img");
         expect(el.getAttribute("aria-label")).toBe("Story");
     });
+
+    test("shows the emoji", () => {
+        const fixture = TestBed.createComponent(Emoji);
+        fixture.componentRef.setInput("emoji", "\ud83c\udf37");
+        fixture.componentRef.setInput("label", "Tulip");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".emoji");
+        expect(el.textContent).toBe("🌷");
+    });
 });

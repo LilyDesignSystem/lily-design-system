@@ -16,11 +16,15 @@ import { restoreOnFormReset } from "./form-reset";
       type="color"
       [attr.aria-label]="label() || null"
       autocomplete="off"
+      [attr.name]="name() ?? null"
+      [attr.id]="id() ?? null"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
       [required]="required()"
     />`,
+    // The id belongs on the input: left on the host too it would be a duplicate.
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColorInput {
@@ -28,6 +32,10 @@ export class ColorInput {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Form field name. */
+    readonly name = input<string | undefined>(undefined);
+    /** Id of the input. */
+    readonly id = input<string | undefined>(undefined);
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

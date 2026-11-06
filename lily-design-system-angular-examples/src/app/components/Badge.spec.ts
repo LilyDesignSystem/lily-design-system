@@ -28,4 +28,12 @@ describe("Badge", () => {
         expect(el.getAttribute("role")).toBe("status");
         expect(el.getAttribute("aria-label")).toBe("Story");
     });
+
+    test("exposes the type", () => {
+        const fixture = TestBed.createComponent(Badge);
+        fixture.componentRef.setInput("type", "error");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".badge");
+        expect(el.getAttribute("data-type")).toBe("error");
+    });
 });

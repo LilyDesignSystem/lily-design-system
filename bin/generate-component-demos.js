@@ -62,7 +62,7 @@ const explicitDemos = {
   'task-list': '<ol class="task-list"><li class="task-list-item"><input type="checkbox" /> To-do item</li></ol>',
   'do-list': '<ul class="do-list"><li class="do-list-item">Do use semantic HTML</li><li class="do-list-item">Do add ARIA labels</li></ul>',
   'dont-list': '<ul class="dont-list"><li class="dont-list-item">Don\'t use div for buttons</li><li class="dont-list-item">Don\'t skip heading levels</li></ul>',
-  'summary-list': '<ol class="summary-list"><li class="summary-list-item"><dt>Name</dt><dd>John Doe</dd></li></ol>',
+  'summary-list': '<dl class="summary-list"><div class="summary-list-item"><dt>Name</dt><dd>John Doe</dd></div></dl>',
   'timeline-list': '<ol class="timeline-list"><li class="timeline-list-item"><time>2026-01-01</time> Event 1</li><li class="timeline-list-item"><time>2026-02-01</time> Event 2</li></ol>',
   'tour-list': '<ol class="tour-list"><li class="tour-list-item">Step 1: Welcome</li><li class="tour-list-item">Step 2: Features</li></ol>',
 
@@ -77,7 +77,7 @@ const explicitDemos = {
   'task-list-item': '<ol class="task-list"><li class="task-list-item"><input type="checkbox" /> Task</li></ol>',
   'do-list-item': '<ul class="do-list"><li class="do-list-item">Do use semantic HTML</li></ul>',
   'dont-list-item': '<ul class="dont-list"><li class="dont-list-item">Don\'t use div for buttons</li></ul>',
-  'summary-list-item': '<ol class="summary-list"><li class="summary-list-item"><dt>Name</dt><dd>John Doe</dd></li></ol>',
+  'summary-list-item': '<dl class="summary-list"><div class="summary-list-item"><dt>Name</dt><dd>John Doe</dd></div></dl>',
   'timeline-list-item': '<ol class="timeline-list"><li class="timeline-list-item"><time>2026-01-01</time> Event</li></ol>',
   'tour-list-item': '<ol class="tour-list"><li class="tour-list-item">Step 1: Welcome</li></ol>',
 

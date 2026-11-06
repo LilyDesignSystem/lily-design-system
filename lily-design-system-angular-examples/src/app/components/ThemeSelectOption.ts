@@ -10,10 +10,14 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-theme-select-option",
     standalone: true,
-    template: `<option class="theme-select-option {{ className() }}" [value]="value()"><ng-content /></option>`,
+    template: `<option class="theme-select-option {{ className() }}" [value]="value()" [attr.selected]="selected() ? '' : null" [disabled]="disabled()"><ng-content /></option>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ThemeSelectOption {
     readonly value = input<string>("");
     readonly className = input<string>("");
+    /** Whether this option is selected. */
+    readonly selected = input<boolean>(false);
+    /** Disables the option. */
+    readonly disabled = input<boolean>(false);
 }

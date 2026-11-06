@@ -33,4 +33,14 @@ describe("ValidationListItem", () => {
         const el = fixture.nativeElement.querySelector("li");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("exposes its result and name", () => {
+        const fixture = TestBed.createComponent(ValidationListItem);
+        fixture.componentRef.setInput("status", "failed");
+        fixture.componentRef.setInput("label", "Eight characters");
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("data-status")).toBe("failed");
+        expect(el.getAttribute("aria-label")).toBe("Eight characters");
+    });
 });

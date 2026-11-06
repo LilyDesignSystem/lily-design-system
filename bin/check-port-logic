@@ -9,6 +9,11 @@
 //
 // It finds a port with NO logic. It does not prove a port with some logic is complete: one handler passes.
 //
+// A second pass (tasks.md P25-T15) compares props: every prop a Svelte component declares must exist in its Angular port, as an
+// input, a model, an output, or for a Snippet prop a named <ng-content select>. Left out: `class`, `children` and `ref`,
+// which every port handles its own way, and a native DOM event such as `onclick`, which the consumer binds as (click) on the
+// host. A prop with a reason not to port it goes in the same allow-list, as `angular prop {slug}.{prop}`.
+//
 // Usage: bin/check-port-logic [--quiet]
 //        bin/check-port-logic --baseline   print an allow-list for the current gaps (edit the reasons!)
 
@@ -60,6 +65,71 @@ const svelteCode = (s) =>
 const tsCode = (s) => s.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
 const razorCode = (s) => s.replace(/@\*[\s\S]*?\*@/g, "").replace(/^\s*\/\/.*$/gm, "");
 
+// The top-level pieces of a destructuring pattern or a type literal, ignoring the separators inside brackets and strings.
+const topLevel = (body) => {
+  const parts = [];
+  let depth = 0;
+  let current = "";
+  let quote = "";
+  for (const [i, c] of [...body].entries()) {
+    if (quote) {
+      if (c === quote) quote = "";
+    } else if (`"'\``.includes(c)) quote = c;
+    else if ("({[".includes(c)) depth += 1;
+    else if (")}]".includes(c)) depth -= 1;
+    else if (c === "<") depth += 1;
+    else if (c === ">" && body[i - 1] !== "=") depth -= 1;
+    if ((c === "," || c === ";") && depth === 0 && !quote) {
+      parts.push(current);
+      current = "";
+    } else current += c;
+  }
+  parts.push(current);
+  return parts.map((part) => part.trim()).filter(Boolean);
+};
+
+const svelteProps = (source) => {
+  const code = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+  const match = code.match(/let\s*\{([\s\S]*?)\}\s*:\s*(?:\{([\s\S]*?)\}|\w+)\s*=\s*\$props\(\)/);
+  if (!match) return [];
+  const types = {};
+  for (const part of topLevel(match[2] ?? "")) {
+    const type = part.match(/^(\w+)\??\s*:\s*([\s\S]*)$/);
+    if (type) types[type[1]] = type[2];
+  }
+  return topLevel(match[1])
+    .filter((part) => !part.startsWith("..."))
+    .map((part) => part.match(/^\w+/)?.[0])
+    .filter(Boolean)
+    .map((name) => ({ name, type: types[name] ?? "" }));
+};
+
+const NATIVE_EVENTS = new Set(
+  "click dblclick input change submit reset toggle focus blur keydown keyup pointerdown pointerup scroll".split(" "),
+);
+
+// An `onThing` callback is an Angular output named `thing`, or by Angular's convention for a past event `thinged`, or the
+// `thingChange` a model() declares.
+const hasProp = (prop, ported, angular) => {
+  if (ported.has(prop.name)) return true;
+  const event = prop.name.match(/^on([A-Za-z]+)$/)?.[1];
+  if (event) {
+    if (NATIVE_EVENTS.has(event)) return true;
+    const stem = event[0].toLowerCase() + event.slice(1);
+    const lower = [...ported].map((name) => name.toLowerCase());
+    const base = stem.toLowerCase();
+    if (lower.some((name) => [base, `${base}d`, `${base}ed`, `${base}led`, `${base.replace(/change$/, "")}`].includes(name)))
+      return true;
+  }
+  if (prop.type.includes("Snippet")) {
+    const kebab = prop.name.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
+    if (angular.includes(`select="[${kebab}]"`) || angular.includes(`select="[${prop.name}]"`)) return true;
+  }
+  return false;
+};
+
+const ALWAYS_PORTED = new Set(["class", "children", "ref"]);
+
 const rows = read("components.tsv")
   .split("\n")
   .filter(Boolean)
@@ -84,6 +154,22 @@ for (const [slug, name] of rows) {
   }
 }
 
+let propsCompared = 0;
+for (const [slug, name] of rows) {
+  const angular = tsCode(read("lily-design-system-angular-headless/components", `${name}.ts`));
+  const ported = new Set(
+    [...angular.matchAll(/\b(\w+)\s*=\s*(?:input|model|output)(?:\.required)?\s*[<(]/g)].map((match) => match[1]),
+  );
+  for (const prop of svelteProps(read("lily-design-system-svelte-headless/components", name, `${name}.svelte`))) {
+    if (ALWAYS_PORTED.has(prop.name)) continue;
+    propsCompared += 1;
+    if (hasProp(prop, ported, angular)) continue;
+    const key = `angular prop ${slug}.${prop.name}`;
+    gaps.add(key);
+    baseline[key] = "Not ported yet (tasks.md P25-T15).";
+  }
+}
+
 if (baselineMode) {
   console.log(JSON.stringify(baseline, null, 2));
   process.exit(0);
@@ -92,7 +178,7 @@ if (baselineMode) {
 let failures = 0;
 for (const key of gaps) {
   if (allow[key]) continue;
-  console.log(`FAIL ${key}: Svelte has behaviour, this port has no logic`);
+  console.log(`FAIL ${key}: ${key.includes(" prop ") ? "Svelte has this prop, this port does not" : "Svelte has behaviour, this port has no logic"}`);
   failures += 1;
 }
 for (const key of Object.keys(allow)) {
@@ -101,7 +187,10 @@ for (const key of Object.keys(allow)) {
   failures += 1;
 }
 if (failures) {
-  console.log(`\n${failures} problem(s). Port the behaviour, or list it with a reason in bin/check-port-logic.allow.json.`);
+  console.log(`\n${failures} problem(s). Port it, or list it with a reason in bin/check-port-logic.allow.json.`);
   process.exit(1);
 }
-if (!quiet) console.log(`port logic: ${compared} components with behaviour in Svelte, ${gaps.size} allow-listed, no unlisted gaps`);
+if (!quiet)
+  console.log(
+    `port logic: ${compared} components with behaviour in Svelte, ${propsCompared} Svelte props compared, ${gaps.size} allow-listed, no unlisted gaps`,
+  );

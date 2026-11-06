@@ -19,4 +19,13 @@ describe("SignaturePad", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a named application", () => {
+        const fixture = TestBed.createComponent(SignaturePad);
+        fixture.componentRef.setInput("label", "Sign here");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".signature-pad");
+        expect(el.getAttribute("role")).toBe("application");
+        expect(el.getAttribute("aria-label")).toBe("Sign here");
+    });
 });

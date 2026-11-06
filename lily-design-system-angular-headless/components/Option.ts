@@ -19,10 +19,17 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     host: {
         "[class]": '"option " + className()',
         "[value]": "value()",
+        // The attribute, not the property: writing the property false would undo a parent select's choice.
+        "[attr.selected]": 'selected() ? "" : null',
+        "[disabled]": "disabled()",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Option {
     readonly value = input<string>("");
     readonly className = input<string>("");
+    /** Whether this option is selected. */
+    readonly selected = input<boolean>(false);
+    /** Disables the option. */
+    readonly disabled = input<boolean>(false);
 }

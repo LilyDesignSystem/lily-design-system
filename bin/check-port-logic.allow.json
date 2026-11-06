@@ -1,3 +1,17 @@
 {
-  "blazor middle-truncation": "Documented deviation in MiddleTruncation.md: C# measures no pixel width, so MaxCharacters is a character budget. Fitting the container needs a JS module (tasks.md P23-T16 stage 7)."
+  "blazor middle-truncation": "Documented deviation in MiddleTruncation.md: C# measures no pixel width, so MaxCharacters is a character budget. Fitting the container needs a JS module (tasks.md P23-T16 stage 7).",
+  "angular prop autosuggest.onInput": "The Angular output is `query`; `input` would shadow the native event.",
+  "angular prop cascader.onSelect": "The Angular output is `selectionChange`; `select` would shadow the native event.",
+  "angular prop clipboard-copy-button.onsuccess": "The Angular output is `copySuccess`.",
+  "angular prop clipboard-copy-button.onerror": "The Angular output is `copyError`; `error` would shadow the native event.",
+  "angular prop mentions-input.onSelect": "The Angular output is `mention`; `select` would shadow the native event.",
+  "angular prop split-view.onSplitChange": "The `splitPercent` model emits `splitPercentChange`.",
+  "angular prop splitter.onChange": "The `value` model emits `valueChange`.",
+  "angular prop tree-select.onSelect": "The Angular output is `selectionChange`; `select` would shadow the native event.",
+  "angular prop tool-call.summary": "Projected as `[toolCallSummary]`: a `[summary]` selector would read as the native <summary>.",
+  "angular prop wheel-picker.onChange": "The `value` model emits `valueChange`.",
+  "angular prop description-list-item.label": "Svelte declares it and renders nothing: the prop is dead there, not missing here.",
+  "angular prop document-list-item.label": "Svelte declares it and renders nothing: the prop is dead there, not missing here.",
+  "angular prop section-list-item.label": "Svelte declares it and renders nothing: the prop is dead there, not missing here.",
+  "angular prop kbd.label": "Not ported: <kbd> has no role, so a name on it is unreliable. Svelte's aria-label is the outlier (P25-T14)."
 }

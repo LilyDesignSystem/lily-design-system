@@ -27,4 +27,16 @@ describe("Watermark", () => {
             false,
         );
     });
+
+    test("hides its overlay from assistive technology", () => {
+        const fixture = TestBed.createComponent(Watermark);
+        fixture.componentRef.setInput("text", "Draft");
+        fixture.componentRef.setInput("rotate", 10);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".watermark");
+        expect(el.getAttribute("data-rotate")).toBe("10");
+        const overlay = el.querySelector(".watermark-overlay");
+        expect(overlay.getAttribute("aria-hidden")).toBe("true");
+        expect(overlay.getAttribute("data-text")).toBe("Draft");
+    });
 });

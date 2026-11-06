@@ -19,4 +19,13 @@ describe("StatusTag", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a status with a type", () => {
+        const fixture = TestBed.createComponent(StatusTag);
+        fixture.componentRef.setInput("type", "error");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".status-tag");
+        expect(el.getAttribute("role")).toBe("status");
+        expect(el.getAttribute("data-type")).toBe("error");
+    });
 });

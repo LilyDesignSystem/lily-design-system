@@ -15,6 +15,8 @@ import { ChangeDetectionStrategy, Component, input, model } from "@angular/core"
       type="radio"
       [attr.aria-label]="label() || null"
       autocomplete="off"
+      [attr.name]="name() ?? null"
+      [checked]="checked()"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
@@ -27,6 +29,10 @@ export class RadioInput {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Form field name, shared by the group. */
+    readonly name = input<string | undefined>(undefined);
+    /** Whether this radio is the chosen one. */
+    readonly checked = input<boolean>(false);
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

@@ -33,4 +33,22 @@ describe("TimelineListItem", () => {
         const el = fixture.nativeElement.querySelector("li");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("shows a time", () => {
+        const fixture = TestBed.createComponent(TimelineListItem);
+        fixture.componentRef.setInput("datetime", "2026-11-06");
+        fixture.componentRef.setInput("heading", "6 November");
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        const time = el.querySelector("time");
+        expect(time.getAttribute("datetime")).toBe("2026-11-06");
+        expect(time.textContent).toBe("6 November");
+    });
+
+    test("has no time by default", () => {
+        const fixture = TestBed.createComponent(TimelineListItem);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.querySelector("time")).toBeNull();
+    });
 });

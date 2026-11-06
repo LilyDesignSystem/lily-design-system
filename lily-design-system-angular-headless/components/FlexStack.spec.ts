@@ -27,4 +27,20 @@ describe("FlexStack", () => {
         expect(el.hasAttribute("aria-label")).toBe(false);
         expect(el.hasAttribute("role")).toBe(false);
     });
+
+    test("lays out its items", () => {
+        const fixture = TestBed.createComponent(FlexStack);
+        fixture.componentRef.setInput("direction", "row");
+        fixture.componentRef.setInput("gap", "2rem");
+        fixture.componentRef.setInput("align", "center");
+        fixture.componentRef.setInput("justify", "end");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".flex-stack");
+        expect(el.getAttribute("data-direction")).toBe("row");
+        expect(el.style.display).toBe("flex");
+        expect(el.style.flexDirection).toBe("row");
+        expect(el.style.gap).toBe("2rem");
+        expect(el.style.alignItems).toBe("center");
+        expect(el.style.justifyContent).toBe("end");
+    });
 });

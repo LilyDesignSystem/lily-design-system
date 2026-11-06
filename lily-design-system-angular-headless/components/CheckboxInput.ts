@@ -8,6 +8,7 @@ import {
     inject,
 } from "@angular/core";
 import { warnMissingName } from "./dev-warning";
+import { restoreOnFormReset } from "./form-reset";
 
 /**
  * CheckboxInput — a checkbox input for toggling a boolean value <input type="checkbox">
@@ -24,11 +25,16 @@ import { warnMissingName } from "./dev-warning";
       type="checkbox"
       [attr.aria-label]="label() || null"
       autocomplete="off"
-      [value]="value()"
-      (input)="value.set($any($event.target).value)"
+      [attr.name]="name() ?? null"
+      [attr.id]="id() ?? null"
+      [attr.value]="value() || null"
+      [checked]="checked()"
+      (change)="checked.set($any($event.target).checked)"
       [disabled]="disabled()"
       [required]="required()"
     />`,
+    // The id belongs on the input: left on the host too it would be a duplicate.
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckboxInput implements OnInit {
@@ -38,12 +44,22 @@ export class CheckboxInput implements OnInit {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Whether the box is checked; two-way. */
+    readonly checked = model<boolean>(false);
+    /** Form field name. */
+    readonly name = input<string | undefined>(undefined);
+    /** Id of the input. */
+    readonly id = input<string | undefined>(undefined);
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+
+    constructor() {
+        restoreOnFormReset(this.checked);
+    }
 
     ngOnInit(): void {
         const host: HTMLElement = this.lilyHost.nativeElement;

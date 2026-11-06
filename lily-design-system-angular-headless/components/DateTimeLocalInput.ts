@@ -25,6 +25,8 @@ import { restoreOnFormReset } from "./form-reset";
       type="datetime-local"
       [attr.aria-label]="label() || null"
       autocomplete="off"
+      [attr.min]="min() ?? null"
+      [attr.max]="max() ?? null"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
@@ -39,6 +41,10 @@ export class DateTimeLocalInput implements OnInit {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Earliest date and time. */
+    readonly min = input<string | undefined>(undefined);
+    /** Latest date and time. */
+    readonly max = input<string | undefined>(undefined);
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

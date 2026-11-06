@@ -19,4 +19,14 @@ describe("ActionBarButton", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("reflects type and disabled", () => {
+        const fixture = TestBed.createComponent(ActionBarButton);
+        fixture.componentRef.setInput("type", "submit");
+        fixture.componentRef.setInput("disabled", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("button");
+        expect(el.getAttribute("type")).toBe("submit");
+        expect(el.disabled).toBe(true);
+    });
 });

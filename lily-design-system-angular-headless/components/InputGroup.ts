@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-input-group",
     standalone: true,
-    template: `<div class="input-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="input-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><span class="input-group-prefix"><ng-content select="[prefix]" /></span><ng-content /><span class="input-group-suffix"><ng-content select="[suffix]" /></span></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputGroup {

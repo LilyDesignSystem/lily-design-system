@@ -19,10 +19,16 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     host: {
         "[class]": '"data-table-th " + className()',
         "[attr.scope]": "scope() || null",
+        "[attr.colspan]": "colspan() || null",
+        "[attr.rowspan]": "rowspan() || null",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataTableTH {
     readonly scope = input<string>("");
     readonly className = input<string>("");
+    /** Columns this cell spans. */
+    readonly colspan = input<number | undefined>(undefined);
+    /** Rows this cell spans. */
+    readonly rowspan = input<number | undefined>(undefined);
 }

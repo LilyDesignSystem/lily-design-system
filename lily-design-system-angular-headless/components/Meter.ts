@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-meter",
     standalone: true,
-    template: `<meter class="meter {{ className() }}" [attr.aria-label]="label() || null" [value]="value()" [min]="min()" [max]="max()"></meter>`,
+    template: `<meter class="meter {{ className() }}" [attr.aria-label]="label() || null" [value]="value()" [min]="min()" [max]="max()" [attr.low]="low() ?? null" [attr.high]="high() ?? null" [attr.optimum]="optimum() ?? null">{{ value() }}</meter>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Meter {
@@ -19,4 +19,10 @@ export class Meter {
     readonly min = input<number>(0);
     readonly max = input<number>(100);
     readonly className = input<string>("");
+    /** Top of the low range. */
+    readonly low = input<number | undefined>(undefined);
+    /** Bottom of the high range. */
+    readonly high = input<number | undefined>(undefined);
+    /** The best value. */
+    readonly optimum = input<number | undefined>(undefined);
 }

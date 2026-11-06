@@ -34,4 +34,13 @@ describe("ClampText", () => {
         fixture.detectChanges();
         expect(fixture.nativeElement.querySelector(".clamp-text").hasAttribute("role")).toBe(false);
     });
+
+    test("exposes the line count", () => {
+        const fixture = TestBed.createComponent(ClampText);
+        fixture.componentRef.setInput("lines", 3);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".clamp-text");
+        expect(el.getAttribute("data-lines")).toBe("3");
+        expect(el.style.getPropertyValue("--clamp-text-lines")).toBe("3");
+    });
 });

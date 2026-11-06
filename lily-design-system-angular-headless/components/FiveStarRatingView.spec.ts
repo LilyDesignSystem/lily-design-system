@@ -19,4 +19,16 @@ describe("FiveStarRatingView", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a named image of five hidden stars", () => {
+        const fixture = TestBed.createComponent(FiveStarRatingView);
+        fixture.componentRef.setInput("label", "3 of 5");
+        fixture.componentRef.setInput("value", 3);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".five-star-rating-view");
+        expect(el.getAttribute("role")).toBe("img");
+        expect(el.textContent).toBe("★★★☆☆");
+        expect(el.querySelectorAll("[aria-hidden=true]").length).toBe(5);
+        expect(el.querySelectorAll("[data-filled=true]").length).toBe(3);
+    });
 });

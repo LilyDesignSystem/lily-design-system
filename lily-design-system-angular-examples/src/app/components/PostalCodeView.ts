@@ -10,12 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-postal-code-view",
     standalone: true,
-    template: `<span class="postal-code-view {{ className() }}">{{ value() }}</span>`,
+    template: `<span class="postal-code-view {{ className() }}">{{ text() }}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PostalCodeView {
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
     /** The value to display read-only. */
-    readonly value = input<string>("");
+    readonly text = input<string>("");
 }

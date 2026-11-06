@@ -1,6 +1,6 @@
 # SummaryList
 
-an ordered list of key-value summary pairs
+a description list of key-value summary pairs
 
 This is the Angular headless implementation. See `components/summary-list/index.md`
 in the canonical repo root for the cross-framework documentation.

@@ -33,4 +33,20 @@ describe("DataTableTD", () => {
         const el = fixture.nativeElement.querySelector("td");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a gridcell out of the tab order", () => {
+        const fixture = TestBed.createComponent(DataTableTD);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("role")).toBe("gridcell");
+        expect(el.getAttribute("tabindex")).toBe("-1");
+    });
+
+    test("is the tab stop when active", () => {
+        const fixture = TestBed.createComponent(DataTableTD);
+        fixture.componentRef.setInput("active", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("tabindex")).toBe("0");
+    });
 });

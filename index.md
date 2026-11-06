@@ -644,7 +644,7 @@ slug below links to the per-component documentation.
 - [submit-input](components/submit-input): a button input that submits a form <input type="submit">
 - [success-panel](components/success-panel): a panel confirming a task has been completed
 - [summary-box](components/summary-box): a boxed callout highlighting key takeaways or next steps from a longer page
-- [summary-list](components/summary-list): an ordered list of key-value summary pairs
+- [summary-list](components/summary-list): a description list of key-value summary pairs
 - [summary-list-item](components/summary-list-item): one key-value pair in a summary list
 - [super-banner](components/super-banner): a super-banner communicates a high-priority state that affects an entire app, experience, process, or system
 - [switch-button](components/switch-button): a toggle switch for turning a setting on or off

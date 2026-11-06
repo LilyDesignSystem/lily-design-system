@@ -4,12 +4,6 @@
 // settings, form review data, and similar. Children are typically <dt>/<dd>
 // pairs or SummaryListItem components.
 //
-// Deviation from the canonical AGENTS.md "HTML tag" metadata field (which
-// says <ol>): every real implementation (Svelte, React) renders a <dl>,
-// matching the "Key Behaviors" prose. Followed the real cross-catalog
-// implementation, which also matches the description-list-shaped content
-// this component actually holds.
-//
 // Attributes:
 //   label — REQUIRED. Accessible name, via aria-label.
 //   ...rest — spread onto the <dl>.

@@ -26,6 +26,16 @@ describe("StatusLight", () => {
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector(".status-light");
         expect(el.getAttribute("role")).toBe("status");
-        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
+
+    test("shows its label beside a hidden dot", () => {
+        const fixture = TestBed.createComponent(StatusLight);
+        fixture.componentRef.setInput("label", "Online");
+        fixture.componentRef.setInput("variant", "positive");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".status-light");
+        expect(el.getAttribute("data-variant")).toBe("positive");
+        expect(el.querySelector(".status-light-dot").getAttribute("aria-hidden")).toBe("true");
+        expect(el.querySelector(".status-light-label").textContent).toBe("Online");
     });
 });
