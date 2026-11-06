@@ -20,4 +20,9 @@ describe("InsetText", function () {
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });
+
+    it("should have role=note", async function () {
+        const el = await $(".inset-text");
+        expect(await el.getAttribute("role")).toBe("note");
+    });
 });

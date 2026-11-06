@@ -44,8 +44,7 @@ This is heavier than `Alert` (which is for inline status inside a longer page) a
 
 ## ARIA
 
-- `role="alert"` exposes the panel as an alert region
-- `aria-live="polite"` ensures the heading and body are announced when the panel renders
+- `role="status"` exposes the panel as a polite live region, so the heading and body are announced when it renders
 - Heading level is configurable via the `headingLevel` prop (default `<h1>` — confirmation pages typically use the panel as the page's main heading)
 
 ## When to Use

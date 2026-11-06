@@ -19,4 +19,13 @@ describe("Badge", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=status with its label", () => {
+        const fixture = TestBed.createComponent(Badge);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".badge");
+        expect(el.getAttribute("role")).toBe("status");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

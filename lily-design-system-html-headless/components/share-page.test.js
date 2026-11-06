@@ -14,4 +14,9 @@ describe("SharePage", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("share-page");
     });
+
+    it("should have role=group", async function () {
+        const el = await $(".share-page");
+        expect(await el.getAttribute("role")).toBe("group");
+    });
 });

@@ -8,7 +8,6 @@
     one of its kind is on the page. Any other ARIA is passed through
     `attributes`.
 
-  Port gap: the Svelte component also sets role on its root; this macro does not.
 
   Internationalization: no hardcoded user-facing strings; all text is
     supplied by the caller.
@@ -31,6 +30,7 @@
 {%- set p = params | default({}) -%}
 <div
   class="announcement-banner{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="region"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

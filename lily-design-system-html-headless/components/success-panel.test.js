@@ -14,4 +14,9 @@ describe("SuccessPanel", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("success-panel");
     });
+
+    it("should have role=status", async function () {
+        const el = await $(".success-panel");
+        expect(await el.getAttribute("role")).toBe("status");
+    });
 });

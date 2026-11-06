@@ -20,4 +20,9 @@ describe("Badge", function () {
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });
+
+    it("should have role=status", async function () {
+        const el = await $(".badge");
+        expect(await el.getAttribute("role")).toBe("status");
+    });
 });

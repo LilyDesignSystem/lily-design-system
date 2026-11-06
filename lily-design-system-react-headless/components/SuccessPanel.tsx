@@ -1,7 +1,6 @@
 // SuccessPanel component
 //
 // A confirmation panel shown after an action succeeds. Renders a <div> with the `success-panel` hook;
-// it adds no role, so pass role="status" through restProps.
 //
 // Props:
 //   className — string, optional. CSS class name.
@@ -20,14 +19,13 @@
 //
 // Accessibility:
 //   - aria-label comes from `label` when given
-//   - No role is rendered; pass role="status" through restProps so the label is announced and the text is a polite live region
+//   - role="status" on the root, so the label is valid
 //
 // Internationalization:
 //   - No hardcoded user-facing strings
 //
 // Claude rules:
 //   - Headless: no CSS, no styles -- consumer provides all styling
-//   - Port gap: the Svelte catalog renders role="status"; this React component does not (the Svelte one is canonical)
 //
 // References:
 //   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
@@ -48,6 +46,7 @@ export default function SuccessPanel({
     return (
         <div
             className={`success-panel ${className}`}
+            role="status"
             aria-label={label}
             {...restProps}
         >

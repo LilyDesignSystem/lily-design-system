@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Seven ports get back the role they dropped — 2026-11-06
+
+- **Fixed:** `announcement-banner`, `badge`, `inset-text`, `medical-banner-box-for-advice`, `scroll-area`, `share-page` and `success-panel` render the role their Svelte component has in every catalog. Angular had dropped it on all seven, Nunjucks too, and HTML, React and Vue on some.
+- **Changed:** `success-panel` is `role="status"` in Blazor and its contract, as in Svelte. `role="alert"` with `aria-live="polite"` contradicted itself.
+- 91 components named a generic root in the catalogs checked so far; 84 are left (P25-T14).
+
 ## Seven containers stop naming a plain `<div>` — 2026-11-06
 
 - **Breaking:** `body-text` and `padding-reset` lose `label` in Angular, Blazor and Nunjucks, and `aria-label` in HTML and Alpine, matching their contract and the Svelte, React and Vue versions.

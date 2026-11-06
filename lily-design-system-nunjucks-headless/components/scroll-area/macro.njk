@@ -14,6 +14,7 @@
 {%- set p = params | default({}) -%}
 <div
   class="scroll-area{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="region"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   tabindex="0"

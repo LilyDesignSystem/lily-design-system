@@ -14,4 +14,9 @@ describe("scroll-area", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("has role=region", () => {
+        const { document } = render("scroll-area", { label: "Story" }, "x");
+        expect(document.querySelector(".scroll-area").getAttribute("role")).toBe("region");
+    });
 });

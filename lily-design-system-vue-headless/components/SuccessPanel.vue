@@ -2,7 +2,6 @@
 // SuccessPanel component
 //
 // A confirmation panel shown after an action succeeds. Renders a <div> with the `success-panel` hook;
-// it adds no role, so pass role="status" through attrs.
 //
 // Props:
 //   class — fallthrough attribute, optional. Vue merges it onto the root element with the base class hook.
@@ -21,14 +20,12 @@
 //
 // Accessibility:
 //   - aria-label comes from `label` when given
-//   - No role is rendered; pass role="status" through attrs so the label is announced and the text is a polite live region
 //
 // Internationalization:
 //   - No hardcoded user-facing strings
 //
 // Claude rules:
 //   - Headless: no CSS, no styles -- consumer provides all styling
-//   - Port gap: the Svelte catalog renders role="status"; this Vue component does not (the Svelte one is canonical)
 //
 // References:
 //   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
@@ -47,6 +44,7 @@ withDefaults(
     <!-- SuccessPanel.vue -->
     <div
         class="success-panel"
+        role="status"
         :aria-label="label"
     >
         <slot />

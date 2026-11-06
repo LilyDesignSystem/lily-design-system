@@ -19,4 +19,9 @@ describe("announcement-banner", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("has role=region", () => {
+        const { document } = render("announcement-banner", { label: "Story" }, "x");
+        expect(document.querySelector(".announcement-banner").getAttribute("role")).toBe("region");
+    });
 });

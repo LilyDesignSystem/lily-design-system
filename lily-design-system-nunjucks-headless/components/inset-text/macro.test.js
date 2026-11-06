@@ -58,4 +58,9 @@ describe("inset-text", () => {
         expect(html).not.toContain("<script");
         expect(html).not.toContain("style=");
     });
+
+    it("has role=note", () => {
+        const { document } = render("inset-text", { label: "Story" }, "x");
+        expect(document.querySelector(".inset-text").getAttribute("role")).toBe("note");
+    });
 });

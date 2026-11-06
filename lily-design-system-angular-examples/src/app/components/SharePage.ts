@@ -18,7 +18,7 @@ import { warnMissingName } from "./dev-warning";
 @Component({
     selector: "lily-share-page",
     standalone: true,
-    template: `<div class="share-page {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="share-page {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SharePage implements OnInit {

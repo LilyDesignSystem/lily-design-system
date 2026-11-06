@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="success-panel"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+    '<div\n  class="success-panel"\n  role="status"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
     title: "Headless/Success Panel",

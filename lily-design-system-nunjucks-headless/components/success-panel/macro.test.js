@@ -19,4 +19,9 @@ describe("success-panel", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("has role=status", () => {
+        const { document } = render("success-panel", { label: "Story" }, "x");
+        expect(document.querySelector(".success-panel").getAttribute("role")).toBe("status");
+    });
 });

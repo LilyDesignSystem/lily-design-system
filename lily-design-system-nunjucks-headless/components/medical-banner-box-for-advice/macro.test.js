@@ -53,4 +53,11 @@ describe("medical-banner-box-for-advice", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("has role=region", () => {
+        const { document } = render("medical-banner-box-for-advice", { label: "Story" }, "x");
+        expect(document.querySelector(".medical-banner-box-for-advice").getAttribute("role")).toBe(
+            "region",
+        );
+    });
 });

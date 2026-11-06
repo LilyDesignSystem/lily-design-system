@@ -14,4 +14,9 @@ describe("AnnouncementBanner", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("announcement-banner");
     });
+
+    it("should have role=region", async function () {
+        const el = await $(".announcement-banner");
+        expect(await el.getAttribute("role")).toBe("region");
+    });
 });

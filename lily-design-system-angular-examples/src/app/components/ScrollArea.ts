@@ -18,7 +18,7 @@ import { warnMissingName } from "./dev-warning";
 @Component({
     selector: "lily-scroll-area",
     standalone: true,
-    template: `<div class="scroll-area {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="scroll-area {{ className() }}" role="region" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScrollArea implements OnInit {

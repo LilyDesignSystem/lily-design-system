@@ -54,4 +54,9 @@ describe("badge", () => {
         expect(html).not.toContain("<script");
         expect(html).not.toContain("style=");
     });
+
+    it("has role=status", () => {
+        const { document } = render("badge", { label: "Story" }, "x");
+        expect(document.querySelector(".badge").getAttribute("role")).toBe("status");
+    });
 });

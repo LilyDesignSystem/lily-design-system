@@ -2,7 +2,6 @@ import { warnMissingName } from "./dev-warning";
 // SharePage component
 //
 // A group of controls for sharing the current page. Renders a <div> with the `share-page` hook; it
-// adds no role, so pass role="group" through restProps.
 //
 // Props:
 //   className — string, optional. CSS class name.
@@ -21,14 +20,13 @@ import { warnMissingName } from "./dev-warning";
 //
 // Accessibility:
 //   - aria-label comes from `label` when given
-//   - No role is rendered; pass role="group" through restProps so the label is announced
+//   - role="group" on the root, so the label is valid
 //
 // Internationalization:
 //   - No hardcoded user-facing strings
 //
 // Claude rules:
 //   - Headless: no CSS, no styles -- consumer provides all styling
-//   - Port gap: the Svelte catalog renders role="group"; this React component does not (the Svelte one is canonical)
 //
 // References:
 //   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
@@ -50,6 +48,7 @@ export default function SharePage({
     return (
         <div
             className={`share-page ${className}`}
+            role="group"
             aria-label={label}
             {...restProps}
         >

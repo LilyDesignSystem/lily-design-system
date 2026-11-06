@@ -11,4 +11,14 @@ describe("SharePage", () => {
         const el = container.querySelector(".share-page");
         expect(el).toBeTruthy();
     });
+
+    it("has role=group with its label", () => {
+        const { container } = render(SharePage, {
+            props: { label: "Story" },
+            slots: { default: "content" },
+        });
+        const root = container.querySelector(".share-page");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
 });

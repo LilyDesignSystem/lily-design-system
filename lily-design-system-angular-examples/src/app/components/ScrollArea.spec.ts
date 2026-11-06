@@ -19,4 +19,13 @@ describe("ScrollArea", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=region with its label", () => {
+        const fixture = TestBed.createComponent(ScrollArea);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".scroll-area");
+        expect(el.getAttribute("role")).toBe("region");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<div
   class="success-panel"
+  role="status"
   aria-label=""
 >
   <!-- Consumer provides content -->

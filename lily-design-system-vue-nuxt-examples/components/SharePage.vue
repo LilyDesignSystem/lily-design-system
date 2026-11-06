@@ -4,7 +4,6 @@ import { warnMissingName } from "./dev-warning";
 // SharePage component
 //
 // A group of controls for sharing the current page. Renders a <div> with the `share-page` hook; it
-// adds no role, so pass role="group" through attrs.
 //
 // Props:
 //   class — fallthrough attribute, optional. Vue merges it onto the root element with the base class hook.
@@ -23,14 +22,12 @@ import { warnMissingName } from "./dev-warning";
 //
 // Accessibility:
 //   - aria-label comes from `label` when given
-//   - No role is rendered; pass role="group" through attrs so the label is announced
 //
 // Internationalization:
 //   - No hardcoded user-facing strings
 //
 // Claude rules:
 //   - Headless: no CSS, no styles -- consumer provides all styling
-//   - Port gap: the Svelte catalog renders role="group"; this Vue component does not (the Svelte one is canonical)
 //
 // References:
 //   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
@@ -46,6 +43,7 @@ warnMissingName("SharePage", props.label, useAttrs()["aria-label"], useAttrs()["
     <!-- SharePage.vue -->
     <div
         class="share-page"
+        role="group"
         :aria-label="label"
     >
         <slot />

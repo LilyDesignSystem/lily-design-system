@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-success-panel",
     standalone: true,
-    template: `<div class="success-panel {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="success-panel {{ className() }}" role="status" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SuccessPanel {

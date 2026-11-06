@@ -19,4 +19,9 @@ describe("share-page", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("has role=group", () => {
+        const { document } = render("share-page", { label: "Story" }, "x");
+        expect(document.querySelector(".share-page").getAttribute("role")).toBe("group");
+    });
 });

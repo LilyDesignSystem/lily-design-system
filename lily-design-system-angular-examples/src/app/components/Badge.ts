@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-badge",
     standalone: true,
-    template: `<span class="badge {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    template: `<span class="badge {{ className() }}" role="status" [attr.aria-label]="label() || null"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Badge {

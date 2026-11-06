@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-inset-text",
     standalone: true,
-    template: `<div class="inset-text {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="inset-text {{ className() }}" role="note" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InsetText {

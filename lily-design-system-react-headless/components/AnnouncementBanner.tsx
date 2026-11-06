@@ -1,7 +1,6 @@
 // AnnouncementBanner component
 //
 // A banner announcing news or a service notice. Renders a <div> with the `announcement-banner` hook;
-// it adds no role, so pass role="region" through restProps.
 //
 // Props:
 //   className — string, optional. CSS class name.
@@ -20,14 +19,13 @@
 //
 // Accessibility:
 //   - aria-label comes from `label` when given
-//   - No role is rendered; pass role="region" through restProps so the label is announced
+//   - role="region" on the root, so the label is valid
 //
 // Internationalization:
 //   - No hardcoded user-facing strings
 //
 // Claude rules:
 //   - Headless: no CSS, no styles -- consumer provides all styling
-//   - Port gap: the Svelte catalog renders role="region"; this React component does not (the Svelte one is canonical)
 //
 // References:
 //   - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
@@ -48,6 +46,7 @@ export default function AnnouncementBanner({
     return (
         <div
             className={`announcement-banner ${className}`}
+            role="region"
             aria-label={label}
             {...restProps}
         >

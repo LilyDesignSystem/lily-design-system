@@ -20,4 +20,9 @@ describe("ScrollArea", function () {
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });
+
+    it("should have role=region", async function () {
+        const el = await $(".scroll-area");
+        expect(await el.getAttribute("role")).toBe("region");
+    });
 });

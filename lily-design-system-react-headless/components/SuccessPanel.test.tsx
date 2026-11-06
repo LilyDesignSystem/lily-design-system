@@ -8,4 +8,11 @@ describe("SuccessPanel", () => {
         const el = container.querySelector(".success-panel");
         expect(el).toBeTruthy();
     });
+
+    it("has role=status with its label", () => {
+        const { container } = render(<SuccessPanel label="Story">content</SuccessPanel>);
+        const root = container.querySelector(".success-panel");
+        expect(root?.getAttribute("role")).toBe("status");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
 });
