@@ -14,6 +14,10 @@ description: a horizontal bar of menu triggers
   {{ menuBarButton({ text: "View", controls: "menu-view" }) }}
   {{ menuBarButton({ text: "Help", controls: "menu-help" }) }}
 {% endcall %}
+<ul id="menu-file" role="menu" aria-label="File" hidden><li role="menuitem">File item</li></ul>
+<ul id="menu-edit" role="menu" aria-label="Edit" hidden><li role="menuitem">Edit item</li></ul>
+<ul id="menu-view" role="menu" aria-label="View" hidden><li role="menuitem">View item</li></ul>
+<ul id="menu-help" role="menu" aria-label="Help" hidden><li role="menuitem">Help item</li></ul>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

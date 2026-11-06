@@ -8,7 +8,7 @@ description: an indicator of AI instances — a pathway to AI explainability
 
 <h2>Default</h2>
 <p>
-  {{ aiLabel({ text: "AI", describedBy: "ai-summary-explain" }) }}
+  {{ aiLabel({ text: "AI", label: "AI generated", describedBy: "ai-summary-explain" }) }}
   Summary of your recent appointments (auto-generated).
 </p>
 <p id="ai-summary-explain" style="color: var(--nhsuk-dark-grey); font-size: var(--nhsuk-font-size-16);">
@@ -18,7 +18,7 @@ description: an indicator of AI instances — a pathway to AI explainability
 
 <h2>Custom label</h2>
 <p>
-  {{ aiLabel({ text: "AI-assisted", describedBy: "ai-triage-explain" }) }}
+  {{ aiLabel({ text: "AI-assisted", label: "AI assisted", describedBy: "ai-triage-explain" }) }}
   Suggested next step: book a follow-up appointment.
 </p>
 <p id="ai-triage-explain" style="color: var(--nhsuk-dark-grey); font-size: var(--nhsuk-font-size-16);">

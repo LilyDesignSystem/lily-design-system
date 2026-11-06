@@ -7,10 +7,10 @@ description: one document entry in a document list
 {% from "components/document-list-item/macro.njk" import documentListItem %}
 
 <h2>Default</h2>
-{{ documentListItem({ text: "Example DocumentListItem content" }) }}
+<ul>{{ documentListItem({ text: "Referral letter" }) }}</ul>
 
 <h2>With accessible label</h2>
-{{ documentListItem({ text: "Example content", label: "DocumentListItem example" }) }}
+<ul>{{ documentListItem({ text: "Discharge summary", label: "Discharge summary, 2 pages" }) }}</ul>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

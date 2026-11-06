@@ -7,10 +7,10 @@ description: an ordered list of section links
 {% from "components/section-list/macro.njk" import sectionList %}
 
 <h2>Default</h2>
-{{ sectionList({ text: "Example SectionList content" }) }}
+{{ sectionList({ html: "<li class=\"section-list-item\">Introduction</li><li class=\"section-list-item\">Eligibility</li>" }) }}
 
 <h2>With accessible label</h2>
-{{ sectionList({ text: "Example content", label: "SectionList example" }) }}
+{{ sectionList({ html: "<li class=\"section-list-item\">Introduction</li>", label: "On this page" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

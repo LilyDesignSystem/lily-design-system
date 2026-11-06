@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Every component page passes axe — 2026-11-06
+
+- **Added:** `e2e/axe-sweep.spec.ts` in the Nunjucks app runs axe's WCAG 2.2 A and AA rules on all 609 component pages, with an allow-list that may only shrink and is empty. Colour contrast is left out until P25-T9, and popups are not opened yet.
+- **Fixed:** 13 demo pages, among them `command`, whose demo put a second search field inside the listbox, and `menu-bar`, whose buttons pointed at menus that did not exist. `tree-link` in the example app has a 24-pixel target.
+
 ## Popups and fields are named — 2026-11-06
 
 - **Fixed:** the `contextual-help` panel is named by `label` in all nine catalogs. Nunjucks `date-time-now-input` puts `dateLabel` and `timeLabel` on its inputs, and Nunjucks `cascader` and `tree-select` render `aria-controls` and a panel `id`, so a popup rendered open is valid before any script runs. Pass `id` when a page has more than one.

@@ -7,10 +7,10 @@ description: a definition list displaying information in key-value format
 {% from "components/description-list/macro.njk" import descriptionList %}
 
 <h2>Default</h2>
-{{ descriptionList({ text: "Example DescriptionList content" }) }}
+{{ descriptionList({ html: "<dt>Name</dt><dd>Alex Morgan</dd><dt>Date of birth</dt><dd>2 March 1984</dd>" }) }}
 
 <h2>With accessible label</h2>
-{{ descriptionList({ text: "Example content", label: "DescriptionList example" }) }}
+{{ descriptionList({ html: "<dt>Name</dt><dd>Alex Morgan</dd>", label: "Patient details" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

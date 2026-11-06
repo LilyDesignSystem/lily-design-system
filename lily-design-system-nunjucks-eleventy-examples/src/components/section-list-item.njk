@@ -7,10 +7,10 @@ description: one item in a section list
 {% from "components/section-list-item/macro.njk" import sectionListItem %}
 
 <h2>Default</h2>
-{{ sectionListItem({ text: "Example SectionListItem content" }) }}
+<ul>{{ sectionListItem({ text: "Introduction" }) }}</ul>
 
 <h2>With accessible label</h2>
-{{ sectionListItem({ text: "Example content", label: "SectionListItem example" }) }}
+<ul>{{ sectionListItem({ text: "Eligibility", label: "Eligibility section" }) }}</ul>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
