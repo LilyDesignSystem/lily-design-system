@@ -89,10 +89,11 @@ test("Escape closes the More list and returns focus to its button", () => {
     const nav = setupOverflowNavigation(root);
     const button = root.querySelector(".navigation-menu-more-button");
     const list = root.querySelector(".navigation-menu-more-list");
+    // jsdom measures every width as 0, so nothing overflows and the module hides the More item. Show it, as a real overflow would.
+    root.querySelector(".navigation-menu-more").hidden = false;
     button.click();
     assert.equal(button.getAttribute("aria-expanded"), "true");
     assert.equal(list.hidden, false);
-    // jsdom measures every width as 0, so the module moves the item back to the row: send Escape from the button.
     press(button, "Escape");
     assert.equal(list.hidden, true);
     assert.equal(button.getAttribute("aria-expanded"), "false");
