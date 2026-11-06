@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Versions — 2026-11-06
+
+Not yet published. `html-headless` 0.10.0, `svelte-headless` 0.8.0, `react-headless` 0.8.0, `vue-headless` 0.8.0, `angular-headless` 0.9.0, `nunjucks-headless` 0.8.0, `web-components-headless` 0.9.0, `LilyDesignSystem.Blazor.Headless` 0.8.0: minor bumps for the sections below. `TabPanel` in Angular and Blazor is the breaking change: one with no `selected` is now hidden. The helper packages keep their headless ranges until these versions are on the registries, because their lockfiles resolve from npm.
+
 ## Three port gaps closed — 2026-11-05
 
 - **Changed (Blazor): `cascader`, `mentions-input` and `tree-select` panels are `popover="manual"`,** in the top layer like every other catalog, with `hidden` only where the Popover API is missing.

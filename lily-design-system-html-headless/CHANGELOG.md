@@ -5,6 +5,12 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.10.0 — 2026-11-06
+
+- Fixed: `horizontal-scroller` End in right-to-left now goes to the far edge, not the start.
+- Fixed: `error-message` and `error-summary` have `role="alert"`, and `error-summary` has `tabindex="-1"`.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
+
 ## 0.9.0 — 2026-11-05 (breaking)
 
 - Breaking: `tag-input` is `tag-input-div` (`tag-input-div.html`), rooted on a `<div role="group">`, with one shape in every catalog. The class `.tag-input` is `.tag-input-div`, and the field is `.tag-input-div-field`.

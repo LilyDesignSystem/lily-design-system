@@ -3,6 +3,11 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.8.0 — 2026-11-06
+
+- Fixed: `horizontal-scroller` End in right-to-left now goes to the far edge, not the start.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
+
 ## 0.7.0 — 2026-11-05 (breaking)
 
 - Breaking: `tag-input` is `tag-input-div` (`TagInputDiv`), rooted on a `<div role="group">`, with one shape in every catalog. The class `.tag-input` is `.tag-input-div`, and the field is `.tag-input-div-field`.

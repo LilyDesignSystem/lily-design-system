@@ -5,6 +5,12 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.8.0 — 2026-11-06
+
+- Fixed: `error-message` has `role="alert"`.
+- Fixed: `dropdown-menu` and `context-menu` have arrow keys; `menu/menu.js` now wires them.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
+
 ## 0.7.0 — 2026-11-05 (breaking)
 
 - Breaking: `tag-input` is `tag-input-div` (`tagInputDiv`), rooted on a `<div role="group">`, with one shape in every catalog. The class `.tag-input` is `.tag-input-div`, and the field is `.tag-input-div-field`.

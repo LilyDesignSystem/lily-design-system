@@ -5,6 +5,14 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.9.0 — 2026-11-06 (breaking)
+
+- Breaking: `TabPanel` gains `selected`, and one with no `selected` is now hidden, as in every other catalog.
+- Fixed: `ErrorSummary` gains `title`, `role="alert"`, `tabindex="-1"` and `aria-labelledby`. `TabPanel` gains `labelledBy`, `role="tabpanel"` and `tabindex="0"`.
+- Fixed: `error-message` has `role="alert"`.
+- Fixed: `horizontal-scroller` End in right-to-left now goes to the far edge, not the start.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
+
 ## 0.8.0 — 2026-11-05 (breaking)
 
 - Breaking: `tag-input` is `tag-input-div` (`TagInputDiv`), rooted on a `<div role="group">`, with one shape in every catalog. The class `.tag-input` is `.tag-input-div`, and the field is `.tag-input-div-field`.
