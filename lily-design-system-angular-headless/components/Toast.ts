@@ -10,10 +10,19 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-toast",
     standalone: true,
-    template: `<div class="toast {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div
+        class="toast {{ className() }}"
+        [attr.role]="urgent() ? 'alert' : 'status'"
+        [attr.aria-label]="label() || null"
+        [attr.aria-live]="urgent() ? 'assertive' : 'polite'"
+    >
+        <ng-content />
+    </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Toast {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Interrupt the user, rather than wait for a pause. */
+    readonly urgent = input<boolean>(false);
 }

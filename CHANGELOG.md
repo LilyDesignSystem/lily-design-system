@@ -9,10 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Angular announces alerts — 2026-11-06
+
+- **Fixed:** Angular `alert`, `notification` and `toast` rendered a plain `<div>`, so a screen reader announced nothing. They now match Svelte: `alert` takes `type`, `heading`, `role` and `live`, and `notification` and `toast` take `urgent`.
+- **Fixed:** Angular `progress-bar` and `progress-circle` are `role="progressbar"` and take `value`, `min` and `max`.
+
 ## 24 Angular components get back a dropped role — 2026-11-06
 
 - **Fixed:** 24 Angular components render the fixed role Svelte has, among them `warning-callout`, `timer`, `progress-spinner` and `status-light`.
-- **Known gap:** 100 components were open before this fix, 71 of them in Angular. Angular's `alert`, `notification` and `toast` still render a plain `<div>` (P25-T14), and at least 81 Angular components are stubs with no input beyond `label` and `className` (P25-T15).
+- **Known gap:** 100 components were open before this fix, 71 of them in Angular. At least 81 Angular components are stubs with no input beyond `label` and `className` (P25-T15).
 
 ## Nine more components become a named group — 2026-11-06
 

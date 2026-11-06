@@ -10,10 +10,25 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-progress-bar",
     standalone: true,
-    template: `<div class="progress-bar {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div
+        class="progress-bar {{ className() }}"
+        role="progressbar"
+        [attr.aria-label]="label() || null"
+        [attr.aria-valuenow]="value() ?? null"
+        [attr.aria-valuemin]="min()"
+        [attr.aria-valuemax]="max()"
+    >
+        <ng-content />
+    </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressBar {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Current value. Leave unset when progress is indeterminate. */
+    readonly value = input<number | undefined>(undefined);
+    /** Lowest value. */
+    readonly min = input<number>(0);
+    /** Highest value. */
+    readonly max = input<number>(100);
 }

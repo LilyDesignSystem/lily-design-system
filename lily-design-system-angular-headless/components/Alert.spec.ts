@@ -19,4 +19,32 @@ describe("Alert", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is an assertive alert by default", () => {
+        const fixture = TestBed.createComponent(Alert);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".alert");
+        expect(el.getAttribute("role")).toBe("alert");
+        expect(el.getAttribute("aria-live")).toBe("assertive");
+        expect(el.getAttribute("aria-atomic")).toBe("true");
+        expect(el.getAttribute("data-type")).toBe("info");
+    });
+
+    test("role=status is polite, and live overrides it", () => {
+        const fixture = TestBed.createComponent(Alert);
+        fixture.componentRef.setInput("role", "status");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".alert");
+        expect(el.getAttribute("aria-live")).toBe("polite");
+        fixture.componentRef.setInput("live", "off");
+        fixture.detectChanges();
+        expect(el.getAttribute("aria-live")).toBe("off");
+    });
+
+    test("renders its heading", () => {
+        const fixture = TestBed.createComponent(Alert);
+        fixture.componentRef.setInput("heading", "Saved");
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".alert strong").textContent).toBe("Saved");
+    });
 });

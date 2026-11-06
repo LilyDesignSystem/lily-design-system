@@ -10,10 +10,25 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-progress-circle",
     standalone: true,
-    template: `<div class="progress-circle {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div
+        class="progress-circle {{ className() }}"
+        role="progressbar"
+        [attr.aria-label]="label() || null"
+        [attr.aria-valuenow]="value() ?? null"
+        [attr.aria-valuemin]="min()"
+        [attr.aria-valuemax]="max()"
+    >
+        <ng-content />
+    </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProgressCircle {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Current value. Unset is 0, as in Svelte. */
+    readonly value = input<number | undefined>(0);
+    /** Lowest value. */
+    readonly min = input<number>(0);
+    /** Highest value. */
+    readonly max = input<number>(100);
 }
