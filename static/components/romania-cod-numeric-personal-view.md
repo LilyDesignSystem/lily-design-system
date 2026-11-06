@@ -1,12 +1,12 @@
 # Romania Cod Numeric Personal View
 
-RomaniaCodNumericPersonalView is a headless read-only display of Romania's Cod Numeric Personal (CNP), Romania's national-id identifier. It renders as a `<span>` with `role="text"` so assistive technology announces the identifier as a single unit. It is the read-only companion to RomaniaCodNumericPersonalInput.
+RomaniaCodNumericPersonalView is a headless read-only display of Romania's Cod Numeric Personal (CNP), Romania's national-id identifier. It renders as a `<span>`. It is the read-only companion to RomaniaCodNumericPersonalInput.
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
 ## Implementation Notes
 
-- Renders as `<span>` with `role="text"`
+- Renders as `<span>`, with no role
 - Format: 13 digits: gender and century (1/3/5/7 male; 2/4/6/8 female; 9 foreigner), date of birth (YYMMDD), country zone (01-52, or 99 for Bucharest sectors), serial (3 digits), and a Modulus-11 checksum digit
 - Provides accessible name via the `value` content
 - Companion to RomaniaCodNumericPersonalInput
@@ -29,7 +29,7 @@ RomaniaCodNumericPersonalView is a headless read-only display of Romania's Cod N
 
 ## ARIA
 
-- `role="text"` ensures the identifier is announced as a single unit
+- No role, and no `aria-label`: a `<span>` cannot take a name, so `label` renders as hidden text in a `screen-reader-span`
 
 ## When to Use
 
@@ -49,7 +49,7 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Testing
 
-- Verify renders a `<span>` with the correct class and `role="text"`
+- Verify renders a `<span>` with the correct class, no role and no `aria-label`
 - Verify the `value` prop is rendered as text content
 - Verify `label` renders as hidden text, and that the root has no `aria-label`
 
