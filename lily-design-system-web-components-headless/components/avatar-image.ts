@@ -20,6 +20,7 @@ export class AvatarImage extends HTMLElement {
         if (this.querySelector(":scope > img.avatar-image")) return;
 
         const img = document.createElement("img");
+        img.setAttribute("aria-hidden", "true");
         img.className = rootClassName(this, "avatar-image");
         img.src = this.getAttribute("src") ?? "";
         img.alt = this.getAttribute("alt") ?? "";

@@ -23,10 +23,10 @@ describe("SearchInput", () => {
         expect(input.type).toBe("search");
     });
 
-    test("has role=searchbox", () => {
+    test("relies on the native searchbox role of type=search", () => {
         const host = render('<lily-search-input label="Search"></lily-search-input>');
 
-        expect(host.querySelector("input")!.getAttribute("role")).toBe("searchbox");
+        expect(host.querySelector("input")!.hasAttribute("role")).toBe(false);
     });
 
     test("uses label as the accessible name", () => {

@@ -23,6 +23,12 @@ export class PhaseBanner extends HTMLElement {
 
         applySelfClassName(this, "phase-banner");
 
+        const label = this.getAttribute("label");
+        if (label !== null) {
+            this.setAttribute("role", "group");
+            this.setAttribute("aria-label", label);
+        }
+
         const phase = this.getAttribute("phase");
         if (phase !== null) {
             const strong = document.createElement("strong");

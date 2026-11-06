@@ -9,8 +9,8 @@
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "`role=\"region\"` -- defines the Kanban board as a named landmark section",
-    "`aria-label={label}` -- provides an accessible name for the board region"
+    "`role=\"grid\"` -- the board is a grid of cells",
+    "`aria-label={label}` -- provides an accessible name for the board"
   ],
   "keyboard": [
     "No keyboard interactions — this is a passive element"

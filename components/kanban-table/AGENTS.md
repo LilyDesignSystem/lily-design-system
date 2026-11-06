@@ -17,16 +17,15 @@
 
 ## Key Behaviors
 
-- Renders a `<div>` with `role="region"` to define a named landmark for the Kanban board
+- Renders a `<table role="grid">`, named by `label`; its cells are `gridcell`s, and a `<table>` root replaced the `<div role="region">` this contract once described
 - Consumer provides column containers and item cards as children
-- The region role with a label allows screen reader users to navigate directly to the board
 - Accepts `...restProps` for forwarding additional attributes to the container
 - No internal state -- purely a structural wrapper
 
 ## ARIA
 
-- `role="region"` -- defines the Kanban board as a named landmark section
-- `aria-label={label}` -- provides an accessible name for the board region
+- `role="grid"` -- the board is a grid of cells
+- `aria-label={label}` -- provides an accessible name for the board
 
 ## Keyboard
 
@@ -41,7 +40,7 @@
 
 - [ ] Renders <table> element with class="kanban-table"
 - [ ] Has aria-label attribute
-- [ ] Has role="region"
+- [ ] Has role="grid"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
@@ -50,4 +49,4 @@
 - Documentation: index.md
 - CSS class: .kanban-table in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/kanban-table.html
-- WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
+- WAI-ARIA grid role: https://www.w3.org/TR/wai-aria-1.2/#grid

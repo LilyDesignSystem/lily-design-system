@@ -82,8 +82,8 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>role="region"</code> -- defines the Kanban board as a named landmark section</li>
-      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the board region</li>
+      <li><code>role="grid"</code> -- the board is a grid of cells</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the board</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>

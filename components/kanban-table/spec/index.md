@@ -27,8 +27,8 @@ Implement the Kanban Table component: a kanban board table interactive grid for 
 ## Acceptance Criteria
 
 - [ ] Renders <table> with class="kanban-table"
-- [ ] `role="region"` -- defines the Kanban board as a named landmark section
-- [ ] `aria-label={label}` -- provides an accessible name for the board region
+- [ ] `role="grid"` -- the board is a grid of cells
+- [ ] `aria-label={label}` -- provides an accessible name for the board
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations

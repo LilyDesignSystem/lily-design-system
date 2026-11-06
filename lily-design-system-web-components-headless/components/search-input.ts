@@ -29,7 +29,6 @@ export class SearchInput extends HTMLElement {
 
         const input = document.createElement("input");
         input.type = "search";
-        input.setAttribute("role", "searchbox");
         input.className = rootClassName(this, "search-input");
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
