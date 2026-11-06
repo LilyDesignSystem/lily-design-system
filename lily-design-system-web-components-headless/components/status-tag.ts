@@ -16,8 +16,8 @@
 // data-tone for consumer styling.
 //
 // Attributes:
-//   label — optional; aria-label override (visible content is the tag's
-//     children/text).
+//   label — optional; hidden text read before the content, because a
+//     <span> cannot take a name.
 //   tone — "neutral" | "success" | "warning" | "danger" | "info",
 //     default "neutral". Exposed as data-tone.
 //
@@ -36,11 +36,16 @@ export class StatusTag extends HTMLElement {
         const span = document.createElement("span");
         span.className = rootClassName(this, "status-tag");
         span.setAttribute("data-tone", this.getAttribute("tone") ?? "neutral");
-        const label = this.getAttribute("label");
-        if (label !== null) span.setAttribute("aria-label", label);
         passThroughAttributes(this, span, HANDLED);
 
         moveChildrenInto(this, span);
+        const label = this.getAttribute("label");
+        if (label) {
+            const hidden = document.createElement("span");
+            hidden.className = "screen-reader-span";
+            hidden.textContent = `${label} `;
+            span.prepend(hidden);
+        }
         this.appendChild(span);
     }
 }

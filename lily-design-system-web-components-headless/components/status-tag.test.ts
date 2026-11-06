@@ -36,20 +36,22 @@ describe("StatusTag", () => {
         expect(host.querySelector("span")!.getAttribute("data-tone")).toBe("success");
     });
 
-    test("an explicit label becomes aria-label", () => {
+    test("an explicit label becomes hidden text", () => {
         const host = render(
             '<lily-status-tag label="Task status: completed">Completed</lily-status-tag>',
         );
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe(
-            "Task status: completed",
+        const root = host.querySelector("span")!;
+        expect(root.hasAttribute("aria-label")).toBe(false);
+        expect(root.querySelector(".screen-reader-span")!.textContent).toBe(
+            "Task status: completed ",
         );
     });
 
-    test("omits aria-label when no label is given", () => {
+    test("adds no hidden text when no label is given", () => {
         const host = render("<lily-status-tag>Completed</lily-status-tag>");
 
-        expect(host.querySelector("span")!.hasAttribute("aria-label")).toBe(false);
+        expect(host.querySelector(".screen-reader-span")).toBeNull();
     });
 
     test("does not set role=status (majority-implementation contract)", () => {

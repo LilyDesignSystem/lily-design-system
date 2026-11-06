@@ -26,6 +26,8 @@ test("no component names a generic root", () => {
                 "<" + tag + ' label="Example" value="1" alt="A" src="/a"></' + tag + ">";
             const host = document.body.firstElementChild as HTMLElement;
             // A custom element has no role of its own, so a named host is as generic as a named <div>.
+            // An upgrade-in-place component has replaced its host with a native element such as <li>, which does.
+            const generic = host.localName.includes("-") || ["DIV", "SPAN"].includes(host.tagName);
             const inner = host.firstElementChild;
             const namedInner =
                 inner &&
@@ -33,7 +35,7 @@ test("no component names a generic root", () => {
                 inner.hasAttribute("aria-label") &&
                 !inner.hasAttribute("role");
             if (
-                (host.hasAttribute("aria-label") && !host.hasAttribute("role")) ||
+                (generic && host.hasAttribute("aria-label") && !host.hasAttribute("role")) ||
                 (!host.hasAttribute("aria-label") && namedInner)
             )
                 hits.push(slug);

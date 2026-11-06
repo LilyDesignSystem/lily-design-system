@@ -53,4 +53,14 @@ describe("character", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("is a named image, or hidden when decorative", () => {
+        const named = render("character", { label: "Fox" }).document.querySelector(".character");
+        expect(named.getAttribute("role")).toBe("img");
+        expect(named.getAttribute("aria-label")).toBe("Fox");
+        const hidden = render("character", { label: "Fox", decorative: true }).document.querySelector(".character");
+        expect(hidden.getAttribute("role")).toBe("presentation");
+        expect(hidden.getAttribute("aria-hidden")).toBe("true");
+        expect(hidden.hasAttribute("aria-label")).toBe(false);
+    });
 });

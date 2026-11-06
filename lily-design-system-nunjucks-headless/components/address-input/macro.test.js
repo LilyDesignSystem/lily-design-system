@@ -19,4 +19,11 @@ describe("address-input", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("is a named group", () => {
+        const { document } = render("address-input", { label: "Home address" });
+        const el = document.querySelector(".address-input");
+        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("aria-label")).toBe("Home address");
+    });
 });

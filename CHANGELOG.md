@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## status-tag is a static label — 2026-11-06
+
+- **Changed:** `status-tag` has no `role="status"` in any catalog, as its contract and the live-region rule say, and `label` is hidden text in a `screen-reader-span`. To announce a change, wrap it in a live region.
+- **Fixed:** `address-input` is `role="group"` in React, Vue, Nunjucks and HTML, and Nunjucks `character` is `role="img"` or `presentation`. The `generic-name` allow-lists are empty in all six catalogs that have the test.
+
 ## Angular components take their real props — 2026-11-06
 
 - **Added:** `bin/check-port-logic` compares every Svelte prop with its Angular port. 221 are ported; 14 are listed with a reason.

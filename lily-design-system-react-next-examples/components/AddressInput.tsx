@@ -50,6 +50,7 @@ export default function AddressInput({
     return (
         <div
             className={`address-input ${className}`}
+            role="group"
             aria-label={label}
             {...restProps}
         >
