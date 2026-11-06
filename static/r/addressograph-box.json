@@ -9,6 +9,7 @@
   "interactive": false,
   "status": "experimental — recent catalog addition with the least accumulated depth; contract may still move",
   "aria": [
+    "With a `label`, the root is `role=\"group\"`, because a plain `<div>` cannot be named. Without one it has no role",
     "`aria-label` -- describes the box for screen readers"
   ],
   "keyboard": [

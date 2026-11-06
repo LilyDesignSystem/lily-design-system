@@ -9,8 +9,8 @@
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "`aria-label` rendered only when the `label` prop is provided",
-    "No role is forced — this is a generic presentation container"
+    "With a `label`, the root is `role=\"group\"`, because a plain `<div>` cannot be named. Without one it has no role",
+    "`aria-label` rendered only when the `label` prop is provided"
   ],
   "keyboard": [
     "None — passive container"

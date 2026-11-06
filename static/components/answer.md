@@ -43,6 +43,7 @@ Paired with a question:
 
 ## ARIA
 
+- With a `label`, the root is `role="group"`, because a plain `<div>` cannot be named. Without one it has no role
 - `aria-label` -- describes the answer for screen readers when no visible heading is present
 
 ## When to Use

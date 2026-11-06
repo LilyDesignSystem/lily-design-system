@@ -3,7 +3,7 @@
   const usage: string = "";
   const rest: string = "<h2>Props</h2>\n\n<ul>\n<li><code>label</code>: string (optional) -- accessible label for the question</li>\n<li><code>children</code>: slot (required) -- question content (heading, body, related answers, metadata)</li>\n<li><code>...restProps</code>: Any additional HTML attributes</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li><code>aria-label</code> -- describes the question for screen readers when no visible heading is present</li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Use for FAQ entries that pair a question with one or more answers.</li>\n<li>Use for quiz, survey, or knowledge-check prompts.</li>\n<li>Use for forum-style threads where each thread starts with a question.</li>\n</ul>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>answer</code> — an answer is anything that responds to a question, request, action, etc.</li>\n<li><code>comment</code> — a comment is anything that expresses an opinion, observation, explanation, etc.</li>\n</ul>";
   // BEGIN auto-generated component example consts
-  const demoHtml: string = "<div class=\"question\" aria-label=\"Question\"><h3>What time does the clinic open?</h3></div>";
+  const demoHtml: string = "<div class=\"question\" role=\"group\" aria-label=\"Question\"><h3>What time does the clinic open?</h3></div>";
   const svelteSource: string = "// In your Svelte component:\nimport Question from \"lily-design-system-svelte-headless/components/Question/Question.svelte\";\n\n<Question>\n  <!-- content -->\n</Question>\n";
   const usageCode: string = "<Question label=\"Sample FAQ question\">\n  <h3>What time does the clinic open?</h3>\n  <p>The clinic opens at 8:00 a.m. on weekdays.</p>\n</Question>\n";
   const variants: { title: string; html: string }[] = [];
@@ -82,6 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
+      <li>With a <code>label</code>, the root is <code>role="group"</code>, because a plain <code>&lt;div&gt;</code> cannot be named. Without one it has no role</li>
       <li><code>aria-label</code> -- describes the question for screen readers when no visible heading is present</li>
     </ul>
     <h3>Keyboard</h3>
