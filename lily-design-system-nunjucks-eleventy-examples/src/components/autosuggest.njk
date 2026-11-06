@@ -7,7 +7,7 @@ description: a text input that proposes matching options as users type
 {% from "components/autosuggest/macro.njk" import autosuggest %}
 
 <h2>Default</h2>
-{{ autosuggest({ text: "Example Autosuggest content" }) }}
+{{ autosuggest({ text: "Example Autosuggest content", label: "Find a service" }) }}
 
 <h2>With accessible label</h2>
 {{ autosuggest({ text: "Example content", label: "Autosuggest example" }) }}

@@ -106,4 +106,11 @@ describe("cascader", () => {
         const { html } = render("cascader", { label: "Region" });
         expect(html).not.toContain("<style");
     });
+
+    it("controls its panel in the markup, for a server-rendered open popup", () => {
+        const { document } = render("cascader", { id: "x", label: "L", expanded: true });
+        const panel = document.querySelector(".cascader-panel");
+        expect(panel.id).toBe("x-panel");
+        expect(document.querySelector("button").getAttribute("aria-controls")).toBe("x-panel");
+    });
 });

@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Popups and fields are named — 2026-11-06
+
+- **Fixed:** the `contextual-help` panel is named by `label` in all nine catalogs. Nunjucks `date-time-now-input` puts `dateLabel` and `timeLabel` on its inputs, and Nunjucks `cascader` and `tree-select` render `aria-controls` and a panel `id`, so a popup rendered open is valid before any script runs. Pass `id` when a page has more than one.
+- **Fixed:** seven Nunjucks demo pages named their fields and popups.
+
 ## The tree combobox is its trigger — 2026-11-06
 
 - **Fixed:** `cascader` and `tree-select` put `role="combobox"` on an unfocusable `<div>`. The role, `aria-haspopup`, `aria-expanded`, `aria-label` and a new `aria-controls` are on the trigger button in all nine catalogs.

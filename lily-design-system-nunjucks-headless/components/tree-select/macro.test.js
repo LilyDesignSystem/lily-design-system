@@ -124,4 +124,11 @@ describe("tree-select", () => {
         const { html } = render("tree-select", { label: "Category" });
         expect(html).not.toContain("<style");
     });
+
+    it("controls its panel in the markup, for a server-rendered open popup", () => {
+        const { document } = render("tree-select", { id: "x", label: "L", expanded: true });
+        const panel = document.querySelector(".tree-select-panel");
+        expect(panel.id).toBe("x-panel");
+        expect(document.querySelector("button").getAttribute("aria-controls")).toBe("x-panel");
+    });
 });

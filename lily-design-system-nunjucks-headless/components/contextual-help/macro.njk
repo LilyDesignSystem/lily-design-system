@@ -22,7 +22,7 @@
     - Closed, the trigger carries no static aria-expanded: nothing would
       update it without script, and the browser exposes the expanded state
       of a popovertarget trigger itself.
-    - The panel uses role="dialog".
+    - The panel uses role="dialog", named by `label` as the trigger is.
 
   Params:
     label         string   REQUIRED. aria-label for the help trigger.
@@ -76,6 +76,7 @@
     class="contextual-help-panel"
     id="{{ panelId }}"
     role="dialog"
+    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
     {%- if not p.expanded %} popover="auto"{% endif %}
   >
     {%- if p.html -%}{{ p.html | safe }}

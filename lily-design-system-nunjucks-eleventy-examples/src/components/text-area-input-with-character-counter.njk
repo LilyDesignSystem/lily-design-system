@@ -6,8 +6,7 @@ description: a multi-line text area with a live character counter
 
 {% from "components/text-area-input-with-character-counter/macro.njk" import textAreaInputWithCharacterCounter %}
 
-<p><label for="msg">Your message (max 200 characters)</label></p>
-{{ textAreaInputWithCharacterCounter({ id: "msg", name: "msg", maximum: 200, rows: 4 }) }}
+{{ textAreaInputWithCharacterCounter({ id: "msg", name: "msg", maximum: 200, rows: 4, label: "Your message (max 200 characters)" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

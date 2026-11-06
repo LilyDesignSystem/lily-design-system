@@ -8,12 +8,12 @@ description: a group wrapping an input with prefix and suffix addons
 
 <h2>Prefix only (currency)</h2>
 {% call inputGroup({ label: "Amount in pounds", prefixHtml: "<span>£</span>" }) %}
-  <input type="number" name="amount" min="0" step="0.01" />
+  <input type="number" name="amount" min="0" step="0.01" aria-label="Amount" />
 {% endcall %}
 
 <h2>Suffix only (units)</h2>
 {% call inputGroup({ label: "Weight", suffixHtml: "<span>kg</span>" }) %}
-  <input type="number" name="weight" min="0" step="0.1" />
+  <input type="number" name="weight" min="0" step="0.1" aria-label="Weight" />
 {% endcall %}
 
 <h2>Prefix and suffix (URL)</h2>
@@ -22,7 +22,7 @@ description: a group wrapping an input with prefix and suffix addons
   prefixHtml: "<span>https://</span>",
   suffixHtml: "<span>.example.com</span>"
 }) %}
-  <input type="text" name="subdomain" />
+  <input type="text" name="subdomain" aria-label="Subdomain" />
 {% endcall %}
 
 {# BEGIN generated: examples (bin/generate-examples) #}

@@ -76,7 +76,10 @@ export class ContextualHelp extends HTMLElement {
     #sync(): void {
         if (!this.#trigger || !this.#panel) return;
         const label = this.getAttribute("label");
-        if (label !== null) this.#trigger.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.#trigger.setAttribute("aria-label", label);
+            this.#panel?.setAttribute("aria-label", label);
+        }
         this.#trigger.textContent = this.getAttribute("trigger-label") ?? "";
         const expanded = this.hasAttribute("expanded");
         this.#trigger.setAttribute("aria-expanded", expanded ? "true" : "false");

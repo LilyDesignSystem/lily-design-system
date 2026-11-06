@@ -157,4 +157,11 @@ describe("ContextualHelp", () => {
         expect(root.className).toContain("contextual-help");
         expect(root.className).toContain("extra");
     });
+
+    test("names the dialog as the trigger is named", () => {
+        render(Subject, { props: { label: "Help: name", triggerLabel: "?" } });
+        expect(document.querySelector(".contextual-help-panel")!.getAttribute("aria-label")).toBe(
+            "Help: name",
+        );
+    });
 });

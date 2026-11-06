@@ -7,7 +7,7 @@ description: a form wrapper for inline editing
 {% from "components/editable-form/macro.njk" import editableForm %}
 
 {% call editableForm({ label: "Edit name" }) %}
-  <input type="text" value="Alex Morgan">
+  <input type="text" value="Alex Morgan" aria-label="Name">
   <button type="submit">Save</button>
   <button type="reset">Cancel</button>
 {% endcall %}

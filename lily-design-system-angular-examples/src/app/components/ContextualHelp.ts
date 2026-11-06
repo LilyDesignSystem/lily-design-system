@@ -69,6 +69,7 @@ let nextId = 0;
       class="contextual-help-panel"
       [id]="panelId"
       role="dialog"
+      [attr.aria-label]="label()"
       popover="auto"
       (toggle)="onToggle($event)"
     ><ng-content /></div>
