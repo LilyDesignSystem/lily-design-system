@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The assessment cannot go stale — 2026-11-06
+
+- **Added:** the axe sweep forces each page's popovers, dialogs, details and hidden panels open, and finds nothing.
+- **Changed:** `bin/generate-core` writes `docs/aria-assessment.tsv` and the tables in `docs/aria-assessment.md`, and `--check` fails on drift. Band 1 reads the sweep's allow-list, so the band of unconfirmed contrast is gone.
+
 ## Ports are checked against what Svelte renders — 2026-11-06
 
 - **Added:** `shared/aria-baseline.json` records each Svelte root's role and `aria-*` names, and the render sweeps in React, Vue, Angular, Nunjucks and Web Components compare with it, with allow-lists that may only shrink.

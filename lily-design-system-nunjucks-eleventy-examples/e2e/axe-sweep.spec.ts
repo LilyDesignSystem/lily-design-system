@@ -2,8 +2,8 @@
 //
 // axe-sweep.allow.json holds known failures as "slug rule" with a reason. A new failure fails, and so does a listed one that
 // is fixed, so the list can only shrink. Contrast has its own test in the default and dark themes, with transitions off, because
-// a colour caught mid-transition is a false failure (P25-T9). Closed popups hide most of their ARIA from axe, which this does
-// not yet open.
+// a colour caught mid-transition is a false failure (P25-T9). Closed popups hide their ARIA from axe, so a test forces each page's
+// popovers, dialogs, details and hidden panels open first.
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import fs from "node:fs";
@@ -37,6 +37,51 @@ test("no component page fails a WCAG A or AA rule", async ({ page }) => {
     expect(
         Object.keys(allow).filter((key) => !found.includes(key)),
         "fixed: remove from axe-sweep.allow.json",
+    ).toEqual([]);
+});
+
+test("no widget fails a WCAG A or AA rule once it is open", async ({ page }) => {
+    test.setTimeout(600_000);
+    const found: string[] = [];
+    let opened = 0;
+    for (const slug of slugs) {
+        await page.goto(`/components/${slug}/`);
+        opened += await page.evaluate(() => {
+            let count = 0;
+            const main = document.querySelector("main")!;
+            for (const el of main.querySelectorAll<HTMLElement>("[popover]")) {
+                try {
+                    el.showPopover();
+                    count += 1;
+                } catch {
+                    // Already open.
+                }
+            }
+            for (const el of main.querySelectorAll("dialog:not([open]), details:not([open])")) {
+                el.setAttribute("open", "");
+                count += 1;
+            }
+            for (const el of main.querySelectorAll<HTMLElement>("[hidden]")) {
+                el.hidden = false;
+                count += 1;
+            }
+            for (const el of main.querySelectorAll('[aria-expanded="false"]')) {
+                el.setAttribute("aria-expanded", "true");
+                count += 1;
+            }
+            return count;
+        });
+        const { violations } = await new AxeBuilder({ page })
+            .include("main")
+            .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+            .disableRules(["color-contrast"])
+            .analyze();
+        for (const violation of violations) found.push(`${slug} ${violation.id} open`);
+    }
+    expect(opened, "the sweep opened something").toBeGreaterThan(50);
+    expect(
+        found.filter((key) => !allow[key]),
+        "new axe failures on an open widget",
     ).toEqual([]);
 });
 

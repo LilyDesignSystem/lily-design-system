@@ -30,7 +30,7 @@
 //
 // No evidence is invented: every status is computed from files, and a cell that is not observed is "missing".
 //
-//   bin/generate-core                      write the four outputs
+//   bin/generate-core                      write the outputs, among them docs/aria-assessment.tsv and its summary tables
 //   bin/generate-core --check              exit 1 if an output is stale, or if a component recorded as
 //                                          Core in core.json no longer meets every criterion
 //   bin/generate-core --allow-demotion     write even though a recorded Core member lost evidence
@@ -55,6 +55,8 @@ const OUT = {
   md: "docs/core.md",
   acr: "docs/accessibility-conformance-report.md",
   page: "lilydesignsystem.github.io/src/routes/quality/+page.svelte",
+  tsv: "docs/aria-assessment.tsv",
+  assessment: "docs/aria-assessment.md",
 };
 
 // ---------- the candidates (docs/audit-readiness.md tier 1, enumerated) ----------
@@ -740,12 +742,87 @@ const DATE_RE = /("reportDate": ")\d{4}-\d{2}-\d{2}|(\*\*Report Date:\*\* )\d{4}
 const normalise = (s) => (s === null ? null : s.replace(DATE_RE, (m, a, b, c) => (a || b || c) + "DATE"));
 const prevDate = previous && /^\d{4}-\d{2}-\d{2}$/.test(previous.reportDate || "") ? previous.reportDate : null;
 
-function build(date) {
-  const acr = renderAcr(date);
-  return { [OUT.json]: renderJson(date), [OUT.md]: renderCoreMd(date), [OUT.acr]: acr.text, [OUT.page]: renderPage(), tally: acr.tally };
+// ---------- the whole catalog: docs/aria-assessment.tsv and the tables in docs/aria-assessment.md ----------
+
+const AXE_ALLOW = "lily-design-system-nunjucks-eleventy-examples/e2e/axe-sweep.allow.json";
+
+function assessmentRows() {
+  const axe = exists(AXE_ALLOW) ? Object.keys(JSON.parse(read(AXE_ALLOW))) : [];
+  const candidateSlugs = new Set(candidates.map((c) => c.slug));
+  return read("components.tsv").split("\n").filter(Boolean).map((line) => {
+    const slug = line.split("\t")[0];
+    const c = { slug, group: "", helper: false, row: null };
+    const a = criterionA(c), b = criterionB(c);
+    const libs = Object.values(a.libraries);
+    const keyboard = (read(`components/${slug}/AGENTS.md`).match(/^## Keyboard\n([\s\S]*?)(?=^## |(?![\s\S]))/m) ?? [])[1] ?? "";
+    const ariaSection = (read(`components/${slug}/AGENTS.md`).match(/^## ARIA\n([\s\S]*?)(?=^## |(?![\s\S]))/m) ?? [])[1] ?? "";
+    const row = {
+      slug,
+      coreCandidate: candidateSlugs.has(slug),
+      // The section names a key, not merely that it has a section. Tab alone is not a contract: every focusable element has it.
+      keyContract: /\b(Arrow(Up|Down|Left|Right)|Escape|Home|End|PageUp|PageDown|Page (Up|Down)|Enter|Space)\b|\b[Aa]rrow keys?\b|\b(Left|Right|Up|Down) [Aa]rrow\b/.test(keyboard),
+      customKeys: /Arrow|arrow|\bHome\b|\bEnd\b|Escape/.test(keyboard),
+      ariaContract: ariaContract(c) === "aria" && /aria-|\brole\b/.test(ariaSection),
+      keyTests: libs.filter((l) => l.status !== "no test file" && !l.status.includes("no key event")).length,
+      ariaTests: libs.filter((l) => l.ariaAssertion).length,
+      threeBrowsers: b.met,
+      axe: axe.filter((key) => key.startsWith(`${slug} `)).map((key) => key.split(" ").slice(1).join(" ")),
+    };
+    row.band = row.axe.length
+      ? "axe failure"
+      : row.keyContract && row.keyTests < LIBRARIES.length
+        ? "key evidence incomplete"
+        : row.ariaContract && row.ariaTests < LIBRARIES.length
+          ? "ARIA evidence incomplete"
+          : "automated evidence complete";
+    return row;
+  });
 }
 
-const files = [OUT.json, OUT.md, OUT.acr, OUT.page];
+function renderAssessmentTsv(rows) {
+  const yes = (v) => (v ? "yes" : "no");
+  return [
+    "slug\tband\tcore_candidate\tkey_contract\tcustom_keys\taria_contract\tlibraries_with_key_test\tlibraries_with_aria_test\tthree_browser_e2e\taxe_wcag",
+    ...rows.map((r) =>
+      [r.slug, r.band, yes(r.coreCandidate), yes(r.keyContract), yes(r.customKeys), yes(r.ariaContract), r.keyTests, r.ariaTests, yes(r.threeBrowsers), r.axe.join(",") || "-"].join("\t"),
+    ),
+  ].join("\n") + "\n";
+}
+
+function renderAssessmentMd(rows) {
+  const count = (band) => rows.filter((r) => r.band === band).length;
+  const n = (test) => rows.filter(test).length;
+  const all = LIBRARIES.length;
+  const keys = rows.filter((r) => r.keyContract), custom = rows.filter((r) => r.keyContract && r.customKeys), aria = rows.filter((r) => r.ariaContract);
+  const table = [
+    "| Band                              | Components | What it means                                                                      |",
+    "| --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |",
+    `| 1. axe failure                    | ${String(count("axe failure")).padEnd(10)} | Listed in \`e2e/axe-sweep.allow.json\`: a WCAG A or AA rule fails on its Nunjucks page |`,
+    `| 2. Key evidence incomplete        | ${String(count("key evidence incomplete")).padEnd(10)} | Its contract names keys, and fewer than eight libraries have a test that sends one |`,
+    `| 3. ARIA evidence incomplete       | ${String(count("ARIA evidence incomplete")).padEnd(10)} | Its contract names ARIA, and fewer than eight libraries assert it                  |`,
+    `| 4. Automated evidence complete    | ${String(count("automated evidence complete")).padEnd(10)} | Nothing above. This is a floor, not a pass                                         |`,
+    "",
+    "| Measure                                                   | Result     |",
+    "| --------------------------------------------------------- | ---------- |",
+    `| Key contracts with a key test in all eight libraries      | ${`${keys.filter((r) => r.keyTests === all).length} of ${keys.length}`.padEnd(10)} |`,
+    `| Custom-key widgets (arrows, Home, End, Escape), all eight | ${`${custom.filter((r) => r.keyTests === all).length} of ${custom.length}`.padEnd(10)} |`,
+    `| ARIA contracts asserted in all eight libraries            | ${`${aria.filter((r) => r.ariaTests === all).length} of ${aria.length}`.padEnd(10)} |`,
+    `| End-to-end evidence in Chromium, Firefox and WebKit       | ${`${n((r) => r.threeBrowsers)} of ${rows.length}`.padEnd(10)} |`,
+    `| No keyboard or ARIA contract at all                       | ${`${n((r) => !r.keyContract && !r.ariaContract)} of ${rows.length}`.padEnd(10)} |`,
+  ].join("\n");
+  return read(OUT.assessment).replace(
+    /(<!-- BEGIN generated: bin\/generate-core -->\n)[\s\S]*?(\n<!-- END generated: bin\/generate-core -->)/,
+    (_, begin, end) => `${begin}${table}${end}`,
+  );
+}
+
+function build(date) {
+  const rows = assessmentRows();
+  const acr = renderAcr(date);
+  return { [OUT.tsv]: renderAssessmentTsv(rows), [OUT.assessment]: renderAssessmentMd(rows), [OUT.json]: renderJson(date), [OUT.md]: renderCoreMd(date), [OUT.acr]: acr.text, [OUT.page]: renderPage(), tally: acr.tally };
+}
+
+const files = [OUT.json, OUT.md, OUT.acr, OUT.page, OUT.tsv, OUT.assessment];
 const have = Object.fromEntries(files.map((f) => [f, exists(f) ? read(f) : null]));
 const candidateDate = prevDate || today;
 let out = build(candidateDate);

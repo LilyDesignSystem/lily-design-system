@@ -1,34 +1,31 @@
 # WAI-ARIA assessment of the full catalog — Lily Design System™
 
-_Measured 2026-11-06 across all 609 components, and remeasured the same day after 90 `-view` components stopped using `aria-label` ([P25-T1](../tasks.md)). Per-component data: [aria-assessment.tsv](aria-assessment.tsv). Work
+_Measured across all 609 components, with the tables generated from the tests ([P25](../tasks.md)). Per-component data: [aria-assessment.tsv](aria-assessment.tsv). Work
 that follows from it: [tasks.md](../tasks.md) Phase 25._
 
-**Verdict: Lily is not WAI-ARIA compliant, and no component can yet be shown to be.** No screen reader has been used on any component, 24
-components have a confirmed axe failure, and 424 have incomplete keyboard or ARIA test evidence. WAI-ARIA has no certification; this is a
+**Verdict: Lily is not WAI-ARIA compliant, and no component can yet be shown to be.** No screen reader has been used on any component, and most have incomplete keyboard or ARIA test evidence, per the tables below, which `bin/generate-core` keeps current. WAI-ARIA has no certification; this is a
 self-assessment of evidence, not an audit.
-
-> **Update, 2026-11-06, later:** the figures below predate P25-T2, T3, T4, T14 and T15. A new `e2e/axe-sweep.spec.ts` finds no WCAG A or AA failure in `<main>` on any of the 609 Nunjucks pages, with popups closed, and no contrast failure in the default or dark theme, so bands 1 and 4 are out of date. The verdict stands: no screen reader has been used, and the key and ARIA evidence gaps are unchanged. See [tasks.md](../tasks.md).
 
 ## Result
 
 Each component is in the first band it falls into, so the bands add up to 609.
 
+<!-- BEGIN generated: bin/generate-core -->
 | Band                              | Components | What it means                                                                      |
 | --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
-| 1. axe failure                    | 24         | A WCAG A or AA rule failed on its live Nunjucks page, excluding colour contrast    |
-| 2. Key evidence incomplete        | 133        | Its contract names keys, and fewer than eight libraries have a test that sends one |
-| 3. ARIA evidence incomplete       | 291        | Its contract names ARIA, and fewer than eight libraries assert it                  |
-| 4. Contrast unconfirmed           | 2          | Evidence complete, but axe reported colour contrast, which this run cannot confirm |
-| 5. Automated evidence complete    | 159        | Nothing above. This is a floor, not a pass                                         |
-| Screen-reader evidence, all bands | **0**      | 0 of 222 matrix cells filled. Only 40 components have a row                        |
+| 1. axe failure                    | 0          | Listed in `e2e/axe-sweep.allow.json`: a WCAG A or AA rule fails on its Nunjucks page |
+| 2. Key evidence incomplete        | 119        | Its contract names keys, and fewer than eight libraries have a test that sends one |
+| 3. ARIA evidence incomplete       | 312        | Its contract names ARIA, and fewer than eight libraries assert it                  |
+| 4. Automated evidence complete    | 178        | Nothing above. This is a floor, not a pass                                         |
 
 | Measure                                                   | Result     |
 | --------------------------------------------------------- | ---------- |
-| Key contracts with a key test in all eight libraries      | 37 of 180  |
-| Custom-key widgets (arrows, Home, End, Escape), all eight | 28 of 86   |
+| Key contracts with a key test in all eight libraries      | 37 of 156  |
+| Custom-key widgets (arrows, Home, End, Escape), all eight | 30 of 87   |
 | ARIA contracts asserted in all eight libraries            | 141 of 526 |
 | End-to-end evidence in Chromium, Firefox and WebKit       | 45 of 609  |
-| No keyboard or ARIA contract at all                       | 71 of 609  |
+| No keyboard or ARIA contract at all                       | 72 of 609  |
+<!-- END generated: bin/generate-core -->
 
 The custom-key row matters most: those are the widgets where script, not the browser, provides the behaviour.
 
@@ -80,8 +77,8 @@ Of the 86 custom-key widgets, these have a key test in at most one library.
 
 ## Reproduce
 
-`bin/generate-core --assess out.json` gives the test evidence. The axe run was a throwaway Playwright spec over `components.tsv` in `lily-design-system-nunjucks-eleventy-examples`,
-not committed; P25-T10 makes it permanent.
+`bin/generate-core` writes the tables above and `aria-assessment.tsv` from the tests, and `--check` (in `bin/test`) fails when they are stale. Band 1 comes from
+`lily-design-system-nunjucks-eleventy-examples/e2e/axe-sweep.allow.json`; that spec runs axe on all 609 pages, with popups forced open, and contrast in the default and dark themes.
 
 ---
 
