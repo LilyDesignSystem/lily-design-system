@@ -1,0 +1,84 @@
+#!/usr/bin/env node
+// bin/check-aria-baseline — HTML and Blazor roots against what Svelte renders (tasks.md P25-T7).
+//
+// shared/aria-baseline.json records each Svelte root's role and aria-* names. Five catalogs compare with it in their render
+// sweeps. HTML is static templates and Blazor has no sweep, so this reads their source, on the element carrying the component's
+// class. A value Blazor computes (role="@…") counts as present. bin/check-aria-baseline.allow.json lists the differences with
+// a reason; a new one fails, and so does a listed one that is fixed, so the list can only shrink.
+//
+// Usage: bin/check-aria-baseline [--quiet] [--baseline]
+//        --baseline   print an allow-list for the current differences (edit the reasons!)
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const quiet = process.argv.includes("--quiet");
+const baselineMode = process.argv.includes("--baseline");
+const allow = JSON.parse(fs.readFileSync(path.join(__dirname, "check-aria-baseline.allow.json"), "utf-8"));
+const baseline = JSON.parse(fs.readFileSync(path.join(top, "shared/aria-baseline.json"), "utf-8"));
+
+const read = (...parts) => {
+  const file = path.join(top, ...parts);
+  return fs.existsSync(file) ? fs.readFileSync(file, "utf-8") : "";
+};
+const squash = (slug) => slug.replace(/-/g, "");
+const want = new Map(Object.entries(baseline).map(([slug, root]) => [squash(slug), root]));
+
+const rows = read("components.tsv")
+  .split("\n")
+  .filter(Boolean)
+  .map((line) => line.split("\t"));
+
+// The attributes of the element whose class list starts with the slug. HTML attribute values hold no `>`, and Blazor's quotes nest.
+const htmlRoot = (source, slug) =>
+  source.match(new RegExp(`<[a-zA-Z][\\w-]*\\b([^>]*?class="${slug}[\\s"][^>]*)>`))?.[1] ?? null;
+const blazorRoot = (source, slug) =>
+  source.match(new RegExp(`<[a-zA-Z][\\w-]*\\b((?:[^>"]|"[^"]*")*?class="@\\(\\$"${slug}[\\s"{](?:[^>"]|"[^"]*")*?)>`, "s"))?.[1] ??
+  null;
+
+const found = {};
+let compared = 0;
+for (const [slug, name] of rows) {
+  const root = want.get(squash(slug));
+  if (!root) continue;
+  const html = read("lily-design-system-html-headless/components", `${slug}.html`)
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .split("<script")[0];
+  const blazor = read("lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components", `${name}.razor`)
+    .replace(/@\*[\s\S]*?\*@/g, "")
+    .split("@code")[0];
+  for (const [lib, attributes] of [
+    ["html", htmlRoot(html, slug)],
+    ["blazor", blazorRoot(blazor, slug)],
+  ]) {
+    if (attributes === null) continue;
+    compared += 1;
+    const role = attributes.match(/(?:^|\s)role="([^"]*)"/)?.[1] ?? null;
+    if (root.role !== role && !role?.startsWith("@")) found[`${lib} ${slug} role`] = `Svelte ${root.role}, here ${role}`;
+    for (const name of root.aria)
+      if (!new RegExp(`\\b${name}=`).test(attributes)) found[`${lib} ${slug} ${name}`] = "Svelte has it, this root does not";
+  }
+}
+
+if (baselineMode) {
+  console.log(JSON.stringify(Object.fromEntries(Object.keys(found).sort().map((key) => [key, "Not ported yet (tasks.md P25-T7)."])), null, 2));
+  process.exit(0);
+}
+
+let failures = 0;
+for (const [key, detail] of Object.entries(found)) {
+  if (allow[key]) continue;
+  console.log(`FAIL ${key}: ${detail}`);
+  failures += 1;
+}
+for (const key of Object.keys(allow)) {
+  if (key in found) continue;
+  console.log(`FAIL stale allow-list entry (fixed now): ${key}`);
+  failures += 1;
+}
+if (failures) {
+  console.log(`\n${failures} problem(s). Fix it, or list it with a reason in bin/check-aria-baseline.allow.json.`);
+  process.exit(1);
+}
+if (!quiet) console.log(`aria baseline: ${compared} HTML and Blazor roots compared, ${Object.keys(found).length} allow-listed`);

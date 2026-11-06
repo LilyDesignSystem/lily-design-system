@@ -5,7 +5,7 @@
     a loading indicator, such as text, or image, or animation
 *@
 
-<div class="@($"loading {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"loading {CssClass}".Trim())" aria-live="polite" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

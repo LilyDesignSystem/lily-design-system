@@ -5,7 +5,7 @@
     a kanban board table interactive grid for organizing items by status <table>
 *@
 
-<table class="@($"kanban-table {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</table>
+<table class="@($"kanban-table {CssClass}".Trim())" role="grid" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</table>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

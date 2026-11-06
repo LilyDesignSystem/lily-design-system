@@ -5,7 +5,7 @@
     a Gantt chart table interactive grid data cell for planning schedule visualization <td>
 *@
 
-<td class="@($"gantt-table-td {CssClass}".Trim())" role="grid" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</td>
+<td class="@($"gantt-table-td {CssClass}".Trim())" role="gridcell" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</td>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

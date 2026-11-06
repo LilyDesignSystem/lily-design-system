@@ -5,7 +5,7 @@
     a brief auto-dismissing notification message
 *@
 
-<div class="@($"toast {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"toast {CssClass}".Trim())" aria-live="polite" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

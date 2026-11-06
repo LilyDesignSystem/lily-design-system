@@ -5,7 +5,7 @@
     a data table interactive grid data cell for displaying and sorting tabular data <td>
 *@
 
-<td class="@($"data-table-td {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</td>
+<td class="@($"data-table-td {CssClass}".Trim())" role="gridcell" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</td>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

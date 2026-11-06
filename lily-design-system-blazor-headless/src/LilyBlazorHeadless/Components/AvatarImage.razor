@@ -5,7 +5,7 @@
     an avatar indicator inside image such as a user photo
 *@
 
-<img class="@($"avatar-image {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes" />
+<img class="@($"avatar-image {CssClass}".Trim())" aria-hidden="true" aria-label="@Label" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter] public string Label { get; set; } = "";

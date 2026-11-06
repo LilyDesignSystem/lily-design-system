@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<table><tr><td class="calendar-table-td" aria-label="Example">\n    <!-- Consumer provides child content -->\n</td></tr></table>';
+    '<table><tr><td class="calendar-table-td" role="gridcell" aria-label="Example">\n    <!-- Consumer provides child content -->\n</td></tr></table>';
 
 const meta = {
     title: "Headless/Calendar Table TD",

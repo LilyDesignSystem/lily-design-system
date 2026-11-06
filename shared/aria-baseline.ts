@@ -22,8 +22,11 @@ export const rootAria = (el: Element): RootAria => ({
 /** "slug role" or "slug aria-x" for each way `seen` falls short of the baseline. A component the sweep could not render is skipped. */
 export function ariaDiffs(baseline: Seen, seen: Seen): string[] {
     const diffs: string[] = [];
+    // A name such as RhifYGwasanaeth does not kebab back to its slug, so match without the hyphens.
+    const squash = (slug: string) => slug.replace(/-/g, "");
+    const bySquashed = new Map(Object.entries(seen).map(([slug, root]) => [squash(slug), root]));
     for (const [slug, want] of Object.entries(baseline)) {
-        const got = seen[slug];
+        const got = bySquashed.get(squash(slug));
         if (!got) continue;
         if (want.role !== got.role) diffs.push(`${slug} role`);
         for (const name of want.aria) if (!got.aria.includes(name)) diffs.push(`${slug} ${name}`);

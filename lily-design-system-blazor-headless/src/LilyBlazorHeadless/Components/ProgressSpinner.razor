@@ -5,7 +5,7 @@
     an indeterminate spinning progress indicator
 *@
 
-<div class="@($"progress-spinner {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"progress-spinner {CssClass}".Trim())" aria-live="polite" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

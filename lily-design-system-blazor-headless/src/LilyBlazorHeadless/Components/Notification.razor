@@ -5,7 +5,7 @@
     a brief message about an event or update
 *@
 
-<div class="@($"notification {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"notification {CssClass}".Trim())" aria-live="polite" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

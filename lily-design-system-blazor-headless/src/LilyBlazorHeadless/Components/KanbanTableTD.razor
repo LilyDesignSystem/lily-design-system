@@ -5,7 +5,7 @@
     kanban board table interactive grid data cell for organizing items by status <td>
 *@
 
-<td class="@($"kanban-table-td {CssClass}".Trim())" role="listitem" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</td>
+<td class="@($"kanban-table-td {CssClass}".Trim())" role="gridcell" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</td>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
