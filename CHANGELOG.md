@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The key check reads pattern tests — 2026-11-06
+
+- **Fixed:** `bin/check-coverage` did not count a `runPattern` test as sending keys, so 65 allow-list entries were false, and said components such as `splitter` handled no keys. The list falls from 359 to 294.
+
 ## Native keys are shown in a browser — 2026-11-06
 
 - **Added:** `e2e/native-keys.spec.ts` in the Nunjucks app sends the keys the contracts say the browser handles, on eight components. jsdom and bUnit do not run them, so these claims had never been tested.

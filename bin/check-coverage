@@ -204,6 +204,16 @@ const APG_KEYS =
 // What a test that sends a key looks like in each catalog's test style (testing-library, a raw KeyboardEvent,
 // wdio's browser.keys, Playwright's keyboard.press, bUnit's KeyDown).
 const SENDS_KEY = /key:\s*["'`]|KeyboardEvent|keyboard\.press|\.keyboard\(|browser\.keys|\.keys\(|KeyDown\(|\bpress\(|keydown/i;
+// The pattern test beside a component's test, by each catalog's naming.
+const patternTests = (c, fw) => {
+  const file = fw.test(c);
+  const dir = file.slice(0, file.lastIndexOf("/"));
+  return [
+    file.replace(/\.(test|spec)\./, ".pattern.$1."),
+    `${dir}/${c.slug}.pattern.test.js`,
+    `lily-design-system-blazor-headless/tests/js/${c.slug}.pattern.test.mjs`,
+  ].filter((p) => fw.id === "blazor" || !p.includes("blazor-headless/tests/js"));
+};
 const keyContract = components.filter((c) => {
   const file = `components/${c.slug}/AGENTS.md`;
   if (!exists(file)) return false;
@@ -222,6 +232,8 @@ for (const fw of FRAMEWORKS) {
   for (const c of keyContract) {
     const file = fw.test(c);
     if (exists(file) && SENDS_KEY.test(read(file))) continue;
+    // A pattern test sends the keys of a shared contract through runPattern, so a component with one is tested.
+    if (patternTests(c, fw).some((p) => exists(p) && /\brunPattern\(/.test(read(p)))) continue;
     keysMissing++;
     const key = `${fw.id}:${c.slug}`;
     keysBaseline[key] = "keyboard contract, no test that sends a key yet (P12-T5 baseline, 2026-10-30)";
