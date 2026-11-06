@@ -62,7 +62,7 @@ The consumer provides all CSS styling. The component renders with a `.summary-li
 
 ## Testing
 
-- Verify the component renders a `<li>` element with class `summary-list-item`
+- Verify the component renders a `<div>` element with class `summary-list-item`
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -76,7 +76,7 @@ SummaryListItem is designed to be used as a child of SummaryList. The SummaryLis
 
 ## Related components
 
-- `summary-list` — an ordered list of key-value summary pairs
+- `summary-list` — a description list of key-value summary pairs
 
 ## References
 

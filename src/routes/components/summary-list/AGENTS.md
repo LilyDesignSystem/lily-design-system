@@ -4,7 +4,7 @@
 
 - Component: summary-list
 - PascalCase: SummaryList
-- Description: an ordered list of key-value summary pairs
+- Description: a description list of key-value summary pairs
 - HTML tag: <ol>
 - CSS class: .summary-list
 - Interactive: no
