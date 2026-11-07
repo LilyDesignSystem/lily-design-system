@@ -435,3 +435,42 @@ export function attachFileTree(tree) {
         stops.forEach((stop) => stop());
     };
 }
+
+/** Enter sends and Shift+Enter is a line break, but Enter during IME composition is the IME's. The button follows the text. */
+export function attachChatComposer(form) {
+    const input = form.querySelector(".chat-composer-input");
+    const button = form.querySelector(".chat-composer-button");
+    const min = number(form, "data-min-rows", 1);
+    const max = number(form, "data-max-rows", 8);
+    const busy = () => button.getAttribute("data-state") === "stop";
+    const ready = () => !input.disabled && !busy() && input.value.trim() !== "";
+    const fit = () => {
+        input.rows = clamp(input.value.split("\n").length, min, max);
+        if (!busy() && !input.disabled) button.disabled = !ready();
+    };
+    const stops = [
+        listen(input, "input", fit),
+        listen(input, "keydown", (event) => {
+            if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+            event.preventDefault();
+            if (ready()) form.requestSubmit();
+        }),
+        listen(button, "click", () => {
+            if (busy()) emit(form, "stop");
+        }),
+    ];
+    return () => stops.forEach((stop) => stop());
+}
+
+/** The button flips aria-expanded and data-expanded and swaps its label. The clamp is the consumer's CSS. */
+export function attachShowMore(root) {
+    const button = root.querySelector(".show-more-button");
+    const content = root.querySelector(".show-more-content");
+    if (!button || !content) return () => {};
+    return listen(button, "click", () => {
+        const expanded = button.getAttribute("aria-expanded") !== "true";
+        button.setAttribute("aria-expanded", String(expanded));
+        content.setAttribute("data-expanded", String(expanded));
+        button.textContent = button.getAttribute(expanded ? "data-less-label" : "data-more-label");
+    });
+}

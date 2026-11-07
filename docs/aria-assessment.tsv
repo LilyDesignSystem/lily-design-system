@@ -595,7 +595,7 @@ tool-call-input	automated evidence complete	no	no	no	yes	1	8	no	-
 tool-call-output	automated evidence complete	no	no	no	yes	1	8	no	-
 tool-call-error	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
 mark	ARIA evidence incomplete	no	no	no	yes	1	0	no	-
-chat-composer	key evidence incomplete	no	yes	no	yes	6	5	no	-
+chat-composer	key evidence incomplete	no	yes	no	yes	7	5	no	-
 heatmap-chart-with-year-of-days	automated evidence complete	no	no	no	yes	8	8	no	-
 middle-truncation	automated evidence complete	no	no	no	yes	1	8	yes	-
 wheel-picker	automated evidence complete	no	yes	yes	yes	8	8	no	-

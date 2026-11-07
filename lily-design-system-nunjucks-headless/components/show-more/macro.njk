@@ -4,10 +4,8 @@
   HTML tag: <div> containing a content <div> and a <button>
   CSS class: show-more (sub-classes show-more-content, show-more-button)
   Behavior: content stays in the accessibility tree; the clamp is consumer
-    CSS keyed on [data-expanded]. Nunjucks ships no JavaScript, so the
-    button carries data-module="show-more" and the consumer's JS flips
-    aria-expanded + data-expanded (and swaps the label) — the one deviation
-    from the Svelte canonical, which toggles itself.
+    CSS keyed on [data-expanded]. components/widget-init.js flips aria-expanded
+    and data-expanded and swaps the label.
 
   Params:
     moreLabel   string   Button text while collapsed. Required.

@@ -18,6 +18,7 @@ import {
     attachTreePopup,
 } from "./widget-keys.js";
 import {
+    attachChatComposer,
     attachDial,
     attachEditable,
     attachEditableForm,
@@ -26,6 +27,7 @@ import {
     attachListbox,
     attachPinInput,
     attachScrollBar,
+    attachShowMore,
     attachSliderButton,
     attachTileMap,
     attachTour,
@@ -79,6 +81,8 @@ export function autoInit(doc = document) {
             return () => tree.dispose();
         }),
         ...all(".file-tree", attachFileTree),
+        ...all(".chat-composer", attachChatComposer),
+        ...all(".show-more", attachShowMore),
         ...all("dialog[data-modal][open]", showModal),
         ...all(".navigation-menu[data-overflow='true']", (el) => {
             const overflow = setupOverflowNavigation(el);
