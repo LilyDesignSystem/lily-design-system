@@ -31,6 +31,7 @@
 //   - components/data-table/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { attachGrid } from "../lib/widget-keys.js";
 
 const HANDLED = new Set(["label", "caption"]);
 
@@ -55,5 +56,6 @@ export class DataTable extends HTMLElement {
 
         moveChildrenInto(this, table);
         this.appendChild(table);
+        attachGrid(table);
     }
 }

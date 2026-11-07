@@ -1,7 +1,7 @@
 // Family: selection. lilyListbox (listbox), lilySegmentGroup (segment-group),
 // lilyAutosuggest (autosuggest),
-// lilyCombobox (combobox), lilyCommand (command), and the five rating /
-// status pickers, which are native radios and <select> bound with x-model.
+// lilyCombobox (combobox), lilyCommand (command), and the five rating and
+// status pickers, which are native radios bound with x-model.
 
 const press = `const press = async (target, key, init = {}) => {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
@@ -51,29 +51,6 @@ ${values.map((v) => `  <label class="${slug}-button"><input type="radio" name="$
     await mount("${slug}");
     el().disabled = true;
     expect(radios().every((r) => r.matches(":disabled"))).toBe(true);
-  });`,
-});
-
-const selectPicker = (slug, values) => ({
-    tag: "select",
-    keyboard: "native select: arrows choose, Enter/Space opens, Escape closes",
-    aria: "native select named by aria-label; x-model keeps the chosen value in data-value",
-    markup: `<select class="${slug}" aria-label="" x-data="{ value: '${values[0]}' }" x-model="value" :data-value="value">
-${values.map((v) => `  <option value="${v}"><!-- Consumer provides label --></option>`).join("\n")}
-</select>`,
-    sel: `select.${slug}`,
-    test: `
-  it("offers ${values.length} options, the first selected", async () => {
-    await mount("${slug}");
-    expect([...el().options].map((o) => o.value)).toEqual(${JSON.stringify(values)});
-    expect(el().value).toBe("${values[0]}");
-    expect(el().getAttribute("data-value")).toBe("${values[0]}");
-  });
-  it("choosing an option updates data-value", async () => {
-    await mount("${slug}");
-    el().value = "${values[2]}";
-    el().dispatchEvent(new Event("change", { bubbles: true })); await tick();
-    expect(el().getAttribute("data-value")).toBe("${values[2]}");
   });`,
 });
 
@@ -413,12 +390,16 @@ ${press}`,
         "nps",
         "arrows move between radios (native radio group); Space selects; Tab leaves the group",
     ),
-    "red-amber-green-picker": selectPicker("red-amber-green-picker", ["red", "amber", "green"]),
-    "red-orange-yellow-green-blue-picker": selectPicker("red-orange-yellow-green-blue-picker", [
-        "red",
-        "orange",
-        "yellow",
-        "green",
-        "blue",
-    ]),
+    "red-amber-green-picker": radioPicker(
+        "red-amber-green-picker",
+        ["red", "amber", "green"],
+        "status",
+        "Tab focuses the selected radio; arrows move between radios; Space selects",
+    ),
+    "red-orange-yellow-green-blue-picker": radioPicker(
+        "red-orange-yellow-green-blue-picker",
+        ["red", "orange", "yellow", "green", "blue"],
+        "status",
+        "Tab focuses the selected radio; arrows move between radios; Space selects",
+    ),
 };

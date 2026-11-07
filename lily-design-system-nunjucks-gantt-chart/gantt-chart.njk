@@ -459,7 +459,7 @@
 {%- set theadHtml = ganttTableThead({ html: theadRowHtml }) -%}
 {%- set bodyRowsHtml = _ganttChartRowsHtml("", 0, tasks, labels, id, dtpLabelsPresent, taskIds, fieldDefs, opts.editableFields, opts.readonly) -%}
 {%- set tbodyHtml = ganttTableTbody({ html: bodyRowsHtml }) -%}
-{%- set tableHtml = ganttTable({ label: opts.label, caption: opts.caption, attributes: {"role": "grid"}, html: (theadHtml ~ tbodyHtml) | safe }) -%}
+{%- set tableHtml = ganttTable({ label: opts.label, caption: opts.caption, attributes: {"role": "grid", "data-consumer-keys": "true"}, html: (theadHtml ~ tbodyHtml) | safe }) -%}
 {#- The scroll area is structural: a virtualized chart gets a fixed height and the client keeps only the rows in view. -#}
 {%- if opts.virtualize -%}
   {%- set scrollHtml = ('<div class="gantt-chart-scroll" style="height: ' ~ opts.virtualize.height ~ 'px; overflow: auto" data-lily-gantt-chart-virtualize data-row-height="' ~ opts.virtualize.rowHeight ~ '" data-overscan="' ~ (opts.virtualize.overscan | default(3)) ~ '">' ~ tableHtml ~ '</div>') | safe -%}

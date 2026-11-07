@@ -1,61 +1,60 @@
 <script lang="ts">
+    import { untrack } from "svelte";
     // RedOrangeYellowGreenBluePicker component
     //
-    // A headless ROYGB (Red/Orange/Yellow/Green/Blue) status input that renders
-    // a native <select> element with five color-coded status options. Extends the
-    // traditional RAG model with additional orange and blue levels for more granular
-    // status reporting in risk registers, dashboards, and multi-tier alert systems.
+    // A picker for a red/orange/yellow/green/blue status: a <fieldset role="radiogroup"> of native radios, one per status (red, orange, yellow, green, blue), as
+    // five-star-rating-picker is. The radios give the keys, form submission and form reset natively.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, required. Accessible label for the select element.
-    //   value — string, default "". Currently selected status value; bindable.
-    //   ...restProps — additional HTML attributes spread onto the <select>.
+    //   label — string, required. Accessible name for the group via aria-label.
+    //   statusLabel — (status: string) => string, required. Each option's visible text; without it the option shows
+    //     its value, so a consumer always supplies the words.
+    //   value — string, default "". The checked status ("" = none); bindable via bind:value.
+    //   name — string, default "status". Radio group name for form submission.
+    //   disabled — boolean, default false. Whether the entire group is disabled.
+    //   ...restProps — additional HTML attributes spread onto the fieldset.
     //
     // Syntax:
-    //   <RedOrangeYellowGreenBluePicker label="Risk level" bind:value={level} />
+    //   <RedOrangeYellowGreenBluePicker label="Risk level" statusLabel={(s) => labels[s]} bind:value />
     //
-    // Examples:
-    //   <!-- Pre-selected value -->
-    //   <RedOrangeYellowGreenBluePicker label="Alert status" value="green" />
-    //
-    //   <!-- Two-way binding with extra attributes -->
-    //   <RedOrangeYellowGreenBluePicker label="Project health" bind:value={level} data-dashboard="main" />
-    //
-    // Keyboard:
-    //   - Arrow Up/Down: navigate options (native select behavior)
-    //   - Enter/Space: open the dropdown (native select behavior)
-    //   - Escape: close the dropdown (native select behavior)
+    // Keyboard (native radios):
+    //   - Tab: focus the checked radio, or the first if none is checked
+    //   - ArrowDown / ArrowRight: move to and check the next radio
+    //   - ArrowUp / ArrowLeft: move to and check the previous radio
+    //   - Space: check the focused radio
     //
     // Accessibility:
-    //   - aria-label on the <select> for screen reader context
-    //   - Native <select> provides implicit combobox/listbox role
-    //   - WCAG 2.2 AAA: properly labeled for assistive technology
+    //   - role="radiogroup" on the fieldset, named by aria-label
+    //   - Each radio is named by its visible text, so status is never colour alone (WCAG 1.4.1)
     //
     // Internationalization:
-    //   - The label prop externalizes the accessible label string
-    //   - Option display text ("Red", "Orange", etc.) is hardcoded; wrap or fork to localize
-    //
-    // Claude rules:
-    //   - Headless: no CSS, no styles — consumer provides all styling
-    //   - Value uses $bindable() for two-way binding with bind:value
-    //   - Options are fixed to five values: red, orange, yellow, green, blue
+    //   - No English: the label and every option's text come from the consumer
     //
     // References:
+    //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
     //   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
-
     import { warnMissingName } from "../dev-warning";
 
     let {
         class: className = "",
         label,
         value = $bindable(""),
+        name = "status",
+        statusLabel,
+        disabled = false,
         ...restProps
     }: {
-        /** Accessible label for the select element */
+        /** Accessible name for the group via aria-label. */
         label: string;
-        /** Currently selected ROYGB status value, bindable */
+        /** The checked status ("" = none). Bindable via bind:value. */
         value?: string;
+        /** Radio group name for form submission. */
+        name?: string;
+        /** Each option's visible text, e.g. (status) => labels[status]. No English default. */
+        statusLabel: (status: string) => string;
+        /** Whether the entire group is disabled. */
+        disabled?: boolean;
         [key: string]: unknown;
     } = $props();
 
@@ -67,18 +66,54 @@
             restProps["aria-labelledby"],
         ),
     );
+
+    const statuses = ["red", "orange", "yellow", "green", "blue"];
+
+    let root: HTMLFieldSetElement | undefined = $state();
+    const initialValue = untrack(() => value);
+    $effect(() => {
+        const form = root?.form ?? root?.closest("form");
+        if (!form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented || !root) return;
+                value = initialValue;
+                for (const input of root.querySelectorAll<HTMLInputElement>(
+                    'input[type="radio"]',
+                )) {
+                    input.checked = input.value === initialValue;
+                }
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    });
 </script>
 
-<!-- RedOrangeYellowGreenBluePicker: a select with Red/Orange/Yellow/Green/Blue status options -->
-<select
+<!-- RedOrangeYellowGreenBluePicker.svelte -->
+<fieldset
+    bind:this={root}
     class={`red-orange-yellow-green-blue-picker ${className}`}
+    role="radiogroup"
     aria-label={label}
-    bind:value
+    {disabled}
     {...restProps}
 >
-    <option value="red">Red</option>
-    <option value="orange">Orange</option>
-    <option value="yellow">Yellow</option>
-    <option value="green">Green</option>
-    <option value="blue">Blue</option>
-</select>
+    {#each statuses as status}
+        <label>
+            <input
+                type="radio"
+                {name}
+                value={status}
+                checked={value === status}
+                onchange={() => (value = status)}
+            />
+            {statusLabel ? statusLabel(status) : status}
+        </label>
+    {/each}
+</fieldset>

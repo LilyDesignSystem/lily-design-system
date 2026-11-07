@@ -6,6 +6,11 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class CalendarMonthTableTests : TestContext
 {
+    public CalendarMonthTableTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+    }
+
     private IRenderedComponent<CalendarMonthTable> Render(Action<Bunit.ComponentParameterCollectionBuilder<CalendarMonthTable>>? extra = null) =>
         RenderComponent<CalendarMonthTable>(p => { p.Add(x => x.Label, "January 2025").AddChildContent("<tbody><tr><td>1</td></tr></tbody>"); extra?.Invoke(p); });
 

@@ -1,7 +1,8 @@
-// Family: containers whose HTML snippet carries a script that the Alpine snippet does without, because the contract's
-// keys are the browser's own: horizontal-scroller (a focusable region the arrow keys scroll), task-bar (Tab between the
-// consumer's controls) and icon-button (a native button). The HTML scripts only add extras (smooth scrolling by a step,
-// arrow-key focus, toggling aria-pressed the consumer owns), so these snippets are markup.
+// Family: containers whose HTML snippet carries a script that the Alpine snippet does without: horizontal-scroller (a
+// focusable region the arrow keys scroll), task-bar (Tab between the consumer's controls) and icon-button (a native
+// button), whose keys are the browser's own, and the tables with role="grid", whose keys are x-lily-grid's. The HTML
+// scripts only add extras (smooth scrolling by a step, arrow-key focus, toggling aria-pressed the consumer owns), or
+// inline the shared grid keys, so these snippets are markup.
 
 const usesTag = (slug, tag) => `
   it("uses the ${tag} element", async () => {
@@ -42,6 +43,169 @@ export default {
 </table>`,
         sel: "table.kanban-table",
         test: usesTag("kanban-table", "table"),
+    },
+
+    "data-table": {
+        tag: 'table with role="grid"',
+        keyboard:
+            "arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown move between cells; one tab stop; Enter or F2 goes to the first control in a cell and Escape comes back",
+        aria: 'role="grid" with required aria-label; set data-consumer-keys on the root to run your own keys',
+        markup: `<table
+  class="data-table"
+  role="grid"
+  aria-label=""
+  x-lily-grid
+>
+  <!-- Consumer provides thead, tbody, tfoot -->
+</table>`,
+        sel: "table.data-table",
+        test: usesTag("data-table", "table"),
+    },
+
+    "calendar-table": {
+        tag: 'table with role="grid"',
+        keyboard:
+            "arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown move between cells; one tab stop; Enter or F2 goes to the first control in a cell and Escape comes back",
+        aria: 'role="grid" with required aria-label; set data-consumer-keys on the root to run your own keys',
+        markup: `<table
+  class="calendar-table"
+  role="grid"
+  aria-label=""
+  x-lily-grid
+>
+  <!-- Consumer provides thead, tbody, tfoot -->
+</table>`,
+        sel: "table.calendar-table",
+        test: usesTag("calendar-table", "table"),
+    },
+
+    "calendar-year-table": {
+        tag: 'table role="grid"',
+        keyboard:
+            "arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown move between cells; one tab stop; Enter or F2 goes to the first control in a cell and Escape comes back",
+        aria: 'role="grid" with required aria-label; set data-consumer-keys on the root to run your own keys',
+        markup: `<table
+  class="calendar-year-table"
+  role="grid"
+  aria-label="2025"
+  data-view="year"
+  x-lily-grid
+>
+  <caption>
+    Visible caption (optional)
+  </caption>
+  <!-- Consumer provides thead, tbody, tfoot: reuse the calendar-table-* sub-elements
+       (calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-row,
+       calendar-table-th, calendar-table-td). There are no calendar-year-table-* sub-elements. -->
+  <tbody class="calendar-table-body">
+    <tr class="calendar-table-row">
+      <td class="calendar-table-td">1</td>
+    </tr>
+  </tbody>
+</table>`,
+        sel: "table.calendar-year-table",
+        test: usesTag("calendar-year-table", "table"),
+    },
+
+    "calendar-month-table": {
+        tag: 'table role="grid"',
+        keyboard:
+            "arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown move between cells; one tab stop; Enter or F2 goes to the first control in a cell and Escape comes back",
+        aria: 'role="grid" with required aria-label; set data-consumer-keys on the root to run your own keys',
+        markup: `<table
+  class="calendar-month-table"
+  role="grid"
+  aria-label="January 2025"
+  data-view="month"
+  x-lily-grid
+>
+  <caption>
+    Visible caption (optional)
+  </caption>
+  <!-- Consumer provides thead, tbody, tfoot: reuse the calendar-table-* sub-elements
+       (calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-row,
+       calendar-table-th, calendar-table-td). There are no calendar-month-table-* sub-elements. -->
+  <tbody class="calendar-table-body">
+    <tr class="calendar-table-row">
+      <td class="calendar-table-td">1</td>
+    </tr>
+  </tbody>
+</table>`,
+        sel: "table.calendar-month-table",
+        test: usesTag("calendar-month-table", "table"),
+    },
+
+    "calendar-week-table": {
+        tag: 'table role="grid"',
+        keyboard:
+            "arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown move between cells; one tab stop; Enter or F2 goes to the first control in a cell and Escape comes back",
+        aria: 'role="grid" with required aria-label; set data-consumer-keys on the root to run your own keys',
+        markup: `<table
+  class="calendar-week-table"
+  role="grid"
+  aria-label="Week of 6 January 2025"
+  data-view="week"
+  x-lily-grid
+>
+  <caption>
+    Visible caption (optional)
+  </caption>
+  <!-- Consumer provides thead, tbody, tfoot: reuse the calendar-table-* sub-elements
+       (calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-row,
+       calendar-table-th, calendar-table-td). There are no calendar-week-table-* sub-elements. -->
+  <tbody class="calendar-table-body">
+    <tr class="calendar-table-row">
+      <td class="calendar-table-td">1</td>
+    </tr>
+  </tbody>
+</table>`,
+        sel: "table.calendar-week-table",
+        test: usesTag("calendar-week-table", "table"),
+    },
+
+    "calendar-day-table": {
+        tag: 'table role="grid"',
+        keyboard:
+            "arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown move between cells; one tab stop; Enter or F2 goes to the first control in a cell and Escape comes back",
+        aria: 'role="grid" with required aria-label; set data-consumer-keys on the root to run your own keys',
+        markup: `<table
+  class="calendar-day-table"
+  role="grid"
+  aria-label="Monday 6 January 2025"
+  data-view="day"
+  x-lily-grid
+>
+  <caption>
+    Visible caption (optional)
+  </caption>
+  <!-- Consumer provides thead, tbody, tfoot: reuse the calendar-table-* sub-elements
+       (calendar-table-head, calendar-table-body, calendar-table-foot, calendar-table-row,
+       calendar-table-th, calendar-table-td). There are no calendar-day-table-* sub-elements. -->
+  <tbody class="calendar-table-body">
+    <tr class="calendar-table-row">
+      <td class="calendar-table-td">1</td>
+    </tr>
+  </tbody>
+</table>`,
+        sel: "table.calendar-day-table",
+        test: usesTag("calendar-day-table", "table"),
+    },
+
+    "gantt-table": {
+        tag: 'table with role="grid"',
+        keyboard:
+            "arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown move between cells; one tab stop; Enter or F2 goes to the first control in a cell and Escape comes back",
+        aria: 'role="grid" with required aria-label; set data-consumer-keys on the root to run your own keys',
+        markup: `<table
+  class="gantt-table"
+  role="grid"
+  aria-label=""
+  x-lily-grid
+>
+  <!-- Consumer provides thead, tbody, tfoot -->
+</table>`,
+        sel: "table.gantt-table",
+        test: usesTag("gantt-table", "table"),
     },
 
     "action-bar": {

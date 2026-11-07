@@ -1137,6 +1137,10 @@
       "title": "CalendarDayTable",
       "description": "A calendar grid showing the time slots of one day.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "tables"
       ],
@@ -1154,6 +1158,10 @@
       "title": "CalendarMonthTable",
       "description": "A calendar grid showing the days of one month.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "tables"
       ],
@@ -1188,6 +1196,10 @@
       "title": "CalendarTable",
       "description": "A calendar table interactive grid for managing dates, days, etc. <table>.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "tables"
       ],
@@ -1307,6 +1319,10 @@
       "title": "CalendarWeekTable",
       "description": "A calendar grid showing the seven days of one week.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "tables"
       ],
@@ -1324,6 +1340,10 @@
       "title": "CalendarYearTable",
       "description": "A calendar grid showing the twelve months of one year.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "tables"
       ],
@@ -2622,6 +2642,10 @@
       "title": "DataTable",
       "description": "A data table interactive grid for displaying and sorting tabular data <table>.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "tables"
       ],
@@ -4192,6 +4216,10 @@
       "title": "GanttTable",
       "description": "A Gantt chart table interactive grid for planning schedule visualization <table>.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "tables"
       ],

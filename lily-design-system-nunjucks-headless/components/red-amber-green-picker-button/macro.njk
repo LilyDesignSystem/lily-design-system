@@ -8,8 +8,8 @@
 
   Params:
     status       string   "red" | "amber" | "green". Required.
-    text         string   Visible label. Defaults to the capitalised
-                          status.
+    text         string   Visible label. Defaults to label, then the status
+                          value: there is no English default.
     checked      boolean  Current selection state. Default false.
     disabled     boolean
     label        string   aria-label override.
@@ -24,8 +24,7 @@
     {{ redAmberGreenPickerButton({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro redAmberGreenPickerButton(params) -%}
-{%- set defaultText = { red: "Red", amber: "Amber", green: "Green" } -%}
-{%- set text = params.text | default(defaultText[params.status]) -%}
+{%- set text = params.text | default(params.label) | default(params.status) -%}
 <button
   class="red-amber-green-picker-button{% if params.classes %} {{ params.classes }}{% endif %}"
   type="{{ params.type | default('button') }}"

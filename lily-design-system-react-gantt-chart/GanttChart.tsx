@@ -1454,6 +1454,7 @@ export function GanttChart({
             >
                 <GanttTable
                     label={label}
+                    data-consumer-keys="true"
                     caption={caption}
                     onKeyDown={onGridKeyDown}
                     onFocus={onGridFocus}

@@ -24,15 +24,14 @@ describe("red-orange-yellow-green-blue-picker-button", () => {
         }
     });
 
-    it("uses status name as default text", () => {
-        const { document } = render("red-orange-yellow-green-blue-picker-button", {
-            status: "orange",
-        });
-        expect(
-            document
-                .querySelector("button.red-orange-yellow-green-blue-picker-button")
-                .textContent.trim(),
-        ).toBe("Orange");
+    it("has no English default: the text is the label, else the status value", () => {
+        const text = (params) =>
+            render("red-orange-yellow-green-blue-picker-button", params)
+                .document.querySelector("button.red-orange-yellow-green-blue-picker-button")
+                .textContent.trim();
+        expect(text({ status: "orange" })).toBe("orange");
+        expect(text({ status: "orange", label: "Rouge" })).toBe("Rouge");
+        expect(text({ status: "orange", label: "Rouge", text: "R" })).toBe("R");
     });
 
     it("sets aria-checked and tabindex based on checked", () => {

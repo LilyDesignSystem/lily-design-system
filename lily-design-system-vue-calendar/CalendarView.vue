@@ -1495,6 +1495,7 @@ function buildCellView(d: string) {
         <CalendarTable
             v-else
             :label="label"
+            data-consumer-keys="true"
             class="calendar-view-table"
             @keydown="onGridKeydown"
         >

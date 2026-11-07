@@ -1,11 +1,11 @@
 # Red Amber Green Picker
 
 A RAG (Red/Amber/Green) picker is a UI/UX component that allows users to
-select a traffic-light status value from a dropdown. RAG status is one of the
+select a traffic-light status value from a group of radio buttons. RAG status is one of the
 most widely used status indicators in project management, dashboards, and
 reporting tools. Red indicates a critical problem that needs immediate
 attention, amber signals caution or minor issues, and green means everything is
-on track. The component renders as a select element with appropriate
+on track. The component renders as a group of native radios with appropriate
 accessibility attributes, providing native keyboard navigation and screen
 reader support. This headless component provides the semantic structure while
 allowing consumers to apply their own visual styling.
@@ -14,15 +14,19 @@ allowing consumers to apply their own visual styling.
 
 ## Implementation Notes
 
-- Renders as `<select aria-label={label}>` with three options: red, amber, green
-- The `value` prop is two-way binding
-- Uses native select keyboard navigation
+- Renders a `<fieldset role="radiogroup">` of three native radios, one per status: red, amber, green
+- Each option's text comes from the required `statusLabel(status)`: there is no English default
+- The `value` prop is two-way binding, and a form reset restores the starting value
+- Uses the native radio group's keyboard behaviour
 
 ## Props
 
-- `label`: string (required) -- accessible label for the select
-- `value`: string (default: "") -- currently selected status, bindable
-- `...restProps`: Any additional HTML attributes spread onto the select
+- `label`: string (required) -- accessible name for the group
+- `statusLabel`: (status: string) => string (required) -- each option's visible text
+- `value`: string (default: "") -- the checked status, bindable
+- `name`: string (default: "status") -- radio group name for form submission
+- `disabled`: boolean (default: false) -- disables the whole group
+- `...restProps`: Any additional HTML attributes spread onto the fieldset
 
 ## Options
 
@@ -32,92 +36,61 @@ allowing consumers to apply their own visual styling.
 
 ## Usage
 
-Risk assessment in a project dashboard:
+Project status, with the consumer's own words for each status:
 
-```html
-<form>
-  <fieldset>
-    <legend>Sprint 14 Status</legend>
-    <RedAmberGreenPicker label="Overall sprint health">
-      <RedAmberGreenPickerButton
-        value="red"
-        label="Red - Critical"
-        onclick="{handleSelect}"
-      />
-      <RedAmberGreenPickerButton
-        value="amber"
-        label="Amber - At risk"
-        selected
-        onclick="{handleSelect}"
-      />
-      <RedAmberGreenPickerButton
-        value="green"
-        label="Green - On track"
-        onclick="{handleSelect}"
-      />
-    </RedAmberGreenPicker>
-  </fieldset>
-</form>
-```
+```svelte
+<script>
+  const labels = { red: "Off track", amber: "At risk", green: "On track" };
+  let status = $state("amber");
+</script>
 
-Compliance tracking with pre-selected status:
-
-```html
-<RedAmberGreenPicker label="GDPR compliance status">
-  <RedAmberGreenPickerButton
-    value="red"
-    label="Red - Non-compliant"
-    onclick="{handleSelect}"
-  />
-  <RedAmberGreenPickerButton
-    value="amber"
-    label="Amber - Partial"
-    onclick="{handleSelect}"
-  />
-  <RedAmberGreenPickerButton
-    value="green"
-    label="Green - Compliant"
-    selected
-    onclick="{handleSelect}"
-  />
-</RedAmberGreenPicker>
-```
-
-Health dashboard with data attributes:
-
-```html
 <RedAmberGreenPicker
-  label="Patient alert level"
-  data-patient-id="P-1042"
+  label="Project status"
+  statusLabel={(s) => labels[s]}
+  bind:value={status}
+/>
+```
+
+It renders:
+
+```html
+<fieldset
+  class="red-amber-green-picker"
+  role="radiogroup"
+  aria-label="Project status"
 >
-  <RedAmberGreenPickerButton
-    value="red"
-    label="Red - Immediate attention"
-    onclick="{handleSelect}"
-  />
-  <RedAmberGreenPickerButton
-    value="amber"
-    label="Amber - Monitor closely"
-    selected
-    onclick="{handleSelect}"
-  />
-  <RedAmberGreenPickerButton
-    value="green"
-    label="Green - Stable"
-    onclick="{handleSelect}"
-  />
-</RedAmberGreenPicker>
+  <label
+    ><input
+      type="radio"
+      name="status"
+      value="red"
+    />
+    Off track</label
+  >
+  <label
+    ><input
+      type="radio"
+      name="status"
+      value="amber"
+      checked
+    />
+    At risk</label
+  >
+  …
+</fieldset>
 ```
 
 ## Keyboard Interactions
 
-- Arrow keys navigate options (native select behavior)
-- Enter/Space opens the dropdown
-- Escape closes the dropdown
+- Tab: focus the checked radio, or the first if none is checked
+- ArrowDown / ArrowRight: move to and check the next radio
+- ArrowUp / ArrowLeft: move to and check the previous radio
+- Space: check the focused radio
 
 ## ARIA
 
-- `aria-label` on the select from the label prop
+- `role="radiogroup"` on the `<fieldset>`, named by `aria-label`
+- Each radio is named by its visible text, so a status is never colour alone
 
 ## When to Use
 
@@ -136,7 +109,7 @@ Health dashboard with data attributes:
 
 ## Headless
 
-The RedAmberGreenPicker headless component provides a `<select>` with `aria-label` and three predefined options (red, amber, green) with two-way value binding. Native select keyboard navigation is fully supported. The consumer provides all visual styling, including color coding.
+The RedAmberGreenPicker headless component renders a `<fieldset role="radiogroup">` of three native radios (red, amber, green), with each option's text from the consumer and two-way value binding. The native radio group supplies the keyboard behaviour. The consumer provides all visual styling, including colour coding.
 
 ## Styles
 
@@ -144,9 +117,10 @@ The consumer provides all CSS styling. The component renders with a `.red-amber-
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `red-amber-green-picker`
-- Verify aria-label` on the select from the label prop
-- Verify keyboard interactions work correctly
+- Verify the component renders a `<fieldset>` element with class `red-amber-green-picker` and `role="radiogroup"`
+- Verify one native radio per status, sharing one name
+- Verify each option's text comes from `statusLabel`, and nothing English is hardcoded
+- Verify the arrow keys move and check the radios, and a form reset restores the starting value
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -156,7 +130,7 @@ The consumer provides all CSS styling. The component renders with a `.red-amber-
 
 ## Composition
 
-RedAmberGreenPicker is the container for RedAmberGreenPickerButton children. Use `<RedAmberGreenPicker>` to wrap `<RedAmberGreenPickerButton>` elements, where each button represents one RAG status level with `aria-pressed` toggle state.
+RedAmberGreenPicker renders its own radios. `red-amber-green-picker-button` is a separate part, for a consumer that composes its own group; it is not a child of this component.
 
 ## Related components
 

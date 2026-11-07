@@ -51,7 +51,7 @@ button-group	ARIA evidence incomplete	no	no	no	yes	1	7	no	-
 button-input	key evidence incomplete	no	yes	no	yes	4	3	no	-
 byline	automated evidence complete	no	no	no	no	1	4	no	-
 calendar-range-picker	ARIA evidence incomplete	no	no	no	yes	8	4	no	-
-calendar-table	ARIA evidence incomplete	no	no	no	yes	8	7	no	-
+calendar-table	automated evidence complete	no	yes	yes	yes	8	8	no	-
 calendar-table-body	ARIA evidence incomplete	no	no	no	yes	7	1	no	-
 calendar-table-foot	ARIA evidence incomplete	no	no	no	yes	7	1	no	-
 calendar-table-head	ARIA evidence incomplete	no	no	no	yes	7	1	no	-
@@ -113,7 +113,7 @@ kypros-national-passport-number-view	ARIA evidence incomplete	no	no	no	yes	1	6	n
 danmark-personnummer-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
 danmark-personnummer-view	ARIA evidence incomplete	no	no	no	yes	1	6	no	-
 data-filter-form	ARIA evidence incomplete	no	no	no	yes	8	7	no	-
-data-table	automated evidence complete	yes	no	no	yes	8	8	yes	-
+data-table	automated evidence complete	yes	yes	yes	yes	8	8	yes	-
 data-table-body	ARIA evidence incomplete	no	no	no	yes	7	1	no	-
 data-table-foot	ARIA evidence incomplete	no	no	no	yes	7	1	no	-
 data-table-head	ARIA evidence incomplete	no	no	no	yes	7	1	no	-
@@ -192,7 +192,7 @@ form	automated evidence complete	yes	no	no	yes	8	8	yes	-
 framer	automated evidence complete	no	no	no	yes	1	8	no	-
 france-numero-d-identification-au-repertoire-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
 france-numero-d-identification-au-repertoire-view	automated evidence complete	no	no	no	no	1	2	no	-
-gantt-table	ARIA evidence incomplete	no	no	no	yes	1	7	no	-
+gantt-table	automated evidence complete	no	yes	yes	yes	8	8	no	-
 gantt-table-tbody	ARIA evidence incomplete	no	no	no	yes	7	1	no	-
 gantt-table-td	ARIA evidence incomplete	no	no	no	yes	7	5	no	-
 gantt-table-tfoot	ARIA evidence incomplete	no	no	no	yes	7	1	no	-
@@ -357,10 +357,10 @@ question	automated evidence complete	no	no	no	yes	1	8	no	-
 radio-group	automated evidence complete	yes	yes	yes	yes	8	8	yes	-
 radio-input	automated evidence complete	yes	yes	yes	yes	8	8	yes	-
 range-input	key evidence incomplete	no	yes	yes	yes	1	3	no	-
-red-amber-green-picker	key evidence incomplete	no	yes	yes	yes	3	8	no	-
+red-amber-green-picker	ARIA evidence incomplete	no	yes	yes	yes	8	5	no	-
 red-amber-green-picker-button	key evidence incomplete	no	yes	no	yes	1	7	no	-
 red-amber-green-view	automated evidence complete	no	no	no	no	8	6	no	-
-red-orange-yellow-green-blue-picker	key evidence incomplete	no	yes	yes	yes	3	8	no	-
+red-orange-yellow-green-blue-picker	ARIA evidence incomplete	no	yes	yes	yes	8	5	no	-
 red-orange-yellow-green-blue-picker-button	key evidence incomplete	no	yes	no	yes	1	7	no	-
 red-orange-yellow-green-blue-view	automated evidence complete	no	no	no	no	8	6	no	-
 related-content	ARIA evidence incomplete	no	no	no	yes	1	1	no	-
@@ -570,10 +570,10 @@ multi-select-with-extras	key evidence incomplete	no	yes	yes	yes	1	8	no	-
 empty-state	automated evidence complete	no	no	no	yes	1	8	no	-
 show-more	key evidence incomplete	no	yes	no	yes	5	8	no	-
 kbd-shortcut	automated evidence complete	no	no	no	yes	1	8	no	-
-calendar-year-table	automated evidence complete	no	no	no	yes	1	8	no	-
-calendar-month-table	automated evidence complete	no	no	no	yes	1	8	no	-
-calendar-week-table	automated evidence complete	no	no	no	yes	1	8	no	-
-calendar-day-table	automated evidence complete	no	no	no	yes	1	8	no	-
+calendar-year-table	automated evidence complete	no	yes	yes	yes	8	8	no	-
+calendar-month-table	automated evidence complete	no	yes	yes	yes	8	8	no	-
+calendar-week-table	automated evidence complete	no	yes	yes	yes	8	8	no	-
+calendar-day-table	automated evidence complete	no	yes	yes	yes	8	8	no	-
 thinking	key evidence incomplete	no	yes	no	yes	2	8	no	-
 gauge-chart	automated evidence complete	no	no	no	yes	8	8	no	-
 heatmap-chart	automated evidence complete	no	no	no	yes	8	8	no	-

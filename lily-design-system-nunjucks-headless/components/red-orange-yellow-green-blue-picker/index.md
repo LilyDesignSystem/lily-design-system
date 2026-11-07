@@ -8,10 +8,12 @@ See [components/red-orange-yellow-green-blue-picker/index.md](../../../component
 
 ## Nunjucks usage
 
+A `<fieldset role="radiogroup">` of 5 native radios (red, orange, yellow, green, blue) sharing one `name`, as `five-star-rating-picker` is: the radios give the keys (the arrows move and check, Space checks), form submission and form reset. Each option's visible text is the consumer's, through the required `statusLabels` object: there is no English default, and without it an option shows its value.
+
 ```njk
 {% from "components/red-orange-yellow-green-blue-picker/macro.njk" import redOrangeYellowGreenBluePicker %}
 
-{{ redOrangeYellowGreenBluePicker({ }) }}
+{{ redOrangeYellowGreenBluePicker({ label: "Risk level", value: "orange", statusLabels: { red: "Severe", orange: "High", yellow: "Medium", green: "Low", blue: "Informational" } }) }}
 ```
 
 ## Files

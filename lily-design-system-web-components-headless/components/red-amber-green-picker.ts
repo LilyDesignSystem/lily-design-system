@@ -1,59 +1,67 @@
 // RedAmberGreenPicker component
 //
-// A passive <div role="radiogroup"> container for a red/amber/green
-// status choice. The custom element stands in for the wrapper div
-// directly (see lib/dom-utils.applySelfClassName) since <div> has no
-// native behaviour worth preserving as a separate element.
-//
-// KNOWN, STILL-OPEN CATALOG-WIDE DOCUMENTATION DEFECT (see
-// spec/headless/index.md at the monorepo root): this component's own
-// components/red-amber-green-picker/AGENTS.md states "HTML tag: <div>"
-// in its Metadata while its own Key Behaviors section describes a
-// rendered `<select>` — a genuine internal self-contradiction, not
-// introduced here. The seven full-catalog headless libraries also
-// disagree with each other: react/svelte/vue render a native `<select>`
-// with hardcoded "Red"/"Amber"/"Green" option text (itself a violation
-// of the no-hardcoded-user-facing-strings rule, flagged in react's own
-// header comment); angular/blazor/nunjucks render a passive `<div
-// role="radiogroup">` whose red/amber/green options are separate
-// RedAmberGreenPickerButton instances the CONSUMER composes in — with
-// no hardcoded option text at all.
-//
-// This implementation deliberately follows the angular/blazor/nunjucks
-// shape: a `<select>` cannot render the coloured-swatch-per-option
-// visual this picker family is named for anyway (and this headless
-// layer renders no colour regardless — that is the example layer's
-// job), so a real radiogroup of consumer-labelled buttons is the more
-// defensible headless contract, and it is also the majority choice
-// across the seven catalogs. Flagged here for a future catalog-wide
-// resolution, per the task that produced this file.
+// A picker for a red/amber/green (RAG) status: a <fieldset role="radiogroup"> of native radios, one per status (red, amber, green), as the
+// other catalogs render it. The radios give the keys, form submission and form reset natively.
 //
 // Attributes:
-//   label — REQUIRED. Accessible label for the radiogroup, via
-//     aria-label.
+//   label — REQUIRED. Accessible name for the group, via aria-label.
+//   `red-label`, `amber-label`, `green-label` — each option's visible text. Required: there is no English default, and without one an option shows its value.
+//   value — the checked status ("" = none).
+//   name — radio group name for form submission, default "status".
+//   disabled — presence-based boolean; disables the whole group.
+//   ...rest — spread onto the <fieldset>.
 //
-// Keyboard: the APG radio group (attachRadioGroup): one tab stop, on the checked
-// button, and the arrows move, check and wrap, swapped in right-to-left.
+// Property: statusLabel — (status: string) => string, an alternative to the -label attributes, set before connecting.
+//
+// Events: change, from the radio the user checks (it bubbles); `value` follows it.
+//
+// Keyboard: native radios. Tab focuses the checked radio; the arrows move and check; Space checks.
 //
 // References:
 //   - components/red-amber-green-picker/index.md (canonical contract)
-//   - RAG Status: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+//   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
-import { applySelfClassName } from "../lib/dom-utils.js";
-import { attachRadioGroup } from "../lib/widget-keys.js";
+import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+
+const STATUSES = ["red", "amber", "green"];
+const HANDLED = new Set([
+    "label",
+    "value",
+    "name",
+    "disabled",
+    ...STATUSES.map((s) => `${s}-label`),
+]);
 
 export class RedAmberGreenPicker extends HTMLElement {
-    #built = false;
+    statusLabel: ((status: string) => string) | undefined;
 
     connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+        if (this.querySelector(":scope > fieldset.red-amber-green-picker")) return;
 
-        applySelfClassName(this, "red-amber-green-picker");
-        this.setAttribute("role", "radiogroup");
+        const fieldset = document.createElement("fieldset");
+        fieldset.className = rootClassName(this, "red-amber-green-picker");
+        fieldset.setAttribute("role", "radiogroup");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
-        // The buttons build themselves in their own connectedCallback, after this one, so attach once they exist.
-        queueMicrotask(() => attachRadioGroup(this));
+        if (label !== null) fieldset.setAttribute("aria-label", label);
+        if (this.hasAttribute("disabled")) fieldset.disabled = true;
+        passThroughAttributes(this, fieldset, HANDLED);
+
+        const name = this.getAttribute("name") ?? "status";
+        const value = this.getAttribute("value") ?? "";
+        for (const status of STATUSES) {
+            const option = document.createElement("label");
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = name;
+            input.value = status;
+            // defaultChecked, so a form reset restores the starting value natively.
+            input.defaultChecked = status === value;
+            input.addEventListener("change", () => this.setAttribute("value", status));
+            const text =
+                this.statusLabel?.(status) ?? this.getAttribute(`${status}-label`) ?? status;
+            option.append(input, ` ${text}`);
+            fieldset.appendChild(option);
+        }
+        this.appendChild(fieldset);
     }
 }

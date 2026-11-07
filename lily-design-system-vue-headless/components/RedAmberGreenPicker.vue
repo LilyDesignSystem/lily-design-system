@@ -1,80 +1,98 @@
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
 // RedAmberGreenPicker component
 //
-// A headless RAG (Red/Amber/Green) status input that renders a native
-// <select> element with three traffic-light options: red, amber, and green.
-// RAG status is widely used in project management dashboards, risk registers,
-// and reporting tools to communicate health at a glance.
+// A picker for a red/amber/green (RAG) status: a <fieldset role="radiogroup"> of native radios, one per status (red, amber, green), as
+// five-star-rating-picker is. The radios give the keys, form submission and form reset natively.
 //
 // Props:
-//   className — string, optional. CSS class name.
-//   label — string, required. Accessible label for the select element.
-//   value — string, default "". Currently selected status value; bindable.
-//   ...restProps — additional HTML attributes spread onto the <select>.
+//   label — string, required. Accessible name for the group via aria-label.
+//   statusLabel — (status: string) => string, required. Each option's visible text; without it the option shows its
+//     value, so a consumer always supplies the words.
+//   modelValue — string, default "". The checked status ("" = none); v-model.
+//   name — string, default "status". Radio group name for form submission.
+//   disabled — boolean, default false.
 //
-// Syntax:
-//   <RedAmberGreenPicker label="Project status" v-model={status} />
-//
-// Examples:
-//   <!-- Pre-selected value -->
-//   <RedAmberGreenPicker label="Health check" value="green" />
-//
-//   <!-- Two-way binding with state -->
-//   <RedAmberGreenPicker label="Sprint status" v-model={status} data-project="alpha" />
-//
-// Keyboard:
-//   - Arrow Up/Down: navigate options (native select behavior)
-//   - Enter/Space: open the dropdown (native select behavior)
-//   - Escape: close the dropdown (native select behavior)
-//
-// Accessibility:
-//   - aria-label on the <select> for screen reader context
-//   - Native <select> provides implicit combobox/listbox role
-//   - WCAG 2.2 AAA: properly labeled for assistive technology
-//
-// Internationalization:
-//   - The label prop externalizes the accessible label string
-//   - Option display text ("Red", "Amber", "Green") is hardcoded; wrap or fork to localize
-//
-// Claude rules:
-//   - Headless: no CSS, no styles — consumer provides all styling
-//   - Value uses defineModel() for two-way binding with v-model
-//   - Options are fixed to the three RAG values: red, amber, green
+// Keyboard: native radios. Tab focuses the checked radio; the arrows move and check; Space checks.
 //
 // References:
-//   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+//   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
-import { ref, useAttrs } from "vue";
-import { useFormReset } from "./form-reset";
-import { warnMissingName } from "./dev-warning";
+const props = withDefaults(
+    defineProps<{
+        /** Accessible name for the group via aria-label. */
+        label: string;
+        /** Radio group name for form submission. */
+        name?: string;
+        /** Each option's visible text, e.g. (status) => labels[status]. No English default. */
+        statusLabel: (status: string) => string;
+        /** Whether the entire group is disabled. */
+        disabled?: boolean;
+    }>(),
+    {
+        name: "status",
+        disabled: false,
+    },
+);
 
-const props = defineProps<{
-    /** Accessible label for the select element */
-    label: string;
-}>();
-
+const attrs = useAttrs();
 warnMissingName(
     "RedAmberGreenPicker",
     props.label,
-    useAttrs()["aria-label"],
-    useAttrs()["aria-labelledby"],
+    attrs["aria-label"] as string | undefined,
+    attrs["aria-labelledby"] as string | undefined,
 );
 
 const modelValue = defineModel<string>({ default: "" });
-const field = ref<HTMLSelectElement | null>(null);
-useFormReset(modelValue, field);
+const initialValue = modelValue.value;
+
+const root = ref<HTMLElement | null>(null);
+let resetForm: HTMLFormElement | null = null;
+let resetTimer: ReturnType<typeof setTimeout> | undefined;
+function onReset(event: Event): void {
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+        if (event.defaultPrevented || !root.value) return;
+        modelValue.value = initialValue;
+        for (const input of root.value.querySelectorAll<HTMLInputElement>('input[type="radio"]')) {
+            input.checked = input.value === initialValue;
+        }
+    }, 0);
+}
+onMounted(() => {
+    resetForm = root.value?.closest("form") ?? null;
+    resetForm?.addEventListener("reset", onReset);
+});
+onBeforeUnmount(() => {
+    clearTimeout(resetTimer);
+    resetForm?.removeEventListener("reset", onReset);
+});
+
+const statuses = ["red", "amber", "green"];
 </script>
 
 <template>
     <!-- RedAmberGreenPicker.vue -->
-    <select
+    <fieldset
+        ref="root"
         class="red-amber-green-picker"
+        role="radiogroup"
         :aria-label="label"
-        ref="field"
-        v-model="modelValue"
+        :disabled="disabled"
     >
-        <option value="red">Red</option>
-        <option value="amber">Amber</option>
-        <option value="green">Green</option>
-    </select>
+        <label
+            v-for="status in statuses"
+            :key="status"
+        >
+            <input
+                type="radio"
+                :name="name"
+                :value="status"
+                :checked="modelValue === status"
+                @change="modelValue = status"
+            />
+            {{ statusLabel ? statusLabel(status) : status }}
+        </label>
+    </fieldset>
 </template>

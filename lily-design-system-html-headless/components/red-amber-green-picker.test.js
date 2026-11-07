@@ -8,22 +8,28 @@ describe("RedAmberGreenPicker", function () {
         await browser.url("file://" + path.resolve(__dirname, "red-amber-green-picker.html"));
     });
 
-    it("should render the div element with correct class", async function () {
-        const el = await $("div.red-amber-green-picker");
+    it("renders a fieldset radiogroup with an aria-label", async function () {
+        const el = await $("fieldset.red-amber-green-picker");
         await expect(el).toExist();
-        const className = await el.getAttribute("class");
-        expect(className).toContain("red-amber-green-picker");
+        expect(await el.getAttribute("role")).toBe("radiogroup");
+        expect(await el.getAttribute("aria-label")).not.toBeNull();
     });
 
-    it("should have the correct ARIA role", async function () {
-        const el = await $("div.red-amber-green-picker");
-        const roleAttr = await el.getAttribute("role");
-        expect(roleAttr).toBe("radiogroup");
+    it("holds one native radio per status, sharing one name", async function () {
+        const radios = await browser.execute(() =>
+            Array.from(
+                document.querySelectorAll('.red-amber-green-picker input[type="radio"]'),
+            ).map((r) => [r.name, r.value]),
+        );
+        expect(radios).toEqual(["red", "amber", "green"].map((v) => ["status", v]));
     });
 
-    it("should have an aria-label attribute", async function () {
-        const el = await $("div.red-amber-green-picker");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+    it("ArrowRight and ArrowLeft move the selection through the native radio group", async function () {
+        const radios = await $$(".red-amber-green-picker input[type=radio]");
+        await radios[0].click();
+        await browser.keys("ArrowRight");
+        expect(await radios[1].isSelected()).toBe(true);
+        await browser.keys("ArrowLeft");
+        expect(await radios[0].isSelected()).toBe(true);
     });
 });

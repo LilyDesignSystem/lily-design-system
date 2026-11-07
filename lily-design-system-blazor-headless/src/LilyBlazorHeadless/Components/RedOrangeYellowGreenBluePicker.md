@@ -2,18 +2,22 @@
 
 A picker for selecting a five-level color status.
 
-See `components/red-orange-yellow-green-blue-picker/index.md` for canonical documentation.
+A `<fieldset role="radiogroup">` of 5 native radios (red, orange, yellow, green, blue) sharing one `name`, as `five-star-rating-picker` is: the radios give the keys (the arrows move and check, Space checks), form submission and form reset. Each option's visible text is the consumer's, through the required status label: there is no English default, and without it an option shows its value.
 
-A native `<select>` in the contract's `<div>`. The option names are the consumer's, and an empty `Value` shows no status.
+See [components/red-orange-yellow-green-blue-picker/index.md](../../../../components/red-orange-yellow-green-blue-picker/index.md) for the cross-framework documentation.
 
 ## Parameters
 
-- `Label`, `RedLabel`, `OrangeLabel`, `YellowLabel`, `GreenLabel`, `BlueLabel`: string (required)
-- `Value`, `ValueChanged`: two-way with `@bind-Value`
-- `CssClass`, `AdditionalAttributes`
+- `Label`, `StatusLabel` (`Func<string, string>`): required.
+- `Value` / `ValueChanged`: the checked status, two-way (`@bind-Value`; `""` = none).
+- `Name` (default `"status"`), `Disabled`, `CssClass`, `AdditionalAttributes` (spread onto the fieldset).
 
 ## Usage
 
 ```razor
-<RedOrangeYellowGreenBluePicker Label="Rating" RedLabel="Red" OrangeLabel="Orange" YellowLabel="Yellow" GreenLabel="Green" BlueLabel="Blue" @bind-Value="rating" />
+<RedOrangeYellowGreenBluePicker Label="Risk level" StatusLabel="@(s => Labels[s])" @bind-Value="status" />
 ```
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

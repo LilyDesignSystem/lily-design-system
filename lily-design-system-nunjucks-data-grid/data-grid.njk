@@ -17,7 +17,7 @@
   The skeleton shows each cell's raw value; the typed formatting appears once the client runs.
 #}
 {% macro dataGrid(label, columns, rows, labels={}, selectionMode="none", pageSize=null, storageKey=null, mode="grid", locale=null, caption=null, busy=false, exportFilename=null, exportScope=null, exportFormulas=false, emptyValue=null, nulls="last", movableColumns=false, warnMissingLabels=true, filterField="", virtualize=null, class="") %}
-<div class="data-grid {{ class }}" data-data-grid>
+<div class="data-grid {{ class }}" data-data-grid data-consumer-keys="true">
   <table class="data-table" aria-label="{{ label }}">
     {% if caption %}<caption>{{ caption }}</caption>{% endif %}
     <thead class="data-table-head">

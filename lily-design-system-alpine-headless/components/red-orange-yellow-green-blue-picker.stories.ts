@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<select class="red-orange-yellow-green-blue-picker" aria-label="" x-data="{ value: \'red\' }" x-model="value" :data-value="value">\n  <option value="red"><!-- Consumer provides label --></option>\n  <option value="orange"><!-- Consumer provides label --></option>\n  <option value="yellow"><!-- Consumer provides label --></option>\n  <option value="green"><!-- Consumer provides label --></option>\n  <option value="blue"><!-- Consumer provides label --></option>\n</select>';
+    '<fieldset class="red-orange-yellow-green-blue-picker" role="radiogroup" aria-label="" x-data="{ value: \'\' }" :data-value="value">\n  <label class="red-orange-yellow-green-blue-picker-button"><input type="radio" name="status" value="red" aria-label="red" x-model="value"> red</label>\n  <label class="red-orange-yellow-green-blue-picker-button"><input type="radio" name="status" value="orange" aria-label="orange" x-model="value"> orange</label>\n  <label class="red-orange-yellow-green-blue-picker-button"><input type="radio" name="status" value="yellow" aria-label="yellow" x-model="value"> yellow</label>\n  <label class="red-orange-yellow-green-blue-picker-button"><input type="radio" name="status" value="green" aria-label="green" x-model="value"> green</label>\n  <label class="red-orange-yellow-green-blue-picker-button"><input type="radio" name="status" value="blue" aria-label="blue" x-model="value"> blue</label>\n</fieldset>';
 
 const meta = {
     title: "Headless/Red Orange Yellow Green Blue Picker",

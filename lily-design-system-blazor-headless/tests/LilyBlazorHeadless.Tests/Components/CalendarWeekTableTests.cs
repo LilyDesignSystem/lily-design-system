@@ -6,6 +6,11 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class CalendarWeekTableTests : TestContext
 {
+    public CalendarWeekTableTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+    }
+
     private IRenderedComponent<CalendarWeekTable> Render(Action<Bunit.ComponentParameterCollectionBuilder<CalendarWeekTable>>? extra = null) =>
         RenderComponent<CalendarWeekTable>(p => { p.Add(x => x.Label, "Week of 6 January 2025").AddChildContent("<tbody><tr><td>1</td></tr></tbody>"); extra?.Invoke(p); });
 

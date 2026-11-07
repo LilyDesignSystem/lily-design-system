@@ -1,34 +1,44 @@
 @namespace LilyBlazorHeadless.Components
-@inherits ValueInputBase
 
 @*
     RedAmberGreenPicker component
-    a picker for a red, amber or green status
+    a picker for a red/amber/green (RAG) status
 
-    A native <select> in the contract's <div>, so the browser supplies the keys. The option names are the consumer's: the
-    Svelte component's English is not ported. A hidden empty option holds "nothing chosen", so an empty Value is not
-    shown as red.
-
-    Parameters:
-        Label, RedLabel, AmberLabel, GreenLabel — string, required.
-        Value / ValueChanged — "red", "amber" or "green", two-way (@bind-Value).
-        CssClass, AdditionalAttributes (spread onto the root).
+    A <fieldset role="radiogroup"> of native radios, one per status (red, amber, green), sharing Name, as
+    FiveStarRatingPicker is. The radios give the keys natively: Tab focuses the checked radio, the arrow keys move and
+    check, Space checks. Value / ValueChanged is two-way (@bind-Value; "" = none). Disabled disables the whole group.
+    StatusLabel gives each option's visible text and is required: there is no English default, and without it an
+    option shows its value. Unmatched attributes spread onto the <fieldset>.
 *@
 
-<div class="@($"red-amber-green-picker {CssClass}".Trim())" @attributes="AdditionalAttributes">
-    <select aria-label="@Label" value="@Value" @onchange="@(e => SetValueAsync(e.Value as string))">
-        <option value="" hidden></option>
-        <option value="red">@RedLabel</option>
-        <option value="amber">@AmberLabel</option>
-        <option value="green">@GreenLabel</option>
-    </select>
-</div>
+<fieldset class="@($"red-amber-green-picker {CssClass}".Trim())" role="radiogroup" aria-label="@Label" disabled="@Disabled" @attributes="AdditionalAttributes">
+    @foreach (var status in Statuses)
+    {
+        var option = status;
+        <label><input type="radio" name="@Name" value="@option" checked="@(Value == option)" @onchange="() => Choose(option)" /> @(StatusLabel is null ? option : StatusLabel(option))</label>
+    }
+</fieldset>
 
 @code {
+    private static readonly string[] Statuses = new[] { "red", "amber", "green" };
+
+    /// <summary>Accessible name for the group via aria-label.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter, EditorRequired] public string RedLabel { get; set; } = "";
-    [Parameter, EditorRequired] public string AmberLabel { get; set; } = "";
-    [Parameter, EditorRequired] public string GreenLabel { get; set; } = "";
+    /// <summary>The checked status ("" = none).</summary>
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    /// <summary>Radio group name for form submission.</summary>
+    [Parameter] public string Name { get; set; } = "status";
+    /// <summary>Each option's visible text, e.g. s => Labels[s]. No English default.</summary>
+    [Parameter, EditorRequired] public Func<string, string>? StatusLabel { get; set; }
+    /// <summary>Whether the entire group is disabled.</summary>
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task Choose(string option)
+    {
+        Value = option;
+        await ValueChanged.InvokeAsync(option);
+    }
 }

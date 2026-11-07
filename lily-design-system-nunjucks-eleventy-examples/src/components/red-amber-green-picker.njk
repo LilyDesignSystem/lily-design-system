@@ -5,56 +5,12 @@ description: a picker for selecting a red/amber/green status
 ---
 
 {% from "components/red-amber-green-picker/macro.njk" import redAmberGreenPicker %}
-{% from "components/red-amber-green-picker-button/macro.njk" import redAmberGreenPickerButton %}
-
-<h2>Risk rating</h2>
-{% call redAmberGreenPicker({ label: "Risk rating" }) %}
-  {{ redAmberGreenPickerButton({ status: "red" }) }}
-  {{ redAmberGreenPickerButton({ status: "amber", checked: true }) }}
-  {{ redAmberGreenPickerButton({ status: "green" }) }}
-{% endcall %}
 
 <h2>Project status</h2>
-{% call redAmberGreenPicker({ label: "Project status" }) %}
-  {{ redAmberGreenPickerButton({
-    status: "red",
-    text: "Off track"
-  }) }}
-  {{ redAmberGreenPickerButton({
-    status: "amber",
-    text: "At risk",
-    checked: true
-  }) }}
-  {{ redAmberGreenPickerButton({
-    status: "green",
-    text: "On track"
-  }) }}
-{% endcall %}
+{{ redAmberGreenPicker({ label: "Project status", value: "amber", statusLabels: { red: "Off track", amber: "At risk", green: "On track" } }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;form&gt;
-  &lt;fieldset&gt;
-    &lt;legend&gt;Sprint 14 Status&lt;/legend&gt;
-    &lt;RedAmberGreenPicker label="Overall sprint health"&gt;
-      &lt;RedAmberGreenPickerButton
-        value="red"
-        label="Red - Critical"
-        onclick="{handleSelect}"
-      /&gt;
-      &lt;RedAmberGreenPickerButton
-        value="amber"
-        label="Amber - At risk"
-        selected
-        onclick="{handleSelect}"
-      /&gt;
-      &lt;RedAmberGreenPickerButton
-        value="green"
-        label="Green - On track"
-        onclick="{handleSelect}"
-      /&gt;
-    &lt;/RedAmberGreenPicker&gt;
-  &lt;/fieldset&gt;
-&lt;/form&gt;
+<pre tabindex="0"><code>{% raw %}&lt;fieldset class="red-amber-green-picker" role="radiogroup" aria-label="Project status"&gt;&lt;label&gt;&lt;input type="radio" name="red-amber-green-picker-demo" value="red" /&gt; Off track&lt;/label&gt;&lt;label&gt;&lt;input type="radio" name="red-amber-green-picker-demo" value="amber" /&gt; At risk&lt;/label&gt;&lt;label&gt;&lt;input type="radio" name="red-amber-green-picker-demo" value="green" checked /&gt; On track&lt;/label&gt;&lt;/fieldset&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

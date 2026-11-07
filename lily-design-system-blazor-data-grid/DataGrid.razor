@@ -114,7 +114,7 @@
     private RenderFragment TableFragment => __builder =>
     {
         var items = RenderItems();
-        <DataTable Label="@Label" role="@(IsGrid ? "grid" : "table")"
+        <DataTable Label="@Label" data-consumer-keys="true" role="@(IsGrid ? "grid" : "table")"
                    aria-rowcount="@(IsGrid ? RowCount?.ToString() : null)"
                    aria-busy="@(Busy ? "true" : null)"
                    @onkeydown="@(IsGrid ? OnGridKeyDownAsync : NoKeys)">

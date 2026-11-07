@@ -15,16 +15,16 @@ Each component is in the first band it falls into, so the bands add up to 609.
 | Band                              | Components | What it means                                                                      |
 | --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
 | 1. axe failure                    | 0          | Listed in `e2e/axe-sweep.allow.json`: a WCAG A or AA rule fails on its Nunjucks page |
-| 2. Key evidence incomplete        | 104        | Its contract names keys, and fewer than eight libraries have a test that sends one |
+| 2. Key evidence incomplete        | 102        | Its contract names keys, and fewer than eight libraries have a test that sends one |
 | 3. ARIA evidence incomplete       | 317        | Its contract names ARIA, and fewer than eight libraries assert it                  |
-| 4. Automated evidence complete    | 188        | Nothing above. This is a floor, not a pass                                         |
+| 4. Automated evidence complete    | 190        | Nothing above. This is a floor, not a pass                                         |
 
 | Measure                                                   | Result     |
 | --------------------------------------------------------- | ---------- |
-| Key contracts with a key test in all eight libraries      | 53 of 157  |
-| Custom-key widgets (arrows, Home, End, Escape), all eight | 46 of 88   |
-| Custom-key cells (widget by library): tested              | 366        |
-| Custom-key cells: the browser's, or another part's        | 336        |
+| Key contracts with a key test in all eight libraries      | 62 of 164  |
+| Custom-key widgets (arrows, Home, End, Escape), all eight | 55 of 95   |
+| Custom-key cells (widget by library): tested              | 432        |
+| Custom-key cells: the browser's, or another part's        | 326        |
 | Custom-key cells: open, keys known to be missing          | 0          |
 | Custom-key cells: absent, or with no reason               | 2          |
 | ARIA contracts asserted in all eight libraries            | 140 of 525 |

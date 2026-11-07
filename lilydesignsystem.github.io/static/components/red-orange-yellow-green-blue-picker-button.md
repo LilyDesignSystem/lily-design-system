@@ -1,6 +1,6 @@
 # Red Orange Yellow Green Blue Picker Button
 
-A five-level color status picker button is an individual button within a RedOrangeYellowGreenBluePicker that represents one of five status levels. When clicked, it selects that status value. The component uses `aria-pressed` to indicate the currently selected state and `data-value` to carry the status value, making it accessible to screen readers and enabling CSS-based styling by status color.
+A five-level color status picker button is an individual button that represents one of five status levels. When clicked, it selects that status value. The component uses `aria-pressed` to indicate the currently selected state and `data-value` to carry the status value, making it accessible to screen readers and enabling CSS-based styling by status color.
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
@@ -9,7 +9,7 @@ The five levels provide a more granular status scale than the traditional three-
 ## Implementation Notes
 
 - Renders as a `<button>` element with `aria-pressed` for toggle state
-- Designed to be used inside a RedOrangeYellowGreenBluePicker component
+- A separate part, for a consumer composing its own group of status buttons: `RedOrangeYellowGreenBluePicker` renders native radios and does not use it
 - Each button represents one of five status levels (red, orange, yellow, green, blue)
 - The `selected` prop controls `aria-pressed` to indicate the active selection
 - The `data-value` attribute carries the status value for CSS targeting

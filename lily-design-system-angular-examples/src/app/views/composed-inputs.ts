@@ -72,10 +72,10 @@ import { TourListItem } from "../components/TourListItem";
       <lily-net-promoter-score-picker label="Score" [(value)]="score" data-testid="nps" />
       <p data-testid="nps-state">Score: {{ score() }}</p>
 
-      <lily-red-amber-green-picker label="Status" redLabel="Red" amberLabel="Amber" greenLabel="Green" [(value)]="rag" data-testid="rag" />
+      <lily-red-amber-green-picker label="Status" [statusLabel]="statusText" [(value)]="rag" data-testid="rag" />
       <p data-testid="rag-state">Status: {{ rag() }}</p>
 
-      <lily-red-orange-yellow-green-blue-picker label="Rating" redLabel="Red" orangeLabel="Orange" yellowLabel="Yellow" greenLabel="Green" blueLabel="Blue" [(value)]="roygb" data-testid="roygb" />
+      <lily-red-orange-yellow-green-blue-picker label="Rating" [statusLabel]="statusText" [(value)]="roygb" data-testid="roygb" />
       <p data-testid="roygb-state">Rating: {{ roygb() }}</p>
 
       <ol>
@@ -112,6 +112,15 @@ export default class ComposedInputsPage {
     protected readonly score = signal("");
     protected readonly rag = signal("");
     protected readonly roygb = signal("");
+    private readonly statusWords: Record<string, string> = {
+        red: "Red",
+        amber: "Amber",
+        orange: "Orange",
+        yellow: "Yellow",
+        green: "Green",
+        blue: "Blue",
+    };
+    protected readonly statusText = (status: string): string => this.statusWords[status];
     protected readonly task = signal(false);
     protected readonly step = signal(1);
     protected readonly chosen = (count: number) => `Chosen: ${count}`;

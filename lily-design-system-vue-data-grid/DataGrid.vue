@@ -1784,6 +1784,7 @@ function entryById(id: string): Entry | undefined {
         >
             <DataTable
                 :label="label"
+                data-consumer-keys="true"
                 :caption="caption"
                 :role="isGrid ? 'grid' : 'table'"
                 :aria-rowcount="isGrid ? rowCount : undefined"

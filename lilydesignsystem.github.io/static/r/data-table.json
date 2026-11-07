@@ -6,14 +6,23 @@
   "category": "tables",
   "baseClass": ".data-table",
   "subClasses": [],
-  "interactive": false,
+  "interactive": true,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
+    "`role=\"grid\"` -- the table is a grid of cells, with the keys below",
     "`aria-label={label}` -- provides an accessible name when no visible caption is present",
     "`<caption>` -- semantic table caption that serves as the accessible name when provided"
   ],
   "keyboard": [
-    "No keyboard interactions — this is a passive element"
+    "Tab: moves to the table, on its one tab stop, and out of it",
+    "ArrowRight / ArrowLeft: next or previous cell in the row, swapped in right-to-left; stops at the edge",
+    "ArrowDown / ArrowUp: next or previous row; stops at the edge",
+    "Home / End: first or last cell in the row",
+    "Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell in the table",
+    "PageDown / PageUp: ten rows, stopping at the edge",
+    "Enter or F2: go to the first control in the cell, which keeps its own keys",
+    "Escape: from a control, back to its cell",
+    "Selecting, sorting and editing are the consumer's. A consumer running its own grid keys, as the `data-grid` helper does, sets `data-consumer-keys` on the root."
   ],
   "props": [
     "`caption`: string (default: undefined) -- visible caption text displayed above the table",
