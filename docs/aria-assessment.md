@@ -15,13 +15,13 @@ Each component is in the first band it falls into, so the bands add up to 609.
 | Band                              | Components | What it means                                                                      |
 | --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
 | 1. axe failure                    | 0          | Listed in `e2e/axe-sweep.allow.json`: a WCAG A or AA rule fails on its Nunjucks page |
-| 2. Key evidence incomplete        | 102        | Its contract names keys, and fewer than eight libraries have a test that sends one |
-| 3. ARIA evidence incomplete       | 317        | Its contract names ARIA, and fewer than eight libraries assert it                  |
+| 2. Key evidence incomplete        | 103        | Its contract names keys, and fewer than eight libraries have a test that sends one |
+| 3. ARIA evidence incomplete       | 316        | Its contract names ARIA, and fewer than eight libraries assert it                  |
 | 4. Automated evidence complete    | 190        | Nothing above. This is a floor, not a pass                                         |
 
 | Measure                                                   | Result     |
 | --------------------------------------------------------- | ---------- |
-| Key contracts with a key test in all eight libraries      | 62 of 164  |
+| Key contracts with a key test in all eight libraries      | 62 of 165  |
 | Custom-key widgets (arrows, Home, End, Escape), all eight | 55 of 95   |
 | Custom-key cells (widget by library): tested              | 433        |
 | Custom-key cells: the browser's, or another part's        | 325        |

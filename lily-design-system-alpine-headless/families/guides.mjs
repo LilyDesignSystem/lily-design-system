@@ -275,9 +275,9 @@ const choose = async (files) => {
     "emoji-character-picker": passive(
         "emoji-character-picker",
         "div",
-        "grid",
+        "group",
         "the emoji picker",
-        "Consumer provides grid rows and cells holding the emoji, and any category filtering",
+        "Consumer provides the emoji buttons, one per character, and any category filtering",
     ),
     "image-cropper": {
         tag: "div",

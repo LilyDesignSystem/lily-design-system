@@ -24,12 +24,12 @@ describe("EmojiCharacterPicker", () => {
         expect(host.classList.contains("emoji-character-picker")).toBe(true);
     });
 
-    test("has role=grid", () => {
+    test("has role=group", () => {
         const host = render(
             '<lily-emoji-character-picker label="Choose an emoji"></lily-emoji-character-picker>',
         );
 
-        expect(host.getAttribute("role")).toBe("grid");
+        expect(host.getAttribute("role")).toBe("group");
     });
 
     test("uses label as the accessible name", () => {
@@ -48,12 +48,12 @@ describe("EmojiCharacterPicker", () => {
         expect(host.getAttribute("class")).toBe("emoji-character-picker my-picker");
     });
 
-    test("keeps consumer-supplied grid content in place", () => {
+    test("keeps the consumer's emoji buttons in place", () => {
         const host = render(
-            '<lily-emoji-character-picker label="Choose an emoji"><div role="row"><button role="gridcell">\u{1F600}</button></div></lily-emoji-character-picker>',
+            '<lily-emoji-character-picker label="Choose an emoji"><button type="button" aria-label="Grinning face">\u{1F600}</button></lily-emoji-character-picker>',
         );
 
-        expect(host.querySelector('[role="gridcell"]')).toBeTruthy();
+        expect(host.querySelector('button[aria-label="Grinning face"]')).toBeTruthy();
     });
 
     test("is idempotent across repeated connectedCallback invocations", () => {
@@ -63,7 +63,7 @@ describe("EmojiCharacterPicker", () => {
 
         (host as unknown as EmojiCharacterPicker).connectedCallback();
 
-        expect(host.getAttribute("role")).toBe("grid");
+        expect(host.getAttribute("role")).toBe("group");
         expect(host.getAttribute("aria-label")).toBe("Choose an emoji");
     });
 });

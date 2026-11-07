@@ -977,7 +977,7 @@
     ]
   },
   "emoji-character-picker": {
-    "role": "grid",
+    "role": "group",
     "aria": [
       "aria-label"
     ]

@@ -12,31 +12,33 @@
 
 ## Key Behaviors
 
-- Renders a `<div>` with `role="grid"` for structured grid navigation semantics
-- Consumer provides grid rows and cells containing emoji characters
+- Renders a `<div>` with `role="group"`, named by `label`
+- Consumer provides the emoji as `<button>` elements, one per character
 - Consumer implements selection behavior and category filtering
 - Accepts `...restProps` for forwarding additional attributes to the container
 - No internal state -- purely a structural wrapper
+- Not a grid: `role="grid"` would promise arrow-key cell navigation the component does not provide (tasks.md P25-T20)
 
 ## ARIA
 
-- `role="grid"` -- identifies the container as a grid widget for structured cell navigation
+- `role="group"` -- groups the emoji buttons under the picker's name
 - `aria-label={label}` -- provides an accessible name for the emoji picker
 
 ## Keyboard
 
-- No keyboard interactions — this is a passive element
+- Tab: moves between the emoji buttons
+- Enter or Space: chooses the focused emoji (native buttons)
 
 ## Props
 
 - `label`: string (required) -- accessible name describing the picker, applied via `aria-label`
-- `children`: slot (required) -- the grid content containing emoji characters
+- `children`: slot (required) -- the emoji buttons
 
 ## Acceptance Criteria
 
 - [ ] Renders <div> element with class="emoji-character-picker"
 - [ ] Has aria-label attribute
-- [ ] Has role="grid"
+- [ ] Has role="group"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
@@ -45,4 +47,4 @@
 - Documentation: index.md
 - CSS class: .emoji-character-picker in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/emoji-character-picker.html
-- WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+- WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group

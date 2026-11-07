@@ -21,7 +21,6 @@
   "dial role": "Not ported yet (tasks.md P25-T7).",
   "dropdown-menu role": "Not ported yet (tasks.md P25-T7).",
   "editable role": "Not ported yet (tasks.md P25-T7).",
-  "emoji-character-picker role": "Not ported yet (tasks.md P25-T7).",
   "figure aria-label": "Not ported yet (tasks.md P25-T7).",
   "figure role": "Not ported yet (tasks.md P25-T7).",
   "five-face-rating-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",

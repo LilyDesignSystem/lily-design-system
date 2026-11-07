@@ -1,22 +1,24 @@
 {#
   EmojiCharacterPicker macro — a picker for browsing and selecting emoji.
 
-  HTML tag: <div role="dialog">
+  HTML tag: <div role="group">, as in every catalog: a named group of the consumer's emoji buttons.
   CSS class: emoji-character-picker
+  Keyboard: the buttons' own: Tab moves between them, Enter or Space chooses one.
 
-  Params: label, open, id, classes, attributes. Caller provides picker content.
+  Params: label, id, classes, attributes. Caller provides the emoji buttons.
 
   Usage:
     {% from "components/emoji-character-picker/macro.njk" import emojiCharacterPicker %}
-    {% call emojiCharacterPicker({ id: "example", label: "Example" }) %}…{% endcall %}
+    {% call emojiCharacterPicker({ id: "example", label: "Choose an emoji" }) %}
+      <button type="button" aria-label="Grinning face">😀</button>
+    {% endcall %}
 #}
 {%- macro emojiCharacterPicker(params) -%}
 {%- set p = params | default({}) -%}
 <div
   class="emoji-character-picker{% if p.classes %} {{ p.classes }}{% endif %}"
-  role="dialog"
+  role="group"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
-  {%- if not p.open %} hidden{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
