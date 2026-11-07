@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The theme contrast table is published — 2026-11-07
+
+- **Added:** `docs/theme-contrast.md` and the docs site's `/theme-contrast` page: every text pair in each of the 63 reference themes, with its WCAG 2 ratio and whether it meets AA and AAA. All 756 pairs meet AA; 487 meet AAA. `bin/generate-theme-contrast` writes them, and `bin/test` fails when they are stale.
+
 ## Ports catch up with Svelte's roots — 2026-11-07
 
 - **Fixed:** 53 root roles and ARIA attributes in Nunjucks, HTML and Blazor now match what Svelte renders and the contract says, among them `care-card`, `resizable`, `floating-panel` and `medical-banner-box-for-danger` as regions, `warning-callout` as an alert, `timeout-dialog` as an alertdialog, `timer` as a timer, HTML `notification` and `progress-spinner` as status, and HTML `time-picker-input` without its stray `role="radiogroup"`.

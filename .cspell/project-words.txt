@@ -138,6 +138,11 @@ SIGPIPE
 srgb
 vuejs
 # Lily-specific naming
+# Reference theme names (themes/*.css)
+cmyk
+governo
+lofi
+padrao
 dont
 oxendict
 pickerbar

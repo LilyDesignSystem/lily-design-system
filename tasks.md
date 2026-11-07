@@ -3174,7 +3174,7 @@ Plan: [plan.md § Phase 22](plan.md#phase-22--lessons-topics-triaged-into-tasks-
       Verify: One test per catalog calls each method and asserts ARIA and events.
 - [ ] **P22-T5 Known limitations section in every component doc.** Bootstrap 5a. Mandatory section in `AGENTS.md` and `index.md`, "none known" allowed. Seed it from daisyUI 10 (disabled links and look-alikes, P22-T21).
       Verify: `bin/test` fails when a component doc lacks the section.
-- [ ] **P22-T6 Publish the theme contrast table.** Bootstrap 5b. `bin/check-theme --contrast` as a docs-site table, per theme, AA and AAA per pair. Zero AA failures now (P10-T10 closed 2026-11-02); 282 pairs miss AAA and must be shown as such.
+- [x] **P22-T6 Publish the theme contrast table.** Bootstrap 5b. `bin/check-theme --contrast` as a docs-site table, per theme, AA and AAA per pair. Zero AA failures now (P10-T10 closed 2026-11-02); 282 pairs miss AAA and must be shown as such. _(2026-11-07: `bin/generate-theme-contrast` writes `docs/theme-contrast.md` and the site's `/theme-contrast` page from `themes/*.css`, with `bin/check-theme`'s own colour maths, and `--check` runs in `bin/test`. 756 pairs in 63 themes: all meet AA, 487 meet AAA, 269 miss it (not 282: the themes changed since), and 3 themes meet AAA in every pair. A ratio with a colour outside sRGB is marked approximate.)_
       Verify: The page is generated and drift-checked; `bin/check-links` passes.
 - [ ] **P22-T7 Task-shaped agent skills.** Bootstrap 6. `install`, `add-component`, `theme`, `migrate-from-bootstrap`. The `skills add` install line and any registry listing are outward-facing: maintainer go-ahead first (see P22-T28).
       Verify: The agent-skills topic lists each; `bin/check-links` passes.
