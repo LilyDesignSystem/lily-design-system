@@ -2870,21 +2870,20 @@
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-web-components-headless/components/net-promoter-score-picker.keyboard.test.ts",
               "lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts"
             ],
-            "keyEvent": "lily-design-system-web-components-headless/components/net-promoter-score-picker.keyboard.test.ts",
-            "ariaAssertion": "lily-design-system-web-components-headless/components/net-promoter-score-picker.keyboard.test.ts"
+            "keyEvent": "lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts",
+            "ariaAssertion": "lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts"
           },
           "nunjucks": {
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/keyboard.test.js",
-              "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js"
+              "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js",
+              "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/net-promoter-score-picker.keys.test.js"
             ],
-            "keyEvent": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/keyboard.test.js",
-            "ariaAssertion": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/keyboard.test.js"
+            "keyEvent": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/net-promoter-score-picker.keys.test.js",
+            "ariaAssertion": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js"
           },
           "blazor": {
             "status": "met",

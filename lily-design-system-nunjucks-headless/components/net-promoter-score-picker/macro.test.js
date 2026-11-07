@@ -1,71 +1,96 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
-import { autoInit } from "../widget-init.js";
-import { on } from "../../test/keys.js";
+
+const radios = (document) => [...document.querySelectorAll('input[type="radio"]')];
+const texts = (document) =>
+    [...document.querySelectorAll("label")].map((l) => l.textContent.trim());
 
 describe("net-promoter-score-picker", () => {
-    const name = "net-promoter-score-picker";
-
-    it("renders a <div role=radiogroup> with the base class", () => {
-        const { document } = render(name, {});
-        const el = document.querySelector(`div.${name}`);
+    it("renders a fieldset radiogroup with the base class", () => {
+        const { document } = render("net-promoter-score-picker", { label: "Rating" });
+        const el = document.querySelector("fieldset.net-promoter-score-picker");
         expect(el).toBeTruthy();
         expect(el.getAttribute("role")).toBe("radiogroup");
+        expect(el.getAttribute("aria-label")).toBe("Rating");
     });
 
-    it("has no English aria-label of its own", () => {
-        const { document } = render(name, {});
-        expect(document.querySelector(`div.${name}`).hasAttribute("aria-label")).toBe(false);
+    it("prefers aria-labelledby over aria-label", () => {
+        const { document } = render("net-promoter-score-picker", { label: "x", labelledBy: "h" });
+        const el = document.querySelector("fieldset.net-promoter-score-picker");
+        expect(el.getAttribute("aria-labelledby")).toBe("h");
+        expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
-    it("respects a custom label", () => {
-        const { document } = render(name, {
-            label: "How likely are you to recommend us?",
-        });
-        expect(document.querySelector(`div.${name}`).getAttribute("aria-label")).toBe(
-            "How likely are you to recommend us?",
-        );
-    });
-
-    it("renders caller block content", () => {
-        const { document } = render(
-            name,
-            {},
-            '<button class="net-promoter-score-picker-button">0</button>',
-        );
+    it("holds 11 native radios, 0 to 10, sharing one name", () => {
+        const { document } = render("net-promoter-score-picker", { label: "Rating" });
+        expect(radios(document).map((r) => r.value)).toEqual([
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+        ]);
+        expect(new Set(radios(document).map((r) => r.name))).toEqual(new Set(["nps"]));
         expect(
-            document.querySelector(`div.${name} .net-promoter-score-picker-button`),
-        ).toBeTruthy();
+            radios(render("net-promoter-score-picker", { label: "Rating", name: "q1" }).document)[0]
+                .name,
+        ).toBe("q1");
     });
 
-    it("appends params.classes", () => {
-        const { document } = render(name, { classes: "inline" });
-        expect(document.querySelector(`div.${name}.inline`)).toBeTruthy();
+    it("each option's text is its number, and each radio is named by it", () => {
+        const { document } = render("net-promoter-score-picker", { label: "Score" });
+        expect(texts(document)).toEqual(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]);
+        expect(radios(document).map((r) => r.getAttribute("aria-label"))).toEqual([
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+        ]);
     });
 
-    it("contains no <style> or <script> tags", () => {
-        const { html } = render(name, {});
-        expect(html).not.toContain("<style");
-        expect(html).not.toContain("<script");
+    it("checks the radio for value", () => {
+        const { document } = render("net-promoter-score-picker", { label: "Rating", value: 2 });
+        expect(radios(document).map((r) => r.checked)).toEqual([
+            false,
+            false,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+        ]);
+        expect(
+            radios(render("net-promoter-score-picker", { label: "Rating" }).document).some(
+                (r) => r.checked,
+            ),
+        ).toBe(false);
     });
-});
 
-describe("net-promoter-score-picker keys", () => {
-    it("is one radio group: arrows move, check and wrap", () => {
-        const { document } = render(
-            "net-promoter-score-picker",
-            { label: "Choice" },
-            '<button type="button" role="radio" aria-checked="true">1</button>' +
-                '<button type="button" role="radio" aria-checked="false">2</button>',
-        );
-        autoInit(document);
-        const [one, two] = document.querySelectorAll("[role='radio']");
-        on(one).press("ArrowRight");
-        expect(document.activeElement).toBe(two);
-        expect(two.getAttribute("aria-checked")).toBe("true");
-        expect(one.getAttribute("aria-checked")).toBe("false");
-        expect([one.tabIndex, two.tabIndex]).toEqual([-1, 0]);
-        on(two).press("ArrowRight");
-        expect(one.getAttribute("aria-checked")).toBe("true");
+    it("passes classes and attributes through", () => {
+        const { document } = render("net-promoter-score-picker", {
+            label: "Rating",
+            classes: "inline",
+            attributes: { "data-test": "v" },
+        });
+        const el = document.querySelector("fieldset.net-promoter-score-picker");
+        expect(el.classList.contains("inline")).toBe(true);
+        expect(el.getAttribute("data-test")).toBe("v");
     });
 });

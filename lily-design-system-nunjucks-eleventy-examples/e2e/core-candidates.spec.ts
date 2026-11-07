@@ -371,7 +371,12 @@ test.describe("composite widgets", () => {
         await expect(group).toHaveAccessibleName(/How likely are you to recommend us/);
         const radios = group.getByRole("radio");
         await expect(radios).toHaveCount(11);
-        await expect(group.locator('[tabindex="0"]')).toHaveCount(1);
+        // Native radios: the browser's keys, from the checked one (8).
+        const checked = group.getByRole("radio", { checked: true });
+        await expect(checked).toHaveCount(1);
+        await checked.focus();
+        await page.keyboard.press("ArrowRight");
+        await expect(radios.nth(9)).toBeChecked();
     });
 });
 

@@ -1,36 +1,42 @@
 {#
-  FiveStarRatingPicker macro — a picker for selecting a 1–5 star rating.
+  FiveStarRatingPicker macro — a picker for a 1-5 star rating.
 
-  HTML tag: <div role="radiogroup">
+  HTML tag: <fieldset role="radiogroup"> of native radios, as in the Svelte reference and the other catalogs
   CSS class: five-star-rating-picker
-  Accessibility: wraps FiveStarRatingPickerButton children with
-    role="radiogroup" and an accessible name.
+  Keyboard: native radios: Tab focuses the checked radio (or the first), the arrow keys move and check, Space checks.
+  Accessibility: role="radiogroup" with an accessible name; one native radio per value (1 to 5), sharing one name.
 
   Params:
-    label        string   Accessible name, in the page's language. Required
-                          unless labelledBy is given; there is no English
-                          default.
-    labelledBy   string
-    id           string
-    classes      string
-    attributes   object
+    label         string   Accessible name, in the page's language. Required unless labelledBy is given; there is
+                           no English default.
+    labelledBy    string
+    starLabels    array    Each option's visible text, in order (1 to 5). Default: the numbers
+                           alone, no English.
+    value         number   The checked value (none by default).
+    name          string   Radio group name for form submission. Default "rating".
+    disabled      boolean  Disables the whole group.
+    id            string
+    classes       string
+    attributes    object
 
   Usage:
     {% from "components/five-star-rating-picker/macro.njk" import fiveStarRatingPicker %}
-    {% call fiveStarRatingPicker({ id: "example", label: "Example" }) %}…{% endcall %}
+    {{ fiveStarRatingPicker({ label: "Example", value: 3 }) }}
 #}
 {%- macro fiveStarRatingPicker(params) -%}
 {%- set p = params | default({}) -%}
-<div
+{%- set starLabels = p.starLabels | default([]) -%}
+<fieldset
   class="five-star-rating-picker{% if p.classes %} {{ p.classes }}{% endif %}"
   role="radiogroup"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
   {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  {%- if p.html -%}{{ p.html | safe }}
-  {%- elif caller -%}{{ caller() }}
-  {%- endif -%}
-</div>
+  {%- for n in [1, 2, 3, 4, 5] %}
+  <label><input type="radio" name="{{ p.name | default('rating') }}" value="{{ n }}"{% if p.value is defined and p.value !== null and p.value | string == n | string %} checked{% endif %} /> {{ (starLabels[loop.index0] if starLabels and starLabels[loop.index0] is defined else n) }}</label>
+  {%- endfor %}
+</fieldset>
 {%- endmacro -%}

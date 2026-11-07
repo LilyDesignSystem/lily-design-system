@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The rating pickers are native radios everywhere — 2026-11-07
+
+- **Changed (breaking):** in Nunjucks and Web Components, `five-star-rating-picker`, `five-face-rating-picker` and `net-promoter-score-picker` render a `<fieldset role="radiogroup">` of native radios, as the other seven catalogs do, instead of taking `*-picker-button` children. Nunjucks takes `starLabels` / `labels`, `value`, `name` and `disabled`; Web Components the same as attributes (`label-1` …), or the `starLabel` and `labels` properties.
+- **Changed:** `net-promoter-score-picker` is a `<fieldset>` in Angular, Blazor and HTML too, and its contract says so. HTML's had no radios at all.
+
 ## The status pickers are radio groups — 2026-11-07
 
 - **Changed (breaking):** `red-amber-green-picker` and `red-orange-yellow-green-blue-picker` are a `<fieldset role="radiogroup">` of native radios in every catalog, as `five-star-rating-picker` is. Svelte, React, Vue, Angular, Blazor and Alpine rendered a `<select>`; HTML, Nunjucks and Web Components a `role="radiogroup"` of buttons, HTML's with no keys. The radios give the keys, form submission and form reset.

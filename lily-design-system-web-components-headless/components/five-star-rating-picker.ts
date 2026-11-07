@@ -1,46 +1,63 @@
 // FiveStarRatingPicker component
 //
-// A passive <div role="radiogroup"> container for a 1-5 star rating.
-// The custom element stands in for the wrapper div directly (see
-// lib/dom-utils.applySelfClassName) since <div> has no native
-// behaviour worth preserving as a separate element.
-//
-// DEVIATION FROM ONE READING OF THE CANONICAL CONTRACT (flagged, not
-// hidden): see five-face-rating-picker.ts's header for the full
-// reasoning — this component follows the same blazor/nunjucks-shaped
-// passive-radiogroup pattern (consumer-supplied
-// FiveStarRatingPickerButton children) rather than the react/svelte/vue
-// ports' self-built `<fieldset>` + generated radio inputs, since this
-// catalog has no framework reactivity to drive that self-generation and
-// the component's own "Composition: Children:
-// five-star-rating-picker-button" note already documents this shape.
+// A picker for a 1-5 star rating: a <fieldset role="radiogroup"> of native radios, one per value (1 to 5), as the
+// Svelte reference and the other catalogs render it (tasks.md P25-T19). The radios give the keys, form submission and
+// form reset natively.
 //
 // Attributes:
-//   label — REQUIRED. Accessible name for the rating group, via
-//     aria-label.
+//   label — REQUIRED. Accessible name for the group, via aria-label.
+//   value — the checked value (none by default).
+//   name — radio group name for form submission, default "rating".
+//   disabled — presence-based boolean; disables the whole group.
+//   label-1 … label-5 — each option's visible text; default the number alone, no English.
 //
-// Keyboard: the APG radio group (attachRadioGroup): one tab stop, on the checked
-// button, and the arrows move, check and wrap, swapped in right-to-left.
+// Property: starLabel — (star: number) => string, an alternative to the label-N attributes, set before connecting.
+//   ...rest — spread onto the <fieldset>.
+//
+// Events: change, from the radio the user checks (it bubbles); `value` follows it.
+//
+// Keyboard: native radios. Tab focuses the checked radio; the arrows move and check; Space checks.
 //
 // References:
 //   - components/five-star-rating-picker/index.md (canonical contract)
-//   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
+//   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
-import { applySelfClassName } from "../lib/dom-utils.js";
-import { attachRadioGroup } from "../lib/widget-keys.js";
+import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+
+const VALUES = [1, 2, 3, 4, 5];
+const HANDLED = new Set(["label", "value", "name", "disabled", ...VALUES.map((n) => `label-${n}`)]);
 
 export class FiveStarRatingPicker extends HTMLElement {
-    #built = false;
+    starLabel: ((star: number) => string) | undefined;
 
     connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+        if (this.querySelector(":scope > fieldset.five-star-rating-picker")) return;
 
-        applySelfClassName(this, "five-star-rating-picker");
-        this.setAttribute("role", "radiogroup");
+        const fieldset = document.createElement("fieldset");
+        fieldset.className = rootClassName(this, "five-star-rating-picker");
+        fieldset.setAttribute("role", "radiogroup");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
-        // The buttons build themselves in their own connectedCallback, after this one, so attach once they exist.
-        queueMicrotask(() => attachRadioGroup(this));
+        if (label !== null) fieldset.setAttribute("aria-label", label);
+        if (this.hasAttribute("disabled")) fieldset.disabled = true;
+        passThroughAttributes(this, fieldset, HANDLED);
+
+        const name = this.getAttribute("name") ?? "rating";
+        const value = this.getAttribute("value");
+        for (const n of VALUES) {
+            const option = document.createElement("label");
+            const input = document.createElement("input");
+            input.type = "radio";
+            input.name = name;
+            input.value = String(n);
+            // defaultChecked, so a form reset restores the starting value natively.
+            input.defaultChecked = value === String(n);
+            input.addEventListener("change", () => this.setAttribute("value", String(n)));
+            option.append(
+                input,
+                ` ${this.starLabel?.(n) ?? this.getAttribute(`label-${n}`) ?? String(n)}`,
+            );
+            fieldset.appendChild(option);
+        }
+        this.appendChild(fieldset);
     }
 }

@@ -6,7 +6,8 @@
 - PascalCase: NetPromoterScorePicker
 - Description: a picker for selecting a 0-10 Net Promoter Score
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <div>
+- HTML tag: <fieldset>
+- Naming exception: a `-picker` root is a `<div>` by the suffix rule, but this one is a `<fieldset role="radiogroup">` of native radios in every library, as `five-star-rating-picker` is, so the group gets native radio keyboard behaviour, form submission and form reset (tasks.md P25-T19)
 - CSS class: .net-promoter-score-picker
 - Interactive: yes
 
@@ -48,7 +49,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> element with class="net-promoter-score-picker"
+- [ ] Renders <fieldset> element with class="net-promoter-score-picker" and role="radiogroup"
 - [ ] Has aria-label attribute
 - [ ] Has role="radiogroup"
 - [ ] Keyboard navigation works correctly

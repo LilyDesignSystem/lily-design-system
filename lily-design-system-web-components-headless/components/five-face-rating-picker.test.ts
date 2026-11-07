@@ -1,14 +1,10 @@
 import { afterEach, describe, expect, test } from "vitest";
+import { userEvent } from "@testing-library/user-event";
 
 import { FiveFaceRatingPicker } from "./five-face-rating-picker.js";
-import { FiveFaceRatingPickerButton } from "./five-face-rating-picker-button.js";
 
-if (!customElements.get("lily-five-face-rating-picker-button")) {
-    customElements.define("lily-five-face-rating-picker-button", FiveFaceRatingPickerButton);
-}
-if (!customElements.get("lily-five-face-rating-picker")) {
+if (!customElements.get("lily-five-face-rating-picker"))
     customElements.define("lily-five-face-rating-picker", FiveFaceRatingPicker);
-}
 
 afterEach(() => {
     document.body.innerHTML = "";
@@ -18,78 +14,57 @@ function render(html: string): HTMLElement {
     document.body.innerHTML = html;
     return document.body.firstElementChild as HTMLElement;
 }
+const radios = () => Array.from(document.querySelectorAll<HTMLInputElement>('input[type="radio"]'));
+const texts = () =>
+    Array.from(document.querySelectorAll("label")).map((l) => l.textContent!.trim());
 
 describe("FiveFaceRatingPicker", () => {
-    test("carries the base class", () => {
+    test("renders a fieldset radiogroup named by label", () => {
         const host = render(
-            '<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>',
+            '<lily-five-face-rating-picker label="Rating" class="extra"></lily-five-face-rating-picker>',
         );
-
-        expect(host.classList.contains("five-face-rating-picker")).toBe(true);
+        const root = host.querySelector("fieldset.five-face-rating-picker")!;
+        expect(root.getAttribute("role")).toBe("radiogroup");
+        expect(root.getAttribute("aria-label")).toBe("Rating");
+        expect(root.classList.contains("extra")).toBe(true);
     });
 
-    test("has role=radiogroup", () => {
-        const host = render(
-            '<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>',
-        );
-
-        expect(host.getAttribute("role")).toBe("radiogroup");
+    test("holds 5 native radios, sharing one name", () => {
+        render('<lily-five-face-rating-picker label="Rating"></lily-five-face-rating-picker>');
+        expect(radios().map((r) => r.value)).toEqual(["1", "2", "3", "4", "5"]);
+        expect(new Set(radios().map((r) => r.name))).toEqual(new Set(["face-rating"]));
     });
 
-    test("uses label as the accessible name", () => {
-        const host = render(
-            '<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>',
+    test("the label-N attributes give each option its text; without them, the numbers alone", () => {
+        render(
+            '<lily-five-face-rating-picker label="Rating" label-1="Très mauvais" label-2="Mauvais" label-3="Moyen" label-4="Bon" label-5="Très bon"></lily-five-face-rating-picker>',
         );
-
-        expect(host.getAttribute("aria-label")).toBe("Rate your visit");
+        expect(texts()).toEqual(["Très mauvais", "Mauvais", "Moyen", "Bon", "Très bon"]);
+        render('<lily-five-face-rating-picker label="Rating"></lily-five-face-rating-picker>');
+        expect(texts()).toEqual(["1", "2", "3", "4", "5"]);
     });
 
-    test("appends the consumer's class onto the base class", () => {
+    test("checks the radio for value, and a choice updates value", () => {
         const host = render(
-            '<lily-five-face-rating-picker label="Rate your visit" class="my-picker"></lily-five-face-rating-picker>',
+            '<lily-five-face-rating-picker label="Rating" value="3"></lily-five-face-rating-picker>',
         );
-
-        expect(host.getAttribute("class")).toBe("five-face-rating-picker my-picker");
+        expect(radios().map((r) => r.checked)).toEqual([false, false, true, false, false]);
+        radios()[0].click();
+        expect(host.getAttribute("value")).toBe("1");
     });
 
-    test("keeps consumer-supplied picker-button children in place", () => {
-        const host = render(
-            '<lily-five-face-rating-picker label="Rate your visit"><button aria-pressed="false" aria-label="Very bad"></button></lily-five-face-rating-picker>',
-        );
-
-        expect(host.querySelector("button")).toBeTruthy();
+    test("ArrowRight moves the selection through the native radio group", async () => {
+        const user = userEvent.setup();
+        render('<lily-five-face-rating-picker label="Rating"></lily-five-face-rating-picker>');
+        await user.click(radios()[0]);
+        await user.keyboard("{ArrowRight}");
+        expect(radios()[1].checked).toBe(true);
     });
 
-    test("is idempotent across repeated connectedCallback invocations", () => {
+    test("disabled disables the group", () => {
         const host = render(
-            '<lily-five-face-rating-picker label="Rate your visit"></lily-five-face-rating-picker>',
+            '<lily-five-face-rating-picker label="Rating" disabled></lily-five-face-rating-picker>',
         );
-
-        (host as unknown as FiveFaceRatingPicker).connectedCallback();
-
-        expect(host.getAttribute("role")).toBe("radiogroup");
-        expect(host.getAttribute("aria-label")).toBe("Rate your visit");
-    });
-});
-
-describe("FiveFaceRatingPicker keys", () => {
-    test("is one radio group: one tab stop, and the arrows move, check and wrap", async () => {
-        const host = render(
-            '<lily-five-face-rating-picker label="Choice">' +
-                '<lily-five-face-rating-picker-button value="1" label="One" selected></lily-five-face-rating-picker-button>' +
-                '<lily-five-face-rating-picker-button value="2" label="Two"></lily-five-face-rating-picker-button>' +
-                "</lily-five-face-rating-picker>",
-        );
-        await Promise.resolve();
-        const [one, two] = host.querySelectorAll<HTMLButtonElement>("button");
-        expect(one.getAttribute("role")).toBe("radio");
-        expect([one.tabIndex, two.tabIndex]).toEqual([0, -1]);
-        one.focus();
-        one.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
-        expect(document.activeElement).toBe(two);
-        expect(two.getAttribute("aria-checked")).toBe("true");
-        expect(one.getAttribute("aria-checked")).toBe("false");
-        two.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
-        expect(document.activeElement).toBe(one);
+        expect(host.querySelector("fieldset")!.disabled).toBe(true);
     });
 });

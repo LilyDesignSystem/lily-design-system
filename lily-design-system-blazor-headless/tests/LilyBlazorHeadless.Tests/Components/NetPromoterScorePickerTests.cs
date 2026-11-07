@@ -16,22 +16,22 @@ public class NetPromoterScorePickerTests : TestContext
         });
 
     [Fact]
-    public void Renders_with_kebab_base_class() => Assert.NotNull(Make().Find("div.net-promoter-score-picker"));
+    public void Renders_with_kebab_base_class() => Assert.NotNull(Make().Find("fieldset.net-promoter-score-picker"));
 
     [Fact]
     public void CssClass_is_appended_to_kebab_base_class() =>
-        Assert.Contains("extra", Make(p => p.Add(x => x.CssClass, "extra")).Find("div.net-promoter-score-picker").GetAttribute("class"));
+        Assert.Contains("extra", Make(p => p.Add(x => x.CssClass, "extra")).Find("fieldset.net-promoter-score-picker").GetAttribute("class"));
 
     [Fact]
     public void AdditionalAttributes_pass_through_to_root() =>
-        Assert.Equal("value", Make(p => p.AddUnmatched("data-test", "value")).Find("div.net-promoter-score-picker").GetAttribute("data-test"));
+        Assert.Equal("value", Make(p => p.AddUnmatched("data-test", "value")).Find("fieldset.net-promoter-score-picker").GetAttribute("data-test"));
 
     [Fact]
     public void Is_a_named_radiogroup_of_eleven_radios()
     {
         var cut = Make();
-        Assert.Equal("radiogroup", cut.Find("div").GetAttribute("role"));
-        Assert.Equal("Score", cut.Find("div").GetAttribute("aria-label"));
+        Assert.Equal("radiogroup", cut.Find("fieldset").GetAttribute("role"));
+        Assert.Equal("Score", cut.Find("fieldset").GetAttribute("aria-label"));
         var radios = cut.FindAll("input[type=radio]");
         Assert.Equal(Enumerable.Range(0, 11).Select(i => i.ToString()), radios.Select(r => r.GetAttribute("value")));
         Assert.All(radios, r => Assert.Equal("nps", r.GetAttribute("name")));

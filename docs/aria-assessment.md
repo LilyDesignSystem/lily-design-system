@@ -23,8 +23,8 @@ Each component is in the first band it falls into, so the bands add up to 609.
 | --------------------------------------------------------- | ---------- |
 | Key contracts with a key test in all eight libraries      | 62 of 164  |
 | Custom-key widgets (arrows, Home, End, Escape), all eight | 55 of 95   |
-| Custom-key cells (widget by library): tested              | 432        |
-| Custom-key cells: the browser's, or another part's        | 326        |
+| Custom-key cells (widget by library): tested              | 433        |
+| Custom-key cells: the browser's, or another part's        | 325        |
 | Custom-key cells: open, keys known to be missing          | 0          |
 | Custom-key cells: absent, or with no reason               | 2          |
 | ARIA contracts asserted in all eight libraries            | 140 of 525 |

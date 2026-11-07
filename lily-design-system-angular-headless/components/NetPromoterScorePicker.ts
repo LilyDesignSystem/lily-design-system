@@ -18,7 +18,7 @@ import { warnMissingName } from "./dev-warning";
 @Component({
     selector: "lily-net-promoter-score-picker",
     standalone: true,
-    template: `<div class="net-promoter-score-picker {{ className() }}" role="radiogroup" [attr.aria-label]="label() || null">
+    template: `<fieldset class="net-promoter-score-picker {{ className() }}" role="radiogroup" [attr.aria-label]="label() || null">
         @for (score of scores; track score) {
             <label>
                 <input
@@ -32,7 +32,7 @@ import { warnMissingName } from "./dev-warning";
                 {{ score }}
             </label>
         }
-    </div>`,
+    </fieldset>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NetPromoterScorePicker implements OnInit {

@@ -14,7 +14,7 @@ function make(inputs: Record<string, unknown> = {}) {
 describe("NetPromoterScorePicker", () => {
     test("renders the root with the base class and the className input", () => {
         const el = make({ className: "extra" }).nativeElement.querySelector(
-            "div.net-promoter-score-picker",
+            "fieldset.net-promoter-score-picker",
         );
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
@@ -22,8 +22,8 @@ describe("NetPromoterScorePicker", () => {
 
     test("is a named radiogroup of eleven radios, 0 to 10", () => {
         const root = make().nativeElement;
-        expect(root.querySelector("div").getAttribute("role")).toBe("radiogroup");
-        expect(root.querySelector("div").getAttribute("aria-label")).toBe("Score");
+        expect(root.querySelector("fieldset").getAttribute("role")).toBe("radiogroup");
+        expect(root.querySelector("fieldset").getAttribute("aria-label")).toBe("Score");
         const radios = [...root.querySelectorAll("input[type=radio]")] as HTMLInputElement[];
         expect(radios.map((radio) => radio.value)).toEqual([
             "0",

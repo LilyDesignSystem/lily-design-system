@@ -5,7 +5,7 @@
     NetPromoterScorePicker component
     a picker for a score from 0 to 10
 
-    Eleven native radios in the contract's <div role="radiogroup">, so the browser supplies the arrow keys.
+    Eleven native radios in a <fieldset role="radiogroup">, as in every catalog, so the browser supplies the arrow keys.
 
     Parameters:
         Label — string, required. aria-label of the group.
@@ -14,7 +14,7 @@
         CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"net-promoter-score-picker {CssClass}".Trim())" role="radiogroup" aria-label="@Label" @attributes="AdditionalAttributes">
+<fieldset class="@($"net-promoter-score-picker {CssClass}".Trim())" role="radiogroup" aria-label="@Label" @attributes="AdditionalAttributes">
     @for (var i = 0; i <= 10; i++)
     {
         var score = i.ToString(System.Globalization.CultureInfo.InvariantCulture);
@@ -23,7 +23,7 @@
             @score
         </label>
     }
-</div>
+</fieldset>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

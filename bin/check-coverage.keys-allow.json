@@ -139,7 +139,6 @@
   "html:menu-group": "contract: the keys it lists belong to its parent component, the consumer or native buttons; it handles none itself (P12-T5a)",
   "html:menu-item": "contract: the keys it lists belong to its parent component, the consumer or native buttons; it handles none itself (P12-T5a)",
   "html:multi-select-with-extras": "native: a native select; the keys are the browser's, which jsdom and bUnit do not run (P12-T5a)",
-  "html:net-promoter-score-picker": "native: native radios; the keys are the browser's, which jsdom and bUnit do not run (P12-T5a)",
   "html:overlay-container": "native: the modal child it holds (no keys of its own); the keys are the browser's, which jsdom and bUnit do not run (P12-T5a)",
   "html:popconfirm-dialog": "contract: the keys it lists belong to its parent component, the consumer or native buttons; it handles none itself (P12-T5a)",
   "html:radio-group": "native: native radios; the keys are the browser's, which jsdom and bUnit do not run (P12-T5a)",

@@ -142,7 +142,7 @@ The consumer provides all CSS styling. The component renders with a `.net-promot
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `net-promoter-score-picker`
+- Verify the component renders a `<fieldset role="radiogroup">` element with class `net-promoter-score-picker`
 - Verify role="radiogroup"` on the fieldset
 - Verify aria-label` on the fieldset from the label prop
 - Verify Each radio has `aria-label` with its numeric value
