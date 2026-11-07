@@ -3,9 +3,9 @@
   const usage: string = "<h2>Usage</h2>\n\n<p>Risk assessment in a project dashboard:</p>\n\n<pre tabindex=\"0\"><code class=\"language-html\">&lt;form&gt;\n  &lt;fieldset&gt;\n    &lt;legend&gt;Sprint 14 Status&lt;/legend&gt;\n    &lt;RedAmberGreenPicker label=\"Overall sprint health\"&gt;\n      &lt;RedAmberGreenPickerButton value=\"red\" label=\"Red - Critical\" onclick={handleSelect} /&gt;\n      &lt;RedAmberGreenPickerButton value=\"amber\" label=\"Amber - At risk\" selected onclick={handleSelect} /&gt;\n      &lt;RedAmberGreenPickerButton value=\"green\" label=\"Green - On track\" onclick={handleSelect} /&gt;\n    &lt;/RedAmberGreenPicker&gt;\n  &lt;/fieldset&gt;\n&lt;/form&gt;</code></pre>\n\n<p>Compliance tracking with pre-selected status:</p>\n\n<pre tabindex=\"0\"><code class=\"language-html\">&lt;RedAmberGreenPicker label=\"GDPR compliance status\"&gt;\n  &lt;RedAmberGreenPickerButton value=\"red\" label=\"Red - Non-compliant\" onclick={handleSelect} /&gt;\n  &lt;RedAmberGreenPickerButton value=\"amber\" label=\"Amber - Partial\" onclick={handleSelect} /&gt;\n  &lt;RedAmberGreenPickerButton value=\"green\" label=\"Green - Compliant\" selected onclick={handleSelect} /&gt;\n&lt;/RedAmberGreenPicker&gt;</code></pre>\n\n<p>Health dashboard with data attributes:</p>\n\n<pre tabindex=\"0\"><code class=\"language-html\">&lt;RedAmberGreenPicker label=\"Patient alert level\" data-patient-id=\"P-1042\"&gt;\n  &lt;RedAmberGreenPickerButton value=\"red\" label=\"Red - Immediate attention\" onclick={handleSelect} /&gt;\n  &lt;RedAmberGreenPickerButton value=\"amber\" label=\"Amber - Monitor closely\" selected onclick={handleSelect} /&gt;\n  &lt;RedAmberGreenPickerButton value=\"green\" label=\"Green - Stable\" onclick={handleSelect} /&gt;\n&lt;/RedAmberGreenPicker&gt;</code></pre>\n\n";
   const rest: string = "<h2>Props</h2>\n\n<ul>\n<li><code>label</code>: string (required) -- accessible label for the select</li>\n<li><code>value</code>: string (default: \"\") -- currently selected status, bindable</li>\n<li><code>...restProps</code>: Any additional HTML attributes spread onto the select</li>\n</ul>\n\n<h2>Options</h2>\n\n<ul>\n<li><code>red</code>: Critical problem, needs immediate attention</li>\n<li><code>amber</code>: Caution, minor issues or at risk</li>\n<li><code>green</code>: On track, everything is fine</li>\n</ul>\n\n<h2>Keyboard Interactions</h2>\n\n<ul>\n<li>Arrow keys navigate options (native select behavior)</li>\n<li>Enter/Space opens the dropdown</li>\n<li>Escape closes the dropdown</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li><code>aria-label</code> on the select from the label prop</li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Use for selecting a traffic-light status (red/amber/green) in risk assessments and project trackers.</li>\n<li>Use in compliance tracking dashboards where items need a three-level severity rating.</li>\n<li>Use in health dashboards where a simple status indicator captures the current state.</li>\n<li>Use when a three-level severity or progress indicator is sufficient for the use case.</li>\n<li>Use when users need to set or change a RAG status interactively.</li>\n</ul>\n\n<h2>When Not to Use</h2>\n\n<ul>\n<li>Do not use for display-only status -- use <a href=\"../red-amber-green-view/\">RedAmberGreenView</a> instead.</li>\n<li>Do not use when five-level granularity is needed -- use <a href=\"../red-orange-yellow-green-blue-picker/\">RedOrangeYellowGreenBluePicker</a> instead.</li>\n<li>Do not use for binary on/off states -- use <a href=\"../switch-button/\">SwitchButton</a> or <a href=\"../checkbox-input/\">CheckboxInput</a> instead.</li>\n<li>Do not use for free-form status text -- use <a href=\"../select/\">Select</a> with custom options instead.</li>\n</ul>\n\n<h2>Headless</h2>\n\n<p>The RedAmberGreenPicker headless component provides a <code>&lt;select&gt;</code> with <code>aria-label</code> and three predefined options (red, amber, green) with two-way value binding. Native select keyboard navigation is fully supported. The consumer provides all visual styling, including color coding.</p>\n\n<h2>Styles</h2>\n\n<p>The consumer provides all CSS styling. The component renders with a <code>.red-amber-green-picker</code> class for targeting. No default styles are included — this is a fully headless component.</p>\n\n<h2>Testing</h2>\n\n<ul>\n<li>Verify the component renders a <code>&lt;div&gt;</code> element with class <code>red-amber-green-picker</code></li>\n<li>Verify aria-label` on the select from the label prop</li>\n<li>Verify keyboard interactions work correctly</li>\n<li>Verify pass-through attributes are applied</li>\n</ul>\n\n<h2>Advice</h2>\n\n<ul>\n<li><strong>Designers</strong>: Color-code the options (red, amber, green) but also include text labels, as color alone is insufficient for users with color vision deficiencies.</li>\n<li><strong>Developers</strong>: Initialize the <code>value</code> prop to a meaningful default rather than leaving it empty, so the status is always in a valid state.</li>\n</ul>\n\n<h2>Implementation Notes</h2>\n\n<ul>\n<li>Renders as <code>&lt;select aria-label={label}&gt;</code> with three options: red, amber, green</li>\n<li>The <code>value</code> prop is two-way binding</li>\n<li>Uses native select keyboard navigation</li>\n</ul>\n\n<h2>Composition</h2>\n\n<p>RedAmberGreenPicker is the container for RedAmberGreenPickerButton children. Use <code>&lt;RedAmberGreenPicker&gt;</code> to wrap <code>&lt;RedAmberGreenPickerButton&gt;</code> elements, where each button represents one RAG status level with <code>aria-pressed</code> toggle state.</p>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>red-amber-green-picker-button</code> — a picker button for selecting a red/amber/green status</li>\n</ul>\n\n<h2>References</h2>\n\n<ul>\n<li>RAG Status: https://en.wikipedia.org/wiki/Traffic_light_rating_system</li>\n</ul>";
   // BEGIN auto-generated component example consts
-  const demoHtml: string = "<div class=\"red-amber-green-picker\" role=\"radiogroup\" aria-label=\"Status\"><button class=\"red-amber-green-picker-button\" role=\"radio\" aria-checked=\"false\">Red</button><button class=\"red-amber-green-picker-button\" role=\"radio\" aria-checked=\"false\">Amber</button><button class=\"red-amber-green-picker-button\" role=\"radio\" aria-checked=\"true\">Green</button></div>";
+  const demoHtml: string = "<fieldset class=\"red-amber-green-picker\" role=\"radiogroup\" aria-label=\"Project status\"><label><input type=\"radio\" name=\"red-amber-green-picker-demo\" value=\"red\" /> Off track</label><label><input type=\"radio\" name=\"red-amber-green-picker-demo\" value=\"amber\" /> At risk</label><label><input type=\"radio\" name=\"red-amber-green-picker-demo\" value=\"green\" checked /> On track</label></fieldset>";
   const svelteSource: string = "// In your Svelte component:\nimport RedAmberGreenPicker from \"lily-design-system-svelte-headless/components/RedAmberGreenPicker/RedAmberGreenPicker.svelte\";\n\n<RedAmberGreenPicker label=\"Picker\" />\n";
-  const usageCode: string = "<script lang=\"ts\">\n  import RedAmberGreenPicker from \"./RedAmberGreenPicker.svelte\";\n<\/script>\n\n<RedAmberGreenPicker\n  label=\"Health check\"\n  value=\"green\"\n/>\n";
+  const usageCode: string = "<script>\n  const labels = { red: \"Off track\", amber: \"At risk\", green: \"On track\" };\n  let status = $state(\"amber\");\n<\/script>\n\n<RedAmberGreenPicker\n  label=\"Project status\"\n  statusLabel={(s) => labels[s]}\n  bind:value={status}\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -76,25 +76,32 @@
       <li>PascalCase: RedAmberGreenPicker</li>
       <li>Description: a picker for selecting a red/amber/green status</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;fieldset&gt;</li>
+      <li>Naming exception: a <code>-picker</code> root is a <code>&lt;div&gt;</code> by the suffix rule, but this one is a <code>&lt;fieldset role="radiogroup"&gt;</code> of native radios in every library, as <code>five-star-rating-picker</code> is, so the group gets native radio keyboard behaviour, form submission and form reset (tasks.md P25-T18)</li>
       <li>CSS class: .red-amber-green-picker</li>
       <li>Interactive: yes</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>aria-label</code> on the select from the label prop</li>
+      <li><code>role="radiogroup"</code> -- on the <code>&lt;fieldset&gt;</code>, identifies the group as a set of radio buttons</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- the group's accessible name</li>
+      <li>Each radio is named by its visible text, so a status is never colour alone (WCAG 1.4.1)</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>Arrow keys navigate options (native select behavior)</li>
-      <li>Enter/Space opens the dropdown</li>
-      <li>Escape closes the dropdown</li>
+      <li>Tab: focus the checked radio, or the first if none is checked</li>
+      <li>ArrowDown / ArrowRight: move to and check the next radio</li>
+      <li>ArrowUp / ArrowLeft: move to and check the previous radio</li>
+      <li>Space: check the focused radio</li>
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>label</code>: string (required) -- accessible label for the select</li>
-      <li><code>value</code>: string (default: "") -- currently selected status, bindable</li>
-      <li><code>...restProps</code>: Any additional HTML attributes spread onto the select</li>
+      <li><code>label</code>: string (required) -- accessible name for the group, applied via <code>aria-label</code></li>
+      <li><code>statusLabel</code>: (status: string) =&gt; string (required) -- each option's visible text</li>
+      <li><code>value</code>: string (default: "") -- the checked status, bindable</li>
+      <li><code>name</code>: string (default: "status") -- radio group name for form submission</li>
+      <li><code>disabled</code>: boolean (default: false) -- disables the whole group</li>
+      <li><code>...restProps</code>: Any additional HTML attributes spread onto the fieldset</li>
     </ul>
 </section>
 <!-- END generated: canonical contract -->

@@ -1,12 +1,12 @@
 # Red Orange Yellow Green Blue Picker
 
 A ROYGB (Red/Orange/Yellow/Green/Blue) picker is a UI/UX component that allows
-users to select a five-level color-coded status value from a dropdown. ROYGB
+users to select a five-level color-coded status value from a group of radio buttons. ROYGB
 extends the traditional RAG (Red/Amber/Green) model by adding orange and blue
 levels for more granular status reporting. Red indicates a critical problem,
 orange signals a hazard or significant risk, yellow means caution or minor
 issues, green indicates normal on-track status, and blue represents a paused or
-informational state. The component renders as a select element with appropriate
+informational state. The component renders as a group of native radios with appropriate
 accessibility attributes, providing native keyboard navigation and screen reader
 support. This headless component provides the semantic structure while allowing
 consumers to apply their own visual styling.
@@ -15,15 +15,19 @@ consumers to apply their own visual styling.
 
 ## Implementation Notes
 
-- Renders as `<select aria-label={label}>` with five options: red, orange, yellow, green, blue
-- The `value` prop is two-way binding
-- Uses native select keyboard navigation
+- Renders a `<fieldset role="radiogroup">` of five native radios, one per status: red, orange, yellow, green, blue
+- Each option's text comes from the required `statusLabel(status)`: there is no English default
+- The `value` prop is two-way binding, and a form reset restores the starting value
+- Uses the native radio group's keyboard behaviour
 
 ## Props
 
-- `label`: string (required) -- accessible label for the select
-- `value`: string (default: "") -- currently selected status, bindable
-- `...restProps`: Any additional HTML attributes spread onto the select
+- `label`: string (required) -- accessible name for the group
+- `statusLabel`: (status: string) => string (required) -- each option's visible text
+- `value`: string (default: "") -- the checked status, bindable
+- `name`: string (default: "status") -- radio group name for form submission
+- `disabled`: boolean (default: false) -- disables the whole group
+- `...restProps`: Any additional HTML attributes spread onto the fieldset
 
 ## Options
 
@@ -35,89 +39,67 @@ consumers to apply their own visual styling.
 
 ## Usage
 
-Risk matrix with five-level granularity:
+Risk level, with the consumer's own words for each status:
 
-```html
-<Field
-  label="Clinical risk assessment"
-  required
->
-  <RedOrangeYellowGreenBluePicker label="Clinical risk level">
-    <RedOrangeYellowGreenBluePickerButton
-      value="red"
-      label="Red - Critical"
-      onclick="{handleSelect}"
-    />
-    <RedOrangeYellowGreenBluePickerButton
-      value="orange"
-      label="Orange - Serious"
-      onclick="{handleSelect}"
-    />
-    <RedOrangeYellowGreenBluePickerButton
-      value="yellow"
-      label="Yellow - Caution"
-      selected
-      onclick="{handleSelect}"
-    />
-    <RedOrangeYellowGreenBluePickerButton
-      value="green"
-      label="Green - Good"
-      onclick="{handleSelect}"
-    />
-    <RedOrangeYellowGreenBluePickerButton
-      value="blue"
-      label="Blue - Excellent"
-      onclick="{handleSelect}"
-    />
-  </RedOrangeYellowGreenBluePicker>
-</Field>
+```svelte
+<script>
+  const labels = {
+    red: "Severe",
+    orange: "High",
+    yellow: "Medium",
+    green: "Low",
+    blue: "Informational",
+  };
+  let status = $state("orange");
+</script>
+
+<RedOrangeYellowGreenBluePicker
+  label="Risk level"
+  statusLabel={(s) => labels[s]}
+  bind:value={status}
+/>
 ```
 
-Detailed project health assessment:
+It renders:
 
 ```html
-<RedOrangeYellowGreenBluePicker
-  label="Project health"
-  data-dashboard="main"
+<fieldset
+  class="red-orange-yellow-green-blue-picker"
+  role="radiogroup"
+  aria-label="Risk level"
 >
-  <RedOrangeYellowGreenBluePickerButton
-    value="red"
-    label="Red - Blocked"
-    onclick="{handleSelect}"
-  />
-  <RedOrangeYellowGreenBluePickerButton
-    value="orange"
-    label="Orange - Major risks"
-    onclick="{handleSelect}"
-  />
-  <RedOrangeYellowGreenBluePickerButton
-    value="yellow"
-    label="Yellow - Minor risks"
-    onclick="{handleSelect}"
-  />
-  <RedOrangeYellowGreenBluePickerButton
-    value="green"
-    label="Green - On track"
-    selected
-    onclick="{handleSelect}"
-  />
-  <RedOrangeYellowGreenBluePickerButton
-    value="blue"
-    label="Blue - Ahead of schedule"
-    onclick="{handleSelect}"
-  />
-</RedOrangeYellowGreenBluePicker>
+  <label
+    ><input
+      type="radio"
+      name="status"
+      value="red"
+    />
+    Severe</label
+  >
+  <label
+    ><input
+      type="radio"
+      name="status"
+      value="orange"
+      checked
+    />
+    High</label
+  >
+  …
+</fieldset>
 ```
 
 ## Keyboard Interactions
 
-- Arrow keys navigate options (native select behavior)
-- Enter/Space opens the dropdown
-- Escape closes the dropdown
+- Tab: focus the checked radio, or the first if none is checked
+- ArrowDown / ArrowRight: move to and check the next radio
+- ArrowUp / ArrowLeft: move to and check the previous radio
+- Space: check the focused radio
 
 ## ARIA
 
-- `aria-label` on the select from the label prop
+- `role="radiogroup"` on the `<fieldset>`, named by `aria-label`
+- Each radio is named by its visible text, so a status is never colour alone
 
 ## When to Use
 
@@ -134,7 +116,7 @@ Detailed project health assessment:
 
 ## Headless
 
-The RedOrangeYellowGreenBluePicker headless component provides a `<select>` with `aria-label` and five predefined options (red, orange, yellow, green, blue) with two-way value binding. Native select keyboard navigation is fully supported. The consumer provides all visual styling, including color coding.
+The RedOrangeYellowGreenBluePicker headless component renders a `<fieldset role="radiogroup">` of five native radios (red, orange, yellow, green, blue), with each option's text from the consumer and two-way value binding. The native radio group supplies the keyboard behaviour. The consumer provides all visual styling, including colour coding.
 
 ## Styles
 
@@ -142,9 +124,10 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `red-orange-yellow-green-blue-picker`
-- Verify aria-label` on the select from the label prop
-- Verify keyboard interactions work correctly
+- Verify the component renders a `<fieldset>` element with class `red-orange-yellow-green-blue-picker` and `role="radiogroup"`
+- Verify one native radio per status, sharing one name
+- Verify each option's text comes from `statusLabel`, and nothing English is hardcoded
+- Verify the arrow keys move and check the radios, and a form reset restores the starting value
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -154,7 +137,7 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 
 ## Composition
 
-RedOrangeYellowGreenBluePicker is the container for RedOrangeYellowGreenBluePickerButton children. Use `<RedOrangeYellowGreenBluePicker>` to wrap `<RedOrangeYellowGreenBluePickerButton>` elements, where each button represents one of the five status levels with `aria-pressed` toggle state.
+RedOrangeYellowGreenBluePicker renders its own radios. `red-orange-yellow-green-blue-picker-button` is a separate part, for a consumer that composes its own group; it is not a child of this component.
 
 ## Related components
 

@@ -1,6 +1,6 @@
 # Red Amber Green Picker Button
 
-A RAG (Red/Amber/Green) picker button is an individual button within a RedAmberGreenPicker that represents one traffic-light status level. When clicked, it selects that RAG status value. The component uses `aria-pressed` to indicate the currently selected state and `data-value` to carry the status value, making it accessible to screen readers and enabling CSS-based styling by status color.
+A RAG (Red/Amber/Green) picker button is an individual button that represents one traffic-light status level. When clicked, it selects that RAG status value. The component uses `aria-pressed` to indicate the currently selected state and `data-value` to carry the status value, making it accessible to screen readers and enabling CSS-based styling by status color.
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
@@ -9,7 +9,7 @@ Red indicates a critical problem needing immediate attention, amber signals caut
 ## Implementation Notes
 
 - Renders as a `<button>` element with `aria-pressed` for toggle state
-- Designed to be used inside a RedAmberGreenPicker component
+- A separate part, for a consumer composing its own group of status buttons: `RedAmberGreenPicker` renders native radios and does not use it
 - Each button represents one of three RAG status levels (red, amber, green)
 - The `selected` prop controls `aria-pressed` to indicate the active selection
 - The `data-value` attribute carries the status value for CSS targeting
