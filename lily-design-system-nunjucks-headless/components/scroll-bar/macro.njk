@@ -5,11 +5,11 @@
   CSS class: scroll-bar
 
   Params: label (the accessible name), orientation (default "vertical"),
-    value (default 0), min (default 0), max (default 100), controls,
-    id, classes, attributes.
+    value (default 0), min (default 0), max (default 100), step (default 1),
+    pageStep (default 10), controls, id, classes, attributes.
 
-  Markup only: the keys the contract names (arrows, Page Up/Down, Home/End
-  moving aria-valuenow) are the consumer's client script.
+  Keys: components/widget-init.js moves aria-valuenow on the arrows, Page
+  Up/Down, Home and End, and dispatches a bubbling "change".
 
   Usage:
     {% from "components/scroll-bar/macro.njk" import scrollBar %}
@@ -25,6 +25,8 @@
   aria-valuemin="{{ p.min | default(0) }}"
   aria-valuemax="{{ p.max | default(100) }}"
   aria-valuenow="{{ p.value | default(0) }}"
+  {%- if p.step %} data-step="{{ p.step }}"{% endif %}
+  {%- if p.pageStep %} data-page-step="{{ p.pageStep }}"{% endif %}
   {%- if p.controls %} aria-controls="{{ p.controls }}"{% endif %}
   tabindex="0"
   {%- if p.id %} id="{{ p.id }}"{% endif %}

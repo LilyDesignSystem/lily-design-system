@@ -29,16 +29,15 @@
 //   label — REQUIRED. Accessible label for the radiogroup, via
 //     aria-label.
 //
-// Keyboard: none built in — native <button> focus/activation on the
-// consumer-supplied RedOrangeYellowGreenBluePickerButton children
-// handles Tab/Enter/Space; this container adds no keydown handling of
-// its own.
+// Keyboard: the APG radio group (attachRadioGroup): one tab stop, on the checked
+// button, and the arrows move, check and wrap, swapped in right-to-left.
 //
 // References:
 //   - components/red-orange-yellow-green-blue-picker/index.md (canonical contract)
 //   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { attachRadioGroup } from "../lib/widget-keys.js";
 
 export class RedOrangeYellowGreenBluePicker extends HTMLElement {
     #built = false;
@@ -51,5 +50,7 @@ export class RedOrangeYellowGreenBluePicker extends HTMLElement {
         this.setAttribute("role", "radiogroup");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
+        // The buttons build themselves in their own connectedCallback, after this one, so attach once they exist.
+        queueMicrotask(() => attachRadioGroup(this));
     }
 }

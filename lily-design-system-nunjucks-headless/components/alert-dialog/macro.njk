@@ -22,6 +22,9 @@
     attributes    object
 
   Body content: heading, message body, and action controls via caller().
+  With `open` and `modal`, widget-init.js opens it with showModal(), which is what gives it
+  Escape and a focus trap. `open` alone renders it in place, not modal.
+
 
   Usage:
     {% from "components/alert-dialog/macro.njk" import alertDialog %}
@@ -46,6 +49,7 @@
   {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.describedBy %} aria-describedby="{{ p.describedBy }}"{% endif %}
   {%- if p.open %} open{% endif %}
+  {%- if p.modal %} data-modal{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
   {%- if p.html -%}{{ p.html | safe }}

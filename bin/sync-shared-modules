@@ -158,6 +158,7 @@ EXTRA_TARGETS = {
         "lily-design-system-angular-headless/components/wheel-picker.ts",
         "lily-design-system-web-components-headless/lib/wheel-picker.ts",
         "lily-design-system-alpine-headless/wheel-picker.js",
+        "lily-design-system-nunjucks-headless/components/wheel-picker.js",
         "lily-design-system-html-headless/components/wheel-picker.html",
     ],
     # Month grids in any CLDR calendar (spec/date-time-picker), beside each picker.
@@ -263,6 +264,7 @@ EXTRA_TARGETS = {
         "lily-design-system-angular-headless/components/overflow-navigation.ts",
         "lily-design-system-web-components-headless/lib/overflow-navigation.ts",
         "lily-design-system-alpine-headless/overflow-navigation.js",
+        "lily-design-system-nunjucks-headless/components/navigation-menu/overflow-navigation.js",
         "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NavigationMenu.razor.js",
         "lily-design-system-html-headless/components/navigation-menu.html",
     ],

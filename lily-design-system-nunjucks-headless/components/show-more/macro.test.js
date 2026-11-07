@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
+import { autoInit } from "../widget-init.js";
+import { on } from "../../test/keys.js";
 
 const p = { moreLabel: "Show more", lessLabel: "Show less", id: "c1", text: "Long content" };
 const r = (x = {}) => render("show-more", { ...p, ...x }).document;
@@ -55,5 +57,21 @@ describe("show-more", () => {
         const { html } = render("show-more", p);
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
+    });
+});
+
+describe("show-more keys", () => {
+    it("the button toggles the state and its label", () => {
+        const { document } = render("show-more", { moreLabel: "More", lessLabel: "Less" }, "x");
+        autoInit(document);
+        const button = document.querySelector("button");
+        button.click();
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(document.querySelector(".show-more-content").getAttribute("data-expanded")).toBe(
+            "true",
+        );
+        expect(button.textContent).toBe("Less");
+        button.click();
+        expect(button.textContent).toBe("More");
     });
 });

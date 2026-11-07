@@ -107,8 +107,11 @@ const FRAMEWORKS = [
     impl: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.njk`,
     test: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.test.js`,
     story: (c) => `lily-design-system-nunjucks-headless/components/${c.slug}/macro.stories.ts`,
-    // Markup only: the macros ship no script, so key behaviour is the consumer's and there is no key test to write.
-    keys: false,
+    // A macro's keys are in components/widget-init.js or a client of its own, tested from any test beside the macro.
+    keyTests: (c) => {
+      const dir = `lily-design-system-nunjucks-headless/components/${c.slug}`;
+      return exists(dir) ? fs.readdirSync(path.join(top, dir)).filter((f) => /\.test\.js$/.test(f)).map((f) => `${dir}/${f}`) : [];
+    },
   },
   {
     id: "alpine",
@@ -223,15 +226,20 @@ const keyContract = components.filter((c) => {
 const keysAllow = JSON.parse(read("bin/check-coverage.keys-allow.json"));
 const keysSeen = new Set();
 const keysBaseline = {};
-for (const fw of FRAMEWORKS) {
+// Web Components is not one of the seven in the matrix above, 35 components being out of its scope, but its keys count.
+const WEB_COMPONENTS = {
+  id: "web-components",
+  label: "WebComp",
+  impl: (c) => `lily-design-system-web-components-headless/components/${c.slug}.ts`,
+  test: (c) => `lily-design-system-web-components-headless/components/${c.slug}.test.ts`,
+};
+perFrameworkCounts[WEB_COMPONENTS.id] = { label: WEB_COMPONENTS.label };
+for (const fw of [...FRAMEWORKS, WEB_COMPONENTS]) {
   let keysMissing = 0;
-  if (fw.keys === false) {
-    perFrameworkCounts[fw.id].keysMissing = null;
-    continue;
-  }
   for (const c of keyContract) {
     const file = fw.test(c);
-    if (exists(file) && SENDS_KEY.test(read(file))) continue;
+    if (!exists(fw.impl(c)) && fw === WEB_COMPONENTS) continue;
+    if ((fw.keyTests?.(c) ?? [file]).some((f) => exists(f) && SENDS_KEY.test(read(f)))) continue;
     // A pattern test sends the keys of a shared contract through runPattern, so a component with one is tested.
     if (patternTests(c, fw).some((p) => exists(p) && /\brunPattern\(/.test(read(p)))) continue;
     keysMissing++;
@@ -266,6 +274,7 @@ for (const fw of FRAMEWORKS) {
   const keysCell = r.keysMissing === null ? "n/a" : `${r.keysMissing}/${keyContract.length}`;
   console.log(row(r.label, `${r.implMissing}/${r.total}`, `${r.testMissing}/${r.total}`, storyCell, keysCell));
 }
+console.log(row(WEB_COMPONENTS.label, "", "", "", `${perFrameworkCounts[WEB_COMPONENTS.id].keysMissing}/${keyContract.length}`));
 console.log(
   `  (keys: components whose AGENTS.md Keyboard section names APG keys but whose test sends none; ${Object.keys(keysAllow).length} listed in bin/check-coverage.keys-allow.json)`,
 );

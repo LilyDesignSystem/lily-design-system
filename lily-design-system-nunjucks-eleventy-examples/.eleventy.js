@@ -62,6 +62,16 @@ export default function (eleventyConfig) {
             "assets/js/headless/menu-bar/menu-bar.js",
         "../lily-design-system-nunjucks-headless/components/tree-list/tree.js":
             "assets/js/headless/tree-list/tree.js",
+        "../lily-design-system-nunjucks-headless/components/widget-init.js":
+            "assets/js/headless/widget-init.js",
+        "../lily-design-system-nunjucks-headless/components/widget-keys.js":
+            "assets/js/headless/widget-keys.js",
+        "../lily-design-system-nunjucks-headless/components/macro-keys.js":
+            "assets/js/headless/macro-keys.js",
+        "../lily-design-system-nunjucks-headless/components/wheel-picker.js":
+            "assets/js/headless/wheel-picker.js",
+        "../lily-design-system-nunjucks-headless/components/navigation-menu/overflow-navigation.js":
+            "assets/js/headless/navigation-menu/overflow-navigation.js",
     };
     // A passthrough copy skips a missing source without a word, which would
     // ship a site whose pickers silently never open. dist/index.js needs

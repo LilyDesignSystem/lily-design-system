@@ -1,7 +1,11 @@
 import { afterEach, describe, expect, test } from "vitest";
 
 import { FiveStarRatingPicker } from "./five-star-rating-picker.js";
+import { FiveStarRatingPickerButton } from "./five-star-rating-picker-button.js";
 
+if (!customElements.get("lily-five-star-rating-picker-button")) {
+    customElements.define("lily-five-star-rating-picker-button", FiveStarRatingPickerButton);
+}
 if (!customElements.get("lily-five-star-rating-picker")) {
     customElements.define("lily-five-star-rating-picker", FiveStarRatingPicker);
 }
@@ -65,5 +69,27 @@ describe("FiveStarRatingPicker", () => {
 
         expect(host.getAttribute("role")).toBe("radiogroup");
         expect(host.getAttribute("aria-label")).toBe("Rate this product");
+    });
+});
+
+describe("FiveStarRatingPicker keys", () => {
+    test("is one radio group: one tab stop, and the arrows move, check and wrap", async () => {
+        const host = render(
+            '<lily-five-star-rating-picker label="Choice">' +
+                '<lily-five-star-rating-picker-button value="1" label="One" selected></lily-five-star-rating-picker-button>' +
+                '<lily-five-star-rating-picker-button value="2" label="Two"></lily-five-star-rating-picker-button>' +
+                "</lily-five-star-rating-picker>",
+        );
+        await Promise.resolve();
+        const [one, two] = host.querySelectorAll<HTMLButtonElement>("button");
+        expect(one.getAttribute("role")).toBe("radio");
+        expect([one.tabIndex, two.tabIndex]).toEqual([0, -1]);
+        one.focus();
+        one.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+        expect(document.activeElement).toBe(two);
+        expect(two.getAttribute("aria-checked")).toBe("true");
+        expect(one.getAttribute("aria-checked")).toBe("false");
+        two.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+        expect(document.activeElement).toBe(one);
     });
 });

@@ -3,6 +3,8 @@
     demonstrations, onboarding, etc.
 
   HTML tag: <section>
+  `active`, when given, renders data-active, and false hides it. Escape
+  (components/widget-init.js) hides it and dispatches a bubbling "close".
   CSS class: tour
 
   Params:
@@ -22,6 +24,8 @@
 {%- set p = params | default({}) -%}
 <section
   class="tour{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.active != undefined %} data-active="{{ 'true' if p.active else 'false' }}"{% endif %}
+  {%- if p.active === false %} hidden{% endif %}
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

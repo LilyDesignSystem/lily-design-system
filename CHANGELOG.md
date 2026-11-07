@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Nunjucks macros own their keys — 2026-11-07
+
+- **Added:** `autoInit()` from `components/widget-init.js` now wires the keys of `tool-bar`, `dial`, `slider-button`, `pin-input-div`, `tree-menu`, `scroll-bar`, `tile-map`, `wheel-picker`, `horizontal-scroller`, `editable`, `editable-form`, `tour`, `listbox`, `file-tree`, `navigation-menu` overflow, and `color-picker`, `five-star-rating-picker`, `five-face-rating-picker`, `net-promoter-score-picker`, `red-amber-green-picker` and `red-orange-yellow-green-blue-picker` as radio groups. It also runs `chat-composer` (Enter to send, the button following the text, growing rows, a bubbling `stop`) and `show-more`. A consumer that wrote its own keys for these and also calls `autoInit()` should drop one.
+- **Added:** `modal` on `dialog`, `alert-dialog`, `file-dialog` and `timeout-dialog`, opened with `showModal()`; `open` on `timeout-dialog`; `active` on `tour`; `editing` on `editable-form`; `step` and `pageStep` on `scroll-bar`.
+- **Changed (breaking):** the Web Components `five-star-rating-picker-button`, `five-face-rating-picker-button`, `net-promoter-score-picker-button`, `red-amber-green-picker-button` and `red-orange-yellow-green-blue-picker-button` are `role="radio"` with `aria-checked`, not `aria-pressed`, and their pickers have radio-group keys: one tab stop, and the arrows move, check and wrap.
+- **Changed (breaking):** Nunjucks `file-dialog` renders a `<dialog>`, not a `<div role="dialog">`, and `open` sets the `open` attribute, not `hidden`.
+- **Changed:** `bin/check-coverage` covers keys in Nunjucks and Web Components, and `docs/aria-assessment.md` counts tested, reasoned and open cells.
+
 ## Angular grid cells keep what a consumer sets — 2026-11-07
 
 - **Fixed:** the host bindings added to Angular `kanban-table-td`, `calendar-table-td`, `data-table-td` and `gantt-table-td` on 2026-11-06 ran after a consumer's `[attr.tabindex]`, `[attr.aria-selected]` and `[attr.aria-current]` and erased them, so the Angular `kanban-board`, `calendar` and `gantt-chart` lost their tab stop. An attribute is now written only when its input is given, through `attrWhenSet`.
