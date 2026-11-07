@@ -14,6 +14,13 @@ highlights.
 - **Fixed:** in all 63 themes a focused file-tree item and a picker's keyboard cursor had no ring: `outline: var(--lily-focus-ring)` names a colour alone, which resets the outline style to `none`. Both are `2px solid` now.
 - **Added:** the focus-ring contract in `AGENTS/theme.md` and spec/theme: width, offset, colour, the forced-colours fallback, and the WCAG criterion each meets. `bin/check-theme --contrast` reports the ring against the page at 3:1 (report only: 14 themes miss it).
 
+## Ports catch up with Svelte's roots — 2026-11-07
+
+- **Fixed:** 53 root roles and ARIA attributes in Nunjucks, HTML and Blazor now match what Svelte renders and the contract says, among them `care-card`, `resizable`, `floating-panel` and `medical-banner-box-for-danger` as regions, `warning-callout` as an alert, `timeout-dialog` as an alertdialog, `timer` as a timer, HTML `notification` and `progress-spinner` as status, and HTML `time-picker-input` without its stray `role="radiogroup"`.
+- **Changed (breaking):** Nunjucks `organization` and `person` are `<article>`s, HTML `slider` is an `<input type="range">`, Nunjucks `tour-list-item` takes a `label` and hides a step that is not current, and Nunjucks `text-input-with-search` takes `inputLabel` for its input, `label` now naming the search landmark too.
+- **Changed (breaking):** `tour-list-item` drops `role="group"` and `aria-roledescription="step"` in every catalog and the contract: an `<li>` with a group role is no longer a list item, so its tour list failed axe's `list` rule. Each step stays a list item, named by its `aria-label`.
+- **Added:** Blazor `*-picker-button`s take `Value`, `Selected` and `Disabled`; Blazor `progress-circle` takes `Value`, `Min` and `Max`; Blazor `overlay-container` takes `Open`.
+
 ## emoji-character-picker is a group — 2026-11-07
 
 - **Changed (breaking):** `emoji-character-picker` is a `<div role="group">` named by `label` in every catalog, holding the consumer's emoji buttons. It was `role="grid"` with no keys, which promised arrow-key cell navigation, and in Nunjucks a `role="dialog"` hidden by default; the Nunjucks `open` param is gone. Give each emoji button its own `aria-label`.

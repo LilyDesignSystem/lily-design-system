@@ -16,7 +16,7 @@
         ChildContent, CssClass, AdditionalAttributes (spread onto the li).
 *@
 
-<li class="@($"tour-list-item {CssClass}".Trim())" role="group" aria-roledescription="step" aria-label="@FullLabel" data-current="@(Current ? "" : null)" aria-hidden="@(Current ? null : "true")" hidden="@(!Current)" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"tour-list-item {CssClass}".Trim())" aria-label="@FullLabel" data-current="@(Current ? "" : null)" aria-hidden="@(Current ? null : "true")" hidden="@(!Current)" @attributes="AdditionalAttributes">@ChildContent</li>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

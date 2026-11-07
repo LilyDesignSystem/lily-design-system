@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html =
-    '<input\n  class="search-input"\n  role="searchbox"\n  type="search"\n  aria-label=""\n>';
+const html = '<input\n  class="search-input"\n  type="search"\n  aria-label=""\n>';
 
 const meta = {
     title: "Headless/Search Input",

@@ -15,10 +15,10 @@ describe("Sidebar", function () {
         expect(className).toContain("sidebar");
     });
 
-    it("should have the correct ARIA role", async function () {
+    it("relies on the element's implicit role, with no explicit one", async function () {
         const el = await $("aside.sidebar");
         const roleAttr = await el.getAttribute("role");
-        expect(roleAttr).toBe("complementary");
+        expect(roleAttr).toBeNull();
     });
 
     it("should have an aria-label attribute", async function () {

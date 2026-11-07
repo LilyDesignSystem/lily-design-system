@@ -30,7 +30,7 @@
     is rendered (re-create it with @key when it does).
 *@
 
-<nav class="@($"navigation-menu {CssClass}".Trim())" role="navigation" aria-label="@Label" data-overflow="@(Overflow ? "true" : null)" @ref="_root" @attributes="AdditionalAttributes">
+<nav class="@($"navigation-menu {CssClass}".Trim())" aria-label="@Label" data-overflow="@(Overflow ? "true" : null)" @ref="_root" @attributes="AdditionalAttributes">
     @if (Overflow)
     {
         <ul class="navigation-menu-list">@ChildContent<li class="navigation-menu-more" hidden><button class="navigation-menu-more-button" type="button" aria-expanded="false">@MoreLabel</button><ul class="navigation-menu-more-list" hidden></ul></li></ul>

@@ -11,6 +11,7 @@
     selected    boolean  aria-selected.
     current     boolean  data-current.
     level       number   aria-level for flattened trees (optional).
+    label       string   aria-label, when the visible text is not the name.
     text        string
     html        string
     id          string
@@ -34,6 +35,7 @@
   {%- if p.selected %} aria-selected="true"{% endif %}
   {%- if p.current %} data-current{% endif %}
   {%- if p.level %} aria-level="{{ p.level }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

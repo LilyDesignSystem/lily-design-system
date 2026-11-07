@@ -2,11 +2,11 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("floating-panel", () => {
-    it("renders a <div role=dialog> hidden by default", () => {
+    it("renders a <div role=region> hidden by default", () => {
         const { document } = render("floating-panel", { label: "X" });
         const el = document.querySelector("div.floating-panel");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("role")).toBe("dialog");
+        expect(el.getAttribute("role")).toBe("region");
         expect(el.hasAttribute("hidden")).toBe(true);
     });
 

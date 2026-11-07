@@ -36,8 +36,7 @@
 //   - None directly -- keyboard behavior comes from child interactive elements
 //
 // Accessibility:
-//   - role="group" groups the step content semantically
-//   - aria-roledescription="step" identifies the element as a tour step
+//   - The <li> stays a list item of its tour list (tasks.md P25-T7): a group role would take it out of the list
 //   - aria-label includes step label and optional "Step N of M" progress
 //   - data-current indicates the currently active step
 //   - aria-hidden="true" and hidden attribute hide inactive steps
@@ -53,7 +52,6 @@
 //
 // References:
 //   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
-//   - WAI-ARIA aria-roledescription: https://www.w3.org/TR/wai-aria-1.2/#aria-roledescription
 //   - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current
 
 import React from "react";
@@ -90,8 +88,6 @@ export default function TourListItem({
     return (
         <li
             className={`tour-list-item ${className}`}
-            role="group"
-            aria-roledescription="step"
             aria-label={fullLabel}
             data-current={current ? "" : undefined}
             aria-hidden={!current ? "true" : undefined}

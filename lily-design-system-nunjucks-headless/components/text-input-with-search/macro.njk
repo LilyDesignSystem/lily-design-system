@@ -4,7 +4,8 @@
   HTML tag: <div> wrapping <input type="search"> + <button>
   CSS class: text-input-with-search
 
-  Params: id, name, value, label, placeholder, searchLabel (required),
+  Params: id, name, value, label (names the search landmark, and the input unless inputLabel does),
+    inputLabel, placeholder, searchLabel (required),
     required, disabled, classes, attributes.
 
   Usage:
@@ -16,6 +17,8 @@
 {%- set inputId = (p.id | default('text-input-with-search')) ~ "-input" -%}
 <div
   class="text-input-with-search{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="search"
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
@@ -25,7 +28,7 @@
     id="{{ inputId }}"
     value="{{ p.value | default('') }}"
     {%- if p.name %} name="{{ p.name }}"{% endif %}
-    {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+    {%- if p.inputLabel or p.label %} aria-label="{{ p.inputLabel or p.label }}"{% endif %}
     {%- if p.placeholder %} placeholder="{{ p.placeholder }}"{% endif %}
     {%- if p.required %} required{% endif %}
     {%- if p.disabled %} disabled{% endif %}

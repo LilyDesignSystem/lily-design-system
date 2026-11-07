@@ -7,7 +7,8 @@
     marks this step as the one the user is on.
 
   Params:
-    current     boolean  data-current.
+    current     boolean  data-current. A step that is not current is hidden, as in Svelte.
+    label       string   Accessible name, e.g. "Step 2 of 5: Filters".
     text        string
     html        string
     id          string
@@ -22,7 +23,8 @@
 {%- set p = params | default({}) -%}
 <li
   class="tour-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.current %} data-current{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.current %} data-current{% else %} aria-hidden="true" hidden{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

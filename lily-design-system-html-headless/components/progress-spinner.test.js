@@ -18,7 +18,7 @@ describe("ProgressSpinner", function () {
     it("should have the correct ARIA role", async function () {
         const el = await $("div.progress-spinner");
         const roleAttr = await el.getAttribute("role");
-        expect(roleAttr).toBe("progressbar");
+        expect(roleAttr).toBe("status");
     });
 
     it("should have an aria-label attribute", async function () {
