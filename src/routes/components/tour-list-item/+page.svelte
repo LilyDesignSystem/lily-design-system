@@ -82,8 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>role="group"</code> -- groups the step content semantically</li>
-      <li><code>aria-roledescription="step"</code> -- identifies the element as a tour step</li>
+      <li>The <code>&lt;li&gt;</code> keeps its listitem role, so the tour list counts its steps</li>
       <li><code>aria-label</code> -- provides an accessible name, optionally including "Step N of M"</li>
       <li><code>data-current</code> -- indicates the currently active step</li>
       <li><code>aria-hidden="true"</code> -- hides inactive steps from assistive technology</li>
