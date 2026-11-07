@@ -20,7 +20,6 @@
   "dial role": "Native: the dial is an <input type=\"range\">, whose slider role and values are the browser's, not ARIA attributes.",
   "dropdown-menu role": "A structural difference: the macro's root is the role=\"menu\" popover itself, where Svelte's root wraps the trigger and the menu.",
   "editable role": "A different shape: the Nunjucks editable is a contenteditable role=\"textbox\", where Svelte toggles a role=\"button\" display and an input (tasks.md P25-T7).",
-  "emoji-character-picker role": "Not ported yet (tasks.md P25-T7).",
   "five-face-rating-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",
   "five-face-rating-picker-button role": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",
   "five-star-rating-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",

@@ -4,7 +4,7 @@ import "./emoji-character-picker.js";
 import { h } from "../stories/render.js";
 
 const SLOT =
-    '<div role="row"><button type="button" role="gridcell">\u{1F600}</button><button type="button" role="gridcell">\u{1F602}</button><button type="button" role="gridcell">\u{1F60D}</button></div>';
+    '<button type="button" aria-label="Grinning face">\u{1F600}</button><button type="button" aria-label="Face with tears of joy">\u{1F602}</button><button type="button" aria-label="Smiling face with heart-eyes">\u{1F60D}</button>';
 
 const meta: Meta = {
     title: "Pickers/EmojiCharacterPicker",

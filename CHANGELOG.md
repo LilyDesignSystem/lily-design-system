@@ -15,6 +15,10 @@ highlights.
 - **Changed (breaking):** Nunjucks `organization` and `person` are `<article>`s, HTML `slider` is an `<input type="range">`, Nunjucks `tour-list-item` takes a `label` and hides a step that is not current, and Nunjucks `text-input-with-search` takes `inputLabel` for its input, `label` now naming the search landmark too.
 - **Added:** Blazor `*-picker-button`s take `Value`, `Selected` and `Disabled`; Blazor `progress-circle` takes `Value`, `Min` and `Max`; Blazor `overlay-container` takes `Open`.
 
+## emoji-character-picker is a group — 2026-11-07
+
+- **Changed (breaking):** `emoji-character-picker` is a `<div role="group">` named by `label` in every catalog, holding the consumer's emoji buttons. It was `role="grid"` with no keys, which promised arrow-key cell navigation, and in Nunjucks a `role="dialog"` hidden by default; the Nunjucks `open` param is gone. Give each emoji button its own `aria-label`.
+
 ## The rating pickers are native radios everywhere — 2026-11-07
 
 - **Changed (breaking):** in Nunjucks and Web Components, `five-star-rating-picker`, `five-face-rating-picker` and `net-promoter-score-picker` render a `<fieldset role="radiogroup">` of native radios, as the other seven catalogs do, instead of taking `*-picker-button` children. Nunjucks takes `starLabels` / `labels`, `value`, `name` and `disabled`; Web Components the same as attributes (`label-1` …), or the `starLabel` and `labels` properties.

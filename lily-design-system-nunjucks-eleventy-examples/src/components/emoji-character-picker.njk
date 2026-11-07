@@ -6,60 +6,38 @@ description: a picker for browsing and selecting emoji
 
 {% from "components/emoji-character-picker/macro.njk" import emojiCharacterPicker %}
 
-{% call emojiCharacterPicker({ label: "Emoji picker", open: true }) %}
-  <button>😀</button><button>😃</button><button>😄</button><button>😁</button>
-  <button>😅</button><button>🙂</button><button>😊</button><button>😇</button>
+{% call emojiCharacterPicker({ label: "Choose an emoji" }) %}
+  <button type="button" aria-label="Grinning face">😀</button>
+  <button type="button" aria-label="Grinning face with big eyes">😃</button>
+  <button type="button" aria-label="Grinning face with smiling eyes">😄</button>
+  <button type="button" aria-label="Beaming face with smiling eyes">😁</button>
+  <button type="button" aria-label="Grinning face with sweat">😅</button>
+  <button type="button" aria-label="Slightly smiling face">🙂</button>
+  <button type="button" aria-label="Smiling face with smiling eyes">😊</button>
+  <button type="button" aria-label="Smiling face with halo">😇</button>
 {% endcall %}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
 <pre tabindex="0"><code>{% raw %}&lt;EmojiCharacterPicker label="Choose an emoji"&gt;
-  &lt;div
-    role="row"
-    aria-label="Smileys"
+  &lt;button
+    type="button"
+    aria-label="Grinning face"
   &gt;
-    &lt;button
-      role="gridcell"
-      aria-label="Grinning face"
-    &gt;
-      😀
-    &lt;/button&gt;
-    &lt;button
-      role="gridcell"
-      aria-label="Face with tears of joy"
-    &gt;
-      😂
-    &lt;/button&gt;
-    &lt;button
-      role="gridcell"
-      aria-label="Smiling face with heart-eyes"
-    &gt;
-      😍
-    &lt;/button&gt;
-  &lt;/div&gt;
-  &lt;div
-    role="row"
-    aria-label="Gestures"
+    😀
+  &lt;/button&gt;
+  &lt;button
+    type="button"
+    aria-label="Face with tears of joy"
   &gt;
-    &lt;button
-      role="gridcell"
-      aria-label="Thumbs up"
-    &gt;
-      👍
-    &lt;/button&gt;
-    &lt;button
-      role="gridcell"
-      aria-label="Clapping hands"
-    &gt;
-      👏
-    &lt;/button&gt;
-    &lt;button
-      role="gridcell"
-      aria-label="Waving hand"
-    &gt;
-      👋
-    &lt;/button&gt;
-  &lt;/div&gt;
+    😂
+  &lt;/button&gt;
+  &lt;button
+    type="button"
+    aria-label="Red heart"
+  &gt;
+    ❤️
+  &lt;/button&gt;
 &lt;/EmojiCharacterPicker&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

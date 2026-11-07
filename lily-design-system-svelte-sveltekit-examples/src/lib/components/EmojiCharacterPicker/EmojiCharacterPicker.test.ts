@@ -7,9 +7,9 @@ function textSnippet(text: string) {
     }) as any;
 }
 describe("EmojiCharacterPicker", () => {
-    test("renders a grid", () => {
+    test("renders a group", () => {
         render(Subject, { props: { label: "Emoji", children: textSnippet("emojis") } });
-        expect(screen.getByRole("grid")).toBeTruthy();
+        expect(screen.getByRole("group")).toBeTruthy();
     });
     test("has aria-label", () => {
         render(Subject, { props: { label: "Pick emoji", children: textSnippet("emojis") } });

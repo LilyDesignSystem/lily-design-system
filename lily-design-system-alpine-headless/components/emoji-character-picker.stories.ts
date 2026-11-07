@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div class="emoji-character-picker" role="grid" aria-label="">\n  <!-- Consumer provides grid rows and cells holding the emoji, and any category filtering -->\n</div>';
+    '<div class="emoji-character-picker" role="group" aria-label="">\n  <!-- Consumer provides the emoji buttons, one per character, and any category filtering -->\n</div>';
 
 const meta = {
     title: "Headless/Emoji Character Picker",

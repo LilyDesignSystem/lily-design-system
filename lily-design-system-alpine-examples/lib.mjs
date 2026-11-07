@@ -52,7 +52,7 @@ const WRAPS = {
 };
 const INNER = {
     "emoji-character-picker":
-        '<div role="row"><span role="gridcell">😀</span><span role="gridcell">🙂</span></div>',
+        '<button type="button" aria-label="Grinning face">😀</button><button type="button" aria-label="Slightly smiling face">🙂</button>',
 };
 
 /** The markup as a demo needs it: an orphan list item inside a list, a menu item inside a menu, and so on. */
