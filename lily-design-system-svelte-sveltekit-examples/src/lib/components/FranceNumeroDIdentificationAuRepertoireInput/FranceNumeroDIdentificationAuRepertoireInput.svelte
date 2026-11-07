@@ -92,6 +92,7 @@
     inputmode="numeric"
     pattern={nirPattern}
     autocomplete="off"
+    spellcheck="false"
     bind:value
     {required}
     {disabled}

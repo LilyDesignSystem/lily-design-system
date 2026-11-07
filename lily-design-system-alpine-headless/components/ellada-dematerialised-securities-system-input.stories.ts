@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="ellada-dematerialised-securities-system-input"\n  type="text"\n  aria-label="Dematerialised Securities System"\n  autocomplete="off"\n>';
+    '<input\n  class="ellada-dematerialised-securities-system-input"\n  type="text"\n  aria-label="Dematerialised Securities System"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Ellada Dematerialised Securities System Input",

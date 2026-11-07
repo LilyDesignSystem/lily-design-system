@@ -6,7 +6,7 @@
     an input for entering Australia's Tax File Number (TFN)
 *@
 
-<input class="@($"australia-tax-file-number-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+<input class="@($"australia-tax-file-number-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" spellcheck="false" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

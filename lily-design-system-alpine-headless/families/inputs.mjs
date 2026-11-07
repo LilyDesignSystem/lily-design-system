@@ -109,6 +109,7 @@ export default {
     await mount("password-input-or-text-input-div");
     expect(input().type).toBe("password");
     expect(input().getAttribute("autocomplete")).toBe("current-password");
+    expect(input().getAttribute("spellcheck")).toBe("false");
     expect(toggle().getAttribute("aria-pressed")).toBe("false");
   });
   it("the toggle switches the input between password and text", async () => {

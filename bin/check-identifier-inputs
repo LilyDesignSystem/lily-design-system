@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+"""bin/check-identifier-inputs — every national identifier input keeps its value out of the browser's helpers.
+
+A national identifier is personal data. Each of the identifier inputs (category "national" in
+components-categories.tsv, slugs ending in -input) must render autocomplete="off", so the browser does not save
+or offer the value, and spellcheck="false", so an enhanced spellchecker does not send it to a cloud service
+(tasks.md P23-T11). Checked in the source of all nine catalogs; exits 1 on a gap.
+"""
+import csv
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def pascal(slug):
+    return "".join(w.title() for w in slug.split("-"))
+
+
+CATALOGS = {
+    "svelte": "lily-design-system-svelte-headless/components/{N}/{N}.svelte",
+    "react": "lily-design-system-react-headless/components/{N}.tsx",
+    "vue": "lily-design-system-vue-headless/components/{N}.vue",
+    "angular": "lily-design-system-angular-headless/components/{N}.ts",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/{N}.razor",
+    "html": "lily-design-system-html-headless/components/{s}.html",
+    "web-components": "lily-design-system-web-components-headless/components/{s}.ts",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/{s}/macro.njk",
+    "alpine": "lily-design-system-alpine-headless/components/{s}.html",
+}
+OFF = re.compile(r'auto[cC]omplete="off"|"autocomplete", "off"')
+NO_SPELL = re.compile(r'spellcheck="false"|spellCheck=\{false\}|"spellcheck", "false"')
+
+slugs = [
+    r[0]
+    for r in csv.reader(open(os.path.join(TOP, "components-categories.tsv")), delimiter="\t")
+    if len(r) > 2 and r[2] == "national" and r[0].endswith("-input")
+]
+gaps = []
+for catalog, pattern in CATALOGS.items():
+    for slug in slugs:
+        path = os.path.join(TOP, pattern.format(N=pascal(slug), s=slug))
+        if not os.path.exists(path):
+            gaps.append(f"{catalog}:{slug}: no implementation at {os.path.relpath(path, TOP)}")
+            continue
+        text = open(path).read()
+        if not OFF.search(text):
+            gaps.append(f"{catalog}:{slug}: no autocomplete=\"off\"")
+        if not NO_SPELL.search(text):
+            gaps.append(f"{catalog}:{slug}: no spellcheck=\"false\"")
+for gap in gaps:
+    print(gap)
+print(f"check-identifier-inputs: {len(slugs)} identifier inputs in {len(CATALOGS)} catalogs: {'OK' if not gaps else f'{len(gaps)} gap(s)'}")
+sys.exit(1 if gaps else 0)

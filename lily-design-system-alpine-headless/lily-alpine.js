@@ -1758,6 +1758,7 @@ export default function lily(Alpine) {
                 return this.visible ? "text" : "password";
             },
             autocomplete: "current-password",
+            spellcheck: "false",
         },
         toggle: {
             type: "button",

@@ -87,6 +87,7 @@
     inputmode="numeric"
     pattern={ihiPattern}
     autocomplete="off"
+    spellcheck="false"
     bind:value
     {required}
     {disabled}

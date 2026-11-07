@@ -96,6 +96,7 @@ const visible = ref(false);
             :required="required"
             :disabled="disabled"
             autocomplete="current-password"
+            spellcheck="false"
         />
         <button
             v-if="showToggle"

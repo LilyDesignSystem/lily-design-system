@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="liechtenstein-national-identity-card-number-input"\n  type="text"\n  aria-label="Liechtenstein National Identity Card Number"\n  autocomplete="off"\n>';
+    '<input\n  class="liechtenstein-national-identity-card-number-input"\n  type="text"\n  aria-label="Liechtenstein National Identity Card Number"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Liechtenstein National Identity Card Number Input",

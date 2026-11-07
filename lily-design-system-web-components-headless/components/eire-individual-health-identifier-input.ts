@@ -42,6 +42,7 @@ export class EireIndividualHealthIdentifierInput extends HTMLElement {
         input.setAttribute("pattern", "[0-9]{10}");
         input.setAttribute("inputmode", "numeric");
         input.setAttribute("autocomplete", "off");
+        input.setAttribute("spellcheck", "false");
         passThroughAttributes(this, input, HANDLED);
 
         this.appendChild(input);

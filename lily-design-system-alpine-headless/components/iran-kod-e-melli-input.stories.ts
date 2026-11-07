@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="iran-kod-e-melli-input"\n  type="text"\n  aria-label="National Code (Kod-e Melli)"\n  autocomplete="off"\n/>';
+    '<input\n  class="iran-kod-e-melli-input"\n  type="text"\n  aria-label="National Code (Kod-e Melli)"\n  autocomplete="off"\n  spellcheck="false"\n/>';
 
 const meta = {
     title: "Headless/Iran Kod EMelli Input",

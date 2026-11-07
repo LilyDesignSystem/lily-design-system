@@ -87,6 +87,7 @@
     inputmode="numeric"
     pattern={hcPattern}
     autocomplete="off"
+    spellcheck="false"
     bind:value
     {required}
     {disabled}

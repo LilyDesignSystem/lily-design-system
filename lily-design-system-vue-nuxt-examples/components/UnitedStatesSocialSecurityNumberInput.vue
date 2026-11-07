@@ -83,6 +83,7 @@ const ssnPattern = "[0-9]{3}-[0-9]{2}-[0-9]{4}";
         inputmode="numeric"
         :pattern="ssnPattern"
         autocomplete="off"
+        spellcheck="false"
         ref="field"
         v-model="modelValue"
         :required="required"

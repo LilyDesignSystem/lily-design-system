@@ -85,6 +85,7 @@ export default function UnitedKingdomNationalHealthServiceNumberInput({
             inputMode="numeric"
             pattern={nhsPattern}
             autoComplete="off"
+            spellCheck={false}
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
             required={required}

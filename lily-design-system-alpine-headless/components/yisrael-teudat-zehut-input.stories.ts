@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="yisrael-teudat-zehut-input"\n  type="text"\n  aria-label="Teudat Zehut (תעודת זהות)"\n  autocomplete="off"\n>';
+    '<input\n  class="yisrael-teudat-zehut-input"\n  type="text"\n  aria-label="Teudat Zehut (תעודת זהות)"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Yisrael Teudat Zehut Input",

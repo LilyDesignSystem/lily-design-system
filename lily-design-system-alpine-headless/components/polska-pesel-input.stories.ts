@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="polska-pesel-input"\n  type="text"\n  aria-label="PESEL"\n  autocomplete="off"\n>';
+    '<input\n  class="polska-pesel-input"\n  type="text"\n  aria-label="PESEL"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Polska Pesel Input",

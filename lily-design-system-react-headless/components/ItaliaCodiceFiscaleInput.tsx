@@ -61,6 +61,7 @@ export default function ItaliaCodiceFiscaleInput({
             type="text"
             aria-label={label}
             autoComplete="off"
+            spellCheck={false}
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
             required={required}

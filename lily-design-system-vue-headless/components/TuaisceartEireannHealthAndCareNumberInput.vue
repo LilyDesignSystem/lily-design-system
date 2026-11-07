@@ -86,6 +86,7 @@ const hcPattern = "[0-9]{3} [0-9]{3} [0-9]{4}";
         inputmode="numeric"
         :pattern="hcPattern"
         autocomplete="off"
+        spellcheck="false"
         ref="field"
         v-model="modelValue"
         :required="required"
