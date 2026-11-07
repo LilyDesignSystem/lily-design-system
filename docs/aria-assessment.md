@@ -15,14 +15,14 @@ Each component is in the first band it falls into, so the bands add up to 609.
 | --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
 | 1. axe failure                    | 0          | Listed in `e2e/axe-sweep.allow.json`: a WCAG A or AA rule fails on its Nunjucks page |
 | 2. Key evidence incomplete        | 119        | Its contract names keys, and fewer than eight libraries have a test that sends one |
-| 3. ARIA evidence incomplete       | 312        | Its contract names ARIA, and fewer than eight libraries assert it                  |
-| 4. Automated evidence complete    | 178        | Nothing above. This is a floor, not a pass                                         |
+| 3. ARIA evidence incomplete       | 311        | Its contract names ARIA, and fewer than eight libraries assert it                  |
+| 4. Automated evidence complete    | 179        | Nothing above. This is a floor, not a pass                                         |
 
 | Measure                                                   | Result     |
 | --------------------------------------------------------- | ---------- |
-| Key contracts with a key test in all eight libraries      | 37 of 156  |
-| Custom-key widgets (arrows, Home, End, Escape), all eight | 30 of 87   |
-| ARIA contracts asserted in all eight libraries            | 140 of 525 |
+| Key contracts with a key test in all eight libraries      | 38 of 157  |
+| Custom-key widgets (arrows, Home, End, Escape), all eight | 31 of 88   |
+| ARIA contracts asserted in all eight libraries            | 141 of 525 |
 | End-to-end evidence in Chromium, Firefox and WebKit       | 45 of 609  |
 | No keyboard or ARIA contract at all                       | 73 of 609  |
 <!-- END generated: bin/generate-core -->

@@ -43,7 +43,16 @@ Sprint board with three workflow stages:
 
 ## Keyboard Interactions
 
-None built-in -- the consumer should implement keyboard interactions for moving items between columns and navigating within the board as appropriate.
+- Tab: moves to the board, on its one tab stop, and out of it
+- ArrowRight / ArrowLeft: next or previous column, swapped in right-to-left; stops at the edge
+- ArrowDown / ArrowUp: next or previous row; stops at the edge
+- Home / End: first or last cell in the row
+- Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell on the board
+- PageDown / PageUp: ten rows, stopping at the edge
+- Enter or F2: go to the first control in the cell, which keeps its own keys
+- Escape: from a control, back to its cell
+
+Moving a card between columns is the consumer's. A consumer running its own grid keys, as `kanban-board` does, sets `data-consumer-keys` on the root.
 
 ## ARIA
 

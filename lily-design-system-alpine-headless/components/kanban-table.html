@@ -2,10 +2,10 @@
 <!-- KanbanTable component (Alpine.js) -->
 <!--
   Description: a kanban board table interactive grid for organizing items by status <table>
-  HTML tag: <table>
+  HTML tag: <table with role="grid">
   CSS class: kanban-table
-  Keyboard: None (passive element)
-  Accessibility: Implicit table role, aria-label for accessible name
+  Keyboard: arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown move between cells; one tab stop; Enter or F2 goes to the first control in a cell and Escape comes back
+  Accessibility: role="grid" with required aria-label; set data-consumer-keys on the root to run your own keys
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -13,6 +13,7 @@
   class="kanban-table"
   role="grid"
   aria-label=""
+  x-lily-grid
 >
   <!-- Consumer provides thead, tbody, tfoot -->
 </table>

@@ -1,4 +1,4 @@
-// widget-init.js — the keys for the toolbars, segment groups, splitters, popup trees and mentions, whose macros are markup only. Load it once:
+// widget-init.js — the keys for the toolbars, segment groups, splitters, popup trees, mentions and kanban tables, whose macros are markup only. Load it once:
 //
 //   import { autoInit } from "@lilydesignsystem/nunjucks-headless/components/widget-init.js";
 //   autoInit();
@@ -7,6 +7,7 @@
 
 import {
     attachCropper,
+    attachGrid,
     attachMentions,
     attachRadioGroup,
     attachSplitter,
@@ -29,5 +30,6 @@ export function autoInit(doc = document) {
         ...all(".tree-select", (el) => attachTreePopup(el)),
         ...all(".mentions-input", (el) => attachMentions(el)),
         ...all(".image-cropper", (el) => attachCropper(el)),
+        ...all(".kanban-table", (el) => attachGrid(el)),
     ];
 }

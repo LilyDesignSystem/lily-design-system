@@ -623,6 +623,7 @@ export {
 } from "./components/wheel-picker";
 export {
     ToolbarOptions,
+    GridOptions,
     SplitterOptions,
     TreeSelection,
     TreePopupOptions,

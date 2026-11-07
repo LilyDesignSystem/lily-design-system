@@ -1570,6 +1570,7 @@ function onGridKeydown(event: KeyboardEvent): void {
                 :caption="caption"
                 :aria-multiselectable="selectable ? 'true' : undefined"
                 :aria-rowcount="virtualize ? slots.length + 1 : undefined"
+                data-consumer-keys="true"
                 @keydown="onGridKeydown"
                 @focusin="onGridFocusin"
             >

@@ -1,16 +1,8 @@
 // @vitest-environment jsdom
 // What the toolbar and radio-group contracts do not reach: the module's edges.
-import { afterEach, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
-import {
-    attachCropper,
-    attachMentions,
-    attachRadioGroup,
-    attachSplitter,
-    attachSplitView,
-    attachToolbar,
-    attachTreePopup,
-} from "./widget-keys";
+import { attachCropper, attachGrid, attachMentions, attachRadioGroup, attachSplitView, attachSplitter, attachToolbar, attachTreePopup } from "./widget-keys";
 
 function mount(html: string): HTMLElement {
     document.body.innerHTML = html;
@@ -383,4 +375,95 @@ test("the arrows stay physical in right-to-left, and a control inside keeps its 
     expect(root.getAttribute("data-crop-x")).toBe("1");
     expect(press(root.querySelector("input")!, "ArrowRight").defaultPrevented).toBe(false);
     detach();
+});
+
+describe("attachGrid", () => {
+    const ROWS =
+        "<tr><td>A1</td><td>B1 <button>Open</button></td></tr><tr><td>A2</td><td>B2</td></tr>";
+    const press = (el: Element, key: string, init: KeyboardEventInit = {}): boolean =>
+        el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
+    const grid = (attrs = ""): HTMLElement => {
+        document.body.innerHTML = `<table role="grid" aria-label="Board" ${attrs}><tbody>${ROWS}</tbody></table>`;
+        return document.querySelector("table")!;
+    };
+    const cell = (text: string): HTMLElement =>
+        [...document.querySelectorAll<HTMLElement>("td")].find((td) =>
+            td.textContent!.startsWith(text),
+        )!;
+
+    test("a consumer running its own keys is left alone", () => {
+        const root = grid("data-consumer-keys");
+        const detach = attachGrid(root);
+        expect(cell("A1").hasAttribute("tabindex")).toBe(false);
+        cell("A1").tabIndex = 0;
+        cell("A1").focus();
+        expect(press(cell("A1"), "ArrowRight")).toBe(true);
+        expect(document.activeElement).toBe(cell("A1"));
+        detach();
+    });
+
+    test("data-consumer-keys on a host counts too", () => {
+        document.body.innerHTML = `<div data-consumer-keys><table role="grid"><tbody>${ROWS}</tbody></table></div>`;
+        attachGrid(document.querySelector("table")!)();
+        expect(cell("A1").hasAttribute("tabindex")).toBe(false);
+    });
+
+    test("rows that arrive later still get a tab stop", async () => {
+        document.body.innerHTML = '<table role="grid" aria-label="Board"></table>';
+        const root = document.querySelector("table")!;
+        const detach = attachGrid(root);
+        root.innerHTML = `<tbody>${ROWS}</tbody>`;
+        await new Promise((resolve) => setTimeout(resolve));
+        expect(cell("A1").tabIndex).toBe(0);
+        detach();
+    });
+
+    test("an active cell stays the tab stop", () => {
+        const root = grid();
+        cell("B2").setAttribute("tabindex", "0");
+        const detach = attachGrid(root);
+        expect(root.querySelectorAll('[tabindex="0"]').length).toBe(1);
+        expect(cell("B2").tabIndex).toBe(0);
+        detach();
+    });
+
+    test("right-to-left swaps the arrows", () => {
+        const root = grid('dir="rtl" style="direction: rtl"');
+        const detach = attachGrid(root);
+        cell("A1").focus();
+        press(cell("A1"), "ArrowLeft");
+        expect(document.activeElement).toBe(cell("B1"));
+        detach();
+    });
+
+    test("Alt and Shift are left to the consumer", () => {
+        const root = grid();
+        const detach = attachGrid(root);
+        cell("A1").focus();
+        expect(press(cell("A1"), "ArrowRight", { altKey: true })).toBe(true);
+        expect(press(cell("A1"), "ArrowRight", { shiftKey: true })).toBe(true);
+        expect(document.activeElement).toBe(cell("A1"));
+        detach();
+    });
+
+    test("Enter goes into a cell, its control keeps its keys, and Escape comes back", () => {
+        const root = grid();
+        const detach = attachGrid(root);
+        const button = root.querySelector("button")!;
+        cell("B1").focus();
+        press(cell("B1"), "Enter");
+        expect(document.activeElement).toBe(button);
+        expect(press(button, "ArrowDown")).toBe(true);
+        expect(document.activeElement).toBe(button);
+        press(button, "Escape");
+        expect(document.activeElement).toBe(cell("B1"));
+        detach();
+    });
+
+    test("cleanup stops the keys", () => {
+        const root = grid();
+        attachGrid(root)();
+        cell("A1").focus();
+        expect(press(cell("A1"), "ArrowRight")).toBe(true);
+    });
 });

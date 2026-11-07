@@ -52,7 +52,9 @@
 // References:
 //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { warnMissingName } from "./dev-warning";
+import { attachGrid } from "./widget-keys";
 
 export interface KanbanTableProps {
     className?: string;
@@ -72,8 +74,12 @@ export default function KanbanTable({
     children,
     ...restProps
 }: KanbanTableProps) {
+    warnMissingName("KanbanTable", label, restProps["aria-labelledby"]);
+    const rootRef = useRef<HTMLTableElement>(null);
+    useEffect(() => attachGrid(rootRef.current!), []);
     return (
         <table
+            ref={rootRef}
             className={`kanban-table ${className}`}
             role="grid"
             aria-label={label}

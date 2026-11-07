@@ -2357,6 +2357,8 @@ export class KanbanBoard extends HTMLElement {
         if (this.#fieldLayout === "compact") root.setAttribute("data-field-layout", "compact");
 
         const table = document.createElement("lily-kanban-table");
+        // This board runs its own grid keys, so the table must not run them too.
+        table.setAttribute("data-consumer-keys", "true");
         table.setAttribute("label", this.label);
         // See architecture note: <lily-kanban-table> defaults its inner
         // <table> to role="region" (a documented, deliberate quirk kept

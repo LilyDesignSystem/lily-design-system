@@ -27,6 +27,23 @@ export default {
         test: usesTag("horizontal-scroller", "div"),
     },
 
+    "kanban-table": {
+        tag: 'table with role="grid"',
+        keyboard:
+            "arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown move between cells; one tab stop; Enter or F2 goes to the first control in a cell and Escape comes back",
+        aria: 'role="grid" with required aria-label; set data-consumer-keys on the root to run your own keys',
+        markup: `<table
+  class="kanban-table"
+  role="grid"
+  aria-label=""
+  x-lily-grid
+>
+  <!-- Consumer provides thead, tbody, tfoot -->
+</table>`,
+        sel: "table.kanban-table",
+        test: usesTag("kanban-table", "table"),
+    },
+
     "action-bar": {
         tag: 'div with role="toolbar"',
         keyboard:

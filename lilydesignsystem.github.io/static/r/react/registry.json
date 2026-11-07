@@ -5294,6 +5294,10 @@
       "title": "KanbanTable",
       "description": "A kanban board table interactive grid for organizing items by status <table>.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "tables"
       ],

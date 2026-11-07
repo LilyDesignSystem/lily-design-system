@@ -9,6 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Angular grid cells keep what a consumer sets — 2026-11-07
+
+- **Fixed:** the host bindings added to Angular `kanban-table-td`, `calendar-table-td`, `data-table-td` and `gantt-table-td` on 2026-11-06 ran after a consumer's `[attr.tabindex]`, `[attr.aria-selected]` and `[attr.aria-current]` and erased them, so the Angular `kanban-board`, `calendar` and `gantt-chart` lost their tab stop. An attribute is now written only when its input is given, through `attrWhenSet`.
+
+## kanban-table has grid keys — 2026-11-07
+
+- **Added:** `kanban-table` is interactive: arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp, PageDown, Enter, F2 and Escape, with one tab stop, in all nine catalogs, from `attachGrid` in `shared/widget-keys.ts`. `role="grid"` promised these keys and nothing supplied them.
+- **Added:** `data-consumer-keys` on the root turns them off for a consumer running its own. The `kanban-board` helpers that compose `kanban-table` set it.
+
 ## Names on elements that cannot take one — 2026-11-07
 
 - **Changed:** `citation` and `review-date` render `label` as hidden text in a `screen-reader-span`, read before the content, as the `-view` components do. `aria-label` on `<cite>` and `<time>` is not reliably read.

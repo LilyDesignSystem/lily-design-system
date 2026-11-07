@@ -12,7 +12,7 @@
 //   Alpine.start();
 
 import { menuKeydown } from "./menu-keys.js";
-import { attachCropper, attachSplitView, attachToolbar } from "./widget-keys.js";
+import { attachCropper, attachGrid, attachSplitView, attachToolbar } from "./widget-keys.js";
 import { truncateMiddle } from "./middle-truncation.js";
 import { setupOverflowNavigation } from "./overflow-navigation.js";
 import {
@@ -263,6 +263,11 @@ export default function lily(Alpine) {
     });
 
     // A toolbar, on any element: x-lily-toolbar, with an optional selector for the button Escape clicks.
+    // KanbanTable: <table role="grid">. The grid keys, over the cells the consumer renders.
+    Alpine.directive("lily-grid", (el, _, { cleanup }) => {
+        cleanup(attachGrid(el));
+    });
+
     Alpine.directive("lily-toolbar", (el, { expression }, { cleanup }) => {
         cleanup(attachToolbar(el, expression ? { dismiss: expression } : {}));
     });

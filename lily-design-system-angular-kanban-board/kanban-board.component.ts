@@ -347,6 +347,7 @@ export function nextKanbanBoardId(): string {
         (scroll)="onScroll($event)"
       >
       <lily-kanban-table
+        data-consumer-keys="true"
         [label]="label()"
         (keydown)="onGridKeydown($event)"
         (focusin)="onGridFocusin($event)"

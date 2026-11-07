@@ -245,7 +245,7 @@ island-kennitala-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
 island-kennitala-view	ARIA evidence incomplete	no	no	no	yes	1	6	no	-
 italia-codice-fiscale-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
 italia-codice-fiscale-view	ARIA evidence incomplete	no	no	no	yes	1	6	no	-
-kanban-table	ARIA evidence incomplete	no	no	no	yes	8	7	no	-
+kanban-table	automated evidence complete	no	yes	yes	yes	8	8	no	-
 kanban-table-body	automated evidence complete	no	no	no	no	7	8	no	-
 kanban-table-foot	automated evidence complete	no	no	no	no	7	8	no	-
 kanban-table-head	automated evidence complete	no	no	no	no	7	8	no	-
