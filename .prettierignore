@@ -79,3 +79,5 @@ lily-design-system-web-components-headless/index.ts
 
 # Generated: svelte-headless generic-name test, UPDATE_ARIA_BASELINE=1.
 shared/aria-baseline.json
+lily-design-system-nunjucks-headless/components/wheel-picker.js
+lily-design-system-nunjucks-headless/components/navigation-menu/overflow-navigation.js

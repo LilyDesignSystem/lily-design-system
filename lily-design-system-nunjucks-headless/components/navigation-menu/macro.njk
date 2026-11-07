@@ -9,11 +9,8 @@
 
   Overflow mode: the content must be <li> items. The macro renders them in
   <ul class="navigation-menu-list"> beside a hidden "More" item and publishes
-  data-overflow="true". This library ships no client JavaScript, so the macro
-  renders the MARKUP only: with no script the links simply wrap and the More item
-  stays hidden. To get the measure-and-move behaviour, load a script that calls
-  setupOverflowNavigation(nav) from shared/overflow-navigation.ts (the Web
-  Components and Alpine libraries ship it).
+  data-overflow="true". With no script the links simply wrap and the More item stays hidden;
+  components/widget-init.js adds the measure-and-move behaviour and its keys.
 
   Usage:
     {% from "components/navigation-menu/macro.njk" import navigationMenu %}

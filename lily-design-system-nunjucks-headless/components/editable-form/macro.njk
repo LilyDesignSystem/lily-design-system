@@ -2,6 +2,8 @@
   EditableForm macro — a form wrapper for inline editing of content.
 
   HTML tag: <form>
+  `editing`, when given, renders data-editing, and false hides the form. Escape
+  (components/widget-init.js) hides it and dispatches a bubbling "cancel".
   CSS class: editable-form
 
   Params: action, method (default "post"), label, id, classes, attributes.
@@ -16,6 +18,8 @@
   class="editable-form{% if p.classes %} {{ p.classes }}{% endif %}"
   action="{{ p.action | default('#') }}"
   method="{{ p.method | default('post') }}"
+  {%- if p.editing != undefined %} data-editing="{{ 'true' if p.editing else 'false' }}"{% endif %}
+  {%- if p.editing === false %} hidden{% endif %}
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

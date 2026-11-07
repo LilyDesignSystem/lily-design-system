@@ -28,7 +28,7 @@
 - Macro takes a single `params` options object
 - Shared param keys: `text`, `html`, `label`, `classes`, `attributes`
 - Headless design: no CSS, no styles — consumers provide all styling
-- No bundled JavaScript — consumers provide all behaviour
+- A macro renders markup and owns its keys: `components/widget-init.js` wires them (`autoInit()`, once), and a few macros have a client of their own, such as `tab-bar/tab-bar.js`. Macros carry no inline script
 - Input/View pattern for paired -Input/-View components
 - Macro names are camelCase (Nunjucks does not allow hyphens in
   identifiers); file paths and CSS classes stay kebab-case
@@ -79,8 +79,8 @@ Each component lives in its own directory:
 - ARIA attributes
 - `params.attributes` for arbitrary extra attributes
 - No visual styling
-- No bundled JavaScript
-- Consumers bring all their own CSS and behaviour
+- Bundled JavaScript only for keys and focus, in modules a consumer loads
+- Consumers bring all their own CSS
 
 ## Titles
 

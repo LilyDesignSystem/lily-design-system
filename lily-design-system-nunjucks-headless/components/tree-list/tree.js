@@ -33,7 +33,7 @@ export function initTreeList(tree) {
             event.preventDefault();
             item.focus();
         };
-        const direction = getComputedStyle(active).direction;
+        const direction = tree.ownerDocument.defaultView.getComputedStyle(active).direction;
         const forward = direction === "rtl" ? "ArrowLeft" : "ArrowRight";
         const expanded = active.getAttribute("aria-expanded");
         if (event.key === "Enter" || event.key === " " || event.key.length === 1)

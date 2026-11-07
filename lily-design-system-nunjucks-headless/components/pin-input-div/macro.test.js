@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
+import { autoInit } from "../widget-init.js";
+import { on } from "../../test/keys.js";
 
 describe("pin-input-div", () => {
     it("renders a group of single-digit inputs", () => {
@@ -57,5 +59,22 @@ describe("pin-input-div", () => {
         const inputs = document.querySelectorAll("input");
         expect(inputs[0].getAttribute("aria-label")).toBe("Digit 1 of 4");
         expect(inputs[3].getAttribute("aria-label")).toBe("Digit 4 of 4");
+    });
+});
+
+describe("pin-input-div keys", () => {
+    it("moves with the arrows and clears with Backspace", () => {
+        const { document } = render("pin-input-div", { label: "Code", length: 3 });
+        autoInit(document);
+        const [one, two] = document.querySelectorAll("input");
+        on(one).press("ArrowRight");
+        expect(document.activeElement).toBe(two);
+        on(two).press("ArrowLeft");
+        expect(document.activeElement).toBe(one);
+        one.value = "7";
+        on(one).press("Backspace");
+        expect(one.value).toBe("");
+        on(two).press("Backspace");
+        expect(document.activeElement).toBe(one);
     });
 });

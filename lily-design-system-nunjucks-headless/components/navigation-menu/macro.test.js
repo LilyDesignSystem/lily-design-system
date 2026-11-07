@@ -1,5 +1,8 @@
+// @vitest-environment jsdom
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
+import { autoInit } from "../widget-init.js";
+import { on } from "../../test/keys.js";
 
 describe("navigation-menu", () => {
     it("renders a <nav> with no English aria-label", () => {
@@ -47,5 +50,24 @@ describe("navigation-menu", () => {
     it("overflow renders no English: without moreLabel the button text is empty", () => {
         const { document } = render("navigation-menu", { overflow: true, html: "<li>x</li>" });
         expect(document.querySelector(".navigation-menu-more-button").textContent).toBe("");
+    });
+});
+
+describe("navigation-menu keys", () => {
+    it("overflow: Escape closes the More list and returns to its button", () => {
+        const { document } = render(
+            "navigation-menu",
+            { label: "Main", overflow: true, moreLabel: "More" },
+            '<li><a href="/a">A</a></li>',
+        );
+        autoInit(document);
+        document.querySelector(".navigation-menu-more").hidden = false;
+        const button = document.querySelector(".navigation-menu-more-button");
+        const list = document.querySelector(".navigation-menu-more-list");
+        button.click();
+        expect(list.hidden).toBe(false);
+        on(button).press("Escape");
+        expect(list.hidden).toBe(true);
+        expect(document.activeElement).toBe(button);
     });
 });

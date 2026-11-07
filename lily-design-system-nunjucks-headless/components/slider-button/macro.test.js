@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
+import { autoInit } from "../widget-init.js";
+import { on } from "../../test/keys.js";
 
 describe("slider-button", () => {
     it("renders a <button role=slider> with no English label", () => {
@@ -26,5 +28,21 @@ describe("slider-button", () => {
         const { html } = render("slider-button", {});
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
+    });
+});
+
+describe("slider-button keys", () => {
+    it("slides on the arrows and confirms at the end", () => {
+        const { document } = render("slider-button", { label: "Slide to delete" });
+        autoInit(document);
+        const button = document.querySelector(".slider-button");
+        let confirmed = 0;
+        button.addEventListener("confirm", () => confirmed++);
+        on(button).press("ArrowRight");
+        expect(button.getAttribute("aria-valuenow")).toBe("10");
+        on(button).press("ArrowLeft");
+        expect(button.getAttribute("aria-valuenow")).toBe("0");
+        on(button).press("Enter");
+        expect(confirmed).toBe(1);
     });
 });

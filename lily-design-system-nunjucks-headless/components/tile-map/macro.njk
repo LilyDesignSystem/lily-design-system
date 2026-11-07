@@ -11,9 +11,8 @@
     classes    string
     attributes object
 
-  Keyboard interactions (Arrow keys, Enter/Space, Escape) are the
-  consumer's responsibility — Nunjucks renders the markup but does
-  not bundle JS.
+  Keyboard interactions (Arrow keys, Enter/Space, Escape) are in
+  components/widget-init.js, over the consumer's focusable [data-tile] elements.
 
   Usage:
     {% from "components/tile-map/macro.njk" import tileMap %}
