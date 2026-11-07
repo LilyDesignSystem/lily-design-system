@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
+import { autoInit } from "../widget-init.js";
+import { on } from "../../test/keys.js";
 
 const name = "chat-composer";
 const base = { label: "Message", sendLabel: "Send", stopLabel: "Stop" };
@@ -87,5 +89,48 @@ describe("chat-composer", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
         expect(html).not.toContain("style=");
+    });
+});
+
+describe("chat-composer keys", () => {
+    it("Enter sends, Shift+Enter does not, and the button follows the text", () => {
+        const { document } = render("chat-composer", {
+            label: "Message",
+            sendLabel: "Send",
+            stopLabel: "Stop",
+        });
+        autoInit(document);
+        const form = document.querySelector("form");
+        const input = document.querySelector("textarea");
+        const button = document.querySelector("button");
+        let sent = 0;
+        form.addEventListener("submit", (event) => {
+            event.preventDefault();
+            sent++;
+        });
+        on(input).press("Enter");
+        expect(sent).toBe(0);
+        input.value = "Hello";
+        input.dispatchEvent(new document.defaultView.Event("input", { bubbles: true }));
+        expect(button.disabled).toBe(false);
+        on(input).press("Enter", { shiftKey: true });
+        on(input).press("Enter", { isComposing: true });
+        expect(sent).toBe(0);
+        on(input).press("Enter");
+        expect(sent).toBe(1);
+    });
+
+    it("the stop button reports stop", () => {
+        const { document } = render("chat-composer", {
+            label: "M",
+            sendLabel: "S",
+            stopLabel: "T",
+            busy: true,
+        });
+        autoInit(document);
+        let stopped = 0;
+        document.querySelector("form").addEventListener("stop", () => stopped++);
+        document.querySelector("button").click();
+        expect(stopped).toBe(1);
     });
 });

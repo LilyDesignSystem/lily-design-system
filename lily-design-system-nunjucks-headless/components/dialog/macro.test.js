@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
+import { autoInit } from "../widget-init.js";
+import { on } from "../../test/keys.js";
 
 describe("dialog", () => {
     it("renders a <dialog> with the base class", () => {
@@ -44,5 +46,25 @@ describe("dialog", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
         expect(html).not.toContain("style=");
+    });
+});
+
+describe("dialog keys", () => {
+    it("modal and open: opened with showModal, which gives it Escape and a focus trap", () => {
+        const { document } = render("dialog", { label: "X", open: true, modal: true });
+        const dialog = document.querySelector("dialog");
+        let modal = 0;
+        dialog.close = () => dialog.removeAttribute("open");
+        dialog.showModal = () => modal++;
+        autoInit(document);
+        expect(modal).toBe(1);
+    });
+
+    it("open alone stays in place", () => {
+        const { document } = render("dialog", { label: "X", open: true });
+        let modal = 0;
+        document.querySelector("dialog").showModal = () => modal++;
+        autoInit(document);
+        expect(modal).toBe(0);
     });
 });

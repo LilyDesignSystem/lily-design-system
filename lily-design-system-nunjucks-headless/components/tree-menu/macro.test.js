@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
+import { autoInit } from "../widget-init.js";
+import { on } from "../../test/keys.js";
 
 describe("tree-menu", () => {
     it("renders a <div role=tree> with the base class", () => {
@@ -35,5 +37,24 @@ describe("tree-menu", () => {
         const { html } = render("tree-menu", {});
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
+    });
+});
+
+describe("tree-menu keys", () => {
+    it("moves between items and wraps", () => {
+        const { document } = render(
+            "tree-menu",
+            { label: "Files" },
+            '<div role="treeitem">A</div><div role="treeitem">B</div>',
+        );
+        autoInit(document);
+        const [a, b] = document.querySelectorAll("[role='treeitem']");
+        expect(a.tabIndex).toBe(0);
+        on(a).press("ArrowDown");
+        expect(document.activeElement).toBe(b);
+        on(b).press("ArrowDown");
+        expect(document.activeElement).toBe(a);
+        on(a).press("End");
+        expect(document.activeElement).toBe(b);
     });
 });

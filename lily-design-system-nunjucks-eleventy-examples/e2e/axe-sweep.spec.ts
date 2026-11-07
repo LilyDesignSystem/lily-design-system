@@ -9,6 +9,9 @@ import AxeBuilder from "@axe-core/playwright";
 import fs from "node:fs";
 import path from "node:path";
 
+// 609 pages in one test. Ten minutes is near what a CI runner takes, and failed on main and on PR 353 with no finding.
+const SWEEP_TIMEOUT = 1_200_000;
+
 const allow: Record<string, string> = JSON.parse(
     fs.readFileSync(path.join(import.meta.dirname, "axe-sweep.allow.json"), "utf-8"),
 );
@@ -19,7 +22,7 @@ const slugs = fs
     .map((line) => line.split("\t")[0]);
 
 test("no component page fails a WCAG A or AA rule", async ({ page }) => {
-    test.setTimeout(600_000);
+    test.setTimeout(SWEEP_TIMEOUT);
     const found: string[] = [];
     for (const slug of slugs) {
         await page.goto(`/components/${slug}/`);
@@ -41,7 +44,7 @@ test("no component page fails a WCAG A or AA rule", async ({ page }) => {
 });
 
 test("no widget fails a WCAG A or AA rule once it is open", async ({ page }) => {
-    test.setTimeout(600_000);
+    test.setTimeout(SWEEP_TIMEOUT);
     const found: string[] = [];
     let opened = 0;
     for (const slug of slugs) {
@@ -87,7 +90,7 @@ test("no widget fails a WCAG A or AA rule once it is open", async ({ page }) => 
 
 for (const theme of ["default", "dark"]) {
     test(`no component page fails colour contrast in the ${theme} theme`, async ({ page }) => {
-        test.setTimeout(600_000);
+        test.setTimeout(SWEEP_TIMEOUT);
         const found: string[] = [];
         for (const slug of slugs) {
             await page.goto(`/components/${slug}/`);

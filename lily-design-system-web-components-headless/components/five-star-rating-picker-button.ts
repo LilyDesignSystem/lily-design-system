@@ -17,15 +17,17 @@
 //   label — REQUIRED. Accessible name and visible text (e.g. "1 star",
 //     "3 stars").
 //   selected — presence-based boolean, default false; always reflected
-//     as an explicit aria-pressed="true"/"false".
+//     as aria-checked="true"/"false". The button is role="radio", as in Nunjucks and
+//     HTML, because its picker is a radiogroup; the contract's aria-pressed would leave
+//     the group with no radios (tasks.md P25-T6).
 //   disabled — presence-based boolean (see documentation gap above).
 //   ...rest — spread onto the <button>.
 //
-// Keyboard: Tab to focus; Enter / Space to activate (native <button>).
+// Keyboard: the picker's: one tab stop, and the arrows move and check (attachRadioGroup).
 //
 // References:
 //   - components/five-star-rating-picker-button/index.md (canonical contract)
-//   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
+//   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
@@ -45,7 +47,8 @@ export class FiveStarRatingPickerButton extends HTMLElement {
             button.setAttribute("aria-label", label);
             button.textContent = label;
         }
-        button.setAttribute("aria-pressed", this.hasAttribute("selected") ? "true" : "false");
+        button.setAttribute("role", "radio");
+        button.setAttribute("aria-checked", this.hasAttribute("selected") ? "true" : "false");
         if (this.hasAttribute("disabled")) button.disabled = true;
         passThroughAttributes(this, button, HANDLED);
 

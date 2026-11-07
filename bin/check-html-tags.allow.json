@@ -45,7 +45,6 @@
   "nunjucks:document-list": "unreviewed: renders <ul>, contract says <ol> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:editable": "unreviewed: renders <span>, contract says <div> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:expander": "unreviewed: renders <details>, contract says <div> (P10-T12 baseline, 2026-10-31)",
-  "nunjucks:file-dialog": "unreviewed: renders <div>, contract says <dialog> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:file-manager": "unreviewed: renders <section>, contract says <div> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:five-face-rating-picker": "unreviewed: renders <div>, contract says <fieldset> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:five-star-rating-picker": "unreviewed: renders <div>, contract says <fieldset> (P10-T12 baseline, 2026-10-31)",

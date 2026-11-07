@@ -1,5 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
+import { autoInit } from "../widget-init.js";
+import { on } from "../../test/keys.js";
 
 const name = "wheel-picker";
 const options = [
@@ -94,5 +96,28 @@ describe("wheelPicker", () => {
         });
         expect(document.querySelector("[role=option]").textContent).toBe("<b>x</b>");
         expect(document.querySelector("[role=option] b")).toBeNull();
+    });
+});
+
+describe("wheel-picker keys", () => {
+    it("selection follows the arrows, and the hidden input with it", () => {
+        const { document } = render("wheel-picker", {
+            id: "w",
+            label: "Fruit",
+            name: "fruit",
+            value: "a",
+            options: [
+                { value: "a", label: "Apple" },
+                { value: "b", label: "Banana", disabled: true },
+                { value: "c", label: "Cherry" },
+            ],
+        });
+        autoInit(document);
+        const list = document.querySelector(".wheel-picker-list");
+        on(list).press("ArrowDown");
+        expect(list.getAttribute("aria-activedescendant")).toBe("w-option-2");
+        expect(document.querySelector("input").value).toBe("c");
+        on(list).press("Home");
+        expect(document.querySelector("input").value).toBe("a");
     });
 });

@@ -2,9 +2,8 @@
   WheelPicker macro -- a vertical single-select listbox where the selection follows the cursor.
 
   Renders the markup contract: a listbox holding one role="option" per entry, the selected one aria-selected, and an
-  optional hidden input. A server cannot handle keys, so the behaviour is the browser's: include the script from
-  html-headless's wheel-picker.html (it reads this markup, including data-loop and data-page-size), or use the Web
-  Components element. Without either the list is static.
+  optional hidden input. A server cannot handle keys, so components/widget-init.js does (it reads this markup,
+  including data-loop and data-page-size). Without it the list is static.
 
   HTML tag: <div> holding a listbox <div>
   CSS class: wheel-picker (sub-elements: wheel-picker-list, wheel-picker-option)

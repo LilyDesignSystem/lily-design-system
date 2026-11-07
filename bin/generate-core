@@ -789,11 +789,28 @@ function renderAssessmentTsv(rows) {
   ].join("\n") + "\n";
 }
 
+// One cell for each custom-key widget in each library: tested, or the first word of its reason in bin/check-coverage.keys-allow.json.
+function keyCells(rows) {
+  const allow = JSON.parse(read("bin/check-coverage.keys-allow.json"));
+  const cells = {};
+  for (const r of rows.filter((row) => row.keyContract && row.customKeys)) {
+    const { libraries } = criterionA({ slug: r.slug, group: "", helper: false, row: null });
+    for (const lib of LIBRARIES) {
+      const reason = allow[`${lib}:${r.slug}`]?.split(":")[0];
+      const status = libraries[lib].status;
+      const cell = reason ?? (status === "no test file" ? "absent" : status.includes("no key event") ? "no reason" : "tested");
+      cells[cell] = (cells[cell] ?? 0) + 1;
+    }
+  }
+  return cells;
+}
+
 function renderAssessmentMd(rows) {
   const count = (band) => rows.filter((r) => r.band === band).length;
   const n = (test) => rows.filter(test).length;
   const all = LIBRARIES.length;
   const keys = rows.filter((r) => r.keyContract), custom = rows.filter((r) => r.keyContract && r.customKeys), aria = rows.filter((r) => r.ariaContract);
+  const cells = keyCells(rows);
   const table = [
     "| Band                              | Components | What it means                                                                      |",
     "| --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |",
@@ -806,6 +823,10 @@ function renderAssessmentMd(rows) {
     "| --------------------------------------------------------- | ---------- |",
     `| Key contracts with a key test in all eight libraries      | ${`${keys.filter((r) => r.keyTests === all).length} of ${keys.length}`.padEnd(10)} |`,
     `| Custom-key widgets (arrows, Home, End, Escape), all eight | ${`${custom.filter((r) => r.keyTests === all).length} of ${custom.length}`.padEnd(10)} |`,
+    `| Custom-key cells (widget by library): tested              | ${String(cells.tested ?? 0).padEnd(10)} |`,
+    `| Custom-key cells: the browser's, or another part's        | ${String((cells.native ?? 0) + (cells.contract ?? 0) + (cells["browser-side"] ?? 0)).padEnd(10)} |`,
+    `| Custom-key cells: open, keys known to be missing          | ${String(cells.open ?? 0).padEnd(10)} |`,
+    `| Custom-key cells: absent, or with no reason               | ${String((cells.absent ?? 0) + (cells["no reason"] ?? 0)).padEnd(10)} |`,
     `| ARIA contracts asserted in all eight libraries            | ${`${aria.filter((r) => r.ariaTests === all).length} of ${aria.length}`.padEnd(10)} |`,
     `| End-to-end evidence in Chromium, Firefox and WebKit       | ${`${n((r) => r.threeBrowsers)} of ${rows.length}`.padEnd(10)} |`,
     `| No keyboard or ARIA contract at all                       | ${`${n((r) => !r.keyContract && !r.ariaContract)} of ${rows.length}`.padEnd(10)} |`,

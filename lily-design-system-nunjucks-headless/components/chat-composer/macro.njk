@@ -3,7 +3,8 @@
 
   A headless chat input form: a <textarea> and ONE button that is "send" normally and "stop" while `busy`.
   The send button is disabled, never hidden, when the value is empty or the form is disabled.
-  MARKUP-ONLY DEVIATION: this catalog's macros ship no JavaScript, so the behaviours that need script — Enter to send (Shift+Enter for a line break, ignoring Enter during IME composition), growing the textarea as the user types, and swapping send/stop on the fly — are not in the macro. The macro renders the correct initial markup from its params (rows from the value's line count, send or stop from `busy`, the send button disabled when the value is empty); add a small client script (or use the Web Components catalog's element) for the live behaviour.
+  components/widget-init.js adds what needs script: Enter to send, Shift+Enter for a line break, the button following
+  the text, the rows growing up to maxRows, and a bubbling "stop" from the stop button.
 
   HTML tag: <form>
   CSS class: chat-composer (sub-elements: chat-composer-input, chat-composer-button, chat-composer-button-label)
@@ -38,6 +39,8 @@
 {%- if rows > maxRows %}{% set rows = maxRows %}{% endif -%}
 <form
   class="chat-composer{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-min-rows="{{ minRows }}"
+  data-max-rows="{{ maxRows }}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

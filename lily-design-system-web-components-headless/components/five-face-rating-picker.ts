@@ -28,15 +28,15 @@
 //   label — REQUIRED. Accessible name for the rating group, via
 //     aria-label.
 //
-// Keyboard: none built in — native <button> focus/activation on the
-// consumer-supplied FiveFaceRatingPickerButton children handles
-// Tab/Enter/Space; this container adds no keydown handling of its own.
+// Keyboard: the APG radio group (attachRadioGroup): one tab stop, on the checked
+// button, and the arrows move, check and wrap, swapped in right-to-left.
 //
 // References:
 //   - components/five-face-rating-picker/index.md (canonical contract)
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
 
 import { applySelfClassName } from "../lib/dom-utils.js";
+import { attachRadioGroup } from "../lib/widget-keys.js";
 
 export class FiveFaceRatingPicker extends HTMLElement {
     #built = false;
@@ -49,5 +49,7 @@ export class FiveFaceRatingPicker extends HTMLElement {
         this.setAttribute("role", "radiogroup");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
+        // The buttons build themselves in their own connectedCallback, after this one, so attach once they exist.
+        queueMicrotask(() => attachRadioGroup(this));
     }
 }

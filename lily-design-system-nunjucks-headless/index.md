@@ -21,7 +21,7 @@ design system's Nunjucks macro pattern.
 - ARIA attributes and roles
 - Internationalisation-ready (no hardcoded strings)
 - Works with any CSS framework or custom styles
-- No bundled JavaScript — you wire up the behaviour
+- Keys ship as modules you load once: `autoInit()` from `components/widget-init.js`. Data and state are yours
 
 ## Usage
 

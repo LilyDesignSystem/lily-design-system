@@ -8,11 +8,8 @@
     aria-expanded? aria-selected? tabindex> descendants, with a nested
     <ul role="group"> inside each folder item.
   Keyboard: the APG contract (Arrow keys, Home/End, "*", typeahead,
-    Enter/Space, roving tabindex, aria-expanded toggling) needs script.
-    Nunjucks ships no JavaScript, so the root carries data-module="file-tree"
-    and the consumer's JS owns the keyboard — the one deviation from the
-    Svelte canonical, which owns it itself. Give exactly one item tabindex="0"
-    and the rest "-1" in the markup.
+    Enter/Space, roving tabindex, aria-expanded toggling) is in
+    components/widget-init.js. The root keeps data-module="file-tree".
 
   Params:
     label       string   Accessible name (aria-label). Required.
