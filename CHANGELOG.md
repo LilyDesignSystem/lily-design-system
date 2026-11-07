@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The table grids have their keys — 2026-11-07
+
+- **Added:** `data-table`, `calendar-table`, `gantt-table`, `calendar-year-table`, `calendar-month-table`, `calendar-week-table` and `calendar-day-table` are interactive: arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp, PageDown, Enter, F2 and Escape, with one tab stop, in all nine catalogs, from `attachGrid` in `shared/widget-keys.ts`, as `kanban-table` is. `role="grid"` promised these keys and the contracts called the tables passive.
+- **Changed:** the `data-grid`, `calendar` and `gantt-chart` helpers set `data-consumer-keys` on the table they compose, since they run their own keys.
+- **Changed:** the cells of these tables get `tabindex`: one is `0`, the rest `-1`. A consumer that set its own needs `data-consumer-keys`.
+
 ## Nunjucks macros own their keys — 2026-11-07
 
 - **Added:** `autoInit()` from `components/widget-init.js` now wires the keys of `tool-bar`, `dial`, `slider-button`, `pin-input-div`, `tree-menu`, `scroll-bar`, `tile-map`, `wheel-picker`, `horizontal-scroller`, `editable`, `editable-form`, `tour`, `listbox`, `file-tree`, `navigation-menu` overflow, and `color-picker`, `five-star-rating-picker`, `five-face-rating-picker`, `net-promoter-score-picker`, `red-amber-green-picker` and `red-orange-yellow-green-blue-picker` as radio groups. It also runs `chat-composer` (Enter to send, the button following the text, growing rows, a bubbling `stop`) and `show-more`. A consumer that wrote its own keys for these and also calls `autoInit()` should drop one.

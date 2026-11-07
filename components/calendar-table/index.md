@@ -68,7 +68,16 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
 
 ## Keyboard Interactions
 
-None built-in -- the consumer should implement grid keyboard navigation on cells as needed (arrow keys for cell-to-cell movement, Enter/Space for selection).
+- Tab: moves to the calendar, on its one tab stop, and out of it
+- ArrowRight / ArrowLeft: next or previous cell in the row, swapped in right-to-left; stops at the edge
+- ArrowDown / ArrowUp: next or previous row; stops at the edge
+- Home / End: first or last cell in the row
+- Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell in the calendar
+- PageDown / PageUp: ten rows, stopping at the edge
+- Enter or F2: go to the first control in the cell, which keeps its own keys
+- Escape: from a control, back to its cell
+
+Selecting, sorting and editing are the consumer's. A consumer running its own grid keys, as the `calendar` helper does, sets `data-consumer-keys` on the root.
 
 ## ARIA
 

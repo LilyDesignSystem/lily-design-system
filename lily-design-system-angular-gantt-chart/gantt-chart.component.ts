@@ -470,6 +470,7 @@ export function nextGanttChartId(): string {
       >
       <lily-gantt-table
         [label]="label()"
+        data-consumer-keys="true"
         (keydown)="onGridKeydown($event)"
         (focusin)="onGridFocusin($event)"
         (click)="onGridClick($event)"

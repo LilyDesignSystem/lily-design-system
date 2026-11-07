@@ -517,6 +517,7 @@ export function eventsByDay(events: CalendarEvent[]): Map<string, CalendarEvent[
       } @else {
       <lily-calendar-table
         [label]="label()"
+        data-consumer-keys="true"
         className="calendar-view-table"
         (keydown)="onGridKeydown($event)"
       >

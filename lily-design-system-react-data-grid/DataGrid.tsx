@@ -2082,6 +2082,7 @@ export function DataGrid({
     const table = (
         <DataTable
             label={label}
+            data-consumer-keys="true"
             caption={caption}
             role={isGrid ? "grid" : "table"}
             aria-rowcount={isGrid ? rowCount : undefined}

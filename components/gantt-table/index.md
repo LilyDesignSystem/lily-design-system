@@ -53,7 +53,16 @@ This headless component renders a `<table>` element with `role="grid"` and an ac
 
 ## Keyboard Interactions
 
-None: this is a passive table. For grid keys, use the `gantt-chart` helper, which owns them, in every catalog.
+- Tab: moves to the table, on its one tab stop, and out of it
+- ArrowRight / ArrowLeft: next or previous cell in the row, swapped in right-to-left; stops at the edge
+- ArrowDown / ArrowUp: next or previous row; stops at the edge
+- Home / End: first or last cell in the row
+- Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell in the table
+- PageDown / PageUp: ten rows, stopping at the edge
+- Enter or F2: go to the first control in the cell, which keeps its own keys
+- Escape: from a control, back to its cell
+
+Selecting, sorting and editing are the consumer's. A consumer running its own grid keys, as the `gantt-chart` helper does, sets `data-consumer-keys` on the root.
 
 ## ARIA
 
@@ -93,7 +102,7 @@ The consumer provides all CSS styling. The component renders with a `.gantt-tabl
 ## Advice
 
 - **Designers**: Use horizontal bars with distinct colors to represent task durations. Include clear column headers for time periods and a fixed task-name column for readability.
-- **Developers**: Use the `gantt-chart` helper for grid keyboard navigation; this table is passive.
+- **Developers**: the table owns the basic grid keys; the `gantt-chart` helper adds the rest (expanding rows, editing, dependencies) and runs its own, with `data-consumer-keys` set.
 
 ## Composition
 

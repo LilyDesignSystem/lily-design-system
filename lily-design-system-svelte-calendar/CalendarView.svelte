@@ -1395,6 +1395,7 @@
     {:else}
         <CalendarTable
             {label}
+            data-consumer-keys="true"
             class="calendar-view-table"
             onkeydown={onGridKeydown}
         >

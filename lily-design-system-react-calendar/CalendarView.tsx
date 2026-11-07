@@ -1628,6 +1628,7 @@ export function CalendarView({
             ) : (
                 <CalendarTable
                     label={label}
+                    data-consumer-keys="true"
                     className="calendar-view-table"
                     onKeyDown={onGridKeyDown}
                 >

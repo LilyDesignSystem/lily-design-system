@@ -100,7 +100,7 @@
 {%- set id = opts.id | default("calendar-view-" + name) -%}
 {%- set view = opts.view | default("month") -%}
 {%- set anchorDate = opts.anchorDate | default(opts.today) | default("1970-01-01") -%}
-{%- set tableHtml = calendarTable({ label: opts.label, classes: "calendar-view-table", attributes: {"role": "grid"}, html: (calendarTableHead({ html: "" }) ~ calendarTableBody({ html: "" })) | safe }) -%}
+{%- set tableHtml = calendarTable({ label: opts.label, classes: "calendar-view-table", attributes: {"role": "grid", "data-consumer-keys": "true"}, html: (calendarTableHead({ html: "" }) ~ calendarTableBody({ html: "" })) | safe }) -%}
 <div
   class="calendar-view{% if opts.classes %} {{ opts.classes }}{% endif %}"
   id="{{ id }}"

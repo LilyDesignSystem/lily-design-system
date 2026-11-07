@@ -615,19 +615,5 @@ export { TruncationStrategy, TruncateMiddleOptions } from "./components/middle-t
 export { OverflowNavigation } from "./components/overflow-navigation";
 export { SearchSegment } from "./components/search-text";
 export { TypeaheadState } from "./components/typeahead";
-export {
-    WheelOption,
-    WheelMoveKey,
-    WheelMoveOptions,
-    WheelTypeahead,
-} from "./components/wheel-picker";
-export {
-    ToolbarOptions,
-    GridOptions,
-    SplitterOptions,
-    TreeSelection,
-    TreePopupOptions,
-    MentionsOptions,
-    CropRect,
-    CropperOptions,
-} from "./components/widget-keys";
+export { WheelOption, WheelMoveKey, WheelMoveOptions, WheelTypeahead } from "./components/wheel-picker";
+export { ToolbarOptions, SplitterOptions, TreeSelection, TreePopupOptions, MentionsOptions, CropRect, CropperOptions, GridOptions } from "./components/widget-keys";

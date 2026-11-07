@@ -99,7 +99,7 @@
          class="@(Virtualize is not null ? "gantt-chart-scroll" : "gantt-chart-body")"
          style="@(string.Join("; ", new[] { Virtualize is { } vz ? $"height: {vz.Height}px; overflow: auto" : null, DependencyArrows ? "position: relative" : null }.Where(x => x is not null)) is { Length: > 0 } scrollStyle ? scrollStyle : null)"
          @onscroll="OnScrollAsync">
-    <GanttTable Label="@Label" aria-rowcount="@(Virtualize is not null ? (Rows.Count + 1).ToString() : null)" @onkeydown="OnGridKeyDown">
+    <GanttTable Label="@Label" data-consumer-keys="true" aria-rowcount="@(Virtualize is not null ? (Rows.Count + 1).ToString() : null)" @onkeydown="OnGridKeyDown">
         @if (!string.IsNullOrEmpty(Caption))
         {
             <caption>@Caption</caption>

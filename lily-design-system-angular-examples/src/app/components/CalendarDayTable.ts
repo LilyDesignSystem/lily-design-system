@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    DestroyRef,
+    ElementRef,
+    inject,
+    input,
+} from "@angular/core";
+import { warnMissingName } from "./dev-warning";
+import { attachGrid } from "./widget-keys";
 
 /**
  * CalendarDayTable component
@@ -20,8 +29,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *   </lily-calendar-day-table>
  *
  * Keyboard:
- *   None built-in — consumer implements grid keyboard navigation
- *   (arrow keys for cell movement, Enter/Space for selection).
+ *   Arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp, PageDown, Enter, F2 and Escape over the cells, with one tab stop; data-consumer-keys on the root turns them off.
  *
  * Accessibility:
  *   - role="grid" identifies the table as an interactive grid widget
@@ -46,6 +54,18 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarDayTable {
+    private readonly keysHost = inject(ElementRef);
+    private readonly keysDestroy = inject(DestroyRef);
+
+    ngOnInit(): void {
+        warnMissingName("CalendarDayTable", this.label());
+    }
+
+    ngAfterViewInit(): void {
+        const root = this.keysHost.nativeElement.querySelector(".calendar-day-table");
+        this.keysDestroy.onDestroy(attachGrid(root));
+    }
+
     /** Accessible name describing the period shown. */
     readonly label = input.required<string>();
     /** Visible caption for the table. */

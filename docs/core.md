@@ -1000,17 +1000,17 @@ Catalog component; keyboard contract: keys named.
 
 ### data-table
 
-Catalog component; keyboard contract: none declared in AGENTS.md.
+Catalog component; keyboard contract: keys named.
 
 - (a) met, 8 of 8 libraries:
-  - Svelte: met. [lily-design-system-svelte-headless/components/DataTable/DataTable.test.ts](../lily-design-system-svelte-headless/components/DataTable/DataTable.test.ts)
-  - React: met. [lily-design-system-react-headless/components/DataTable.test.tsx](../lily-design-system-react-headless/components/DataTable.test.tsx)
-  - Vue: met. [lily-design-system-vue-headless/components/DataTable.test.ts](../lily-design-system-vue-headless/components/DataTable.test.ts)
-  - Angular: met. [lily-design-system-angular-headless/components/DataTable.spec.ts](../lily-design-system-angular-headless/components/DataTable.spec.ts)
-  - HTML: met. [lily-design-system-html-headless/components/data-table.test.js](../lily-design-system-html-headless/components/data-table.test.js)
-  - Web Components: met. [lily-design-system-web-components-headless/components/data-table.test.ts](../lily-design-system-web-components-headless/components/data-table.test.ts)
-  - Nunjucks: met. [lily-design-system-nunjucks-headless/components/data-table/macro.test.js](../lily-design-system-nunjucks-headless/components/data-table/macro.test.js)
-  - Blazor: met. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DataTableTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DataTableTests.cs)
+  - Svelte: met. [lily-design-system-svelte-headless/components/DataTable/DataTable.pattern.test.ts](../lily-design-system-svelte-headless/components/DataTable/DataTable.pattern.test.ts), [lily-design-system-svelte-headless/components/DataTable/DataTable.test.ts](../lily-design-system-svelte-headless/components/DataTable/DataTable.test.ts)
+  - React: met. [lily-design-system-react-headless/components/DataTable.pattern.test.tsx](../lily-design-system-react-headless/components/DataTable.pattern.test.tsx), [lily-design-system-react-headless/components/DataTable.test.tsx](../lily-design-system-react-headless/components/DataTable.test.tsx)
+  - Vue: met. [lily-design-system-vue-headless/components/DataTable.pattern.test.ts](../lily-design-system-vue-headless/components/DataTable.pattern.test.ts), [lily-design-system-vue-headless/components/DataTable.test.ts](../lily-design-system-vue-headless/components/DataTable.test.ts)
+  - Angular: met. [lily-design-system-angular-headless/components/DataTable.pattern.spec.ts](../lily-design-system-angular-headless/components/DataTable.pattern.spec.ts), [lily-design-system-angular-headless/components/DataTable.spec.ts](../lily-design-system-angular-headless/components/DataTable.spec.ts)
+  - HTML: met. [lily-design-system-html-headless/components/data-table.pattern.test.js](../lily-design-system-html-headless/components/data-table.pattern.test.js), [lily-design-system-html-headless/components/data-table.test.js](../lily-design-system-html-headless/components/data-table.test.js)
+  - Web Components: met. [lily-design-system-web-components-headless/components/data-table.pattern.test.ts](../lily-design-system-web-components-headless/components/data-table.pattern.test.ts), [lily-design-system-web-components-headless/components/data-table.test.ts](../lily-design-system-web-components-headless/components/data-table.test.ts)
+  - Nunjucks: met. [lily-design-system-nunjucks-headless/components/data-table/data-table.pattern.test.js](../lily-design-system-nunjucks-headless/components/data-table/data-table.pattern.test.js), [lily-design-system-nunjucks-headless/components/data-table/macro.test.js](../lily-design-system-nunjucks-headless/components/data-table/macro.test.js)
+  - Blazor: met. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DataTableTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DataTableTests.cs), [lily-design-system-blazor-headless/tests/js/data-table.pattern.test.mjs](../lily-design-system-blazor-headless/tests/js/data-table.pattern.test.mjs)
 - (b) met; browsers: Chromium, Firefox, WebKit; 14 covering spec(s):
   - [lily-design-system-svelte-sveltekit-examples/e2e/components/data-table.spec.ts](../lily-design-system-svelte-sveltekit-examples/e2e/components/data-table.spec.ts) (Chromium)
   - [lily-design-system-svelte-sveltekit-examples/e2e/responsive.spec.ts](../lily-design-system-svelte-sveltekit-examples/e2e/responsive.spec.ts) (Chromium, Firefox, WebKit)

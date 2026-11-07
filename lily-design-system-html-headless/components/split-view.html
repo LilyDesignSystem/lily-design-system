@@ -93,11 +93,13 @@
 // change writes data-crop-x, -y, -width and -height and --crop-x, -y, -width and -height, reports to onChange and
 // dispatches a bubbling "image-cropper-change". Dragging, and saying the position aloud, are the consumer's.
 //
-// attachGrid: the APG grid, over a table's cells, for a grid that has no script of its own (kanban-table). Arrows move and
-// stop at the edge, swapped in right-to-left; Home and End go along the row, and with Ctrl or Cmd to the corners; PageUp and
-// PageDown move ten rows; one tab stop that follows focus. Enter or F2 goes to the first control in a cell, which keeps its
-// own keys, and Escape comes back. Alt and Shift are left alone. A root inside [data-consumer-keys] attaches nothing, for a
-// consumer that runs its own grid keys. The movement repeats shared/grid-navigation.ts, because this file is inlined whole.
+// attachGrid: the APG grid, over a table's cells, for a grid that has no script of its own (kanban-table, data-table,
+// gantt-table and the calendar tables). Arrows move and stop at the edge, swapped in right-to-left; Home and End go along
+// the row, and with Ctrl or Cmd to the corners; PageUp and PageDown move ten rows; one tab stop that follows focus. Enter
+// or F2 goes to the first control in a cell, which keeps its own keys, and Escape comes back. Alt and Shift are left
+// alone. A root inside [data-consumer-keys] attaches nothing, for a consumer that runs its own grid keys, as the
+// data-grid, calendar, gantt-chart and kanban-board helpers do. The movement repeats shared/grid-navigation.ts, because
+// this file is inlined whole.
 //
 // bin/sync-shared-modules strips the types for Nunjucks and Blazor and inlines the result in the HTML snippets. Edit it
 // here. The contracts in pattern-contracts.json hold every port to it.

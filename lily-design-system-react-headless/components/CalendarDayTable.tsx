@@ -17,8 +17,7 @@
 //   </CalendarDayTable>
 //
 // Keyboard:
-//   None built-in — consumer implements grid keyboard navigation
-//   (arrow keys for cell movement, Enter/Space for selection).
+//   Arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp, PageDown, Enter, F2 and Escape over the cells, with one tab stop; data-consumer-keys on the root turns them off.
 //
 // Accessibility:
 //   - role="grid" identifies the table as an interactive grid widget
@@ -36,7 +35,9 @@
 // References:
 //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
+import { warnMissingName } from "./dev-warning";
+import { attachGrid } from "./widget-keys";
 
 export interface CalendarDayTableProps {
     className?: string;
@@ -56,8 +57,12 @@ export default function CalendarDayTable({
     children,
     ...restProps
 }: CalendarDayTableProps) {
+    warnMissingName("CalendarDayTable", label, restProps["aria-labelledby"]);
+    const rootRef = useRef<HTMLTableElement>(null);
+    useEffect(() => attachGrid(rootRef.current!), []);
     return (
         <table
+            ref={rootRef}
             className={`calendar-day-table ${className}`}
             role="grid"
             aria-label={label}

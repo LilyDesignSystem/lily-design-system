@@ -18,6 +18,7 @@
 //   - components/calendar-month-table/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { attachGrid } from "../lib/widget-keys.js";
 
 const HANDLED = new Set(["label", "caption", "role", "data-view"]);
 
@@ -42,5 +43,6 @@ export class CalendarMonthTable extends HTMLElement {
 
         moveChildrenInto(this, table);
         this.appendChild(table);
+        attachGrid(table);
     }
 }

@@ -1,4 +1,5 @@
 @namespace LilyBlazorHeadless.Components
+@inherits KeyedComponentBase
 
 @*
     CalendarWeekTable component
@@ -20,8 +21,7 @@
       </CalendarWeekTable>
 
     Keyboard:
-      None built-in — consumer implements grid keyboard navigation
-      (arrow keys for cell movement, Enter/Space for selection).
+      Arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp, PageDown, Enter, F2 and Escape over the cells, with one tab stop; data-consumer-keys on the root turns them off.
 
     Accessibility:
       - role="grid" identifies the table as an interactive grid widget
@@ -40,7 +40,7 @@
       - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 *@
 
-<table class="@($"calendar-week-table {CssClass}".Trim())" role="grid" aria-label="@Label" data-view="week" @attributes="AdditionalAttributes">
+<table @ref="Root" class="@($"calendar-week-table {CssClass}".Trim())" role="grid" aria-label="@Label" data-view="week" @attributes="AdditionalAttributes">
     @if (!string.IsNullOrEmpty(Caption))
     {
         <caption>@Caption</caption>
@@ -54,4 +54,6 @@
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    protected override string Kind => "grid";
 }
