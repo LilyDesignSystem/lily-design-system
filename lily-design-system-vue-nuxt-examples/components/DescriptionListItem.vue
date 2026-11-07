@@ -29,7 +29,6 @@
 // References:
 //   - MDN <dl>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
 
-withDefaults(defineProps<{}>(), {});
 </script>
 
 <template>
