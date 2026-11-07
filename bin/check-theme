@@ -208,6 +208,14 @@ CONTRAST_PAIRS = [
 ]
 AAA, AA = 7.0, 4.5
 
+# Non-text pairs: the focus ring against the page it sits on, at 3:1 (WCAG 1.4.11; 2.4.13 asks the same of the
+# focus indicator). Reported, not gated: some themes follow an upstream ring colour that misses it (tasks.md P22-T10).
+FOCUS_PAIRS = [
+    ("--lily-focus-ring", "--color-base-100"),
+    ("--lily-focus-ring", "--color-base-200"),
+]
+NON_TEXT = 3.0
+
 
 def _srgb_to_linear(c: float) -> float:
     return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
@@ -294,7 +302,7 @@ def luminance(oklch):
 
 def contrast_report() -> int:
     files = sorted(glob.glob(os.path.join(TOP, "themes", "*.css")))
-    below_aaa = below_aa = unparsed = 0
+    below_aaa = below_aa = unparsed = focus_below = 0
     for f in files:
         css = strip_comments(open(f).read())
         tokens = {}
@@ -323,6 +331,17 @@ def contrast_report() -> int:
                 name, best = max(options, key=lambda o: o[1])
                 suggestion = f"; {fg} {name} would give {best:.2f}:1" if best >= AA else "; neither black nor white reaches 4.5:1"
             lines.append(f"  {mark} {ratio:5.2f}:1  {fg} on {bg}{note}{suggestion}")
+        for fg, bg in FOCUS_PAIRS:
+            c_fg, c_bg = parse_color(tokens.get(fg, ""), tokens), parse_color(tokens.get(bg, ""), tokens)
+            if c_fg is None or c_bg is None:
+                lines.append(f"  ?      {fg} on {bg}: colour not parsed (focus ring, report only)")
+                continue
+            (l1, k1), (l2, k2) = luminance(c_fg), luminance(c_bg)
+            ratio = (max(l1, l2) + 0.05) / (min(l1, l2) + 0.05)
+            if ratio < NON_TEXT:
+                focus_below += 1
+                note = " (outside sRGB, clipped: approximate)" if k1 or k2 else ""
+                lines.append(f"  RING {ratio:5.2f}:1  {fg} on {bg}: below 3:1 for a non-text indicator{note}")
         if lines:
             print(os.path.basename(f))
             print("\n".join(lines))
@@ -332,6 +351,7 @@ def contrast_report() -> int:
     print(
         f"check-theme --contrast: {pairs} pairs in {len(files)} themes; "
         f"{below_aaa} below AAA (7:1), of which {below_aa} below AA (4.5:1); {unparsed} not parsed. "
+        f"Focus ring: {focus_below} of {len(files) * len(FOCUS_PAIRS)} pairs below 3:1 (report only). "
         + ("Gate: " + ("FAILED" if gate_failed else "OK") + "." if gate else "Report only: no colour was changed.")
     )
     return 1 if gate_failed else 0

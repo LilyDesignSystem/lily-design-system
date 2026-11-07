@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Focus rings that draw — 2026-11-07
+
+- **Fixed:** in all 63 themes a focused file-tree item and a picker's keyboard cursor had no ring: `outline: var(--lily-focus-ring)` names a colour alone, which resets the outline style to `none`. Both are `2px solid` now.
+- **Added:** the focus-ring contract in `AGENTS/theme.md` and spec/theme: width, offset, colour, the forced-colours fallback, and the WCAG criterion each meets. `bin/check-theme --contrast` reports the ring against the page at 3:1 (report only: 14 themes miss it).
+
 ## emoji-character-picker is a group — 2026-11-07
 
 - **Changed (breaking):** `emoji-character-picker` is a `<div role="group">` named by `label` in every catalog, holding the consumer's emoji buttons. It was `role="grid"` with no keys, which promised arrow-key cell navigation, and in Nunjucks a `role="dialog"` hidden by default; the Nunjucks `open` param is gone. Give each emoji button its own `aria-label`.

@@ -2647,7 +2647,7 @@
     }
 
     :where(.file-tree [role="treeitem"]:focus-visible) {
-        outline: var(--lily-focus-ring);
+        outline: 2px solid var(--lily-focus-ring);
         outline-offset: -2px;
     }
 
@@ -3082,7 +3082,7 @@
     :where(.theme-picker-list, .locale-picker-list, .text-size-picker-list, .time-zone-picker-list, .motion-picker-list)
         > :where([data-active]) {
         background-color: var(--lily-surface-alt);
-        outline: var(--lily-focus-ring);
+        outline: 2px solid var(--lily-focus-ring);
         outline-offset: -2px;
     }
 
