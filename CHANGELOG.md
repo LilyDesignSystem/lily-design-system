@@ -15,6 +15,10 @@ highlights.
 - **Fixed:** the 82 national identifier inputs set `spellcheck="false"` in every catalog (only Nunjucks did), and six Blazor ones gain `autocomplete="off"`. `bin/check-identifier-inputs`, in `bin/test`, keeps both.
 - **Added:** a Security and privacy section in the docs of the 164 identifier components, `password-input`, `password-input-or-text-input-div`, `one-time-password-input` and `chat-composer`: logging, autocomplete, storage, masking.
 
+## The theme contrast table is published — 2026-11-07
+
+- **Added:** `docs/theme-contrast.md` and the docs site's `/theme-contrast` page: every text pair in each of the 63 reference themes, with its WCAG 2 ratio and whether it meets AA and AAA. All 756 pairs meet AA; 487 meet AAA. `bin/generate-theme-contrast` writes them, and `bin/test` fails when they are stale.
+
 ## Ports catch up with Svelte's roots — 2026-11-07
 
 - **Fixed:** 53 root roles and ARIA attributes in Nunjucks, HTML and Blazor now match what Svelte renders and the contract says, among them `care-card`, `resizable`, `floating-panel` and `medical-banner-box-for-danger` as regions, `warning-callout` as an alert, `timeout-dialog` as an alertdialog, `timer` as a timer, HTML `notification` and `progress-spinner` as status, and HTML `time-picker-input` without its stray `role="radiogroup"`.
