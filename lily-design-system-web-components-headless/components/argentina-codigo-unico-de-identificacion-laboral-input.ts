@@ -36,6 +36,7 @@ export class ArgentinaCodigoUnicoDeIdentificacionLaboralInput extends HTMLElemen
         if (this.hasAttribute("required")) input.required = true;
         if (this.hasAttribute("disabled")) input.disabled = true;
         input.setAttribute("autocomplete", "off");
+        input.setAttribute("spellcheck", "false");
         passThroughAttributes(this, input, HANDLED);
 
         this.appendChild(input);

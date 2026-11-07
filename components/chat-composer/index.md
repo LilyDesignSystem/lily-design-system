@@ -99,6 +99,12 @@ Clear the text in your send handler, and set `busy` for the whole reply so the s
 
 Library differences, each documented in the library's own doc: **Blazor** has no JS interop, so plain Enter inserts a line break there and sending is by the button or Ctrl/Cmd+Enter. **Nunjucks and HTML** are markup-only and render the correct initial state; the live Enter, growth and swap behaviour needs a script (the Web Components element has it). **Angular** and **Web Components** use output / `lily-send` and `lily-stop` events.
 
+## Security and privacy
+
+- What is typed is the user's message, and may hold personal data. The component stores nothing and sends nothing: it reports the text to the consumer on send.
+- Spellcheck stays on, because a message is prose. A consumer that composes credentials or identifiers here can set `spellcheck="false"` on the root through rest props: the attribute is inherited, so the textarea follows it.
+- Do not log message text or send it to analytics without the user's consent, and keep a draft only where the user expects it to be kept.
+
 ## Related components
 
 - `text-area-input`

@@ -86,6 +86,7 @@ const ihiPattern = "[0-9]{10}";
         inputmode="numeric"
         :pattern="ihiPattern"
         autocomplete="off"
+        spellcheck="false"
         ref="field"
         v-model="modelValue"
         :required="required"

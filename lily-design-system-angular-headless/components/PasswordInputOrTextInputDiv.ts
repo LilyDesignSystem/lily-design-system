@@ -27,6 +27,7 @@ import { warnMissingName } from "./dev-warning";
             [required]="required()"
             [disabled]="disabled()"
             autocomplete="current-password"
+            spellcheck="false"
             (input)="value.set($any($event.target).value)"
         />
         @if (showToggle()) {

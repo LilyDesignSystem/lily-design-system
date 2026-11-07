@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="nihon-kojin-bango-input"\n  type="text"\n  aria-label="Individual Number / My Number (マイナンバー)"\n  autocomplete="off"\n>';
+    '<input\n  class="nihon-kojin-bango-input"\n  type="text"\n  aria-label="Individual Number / My Number (マイナンバー)"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Nihon Kojin Bango Input",

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="norge-fodselsnummer-input"\n  type="text"\n  aria-label="Norwegian Birth Number"\n  autocomplete="off"\n>';
+    '<input\n  class="norge-fodselsnummer-input"\n  type="text"\n  aria-label="Norwegian Birth Number"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Norge Fodselsnummer Input",

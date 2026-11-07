@@ -6,7 +6,7 @@
     an input for entering a US Social Security number
 *@
 
-<input class="@($"united-states-social-security-number-input {CssClass}".Trim())" type="text" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+<input class="@($"united-states-social-security-number-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" spellcheck="false" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

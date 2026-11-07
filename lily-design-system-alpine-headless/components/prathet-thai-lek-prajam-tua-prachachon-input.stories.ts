@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="prathet-thai-lek-prajam-tua-prachachon-input"\n  type="text"\n  aria-label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)"\n  autocomplete="off"\n>';
+    '<input\n  class="prathet-thai-lek-prajam-tua-prachachon-input"\n  type="text"\n  aria-label="เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Prathet Thai Lek Prajam Tua Prachachon Input",

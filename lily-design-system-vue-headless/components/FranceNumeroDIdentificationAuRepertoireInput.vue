@@ -90,6 +90,7 @@ const nirPattern = "[0-9]{1} [0-9]{2} [0-9]{2} [0-9]{2} [0-9]{3} [0-9]{3} [0-9]{
         inputmode="numeric"
         :pattern="nirPattern"
         autocomplete="off"
+        spellcheck="false"
         ref="field"
         v-model="modelValue"
         :required="required"

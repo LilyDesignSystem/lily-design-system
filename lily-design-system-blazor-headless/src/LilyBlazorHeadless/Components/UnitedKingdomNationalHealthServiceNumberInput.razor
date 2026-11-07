@@ -6,7 +6,7 @@
     an input for entering a UK NHS number
 *@
 
-<input class="@($"united-kingdom-national-health-service-number-input {CssClass}".Trim())" type="text" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+<input class="@($"united-kingdom-national-health-service-number-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" spellcheck="false" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

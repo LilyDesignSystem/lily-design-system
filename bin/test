@@ -436,6 +436,8 @@ test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/i
 "$top/bin/generate-comparisons" --check >/dev/null 2>&1 \
     || err "compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons"
 # Lily Core (P16-T2) and its self-assessed ACR (P16-T7): fails when a recorded Core member loses evidence, or an output is stale.
+"$top/bin/check-identifier-inputs" >/dev/null 2>&1 \
+    || err "a national identifier input lacks autocomplete=off or spellcheck=false; run bin/check-identifier-inputs"
 "$top/bin/generate-core" --check >/dev/null 2>&1 \
     || err "a Lily Core member lost evidence, or core.json / docs/core.md / the ACR / the /quality page is stale; run bin/generate-core --check"
 "$top/bin/generate-theme-contrast" --check >/dev/null 2>&1 \

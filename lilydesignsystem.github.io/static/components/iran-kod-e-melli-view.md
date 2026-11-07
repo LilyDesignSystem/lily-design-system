@@ -62,6 +62,14 @@ Ten digits whose last digit is a check digit. The first nine digits are multipli
 
 **Where to find it:** Printed on the National Card (کارت ملی) and on the birth certificate, and asked for by banks, insurers, hospitals and government services.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `iran-kod-e-melli-input` — an input for entering Iran's National Code (Kod-e Melli)

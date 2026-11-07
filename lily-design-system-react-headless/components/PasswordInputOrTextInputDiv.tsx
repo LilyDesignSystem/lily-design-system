@@ -99,6 +99,7 @@ export default function PasswordInputOrTextInputDiv({
                 required={required}
                 disabled={disabled}
                 autoComplete="current-password"
+                spellCheck={false}
             />
             {showToggle && (
                 <button

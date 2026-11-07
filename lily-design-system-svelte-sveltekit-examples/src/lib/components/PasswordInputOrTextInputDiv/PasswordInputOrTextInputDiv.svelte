@@ -97,6 +97,7 @@
         {required}
         {disabled}
         autocomplete="current-password"
+        spellcheck="false"
     />
     {#if showToggle}
         <button

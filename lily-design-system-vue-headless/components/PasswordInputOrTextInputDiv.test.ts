@@ -53,4 +53,15 @@ describe("PasswordInputOrTextInputDiv", () => {
         render(Subject, { props: { label: "P", "data-testid": "pw" } });
         expect(screen.getByTestId("pw")).toBeTruthy();
     });
+
+    // Revealed as text, a password would reach an enhanced spellchecker, which can send it to a cloud service.
+    test("never spellchecks the password, before or after it is revealed", async () => {
+        const user = userEvent.setup();
+        render(Subject, { props: { label: "Password", toggleLabel: "Show password" } });
+        const input = screen.getByLabelText("Password") as HTMLInputElement;
+        expect(input.getAttribute("spellcheck")).toBe("false");
+        await user.click(screen.getByRole("button", { name: "Show password" }));
+        expect(input.type).toBe("text");
+        expect(input.getAttribute("spellcheck")).toBe("false");
+    });
 });

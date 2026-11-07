@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="england-national-health-service-number-input"\n  type="text"\n  aria-label="National Health Service Number"\n  autocomplete="off"\n>';
+    '<input\n  class="england-national-health-service-number-input"\n  type="text"\n  aria-label="National Health Service Number"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/England National Health Service Number Input",

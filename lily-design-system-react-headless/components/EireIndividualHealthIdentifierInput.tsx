@@ -87,6 +87,7 @@ export default function EireIndividualHealthIdentifierInput({
             inputMode="numeric"
             pattern={ihiPattern}
             autoComplete="off"
+            spellCheck={false}
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
             required={required}

@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Identifiers and passwords stay out of spellcheckers — 2026-11-07
+
+- **Fixed:** `password-input-or-text-input-div` set no `spellcheck`, so a revealed password (`type="text"`) reached an enhanced spellchecker, which can send it to a cloud service. It is `spellcheck="false"` in every catalog.
+- **Fixed:** the 82 national identifier inputs set `spellcheck="false"` in every catalog (only Nunjucks did), and six Blazor ones gain `autocomplete="off"`. `bin/check-identifier-inputs`, in `bin/test`, keeps both.
+- **Added:** a Security and privacy section in the docs of the 164 identifier components, `password-input`, `password-input-or-text-input-div`, `one-time-password-input` and `chat-composer`: logging, autocomplete, storage, masking.
+
 ## The theme contrast table is published — 2026-11-07
 
 - **Added:** `docs/theme-contrast.md` and the docs site's `/theme-contrast` page: every text pair in each of the 63 reference themes, with its WCAG 2 ratio and whether it meets AA and AAA. All 756 pairs meet AA; 487 meet AAA. `bin/generate-theme-contrast` writes them, and `bin/test` fails when they are stale.

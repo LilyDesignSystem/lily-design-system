@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="osterreich-sozialversicherungsnummer-input"\n  type="text"\n  aria-label="Sozialversicherungsnummer (SVNR)"\n  autocomplete="off"\n>';
+    '<input\n  class="osterreich-sozialversicherungsnummer-input"\n  type="text"\n  aria-label="Sozialversicherungsnummer (SVNR)"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Osterreich Sozialversicherungsnummer Input",
