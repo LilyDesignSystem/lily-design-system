@@ -12,12 +12,22 @@ describe("cascader", () => {
 
     it("requires and renders aria-label", () => {
         const { document } = render("cascader", { label: "Region" });
-        expect(document.querySelector("div.cascader").querySelector("button").getAttribute("aria-label")).toBe("Region");
+        expect(
+            document
+                .querySelector("div.cascader")
+                .querySelector("button")
+                .getAttribute("aria-label"),
+        ).toBe("Region");
     });
 
     it("renders aria-expanded='false' by default", () => {
         const { document } = render("cascader", { label: "Region" });
-        expect(document.querySelector("div.cascader").querySelector("button").getAttribute("aria-expanded")).toBe("false");
+        expect(
+            document
+                .querySelector("div.cascader")
+                .querySelector("button")
+                .getAttribute("aria-expanded"),
+        ).toBe("false");
     });
 
     it("renders aria-expanded='true' when expanded", () => {
@@ -25,7 +35,12 @@ describe("cascader", () => {
             label: "Region",
             expanded: true,
         });
-        expect(document.querySelector("div.cascader").querySelector("button").getAttribute("aria-expanded")).toBe("true");
+        expect(
+            document
+                .querySelector("div.cascader")
+                .querySelector("button")
+                .getAttribute("aria-expanded"),
+        ).toBe("true");
     });
 
     it("renders a trigger button with the placeholder", () => {

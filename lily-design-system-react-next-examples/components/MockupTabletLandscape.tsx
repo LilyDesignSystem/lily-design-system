@@ -36,7 +36,8 @@ export interface MockupTabletLandscapeProps {
 }
 
 export default function MockupTabletLandscape({
-    className = "", label,
+    className = "",
+    label,
     children,
     ...restProps
 }: MockupTabletLandscapeProps) {

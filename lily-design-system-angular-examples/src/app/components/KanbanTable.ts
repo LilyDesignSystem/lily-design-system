@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, input } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    DestroyRef,
+    ElementRef,
+    inject,
+    input,
+} from "@angular/core";
 import { warnMissingName } from "./dev-warning";
 import { attachGrid } from "./widget-keys";
 

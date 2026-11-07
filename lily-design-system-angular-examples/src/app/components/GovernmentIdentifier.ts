@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, input, ElementRef, ViewChild, afterNextRender, signal } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    ElementRef,
+    ViewChild,
+    afterNextRender,
+    signal,
+} from "@angular/core";
 
 /**
  * GovernmentIdentifier — an identifier section with a parent agency logo, agency name, and required government links
@@ -26,7 +34,9 @@ export class GovernmentIdentifier {
     protected readonly hasLinks = signal(false);
 
     constructor() {
-        afterNextRender(() => this.hasLinks.set(Boolean(this.links?.nativeElement.childNodes.length)));
+        afterNextRender(() =>
+            this.hasLinks.set(Boolean(this.links?.nativeElement.childNodes.length)),
+        );
     }
 
     readonly label = input<string>("");

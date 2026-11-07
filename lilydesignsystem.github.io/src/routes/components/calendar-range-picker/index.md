@@ -86,7 +86,7 @@ The consumer provides all CSS styling. The component renders with a `.calendar-r
 ## Testing
 
 - Verify the component renders a `<div>` element with class `calendar-range-picker`
-- Verify role="group"` -- groups the calendar controls under `aria-label`, and does not take over screen reader navigation
+- Verify role="group"`-- groups the calendar controls under`aria-label`, and does not take over screen reader navigation
 - Verify aria-label={label}` -- provides an accessible name for the calendar range picker
 - Verify pass-through attributes are applied
 

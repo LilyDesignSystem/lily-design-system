@@ -21,9 +21,15 @@ describe("section-link", () => {
     });
 
     it("is a real link, to the top by default", () => {
-        expect(render("section-link", { text: "Top" }).document.querySelector("a").getAttribute("href")).toBe("#top");
         expect(
-            render("section-link", { text: "Part", href: "#part" }).document.querySelector("a").getAttribute("href"),
+            render("section-link", { text: "Top" })
+                .document.querySelector("a")
+                .getAttribute("href"),
+        ).toBe("#top");
+        expect(
+            render("section-link", { text: "Part", href: "#part" })
+                .document.querySelector("a")
+                .getAttribute("href"),
         ).toBe("#part");
     });
 });

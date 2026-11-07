@@ -10,6 +10,7 @@ self-assessment of evidence, not an audit.
 
 Each component is in the first band it falls into, so the bands add up to 609.
 
+<!-- prettier-ignore-start -->
 <!-- BEGIN generated: bin/generate-core -->
 | Band                              | Components | What it means                                                                      |
 | --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
@@ -26,6 +27,7 @@ Each component is in the first band it falls into, so the bands add up to 609.
 | End-to-end evidence in Chromium, Firefox and WebKit       | 45 of 609  |
 | No keyboard or ARIA contract at all                       | 73 of 609  |
 <!-- END generated: bin/generate-core -->
+<!-- prettier-ignore-end -->
 
 The custom-key row matters most: those are the widgets where script, not the browser, provides the behaviour.
 

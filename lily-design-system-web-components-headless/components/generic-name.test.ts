@@ -34,7 +34,9 @@ test("no component names a generic root", () => {
             const generic = host.localName.includes("-") || ["DIV", "SPAN"].includes(host.tagName);
             const inner = host.firstElementChild;
             // The element carrying the class: the host itself, or the first child a wrapper host renders.
-            const root = host.classList.contains(slug) ? host : (host.querySelector(`.${slug}`) ?? inner);
+            const root = host.classList.contains(slug)
+                ? host
+                : (host.querySelector(`.${slug}`) ?? inner);
             if (root) seen[slug] = rootAria(root);
             const namedInner =
                 inner &&

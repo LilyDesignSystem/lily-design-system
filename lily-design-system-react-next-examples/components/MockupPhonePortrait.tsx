@@ -36,7 +36,8 @@ export interface MockupPhonePortraitProps {
 }
 
 export default function MockupPhonePortrait({
-    className = "", label,
+    className = "",
+    label,
     children,
     ...restProps
 }: MockupPhonePortraitProps) {

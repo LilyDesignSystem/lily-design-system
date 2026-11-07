@@ -35,7 +35,12 @@ export interface MockupShellProps {
     [key: string]: unknown;
 }
 
-export default function MockupShell({ className = "", label, children, ...restProps }: MockupShellProps) {
+export default function MockupShell({
+    className = "",
+    label,
+    children,
+    ...restProps
+}: MockupShellProps) {
     return (
         <div
             className={`mockup-shell ${className}`}

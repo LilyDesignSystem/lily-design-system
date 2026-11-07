@@ -22,7 +22,6 @@ describe("Code", () => {
         expect(root?.getAttribute("aria-label")).toBeNull();
     });
 
-
     test("passes through additional HTML attributes", () => {
         const { container } = render(<Subject data-testid="subject">content</Subject>);
         expect(container.querySelector("[data-testid='subject']")).toBeTruthy();

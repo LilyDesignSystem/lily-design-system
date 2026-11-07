@@ -39,7 +39,9 @@ export function compareWithBaseline(baselineFile: string, allowFile: string, see
     const baseline = JSON.parse(fs.readFileSync(baselineFile, "utf-8")) as Seen;
     const diffs = ariaDiffs(baseline, seen);
     if (process.env["UPDATE_ARIA_ALLOW"]) {
-        const known = fs.existsSync(allowFile) ? JSON.parse(fs.readFileSync(allowFile, "utf-8")) : {};
+        const known = fs.existsSync(allowFile)
+            ? JSON.parse(fs.readFileSync(allowFile, "utf-8"))
+            : {};
         const next = Object.fromEntries(
             diffs.map((key) => [key, known[key] ?? "Not ported yet (tasks.md P25-T7)."]),
         );

@@ -28,9 +28,7 @@ withDefaults(
 
 <template>
     <!-- KbdShortcut.vue -->
-    <kbd
-        class="kbd-shortcut"
-    >
+    <kbd class="kbd-shortcut">
         <span
             v-if="label"
             class="screen-reader-span"

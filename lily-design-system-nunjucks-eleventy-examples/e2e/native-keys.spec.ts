@@ -37,7 +37,9 @@ test("a typed letter changes a native select", async ({ page }) => {
     await select.focus();
     const options = await select.locator("option").allTextContents();
     const before = await value(select);
-    const other = options.find((text) => text.trim() && !text.trim().toLowerCase().startsWith(before[0]))!;
+    const other = options.find(
+        (text) => text.trim() && !text.trim().toLowerCase().startsWith(before[0]),
+    )!;
     await page.keyboard.press(other.trim()[0].toLowerCase());
     expect(await value(select)).not.toBe(before);
 });

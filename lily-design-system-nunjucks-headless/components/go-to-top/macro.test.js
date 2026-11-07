@@ -21,9 +21,13 @@ describe("go-to-top", () => {
     });
 
     it("is a real link, to the top by default", () => {
-        expect(render("go-to-top", { text: "Top" }).document.querySelector("a").getAttribute("href")).toBe("#top");
         expect(
-            render("go-to-top", { text: "Part", href: "#part" }).document.querySelector("a").getAttribute("href"),
+            render("go-to-top", { text: "Top" }).document.querySelector("a").getAttribute("href"),
+        ).toBe("#top");
+        expect(
+            render("go-to-top", { text: "Part", href: "#part" })
+                .document.querySelector("a")
+                .getAttribute("href"),
         ).toBe("#part");
     });
 });

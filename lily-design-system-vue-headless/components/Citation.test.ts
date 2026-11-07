@@ -29,6 +29,6 @@ describe("Citation", () => {
         });
         const root = container.querySelector(".citation");
         expect(root?.getAttribute("aria-label")).toBeNull();
-        expect(root.querySelector(".screen-reader-span")?.textContent).toBe("Hello ");
+        expect(root?.querySelector(".screen-reader-span")?.textContent).toBe("Hello ");
     });
 });

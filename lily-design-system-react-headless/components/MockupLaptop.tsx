@@ -36,7 +36,8 @@ export interface MockupLaptopProps {
 }
 
 export default function MockupLaptop({
-    className = "", label,
+    className = "",
+    label,
     children,
     ...restProps
 }: MockupLaptopProps) {

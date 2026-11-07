@@ -76,3 +76,6 @@ lily-design-system-react-headless/index.ts
 lily-design-system-web-components-headless/index.ts
 # Rewritten by pnpm
 **/pnpm-workspace.yaml
+
+# Generated: svelte-headless generic-name test, UPDATE_ARIA_BASELINE=1.
+shared/aria-baseline.json

@@ -15,7 +15,17 @@ import { Statistic } from "./Statistic";
 // A Svelte Snippet prop is a named <ng-content select="[prop]"> here. Each slot must land in the wrapper Svelte renders it in.
 @Component({
     standalone: true,
-    imports: [Byline, FeaturePhoto, Headline, HeroHeadline, IconListItem, InfoState, InputGroup, Pictogram, Statistic],
+    imports: [
+        Byline,
+        FeaturePhoto,
+        Headline,
+        HeroHeadline,
+        IconListItem,
+        InfoState,
+        InputGroup,
+        Pictogram,
+        Statistic,
+    ],
     template: `
         <lily-byline><b published>P</b><b updated>U</b>A</lily-byline>
         <lily-feature-photo><b caption>C</b><b credit>R</b></lily-feature-photo>

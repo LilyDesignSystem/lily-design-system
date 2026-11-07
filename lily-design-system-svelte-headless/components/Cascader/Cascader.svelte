@@ -94,6 +94,7 @@
     class={`cascader ${className}`}
     {...restProps}
 >
+    <!-- svelte-ignore a11y_role_has_required_aria_props (attachTreePopup sets aria-controls on mount: it gives the panel its id) -->
     <button
         class="cascader-trigger"
         type="button"

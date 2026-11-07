@@ -53,7 +53,8 @@ test("no component names a generic root", () => {
         }
         cleanup();
     }
-    if (process.env["UPDATE_ARIA_BASELINE"]) fs.writeFileSync(baselinePath(__dirname), `${JSON.stringify(seen, null, 2)}\n`);
+    if (process.env["UPDATE_ARIA_BASELINE"])
+        fs.writeFileSync(baselinePath(__dirname), `${JSON.stringify(seen, null, 2)}\n`);
     const unexpected = hits.filter((s) => !allow.includes(s));
     const stale = allow.filter((s) => !hits.includes(s));
     expect(unexpected, "names a generic root: use a role, or no label").toEqual([]);

@@ -26,7 +26,7 @@ describe("Kbd", () => {
         const { container } = render(<Subject label="Hello">content</Subject>);
         const root = container.querySelector(".kbd");
         expect(root?.getAttribute("aria-label")).toBeNull();
-        expect(root.querySelector(".screen-reader-span")?.textContent).toBe("Hello ");
+        expect(root?.querySelector(".screen-reader-span")?.textContent).toBe("Hello ");
         expect(root?.querySelector(".kbd-text")?.getAttribute("aria-hidden")).toBe("true");
     });
 

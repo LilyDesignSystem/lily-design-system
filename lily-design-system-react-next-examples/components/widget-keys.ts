@@ -652,7 +652,7 @@ export function attachCropper(root: HTMLElement, options: CropperOptions = {}): 
 
 const GRID_CELL = 'th,td,[role="gridcell"],[role="columnheader"],[role="rowheader"]';
 const GRID_ROW = 'tr,[role="row"]';
-const GRID_WIDGET = 'a[href],button,input,select,textarea,[tabindex]';
+const GRID_WIDGET = "a[href],button,input,select,textarea,[tabindex]";
 
 /** Each row's cells, not a nested table's. */
 function gridRows(root: HTMLElement): HTMLElement[][] {

@@ -21,5 +21,4 @@ describe("Code", () => {
         const root = container.querySelector(".code");
         expect(root?.getAttribute("aria-label")).toBeNull();
     });
-
 });

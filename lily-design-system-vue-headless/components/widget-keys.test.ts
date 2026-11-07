@@ -2,7 +2,16 @@
 // What the toolbar and radio-group contracts do not reach: the module's edges.
 import { afterEach, describe, expect, test, vi } from "vitest";
 
-import { attachCropper, attachGrid, attachMentions, attachRadioGroup, attachSplitView, attachSplitter, attachToolbar, attachTreePopup } from "./widget-keys";
+import {
+    attachCropper,
+    attachGrid,
+    attachMentions,
+    attachRadioGroup,
+    attachSplitView,
+    attachSplitter,
+    attachToolbar,
+    attachTreePopup,
+} from "./widget-keys";
 
 function mount(html: string): HTMLElement {
     document.body.innerHTML = html;
@@ -381,7 +390,9 @@ describe("attachGrid", () => {
     const ROWS =
         "<tr><td>A1</td><td>B1 <button>Open</button></td></tr><tr><td>A2</td><td>B2</td></tr>";
     const press = (el: Element, key: string, init: KeyboardEventInit = {}): boolean =>
-        el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
+        el.dispatchEvent(
+            new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }),
+        );
     const grid = (attrs = ""): HTMLElement => {
         document.body.innerHTML = `<table role="grid" aria-label="Board" ${attrs}><tbody>${ROWS}</tbody></table>`;
         return document.querySelector("table")!;

@@ -24,11 +24,11 @@ globalThis.ResizeObserver = class {
     disconnect() {}
 };
 const { attach } = await import("../../src/LilyBlazorHeadless/Components/Popover.razor.js");
-const { setupOverflowNavigation } = await import(
-    "../../src/LilyBlazorHeadless/Components/NavigationMenu.razor.js"
-);
+const { setupOverflowNavigation } =
+    await import("../../src/LilyBlazorHeadless/Components/NavigationMenu.razor.js");
 
-const press = (el, key) => el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
+const press = (el, key) =>
+    el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
 
 function menu() {
     document.body.innerHTML = `<button id="t">Open</button><div id="m">

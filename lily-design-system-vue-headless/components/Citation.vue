@@ -30,9 +30,7 @@ withDefaults(
 
 <template>
     <!-- Citation.vue -->
-    <cite
-        class="citation"
-    >
+    <cite class="citation">
         <span
             v-if="label"
             class="screen-reader-span"

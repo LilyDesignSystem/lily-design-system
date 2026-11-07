@@ -30,9 +30,7 @@ withDefaults(
 
 <template>
     <!-- Kbd.vue -->
-    <kbd
-        class="kbd"
-    >
+    <kbd class="kbd">
         <span
             v-if="label"
             class="screen-reader-span"

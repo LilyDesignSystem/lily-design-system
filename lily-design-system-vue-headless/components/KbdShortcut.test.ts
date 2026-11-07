@@ -55,7 +55,9 @@ describe("KbdShortcut", () => {
         a.unmount();
         const b = render(Subject, { props: { keys: ["Ctrl", "K"] } });
         expect(root(b.container).querySelector(".screen-reader-span")).toBeNull();
-        expect(root(b.container).querySelector(".kbd-shortcut-key")?.hasAttribute("aria-hidden")).toBe(false);
+        expect(
+            root(b.container).querySelector(".kbd-shortcut-key")?.hasAttribute("aria-hidden"),
+        ).toBe(false);
     });
 
     test("passes through attributes", () => {

@@ -36,7 +36,8 @@ export interface MockupWindowProps {
 }
 
 export default function MockupWindow({
-    className = "", label,
+    className = "",
+    label,
     children,
     ...restProps
 }: MockupWindowProps) {

@@ -17,5 +17,7 @@ export class StatusLight {
     readonly label = input<string>("");
     readonly className = input<string>("");
     /** The kind of status, read by the consumer's CSS. */
-    readonly variant = input<"neutral" | "informative" | "positive" | "notice" | "negative" | "active" | "inactive">("neutral");
+    readonly variant = input<
+        "neutral" | "informative" | "positive" | "notice" | "negative" | "active" | "inactive"
+    >("neutral");
 }

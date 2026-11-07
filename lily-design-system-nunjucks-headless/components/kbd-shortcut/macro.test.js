@@ -28,7 +28,9 @@ describe("kbd-shortcut", () => {
         const labelled = r({ label: "Control K" }).querySelector(".kbd-shortcut");
         expect(labelled.hasAttribute("aria-label")).toBe(false);
         expect(labelled.querySelector(".screen-reader-span").textContent).toBe("Control K ");
-        expect(labelled.querySelector(".kbd-shortcut-key").getAttribute("aria-hidden")).toBe("true");
+        expect(labelled.querySelector(".kbd-shortcut-key").getAttribute("aria-hidden")).toBe(
+            "true",
+        );
         expect(r().querySelector(".screen-reader-span")).toBeNull();
     });
     it("appends classes and spreads attributes on the root", () => {

@@ -14,20 +14,11 @@
 //
 // References:
 //   - HTML code element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code
-
-withDefaults(
-    defineProps<{
-    }>(),
-    {
-    },
-);
 </script>
 
 <template>
     <!-- Code.vue -->
-    <code
-        class="code"
-    >
+    <code class="code">
         <slot />
     </code>
 </template>

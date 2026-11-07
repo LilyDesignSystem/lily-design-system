@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, input, computed, numberAttribute } from "@angular/core";
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    computed,
+    numberAttribute,
+} from "@angular/core";
 
 /**
  * FiveFaceRatingView — a read-only display of a five-face satisfaction rating

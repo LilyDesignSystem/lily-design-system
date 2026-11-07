@@ -16,5 +16,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 export class ContentBlock {
     readonly className = input<string>("");
     /** Width step, read by the consumer's CSS. */
-    readonly width = input<"narrower" | "narrow" | "normal" | "wide" | "wider" | "widest" | "fluid">("normal");
+    readonly width = input<
+        "narrower" | "narrow" | "normal" | "wide" | "wider" | "widest" | "fluid"
+    >("normal");
 }

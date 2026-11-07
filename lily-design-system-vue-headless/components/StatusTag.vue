@@ -44,9 +44,7 @@ withDefaults(
 
 <template>
     <!-- StatusTag.vue -->
-    <span
-        class="status-tag"
-    >
+    <span class="status-tag">
         <span
             v-if="label"
             class="screen-reader-span"

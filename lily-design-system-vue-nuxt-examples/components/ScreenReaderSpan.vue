@@ -16,7 +16,6 @@
 //
 // References:
 //   - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
-
 </script>
 
 <template>

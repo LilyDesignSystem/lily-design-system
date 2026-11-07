@@ -42,7 +42,9 @@ describe("NewsletterSignup", () => {
         const el = fixture.nativeElement.querySelector(".newsletter-signup");
         expect(el.querySelector(".newsletter-signup-heading").textContent).toBe("News");
         expect(el.querySelector(".newsletter-signup-label").textContent).toContain("Email");
-        expect(el.querySelector(".newsletter-signup-input").getAttribute("placeholder")).toBe("you@example.org");
+        expect(el.querySelector(".newsletter-signup-input").getAttribute("placeholder")).toBe(
+            "you@example.org",
+        );
         expect(el.querySelector(".newsletter-signup-submit").textContent).toBe("Join");
     });
 

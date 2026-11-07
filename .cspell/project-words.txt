@@ -1,7 +1,6 @@
 # Lily Design System project dictionary for cspell.
 # Regenerate candidates with: npx cspell --words-only <paths> | sort -u
 # then re-categorise by hand -- do not bulk-append unreviewed output.
-
 # Coined or technical English (not in general dictionaries)
 baselined
 bootcamp
@@ -56,7 +55,6 @@ goldens
 unrun
 untasked
 webstatus
-
 # Acronyms and initialisms
 CSUN
 DHCW
@@ -82,7 +80,6 @@ CNIC
 DSFR
 ELFA
 SGDS
-
 # Tools, platforms, and brand names
 analogjs
 Blazor
@@ -130,7 +127,6 @@ Shanghainese
 solidjs
 stephcraft
 Nastaliq
-
 # Web/CSS/tooling terms not in the base dictionaries
 codepoint
 flexbox
@@ -141,12 +137,10 @@ prerender
 SIGPIPE
 srgb
 vuejs
-
 # Lily-specific naming
 dont
 oxendict
 pickerbar
-
 # National personal identifier names (30+ countries, native spelling)
 Aadhaar
 aadhaar
@@ -373,6 +367,7 @@ pengenalan
 saudiyah
 tongyi
 wataniyah
-
 # Non-English UI strings quoted in docs (the picker labels' locales)
 Tudalennau
+caramellatte
+resetted

@@ -19,7 +19,9 @@ import { ChangeDetectionStrategy, Component, input, computed } from "@angular/co
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Statistic {
-    protected readonly ariaLabel = computed(() => this.label() || `${this.title()}: ${this.value()}`);
+    protected readonly ariaLabel = computed(
+        () => this.label() || `${this.title()}: ${this.value()}`,
+    );
 
     readonly label = input<string>("");
     readonly className = input<string>("");

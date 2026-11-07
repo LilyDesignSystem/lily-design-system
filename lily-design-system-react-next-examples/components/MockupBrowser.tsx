@@ -36,7 +36,8 @@ export interface MockupBrowserProps {
 }
 
 export default function MockupBrowser({
-    className = "", label,
+    className = "",
+    label,
     children,
     ...restProps
 }: MockupBrowserProps) {

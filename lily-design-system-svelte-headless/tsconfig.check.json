@@ -1,5 +1,6 @@
 {
   "extends": "./tsconfig.json",
+  "compilerOptions": { "types": ["node"] },
   "include": ["index.ts", "components/**/*.ts", "components/**/*.svelte"],
   "exclude": [
     "node_modules",

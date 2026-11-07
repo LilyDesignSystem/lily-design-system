@@ -22,7 +22,10 @@ describe("ThemeProvider", () => {
 
     test("flattens the theme into custom properties", () => {
         const fixture = TestBed.createComponent(ThemeProvider);
-        fixture.componentRef.setInput("theme", {"color": {"primary": "#2563eb"}, "space": {"md": "1rem"}});
+        fixture.componentRef.setInput("theme", {
+            color: { primary: "#2563eb" },
+            space: { md: "1rem" },
+        });
         fixture.componentRef.setInput("base", "dark");
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector(".theme-provider");

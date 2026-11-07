@@ -126,7 +126,13 @@ describe("contextual-help", () => {
     });
 
     it("names the dialog as the trigger is named", () => {
-        const { document } = render("contextual-help", { label: "Help: name", triggerLabel: "?", id: "h" });
-        expect(document.querySelector(".contextual-help-panel").getAttribute("aria-label")).toBe("Help: name");
+        const { document } = render("contextual-help", {
+            label: "Help: name",
+            triggerLabel: "?",
+            id: "h",
+        });
+        expect(document.querySelector(".contextual-help-panel").getAttribute("aria-label")).toBe(
+            "Help: name",
+        );
     });
 });

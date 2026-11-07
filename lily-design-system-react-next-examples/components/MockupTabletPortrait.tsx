@@ -36,7 +36,8 @@ export interface MockupTabletPortraitProps {
 }
 
 export default function MockupTabletPortrait({
-    className = "", label,
+    className = "",
+    label,
     children,
     ...restProps
 }: MockupTabletPortraitProps) {

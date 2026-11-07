@@ -6,10 +6,14 @@ import { runPattern } from "../../../shared/pattern-tester";
 import { render } from "../../test/render.js";
 import { attachGrid } from "../widget-keys.js";
 
-const ROWS = "<tbody><tr><th>Alpha</th><th>Beta</th><th>Gamma</th></tr><tr><td>A1</td><td>B1</td><td>C1</td></tr><tr><td>A2</td><td>B2</td><td>C2</td></tr><tr><td>A3</td><td>B3</td><td>C3</td></tr></tbody>";
+const ROWS =
+    "<tbody><tr><th>Alpha</th><th>Beta</th><th>Gamma</th></tr><tr><td>A1</td><td>B1</td><td>C1</td></tr><tr><td>A2</td><td>B2</td><td>C2</td></tr><tr><td>A3</td><td>B3</td><td>C3</td></tr></tbody>";
 
 test("meets the grid contract", async () => {
-    document.body.innerHTML = render("kanban-table", { label: "Board", html: ROWS }).document.body.innerHTML;
+    document.body.innerHTML = render("kanban-table", {
+        label: "Board",
+        html: ROWS,
+    }).document.body.innerHTML;
     const root = document.querySelector(".kanban-table");
     const detach = attachGrid(root);
     await runPattern("grid", { root, hook: "kanban-table" });

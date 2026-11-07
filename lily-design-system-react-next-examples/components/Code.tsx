@@ -25,11 +25,7 @@ export interface CodeProps {
     [key: string]: unknown;
 }
 
-export default function Code({
-    className = "",
-    children,
-    ...restProps
-}: CodeProps) {
+export default function Code({ className = "", children, ...restProps }: CodeProps) {
     return (
         <code
             className={`code ${className}`}
