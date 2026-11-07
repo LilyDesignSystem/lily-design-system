@@ -162,8 +162,7 @@ Multi-step tour:
 
 ## ARIA
 
-- `role="group"` -- groups the step content semantically
-- `aria-roledescription="step"` -- identifies the element as a tour step
+- The `<li>` keeps its listitem role, so the tour list counts its steps
 - `aria-label` -- provides an accessible name, optionally including "Step N of M"
 - `data-current` -- indicates the currently active step
 - `aria-hidden="true"` -- hides inactive steps from assistive technology
@@ -182,7 +181,7 @@ Multi-step tour:
 
 ## Headless
 
-This headless component provides a `<div>` with `role="group"`, `aria-roledescription="step"`, `aria-label` (with optional step progress), `data-current`, and `hidden`/`aria-hidden` for conditional visibility. The consumer provides all step content, navigation buttons, and all visual styling.
+This headless component provides an `<li>` that stays a list item of its tour list, with `aria-label` (with optional step progress), `data-current`, and `hidden`/`aria-hidden` for conditional visibility. It takes no group role, which would take the step out of its list. The consumer provides all step content, navigation buttons, and all visual styling.
 
 ## Styles
 
@@ -191,7 +190,7 @@ The consumer provides all CSS styling. The component renders with a `.tour-list-
 ## Testing
 
 - Verify the component renders a `<li>` element with class `tour-list-item`
-- Verify role="group"` -- groups the step content semantically
+- Verify the `<li>` has no `role` and no `aria-roledescription`, so it stays in its list
 - Verify aria-label` -- provides an accessible name, optionally including "Step N of M"
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
@@ -213,7 +212,6 @@ TourListItem is a child of TourGuideList, following the Guide/GuideList/GuideLis
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
-- WAI-ARIA aria-roledescription: https://www.w3.org/TR/wai-aria-1.2/#aria-roledescription
 - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current
 
 ---
