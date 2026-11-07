@@ -8,10 +8,12 @@ See [components/net-promoter-score-picker/index.md](../../../components/net-prom
 
 ## Nunjucks usage
 
+A `<fieldset role="radiogroup">` of native radios, as in every other catalog: the radios give the keys, form submission and form reset.
+
 ```njk
 {% from "components/net-promoter-score-picker/macro.njk" import netPromoterScorePicker %}
 
-{{ netPromoterScorePicker({ }) }}
+{{ netPromoterScorePicker({ label: "Rating", value: 5 }) }}
 ```
 
 ## Files

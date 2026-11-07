@@ -489,6 +489,7 @@ export class DataGridAttrs {
     <ng-template #tableTemplate>
       <lily-data-table
         [label]="label()"
+        data-consumer-keys="true"
         [className]="''"
         (keydown)="onGridKeydown($event)"
         (focusin)="onGridFocusin($event)"

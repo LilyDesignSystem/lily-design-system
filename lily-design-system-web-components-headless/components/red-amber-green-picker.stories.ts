@@ -1,26 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/web-components-vite";
 
 import "./red-amber-green-picker.js";
-import "./red-amber-green-picker-button.js";
 import { h } from "../stories/render.js";
-
-const SLOT = [
-    ["red", "Red - Critical"],
-    ["amber", "Amber - Caution"],
-    ["green", "Green - On track"],
-]
-    .map(
-        ([value, label]) =>
-            `<lily-red-amber-green-picker-button value="${value}" label="${label}"></lily-red-amber-green-picker-button>`,
-    )
-    .join("");
 
 const meta: Meta = {
     title: "Pickers/RedAmberGreenPicker",
-    render: (args) =>
-        h("lily-red-amber-green-picker", args as Record<string, string | boolean>, SLOT),
+    render: (args) => h("lily-red-amber-green-picker", args as Record<string, string | boolean>),
     args: {
         label: "Project status",
+        "red-label": "Off track",
+        "amber-label": "At risk",
+        "green-label": "On track",
     },
 };
 

@@ -4,8 +4,8 @@
   Description: a calendar grid showing the seven days of one week
   HTML tag: <table role="grid">
   CSS class: calendar-week-table
-  Keyboard: None built-in. The consumer implements grid keyboard navigation
-  Accessibility: role="grid" identifies an interactive grid widget; aria-label
+  Keyboard: arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp and PageDown move between cells; one tab stop; Enter or F2 goes to the first control in a cell and Escape comes back
+  Accessibility: role="grid" with required aria-label; set data-consumer-keys on the root to run your own keys
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -14,6 +14,7 @@
   role="grid"
   aria-label="Week of 6 January 2025"
   data-view="week"
+  x-lily-grid
 >
   <caption>
     Visible caption (optional)

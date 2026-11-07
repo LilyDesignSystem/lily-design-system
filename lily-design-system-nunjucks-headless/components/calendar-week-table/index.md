@@ -28,7 +28,7 @@ CalendarWeekTable is the calendar grid for one week: 7 day columns. It is a stru
 
 ## Keyboard Interactions
 
-None built in. The consumer implements grid keyboard navigation (arrow keys, Enter/Space).
+Arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp, PageDown, Enter, F2 and Escape over the cells, with one tab stop; data-consumer-keys on the root turns them off.
 
 ## ARIA
 

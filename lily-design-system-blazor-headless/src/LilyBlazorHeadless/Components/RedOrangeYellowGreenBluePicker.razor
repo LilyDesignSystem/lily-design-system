@@ -1,36 +1,44 @@
 @namespace LilyBlazorHeadless.Components
-@inherits ValueInputBase
 
 @*
     RedOrangeYellowGreenBluePicker component
-    a picker for a red, orange, yellow, green or blue status
+    a picker for a red/orange/yellow/green/blue status
 
-    A native <select> in the contract's <div>, as RedAmberGreenPicker. The option names are the consumer's.
-
-    Parameters:
-        Label, RedLabel, OrangeLabel, YellowLabel, GreenLabel, BlueLabel — string, required.
-        Value / ValueChanged — "red", "orange", "yellow", "green" or "blue", two-way (@bind-Value).
-        CssClass, AdditionalAttributes (spread onto the root).
+    A <fieldset role="radiogroup"> of native radios, one per status (red, orange, yellow, green, blue), sharing Name, as
+    FiveStarRatingPicker is. The radios give the keys natively: Tab focuses the checked radio, the arrow keys move and
+    check, Space checks. Value / ValueChanged is two-way (@bind-Value; "" = none). Disabled disables the whole group.
+    StatusLabel gives each option's visible text and is required: there is no English default, and without it an
+    option shows its value. Unmatched attributes spread onto the <fieldset>.
 *@
 
-<div class="@($"red-orange-yellow-green-blue-picker {CssClass}".Trim())" @attributes="AdditionalAttributes">
-    <select aria-label="@Label" value="@Value" @onchange="@(e => SetValueAsync(e.Value as string))">
-        <option value="" hidden></option>
-        <option value="red">@RedLabel</option>
-        <option value="orange">@OrangeLabel</option>
-        <option value="yellow">@YellowLabel</option>
-        <option value="green">@GreenLabel</option>
-        <option value="blue">@BlueLabel</option>
-    </select>
-</div>
+<fieldset class="@($"red-orange-yellow-green-blue-picker {CssClass}".Trim())" role="radiogroup" aria-label="@Label" disabled="@Disabled" @attributes="AdditionalAttributes">
+    @foreach (var status in Statuses)
+    {
+        var option = status;
+        <label><input type="radio" name="@Name" value="@option" checked="@(Value == option)" @onchange="() => Choose(option)" /> @(StatusLabel is null ? option : StatusLabel(option))</label>
+    }
+</fieldset>
 
 @code {
+    private static readonly string[] Statuses = new[] { "red", "orange", "yellow", "green", "blue" };
+
+    /// <summary>Accessible name for the group via aria-label.</summary>
     [Parameter, EditorRequired] public string Label { get; set; } = "";
-    [Parameter, EditorRequired] public string RedLabel { get; set; } = "";
-    [Parameter, EditorRequired] public string OrangeLabel { get; set; } = "";
-    [Parameter, EditorRequired] public string YellowLabel { get; set; } = "";
-    [Parameter, EditorRequired] public string GreenLabel { get; set; } = "";
-    [Parameter, EditorRequired] public string BlueLabel { get; set; } = "";
+    /// <summary>The checked status ("" = none).</summary>
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    /// <summary>Radio group name for form submission.</summary>
+    [Parameter] public string Name { get; set; } = "status";
+    /// <summary>Each option's visible text, e.g. s => Labels[s]. No English default.</summary>
+    [Parameter, EditorRequired] public Func<string, string>? StatusLabel { get; set; }
+    /// <summary>Whether the entire group is disabled.</summary>
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task Choose(string option)
+    {
+        Value = option;
+        await ValueChanged.InvokeAsync(option);
+    }
 }

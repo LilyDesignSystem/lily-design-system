@@ -1,14 +1,10 @@
 import { afterEach, describe, expect, test } from "vitest";
+import { userEvent } from "@testing-library/user-event";
 
 import { NetPromoterScorePicker } from "./net-promoter-score-picker.js";
-import { NetPromoterScorePickerButton } from "./net-promoter-score-picker-button.js";
 
-if (!customElements.get("lily-net-promoter-score-picker-button")) {
-    customElements.define("lily-net-promoter-score-picker-button", NetPromoterScorePickerButton);
-}
-if (!customElements.get("lily-net-promoter-score-picker")) {
+if (!customElements.get("lily-net-promoter-score-picker"))
     customElements.define("lily-net-promoter-score-picker", NetPromoterScorePicker);
-}
 
 afterEach(() => {
     document.body.innerHTML = "";
@@ -18,78 +14,83 @@ function render(html: string): HTMLElement {
     document.body.innerHTML = html;
     return document.body.firstElementChild as HTMLElement;
 }
+const radios = () => Array.from(document.querySelectorAll<HTMLInputElement>('input[type="radio"]'));
+const texts = () =>
+    Array.from(document.querySelectorAll("label")).map((l) => l.textContent!.trim());
 
 describe("NetPromoterScorePicker", () => {
-    test("carries the base class", () => {
+    test("renders a fieldset radiogroup named by label", () => {
         const host = render(
-            '<lily-net-promoter-score-picker label="How likely are you to recommend us?"></lily-net-promoter-score-picker>',
+            '<lily-net-promoter-score-picker label="Rating" class="extra"></lily-net-promoter-score-picker>',
         );
-
-        expect(host.classList.contains("net-promoter-score-picker")).toBe(true);
+        const root = host.querySelector("fieldset.net-promoter-score-picker")!;
+        expect(root.getAttribute("role")).toBe("radiogroup");
+        expect(root.getAttribute("aria-label")).toBe("Rating");
+        expect(root.classList.contains("extra")).toBe(true);
     });
 
-    test("has role=radiogroup", () => {
-        const host = render(
-            '<lily-net-promoter-score-picker label="How likely are you to recommend us?"></lily-net-promoter-score-picker>',
-        );
-
-        expect(host.getAttribute("role")).toBe("radiogroup");
+    test("holds 11 native radios, sharing one name", () => {
+        render('<lily-net-promoter-score-picker label="Rating"></lily-net-promoter-score-picker>');
+        expect(radios().map((r) => r.value)).toEqual([
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+        ]);
+        expect(new Set(radios().map((r) => r.name))).toEqual(new Set(["nps"]));
     });
 
-    test("uses label as the accessible name", () => {
-        const host = render(
-            '<lily-net-promoter-score-picker label="How likely are you to recommend us?"></lily-net-promoter-score-picker>',
-        );
-
-        expect(host.getAttribute("aria-label")).toBe("How likely are you to recommend us?");
+    test("each option's text is its number, and each radio is named by it", () => {
+        render('<lily-net-promoter-score-picker label="Score"></lily-net-promoter-score-picker>');
+        expect(texts()).toEqual(["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]);
+        expect(radios().map((r) => r.getAttribute("aria-label"))).toEqual([
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+        ]);
     });
 
-    test("appends the consumer's class onto the base class", () => {
+    test("checks the radio for value, and a choice updates value", () => {
         const host = render(
-            '<lily-net-promoter-score-picker label="NPS" class="my-picker"></lily-net-promoter-score-picker>',
+            '<lily-net-promoter-score-picker label="Rating" value="2"></lily-net-promoter-score-picker>',
         );
-
-        expect(host.getAttribute("class")).toBe("net-promoter-score-picker my-picker");
+        expect(radios().map((r) => r.checked)).toEqual([
+            false,
+            false,
+            true,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+            false,
+        ]);
+        radios()[0].click();
+        expect(host.getAttribute("value")).toBe("0");
     });
 
-    test("keeps consumer-supplied picker-button children in place", () => {
-        const host = render(
-            '<lily-net-promoter-score-picker label="NPS"><button aria-pressed="false" aria-label="9"></button></lily-net-promoter-score-picker>',
-        );
-
-        expect(host.querySelector("button")).toBeTruthy();
-    });
-
-    test("is idempotent across repeated connectedCallback invocations", () => {
-        const host = render(
-            '<lily-net-promoter-score-picker label="NPS"></lily-net-promoter-score-picker>',
-        );
-
-        (host as unknown as NetPromoterScorePicker).connectedCallback();
-
-        expect(host.getAttribute("role")).toBe("radiogroup");
-        expect(host.getAttribute("aria-label")).toBe("NPS");
-    });
-});
-
-describe("NetPromoterScorePicker keys", () => {
-    test("is one radio group: one tab stop, and the arrows move, check and wrap", async () => {
-        const host = render(
-            '<lily-net-promoter-score-picker label="Choice">' +
-                '<lily-net-promoter-score-picker-button value="1" label="One" selected></lily-net-promoter-score-picker-button>' +
-                '<lily-net-promoter-score-picker-button value="2" label="Two"></lily-net-promoter-score-picker-button>' +
-                "</lily-net-promoter-score-picker>",
-        );
-        await Promise.resolve();
-        const [one, two] = host.querySelectorAll<HTMLButtonElement>("button");
-        expect(one.getAttribute("role")).toBe("radio");
-        expect([one.tabIndex, two.tabIndex]).toEqual([0, -1]);
-        one.focus();
-        one.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
-        expect(document.activeElement).toBe(two);
-        expect(two.getAttribute("aria-checked")).toBe("true");
-        expect(one.getAttribute("aria-checked")).toBe("false");
-        two.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
-        expect(document.activeElement).toBe(one);
+    test("ArrowRight moves the selection through the native radio group", async () => {
+        const user = userEvent.setup();
+        render('<lily-net-promoter-score-picker label="Rating"></lily-net-promoter-score-picker>');
+        await user.click(radios()[0]);
+        await user.keyboard("{ArrowRight}");
+        expect(radios()[1].checked).toBe(true);
     });
 });

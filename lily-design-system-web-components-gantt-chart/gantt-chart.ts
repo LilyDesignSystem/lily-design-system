@@ -1935,6 +1935,8 @@ export class GanttChart extends HTMLElement {
 
         const table = document.createElement("lily-gantt-table");
         table.setAttribute("label", this.label);
+        // This chart runs its own grid keys.
+        table.setAttribute("data-consumer-keys", "true");
         table.addEventListener("click", (event) => {
             const t = event.target as HTMLElement;
             if (

@@ -61,7 +61,16 @@ A patient appointments table with sortable columns and status tags:
 
 ## Keyboard Interactions
 
-None -- this component is a passive container. Navigation within the table follows standard browser behavior.
+- Tab: moves to the table, on its one tab stop, and out of it
+- ArrowRight / ArrowLeft: next or previous cell in the row, swapped in right-to-left; stops at the edge
+- ArrowDown / ArrowUp: next or previous row; stops at the edge
+- Home / End: first or last cell in the row
+- Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell in the table
+- PageDown / PageUp: ten rows, stopping at the edge
+- Enter or F2: go to the first control in the cell, which keeps its own keys
+- Escape: from a control, back to its cell
+
+Selecting, sorting and editing are the consumer's. A consumer running its own grid keys, as the `data-grid` helper does, sets `data-consumer-keys` on the root.
 
 ## ARIA
 

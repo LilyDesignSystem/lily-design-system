@@ -8,7 +8,7 @@ Implement the Net Promoter Score Picker component: a picker for selecting a 0-10
 
 ## HTML Tag and CSS Class
 
-- HTML tag: <div>
+- HTML tag: <fieldset>
 - CSS class: .net-promoter-score-picker
 
 ## Dependencies
@@ -21,7 +21,7 @@ Implement the Net Promoter Score Picker component: a picker for selecting a 0-10
 
 ## Approach
 
-1. Use semantic <div> element with class="net-promoter-score-picker"
+1. Use a semantic <fieldset role="radiogroup"> element with class="net-promoter-score-picker"
 2. Add ARIA attributes for accessibility
 3. Implement keyboard navigation
 4. Add vanilla JavaScript for interactive behavior
@@ -32,7 +32,7 @@ Implement the Net Promoter Score Picker component: a picker for selecting a 0-10
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> with class="net-promoter-score-picker"
+- [ ] Renders <fieldset role="radiogroup"> with class="net-promoter-score-picker"
 - [ ] `role="radiogroup"` on the fieldset
 - [ ] `aria-label` on the fieldset from the label prop
 - [ ] Each radio has `aria-label` with its numeric value

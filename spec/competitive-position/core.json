@@ -2870,21 +2870,20 @@
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-web-components-headless/components/net-promoter-score-picker.keyboard.test.ts",
               "lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts"
             ],
-            "keyEvent": "lily-design-system-web-components-headless/components/net-promoter-score-picker.keyboard.test.ts",
-            "ariaAssertion": "lily-design-system-web-components-headless/components/net-promoter-score-picker.keyboard.test.ts"
+            "keyEvent": "lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts",
+            "ariaAssertion": "lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts"
           },
           "nunjucks": {
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/keyboard.test.js",
-              "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js"
+              "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js",
+              "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/net-promoter-score-picker.keys.test.js"
             ],
-            "keyEvent": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/keyboard.test.js",
-            "ariaAssertion": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/keyboard.test.js"
+            "keyEvent": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/net-promoter-score-picker.keys.test.js",
+            "ariaAssertion": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js"
           },
           "blazor": {
             "status": "met",
@@ -5518,78 +5517,86 @@
       "keyboard": {
         "met": true,
         "metCount": 8,
-        "keyboardContract": "none",
+        "keyboardContract": "keys",
         "libraries": {
           "svelte": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-svelte-headless/components/DataTable/DataTable.pattern.test.ts",
               "lily-design-system-svelte-headless/components/DataTable/DataTable.test.ts"
             ],
-            "keyEvent": "not required (AGENTS.md: no keyboard interactions)",
-            "ariaAssertion": "lily-design-system-svelte-headless/components/DataTable/DataTable.test.ts"
+            "keyEvent": "lily-design-system-svelte-headless/components/DataTable/DataTable.pattern.test.ts",
+            "ariaAssertion": "lily-design-system-svelte-headless/components/DataTable/DataTable.pattern.test.ts"
           },
           "react": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-react-headless/components/DataTable.pattern.test.tsx",
               "lily-design-system-react-headless/components/DataTable.test.tsx"
             ],
-            "keyEvent": "not required (AGENTS.md: no keyboard interactions)",
-            "ariaAssertion": "lily-design-system-react-headless/components/DataTable.test.tsx"
+            "keyEvent": "lily-design-system-react-headless/components/DataTable.pattern.test.tsx",
+            "ariaAssertion": "lily-design-system-react-headless/components/DataTable.pattern.test.tsx"
           },
           "vue": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-vue-headless/components/DataTable.pattern.test.ts",
               "lily-design-system-vue-headless/components/DataTable.test.ts"
             ],
-            "keyEvent": "not required (AGENTS.md: no keyboard interactions)",
-            "ariaAssertion": "lily-design-system-vue-headless/components/DataTable.test.ts"
+            "keyEvent": "lily-design-system-vue-headless/components/DataTable.pattern.test.ts",
+            "ariaAssertion": "lily-design-system-vue-headless/components/DataTable.pattern.test.ts"
           },
           "angular": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-angular-headless/components/DataTable.pattern.spec.ts",
               "lily-design-system-angular-headless/components/DataTable.spec.ts"
             ],
-            "keyEvent": "not required (AGENTS.md: no keyboard interactions)",
-            "ariaAssertion": "lily-design-system-angular-headless/components/DataTable.spec.ts"
+            "keyEvent": "lily-design-system-angular-headless/components/DataTable.pattern.spec.ts",
+            "ariaAssertion": "lily-design-system-angular-headless/components/DataTable.pattern.spec.ts"
           },
           "html": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-html-headless/components/data-table.pattern.test.js",
               "lily-design-system-html-headless/components/data-table.test.js"
             ],
-            "keyEvent": "not required (AGENTS.md: no keyboard interactions)",
-            "ariaAssertion": "lily-design-system-html-headless/components/data-table.test.js"
+            "keyEvent": "lily-design-system-html-headless/components/data-table.pattern.test.js",
+            "ariaAssertion": "lily-design-system-html-headless/components/data-table.pattern.test.js"
           },
           "web-components": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-web-components-headless/components/data-table.pattern.test.ts",
               "lily-design-system-web-components-headless/components/data-table.test.ts"
             ],
-            "keyEvent": "not required (AGENTS.md: no keyboard interactions)",
-            "ariaAssertion": "lily-design-system-web-components-headless/components/data-table.test.ts"
+            "keyEvent": "lily-design-system-web-components-headless/components/data-table.pattern.test.ts",
+            "ariaAssertion": "lily-design-system-web-components-headless/components/data-table.pattern.test.ts"
           },
           "nunjucks": {
             "status": "met",
             "met": true,
             "testFiles": [
+              "lily-design-system-nunjucks-headless/components/data-table/data-table.pattern.test.js",
               "lily-design-system-nunjucks-headless/components/data-table/macro.test.js"
             ],
-            "keyEvent": "not required (AGENTS.md: no keyboard interactions)",
-            "ariaAssertion": "lily-design-system-nunjucks-headless/components/data-table/macro.test.js"
+            "keyEvent": "lily-design-system-nunjucks-headless/components/data-table/data-table.pattern.test.js",
+            "ariaAssertion": "lily-design-system-nunjucks-headless/components/data-table/data-table.pattern.test.js"
           },
           "blazor": {
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DataTableTests.cs"
+              "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DataTableTests.cs",
+              "lily-design-system-blazor-headless/tests/js/data-table.pattern.test.mjs"
             ],
-            "keyEvent": "not required (AGENTS.md: no keyboard interactions)",
+            "keyEvent": "lily-design-system-blazor-headless/tests/js/data-table.pattern.test.mjs",
             "ariaAssertion": "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/DataTableTests.cs"
           }
         }

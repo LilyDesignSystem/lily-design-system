@@ -13,8 +13,8 @@ function source() {
 
 /**
  * Run a pattern on the first element matching `selector`, naming it first when `label` is given. `scripts.setup` runs
- * once before it and `scripts.open` is the `open` option; both are source text with `root` in scope. `scripts.prepare`
- * runs before `selector` is looked up.
+ * once before it, then a task passes, so a MutationObserver sees what it changed. `scripts.open` is the `open` option;
+ * both are source text with `root` in scope. `scripts.prepare` runs before `selector` is looked up.
  */
 async function runPattern(browser, pattern, selector, hook, label, scripts = {}) {
     const error = await browser.execute(
@@ -23,7 +23,11 @@ async function runPattern(browser, pattern, selector, hook, label, scripts = {})
             const root = document.querySelector(css);
             if (accessibleName) root.setAttribute("aria-label", accessibleName);
             const run = new Function(`${code}\nreturn runPattern;`)();
-            if (setup) new Function("root", setup)(root);
+            if (setup) {
+                new Function("root", setup)(root);
+                // What the setup changed reaches a MutationObserver after this task, as it would on a real page.
+                await new Promise((resolve) => setTimeout(resolve));
+            }
             const open = opening ? () => new Function("root", opening)(root) : undefined;
             try {
                 await run(name, { root, hook: baseClass, open });

@@ -8,7 +8,7 @@
 - Status: beta — implemented and unit-tested in the Svelte canonical; not yet exercised in composed flows
 - HTML tag: <table>
 - CSS class: .calendar-year-table
-- Interactive: no
+- Interactive: yes
 
 ## Composition
 
@@ -22,6 +22,7 @@
 - Optional `caption` renders a visible `<caption>`
 - Accepts `...restProps` for forwarding additional attributes to the table element
 - No internal state -- purely a structural wrapper
+- Owns the grid keys below, over the cells the consumer renders; a root inside `[data-consumer-keys]` attaches none, for a consumer running its own
 
 ## ARIA
 
@@ -30,9 +31,15 @@
 
 ## Keyboard
 
-- None: this is a passive table, deliberately, as `table` and `data-table` are. A cell cursor needs state the table does not hold.
-
-For grid keys, use the `calendar` helper, which owns them, in every catalog.
+- Tab: moves to the calendar, on its one tab stop, and out of it
+- ArrowRight / ArrowLeft: next or previous cell in the row, swapped in right-to-left; stops at the edge
+- ArrowDown / ArrowUp: next or previous row; stops at the edge
+- Home / End: first or last cell in the row
+- Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell in the calendar
+- PageDown / PageUp: ten rows, stopping at the edge
+- Enter or F2: go to the first control in the cell, which keeps its own keys
+- Escape: from a control, back to its cell
+- Selecting, sorting and editing are the consumer's. A consumer running its own grid keys, as the `calendar` helper does, sets `data-consumer-keys` on the root.
 
 ## Props
 

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
+import { attachGrid } from "./widget-keys";
 // DataTable component
 //
 // An interactive data table that displays structured information in rows and
@@ -31,8 +34,7 @@
 //   </DataTable>
 //
 // Keyboard:
-//   None built-in — consumer should implement grid keyboard navigation
-//   (arrow keys for cell movement, Enter/Space for selection).
+//   Arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp, PageDown, Enter, F2 and Escape over the cells, with one tab stop; data-consumer-keys on the root turns them off.
 //
 // Accessibility:
 //   - role="grid" identifies the table as an interactive grid widget
@@ -51,7 +53,7 @@
 // References:
 //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible name describing the table content. */
         label: string;
@@ -62,11 +64,21 @@ withDefaults(
         caption: undefined,
     },
 );
+
+warnMissingName("DataTable", props.label, useAttrs()["aria-labelledby"]);
+
+const rootRef = ref<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachGrid(rootRef.value!);
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
     <!-- DataTable.vue -->
     <table
+        ref="rootRef"
         class="data-table"
         role="grid"
         :aria-label="label"

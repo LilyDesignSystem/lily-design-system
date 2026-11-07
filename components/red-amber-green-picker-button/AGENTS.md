@@ -18,7 +18,7 @@
 ## Key Behaviors
 
 - Renders as a `<button>` element with `aria-pressed` for toggle state
-- Designed to be used inside a RedAmberGreenPicker component
+- A separate part, for a consumer composing its own group of status buttons: `RedAmberGreenPicker` renders native radios and does not use it
 - Each button represents one of three RAG status levels (red, amber, green)
 - The `selected` prop controls `aria-pressed` to indicate the active selection
 - The `data-value` attribute carries the status value for CSS targeting

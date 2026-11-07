@@ -1,9 +1,8 @@
 // NetPromoterScorePickerButton component
 //
-// A <button> representing one score (0-10) in a Net Promoter Score
-// picker (used as a child of net-promoter-score-picker). Renders its
-// `label` as both the visible button text and the aria-label (matching
-// the canonical react/svelte/vue ports).
+// A <button> representing one score (0-10), for a consumer composing its own radiogroup of
+// rating buttons. The net-promoter-score-picker itself renders native radios and does not use it
+// (tasks.md P25-T19). Renders its `label` as both the visible button text and the aria-label.
 //
 // DOCUMENTATION GAP (flagged): components/net-promoter-score-picker-button/
 // AGENTS.md's Props list omits `disabled`, but the react reference
@@ -17,12 +16,12 @@
 //   label — REQUIRED. Accessible name and visible text.
 //   selected — presence-based boolean, default false; always reflected
 //     as aria-checked="true"/"false". The button is role="radio", as in Nunjucks and
-//     HTML, because its picker is a radiogroup; the contract's aria-pressed would leave
-//     the group with no radios (tasks.md P25-T6).
+//     HTML, for a radiogroup the consumer builds; aria-pressed would leave that group
+//     with no radios (tasks.md P25-T6).
 //   disabled — presence-based boolean (see documentation gap above).
 //   ...rest — spread onto the <button>.
 //
-// Keyboard: the picker's: one tab stop, and the arrows move and check (attachRadioGroup).
+// Keyboard: the consumer's group's; attachRadioGroup gives one tab stop and arrows that move and check.
 //
 // References:
 //   - components/net-promoter-score-picker-button/index.md (canonical contract)

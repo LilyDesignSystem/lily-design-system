@@ -8,10 +8,12 @@ See [components/five-face-rating-picker/index.md](../../../components/five-face-
 
 ## Nunjucks usage
 
+A `<fieldset role="radiogroup">` of native radios, as in every other catalog: the radios give the keys, form submission and form reset. Each option's text is `labels`, in order; without it, the numbers alone.
+
 ```njk
 {% from "components/five-face-rating-picker/macro.njk" import fiveFaceRatingPicker %}
 
-{{ fiveFaceRatingPicker({ }) }}
+{{ fiveFaceRatingPicker({ label: "Rating", value: 3, labels: ["Very unhappy", "Unhappy", "Neutral", "Happy", "Very happy"] }) }}
 ```
 
 ## Files

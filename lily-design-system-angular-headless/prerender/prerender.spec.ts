@@ -28,6 +28,8 @@ const INPUTS: Record<string, Inputs> = {
     MiddleTruncation: { text: "x", ellipsis: "x" },
     OneTimePasswordInput: { length: 6 },
     PinInputDiv: { digitLabel: undefined },
+    RedAmberGreenPicker: { statusLabel: undefined },
+    RedOrangeYellowGreenBluePicker: { statusLabel: undefined },
     ScrollerVideo: { src: "a.mp4", alt: "x" },
     TextAreaInputWithCharacterCounter: { maxLength: 10, counterTemplate: "x" },
     VideoPlayer: { src: "a.mp4" },
@@ -51,6 +53,8 @@ const DATA: Record<string, Inputs> = {
     MultiSelect: { value: ["a", "b"] },
     MultiSelectWithExtras: { value: ["a", "b"] },
     PinInputDiv: { digitLabel: (position: number, length: number) => `${position}/${length}` },
+    RedAmberGreenPicker: { statusLabel: (status: string) => status, value: "amber" },
+    RedOrangeYellowGreenBluePicker: { statusLabel: (status: string) => status, value: "yellow" },
     SkipLink: { label: "" },
     WheelPicker: { options: OPTIONS, value: "b" },
 };

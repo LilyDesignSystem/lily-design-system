@@ -78,7 +78,7 @@
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;table&gt;</li>
       <li>CSS class: .gantt-table</li>
-      <li>Interactive: no</li>
+      <li>Interactive: yes</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
@@ -87,9 +87,16 @@
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>None: this is a passive table, deliberately, as <code>table</code> and <code>data-table</code> are. A cell cursor needs state the table does not hold.</li>
+      <li>Tab: moves to the table, on its one tab stop, and out of it</li>
+      <li>ArrowRight / ArrowLeft: next or previous cell in the row, swapped in right-to-left; stops at the edge</li>
+      <li>ArrowDown / ArrowUp: next or previous row; stops at the edge</li>
+      <li>Home / End: first or last cell in the row</li>
+      <li>Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell in the table</li>
+      <li>PageDown / PageUp: ten rows, stopping at the edge</li>
+      <li>Enter or F2: go to the first control in the cell, which keeps its own keys</li>
+      <li>Escape: from a control, back to its cell</li>
+      <li>Selecting, sorting and editing are the consumer's. A consumer running its own grid keys, as the <code>gantt-chart</code> helper does, sets <code>data-consumer-keys</code> on the root.</li>
     </ul>
-    <p>For grid keys, use the <code>gantt-chart</code> helper, which owns them, in every catalog.</p>
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name describing the Gantt chart content, applied via <code>aria-label</code></li>

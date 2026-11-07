@@ -39,9 +39,16 @@ CalendarWeekTable is one of five calendar views alongside `CalendarTable` (the g
 
 ## Keyboard Interactions
 
-| Key | Action                                                                                                                                    |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| —   | None built-in. The consumer implements APG grid navigation: arrow keys move between cells, Home/End jump within a row, Enter/Space select |
+- Tab: moves to the calendar, on its one tab stop, and out of it
+- ArrowRight / ArrowLeft: next or previous cell in the row, swapped in right-to-left; stops at the edge
+- ArrowDown / ArrowUp: next or previous row; stops at the edge
+- Home / End: first or last cell in the row
+- Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell in the calendar
+- PageDown / PageUp: ten rows, stopping at the edge
+- Enter or F2: go to the first control in the cell, which keeps its own keys
+- Escape: from a control, back to its cell
+
+Selecting, sorting and editing are the consumer's. A consumer running its own grid keys, as the `calendar` helper does, sets `data-consumer-keys` on the root.
 
 ## ARIA
 

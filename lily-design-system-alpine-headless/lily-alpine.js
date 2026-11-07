@@ -263,7 +263,8 @@ export default function lily(Alpine) {
     });
 
     // A toolbar, on any element: x-lily-toolbar, with an optional selector for the button Escape clicks.
-    // KanbanTable: <table role="grid">. The grid keys, over the cells the consumer renders.
+    // KanbanTable, DataTable, GanttTable and the calendar tables: <table role="grid">. The grid keys, over the cells the
+    // consumer renders.
     Alpine.directive("lily-grid", (el, _, { cleanup }) => {
         cleanup(attachGrid(el));
     });

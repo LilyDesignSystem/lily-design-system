@@ -1497,6 +1497,7 @@ const rowViews = computed<(RowView | SpacerView)[]>(() => {
         >
             <GanttTable
                 :label="label"
+                data-consumer-keys="true"
                 :caption="caption"
                 :aria-rowcount="virtualize ? rows.length + 1 : undefined"
                 @keydown="onGridKeydown"

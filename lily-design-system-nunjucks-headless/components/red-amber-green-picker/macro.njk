@@ -1,36 +1,42 @@
 {#
-  RedAmberGreenPicker macro — a picker for selecting a red/amber/green status.
+  RedAmberGreenPicker macro — a picker for a red/amber/green (RAG) status.
 
-  HTML tag: <div role="radiogroup">
+  HTML tag: <fieldset role="radiogroup"> (the -picker suffix's <div> gives way to the native grouping element)
   CSS class: red-amber-green-picker
-  Accessibility: role="radiogroup" with an accessible name; children
-    are RedAmberGreenPickerButton macros.
+  Keyboard: native radios: Tab focuses the checked radio (or the first), the arrow keys move and check, Space checks.
+  Accessibility: role="radiogroup" with an accessible name; one native radio per status (red, amber, green), each named
+    by its visible text.
 
   Params:
-    label        string   Accessible name (aria-label).
-    labelledBy   string
-    id           string
-    classes      string
-    attributes   object
-
-  Body content: RedAmberGreenPickerButton children via caller().
+    label         string   Accessible name (aria-label). Required unless labelledBy.
+    labelledBy    string
+    statusLabels  object   Each option's visible text, keyed by status (red, amber, green). Required: no English
+                           default; without one an option shows its value.
+    value         string   The checked status ("" = none).
+    name          string   Radio group name for form submission. Default "status".
+    disabled      boolean  Disables the whole group.
+    id            string
+    classes       string
+    attributes    object
 
   Usage:
     {% from "components/red-amber-green-picker/macro.njk" import redAmberGreenPicker %}
-    {% call redAmberGreenPicker({ id: "example", label: "Example" }) %}…{% endcall %}
+    {{ redAmberGreenPicker({ label: "Status", statusLabels: { red: "…", amber: "…", green: "…" } }) }}
 #}
 {%- macro redAmberGreenPicker(params) -%}
 {%- set p = params | default({}) -%}
-<div
+{%- set statusLabels = p.statusLabels | default({}) -%}
+<fieldset
   class="red-amber-green-picker{% if p.classes %} {{ p.classes }}{% endif %}"
   role="radiogroup"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
   {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  {%- if p.html -%}{{ p.html | safe }}
-  {%- elif caller -%}{{ caller() }}
-  {%- endif -%}
-</div>
+  {%- for status in ["red",  "amber",  "green"] %}
+  <label><input type="radio" name="{{ p.name | default('status') }}" value="{{ status }}"{% if p.value == status %} checked{% endif %} /> {{ statusLabels[status] | default(status) }}</label>
+  {%- endfor %}
+</fieldset>
 {%- endmacro -%}

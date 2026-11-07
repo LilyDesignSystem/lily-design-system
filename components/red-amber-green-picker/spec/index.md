@@ -32,11 +32,11 @@ Implement the Red Amber Green Picker component: a picker for selecting a red/amb
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> with class="red-amber-green-picker"
-- [ ] `aria-label` on the select from the label prop
-- [ ] Keyboard: Arrow keys navigate options (native select behavior)
-- [ ] Keyboard: Enter/Space opens the dropdown
-- [ ] Keyboard: Escape closes the dropdown
+- [ ] Renders <fieldset role="radiogroup"> with class="red-amber-green-picker"
+- [ ] `aria-label` on the fieldset from the label prop
+- [ ] One native radio per status (red, amber, green), sharing one name
+- [ ] Each option's text from `statusLabel`; no English default
+- [ ] Keyboard: the native radio group's (arrows move and check, Space checks)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] Tests pass in all implementations

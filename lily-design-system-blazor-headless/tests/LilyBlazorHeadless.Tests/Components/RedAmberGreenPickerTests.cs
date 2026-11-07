@@ -4,52 +4,66 @@ using Xunit;
 
 namespace LilyBlazorHeadless.Tests.Components;
 
+// The arrow keys are the native radio group's, which bUnit cannot drive; the html-headless wdio test proves them in a
+// browser. These tests prove what the keys depend on: one radio per status sharing one name, checked from Value.
 public class RedAmberGreenPickerTests : TestContext
 {
-    public RedAmberGreenPickerTests() => JSInterop.Mode = JSRuntimeMode.Loose;
-
-    private IRenderedComponent<RedAmberGreenPicker> Make(Action<ComponentParameterCollectionBuilder<RedAmberGreenPicker>>? more = null) =>
-        RenderComponent<RedAmberGreenPicker>(p =>
-        {
-            p.Add(x => x.Label, "Status").Add(x => x.RedLabel, "RED").Add(x => x.AmberLabel, "AMBER").Add(x => x.GreenLabel, "GREEN");
-            more?.Invoke(p);
-        });
+    private static readonly Dictionary<string, string> French = new Dictionary<string, string> { ["red"] = "Rouge", ["amber"] = "Ambre", ["green"] = "Vert" };
 
     [Fact]
-    public void Renders_with_kebab_base_class() => Assert.NotNull(Make().Find("div.red-amber-green-picker"));
-
-    [Fact]
-    public void CssClass_is_appended_to_kebab_base_class() =>
-        Assert.Contains("extra", Make(p => p.Add(x => x.CssClass, "extra")).Find("div.red-amber-green-picker").GetAttribute("class"));
-
-    [Fact]
-    public void AdditionalAttributes_pass_through_to_root() =>
-        Assert.Equal("value", Make(p => p.AddUnmatched("data-test", "value")).Find("div.red-amber-green-picker").GetAttribute("data-test"));
-
-    [Fact]
-    public void The_option_names_are_the_consumers()
+    public void Renders_a_labelled_fieldset_radiogroup()
     {
-        var cut = Make();
-        Assert.Equal("Status", cut.Find("select").GetAttribute("aria-label"));
-        var options = cut.FindAll("option:not([hidden])");
-        Assert.Equal(new[] { "red", "amber", "green" }, options.Select(o => o.GetAttribute("value")));
-        Assert.Equal(new[] { "RED", "AMBER", "GREEN" }, options.Select(o => o.TextContent));
+        var cut = RenderComponent<RedAmberGreenPicker>(p => p
+            .Add(x => x.Label, "Status")
+            .Add(x => x.StatusLabel, s => French[s])
+            .Add(x => x.CssClass, "extra")
+            .AddUnmatched("data-test", "value"));
+        var root = cut.Find("fieldset.red-amber-green-picker");
+        Assert.Contains("extra", root.GetAttribute("class"));
+        Assert.Equal("radiogroup", root.GetAttribute("role"));
+        Assert.Equal("Status", root.GetAttribute("aria-label"));
+        Assert.Equal("value", root.GetAttribute("data-test"));
+        Assert.False(root.HasAttribute("disabled"));
     }
 
     [Fact]
-    public void An_empty_value_has_a_hidden_option_to_show()
+    public void Holds_one_radio_per_status_sharing_one_name()
     {
-        var empty = Make().Find("option[hidden]");
-        Assert.Equal("", empty.GetAttribute("value"));
+        var cut = RenderComponent<RedAmberGreenPicker>(p => p.Add(x => x.Label, "Status").Add(x => x.StatusLabel, s => French[s]));
+        var radios = cut.FindAll("input[type=radio]");
+        Assert.Equal(["red", "amber", "green"], radios.Select(r => r.GetAttribute("value")));
+        Assert.All(radios, r => Assert.Equal("status", r.GetAttribute("name")));
     }
 
     [Fact]
-    public void Binds_a_value()
+    public void Labels_the_options_with_the_consumer_text_or_else_the_value()
     {
-        string? seen = null;
-        var cut = Make(p => p.Add(x => x.Value, "green").Add(x => x.ValueChanged, (string v) => seen = v));
-        Assert.Equal("green", cut.Find("select").GetAttribute("value"));
-        cut.Find("select").Change("red");
-        Assert.Equal("red", seen);
+        var cut = RenderComponent<RedAmberGreenPicker>(p => p.Add(x => x.Label, "Status").Add(x => x.StatusLabel, s => French[s]));
+        Assert.Equal(["Rouge", "Ambre", "Vert"], cut.FindAll("label").Select(l => l.TextContent.Trim()));
+        var bare = RenderComponent<RedAmberGreenPicker>(p => p.Add(x => x.Label, "Status"));
+        Assert.Equal(["red", "amber", "green"], bare.FindAll("label").Select(l => l.TextContent.Trim()));
+    }
+
+    [Fact]
+    public void Checks_the_radio_for_Value_and_reports_a_change()
+    {
+        string? reported = null;
+        var cut = RenderComponent<RedAmberGreenPicker>(p => p
+            .Add(x => x.Label, "Status")
+            .Add(x => x.StatusLabel, s => French[s])
+            .Add(x => x.Value, "amber")
+            .Add(x => x.ValueChanged, (string v) => reported = v));
+        var radios = cut.FindAll("input[type=radio]");
+        Assert.Equal([false, true, false], radios.Select(r => r.HasAttribute("checked")));
+        radios[0].Change(true);
+        Assert.Equal("red", reported);
+        Assert.True(cut.FindAll("input[type=radio]")[0].HasAttribute("checked"));
+    }
+
+    [Fact]
+    public void Disabled_disables_the_whole_group()
+    {
+        var cut = RenderComponent<RedAmberGreenPicker>(p => p.Add(x => x.Label, "Status").Add(x => x.Disabled, true));
+        Assert.True(cut.Find("fieldset").HasAttribute("disabled"));
     }
 }

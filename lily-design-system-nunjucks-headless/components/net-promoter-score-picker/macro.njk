@@ -1,28 +1,28 @@
 {#
-  NetPromoterScorePicker macro — a picker for selecting a 0–10
-    Net Promoter Score.
+  NetPromoterScorePicker macro — a picker for a 0-10 Net Promoter Score.
 
-  HTML tag: <div role="radiogroup">
+  HTML tag: <fieldset role="radiogroup"> of native radios, as in the Svelte reference and the other catalogs
   CSS class: net-promoter-score-picker
-  Accessibility: role="radiogroup" with a required accessible name
-    such as "How likely are you to recommend us?".
+  Keyboard: native radios: Tab focuses the checked radio (or the first), the arrow keys move and check, Space checks.
+  Accessibility: role="radiogroup" with an accessible name; one native radio per value (0 to 10), sharing one name.
 
   Params:
-    label        string   Accessible name
-    labelledBy   string
-    id           string
-    classes      string
-    attributes   object
-
-  Body content: NetPromoterScorePickerButton children via caller().
+    label         string   Accessible name, in the page's language. Required unless labelledBy is given; there is
+                           no English default.
+    labelledBy    string
+    value         number   The checked value (none by default).
+    name          string   Radio group name for form submission. Default "nps".
+    id            string
+    classes       string
+    attributes    object
 
   Usage:
     {% from "components/net-promoter-score-picker/macro.njk" import netPromoterScorePicker %}
-    {% call netPromoterScorePicker({ id: "example", label: "Example" }) %}…{% endcall %}
+    {{ netPromoterScorePicker({ label: "Example", value: 5 }) }}
 #}
 {%- macro netPromoterScorePicker(params) -%}
 {%- set p = params | default({}) -%}
-<div
+<fieldset
   class="net-promoter-score-picker{% if p.classes %} {{ p.classes }}{% endif %}"
   role="radiogroup"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
@@ -30,8 +30,8 @@
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  {%- if p.html -%}{{ p.html | safe }}
-  {%- elif caller -%}{{ caller() }}
-  {%- endif -%}
-</div>
+  {%- for n in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] %}
+  <label><input type="radio" name="{{ p.name | default('nps') }}" value="{{ n }}" aria-label="{{ n }}"{% if p.value is defined and p.value !== null and p.value | string == n | string %} checked{% endif %} /> {{ n }}</label>
+  {%- endfor %}
+</fieldset>
 {%- endmacro -%}

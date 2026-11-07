@@ -1393,6 +1393,7 @@
     >
         <GanttTable
             {label}
+            data-consumer-keys="true"
             {caption}
             onkeydown={onGridKeydown}
             onfocusin={onGridFocusin}

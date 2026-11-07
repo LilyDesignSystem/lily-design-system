@@ -43,10 +43,10 @@
 <NetPromoterScorePicker Label="Score" @bind-Value="_score" data-testid="nps" />
 <p data-testid="nps-state">Score: @_score</p>
 
-<RedAmberGreenPicker Label="Status" RedLabel="Red" AmberLabel="Amber" GreenLabel="Green" @bind-Value="_rag" data-testid="rag" />
+<RedAmberGreenPicker Label="Status" StatusLabel="@StatusText" @bind-Value="_rag" data-testid="rag" />
 <p data-testid="rag-state">Status: @_rag</p>
 
-<RedOrangeYellowGreenBluePicker Label="Rating" RedLabel="Red" OrangeLabel="Orange" YellowLabel="Yellow" GreenLabel="Green" BlueLabel="Blue" @bind-Value="_roygb" data-testid="roygb" />
+<RedOrangeYellowGreenBluePicker Label="Rating" StatusLabel="@StatusText" @bind-Value="_roygb" data-testid="roygb" />
 <p data-testid="roygb-state">Rating: @_roygb</p>
 
 <TaskList Label="Tasks">
@@ -64,4 +64,14 @@
     private string _terms = "", _searched = "", _password = "", _notes = "", _phone = "", _colour = "", _date = "", _score = "", _rag = "", _roygb = "";
     private int _submits, _step = 1;
     private bool _task;
+
+    private static string StatusText(string status) => status switch
+    {
+        "red" => "Red",
+        "amber" => "Amber",
+        "orange" => "Orange",
+        "yellow" => "Yellow",
+        "green" => "Green",
+        _ => "Blue",
+    };
 }

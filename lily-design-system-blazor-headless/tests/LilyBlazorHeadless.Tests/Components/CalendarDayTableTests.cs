@@ -6,6 +6,11 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class CalendarDayTableTests : TestContext
 {
+    public CalendarDayTableTests()
+    {
+        JSInterop.Mode = JSRuntimeMode.Loose;
+    }
+
     private IRenderedComponent<CalendarDayTable> Render(Action<Bunit.ComponentParameterCollectionBuilder<CalendarDayTable>>? extra = null) =>
         RenderComponent<CalendarDayTable>(p => { p.Add(x => x.Label, "Monday 6 January 2025").AddChildContent("<tbody><tr><td>1</td></tr></tbody>"); extra?.Invoke(p); });
 

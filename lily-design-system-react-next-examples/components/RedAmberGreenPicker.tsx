@@ -1,86 +1,124 @@
 // RedAmberGreenPicker component
 //
-// A headless RAG (Red/Amber/Green) status input that renders a native
-// <select> element with three traffic-light options: red, amber, and green.
-// RAG status is widely used in project management dashboards, risk registers,
-// and reporting tools to communicate health at a glance.
+// A picker for a red/amber/green (RAG) status: a <fieldset role="radiogroup"> of native radios, one per status (red, amber, green), as
+// five-star-rating-picker is. The radios give the keys, form submission and form reset natively.
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, required. Accessible label for the select element.
-//   value — string, default "". Currently selected status value; bindable.
-//   ...restProps — additional HTML attributes spread onto the <select>.
+//   label — string, required. Accessible name for the group via aria-label.
+//   statusLabel — (status: string) => string, required. Each option's visible text; without it the option shows its
+//     value, so a consumer always supplies the words.
+//   value — string, default "". The checked status ("" = none).
+//   name — string, default "status". Radio group name for form submission.
+//   disabled — boolean, default false.
+//   onChange — (value: string) => void, optional. Called when the checked status changes.
+//   ...restProps — additional HTML attributes spread onto the fieldset.
 //
-// Syntax:
-//   <RedAmberGreenPicker label="Project status" value={status} onChange={setStatus} />
-//
-// Examples:
-//
-//   <RedAmberGreenPicker label="Health check" value="green" />
-//
-//
-//   <RedAmberGreenPicker label="Sprint status" value={status} onChange={setStatus} data-project="alpha" />
-//
-// Keyboard:
-//   - Arrow Up/Down: navigate options (native select behavior)
-//   - Enter/Space: open the dropdown (native select behavior)
-//   - Escape: close the dropdown (native select behavior)
-//
-// Accessibility:
-//   - aria-label on the <select> for screen reader context
-//   - Native <select> provides implicit combobox/listbox role
-//   - WCAG 2.2 AAA: properly labeled for assistive technology
-//
-// Internationalization:
-//   - The label prop externalizes the accessible label string
-//   - Option display text ("Red", "Amber", "Green") is hardcoded; wrap or fork to localize
-//
-// Claude rules:
-//   - Headless: no CSS, no styles — consumer provides all styling
-//   - Value uses controlled for two-way binding with value + onChange
-//   - Options are fixed to the three RAG values: red, amber, green
+// Keyboard: native radios. Tab focuses the checked radio; the arrows move and check; Space checks.
 //
 // References:
-//   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+//   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { warnMissingName } from "./dev-warning";
 
 export interface RedAmberGreenPickerProps {
     className?: string;
-    /** Accessible label for the select element */
+    /** Accessible name for the group via aria-label. */
     label: string;
-    /** Currently selected RAG status value, bindable */
+    /** The checked status ("" = none). */
     value?: string;
+    /** Radio group name for form submission. */
+    name?: string;
+    /** Each option's visible text, e.g. (status) => labels[status]. No English default. */
+    statusLabel: (status: string) => string;
+    /** Whether the entire group is disabled. */
+    disabled?: boolean;
     /** Callback when value changes. */
     onChange?: (value: string) => void;
     [key: string]: unknown;
 }
 
+const STATUSES = ["red", "amber", "green"];
+
 export default function RedAmberGreenPicker({
     className = "",
     label,
-    value = "",
+    value: valueProp = "",
+    name = "status",
+    statusLabel,
+    disabled = false,
     onChange,
     ...restProps
 }: RedAmberGreenPickerProps) {
     warnMissingName(
         "RedAmberGreenPicker",
         label,
-        restProps["aria-label"],
-        restProps["aria-labelledby"],
+        restProps["aria-label"] as string | undefined,
+        restProps["aria-labelledby"] as string | undefined,
     );
+    const [value, setValue] = useState(valueProp);
+    const initialValue = useRef(valueProp);
+    const onChangeRef = useRef(onChange);
+    onChangeRef.current = onChange;
+
+    // Form reset: the inputs are controlled, so a reset changes the DOM without telling React. Restore the initial
+    // value one tick later, after the browser has reset the DOM, and not when the reset was cancelled.
+    const rootRef = useRef<HTMLFieldSetElement>(null);
+    useEffect(() => {
+        const root = rootRef.current;
+        const form = root?.closest("form");
+        if (!root || !form) return;
+        let timer: ReturnType<typeof setTimeout> | undefined;
+        const onReset = (event: Event) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                if (event.defaultPrevented) return;
+                setValue((current) => {
+                    if (current !== initialValue.current)
+                        onChangeRef.current?.(initialValue.current);
+                    return initialValue.current;
+                });
+                for (const input of root.querySelectorAll<HTMLInputElement>(
+                    'input[type="radio"]',
+                )) {
+                    input.checked = input.value === initialValue.current;
+                }
+            }, 0);
+        };
+        form.addEventListener("reset", onReset);
+        return () => {
+            clearTimeout(timer);
+            form.removeEventListener("reset", onReset);
+        };
+    }, []);
+
+    const handleChange = (status: string) => {
+        setValue(status);
+        onChange?.(status);
+    };
+
     return (
-        <select
+        <fieldset
+            ref={rootRef}
             className={`red-amber-green-picker ${className}`}
+            role="radiogroup"
             aria-label={label}
-            value={value}
-            onChange={(e) => onChange?.(e.target.value)}
+            disabled={disabled}
             {...restProps}
         >
-            <option value="red">Red</option>
-            <option value="amber">Amber</option>
-            <option value="green">Green</option>
-        </select>
+            {STATUSES.map((status) => (
+                <label key={status}>
+                    <input
+                        type="radio"
+                        name={name}
+                        value={status}
+                        checked={value === status}
+                        onChange={() => handleChange(status)}
+                    />
+                    {statusLabel ? statusLabel(status) : status}
+                </label>
+            ))}
+        </fieldset>
     );
 }

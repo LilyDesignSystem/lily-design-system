@@ -1,6 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/angular";
 import { RedOrangeYellowGreenBluePicker } from "./RedOrangeYellowGreenBluePicker";
 
+const LABELS = {
+    red: "Severe",
+    orange: "High",
+    yellow: "Medium",
+    green: "Low",
+    blue: "Informational",
+};
+
 const meta: Meta<RedOrangeYellowGreenBluePicker> = {
     title: "Headless/RedOrangeYellowGreenBluePicker",
     component: RedOrangeYellowGreenBluePicker,
@@ -12,11 +20,7 @@ type Story = StoryObj<RedOrangeYellowGreenBluePicker>;
 
 export const Default: Story = {
     args: {
-        label: "Rating",
-        redLabel: "Red",
-        orangeLabel: "Orange",
-        yellowLabel: "Yellow",
-        greenLabel: "Green",
-        blueLabel: "Blue",
+        label: "Risk level",
+        statusLabel: (status: string) => (LABELS as Record<string, string>)[status],
     },
 };

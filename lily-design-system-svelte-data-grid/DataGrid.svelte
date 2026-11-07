@@ -2017,6 +2017,7 @@
     {#snippet table()}
         <DataTable
             {label}
+            data-consumer-keys="true"
             {caption}
             role={isGrid ? "grid" : "table"}
             aria-rowcount={isGrid ? rowCount : undefined}
