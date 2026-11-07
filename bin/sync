@@ -69,3 +69,17 @@ for picker in theme-picker locale-picker text-size-picker; do
             "$src" > "$top/lily-design-system-html-css-js-examples/pages/assets/js/$picker.js"
     fi
 done
+# The copies are committed formatted, but their sources are not: the pickers' dist/ is
+# esbuild's two-space output, and html-headless's listbox-controller.js keeps the blank padding
+# that type stripping leaves. Format them with the root Prettier, or each run rewrites thousands
+# of lines of whitespace.
+vendored_dir="$top/lily-design-system-html-css-js-examples/pages/assets/js"
+if [ -x "$top/node_modules/.bin/prettier" ]; then
+    for name in listbox-controller theme-picker locale-picker text-size-picker; do
+        if [ -f "$vendored_dir/$name.js" ]; then
+            "$top/node_modules/.bin/prettier" --log-level warn --write "$vendored_dir/$name.js"
+        fi
+    done
+else
+    echo "bin/sync: the root Prettier is not installed (run pnpm install); the vendored HTML example scripts are left unformatted" >&2
+fi
