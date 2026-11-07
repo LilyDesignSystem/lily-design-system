@@ -1,32 +1,63 @@
 <!-- red-orange-yellow-green-blue-picker.html -->
 <!-- RedOrangeYellowGreenBluePicker component -->
 <!--
-  Description: a picker for selecting a five-level color status
-  HTML tag: <div>
+  Description: a picker for a red/orange/yellow/green/blue status
+  HTML tag: <fieldset> (a radio group; the -picker suffix's <div> gives way to the native grouping element)
   CSS class: red-orange-yellow-green-blue-picker
-  Keyboard: None (passive element)
-  Accessibility: role="radiogroup", aria-label for accessible name
+  Keyboard: native radio group: Tab focuses the checked radio (or the first), the arrow keys move and check, Space checks
+  Accessibility: role="radiogroup" with aria-label; one native radio per status (red, orange, yellow, green, blue), sharing one name; disabled on the fieldset disables them all
   Usage:
-    <div class="red-orange-yellow-green-blue-picker" role="radiogroup" aria-label="Example">
+    <fieldset class="red-orange-yellow-green-blue-picker" role="radiogroup" aria-label="Example">
+      <label><input type="radio" name="status" value="red" /> …</label>
       ...
-    </div>
+    </fieldset>
+  Each option's text is the consumer's, in its own words: the values below stand in for it. Add checked to the radio
+  of the starting value; a form reset then restores it natively.
 -->
 
-<div
+<fieldset
   class="red-orange-yellow-green-blue-picker"
   role="radiogroup"
   aria-label=""
 >
-  <!-- Consumer provides content -->
-</div>
-
-<script>
-  // RedOrangeYellowGreenBluePicker behavior
-  (function() {
-    'use strict';
-    // RedOrangeYellowGreenBluePicker: consumer implements interactive behavior
-    document.querySelectorAll('.red-orange-yellow-green-blue-picker').forEach(function(el) {
-      // Interactive behavior initialization
-    });
-  })();
-</script>
+  <label
+    ><input
+      type="radio"
+      name="status"
+      value="red"
+    />
+    red</label
+  >
+  <label
+    ><input
+      type="radio"
+      name="status"
+      value="orange"
+    />
+    orange</label
+  >
+  <label
+    ><input
+      type="radio"
+      name="status"
+      value="yellow"
+    />
+    yellow</label
+  >
+  <label
+    ><input
+      type="radio"
+      name="status"
+      value="green"
+    />
+    green</label
+  >
+  <label
+    ><input
+      type="radio"
+      name="status"
+      value="blue"
+    />
+    blue</label
+  >
+</fieldset>

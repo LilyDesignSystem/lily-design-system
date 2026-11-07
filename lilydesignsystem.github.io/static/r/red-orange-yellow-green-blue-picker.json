@@ -9,17 +9,23 @@
   "interactive": true,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`aria-label` on the select from the label prop"
+    "`role=\"radiogroup\"` -- on the `<fieldset>`, identifies the group as a set of radio buttons",
+    "`aria-label={label}` -- the group's accessible name",
+    "Each radio is named by its visible text, so a status is never colour alone (WCAG 1.4.1)"
   ],
   "keyboard": [
-    "Arrow keys navigate options (native select behavior)",
-    "Enter/Space opens the dropdown",
-    "Escape closes the dropdown"
+    "Tab: focus the checked radio, or the first if none is checked",
+    "ArrowDown / ArrowRight: move to and check the next radio",
+    "ArrowUp / ArrowLeft: move to and check the previous radio",
+    "Space: check the focused radio"
   ],
   "props": [
-    "`label`: string (required) -- accessible label for the select",
-    "`value`: string (default: \"\") -- currently selected status, bindable",
-    "`...restProps`: Any additional HTML attributes spread onto the select"
+    "`label`: string (required) -- accessible name for the group, applied via `aria-label`",
+    "`statusLabel`: (status: string) => string (required) -- each option's visible text",
+    "`value`: string (default: \"\") -- the checked status, bindable",
+    "`name`: string (default: \"status\") -- radio group name for form submission",
+    "`disabled`: boolean (default: false) -- disables the whole group",
+    "`...restProps`: Any additional HTML attributes spread onto the fieldset"
   ],
   "related": [
     "red-orange-yellow-green-blue-picker-button"

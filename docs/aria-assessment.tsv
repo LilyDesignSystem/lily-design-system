@@ -357,10 +357,10 @@ question	automated evidence complete	no	no	no	yes	1	8	no	-
 radio-group	automated evidence complete	yes	yes	yes	yes	8	8	yes	-
 radio-input	automated evidence complete	yes	yes	yes	yes	8	8	yes	-
 range-input	key evidence incomplete	no	yes	yes	yes	1	3	no	-
-red-amber-green-picker	key evidence incomplete	no	yes	yes	yes	3	8	no	-
+red-amber-green-picker	ARIA evidence incomplete	no	yes	yes	yes	8	5	no	-
 red-amber-green-picker-button	key evidence incomplete	no	yes	no	yes	1	7	no	-
 red-amber-green-view	automated evidence complete	no	no	no	no	8	6	no	-
-red-orange-yellow-green-blue-picker	key evidence incomplete	no	yes	yes	yes	3	8	no	-
+red-orange-yellow-green-blue-picker	ARIA evidence incomplete	no	yes	yes	yes	8	5	no	-
 red-orange-yellow-green-blue-picker-button	key evidence incomplete	no	yes	no	yes	1	7	no	-
 red-orange-yellow-green-blue-view	automated evidence complete	no	no	no	no	8	6	no	-
 related-content	ARIA evidence incomplete	no	no	no	yes	1	1	no	-

@@ -1,56 +1,66 @@
-import { render, screen } from "@testing-library/vue";
+import { fireEvent, render, screen } from "@testing-library/vue";
+import { userEvent } from "@testing-library/user-event";
 import { describe, expect, test } from "vitest";
 
 import Subject from "./RedAmberGreenPicker.vue";
 
+const statusLabel = (status: string) =>
+    (({ red: "Rouge", amber: "Ambre", green: "Vert" }) as Record<string, string>)[status];
+
 describe("RedAmberGreenPicker", () => {
-    test("renders a select element", () => {
-        render(Subject, { props: { label: "Status" } });
-
-        expect(screen.getByLabelText("Status").tagName).toBe("SELECT");
+    test("renders a fieldset radiogroup named by label", () => {
+        render(Subject, { props: { label: "Status", statusLabel } });
+        const group = screen.getByRole("radiogroup", { name: "Status" });
+        expect(group.tagName).toBe("FIELDSET");
+        expect(group.classList.contains("red-amber-green-picker")).toBe(true);
     });
 
-    test("has aria-label from label prop", () => {
-        render(Subject, { props: { label: "Status" } });
-
-        const el = screen.getByLabelText("Status");
-        expect(el.getAttribute("aria-label")).toBe("Status");
+    test("holds one native radio per status, sharing one name", () => {
+        render(Subject, { props: { label: "Status", statusLabel } });
+        const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+        expect(radios.map((r) => r.value)).toEqual(["red", "amber", "green"]);
+        expect(new Set(radios.map((r) => r.name))).toEqual(new Set(["status"]));
     });
 
-    test("has three options", () => {
-        render(Subject, { props: { label: "Status" } });
-
-        const options = screen.getByLabelText("Status").querySelectorAll("option");
-        expect(options.length).toBe(3);
+    test("statusLabel gives each option its text", () => {
+        render(Subject, { props: { label: "Status", statusLabel } });
+        for (const text of ["Rouge", "Ambre", "Vert"])
+            expect(screen.getByLabelText(text)).toBeTruthy();
     });
 
-    test("has red option", () => {
-        render(Subject, { props: { label: "Status" } });
-
-        const options = screen.getByLabelText("Status").querySelectorAll("option");
-        const values = Array.from(options).map((o) => (o as HTMLOptionElement).value);
-        expect(values).toContain("red");
+    test("without statusLabel an option shows its value, never other English", () => {
+        render(Subject, { props: { label: "Status" } as never });
+        expect(screen.getByLabelText("amber")).toBeTruthy();
+        expect(screen.queryByText("Amber")).toBeNull();
     });
 
-    test("has amber option", () => {
-        render(Subject, { props: { label: "Status" } });
-
-        const options = screen.getByLabelText("Status").querySelectorAll("option");
-        const values = Array.from(options).map((o) => (o as HTMLOptionElement).value);
-        expect(values).toContain("amber");
+    test("checks the radio for the model value, and a choice updates it", async () => {
+        const { emitted } = render(Subject, {
+            props: { label: "Status", statusLabel, modelValue: "amber" },
+        });
+        const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+        expect(radios[1].checked).toBe(true);
+        await fireEvent.click(radios[0]);
+        expect(emitted()["update:modelValue"]?.[0]).toEqual(["red"]);
     });
 
-    test("has green option", () => {
-        render(Subject, { props: { label: "Status" } });
-
-        const options = screen.getByLabelText("Status").querySelectorAll("option");
-        const values = Array.from(options).map((o) => (o as HTMLOptionElement).value);
-        expect(values).toContain("green");
+    test("ArrowRight and ArrowLeft move the selection through the native radio group", async () => {
+        const user = userEvent.setup();
+        render(Subject, { props: { label: "Status", statusLabel } });
+        const radios = screen.getAllByRole("radio") as HTMLInputElement[];
+        await user.click(radios[0]);
+        await user.keyboard("{ArrowRight}");
+        expect(radios[1].checked).toBe(true);
+        expect(document.activeElement).toBe(radios[1]);
+        await user.keyboard("{ArrowLeft}");
+        expect(radios[0].checked).toBe(true);
     });
 
-    test("passes through additional HTML attributes", () => {
-        render(Subject, { props: { label: "S", "data-testid": "rag-select" } });
-
-        expect(screen.getByTestId("rag-select")).toBeTruthy();
+    test("disabled disables the group, and attributes pass through", () => {
+        render(Subject, {
+            props: { label: "Status", statusLabel, disabled: true },
+            attrs: { "data-testid": "g" },
+        });
+        expect((screen.getByTestId("g") as HTMLFieldSetElement).disabled).toBe(true);
     });
 });

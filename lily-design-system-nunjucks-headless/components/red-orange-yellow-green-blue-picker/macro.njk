@@ -1,37 +1,42 @@
 {#
-  RedOrangeYellowGreenBluePicker macro — a picker for selecting one
-    of five colour-status options (red, orange, yellow, green, blue).
+  RedOrangeYellowGreenBluePicker macro — a picker for a red/orange/yellow/green/blue status.
 
-  HTML tag: <div role="radiogroup">
+  HTML tag: <fieldset role="radiogroup"> (the -picker suffix's <div> gives way to the native grouping element)
   CSS class: red-orange-yellow-green-blue-picker
-  Accessibility: role="radiogroup" with an accessible name; children
-    are RedOrangeYellowGreenBluePickerButton macros.
+  Keyboard: native radios: Tab focuses the checked radio (or the first), the arrow keys move and check, Space checks.
+  Accessibility: role="radiogroup" with an accessible name; one native radio per status (red, orange, yellow, green, blue), each named
+    by its visible text.
 
   Params:
-    label        string   Accessible name (aria-label).
-    labelledBy   string
-    id           string
-    classes      string
-    attributes   object
-
-  Body content: RedOrangeYellowGreenBluePickerButton children via caller().
+    label         string   Accessible name (aria-label). Required unless labelledBy.
+    labelledBy    string
+    statusLabels  object   Each option's visible text, keyed by status (red, orange, yellow, green, blue). Required: no English
+                           default; without one an option shows its value.
+    value         string   The checked status ("" = none).
+    name          string   Radio group name for form submission. Default "status".
+    disabled      boolean  Disables the whole group.
+    id            string
+    classes       string
+    attributes    object
 
   Usage:
     {% from "components/red-orange-yellow-green-blue-picker/macro.njk" import redOrangeYellowGreenBluePicker %}
-    {% call redOrangeYellowGreenBluePicker({ id: "example", label: "Example" }) %}…{% endcall %}
+    {{ redOrangeYellowGreenBluePicker({ label: "Status", statusLabels: { red: "…", orange: "…", yellow: "…", green: "…", blue: "…" } }) }}
 #}
 {%- macro redOrangeYellowGreenBluePicker(params) -%}
 {%- set p = params | default({}) -%}
-<div
+{%- set statusLabels = p.statusLabels | default({}) -%}
+<fieldset
   class="red-orange-yellow-green-blue-picker{% if p.classes %} {{ p.classes }}{% endif %}"
   role="radiogroup"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
   {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  {%- if p.html -%}{{ p.html | safe }}
-  {%- elif caller -%}{{ caller() }}
-  {%- endif -%}
-</div>
+  {%- for status in ["red",  "orange",  "yellow",  "green",  "blue"] %}
+  <label><input type="radio" name="{{ p.name | default('status') }}" value="{{ status }}"{% if p.value == status %} checked{% endif %} /> {{ statusLabels[status] | default(status) }}</label>
+  {%- endfor %}
+</fieldset>
 {%- endmacro -%}

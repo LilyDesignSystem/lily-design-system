@@ -1,14 +1,24 @@
 import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
-import { autoInit } from "../widget-init.js";
-import { on } from "../../test/keys.js";
+
+const statusLabels = {
+    red: "Rouge",
+    orange: "Orange",
+    yellow: "Jaune",
+    green: "Vert",
+    blue: "Bleu",
+};
+const radios = (document) => [...document.querySelectorAll('input[type="radio"]')];
+const texts = (document) =>
+    [...document.querySelectorAll("label")].map((l) => l.textContent.trim());
 
 describe("red-orange-yellow-green-blue-picker", () => {
-    it("renders a <div role=radiogroup> with the base class", () => {
+    it("renders a fieldset radiogroup with the base class", () => {
         const { document } = render("red-orange-yellow-green-blue-picker", {
             label: "Status",
+            statusLabels,
         });
-        const el = document.querySelector("div.red-orange-yellow-green-blue-picker");
+        const el = document.querySelector("fieldset.red-orange-yellow-green-blue-picker");
         expect(el).toBeTruthy();
         expect(el.getAttribute("role")).toBe("radiogroup");
         expect(el.getAttribute("aria-label")).toBe("Status");
@@ -19,57 +29,61 @@ describe("red-orange-yellow-green-blue-picker", () => {
             label: "x",
             labelledBy: "h",
         });
-        const el = document.querySelector("div.red-orange-yellow-green-blue-picker");
+        const el = document.querySelector("fieldset.red-orange-yellow-green-blue-picker");
         expect(el.getAttribute("aria-labelledby")).toBe("h");
         expect(el.hasAttribute("aria-label")).toBe(false);
     });
 
-    it("renders caller block content", () => {
-        const { document } = render(
-            "red-orange-yellow-green-blue-picker",
-            { label: "x" },
-            '<button class="red-orange-yellow-green-blue-picker-button">Red</button>',
-        );
-        expect(
-            document.querySelector(
-                "div.red-orange-yellow-green-blue-picker .red-orange-yellow-green-blue-picker-button",
-            ),
-        ).toBeTruthy();
-    });
-
-    it("appends params.classes", () => {
+    it("holds one native radio per status, sharing one name", () => {
         const { document } = render("red-orange-yellow-green-blue-picker", {
-            label: "x",
-            classes: "inline",
+            label: "Status",
+            statusLabels,
         });
+        expect(radios(document).map((r) => r.value)).toEqual([
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+        ]);
+        expect(new Set(radios(document).map((r) => r.name))).toEqual(new Set(["status"]));
+        const named = render("red-orange-yellow-green-blue-picker", {
+            label: "Status",
+            name: "q1",
+        }).document;
+        expect(radios(named)[0].name).toBe("q1");
+    });
+
+    it("statusLabels give each option its text; without them, the value", () => {
         expect(
-            document.querySelector("div.red-orange-yellow-green-blue-picker.inline"),
-        ).toBeTruthy();
+            texts(
+                render("red-orange-yellow-green-blue-picker", { label: "Status", statusLabels })
+                    .document,
+            ),
+        ).toEqual(["Rouge", "Orange", "Jaune", "Vert", "Bleu"]);
+        expect(
+            texts(render("red-orange-yellow-green-blue-picker", { label: "Status" }).document),
+        ).toEqual(["red", "orange", "yellow", "green", "blue"]);
     });
 
-    it("contains no <style> or <script> tags", () => {
-        const { html } = render("red-orange-yellow-green-blue-picker", { label: "x" });
-        expect(html).not.toContain("<style");
-        expect(html).not.toContain("<script");
+    it("checks the radio for value", () => {
+        const { document } = render("red-orange-yellow-green-blue-picker", {
+            label: "Status",
+            value: "orange",
+        });
+        expect(radios(document).map((r) => r.checked)).toEqual([false, true, false, false, false]);
     });
-});
 
-describe("red-orange-yellow-green-blue-picker keys", () => {
-    it("is one radio group: arrows move, check and wrap", () => {
-        const { document } = render(
-            "red-orange-yellow-green-blue-picker",
-            { label: "Choice" },
-            '<button type="button" role="radio" aria-checked="true">1</button>' +
-                '<button type="button" role="radio" aria-checked="false">2</button>',
-        );
-        autoInit(document);
-        const [one, two] = document.querySelectorAll("[role='radio']");
-        on(one).press("ArrowRight");
-        expect(document.activeElement).toBe(two);
-        expect(two.getAttribute("aria-checked")).toBe("true");
-        expect(one.getAttribute("aria-checked")).toBe("false");
-        expect([one.tabIndex, two.tabIndex]).toEqual([-1, 0]);
-        on(two).press("ArrowRight");
-        expect(one.getAttribute("aria-checked")).toBe("true");
+    it("disabled disables the group, and classes and attributes pass through", () => {
+        const { document } = render("red-orange-yellow-green-blue-picker", {
+            label: "Status",
+            disabled: true,
+            classes: "inline",
+            attributes: { "data-test": "v" },
+        });
+        const el = document.querySelector("fieldset.red-orange-yellow-green-blue-picker");
+        expect(el.hasAttribute("disabled")).toBe(true);
+        expect(el.classList.contains("inline")).toBe(true);
+        expect(el.getAttribute("data-test")).toBe("v");
     });
 });

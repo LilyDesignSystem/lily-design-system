@@ -1,14 +1,10 @@
 import { afterEach, describe, expect, test } from "vitest";
+import { userEvent } from "@testing-library/user-event";
 
 import { RedAmberGreenPicker } from "./red-amber-green-picker.js";
-import { RedAmberGreenPickerButton } from "./red-amber-green-picker-button.js";
 
-if (!customElements.get("lily-red-amber-green-picker-button")) {
-    customElements.define("lily-red-amber-green-picker-button", RedAmberGreenPickerButton);
-}
-if (!customElements.get("lily-red-amber-green-picker")) {
+if (!customElements.get("lily-red-amber-green-picker"))
     customElements.define("lily-red-amber-green-picker", RedAmberGreenPicker);
-}
 
 afterEach(() => {
     document.body.innerHTML = "";
@@ -18,79 +14,57 @@ function render(html: string): HTMLElement {
     document.body.innerHTML = html;
     return document.body.firstElementChild as HTMLElement;
 }
+const radios = () => Array.from(document.querySelectorAll<HTMLInputElement>('input[type="radio"]'));
+const texts = () =>
+    Array.from(document.querySelectorAll("label")).map((l) => l.textContent!.trim());
 
 describe("RedAmberGreenPicker", () => {
-    test("carries the base class", () => {
+    test("renders a fieldset radiogroup named by label", () => {
         const host = render(
-            '<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>',
+            '<lily-red-amber-green-picker label="Status" class="extra"></lily-red-amber-green-picker>',
         );
-
-        expect(host.classList.contains("red-amber-green-picker")).toBe(true);
+        const root = host.querySelector("fieldset.red-amber-green-picker")!;
+        expect(root.getAttribute("role")).toBe("radiogroup");
+        expect(root.getAttribute("aria-label")).toBe("Status");
+        expect(root.classList.contains("extra")).toBe(true);
     });
 
-    test("has role=radiogroup, not a native select", () => {
-        const host = render(
-            '<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>',
-        );
-
-        expect(host.getAttribute("role")).toBe("radiogroup");
-        expect(host.querySelector("select")).toBeNull();
+    test("holds one native radio per status, sharing one name", () => {
+        render('<lily-red-amber-green-picker label="Status"></lily-red-amber-green-picker>');
+        expect(radios().map((r) => r.value)).toEqual(["red", "amber", "green"]);
+        expect(new Set(radios().map((r) => r.name))).toEqual(new Set(["status"]));
     });
 
-    test("uses label as the accessible name", () => {
-        const host = render(
-            '<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>',
+    test("the -label attributes give each option its text; without them, the value", () => {
+        render(
+            '<lily-red-amber-green-picker label="Status" red-label="Rouge" amber-label="Ambre" green-label="Vert"></lily-red-amber-green-picker>',
         );
-
-        expect(host.getAttribute("aria-label")).toBe("Project status");
+        expect(texts()).toEqual(["Rouge", "Ambre", "Vert"]);
+        render('<lily-red-amber-green-picker label="Status"></lily-red-amber-green-picker>');
+        expect(texts()).toEqual(["red", "amber", "green"]);
     });
 
-    test("appends the consumer's class onto the base class", () => {
+    test("checks the radio for value, and a choice updates value", () => {
         const host = render(
-            '<lily-red-amber-green-picker label="Project status" class="my-picker"></lily-red-amber-green-picker>',
+            '<lily-red-amber-green-picker label="Status" value="amber"></lily-red-amber-green-picker>',
         );
-
-        expect(host.getAttribute("class")).toBe("red-amber-green-picker my-picker");
+        expect(radios()[1].checked).toBe(true);
+        radios()[0].click();
+        expect(host.getAttribute("value")).toBe("red");
     });
 
-    test("keeps consumer-supplied picker-button children in place", () => {
-        const host = render(
-            '<lily-red-amber-green-picker label="Project status"><button aria-pressed="false" aria-label="Green" data-value="green"></button></lily-red-amber-green-picker>',
-        );
-
-        expect(host.querySelector('button[data-value="green"]')).toBeTruthy();
+    test("ArrowRight moves the selection through the native radio group", async () => {
+        const user = userEvent.setup();
+        render('<lily-red-amber-green-picker label="Status"></lily-red-amber-green-picker>');
+        await user.click(radios()[0]);
+        await user.keyboard("{ArrowRight}");
+        expect(radios()[1].checked).toBe(true);
     });
 
-    test("is idempotent across repeated connectedCallback invocations", () => {
+    test("disabled disables the group", () => {
         const host = render(
-            '<lily-red-amber-green-picker label="Project status"></lily-red-amber-green-picker>',
+            '<lily-red-amber-green-picker label="Status" disabled></lily-red-amber-green-picker>',
         );
-
-        (host as unknown as RedAmberGreenPicker).connectedCallback();
-
-        expect(host.getAttribute("role")).toBe("radiogroup");
-        expect(host.getAttribute("aria-label")).toBe("Project status");
-    });
-});
-
-describe("RedAmberGreenPicker keys", () => {
-    test("is one radio group: one tab stop, and the arrows move, check and wrap", async () => {
-        const host = render(
-            '<lily-red-amber-green-picker label="Choice">' +
-                '<lily-red-amber-green-picker-button value="1" label="One" selected></lily-red-amber-green-picker-button>' +
-                '<lily-red-amber-green-picker-button value="2" label="Two"></lily-red-amber-green-picker-button>' +
-                "</lily-red-amber-green-picker>",
-        );
-        await Promise.resolve();
-        const [one, two] = host.querySelectorAll<HTMLButtonElement>("button");
-        expect(one.getAttribute("role")).toBe("radio");
-        expect([one.tabIndex, two.tabIndex]).toEqual([0, -1]);
-        one.focus();
-        one.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
-        expect(document.activeElement).toBe(two);
-        expect(two.getAttribute("aria-checked")).toBe("true");
-        expect(one.getAttribute("aria-checked")).toBe("false");
-        two.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
-        expect(document.activeElement).toBe(one);
+        expect(host.querySelector("fieldset")!.disabled).toBe(true);
     });
 });

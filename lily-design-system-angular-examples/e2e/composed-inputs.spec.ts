@@ -106,13 +106,13 @@ test("net promoter score: arrows move through the native radios", async ({ page 
 });
 
 test("status pickers: nothing is chosen at first, and they bind", async ({ page }) => {
-    const rag = page.getByRole("combobox", { name: "Status" });
-    await expect(rag).toHaveValue("");
-    await rag.selectOption("amber");
+    const rag = page.getByRole("radiogroup", { name: "Status" });
+    await expect(rag.getByRole("radio", { checked: true })).toHaveCount(0);
+    await rag.getByRole("radio", { name: "Amber" }).check();
     await expect(page.getByTestId("rag-state")).toHaveText("Status: amber");
-    const roygb = page.getByRole("combobox", { name: "Rating" });
-    await expect(roygb).toHaveValue("");
-    await roygb.selectOption("blue");
+    const roygb = page.getByRole("radiogroup", { name: "Rating" });
+    await expect(roygb.getByRole("radio", { checked: true })).toHaveCount(0);
+    await roygb.getByRole("radio", { name: "Blue" }).check();
     await expect(page.getByTestId("roygb-state")).toHaveText("Rating: blue");
 });
 

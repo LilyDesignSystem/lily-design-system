@@ -167,6 +167,7 @@
                 <p>Select the current status of this project.</p>
                 <RedAmberGreenPicker
                     label="Project RAG status"
+                    statusLabel={(status: string) => ({ red: "Off track", amber: "At risk", green: "On track" } as Record<string, string>)[status]}
                     bind:value={ragStatus}
                 />
                 {#if ragStatus}
@@ -189,6 +190,7 @@
                 <p>Select the risk level.</p>
                 <RedOrangeYellowGreenBluePicker
                     label="Risk level"
+                    statusLabel={(status: string) => ({ red: "Severe", orange: "High", yellow: "Medium", green: "Low", blue: "Informational" } as Record<string, string>)[status]}
                     bind:value={roygbStatus}
                 />
                 {#if roygbStatus}

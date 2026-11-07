@@ -56,8 +56,6 @@ export function autoInit(doc = document) {
         ...all(".five-star-rating-picker", attachRadioGroup),
         ...all(".five-face-rating-picker", attachRadioGroup),
         ...all(".net-promoter-score-picker", attachRadioGroup),
-        ...all(".red-amber-green-picker", attachRadioGroup),
-        ...all(".red-orange-yellow-green-blue-picker", attachRadioGroup),
         ...all(".splitter", (el) => attachSplitter(el)),
         ...all(".split-view", (el) => attachSplitView(el)),
         ...all(".cascader", (el) => attachTreePopup(el, { exclusive: true })),

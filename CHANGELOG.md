@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The status pickers are radio groups — 2026-11-07
+
+- **Changed (breaking):** `red-amber-green-picker` and `red-orange-yellow-green-blue-picker` are a `<fieldset role="radiogroup">` of native radios in every catalog, as `five-star-rating-picker` is. Svelte, React, Vue, Angular, Blazor and Alpine rendered a `<select>`; HTML, Nunjucks and Web Components a `role="radiogroup"` of buttons, HTML's with no keys. The radios give the keys, form submission and form reset.
+- **Changed (breaking):** each option's text comes from a required `statusLabel(status)` (Blazor `StatusLabel`, Nunjucks `statusLabels`, Web Components `{status}-label` attributes or a `statusLabel` property). Svelte, React and Vue hardcoded "Red", "Amber" and "Green"; Angular's and Blazor's `redLabel`/`RedLabel` and the rest are gone. Without a label an option shows its value.
+- **Changed:** the Nunjucks `*-picker-button` macros no longer default their text to English.
+
 ## The table grids have their keys — 2026-11-07
 
 - **Added:** `data-table`, `calendar-table`, `gantt-table`, `calendar-year-table`, `calendar-month-table`, `calendar-week-table` and `calendar-day-table` are interactive: arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp, PageDown, Enter, F2 and Escape, with one tab stop, in all nine catalogs, from `attachGrid` in `shared/widget-keys.ts`, as `kanban-table` is. `role="grid"` promised these keys and the contracts called the tables passive.

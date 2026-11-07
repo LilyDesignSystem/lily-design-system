@@ -2,21 +2,48 @@
 <!-- RedAmberGreenPicker component (Alpine.js) -->
 <!--
   Description: a picker for selecting a red/amber/green status
-  HTML tag: <select>
+  HTML tag: <fieldset>
   CSS class: red-amber-green-picker
-  Keyboard: native select: arrows choose, Enter/Space opens, Escape closes
-  Accessibility: native select named by aria-label; x-model keeps the chosen value in data-value
+  Keyboard: Tab focuses the selected radio; arrows move between radios; Space selects
+  Accessibility: fieldset with role="radiogroup" and aria-label; native radios share a name; x-model keeps the chosen value in data-value
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<select
+<fieldset
   class="red-amber-green-picker"
+  role="radiogroup"
   aria-label=""
-  x-data="{ value: 'red' }"
-  x-model="value"
+  x-data="{ value: '' }"
   :data-value="value"
 >
-  <option value="red"><!-- Consumer provides label --></option>
-  <option value="amber"><!-- Consumer provides label --></option>
-  <option value="green"><!-- Consumer provides label --></option>
-</select>
+  <label class="red-amber-green-picker-button"
+    ><input
+      type="radio"
+      name="status"
+      value="red"
+      aria-label="red"
+      x-model="value"
+    />
+    red</label
+  >
+  <label class="red-amber-green-picker-button"
+    ><input
+      type="radio"
+      name="status"
+      value="amber"
+      aria-label="amber"
+      x-model="value"
+    />
+    amber</label
+  >
+  <label class="red-amber-green-picker-button"
+    ><input
+      type="radio"
+      name="status"
+      value="green"
+      aria-label="green"
+      x-model="value"
+    />
+    green</label
+  >
+</fieldset>
