@@ -5,7 +5,7 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, optional. Accessible name, rendered as aria-label on the root.
+    //   label — string, optional. Spoken form, read instead of the visible key.
     //   children — Snippet, required. The key text, for example Ctrl.
     //   ...restProps — additional HTML attributes spread onto the root <kbd>.
     //
@@ -19,7 +19,7 @@
     //   - None -- not interactive; any interactive children handle their own keys
     //
     // Accessibility:
-    //   - aria-label comes from `label` when given
+    //   - hidden text comes from `label` when given
     //
     // Internationalization:
     //   - No hardcoded user-facing strings
@@ -46,8 +46,10 @@
 <!-- Kbd.svelte -->
 <kbd
     class={`kbd ${className}`}
-    aria-label={label}
     {...restProps}
 >
-    {@render children?.()}
+    {#if label}<span class="screen-reader-span">{`${label} `}</span>{/if}<span
+        class="kbd-text"
+        aria-hidden={label ? "true" : undefined}>{@render children?.()}</span
+    >
 </kbd>

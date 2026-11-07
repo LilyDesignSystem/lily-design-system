@@ -7,6 +7,17 @@ namespace LilyBlazorHeadless.Tests.Components;
 public class CodeBlockTests : TestContext
 {
     [Fact]
+    public void Is_a_region_only_when_labelled()
+    {
+        var plain = RenderComponent<CodeBlock>(p => p.AddChildContent("x")).Find(".code-block");
+        Assert.Null(plain.GetAttribute("role"));
+        Assert.Null(plain.GetAttribute("aria-label"));
+        var named = RenderComponent<CodeBlock>(p => p.Add(x => x.Label, "Install").AddChildContent("x")).Find(".code-block");
+        Assert.Equal("region", named.GetAttribute("role"));
+        Assert.Equal("Install", named.GetAttribute("aria-label"));
+    }
+
+    [Fact]
     public void Renders_with_kebab_base_class()
     {
         var cut = RenderComponent<CodeBlock>(p => p

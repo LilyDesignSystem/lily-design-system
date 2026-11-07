@@ -3,11 +3,10 @@
   "address-input role": "Angular follows the contract's <input>; Svelte renders a <div role=\"group\">.",
   "call-to-action aria-label": "Angular follows the contract's <div>; Svelte's root is an <a>, which can take a name.",
   "card role": "role=\"group\" when labelled, on the contract's <div>; Svelte's root is an <article>.",
-  "panel role": "role=\"group\" when labelled, on the contract's <div>; Svelte's root is a <section>.",
-  "mutually-exclusive role": "role=\"group\" when labelled, on the contract's <div>; Svelte's root is a <fieldset>.",
-  "video-player role": "role=\"group\" when labelled, on the contract's <div>; Svelte's root is a <figure>.",
   "collection-list-item aria-label": "An attribute-selector component: the sweep reads its first child, not the <li> host, whose own test covers aria-label.",
-  "kbd aria-label": "Not ported: <kbd> has no role, so a name on it is unreliable. Svelte's aria-label is the outlier.",
+  "mutually-exclusive role": "role=\"group\" when labelled, on the contract's <div>; Svelte's root is a <fieldset>.",
+  "panel role": "role=\"group\" when labelled, on the contract's <div>; Svelte's root is a <section>.",
   "red-amber-green-picker aria-label": "Angular follows the contract's <div> root, with the name on the inner <select>; Svelte's root is the <select>.",
-  "red-orange-yellow-green-blue-picker aria-label": "Angular follows the contract's <div> root, with the name on the inner <select>; Svelte's root is the <select>."
+  "red-orange-yellow-green-blue-picker aria-label": "Angular follows the contract's <div> root, with the name on the inner <select>; Svelte's root is the <select>.",
+  "video-player role": "role=\"group\" when labelled, on the contract's <div>; Svelte's root is a <figure>."
 }

@@ -6,7 +6,7 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, optional. Accessible name, rendered as aria-label on the root.
+    //   label — string, optional. Names the block, which becomes role="region".
     //   children — Snippet, required. The code text (usually a <code> element inside).
     //   ...restProps — additional HTML attributes spread onto the root <pre>.
     //
@@ -20,7 +20,7 @@
     //   - None -- not interactive; any interactive children handle their own keys
     //
     // Accessibility:
-    //   - aria-label comes from `label` when given
+    //   - role="region" and aria-label come from `label` when given
     //   - A scrollable <pre> should be keyboard-focusable (tabindex="0") with an accessible name; pass both through restProps
     //
     // Internationalization:
@@ -48,6 +48,7 @@
 <!-- CodeBlock.svelte -->
 <pre
     class={`code-block ${className}`}
+    role={label ? "region" : undefined}
     aria-label={label}
     {...restProps}>
     {@render children?.()}

@@ -22,11 +22,6 @@ describe("Code", () => {
         expect(root?.getAttribute("aria-label")).toBeNull();
     });
 
-    test("applies aria-label when label prop is provided", () => {
-        const { container } = render(<Subject label="Hello">content</Subject>);
-        const root = container.querySelector(".code");
-        expect(root?.getAttribute("aria-label")).toBe("Hello");
-    });
 
     test("passes through additional HTML attributes", () => {
         const { container } = render(<Subject data-testid="subject">content</Subject>);

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<kbd class="kbd-shortcut" aria-label="Control K"><kbd class="kbd-shortcut-key">Ctrl</kbd><span class="kbd-shortcut-separator" aria-hidden="true">+</span><kbd class="kbd-shortcut-key">K</kbd></kbd>';
+    '<kbd class="kbd-shortcut"><span class="screen-reader-span">Control K </span><kbd class="kbd-shortcut-key" aria-hidden="true">Ctrl</kbd><span class="kbd-shortcut-separator" aria-hidden="true">+</span><kbd class="kbd-shortcut-key" aria-hidden="true">K</kbd></kbd>';
 
 const meta = {
     title: "Headless/Kbd Shortcut",

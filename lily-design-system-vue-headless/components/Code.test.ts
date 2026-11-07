@@ -22,12 +22,4 @@ describe("Code", () => {
         expect(root?.getAttribute("aria-label")).toBeNull();
     });
 
-    test("applies aria-label when label prop is provided", () => {
-        const { container } = render(Subject, {
-            props: { label: "Hello" },
-            slots: { default: "x" },
-        });
-        const root = container.querySelector(".code");
-        expect(root?.getAttribute("aria-label")).toBe("Hello");
-    });
 });

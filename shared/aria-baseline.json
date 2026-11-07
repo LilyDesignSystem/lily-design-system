@@ -540,9 +540,7 @@
   },
   "citation": {
     "role": null,
-    "aria": [
-      "aria-label"
-    ]
+    "aria": []
   },
   "clamp-text": {
     "role": "group",
@@ -565,12 +563,10 @@
   },
   "code": {
     "role": null,
-    "aria": [
-      "aria-label"
-    ]
+    "aria": []
   },
   "code-block": {
-    "role": null,
+    "role": "region",
     "aria": [
       "aria-label"
     ]
@@ -1518,15 +1514,11 @@
   },
   "kbd": {
     "role": null,
-    "aria": [
-      "aria-label"
-    ]
+    "aria": []
   },
   "kbd-shortcut": {
     "role": null,
-    "aria": [
-      "aria-label"
-    ]
+    "aria": []
   },
   "kypros-national-passport-number-input": {
     "role": null,
@@ -2295,9 +2287,7 @@
   },
   "review-date": {
     "role": null,
-    "aria": [
-      "aria-label"
-    ]
+    "aria": []
   },
   "ring-chart": {
     "role": null,

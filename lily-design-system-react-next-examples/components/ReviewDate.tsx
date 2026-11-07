@@ -7,7 +7,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, required. Accessible label for screen readers via aria-label.
+//   label — string, required. Hidden text read before the date.
 //   datetime — string, required. Machine-readable date/time in ISO 8601 format.
 //   children — ReactNode, required. Human-readable display text for the date.
 //   ...restProps — additional HTML attributes spread onto the <time>.
@@ -27,7 +27,7 @@
 //
 // Accessibility:
 //   - Semantic <time> element provides machine-readable date context
-//   - aria-label for screen reader context beyond the visible text
+//   - hidden text from `label` gives context beyond the visible text
 //   - The datetime attribute enables browsers and assistive technology to parse dates
 //   - WCAG 2.2 AAA: properly labeled with semantic time element
 //
@@ -68,10 +68,10 @@ export default function ReviewDate({
     return (
         <time
             className={`review-date ${className}`}
-            aria-label={label}
             dateTime={datetime}
             {...restProps}
         >
+            {label ? <span className="screen-reader-span">{`${label} `}</span> : null}
             {children}
         </time>
     );

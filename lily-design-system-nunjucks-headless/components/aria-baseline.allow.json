@@ -7,8 +7,6 @@
   "angle-slider-range-input aria-valuetext": "A root difference: Nunjucks wraps or uses a native control, which carries this itself.",
   "call-to-action role": "Not ported yet (tasks.md P25-T7).",
   "care-card role": "Not ported yet (tasks.md P25-T7).",
-  "citation aria-label": "Not ported: this element has no role that takes a name, so aria-label on it is unreliable. Svelte is the outlier.",
-  "code aria-label": "Not ported: this element has no role that takes a name, so aria-label on it is unreliable. Svelte is the outlier.",
   "color-picker aria-valuemax": "A deliberate structural difference: the Nunjucks pickers are a radiogroup of role=\"radio\" buttons, so aria-checked replaces Svelte's aria-pressed.",
   "color-picker aria-valuemin": "A deliberate structural difference: the Nunjucks pickers are a radiogroup of role=\"radio\" buttons, so aria-checked replaces Svelte's aria-pressed.",
   "color-picker aria-valuenow": "A deliberate structural difference: the Nunjucks pickers are a radiogroup of role=\"radio\" buttons, so aria-checked replaces Svelte's aria-pressed.",

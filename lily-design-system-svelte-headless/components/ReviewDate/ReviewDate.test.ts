@@ -21,11 +21,11 @@ describe("ReviewDate", () => {
             },
         });
 
-        const el = screen.getByLabelText("Next review");
+        const el = document.querySelector(".review-date") as HTMLElement;
         expect(el.tagName).toBe("TIME");
     });
 
-    test("has aria-label from label prop", () => {
+    test("renders label as hidden text, not aria-label", () => {
         render(Subject, {
             props: {
                 label: "Next review",
@@ -34,8 +34,9 @@ describe("ReviewDate", () => {
             },
         });
 
-        const el = screen.getByLabelText("Next review");
-        expect(el.getAttribute("aria-label")).toBe("Next review");
+        const el = document.querySelector(".review-date") as HTMLElement;
+        expect(el.getAttribute("aria-label")).toBeNull();
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe("Next review ");
     });
 
     test("has datetime attribute", () => {
@@ -47,7 +48,7 @@ describe("ReviewDate", () => {
             },
         });
 
-        const el = screen.getByLabelText("Next review");
+        const el = document.querySelector(".review-date") as HTMLElement;
         expect(el.getAttribute("datetime")).toBe("2025-06-15");
     });
 
@@ -60,7 +61,7 @@ describe("ReviewDate", () => {
             },
         });
 
-        const el = screen.getByLabelText("Next review");
+        const el = document.querySelector(".review-date") as HTMLElement;
         expect(el.textContent).toContain("June 15, 2025");
     });
 
@@ -73,7 +74,7 @@ describe("ReviewDate", () => {
             },
         });
 
-        const el = screen.getByLabelText("Review");
+        const el = document.querySelector(".review-date") as HTMLElement;
         expect(el.getAttribute("datetime")).toBe("2025-06-15T14:30:00Z");
     });
 

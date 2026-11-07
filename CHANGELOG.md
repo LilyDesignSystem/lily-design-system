@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Names on elements that cannot take one — 2026-11-07
+
+- **Changed:** `citation` and `review-date` render `label` as hidden text in a `screen-reader-span`, read before the content, as the `-view` components do. `aria-label` on `<cite>` and `<time>` is not reliably read.
+- **Changed:** `kbd` and `kbd-shortcut` render `label` as hidden text and hide the visible keys from screen readers, because there the label replaces what is spoken. `kbd` gains a `.kbd-text` wrapper, and Angular and Web Components `kbd` gain `label`.
+- **Changed:** `code-block` is `role="region"` when labelled in every catalog, as its contract says. Blazor set the role with no label.
+- **Removed:** `label` on `code`. It was never in the contract, and hidden text would land in copied code.
+
 ## calendar-range-picker is a group — 2026-11-07
 
 - **Changed:** `calendar-range-picker` is `role="group"`, not `role="application"`, in every catalog. It has no keys of its own, and `application` switches off a screen reader's reading keys, so a static calendar inside it could not be read. Nunjucks was already `group`. A consumer who adds arrow keys puts `role="grid"` on the calendar itself.

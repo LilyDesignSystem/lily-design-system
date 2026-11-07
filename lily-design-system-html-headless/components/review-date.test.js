@@ -13,9 +13,10 @@ describe("ReviewDate", function () {
         await expect(el).toExist();
     });
 
-    it("should have an aria-label and a machine-readable datetime", async function () {
+    it("should have hidden text and a machine-readable datetime", async function () {
         const el = await $("time.review-date");
-        expect(await el.getAttribute("aria-label")).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
+        expect(await (await $("time.review-date .screen-reader-span")).isExisting()).toBe(true);
         expect(await el.getAttribute("datetime")).toMatch(/^\d{4}-\d{2}-\d{2}/);
     });
 });

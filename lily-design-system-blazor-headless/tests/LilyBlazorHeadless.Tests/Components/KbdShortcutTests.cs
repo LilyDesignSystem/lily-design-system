@@ -58,10 +58,15 @@ public class KbdShortcutTests : TestContext
         => Assert.Empty(Render(new[] { "Esc" }).FindAll(".kbd-shortcut-separator"));
 
     [Fact]
-    public void Label_becomes_aria_label_and_is_absent_otherwise()
+    public void Label_is_hidden_text_and_hides_the_keys()
     {
-        Assert.Equal("Control K", Render(new[] { "Ctrl", "K" }, p => p.Add(x => x.Label, "Control K")).Find(".kbd-shortcut").GetAttribute("aria-label"));
-        Assert.Null(Render(new[] { "Ctrl", "K" }).Find(".kbd-shortcut").GetAttribute("aria-label"));
+        var labelled = Render(new[] { "Ctrl", "K" }, p => p.Add(x => x.Label, "Control K"));
+        Assert.Null(labelled.Find(".kbd-shortcut").GetAttribute("aria-label"));
+        Assert.Equal("Control K ", labelled.Find(".screen-reader-span").TextContent);
+        Assert.Equal("true", labelled.Find(".kbd-shortcut-key").GetAttribute("aria-hidden"));
+        var plain = Render(new[] { "Ctrl", "K" });
+        Assert.Empty(plain.FindAll(".screen-reader-span"));
+        Assert.Null(plain.Find(".kbd-shortcut-key").GetAttribute("aria-hidden"));
     }
 
     [Fact]

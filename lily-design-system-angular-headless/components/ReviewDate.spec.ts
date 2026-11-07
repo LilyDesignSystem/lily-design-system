@@ -19,17 +19,18 @@ describe("ReviewDate", () => {
         ).toBe(true);
     });
 
-    test("renders datetime and aria-label when given, and omits them otherwise", () => {
+    test("renders datetime and hidden text when given, and omits them otherwise", () => {
         const fixture = TestBed.createComponent(ReviewDate);
         fixture.detectChanges();
         const bare = fixture.nativeElement.querySelector("time");
         expect(bare.hasAttribute("datetime")).toBe(false);
-        expect(bare.hasAttribute("aria-label")).toBe(false);
+        expect(bare.querySelector(".screen-reader-span")).toBeNull();
         fixture.componentRef.setInput("datetime", "2026-10-06");
         fixture.componentRef.setInput("label", "Last reviewed");
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector("time");
         expect(el.getAttribute("datetime")).toBe("2026-10-06");
-        expect(el.getAttribute("aria-label")).toBe("Last reviewed");
+        expect(el.hasAttribute("aria-label")).toBe(false);
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe("Last reviewed ");
     });
 });

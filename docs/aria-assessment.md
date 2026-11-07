@@ -22,9 +22,9 @@ Each component is in the first band it falls into, so the bands add up to 609.
 | --------------------------------------------------------- | ---------- |
 | Key contracts with a key test in all eight libraries      | 37 of 156  |
 | Custom-key widgets (arrows, Home, End, Escape), all eight | 30 of 87   |
-| ARIA contracts asserted in all eight libraries            | 141 of 526 |
+| ARIA contracts asserted in all eight libraries            | 140 of 525 |
 | End-to-end evidence in Chromium, Firefox and WebKit       | 45 of 609  |
-| No keyboard or ARIA contract at all                       | 72 of 609  |
+| No keyboard or ARIA contract at all                       | 73 of 609  |
 <!-- END generated: bin/generate-core -->
 
 The custom-key row matters most: those are the widgets where script, not the browser, provides the behaviour.

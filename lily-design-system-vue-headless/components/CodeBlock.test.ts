@@ -20,6 +20,7 @@ describe("CodeBlock", () => {
         const { container } = render(Subject, { slots: { default: "x" } });
         const root = container.querySelector(".code-block");
         expect(root?.getAttribute("aria-label")).toBeNull();
+        expect(root?.getAttribute("role")).toBeNull();
     });
 
     test("applies aria-label when label prop is provided", () => {
@@ -29,5 +30,6 @@ describe("CodeBlock", () => {
         });
         const root = container.querySelector(".code-block");
         expect(root?.getAttribute("aria-label")).toBe("Hello");
+        expect(root?.getAttribute("role")).toBe("region");
     });
 });

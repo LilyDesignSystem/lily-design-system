@@ -22,12 +22,13 @@ describe("Citation", () => {
         expect(root?.getAttribute("aria-label")).toBeNull();
     });
 
-    test("applies aria-label when label prop is provided", () => {
+    test("renders label as hidden text, not aria-label", () => {
         const { container } = render(Subject, {
             props: { label: "Hello" },
             slots: { default: "x" },
         });
         const root = container.querySelector(".citation");
-        expect(root?.getAttribute("aria-label")).toBe("Hello");
+        expect(root?.getAttribute("aria-label")).toBeNull();
+        expect(root.querySelector(".screen-reader-span")?.textContent).toBe("Hello ");
     });
 });

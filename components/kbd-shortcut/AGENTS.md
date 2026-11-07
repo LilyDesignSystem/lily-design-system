@@ -19,7 +19,7 @@
 ## ARIA
 
 - Separators are `aria-hidden="true"` so they are not read
-- `aria-label={label}` -- optional spoken form on the root
+- `label` -- optional spoken form: hidden text in a `screen-reader-span`, with the keys `aria-hidden`, because a name on `<kbd>` is not reliably read
 
 ## Keyboard
 
@@ -30,7 +30,7 @@
 - `className`: string (default: `""`) -- CSS class name appended to the base class
 - `keys`: string[] (required) -- the key names, in order
 - `separator`: string (default: `"+"`) -- decorative separator between keys
-- `label`: string (optional) -- spoken form, applied as `aria-label`
+- `label`: string (optional) -- spoken form: hidden text, with the keys `aria-hidden`
 - `...restProps`: unknown -- additional attributes spread onto the root
 
 ## Acceptance Criteria

@@ -25,13 +25,12 @@
 {%- set sep = p.separator if p.separator is defined else "+" -%}
 <kbd
   class="kbd-shortcut{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->
+>{% if p.label %}<span class="screen-reader-span">{{ p.label }} </span>{% endif %}
   {%- for key in p.keys -%}
     {%- if not loop.first -%}<span class="kbd-shortcut-separator" aria-hidden="true">{{ sep }}</span>{%- endif -%}
-    <kbd class="kbd-shortcut-key">{{ key }}</kbd>
+    <kbd class="kbd-shortcut-key"{% if p.label %} aria-hidden="true"{% endif %}>{{ key }}</kbd>
   {%- endfor -%}
 </kbd>
 {%- endmacro -%}

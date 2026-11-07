@@ -15,9 +15,8 @@ describe("Citation", function () {
         expect(className).toContain("citation");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should name no <cite>", async function () {
         const el = await $("cite.citation");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

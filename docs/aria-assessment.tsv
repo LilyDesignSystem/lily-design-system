@@ -83,7 +83,7 @@ clamp-text	automated evidence complete	no	no	no	yes	1	8	no	-
 clipboard-copy-button	key evidence incomplete	no	yes	no	yes	4	6	no	-
 coachmark	key evidence incomplete	no	yes	yes	yes	1	8	no	-
 code	automated evidence complete	no	no	no	no	1	8	no	-
-code-block	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
+code-block	ARIA evidence incomplete	no	no	no	yes	1	6	no	-
 collapsible	key evidence incomplete	no	yes	no	no	2	8	no	-
 collection-list	ARIA evidence incomplete	no	no	no	yes	1	6	no	-
 collection-list-item	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
@@ -366,7 +366,7 @@ red-orange-yellow-green-blue-view	automated evidence complete	no	no	no	no	8	6	no
 related-content	ARIA evidence incomplete	no	no	no	yes	1	1	no	-
 reset-input	key evidence incomplete	no	yes	no	no	1	3	no	-
 resizable	ARIA evidence incomplete	no	no	no	yes	8	4	no	-
-review-date	automated evidence complete	no	no	no	yes	8	8	no	-
+review-date	automated evidence complete	no	no	no	no	8	8	no	-
 romania-cod-numeric-personal-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
 romania-cod-numeric-personal-view	ARIA evidence incomplete	no	no	no	yes	1	6	no	-
 romania-pasaport-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-

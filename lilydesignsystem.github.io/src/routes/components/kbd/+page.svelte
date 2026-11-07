@@ -84,7 +84,7 @@
     <ul>
       <li>Native <code>&lt;kbd&gt;</code> element conveys keyboard input semantically</li>
       <li>Screen readers may announce the content as a keyboard shortcut depending on the user agent</li>
-      <li>Consumers may add <code>aria-label</code> if the visible text alone is ambiguous (e.g. a single key glyph)</li>
+      <li><code>label</code> gives the spoken form when the visible text is ambiguous (e.g. a single key glyph): hidden text in a <code>screen-reader-span</code>, with the visible key <code>aria-hidden</code> in a <code>.kbd-text</code></li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
@@ -93,6 +93,7 @@
     <h3>Props</h3>
     <ul>
       <li><code>className</code>: string (default: <code>""</code>) -- CSS class name for the element</li>
+      <li><code>label</code>: string (optional) -- spoken form, for a glyph such as ⌘: hidden text, with the visible key <code>aria-hidden</code></li>
       <li><code>children</code>: slot (required) -- the key label text content</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;kbd&gt;</code> element</li>
     </ul>

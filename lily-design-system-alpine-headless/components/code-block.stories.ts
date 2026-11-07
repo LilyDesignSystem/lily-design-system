@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<pre\n  class="code-block"\n  aria-label=""\n>\n<code><!-- Consumer provides code --></code>\n</pre>';
+    '<pre\n  class="code-block"\n  role="region"\n  aria-label="Example"\n>\n<code><!-- Consumer provides code --></code>\n</pre>';
 
 const meta = {
     title: "Headless/Code Block",

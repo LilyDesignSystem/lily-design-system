@@ -4,12 +4,12 @@
 // An inline element for keyboard shortcuts and key combinations.
 //
 // Props:
-//   label — string, optional. Accessible label via aria-label.
+//   label — string, optional. Spoken form, read instead of the visible key.
 //   default slot — component content.
 //
 // Accessibility:
 //   - native <kbd> semantics
-//   - aria-label exposes a screen-reader name when label is provided
+//   - hidden text comes from `label` when given
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
@@ -19,7 +19,7 @@
 
 withDefaults(
     defineProps<{
-        /** Optional accessible label set on aria-label. */
+        /** Spoken form, read instead of the visible key. */
         label?: string;
     }>(),
     {
@@ -32,8 +32,15 @@ withDefaults(
     <!-- Kbd.vue -->
     <kbd
         class="kbd"
-        :aria-label="label"
     >
-        <slot />
+        <span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
+        ><span
+            class="kbd-text"
+            :aria-hidden="label ? 'true' : undefined"
+            ><slot
+        /></span>
     </kbd>
 </template>

@@ -5,7 +5,7 @@ import Citation from "./Citation.svelte";
 describe("Citation", () => {
     test("renders with content", () => {
         render(Citation, { props: { label: "Test" } as any });
-        const el = screen.getByLabelText("Test");
+        const el = document.querySelector(".citation") as HTMLElement;
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("citation");
     });

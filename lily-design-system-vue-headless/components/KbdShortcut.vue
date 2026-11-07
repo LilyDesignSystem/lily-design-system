@@ -16,7 +16,7 @@ withDefaults(
         keys: string[];
         /** Decorative separator between keys. */
         separator?: string;
-        /** Optional spoken form (aria-label). */
+        /** Spoken form, read instead of the visible keys. */
         label?: string;
     }>(),
     {
@@ -30,9 +30,12 @@ withDefaults(
     <!-- KbdShortcut.vue -->
     <kbd
         class="kbd-shortcut"
-        :aria-label="label"
     >
-        <template
+        <span
+            v-if="label"
+            class="screen-reader-span"
+            >{{ `${label} ` }}</span
+        ><template
             v-for="(key, i) in keys"
             :key="i"
         >
@@ -41,7 +44,11 @@ withDefaults(
                 class="kbd-shortcut-separator"
                 aria-hidden="true"
                 >{{ separator }}</span
-            ><kbd class="kbd-shortcut-key">{{ key }}</kbd>
+            ><kbd
+                class="kbd-shortcut-key"
+                :aria-hidden="label ? 'true' : undefined"
+                >{{ key }}</kbd
+            >
         </template>
     </kbd>
 </template>

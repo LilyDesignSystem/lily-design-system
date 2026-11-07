@@ -7,12 +7,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *
  * Props:
  *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
- *   label — string, optional. Accessible name, rendered as aria-label on the root.
  *   <ng-content /> — projected content, required. The code text.
  *   (no rest props) — Angular has no spread; attributes set on <lily-x> land on the host element, not the root.
  *
  * Syntax:
- *   <lily-code label="…">…</lily-code>
+ *   <lily-code>…</lily-code>
  *
  * Examples:
  *   <p>Run <lily-code>pnpm install</lily-code> first.</p>
@@ -21,7 +20,6 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *   - None -- not interactive; any interactive children handle their own keys
  *
  * Accessibility:
- *   - aria-label comes from `label` when given
  *
  * Internationalization:
  *   - No hardcoded user-facing strings
@@ -35,10 +33,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-code",
     standalone: true,
-    template: `<code class="code {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></code>`,
+    template: `<code class="code {{ className() }}"><ng-content /></code>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Code {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

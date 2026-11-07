@@ -12,6 +12,5 @@
   "angular prop wheel-picker.onChange": "The `value` model emits `valueChange`.",
   "angular prop description-list-item.label": "Svelte declares it and renders nothing: the prop is dead there, not missing here.",
   "angular prop document-list-item.label": "Svelte declares it and renders nothing: the prop is dead there, not missing here.",
-  "angular prop section-list-item.label": "Svelte declares it and renders nothing: the prop is dead there, not missing here.",
-  "angular prop kbd.label": "Not ported: <kbd> has no role, so a name on it is unreliable. Svelte's aria-label is the outlier (P25-T14)."
+  "angular prop section-list-item.label": "Svelte declares it and renders nothing: the prop is dead there, not missing here."
 }

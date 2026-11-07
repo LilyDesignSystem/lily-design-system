@@ -9,8 +9,8 @@
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "`aria-label` -- optional description of the code block content",
-    "`role=\"region\"` when `aria-label` is provided"
+    "`aria-label` -- the `label`, with `role=\"region\"`",
+    "`role=\"region\"` when `label` is given, because a name on a bare `<pre>` is not reliably read"
   ],
   "keyboard": [
     "None -- code blocks are informational, not interactive"

@@ -53,10 +53,12 @@ describe("KbdShortcut", () => {
         expect(root.querySelectorAll(".kbd-shortcut-separator")).toHaveLength(0);
     });
 
-    test("label becomes aria-label; absent otherwise", () => {
-        expect(make({ label: "Control plus K" }).root.getAttribute("aria-label")).toBe(
-            "Control plus K",
-        );
-        expect(make().root.hasAttribute("aria-label")).toBe(false);
+    test("label is hidden text and hides the keys; absent otherwise", () => {
+        const labelled = make({ label: "Control plus K" }).root;
+        expect(labelled.hasAttribute("aria-label")).toBe(false);
+        expect(labelled.querySelector(".screen-reader-span")?.textContent).toBe("Control plus K ");
+        expect(labelled.querySelector(".kbd-shortcut-key")?.getAttribute("aria-hidden")).toBe("true");
+        expect(make().root.querySelector(".screen-reader-span")).toBeNull();
+        expect(make().root.querySelector(".kbd-shortcut-key")?.hasAttribute("aria-hidden")).toBe(false);
     });
 });

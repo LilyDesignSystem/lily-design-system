@@ -11,8 +11,9 @@ describe("review-date", () => {
         const el = document.querySelector("time.review-date");
         expect(el).toBeTruthy();
         expect(el.getAttribute("datetime")).toBe("2026-04-20");
-        expect(el.getAttribute("aria-label")).toBe("Last reviewed");
-        expect(el.textContent.trim()).toBe("20 April 2026");
+        expect(el.hasAttribute("aria-label")).toBe(false);
+        expect(el.querySelector(".screen-reader-span").textContent).toBe("Last reviewed ");
+        expect(el.textContent.trim()).toBe("Last reviewed 20 April 2026");
     });
 
     it("falls back to the datetime as text and omits unset attributes", () => {

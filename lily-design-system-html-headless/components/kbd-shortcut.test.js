@@ -25,7 +25,12 @@ describe("KbdShortcut", function () {
         const order = await browser.execute(() =>
             Array.from(document.querySelector(".kbd-shortcut").children).map((c) => c.className),
         );
-        expect(order).toEqual(["kbd-shortcut-key", "kbd-shortcut-separator", "kbd-shortcut-key"]);
+        expect(order).toEqual([
+            "screen-reader-span",
+            "kbd-shortcut-key",
+            "kbd-shortcut-separator",
+            "kbd-shortcut-key",
+        ]);
     });
 
     it("should hide separators from assistive technology", async function () {
@@ -37,10 +42,13 @@ describe("KbdShortcut", function () {
         expect(await (await $(".kbd-shortcut-separator")).getText()).toBe("+");
     });
 
-    it("should carry an optional aria-label as the spoken form", async function () {
-        const label = await (await $(".kbd-shortcut")).getAttribute("aria-label");
-        expect(label).not.toBeNull();
-        expect(label).not.toBe("");
+    it("should carry the spoken form as hidden text, and hide the keys", async function () {
+        expect(await (await $(".kbd-shortcut")).getAttribute("aria-label")).toBeNull();
+        expect(await (await $(".kbd-shortcut .screen-reader-span")).isExisting()).toBe(true);
+        const keys = await $$(".kbd-shortcut > kbd.kbd-shortcut-key");
+        for (const key of keys) {
+            expect(await key.getAttribute("aria-hidden")).toBe("true");
+        }
     });
 
     it("should not be focusable (passive element)", async function () {

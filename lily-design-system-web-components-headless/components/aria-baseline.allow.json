@@ -1,8 +1,5 @@
 {
   "address-input role": "Web Components follows the contract's <input>; Svelte renders a <div role=\"group\">.",
-  "citation aria-label": "Not ported: <cite> has no role that takes a name. Svelte is the outlier.",
-  "code aria-label": "Not ported: <code> has no role that takes a name. Svelte is the outlier.",
-  "code-block role": "role=\"region\" when labelled, so its focusable scroll area has a name; Svelte keys this on aria-label, which the sweep does not pass.",
   "editable aria-label": "Set on the inner display element, not the host the sweep reads.",
   "editable role": "Set on the inner display element, not the host the sweep reads.",
   "floating-panel aria-label": "Set only while open, in the sweep's closed state. Svelte keeps it on when closed.",
@@ -12,7 +9,6 @@
   "go-to-top aria-label": "Here `label` is the link's visible text, so its name comes from content; a duplicate aria-label would add nothing.",
   "hover-card aria-label": "Set only while open, in the sweep's closed state. Svelte keeps it on when closed.",
   "hover-card role": "Set only while open, in the sweep's closed state. Svelte keeps it on when closed.",
-  "kbd aria-label": "Not ported: <kbd> has no role that takes a name. Svelte is the outlier.",
   "red-amber-green-picker role": "A deliberate structural difference: a radiogroup, where Svelte renders a <select>.",
   "red-orange-yellow-green-blue-picker role": "A deliberate structural difference: a radiogroup, where Svelte renders a <select>.",
   "slider role": "The custom element is itself the slider, so it carries the role an <input type=\"range\"> has natively.",

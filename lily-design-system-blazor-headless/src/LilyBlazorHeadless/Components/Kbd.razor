@@ -7,7 +7,7 @@
 
     Props:
       CssClass — string, optional. CSS class name, added after the base class hook on the root.
-      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      Label — string, optional. Spoken form, read instead of the visible key.
       ChildContent — RenderFragment, required. The key text, for example Ctrl.
       AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
 
@@ -21,7 +21,7 @@
       - None -- not interactive; any interactive children handle their own keys
 
     Accessibility:
-      - aria-label comes from `label` when given
+      - hidden text comes from `label` when given
 
     Internationalization:
       - No hardcoded user-facing strings
@@ -33,7 +33,7 @@
       - MDN <kbd>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd
 *@
 
-<kbd class="@($"kbd {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</kbd>
+<kbd class="@($"kbd {CssClass}".Trim())" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}<span class="kbd-text" aria-hidden="@(string.IsNullOrEmpty(Label) ? null : "true")">@ChildContent</span></kbd>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
