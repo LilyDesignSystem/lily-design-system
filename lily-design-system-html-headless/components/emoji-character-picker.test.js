@@ -18,7 +18,7 @@ describe("EmojiCharacterPicker", function () {
     it("should have the correct ARIA role", async function () {
         const el = await $("div.emoji-character-picker");
         const roleAttr = await el.getAttribute("role");
-        expect(roleAttr).toBe("grid");
+        expect(roleAttr).toBe("group");
     });
 
     it("should have an aria-label attribute", async function () {

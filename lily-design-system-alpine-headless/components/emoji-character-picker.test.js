@@ -12,9 +12,9 @@ describe("EmojiCharacterPicker", () => {
         expect(el().classList.contains("emoji-character-picker")).toBe(true);
     });
 
-    it('is role="grid" with an accessible name', async () => {
+    it('is role="group" with an accessible name', async () => {
         await mount("emoji-character-picker");
-        expect(el().getAttribute("role")).toBe("grid");
+        expect(el().getAttribute("role")).toBe("group");
         expect(el().hasAttribute("aria-label")).toBe(true);
     });
 });

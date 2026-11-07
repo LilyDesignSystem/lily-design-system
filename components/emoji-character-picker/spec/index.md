@@ -23,7 +23,7 @@ Implement the Emoji Character Picker component: a picker for browsing and select
 ## Acceptance Criteria
 
 - [ ] Renders <div> with class="emoji-character-picker"
-- [ ] `role="grid"` -- identifies the container as a grid widget for structured cell navigation
+- [ ] `role="group"` -- groups the emoji buttons under the picker's name
 - [ ] `aria-label={label}` -- provides an accessible name for the emoji picker
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

@@ -155,7 +155,7 @@ export const componentDemos: Record<string, string> = {
   'email-input': '<label class="label" for="demo-input">Label</label><input class="email-input" type="email" id="demo-input" aria-label="EmailInput" />',
   'email-link': '<a class="email-link" href="mailto:example@example.com">example@example.com</a>',
   'emoji': '<span class="emoji" role="img" aria-label="thumbs up">👍</span>',
-  'emoji-character-picker': '<div class="emoji-character-picker" aria-label="Emoji picker"><button>😀</button><button>❤️</button><button>👍</button><button>🎉</button></div>',
+  'emoji-character-picker': '<div class="emoji-character-picker" role="group" aria-label="Choose an emoji"><button type="button" aria-label="Grinning face">😀</button><button type="button" aria-label="Red heart">❤️</button><button type="button" aria-label="Thumbs up">👍</button><button type="button" aria-label="Party popper">🎉</button></div>',
   'end-notes': '<div class="end-notes" aria-label="a section of titled endnote items at the end of an article">EndNotes</div>',
   'england-national-health-service-number-input': '<label class="label" for="demo-input">Label</label><input class="england-national-health-service-number-input" id="demo-input" aria-label="an input for entering England\'s National Health Service Number (NHS)" />',
   'england-national-health-service-number-view': '<span class="england-national-health-service-number-view">EnglandNationalHealthServiceNumberView</span>',
