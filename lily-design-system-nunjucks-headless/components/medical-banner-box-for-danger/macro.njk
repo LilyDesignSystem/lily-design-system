@@ -29,7 +29,7 @@
 {%- set level = params.headingLevel | default(4) -%}
 <div
   class="medical-banner-box-for-danger{% if params.classes %} {{ params.classes }}{% endif %}"
-  role="alert"
+  role="region"
   data-severity="danger"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.label %} aria-label="{{ params.label }}"{% endif %}

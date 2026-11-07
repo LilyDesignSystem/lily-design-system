@@ -2,11 +2,11 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("warning-callout", () => {
-    it("renders a <div> with the base class and role=note", () => {
+    it("renders a <div> with the base class and role=alert", () => {
         const { document } = render("warning-callout", { text: "Be careful" });
         const el = document.querySelector("div.warning-callout");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("role")).toBe("note");
+        expect(el.getAttribute("role")).toBe("alert");
     });
 
     it("renders the heading at level 3 by default", () => {

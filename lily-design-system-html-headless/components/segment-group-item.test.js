@@ -15,9 +15,9 @@ describe("SegmentGroupItem", function () {
         expect(className).toContain("segment-group-item");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("is a radio with aria-checked", async function () {
         const el = await $("button.segment-group-item");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("role")).toBe("radio");
+        expect(await el.getAttribute("aria-checked")).toBe("false");
     });
 });

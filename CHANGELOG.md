@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Ports catch up with Svelte's roots — 2026-11-07
+
+- **Fixed:** 57 root roles and ARIA attributes in Nunjucks, HTML and Blazor now match what Svelte renders and the contract says, among them `care-card`, `resizable`, `floating-panel` and `medical-banner-box-for-danger` as regions, `warning-callout` as an alert, `timeout-dialog` as an alertdialog, `timer` as a timer, HTML `notification` and `progress-spinner` as status, and HTML `time-picker-input` without its stray `role="radiogroup"`.
+- **Changed (breaking):** Nunjucks `organization` and `person` are `<article>`s, HTML `slider` is an `<input type="range">`, Nunjucks `tour-list-item` takes a `label` and hides a step that is not current, and Nunjucks `text-input-with-search` takes `inputLabel` for its input, `label` now naming the search landmark too.
+- **Added:** Blazor `*-picker-button`s take `Value`, `Selected` and `Disabled`; Blazor `progress-circle` takes `Value`, `Min` and `Max`; Blazor `overlay-container` takes `Open`.
+
 ## The rating pickers are native radios everywhere — 2026-11-07
 
 - **Changed (breaking):** in Nunjucks and Web Components, `five-star-rating-picker`, `five-face-rating-picker` and `net-promoter-score-picker` render a `<fieldset role="radiogroup">` of native radios, as the other seven catalogs do, instead of taking `*-picker-button` children. Nunjucks takes `starLabels` / `labels`, `value`, `name` and `disabled`; Web Components the same as attributes (`label-1` …), or the `starLabel` and `labels` properties.

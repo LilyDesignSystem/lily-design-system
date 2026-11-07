@@ -39,7 +39,7 @@
 {%- set level = params.headingLevel | default(3) -%}
 <div
   class="care-card{% if params.classes %} {{ params.classes }}{% endif %}"
-  role="note"
+  role="region"
   data-urgency="{{ urgency }}"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.label %} aria-label="{{ params.label }}"{% endif %}

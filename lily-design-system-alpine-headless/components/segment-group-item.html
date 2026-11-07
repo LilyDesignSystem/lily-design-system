@@ -5,13 +5,16 @@
   HTML tag: <button>
   CSS class: segment-group-item
   Keyboard: Tab to focus, Enter or Space to activate
-  Accessibility: Implicit button role, aria-label for accessible name
+  Accessibility: role="radio" with aria-checked, inside a segment-group radiogroup; one tab stop
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
 <button
   class="segment-group-item"
-  aria-label=""
+  type="button"
+  role="radio"
+  aria-checked="false"
+  tabindex="-1"
 >
   <!-- Consumer provides button content -->
 </button>

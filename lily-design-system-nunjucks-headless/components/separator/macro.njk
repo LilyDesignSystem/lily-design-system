@@ -38,6 +38,7 @@
 {%- else -%}
 <hr
   class="separator{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="separator"
   data-orientation="horizontal"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}

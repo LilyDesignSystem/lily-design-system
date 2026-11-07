@@ -2,11 +2,11 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("resizable", () => {
-    it("renders a <div role=group>", () => {
+    it("renders a <div role=region>", () => {
         const { document } = render("resizable", {});
         const el = document.querySelector("div.resizable");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("role")).toBe("region");
     });
 
     it("contains no <style> or <script> tags", () => {

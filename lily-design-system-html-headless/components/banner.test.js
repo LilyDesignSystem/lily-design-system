@@ -18,12 +18,11 @@ describe("Banner", function () {
     it("should have the correct ARIA role", async function () {
         const el = await $("div.banner");
         const roleAttr = await el.getAttribute("role");
-        expect(roleAttr).toBe("banner");
+        expect(roleAttr).toBe("region");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("announces politely", async function () {
         const el = await $("div.banner");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-live")).toBe("polite");
     });
 });

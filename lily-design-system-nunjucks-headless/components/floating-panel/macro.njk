@@ -14,7 +14,7 @@
 {%- set p = params | default({}) -%}
 <div
   class="floating-panel{% if p.classes %} {{ p.classes }}{% endif %}"
-  role="dialog" aria-modal="false"
+  role="region"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if not p.open %} hidden{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}

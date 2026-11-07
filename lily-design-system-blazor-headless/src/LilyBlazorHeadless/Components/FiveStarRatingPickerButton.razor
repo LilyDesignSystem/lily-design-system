@@ -5,11 +5,16 @@
     a picker button for selecting a 1-5 star rating using radio buttons
 *@
 
-<button class="@($"five-star-rating-picker-button {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"five-star-rating-picker-button {CssClass}".Trim())" type="button" aria-label="@Label" aria-pressed="@(Selected ? "true" : "false")" disabled="@Disabled" data-value="@Value" @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Label)))</button>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>The value this button stands for, as data-value.</summary>
+    [Parameter] public string? Value { get; set; }
+    /// <summary>Whether this button is the chosen one, as aria-pressed.</summary>
+    [Parameter] public bool Selected { get; set; }
+    [Parameter] public bool Disabled { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }
