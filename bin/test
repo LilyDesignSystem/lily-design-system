@@ -438,6 +438,8 @@ test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/i
 # Lily Core (P16-T2) and its self-assessed ACR (P16-T7): fails when a recorded Core member loses evidence, or an output is stale.
 "$top/bin/generate-core" --check >/dev/null 2>&1 \
     || err "a Lily Core member lost evidence, or core.json / docs/core.md / the ACR / the /quality page is stale; run bin/generate-core --check"
+"$top/bin/generate-theme-contrast" --check >/dev/null 2>&1 \
+    || err "docs/theme-contrast.md or the site's /theme-contrast page is stale; run bin/generate-theme-contrast"
 "$top/bin/generate-api-docs" --check >/dev/null 2>&1 \
     || err "site contract sections drift from components/*/AGENTS.md; run bin/generate-api-docs"
 # Every Svelte overlay or popup component records its native-platform decision (spec/competitive-position, P16-T4).

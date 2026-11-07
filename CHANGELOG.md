@@ -14,6 +14,10 @@ highlights.
 - **Fixed:** in all 63 themes a focused file-tree item and a picker's keyboard cursor had no ring: `outline: var(--lily-focus-ring)` names a colour alone, which resets the outline style to `none`. Both are `2px solid` now.
 - **Added:** the focus-ring contract in `AGENTS/theme.md` and spec/theme: width, offset, colour, the forced-colours fallback, and the WCAG criterion each meets. `bin/check-theme --contrast` reports the ring against the page at 3:1 (report only: 14 themes miss it).
 
+## The theme contrast table is published — 2026-11-07
+
+- **Added:** `docs/theme-contrast.md` and the docs site's `/theme-contrast` page: every text pair in each of the 63 reference themes, with its WCAG 2 ratio and whether it meets AA and AAA. All 756 pairs meet AA; 487 meet AAA. `bin/generate-theme-contrast` writes them, and `bin/test` fails when they are stale.
+
 ## Ports catch up with Svelte's roots — 2026-11-07
 
 - **Fixed:** 53 root roles and ARIA attributes in Nunjucks, HTML and Blazor now match what Svelte renders and the contract says, among them `care-card`, `resizable`, `floating-panel` and `medical-banner-box-for-danger` as regions, `warning-callout` as an alert, `timeout-dialog` as an alertdialog, `timer` as a timer, HTML `notification` and `progress-spinner` as status, and HTML `time-picker-input` without its stray `role="radiogroup"`.
