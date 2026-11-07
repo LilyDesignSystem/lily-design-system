@@ -59,6 +59,14 @@ Ten-digit identifier in 3-3-4 format with a Modulus-11 check digit, shared with 
 
 **Where to find it:** NHS Wales medical card, GP correspondence, prescriptions, hospital appointment letters, and the NHS Wales App.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `cymru-rhif-y-gwasanaeth-iechyd-gwladol-input` — an input for entering Wales's Rhif y Gwasanaeth Iechyd Gwladol (Rhif GIG)

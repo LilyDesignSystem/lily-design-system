@@ -93,6 +93,12 @@ The consumer provides all CSS styling via the `.one-time-password-input` class. 
 - **Designers**: Style one field wide enough for `length` characters; letter-spacing and a monospace font help legibility. Do not fake segmented boxes with a background image, or autofill and paste break.
 - **Developers**: Verify the code on the server; `pattern` is a hint, not validation. Auto-submit when `value.length === length` only if the user is told.
 
+## Security and privacy
+
+- `autocomplete="one-time-code"` lets the platform offer a code it received by SMS, and `spellcheck` is off, so the code is not sent to a spellchecker.
+- A one-time code is a credential while it is valid: do not log it, put it in a URL, or keep it in client storage, and clear the field after a failed attempt.
+- The component does not limit attempts or expire codes; the server must.
+
 ## Related components
 
 - `pin-input-div` — a segmented, one-box-per-character PIN entry

@@ -62,6 +62,14 @@ Thirteen digits. Digit 1 denotes registration category; digits 2-5 denote the di
 
 **Where to find it:** Printed on the Thai National ID Card (บัตรประจำตัวประชาชน) and required to register for the Universal Coverage Scheme (the "Gold Card"), Thailand's national health-insurance system.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `prathet-thai-lek-prajam-tua-prachachon-input` — an input for entering Thailand's เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon)
