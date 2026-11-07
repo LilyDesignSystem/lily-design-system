@@ -47,6 +47,7 @@ export default function PhaseBanner({
     return (
         <div
             className={`phase-banner ${className}`}
+            role={label ? "group" : undefined}
             aria-label={label}
             {...restProps}
         >

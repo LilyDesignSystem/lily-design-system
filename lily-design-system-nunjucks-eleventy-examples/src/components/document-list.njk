@@ -7,10 +7,10 @@ description: a list displaying documents with titles and metadata
 {% from "components/document-list/macro.njk" import documentList %}
 
 <h2>Default</h2>
-{{ documentList({ text: "Example DocumentList content" }) }}
+{{ documentList({ html: "<li class=\"document-list-item\">Referral letter</li><li class=\"document-list-item\">Discharge summary</li>" }) }}
 
 <h2>With accessible label</h2>
-{{ documentList({ text: "Example content", label: "DocumentList example" }) }}
+{{ documentList({ html: "<li class=\"document-list-item\">Referral letter</li>", label: "Your documents" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

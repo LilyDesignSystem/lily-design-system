@@ -6,14 +6,22 @@
   "category": "tables",
   "baseClass": ".kanban-table",
   "subClasses": [],
-  "interactive": false,
+  "interactive": true,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "`role=\"region\"` -- defines the Kanban board as a named landmark section",
-    "`aria-label={label}` -- provides an accessible name for the board region"
+    "`role=\"grid\"` -- the board is a grid of cells",
+    "`aria-label={label}` -- provides an accessible name for the board"
   ],
   "keyboard": [
-    "No keyboard interactions — this is a passive element"
+    "Tab: moves to the board, on its one tab stop, and out of it",
+    "ArrowRight / ArrowLeft: next or previous column, swapped in right-to-left; stops at the edge",
+    "ArrowDown / ArrowUp: next or previous row; stops at the edge",
+    "Home / End: first or last cell in the row",
+    "Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell on the board",
+    "PageDown / PageUp: ten rows, stopping at the edge",
+    "Enter or F2: go to the first control in the cell, which keeps its own keys",
+    "Escape: from a control, back to its cell",
+    "Moving a card between columns is the consumer's: `kanban-board` uses Alt+Arrow"
   ],
   "props": [
     "`label`: string (required) -- accessible name describing the board, applied via `aria-label`",

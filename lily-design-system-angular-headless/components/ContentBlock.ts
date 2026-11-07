@@ -10,9 +10,13 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-content-block",
     standalone: true,
-    template: `<div class="content-block {{ className() }}"><ng-content /></div>`,
+    template: `<div class="content-block {{ className() }}" [attr.data-width]="width()"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentBlock {
     readonly className = input<string>("");
+    /** Width step, read by the consumer's CSS. */
+    readonly width = input<
+        "narrower" | "narrow" | "normal" | "wide" | "wider" | "widest" | "fluid"
+    >("normal");
 }

@@ -51,6 +51,7 @@ export default function AiLabel({ className = "", label, text, ...restProps }: A
     return (
         <span
             className={`ai-label ${className}`}
+            role="img"
             aria-label={label}
             {...restProps}
         >

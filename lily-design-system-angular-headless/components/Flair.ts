@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-flair",
     standalone: true,
-    template: `<span class="flair {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    template: `<span class="flair {{ className() }}" [attr.role]="label() ? 'img' : null" [attr.aria-label]="label() || null"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Flair {

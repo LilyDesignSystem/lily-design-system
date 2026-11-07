@@ -7,10 +7,10 @@ description: a banner indicating the phase of a service
 {% from "components/phase-banner/macro.njk" import phaseBanner %}
 
 <h2>Default</h2>
-{{ phaseBanner({ text: "Example PhaseBanner content" }) }}
+{{ phaseBanner({ text: "Beta: this is a new service.", label: "Service phase" }) }}
 
 <h2>With accessible label</h2>
-{{ phaseBanner({ text: "Example content", label: "PhaseBanner example" }) }}
+{{ phaseBanner({ html: "Alpha: <a href='#feedback'>tell us what you think</a>.", label: "Service phase and feedback" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

@@ -5,7 +5,7 @@
     an avatar indicator inner text such as a user name
 *@
 
-<span class="@($"avatar-text {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</span>
+<span class="@($"avatar-text {CssClass}".Trim())" aria-hidden="true" @attributes="AdditionalAttributes">@ChildContent</span>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }

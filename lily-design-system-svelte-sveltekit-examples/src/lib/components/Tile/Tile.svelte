@@ -47,6 +47,7 @@
 <!-- Tile.svelte -->
 <div
     class={`tile ${className}`}
+    role={label ? "group" : undefined}
     aria-label={label}
     {...restProps}
 >

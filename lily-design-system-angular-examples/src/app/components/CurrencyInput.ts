@@ -30,9 +30,12 @@ import { restoreOnFormReset } from "./form-reset";
     template: `<input
       class="currency-input {{ className() }}"
       type="text"
+      inputmode="decimal"
       [attr.aria-label]="label() || null"
       [attr.data-currency-code]="currencyCode()"
       autocomplete="off"
+      [attr.min]="min() ?? null"
+      [attr.max]="max() ?? null"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
@@ -47,6 +50,10 @@ export class CurrencyInput {
     readonly currencyCode = input.required<string>();
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Smallest amount. */
+    readonly min = input<number | undefined>(undefined);
+    /** Largest amount. */
+    readonly max = input<number | undefined>(undefined);
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

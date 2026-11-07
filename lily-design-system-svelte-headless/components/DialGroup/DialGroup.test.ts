@@ -9,4 +9,11 @@ describe("DialGroup", () => {
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("dial-group");
     });
+
+    test("has role=group with a label", () => {
+        const { container } = render(DialGroup, { props: { label: "Story" } as any });
+        const root = container.querySelector(".dial-group")!;
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

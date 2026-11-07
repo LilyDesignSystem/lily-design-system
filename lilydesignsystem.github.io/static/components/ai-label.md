@@ -54,6 +54,7 @@ None at the component level. When used as an explainability trigger, the consume
 
 ## ARIA
 
+- `role="img"`, because a `<span>` cannot be named; the label replaces the visible text for screen readers
 - `aria-label={label}` -- provides an accessible name for the AI indicator so screen readers announce its purpose
 
 ## When to Use

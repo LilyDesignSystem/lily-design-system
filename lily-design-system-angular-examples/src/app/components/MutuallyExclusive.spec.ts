@@ -19,4 +19,13 @@ describe("MutuallyExclusive", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a group when labelled", () => {
+        const fixture = TestBed.createComponent(MutuallyExclusive);
+        fixture.componentRef.setInput("label", "Or");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".mutually-exclusive");
+        expect(el.getAttribute("role")).toBe("group");
+        expect(el.getAttribute("aria-label")).toBe("Or");
+    });
 });

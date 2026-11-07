@@ -1584,6 +1584,7 @@ export function KanbanBoard({
                 <KanbanTable
                     label={label}
                     caption={caption}
+                    data-consumer-keys="true"
                     onKeyDown={onGridKeyDown}
                     onFocus={onGridFocus}
                     aria-multiselectable={selectable ? true : undefined}

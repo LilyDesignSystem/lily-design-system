@@ -92,15 +92,16 @@
 <div
     bind:this={rootEl}
     class={`cascader ${className}`}
-    role="combobox"
-    aria-haspopup="tree"
-    aria-expanded={expanded}
-    aria-label={label}
     {...restProps}
 >
+    <!-- svelte-ignore a11y_role_has_required_aria_props (attachTreePopup sets aria-controls on mount: it gives the panel its id) -->
     <button
         class="cascader-trigger"
         type="button"
+        role="combobox"
+        aria-haspopup="tree"
+        aria-expanded={expanded}
+        aria-label={label}
         {disabled}
         {onclick}
     >

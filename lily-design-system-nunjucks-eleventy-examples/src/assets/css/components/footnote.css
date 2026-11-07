@@ -5,7 +5,7 @@
 }
 
 .footnote a {
-  color: var(--nhsuk-bright-blue);
+  color: var(--nhsuk-link);
   text-decoration: none;
   padding: 0.1em 0.25em;
   border-radius: 2px;

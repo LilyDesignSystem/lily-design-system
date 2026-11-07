@@ -15,9 +15,9 @@ describe("CodeBlock", function () {
         expect(className).toContain("code-block");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should be a named region", async function () {
         const el = await $("pre.code-block");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("role")).toBe("region");
+        expect(await el.getAttribute("aria-label")).not.toBe("");
     });
 });

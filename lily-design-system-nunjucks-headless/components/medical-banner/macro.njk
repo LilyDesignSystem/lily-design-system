@@ -27,6 +27,7 @@
 {%- set p = params | default({}) -%}
 <div
   class="medical-banner{% if p.classes %} {{ p.classes }}{% endif %}"
+  aria-live="polite"
   role="region"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
   {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}

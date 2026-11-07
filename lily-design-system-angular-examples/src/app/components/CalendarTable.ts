@@ -10,10 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-calendar-table",
     standalone: true,
-    template: `<table class="calendar-table {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></table>`,
+    template: `<table class="calendar-table {{ className() }}" role="grid" [attr.aria-label]="label() || null">@if (caption()) {<caption>{{ caption() }}</caption>}<ng-content /></table>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarTable {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Visible caption of the table. */
+    readonly caption = input<string | undefined>(undefined);
 }

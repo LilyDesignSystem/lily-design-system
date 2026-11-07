@@ -10,10 +10,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-caption",
     standalone: true,
-    template: `<div class="caption {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<figcaption class="caption {{ className() }}"><ng-content /></figcaption>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Caption {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

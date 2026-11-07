@@ -1,7 +1,7 @@
 .code-block {
   display: block;
   padding: var(--nhsuk-spacing-3);
-  background: var(--nhsuk-black);
+  background: var(--nhsuk-ink);
   color: var(--nhsuk-white);
   font-family: Menlo, Consolas, "Liberation Mono", monospace;
   font-size: var(--nhsuk-font-size-16);

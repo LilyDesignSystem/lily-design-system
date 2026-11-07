@@ -28,4 +28,15 @@ describe("CareCard", () => {
         expect(el.getAttribute("role")).toBe("region");
         expect(el.getAttribute("aria-label")).toBe("Story");
     });
+
+    test("names itself from its heading", () => {
+        const fixture = TestBed.createComponent(CareCard);
+        fixture.componentRef.setInput("heading", "Call 999");
+        fixture.componentRef.setInput("type", "immediate");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".care-card");
+        expect(el.getAttribute("aria-label")).toBe("Call 999");
+        expect(el.getAttribute("data-type")).toBe("immediate");
+        expect(el.querySelector("h2").textContent).toBe("Call 999");
+    });
 });

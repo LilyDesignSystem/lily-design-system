@@ -11,7 +11,7 @@ The component is intentionally a static label, not a live region: it renders a `
 ## Implementation Notes
 
 - Renders a `<span>` with the status text inside
-- The semantics are conveyed by the visible text and (optionally) `aria-label` — colour alone is never the indicator
+- The semantics are conveyed by the visible text and (optionally) `label`, rendered as hidden text in a `screen-reader-span` because a `<span>` cannot take a name — colour alone is never the indicator
 - Accepts a `tone` prop (e.g. `"success"`, `"warning"`, `"danger"`, `"info"`) which the consumer can use to drive class-based styling
 - Spreads `restProps` onto the root `<span>`
 

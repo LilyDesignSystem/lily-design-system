@@ -19,4 +19,12 @@ describe("Input", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("takes a type", () => {
+        const fixture = TestBed.createComponent(Input);
+        fixture.componentRef.setInput("type", "email");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("type")).toBe("email");
+    });
 });

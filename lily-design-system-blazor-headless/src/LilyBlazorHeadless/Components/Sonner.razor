@@ -5,7 +5,7 @@
     a toast notification manager
 *@
 
-<div class="@($"sonner {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"sonner {CssClass}".Trim())" aria-live="polite" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

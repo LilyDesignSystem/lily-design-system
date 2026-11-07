@@ -1,6 +1,6 @@
 body {
   overflow-wrap: anywhere; /* labels 30 percent longer than English (Welsh) must wrap, not overflow */
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   color: var(--nhsuk-black);
   font-family: var(--nhsuk-font-family);
   font-size: var(--nhsuk-font-size-19);

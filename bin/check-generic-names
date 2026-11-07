@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+// bin/check-generic-names — no HTML or Blazor component names a generic root (tasks.md P25-T14).
+//
+// ARIA gives a <div> or <span> with no role no name. Svelte, React, Vue, Angular, Web Components and Nunjucks each have a
+// generic-name test that renders every component; the HTML catalog is static templates and Blazor has no such sweep, so this
+// reads their source. It looks only at the element carrying the component's own class, so an inner element is not checked.
+// A listed gap that is fixed fails too, so bin/check-generic-names.allow.json can only shrink.
+//
+// Usage: bin/check-generic-names [--quiet]
+
+const fs = require("fs");
+const path = require("path");
+
+const top = path.join(__dirname, "..");
+const quiet = process.argv.includes("--quiet");
+const allow = JSON.parse(fs.readFileSync(path.join(__dirname, "check-generic-names.allow.json"), "utf-8"));
+
+const read = (...parts) => {
+  const file = path.join(top, ...parts);
+  return fs.existsSync(file) ? fs.readFileSync(file, "utf-8") : "";
+};
+
+// The attributes of the first <div> or <span> whose class list starts with the slug, or null.
+const genericRoot = (source, slug) => {
+  const opening = new RegExp(`<(?:div|span)\\b([^>]*?class="(?:@\\(\\$")?${slug}(?=[\\s"{])[^>]*?)>`, "s");
+  return source.match(opening)?.[1] ?? null;
+};
+const named = (attributes) => attributes !== null && /\baria-label\b/.test(attributes) && !/\brole=/.test(attributes);
+
+const rows = read("components.tsv")
+  .split("\n")
+  .filter(Boolean)
+  .map((line) => line.split("\t"));
+
+const hits = new Set();
+for (const [slug, name] of rows) {
+  const html = read("lily-design-system-html-headless/components", `${slug}.html`).replace(/<!--[\s\S]*?-->/g, "");
+  if (named(genericRoot(html, slug))) hits.add(`html ${slug}`);
+  const blazor = read("lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components", `${name}.razor`).replace(
+    /@\*[\s\S]*?\*@/g,
+    "",
+  );
+  if (named(genericRoot(blazor, slug))) hits.add(`blazor ${slug}`);
+}
+
+let failures = 0;
+for (const key of hits) {
+  if (allow[key]) continue;
+  console.log(`FAIL ${key}: names a generic root; use a role, or no name`);
+  failures += 1;
+}
+for (const key of Object.keys(allow)) {
+  if (hits.has(key)) continue;
+  console.log(`FAIL stale allow-list entry (fixed now): ${key}`);
+  failures += 1;
+}
+if (failures) {
+  console.log(`\n${failures} problem(s). Fix it, or list it with a reason in bin/check-generic-names.allow.json.`);
+  process.exit(1);
+}
+if (!quiet) console.log(`generic names: ${rows.length} components in HTML and Blazor, ${hits.size} allow-listed`);

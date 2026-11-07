@@ -31,7 +31,7 @@
   Usage:
     {% from "components/mentions-input/macro.njk" import mentionsInput %}
     {% call mentionsInput({ label: "Comment", expanded: true }) %}
-      <ul role="listbox">…</ul>
+      <ul role="listbox" aria-label="People">…</ul>
     {% endcall %}
 #}
 {%- macro mentionsInput(params) -%}

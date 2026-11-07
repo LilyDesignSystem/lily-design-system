@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<kbd\n  class="kbd"\n  aria-label="Example"\n>\n  <!-- Consumer provides content -->\n</kbd>';
+    '<kbd\n  class="kbd"\n>\n  <span class="screen-reader-span">Example </span><span class="kbd-text" aria-hidden="true"><!-- Consumer provides content --></span>\n</kbd>';
 
 const meta = {
     title: "Headless/Kbd",

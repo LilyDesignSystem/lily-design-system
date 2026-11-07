@@ -5,12 +5,11 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, optional. Accessible name, rendered as aria-label on the root.
     //   children — Snippet, required. The code text.
     //   ...restProps — additional HTML attributes spread onto the root <code>.
     //
     // Syntax:
-    //   <Code label="…">…</Code>
+    //   <Code>…</Code>
     //
     // Examples:
     //   <p>Run <Code>pnpm install</Code> first.</p>
@@ -19,7 +18,6 @@
     //   - None -- not interactive; any interactive children handle their own keys
     //
     // Accessibility:
-    //   - aria-label comes from `label` when given
     //
     // Internationalization:
     //   - No hardcoded user-facing strings
@@ -33,11 +31,9 @@
     import type { Snippet } from "svelte";
     let {
         class: className = "",
-        label = undefined,
         children,
         ...restProps
     }: {
-        label?: string;
         children: Snippet;
         [key: string]: unknown;
     } = $props();
@@ -46,7 +42,6 @@
 <!-- Code.svelte -->
 <code
     class={`code ${className}`}
-    aria-label={label}
     {...restProps}
 >
     {@render children?.()}

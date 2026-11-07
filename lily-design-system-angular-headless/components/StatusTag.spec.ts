@@ -19,4 +19,16 @@ describe("StatusTag", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a static label with a type and hidden text", () => {
+        const fixture = TestBed.createComponent(StatusTag);
+        fixture.componentRef.setInput("type", "error");
+        fixture.componentRef.setInput("label", "Status:");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".status-tag");
+        expect(el.hasAttribute("role")).toBe(false);
+        expect(el.hasAttribute("aria-label")).toBe(false);
+        expect(el.getAttribute("data-type")).toBe("error");
+        expect(el.querySelector(".screen-reader-span").textContent).toBe("Status: ");
+    });
 });

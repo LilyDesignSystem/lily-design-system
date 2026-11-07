@@ -15,9 +15,8 @@ describe("SelectWithExtras", function () {
         expect(className).toContain("select-with-extras");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not name the generic div", async function () {
         const el = await $("div.select-with-extras");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

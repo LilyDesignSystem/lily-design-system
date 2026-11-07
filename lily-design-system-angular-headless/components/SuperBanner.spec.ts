@@ -19,4 +19,14 @@ describe("SuperBanner", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=alert with a label", () => {
+        const fixture = TestBed.createComponent(SuperBanner);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".super-banner");
+        expect(el.getAttribute("role")).toBe("alert");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+        expect(el.getAttribute("aria-live")).toBe("assertive");
+    });
 });

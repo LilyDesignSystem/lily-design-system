@@ -3,7 +3,7 @@
 }
 .expander-summary {
   cursor: pointer;
-  color: var(--nhsuk-blue);
+  color: var(--nhsuk-link);
   font-weight: var(--nhsuk-font-weight-bold);
 }
 .expander-body {

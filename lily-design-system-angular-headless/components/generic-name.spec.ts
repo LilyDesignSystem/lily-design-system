@@ -3,6 +3,8 @@
 import { TestBed } from "@angular/core/testing";
 import { expect, test, vi } from "vitest";
 import allowList from "./generic-name.allow.json";
+import { baselinePath, compareWithBaseline, rootAria, type Seen } from "../../shared/aria-baseline";
+import path from "node:path";
 
 const mods = import.meta.glob(["./*.ts", "!./*.spec.ts", "!./*.stories.ts", "!./index.ts"], {
     eager: true,
@@ -40,6 +42,8 @@ function rootOf(Component: any, fillEveryInput: boolean): Element | null {
     return root;
 }
 
+const seen: Seen = {};
+
 test("no component names a generic root", () => {
     vi.spyOn(console, "error").mockImplementation(() => {});
     vi.spyOn(console, "warn").mockImplementation(() => {});
@@ -57,6 +61,7 @@ test("no component names a generic root", () => {
                 // Needs input values this sweep does not give; its own test covers it.
             }
         }
+        if (root) seen[kebab(path.slice(2, -3))] = rootAria(root);
         if (named(root)) hits.push(kebab(path.slice(2, -3)));
     }
     const unexpected = hits.filter((s) => !allow.includes(s));
@@ -64,3 +69,14 @@ test("no component names a generic root", () => {
     expect(unexpected, "names a generic root: use a role, or no label").toEqual([]);
     expect(stale, "fixed: remove from generic-name.allow.json").toEqual([]);
 }, 180000);
+
+test("every root matches the Svelte ARIA baseline", () => {
+    expect(Object.keys(seen).length, "the sweep above ran first").toBeGreaterThan(500);
+    const { unexpected, stale } = compareWithBaseline(
+        baselinePath(__dirname),
+        path.join(__dirname, "aria-baseline.allow.json"),
+        seen,
+    );
+    expect(unexpected, "differs from what Svelte renders").toEqual([]);
+    expect(stale, "fixed: remove from aria-baseline.allow.json").toEqual([]);
+});

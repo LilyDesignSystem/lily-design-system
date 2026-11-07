@@ -1,18 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `</div>
-    </div>
--->
-
-<div
+const html = `<div
   class="tree-select"
-  role="combobox"
-  aria-haspopup="tree"
-  aria-expanded="false"
-  aria-label=""
 >
   <!-- Trigger button: opens and closes the tree panel. -->
-  <button class="tree-select-trigger" type="button">
+  <button class="tree-select-trigger" type="button" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="">
     <!-- Consumer provides the display value or placeholder text -->
   </button>
 

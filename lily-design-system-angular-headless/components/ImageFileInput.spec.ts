@@ -29,4 +29,27 @@ describe("ImageFileInput", () => {
         const el = fixture.nativeElement.querySelector("input.image-file-input");
         expect(el.getAttribute("type")).toBe("file");
     });
+
+    test("accepts images by default", () => {
+        const fixture = TestBed.createComponent(ImageFileInput);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("accept")).toBe("image/*");
+    });
+
+    test("takes another accept", () => {
+        const fixture = TestBed.createComponent(ImageFileInput);
+        fixture.componentRef.setInput("accept", "image/png");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("accept")).toBe("image/png");
+    });
+
+    test("never writes a value to the file input: the browser throws on one", () => {
+        const fixture = TestBed.createComponent(ImageFileInput);
+        fixture.componentRef.setInput("value", "a.png");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.value).toBe("");
+    });
 });

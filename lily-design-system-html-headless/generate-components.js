@@ -400,7 +400,7 @@ const COMPONENTS = [
     ["sparkline", "a small inline chart showing a data trend"],
     ["splitter", "a draggable divider for resizing adjacent panels"],
     ["submit-input", "a button input that submits a form"],
-    ["summary-list", "an ordered list of key-value summary pairs"],
+    ["summary-list", "a description list of key-value summary pairs"],
     ["summary-list-item", "one key-value pair in a summary list"],
     ["switch-button", "a toggle switch for turning a setting on or off"],
     ["tab-bar", "a group of tabs for switching between content panels"],

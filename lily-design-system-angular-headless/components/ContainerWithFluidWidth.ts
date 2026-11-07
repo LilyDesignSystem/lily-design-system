@@ -10,9 +10,11 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-container-with-fluid-width",
     standalone: true,
-    template: `<div class="container-with-fluid-width {{ className() }}"><ng-content /></div>`,
+    template: `<div class="container-with-fluid-width {{ className() }}" [attr.data-padding-inline]="paddingInline()" [style.width]="'100%'" [style.padding-inline]="paddingInline()"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContainerWithFluidWidth {
     readonly className = input<string>("");
+    /** Inline padding, any CSS length. */
+    readonly paddingInline = input<string>("1rem");
 }

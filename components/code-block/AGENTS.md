@@ -19,8 +19,8 @@
 
 ## ARIA
 
-- `aria-label` -- optional description of the code block content
-- `role="region"` when `aria-label` is provided
+- `aria-label` -- the `label`, with `role="region"`
+- `role="region"` when `label` is given, because a name on a bare `<pre>` is not reliably read
 
 ## Keyboard
 
@@ -37,7 +37,7 @@
 ## Acceptance Criteria
 
 - [ ] Renders <pre> element with class="code-block"
-- [ ] Has aria-label attribute when provided
+- [ ] Has role="region" and aria-label when `label` is given
 - [ ] Supports line numbers and line highlighting
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless

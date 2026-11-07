@@ -8,7 +8,7 @@ description: a full-viewport overlay backdrop for modals and sheets
 
 <h2>Closed (hidden)</h2>
 {% call overlayContainer({ open: false, label: "Closed overlay" }) %}
-  <div style="background: var(--nhsuk-white); padding: 1rem; max-width: 24rem; margin: 4rem auto;">
+  <div style="background: var(--nhsuk-surface); padding: 1rem; max-width: 24rem; margin: 4rem auto;">
     Modal content (hidden).
   </div>
 {% endcall %}
@@ -16,7 +16,7 @@ description: a full-viewport overlay backdrop for modals and sheets
 <h2>Open</h2>
 <p>Toggle on the demo page to see open state.</p>
 {% call overlayContainer({ open: true, label: "Open overlay" }) %}
-  <div style="background: var(--nhsuk-white); padding: 1rem; max-width: 24rem; margin: 4rem auto; border: 1px solid #ccc;">
+  <div style="background: var(--nhsuk-surface); padding: 1rem; max-width: 24rem; margin: 4rem auto; border: 1px solid #ccc;">
     Modal content visible inside the overlay.
   </div>
 {% endcall %}

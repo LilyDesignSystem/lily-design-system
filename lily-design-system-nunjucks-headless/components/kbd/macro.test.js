@@ -20,9 +20,12 @@ describe("kbd", () => {
         expect(document.querySelector("kbd strong")).toBeTruthy();
     });
 
-    it("sets aria-label when provided", () => {
+    it("label is the spoken form: hidden text, with the key aria-hidden", () => {
         const { document } = render("kbd", { text: "⌘", label: "Command" });
-        expect(document.querySelector("kbd").getAttribute("aria-label")).toBe("Command");
+        const kbd = document.querySelector("kbd");
+        expect(kbd.hasAttribute("aria-label")).toBe(false);
+        expect(kbd.querySelector(".screen-reader-span").textContent).toBe("Command ");
+        expect(kbd.querySelector(".kbd-text").getAttribute("aria-hidden")).toBe("true");
     });
 
     it("appends params.classes", () => {

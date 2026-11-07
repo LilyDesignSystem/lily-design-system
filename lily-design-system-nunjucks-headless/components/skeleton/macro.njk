@@ -39,6 +39,7 @@
 {%- for _ in range(0, count) -%}
 <div
   class="skeleton{% if p.classes %} {{ p.classes }}{% endif %}"
+  aria-busy="true"
   data-shape="{{ shape }}"
   aria-hidden="true"
   {%- if style %} style="{{ style }}"{% endif %}

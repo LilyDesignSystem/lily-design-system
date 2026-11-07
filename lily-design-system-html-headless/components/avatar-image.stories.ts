@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
+const html = `<img
   class="avatar-image"
-  aria-label=""
->
-  <!-- Consumer provides content -->
-</div>`;
+  src=""
+  alt=""
+  aria-hidden="true"
+/>`;
 
 const meta = {
     title: "Headless/AvatarImage",

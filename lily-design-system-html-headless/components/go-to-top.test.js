@@ -14,4 +14,9 @@ describe("GoToTop", function () {
         const className = await el.getAttribute("class");
         expect(className).toContain("go-to-top");
     });
+
+    it("should be a real link", async function () {
+        const el = await $("a.go-to-top");
+        expect(await el.getAttribute("href")).toBe("#top");
+    });
 });

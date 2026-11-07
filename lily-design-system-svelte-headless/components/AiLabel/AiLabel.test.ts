@@ -38,4 +38,11 @@ describe("AiLabel", () => {
         render(Subject, { props: { "data-testid": "ai" } });
         expect(screen.getByTestId("ai")).toBeTruthy();
     });
+
+    test("has role=img with a label", () => {
+        const { container } = render(Tested, { props: { label: "Story", text: "AI" } as any });
+        const root = container.querySelector(".ai-label")!;
+        expect(root.getAttribute("role")).toBe("img");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

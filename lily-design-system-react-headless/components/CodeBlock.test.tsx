@@ -20,12 +20,14 @@ describe("CodeBlock", () => {
         const { container } = render(<Subject>content</Subject>);
         const root = container.querySelector(".code-block");
         expect(root?.getAttribute("aria-label")).toBeNull();
+        expect(root?.getAttribute("role")).toBeNull();
     });
 
     test("applies aria-label when label prop is provided", () => {
         const { container } = render(<Subject label="Hello">content</Subject>);
         const root = container.querySelector(".code-block");
         expect(root?.getAttribute("aria-label")).toBe("Hello");
+        expect(root?.getAttribute("role")).toBe("region");
     });
 
     test("passes through additional HTML attributes", () => {

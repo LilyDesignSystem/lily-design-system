@@ -48,6 +48,8 @@
 <!-- Loading.svelte -->
 <div
     class={`loading ${className}`}
+    role="status"
+    aria-live="polite"
     aria-label={label}
     {...restProps}
 >

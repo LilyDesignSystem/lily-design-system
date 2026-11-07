@@ -1,10 +1,6 @@
 // KanbanTable component
 //
-// A native <table role="region"> organizing work items by status. Note
-// the role is "region" rather than "grid" — this matches the canonical
-// AGENTS.md acceptance criteria for this component specifically (its
-// contract predates being retrofitted onto a <table> root and still
-// documents the landmark-region shape). The consumer supplies rows/cells
+// A native <table role="grid"> organizing work items by status. The consumer supplies rows/cells
 // as light-DOM children — this catalog does not implement the table
 // sub-element families.
 //
@@ -32,6 +28,7 @@
 //   - components/kanban-table/index.md (canonical contract)
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+import { attachGrid } from "../lib/widget-keys.js";
 
 const HANDLED = new Set(["label"]);
 
@@ -41,12 +38,13 @@ export class KanbanTable extends HTMLElement {
 
         const table = document.createElement("table");
         table.className = rootClassName(this, "kanban-table");
-        table.setAttribute("role", "region");
+        table.setAttribute("role", "grid");
         const label = this.getAttribute("label");
         if (label !== null) table.setAttribute("aria-label", label);
         passThroughAttributes(this, table, HANDLED);
 
         moveChildrenInto(this, table);
         this.appendChild(table);
+        attachGrid(table);
     }
 }

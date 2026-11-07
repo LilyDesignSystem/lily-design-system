@@ -29,4 +29,14 @@ describe("ColorInput", () => {
         const el = fixture.nativeElement.querySelector("input.color-input");
         expect(el.getAttribute("type")).toBe("color");
     });
+
+    test("carries name and id", () => {
+        const fixture = TestBed.createComponent(ColorInput);
+        fixture.componentRef.setInput("name", "c");
+        fixture.componentRef.setInput("id", "x");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("name")).toBe("c");
+        expect(el.getAttribute("id")).toBe("x");
+    });
 });

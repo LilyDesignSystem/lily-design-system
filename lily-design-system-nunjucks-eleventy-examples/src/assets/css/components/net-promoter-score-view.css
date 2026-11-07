@@ -14,7 +14,7 @@
 
 .net-promoter-score-view[data-category="passive"] {
   background: var(--nhsuk-warm-yellow);
-  color: var(--nhsuk-black);
+  color: var(--nhsuk-ink);
 }
 
 .net-promoter-score-view[data-category="promoter"] {

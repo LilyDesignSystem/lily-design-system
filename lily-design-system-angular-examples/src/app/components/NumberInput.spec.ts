@@ -29,4 +29,16 @@ describe("NumberInput", () => {
         const el = fixture.nativeElement.querySelector("input.number-input");
         expect(el.getAttribute("type")).toBe("number");
     });
+
+    test("carries the bounds", () => {
+        const fixture = TestBed.createComponent(NumberInput);
+        fixture.componentRef.setInput("min", 1);
+        fixture.componentRef.setInput("max", 9);
+        fixture.componentRef.setInput("step", 2);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("min")).toBe("1");
+        expect(el.getAttribute("max")).toBe("9");
+        expect(el.getAttribute("step")).toBe("2");
+    });
 });

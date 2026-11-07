@@ -34,6 +34,7 @@ defineProps<{
     <!-- AiLabel.vue -->
     <span
         class="ai-label"
+        role="img"
         :aria-label="label"
         >{{ text }}</span
     >

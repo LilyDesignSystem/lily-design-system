@@ -1,6 +1,6 @@
 .red-orange-yellow-green-blue-picker-button {
   padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   color: var(--nhsuk-black);
   border: 2px solid var(--nhsuk-mid-grey);
   border-radius: 3px;
@@ -37,7 +37,7 @@
 }
 .red-orange-yellow-green-blue-picker-button[aria-checked="true"][data-status="yellow"] {
   background: var(--nhsuk-yellow);
-  color: var(--nhsuk-black);
+  color: var(--nhsuk-ink);
 }
 .red-orange-yellow-green-blue-picker-button[aria-checked="true"][data-status="green"] {
   background: var(--nhsuk-green);

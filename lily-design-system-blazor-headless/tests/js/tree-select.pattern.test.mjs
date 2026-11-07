@@ -27,7 +27,7 @@ const { attach } = await import("../../src/LilyBlazorHeadless/Components/ActionB
 const { runPattern } = await import("../../../shared/pattern-tester.ts");
 
 test("meets the tree-popup contract", async () => {
-    document.body.innerHTML = `<div class="tree-select" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="Choose"><button class="tree-select-trigger" type="button"></button><div class="tree-select-panel" hidden></div></div>`;
+    document.body.innerHTML = `<div class="tree-select"><button class="tree-select-trigger" type="button" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="Choose"></button><div class="tree-select-panel" hidden></div></div>`;
     const root = document.body.firstElementChild;
     const handle = attach("tree-popup", root);
     await runPattern("tree-popup", { root, hook: "tree-select" });

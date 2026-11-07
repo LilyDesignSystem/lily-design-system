@@ -24,6 +24,7 @@ export class MockupLaptop extends HTMLElement {
 
         applySelfClassName(this, "mockup-laptop");
         const label = this.getAttribute("label");
+        if (!this.hasAttribute("role")) this.setAttribute("role", "img");
         if (label !== null) this.setAttribute("aria-label", label);
     }
 }

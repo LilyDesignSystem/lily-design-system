@@ -6,7 +6,7 @@ description: a box area that looks like a web browser
 
 {% from "components/mockup-browser/macro.njk" import mockupBrowser %}
 
-{% call mockupBrowser({ title: "https://example.nhs.uk/appointments" }) %}
+{% call mockupBrowser({ label: "App on a browser", title: "https://example.nhs.uk/appointments" }) %}
   <h3>Your appointments</h3>
   <p>Monday 27 April, 9:30am — Dr Patel</p>
 {% endcall %}

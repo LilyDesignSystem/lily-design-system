@@ -85,7 +85,7 @@ import { SummaryListItem } from "../components/SummaryListItem";
 //      BreadcrumbList and TimelineList and so used direct class-hook
 //      markup here, matching page-layout.ts / timeline-and-cards.ts /
 //      task-management.ts. All of those now use the real components
-//      (`<li lily-step-list-item>`, `<li lily-summary-list-item>`, ...)
+//      (`<li lily-step-list-item>`, `<div lily-summary-list-item>`, ...)
 //      since the library-level attribute-selector fix landed.
 //   4. Button always renders `type="button"` (never `type="submit"`),
 //      so clicking it can never trigger a form's native submit event --
@@ -428,8 +428,7 @@ function todayIso(): string {
           <h2 id="step-heading" tabindex="-1">Check your answers</h2>
 
           <lily-summary-list label="Your appointment details">
-            <li lily-summary-list-item>
-              <span>Reason</span>
+            <div lily-summary-list-item term="Reason">
               <span>
                 {{ reasonSummary() }}
                 @if (reason() === 'other' && reasonOther()) {
@@ -437,29 +436,24 @@ function todayIso(): string {
                 }
               </span>
               <a href="#reason" (click)="goToStep(1, $event)">Change<span class="screen-reader-span"> reason</span></a>
-            </li>
-            <li lily-summary-list-item>
-              <span>Date</span>
+            </div>
+            <div lily-summary-list-item term="Date">
               <span>{{ appointmentDate() || "Not answered" }}</span>
               <a href="#date" (click)="goToStep(2, $event)">Change<span class="screen-reader-span"> date</span></a>
-            </li>
-            <li lily-summary-list-item>
-              <span>Time of day</span>
+            </div>
+            <div lily-summary-list-item term="Time of day">
               <span>{{ timeSummary() }}</span>
               <a href="#time" (click)="goToStep(2, $event)">Change<span class="screen-reader-span"> time of day</span></a>
-            </li>
-            <li lily-summary-list-item>
-              <span>Full name</span>
+            </div>
+            <div lily-summary-list-item term="Full name">
               <span>{{ fullName() || "Not answered" }}</span>
               <a href="#name" (click)="goToStep(3, $event)">Change<span class="screen-reader-span"> full name</span></a>
-            </li>
-            <li lily-summary-list-item>
-              <span>Email address</span>
+            </div>
+            <div lily-summary-list-item term="Email address">
               <span>{{ email() || "Not answered" }}</span>
               <a href="#email-review" (click)="goToStep(3, $event)">Change<span class="screen-reader-span"> email address</span></a>
-            </li>
-            <li lily-summary-list-item>
-              <span>Phone number</span>
+            </div>
+            <div lily-summary-list-item term="Phone number">
               <span>
                 @if (phone()) {
                   {{ phone() }}
@@ -468,14 +462,13 @@ function todayIso(): string {
                 }
               </span>
               <a href="#phone-review" (click)="goToStep(3, $event)">Change<span class="screen-reader-span"> phone number</span></a>
-            </li>
-            <li lily-summary-list-item>
-              <span>Interpreter or additional support</span>
+            </div>
+            <div lily-summary-list-item term="Interpreter or additional support">
               <span>{{ needsSupport() ? "Yes" : "No" }}</span>
               <a href="#support-review" (click)="goToStep(3, $event)"
                 >Change<span class="screen-reader-span"> interpreter or additional support</span></a
               >
-            </li>
+            </div>
           </lily-summary-list>
 
           <form (ngSubmit)="submitBooking($event)" novalidate>

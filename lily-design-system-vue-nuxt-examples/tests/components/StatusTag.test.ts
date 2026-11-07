@@ -11,4 +11,15 @@ describe("StatusTag", () => {
         const el = container.querySelector(".status-tag");
         expect(el).toBeTruthy();
     });
+
+    it("is a static label, with label as hidden text", () => {
+        const { container } = render(StatusTag, {
+            props: { label: "Status:" },
+            slots: { default: "Done" },
+        });
+        const el = container.querySelector(".status-tag")!;
+        expect(el.hasAttribute("role")).toBe(false);
+        expect(el.hasAttribute("aria-label")).toBe(false);
+        expect(el.querySelector(".screen-reader-span")!.textContent).toBe("Status: ");
+    });
 });

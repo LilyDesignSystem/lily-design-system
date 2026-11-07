@@ -13,7 +13,7 @@
 ## Key Behaviors
 
 - Renders a `<span>` with the status text inside
-- The semantics are conveyed by the visible text and (optionally) `aria-label` — colour alone is never the indicator
+- The semantics are conveyed by the visible text and (optionally) `label`, rendered as hidden text in a `screen-reader-span` because a `<span>` cannot take a name — colour alone is never the indicator
 - Accepts a `tone` prop (e.g. `"success"`, `"warning"`, `"danger"`, `"info"`) which the consumer can use to drive class-based styling
 - Spreads `restProps` onto the root `<span>`
 
@@ -28,7 +28,7 @@
 
 ## Props
 
-- `label`: string (required) (default: —) — Status text shown to users
+- `label`: string (optional) (default: —) — Hidden text read before the content
 - `tone`: "neutral" | "success" | "warning" | "danger" | "info" (default: "neutral") — Tone hint used by consumers to drive styling
 - `...restProps`: HTML attributes (default: —) — Spread onto the root `<span>`
 

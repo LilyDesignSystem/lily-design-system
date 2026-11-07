@@ -7,10 +7,10 @@ description: a navigation link to a section
 {% from "components/section-link/macro.njk" import sectionLink %}
 
 <h2>Default</h2>
-{{ sectionLink({ text: "Example SectionLink content" }) }}
+{{ sectionLink({ text: "Symptoms", href: "#symptoms" }) }}
 
 <h2>With accessible label</h2>
-{{ sectionLink({ text: "Example content", label: "SectionLink example" }) }}
+{{ sectionLink({ text: "Treatment", href: "#treatment" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

@@ -10,7 +10,7 @@
       CssClass — string, optional. CSS class name, added after the base class hook on the root.
       Keys — string[], required. The key names, in order, e.g. ["Ctrl", "K"].
       Separator — string, default "+". Decorative text between keys (aria-hidden).
-      Label — string, optional. Spoken form; becomes aria-label on the root.
+      Label — string, optional. Spoken form, read instead of the visible keys.
       AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
 
     Keyboard:
@@ -18,7 +18,7 @@
 
     Accessibility:
       - Separators are aria-hidden so screen readers read the keys
-      - label (optional) overrides the spoken form, e.g. "Control K"
+      - label (optional) replaces the spoken form, e.g. "Control K": it is hidden text, and the keys are aria-hidden
 
     Internationalization:
       - Key names are consumer-supplied; no hardcoded strings
@@ -27,13 +27,13 @@
       - Headless: no CSS, no icons for keys
 *@
 
-<kbd class="@($"kbd-shortcut {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@for (var i = 0; i < Keys.Count; i++)
+<kbd class="@($"kbd-shortcut {CssClass}".Trim())" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@for (var i = 0; i < Keys.Count; i++)
 {
     if (i > 0)
     {
         <span class="kbd-shortcut-separator" aria-hidden="true">@Separator</span>
     }
-    <kbd class="kbd-shortcut-key">@Keys[i]</kbd>
+    <kbd class="kbd-shortcut-key" aria-hidden="@(string.IsNullOrEmpty(Label) ? null : "true")">@Keys[i]</kbd>
 }</kbd>
 
 @code {

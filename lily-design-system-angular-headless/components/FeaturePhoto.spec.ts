@@ -19,4 +19,19 @@ describe("FeaturePhoto", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("carries its image", () => {
+        const fixture = TestBed.createComponent(FeaturePhoto);
+        fixture.componentRef.setInput("src", "/a.png");
+        fixture.componentRef.setInput("alt", "A tulip");
+        fixture.componentRef.setInput("width", 20);
+        fixture.componentRef.setInput("height", 10);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".feature-photo-image");
+        expect(el.getAttribute("src")).toBe("/a.png");
+        expect(el.getAttribute("alt")).toBe("A tulip");
+        expect(el.getAttribute("loading")).toBe("lazy");
+        expect(el.getAttribute("width")).toBe("20");
+        expect(el.getAttribute("height")).toBe("10");
+    });
 });

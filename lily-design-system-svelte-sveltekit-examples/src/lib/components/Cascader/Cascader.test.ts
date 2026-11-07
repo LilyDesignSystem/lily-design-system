@@ -13,7 +13,7 @@ function textSnippet(text: string) {
 }
 
 describe("Cascader", () => {
-    test("renders as a div with the cascader class and combobox role", () => {
+    test("renders as a div with the cascader class and combobox trigger", () => {
         const { container } = render(Subject, {
             props: {
                 label: "Region",
@@ -22,8 +22,8 @@ describe("Cascader", () => {
 
         const root = container.querySelector("div.cascader") as HTMLElement;
         expect(root).toBeTruthy();
-        expect(root.getAttribute("role")).toBe("combobox");
-        expect(root.getAttribute("aria-haspopup")).toBe("tree");
+        expect(root.querySelector("button")!.getAttribute("role")).toBe("combobox");
+        expect(root.querySelector("button")!.getAttribute("aria-haspopup")).toBe("tree");
     });
 
     test("applies aria-label", () => {
@@ -46,7 +46,7 @@ describe("Cascader", () => {
         });
 
         const root = container.querySelector("div.cascader") as HTMLElement;
-        expect(root.getAttribute("aria-expanded")).toBe("true");
+        expect(root.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
     });
 
     test("panel is hidden when not expanded", () => {

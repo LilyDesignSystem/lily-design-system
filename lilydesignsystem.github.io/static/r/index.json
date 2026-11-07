@@ -3058,7 +3058,7 @@
     {
       "slug": "summary-list",
       "name": "SummaryList",
-      "description": "an ordered list of key-value summary pairs",
+      "description": "a description list of key-value summary pairs",
       "manifest": "https://lilydesignsystem.com/r/summary-list.json"
     },
     {

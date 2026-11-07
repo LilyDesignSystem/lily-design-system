@@ -34,6 +34,12 @@
 // change writes data-crop-x, -y, -width and -height and --crop-x, -y, -width and -height, reports to onChange and
 // dispatches a bubbling "image-cropper-change". Dragging, and saying the position aloud, are the consumer's.
 //
+// attachGrid: the APG grid, over a table's cells, for a grid that has no script of its own (kanban-table). Arrows move and
+// stop at the edge, swapped in right-to-left; Home and End go along the row, and with Ctrl or Cmd to the corners; PageUp and
+// PageDown move ten rows; one tab stop that follows focus. Enter or F2 goes to the first control in a cell, which keeps its
+// own keys, and Escape comes back. Alt and Shift are left alone. A root inside [data-consumer-keys] attaches nothing, for a
+// consumer that runs its own grid keys. The movement repeats shared/grid-navigation.ts, because this file is inlined whole.
+//
 // bin/sync-shared-modules strips the types for Nunjucks and Blazor and inlines the result in the HTML snippets. Edit it
 // here. The contracts in pattern-contracts.json hold every port to it.
 
@@ -268,12 +274,17 @@ export interface TreePopupOptions {
 }
 
 const TREE_ITEM = '[role="treeitem"]';
+let treePopupCount = 0;
 
 export function attachTreePopup(root: HTMLElement, options: TreePopupOptions = {}): () => void {
     const hook = root.classList[0];
     const trigger = root.querySelector<HTMLButtonElement>(`.${hook}-trigger`);
     const panel = root.querySelector<HTMLElement>(`.${hook}-panel`);
     if (!trigger || !panel) return () => {};
+
+    // The trigger is the combobox, so it carries the state and names the popup it controls.
+    if (!panel.id) panel.id = `${hook}-panel-${++treePopupCount}`;
+    trigger.setAttribute("aria-controls", panel.id);
 
     const items = (): HTMLElement[] => [...panel.querySelectorAll<HTMLElement>(TREE_ITEM)];
     const parentOf = (item: HTMLElement): HTMLElement | null =>
@@ -292,7 +303,7 @@ export function attachTreePopup(root: HTMLElement, options: TreePopupOptions = {
             .trim();
     const valueOf = (item: HTMLElement): string => item.dataset["value"] ?? ownText(item);
     const multiple = (): boolean => root.hasAttribute("data-multiple");
-    const isOpen = (): boolean => root.getAttribute("aria-expanded") === "true";
+    const isOpen = (): boolean => trigger.getAttribute("aria-expanded") === "true";
 
     function setExpanded(item: HTMLElement, open: boolean): void {
         item.setAttribute("aria-expanded", String(open));
@@ -316,7 +327,7 @@ export function attachTreePopup(root: HTMLElement, options: TreePopupOptions = {
     }
     function setOpen(open: boolean): void {
         if (open === isOpen()) return;
-        root.setAttribute("aria-expanded", String(open));
+        (trigger as HTMLElement).setAttribute("aria-expanded", String(open));
         showPanel(panel as HTMLElement, open);
         options.onOpen?.(open);
     }
@@ -639,8 +650,112 @@ export function attachCropper(root: HTMLElement, options: CropperOptions = {}): 
     return () => root.removeEventListener("keydown", onKeydown);
 }
 
+const GRID_CELL = 'th,td,[role="gridcell"],[role="columnheader"],[role="rowheader"]';
+const GRID_ROW = 'tr,[role="row"]';
+const GRID_WIDGET = "a[href],button,input,select,textarea,[tabindex]";
+
+/** Each row's cells, not a nested table's. */
+function gridRows(root: HTMLElement): HTMLElement[][] {
+    return [...root.querySelectorAll<HTMLElement>(GRID_ROW)]
+        .map((row) =>
+            [...row.querySelectorAll<HTMLElement>(GRID_CELL)].filter(
+                (cell) => cell.closest(GRID_ROW) === row,
+            ),
+        )
+        .filter((cells) => cells.length > 0 && root.contains(cells[0]));
+}
+
+function gridCells(root: HTMLElement): HTMLElement[] {
+    return ([] as HTMLElement[]).concat(...gridRows(root));
+}
+
+export interface GridOptions {
+    /** How many rows PageUp and PageDown move. */
+    pageStep?: number;
+}
+
+export function attachGrid(root: HTMLElement, options: GridOptions = {}): () => void {
+    // A consumer that runs its own grid keys, as the kanban-board helpers do, says so, or each key would move twice.
+    if (root.closest("[data-consumer-keys]")) return () => {};
+    const pageStep = options.pageStep ?? 10;
+
+    const tabStop = (cell: HTMLElement): void => {
+        for (const el of gridCells(root)) el.tabIndex = el === cell ? 0 : -1;
+    };
+    // Rows arrive after this runs in some catalogs, and a consumer may replace them.
+    const ensureTabStop = (): void => {
+        const cells = gridCells(root);
+        const stops = cells.filter((el) => el.tabIndex === 0);
+        if (cells.length > 0 && stops.length !== 1) tabStop(stops[0] ?? cells[0]);
+    };
+
+    function onKeydown(event: KeyboardEvent): void {
+        if (event.isComposing || event.altKey || event.shiftKey) return;
+        const target = event.target as HTMLElement;
+        const cell = target.closest<HTMLElement>(GRID_CELL);
+        if (!cell || !root.contains(cell)) return;
+        // A control in a cell keeps its keys. Escape comes back to the cell.
+        if (target !== cell) {
+            if (event.key === "Escape") {
+                event.preventDefault();
+                cell.focus();
+            }
+            return;
+        }
+        if (event.key === "Enter" || event.key === "F2") {
+            const inner = cell.querySelector<HTMLElement>(GRID_WIDGET);
+            if (inner) {
+                event.preventDefault();
+                inner.focus();
+            }
+            return;
+        }
+        const rows = gridRows(root);
+        const fromRow = rows.findIndex((cells) => cells.includes(cell));
+        if (fromRow === -1) return;
+        const fromCol = rows[fromRow].indexOf(cell);
+        const lastRow = rows.length - 1;
+        const corner = event.ctrlKey || event.metaKey;
+        const rtl = isRtl(root);
+        let row = fromRow;
+        let col = fromCol;
+        if (event.key === (rtl ? "ArrowLeft" : "ArrowRight")) col += 1;
+        else if (event.key === (rtl ? "ArrowRight" : "ArrowLeft")) col -= 1;
+        else if (event.key === "ArrowDown") row += 1;
+        else if (event.key === "ArrowUp") row -= 1;
+        else if (event.key === "PageDown") row += pageStep;
+        else if (event.key === "PageUp") row -= pageStep;
+        else if (event.key === "Home") [row, col] = corner ? [0, 0] : [row, 0];
+        else if (event.key === "End") [row, col] = [corner ? lastRow : row, Infinity];
+        else return;
+        event.preventDefault();
+        const cells = rows[Math.min(Math.max(row, 0), lastRow)];
+        const to = cells[Math.min(Math.max(col, 0), cells.length - 1)];
+        tabStop(to);
+        to.focus();
+    }
+    function onFocusin(event: FocusEvent): void {
+        const cell = (event.target as HTMLElement).closest<HTMLElement>(GRID_CELL);
+        if (cell && root.contains(cell)) tabStop(cell);
+    }
+
+    // A server's DOM may have no MutationObserver, and there are no keys to press there.
+    const Observer = root.ownerDocument.defaultView?.MutationObserver;
+    const observer = Observer ? new Observer(ensureTabStop) : null;
+    observer?.observe(root, { childList: true, subtree: true });
+    root.addEventListener("keydown", onKeydown);
+    root.addEventListener("focusin", onFocusin);
+    ensureTabStop();
+    return () => {
+        observer?.disconnect();
+        root.removeEventListener("keydown", onKeydown);
+        root.removeEventListener("focusin", onFocusin);
+    };
+}
+
 const ATTACH: Record<string, (el: HTMLElement, options?: never) => () => void> = {
     toolbar: attachToolbar as never,
+    grid: attachGrid as never,
     "radio-group": attachRadioGroup as never,
     splitter: attachSplitter as never,
     "split-view": attachSplitView as never,

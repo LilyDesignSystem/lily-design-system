@@ -1,7 +1,7 @@
 .popover {
   padding: var(--nhsuk-spacing-3);
   max-width: 24rem;
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   color: var(--nhsuk-black);
   border: 2px solid var(--nhsuk-dark-blue);
   font-family: var(--nhsuk-font-family);

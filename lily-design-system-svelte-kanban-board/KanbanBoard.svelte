@@ -1517,6 +1517,7 @@
         <KanbanTable
             {label}
             {caption}
+            data-consumer-keys="true"
             onkeydown={onGridKeydown}
             onfocusin={onGridFocusin}
             aria-multiselectable={selectable ? "true" : undefined}

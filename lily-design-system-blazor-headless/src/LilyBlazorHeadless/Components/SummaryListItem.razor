@@ -5,10 +5,10 @@
     one key-value pair in a summary list
 *@
 
-<li class="@($"summary-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<div class="@($"summary-list-item {CssClass}".Trim())" @attributes="AdditionalAttributes"><dt>@Term</dt><dd>@ChildContent</dd></div>
 
 @code {
-    [Parameter] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string Term { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

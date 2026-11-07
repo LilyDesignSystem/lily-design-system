@@ -8,5 +8,5 @@
 /* nhsuk-blue (#005eb8) meets WCAG AA 4.5:1 on pale-grey; the default
    bright-blue (#0072ce) is only 4.41:1. */
 .grail-layout-right-aside a {
-  color: var(--nhsuk-blue);
+  color: var(--nhsuk-link);
 }

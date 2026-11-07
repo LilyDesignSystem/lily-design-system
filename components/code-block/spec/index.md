@@ -25,7 +25,7 @@ Implement the CodeBlock component: a block of formatted code with optional line 
 ## Acceptance Criteria
 
 - [ ] Renders <pre> with class="code-block"
-- [ ] `aria-label` -- optional description of the code block content
+- [ ] `aria-label` -- the `label`, with `role="region"`
 - [ ] Supports `data-line-numbers` attribute
 - [ ] Supports `data-highlight-lines` attribute
 - [ ] WCAG 2.2 AAA compliant

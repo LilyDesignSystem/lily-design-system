@@ -25,6 +25,7 @@
 {%- set hasName = p.label or p.labelledBy -%}
 <div
   class="banner{% if p.classes %} {{ p.classes }}{% endif %}"
+  aria-live="polite"
   {%- if hasName %} role="region"
     {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
     {%- elif p.label %} aria-label="{{ p.label }}"{% endif -%}

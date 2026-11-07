@@ -51,7 +51,8 @@ import { warnMissingName } from "./dev-warning";
     template: `<button
     #root
     class="{{ baseClass() }} {{ className() }}"
-    type="button"
+    [attr.type]="type()"
+    [attr.aria-pressed]="pressed() ?? null"
     [attr.aria-label]="label() || null"
     [attr.aria-haspopup]="ariaHaspopup() || null"
     [attr.aria-expanded]="ariaExpandedAttr()"
@@ -67,6 +68,10 @@ export class IconButton implements OnInit {
     readonly label = input<string>("");
     /** Extra CSS classes appended after the base class. */
     readonly className = input<string>("");
+    /** The button type. */
+    readonly type = input<"button" | "submit" | "reset">("button");
+    /** Toggle state; unset is not a toggle. */
+    readonly pressed = input<boolean | undefined>(undefined);
     /** Base class token, replacing `"icon-button"` outright (not appended). */
     readonly baseClass = input<string>("icon-button");
     readonly ariaHaspopup = input<string>("");

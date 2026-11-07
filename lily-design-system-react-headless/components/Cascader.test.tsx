@@ -60,7 +60,7 @@ describe("Cascader", () => {
             </Subject>,
         );
 
-        const trigger: HTMLElement = screen.getByRole("button");
+        const trigger: HTMLElement = screen.getByRole("combobox");
         expect(trigger.textContent).toBe("Asia / Japan");
     });
 
@@ -74,7 +74,7 @@ describe("Cascader", () => {
             </Subject>,
         );
 
-        const trigger: HTMLElement = screen.getByRole("button");
+        const trigger: HTMLElement = screen.getByRole("combobox");
         expect(trigger.textContent).toBe("Choose…");
     });
 
@@ -88,7 +88,7 @@ describe("Cascader", () => {
             </Subject>,
         );
 
-        const trigger: HTMLButtonElement = screen.getByRole("button") as HTMLButtonElement;
+        const trigger: HTMLButtonElement = screen.getByRole("combobox") as HTMLButtonElement;
         expect(trigger.disabled).toBe(true);
     });
 
@@ -132,7 +132,7 @@ describe("Cascader", () => {
             </Subject>,
         );
 
-        await user.click(screen.getByRole("button"));
+        await user.click(screen.getByRole("combobox"));
         expect(handleClick).toHaveBeenCalledOnce();
     });
 });

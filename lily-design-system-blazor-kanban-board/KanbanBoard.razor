@@ -78,7 +78,7 @@
          class="@(Virtualize is not null ? "kanban-board-scroll" : "kanban-board-body")"
          style="@(Virtualize is { } vz ? $"height: {vz.Height}px; overflow: auto" : null)"
          @onscroll="OnScrollAsync">
-    <KanbanTable Label="@Label" role="grid" aria-multiselectable="@(Selectable ? "true" : null)" aria-rowcount="@(Virtualize is not null ? (layout.Slots.Count + 1).ToString() : null)" @onkeydown="OnGridKeyDown">
+    <KanbanTable Label="@Label" data-consumer-keys="true" role="grid" aria-multiselectable="@(Selectable ? "true" : null)" aria-rowcount="@(Virtualize is not null ? (layout.Slots.Count + 1).ToString() : null)" @onkeydown="OnGridKeyDown">
         @if (!string.IsNullOrEmpty(Caption))
         {
             @* KanbanTable has no built-in caption slot; a literal <caption>

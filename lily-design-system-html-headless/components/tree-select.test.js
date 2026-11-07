@@ -16,7 +16,7 @@ describe("TreeSelect", function () {
     });
 
     it('should have role="combobox" with aria-haspopup="tree"', async function () {
-        const el = await $("div.tree-select");
+        const el = await $("button.tree-select-trigger");
         const role = await el.getAttribute("role");
         const haspopup = await el.getAttribute("aria-haspopup");
         expect(role).toBe("combobox");
@@ -24,13 +24,13 @@ describe("TreeSelect", function () {
     });
 
     it("should have aria-expanded set to false by default", async function () {
-        const el = await $("div.tree-select");
+        const el = await $("button.tree-select-trigger");
         const expanded = await el.getAttribute("aria-expanded");
         expect(expanded).toBe("false");
     });
 
     it("should have an aria-label attribute", async function () {
-        const el = await $("div.tree-select");
+        const el = await $("button.tree-select-trigger");
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });
@@ -43,7 +43,7 @@ describe("TreeSelect", function () {
     });
 
     it("should toggle aria-expanded when the trigger is clicked", async function () {
-        const root = await $("div.tree-select");
+        const root = await $("button.tree-select-trigger");
         const trigger = await $("button.tree-select-trigger");
         await trigger.click();
         const expanded = await root.getAttribute("aria-expanded");

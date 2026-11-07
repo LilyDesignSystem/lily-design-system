@@ -19,4 +19,13 @@ describe("MockupWatch", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("has role=img with a label", () => {
+        const fixture = TestBed.createComponent(MockupWatch);
+        fixture.componentRef.setInput("label", "Story");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".mockup-watch");
+        expect(el.getAttribute("role")).toBe("img");
+        expect(el.getAttribute("aria-label")).toBe("Story");
+    });
 });

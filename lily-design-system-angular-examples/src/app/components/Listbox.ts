@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from "@angular/common";
 import {
     ChangeDetectionStrategy,
     Component,
@@ -45,7 +46,9 @@ export type ListboxNavigation = "roving-focus" | "active-descendant";
 @Component({
     selector: "lily-listbox",
     standalone: true,
-    template: `<div
+    imports: [NgTemplateOutlet],
+    template: `<ng-template #items><ng-content /></ng-template>
+  @if (this.as() === "ul") {<ul
     #root
     [id]="elementId() || null"
     class="{{ baseClass() }} {{ className() }}"
@@ -55,7 +58,17 @@ export type ListboxNavigation = "roving-focus" | "active-descendant";
     [attr.aria-activedescendant]="activeId()"
     [attr.hidden]="hidden() ? '' : null"
     (keydown)="onKeydown($event)"
-  ><ng-content /></div>`,
+  ><ng-container [ngTemplateOutlet]="items" /></ul>} @else {<div
+    #root
+    [id]="elementId() || null"
+    class="{{ baseClass() }} {{ className() }}"
+    role="listbox"
+    [attr.aria-label]="label() || null"
+    [attr.tabindex]="navigation() === 'active-descendant' ? -1 : null"
+    [attr.aria-activedescendant]="activeId()"
+    [attr.hidden]="hidden() ? '' : null"
+    (keydown)="onKeydown($event)"
+  ><ng-container [ngTemplateOutlet]="items" /></div>}`,
     host: { style: "display: contents" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -64,6 +77,8 @@ export class Listbox implements OnInit {
 
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** The root element: "ul" when the options are li. */
+    readonly as = input<"div" | "ul">("div");
     /** Base class token, replacing `"listbox"` outright (not appended). */
     readonly baseClass = input<string>("listbox");
     /** `id` for the real inner `role="listbox"` element — named `elementId`, not `id`, because the host tag's own native `id` attribute (set directly on `<lily-listbox id="...">` by a consumer) is a separate, unrelated thing once `display: contents` puts a real wrapper element between the host and the inner listbox. Needed so a composing consumer's `aria-controls`/`document.getElementById` can reach the real element. */

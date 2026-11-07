@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
+import { attrWhenSet } from "./attr-when-set";
+
 /**
  * DataTableTD — a data table interactive grid data cell for displaying and sorting tabular data <td>
  *
@@ -18,9 +20,17 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ng-content />`,
     host: {
         "[class]": '"data-table-td " + className()',
+        role: "gridcell",
+        tabindex: "-1",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataTableTD {
     readonly className = input<string>("");
+    /** Whether this cell holds the grid's roving tab stop. */
+    readonly active = input<boolean | undefined>(undefined);
+    private readonly tabStop = attrWhenSet("tabindex", () => {
+        const active = this.active();
+        return active === undefined ? undefined : active ? "0" : "-1";
+    });
 }

@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-do-list",
     standalone: true,
-    template: `<ul class="do-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ul>`,
+    template: `<ul class="do-list {{ className() }}" role="list" [attr.aria-label]="label() || null"><ng-content /></ul>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DoList {

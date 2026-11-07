@@ -1,13 +1,14 @@
 // @vitest-environment jsdom
 // What the toolbar and radio-group contracts do not reach: the module's edges.
-import { afterEach, expect, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 
 import {
     attachCropper,
+    attachGrid,
     attachMentions,
     attachRadioGroup,
-    attachSplitter,
     attachSplitView,
+    attachSplitter,
     attachToolbar,
     attachTreePopup,
 } from "./widget-keys";
@@ -211,8 +212,8 @@ test("a split view keeps data-split-percent, and one with no separator is left a
     expect(() => attachSplitView(mount("<div></div>"))()).not.toThrow();
 });
 
-const POPUP = (attrs = "", tree = "") => `<div class="tree-select" aria-expanded="false" ${attrs}>
-  <button class="tree-select-trigger" type="button">Pick</button>
+const POPUP = (attrs = "", tree = "") => `<div class="tree-select" ${attrs}>
+  <button class="tree-select-trigger" type="button" role="combobox" aria-expanded="false">Pick</button>
   <div class="tree-select-panel" hidden>${
       tree ||
       `<ul role="tree"><li role="treeitem" aria-expanded="false">Fruit<ul role="group"><li role="treeitem" data-value="a">Apple</li></ul></li><li role="treeitem" aria-expanded="false">Veg<ul role="group"><li role="treeitem">Leek</li></ul></li><li role="treeitem">Tea</li></ul>`
@@ -257,7 +258,7 @@ test("multiple stays open, toggles, and marks the tree", () => {
     root.querySelector("button")!.click();
     expect(root.querySelector('[role="tree"]')!.getAttribute("aria-multiselectable")).toBe("true");
     press(item(root, "Tea"), " ");
-    expect(root.getAttribute("aria-expanded")).toBe("true");
+    expect(root.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
     expect(onSelect).toHaveBeenLastCalledWith({ value: "Tea", path: ["Tea"], selected: ["Tea"] });
     press(item(root, "Tea"), " ");
     expect(item(root, "Tea").getAttribute("aria-selected")).toBe("false");
@@ -271,13 +272,13 @@ test("a click toggles a branch and chooses a leaf; a disabled trigger stays shut
     item(root, "Fruit").click();
     expect(item(root, "Fruit").getAttribute("aria-expanded")).toBe("true");
     item(root, "Tea").click();
-    expect(root.getAttribute("aria-expanded")).toBe("false");
+    expect(root.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
     detach();
     const off = mount(POPUP());
     off.querySelector("button")!.disabled = true;
     const detachOff = attachTreePopup(off);
     off.querySelector("button")!.click();
-    expect(off.getAttribute("aria-expanded")).toBe("false");
+    expect(off.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
     detachOff();
 });
 
@@ -383,4 +384,97 @@ test("the arrows stay physical in right-to-left, and a control inside keeps its 
     expect(root.getAttribute("data-crop-x")).toBe("1");
     expect(press(root.querySelector("input")!, "ArrowRight").defaultPrevented).toBe(false);
     detach();
+});
+
+describe("attachGrid", () => {
+    const ROWS =
+        "<tr><td>A1</td><td>B1 <button>Open</button></td></tr><tr><td>A2</td><td>B2</td></tr>";
+    const press = (el: Element, key: string, init: KeyboardEventInit = {}): boolean =>
+        el.dispatchEvent(
+            new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }),
+        );
+    const grid = (attrs = ""): HTMLElement => {
+        document.body.innerHTML = `<table role="grid" aria-label="Board" ${attrs}><tbody>${ROWS}</tbody></table>`;
+        return document.querySelector("table")!;
+    };
+    const cell = (text: string): HTMLElement =>
+        [...document.querySelectorAll<HTMLElement>("td")].find((td) =>
+            td.textContent!.startsWith(text),
+        )!;
+
+    test("a consumer running its own keys is left alone", () => {
+        const root = grid("data-consumer-keys");
+        const detach = attachGrid(root);
+        expect(cell("A1").hasAttribute("tabindex")).toBe(false);
+        cell("A1").tabIndex = 0;
+        cell("A1").focus();
+        expect(press(cell("A1"), "ArrowRight")).toBe(true);
+        expect(document.activeElement).toBe(cell("A1"));
+        detach();
+    });
+
+    test("data-consumer-keys on a host counts too", () => {
+        document.body.innerHTML = `<div data-consumer-keys><table role="grid"><tbody>${ROWS}</tbody></table></div>`;
+        attachGrid(document.querySelector("table")!)();
+        expect(cell("A1").hasAttribute("tabindex")).toBe(false);
+    });
+
+    test("rows that arrive later still get a tab stop", async () => {
+        document.body.innerHTML = '<table role="grid" aria-label="Board"></table>';
+        const root = document.querySelector("table")!;
+        const detach = attachGrid(root);
+        root.innerHTML = `<tbody>${ROWS}</tbody>`;
+        await new Promise((resolve) => setTimeout(resolve));
+        expect(cell("A1").tabIndex).toBe(0);
+        detach();
+    });
+
+    test("an active cell stays the tab stop", () => {
+        const root = grid();
+        cell("B2").setAttribute("tabindex", "0");
+        const detach = attachGrid(root);
+        expect(root.querySelectorAll('[tabindex="0"]').length).toBe(1);
+        expect(cell("B2").tabIndex).toBe(0);
+        detach();
+    });
+
+    test("right-to-left swaps the arrows", () => {
+        const root = grid('dir="rtl" style="direction: rtl"');
+        const detach = attachGrid(root);
+        cell("A1").focus();
+        press(cell("A1"), "ArrowLeft");
+        expect(document.activeElement).toBe(cell("B1"));
+        detach();
+    });
+
+    test("Alt and Shift are left to the consumer", () => {
+        const root = grid();
+        const detach = attachGrid(root);
+        cell("A1").focus();
+        expect(press(cell("A1"), "ArrowRight", { altKey: true })).toBe(true);
+        expect(press(cell("A1"), "ArrowRight", { shiftKey: true })).toBe(true);
+        expect(document.activeElement).toBe(cell("A1"));
+        detach();
+    });
+
+    test("Enter goes into a cell, its control keeps its keys, and Escape comes back", () => {
+        const root = grid();
+        const detach = attachGrid(root);
+        const button = root.querySelector("button")!;
+        cell("B1").focus();
+        press(cell("B1"), "Enter");
+        expect(document.activeElement).toBe(button);
+        expect(press(button, "ArrowDown")).toBe(true);
+        expect(document.activeElement).toBe(button);
+        press(button, "Escape");
+        expect(document.activeElement).toBe(cell("B1"));
+        detach();
+    });
+
+    test("cleanup stops the keys", () => {
+        const root = grid();
+        attachGrid(root)();
+        cell("A1").focus();
+        expect(press(cell("A1"), "ArrowRight")).toBe(true);
+    });
 });

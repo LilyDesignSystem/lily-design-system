@@ -19,4 +19,18 @@ describe("FiveFaceRatingPickerButton", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("reflects value, selected, disabled and shows its label", () => {
+        const fixture = TestBed.createComponent(FiveFaceRatingPickerButton);
+        fixture.componentRef.setInput("label", "Good");
+        fixture.componentRef.setInput("value", 3);
+        fixture.componentRef.setInput("selected", true);
+        fixture.componentRef.setInput("disabled", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("button");
+        expect(el.getAttribute("data-value")).toBe("3");
+        expect(el.getAttribute("aria-pressed")).toBe("true");
+        expect(el.disabled).toBe(true);
+        expect(el.textContent).toBe("Good");
+    });
 });

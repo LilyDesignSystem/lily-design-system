@@ -21,6 +21,7 @@
 {%- set p = params | default({}) -%}
 <ol
   class="check-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="list"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

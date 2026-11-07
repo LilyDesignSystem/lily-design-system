@@ -22,12 +22,11 @@ describe("ScreenReaderSpan", () => {
         expect(root?.getAttribute("aria-label")).toBeNull();
     });
 
-    test("applies aria-label when label prop is provided", () => {
+    test("never names itself: its content is the accessible text", () => {
         const { container } = render(Subject, {
-            props: { label: "Hello" },
             slots: { default: "x" },
         });
         const root = container.querySelector(".screen-reader-span");
-        expect(root?.getAttribute("aria-label")).toBe("Hello");
+        expect(root?.hasAttribute("aria-label")).toBe(false);
     });
 });

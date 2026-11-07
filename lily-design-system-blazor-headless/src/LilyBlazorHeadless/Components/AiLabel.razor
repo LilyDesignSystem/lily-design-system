@@ -5,7 +5,7 @@
     an indicator of AI instances that is a pathway to AI explainability
 *@
 
-<span class="@($"ai-label {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<span class="@($"ai-label {CssClass}".Trim())" role="img" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</span>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

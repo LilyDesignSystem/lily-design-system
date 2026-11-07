@@ -33,4 +33,11 @@ describe("Flair", () => {
         render(Subject, { props: { "data-testid": "fl", children: textSnippet("X") } });
         expect(screen.getByTestId("fl")).toBeTruthy();
     });
+
+    test("has role=img with a label", () => {
+        const { container } = render(Subject, { props: { label: "Story" } as any });
+        const root = container.querySelector(".flair")!;
+        expect(root.getAttribute("role")).toBe("img");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

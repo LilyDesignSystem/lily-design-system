@@ -33,4 +33,19 @@ describe("SectionListItem", () => {
         const el = fixture.nativeElement.querySelector("li");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("marks the current item", () => {
+        const fixture = TestBed.createComponent(SectionListItem);
+        fixture.componentRef.setInput("current", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("data-current")).toBe("");
+    });
+
+    test("is not current by default", () => {
+        const fixture = TestBed.createComponent(SectionListItem);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.hasAttribute("data-current")).toBe(false);
+    });
 });

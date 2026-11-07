@@ -19,4 +19,12 @@ describe("StepList", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("exposes the current step", () => {
+        const fixture = TestBed.createComponent(StepList);
+        fixture.componentRef.setInput("current", 2);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".step-list");
+        expect(el.getAttribute("data-current")).toBe("2");
+    });
 });

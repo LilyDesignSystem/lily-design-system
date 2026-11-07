@@ -5294,6 +5294,10 @@
       "title": "KanbanTable",
       "description": "A kanban board table interactive grid for organizing items by status <table>.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/widget-keys-utils"
+      ],
       "categories": [
         "tables"
       ],
@@ -9271,7 +9275,7 @@
       "name": "summary-list",
       "type": "registry:component",
       "title": "SummaryList",
-      "description": "An ordered list of key-value summary pairs.",
+      "description": "A description list of key-value summary pairs.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "categories": [
         "lists"
@@ -9291,7 +9295,7 @@
       "description": "One key-value pair in a summary list.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "categories": [
-        "lists"
+        "content"
       ],
       "files": [
         {

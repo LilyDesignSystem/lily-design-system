@@ -5,7 +5,7 @@
     a display of a content review date <time>
 *@
 
-<time class="@($"review-date {CssClass}".Trim())" aria-label="@Label" datetime="@(string.IsNullOrEmpty(Datetime) ? null : Datetime)" @attributes="AdditionalAttributes">@ChildContent</time>
+<time class="@($"review-date {CssClass}".Trim())" datetime="@(string.IsNullOrEmpty(Datetime) ? null : Datetime)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@ChildContent</time>
 
 @code {
     /// <summary>Accessible label giving screen readers context for the date.</summary>

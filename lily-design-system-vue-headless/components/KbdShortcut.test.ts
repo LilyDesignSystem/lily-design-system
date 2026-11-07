@@ -44,12 +44,20 @@ describe("KbdShortcut", () => {
         expect(container.querySelector(".kbd-shortcut-separator")).toBeNull();
     });
 
-    test("label becomes aria-label; absent otherwise", () => {
+    test("label is hidden text and hides the keys; absent otherwise", () => {
         const a = render(Subject, { props: { keys: ["Ctrl", "K"], label: "Control K" } });
-        expect(root(a.container).getAttribute("aria-label")).toBe("Control K");
+        const labelled = root(a.container);
+        expect(labelled.getAttribute("aria-label")).toBeNull();
+        expect(labelled.querySelector(".screen-reader-span")?.textContent).toBe("Control K ");
+        for (const key of labelled.querySelectorAll(".kbd-shortcut-key")) {
+            expect(key.getAttribute("aria-hidden")).toBe("true");
+        }
         a.unmount();
         const b = render(Subject, { props: { keys: ["Ctrl", "K"] } });
-        expect(root(b.container).getAttribute("aria-label")).toBeNull();
+        expect(root(b.container).querySelector(".screen-reader-span")).toBeNull();
+        expect(
+            root(b.container).querySelector(".kbd-shortcut-key")?.hasAttribute("aria-hidden"),
+        ).toBe(false);
     });
 
     test("passes through attributes", () => {

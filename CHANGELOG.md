@@ -9,6 +9,105 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Angular grid cells keep what a consumer sets — 2026-11-07
+
+- **Fixed:** the host bindings added to Angular `kanban-table-td`, `calendar-table-td`, `data-table-td` and `gantt-table-td` on 2026-11-06 ran after a consumer's `[attr.tabindex]`, `[attr.aria-selected]` and `[attr.aria-current]` and erased them, so the Angular `kanban-board`, `calendar` and `gantt-chart` lost their tab stop. An attribute is now written only when its input is given, through `attrWhenSet`.
+
+## kanban-table has grid keys — 2026-11-07
+
+- **Added:** `kanban-table` is interactive: arrows, Home, End, Ctrl+Home, Ctrl+End, PageUp, PageDown, Enter, F2 and Escape, with one tab stop, in all nine catalogs, from `attachGrid` in `shared/widget-keys.ts`. `role="grid"` promised these keys and nothing supplied them.
+- **Added:** `data-consumer-keys` on the root turns them off for a consumer running its own. The `kanban-board` helpers that compose `kanban-table` set it.
+
+## Names on elements that cannot take one — 2026-11-07
+
+- **Changed:** `citation` and `review-date` render `label` as hidden text in a `screen-reader-span`, read before the content, as the `-view` components do. `aria-label` on `<cite>` and `<time>` is not reliably read.
+- **Changed:** `kbd` and `kbd-shortcut` render `label` as hidden text and hide the visible keys from screen readers, because there the label replaces what is spoken. `kbd` gains a `.kbd-text` wrapper, and Angular and Web Components `kbd` gain `label`.
+- **Changed:** `code-block` is `role="region"` when labelled in every catalog, as its contract says. Blazor set the role with no label.
+- **Removed:** `label` on `code`. It was never in the contract, and hidden text would land in copied code.
+
+## calendar-range-picker is a group — 2026-11-07
+
+- **Changed:** `calendar-range-picker` is `role="group"`, not `role="application"`, in every catalog. It has no keys of its own, and `application` switches off a screen reader's reading keys, so a static calendar inside it could not be read. Nunjucks was already `group`. A consumer who adds arrow keys puts `role="grid"` on the calendar itself.
+
+## The assessment cannot go stale — 2026-11-06
+
+- **Added:** the axe sweep forces each page's popovers, dialogs, details and hidden panels open, and finds nothing.
+- **Changed:** `bin/generate-core` writes `docs/aria-assessment.tsv` and the tables in `docs/aria-assessment.md`, and `--check` fails on drift. Band 1 reads the sweep's allow-list, so the band of unconfirmed contrast is gone.
+
+## Ports are checked against what Svelte renders — 2026-11-06
+
+- **Added:** `shared/aria-baseline.json` records each Svelte root's role and `aria-*` names, and the render sweeps in React, Vue, Angular, Nunjucks and Web Components compare with it, with allow-lists that may only shrink.
+- **Fixed:** the eight `mockup-*` components in React and Vue are `role="img"` and take `label`, and `loading` has `aria-live`. Angular gets back `role="list"` on `check-list`, `do-list`, `dont-list` and `task-list`, `role="img"` on `figure`, `role="search"` on `data-filter-form`, `aria-roledescription` on `carousel`, `aria-hidden` on `skeleton` and `avatar-text`, and `aria-live` on `validation-list`, and `calendar-range-picker` and `emoji-character-picker` take the roles Svelte has.
+- **Added:** `bin/check-aria-baseline` (in `bin/test`) compares HTML and Blazor roots the same way. The tables, lists and status components in both gain what Svelte has, in Alpine too.
+- **Fixed:** the 41 `-view` contracts no longer claim `role="text"`.
+- **Fixed:** 35 Nunjucks macros gain what Svelte has on the root: `role="grid"` and `gridcell` on the tables, `role="list"`, `aria-live` on `alert`, `banner`, `notification`, `toast` and `super-banner`, and `role="img"` with `label` on the mockups. `alert` is polite when its role is `status`.
+
+## The key check reads pattern tests — 2026-11-06
+
+- **Fixed:** `bin/check-coverage` did not count a `runPattern` test as sending keys, so 65 allow-list entries were false, and said components such as `splitter` handled no keys. The list falls from 359 to 294.
+
+## Native keys are shown in a browser — 2026-11-06
+
+- **Added:** `e2e/native-keys.spec.ts` in the Nunjucks app sends the keys the contracts say the browser handles, on eight components. jsdom and bUnit do not run them, so these claims had never been tested.
+
+## Colour contrast is settled — 2026-11-06
+
+- **Fixed:** all 609 Nunjucks pages pass axe's contrast rule in the default and dark themes, from 27 and 255 failures, and the sweep now gates both. The app's `--nhsuk-*` tokens follow the theme under `[data-theme]`, and its link rule moved into the `reset` layer so themes win.
+- **Fixed in the 63 themes:** `.watermark` styled the wrapper as the overlay, so a watermark's content rendered at 8% opacity; `.split-button-primary` and `.government-banner-toggle` were unstyled; links on government chrome were dark on dark; `.sticky-promo-banner` had no background; and `*-link` components could miss 4.5:1, except in the six themes that set their own link colour (`bumblebee`, `caramellatte`, `fluent`, `wireframe` and the two Wales themes).
+
+## Two links get a target — 2026-11-06
+
+- **Fixed:** Nunjucks and HTML `section-link` and `go-to-top` were `<a>`s with no `href`, so not links. They take `href`, default `#top`, as in Svelte.
+- **Changed:** the last 14 placeholder demos in the Nunjucks app hold real content.
+
+## Every component page passes axe — 2026-11-06
+
+- **Added:** `e2e/axe-sweep.spec.ts` in the Nunjucks app runs axe's WCAG 2.2 A and AA rules on all 609 component pages, with an allow-list that may only shrink and is empty. Colour contrast is left out until P25-T9, and popups are not opened yet.
+- **Fixed:** 13 demo pages, among them `command`, whose demo put a second search field inside the listbox, and `menu-bar`, whose buttons pointed at menus that did not exist. `tree-link` in the example app has a 24-pixel target.
+
+## Popups and fields are named — 2026-11-06
+
+- **Fixed:** the `contextual-help` panel is named by `label` in all nine catalogs. Nunjucks `date-time-now-input` puts `dateLabel` and `timeLabel` on its inputs, and Nunjucks `cascader` and `tree-select` render `aria-controls` and a panel `id`, so a popup rendered open is valid before any script runs. Pass `id` when a page has more than one.
+- **Fixed:** seven Nunjucks demo pages named their fields and popups.
+
+## The tree combobox is its trigger — 2026-11-06
+
+- **Fixed:** `cascader` and `tree-select` put `role="combobox"` on an unfocusable `<div>`. The role, `aria-haspopup`, `aria-expanded`, `aria-label` and a new `aria-controls` are on the trigger button in all nine catalogs.
+- **Fixed:** Nunjucks `slider-button` is a `<button role="slider">`, and Nunjucks `chat-list` no longer has `role="log"`, which removed its list semantics; `live` is opt-in and it takes `label`.
+- **Breaking:** the two tree comboboxes' `aria-label` and `aria-expanded` move from the root to the trigger, for anything selecting on them.
+
+## No catalog names a generic root — 2026-11-06
+
+- **Added:** `bin/check-generic-names` covers HTML and Blazor, the two catalogs without a rendered `generic-name` test. Its allow-list is empty.
+- **Fixed:** the HTML catalog's `table`, `table-head`, `table-body`, `table-foot`, `table-row` and `table-td` were `<div>`s, and so were `currency-input`, the three `measurement-*-input`s, `avatar-image`, `sparkline` and `timer`. Each now has its contract's element, in Alpine too.
+- **Fixed:** 25 HTML components have the role Svelte has, or lose a name it does not have. Blazor `card` and `panel` are `role="group"` when labelled, and `theme-provider` loses `Label`.
+
+## status-tag is a static label — 2026-11-06
+
+- **Changed:** `status-tag` has no `role="status"` in any catalog, as its contract and the live-region rule say, and `label` is hidden text in a `screen-reader-span`. To announce a change, wrap it in a live region.
+- **Fixed:** `address-input` is `role="group"` in React, Vue, Nunjucks and HTML, and Nunjucks `character` is `role="img"` or `presentation`. The `generic-name` allow-lists are empty in all six catalogs that have the test.
+
+## Angular components take their real props — 2026-11-06
+
+- **Added:** `bin/check-port-logic` compares every Svelte prop with its Angular port. 221 are ported; 14 are listed with a reason.
+- **Fixed:** `checkbox-input` had no `checked`; `calendar-table`, `data-table`, `gantt-table` and `kanban-table` lost `role="grid"` and their cells `gridcell`; `five-face-rating-view` and `five-star-rating-view` had the invalid `role="text"`; `image-file-input` bound a value, which a file input rejects; `password-input` forced `autocomplete="off"`.
+- **Fixed:** `image`, `hint`, `footnote`, `error-message` and `timer` render their contract's root element, and `caption` a `<figcaption>`. Angular's `generic-name` allow-list is empty.
+- **Changed:** `summary-list` is `<dl>` and `summary-list-item` a `<div>` holding `<dt>` and `<dd>`, in the contract and every catalog. Angular, Blazor, HTML and Alpine had `<ol>`/`<li>`.
+- **Breaking:** the Angular selector is `div[lily-summary-list-item]` with `term`, and Blazor's `SummaryListItem` takes `Term` for `Label`.
+- **Breaking:** Angular `avatar` takes `alt` for `label`, `postal-code-view` takes `text` for `value`, and `image`, `caption`, `section-heading` and `theme-provider` lose `label`.
+
+## Angular buttons can submit — 2026-11-06
+
+- **Fixed:** Angular `button` was hard-coded to `type="button"` with no `disabled`. It now takes `type`, `disabled` and `pressed`.
+- **Fixed:** Angular `fieldset` could not render a `legend`. It now takes `legend` and `disabled`, and `form` emits `resetted`.
+- **Changed:** the docs no longer call Angular complete: at least 74 of its components are stubs (P25-T15).
+
+## 18 more components stop naming a generic root — 2026-11-06
+
+- **Fixed:** the eight mockups that lacked it are `role="img"`, as their contracts say. `super-banner` is `role="alert"` with `aria-live="assertive"`, and `loading` is `role="status"` with `aria-live="polite"`, so both are announced.
+- **Changed:** `avatar-group`, `dial-group` and `diff` are `role="group"`. `tile` and `phase-banner` are `role="group"` with a `label`. `ai-label` is `role="img"`, and so is `flair` with a `label`.
+- **Breaking:** `screen-reader-span` loses `label` everywhere: it is hidden text, so its content is the accessible text.
+
 ## A test stops new generic names — 2026-11-06
 
 - **Added:** a `generic-name` test in Svelte, React, Vue, Angular, Web Components and Nunjucks renders every component with a `label` and fails on a named `<div>` or `<span>` with no role. Its allow-list holds the 37 known components and may only shrink.

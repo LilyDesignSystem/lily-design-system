@@ -18,7 +18,7 @@ describe("CalendarRangePicker", function () {
     it("should have the correct ARIA role", async function () {
         const el = await $("div.calendar-range-picker");
         const roleAttr = await el.getAttribute("role");
-        expect(roleAttr).toBe("radiogroup");
+        expect(roleAttr).toBe("group");
     });
 
     it("should have an aria-label attribute", async function () {

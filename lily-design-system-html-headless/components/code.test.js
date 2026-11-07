@@ -15,9 +15,8 @@ describe("Code", function () {
         expect(className).toContain("code");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should name no <code>", async function () {
         const el = await $("code.code");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

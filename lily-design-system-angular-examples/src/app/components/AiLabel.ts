@@ -10,10 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-ai-label",
     standalone: true,
-    template: `<span class="ai-label {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    template: `<span class="ai-label {{ className() }}" role="img" [attr.aria-label]="label() || null"><ng-content>{{ text() }}</ng-content></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AiLabel {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Visible text. */
+    readonly text = input<string>("");
 }

@@ -10,7 +10,7 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set<string>([]);
+const HANDLED = new Set<string>(["label"]);
 
 export class Kbd extends HTMLElement {
     connectedCallback(): void {
@@ -20,7 +20,18 @@ export class Kbd extends HTMLElement {
         kbd.className = rootClassName(this, "kbd");
         passThroughAttributes(this, kbd, HANDLED);
 
-        moveChildrenInto(this, kbd);
+        const text = document.createElement("span");
+        text.className = "kbd-text";
+        moveChildrenInto(this, text);
+        kbd.appendChild(text);
+        const label = this.getAttribute("label");
+        if (label) {
+            text.setAttribute("aria-hidden", "true");
+            const hidden = document.createElement("span");
+            hidden.className = "screen-reader-span";
+            hidden.textContent = `${label} `;
+            kbd.prepend(hidden);
+        }
         this.appendChild(kbd);
     }
 }

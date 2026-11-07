@@ -18,6 +18,16 @@ class TestHost {
     value = "";
 }
 
+@Component({
+    standalone: true,
+    imports: [Option],
+    template: `<select multiple>
+        <option lily-option value="a" [selected]="true" [disabled]="true"></option>
+        <option lily-option value="b"></option>
+    </select>`,
+})
+class TestHostStates {}
+
 describe("Option", () => {
     test("the host is the option itself — no wrapper element — with the base class", () => {
         const fixture = TestBed.createComponent(TestHost);
@@ -33,5 +43,15 @@ describe("Option", () => {
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector("option");
         expect(el.classList.contains("extra")).toBe(true);
+    });
+
+    test("reflects selected and disabled, and leaves the others alone", () => {
+        const fixture = TestBed.createComponent(TestHostStates);
+        fixture.detectChanges();
+        const [a, b] = fixture.nativeElement.querySelectorAll("option");
+        expect(a.selected).toBe(true);
+        expect(a.disabled).toBe(true);
+        expect(b.selected).toBe(false);
+        expect(b.hasAttribute("selected")).toBe(false);
     });
 });

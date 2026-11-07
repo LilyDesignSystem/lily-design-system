@@ -1,7 +1,7 @@
 .tooltip {
   display: inline-block;
   padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-2);
-  background: var(--nhsuk-black);
+  background: var(--nhsuk-ink);
   color: var(--nhsuk-white);
   font-size: var(--nhsuk-font-size-14);
   line-height: 1.3;

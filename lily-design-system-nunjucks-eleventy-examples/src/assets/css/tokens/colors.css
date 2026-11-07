@@ -17,3 +17,29 @@
   --nhsuk-pink: #ae2573;
   --nhsuk-purple: #330072;
 }
+
+/* The app's own tokens follow the active theme. Every page has a theme (data-theme is set before first paint, and the
+   default is NHS England), so without this the neutrals below stay light-mode colours under a dark theme, and a heading
+   keeps its dark text on a surface the theme has already made dark. The fixed NHS brand colours above are left alone. */
+:root {
+  --nhsuk-surface: var(--nhsuk-white);
+  --nhsuk-link: var(--nhsuk-blue);
+  --nhsuk-link-visited: var(--nhsuk-purple);
+  /* Text on a fixed yellow or as a dark fill: stays dark in every theme. */
+  --nhsuk-ink: #212b32;
+  --nhsuk-slate: #425563;
+  --nhsuk-error-text: var(--nhsuk-red);
+  --nhsuk-success-text: var(--nhsuk-green);
+}
+
+:root[data-theme] {
+  --nhsuk-black: var(--color-base-content);
+  --nhsuk-surface: var(--color-base-100);
+  --nhsuk-pale-grey: var(--color-base-200);
+  --nhsuk-light-grey: var(--color-base-300);
+  --nhsuk-dark-grey: color-mix(in oklab, var(--color-base-content) 80%, var(--color-base-100));
+  --nhsuk-link: color-mix(in oklab, var(--color-primary) 55%, var(--color-base-content));
+  --nhsuk-link-visited: color-mix(in oklab, var(--nhsuk-purple) 45%, var(--color-base-content));
+  --nhsuk-error-text: var(--lily-error-text);
+  --nhsuk-success-text: color-mix(in oklab, var(--nhsuk-green) 40%, var(--color-base-content));
+}

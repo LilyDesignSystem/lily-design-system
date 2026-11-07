@@ -11,19 +11,23 @@
 //   None — this is a passive decorative container.
 //
 // Accessibility:
-//   - No specific ARIA. If the children are an image of UI, set role="img"
-//     and aria-label on the image element so assistive tech describes it.
+//   - role="img", named by `label`: the mockup reads as one image.
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 //
 // References:
 //   - HTML div element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
+defineProps<{ label?: string }>();
 </script>
 
 <template>
     <!-- MockupTabletPortrait.vue -->
-    <div class="mockup-tablet-portrait">
+    <div
+        class="mockup-tablet-portrait"
+        role="img"
+        :aria-label="label"
+    >
         <slot />
     </div>
 </template>

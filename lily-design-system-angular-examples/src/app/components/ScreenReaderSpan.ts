@@ -38,10 +38,9 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-screen-reader-span",
     standalone: true,
-    template: `<span class="screen-reader-span {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    template: `<span class="screen-reader-span {{ className() }}"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScreenReaderSpan {
-    readonly label = input<string>("");
     readonly className = input<string>("");
 }

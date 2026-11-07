@@ -19,4 +19,15 @@ describe("go-to-top", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("is a real link, to the top by default", () => {
+        expect(
+            render("go-to-top", { text: "Top" }).document.querySelector("a").getAttribute("href"),
+        ).toBe("#top");
+        expect(
+            render("go-to-top", { text: "Part", href: "#part" })
+                .document.querySelector("a")
+                .getAttribute("href"),
+        ).toBe("#part");
+    });
 });

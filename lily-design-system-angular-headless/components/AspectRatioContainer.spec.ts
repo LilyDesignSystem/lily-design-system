@@ -29,4 +29,13 @@ describe("AspectRatioContainer", () => {
                 .hasAttribute("aria-label"),
         ).toBe(false);
     });
+
+    test("carries the ratio", () => {
+        const fixture = TestBed.createComponent(AspectRatioContainer);
+        fixture.componentRef.setInput("ratio", 1.5);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".aspect-ratio-container");
+        expect(el.getAttribute("data-aspect-ratio-container")).toBe("1.5");
+        expect(el.style.aspectRatio).toContain("1.5");
+    });
 });

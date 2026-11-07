@@ -4,13 +4,13 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label    — string, optional. Accessible label via aria-label.
+//   label    — string, optional. Spoken form, read instead of the visible key.
 //   children — ReactNode, required. Component content.
 //   ...restProps — additional HTML attributes spread onto the <kbd>.
 //
 // Accessibility:
 //   - native <kbd> semantics
-//   - aria-label exposes a screen-reader name when label is provided
+//   - hidden text comes from `label` when given
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
@@ -22,7 +22,7 @@ import React from "react";
 
 export interface KbdProps {
     className?: string;
-    /** Optional accessible label set on aria-label. */
+    /** Spoken form, read instead of the visible key. */
     label?: string;
     /** Component content. */
     children: React.ReactNode;
@@ -38,10 +38,15 @@ export default function Kbd({
     return (
         <kbd
             className={`kbd ${className}`}
-            aria-label={label}
             {...restProps}
         >
-            {children}
+            {label ? <span className="screen-reader-span">{`${label} `}</span> : null}
+            <span
+                className="kbd-text"
+                aria-hidden={label ? "true" : undefined}
+            >
+                {children}
+            </span>
         </kbd>
     );
 }

@@ -9,4 +9,11 @@ describe("MockupTabletPortrait", () => {
         expect(el).toBeTruthy();
         expect(el.getAttribute("class")).toContain("mockup-tablet-portrait");
     });
+
+    test("has role=img with a label", () => {
+        const { container } = render(MockupTabletPortrait, { props: { label: "Story" } as any });
+        const root = container.querySelector(".mockup-tablet-portrait")!;
+        expect(root.getAttribute("role")).toBe("img");
+        expect(root.getAttribute("aria-label")).toBe("Story");
+    });
 });

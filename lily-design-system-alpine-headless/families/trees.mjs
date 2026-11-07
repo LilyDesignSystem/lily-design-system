@@ -122,20 +122,22 @@ const popupTests = (slug, exclusive) => `
   const open = async () => { trigger().click(); await tick(); await tick(); };
   it("is a combobox popping a tree, closed at first", async () => {
     await mount("${slug}");
-    expect(el().getAttribute("role")).toBe("combobox");
-    expect(el().getAttribute("aria-haspopup")).toBe("tree");
-    expect(el().getAttribute("aria-expanded")).toBe("false");
+    const trigger = el().querySelector("button");
+    expect(trigger.getAttribute("role")).toBe("combobox");
+    expect(trigger.getAttribute("aria-haspopup")).toBe("tree");
+    expect(trigger.getAttribute("aria-expanded")).toBe("false");
+    expect(trigger.getAttribute("aria-controls")).toBe(panel().id);
     expect(panel().hidden).toBe(true);
   });
   it("the trigger opens the panel and moves focus into the tree; Escape returns it", async () => {
     await mount("${slug}");
     trigger().focus();
     await open();
-    expect(el().getAttribute("aria-expanded")).toBe("true");
+    expect(el().querySelector("button").getAttribute("aria-expanded")).toBe("true");
     expect(panel().hidden).toBe(false);
     expect(document.activeElement).toBe(item("one"));
     await press(document.activeElement, "Escape");
-    expect(el().getAttribute("aria-expanded")).toBe("false");
+    expect(el().querySelector("button").getAttribute("aria-expanded")).toBe("false");
     expect(panel().hidden).toBe(true);
     expect(document.activeElement).toBe(trigger());
   });
@@ -224,9 +226,9 @@ ${sample("  ", "tree-list-item")}
         tag: "div",
         keyboard:
             "Enter/Space or ArrowDown on the trigger opens; the tree takes the APG keys; Escape closes and returns to the trigger",
-        aria: 'role="combobox" with aria-haspopup="tree", aria-expanded and aria-label; the panel holds a role="tree", which carries aria-multiselectable in multiple mode (the root gets data-multiple)',
-        markup: `<div class="tree-select" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="" x-data="lilyTreeSelect()" x-bind="root">
-  <button class="tree-select-trigger" x-bind="trigger"><!-- Consumer provides the display value or placeholder text --></button>
+        aria: 'a trigger with role="combobox", aria-haspopup="tree", aria-expanded, aria-controls and aria-label; the panel holds a role="tree", which carries aria-multiselectable in multiple mode (the root gets data-multiple)',
+        markup: `<div class="tree-select" x-data="lilyTreeSelect()" x-bind="root">
+  <button class="tree-select-trigger" aria-label="" x-bind="trigger"><!-- Consumer provides the display value or placeholder text --></button>
   <div class="tree-select-panel" hidden x-bind="panel">
     <ul class="tree-list" role="tree" aria-label="" x-bind="tree">
 ${sample("      ", "tree-list-item")}
@@ -242,9 +244,9 @@ ${sample("      ", "tree-list-item")}
         tag: "div",
         keyboard:
             "Enter/Space or ArrowDown on the trigger opens; arrows move and open one branch per level; Escape closes",
-        aria: 'role="combobox" with aria-haspopup="tree", aria-expanded and aria-label; the panel holds a role="tree" of cascading lists',
-        markup: `<div class="cascader" role="combobox" aria-haspopup="tree" aria-expanded="false" aria-label="" x-data="lilyCascader()" x-bind="root">
-  <button class="cascader-trigger" x-bind="trigger"><!-- Consumer provides the display value or placeholder text --></button>
+        aria: 'a trigger with role="combobox", aria-haspopup="tree", aria-expanded, aria-controls and aria-label; the panel holds a role="tree" of cascading lists',
+        markup: `<div class="cascader" x-data="lilyCascader()" x-bind="root">
+  <button class="cascader-trigger" aria-label="" x-bind="trigger"><!-- Consumer provides the display value or placeholder text --></button>
   <div class="cascader-panel" hidden x-bind="panel">
     <ul class="cascader-list" role="tree" aria-label="" x-bind="tree">
 ${sample("      ", "cascader-option")}

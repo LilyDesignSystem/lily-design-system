@@ -33,4 +33,15 @@ describe("CheckListItem", () => {
         const el = fixture.nativeElement.querySelector("li");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("holds a labelled checkbox", () => {
+        const fixture = TestBed.createComponent(CheckListItem);
+        fixture.componentRef.setInput("checked", true);
+        fixture.componentRef.setInput("disabled", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        const box = el.querySelector("label input[type=checkbox]");
+        expect(box.checked).toBe(true);
+        expect(box.disabled).toBe(true);
+    });
 });

@@ -19,4 +19,16 @@ describe("Resizable", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a focusable region", () => {
+        const fixture = TestBed.createComponent(Resizable);
+        fixture.componentRef.setInput("label", "Notes");
+        fixture.componentRef.setInput("direction", "vertical");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".resizable");
+        expect(el.getAttribute("role")).toBe("region");
+        expect(el.getAttribute("tabindex")).toBe("0");
+        expect(el.getAttribute("aria-label")).toBe("Notes");
+        expect(el.getAttribute("data-resize")).toBe("vertical");
+    });
 });

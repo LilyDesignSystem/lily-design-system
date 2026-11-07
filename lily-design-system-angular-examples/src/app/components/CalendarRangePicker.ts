@@ -4,8 +4,8 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * CalendarRangePicker component
  *
  * A headless container for calendar-based date range selection. Renders a <div>
- * with role="application" to support rich keyboard interactions beyond standard
- * navigation. Used in booking systems, travel planners, analytics dashboards,
+ * with role="group" naming the controls the consumer
+ * puts inside it. Used in booking systems, travel planners, analytics dashboards,
  * and reporting tools where users define start and end dates.
  *
  * Props:
@@ -32,7 +32,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *   selection (Enter/Space), and range extension (Shift+click) as appropriate.
  *
  * Accessibility:
- *   - role="application" indicates the widget manages its own keyboard interactions
+ *   - role="group" groups the calendar controls under aria-label
  *   - aria-label provides an accessible name for the calendar range picker
  *
  * Internationalization:
@@ -42,16 +42,16 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  * Claude rules:
  *   - Headless: no CSS, no styles — consumer provides all styling
  *   - Consumer provides all selection logic, range highlighting, and navigation
- *   - role="application" overrides standard screen reader navigation
+ *   - role="group" leaves screen reader reading keys working
  *
  * References:
- *   - WAI-ARIA Application Role: https://www.w3.org/TR/wai-aria-1.2/#application
+ *   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
  *   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
  */
 @Component({
     selector: "lily-calendar-range-picker",
     standalone: true,
-    template: `<div class="calendar-range-picker {{ className() }}" role="radiogroup" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="calendar-range-picker {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarRangePicker {

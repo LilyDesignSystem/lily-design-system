@@ -12,17 +12,17 @@
 
 ## Key Behaviors
 
-- Renders <div role="combobox" aria-haspopup="tree" aria-expanded aria-label> as container
+- Renders a <div> container; its trigger is the <button role="combobox" aria-haspopup="tree" aria-expanded aria-controls aria-label>
 - Trigger is a native <button class="tree-select-trigger" type="button">
 - Panel is a <div class="tree-select-panel"> `popover="manual"`, shown while `expanded` (the hidden attribute where the Popover API is missing)
 - label prop is REQUIRED and sets aria-label on the combobox
-- multiple prop sets data-multiple="true" on the combobox when true (aria-multiselectable is not valid on a combobox; the consumer's role="tree" carries it)
+- multiple prop sets data-multiple="true" on the root when true (aria-multiselectable is not valid on a combobox; the consumer's role="tree" carries it)
 - disabled disables the trigger button
 - Children typically include TreeNav/TreeList
 
 ## ARIA
 
-- role="combobox" on the container
+- role="combobox" on the trigger button, the focusable element, as the APG select-only combobox has it
 - aria-haspopup="tree"
 - aria-expanded reflects expanded prop
 - aria-label is the accessible name (required)

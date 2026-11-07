@@ -85,7 +85,7 @@ def pairs():
             ("lily-design-system-vue-headless/components", "lily-design-system-vue-nuxt-examples/components"),
             ("lily-design-system-angular-headless/components", "lily-design-system-angular-examples/src/app/components"),
         ):
-            for companion in (slug, "form-reset", "overflow-navigation" if slug == "navigation-menu" else None):
+            for companion in (slug, "form-reset", "attr-when-set", "overflow-navigation" if slug == "navigation-menu" else None):
                 if companion is None:
                     continue
                 src = os.path.join(TOP, lib, companion + ".ts")

@@ -1,7 +1,7 @@
 .breadcrumb-link {
   /* nhsuk-blue (#005eb8) gives ~5.85:1 on pale-grey background.
      nhsuk-bright-blue (#0072ce) was 4.41:1 — fails WCAG AA 4.5:1. */
-  color: var(--nhsuk-blue);
+  color: var(--nhsuk-link);
   text-decoration-thickness: 1px;
 }
 
@@ -11,5 +11,5 @@
 }
 
 .breadcrumb-link:visited {
-  color: var(--nhsuk-purple);
+  color: var(--nhsuk-link-visited);
 }

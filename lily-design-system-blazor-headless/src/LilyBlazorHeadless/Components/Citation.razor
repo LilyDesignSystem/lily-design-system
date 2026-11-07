@@ -7,7 +7,7 @@
 
     Props:
       CssClass — string, optional. CSS class name, added after the base class hook on the root.
-      Label — string, optional. Accessible name, rendered as aria-label on the root.
+      Label — string, optional. Hidden text read before the citation.
       ChildContent — RenderFragment, required. The cited title or source name.
       AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
 
@@ -21,7 +21,7 @@
       - None -- not interactive; any interactive children handle their own keys
 
     Accessibility:
-      - aria-label comes from `label` when given
+      - hidden text comes from `label` when given
 
     Internationalization:
       - No hardcoded user-facing strings
@@ -33,7 +33,7 @@
       - MDN <cite>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite
 *@
 
-<cite class="@($"citation {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</cite>
+<cite class="@($"citation {CssClass}".Trim())" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@ChildContent</cite>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

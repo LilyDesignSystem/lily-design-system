@@ -27,4 +27,13 @@ describe("ContainerWithFluidWidth", () => {
         expect(el.hasAttribute("aria-label")).toBe(false);
         expect(el.hasAttribute("role")).toBe(false);
     });
+
+    test("takes a padding", () => {
+        const fixture = TestBed.createComponent(ContainerWithFluidWidth);
+        fixture.componentRef.setInput("paddingInline", "2rem");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".container-with-fluid-width");
+        expect(el.getAttribute("data-padding-inline")).toBe("2rem");
+        expect(el.style.width).toBe("100%");
+    });
 });

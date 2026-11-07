@@ -1,12 +1,12 @@
 # Kypros National Passport Number View
 
-KyprosNationalPassportNumberView is a headless read-only display of Kypros's National Passport Number, Kypros's passport identifier. It renders as a `<span>` with `role="text"` so assistive technology announces the identifier as a single unit. It is the read-only companion to KyprosNationalPassportNumberInput.
+KyprosNationalPassportNumberView is a headless read-only display of Kypros's National Passport Number, Kypros's passport identifier. It renders as a `<span>`. It is the read-only companion to KyprosNationalPassportNumberInput.
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
 ## Implementation Notes
 
-- Renders as `<span>` with `role="text"`
+- Renders as `<span>`, with no role
 - Format: passports before 13/12/2010 begin with 'E' followed by 6 digits (e.g. E123456); biometric passports issued after 13/12/2010 begin with 'K' followed by 8 digits (e.g. K12345678)
 - Provides accessible name via the `value` content
 - Companion to KyprosNationalPassportNumberInput
@@ -29,7 +29,7 @@ KyprosNationalPassportNumberView is a headless read-only display of Kypros's Nat
 
 ## ARIA
 
-- `role="text"` ensures the identifier is announced as a single unit
+- No role, and no `aria-label`: a `<span>` cannot take a name, so `label` renders as hidden text in a `screen-reader-span`
 
 ## When to Use
 
@@ -49,7 +49,7 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Testing
 
-- Verify renders a `<span>` with the correct class and `role="text"`
+- Verify renders a `<span>` with the correct class, no role and no `aria-label`
 - Verify the `value` prop is rendered as text content
 - Verify `label` renders as hidden text, and that the root has no `aria-label`
 

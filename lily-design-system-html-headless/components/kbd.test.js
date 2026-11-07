@@ -15,9 +15,9 @@ describe("Kbd", function () {
         expect(className).toContain("kbd");
     });
 
-    it("should have an aria-label attribute", async function () {
-        const el = await $("kbd.kbd");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+    it("should give the spoken form as hidden text, and hide the key", async function () {
+        expect(await (await $("kbd.kbd")).getAttribute("aria-label")).toBeNull();
+        expect(await (await $("kbd.kbd .screen-reader-span")).isExisting()).toBe(true);
+        expect(await (await $("kbd.kbd .kbd-text")).getAttribute("aria-hidden")).toBe("true");
     });
 });

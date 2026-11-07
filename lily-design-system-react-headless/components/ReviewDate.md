@@ -14,7 +14,7 @@ The component is commonly used in dashboards, compliance tracking, audit logs, a
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (required) -- hidden text read before the date, in a `screen-reader-span`
 - `datetime`: string (required) -- ISO 8601 date/time string for machine readability
 - `children`: ReactNode (required) -- human-readable display text for the date
 - `...restProps`: any -- additional HTML attributes spread onto the time element
@@ -45,5 +45,5 @@ None -- this is an informational display, not interactive.
 
 ## ARIA
 
-- `aria-label` -- provides screen reader context from the `label` prop
+- `label` is hidden text in a `screen-reader-span`, read before the date; a name on `<time>` is not reliably read
 - `datetime` -- machine-readable date attribute on the `<time>` element

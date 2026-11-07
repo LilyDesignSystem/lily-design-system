@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
 /**
- * SummaryList — an ordered list of key-value summary pairs
+ * SummaryList — a description list of key-value summary pairs
  *
  * Headless Angular component. Renders the semantic HTML root with the
  * kebab-case class hook `summary-list` and the consumer-provided `className`.
@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-summary-list",
     standalone: true,
-    template: `<ol class="summary-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ol>`,
+    template: `<dl class="summary-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></dl>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SummaryList {

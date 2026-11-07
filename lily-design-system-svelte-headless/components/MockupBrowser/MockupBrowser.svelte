@@ -48,6 +48,7 @@
 <!-- MockupBrowser.svelte -->
 <div
     class={`mockup-browser ${className}`}
+    role="img"
     aria-label={label}
     {...restProps}
 >

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="five-face-rating-view"\n  aria-label=""\n>\n  <!-- Consumer provides text content -->\n</span>';
+    '<span\n  class="five-face-rating-view"\n  role="img"\n  aria-label=""\n>\n  <!-- Consumer provides text content -->\n</span>';
 
 const meta = {
     title: "Headless/Five Face Rating View",

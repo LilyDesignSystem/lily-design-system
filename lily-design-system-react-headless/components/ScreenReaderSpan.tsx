@@ -22,8 +22,6 @@ import React from "react";
 
 export interface ScreenReaderSpanProps {
     className?: string;
-    /** Optional accessible label set on aria-label. */
-    label?: string;
     /** Component content. */
     children: React.ReactNode;
     [key: string]: unknown;
@@ -31,14 +29,12 @@ export interface ScreenReaderSpanProps {
 
 export default function ScreenReaderSpan({
     className = "",
-    label = undefined,
     children,
     ...restProps
 }: ScreenReaderSpanProps) {
     return (
         <span
             className={`screen-reader-span ${className}`}
-            aria-label={label}
             {...restProps}
         >
             {children}

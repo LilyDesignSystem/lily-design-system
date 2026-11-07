@@ -3,11 +3,11 @@
   border: 2px solid var(--nhsuk-black);
   border-radius: 4px;
   padding: var(--nhsuk-spacing-2);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
 }
 .signature-pad-canvas {
   display: block;
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   border: 1px dashed var(--nhsuk-mid-grey);
   cursor: crosshair;
 }

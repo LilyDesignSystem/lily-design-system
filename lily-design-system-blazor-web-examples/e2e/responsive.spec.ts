@@ -133,9 +133,9 @@ test.describe("responsive: 60-character unbroken string at 320px (P15-T6)", () =
                 const wrap = document.createElement("div");
                 wrap.setAttribute("data-test-fixture", "long-string");
                 wrap.innerHTML =
-                    '<ol class="summary-list"><li class="summary-list-item"><span>Reference</span> <strong>' +
+                    '<dl class="summary-list"><div class="summary-list-item"><dt>Reference</dt><dd>' +
                     text +
-                    "</strong></li></ol>" +
+                    "</dd></div></dl>" +
                     '<table class="data-table" aria-label="Long string"><thead class="data-table-head"><tr class="data-table-row"><th class="data-table-th">Name</th><th class="data-table-th">Value</th></tr></thead>' +
                     '<tbody class="data-table-body"><tr class="data-table-row"><td class="data-table-td">' +
                     text +

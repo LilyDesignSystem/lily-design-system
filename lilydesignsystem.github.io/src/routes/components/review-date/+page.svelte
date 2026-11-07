@@ -82,7 +82,7 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>aria-label</code> -- provides screen reader context from the <code>label</code> prop</li>
+      <li><code>label</code> is hidden text in a <code>screen-reader-span</code>, read before the date; a name on <code>&lt;time&gt;</code> is not reliably read</li>
       <li><code>datetime</code> -- machine-readable date attribute on the <code>&lt;time&gt;</code> element</li>
     </ul>
     <h3>Keyboard</h3>
@@ -91,7 +91,7 @@
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>label</code>: string (required) -- accessible label for screen readers via <code>aria-label</code></li>
+      <li><code>label</code>: string (required) -- hidden text read before the date, in a <code>screen-reader-span</code></li>
       <li><code>datetime</code>: string (required) -- ISO 8601 date/time string for machine readability</li>
       <li><code>children</code>: slot (required) -- human-readable display text for the date</li>
       <li><code>...restProps</code>: any -- additional HTML attributes spread onto the time element</li>

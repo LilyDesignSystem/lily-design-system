@@ -54,6 +54,7 @@
 <!-- AiLabel.svelte -->
 <span
     class={`ai-label ${className}`}
+    role="img"
     aria-label={label}
     {...restProps}>{text}</span
 >

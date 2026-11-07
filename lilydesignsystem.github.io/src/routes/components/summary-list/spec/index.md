@@ -4,7 +4,7 @@ Single source of truth for spec-driven development of the Summary List component
 
 ## Goal
 
-Implement the Summary List component: an ordered list of key-value summary pairs.
+Implement the Summary List component: a description list of key-value summary pairs.
 
 ## HTML Tag and CSS Class
 

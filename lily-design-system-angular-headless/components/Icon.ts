@@ -10,10 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-icon",
     standalone: true,
-    template: `<span class="icon {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    template: `<span class="icon {{ className() }}" [attr.role]="decorative() ? null : 'img'" [attr.aria-label]="label() || null" [attr.aria-hidden]="decorative() ? 'true' : null"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Icon {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Hides it from assistive technology. */
+    readonly decorative = input<boolean>(false);
 }

@@ -28,4 +28,24 @@ describe("Statistic", () => {
         expect(el.getAttribute("role")).toBe("group");
         expect(el.getAttribute("aria-label")).toBe("Story");
     });
+
+    test("names itself from its content", () => {
+        const fixture = TestBed.createComponent(Statistic);
+        fixture.componentRef.setInput("title", "Users");
+        fixture.componentRef.setInput("value", "12");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".statistic");
+        expect(el.getAttribute("aria-label")).toBe("Users: 12");
+        expect(el.querySelector(".statistic-title").textContent).toBe("Users");
+        expect(el.querySelector(".statistic-value").textContent).toBe("12");
+        expect(fixture.nativeElement.hasAttribute("title")).toBe(false);
+    });
+
+    test("prefers its label", () => {
+        const fixture = TestBed.createComponent(Statistic);
+        fixture.componentRef.setInput("label", "Twelve users");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".statistic");
+        expect(el.getAttribute("aria-label")).toBe("Twelve users");
+    });
 });

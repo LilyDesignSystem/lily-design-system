@@ -27,8 +27,8 @@
   {%- if baseId %} id="{{ baseId }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  <input class="date-time-now-input-date" type="date" value="{{ p.date | default('') }}" id="{{ baseId }}-date" name="{{ baseName }}-date"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.dateLabel %} aria-label="{{ p.dateLabel }}"{% endif %}>
-  <input class="date-time-now-input-time" type="time" value="{{ p.time | default('') }}" id="{{ baseId }}-time" name="{{ baseName }}-time"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.timeLabel %} aria-label="{{ p.timeLabel }}"{% endif %}>
+  <input class="date-time-now-input-date" type="date" value="{{ p.date | default('') }}" id="{{ baseId }}-date" name="{{ baseName }}-date"{% if p.dateLabel %} aria-label="{{ p.dateLabel }}"{% endif %}{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.dateLabel %} aria-label="{{ p.dateLabel }}"{% endif %}>
+  <input class="date-time-now-input-time" type="time" value="{{ p.time | default('') }}" id="{{ baseId }}-time" name="{{ baseName }}-time"{% if p.timeLabel %} aria-label="{{ p.timeLabel }}"{% endif %}{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.timeLabel %} aria-label="{{ p.timeLabel }}"{% endif %}>
   <button class="date-time-now-input-now" type="button"{% if p.disabled %} disabled{% endif %} {% if p.nowLabel %} aria-label="{{ p.nowLabel }}"{% endif %} data-date-time-now>{{ p.nowLabel | default('') }}</button>
 </div>
 {%- endmacro -%}

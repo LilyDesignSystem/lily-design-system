@@ -46,6 +46,7 @@ withDefaults(
     <!-- PhaseBanner.vue -->
     <div
         class="phase-banner"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
     >
         <slot />

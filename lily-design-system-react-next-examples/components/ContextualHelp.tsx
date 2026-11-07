@@ -106,6 +106,7 @@ export default function ContextualHelp({
                 className="contextual-help-panel"
                 id={panelId}
                 role="dialog"
+                aria-label={label}
                 popover="auto"
             >
                 {children}

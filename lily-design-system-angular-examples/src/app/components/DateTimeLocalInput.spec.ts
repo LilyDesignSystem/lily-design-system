@@ -29,4 +29,14 @@ describe("DateTimeLocalInput", () => {
         const el = fixture.nativeElement.querySelector("input.date-time-local-input");
         expect(el.getAttribute("type")).toBe("datetime-local");
     });
+
+    test("carries the bounds", () => {
+        const fixture = TestBed.createComponent(DateTimeLocalInput);
+        fixture.componentRef.setInput("min", "2026-01-01T00:00");
+        fixture.componentRef.setInput("max", "2026-12-31T00:00");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("min")).toBe("2026-01-01T00:00");
+        expect(el.getAttribute("max")).toBe("2026-12-31T00:00");
+    });
 });

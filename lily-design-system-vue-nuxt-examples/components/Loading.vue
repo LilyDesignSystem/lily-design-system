@@ -33,6 +33,7 @@ withDefaults(
     <div
         class="loading"
         role="status"
+        aria-live="polite"
         :aria-label="label"
     >
         <slot />

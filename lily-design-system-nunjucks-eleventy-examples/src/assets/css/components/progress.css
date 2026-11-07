@@ -8,7 +8,7 @@
   border: 0;
   background: var(--nhsuk-pale-grey);
   overflow: hidden;
-  color: var(--nhsuk-blue);
+  color: var(--nhsuk-link);
 }
 
 .progress::-webkit-progress-bar {

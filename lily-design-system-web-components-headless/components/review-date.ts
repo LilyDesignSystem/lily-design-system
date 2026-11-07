@@ -28,13 +28,18 @@ export class ReviewDate extends HTMLElement {
 
         const time = document.createElement("time");
         time.className = rootClassName(this, "review-date");
-        const label = this.getAttribute("label");
-        if (label !== null) time.setAttribute("aria-label", label);
         const datetime = this.getAttribute("datetime");
         if (datetime !== null) time.setAttribute("datetime", datetime);
         passThroughAttributes(this, time, HANDLED);
 
         moveChildrenInto(this, time);
+        const label = this.getAttribute("label");
+        if (label) {
+            const hidden = document.createElement("span");
+            hidden.className = "screen-reader-span";
+            hidden.textContent = `${label} `;
+            time.prepend(hidden);
+        }
         this.appendChild(time);
     }
 }

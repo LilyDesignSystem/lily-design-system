@@ -1,5 +1,5 @@
 .digital-object-identifier-link {
-  color: var(--nhsuk-blue);
+  color: var(--nhsuk-link);
   text-decoration: underline;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }

@@ -15,7 +15,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "li[lily-timeline-list-item]",
     standalone: true,
-    template: `<ng-content />`,
+    template: `@if (datetime() || heading()) {<time [attr.datetime]="datetime() || null">{{ heading() }}</time>}<ng-content />`,
     host: {
         "[class]": '"timeline-list-item " + className()',
     },
@@ -23,4 +23,8 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 })
 export class TimelineListItem {
     readonly className = input<string>("");
+    /** Machine-readable date. */
+    readonly datetime = input<string>("");
+    /** Visible date or title. */
+    readonly heading = input<string>("");
 }

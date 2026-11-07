@@ -33,4 +33,34 @@ describe("KanbanTableTD", () => {
         const el = fixture.nativeElement.querySelector("td");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a gridcell out of the tab order", () => {
+        const fixture = TestBed.createComponent(KanbanTableTD);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("role")).toBe("gridcell");
+        expect(el.getAttribute("tabindex")).toBe("-1");
+    });
+
+    test("is the tab stop when active", () => {
+        const fixture = TestBed.createComponent(KanbanTableTD);
+        fixture.componentRef.setInput("active", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("tabindex")).toBe("0");
+    });
+});
+
+@Component({
+    standalone: true,
+    imports: [KanbanTableTD],
+    template: `<table><tr><td lily-kanban-table-td [attr.tabindex]="'0'">x</td></tr></table>`,
+})
+class ConsumerHost {}
+
+test("a consumer's own tabindex survives the cell", () => {
+    const fixture = TestBed.createComponent(ConsumerHost);
+    fixture.detectChanges();
+    const cell = fixture.nativeElement.querySelector("td");
+    expect(cell.getAttribute("tabindex")).toBe("0");
 });

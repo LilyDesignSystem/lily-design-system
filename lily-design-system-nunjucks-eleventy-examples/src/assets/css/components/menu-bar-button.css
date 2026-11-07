@@ -11,7 +11,7 @@
 
 .menu-bar-button:hover,
 .menu-bar-button[aria-expanded="true"] {
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
 }
 
 .menu-bar-button:focus-visible {

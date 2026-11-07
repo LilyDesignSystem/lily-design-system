@@ -91,16 +91,17 @@
 <div
     bind:this={rootEl}
     class={`tree-select ${className}`}
-    role="combobox"
-    aria-haspopup="tree"
-    aria-expanded={expanded}
-    aria-label={label}
     data-multiple={multiple || undefined}
     {...restProps}
 >
+    <!-- svelte-ignore a11y_role_has_required_aria_props (attachTreePopup sets aria-controls on mount: it gives the panel its id) -->
     <button
         class="tree-select-trigger"
         type="button"
+        role="combobox"
+        aria-haspopup="tree"
+        aria-expanded={expanded}
+        aria-label={label}
         {disabled}
         {onclick}
     >

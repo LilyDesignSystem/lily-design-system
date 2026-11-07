@@ -24,12 +24,12 @@ describe("CalendarRangePicker", () => {
         expect(host.classList.contains("calendar-range-picker")).toBe(true);
     });
 
-    test("has role=application", () => {
+    test("has role=group", () => {
         const host = render(
             '<lily-calendar-range-picker label="Select dates"></lily-calendar-range-picker>',
         );
 
-        expect(host.getAttribute("role")).toBe("application");
+        expect(host.getAttribute("role")).toBe("group");
     });
 
     test("uses label as the accessible name", () => {
@@ -63,7 +63,7 @@ describe("CalendarRangePicker", () => {
 
         (host as unknown as CalendarRangePicker).connectedCallback();
 
-        expect(host.getAttribute("role")).toBe("application");
+        expect(host.getAttribute("role")).toBe("group");
         expect(host.getAttribute("aria-label")).toBe("Select dates");
     });
 });

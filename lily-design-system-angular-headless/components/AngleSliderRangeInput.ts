@@ -25,11 +25,22 @@ import { restoreOnFormReset } from "./form-reset";
       type="range"
       [attr.aria-label]="label() || null"
       autocomplete="off"
+      [min]="min()"
+      [max]="max()"
+      [step]="step()"
+      [attr.name]="name() ?? null"
+      [attr.id]="id() ?? null"
+      [attr.aria-valuemin]="min()"
+      [attr.aria-valuemax]="max()"
+      [attr.aria-valuenow]="value()"
+      [attr.aria-valuetext]="value() + valueTextSuffix()"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
       [required]="required()"
     />`,
+    // The id belongs on the input: left on the host too it would be a duplicate.
+    host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AngleSliderRangeInput implements OnInit {
@@ -39,6 +50,18 @@ export class AngleSliderRangeInput implements OnInit {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Smallest angle. */
+    readonly min = input<number>(0);
+    /** Largest angle. */
+    readonly max = input<number>(360);
+    /** Angle step. */
+    readonly step = input<number>(1);
+    /** Form field name. */
+    readonly name = input<string | undefined>(undefined);
+    /** Id of the input. */
+    readonly id = input<string | undefined>(undefined);
+    /** Appended to the value in aria-valuetext: consumer-supplied, such as " degrees". */
+    readonly valueTextSuffix = input<string>("°");
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

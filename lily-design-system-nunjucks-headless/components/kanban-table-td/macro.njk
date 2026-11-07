@@ -23,6 +23,8 @@
 {%- macro kanbanTableTd(params) -%}
 <td
   class="kanban-table-td{% if params.classes %} {{ params.classes }}{% endif %}"
+  role="gridcell"
+  {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
   {%- if params.colspan %} colspan="{{ params.colspan }}"{% endif %}
   {%- if params.rowspan %} rowspan="{{ params.rowspan }}"{% endif %}
   {%- if params.headers %} headers="{{ params.headers }}"{% endif %}

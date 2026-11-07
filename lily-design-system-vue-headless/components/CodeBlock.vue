@@ -4,12 +4,12 @@
 // A block of formatted code with optional line numbers and line highlighting.
 //
 // Props:
-//   label — string, optional. Accessible label via aria-label.
+//   label — string, optional. Names the block, which becomes role="region".
 //   default slot — component content.
 //
 // Accessibility:
 //   - native <pre> semantics
-//   - aria-label exposes a screen-reader name when label is provided
+//   - role="region" and aria-label come from `label` when given
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
@@ -19,7 +19,7 @@
 
 withDefaults(
     defineProps<{
-        /** Optional accessible label set on aria-label. */
+        /** Names the block, which becomes role="region". */
         label?: string;
     }>(),
     {
@@ -32,6 +32,7 @@ withDefaults(
     <!-- CodeBlock.vue -->
     <pre
         class="code-block"
+        :role="label ? 'region' : undefined"
         :aria-label="label"
     >
         <slot />

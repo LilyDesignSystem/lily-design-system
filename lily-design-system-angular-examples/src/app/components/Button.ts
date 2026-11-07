@@ -10,7 +10,15 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-button",
     standalone: true,
-    template: `<button class="button {{ className() }}" type="button" [attr.aria-label]="label() || null"><ng-content /></button>`,
+    template: `<button
+        class="button {{ className() }}"
+        [attr.type]="type()"
+        [disabled]="disabled()"
+        [attr.aria-pressed]="pressed() ?? null"
+        [attr.aria-label]="label() || null"
+    >
+        <ng-content />
+    </button>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Button {
@@ -18,4 +26,10 @@ export class Button {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** The button type: "submit" submits its form. */
+    readonly type = input<"button" | "submit" | "reset">("button");
+    /** Disables the button. */
+    readonly disabled = input<boolean>(false);
+    /** Toggle state, for a button that stays pressed. Unset is not a toggle. */
+    readonly pressed = input<boolean | undefined>(undefined);
 }

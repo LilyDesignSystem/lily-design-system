@@ -5,7 +5,7 @@
   padding: var(--nhsuk-spacing-1);
   border: 2px solid var(--nhsuk-black);
   border-radius: 3px;
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
 }
 .tag-input-div-list {
   display: contents;

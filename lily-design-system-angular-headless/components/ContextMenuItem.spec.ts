@@ -19,4 +19,12 @@ describe("ContextMenuItem", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a menu item", () => {
+        const fixture = TestBed.createComponent(ContextMenuItem);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".context-menu-item");
+        expect(el.getAttribute("role")).toBe("menuitem");
+        expect(el.getAttribute("tabindex")).toBe("-1");
+    });
 });

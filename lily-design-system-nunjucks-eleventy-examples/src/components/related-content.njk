@@ -7,10 +7,10 @@ description: an aside showing related content links
 {% from "components/related-content/macro.njk" import relatedContent %}
 
 <h2>Default</h2>
-{{ relatedContent({ text: "Example RelatedContent content" }) }}
+{{ relatedContent({ label: "Related guides", html: "<ul><li><a href='#fever'>Fever in children</a></li><li><a href='#rash'>Rashes</a></li></ul>" }) }}
 
 <h2>With accessible label</h2>
-{{ relatedContent({ text: "Example content", label: "RelatedContent example" }) }}
+{{ relatedContent({ label: "More in this section", html: "<ul><li><a href='#vaccines'>Vaccinations</a></li></ul>" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

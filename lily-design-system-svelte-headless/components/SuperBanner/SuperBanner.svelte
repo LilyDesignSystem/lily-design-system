@@ -48,6 +48,8 @@
 <!-- SuperBanner.svelte -->
 <div
     class={`super-banner ${className}`}
+    role="alert"
+    aria-live="assertive"
     aria-label={label}
     {...restProps}
 >

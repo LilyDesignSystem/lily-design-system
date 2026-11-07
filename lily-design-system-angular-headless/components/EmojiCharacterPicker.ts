@@ -53,7 +53,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-emoji-character-picker",
     standalone: true,
-    template: `<div class="emoji-character-picker {{ className() }}" role="radiogroup" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="emoji-character-picker {{ className() }}" role="grid" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmojiCharacterPicker {

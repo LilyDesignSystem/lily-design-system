@@ -1,8 +1,8 @@
 {
   "slug": "summary-list",
   "name": "SummaryList",
-  "description": "an ordered list of key-value summary pairs",
-  "htmlTag": "ol",
+  "description": "a description list of key-value summary pairs",
+  "htmlTag": "dl",
   "category": "lists",
   "baseClass": ".summary-list",
   "subClasses": [],

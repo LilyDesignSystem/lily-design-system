@@ -33,4 +33,37 @@ describe("CalendarTableTD", () => {
         const el = fixture.nativeElement.querySelector("td");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a gridcell out of the tab order", () => {
+        const fixture = TestBed.createComponent(CalendarTableTD);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("role")).toBe("gridcell");
+        expect(el.getAttribute("tabindex")).toBe("-1");
+    });
+
+    test("reflects selected and today", () => {
+        const fixture = TestBed.createComponent(CalendarTableTD);
+        fixture.componentRef.setInput("selected", true);
+        fixture.componentRef.setInput("today", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("aria-selected")).toBe("true");
+        expect(el.getAttribute("aria-current")).toBe("date");
+        expect(el.getAttribute("tabindex")).toBe("0");
+    });
+});
+
+@Component({
+    standalone: true,
+    imports: [CalendarTableTD],
+    template: `<table><tr><td lily-calendar-table-td [attr.aria-selected]="'true'">x</td></tr></table>`,
+})
+class ConsumerHost {}
+
+test("a consumer's own aria-selected survives the cell", () => {
+    const fixture = TestBed.createComponent(ConsumerHost);
+    fixture.detectChanges();
+    const cell = fixture.nativeElement.querySelector("td");
+    expect(cell.getAttribute("aria-selected")).toBe("true");
 });

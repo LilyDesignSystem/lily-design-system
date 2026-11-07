@@ -22,10 +22,10 @@ describe("KanbanTable", () => {
         expect(host.querySelector("table")!.className).toBe("kanban-table");
     });
 
-    test("has role=region (per the canonical acceptance criteria)", () => {
+    test("is a grid, as in the other catalogs", () => {
         const host = render('<lily-kanban-table label="Sprint 5 board"></lily-kanban-table>');
 
-        expect(host.querySelector("table")!.getAttribute("role")).toBe("region");
+        expect(host.querySelector("table")!.getAttribute("role")).toBe("grid");
     });
 
     test("uses label as the accessible name", () => {

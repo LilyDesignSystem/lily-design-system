@@ -55,4 +55,14 @@ describe("date-time-now-input", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("names each input from its label", () => {
+        const { document } = render("date-time-now-input", {
+            id: "a",
+            dateLabel: "Date",
+            timeLabel: "Time",
+        });
+        expect(document.querySelector("input[type=date]").getAttribute("aria-label")).toBe("Date");
+        expect(document.querySelector("input[type=time]").getAttribute("aria-label")).toBe("Time");
+    });
 });

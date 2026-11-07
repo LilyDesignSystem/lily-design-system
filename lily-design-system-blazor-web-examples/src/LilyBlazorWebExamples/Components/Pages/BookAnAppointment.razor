@@ -22,16 +22,16 @@
 {
     <StepList Label="Booking progress">
         <StepListItem Label="Reason" data-status="@StatusFor(1)" aria-current="@(step == 1 ? "step" : null)">
-            <StatusTag Label="@StatusLabelFor(1)">@StatusLabelFor(1)</StatusTag> Reason
+            <StatusTag>@StatusLabelFor(1)</StatusTag> Reason
         </StepListItem>
         <StepListItem Label="Date and time" data-status="@StatusFor(2)" aria-current="@(step == 2 ? "step" : null)">
-            <StatusTag Label="@StatusLabelFor(2)">@StatusLabelFor(2)</StatusTag> Date and time
+            <StatusTag>@StatusLabelFor(2)</StatusTag> Date and time
         </StepListItem>
         <StepListItem Label="Your details" data-status="@StatusFor(3)" aria-current="@(step == 3 ? "step" : null)">
-            <StatusTag Label="@StatusLabelFor(3)">@StatusLabelFor(3)</StatusTag> Your details
+            <StatusTag>@StatusLabelFor(3)</StatusTag> Your details
         </StepListItem>
         <StepListItem Label="Check your answers" data-status="@StatusFor(4)" aria-current="@(step == 4 ? "step" : null)">
-            <StatusTag Label="@StatusLabelFor(4)">@StatusLabelFor(4)</StatusTag> Check your answers
+            <StatusTag>@StatusLabelFor(4)</StatusTag> Check your answers
         </StepListItem>
     </StepList>
 }
@@ -226,8 +226,7 @@ else if (step == 4)
     <h2 id="step-heading" tabindex="-1">Check your answers</h2>
 
     <SummaryList Label="Your appointment details">
-        <SummaryListItem Label="Reason">
-            <strong>Reason: </strong>
+        <SummaryListItem Term="Reason">
             @(ReasonLabels.TryGetValue(reason, out var reasonSummaryText) ? reasonSummaryText : "Not answered")
             @if (reason == "other" && !string.IsNullOrWhiteSpace(reasonOther))
             {
@@ -235,31 +234,26 @@ else if (step == 4)
             }
             <a href="#reason" @onclick="@(() => GoToStep(1))" @onclick:preventDefault>Change<span class="screen-reader-span"> reason</span></a>
         </SummaryListItem>
-        <SummaryListItem Label="Date">
-            <strong>Date: </strong>
+        <SummaryListItem Term="Date">
             @(string.IsNullOrEmpty(appointmentDate) ? "Not answered" : appointmentDate)
             <a href="#date" @onclick="@(() => GoToStep(2))" @onclick:preventDefault>Change<span class="screen-reader-span"> date</span></a>
         </SummaryListItem>
-        <SummaryListItem Label="Time of day">
-            <strong>Time of day: </strong>
+        <SummaryListItem Term="Time of day">
             @(TimeLabels.TryGetValue(appointmentTime, out var timeSummaryText) ? timeSummaryText : "Not answered")
             <a href="#time" @onclick="@(() => GoToStep(2))" @onclick:preventDefault>Change<span class="screen-reader-span"> time of day</span></a>
         </SummaryListItem>
-        <SummaryListItem Label="Full name">
-            <strong>Full name: </strong>
+        <SummaryListItem Term="Full name">
             @(string.IsNullOrEmpty(fullName) ? "Not answered" : fullName)
             <a href="#name" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="screen-reader-span"> full name</span></a>
         </SummaryListItem>
-        <SummaryListItem Label="Email address">
-            <strong>Email address: </strong>
+        <SummaryListItem Term="Email address">
             @(string.IsNullOrEmpty(email) ? "Not answered" : email)
             <a href="#email-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="screen-reader-span"> email address</span></a>
         </SummaryListItem>
-        <SummaryListItem Label="Phone number">
-            <strong>Phone number: </strong>
+        <SummaryListItem Term="Phone number">
             @if (string.IsNullOrEmpty(phone))
             {
-                <StatusTag Label="Not provided">Not provided</StatusTag>
+                <StatusTag>Not provided</StatusTag>
             }
             else
             {
@@ -267,8 +261,7 @@ else if (step == 4)
             }
             <a href="#phone-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="screen-reader-span"> phone number</span></a>
         </SummaryListItem>
-        <SummaryListItem Label="Interpreter or additional support">
-            <strong>Interpreter or additional support: </strong>
+        <SummaryListItem Term="Interpreter or additional support">
             @(needsSupport ? "Yes" : "No")
             <a href="#support-review" @onclick="@(() => GoToStep(3))" @onclick:preventDefault>Change<span class="screen-reader-span"> interpreter or additional support</span></a>
         </SummaryListItem>
@@ -305,10 +298,10 @@ else if (step == 5)
     </SuccessPanel>
 
     <StepList Label="Booking progress">
-        <StepListItem Label="Reason"><StatusTag Label="Completed">Completed</StatusTag> Reason</StepListItem>
-        <StepListItem Label="Date and time"><StatusTag Label="Completed">Completed</StatusTag> Date and time</StepListItem>
-        <StepListItem Label="Your details"><StatusTag Label="Completed">Completed</StatusTag> Your details</StepListItem>
-        <StepListItem Label="Check your answers"><StatusTag Label="Completed">Completed</StatusTag> Check your answers</StepListItem>
+        <StepListItem Label="Reason"><StatusTag>Completed</StatusTag> Reason</StepListItem>
+        <StepListItem Label="Date and time"><StatusTag>Completed</StatusTag> Date and time</StepListItem>
+        <StepListItem Label="Your details"><StatusTag>Completed</StatusTag> Your details</StepListItem>
+        <StepListItem Label="Check your answers"><StatusTag>Completed</StatusTag> Check your answers</StepListItem>
     </StepList>
 
     <Panel Label="What happens next">

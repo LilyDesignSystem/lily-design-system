@@ -48,6 +48,7 @@
 <!-- MockupShell.svelte -->
 <div
     class={`mockup-shell ${className}`}
+    role="img"
     aria-label={label}
     {...restProps}
 >

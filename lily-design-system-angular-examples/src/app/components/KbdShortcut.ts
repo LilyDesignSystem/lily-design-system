@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
  *   keys — string[], required. The key names, in order, e.g. ["Ctrl", "K"].
  *   separator — string, default "+". Decorative text between keys (aria-hidden).
- *   label — string, optional. Spoken form; becomes aria-label on the root.
+ *   label — string, optional. Spoken form, read instead of the visible keys.
  *   (no rest props) — Angular has no spread; attributes set on <lily-x> land on the host element, not the root.
  *
  * Keyboard:
@@ -18,7 +18,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *
  * Accessibility:
  *   - Separators are aria-hidden so screen readers read the keys
- *   - label (optional) overrides the spoken form, e.g. "Control K"
+ *   - label (optional) replaces the spoken form, e.g. "Control K": it is hidden text, and the keys are aria-hidden
  *
  * Internationalization:
  *   - Key names are consumer-supplied; no hardcoded strings
@@ -29,7 +29,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-kbd-shortcut",
     standalone: true,
-    template: `<kbd class="kbd-shortcut {{ className() }}" [attr.aria-label]="label() || null">@for (key of keys(); track $index) {@if ($index > 0) {<span class="kbd-shortcut-separator" aria-hidden="true">{{ separator() }}</span>}<kbd class="kbd-shortcut-key">{{ key }}</kbd>}</kbd>`,
+    template: `<kbd class="kbd-shortcut {{ className() }}">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}@for (key of keys(); track $index) {@if ($index > 0) {<span class="kbd-shortcut-separator" aria-hidden="true">{{ separator() }}</span>}<kbd class="kbd-shortcut-key" [attr.aria-hidden]="label() ? 'true' : null">{{ key }}</kbd>}</kbd>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KbdShortcut {

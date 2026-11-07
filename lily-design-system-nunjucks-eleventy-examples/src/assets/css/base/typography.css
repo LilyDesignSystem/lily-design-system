@@ -4,7 +4,8 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--nhsuk-black);
+  /* inherit: a heading sits on whatever surface its parent has, which a theme may have coloured. */
+  color: inherit;
   font-weight: var(--nhsuk-font-weight-bold);
   line-height: var(--nhsuk-line-height-heading);
   margin-top: var(--nhsuk-spacing-5);

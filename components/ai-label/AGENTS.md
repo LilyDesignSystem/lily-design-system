@@ -20,6 +20,7 @@
 
 ## ARIA
 
+- `role="img"`, because a `<span>` cannot be named; the label replaces the visible text for screen readers
 - `aria-label={label}` -- provides an accessible name for the AI indicator so screen readers announce its purpose
 
 ## Keyboard

@@ -78,16 +78,24 @@
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;table&gt;</li>
       <li>CSS class: .kanban-table</li>
-      <li>Interactive: no</li>
+      <li>Interactive: yes</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>role="region"</code> -- defines the Kanban board as a named landmark section</li>
-      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the board region</li>
+      <li><code>role="grid"</code> -- the board is a grid of cells</li>
+      <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name for the board</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>No keyboard interactions — this is a passive element</li>
+      <li>Tab: moves to the board, on its one tab stop, and out of it</li>
+      <li>ArrowRight / ArrowLeft: next or previous column, swapped in right-to-left; stops at the edge</li>
+      <li>ArrowDown / ArrowUp: next or previous row; stops at the edge</li>
+      <li>Home / End: first or last cell in the row</li>
+      <li>Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell on the board</li>
+      <li>PageDown / PageUp: ten rows, stopping at the edge</li>
+      <li>Enter or F2: go to the first control in the cell, which keeps its own keys</li>
+      <li>Escape: from a control, back to its cell</li>
+      <li>Moving a card between columns is the consumer's: <code>kanban-board</code> uses Alt+Arrow</li>
     </ul>
     <h3>Props</h3>
     <ul>

@@ -15,9 +15,8 @@ describe("ThemeProvider", function () {
         expect(className).toContain("theme-provider");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("should not name the generic div", async function () {
         const el = await $("div.theme-provider");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

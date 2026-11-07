@@ -5,34 +5,34 @@ import { describe, expect, test, vi } from "vitest";
 import Subject from "./TreeSelect.vue";
 
 describe("TreeSelect", () => {
-    test("renders root with tree-select class and combobox role", () => {
+    test("renders root with tree-select class and combobox trigger", () => {
         const { container } = render(Subject, { props: { label: "Department" } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
         expect(root.classList.contains("tree-select")).toBe(true);
-        expect(root.getAttribute("role")).toBe("combobox");
+        expect(root.querySelector("button")!.getAttribute("role")).toBe("combobox");
     });
 
     test("aria-haspopup tree and aria-label", () => {
         const { container } = render(Subject, { props: { label: "Department" } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
-        expect(root.getAttribute("aria-haspopup")).toBe("tree");
-        expect(root.getAttribute("aria-label")).toBe("Department");
+        expect(root.querySelector("button")!.getAttribute("aria-haspopup")).toBe("tree");
+        expect(root.querySelector("button")!.getAttribute("aria-label")).toBe("Department");
     });
 
     test("aria-expanded false by default", () => {
         const { container } = render(Subject, { props: { label: "Department" } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
-        expect(root.getAttribute("aria-expanded")).toBe("false");
+        expect(root.querySelector("button")!.getAttribute("aria-expanded")).toBe("false");
     });
 
     test("aria-expanded true when expanded", () => {
         const { container } = render(Subject, { props: { label: "Department", expanded: true } });
 
         const root: HTMLElement = container.firstElementChild as HTMLElement;
-        expect(root.getAttribute("aria-expanded")).toBe("true");
+        expect(root.querySelector("button")!.getAttribute("aria-expanded")).toBe("true");
     });
 
     test("data-multiple true when multiple", () => {
@@ -52,7 +52,7 @@ describe("TreeSelect", () => {
     test("renders trigger with placeholder when no value", () => {
         render(Subject, { props: { label: "Department", placeholder: "Choose…" } });
 
-        const trigger: HTMLElement = screen.getByRole("button");
+        const trigger: HTMLElement = screen.getByRole("combobox");
         expect(trigger.classList.contains("tree-select-trigger")).toBe(true);
         expect(trigger.textContent).toContain("Choose…");
     });
@@ -62,14 +62,14 @@ describe("TreeSelect", () => {
             props: { label: "Department", value: "Engineering / Web", placeholder: "Choose…" },
         });
 
-        const trigger: HTMLElement = screen.getByRole("button");
+        const trigger: HTMLElement = screen.getByRole("combobox");
         expect(trigger.textContent).toContain("Engineering / Web");
     });
 
     test("trigger respects disabled prop", () => {
         render(Subject, { props: { label: "Department", disabled: true } });
 
-        const trigger: HTMLButtonElement = screen.getByRole("button") as HTMLButtonElement;
+        const trigger: HTMLButtonElement = screen.getByRole("combobox") as HTMLButtonElement;
         expect(trigger.disabled).toBe(true);
     });
 
@@ -94,7 +94,7 @@ describe("TreeSelect", () => {
         const onClick = vi.fn();
         render(Subject, { props: { label: "Department", onClick } });
 
-        const trigger: HTMLElement = screen.getByRole("button");
+        const trigger: HTMLElement = screen.getByRole("combobox");
         await user.click(trigger);
         expect(onClick).toHaveBeenCalledOnce();
     });

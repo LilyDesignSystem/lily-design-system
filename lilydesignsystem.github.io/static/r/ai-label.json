@@ -9,6 +9,7 @@
   "interactive": false,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
+    "`role=\"img\"`, because a `<span>` cannot be named; the label replaces the visible text for screen readers",
     "`aria-label={label}` -- provides an accessible name for the AI indicator so screen readers announce its purpose"
   ],
   "keyboard": [

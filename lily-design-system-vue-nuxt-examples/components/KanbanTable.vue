@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref, useAttrs } from "vue";
+import { warnMissingName } from "./dev-warning";
+import { attachGrid } from "./widget-keys";
 // KanbanTable component
 //
 // A headless Kanban board that organizes work items into columns representing
@@ -53,7 +56,7 @@
 // References:
 //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** Accessible name describing the kanban board. */
         label: string;
@@ -64,11 +67,21 @@ withDefaults(
         caption: undefined,
     },
 );
+
+warnMissingName("KanbanTable", props.label, useAttrs()["aria-labelledby"]);
+
+const rootRef = ref<HTMLElement | null>(null);
+let detach: (() => void) | undefined;
+onMounted(() => {
+    detach = attachGrid(rootRef.value!);
+});
+onBeforeUnmount(() => detach?.());
 </script>
 
 <template>
     <!-- KanbanTable.vue -->
     <table
+        ref="rootRef"
         class="kanban-table"
         role="grid"
         :aria-label="label"

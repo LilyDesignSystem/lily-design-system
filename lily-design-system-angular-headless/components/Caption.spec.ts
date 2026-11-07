@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { Caption } from "./Caption";
 
 describe("Caption", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the figcaption root with the base class", () => {
         const fixture = TestBed.createComponent(Caption);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.caption");
+        const el = fixture.nativeElement.querySelector("figcaption.caption");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Caption", () => {
         const fixture = TestBed.createComponent(Caption);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.caption");
+        const el = fixture.nativeElement.querySelector("figcaption.caption");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

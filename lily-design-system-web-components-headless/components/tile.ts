@@ -31,6 +31,9 @@ export class Tile extends HTMLElement {
 
         applySelfClassName(this, "tile");
         const label = this.getAttribute("label");
-        if (label !== null) this.setAttribute("aria-label", label);
+        if (label !== null) {
+            this.setAttribute("aria-label", label);
+            if (!this.hasAttribute("role")) this.setAttribute("role", "group");
+        }
     }
 }

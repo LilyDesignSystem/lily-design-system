@@ -29,4 +29,12 @@ describe("ButtonInput", () => {
         const el = fixture.nativeElement.querySelector("input.button-input");
         expect(el.getAttribute("type")).toBe("button");
     });
+
+    test("carries the name", () => {
+        const fixture = TestBed.createComponent(ButtonInput);
+        fixture.componentRef.setInput("name", "save");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("name")).toBe("save");
+    });
 });

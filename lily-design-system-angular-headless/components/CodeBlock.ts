@@ -8,7 +8,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *
  * Props:
  *   className — input<string>, optional. CSS class name, added after the base class hook on the root.
- *   label — string, optional. Accessible name, rendered as aria-label on the root.
+ *   label — string, optional. Names the block, which becomes role="region".
  *   <ng-content /> — projected content, required. The code text (usually a <code> element inside).
  *   (no rest props) — Angular has no spread; attributes set on <lily-x> land on the host element, not the root.
  *
@@ -22,7 +22,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
  *   - None -- not interactive; any interactive children handle their own keys
  *
  * Accessibility:
- *   - aria-label comes from `label` when given
+ *   - role="region" and aria-label come from `label` when given
  *   - A scrollable <pre> should be keyboard-focusable (tabindex="0") with an accessible name; pass both on the host element (Angular has no rest props)
  *
  * Internationalization:
@@ -37,7 +37,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-code-block",
     standalone: true,
-    template: `<pre class="code-block {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></pre>`,
+    template: `<pre class="code-block {{ className() }}" [attr.role]="label() ? 'region' : null" [attr.aria-label]="label() || null"><ng-content /></pre>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CodeBlock {

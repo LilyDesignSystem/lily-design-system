@@ -78,7 +78,7 @@ export default {
         ],
         markup: `<div class="contextual-help" x-data="lilyPopover(false)" x-bind="root">
   <button class="contextual-help-trigger" x-bind="trigger" aria-label="" aria-controls="contextual-help-panel-1"${popoverTriggerAttributes("contextual-help-panel-1")}><!-- Consumer provides the trigger text, such as "?" --></button>
-  <div class="contextual-help-panel" id="contextual-help-panel-1" role="dialog" aria-label="" popover="auto" x-bind="panel">
+  <div class="contextual-help-panel" aria-label="" id="contextual-help-panel-1" role="dialog" aria-label="" popover="auto" x-bind="panel">
     <!-- Consumer provides popover content -->
   </div>
 </div>`,

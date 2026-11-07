@@ -13,7 +13,7 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["href", "current", "count", "count-label"]);
+const HANDLED = new Set(["href", "label", "current", "count", "count-label"]);
 
 export class ContentsLink extends HTMLElement {
     connectedCallback(): void {
@@ -23,6 +23,8 @@ export class ContentsLink extends HTMLElement {
         a.className = rootClassName(this, "contents-link");
         const href = this.getAttribute("href");
         if (href !== null) a.href = href;
+        const label = this.getAttribute("label");
+        if (label !== null) a.setAttribute("aria-label", label);
         if (this.hasAttribute("current")) a.setAttribute("aria-current", "true");
         passThroughAttributes(this, a, HANDLED);
 

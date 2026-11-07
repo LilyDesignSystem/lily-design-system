@@ -7,10 +7,10 @@ description: a fieldset where selecting one option deselects others
 {% from "components/mutually-exclusive/macro.njk" import mutuallyExclusive %}
 
 <h2>Default</h2>
-{{ mutuallyExclusive({ text: "Example MutuallyExclusive content" }) }}
+{{ mutuallyExclusive({ label: "Contact preferences", html: "<label><input type='checkbox' name='contact' value='email'> Email</label><label><input type='checkbox' name='contact' value='post'> Post</label><span>or</span><label><input type='checkbox' name='contact' value='none'> Do not contact me</label>" }) }}
 
 <h2>With accessible label</h2>
-{{ mutuallyExclusive({ text: "Example content", label: "MutuallyExclusive example" }) }}
+{{ mutuallyExclusive({ label: "Allergies", html: "<label><input type='checkbox' name='allergy' value='none'> No known allergies</label>" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

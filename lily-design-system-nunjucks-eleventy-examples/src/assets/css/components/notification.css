@@ -1,5 +1,5 @@
 .notification {
-  background: var(--nhsuk-black);
+  background: var(--nhsuk-ink);
   color: var(--nhsuk-white);
   border-bottom: 10px solid var(--nhsuk-blue);
   margin-bottom: var(--nhsuk-spacing-4);

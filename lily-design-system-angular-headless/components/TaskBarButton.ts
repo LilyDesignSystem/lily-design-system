@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-task-bar-button",
     standalone: true,
-    template: `<button class="task-bar-button {{ className() }}" type="button" [attr.aria-label]="label() || null"><ng-content /></button>`,
+    template: `<button class="task-bar-button {{ className() }}" type="button" [disabled]="disabled()" [attr.aria-label]="label() || null"><ng-content /></button>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TaskBarButton {
@@ -18,4 +18,6 @@ export class TaskBarButton {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Disables the button. */
+    readonly disabled = input<boolean>(false);
 }

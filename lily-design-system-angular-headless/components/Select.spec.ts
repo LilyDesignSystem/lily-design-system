@@ -19,4 +19,14 @@ describe("Select", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("reflects required and disabled", () => {
+        const fixture = TestBed.createComponent(Select);
+        fixture.componentRef.setInput("required", true);
+        fixture.componentRef.setInput("disabled", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("select");
+        expect(el.required).toBe(true);
+        expect(el.disabled).toBe(true);
+    });
 });

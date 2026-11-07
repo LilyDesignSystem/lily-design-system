@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<ol\n  class="summary-list"\n  aria-label=""\n>\n  <!-- Consumer provides list items -->\n</ol>';
+    '<dl\n  class="summary-list"\n  aria-label=""\n>\n  <!-- Consumer provides summary-list-item rows -->\n</dl>';
 
 const meta = {
     title: "Headless/Summary List",

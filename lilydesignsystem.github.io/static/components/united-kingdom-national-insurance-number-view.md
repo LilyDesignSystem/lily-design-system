@@ -1,12 +1,12 @@
 # United Kingdom National Insurance Number View
 
-UnitedKingdomNationalInsuranceNumberView is a headless read-only display of United Kingdom's National Insurance Number (NINO), United Kingdom's tax/welfare identifier. It renders as a `<span>` with `role="text"` so assistive technology announces the identifier as a single unit. It is the read-only companion to UnitedKingdomNationalInsuranceNumberInput.
+UnitedKingdomNationalInsuranceNumberView is a headless read-only display of United Kingdom's National Insurance Number (NINO), United Kingdom's tax/welfare identifier. It renders as a `<span>`. It is the read-only companion to UnitedKingdomNationalInsuranceNumberInput.
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
 ## Implementation Notes
 
-- Renders as `<span>` with `role="text"`
+- Renders as `<span>`, with no role
 - Format: two prefix letters, six digits, and a suffix letter (A, B, C, or D) — e.g. AB123456A; the letters D, F, I, Q, U, V and the prefix-2 letter O are excluded
 - Provides accessible name via the `value` content
 - Companion to UnitedKingdomNationalInsuranceNumberInput
@@ -29,7 +29,7 @@ UnitedKingdomNationalInsuranceNumberView is a headless read-only display of Unit
 
 ## ARIA
 
-- `role="text"` ensures the identifier is announced as a single unit
+- No role, and no `aria-label`: a `<span>` cannot take a name, so `label` renders as hidden text in a `screen-reader-span`
 
 ## When to Use
 
@@ -49,7 +49,7 @@ This headless component ships zero CSS. The consumer provides all styling target
 
 ## Testing
 
-- Verify renders a `<span>` with the correct class and `role="text"`
+- Verify renders a `<span>` with the correct class, no role and no `aria-label`
 - Verify the `value` prop is rendered as text content
 - Verify `label` renders as hidden text, and that the root has no `aria-label`
 

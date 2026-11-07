@@ -10,10 +10,24 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-image",
     standalone: true,
-    template: `<div class="image {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `@if (!caption()) {
+        <img class="image {{ className() }}" [attr.src]="src() ?? null" [attr.alt]="alt()" [attr.loading]="loading() ?? null" />
+    } @else {
+        <figure class="image {{ className() }}">
+            <img [attr.src]="src() ?? null" [attr.alt]="alt()" [attr.loading]="loading() ?? null" />
+            <figcaption>{{ caption() }}</figcaption>
+        </figure>
+    }`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Image {
-    readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Image address. */
+    readonly src = input<string | undefined>(undefined);
+    /** Text alternative, or empty for a decorative image. */
+    readonly alt = input<string>("");
+    /** Visible caption; wraps the image in a figure. */
+    readonly caption = input<string | undefined>(undefined);
+    /** Loading strategy. */
+    readonly loading = input<"lazy" | "eager" | undefined>(undefined);
 }

@@ -8,7 +8,7 @@ KbdShortcut renders a keyboard shortcut such as Ctrl + K as an outer `<kbd>` hol
 
 - Root `<kbd class="kbd-shortcut">` containing, per key, `<kbd class="kbd-shortcut-key">`
 - Between keys: `<span class="kbd-shortcut-separator" aria-hidden="true">` containing `separator` (default `+`)
-- Optional `label` becomes `aria-label` on the root as the spoken form; absent, screen readers read the keys
+- Optional `label` is the spoken form: hidden text, with the keys `aria-hidden`; absent, screen readers read the keys
 - Spreads `restProps` onto the root
 
 ## Props
@@ -16,7 +16,7 @@ KbdShortcut renders a keyboard shortcut such as Ctrl + K as an outer `<kbd>` hol
 - `className`: string (default: `""`) -- CSS class name appended to the base class
 - `keys`: string[] (required) -- the key names, in order
 - `separator`: string (default: `"+"`) -- decorative separator between keys
-- `label`: string (optional) -- spoken form, applied as `aria-label`
+- `label`: string (optional) -- spoken form: hidden text, with the keys `aria-hidden`
 - `...restProps`: unknown -- additional attributes spread onto the root
 
 ## Usage
@@ -33,7 +33,7 @@ KbdShortcut renders a keyboard shortcut such as Ctrl + K as an outer `<kbd>` hol
 ## ARIA
 
 - Separators are `aria-hidden="true"` so they are not read
-- `aria-label={label}` -- optional spoken form on the root
+- `label` -- optional spoken form: hidden text in a `screen-reader-span`, with the keys `aria-hidden`, because a name on `<kbd>` is not reliably read
 
 ## When to Use
 
@@ -60,7 +60,7 @@ The consumer provides all CSS styling via `.kbd-shortcut`, `.kbd-shortcut-key` a
 - Verify the root is a `<kbd>` with class `kbd-shortcut`
 - Verify one inner `kbd-shortcut-key` per key, in order
 - Verify separators only between keys, default `+`, configurable, `aria-hidden`
-- Verify `label` becomes `aria-label`
+- Verify `label` renders as hidden text and the keys are `aria-hidden`
 - Verify pass-through attributes
 
 ## Advice

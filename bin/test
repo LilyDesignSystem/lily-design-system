@@ -469,6 +469,10 @@ test "$dry_before" = "$(git -C "$top" status --porcelain | cksum)" \
     || err "the Generated files table in AGENTS/lily.md disagrees with bin/; run bin/check-generated-files"
 "$top/bin/check-port-parity" --quiet >/dev/null 2>&1 \
     || err "a port (Web Components, Alpine) drifted from its reference; run bin/check-port-parity"
+"$top/bin/check-aria-baseline" --quiet >/dev/null 2>&1 \
+    || err "an HTML or Blazor root differs from what Svelte renders; run bin/check-aria-baseline"
+"$top/bin/check-generic-names" --quiet >/dev/null 2>&1 \
+    || err "an HTML or Blazor component names a generic root; run bin/check-generic-names"
 "$top/bin/check-port-logic" --quiet >/dev/null 2>&1 \
     || err "an Angular or Blazor port has no logic where Svelte has behaviour; run bin/check-port-logic"
 if test -e "$top/lily-design-system-angular-headless/node_modules/.bin/vitest"; then

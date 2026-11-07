@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-byline",
     standalone: true,
-    template: `<div class="byline {{ className() }}"><ng-content /></div>`,
+    template: `<div class="byline {{ className() }}"><span class="byline-authors"><ng-content /></span><span class="byline-published"><ng-content select="[published]" /></span><span class="byline-updated"><ng-content select="[updated]" /></span></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Byline {

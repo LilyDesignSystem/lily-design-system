@@ -32,6 +32,7 @@ withDefaults(
     <!-- AvatarGroup.vue -->
     <div
         class="avatar-group"
+        role="group"
         :aria-label="label"
     >
         <slot />

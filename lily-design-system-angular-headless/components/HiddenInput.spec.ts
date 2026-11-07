@@ -29,4 +29,12 @@ describe("HiddenInput", () => {
         const el = fixture.nativeElement.querySelector("input.hidden-input");
         expect(el.getAttribute("type")).toBe("hidden");
     });
+
+    test("carries the name", () => {
+        const fixture = TestBed.createComponent(HiddenInput);
+        fixture.componentRef.setInput("name", "token");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("name")).toBe("token");
+    });
 });

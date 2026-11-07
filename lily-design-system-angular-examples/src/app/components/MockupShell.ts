@@ -37,7 +37,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-mockup-shell",
     standalone: true,
-    template: `<div class="mockup-shell {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="mockup-shell {{ className() }}" role="img" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MockupShell {

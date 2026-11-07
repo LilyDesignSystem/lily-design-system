@@ -8,21 +8,21 @@ describe("CurrencyInput", function () {
         await browser.url("file://" + path.resolve(__dirname, "currency-input.html"));
     });
 
-    it("should render the div element with correct class", async function () {
-        const el = await $("div.currency-input");
+    it("should render the input element with correct class", async function () {
+        const el = await $("input.currency-input");
         await expect(el).toExist();
         const className = await el.getAttribute("class");
         expect(className).toContain("currency-input");
     });
 
     it("should have an aria-label attribute", async function () {
-        const el = await $("div.currency-input");
+        const el = await $("input.currency-input");
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });
 
     it("should carry a data-currency-code attribute the consumer fills, never defaulted to USD", async function () {
-        const el = await $("div.currency-input");
+        const el = await $("input.currency-input");
         const code = await el.getAttribute("data-currency-code");
         expect(code).not.toBeNull();
         expect(code).not.toBe("USD");

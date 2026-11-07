@@ -19,4 +19,22 @@ describe("OverlayContainer", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is hidden until open", () => {
+        const fixture = TestBed.createComponent(OverlayContainer);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".overlay-container");
+        expect(el.hidden).toBe(true);
+        expect(el.getAttribute("aria-hidden")).toBe("true");
+        expect(el.getAttribute("data-open")).toBe("false");
+    });
+
+    test("shows when open", () => {
+        const fixture = TestBed.createComponent(OverlayContainer);
+        fixture.componentRef.setInput("open", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".overlay-container");
+        expect(el.hidden).toBe(false);
+        expect(el.getAttribute("aria-hidden")).toBe("false");
+    });
 });

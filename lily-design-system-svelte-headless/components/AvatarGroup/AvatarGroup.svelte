@@ -49,6 +49,7 @@
 <!-- AvatarGroup.svelte -->
 <div
     class={`avatar-group ${className}`}
+    role="group"
     aria-label={label}
     {...restProps}
 >

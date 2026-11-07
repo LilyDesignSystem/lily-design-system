@@ -34,4 +34,22 @@ describe("TableTH", () => {
         const el = fixture.nativeElement.querySelector("th");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("carries its spans", () => {
+        const fixture = TestBed.createComponent(TableTH);
+        fixture.componentRef.setInput("colSpan", 2);
+        fixture.componentRef.setInput("rowSpan", 3);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("colspan")).toBe("2");
+        expect(el.getAttribute("rowspan")).toBe("3");
+    });
+
+    test("omits a span of 0", () => {
+        const fixture = TestBed.createComponent(TableTH);
+        fixture.componentRef.setInput("colSpan", 0);
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.hasAttribute("colspan")).toBe(false);
+    });
 });

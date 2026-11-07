@@ -69,6 +69,7 @@ EXTRA_TARGETS = {
         "lily-design-system-alpine-headless/widget-keys.js",
         "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ActionBar.razor.js",
         "lily-design-system-html-headless/components/action-bar.html",
+        "lily-design-system-html-headless/components/kanban-table.html",
         "lily-design-system-html-headless/components/action-group.html",
         "lily-design-system-html-headless/components/task-bar.html",
         "lily-design-system-html-headless/components/segment-group.html",

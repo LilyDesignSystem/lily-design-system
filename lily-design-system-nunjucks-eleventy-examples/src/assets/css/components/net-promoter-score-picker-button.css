@@ -2,7 +2,7 @@
   width: 2.5rem;
   height: 2.5rem;
   padding: 0;
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   color: var(--nhsuk-black);
   border: 1px solid var(--nhsuk-mid-grey);
   font-family: var(--nhsuk-font-family);
@@ -22,7 +22,7 @@
 .net-promoter-score-picker-button[data-category="passive"]:hover,
 .net-promoter-score-picker-button[data-category="passive"][aria-checked="true"] {
   background: var(--nhsuk-warm-yellow);
-  color: var(--nhsuk-black);
+  color: var(--nhsuk-ink);
   border-color: var(--nhsuk-warm-yellow);
 }
 

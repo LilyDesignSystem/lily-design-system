@@ -7,10 +7,10 @@ description: a text input that proposes matching options as users type
 {% from "components/autosuggest/macro.njk" import autosuggest %}
 
 <h2>Default</h2>
-{{ autosuggest({ text: "Example Autosuggest content" }) }}
+{{ autosuggest({ id: "service", label: "Find a service", suggestions: [{ value: "gp", label: "GP services" }, { value: "dental", label: "Dentists" }] }) }}
 
 <h2>With accessible label</h2>
-{{ autosuggest({ text: "Example content", label: "Autosuggest example" }) }}
+{{ autosuggest({ id: "town", label: "Town or city", placeholder: "Start typing", suggestions: [{ value: "cardiff", label: "Cardiff" }] }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

@@ -1,0 +1,3129 @@
+{
+  "accordion-checkbox": {
+    "role": null,
+    "aria": []
+  },
+  "accordion-link": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "accordion-list": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "accordion-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "accordion-nav": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "action-bar": {
+    "role": "toolbar",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "action-bar-button": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "action-group": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "action-link": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "address-input": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "addressograph-box": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "affix": {
+    "role": null,
+    "aria": []
+  },
+  "ai-label": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "alba-community-health-index-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "alba-community-health-index-view": {
+    "role": null,
+    "aria": []
+  },
+  "alert": {
+    "role": "alert",
+    "aria": [
+      "aria-atomic",
+      "aria-live"
+    ]
+  },
+  "angle-slider-range-input": {
+    "role": null,
+    "aria": [
+      "aria-label",
+      "aria-valuemax",
+      "aria-valuemin",
+      "aria-valuenow",
+      "aria-valuetext"
+    ]
+  },
+  "announcement-banner": {
+    "role": "region",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "answer": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "aotearoa-national-health-index-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "aotearoa-national-health-index-view": {
+    "role": null,
+    "aria": []
+  },
+  "area-chart": {
+    "role": null,
+    "aria": []
+  },
+  "argentina-codigo-unico-de-identificacion-laboral-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "argentina-codigo-unico-de-identificacion-laboral-view": {
+    "role": null,
+    "aria": []
+  },
+  "article-layout": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "as-saudiyah-raqm-al-huwiyah-al-wataniyah-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "as-saudiyah-raqm-al-huwiyah-al-wataniyah-view": {
+    "role": null,
+    "aria": []
+  },
+  "aspect-ratio-container": {
+    "role": null,
+    "aria": []
+  },
+  "australia-individual-healthcare-identifier-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "australia-individual-healthcare-identifier-view": {
+    "role": null,
+    "aria": []
+  },
+  "australia-tax-file-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "australia-tax-file-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "autosuggest": {
+    "role": null,
+    "aria": []
+  },
+  "avatar": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "avatar-group": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "avatar-image": {
+    "role": null,
+    "aria": [
+      "aria-hidden"
+    ]
+  },
+  "avatar-text": {
+    "role": null,
+    "aria": [
+      "aria-hidden"
+    ]
+  },
+  "back-link": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "badge": {
+    "role": "status",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "banner": {
+    "role": "region",
+    "aria": [
+      "aria-live"
+    ]
+  },
+  "banner-box": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "bar-chart": {
+    "role": null,
+    "aria": []
+  },
+  "barcode-image": {
+    "role": null,
+    "aria": []
+  },
+  "beach-ball": {
+    "role": "status",
+    "aria": [
+      "aria-busy",
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "belgique-numero-de-registre-national-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "belgique-numero-de-registre-national-view": {
+    "role": null,
+    "aria": []
+  },
+  "bharat-aadhaar-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "bharat-aadhaar-view": {
+    "role": null,
+    "aria": []
+  },
+  "blockquote": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "body-text": {
+    "role": null,
+    "aria": []
+  },
+  "brasil-cartao-nacional-de-saude-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "brasil-cartao-nacional-de-saude-view": {
+    "role": null,
+    "aria": []
+  },
+  "breadcrumb-link": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "breadcrumb-list": {
+    "role": null,
+    "aria": []
+  },
+  "breadcrumb-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "breadcrumb-nav": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "bulgaria-edinen-grazhdanski-nomer-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "bulgaria-edinen-grazhdanski-nomer-view": {
+    "role": null,
+    "aria": []
+  },
+  "button": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "button-group": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "button-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "byline": {
+    "role": null,
+    "aria": []
+  },
+  "calendar-day-table": {
+    "role": "grid",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "calendar-month-table": {
+    "role": "grid",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "calendar-range-picker": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "calendar-table": {
+    "role": "grid",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "calendar-table-body": {
+    "role": null,
+    "aria": []
+  },
+  "calendar-table-foot": {
+    "role": null,
+    "aria": []
+  },
+  "calendar-table-head": {
+    "role": null,
+    "aria": []
+  },
+  "calendar-table-row": {
+    "role": null,
+    "aria": []
+  },
+  "calendar-table-td": {
+    "role": "gridcell",
+    "aria": []
+  },
+  "calendar-table-th": {
+    "role": null,
+    "aria": []
+  },
+  "calendar-week-table": {
+    "role": "grid",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "calendar-year-table": {
+    "role": "grid",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "call-to-action": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "canada-social-insurance-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "canada-social-insurance-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "candlestick-chart": {
+    "role": null,
+    "aria": []
+  },
+  "caption": {
+    "role": null,
+    "aria": []
+  },
+  "card": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "care-card": {
+    "role": "region",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "carousel": {
+    "role": "region",
+    "aria": [
+      "aria-label",
+      "aria-roledescription"
+    ]
+  },
+  "cascader": {
+    "role": null,
+    "aria": []
+  },
+  "cesko-cestovni-pas-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "cesko-cestovni-pas-view": {
+    "role": null,
+    "aria": []
+  },
+  "cesko-rodne-cislo-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "cesko-rodne-cislo-view": {
+    "role": null,
+    "aria": []
+  },
+  "character": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "character-counter": {
+    "role": "status",
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "chat-composer": {
+    "role": null,
+    "aria": []
+  },
+  "chat-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "chat-list-item": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "chat-message": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "chat-nav": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "check-list": {
+    "role": "list",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "check-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "checkbox-group": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "checkbox-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "chile-rol-unico-nacional-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "chile-rol-unico-nacional-view": {
+    "role": null,
+    "aria": []
+  },
+  "choropleth-chart": {
+    "role": null,
+    "aria": []
+  },
+  "citation": {
+    "role": null,
+    "aria": []
+  },
+  "clamp-text": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "clipboard-copy-button": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "coachmark": {
+    "role": "dialog",
+    "aria": [
+      "aria-labelledby",
+      "aria-modal"
+    ]
+  },
+  "code": {
+    "role": null,
+    "aria": []
+  },
+  "code-block": {
+    "role": "region",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "collapsible": {
+    "role": null,
+    "aria": []
+  },
+  "collection-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "collection-list-item": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "colombia-cedula-de-ciudadania-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "colombia-cedula-de-ciudadania-view": {
+    "role": null,
+    "aria": []
+  },
+  "color-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "color-picker": {
+    "role": "slider",
+    "aria": [
+      "aria-label",
+      "aria-valuemax",
+      "aria-valuemin",
+      "aria-valuenow"
+    ]
+  },
+  "color-picker-button": {
+    "role": null,
+    "aria": [
+      "aria-label",
+      "aria-pressed"
+    ]
+  },
+  "column-chart": {
+    "role": null,
+    "aria": []
+  },
+  "combobox": {
+    "role": null,
+    "aria": []
+  },
+  "command": {
+    "role": "search",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "comment": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "composed-chart": {
+    "role": null,
+    "aria": []
+  },
+  "container": {
+    "role": null,
+    "aria": []
+  },
+  "container-with-fixed-width": {
+    "role": null,
+    "aria": []
+  },
+  "container-with-fluid-width": {
+    "role": null,
+    "aria": []
+  },
+  "content-block": {
+    "role": null,
+    "aria": []
+  },
+  "contents-link": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "contents-list": {
+    "role": null,
+    "aria": []
+  },
+  "contents-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "contents-nav": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "context-menu": {
+    "role": "menu",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "context-menu-item": {
+    "role": "menuitem",
+    "aria": []
+  },
+  "contextual-help": {
+    "role": null,
+    "aria": []
+  },
+  "convert-div": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "convert-from-div": {
+    "role": null,
+    "aria": []
+  },
+  "convert-from-unit-div": {
+    "role": null,
+    "aria": []
+  },
+  "convert-from-value-div": {
+    "role": null,
+    "aria": []
+  },
+  "convert-into-div": {
+    "role": null,
+    "aria": []
+  },
+  "convert-into-unit-div": {
+    "role": null,
+    "aria": []
+  },
+  "convert-into-value-div": {
+    "role": null,
+    "aria": []
+  },
+  "currency-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "cymru-rhif-ygwasanaeth-iechyd-gwladol-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "cymru-rhif-ygwasanaeth-iechyd-gwladol-view": {
+    "role": null,
+    "aria": []
+  },
+  "danmark-personnummer-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "danmark-personnummer-view": {
+    "role": null,
+    "aria": []
+  },
+  "data-filter-form": {
+    "role": "search",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "data-table": {
+    "role": "grid",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "data-table-body": {
+    "role": null,
+    "aria": []
+  },
+  "data-table-foot": {
+    "role": null,
+    "aria": []
+  },
+  "data-table-head": {
+    "role": null,
+    "aria": []
+  },
+  "data-table-row": {
+    "role": null,
+    "aria": []
+  },
+  "data-table-td": {
+    "role": "gridcell",
+    "aria": []
+  },
+  "data-table-th": {
+    "role": null,
+    "aria": []
+  },
+  "date-field": {
+    "role": null,
+    "aria": []
+  },
+  "date-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "date-range": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "date-time-local-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "date-time-now-input": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "date-time-view": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "description-list": {
+    "role": null,
+    "aria": []
+  },
+  "description-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "details": {
+    "role": null,
+    "aria": []
+  },
+  "deutschland-krankenversichertennummer-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "deutschland-krankenversichertennummer-view": {
+    "role": null,
+    "aria": []
+  },
+  "dial": {
+    "role": "slider",
+    "aria": [
+      "aria-label",
+      "aria-valuemax",
+      "aria-valuemin",
+      "aria-valuenow"
+    ]
+  },
+  "dial-group": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "diff": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "digital-object-identifier-link": {
+    "role": null,
+    "aria": []
+  },
+  "do-list": {
+    "role": "list",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "do-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "document-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "document-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "dont-list": {
+    "role": "list",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "dont-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "download-button": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "draft": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "dropdown-menu": {
+    "role": null,
+    "aria": []
+  },
+  "ecuador-cedula-de-identidad-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "ecuador-cedula-de-identidad-view": {
+    "role": null,
+    "aria": []
+  },
+  "editable": {
+    "role": "button",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "eesti-isikukood-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "eesti-isikukood-view": {
+    "role": null,
+    "aria": []
+  },
+  "eire-individual-health-identifier-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "eire-individual-health-identifier-view": {
+    "role": null,
+    "aria": []
+  },
+  "ellada-dematerialised-securities-system-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "ellada-dematerialised-securities-system-view": {
+    "role": null,
+    "aria": []
+  },
+  "email-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "email-link": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "emoji": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "emoji-character-picker": {
+    "role": "grid",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "empty-state": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "end-notes": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "england-national-health-service-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "england-national-health-service-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "error-message": {
+    "role": "alert",
+    "aria": []
+  },
+  "error-summary": {
+    "role": "alert",
+    "aria": [
+      "aria-labelledby"
+    ]
+  },
+  "espana-codigo-de-identificacion-fiscal-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "espana-codigo-de-identificacion-fiscal-view": {
+    "role": null,
+    "aria": []
+  },
+  "espana-tarjeta-sanitaria-individual-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "espana-tarjeta-sanitaria-individual-view": {
+    "role": null,
+    "aria": []
+  },
+  "event": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "expander": {
+    "role": null,
+    "aria": []
+  },
+  "feature-card": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "feature-photo": {
+    "role": null,
+    "aria": []
+  },
+  "field": {
+    "role": null,
+    "aria": []
+  },
+  "fieldset": {
+    "role": null,
+    "aria": []
+  },
+  "figure": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "file-manager": {
+    "role": "region",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "file-tree": {
+    "role": "tree",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "file-upload": {
+    "role": null,
+    "aria": []
+  },
+  "five-face-rating-picker": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "five-face-rating-picker-button": {
+    "role": null,
+    "aria": [
+      "aria-label",
+      "aria-pressed"
+    ]
+  },
+  "five-face-rating-view": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "five-star-rating-picker": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "five-star-rating-picker-button": {
+    "role": null,
+    "aria": [
+      "aria-label",
+      "aria-pressed"
+    ]
+  },
+  "five-star-rating-view": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "flair": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "flex-stack": {
+    "role": null,
+    "aria": []
+  },
+  "float-button": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "floating-panel": {
+    "role": "region",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "footer": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "footnote": {
+    "role": "note",
+    "aria": []
+  },
+  "form": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "framer": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "france-numero-didentification-au-repertoire-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "france-numero-didentification-au-repertoire-view": {
+    "role": null,
+    "aria": []
+  },
+  "funnel-chart": {
+    "role": null,
+    "aria": []
+  },
+  "gantt-table": {
+    "role": "grid",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "gantt-table-td": {
+    "role": "gridcell",
+    "aria": []
+  },
+  "gantt-table-th": {
+    "role": null,
+    "aria": []
+  },
+  "gantt-table-tbody": {
+    "role": null,
+    "aria": []
+  },
+  "gantt-table-tfoot": {
+    "role": null,
+    "aria": []
+  },
+  "gantt-table-thead": {
+    "role": null,
+    "aria": []
+  },
+  "gantt-table-tr": {
+    "role": null,
+    "aria": []
+  },
+  "gauge-chart": {
+    "role": null,
+    "aria": []
+  },
+  "go-to-next-section": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "go-to-previous-section": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "go-to-top": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "government-banner": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "government-identifier": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "grail-layout": {
+    "role": null,
+    "aria": []
+  },
+  "grail-layout-bottom-footer": {
+    "role": null,
+    "aria": []
+  },
+  "grail-layout-center-main": {
+    "role": null,
+    "aria": []
+  },
+  "grail-layout-left-aside": {
+    "role": null,
+    "aria": []
+  },
+  "grail-layout-right-aside": {
+    "role": null,
+    "aria": []
+  },
+  "grail-layout-top-header": {
+    "role": null,
+    "aria": []
+  },
+  "graphic-block": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "grid": {
+    "role": null,
+    "aria": []
+  },
+  "hamburger-menu": {
+    "role": null,
+    "aria": []
+  },
+  "hanguk-jumin-deungnok-beonho-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "hanguk-jumin-deungnok-beonho-view": {
+    "role": null,
+    "aria": []
+  },
+  "header": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "headline": {
+    "role": null,
+    "aria": []
+  },
+  "heatmap-chart": {
+    "role": null,
+    "aria": []
+  },
+  "heatmap-chart-with-year-of-days": {
+    "role": null,
+    "aria": []
+  },
+  "hero": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "hero-headline": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "hidden-input": {
+    "role": null,
+    "aria": []
+  },
+  "hint": {
+    "role": null,
+    "aria": []
+  },
+  "hong-kong-identity-card-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "hong-kong-identity-card-view": {
+    "role": null,
+    "aria": []
+  },
+  "horizontal-scroller": {
+    "role": "region",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "hover-card": {
+    "role": "tooltip",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "hrvatska-osobni-identifikacijski-broj-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "hrvatska-osobni-identifikacijski-broj-view": {
+    "role": null,
+    "aria": []
+  },
+  "iban-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "iban-view": {
+    "role": null,
+    "aria": []
+  },
+  "icon": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "icon-button": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "icon-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "icon-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "image": {
+    "role": null,
+    "aria": []
+  },
+  "image-cropper": {
+    "role": "application",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "image-input": {
+    "role": null,
+    "aria": []
+  },
+  "indonesia-nomor-induk-kependudukan-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "indonesia-nomor-induk-kependudukan-view": {
+    "role": null,
+    "aria": []
+  },
+  "info-state": {
+    "role": "status",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "information-callout": {
+    "role": "note",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "input-group": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "input-with-mask": {
+    "role": null,
+    "aria": []
+  },
+  "inset-text": {
+    "role": "note",
+    "aria": []
+  },
+  "iran-kod-emelli-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "iran-kod-emelli-view": {
+    "role": null,
+    "aria": []
+  },
+  "island-kennitala-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "island-kennitala-view": {
+    "role": null,
+    "aria": []
+  },
+  "italia-codice-fiscale-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "italia-codice-fiscale-view": {
+    "role": null,
+    "aria": []
+  },
+  "kanban-table": {
+    "role": "grid",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "kanban-table-body": {
+    "role": null,
+    "aria": []
+  },
+  "kanban-table-foot": {
+    "role": null,
+    "aria": []
+  },
+  "kanban-table-head": {
+    "role": null,
+    "aria": []
+  },
+  "kanban-table-row": {
+    "role": null,
+    "aria": []
+  },
+  "kanban-table-td": {
+    "role": "gridcell",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "kanban-table-th": {
+    "role": null,
+    "aria": []
+  },
+  "kbd": {
+    "role": null,
+    "aria": []
+  },
+  "kbd-shortcut": {
+    "role": null,
+    "aria": []
+  },
+  "kypros-national-passport-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "kypros-national-passport-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "label": {
+    "role": null,
+    "aria": []
+  },
+  "latvija-personas-kods-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "latvija-personas-kods-view": {
+    "role": null,
+    "aria": []
+  },
+  "liechtenstein-national-identity-card-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "liechtenstein-national-identity-card-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "liechtenstein-passport-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "liechtenstein-passport-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "lietuva-asmens-kodas-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "lietuva-asmens-kodas-view": {
+    "role": null,
+    "aria": []
+  },
+  "lietuva-pasas-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "lietuva-pasas-view": {
+    "role": null,
+    "aria": []
+  },
+  "line-chart": {
+    "role": null,
+    "aria": []
+  },
+  "listbox": {
+    "role": "listbox",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "loading": {
+    "role": "status",
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "luxembourg-matricule-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "luxembourg-matricule-view": {
+    "role": null,
+    "aria": []
+  },
+  "magyarorszag-taj-szam-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "magyarorszag-taj-szam-view": {
+    "role": null,
+    "aria": []
+  },
+  "malaysia-kad-pengenalan-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "malaysia-kad-pengenalan-view": {
+    "role": null,
+    "aria": []
+  },
+  "malta-national-identification-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "malta-national-identification-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "malta-passport-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "malta-passport-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "mark": {
+    "role": null,
+    "aria": []
+  },
+  "masonry": {
+    "role": null,
+    "aria": []
+  },
+  "measurement-instance-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "measurement-instance-view": {
+    "role": null,
+    "aria": []
+  },
+  "measurement-system-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "measurement-system-view": {
+    "role": null,
+    "aria": []
+  },
+  "measurement-unit-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "measurement-unit-view": {
+    "role": null,
+    "aria": []
+  },
+  "medical-banner": {
+    "role": "region",
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "medical-banner-box": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "medical-banner-box-for-advice": {
+    "role": "region",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "medical-banner-box-for-danger": {
+    "role": "region",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mentions-input": {
+    "role": null,
+    "aria": []
+  },
+  "menu": {
+    "role": "menu",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "menu-bar": {
+    "role": "menubar",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "menu-bar-button": {
+    "role": "menuitem",
+    "aria": []
+  },
+  "menu-group": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "menu-item": {
+    "role": "menuitem",
+    "aria": []
+  },
+  "meter": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mexico-clave-unica-de-registro-de-poblacion-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mexico-clave-unica-de-registro-de-poblacion-view": {
+    "role": null,
+    "aria": []
+  },
+  "middle-truncation": {
+    "role": null,
+    "aria": []
+  },
+  "misr-al-raqm-al-qawmi-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "misr-al-raqm-al-qawmi-view": {
+    "role": null,
+    "aria": []
+  },
+  "mockup-browser": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mockup-laptop": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mockup-phone-landscape": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mockup-phone-portrait": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mockup-shell": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mockup-tablet-landscape": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mockup-tablet-portrait": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mockup-watch": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "mockup-window": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "month-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "multi-select": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "multi-select-with-extras": {
+    "role": null,
+    "aria": []
+  },
+  "mutually-exclusive": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "navigation-menu": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "nederland-burgerservice-nummer-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "nederland-burgerservice-nummer-view": {
+    "role": null,
+    "aria": []
+  },
+  "nederland-identiteitskaart-nummer-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "nederland-identiteitskaart-nummer-view": {
+    "role": null,
+    "aria": []
+  },
+  "nederland-paspoort-nummer-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "nederland-paspoort-nummer-view": {
+    "role": null,
+    "aria": []
+  },
+  "net-promoter-score-picker": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "net-promoter-score-picker-button": {
+    "role": null,
+    "aria": [
+      "aria-label",
+      "aria-pressed"
+    ]
+  },
+  "net-promoter-score-view": {
+    "role": null,
+    "aria": []
+  },
+  "newsletter-signup": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "nigeria-national-identification-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "nigeria-national-identification-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "nihon-kojin-bango-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "nihon-kojin-bango-view": {
+    "role": null,
+    "aria": []
+  },
+  "norge-fodselsnummer-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "norge-fodselsnummer-view": {
+    "role": null,
+    "aria": []
+  },
+  "notification": {
+    "role": "status",
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "one-time-password-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "option": {
+    "role": null,
+    "aria": []
+  },
+  "organization": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "osterreich-sozialversicherungsnummer-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "osterreich-sozialversicherungsnummer-view": {
+    "role": null,
+    "aria": []
+  },
+  "overlay-container": {
+    "role": "presentation",
+    "aria": [
+      "aria-hidden",
+      "aria-label"
+    ]
+  },
+  "padding-reset": {
+    "role": null,
+    "aria": []
+  },
+  "pagination-link": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "pagination-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "pagination-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "pagination-nav": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "pakistan-computerized-national-identity-card-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "pakistan-computerized-national-identity-card-view": {
+    "role": null,
+    "aria": []
+  },
+  "panel": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "password-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "password-input-or-text-input-div": {
+    "role": null,
+    "aria": []
+  },
+  "person": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "phase-banner": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "photo-pack": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "picture": {
+    "role": null,
+    "aria": []
+  },
+  "pie-chart": {
+    "role": null,
+    "aria": []
+  },
+  "pilipinas-philhealth-identification-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "pilipinas-philhealth-identification-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "pin-input-div": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "place": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "polska-numer-identyfikacji-podatkowej-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "polska-numer-identyfikacji-podatkowej-view": {
+    "role": null,
+    "aria": []
+  },
+  "polska-pesel-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "polska-pesel-view": {
+    "role": null,
+    "aria": []
+  },
+  "popconfirm-dialog": {
+    "role": "alertdialog",
+    "aria": [
+      "aria-labelledby",
+      "aria-modal"
+    ]
+  },
+  "popover": {
+    "role": "dialog",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "popup": {
+    "role": "dialog",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "portugal-numero-de-identificacao-fiscal-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "portugal-numero-de-identificacao-fiscal-view": {
+    "role": null,
+    "aria": []
+  },
+  "portugal-passaporte-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "portugal-passaporte-view": {
+    "role": null,
+    "aria": []
+  },
+  "postal-code-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "postal-code-view": {
+    "role": null,
+    "aria": []
+  },
+  "prathet-thai-lek-prajam-tua-prachachon-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "prathet-thai-lek-prajam-tua-prachachon-view": {
+    "role": null,
+    "aria": []
+  },
+  "product-card": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "progress": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "progress-bar": {
+    "role": "progressbar",
+    "aria": [
+      "aria-label",
+      "aria-valuemax",
+      "aria-valuemin",
+      "aria-valuenow"
+    ]
+  },
+  "progress-circle": {
+    "role": "progressbar",
+    "aria": [
+      "aria-label",
+      "aria-valuemax",
+      "aria-valuemin",
+      "aria-valuenow"
+    ]
+  },
+  "progress-spinner": {
+    "role": "status",
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "qr-code-image": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "question": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "radar-chart": {
+    "role": null,
+    "aria": []
+  },
+  "radio-group": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "radio-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "range-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "red-amber-green-picker": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "red-amber-green-picker-button": {
+    "role": null,
+    "aria": [
+      "aria-label",
+      "aria-pressed"
+    ]
+  },
+  "red-amber-green-view": {
+    "role": null,
+    "aria": []
+  },
+  "red-orange-yellow-green-blue-picker": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "red-orange-yellow-green-blue-picker-button": {
+    "role": null,
+    "aria": [
+      "aria-label",
+      "aria-pressed"
+    ]
+  },
+  "red-orange-yellow-green-blue-view": {
+    "role": null,
+    "aria": []
+  },
+  "related-content": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "reset-input": {
+    "role": null,
+    "aria": []
+  },
+  "resizable": {
+    "role": "region",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "review-date": {
+    "role": null,
+    "aria": []
+  },
+  "ring-chart": {
+    "role": null,
+    "aria": []
+  },
+  "romania-cod-numeric-personal-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "romania-cod-numeric-personal-view": {
+    "role": null,
+    "aria": []
+  },
+  "romania-pasaport-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "romania-pasaport-view": {
+    "role": null,
+    "aria": []
+  },
+  "rossiya-snils-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "rossiya-snils-view": {
+    "role": null,
+    "aria": []
+  },
+  "sankey-chart": {
+    "role": null,
+    "aria": []
+  },
+  "scatter-chart": {
+    "role": null,
+    "aria": []
+  },
+  "schweiz-ahv-nummer-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "schweiz-ahv-nummer-view": {
+    "role": null,
+    "aria": []
+  },
+  "screen-reader-span": {
+    "role": null,
+    "aria": []
+  },
+  "scroll-area": {
+    "role": "region",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "scroll-bar": {
+    "role": "scrollbar",
+    "aria": [
+      "aria-label",
+      "aria-orientation",
+      "aria-valuemax",
+      "aria-valuemin",
+      "aria-valuenow"
+    ]
+  },
+  "scroller": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "scroller-base": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "scroller-video": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "search-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "section-heading": {
+    "role": null,
+    "aria": []
+  },
+  "section-link": {
+    "role": null,
+    "aria": []
+  },
+  "section-list": {
+    "role": null,
+    "aria": []
+  },
+  "section-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "section-nav": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "segment-group": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "segment-group-item": {
+    "role": "radio",
+    "aria": [
+      "aria-checked"
+    ]
+  },
+  "select": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "select-with-extras": {
+    "role": null,
+    "aria": []
+  },
+  "separator": {
+    "role": "separator",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "share-page": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "show-more": {
+    "role": null,
+    "aria": []
+  },
+  "sidebar": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "signature-pad": {
+    "role": "application",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "singapore-national-registration-identity-card-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "singapore-national-registration-identity-card-view": {
+    "role": null,
+    "aria": []
+  },
+  "skeleton": {
+    "role": null,
+    "aria": [
+      "aria-busy",
+      "aria-hidden"
+    ]
+  },
+  "skip-link": {
+    "role": null,
+    "aria": []
+  },
+  "slider": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "slider-button": {
+    "role": "slider",
+    "aria": [
+      "aria-label",
+      "aria-valuemax",
+      "aria-valuemin",
+      "aria-valuenow"
+    ]
+  },
+  "slovenija-emso-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "slovenija-emso-view": {
+    "role": null,
+    "aria": []
+  },
+  "slovensko-pas-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "slovensko-pas-view": {
+    "role": null,
+    "aria": []
+  },
+  "slovensko-rodne-cislo-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "slovensko-rodne-cislo-view": {
+    "role": null,
+    "aria": []
+  },
+  "sonner": {
+    "role": "region",
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "south-africa-identity-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "south-africa-identity-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "sparkline": {
+    "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "split-button": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "split-view": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "splitter": {
+    "role": "separator",
+    "aria": [
+      "aria-label",
+      "aria-orientation",
+      "aria-valuemax",
+      "aria-valuemin",
+      "aria-valuenow"
+    ]
+  },
+  "statistic": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "status-light": {
+    "role": "status",
+    "aria": []
+  },
+  "status-tag": {
+    "role": null,
+    "aria": []
+  },
+  "step-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "step-list-item": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "sticky-promo-banner": {
+    "role": "complementary",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "streaming-text": {
+    "role": "status",
+    "aria": [
+      "aria-atomic",
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "submit-input": {
+    "role": null,
+    "aria": []
+  },
+  "success-panel": {
+    "role": "status",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "summary-box": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "summary-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "summary-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "sunburst-chart": {
+    "role": null,
+    "aria": []
+  },
+  "suomi-henkilotunnus-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "suomi-henkilotunnus-view": {
+    "role": null,
+    "aria": []
+  },
+  "super-banner": {
+    "role": "alert",
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "sverige-personnummer-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "sverige-personnummer-view": {
+    "role": null,
+    "aria": []
+  },
+  "switch-button": {
+    "role": "switch",
+    "aria": [
+      "aria-checked",
+      "aria-label"
+    ]
+  },
+  "tab-bar": {
+    "role": "tablist",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tab-bar-button": {
+    "role": "tab",
+    "aria": [
+      "aria-selected"
+    ]
+  },
+  "tab-panel": {
+    "role": "tabpanel",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "table": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "table-body": {
+    "role": null,
+    "aria": []
+  },
+  "table-foot": {
+    "role": null,
+    "aria": []
+  },
+  "table-head": {
+    "role": null,
+    "aria": []
+  },
+  "table-row": {
+    "role": null,
+    "aria": []
+  },
+  "table-td": {
+    "role": null,
+    "aria": []
+  },
+  "table-th": {
+    "role": null,
+    "aria": []
+  },
+  "tag": {
+    "role": null,
+    "aria": []
+  },
+  "tag-group": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tag-input-div": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "taiwan-guomin-shenfenzheng-tongyi-bianhao-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "taiwan-guomin-shenfenzheng-tongyi-bianhao-view": {
+    "role": null,
+    "aria": []
+  },
+  "task-bar": {
+    "role": "toolbar",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "task-bar-button": {
+    "role": null,
+    "aria": []
+  },
+  "task-list": {
+    "role": "list",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "task-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "tel-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tel-link": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "text-area-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "text-area-input-with-character-counter": {
+    "role": null,
+    "aria": []
+  },
+  "text-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "text-input-with-search": {
+    "role": "search",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "theme-select": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "theme-select-option": {
+    "role": null,
+    "aria": []
+  },
+  "theme-view": {
+    "role": null,
+    "aria": []
+  },
+  "thinking": {
+    "role": null,
+    "aria": []
+  },
+  "tile": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tile-map": {
+    "role": "img",
+    "aria": [
+      "aria-label",
+      "aria-roledescription"
+    ]
+  },
+  "time-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "time-picker-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "timeline-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "timeline-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "timeout-dialog": {
+    "role": "alertdialog",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "timer": {
+    "role": "timer",
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "timer-button": {
+    "role": null,
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "toast": {
+    "role": "status",
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "toggle-button": {
+    "role": "switch",
+    "aria": [
+      "aria-checked",
+      "aria-label"
+    ]
+  },
+  "toggle-group": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tool-bar": {
+    "role": "toolbar",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tool-bar-button": {
+    "role": null,
+    "aria": []
+  },
+  "tool-call": {
+    "role": null,
+    "aria": []
+  },
+  "tool-call-error": {
+    "role": "alert",
+    "aria": []
+  },
+  "tool-call-input": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tool-call-name": {
+    "role": null,
+    "aria": []
+  },
+  "tool-call-output": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tool-call-status": {
+    "role": null,
+    "aria": []
+  },
+  "tooltip": {
+    "role": "tooltip",
+    "aria": []
+  },
+  "tour-list-item": {
+    "role": "group",
+    "aria": [
+      "aria-hidden",
+      "aria-label",
+      "aria-roledescription"
+    ]
+  },
+  "tree-link": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tree-list": {
+    "role": "tree",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tree-list-item": {
+    "role": "treeitem",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tree-menu": {
+    "role": "tree",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tree-nav": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tree-select": {
+    "role": null,
+    "aria": []
+  },
+  "tuaisceart-eireann-health-and-care-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "tuaisceart-eireann-health-and-care-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "turkiye-tc-kimlik-numarasi-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "turkiye-tc-kimlik-numarasi-view": {
+    "role": null,
+    "aria": []
+  },
+  "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view": {
+    "role": null,
+    "aria": []
+  },
+  "united-kingdom-national-health-service-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "united-kingdom-national-health-service-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "united-kingdom-national-insurance-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "united-kingdom-national-insurance-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "united-states-social-security-number-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "united-states-social-security-number-view": {
+    "role": null,
+    "aria": []
+  },
+  "url-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "uruguay-cedula-de-identidad-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "uruguay-cedula-de-identidad-view": {
+    "role": null,
+    "aria": []
+  },
+  "validation-list": {
+    "role": null,
+    "aria": [
+      "aria-label",
+      "aria-live"
+    ]
+  },
+  "validation-list-item": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "video-player": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "viet-nam-can-cuoc-cong-dan-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "viet-nam-can-cuoc-cong-dan-view": {
+    "role": null,
+    "aria": []
+  },
+  "visible": {
+    "role": null,
+    "aria": []
+  },
+  "warning-callout": {
+    "role": "alert",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "warning-text": {
+    "role": null,
+    "aria": []
+  },
+  "watermark": {
+    "role": null,
+    "aria": []
+  },
+  "week-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "yisrael-teudat-zehut-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "yisrael-teudat-zehut-view": {
+    "role": null,
+    "aria": []
+  },
+  "zhongguo-jumin-shenfenzheng-haoma-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "zhongguo-jumin-shenfenzheng-haoma-view": {
+    "role": null,
+    "aria": []
+  }
+}

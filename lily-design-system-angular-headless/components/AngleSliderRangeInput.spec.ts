@@ -29,4 +29,23 @@ describe("AngleSliderRangeInput", () => {
         const el = fixture.nativeElement.querySelector("input.angle-slider-range-input");
         expect(el.getAttribute("type")).toBe("range");
     });
+
+    test("carries the range and the value text", () => {
+        const fixture = TestBed.createComponent(AngleSliderRangeInput);
+        fixture.componentRef.setInput("max", 180);
+        fixture.componentRef.setInput("step", 5);
+        fixture.componentRef.setInput("value", "90");
+        fixture.componentRef.setInput("valueTextSuffix", " degrees");
+        fixture.componentRef.setInput("name", "hue");
+        fixture.componentRef.setInput("id", "h");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("max")).toBe("180");
+        expect(el.getAttribute("step")).toBe("5");
+        expect(el.getAttribute("name")).toBe("hue");
+        expect(el.getAttribute("id")).toBe("h");
+        expect(el.getAttribute("aria-valuemax")).toBe("180");
+        expect(el.getAttribute("aria-valuenow")).toBe("90");
+        expect(el.getAttribute("aria-valuetext")).toBe("90 degrees");
+    });
 });

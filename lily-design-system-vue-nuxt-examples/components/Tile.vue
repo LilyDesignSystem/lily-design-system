@@ -32,6 +32,7 @@ withDefaults(
     <!-- Tile.vue -->
     <div
         class="tile"
+        :role="label ? 'group' : undefined"
         :aria-label="label"
     >
         <slot />

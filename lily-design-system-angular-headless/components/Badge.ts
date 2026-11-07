@@ -10,10 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-badge",
     standalone: true,
-    template: `<span class="badge {{ className() }}" role="status" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    template: `<span class="badge {{ className() }}" role="status" [attr.aria-label]="label() || null" [attr.data-type]="type()"><ng-content /></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Badge {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** The kind of status, read by the consumer's CSS. */
+    readonly type = input<"default" | "info" | "success" | "warning" | "error">("default");
 }

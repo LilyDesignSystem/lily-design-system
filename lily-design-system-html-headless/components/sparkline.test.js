@@ -8,15 +8,15 @@ describe("Sparkline", function () {
         await browser.url("file://" + path.resolve(__dirname, "sparkline.html"));
     });
 
-    it("should render the div element with correct class", async function () {
-        const el = await $("div.sparkline");
+    it("should render the span element with correct class", async function () {
+        const el = await $("span.sparkline");
         await expect(el).toExist();
         const className = await el.getAttribute("class");
         expect(className).toContain("sparkline");
     });
 
     it("should have an aria-label attribute", async function () {
-        const el = await $("div.sparkline");
+        const el = await $("span.sparkline");
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });

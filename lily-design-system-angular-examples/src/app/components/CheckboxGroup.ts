@@ -18,7 +18,7 @@ import { warnMissingName } from "./dev-warning";
 @Component({
     selector: "lily-checkbox-group",
     standalone: true,
-    template: `<fieldset class="checkbox-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></fieldset>`,
+    template: `<fieldset class="checkbox-group {{ className() }}" role="group" [disabled]="disabled()" [attr.aria-label]="label() || null"><ng-content /></fieldset>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckboxGroup implements OnInit {
@@ -26,6 +26,8 @@ export class CheckboxGroup implements OnInit {
 
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Disables every checkbox in the group. */
+    readonly disabled = input<boolean>(false);
 
     ngOnInit(): void {
         const host: HTMLElement = this.lilyHost.nativeElement;

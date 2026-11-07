@@ -29,4 +29,14 @@ describe("RadioInput", () => {
         const el = fixture.nativeElement.querySelector("input.radio-input");
         expect(el.getAttribute("type")).toBe("radio");
     });
+
+    test("reflects name and checked", () => {
+        const fixture = TestBed.createComponent(RadioInput);
+        fixture.componentRef.setInput("name", "size");
+        fixture.componentRef.setInput("checked", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input");
+        expect(el.getAttribute("name")).toBe("size");
+        expect(el.checked).toBe(true);
+    });
 });

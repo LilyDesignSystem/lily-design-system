@@ -13,9 +13,8 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     standalone: true,
     template: `<time
     class="review-date {{ className() }}"
-    [attr.aria-label]="label() || null"
     [attr.datetime]="datetime() || null"
-    ><ng-content
+    >@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}<ng-content
   /></time>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

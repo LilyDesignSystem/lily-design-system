@@ -10,10 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-clamp-text",
     standalone: true,
-    template: `<div class="clamp-text {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="clamp-text {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null" [attr.data-lines]="lines()" [style.--clamp-text-lines]="lines()"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClampText {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** Lines shown before clamping; read by the consumer's CSS. */
+    readonly lines = input<number>(2);
 }

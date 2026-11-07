@@ -16,6 +16,7 @@ import { restoreOnFormReset } from "./form-reset";
       type="button"
       [attr.aria-label]="label() || null"
       autocomplete="off"
+      [attr.name]="name() ?? null"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
@@ -28,6 +29,8 @@ export class ButtonInput {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** Form field name. */
+    readonly name = input<string | undefined>(undefined);
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

@@ -90,15 +90,15 @@ onBeforeUnmount(() => detach?.());
     <div
         ref="rootEl"
         class="tree-select"
-        role="combobox"
-        aria-haspopup="tree"
-        :aria-expanded="expanded"
-        :aria-label="label"
         :data-multiple="dataMultiple"
     >
         <button
             class="tree-select-trigger"
             type="button"
+            role="combobox"
+            aria-haspopup="tree"
+            :aria-expanded="expanded"
+            :aria-label="label"
             :disabled="disabled"
             @click="$emit('click', $event)"
         >

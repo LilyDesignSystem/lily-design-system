@@ -3,7 +3,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: var(--nhsuk-white);
+  background: var(--nhsuk-surface);
   border: 1px solid var(--nhsuk-mid-grey);
   border-radius: 6px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);

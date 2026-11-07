@@ -14,6 +14,7 @@
 {%- set p = params | default({}) -%}
 <div
   class="toast{% if p.classes %} {{ p.classes }}{% endif %}"
+  aria-live="polite"
   role="status"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if not p.open %} hidden{% endif %}

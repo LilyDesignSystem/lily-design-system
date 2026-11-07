@@ -8,7 +8,7 @@ The component is commonly used in dashboards, compliance tracking, audit logs, a
 
 ## Implementation Notes
 
-- Renders as `<time aria-label={label} datetime={datetime}>` with children slot
+- Renders as `<time datetime={datetime}>` holding hidden text from `label` and the children slot
 - The `datetime` attribute uses ISO 8601 format for machine readability
 - Children slot provides localized human-readable date text
 - Semantic `<time>` element enables browser and assistive technology date parsing
@@ -16,7 +16,7 @@ The component is commonly used in dashboards, compliance tracking, audit logs, a
 
 ## Props
 
-- `label`: string (required) -- accessible label for screen readers via `aria-label`
+- `label`: string (required) -- hidden text read before the date, in a `screen-reader-span`
 - `datetime`: string (required) -- ISO 8601 date/time string for machine readability
 - `children`: slot (required) -- human-readable display text for the date
 - `...restProps`: any -- additional HTML attributes spread onto the time element
@@ -63,7 +63,7 @@ None -- this is an informational display, not interactive.
 
 ## ARIA
 
-- `aria-label` -- provides screen reader context from the `label` prop
+- `label` is hidden text in a `screen-reader-span`, read before the date; a name on `<time>` is not reliably read
 - `datetime` -- machine-readable date attribute on the `<time>` element
 
 ## When to Use
@@ -81,7 +81,7 @@ None -- this is an informational display, not interactive.
 
 ## Headless
 
-The ReviewDate headless component provides a `<time>` element with `aria-label` for accessible naming and a `datetime` attribute in ISO 8601 format for machine readability. The children slot renders human-readable text. The consumer provides all visual styling and date formatting.
+The ReviewDate headless component provides a `<time>` element with hidden text from `label` and a `datetime` attribute in ISO 8601 format for machine readability. The children slot renders human-readable text. The consumer provides all visual styling and date formatting.
 
 ## Styles
 
@@ -90,7 +90,7 @@ The consumer provides all CSS styling. The component renders with a `.review-dat
 ## Testing
 
 - Verify the component renders a `<span>` element with class `review-date`
-- Verify aria-label`-- provides screen reader context from the`label` prop
+- Verify `label` renders as hidden text in a `screen-reader-span`
 - Verify pass-through attributes are applied
 
 ## Advice

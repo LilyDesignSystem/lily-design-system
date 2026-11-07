@@ -12,7 +12,7 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set<string>();
+const HANDLED = new Set<string>(["label"]);
 
 export class Citation extends HTMLElement {
     connectedCallback(): void {
@@ -23,6 +23,13 @@ export class Citation extends HTMLElement {
         passThroughAttributes(this, cite, HANDLED);
 
         moveChildrenInto(this, cite);
+        const label = this.getAttribute("label");
+        if (label) {
+            const hidden = document.createElement("span");
+            hidden.className = "screen-reader-span";
+            hidden.textContent = `${label} `;
+            cite.prepend(hidden);
+        }
         this.appendChild(cite);
     }
 }

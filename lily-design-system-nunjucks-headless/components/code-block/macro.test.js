@@ -39,6 +39,7 @@ describe("code-block", () => {
             text: "x",
         });
         expect(document.querySelector("pre").getAttribute("aria-label")).toBe("Example");
+        expect(document.querySelector("pre").getAttribute("role")).toBe("region");
     });
 
     it("appends params.classes on the <pre>", () => {

@@ -19,4 +19,17 @@ describe("ProductCard", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("renders its content", () => {
+        const fixture = TestBed.createComponent(ProductCard);
+        fixture.componentRef.setInput("name", "Tulip");
+        fixture.componentRef.setInput("price", "\u20ac3");
+        fixture.componentRef.setInput("imageUrl", "/a.png");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".product-card");
+        expect(el.getAttribute("aria-label")).toBe("Tulip");
+        expect(el.querySelector(".product-card-name").textContent).toBe("Tulip");
+        expect(el.querySelector(".product-card-price").textContent).toBe("€3");
+        expect(el.querySelector(".product-card-image").getAttribute("alt")).toBe("");
+    });
 });

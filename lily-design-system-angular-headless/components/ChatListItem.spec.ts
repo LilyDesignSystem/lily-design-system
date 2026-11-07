@@ -44,4 +44,12 @@ describe("ChatListItem", () => {
         current.detectChanges();
         expect(current.nativeElement.querySelector("li").getAttribute("aria-current")).toBe("true");
     });
+
+    test("carries its name", () => {
+        const fixture = TestBed.createComponent(ChatListItem);
+        fixture.componentRef.setInput("label", "Ada");
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.getAttribute("aria-label")).toBe("Ada");
+    });
 });

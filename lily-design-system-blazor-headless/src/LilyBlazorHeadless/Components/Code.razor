@@ -7,12 +7,11 @@
 
     Props:
       CssClass — string, optional. CSS class name, added after the base class hook on the root.
-      Label — string, optional. Accessible name, rendered as aria-label on the root.
       ChildContent — RenderFragment, required. The code text.
       AdditionalAttributes — Dictionary<string, object>, captures unmatched attributes and splats them onto the root with @attributes.
 
     Syntax:
-      <Code Label="…">…</Code>
+      <Code>…</Code>
 
     Examples:
       <p>Run <Code>pnpm install</Code> first.</p>
@@ -21,7 +20,6 @@
       - None -- not interactive; any interactive children handle their own keys
 
     Accessibility:
-      - aria-label comes from `label` when given
 
     Internationalization:
       - No hardcoded user-facing strings
@@ -33,10 +31,9 @@
       - MDN <code>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code
 *@
 
-<code class="@($"code {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</code>
+<code class="@($"code {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</code>
 
 @code {
-    [Parameter] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

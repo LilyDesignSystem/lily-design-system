@@ -2,10 +2,10 @@
 
 @*
     SummaryList component
-    an ordered list of key-value summary pairs
+    a description list of key-value summary pairs
 *@
 
-<ol class="@($"summary-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
+<dl class="@($"summary-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</dl>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

@@ -33,4 +33,20 @@ describe("CollectionListItem", () => {
         const el = fixture.nativeElement.querySelector("li");
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("renders its content", () => {
+        const fixture = TestBed.createComponent(CollectionListItem);
+        fixture.componentRef.setInput("heading", "Spring");
+        fixture.componentRef.setInput("href", "/s");
+        fixture.componentRef.setInput("meta", "2026");
+        fixture.componentRef.setInput("description", "Bulbs");
+        fixture.componentRef.setInput("imageUrl", "/a.png");
+        fixture.componentRef.setInput("imageAlt", "A tulip");
+        fixture.detectChanges();
+        const el = fixture.nativeElement;
+        expect(el.querySelector(".collection-list-item-heading a").getAttribute("href")).toBe("/s");
+        expect(el.querySelector(".collection-list-item-meta").textContent).toBe("2026");
+        expect(el.querySelector(".collection-list-item-description").textContent).toBe("Bulbs");
+        expect(el.querySelector(".collection-list-item-image").getAttribute("alt")).toBe("A tulip");
+    });
 });

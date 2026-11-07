@@ -10,7 +10,7 @@
 //     attributes are text; the `keys` property accepts a real string[]
 //     and re-renders.
 //   separator — decorative separator, default "+".
-//   label — optional spoken form, via aria-label on the root.
+//   label — Spoken form, read instead of the visible keys.
 //   ...rest — spread onto the outer <kbd>.
 //
 // References:
@@ -56,11 +56,14 @@ export class KbdShortcut extends HTMLElement {
         const kbd = this.#kbd;
         if (!kbd) return;
         const label = this.getAttribute("label");
-        if (label !== null) kbd.setAttribute("aria-label", label);
-        else kbd.removeAttribute("aria-label");
-
         const separator = this.getAttribute("separator") ?? "+";
         kbd.replaceChildren();
+        if (label) {
+            const hidden = document.createElement("span");
+            hidden.className = "screen-reader-span";
+            hidden.textContent = `${label} `;
+            kbd.appendChild(hidden);
+        }
         this.keys.forEach((key, i) => {
             if (i > 0) {
                 const sep = document.createElement("span");
@@ -71,6 +74,7 @@ export class KbdShortcut extends HTMLElement {
             }
             const k = document.createElement("kbd");
             k.className = "kbd-shortcut-key";
+            if (label) k.setAttribute("aria-hidden", "true");
             k.textContent = key;
             kbd.appendChild(k);
         });

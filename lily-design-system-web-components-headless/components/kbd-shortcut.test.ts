@@ -61,14 +61,15 @@ describe("KbdShortcut", () => {
         expect(host.querySelectorAll(".kbd-shortcut-key").length).toBe(3);
     });
 
-    test("label becomes aria-label; absent otherwise", () => {
+    test("label is hidden text and hides the keys; absent otherwise", () => {
         const labelled = render(
             `<lily-kbd-shortcut keys='["Ctrl","K"]' label="Control K"></lily-kbd-shortcut>`,
         );
-        expect(labelled.querySelector(":scope > kbd")!.getAttribute("aria-label")).toBe(
-            "Control K",
-        );
-        expect(render(BASE).querySelector(":scope > kbd")!.hasAttribute("aria-label")).toBe(false);
+        const kbd = labelled.querySelector(":scope > kbd")!;
+        expect(kbd.hasAttribute("aria-label")).toBe(false);
+        expect(kbd.querySelector(".screen-reader-span")!.textContent).toBe("Control K ");
+        expect(kbd.querySelector(".kbd-shortcut-key")!.getAttribute("aria-hidden")).toBe("true");
+        expect(render(BASE).querySelector(".screen-reader-span")).toBeNull();
     });
 
     test("passes through attributes and consumer class", () => {

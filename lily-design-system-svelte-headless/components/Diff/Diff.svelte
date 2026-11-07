@@ -48,6 +48,7 @@
 <!-- Diff.svelte -->
 <div
     class={`diff ${className}`}
+    role="group"
     aria-label={label}
     {...restProps}
 >

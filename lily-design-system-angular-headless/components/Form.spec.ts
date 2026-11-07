@@ -40,4 +40,13 @@ describe("Form", () => {
             "Named",
         );
     });
+
+    test("emits resetted once when the form resets", () => {
+        const fixture = TestBed.createComponent(Form);
+        fixture.detectChanges();
+        const events: Event[] = [];
+        fixture.componentRef.instance.resetted.subscribe((event) => events.push(event));
+        fixture.nativeElement.querySelector("form").reset();
+        expect(events).toHaveLength(1);
+    });
 });

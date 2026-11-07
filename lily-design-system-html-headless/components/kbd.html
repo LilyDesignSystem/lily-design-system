@@ -5,12 +5,11 @@
   HTML tag: <kbd>
   CSS class: kbd
   Keyboard: none; not interactive, and any interactive children handle their own keys
-  Accessibility: aria-label for accessible name
+  Accessibility: label is hidden text in a screen-reader-span
 -->
 
 <kbd
   class="kbd"
-  aria-label="Example"
 >
-  <!-- Consumer provides content -->
+  <span class="screen-reader-span">Example </span><span class="kbd-text" aria-hidden="true"><!-- Consumer provides content --></span>
 </kbd>

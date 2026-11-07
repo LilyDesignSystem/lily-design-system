@@ -4,9 +4,9 @@
 
 - Component: summary-list
 - PascalCase: SummaryList
-- Description: an ordered list of key-value summary pairs
+- Description: a description list of key-value summary pairs
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <ol>
+- HTML tag: <dl>
 - CSS class: .summary-list
 - Interactive: no
 
@@ -46,7 +46,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <ol> element with class="summary-list"
+- [ ] Renders <dl> element with class="summary-list"
 - [ ] Has aria-label attribute
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

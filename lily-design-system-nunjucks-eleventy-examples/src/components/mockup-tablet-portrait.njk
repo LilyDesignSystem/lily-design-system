@@ -6,7 +6,7 @@ description: a box area that looks like a tablet computer in portrait mode
 
 {% from "components/mockup-tablet-portrait/macro.njk" import mockupTabletPortrait %}
 
-{% call mockupTabletPortrait() %}
+{% call mockupTabletPortrait({ label: "App on a tablet portrait" }) %}
   <h3>Portrait tablet</h3>
   <p>3:4 aspect ratio.</p>
 {% endcall %}

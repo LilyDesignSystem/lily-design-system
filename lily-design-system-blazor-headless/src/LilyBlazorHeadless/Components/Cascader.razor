@@ -7,8 +7,8 @@
     ActionBar.razor.js, generated from shared/widget-keys.ts.
 *@
 
-<div @ref="Root" class="@($"cascader {CssClass}".Trim())" role="combobox" aria-haspopup="tree" aria-expanded="@(Expanded ? "true" : "false")" aria-label="@Label" data-multiple="@(Multiple ? "true" : null)" @attributes="AdditionalAttributes">
-    <button class="cascader-trigger" type="button" disabled="@Disabled">@(Value ?? Placeholder)</button>
+<div @ref="Root" class="@($"cascader {CssClass}".Trim())" data-multiple="@(Multiple ? "true" : null)" @attributes="AdditionalAttributes">
+    <button class="cascader-trigger" type="button" role="combobox" aria-haspopup="tree" aria-expanded="@(Expanded ? "true" : "false")" aria-label="@Label" disabled="@Disabled">@(Value ?? Placeholder)</button>
     <div class="cascader-panel" popover="manual" @ref="Panel">@ChildContent</div>
 </div>
 

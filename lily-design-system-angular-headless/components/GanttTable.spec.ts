@@ -19,4 +19,20 @@ describe("GanttTable", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a grid with a caption", () => {
+        const fixture = TestBed.createComponent(GanttTable);
+        fixture.componentRef.setInput("caption", "Rota");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("table");
+        expect(el.getAttribute("role")).toBe("grid");
+        expect(el.querySelector("caption").textContent).toBe("Rota");
+    });
+
+    test("has no caption by default", () => {
+        const fixture = TestBed.createComponent(GanttTable);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("table");
+        expect(el.querySelector("caption")).toBeNull();
+    });
 });

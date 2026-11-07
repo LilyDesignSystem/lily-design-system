@@ -9,7 +9,7 @@ Canonical component list: [components.tsv](../components.tsv) — 609 components
 ## Subprojects for headless components
 
 The seven framework pairs below are the canonical, full-catalog (609/609)
-headless libraries. An 8th headless catalog joined 2026-09-03:
+headless libraries. Angular has every Svelte prop, or a recorded reason in `bin/check-port-logic.allow.json`, since 2026-11-06. An 8th headless catalog joined 2026-09-03:
 [Lily Design System: Web Components headless](../lily-design-system-web-components-headless)
 ships its full achievable scope: 574 of the 609 (since `warning-text`, 2026-10-29)
 components as native custom elements (no framework runtime). The other 35
@@ -131,7 +131,7 @@ exemptions.
 | `src/lib/pages/*/en.html`                                                         | `bin/generate-page-markdown`        | `static/<route>.md`, one Markdown twin per English text page                                                                                                                                                                                           | `bin/generate-page-markdown --check`                                       |
 | the site's English route pages                                                    | `bin/extract-site-pages`            | `src/lib/pages/{slug}/en.html`                                                                                                                                                                                                                         | `bin/extract-site-pages --check`                                           |
 | `src/lib/pages/*` translations                                                    | `bin/generate-locale-pages`         | `src/routes/<code>/<slug>/+page.svelte`                                                                                                                                                                                                                | `bin/generate-locale-pages --check`                                        |
-| the headless tests, the example apps' e2e configs, `docs/screen-reader-matrix.md` | `bin/generate-core`                 | `spec/competitive-position/core.json`, `docs/core.md`, `docs/accessibility-conformance-report.md`, the site's `src/routes/quality/+page.svelte`                                                                                                        | `bin/generate-core --check`                                                |
+| the headless tests, the example apps' e2e configs, `docs/screen-reader-matrix.md` | `bin/generate-core`                 | `spec/competitive-position/core.json`, `docs/core.md`, `docs/accessibility-conformance-report.md`, `docs/aria-assessment.tsv`, the tables in `docs/aria-assessment.md`, the site's `src/routes/quality/+page.svelte`                                   | `bin/generate-core --check`                                                |
 
 `bin/test-generators` (in `bin/test`) runs golden tests over a three-component fixture for `generate-api-docs`,
 `generate-registries`, `generate-examples` and `generate-site-pages`; `--update-goldens` rewrites them.
@@ -154,7 +154,9 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [list-helper-packages](../bin/list-helper-packages): List one framework's top-level helper packages in dependency (build) order
 - [check-port-parity](../bin/check-port-parity): Web Components helpers vs the HTML ones, Alpine vs Svelte: class hooks, events and attributes missing from the port, unless allow-listed with a reason
 - [generate-comparisons](../bin/generate-comparisons): The component matrix in `compare/index.md` from `compare/compare.tsv` — `--check` (in bin/test) fails on drift, `--counts` prints each system's rows matched
-- [check-port-logic](../bin/check-port-logic): Angular and Blazor vs Svelte: a port with no logic where Svelte has behaviour, unless allow-listed with a reason; the list may only shrink (in bin/test). It finds a stub, it does not prove a port complete
+- [check-port-logic](../bin/check-port-logic): Angular and Blazor vs Svelte: a port with no logic where Svelte has behaviour, and any Svelte prop missing from Angular, unless allow-listed with a reason; the list may only shrink (in bin/test). It finds a stub or a missing prop, it does not prove a port behaves the same
+- [check-aria-baseline](../bin/check-aria-baseline): HTML and Blazor roots against `shared/aria-baseline.json`, what Svelte renders; the other catalogs compare in their render sweeps. The list may only shrink (in bin/test)
+- [check-generic-names](../bin/check-generic-names): No HTML or Blazor component names a generic root, unless allow-listed with a reason; the list may only shrink (in bin/test). The other catalogs have a rendered `generic-name` test
 - [check-generated-files](../bin/check-generated-files): The Generated files table above lists every generator and its `--check`, and none is missing or invented
 - [check-package-metadata](../bin/check-package-metadata): Every published npm/NuGet package names the monorepo as its source repository — packages publish from the monorepo
 - [create-component-directory](../bin/create-component-directory): Scaffold one component directory

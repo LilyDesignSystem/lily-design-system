@@ -2,22 +2,32 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("cascader", () => {
-    it("renders a <div> with the base class and combobox role", () => {
+    it("renders a <div> with the base class and combobox trigger", () => {
         const { document } = render("cascader", { label: "Region" });
         const el = document.querySelector("div.cascader");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("role")).toBe("combobox");
-        expect(el.getAttribute("aria-haspopup")).toBe("tree");
+        expect(el.querySelector("button").getAttribute("role")).toBe("combobox");
+        expect(el.querySelector("button").getAttribute("aria-haspopup")).toBe("tree");
     });
 
     it("requires and renders aria-label", () => {
         const { document } = render("cascader", { label: "Region" });
-        expect(document.querySelector("div.cascader").getAttribute("aria-label")).toBe("Region");
+        expect(
+            document
+                .querySelector("div.cascader")
+                .querySelector("button")
+                .getAttribute("aria-label"),
+        ).toBe("Region");
     });
 
     it("renders aria-expanded='false' by default", () => {
         const { document } = render("cascader", { label: "Region" });
-        expect(document.querySelector("div.cascader").getAttribute("aria-expanded")).toBe("false");
+        expect(
+            document
+                .querySelector("div.cascader")
+                .querySelector("button")
+                .getAttribute("aria-expanded"),
+        ).toBe("false");
     });
 
     it("renders aria-expanded='true' when expanded", () => {
@@ -25,7 +35,12 @@ describe("cascader", () => {
             label: "Region",
             expanded: true,
         });
-        expect(document.querySelector("div.cascader").getAttribute("aria-expanded")).toBe("true");
+        expect(
+            document
+                .querySelector("div.cascader")
+                .querySelector("button")
+                .getAttribute("aria-expanded"),
+        ).toBe("true");
     });
 
     it("renders a trigger button with the placeholder", () => {
@@ -105,5 +120,12 @@ describe("cascader", () => {
     it("contains no <style> tag", () => {
         const { html } = render("cascader", { label: "Region" });
         expect(html).not.toContain("<style");
+    });
+
+    it("controls its panel in the markup, for a server-rendered open popup", () => {
+        const { document } = render("cascader", { id: "x", label: "L", expanded: true });
+        const panel = document.querySelector(".cascader-panel");
+        expect(panel.id).toBe("x-panel");
+        expect(document.querySelector("button").getAttribute("aria-controls")).toBe("x-panel");
     });
 });

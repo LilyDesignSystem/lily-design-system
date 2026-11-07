@@ -417,8 +417,8 @@ sticky-promo-banner	aside	overlays
 submit-input	input	forms
 success-panel	div	content
 summary-box	aside	navigation
-summary-list	ol	lists
-summary-list-item	li	lists
+summary-list	dl	lists
+summary-list-item	div	content
 suomi-henkilotunnus-input	input	national
 suomi-henkilotunnus-view	span	national
 super-banner	div	overlays

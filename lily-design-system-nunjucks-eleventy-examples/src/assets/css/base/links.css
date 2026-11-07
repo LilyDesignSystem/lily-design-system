@@ -1,18 +1,21 @@
-a {
-  color: var(--nhsuk-bright-blue);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.1em;
-}
+/* In the reset layer so a theme's @layer lily rules win: an unlayered `a` beat them all (see reset.css). */
+@layer reset {
+  a {
+    color: var(--nhsuk-link);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.1em;
+  }
 
-a:visited {
-  color: var(--nhsuk-purple);
-}
+  a:visited {
+    color: var(--nhsuk-link-visited);
+  }
 
-a:hover {
-  color: var(--nhsuk-dark-blue);
-  text-decoration-thickness: 3px;
-}
+  a:hover {
+    color: var(--nhsuk-dark-blue);
+    text-decoration-thickness: 3px;
+  }
 
-a:active {
-  color: var(--nhsuk-black);
+  a:active {
+    color: var(--nhsuk-black);
+  }
 }

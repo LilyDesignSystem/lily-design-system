@@ -6,12 +6,14 @@ description: one event in a timeline list
 
 {% from "components/timeline-list-item/macro.njk" import timelineListItem %}
 
+<ol class="timeline-list">
 {{ timelineListItem({
   time: "2026-04-20",
   timeText: "20 April 2026",
   heading: "Consultation",
   text: "Routine visit. Blood pressure within normal range."
 }) }}
+</ol>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

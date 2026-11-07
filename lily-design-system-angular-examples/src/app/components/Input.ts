@@ -13,7 +13,7 @@ import { restoreOnFormReset } from "./form-reset";
     standalone: true,
     template: `<input
       class="input {{ className() }}"
-      type="text"
+      [attr.type]="type()"
       [attr.aria-label]="label() || null"
       autocomplete="off"
       [value]="value()"
@@ -28,6 +28,8 @@ export class Input {
     readonly label = input<string>("");
     /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
+    /** The input type. */
+    readonly type = input<string>("text");
     /** Bindable input value. */
     readonly value = model<string>("");
     /** Whether the input is required for form submission. */

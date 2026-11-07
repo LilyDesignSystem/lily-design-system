@@ -5,7 +5,7 @@
   border: 10px solid var(--nhsuk-black);
   border-radius: 24px;
   overflow: hidden;
-  background: var(--nhsuk-black);
+  background: var(--nhsuk-ink);
   color: var(--nhsuk-white);
   position: relative;
 }

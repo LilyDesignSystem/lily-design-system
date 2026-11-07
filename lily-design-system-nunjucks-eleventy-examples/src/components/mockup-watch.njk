@@ -6,7 +6,7 @@ description: a box area that looks like a smart watch
 
 {% from "components/mockup-watch/macro.njk" import mockupWatch %}
 
-{% call mockupWatch() %}
+{% call mockupWatch({ label: "App on a watch" }) %}
   <p style="font-size: 0.9rem">Heart: 72 bpm</p>
   <p style="font-size: 0.9rem">Steps: 8,342</p>
 {% endcall %}

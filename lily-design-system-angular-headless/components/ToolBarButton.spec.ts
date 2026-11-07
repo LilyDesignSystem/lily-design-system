@@ -19,4 +19,12 @@ describe("ToolBarButton", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("reflects disabled", () => {
+        const fixture = TestBed.createComponent(ToolBarButton);
+        fixture.componentRef.setInput("disabled", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("button");
+        expect(el.disabled).toBe(true);
+    });
 });

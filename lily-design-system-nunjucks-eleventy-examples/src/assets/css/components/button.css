@@ -31,7 +31,7 @@
 
 .button:focus-visible {
   background: var(--nhsuk-yellow);
-  color: var(--nhsuk-black);
+  color: var(--nhsuk-ink);
   border-bottom-color: var(--nhsuk-black);
 }
 
@@ -52,8 +52,8 @@
 }
 
 .button.button-reverse {
-  background: var(--nhsuk-white);
-  color: var(--nhsuk-blue);
+  background: var(--nhsuk-surface);
+  color: var(--nhsuk-link);
   border-bottom-color: var(--nhsuk-dark-blue);
 }
 

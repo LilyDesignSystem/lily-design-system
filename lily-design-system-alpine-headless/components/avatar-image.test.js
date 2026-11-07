@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("div.avatar-image");
+const el = () => document.querySelector("img.avatar-image");
 
 describe("AvatarImage", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("AvatarImage", () => {
         expect(el().classList.contains("avatar-image")).toBe(true);
     });
 
-    it("uses the div element", async () => {
+    it("uses the img element", async () => {
         await mount("avatar-image");
-        expect(el().tagName.toLowerCase()).toBe("div");
+        expect(el().tagName.toLowerCase()).toBe("img");
     });
 });

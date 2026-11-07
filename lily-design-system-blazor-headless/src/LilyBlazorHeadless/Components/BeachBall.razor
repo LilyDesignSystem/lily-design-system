@@ -5,7 +5,7 @@
     a decorative animated beach ball element
 *@
 
-<div class="@($"beach-ball {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"beach-ball {CssClass}".Trim())" aria-live="polite" aria-busy="true" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

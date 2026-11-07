@@ -96,16 +96,16 @@ export default function TreeSelect({
         <div
             ref={rootRef}
             className={`tree-select ${className}`}
-            role="combobox"
-            aria-haspopup="tree"
-            aria-expanded={expanded}
-            aria-label={label}
             data-multiple={multiple ? true : undefined}
             {...restProps}
         >
             <button
                 className="tree-select-trigger"
                 type="button"
+                role="combobox"
+                aria-haspopup="tree"
+                aria-expanded={expanded}
+                aria-label={label}
                 disabled={disabled}
                 onClick={onClick}
             >

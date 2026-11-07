@@ -51,6 +51,7 @@ warnMissingName(
     <!-- AddressInput.vue -->
     <div
         class="address-input"
+        role="group"
         :aria-label="label"
     >
         <slot />

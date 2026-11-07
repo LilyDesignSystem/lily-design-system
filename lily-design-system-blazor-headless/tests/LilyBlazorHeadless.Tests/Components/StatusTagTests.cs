@@ -34,4 +34,16 @@ public class StatusTagTests : TestContext
         var root = cut.Find(".status-tag");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Is_a_static_label_with_label_as_hidden_text()
+    {
+        var cut = RenderComponent<StatusTag>(p => p
+            .AddChildContent("Done")
+            .Add(x => x.Label, "Status:"));
+        var root = cut.Find(".status-tag");
+        Assert.False(root.HasAttribute("role"));
+        Assert.False(root.HasAttribute("aria-label"));
+        Assert.Equal("Status: ", cut.Find(".screen-reader-span").TextContent);
+    }
 }

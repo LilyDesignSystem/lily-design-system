@@ -113,6 +113,7 @@ function onToggle(event: Event): void {
             class="contextual-help-panel"
             :id="panelId"
             role="dialog"
+            :aria-label="label"
             popover="auto"
             @toggle="onToggle"
         >

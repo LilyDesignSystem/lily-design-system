@@ -27,12 +27,12 @@
 
 .task-list-item-status[data-status="in-progress"] {
   background: var(--nhsuk-warm-yellow);
-  color: var(--nhsuk-black);
+  color: var(--nhsuk-ink);
 }
 
 .task-list-item-status[data-status="not-started"] {
   background: transparent;
-  color: var(--nhsuk-bright-blue);
+  color: var(--nhsuk-link);
   border: 2px solid var(--nhsuk-bright-blue);
   padding: calc(var(--nhsuk-spacing-1) - 2px) calc(var(--nhsuk-spacing-2) - 2px);
 }

@@ -20,4 +20,13 @@ describe("CheckboxGroup", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("reflects disabled", () => {
+        const fixture = TestBed.createComponent(CheckboxGroup);
+        fixture.componentRef.setInput("label", "Days");
+        fixture.componentRef.setInput("disabled", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".checkbox-group");
+        expect(el.disabled).toBe(true);
+    });
 });

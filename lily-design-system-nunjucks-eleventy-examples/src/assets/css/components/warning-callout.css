@@ -10,7 +10,7 @@
   display: inline-block;
   padding: var(--nhsuk-spacing-1) var(--nhsuk-spacing-3);
   background: var(--nhsuk-warm-yellow);
-  color: var(--nhsuk-black);
+  color: var(--nhsuk-ink);
   font-size: var(--nhsuk-font-size-22);
   margin-top: calc(-1 * var(--nhsuk-spacing-3) - 4px);
   margin-bottom: var(--nhsuk-spacing-3);

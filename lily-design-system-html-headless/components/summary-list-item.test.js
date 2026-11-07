@@ -8,16 +8,20 @@ describe("SummaryListItem", function () {
         await browser.url("file://" + path.resolve(__dirname, "summary-list-item.html"));
     });
 
-    it("should render the li element with correct class", async function () {
-        const el = await $("li.summary-list-item");
+    it("should render the div element with correct class", async function () {
+        const el = await $("div.summary-list-item");
         await expect(el).toExist();
         const className = await el.getAttribute("class");
         expect(className).toContain("summary-list-item");
     });
 
-    it("should have an aria-label attribute", async function () {
-        const el = await $("li.summary-list-item");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+    it("should hold a dt and a dd", async function () {
+        await expect($("div.summary-list-item > dt")).toExist();
+        await expect($("div.summary-list-item > dd")).toExist();
+    });
+
+    it("should not name the generic div", async function () {
+        const el = await $("div.summary-list-item");
+        expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

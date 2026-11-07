@@ -34,6 +34,7 @@ export class TimerButton extends HTMLElement {
         const button = document.createElement("button");
         button.type = "button";
         button.className = rootClassName(this, "timer-button");
+        button.setAttribute("aria-live", "polite");
         const label = this.getAttribute("label");
         if (label !== null) button.setAttribute("aria-label", label);
         if (this.hasAttribute("disabled")) button.disabled = true;

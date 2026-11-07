@@ -19,4 +19,14 @@ describe("Blockquote", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("carries its source", () => {
+        const fixture = TestBed.createComponent(Blockquote);
+        fixture.componentRef.setInput("cite", "https://example.org");
+        fixture.componentRef.setInput("citationText", "A book");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".blockquote");
+        expect(el.getAttribute("cite")).toBe("https://example.org");
+        expect(el.querySelector(".blockquote-citation").textContent).toBe("A book");
+    });
 });

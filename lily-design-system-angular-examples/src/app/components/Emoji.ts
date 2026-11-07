@@ -10,10 +10,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-emoji",
     standalone: true,
-    template: `<span class="emoji {{ className() }}" role="img" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    template: `<span class="emoji {{ className() }}" role="img" [attr.aria-label]="label() || null"><ng-content>{{ emoji() }}</ng-content></span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Emoji {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** The emoji character. */
+    readonly emoji = input<string>("");
 }

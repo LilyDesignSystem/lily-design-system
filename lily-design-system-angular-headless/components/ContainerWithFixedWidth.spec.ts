@@ -27,4 +27,13 @@ describe("ContainerWithFixedWidth", () => {
         expect(el.hasAttribute("aria-label")).toBe(false);
         expect(el.hasAttribute("role")).toBe(false);
     });
+
+    test("takes a width", () => {
+        const fixture = TestBed.createComponent(ContainerWithFixedWidth);
+        fixture.componentRef.setInput("maxWidth", "40rem");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".container-with-fixed-width");
+        expect(el.getAttribute("data-max-width")).toBe("40rem");
+        expect(el.style.maxWidth).toBe("40rem");
+    });
 });

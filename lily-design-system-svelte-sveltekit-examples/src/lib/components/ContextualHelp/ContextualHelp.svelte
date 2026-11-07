@@ -107,6 +107,7 @@
         class="contextual-help-panel"
         id={panelId}
         role="dialog"
+        aria-label={label}
         popover="auto"
         use:popoverState={expanded}
         ontoggle={(event) => (expanded = toggleOpened(event))}

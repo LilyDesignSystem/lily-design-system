@@ -13,7 +13,7 @@
   font-family: var(--nhsuk-font-family);
   font-size: var(--nhsuk-font-size-19);
   font-weight: var(--nhsuk-font-weight-bold);
-  color: var(--nhsuk-blue);
+  color: var(--nhsuk-link);
   display: flex;
   align-items: center;
   justify-content: space-between;

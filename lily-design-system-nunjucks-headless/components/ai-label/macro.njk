@@ -29,6 +29,7 @@
 <span
   class="ai-label{% if p.classes %} {{ p.classes }}{% endif %}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
+  role="img"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.describedBy %} aria-describedby="{{ p.describedBy }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

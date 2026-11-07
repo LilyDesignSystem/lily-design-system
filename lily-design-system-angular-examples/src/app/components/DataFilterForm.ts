@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input, output } from "@angular/core
 @Component({
     selector: "lily-data-filter-form",
     standalone: true,
-    template: `<form class="data-filter-form {{ className() }}" [attr.aria-label]="label() || null" (submit)="onSubmit($event)"><ng-content /></form>`,
+    template: `<form class="data-filter-form {{ className() }}" role="search" [attr.aria-label]="label() || null" (submit)="onSubmit($event)"><ng-content /></form>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataFilterForm {

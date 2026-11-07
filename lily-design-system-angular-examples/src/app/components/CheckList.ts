@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-check-list",
     standalone: true,
-    template: `<ol class="check-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ol>`,
+    template: `<ol class="check-list {{ className() }}" role="list" [attr.aria-label]="label() || null"><ng-content /></ol>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckList {

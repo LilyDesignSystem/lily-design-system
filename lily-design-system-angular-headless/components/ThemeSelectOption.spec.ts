@@ -19,4 +19,14 @@ describe("ThemeSelectOption", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("reflects selected and disabled", () => {
+        const fixture = TestBed.createComponent(ThemeSelectOption);
+        fixture.componentRef.setInput("selected", true);
+        fixture.componentRef.setInput("disabled", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("option");
+        expect(el.selected).toBe(true);
+        expect(el.disabled).toBe(true);
+    });
 });

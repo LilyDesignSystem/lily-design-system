@@ -40,7 +40,7 @@
             popovertarget="@_panelId"
             @ref="_trigger"
             @onclick="HandleClick">@TriggerLabel</button>
-    <div class="contextual-help-panel" id="@_panelId" role="dialog" popover="auto" @ref="_panel">@ChildContent</div>
+    <div class="contextual-help-panel" id="@_panelId" role="dialog" aria-label="@Label" popover="auto" @ref="_panel">@ChildContent</div>
 </div>
 
 @code {

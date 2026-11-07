@@ -7,6 +7,7 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
+//   label — string, optional. Accessible name.
 //   children — ReactNode, required. The content rendered inside the device frame.
 //   ...restProps — additional HTML attributes spread onto the <div>.
 //
@@ -14,8 +15,7 @@
 //   None — this is a passive decorative container.
 //
 // Accessibility:
-//   - No specific ARIA. If the children are an image of UI, set role="img"
-//     and aria-label on the image element so assistive tech describes it.
+//   - role="img", named by `label`: the mockup reads as one image.
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
@@ -28,6 +28,8 @@ import React from "react";
 
 export interface MockupWindowProps {
     className?: string;
+    /** Accessible name of the image of the device. */
+    label?: string;
     /** Content rendered inside the device frame. */
     children: React.ReactNode;
     [key: string]: unknown;
@@ -35,12 +37,15 @@ export interface MockupWindowProps {
 
 export default function MockupWindow({
     className = "",
+    label,
     children,
     ...restProps
 }: MockupWindowProps) {
     return (
         <div
             className={`mockup-window ${className}`}
+            role="img"
+            aria-label={label}
             {...restProps}
         >
             {children}

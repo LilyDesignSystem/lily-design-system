@@ -48,6 +48,7 @@
 <!-- MockupWatch.svelte -->
 <div
     class={`mockup-watch ${className}`}
+    role="img"
     aria-label={label}
     {...restProps}
 >

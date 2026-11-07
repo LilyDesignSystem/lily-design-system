@@ -19,4 +19,12 @@ describe("status-tag", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("is a static label, with label as hidden text", () => {
+        const { document } = render("status-tag", { label: "Status:", text: "Done" });
+        const el = document.querySelector(".status-tag");
+        expect(el.hasAttribute("role")).toBe(false);
+        expect(el.hasAttribute("aria-label")).toBe(false);
+        expect(el.querySelector(".screen-reader-span").textContent).toBe("Status: ");
+    });
 });

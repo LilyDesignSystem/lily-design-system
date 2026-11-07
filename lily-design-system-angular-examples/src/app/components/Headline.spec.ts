@@ -27,4 +27,20 @@ describe("Headline", () => {
             false,
         );
     });
+
+    test("is an h1 by default", () => {
+        const fixture = TestBed.createComponent(Headline);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".headline");
+        expect(el.querySelector("h1.headline-heading")).toBeTruthy();
+    });
+
+    test("takes a level", () => {
+        const fixture = TestBed.createComponent(Headline);
+        fixture.componentRef.setInput("level", 3);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".headline");
+        expect(el.querySelector("h3.headline-heading")).toBeTruthy();
+        expect(el.querySelector("h1")).toBeNull();
+    });
 });

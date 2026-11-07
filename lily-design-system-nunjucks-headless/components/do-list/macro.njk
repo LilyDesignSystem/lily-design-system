@@ -29,6 +29,7 @@
 {%- set p = params | default({}) -%}
 <ul
   class="do-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="list"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
   {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}

@@ -84,14 +84,14 @@ onBeforeUnmount(() => detach?.());
     <div
         ref="rootEl"
         class="cascader"
-        role="combobox"
-        aria-haspopup="tree"
-        :aria-expanded="expanded"
-        :aria-label="label"
     >
         <button
             class="cascader-trigger"
             type="button"
+            role="combobox"
+            aria-haspopup="tree"
+            :aria-expanded="expanded"
+            :aria-label="label"
             :disabled="disabled"
             @click="$emit('click', $event)"
         >

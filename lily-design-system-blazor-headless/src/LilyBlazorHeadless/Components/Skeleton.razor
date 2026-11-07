@@ -5,7 +5,7 @@
     a placeholder loading animation for content
 *@
 
-<div class="@($"skeleton {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"skeleton {CssClass}".Trim())" aria-hidden="true" aria-busy="true" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }

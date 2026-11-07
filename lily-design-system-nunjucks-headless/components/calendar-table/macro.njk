@@ -49,6 +49,7 @@
 {%- set p = params | default({}) -%}
 <table
   class="calendar-table{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="grid"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if not p.caption and not p.captionHtml -%}
     {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"

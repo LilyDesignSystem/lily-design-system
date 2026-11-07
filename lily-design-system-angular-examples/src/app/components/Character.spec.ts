@@ -19,4 +19,24 @@ describe("Character", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("is a named image", () => {
+        const fixture = TestBed.createComponent(Character);
+        fixture.componentRef.setInput("label", "Fox");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".character");
+        expect(el.getAttribute("role")).toBe("img");
+        expect(el.getAttribute("aria-label")).toBe("Fox");
+    });
+
+    test("is hidden when decorative", () => {
+        const fixture = TestBed.createComponent(Character);
+        fixture.componentRef.setInput("label", "Fox");
+        fixture.componentRef.setInput("decorative", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".character");
+        expect(el.getAttribute("role")).toBe("presentation");
+        expect(el.getAttribute("aria-hidden")).toBe("true");
+        expect(el.hasAttribute("aria-label")).toBe(false);
+    });
 });

@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-panel",
     standalone: true,
-    template: `<div class="panel {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="panel {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Panel {

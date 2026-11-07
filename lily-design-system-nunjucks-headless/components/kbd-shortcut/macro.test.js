@@ -24,11 +24,14 @@ describe("kbd-shortcut", () => {
         expect(s.getAttribute("aria-hidden")).toBe("true");
         expect(s.textContent).toBe("then");
     });
-    it("label becomes aria-label on the root only when given", () => {
-        expect(
-            r({ label: "Control K" }).querySelector(".kbd-shortcut").getAttribute("aria-label"),
-        ).toBe("Control K");
-        expect(r().querySelector(".kbd-shortcut").hasAttribute("aria-label")).toBe(false);
+    it("label is hidden text and hides the keys, only when given", () => {
+        const labelled = r({ label: "Control K" }).querySelector(".kbd-shortcut");
+        expect(labelled.hasAttribute("aria-label")).toBe(false);
+        expect(labelled.querySelector(".screen-reader-span").textContent).toBe("Control K ");
+        expect(labelled.querySelector(".kbd-shortcut-key").getAttribute("aria-hidden")).toBe(
+            "true",
+        );
+        expect(r().querySelector(".screen-reader-span")).toBeNull();
     });
     it("appends classes and spreads attributes on the root", () => {
         const el = r({ classes: "extra", attributes: { "data-x": "1" } }).querySelector(

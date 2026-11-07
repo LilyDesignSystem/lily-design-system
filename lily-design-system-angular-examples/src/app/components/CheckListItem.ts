@@ -15,7 +15,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "li[lily-check-list-item]",
     standalone: true,
-    template: `<ng-content />`,
+    template: `<label><input type="checkbox" [checked]="checked()" [disabled]="disabled()" /><ng-content /></label>`,
     host: {
         "[class]": '"check-list-item " + className()',
     },
@@ -23,4 +23,8 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 })
 export class CheckListItem {
     readonly className = input<string>("");
+    /** Whether the item is checked. */
+    readonly checked = input<boolean>(false);
+    /** Disables the checkbox. */
+    readonly disabled = input<boolean>(false);
 }

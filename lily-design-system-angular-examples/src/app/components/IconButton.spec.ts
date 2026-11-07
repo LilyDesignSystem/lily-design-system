@@ -95,4 +95,23 @@ describe("IconButton — development warnings", () => {
         TestBed.createComponent(IconButton).detectChanges();
         expect(warn).not.toHaveBeenCalled();
     });
+
+    test("reflects type and pressed", () => {
+        const fixture = TestBed.createComponent(IconButton);
+        fixture.componentRef.setInput("label", "Play");
+        fixture.componentRef.setInput("type", "submit");
+        fixture.componentRef.setInput("pressed", false);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("button");
+        expect(el.getAttribute("type")).toBe("submit");
+        expect(el.getAttribute("aria-pressed")).toBe("false");
+    });
+
+    test("is not a toggle by default", () => {
+        const fixture = TestBed.createComponent(IconButton);
+        fixture.componentRef.setInput("label", "Play");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("button");
+        expect(el.hasAttribute("aria-pressed")).toBe(false);
+    });
 });

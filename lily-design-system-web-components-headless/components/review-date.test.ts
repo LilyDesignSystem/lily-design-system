@@ -26,12 +26,14 @@ describe("ReviewDate", () => {
         expect(time.className).toBe("review-date");
     });
 
-    test("uses label as the accessible name", () => {
+    test("renders label as hidden text, not aria-label", () => {
         const host = render(
             '<lily-review-date label="Next review" datetime="2025-06-15">June 15, 2025</lily-review-date>',
         );
 
-        expect(host.querySelector("time")!.getAttribute("aria-label")).toBe("Next review");
+        const time = host.querySelector("time")!;
+        expect(time.hasAttribute("aria-label")).toBe(false);
+        expect(time.querySelector(".screen-reader-span")!.textContent).toBe("Next review ");
     });
 
     test("sets the datetime attribute for machine readability", () => {
@@ -47,7 +49,7 @@ describe("ReviewDate", () => {
             '<lily-review-date label="Next review" datetime="2025-06-15">June 15, 2025</lily-review-date>',
         );
 
-        expect(host.querySelector("time")!.textContent).toBe("June 15, 2025");
+        expect(host.querySelector("time")!.textContent).toBe("Next review June 15, 2025");
     });
 
     test("passes through rest attributes onto the time element", () => {

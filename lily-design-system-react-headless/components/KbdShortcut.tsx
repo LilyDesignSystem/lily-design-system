@@ -18,7 +18,7 @@ export interface KbdShortcutProps {
     keys: string[];
     /** Decorative separator between keys. */
     separator?: string;
-    /** Optional spoken form (aria-label). */
+    /** Spoken form, read instead of the visible keys. */
     label?: string;
     [key: string]: unknown;
 }
@@ -33,9 +33,9 @@ export default function KbdShortcut({
     return (
         <kbd
             className={`kbd-shortcut ${className}`}
-            aria-label={label}
             {...restProps}
         >
+            {label ? <span className="screen-reader-span">{`${label} `}</span> : null}
             {keys.map((key, i) => (
                 <React.Fragment key={i}>
                     {i > 0 && (
@@ -46,7 +46,12 @@ export default function KbdShortcut({
                             {separator}
                         </span>
                     )}
-                    <kbd className="kbd-shortcut-key">{key}</kbd>
+                    <kbd
+                        className="kbd-shortcut-key"
+                        aria-hidden={label ? "true" : undefined}
+                    >
+                        {key}
+                    </kbd>
                 </React.Fragment>
             ))}
         </kbd>

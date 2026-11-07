@@ -49,6 +49,7 @@
 <!-- MockupTabletLandscape.svelte -->
 <div
     class={`mockup-tablet-landscape ${className}`}
+    role="img"
     aria-label={label}
     {...restProps}
 >

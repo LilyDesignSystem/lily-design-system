@@ -7,8 +7,8 @@
     ActionBar.razor.js, generated from shared/widget-keys.ts.
 *@
 
-<div @ref="Root" class="@($"tree-select {CssClass}".Trim())" role="combobox" aria-haspopup="tree" aria-expanded="@(Expanded ? "true" : "false")" aria-label="@Label" data-multiple="@(Multiple ? "true" : null)" @attributes="AdditionalAttributes">
-    <button class="tree-select-trigger" type="button" disabled="@Disabled">@(Value ?? Placeholder)</button>
+<div @ref="Root" class="@($"tree-select {CssClass}".Trim())" data-multiple="@(Multiple ? "true" : null)" @attributes="AdditionalAttributes">
+    <button class="tree-select-trigger" type="button" role="combobox" aria-haspopup="tree" aria-expanded="@(Expanded ? "true" : "false")" aria-label="@Label" disabled="@Disabled">@(Value ?? Placeholder)</button>
     <div class="tree-select-panel" popover="manual" @ref="Panel">@ChildContent</div>
 </div>
 

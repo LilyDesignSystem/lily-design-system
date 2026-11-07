@@ -19,4 +19,17 @@ describe("ColorPickerButton", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("reflects colour, selected and disabled", () => {
+        const fixture = TestBed.createComponent(ColorPickerButton);
+        fixture.componentRef.setInput("color", "red");
+        fixture.componentRef.setInput("selected", true);
+        fixture.componentRef.setInput("disabled", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("button");
+        expect(el.getAttribute("data-color")).toBe("red");
+        expect(el.style.backgroundColor).toBe("red");
+        expect(el.getAttribute("aria-pressed")).toBe("true");
+        expect(el.disabled).toBe(true);
+    });
 });

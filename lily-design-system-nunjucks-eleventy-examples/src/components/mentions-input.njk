@@ -11,7 +11,7 @@ description: a text input with at-mention autocomplete suggestions
 
 <h2>Open suggestions panel</h2>
 {% call mentionsInput({ label: "Comment", value: "Thanks @al", expanded: true }) %}
-  <ul role="listbox">
+  <ul role="listbox" aria-label="People">
     <li role="option">@alex</li>
     <li role="option">@alice</li>
     <li role="option">@alfred</li>

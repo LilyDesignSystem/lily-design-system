@@ -5,7 +5,7 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, optional. Accessible name, rendered as aria-label on the root.
+    //   label — string, optional. Hidden text read before the citation.
     //   children — Snippet, required. The cited title or source name.
     //   ...restProps — additional HTML attributes spread onto the root <cite>.
     //
@@ -19,7 +19,7 @@
     //   - None -- not interactive; any interactive children handle their own keys
     //
     // Accessibility:
-    //   - aria-label comes from `label` when given
+    //   - hidden text comes from `label` when given
     //
     // Internationalization:
     //   - No hardcoded user-facing strings
@@ -46,8 +46,7 @@
 <!-- Citation.svelte -->
 <cite
     class={`citation ${className}`}
-    aria-label={label}
     {...restProps}
 >
-    {@render children?.()}
+    {#if label}<span class="screen-reader-span">{`${label} `}</span>{/if}{@render children?.()}
 </cite>

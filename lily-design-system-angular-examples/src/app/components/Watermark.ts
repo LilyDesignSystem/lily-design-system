@@ -10,9 +10,17 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-watermark",
     standalone: true,
-    template: `<div class="watermark {{ className() }}"><ng-content /></div>`,
+    template: `<div class="watermark {{ className() }}" [attr.data-rotate]="rotate()" [attr.data-gap]="gap()"><div class="watermark-overlay" aria-hidden="true" [attr.data-text]="text() ?? null" [attr.data-image-url]="imageUrl() ?? null"></div><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Watermark {
     readonly className = input<string>("");
+    /** Watermark text, read by the consumer's CSS. */
+    readonly text = input<string | undefined>(undefined);
+    /** Watermark image, read by the consumer's CSS. */
+    readonly imageUrl = input<string | undefined>(undefined);
+    /** Gap between repeats. */
+    readonly gap = input<string>("100px");
+    /** Rotation in degrees. */
+    readonly rotate = input<number>(-22);
 }

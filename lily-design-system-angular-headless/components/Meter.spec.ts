@@ -19,4 +19,24 @@ describe("Meter", () => {
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
+
+    test("carries the ranges", () => {
+        const fixture = TestBed.createComponent(Meter);
+        fixture.componentRef.setInput("low", 10);
+        fixture.componentRef.setInput("high", 90);
+        fixture.componentRef.setInput("optimum", 50);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("meter");
+        expect(el.getAttribute("low")).toBe("10");
+        expect(el.getAttribute("high")).toBe("90");
+        expect(el.getAttribute("optimum")).toBe("50");
+    });
+
+    test("repeats the value as fallback text", () => {
+        const fixture = TestBed.createComponent(Meter);
+        fixture.componentRef.setInput("value", 7);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("meter");
+        expect(el.textContent).toBe("7");
+    });
 });
