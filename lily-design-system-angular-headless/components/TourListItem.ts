@@ -12,8 +12,6 @@ import { ChangeDetectionStrategy, Component, computed, input } from "@angular/co
     template: `<ng-content />`,
     host: {
         "[class]": '"tour-list-item " + className()',
-        role: "group",
-        "aria-roledescription": "step",
         "[attr.aria-label]": "fullLabel()",
         "[attr.data-current]": 'current() ? "" : null',
         "[attr.aria-hidden]": 'current() ? null : "true"',

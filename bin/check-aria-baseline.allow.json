@@ -26,7 +26,5 @@
   "html red-orange-yellow-green-blue-picker-button aria-pressed": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
   "html red-orange-yellow-green-blue-picker-button role": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
   "html tour-list-item aria-hidden": "The snippet shows the current step, which is not hidden; Svelte's default render is a step that is not current.",
-  "html video-player role": "The contract and Svelte disagree: the contract's root is a <div> holding the <video>, named as role=\"group\" in HTML; Svelte renders a <figure> (tasks.md P25-T7).",
-  "html tour-list-item role": "Not ported, deliberately: the contract's role=\"group\" with aria-roledescription=\"step\" on an <li> takes it out of its tour list, which axe's \"list\" rule fails in a browser; Svelte renders the same and is unchecked there (tasks.md P25-T7, open).",
-  "html tour-list-item aria-roledescription": "Not ported, deliberately: the contract's role=\"group\" with aria-roledescription=\"step\" on an <li> takes it out of its tour list, which axe's \"list\" rule fails in a browser; Svelte renders the same and is unchecked there (tasks.md P25-T7, open)."
+  "html video-player role": "The contract and Svelte disagree: the contract's root is a <div> holding the <video>, named as role=\"group\" in HTML; Svelte renders a <figure> (tasks.md P25-T7)."
 }

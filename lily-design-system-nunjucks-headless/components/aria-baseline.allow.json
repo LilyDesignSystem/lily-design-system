@@ -37,7 +37,5 @@
   "tag-group role": "The contract and Svelte use a <div role=\"group\">; Nunjucks keeps a <ul role=\"list\"> of tags, which a screen reader counts (tasks.md P25-T7).",
   "tile role": "A different shape: the Nunjucks tile is a link (<a href>), where Svelte renders a <div>, a group when labelled.",
   "toggle-button aria-checked": "Open question (tasks.md P25-T7): Nunjucks keeps the APG toggle button, aria-pressed, for controls such as bold or mute; the contract and Svelte say role=\"switch\" with aria-checked.",
-  "toggle-button role": "Open question (tasks.md P25-T7): Nunjucks keeps the APG toggle button, aria-pressed, for controls such as bold or mute; the contract and Svelte say role=\"switch\" with aria-checked.",
-  "tour-list-item role": "Not ported, deliberately: the contract's role=\"group\" with aria-roledescription=\"step\" on an <li> takes it out of its tour list, which axe's \"list\" rule fails in a browser; Svelte renders the same and is unchecked there (tasks.md P25-T7, open).",
-  "tour-list-item aria-roledescription": "Not ported, deliberately: the contract's role=\"group\" with aria-roledescription=\"step\" on an <li> takes it out of its tour list, which axe's \"list\" rule fails in a browser; Svelte renders the same and is unchecked there (tasks.md P25-T7, open)."
+  "toggle-button role": "Open question (tasks.md P25-T7): Nunjucks keeps the APG toggle button, aria-pressed, for controls such as bold or mute; the contract and Svelte say role=\"switch\" with aria-checked."
 }
