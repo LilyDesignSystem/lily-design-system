@@ -15,10 +15,10 @@ describe("SearchInput", function () {
         expect(className).toContain("search-input");
     });
 
-    it("should have the correct ARIA role", async function () {
+    it("relies on the element's implicit role, with no explicit one", async function () {
         const el = await $("input.search-input");
         const roleAttr = await el.getAttribute("role");
-        expect(roleAttr).toBe("searchbox");
+        expect(roleAttr).toBeNull();
     });
 
     it("should have an aria-label attribute", async function () {

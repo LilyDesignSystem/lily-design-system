@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<aside\n  class="sidebar"\n  role="complementary"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</aside>';
+    '<aside\n  class="sidebar"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</aside>';
 
 const meta = {
     title: "Headless/Sidebar",

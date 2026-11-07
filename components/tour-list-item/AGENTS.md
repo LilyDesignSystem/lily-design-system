@@ -24,8 +24,7 @@
 
 ## ARIA
 
-- `role="group"` -- groups the step content semantically
-- `aria-roledescription="step"` -- identifies the element as a tour step
+- The `<li>` keeps its listitem role, so the tour list counts its steps
 - `aria-label` -- provides an accessible name, optionally including "Step N of M"
 - `data-current` -- indicates the currently active step
 - `aria-hidden="true"` -- hides inactive steps from assistive technology
@@ -50,7 +49,7 @@
 
 - [ ] Renders <li> element with class="tour-list-item"
 - [ ] Has aria-label attribute
-- [ ] Has role="group"
+- [ ] Is a list item: no `role` attribute
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
@@ -61,5 +60,4 @@
 - CSS class: .tour-list-item in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/tour-list-item.html
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
-- WAI-ARIA aria-roledescription: https://www.w3.org/TR/wai-aria-1.2/#aria-roledescription
 - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current

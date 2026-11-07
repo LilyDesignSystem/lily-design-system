@@ -2,11 +2,11 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("care-card", () => {
-    it("renders a <div> with the base class and role=note", () => {
+    it("renders a <div> with the base class and role=region", () => {
         const { document } = render("care-card", { text: "Body" });
         const el = document.querySelector("div.care-card");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("role")).toBe("note");
+        expect(el.getAttribute("role")).toBe("region");
     });
 
     it("defaults data-urgency to 'non-urgent'", () => {

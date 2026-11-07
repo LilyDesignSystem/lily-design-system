@@ -80,7 +80,7 @@ const next = () => document.querySelector(".carousel-next");`,
     tour: {
         tag: "div",
         keyboard: "Tab to previous, next and close; Escape ends the tour",
-        aria: 'a non-modal role="dialog" (no aria-modal) with tabindex -1; aria-label names the tour; each step is a list item with aria-roledescription="step" (no role="group": axe rejects it inside an ol); the current step has aria-current="step", the others are hidden and aria-hidden',
+        aria: 'a non-modal role="dialog" (no aria-modal) with tabindex -1; aria-label names the tour; each step is a list item, with no role or role description, so the ol keeps its items (tasks.md P25-T7); the current step has aria-current="step", the others are hidden and aria-hidden',
         markup: `<div class="tour" aria-label="" x-data="lilyTour(0)" x-bind="root">
   <ol class="tour-list">
 ${Array.from({ length: 3 }, (_, i) => `    <li class="tour-list-item" x-bind="item(${i})"><!-- Consumer provides step content --></li>`).join("\n")}
@@ -103,9 +103,8 @@ const button = (name) => document.querySelector(".tour-" + name);`,
   });
   it("shows the first step as current and hides the rest from everyone", async () => {
     await mount("tour");
-    expect(steps().map((s) => s.getAttribute("aria-roledescription"))).toEqual(["step", "step", "step"]);
-    // A list item must stay a list item inside the ol (axe: list), so no role="group" here.
-    expect(steps().some((s) => s.hasAttribute("role"))).toBe(false);
+    // A list item must stay a list item inside the ol (axe: list): no role, no role description.
+    expect(steps().some((s) => s.hasAttribute("role") || s.hasAttribute("aria-roledescription"))).toBe(false);
     expect(steps().map((s) => s.getAttribute("aria-current"))).toEqual(["step", null, null]);
     expect(steps().map((s) => s.hidden)).toEqual([false, true, true]);
     expect(steps().map((s) => s.getAttribute("aria-hidden"))).toEqual([null, "true", "true"]);

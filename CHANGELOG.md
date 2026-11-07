@@ -13,6 +13,13 @@ highlights.
 
 - **Added:** `docs/theme-contrast.md` and the docs site's `/theme-contrast` page: every text pair in each of the 63 reference themes, with its WCAG 2 ratio and whether it meets AA and AAA. All 756 pairs meet AA; 487 meet AAA. `bin/generate-theme-contrast` writes them, and `bin/test` fails when they are stale.
 
+## Ports catch up with Svelte's roots — 2026-11-07
+
+- **Fixed:** 53 root roles and ARIA attributes in Nunjucks, HTML and Blazor now match what Svelte renders and the contract says, among them `care-card`, `resizable`, `floating-panel` and `medical-banner-box-for-danger` as regions, `warning-callout` as an alert, `timeout-dialog` as an alertdialog, `timer` as a timer, HTML `notification` and `progress-spinner` as status, and HTML `time-picker-input` without its stray `role="radiogroup"`.
+- **Changed (breaking):** Nunjucks `organization` and `person` are `<article>`s, HTML `slider` is an `<input type="range">`, Nunjucks `tour-list-item` takes a `label` and hides a step that is not current, and Nunjucks `text-input-with-search` takes `inputLabel` for its input, `label` now naming the search landmark too.
+- **Changed (breaking):** `tour-list-item` drops `role="group"` and `aria-roledescription="step"` in every catalog and the contract: an `<li>` with a group role is no longer a list item, so its tour list failed axe's `list` rule. Each step stays a list item, named by its `aria-label`.
+- **Added:** Blazor `*-picker-button`s take `Value`, `Selected` and `Disabled`; Blazor `progress-circle` takes `Value`, `Min` and `Max`; Blazor `overlay-container` takes `Open`.
+
 ## emoji-character-picker is a group — 2026-11-07
 
 - **Changed (breaking):** `emoji-character-picker` is a `<div role="group">` named by `label` in every catalog, holding the consumer's emoji buttons. It was `role="grid"` with no keys, which promised arrow-key cell navigation, and in Nunjucks a `role="dialog"` hidden by default; the Nunjucks `open` param is gone. Give each emoji button its own `aria-label`.

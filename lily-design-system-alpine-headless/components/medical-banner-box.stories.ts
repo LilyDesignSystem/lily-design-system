@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="medical-banner-box"\n  data-context="medical"\n>\n  <!-- Consumer provides content -->\n</div>';
+    '<div\n  class="medical-banner-box"\n  role="group"\n  aria-label=""\n  data-context="medical"\n>\n  <!-- Consumer provides content -->\n</div>';
 
 const meta = {
     title: "Headless/Medical Banner Box",

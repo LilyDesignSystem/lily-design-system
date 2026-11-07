@@ -5,11 +5,15 @@
     a circular progress indicator
 *@
 
-<div class="@($"progress-circle {CssClass}".Trim())" role="progressbar" aria-label="@Label" aria-valuemin="0" aria-valuemax="100" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"progress-circle {CssClass}".Trim())" role="progressbar" aria-label="@Label" aria-valuenow="@Value" aria-valuemin="@Min" aria-valuemax="@Max" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>The current progress, between Min and Max.</summary>
+    [Parameter] public double Value { get; set; }
+    [Parameter] public double Min { get; set; }
+    [Parameter] public double Max { get; set; } = 100;
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

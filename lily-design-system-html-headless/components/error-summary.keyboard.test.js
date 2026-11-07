@@ -25,13 +25,18 @@ describe("ErrorSummary keyboard", function () {
     it("it is an alert that can take focus, and Tab reaches its links", async function () {
         await browser.execute(() => {
             document.querySelector(".error-summary").innerHTML =
-                '<a href="#name">Enter your name</a>';
+                '<h2 id="error-summary-title">There is a problem</h2><a href="#name">Enter your name</a>';
         });
         await browser.execute(() => document.querySelector(".error-summary").focus());
         const root = await active();
         expect(root.className).toContain("error-summary");
         expect(root.role).toBe("alert");
-        expect(root.label).not.toBeNull();
+        // Named by its title, as in Svelte.
+        const name = await browser.execute(() => {
+            const el = document.activeElement;
+            return document.getElementById(el.getAttribute("aria-labelledby"))?.textContent;
+        });
+        expect(name).toBe("There is a problem");
         await browser.keys("Tab");
         expect((await active()).text).toBe("Enter your name");
     });
