@@ -37,6 +37,8 @@ export class PasswordInputOrTextInputDiv extends HTMLElement {
         const input = document.createElement("input");
         input.type = "password";
         input.autocomplete = "current-password";
+        // Revealed as text, a password would reach an enhanced spellchecker, which can send it to a cloud service.
+        input.spellcheck = false;
         const label = this.getAttribute("label");
         if (label !== null) input.setAttribute("aria-label", label);
         input.defaultValue = this.getAttribute("value") ?? "";

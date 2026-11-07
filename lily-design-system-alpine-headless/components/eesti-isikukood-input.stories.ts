@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="eesti-isikukood-input"\n  type="text"\n  aria-label="Personal Identification Code"\n  autocomplete="off"\n>';
+    '<input\n  class="eesti-isikukood-input"\n  type="text"\n  aria-label="Personal Identification Code"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Eesti Isikukood Input",

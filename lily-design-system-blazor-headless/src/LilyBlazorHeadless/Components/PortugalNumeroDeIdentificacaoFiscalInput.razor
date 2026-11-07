@@ -6,7 +6,7 @@
     an input for entering Portugal's Número de Identificação Fiscal (NIF)
 *@
 
-<input class="@($"portugal-numero-de-identificacao-fiscal-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+<input class="@($"portugal-numero-de-identificacao-fiscal-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" spellcheck="false" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

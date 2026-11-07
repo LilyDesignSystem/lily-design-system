@@ -47,6 +47,7 @@ export class UnitedKingdomNationalHealthServiceNumberInput extends HTMLElement {
         if (this.hasAttribute("required")) input.required = true;
         if (this.hasAttribute("disabled")) input.disabled = true;
         input.setAttribute("autocomplete", "off");
+        input.setAttribute("spellcheck", "false");
         input.setAttribute("pattern", "[0-9]{3} [0-9]{3} [0-9]{4}");
         input.setAttribute("inputmode", "numeric");
         passThroughAttributes(this, input, HANDLED);

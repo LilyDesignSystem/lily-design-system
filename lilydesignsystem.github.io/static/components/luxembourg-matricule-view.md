@@ -62,6 +62,14 @@ Thirteen digits in the form YYYYMMDDNNNCC: the first eight digits encode date of
 
 **Where to find it:** Printed on the Luxembourg eID card and required for CCSS (Centre commun de la sécurité sociale) health-insurance registration, tax, and social-security records.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `luxembourg-matricule-input` — an input for entering Luxembourg's Numéro d'Identification Nationale (Matricule)

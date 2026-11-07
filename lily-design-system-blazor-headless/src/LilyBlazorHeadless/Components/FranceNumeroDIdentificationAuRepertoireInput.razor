@@ -6,7 +6,7 @@
     an input for entering a France numéro d'identification au répertoire (NIR) unique national healthcare identifier
 *@
 
-<input class="@($"france-numero-d-identification-au-repertoire-input {CssClass}".Trim())" type="text" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+<input class="@($"france-numero-d-identification-au-repertoire-input {CssClass}".Trim())" type="text" aria-label="@Label" autocomplete="off" spellcheck="false" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

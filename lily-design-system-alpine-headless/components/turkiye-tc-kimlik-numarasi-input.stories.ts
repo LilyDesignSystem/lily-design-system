@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="turkiye-tc-kimlik-numarasi-input"\n  type="text"\n  aria-label="T.C. Kimlik Numarası"\n  autocomplete="off"\n>';
+    '<input\n  class="turkiye-tc-kimlik-numarasi-input"\n  type="text"\n  aria-label="T.C. Kimlik Numarası"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Turkiye Tc Kimlik Numarasi Input",

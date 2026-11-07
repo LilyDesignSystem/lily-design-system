@@ -91,6 +91,7 @@ export default function FranceNumeroDIdentificationAuRepertoireInput({
             inputMode="numeric"
             pattern={nirPattern}
             autoComplete="off"
+            spellCheck={false}
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
             required={required}

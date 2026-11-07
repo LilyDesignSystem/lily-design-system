@@ -25,6 +25,7 @@ import { restoreOnFormReset } from "./form-reset";
       type="text"
       [attr.aria-label]="label() || null"
       autocomplete="off"
+      spellcheck="false"
       [value]="value()"
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"

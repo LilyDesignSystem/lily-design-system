@@ -85,6 +85,7 @@ export default function UnitedStatesSocialSecurityNumberInput({
             inputMode="numeric"
             pattern={ssnPattern}
             autoComplete="off"
+            spellCheck={false}
             value={value}
             onChange={(e) => onChange?.(e.target.value)}
             required={required}

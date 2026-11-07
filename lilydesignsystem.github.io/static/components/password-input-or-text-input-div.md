@@ -101,6 +101,13 @@ The consumer provides all CSS styling. The component renders with a `.password-i
 - **Designers**: Position the show/hide toggle button clearly within or beside the input field, using a recognizable eye icon with sufficient contrast.
 - **Developers**: Set `autocomplete` to `"new-password"` for registration forms by overriding via `restProps` to help password managers distinguish between login and signup flows.
 
+## Security and privacy
+
+- The input has `spellcheck="false"` in both states. Revealed as `type="text"`, a password would otherwise reach an enhanced spellchecker, which can send it to a cloud service; each catalog's test checks it before and after the toggle.
+- `autocomplete="current-password"` lets a password manager fill it. Do not set it to `off`.
+- Revealing is the user's choice, and should end when the form is submitted or the page is left; the component does not reveal on its own.
+- Do not log the value, send it to analytics, or keep it in any client storage; submit it in the body of a POST over HTTPS.
+
 ## Related components
 
 - `password-input` — an input for entering a password with obscured text <input type="password">

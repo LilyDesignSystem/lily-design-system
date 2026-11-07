@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="australia-tax-file-number-input"\n  type="text"\n  aria-label="Tax File Number (TFN)"\n  autocomplete="off"\n/>';
+    '<input\n  class="australia-tax-file-number-input"\n  type="text"\n  aria-label="Tax File Number (TFN)"\n  autocomplete="off"\n  spellcheck="false"\n/>';
 
 const meta = {
     title: "Headless/Australia Tax File Number Input",

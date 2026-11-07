@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="rossiya-snils-input"\n  type="text"\n  aria-label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)"\n  autocomplete="off"\n>';
+    '<input\n  class="rossiya-snils-input"\n  type="text"\n  aria-label="СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta)"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Rossiya Snils Input",

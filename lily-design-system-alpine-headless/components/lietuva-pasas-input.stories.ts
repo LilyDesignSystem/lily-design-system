@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="lietuva-pasas-input"\n  type="text"\n  aria-label="Lithuanian Passport"\n  autocomplete="off"\n>';
+    '<input\n  class="lietuva-pasas-input"\n  type="text"\n  aria-label="Lithuanian Passport"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Lietuva Pasas Input",

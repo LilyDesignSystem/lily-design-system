@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="italia-codice-fiscale-input"\n  type="text"\n  aria-label="Italian Fiscal Code"\n  autocomplete="off"\n>';
+    '<input\n  class="italia-codice-fiscale-input"\n  type="text"\n  aria-label="Italian Fiscal Code"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Italia Codice Fiscale Input",

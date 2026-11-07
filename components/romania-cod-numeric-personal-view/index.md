@@ -59,6 +59,14 @@ Thirteen digits: a leading sex/century digit (1 male 1900–1999, 2 female 1900�
 
 **Where to find it:** Romanian Birth Certificate, Identity Card (Carte de Identitate), and Driving Licence.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `romania-cod-numeric-personal-input` — an input for entering Romania's Cod Numeric Personal (CNP)

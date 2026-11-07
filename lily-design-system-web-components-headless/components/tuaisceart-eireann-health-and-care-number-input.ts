@@ -42,6 +42,7 @@ export class TuaisceartEireannHealthAndCareNumberInput extends HTMLElement {
         input.setAttribute("pattern", "[0-9]{3} [0-9]{3} [0-9]{4}");
         input.setAttribute("inputmode", "numeric");
         input.setAttribute("autocomplete", "off");
+        input.setAttribute("spellcheck", "false");
         passThroughAttributes(this, input, HANDLED);
 
         this.appendChild(input);

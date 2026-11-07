@@ -81,6 +81,7 @@ useFormReset(modelValue, field);
         type="text"
         :aria-label="label"
         autocomplete="off"
+        spellcheck="false"
         ref="field"
         v-model="modelValue"
         :required="required"

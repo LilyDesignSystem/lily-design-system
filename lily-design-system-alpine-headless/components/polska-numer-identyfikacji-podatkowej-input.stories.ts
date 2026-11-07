@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<input\n  class="polska-numer-identyfikacji-podatkowej-input"\n  type="text"\n  aria-label="Tax Identification Number"\n  autocomplete="off"\n>';
+    '<input\n  class="polska-numer-identyfikacji-podatkowej-input"\n  type="text"\n  aria-label="Tax Identification Number"\n  autocomplete="off"\n  spellcheck="false"\n>';
 
 const meta = {
     title: "Headless/Polska Numer Identyfikacji Podatkowej Input",
