@@ -62,6 +62,14 @@ Ten digits. The first digit is 1 for a Saudi citizen and 2 for a resident (the i
 
 **Where to find it:** Printed on the National ID Card for citizens and on the iqama residence permit for residents, and used for Absher, Tawakkalna and health-service sign-in.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `as-saudiyah-raqm-al-huwiyah-al-wataniyah-input` — an input for entering Saudi Arabia's National Identification Number

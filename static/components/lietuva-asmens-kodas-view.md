@@ -59,6 +59,14 @@ Eleven digits in the form GYYMMDDNNNC: G encodes sex and century of birth (3/5 f
 
 **Where to find it:** Lithuanian ID card (Asmens tapatybės kortelė), passport, driving licence, residence permit, and most government correspondence.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `lietuva-asmens-kodas-input` — an input for entering Lithuania's Asmens kodas

@@ -62,6 +62,14 @@ One or two letters, six digits and a check digit in parentheses, such as A123456
 
 **Where to find it:** Printed on the Hong Kong Identity Card, and asked for by hospitals, clinics, banks, employers and government services.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `hong-kong-identity-card-input` — an input for entering Hong Kong's Identity Card Number

@@ -62,6 +62,14 @@ Ten digits. The first five encode date of birth as the number of days elapsed si
 
 **Where to find it:** Printed on the Taxpayer Registration Card (Картка платника податків) and required for employment, banking, and Ukraine's mandatory state social (including health) insurance records.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input` — an input for entering Ukraine's Реєстраційний номер облікової картки платника податків (РНОКПП)

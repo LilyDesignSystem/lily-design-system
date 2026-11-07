@@ -74,6 +74,16 @@ Eight characters: seven digits and a trailing letter (M, G, A, P, L, H, B, or Z)
 
 **Where to find it:** Maltese national identity card (Karta tal-Identità) issued by Identity Malta.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The input renders `autocomplete="off"`, so the browser neither saves nor offers the value, and `spellcheck="false"`, so an enhanced spellchecker does not send it to a cloud service. `bin/check-identifier-inputs` keeps both in all nine catalogs.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker; mask it there if it must appear.
+- The component stores nothing. Do not keep the value in `localStorage`, `sessionStorage` or a cookie; submit it in the body of a POST over HTTPS.
+- A format or checksum check proves the number is well formed, not that it belongs to the person entering it.
+- The page decides who may see it: the input does not mask what is typed. Use the matching `-view` to show it back, masked as the service requires.
+
 ## Related components
 
 - `malta-national-identification-number-view` — a read-only display of Malta's Malta National Identification Number

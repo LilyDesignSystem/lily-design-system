@@ -62,6 +62,14 @@ Thirteen digits in the form YYMMDDSSSSCAZ: the first six encode date of birth; t
 
 **Where to find it:** Printed on the South African Smart ID Card / green bar-coded ID book, and required to register for both public (NHI-track) and private medical aid schemes.
 
+## Security and privacy
+
+A national identifier is personal data, and often a key to other records.
+
+- The view shows exactly the text it is given; it does not mask. Pass the masked form (for example the last four characters) wherever the full number is not needed, and render the full number only to someone entitled to it.
+- Do not log the value, put it in a URL or query string, or send it to analytics or an error tracker.
+- Text on screen can be read over a shoulder and is kept by screenshots and screen recordings; treat a page that shows it as sensitive.
+
 ## Related components
 
 - `south-africa-identity-number-input` — an input for entering South Africa's South African Identity Number
