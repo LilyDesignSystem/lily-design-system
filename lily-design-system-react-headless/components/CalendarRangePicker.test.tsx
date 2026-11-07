@@ -9,9 +9,9 @@ function textSnippet(text: string) {
 }
 
 describe("CalendarRangePicker", () => {
-    test("renders application role", () => {
+    test("renders group role", () => {
         render(<Subject label="Dates">cal</Subject>);
-        expect(screen.getByRole("application")).toBeTruthy();
+        expect(screen.getByRole("group")).toBeTruthy();
     });
     test("has aria-label", () => {
         render(<Subject label="Select dates">cal</Subject>);

@@ -16,6 +16,14 @@ public class CalendarRangePickerTests : TestContext
     }
 
     [Fact]
+    public void Root_is_a_group()
+    {
+        var cut = RenderComponent<CalendarRangePicker>(p => p
+            .AddChildContent("body"));
+        Assert.Equal("group", cut.Find(".calendar-range-picker").GetAttribute("role"));
+    }
+
+    [Fact]
     public void CssClass_is_appended_to_kebab_base_class()
     {
         var cut = RenderComponent<CalendarRangePicker>(p => p

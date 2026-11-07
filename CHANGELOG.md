@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## calendar-range-picker is a group — 2026-11-07
+
+- **Changed:** `calendar-range-picker` is `role="group"`, not `role="application"`, in every catalog. It has no keys of its own, and `application` switches off a screen reader's reading keys, so a static calendar inside it could not be read. Nunjucks was already `group`. A consumer who adds arrow keys puts `role="grid"` on the calendar itself.
+
 ## The assessment cannot go stale — 2026-11-06
 
 - **Added:** the axe sweep forces each page's popovers, dialogs, details and hidden panels open, and finds nothing.

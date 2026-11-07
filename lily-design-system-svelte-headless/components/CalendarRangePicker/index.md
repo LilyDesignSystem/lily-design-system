@@ -1,6 +1,6 @@
 # CalendarRangePicker
 
-A headless container for calendar-based date-range selection. Renders a `<div role="application">` with a required `aria-label`. Provides the semantic shell; the consumer supplies the calendar grid, range highlighting, and keyboard interactions.
+A headless container for calendar-based date-range selection. Renders a `<div role="group">` with a required `aria-label`. Provides the semantic shell; the consumer supplies the calendar grid, range highlighting, and keyboard interactions.
 
 ## What it is
 
@@ -8,8 +8,8 @@ A headless Svelte 5 wrapper intended to host a `CalendarTable` (or similar) with
 
 ## What it does
 
-- Renders `<div class="calendar-range-picker {className}" role="application" aria-label={label}>`.
-- Applies `role="application"` to signal that the widget manages its own keyboard interactions instead of standard document navigation.
+- Renders `<div class="calendar-range-picker {className}" role="group" aria-label={label}>`.
+- Applies `role="group"` to signal that the widget manages its own keyboard interactions instead of standard document navigation.
 - Spreads additional HTML attributes onto the `<div>`.
 
 ## When to use it
@@ -123,10 +123,10 @@ Import `CalendarRangePicker` from `./CalendarRangePicker.svelte`. Pass `label`. 
 
 ## Accessibility
 
-- `role="application"` tells screen readers the widget handles its own key handling; the consumer must implement arrow-key navigation, Enter/Space selection, and range extension (e.g. Shift+click).
+- `role="group"` tells screen readers the widget handles its own key handling; the consumer must implement arrow-key navigation, Enter/Space selection, and range extension (e.g. Shift+click).
 - `aria-label` names the picker.
 - Focus management and range highlighting are the consumer's responsibility.
-- Follows the WAI-ARIA Application role and Grid pattern guidance.
+- Follows the WAI-ARIA group role; a keyed calendar inside it follows the Grid pattern.
 
 ## Related components
 

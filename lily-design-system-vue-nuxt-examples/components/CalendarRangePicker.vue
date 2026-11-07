@@ -2,8 +2,8 @@
 // CalendarRangePicker component
 //
 // A headless container for calendar-based date range selection. Renders a <div>
-// with role="application" to support rich keyboard interactions beyond standard
-// navigation. Used in booking systems, travel planners, analytics dashboards,
+// with role="group" naming the controls the consumer
+// puts inside it. Used in booking systems, travel planners, analytics dashboards,
 // and reporting tools where users define start and end dates.
 //
 // Props:
@@ -30,7 +30,7 @@
 //   selection (Enter/Space), and range extension (Shift+click) as appropriate.
 //
 // Accessibility:
-//   - role="application" indicates the widget manages its own keyboard interactions
+//   - role="group" groups the calendar controls under aria-label
 //   - aria-label provides an accessible name for the calendar range picker
 //
 // Internationalization:
@@ -40,10 +40,10 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - Consumer provides all selection logic, range highlighting, and navigation
-//   - role="application" overrides standard screen reader navigation
+//   - role="group" leaves screen reader reading keys working
 //
 // References:
-//   - WAI-ARIA Application Role: https://www.w3.org/TR/wai-aria-1.2/#application
+//   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
 defineProps<{
@@ -55,7 +55,7 @@ defineProps<{
     <!-- CalendarRangePicker.vue -->
     <div
         class="calendar-range-picker"
-        role="application"
+        role="group"
         :aria-label="label"
     >
         <slot />

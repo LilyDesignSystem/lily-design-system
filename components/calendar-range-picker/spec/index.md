@@ -23,7 +23,7 @@ Implement the Calendar Range Picker component: a picker for selecting a date ran
 ## Acceptance Criteria
 
 - [ ] Renders <div> with class="calendar-range-picker"
-- [ ] `role="application"` -- indicates that the widget manages its own keyboard interactions, overriding standard screen reader navigation
+- [ ] `role="group"` -- groups the calendar controls under `aria-label`, and does not take over screen reader navigation
 - [ ] `aria-label={label}` -- provides an accessible name for the calendar range picker
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

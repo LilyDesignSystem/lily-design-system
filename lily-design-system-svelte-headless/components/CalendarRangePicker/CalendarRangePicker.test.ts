@@ -9,9 +9,9 @@ function textSnippet(text: string) {
 }
 
 describe("CalendarRangePicker", () => {
-    test("renders application role", () => {
+    test("renders group role", () => {
         render(Subject, { props: { label: "Dates", children: textSnippet("cal") } });
-        expect(screen.getByRole("application")).toBeTruthy();
+        expect(screen.getByRole("group")).toBeTruthy();
     });
     test("has aria-label", () => {
         render(Subject, { props: { label: "Select dates", children: textSnippet("cal") } });

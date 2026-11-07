@@ -1,6 +1,6 @@
 // CalendarRangePicker component
 //
-// A passive <div role="application"> container for calendar-based date
+// A passive <div role="group"> container for calendar-based date
 // range selection. The custom element stands in for the wrapper div
 // directly (see lib/dom-utils.applySelfClassName) since <div> has no
 // native behaviour worth preserving as a separate element. The consumer
@@ -18,7 +18,7 @@
 //
 // References:
 //   - components/calendar-range-picker/index.md (canonical contract)
-//   - WAI-ARIA Application Role: https://www.w3.org/TR/wai-aria-1.2/#application
+//   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 
 import { applySelfClassName } from "../lib/dom-utils.js";
 
@@ -30,7 +30,7 @@ export class CalendarRangePicker extends HTMLElement {
         this.#built = true;
 
         applySelfClassName(this, "calendar-range-picker");
-        this.setAttribute("role", "application");
+        this.setAttribute("role", "group");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
     }

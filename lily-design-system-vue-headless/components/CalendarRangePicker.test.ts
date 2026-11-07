@@ -3,9 +3,9 @@ import { describe, expect, test } from "vitest";
 import Subject from "./CalendarRangePicker.vue";
 
 describe("CalendarRangePicker", () => {
-    test("renders application role", () => {
+    test("renders group role", () => {
         render(Subject, { props: { label: "Dates" }, slots: { default: "cal" } });
-        expect(screen.getByRole("application")).toBeTruthy();
+        expect(screen.getByRole("group")).toBeTruthy();
     });
     test("has aria-label", () => {
         render(Subject, { props: { label: "Select dates" }, slots: { default: "cal" } });

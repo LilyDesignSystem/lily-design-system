@@ -347,7 +347,7 @@
     ]
   },
   "calendar-range-picker": {
-    "role": "application",
+    "role": "group",
     "aria": [
       "aria-label"
     ]

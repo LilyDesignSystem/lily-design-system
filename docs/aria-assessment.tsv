@@ -50,7 +50,7 @@ button	automated evidence complete	yes	yes	no	yes	8	8	yes	-
 button-group	ARIA evidence incomplete	no	no	no	yes	1	7	no	-
 button-input	key evidence incomplete	no	yes	no	yes	4	3	no	-
 byline	automated evidence complete	no	no	no	no	1	4	no	-
-calendar-range-picker	ARIA evidence incomplete	no	no	no	yes	8	3	no	-
+calendar-range-picker	ARIA evidence incomplete	no	no	no	yes	8	4	no	-
 calendar-table	ARIA evidence incomplete	no	no	no	yes	8	7	no	-
 calendar-table-body	ARIA evidence incomplete	no	no	no	yes	7	1	no	-
 calendar-table-foot	ARIA evidence incomplete	no	no	no	yes	7	1	no	-
