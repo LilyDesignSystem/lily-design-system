@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## The theme contrast table is published — 2026-11-07
+
+- **Added:** `docs/theme-contrast.md` and the docs site's `/theme-contrast` page: every text pair in each of the 63 reference themes, with its WCAG 2 ratio and whether it meets AA and AAA. All 756 pairs meet AA; 487 meet AAA. `bin/generate-theme-contrast` writes them, and `bin/test` fails when they are stale.
+
 ## emoji-character-picker is a group — 2026-11-07
 
 - **Changed (breaking):** `emoji-character-picker` is a `<div role="group">` named by `label` in every catalog, holding the consumer's emoji buttons. It was `role="grid"` with no keys, which promised arrow-key cell navigation, and in Nunjucks a `role="dialog"` hidden by default; the Nunjucks `open` param is gone. Give each emoji button its own `aria-label`.
