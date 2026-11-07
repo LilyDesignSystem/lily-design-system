@@ -1,7 +1,11 @@
 import { afterEach, describe, expect, test } from "vitest";
 
 import { NetPromoterScorePicker } from "./net-promoter-score-picker.js";
+import { NetPromoterScorePickerButton } from "./net-promoter-score-picker-button.js";
 
+if (!customElements.get("lily-net-promoter-score-picker-button")) {
+    customElements.define("lily-net-promoter-score-picker-button", NetPromoterScorePickerButton);
+}
 if (!customElements.get("lily-net-promoter-score-picker")) {
     customElements.define("lily-net-promoter-score-picker", NetPromoterScorePicker);
 }
@@ -65,5 +69,27 @@ describe("NetPromoterScorePicker", () => {
 
         expect(host.getAttribute("role")).toBe("radiogroup");
         expect(host.getAttribute("aria-label")).toBe("NPS");
+    });
+});
+
+describe("NetPromoterScorePicker keys", () => {
+    test("is one radio group: one tab stop, and the arrows move, check and wrap", async () => {
+        const host = render(
+            '<lily-net-promoter-score-picker label="Choice">' +
+                '<lily-net-promoter-score-picker-button value="1" label="One" selected></lily-net-promoter-score-picker-button>' +
+                '<lily-net-promoter-score-picker-button value="2" label="Two"></lily-net-promoter-score-picker-button>' +
+                "</lily-net-promoter-score-picker>",
+        );
+        await Promise.resolve();
+        const [one, two] = host.querySelectorAll<HTMLButtonElement>("button");
+        expect(one.getAttribute("role")).toBe("radio");
+        expect([one.tabIndex, two.tabIndex]).toEqual([0, -1]);
+        one.focus();
+        one.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+        expect(document.activeElement).toBe(two);
+        expect(two.getAttribute("aria-checked")).toBe("true");
+        expect(one.getAttribute("aria-checked")).toBe("false");
+        two.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+        expect(document.activeElement).toBe(one);
     });
 });

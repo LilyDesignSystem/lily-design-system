@@ -45,16 +45,16 @@ describe("RedOrangeYellowGreenBluePickerButton", () => {
         expect(host.querySelector("button")!.getAttribute("data-value")).toBe("yellow");
     });
 
-    test("defaults aria-pressed to false, and reflects selected", () => {
+    test("defaults aria-checked to false, and reflects selected", () => {
         const unselected = render(
             '<lily-red-orange-yellow-green-blue-picker-button value="yellow" label="Yellow - Caution"></lily-red-orange-yellow-green-blue-picker-button>',
         );
-        expect(unselected.querySelector("button")!.getAttribute("aria-pressed")).toBe("false");
+        expect(unselected.querySelector("button")!.getAttribute("aria-checked")).toBe("false");
 
         const selected = render(
             '<lily-red-orange-yellow-green-blue-picker-button value="yellow" label="Yellow - Caution" selected></lily-red-orange-yellow-green-blue-picker-button>',
         );
-        expect(selected.querySelector("button")!.getAttribute("aria-pressed")).toBe("true");
+        expect(selected.querySelector("button")!.getAttribute("aria-checked")).toBe("true");
     });
 
     test("disabled propagates to the inner button", () => {

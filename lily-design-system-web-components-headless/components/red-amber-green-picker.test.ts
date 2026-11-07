@@ -1,7 +1,11 @@
 import { afterEach, describe, expect, test } from "vitest";
 
 import { RedAmberGreenPicker } from "./red-amber-green-picker.js";
+import { RedAmberGreenPickerButton } from "./red-amber-green-picker-button.js";
 
+if (!customElements.get("lily-red-amber-green-picker-button")) {
+    customElements.define("lily-red-amber-green-picker-button", RedAmberGreenPickerButton);
+}
 if (!customElements.get("lily-red-amber-green-picker")) {
     customElements.define("lily-red-amber-green-picker", RedAmberGreenPicker);
 }
@@ -66,5 +70,27 @@ describe("RedAmberGreenPicker", () => {
 
         expect(host.getAttribute("role")).toBe("radiogroup");
         expect(host.getAttribute("aria-label")).toBe("Project status");
+    });
+});
+
+describe("RedAmberGreenPicker keys", () => {
+    test("is one radio group: one tab stop, and the arrows move, check and wrap", async () => {
+        const host = render(
+            '<lily-red-amber-green-picker label="Choice">' +
+                '<lily-red-amber-green-picker-button value="1" label="One" selected></lily-red-amber-green-picker-button>' +
+                '<lily-red-amber-green-picker-button value="2" label="Two"></lily-red-amber-green-picker-button>' +
+                "</lily-red-amber-green-picker>",
+        );
+        await Promise.resolve();
+        const [one, two] = host.querySelectorAll<HTMLButtonElement>("button");
+        expect(one.getAttribute("role")).toBe("radio");
+        expect([one.tabIndex, two.tabIndex]).toEqual([0, -1]);
+        one.focus();
+        one.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+        expect(document.activeElement).toBe(two);
+        expect(two.getAttribute("aria-checked")).toBe("true");
+        expect(one.getAttribute("aria-checked")).toBe("false");
+        two.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight", bubbles: true }));
+        expect(document.activeElement).toBe(one);
     });
 });
