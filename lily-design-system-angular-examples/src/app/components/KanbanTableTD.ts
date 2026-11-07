@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
+import { attrWhenSet } from "./attr-when-set";
+
 /**
  * KanbanTableTD — kanban board table interactive grid data cell for organizing items by status <td>
  *
@@ -19,15 +21,19 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     host: {
         "[class]": '"kanban-table-td " + className()',
         role: "gridcell",
-        "[attr.tabindex]": "active() ? 0 : -1",
-        "[attr.aria-label]": "label() || null",
+        tabindex: "-1",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanTableTD {
     readonly className = input<string>("");
     /** Whether this cell holds the grid's roving tab stop. */
-    readonly active = input<boolean>(false);
+    readonly active = input<boolean | undefined>(undefined);
     /** Accessible name of the cell. */
     readonly label = input<string>("");
+    private readonly tabStop = attrWhenSet("tabindex", () => {
+        const active = this.active();
+        return active === undefined ? undefined : active ? "0" : "-1";
+    });
+    private readonly name = attrWhenSet("aria-label", () => this.label() || undefined);
 }

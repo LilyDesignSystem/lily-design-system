@@ -50,3 +50,17 @@ describe("KanbanTableTD", () => {
         expect(el.getAttribute("tabindex")).toBe("0");
     });
 });
+
+@Component({
+    standalone: true,
+    imports: [KanbanTableTD],
+    template: `<table><tr><td lily-kanban-table-td [attr.tabindex]="'0'">x</td></tr></table>`,
+})
+class ConsumerHost {}
+
+test("a consumer's own tabindex survives the cell", () => {
+    const fixture = TestBed.createComponent(ConsumerHost);
+    fixture.detectChanges();
+    const cell = fixture.nativeElement.querySelector("td");
+    expect(cell.getAttribute("tabindex")).toBe("0");
+});

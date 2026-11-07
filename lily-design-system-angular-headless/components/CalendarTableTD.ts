@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 
+import { attrWhenSet } from "./attr-when-set";
+
 /**
  * CalendarTableTD — a calendar table interactive grid data cell for managing dates, days, etc. <td>
  *
@@ -19,16 +21,26 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     host: {
         "[class]": '"calendar-table-td " + className()',
         role: "gridcell",
-        "[attr.aria-selected]": "selected() || null",
-        "[attr.aria-current]": 'today() ? "date" : null',
-        "[attr.tabindex]": "selected() ? 0 : -1",
+        tabindex: "-1",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CalendarTableTD {
     readonly className = input<string>("");
     /** Whether this day is selected. */
-    readonly selected = input<boolean>(false);
+    readonly selected = input<boolean | undefined>(undefined);
     /** Whether this day is today. */
-    readonly today = input<boolean>(false);
+    readonly today = input<boolean | undefined>(undefined);
+    private readonly tabStop = attrWhenSet("tabindex", () => {
+        const selected = this.selected();
+        return selected === undefined ? undefined : selected ? "0" : "-1";
+    });
+    private readonly selectedState = attrWhenSet("aria-selected", () => {
+        const selected = this.selected();
+        return selected === undefined ? undefined : selected ? "true" : null;
+    });
+    private readonly current = attrWhenSet("aria-current", () => {
+        const today = this.today();
+        return today === undefined ? undefined : today ? "date" : null;
+    });
 }

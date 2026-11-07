@@ -53,3 +53,17 @@ describe("CalendarTableTD", () => {
         expect(el.getAttribute("tabindex")).toBe("0");
     });
 });
+
+@Component({
+    standalone: true,
+    imports: [CalendarTableTD],
+    template: `<table><tr><td lily-calendar-table-td [attr.aria-selected]="'true'">x</td></tr></table>`,
+})
+class ConsumerHost {}
+
+test("a consumer's own aria-selected survives the cell", () => {
+    const fixture = TestBed.createComponent(ConsumerHost);
+    fixture.detectChanges();
+    const cell = fixture.nativeElement.querySelector("td");
+    expect(cell.getAttribute("aria-selected")).toBe("true");
+});
