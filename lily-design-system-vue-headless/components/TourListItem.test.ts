@@ -9,7 +9,7 @@ describe("TourListItem", () => {
             props: { label: "Welcome", current: true },
             slots: { default: "Step content" },
         });
-        expect(screen.getByRole("group")).toBeTruthy();
+        expect(screen.getByRole("listitem")).toBeTruthy();
     });
 
     test("renders children content", () => {
@@ -28,13 +28,13 @@ describe("TourListItem", () => {
         expect(screen.getByLabelText("Welcome step")).toBeTruthy();
     });
 
-    test("has aria-roledescription step", () => {
+    test("has no aria-roledescription: it is a list item", () => {
         render(Subject, {
             props: { label: "Welcome", current: true },
             slots: { default: "content" },
         });
-        const el = screen.getByRole("group");
-        expect(el.getAttribute("aria-roledescription")).toBe("step");
+        const el = screen.getByRole("listitem");
+        expect(el.getAttribute("aria-roledescription")).toBeNull();
     });
 
     test("has data-current when current", () => {
@@ -42,7 +42,7 @@ describe("TourListItem", () => {
             props: { label: "Welcome", current: true },
             slots: { default: "content" },
         });
-        const el = screen.getByRole("group");
+        const el = screen.getByRole("listitem");
         expect(el.hasAttribute("data-current")).toBe(true);
         // The item marks itself with data-current; aria-current is the consumer's, on the link or text inside.
         expect(el.hasAttribute("aria-current")).toBe(false);
@@ -53,7 +53,7 @@ describe("TourListItem", () => {
             props: { label: "Welcome", current: false },
             slots: { default: "content" },
         });
-        const el = document.querySelector("[aria-roledescription='step']");
+        const el = document.querySelector(".tour-list-item");
         expect(el).toBeTruthy();
         expect(el!.getAttribute("aria-hidden")).toBe("true");
         expect((el as HTMLElement).hidden).toBe(true);
@@ -64,7 +64,7 @@ describe("TourListItem", () => {
             props: { label: "Welcome", current: true },
             slots: { default: "content" },
         });
-        const el = screen.getByRole("group");
+        const el = screen.getByRole("listitem");
         expect(el.getAttribute("aria-hidden")).toBeNull();
         expect((el as HTMLElement).hidden).toBe(false);
     });
@@ -95,7 +95,7 @@ describe("TourListItem", () => {
 
     test("defaults current to false", () => {
         render(Subject, { props: { label: "Step" }, slots: { default: "content" } });
-        const el = document.querySelector("[aria-roledescription='step']");
+        const el = document.querySelector(".tour-list-item");
         expect(el).toBeTruthy();
         expect((el as HTMLElement).hidden).toBe(true);
     });

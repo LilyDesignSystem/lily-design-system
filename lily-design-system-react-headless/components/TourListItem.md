@@ -6,8 +6,7 @@ This component is designed to be placed inside a TourList container. The consume
 
 ## Implementation Notes
 
-- Renders as a `<div>` with `role="group"` to semantically group step content
-- Uses `aria-roledescription="step"` to identify the element as a step to screen readers
+- Renders as an `<li>`, a list item of its tour list: no group role, which would take it out of the list (tasks.md P25-T7)
 - Sets `data-current` on the active step for assistive technology
 - Inactive steps use `hidden` attribute and `aria-hidden="true"` to be fully hidden
 - When `stepNumber` and `totalSteps` are provided, the label includes "Step N of M" progress info
@@ -64,8 +63,7 @@ This component is designed to be placed inside a TourList container. The consume
 
 ## ARIA
 
-- `role="group"` -- groups the step content semantically
-- `aria-roledescription="step"` -- identifies the element as a tour step
+- The `<li>` keeps its listitem role, so the tour list counts its steps
 - `aria-label` -- provides an accessible name, optionally including "Step N of M"
 - `data-current` -- indicates the currently active step
 - `aria-hidden="true"` -- hides inactive steps from assistive technology
@@ -74,5 +72,4 @@ This component is designed to be placed inside a TourList container. The consume
 ## References
 
 - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
-- WAI-ARIA aria-roledescription: https://www.w3.org/TR/wai-aria-1.2/#aria-roledescription
 - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current

@@ -2666,7 +2666,6 @@ export default function lily(Alpine) {
         },
         item(i) {
             return {
-                "aria-roledescription": "step",
                 ":aria-label"() {
                     return `${i + 1} / ${this.total}`;
                 },

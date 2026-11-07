@@ -5,7 +5,7 @@
     a slideshow for cycling through content items
 *@
 
-<div class="@($"carousel {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"carousel {CssClass}".Trim())" role="region" aria-label="@Label" aria-roledescription="carousel" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

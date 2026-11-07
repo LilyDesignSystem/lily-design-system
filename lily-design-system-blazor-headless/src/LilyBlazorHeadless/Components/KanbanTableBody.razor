@@ -5,7 +5,7 @@
     a kanban board table interactive grid tbody for organizing items by status <tbody>
 *@
 
-<tbody class="@($"kanban-table-body {CssClass}".Trim())" role="list" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</tbody>
+<tbody class="@($"kanban-table-body {CssClass}".Trim())" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</tbody>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

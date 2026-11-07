@@ -41,13 +41,13 @@ describe("TourListItem (upgrade in place)", () => {
         expect(tags).toEqual(["LI", "LI"]);
     });
 
-    test("has role=group and aria-roledescription=step", () => {
+    test("stays a list item: no role, no aria-roledescription", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.tour-list-item"));
         for (const li of items) {
-            expect(li.getAttribute("role")).toBe("group");
-            expect(li.getAttribute("aria-roledescription")).toBe("step");
+            expect(li.getAttribute("role")).toBeNull();
+            expect(li.getAttribute("aria-roledescription")).toBeNull();
         }
     });
 
@@ -103,16 +103,9 @@ describe("TourListItem (upgrade in place)", () => {
             li.removeAttribute("aria-hidden");
         }
 
-        // Only "listitem" is checked here, not "list": the canonical
-        // contract's role="group" + aria-roledescription="step" on the <li>
-        // — present in every real catalog implementation (Svelte, React,
-        // Vue), not introduced by this component — overrides the <li>'s
-        // implicit listitem role, which axe's "list" rule (only-listitems)
-        // correctly flags regardless of catalog. That is a pre-existing
-        // tension in the upstream contract, not a wrapper-host defect from
-        // the "upgrade in place" pattern; the structural tests above already
-        // confirm no host node sits between <ol> and <li>.
-        const results = await axe.run(document.body, { runOnly: ["listitem"] });
+        // Both rules: the <li> keeps its listitem role (no role="group", tasks.md P25-T7), so the
+        // <ol> holds only list items, and no host node sits between them.
+        const results = await axe.run(document.body, { runOnly: ["listitem", "list"] });
 
         expect(results.violations).toEqual([]);
     });

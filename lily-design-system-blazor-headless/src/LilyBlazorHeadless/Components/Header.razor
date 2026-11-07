@@ -5,7 +5,7 @@
     a page or section header area
 *@
 
-<header class="@($"header {CssClass}".Trim())" role="banner" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</header>
+<header class="@($"header {CssClass}".Trim())" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</header>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

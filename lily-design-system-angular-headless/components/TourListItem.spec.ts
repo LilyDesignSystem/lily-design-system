@@ -38,8 +38,8 @@ describe("TourListItem", () => {
         const li = make();
         expect(li.classList.contains("tour-list-item")).toBe(true);
         expect(li.classList.contains("extra")).toBe(true);
-        expect(li.getAttribute("role")).toBe("group");
-        expect(li.getAttribute("aria-roledescription")).toBe("step");
+        expect(li.getAttribute("role")).toBeNull();
+        expect(li.getAttribute("aria-roledescription")).toBeNull();
         expect(li.getAttribute("aria-label")).toBe("Welcome");
     });
 

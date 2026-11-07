@@ -2936,11 +2936,10 @@
     "aria": []
   },
   "tour-list-item": {
-    "role": "group",
+    "role": null,
     "aria": [
       "aria-hidden",
-      "aria-label",
-      "aria-roledescription"
+      "aria-label"
     ]
   },
   "tree-link": {
