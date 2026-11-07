@@ -12,7 +12,7 @@ This headless component uses a `<pre>` element to preserve whitespace and format
 - Contains a nested `<code>` element for semantic code marking
 - Optional line numbers via `data-line-numbers` attribute
 - Optional line highlighting via `data-highlight-lines` attribute
-- `aria-label` provides a description of the code block content
+- `label` gives the block `role="region"` and an `aria-label`
 
 ## Props
 
@@ -56,8 +56,8 @@ Highlighting a specific line in a code block:
 
 ## ARIA
 
-- `aria-label` -- optional description of the code block content
-- `role="region"` when `aria-label` is provided, to create a navigable landmark
+- `aria-label` -- the `label`, with `role="region"`
+- `role="region"` when `label` is given, because a name on a bare `<pre>` is not reliably read; omit `label` for short snippets, since each one adds a landmark
 
 ## When to Use
 
@@ -83,7 +83,7 @@ The consumer provides all CSS styling. The component renders with a `.code-block
 ## Testing
 
 - Verify the component renders a `<pre>` element with class `code-block`
-- Verify `aria-label` is applied when provided
+- Verify `role="region"` and `aria-label` are applied when `label` is given
 - Verify `data-line-numbers` attribute reflects the lineNumbers prop
 - Verify `data-highlight-lines` attribute reflects the highlightLines prop
 - Verify pass-through attributes are applied

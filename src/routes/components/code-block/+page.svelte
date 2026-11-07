@@ -82,8 +82,8 @@
     </ul>
     <h3>ARIA</h3>
     <ul>
-      <li><code>aria-label</code> -- optional description of the code block content</li>
-      <li><code>role="region"</code> when <code>aria-label</code> is provided</li>
+      <li><code>aria-label</code> -- the <code>label</code>, with <code>role="region"</code></li>
+      <li><code>role="region"</code> when <code>label</code> is given, because a name on a bare <code>&lt;pre&gt;</code> is not reliably read</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>

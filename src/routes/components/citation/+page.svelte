@@ -83,7 +83,7 @@
     <h3>ARIA</h3>
     <ul>
       <li>Implicit semantics from the <code>&lt;cite&gt;</code> element</li>
-      <li>No additional ARIA attributes required for standard usage</li>
+      <li>No additional ARIA attributes required for standard usage. <code>label</code> is hidden text, because a name on <code>&lt;cite&gt;</code> is not reliably read</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
@@ -91,6 +91,7 @@
     </ul>
     <h3>Props</h3>
     <ul>
+      <li><code>label</code>: string (optional) -- hidden text read before the citation, in a <code>screen-reader-span</code></li>
       <li><code>children</code>: slot (required) -- citation text, typically the title of the referenced work</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the <code>&lt;cite&gt;</code> element</li>
     </ul>

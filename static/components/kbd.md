@@ -16,6 +16,7 @@ Use this component to display keyboard shortcuts, key combinations, or individua
 ## Props
 
 - `className`: string (default: `""`) -- CSS class name for the element
+- `label`: string (optional) -- spoken form, for a glyph such as ⌘: hidden text, with the visible key `aria-hidden`
 - `children`: slot (required) -- the key label text content
 - `...restProps`: unknown -- additional attributes spread onto the `<kbd>` element
 
@@ -63,7 +64,7 @@ None. Kbd is a passive display element.
 
 ## ARIA
 
-No ARIA attributes needed. The `<kbd>` element has built-in semantics for keyboard input.
+No ARIA attributes needed. The `<kbd>` element has built-in semantics for keyboard input. With `label`, the visible key is `aria-hidden` and the label is hidden text, the spoken form.
 
 ## When to Use
 

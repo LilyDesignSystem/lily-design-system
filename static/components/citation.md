@@ -15,6 +15,7 @@ This headless component uses the native HTML `<cite>` element for inherent citat
 
 ## Props
 
+- `label`: string (optional) -- hidden text read before the citation, in a `screen-reader-span`
 - `children`: slot (required) -- citation text, typically the title of the referenced work
 - `...restProps`: unknown -- additional attributes spread onto the `<cite>` element
 
@@ -49,7 +50,7 @@ Citation with a link:
 ## ARIA
 
 - Implicit semantics from the `<cite>` element
-- No additional ARIA attributes required for standard usage
+- No additional ARIA attributes required for standard usage. `label` is hidden text, because a name on `<cite>` is not reliably read
 - Screen readers announce the content as a citation reference
 
 ## When to Use
