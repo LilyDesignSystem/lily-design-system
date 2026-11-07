@@ -78,16 +78,25 @@
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
       <li>HTML tag: &lt;table&gt;</li>
       <li>CSS class: .data-table</li>
-      <li>Interactive: no</li>
+      <li>Interactive: yes</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
+      <li><code>role="grid"</code> -- the table is a grid of cells, with the keys below</li>
       <li><code>aria-label=&#123;label&#125;</code> -- provides an accessible name when no visible caption is present</li>
       <li><code>&lt;caption&gt;</code> -- semantic table caption that serves as the accessible name when provided</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-      <li>No keyboard interactions — this is a passive element</li>
+      <li>Tab: moves to the table, on its one tab stop, and out of it</li>
+      <li>ArrowRight / ArrowLeft: next or previous cell in the row, swapped in right-to-left; stops at the edge</li>
+      <li>ArrowDown / ArrowUp: next or previous row; stops at the edge</li>
+      <li>Home / End: first or last cell in the row</li>
+      <li>Ctrl+Home / Ctrl+End (Cmd on macOS): first or last cell in the table</li>
+      <li>PageDown / PageUp: ten rows, stopping at the edge</li>
+      <li>Enter or F2: go to the first control in the cell, which keeps its own keys</li>
+      <li>Escape: from a control, back to its cell</li>
+      <li>Selecting, sorting and editing are the consumer's. A consumer running its own grid keys, as the <code>data-grid</code> helper does, sets <code>data-consumer-keys</code> on the root.</li>
     </ul>
     <h3>Props</h3>
     <ul>
