@@ -33,6 +33,7 @@
 {%- set p = params | default({}) -%}
 <dialog
   class="timeout-dialog{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="alertdialog"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.open %} open{% endif %}
   {%- if p.modal %} data-modal{% endif %}

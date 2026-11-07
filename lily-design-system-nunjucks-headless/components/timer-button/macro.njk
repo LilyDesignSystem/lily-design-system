@@ -22,6 +22,7 @@
   data-duration="{{ p.duration }}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  aria-live="polite"
   {%- if p.disabled %} disabled{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 ><span class="timer-button-text">{{ p.text }}</span> <span class="timer-button-countdown" aria-hidden="true"></span></button>

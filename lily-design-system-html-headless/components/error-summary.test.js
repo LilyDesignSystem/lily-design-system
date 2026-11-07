@@ -15,9 +15,10 @@ describe("ErrorSummary", function () {
         expect(className).toContain("error-summary");
     });
 
-    it("should have an aria-label attribute", async function () {
+    it("is named by its title", async function () {
         const el = await $("div.error-summary");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        const id = await el.getAttribute("aria-labelledby");
+        expect(id).toBe("error-summary-title");
+        await expect($("#" + id)).toExist();
     });
 });

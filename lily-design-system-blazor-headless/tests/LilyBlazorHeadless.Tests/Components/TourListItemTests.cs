@@ -30,8 +30,8 @@ public class TourListItemTests : TestContext
     public void Is_a_named_step()
     {
         var root = Make().Find("li");
-        Assert.Equal("group", root.GetAttribute("role"));
-        Assert.Equal("step", root.GetAttribute("aria-roledescription"));
+        Assert.Null(root.GetAttribute("role"));
+        Assert.Null(root.GetAttribute("aria-roledescription"));
         Assert.Equal("Welcome", root.GetAttribute("aria-label"));
     }
 

@@ -4,11 +4,11 @@ import { render } from "../../test/render.js";
 describe("medical-banner-box-for-danger", () => {
     const name = "medical-banner-box-for-danger";
 
-    it("renders a <div role=alert> with the base class and data-severity='danger'", () => {
+    it("renders a <div role=region> with the base class and data-severity='danger'", () => {
         const { document } = render(name, { text: "Allergy..." });
         const el = document.querySelector(`div.${name}`);
         expect(el).toBeTruthy();
-        expect(el.getAttribute("role")).toBe("alert");
+        expect(el.getAttribute("role")).toBe("region");
         expect(el.getAttribute("data-severity")).toBe("danger");
     });
 

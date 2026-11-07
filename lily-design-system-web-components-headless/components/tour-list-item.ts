@@ -21,7 +21,6 @@
 // References:
 //   - components/tour-list-item/index.md (canonical contract)
 //   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
-//   - WAI-ARIA aria-roledescription: https://www.w3.org/TR/wai-aria-1.2/#aria-roledescription
 //   - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
@@ -34,8 +33,6 @@ export class TourListItem extends HTMLElement {
 
         const li = document.createElement("li");
         li.className = rootClassName(this, "tour-list-item");
-        li.setAttribute("role", "group");
-        li.setAttribute("aria-roledescription", "step");
 
         const label = this.getAttribute("label") ?? "";
         const stepNumber = this.getAttribute("step-number");
