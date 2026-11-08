@@ -13,6 +13,7 @@ highlights.
 
 - **Fixed:** 70 `data-*` attributes Svelte renders were missing from a port, so a theme or consumer CSS reading them saw nothing: the fixed ones on `do-list-item`, `dont-list-item` and the `medical-banner-box` family, the HTML and Alpine snippets' state attributes, and Nunjucks and Blazor props.
 - **Added:** Nunjucks `badge`, `banner` and `medical-banner` take `type`; `beach-ball` `active`; `field` `required`; `file-upload` `fileCount`; `task-list-item` `checked` and `disabled`. Blazor gains `Badge.Type`, `BeachBall.Active`, `Current` on the breadcrumb, section and step list items, `StepList.Current`, `FeatureCard.ImagePosition`, `FlexStack.Direction`, `InfoState.Level`, `Masonry.Columns`, `DownloadButton.FileFormat` and `FileSize`, and `Affix.OffsetTop` and `OffsetBottom`.
+- **Fixed:** the Nunjucks `character-counter` no longer writes English ("12 of 200 characters"): it shows `12 / 200`, as Svelte does, or the consumer's `text`, and renders the count, limit and over-limit state.
 - **Added:** `bin/check-port-data-attributes`, in `bin/test`, fails when a port lacks a `data-*` attribute Svelte renders, unless listed with a reason.
 
 ## Theme colours that reach their components — 2026-11-08

@@ -23,6 +23,5 @@
   "html:five-star-rating-view:data-filled": "A state the static snippet does not show: Svelte renders data-filled only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
   "html:section-list-item:data-current": "A state the static snippet does not show: Svelte renders data-current only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
   "html:status-tag:data-type": "the prop's name and values are undecided: tone in the contract, type in Svelte (tasks.md P22-T32)",
-  "html:task-list-item:data-disabled": "A state the static snippet does not show: Svelte renders data-disabled only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
-  "nunjucks:character-counter:data-over-limit": "Computed on the client from the text length; the macro renders no limit state, and builds an English count string to fix first (tasks.md P25-T7)"
+  "html:task-list-item:data-disabled": "A state the static snippet does not show: Svelte renders data-disabled only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there"
 }
