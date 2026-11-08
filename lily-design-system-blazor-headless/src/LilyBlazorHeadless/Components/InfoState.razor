@@ -5,11 +5,13 @@
     a composition of illustration, title, description, and action for empty, error, or info states
 *@
 
-<section class="@($"info-state {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</section>
+<section class="@($"info-state {CssClass}".Trim())" data-level="@Level" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</section>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>As data-level, as in Svelte.</summary>
+    [Parameter] public string Level { get; set; } = "info";
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

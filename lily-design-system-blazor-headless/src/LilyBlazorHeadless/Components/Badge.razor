@@ -5,11 +5,13 @@
     a small label for counts, statuses, or categories
 *@
 
-<span class="@($"badge {CssClass}".Trim())" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<span class="@($"badge {CssClass}".Trim())" data-type="@Type" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>As data-type, as in Svelte.</summary>
+    [Parameter] public string Type { get; set; } = "default";
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

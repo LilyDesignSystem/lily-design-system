@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Ports render Svelte's data-* state — 2026-11-08
+
+- **Fixed:** 70 `data-*` attributes Svelte renders were missing from a port, so a theme or consumer CSS reading them saw nothing: the fixed ones on `do-list-item`, `dont-list-item` and the `medical-banner-box` family, the HTML and Alpine snippets' state attributes, and Nunjucks and Blazor props.
+- **Added:** Nunjucks `badge`, `banner` and `medical-banner` take `type`; `beach-ball` `active`; `field` `required`; `file-upload` `fileCount`; `task-list-item` `checked` and `disabled`. Blazor gains `Badge.Type`, `BeachBall.Active`, `Current` on the breadcrumb, section and step list items, `StepList.Current`, `FeatureCard.ImagePosition`, `FlexStack.Direction`, `InfoState.Level`, `Masonry.Columns`, `DownloadButton.FileFormat` and `FileSize`, and `Affix.OffsetTop` and `OffsetBottom`.
+- **Added:** `bin/check-port-data-attributes`, in `bin/test`, fails when a port lacks a `data-*` attribute Svelte renders, unless listed with a reason.
+
 ## Theme colours that reach their components — 2026-11-08
 
 - **Fixed:** the themes coloured `alert`, `care-card`, `status-light`, `red-amber-green-view` and `red-amber-green-picker-button` through `data-*` attributes no catalog rendered (`data-severity`, `data-urgency`, `data-status`), so none of those colours applied. All 63 themes now use what the components render: `data-type`, `data-variant` and `data-value`.

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span\n  class="badge"\n  role="status"\n  aria-label=""\n>\n  <!-- Consumer provides text content -->\n</span>';
+    '<span\n  class="badge"\n  data-type="default"\n  role="status"\n  aria-label=""\n>\n  <!-- Consumer provides text content -->\n</span>';
 
 const meta = {
     title: "Headless/Badge",

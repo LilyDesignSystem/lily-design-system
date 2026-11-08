@@ -5,11 +5,13 @@
     an ordered list of step items showing progress through a multi-step process
 *@
 
-<ol class="@($"step-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
+<ol class="@($"step-list {CssClass}".Trim())" data-current="@Current" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>As data-current, as in Svelte.</summary>
+    [Parameter] public int? Current { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }
