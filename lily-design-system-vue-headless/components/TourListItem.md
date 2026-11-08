@@ -9,7 +9,7 @@ This component is designed to be placed inside a TourList container. The consume
 - Renders as an `<li>`, a list item of its tour list: no group role, which would take it out of the list (tasks.md P25-T7)
 - Sets `data-current` on the active step for assistive technology
 - Inactive steps use `hidden` attribute and `aria-hidden="true"` to be fully hidden
-- When `stepNumber` and `totalSteps` are provided, the label includes "Step N of M" progress info
+- With `stepTemplate` and both numbers, the name is the template with `{label}`, `{step}` and `{total}` filled in; otherwise `label`. No English default
 - Compound component: must be used inside a TourList container
 - Spreads `restProps` onto the container for consumer customization
 
@@ -19,6 +19,7 @@ This component is designed to be placed inside a TourList container. The consume
 - `current`: boolean (default: `false`) -- whether this step is the currently visible step
 - `stepNumber`: number (optional) -- 1-based step number (e.g. 1, 2, 3)
 - `totalSteps`: number (optional) -- total number of steps in the tour
+- `stepTemplate`: string (optional) -- the step's whole name, e.g. `"{label} (Step {step} of {total})"`
 - `children`: Snippet (required) -- step content
 - `...restProps`: unknown -- additional attributes spread onto the container `<div>`
 
@@ -63,7 +64,7 @@ This component is designed to be placed inside a TourList container. The consume
 ## ARIA
 
 - The `<li>` keeps its listitem role, so the tour list counts its steps
-- `aria-label` -- provides an accessible name, optionally including "Step N of M"
+- `aria-label` -- `label`, or the consumer's `stepTemplate` filled in
 - `data-current` -- indicates the currently active step
 - `aria-hidden="true"` -- hides inactive steps from assistive technology
 - `hidden` -- hides inactive steps from visual rendering

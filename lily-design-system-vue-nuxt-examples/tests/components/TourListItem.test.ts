@@ -69,12 +69,27 @@ describe("TourListItem", () => {
         expect((el as HTMLElement).hidden).toBe(false);
     });
 
-    test("includes step progress in label", () => {
+    test("fills in the consumer's stepTemplate with the label and both numbers", () => {
+        render(Subject, {
+            props: {
+                label: "Features",
+                current: true,
+                stepNumber: 2,
+                totalSteps: 5,
+                stepTemplate: "{label} (Step {step} of {total})",
+            },
+            slots: { default: "content" },
+        });
+        expect(screen.getByLabelText("Features (Step 2 of 5)")).toBeTruthy();
+    });
+
+    test("names the step with label alone when no stepTemplate is given: no English", () => {
         render(Subject, {
             props: { label: "Features", current: true, stepNumber: 2, totalSteps: 5 },
             slots: { default: "content" },
         });
-        expect(screen.getByLabelText("Features (Step 2 of 5)")).toBeTruthy();
+        expect(screen.getByLabelText("Features")).toBeTruthy();
+        expect(document.body.innerHTML).not.toContain("Step 2");
     });
 
     test("label without step numbers when not provided", () => {

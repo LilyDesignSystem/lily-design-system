@@ -13,9 +13,7 @@
     </div>
 -->
 
-<div
-  class="text-area-input-with-character-counter"
->
+<div class="text-area-input-with-character-counter">
   <!-- Consumer provides content -->
 </div>
 
@@ -28,7 +26,7 @@
       var counter = el.querySelector('[aria-live]');
       if (text-area-input && counter) {
         var maxLength = parseInt(text-area-input.getAttribute('maxlength'), 10) || 0;
-        var template = el.getAttribute('data-counter-template') || '{count} of {max} characters';
+        var template = el.getAttribute('data-counter-template') || '{count} / {max}';
         function updateCounter() {
           var count = text-area-input.value.length;
           counter.textContent = template.replace('{count}', count).replace('{max}', maxLength);

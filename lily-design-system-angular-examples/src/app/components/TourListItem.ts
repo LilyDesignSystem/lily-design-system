@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from "@angular/co
  * TourListItem — one step in a tour guide list
  *
  * Headless Angular component. Attribute selector on the native `<li>`, so the host element IS the `<li>`. Only the current
- * step shows. The step's name is the consumer's: the Svelte component's English "(Step 1 of 3)" is not ported. Ships zero CSS.
+ * step shows. The step's name is the consumer's: `stepTemplate`, as in Svelte; no English default. Ships zero CSS.
  */
 @Component({
     selector: "li[lily-tour-list-item]",

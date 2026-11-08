@@ -9,7 +9,7 @@
 //   label — string, required. Accessible name for the text-area-input via aria-label.
 //   value — string, default "". Current text-area-input value.
 //   maxLength — number, required. Maximum number of characters allowed.
-//   counterTemplate — string, default "{count} of {max} characters". Counter text template.
+//   counterTemplate — string, default "{count} / {max}": the numbers alone, no English. Counter text template.
 //   rows — number, optional. Number of visible text rows.
 //   placeholder — string, optional. Placeholder text for the text-area-input.
 //   onChange — (value: string) => void, optional. Callback when value changes.
@@ -71,7 +71,7 @@ export default function TextAreaInputWithCharacterCounter({
     label,
     value = "",
     maxLength,
-    counterTemplate = "{count} of {max} characters",
+    counterTemplate = "{count} / {max}",
     rows = undefined,
     placeholder = undefined,
     onChange,

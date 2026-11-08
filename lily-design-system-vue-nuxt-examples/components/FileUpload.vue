@@ -61,6 +61,8 @@ const props = withDefaults(
         disabled?: boolean;
         /** Callback when files are selected. */
         onchange?: (files: FileList | null) => void;
+        /** The status for a count of files, in the consumer's words; plural forms are theirs. No English default. */
+        selectedLabel?: (count: number) => string;
     }>(),
     {
         accept: undefined,
@@ -107,9 +109,9 @@ function handleChange(event: Event) {
             aria-live="polite"
             :data-file-count="fileCount"
         >
-            <template v-if="fileCount > 0"
-                >{{ fileCount }} {{ fileCount === 1 ? "file" : "files" }} selected</template
-            >
+            <template v-if="fileCount > 0 && selectedLabel">{{
+                selectedLabel(fileCount)
+            }}</template>
         </span>
     </div>
 </template>

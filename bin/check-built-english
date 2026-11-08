@@ -1,0 +1,131 @@
+#!/usr/bin/env python3
+"""bin/check-built-english — no headless component builds English text around a value (tasks.md P25-T24).
+
+The rule (AGENTS/internationalization.md): every user-facing string is the consumer's, and plural logic is
+theirs too. `bin/check-worldwide` catches an English *default*; it cannot see a component that builds the
+words itself, such as `${label} (Step ${n} of ${total})` or `{count} {count === 1 ? "file" : "files"} selected`.
+That is how tour-list-item, file-upload and character-counter came to speak English (P25-T21, P25-T22).
+
+It reads each headless catalog's shipped component source, comments removed, and reports:
+
+  string  a template string (`…${x}…`, $"…{x}…") or a Nunjucks `~` concatenation whose literal text holds an
+          English interface word
+  plural  a `=== 1 ? "word"` switch: plural logic in English
+  markup  an interface word in markup text next to an interpolation, such as `{count} selected`
+  template  a plain string holding a {placeholder} and an English interface word: a template default such as
+          "{count} of {max} characters", which `bin/check-worldwide` misses because it starts with a brace
+
+The word list is short and deliberate: words a component would put in a label or status ("of", "selected",
+"files", "step", "remaining", …). A word inside a class name, an id or a CSS property is not counted.
+Developer console warnings (dev-warning) are for developers, and are not counted.
+
+A finding listed in bin/check-built-english.allow.json, with its reason, is reported but does not fail.
+The list may only shrink: a listed finding that is gone fails too, so remove it.
+
+Usage:
+  bin/check-built-english          fail on an unlisted finding, or a stale entry
+  bin/check-built-english --list   print every finding
+"""
+
+import glob
+import json
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ALLOW = os.path.join(TOP, "bin", "check-built-english.allow.json")
+
+CATALOGS = {
+    "svelte": "lily-design-system-svelte-headless/components/*/*.svelte",
+    "react": "lily-design-system-react-headless/components/*.tsx",
+    "vue": "lily-design-system-vue-headless/components/*.vue",
+    "angular": "lily-design-system-angular-headless/components/*.ts",
+    "web-components": "lily-design-system-web-components-headless/components/*.ts",
+    "html": "lily-design-system-html-headless/components/*.html",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/*.razor",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/*/macro.njk",
+    "alpine": "lily-design-system-alpine-headless/lily-alpine.js",
+}
+# Catalogs whose markup writes a value as {x} or {{ x }}; Razor writes @x, so its doc text's {placeholders}
+# would only be noise.
+MARKUP = {"svelte", "react", "vue", "angular", "nunjucks"}
+SKIP = re.compile(r"\.(test|spec|stories)\.|dev-warning")
+
+UI = re.compile(
+    r"(?<![\w-])(of|selected|files?|steps?|items?|characters?|remaining|results?|stars?|seconds?|minutes?"
+    r"|hours?|days?|more|less|pages?|left|loading|errors?|close|open|next|previous|today|yesterday|ago"
+    r"|and|or)(?![\w:-])",
+    re.I,
+)
+KEYWORDS = re.compile(r"\b(if|else|each|as|await|then|catch|key|const|return|switch|case|for|in|endif|endfor)\b")
+
+
+def strip_comments(text):
+    # Whole-line comments first: a "/*" inside one (`"image/*"`) must not open a block comment.
+    text = "\n".join(line for line in text.split("\n") if not re.match(r"\s*(//|\*)", line))
+    for pattern in (r"/\*.*?\*/", r"<!--.*?-->", r"\{#.*?#\}", r"@\*.*?\*@"):
+        text = re.sub(pattern, "", text, flags=re.S)
+    return text
+
+
+def class_string(whole):
+    """A class list such as `loading ${className}`: the slug, then the consumer's class."""
+    return re.search(r"className|CssClass|\bclass\b", whole) or re.match(r"[`$\"]*\s*[a-z][a-z0-9-]*\s+\$?\{", whole)
+
+
+def name_of(path):
+    return os.path.basename(os.path.dirname(path)) if path.endswith("macro.njk") else os.path.basename(path)
+
+
+def findings():
+    found = {}
+    for catalog, pattern in CATALOGS.items():
+        for path in sorted(glob.glob(os.path.join(TOP, pattern))):
+            if SKIP.search(path):
+                continue
+            code = strip_comments(open(path, encoding="utf-8").read())
+            literals = [(m.group(0), re.sub(r"\$\{[^}]*\}", " ", m.group(1))) for m in re.finditer(r"`([^`]*\$\{[^`]*)`", code)]
+            literals += [(m.group(0), re.sub(r"\{[^}]*\}", " ", m.group(1))) for m in re.finditer(r'\$"([^"]*\{[^"]*)"', code)]
+            # An empty literal ("") matches with an empty group, so fall through to "" rather than None.
+            literals += [(m.group(0), m.group(1) or m.group(2) or "") for m in re.finditer(r'~\s*"([^"]*)"|"([^"]*)"\s*~', code)]
+            hits = []
+            for whole, text in literals:
+                if not class_string(whole) and UI.search(text):
+                    hits.append(("string", UI.search(text).group(0)))
+            for m in re.finditer(r"""(["'])((?:(?!\1).)*\{[a-z][A-Za-z]*\}(?:(?!\1).)*)\1""", code):
+                text = re.sub(r"\{[A-Za-z]+\}", " ", m.group(2))
+                if "${" not in m.group(2) and UI.search(text):
+                    hits.append(("template", UI.search(text).group(0)))
+            for m in re.finditer(r'[!=]==?\s*1\s*\?\s*["\']([A-Za-z]+)', code):
+                hits.append(("plural", m.group(1)))
+            if catalog in MARKUP:
+                for m in re.finditer(r"(?<!%)\}\}?\s*([A-Za-z][A-Za-z ]{0,40}?)\s*(?=<|\{)", code):
+                    word = UI.search(m.group(1))
+                    if word and not KEYWORDS.search(m.group(1)):
+                        hits.append(("markup", word.group(0)))
+            for kind, word in hits:
+                found[f"{catalog}:{name_of(path)}:{kind}:{word.lower()}"] = True
+    return sorted(found)
+
+
+def main():
+    got = findings()
+    if "--list" in sys.argv[1:]:
+        print("\n".join(got))
+    allow = json.load(open(ALLOW)) if os.path.exists(ALLOW) else {}
+    problems = []
+    for key in got:
+        if key not in allow:
+            problems.append(f"FAIL {key}: builds English around a value; take the words from the consumer (a label, a template or a function prop)")
+    for key in allow:
+        if key not in got:
+            problems.append(f"FAIL {key}: listed in bin/check-built-english.allow.json but no longer found; remove the entry")
+    for p in problems:
+        print(p)
+    print(f"check-built-english: {len(got)} finding(s), {len(allow)} listed; {len(problems)} problem(s)")
+    return 1 if problems else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

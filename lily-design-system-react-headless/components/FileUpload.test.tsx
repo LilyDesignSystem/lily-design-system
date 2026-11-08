@@ -1,7 +1,16 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 
 import Subject from "./FileUpload";
+
+function choose(input: HTMLInputElement, count: number) {
+    const files = Array.from({ length: count }, (_, i) => new File(["x"], `f${i}.pdf`));
+    Object.defineProperty(input, "files", {
+        value: Object.assign(files, { item: (i: number) => files[i] ?? null }),
+        configurable: true,
+    });
+    fireEvent.change(input);
+}
 
 describe("FileUpload", () => {
     test("renders upload button", () => {
@@ -52,5 +61,27 @@ describe("FileUpload", () => {
             />,
         );
         expect(screen.getByTestId("fu")).toBeTruthy();
+    });
+
+    test("announces the count in the consumer's words from selectedLabel", async () => {
+        const fr = (n: number) => (n === 1 ? "1 fichier choisi" : `${n} fichiers choisis`);
+        const { container } = render(
+            <Subject
+                label="Upload"
+                selectedLabel={fr}
+            />,
+        );
+        choose(container.querySelector('input[type="file"]') as HTMLInputElement, 2);
+        expect(container.querySelector("[aria-live]")!.textContent!.trim()).toBe(
+            "2 fichiers choisis",
+        );
+    });
+
+    test("without selectedLabel the status stays empty: no English", async () => {
+        const { container } = render(<Subject label="Upload" />);
+        choose(container.querySelector('input[type="file"]') as HTMLInputElement, 1);
+        const status = container.querySelector("[aria-live]")!;
+        expect(status.getAttribute("data-file-count")).toBe("1");
+        expect(status.textContent!.trim()).toBe("");
     });
 });

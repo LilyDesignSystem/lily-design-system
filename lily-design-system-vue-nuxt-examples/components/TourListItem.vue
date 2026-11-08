@@ -4,8 +4,8 @@
 // A single step within a TourList guided tour. Each step represents one
 // screen or instruction in the tour sequence. The step conditionally shows
 // or hides based on the current prop, using the hidden attribute and
-// aria-hidden for proper accessibility. When stepNumber and totalSteps are
-// provided, progress info ("Step N of M") is appended to the accessible label.
+// aria-hidden for proper accessibility. The step's name is the consumer's: with stepTemplate and both
+// numbers, the template replaces the label, with {label}, {step} and {total} filled in. No English default.
 //
 // Props:
 //   className — string, optional. CSS class name.
@@ -13,6 +13,7 @@
 //   current — boolean, default false. Whether this step is the currently visible step.
 //   stepNumber — number, optional. 1-based step number (e.g. 1, 2, 3).
 //   totalSteps — number, optional. Total number of steps in the tour.
+//   stepTemplate — string, optional. The step's whole name, e.g. "{label} (Step {step} of {total})".
 //   default slot. Step content.
 //   ...restProps — additional HTML attributes spread onto the <div>.
 //
@@ -38,7 +39,7 @@
 //
 // Accessibility:
 //   - The <li> stays a list item of its tour list (tasks.md P25-T7): a group role would take it out of the list
-//   - aria-label includes step label and optional "Step N of M" progress
+//   - aria-label is label, or stepTemplate filled in when given with both numbers
 //   - data-current indicates the currently active step
 //   - aria-hidden="true" and hidden attribute hide inactive steps
 //
@@ -64,9 +65,11 @@ const props = withDefaults(
         /** Whether this step is the currently visible step. */
         current?: boolean;
         /** 1-based step number (e.g. 1, 2, 3). */
-        stepNumber: number;
+        stepNumber?: number;
         /** Total number of steps in the tour. */
-        totalSteps: number;
+        totalSteps?: number;
+        /** With both numbers, replaces `label`: {label}, {step} and {total} are filled in. */
+        stepTemplate?: string;
     }>(),
     {
         current: false,
@@ -74,8 +77,11 @@ const props = withDefaults(
 );
 
 const fullLabel = computed(() =>
-    props.stepNumber != null && props.totalSteps != null
-        ? `${props.label} (Step ${props.stepNumber} of ${props.totalSteps})`
+    props.stepTemplate && props.stepNumber != null && props.totalSteps != null
+        ? props.stepTemplate
+              .replace("{label}", props.label)
+              .replace("{step}", String(props.stepNumber))
+              .replace("{total}", String(props.totalSteps))
         : props.label,
 );
 </script>
