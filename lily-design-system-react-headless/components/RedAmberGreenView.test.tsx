@@ -80,4 +80,12 @@ describe("RedAmberGreenView", () => {
 
         expect(screen.getByTestId("rag-view")).toBeTruthy();
     });
+
+    // The themes colour the view by data-value (tasks.md P22-T10b).
+    test("renders the value as data-value, and none when empty", () => {
+        render(<Subject value="amber" />);
+        expect(document.querySelector(".red-amber-green-view")?.getAttribute("data-value")).toBe(
+            "amber",
+        );
+    });
 });

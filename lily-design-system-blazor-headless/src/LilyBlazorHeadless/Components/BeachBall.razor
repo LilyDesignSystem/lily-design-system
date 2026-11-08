@@ -5,11 +5,13 @@
     a decorative animated beach ball element
 *@
 
-<div class="@($"beach-ball {CssClass}".Trim())" aria-live="polite" aria-busy="true" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"beach-ball {CssClass}".Trim())" data-active="@(Active ? "true" : "false")" aria-live="polite" aria-busy="true" role="status" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>As data-active, as in Svelte.</summary>
+    [Parameter] public bool Active { get; set; } = true;
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

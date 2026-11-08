@@ -1,13 +1,31 @@
 @namespace LilyBlazorHeadless.Components
+@using System.Globalization
 
 @*
     FiveStarRatingView component
-    a read-only display of a five-star rating
+    a read-only display of a rating from one to five stars
+
+    Parameters, as in Svelte:
+        Value — int. The rating, rendered as data-value; each of the five stars carries data-filled.
+        Label — string, required. The accessible name of the role="img" root, such as "4 out of 5 stars".
+        ChildContent — when given, replaces the five star glyphs.
 *@
 
-<span class="@($"five-star-rating-view {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<span class="@($"five-star-rating-view {CssClass}".Trim())" role="img" aria-label="@Label" data-value="@Value.ToString(CultureInfo.InvariantCulture)" @attributes="AdditionalAttributes">@if (ChildContent is not null)
+{
+    @ChildContent
+}
+else
+{
+    @for (var star = 1; star <= 5; star++)
+    {
+        var filled = Value >= star;
+        <span aria-hidden="true" data-filled="@(filled ? "true" : "false")">@(filled ? "★" : "☆")</span>
+    }
+}</span>
 
 @code {
+    [Parameter] public int Value { get; set; }
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";

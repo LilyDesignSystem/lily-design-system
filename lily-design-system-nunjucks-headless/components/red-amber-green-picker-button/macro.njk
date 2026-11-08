@@ -4,7 +4,7 @@
 
   HTML tag: <button role="radio">
   CSS class: red-amber-green-picker-button
-  Data attribute: data-status ("red" | "amber" | "green").
+  Data attribute: data-value ("red" | "amber" | "green"), as in every catalog.
 
   Params:
     status       string   "red" | "amber" | "green". Required.
@@ -24,14 +24,14 @@
     {{ redAmberGreenPickerButton({ id: "example", label: "Example", text: "Example" }) }}
 #}
 {%- macro redAmberGreenPickerButton(params) -%}
-{%- set text = params.text | default(params.label) | default(params.status) -%}
+{%- set text = params.text | default(params.label) | default(params.value) | default(params.status) -%}
 <button
   class="red-amber-green-picker-button{% if params.classes %} {{ params.classes }}{% endif %}"
   type="{{ params.type | default('button') }}"
   role="radio"
   aria-checked="{{ 'true' if params.checked else 'false' }}"
   tabindex="{{ '0' if params.checked else '-1' }}"
-  data-status="{{ params.status }}"
+  data-value="{{ params.value | default(params.status) }}"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.name %} name="{{ params.name }}"{% endif %}
   {%- if params.value %} value="{{ params.value }}"{% endif %}

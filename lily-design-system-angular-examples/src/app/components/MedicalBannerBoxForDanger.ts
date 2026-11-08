@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-medical-banner-box-for-danger",
     standalone: true,
-    template: `<div class="medical-banner-box-for-danger {{ className() }}" role="region" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="medical-banner-box-for-danger {{ className() }}" data-type="danger" role="region" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MedicalBannerBoxForDanger {

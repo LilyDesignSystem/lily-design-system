@@ -436,6 +436,8 @@ test -s "$top/AGENTS/visual-identity.md" && test -s "$top/spec/visual-identity/i
 "$top/bin/generate-comparisons" --check >/dev/null 2>&1 \
     || err "compare/index.md differs from compare/compare.tsv; run bin/generate-comparisons"
 # Lily Core (P16-T2) and its self-assessed ACR (P16-T7): fails when a recorded Core member loses evidence, or an output is stale.
+"$top/bin/check-port-data-attributes" >/dev/null 2>&1 \
+    || err "a port lacks a data-* attribute Svelte renders, or a listed gap is fixed; run bin/check-port-data-attributes"
 "$top/bin/check-built-english" >/dev/null 2>&1 \
     || err "a headless component builds English around a value, or a listed finding is gone; run bin/check-built-english"
 "$top/bin/check-identifier-inputs" >/dev/null 2>&1 \

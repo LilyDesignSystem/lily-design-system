@@ -5,7 +5,7 @@
     a discouraged-practice item in a dont-list guideline list
 *@
 
-<li class="@($"dont-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"dont-list-item {CssClass}".Trim())" data-recommendation="dont" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

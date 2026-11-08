@@ -17,6 +17,7 @@
 {%- set p = params | default({}) -%}
 <button
   class="timer-button{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-remaining-seconds="{{ p.duration }}"
   type="button"
   data-module="timer-button"
   data-duration="{{ p.duration }}"

@@ -13,6 +13,7 @@
     classes     string
     attributes  object
 
+    active: boolean, as data-active. Default false.
   Usage:
     {% from "components/beach-ball/macro.njk" import beachBall %}
     {{ beachBall() }}
@@ -21,6 +22,7 @@
 {%- set p = params | default({}) -%}
 <div
   class="beach-ball{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-active="{{ 'true' if p.active else 'false' }}"
   role="status"
   aria-live="polite"
   aria-busy="true"

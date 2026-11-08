@@ -3,11 +3,21 @@
 @*
     Watermark component
     a decorative repeating overlay text or image marking a page
+
+    Parameters, as in Svelte:
+        Text — string?. The watermark text, on the overlay as data-text; consumer CSS draws it.
+        ImageUrl — string?. A watermark image, on the overlay as data-image-url.
+        Gap — string, default "100px". Spacing between repeats, as data-gap.
+        Rotate — double, default -22. The angle in degrees, as data-rotate.
 *@
 
-<div class="@($"watermark {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"watermark {CssClass}".Trim())" data-rotate="@Rotate.ToString(System.Globalization.CultureInfo.InvariantCulture)" data-gap="@Gap" @attributes="AdditionalAttributes"><div class="watermark-overlay" aria-hidden="true" data-text="@Text" data-image-url="@ImageUrl"></div>@ChildContent</div>
 
 @code {
+    [Parameter] public string? Text { get; set; }
+    [Parameter] public string? ImageUrl { get; set; }
+    [Parameter] public string Gap { get; set; } = "100px";
+    [Parameter] public double Rotate { get; set; } = -22;
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

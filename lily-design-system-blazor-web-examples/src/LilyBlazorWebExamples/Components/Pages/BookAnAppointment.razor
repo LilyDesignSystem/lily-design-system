@@ -124,7 +124,7 @@ else if (step == 1)
                     <ErrorMessage>@reasonOtherFieldError</ErrorMessage>
                 }
             </Field>
-            <CharacterCounter Label="Characters used">@reasonOther.Length / 250 characters used</CharacterCounter>
+            <CharacterCounter Label="Characters used" Count="@reasonOther.Length" Max="250">@reasonOther.Length / 250 characters used</CharacterCounter>
         }
 
         <p><Button type="submit">Continue</Button></p>

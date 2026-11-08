@@ -5,11 +5,13 @@
     one breadcrumb list item in the trail
 *@
 
-<li class="@($"breadcrumb-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"breadcrumb-list-item {CssClass}".Trim())" data-current="@(Current ? "" : null)" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>As data-current, as in Svelte.</summary>
+    [Parameter] public bool Current { get; set; } = false;
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

@@ -15,6 +15,7 @@
     classes     string   Consumer-provided extra CSS classes.
     attributes  object   Extra HTML attributes as key/value pairs.
 
+    type: "default" | "info" | "success" | "warning" | "error", as data-type. Default "default".
   Usage:
     {% from "components/badge/macro.njk" import badge %}
     {{ badge({ text: "New", label: "New item" }) }}
@@ -22,6 +23,7 @@
 {%- macro badge(params) -%}
 <span
   class="badge{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-type="{{ params.type | default('default') }}"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   role="status"
   {%- if params.label %} aria-label="{{ params.label }}"{% endif %}

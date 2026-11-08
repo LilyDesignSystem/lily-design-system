@@ -60,6 +60,7 @@
 <!-- RedAmberGreenView.svelte -->
 <span
     class={`red-amber-green-view ${className}`}
+    data-value={value || undefined}
     {...restProps}
     >{#if label}<span class="screen-reader-span">{`${label} `}</span>{/if}{value}</span
 >

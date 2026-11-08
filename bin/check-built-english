@@ -87,7 +87,8 @@ def findings():
             code = strip_comments(open(path, encoding="utf-8").read())
             literals = [(m.group(0), re.sub(r"\$\{[^}]*\}", " ", m.group(1))) for m in re.finditer(r"`([^`]*\$\{[^`]*)`", code)]
             literals += [(m.group(0), re.sub(r"\{[^}]*\}", " ", m.group(1))) for m in re.finditer(r'\$"([^"]*\{[^"]*)"', code)]
-            literals += [(m.group(0), m.group(1) or m.group(2)) for m in re.finditer(r'~\s*"([^"]*)"|"([^"]*)"\s*~', code)]
+            # An empty literal ("") matches with an empty group, so fall through to "" rather than None.
+            literals += [(m.group(0), m.group(1) or m.group(2) or "") for m in re.finditer(r'~\s*"([^"]*)"|"([^"]*)"\s*~', code)]
             hits = []
             for whole, text in literals:
                 if not class_string(whole) and UI.search(text):

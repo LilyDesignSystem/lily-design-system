@@ -19,6 +19,7 @@
 - No ARIA on the root: a plain `<span>` cannot be named. A visible caption names the value, or `label` renders as hidden text in a `.screen-reader-span`
 - Read-only display component, not interactive
 - Value defaults to an empty string when not provided
+- Renders the value as `data-value` too (none when empty), so a theme can colour it: the themes key on `.red-amber-green-view[data-value="red"]` and the rest
 - Uses props rune for prop destructuring
 - Spreads `...restProps` on the `<span>` element for consumer extensibility
 - No hardcoded user-facing strings; label and value are fully configurable

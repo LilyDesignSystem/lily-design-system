@@ -5,11 +5,13 @@
     a read-only display of a red/amber/green status
 *@
 
-<span class="@($"red-amber-green-view {CssClass}".Trim())" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@ChildContent</span>
+<span class="@($"red-amber-green-view {CssClass}".Trim())" data-value="@(string.IsNullOrEmpty(Value) ? null : Value)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Value)))</span>
 
 @code {
     [Parameter] public string? Label { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>The status shown, "red", "amber" or "green", as data-value; the text when there is no ChildContent.</summary>
+    [Parameter] public string Value { get; set; } = "";
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }
