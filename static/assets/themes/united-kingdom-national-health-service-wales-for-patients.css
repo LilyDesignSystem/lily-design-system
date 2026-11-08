@@ -550,6 +550,11 @@
            Override --lily-focus-ring to retheme; do not reintroduce a
            var(--color-primary) binding here. */
 
+        /* The dark line inside the yellow ring, as GOV.UK draws a focused input: on a white page the
+           yellow alone is 1.2:1, too faint to see (WCAG 1.4.11 asks 3:1), and the dark line is what
+           carries the contrast. Buttons and links keep DHCW's yellow block (tasks.md P22-T10a). */
+        --lily-focus-ring-inner: var(--lily-focus-text);
+
         /* --- Radii --------------------------------------------------------- */
         /* Three tiers of corner rounding. `sm` for chips/badges,
            `md` for inputs/buttons/cards, `lg` for dialogs/heroes. */
@@ -620,6 +625,7 @@
            being lit. */
         outline: 3px solid var(--lily-focus-ring);
         outline-offset: 0;
+        box-shadow: inset 0 0 0 2px var(--lily-focus-ring-inner);
     }
 
     /* Focused *buttons* additionally invert to the yellow block with a dark
@@ -1958,6 +1964,7 @@
     :where(.card, .feature-card, .product-card):focus-within {
         outline: 3px solid var(--lily-focus-ring);
         outline-offset: 0;
+        box-shadow: 0 4px 0 var(--lily-border), inset 0 0 0 2px var(--lily-focus-ring-inner);
     }
 
     /* Feature card — generous padding because it leads the page. */
