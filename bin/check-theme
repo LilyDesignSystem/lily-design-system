@@ -76,7 +76,7 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
 
 Exits non-zero listing every violation. Wired into bin/test.
 
-`bin/check-theme --contrast` (plan P10-T4) is a separate pass, report-only unless `--gate` is added (P22-T20: exit 1 on any pair below AA or unparsed; `bin/test` runs it with `--gate`) (`--suggest` adds, for a pair below AA, the black or white text colour that would reach it):
+`bin/check-theme --contrast` (plan P10-T4) is a separate pass, report-only unless `--gate` is added (P22-T20: exit 1 on any pair below AA or unparsed, and since P22-T10a on a focus ring below 3:1 against the page; `bin/test` runs it with `--gate`) (`--suggest` adds, for a pair below AA, the black or white text colour that would reach it):
 for each theme it computes the WCAG 2 contrast ratio of every declared
 text/background token pair (base content on the three base surfaces, each
 `-content` colour on its fill, and `--lily-error-text` on the page) and
@@ -243,7 +243,9 @@ CONTRAST_PAIRS = [
 AAA, AA = 7.0, 4.5
 
 # Non-text pairs: the focus ring against the page it sits on, at 3:1 (WCAG 1.4.11; 2.4.13 asks the same of the
-# focus indicator). Reported, not gated: some themes follow an upstream ring colour that misses it (tasks.md P22-T10).
+# focus indicator). A theme whose ring colour cannot meet it, because it follows an upstream identity, draws a dark
+# line inside the ring, --lily-focus-ring-inner, and the pair passes when either reaches 3:1 (NHS Wales, as GOV.UK
+# draws a focused input). Gated with --gate since P22-T10a.
 FOCUS_PAIRS = [
     ("--lily-focus-ring", "--color-base-100"),
     ("--lily-focus-ring", "--color-base-200"),
@@ -372,6 +374,10 @@ def contrast_report() -> int:
                 continue
             (l1, k1), (l2, k2) = luminance(c_fg), luminance(c_bg)
             ratio = (max(l1, l2) + 0.05) / (min(l1, l2) + 0.05)
+            c_inner = parse_color(tokens.get("--lily-focus-ring-inner", ""), tokens)
+            if ratio < NON_TEXT and c_inner is not None:
+                (li, _), (lb, _) = luminance(c_inner), luminance(c_bg)
+                ratio = max(ratio, (max(li, lb) + 0.05) / (min(li, lb) + 0.05))
             if ratio < NON_TEXT:
                 focus_below += 1
                 note = " (outside sRGB, clipped: approximate)" if k1 or k2 else ""
@@ -381,11 +387,11 @@ def contrast_report() -> int:
             print("\n".join(lines))
     pairs = len(files) * len(CONTRAST_PAIRS)
     gate = "--gate" in sys.argv[1:]
-    gate_failed = gate and (below_aa > 0 or unparsed > 0)
+    gate_failed = gate and (below_aa > 0 or unparsed > 0 or focus_below > 0)
     print(
         f"check-theme --contrast: {pairs} pairs in {len(files)} themes; "
         f"{below_aaa} below AAA (7:1), of which {below_aa} below AA (4.5:1); {unparsed} not parsed. "
-        f"Focus ring: {focus_below} of {len(files) * len(FOCUS_PAIRS)} pairs below 3:1 (report only). "
+        f"Focus ring: {focus_below} of {len(files) * len(FOCUS_PAIRS)} pairs below 3:1. "
         + ("Gate: " + ("FAILED" if gate_failed else "OK") + "." if gate else "Report only: no colour was changed.")
     )
     return 1 if gate_failed else 0
@@ -657,6 +663,11 @@ def main() -> int:
         for prop in ("--lily-font-script", "--lily-line-height-body"):
             if prop + ":" not in css.replace(" :", ":"):
                 errors.append(f"{base}: no {prop} declaration (Writing systems section)")
+
+        # 16. an outline names its style (tasks.md P22-T10): `outline: var(--x)` with a colour alone resets the
+        # style to none and draws no focus ring
+        for m in re.finditer(r"(?<![\w-])outline\s*:\s*var\(--[a-z0-9-]+\)\s*;", css):
+            errors.append(f"{base}: `{m.group(0)}` sets a colour alone, which draws no outline; write `2px solid var(...)`")
 
         # 17. a state selector names an attribute something renders (P22-T10b): a theme colouring
         # .alert[data-severity] when every catalog renders data-type colours nothing
