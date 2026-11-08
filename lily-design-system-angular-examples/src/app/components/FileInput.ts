@@ -20,6 +20,8 @@ import { restoreOnFormReset } from "./form-reset";
       (input)="value.set($any($event.target).value)"
       [disabled]="disabled()"
       [required]="required()"
+      [attr.accept]="accept() || null"
+      [multiple]="multiple()"
     />`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,6 +36,10 @@ export class FileInput {
     readonly required = input<boolean>(false);
     /** Whether the input is disabled. */
     readonly disabled = input<boolean>(false);
+    /** Comma-separated accepted file types (MIME types or extensions), as in Svelte. */
+    readonly accept = input<string>("");
+    /** Whether several files can be chosen, as in Svelte. */
+    readonly multiple = input<boolean>(false);
 
     constructor() {
         restoreOnFormReset(this.value);

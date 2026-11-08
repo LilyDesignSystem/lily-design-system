@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Checks read code after a `/*` in a comment — 2026-11-08
+
+- **Fixed:** `bin/check-class-names`, `bin/check-html-tags`, `bin/check-port-parity` and `bin/check-port-logic` no longer treat code as a comment when a line comment contains `/*` (such as `accept="image/*"`). `bin/check-port-logic` now compares 10 more Svelte props.
+- **Fixed:** Angular `file-input` takes `accept` and `multiple`, as Svelte does; the check had not seen them.
+
 ## Focus rings that draw — 2026-11-07
 
 - **Fixed:** in all 63 themes a focused file-tree item and a picker's keyboard cursor had no ring: `outline: var(--lily-focus-ring)` names a colour alone, which resets the outline style to `none`. Both are `2px solid` now.
