@@ -34,4 +34,11 @@ public class AlertTests : TestContext
         var root = cut.Find(".alert");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Renders_Type_as_data_type_for_the_themes()
+    {
+        Assert.Equal("info", RenderComponent<Alert>(p => p.Add(x => x.Label, "A")).Find(".alert").GetAttribute("data-type"));
+        Assert.Equal("error", RenderComponent<Alert>(p => p.Add(x => x.Label, "A").Add(x => x.Type, "error")).Find(".alert").GetAttribute("data-type"));
+    }
 }

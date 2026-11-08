@@ -16,13 +16,13 @@
   flex-shrink: 0;
 }
 
-.red-amber-green-view[data-status="red"] .red-amber-green-view-indicator {
+.red-amber-green-view[data-value="red"] .red-amber-green-view-indicator {
   background: var(--nhsuk-red);
 }
-.red-amber-green-view[data-status="amber"] .red-amber-green-view-indicator {
+.red-amber-green-view[data-value="amber"] .red-amber-green-view-indicator {
   background: var(--nhsuk-warm-yellow);
   color: var(--nhsuk-ink);
 }
-.red-amber-green-view[data-status="green"] .red-amber-green-view-indicator {
+.red-amber-green-view[data-value="green"] .red-amber-green-view-indicator {
   background: var(--nhsuk-green);
 }

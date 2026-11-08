@@ -82,6 +82,13 @@ write the outline shorthand with a colour alone (`outline: var(--lily-focus-ring
 draws nothing. The ring meets WCAG 2.4.7 and the 2px of 2.4.13; its 3:1 against the page (1.4.11) is reported by
 `bin/check-theme --contrast`, not gated, because some themes miss it. Details: [spec/theme](../spec/theme/index.md#focus-ring-contract-2026-11-07-tasksmd-p22-t10).
 
+### State selectors
+
+A theme styles a component's state through the attribute the component renders: `data-type` on `alert`, `badge`, `banner`
+and `care-card`, `data-variant` on `status-light`, `data-value` on the RAG parts. `bin/check-theme` rule 17 fails a
+`.class[data-*]` selector whose attribute neither the owning Svelte component nor a Svelte helper renders, unless it is
+listed with a reason (a theme's own documented variant that the consumer sets, such as NHS Wales `data-tone`).
+
 ### Forbidden in the headless layer
 
 - Hard-coded hex values, named colours, RGB / HSL literals

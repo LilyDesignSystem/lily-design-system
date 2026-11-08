@@ -142,6 +142,40 @@ SHARED_SECTIONS = (
 )
 
 
+
+# Rule 17's exceptions, each with its reason: a selector waiting on a decision, or an attribute the consumer sets by
+# hand because the theme documents it as its own variant (the components do not render it).
+STATE_SELECTOR_EXCEPTIONS = {
+    ("action-link", "data-tone"): "NHS Wales: DHCW's on-dark modifier, set by the consumer; documented in the theme",
+    ("inset-text", "data-tone"): "NHS Wales: a DHCW colour variant, set by the consumer; documented in the theme",
+    ("tag", "data-tone"): "NHS Wales: DHCW's tag colours, set by the consumer (<span class=\"tag\" data-tone=\"purple\">); documented in the theme",
+    ("status-tag", "data-status"): "the prop's name and values are undecided: tone in the contract, type in Svelte (tasks.md P22-T32)",
+}
+
+_SVELTE_SLUGS = None
+_HELPER_SOURCE = None
+
+
+def rendered_attrs(cls: str) -> str:
+    """The text of the Svelte headless component that owns `cls` (the slug, or the longest slug it starts
+    with), and of every Svelte helper package, in which rule 17 looks for an attribute."""
+    global _SVELTE_SLUGS, _HELPER_SOURCE
+    if _SVELTE_SLUGS is None:
+        _SVELTE_SLUGS = sorted((l.split("\t")[0] for l in open(os.path.join(TOP, "components.tsv")) if l.strip()), key=len, reverse=True)
+        parts = []
+        for path in glob.glob(os.path.join(TOP, "lily-design-system-svelte-*", "*.svelte")):
+            if "-headless" not in path and "-examples" not in path:
+                parts.append(open(path).read())
+        _HELPER_SOURCE = "\n".join(parts)
+    owner = next((s for s in _SVELTE_SLUGS if cls == s or cls.startswith(s + "-")), None)
+    text = _HELPER_SOURCE
+    if owner:
+        name = "".join(w.title() for w in owner.split("-"))
+        folder = os.path.join(TOP, "lily-design-system-svelte-headless", "components", name)
+        for path in glob.glob(os.path.join(folder, "*.svelte")):
+            text += open(path).read()
+    return text
+
 def strip_comments(css: str) -> str:
     return re.sub(r"/\*.*?\*/", "", css, flags=re.S)
 
@@ -623,6 +657,13 @@ def main() -> int:
         for prop in ("--lily-font-script", "--lily-line-height-body"):
             if prop + ":" not in css.replace(" :", ":"):
                 errors.append(f"{base}: no {prop} declaration (Writing systems section)")
+
+        # 17. a state selector names an attribute something renders (P22-T10b): a theme colouring
+        # .alert[data-severity] when every catalog renders data-type colours nothing
+        for cls, attr in sorted(set(re.findall(r"\.([a-z][a-z0-9-]*)\[(data-[a-z0-9-]+)", css))):
+            if (cls, attr) in STATE_SELECTOR_EXCEPTIONS or attr in rendered_attrs(cls):
+                continue
+            errors.append(f"{base}: `.{cls}[{attr}]` styles an attribute no Svelte component or helper renders on it")
 
         # 8. a query needs a container: without container-type it never matches
         if "@container" in css and "container-type" not in css:

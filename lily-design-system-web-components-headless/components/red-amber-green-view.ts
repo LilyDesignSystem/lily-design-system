@@ -37,6 +37,8 @@ export class RedAmberGreenView extends HTMLElement {
             span.append(hidden);
         }
         this.#text = document.createTextNode(this.getAttribute("value") ?? "");
+        // The status as data-value, for the consumer's colour (the themes key on it).
+        if (this.#text.data) span.setAttribute("data-value", this.#text.data);
         span.append(this.#text);
         passThroughAttributes(this, span, HANDLED);
 
@@ -49,6 +51,10 @@ export class RedAmberGreenView extends HTMLElement {
     }
 
     set value(v: string) {
+        if (this.#span) {
+            if (v) this.#span.setAttribute("data-value", v);
+            else this.#span.removeAttribute("data-value");
+        }
         if (this.#text) this.#text.data = v;
         else this.setAttribute("value", v);
     }
