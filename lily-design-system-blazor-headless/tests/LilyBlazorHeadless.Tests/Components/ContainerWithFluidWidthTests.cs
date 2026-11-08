@@ -41,4 +41,12 @@ public class ContainerWithFluidWidthTests : TestContext
         var cut = RenderComponent<ContainerWithFluidWidth>();
         Assert.False(cut.Find(".container-with-fluid-width").HasAttribute("aria-label"));
     }
+
+    [Fact]
+    public void Renders_data_padding_inline_and_the_structural_style()
+    {
+        var root = RenderComponent<ContainerWithFluidWidth>(p => p.Add(x => x.PaddingInline, "2rem")).Find(".container-with-fluid-width");
+        Assert.Equal("2rem", root.GetAttribute("data-padding-inline"));
+        Assert.Equal("width: 100%; padding-inline: 2rem;", root.GetAttribute("style"));
+    }
 }

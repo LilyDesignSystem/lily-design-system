@@ -34,4 +34,13 @@ public class FiveFaceRatingViewTests : TestContext
         var root = cut.Find(".five-face-rating-view");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Renders_data_value_and_the_face_label_for_the_value()
+    {
+        var root = RenderComponent<FiveFaceRatingView>(p => p.Add(x => x.Label, "Rating").Add(x => x.Value, 4)
+            .Add(x => x.Labels, new[] { "Very poor", "Poor", "Fair", "Good", "Very good" })).Find(".five-face-rating-view");
+        Assert.Equal("4", root.GetAttribute("data-value"));
+        Assert.Equal("Good", root.TextContent.Trim());
+    }
 }

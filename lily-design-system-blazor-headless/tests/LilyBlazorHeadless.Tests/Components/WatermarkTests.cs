@@ -41,4 +41,25 @@ public class WatermarkTests : TestContext
         var cut = RenderComponent<Watermark>();
         Assert.False(cut.Find(".watermark").HasAttribute("aria-label"));
     }
+
+    [Fact]
+    public void Renders_the_overlay_and_the_watermark_settings_as_data_attributes()
+    {
+        var cut = RenderComponent<Watermark>(p => p.Add(x => x.Text, "Draft").Add(x => x.ImageUrl, "/mark.svg").Add(x => x.Gap, "80px").Add(x => x.Rotate, -30));
+        var root = cut.Find(".watermark");
+        Assert.Equal("-30", root.GetAttribute("data-rotate"));
+        Assert.Equal("80px", root.GetAttribute("data-gap"));
+        var overlay = cut.Find(".watermark > .watermark-overlay");
+        Assert.Equal("true", overlay.GetAttribute("aria-hidden"));
+        Assert.Equal("Draft", overlay.GetAttribute("data-text"));
+        Assert.Equal("/mark.svg", overlay.GetAttribute("data-image-url"));
+    }
+
+    [Fact]
+    public void Defaults_match_Svelte()
+    {
+        var root = RenderComponent<Watermark>().Find(".watermark");
+        Assert.Equal("-22", root.GetAttribute("data-rotate"));
+        Assert.Equal("100px", root.GetAttribute("data-gap"));
+    }
 }
