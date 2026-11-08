@@ -9,9 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
-## No built English in tour-list-item and file-upload — 2026-11-08
+## Components build no English around a value — 2026-11-08
 
 - **Fixed:** `tour-list-item` in Svelte, React, Vue and Web Components no longer names a step `"{label} (Step N of M)"` in English. Pass `stepTemplate` (`step-template`), such as `"{label} (Step {step} of {total})"` in the page's language, as Angular and Blazor already did; without it the name is `label`.
+- **Fixed:** `text-area-input-with-character-counter` no longer defaults to English (`"{count} of {max} characters"`) in Svelte, React, Vue, Web Components, HTML and Nunjucks: the default is `"{count} / {max}"`, and Nunjucks takes `counterTemplate`. Pass your own words as `counterTemplate`.
+- **Added:** `bin/check-built-english`, in `bin/test`, fails when a headless component builds English around a value.
 - **Fixed:** `file-upload` in Svelte, React, Vue and Web Components no longer announces `"N file(s) selected"` in English. Pass `selectedLabel(count)`, with plural forms in the consumer's language, as Angular and Blazor already did; without it the live region stays empty. Consumers that relied on the English text must now pass these props.
 
 ## Focus rings that draw — 2026-11-07

@@ -18,7 +18,17 @@ describe("text-area-input-with-character-counter", () => {
         const out = document.querySelector("output.text-area-input-with-character-counter-counter");
         expect(out).toBeTruthy();
         expect(out.getAttribute("aria-live")).toBe("polite");
-        expect(out.textContent.trim()).toBe("5 of 200 characters");
+        expect(out.textContent.trim()).toBe("5 / 200");
+    });
+
+    it("fills in the consumer's counterTemplate: no English of its own", () => {
+        const { document } = render("text-area-input-with-character-counter", {
+            id: "x",
+            maximum: 200,
+            value: "Hello",
+            counterTemplate: "{count} de {max} caractères",
+        });
+        expect(document.querySelector("output").textContent.trim()).toBe("5 de 200 caractères");
     });
 
     it("omits the counter when no maximum is given", () => {

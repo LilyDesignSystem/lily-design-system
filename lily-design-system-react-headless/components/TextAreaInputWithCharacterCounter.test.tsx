@@ -28,4 +28,26 @@ describe("TextAreaInputWithCharacterCounter", () => {
         expect(el?.className).toContain("text-area-input-with-character-counter");
         expect(el?.className).toContain("extra");
     });
+
+    test("counts with the numbers alone by default: no English", () => {
+        const { container } = render(
+            <Subject
+                label="Demo"
+                maxLength={100}
+            />,
+        );
+        expect(container.textContent).toContain("0 / 100");
+        expect(container.textContent).not.toMatch(/characters|of/);
+    });
+
+    test("fills in the consumer's counterTemplate", () => {
+        const { container } = render(
+            <Subject
+                label="Demo"
+                maxLength={100}
+                counterTemplate="{count} de {max} caractères"
+            />,
+        );
+        expect(container.textContent).toContain("0 de 100 caractères");
+    });
 });
