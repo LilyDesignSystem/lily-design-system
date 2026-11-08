@@ -19,6 +19,7 @@
 
   Body content: label + hint + input + error-message via caller().
 
+    required: boolean; marks the field with data-required.
   Usage:
     {% from "components/field/macro.njk" import field %}
     {% call field({ error: errors.name }) %}
@@ -31,6 +32,7 @@
 {%- set p = params | default({}) -%}
 <div
   class="field{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.required %} data-required{% endif %}
   data-state="{{ 'invalid' if p.error else 'valid' }}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

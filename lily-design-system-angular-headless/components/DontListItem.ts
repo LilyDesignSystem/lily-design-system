@@ -18,6 +18,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
     template: `<ng-content />`,
     host: {
         "[class]": '"dont-list-item " + className()',
+        "data-recommendation": "dont",
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

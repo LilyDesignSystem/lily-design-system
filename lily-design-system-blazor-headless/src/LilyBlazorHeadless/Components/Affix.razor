@@ -5,10 +5,14 @@
     a wrapper that pins its content to a viewport position while the page scrolls
 *@
 
-<div class="@($"affix {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"affix {CssClass}".Trim())" data-offset-bottom="@OffsetBottom" data-offset-top="@OffsetTop" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>As data-offset-top, as in Svelte.</summary>
+    [Parameter] public double? OffsetTop { get; set; }
+    /// <summary>As data-offset-bottom, as in Svelte.</summary>
+    [Parameter] public double? OffsetBottom { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

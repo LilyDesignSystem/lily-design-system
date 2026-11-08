@@ -5,7 +5,7 @@
     an encouraged-practice item in a do-list guideline list
 *@
 
-<li class="@($"do-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"do-list-item {CssClass}".Trim())" data-recommendation="do" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

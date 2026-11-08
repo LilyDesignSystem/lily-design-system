@@ -35,6 +35,7 @@
 {%- macro clipboardCopyButton(params) -%}
 <button
   class="clipboard-copy-button{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-copied="false"
   type="{{ params.type | default('button') }}"
   data-module="clipboard-copy-button"
   {%- if params.clipboardText %} data-clipboard-text="{{ params.clipboardText }}"{% endif %}

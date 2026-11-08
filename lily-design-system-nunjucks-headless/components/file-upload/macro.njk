@@ -6,6 +6,7 @@
 
   Params: id, name, accept, multiple, label, disabled, classes, attributes.
 
+    fileCount: number of files chosen, as data-file-count. Default 0; the client updates it.
   Usage:
     {% from "components/file-upload/macro.njk" import fileUpload %}
     {{ fileUpload({ id: "example", label: "Example" }) }}
@@ -14,6 +15,7 @@
 {%- set p = params | default({}) -%}
 <div
   class="file-upload{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-file-count="{{ p.fileCount | default(0) }}"
   data-module="file-upload"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

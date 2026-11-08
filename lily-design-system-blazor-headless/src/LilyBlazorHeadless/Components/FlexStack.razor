@@ -5,10 +5,12 @@
     a flex layout container for vertical or horizontal stacking with consistent gap
 *@
 
-<div class="@($"flex-stack {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"flex-stack {CssClass}".Trim())" data-direction="@Direction" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>As data-direction, as in Svelte.</summary>
+    [Parameter] public string Direction { get; set; } = "column";
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

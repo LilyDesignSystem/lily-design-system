@@ -26,6 +26,7 @@
 {%- set level = params.headingLevel | default(4) -%}
 <div
   class="medical-banner-box-for-advice{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-type="advice"
   data-severity="advice"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   role="region"

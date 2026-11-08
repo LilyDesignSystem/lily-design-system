@@ -1,0 +1,75 @@
+#!/usr/bin/env python3
+"""bin/check-port-data-attributes — the ports render the data-* attributes Svelte renders.
+
+A component's data-* attributes are how a theme or a consumer's CSS sees its state: `badge` renders data-type, which the
+themes colour, so a port that drops it leaves every badge uncoloured. The ARIA baseline (P25-T7) compares roles and
+aria-* attributes; this compares data-* names. For each Svelte headless component, every data-* attribute its markup
+renders must appear in each port's source (as the attribute, or as its bare name for a port that builds it, such as
+Blazor's `data-@Name` or a dataset key), unless bin/check-port-data-attributes.allow.json lists the gap with a reason.
+A listed gap that is now fixed fails too, so the list only shrinks.
+
+It reads source, not rendered output: it finds a missing attribute, it does not prove a port renders it in every case.
+React, Vue and Web Components are checked alongside the rest.
+"""
+import json
+import os
+import re
+import sys
+
+TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ALLOW = os.path.join(TOP, "bin", "check-port-data-attributes.allow.json")
+
+
+def pascal(slug):
+    return "".join(w.title() for w in slug.split("-"))
+
+
+PORTS = {
+    "react": "lily-design-system-react-headless/components/{N}.tsx",
+    "vue": "lily-design-system-vue-headless/components/{N}.vue",
+    "angular": "lily-design-system-angular-headless/components/{N}.ts",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/{N}.razor",
+    "html": "lily-design-system-html-headless/components/{s}.html",
+    "web-components": "lily-design-system-web-components-headless/components/{s}.ts",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/{s}/macro.njk",
+    "alpine": "lily-design-system-alpine-headless/components/{s}.html",
+}
+IGNORED = {"data-testid"}
+
+
+def gaps():
+    found = set()
+    slugs = [line.split("\t")[0] for line in open(os.path.join(TOP, "components.tsv")) if line.strip()]
+    for slug in slugs:
+        name = pascal(slug)
+        svelte = os.path.join(TOP, f"lily-design-system-svelte-headless/components/{name}/{name}.svelte")
+        if not os.path.exists(svelte):
+            continue
+        markup = open(svelte).read().split("</script>")[-1]
+        attrs = set(re.findall(r"\b(data-[a-z][a-z0-9-]*)=", markup)) - IGNORED
+        for port, pattern in PORTS.items():
+            path = os.path.join(TOP, pattern.format(N=name, s=slug))
+            if not os.path.exists(path):
+                continue
+            text = open(path).read()
+            for attr in attrs:
+                if attr not in text and attr[len("data-"):] not in text:
+                    found.add(f"{port}:{slug}:{attr}")
+    return found
+
+
+def main():
+    allow = json.load(open(ALLOW)) if os.path.exists(ALLOW) else {}
+    current = gaps()
+    new = sorted(current - set(allow))
+    stale = sorted(set(allow) - current)
+    for gap in new:
+        print(f"FAIL {gap}: Svelte renders this attribute and the port does not; render it, or list it with a reason")
+    for gap in stale:
+        print(f"FAIL {gap}: listed in {os.path.relpath(ALLOW, TOP)} but now rendered; remove the entry")
+    print(f"check-port-data-attributes: {len(current)} gap(s), {len(allow)} listed; {len(new) + len(stale)} problem(s)")
+    return 1 if new or stale else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

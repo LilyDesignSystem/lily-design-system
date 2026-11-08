@@ -6,34 +6,38 @@
   CSS class: character-counter
 
   Params:
-    value       number  Current character count. Default 0.
-    maximum     number  Maximum allowed characters (optional).
-    label       string  Custom label, e.g. "characters remaining".
+    value       number  Current character count. Default 0. (count, as in Svelte, also works.)
+    maximum     number  Maximum allowed characters (optional). (max also works.)
+    text        string  The words to show, in the page's language. Default: the numbers alone, "12 / 200" or
+                        "12", as in Svelte: no English.
+    label       string  Accessible name, e.g. "Characters used".
     for         string  id of the input this counter describes.
     id          string
     classes     string
     attributes  object
 
+  Data attributes: data-count, data-max, data-remaining, and data-over-limit when the count passes the maximum.
+
   Usage:
     {% from "components/character-counter/macro.njk" import characterCounter %}
-    {{ characterCounter({ id: "example", text: "Example" }) }}
+    {{ characterCounter({ id: "example", value: 12, maximum: 200, label: "Characters used" }) }}
 #}
 {%- macro characterCounter(params) -%}
 {%- set p = params | default({}) -%}
-{%- set value = p.value | default(0) -%}
+{%- set value = p.value | default(p.count) | default(0) -%}
+{%- set maximum = p.maximum | default(p.max) -%}
 {%- set text = p.text -%}
 {%- if not text -%}
-  {%- if p.maximum -%}
-    {%- set text = value ~ " of " ~ p.maximum ~ " characters" -%}
-  {%- else -%}
-    {%- set text = value ~ " characters" -%}
-  {%- endif -%}
+  {%- set text = (value ~ " / " ~ maximum) if maximum else (value ~ "") -%}
 {%- endif -%}
 <output
   class="character-counter{% if p.classes %} {{ p.classes }}{% endif %}"
   role="status"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   aria-live="polite"
+  data-count="{{ value }}"
+  {%- if maximum %} data-max="{{ maximum }}" data-remaining="{{ maximum - value }}"{% endif %}
+  {%- if maximum and value > maximum %} data-over-limit{% endif %}
   {%- if p.for %} for="{{ p.for }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

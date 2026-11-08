@@ -19,6 +19,7 @@
 
   Body content: MedicalBannerBox children via caller().
 
+    type: as data-type, as in Svelte. Default "info".
   Usage:
     {% from "components/medical-banner/macro.njk" import medicalBanner %}
     {% call medicalBanner({ id: "example", label: "Example" }) %}…{% endcall %}
@@ -27,6 +28,8 @@
 {%- set p = params | default({}) -%}
 <div
   class="medical-banner{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-type="{{ p.type | default('info') }}"
+  data-context="medical"
   aria-live="polite"
   role="region"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
