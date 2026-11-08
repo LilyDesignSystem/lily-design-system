@@ -9,7 +9,7 @@
 ## Required commitments
 
 - **Keyboard reachability**. Every interactive component is reachable and operable with `Tab`, `Shift+Tab`, `Enter`, `Space`, `Arrow keys`, `Home`, `End`, and `Escape` as appropriate. The keyboard contract is documented in each component's `AGENTS.md`.
-- **Visible focus**. Components do not suppress focus rings. Consumer CSS provides the visual style, but the headless component must keep `:focus`, `:focus-visible`, and explicit `tabindex` correct.
+- **Visible focus**. Components do not suppress focus rings. Consumer CSS provides the visual style, but the headless component must keep `:focus`, `:focus-visible`, and explicit `tabindex` correct. The themes' ring is the focus-ring contract in [theme.md](theme.md#focus-ring).
 - **Accessible name**. Every interactive element has a name visible to assistive technology — either via visible text content, `aria-label`, or `aria-labelledby`. Required `label` props enforce this where text content alone is insufficient (e.g. `IconButton`, `ChatNav`, `Hero`, `TileMap`).
 - **No colour-only meaning**. Status, validity, and selection are conveyed through text, icons, ARIA state, or position — never colour alone (WCAG 1.4.1).
 - **Live regions are deliberate**. `role="alert"` and `aria-live` are reserved for dynamic content the user must hear. Static labels stay static.

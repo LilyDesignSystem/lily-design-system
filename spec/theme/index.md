@@ -308,6 +308,28 @@ America, the Nordics and South Asia. These are recommendations, not yet maintain
 No open government UI system was found for Nigeria, Kenya, South Africa or Rwanda, in English searches only. That is a
 gap in the evidence, not a finding that none exists.
 
+## Focus ring contract (2026-11-07, tasks.md P22-T10)
+
+| Part         | Value                                                                                                                                                                                       | WCAG                                                    |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| When         | `:focus-visible`, on every interactive class hook (one shared rule per theme)                                                                                                               | 2.4.7 Focus Visible                                     |
+| Width        | 2px solid; 3px in the NHS Wales themes                                                                                                                                                      | 2.4.13 Focus Appearance (AAA): at least a 2px perimeter |
+| Offset       | 2px outside the control; 0 in NHS Wales, which reads a flush ring as the control lit; -2px inside a list where an outer ring would be clipped (file-tree items, a picker's keyboard cursor) | 2.4.13                                                  |
+| Colour       | `--lily-focus-ring`, the primary colour by default; NHS Wales yellow `oklch(93% 0.18 102)` with `--lily-focus-text` for the block it fills                                                  | 1.4.11 Non-text Contrast: 3:1 against the page          |
+| Fallback     | `@media (forced-colors: active)`: `outline: 3px solid Highlight`, offset 2px                                                                                                                | 1.4.11, in Windows High Contrast                        |
+| Not obscured | `--lily-fixed-bar-block-start` / `-end` become `scroll-padding-block`                                                                                                                       | 2.4.11 Focus Not Obscured                               |
+
+The rule must name a style: `outline: var(--lily-focus-ring)` alone resets `outline-style` to `none`. Every theme wrote it that
+way for file-tree items and a picker's keyboard cursor, so neither had a ring; it is now `2px solid`, and the Nunjucks app's
+`e2e/focus-visible.spec.ts` focuses a file-tree item under each of the 63 themes alone, and a picker's cursor in the app, and
+fails on a missing or thinner outline.
+
+`bin/check-theme --contrast` reports the ring against `--color-base-100` and `--color-base-200` at 3:1, report only. 27 of
+126 pairs miss it, in 14 themes: `acid`, `black`, `bumblebee`, `business`, `cmyk`, `cupcake`, `cyberpunk`, `emerald`,
+`garden`, `pastel`, `retro`, `wireframe` and the two NHS Wales themes. Their primary colour, which the ring takes, is too
+close to the page; NHS Wales's yellow ring is 1.2:1 on white around a control that is not a button or link. Fixing them changes
+a theme's identity, so it is a decision, not a gate.
+
 ## Forbidden in the headless layer
 
 None of the following may appear in headless markup; they live in example CSS and consume the theme custom properties.

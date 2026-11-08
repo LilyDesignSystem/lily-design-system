@@ -73,6 +73,15 @@ already require, so no `data-validated` fallback is shipped.
 `--color-error` is a fill colour, not a text colour. Error _text_ uses `--lily-error-text` (error mixed 22% into
 `--color-base-content`), defined by every reference theme; reuse that pattern for any status-coloured text.
 
+### Focus ring
+
+Every theme draws keyboard focus the same way: `outline: 2px solid var(--lily-focus-ring)` with `outline-offset: 2px` on
+`:focus-visible`, and `--lily-focus-ring` defaults to the primary colour. NHS Wales follows DHCW: 3px, no offset, and a
+yellow block with a dark bar for buttons and links. Under `forced-colors: active` the ring is `3px solid Highlight`. Never
+write the outline shorthand with a colour alone (`outline: var(--lily-focus-ring)`): it resets the style to `none` and
+draws nothing. The ring meets WCAG 2.4.7 and the 2px of 2.4.13; its 3:1 against the page (1.4.11) is reported by
+`bin/check-theme --contrast`, not gated, because some themes miss it. Details: [spec/theme](../spec/theme/index.md#focus-ring-contract-2026-11-07-tasksmd-p22-t10).
+
 ### Forbidden in the headless layer
 
 - Hard-coded hex values, named colours, RGB / HSL literals

@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Focus rings that draw — 2026-11-07
+
+- **Fixed:** in all 63 themes a focused file-tree item and a picker's keyboard cursor had no ring: `outline: var(--lily-focus-ring)` names a colour alone, which resets the outline style to `none`. Both are `2px solid` now.
+- **Added:** the focus-ring contract in `AGENTS/theme.md` and spec/theme: width, offset, colour, the forced-colours fallback, and the WCAG criterion each meets. `bin/check-theme --contrast` reports the ring against the page at 3:1 (report only: 14 themes miss it).
+
 ## Identifiers and passwords stay out of spellcheckers — 2026-11-07
 
 - **Fixed:** `password-input-or-text-input-div` set no `spellcheck`, so a revealed password (`type="text"`) reached an enhanced spellchecker, which can send it to a cloud service. It is `spellcheck="false"` in every catalog.
