@@ -64,7 +64,11 @@ RULES = {
 
 
 def blank_comments(text):
-    """Replace every block comment with spaces, keeping its newlines so line numbers stay right."""
+    """Replace every block comment with spaces, keeping its newlines so line numbers stay right.
+
+    Whole-line // comments are blanked first: a "/*" inside one (`"image/*"` in a usage note) would otherwise
+    open a block comment that runs to the next "*/" and hides the real code between (tasks.md P25-T23)."""
+    text = re.sub(r"(?m)^[ \t]*//.*$", lambda m: " " * len(m.group(0)), text)
     return COMMENT.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), text)
 
 

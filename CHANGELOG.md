@@ -11,7 +11,7 @@ highlights.
 
 ## Checks read code after a `/*` in a comment — 2026-11-08
 
-- **Fixed:** `bin/check-class-names`, `bin/check-html-tags`, `bin/check-port-parity` and `bin/check-port-logic` no longer treat code as a comment when a line comment contains `/*` (such as `accept="image/*"`). `bin/check-port-logic` now compares 10 more Svelte props.
+- **Fixed:** `bin/check-class-names`, `bin/check-html-tags`, `bin/check-port-parity`, `bin/check-port-logic` and `bin/check-worldwide` no longer treat code as a comment when a line comment contains `/*` (such as `accept="image/*"`). `bin/check-port-logic` now compares 10 more Svelte props.
 - **Fixed:** Angular `file-input` takes `accept` and `multiple`, as Svelte does; the check had not seen them.
 
 ## Focus rings that draw — 2026-11-07
