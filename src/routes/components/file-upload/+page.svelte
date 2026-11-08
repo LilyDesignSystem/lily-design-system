@@ -96,6 +96,7 @@
       <li><code>multiple</code>: boolean (default: <code>false</code>) -- whether to allow selecting multiple files</li>
       <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the button is disabled</li>
       <li><code>onchange</code>: function (default: <code>undefined</code>) -- callback receiving <code>FileList | null</code> when files are selected</li>
+      <li><code>selectedLabel</code>: <code>(count: number) =&gt; string</code> (default: <code>undefined</code>) -- the live region's status for a count of files, in the consumer's words; plural forms are theirs. Without it the region stays empty: no English default</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the outer <code>&lt;div&gt;</code></li>
     </ul>
 </section>

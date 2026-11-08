@@ -83,7 +83,7 @@
     <h3>ARIA</h3>
     <ul>
       <li>The <code>&lt;li&gt;</code> keeps its listitem role, so the tour list counts its steps</li>
-      <li><code>aria-label</code> -- provides an accessible name, optionally including "Step N of M"</li>
+      <li><code>aria-label</code> -- the accessible name: <code>label</code>, or the consumer's <code>stepTemplate</code> filled in (e.g. "&#123;label&#125; (Step &#123;step&#125; of &#123;total&#125;)")</li>
       <li><code>data-current</code> -- indicates the currently active step</li>
       <li><code>aria-hidden="true"</code> -- hides inactive steps from assistive technology</li>
       <li><code>hidden</code> -- hides inactive steps from visual rendering</li>
@@ -93,13 +93,14 @@
       <li>None directly -- keyboard interactions are managed by the parent TourGuideList and by interactive elements within step content</li>
     </ul>
     <h3>Props</h3>
-    <p>| Prop           | Type            | Default    | Description                                             |</p>
-    <p>| -------------- | --------------- | ---------- | ------------------------------------------------------- |</p>
-    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name for this step via <code>aria-label</code>          |</p>
-    <p>| <code>current</code>      | <code>boolean</code>       | <code>false</code>    | Whether this step is the currently visible step         |</p>
-    <p>| <code>stepNumber</code>   | <code>number</code>        | (optional) | 1-based step number (e.g. 1, 2, 3)                      |</p>
-    <p>| <code>totalSteps</code>   | <code>number</code>        | (optional) | Total number of steps in the tour                       |</p>
-    <p>| <code>children</code>     | <code>slot</code>          | (required) | Step content                                            |</p>
-    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the container <code>&lt;div&gt;</code> |</p>
+    <p>| Prop           | Type            | Default    | Description                                                                                                   |</p>
+    <p>| -------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------- |</p>
+    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible name for this step via <code>aria-label</code>                                                                |</p>
+    <p>| <code>current</code>      | <code>boolean</code>       | <code>false</code>    | Whether this step is the currently visible step                                                               |</p>
+    <p>| <code>stepNumber</code>   | <code>number</code>        | (optional) | 1-based step number (e.g. 1, 2, 3)                                                                            |</p>
+    <p>| <code>totalSteps</code>   | <code>number</code>        | (optional) | Total number of steps in the tour                                                                             |</p>
+    <p>| <code>stepTemplate</code> | <code>string</code>        | (optional) | With both numbers, the step's whole name: <code>&#123;label&#125;</code>, <code>&#123;step&#125;</code> and <code>&#123;total&#125;</code> are filled in. No English default |</p>
+    <p>| <code>children</code>     | <code>slot</code>          | (required) | Step content                                                                                                  |</p>
+    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the container <code>&lt;div&gt;</code>                                                       |</p>
 </section>
 <!-- END generated: canonical contract -->

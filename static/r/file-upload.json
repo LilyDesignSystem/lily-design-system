@@ -21,6 +21,7 @@
     "`multiple`: boolean (default: `false`) -- whether to allow selecting multiple files",
     "`disabled`: boolean (default: `false`) -- whether the button is disabled",
     "`onchange`: function (default: `undefined`) -- callback receiving `FileList | null` when files are selected",
+    "`selectedLabel`: `(count: number) => string` (default: `undefined`) -- the live region's status for a count of files, in the consumer's words; plural forms are theirs. Without it the region stays empty: no English default",
     "`...restProps`: unknown -- additional attributes spread onto the outer `<div>`"
   ],
   "related": [

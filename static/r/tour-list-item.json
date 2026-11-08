@@ -10,7 +10,7 @@
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
     "The `<li>` keeps its listitem role, so the tour list counts its steps",
-    "`aria-label` -- provides an accessible name, optionally including \"Step N of M\"",
+    "`aria-label` -- the accessible name: `label`, or the consumer's `stepTemplate` filled in (e.g. \"{label} (Step {step} of {total})\")",
     "`data-current` -- indicates the currently active step",
     "`aria-hidden=\"true\"` -- hides inactive steps from assistive technology",
     "`hidden` -- hides inactive steps from visual rendering"
