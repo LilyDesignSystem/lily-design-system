@@ -34,4 +34,11 @@ public class StatusLightTests : TestContext
         var root = cut.Find(".status-light");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Renders_Variant_as_data_variant_for_the_themes()
+    {
+        Assert.Equal("neutral", RenderComponent<StatusLight>(p => p.Add(x => x.Label, "S")).Find(".status-light").GetAttribute("data-variant"));
+        Assert.Equal("positive", RenderComponent<StatusLight>(p => p.Add(x => x.Label, "S").Add(x => x.Variant, "positive")).Find(".status-light").GetAttribute("data-variant"));
+    }
 }

@@ -6,7 +6,7 @@ const html = `<button
   role="radio"
   aria-checked="false"
   tabindex="-1"
-  data-status=""></button>`;
+  data-value=""></button>`;
 
 const meta = {
     title: "Headless/RedAmberGreenPickerButton",

@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Theme colours that reach their components — 2026-11-08
+
+- **Fixed:** the themes coloured `alert`, `care-card`, `status-light`, `red-amber-green-view` and `red-amber-green-picker-button` through `data-*` attributes no catalog rendered (`data-severity`, `data-urgency`, `data-status`), so none of those colours applied. All 63 themes now use what the components render: `data-type`, `data-variant` and `data-value`.
+- **Added:** Blazor `alert` and `care-card` take `Type`, `status-light` takes `Variant`, `red-amber-green-view` takes `Value`; Nunjucks `alert` and `care-card` take `type`; `red-amber-green-view` renders `data-value` in every catalog.
+- **Changed:** Nunjucks `care-card` renders `data-type` (`immediate`, not `emergency`) and the Nunjucks RAG macros render `data-value`; `urgency` and `status` still work as params.
+- **Added:** `bin/check-theme` rule 17 fails a theme selector on an attribute no component or helper renders.
+
 ## Every focus ring reaches 3:1 — 2026-11-08
 
 - **Changed:** in `acid`, `black`, `bumblebee`, `business`, `cmyk`, `cupcake`, `cyberpunk`, `emerald`, `garden`, `pastel`, `retro` and `wireframe`, the focus ring is the primary mixed toward the text colour, because the primary alone was too close to the page to see (as low as 1.25:1). Every ring now reaches 3:1 on both page surfaces (WCAG 1.4.11).

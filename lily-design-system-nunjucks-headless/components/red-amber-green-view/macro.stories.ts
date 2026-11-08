@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<span
   class="red-amber-green-view"
-  data-status="unknown">
+  data-value="unknown">
   <span class="red-amber-green-view-indicator" aria-hidden="true"></span>
   <span class="red-amber-green-view-text">Unknown</span>
 </span>`;

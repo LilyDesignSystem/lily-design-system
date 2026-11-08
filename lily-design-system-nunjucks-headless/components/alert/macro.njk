@@ -11,6 +11,8 @@
   Params:
     text        string   Plain text content (escaped).
     html        string   Raw HTML content (rendered via `| safe`).
+    type        string   "info" | "success" | "warning" | "error", as data-type
+                         for the consumer's styles. Default "info".
     role        string   ARIA role. Default "alert".
                          Valid: "alert", "status", "log".
     label       string   Accessible name (aria-label).
@@ -25,6 +27,7 @@
 {%- macro alert(params) -%}
 <div
   class="alert{% if params.classes %} {{ params.classes }}{% endif %}"
+  data-type="{{ params.type | default('info') }}"
   aria-live="{{ 'polite' if params.role == 'status' else 'assertive' }}"
   aria-atomic="true"
   role="{{ params.role | default('alert') }}"

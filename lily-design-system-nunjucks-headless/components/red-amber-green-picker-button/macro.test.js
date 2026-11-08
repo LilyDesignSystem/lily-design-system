@@ -11,14 +11,14 @@ describe("red-amber-green-picker-button", () => {
         expect(el.getAttribute("role")).toBe("radio");
     });
 
-    it("sets data-status from params.status", () => {
+    it("sets data-value from params.status", () => {
         const { document } = render("red-amber-green-picker-button", {
             status: "green",
         });
         expect(
             document
                 .querySelector("button.red-amber-green-picker-button")
-                .getAttribute("data-status"),
+                .getAttribute("data-value"),
         ).toBe("green");
     });
 
