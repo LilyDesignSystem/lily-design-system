@@ -25,7 +25,7 @@
 ## ARIA
 
 - The `<li>` keeps its listitem role, so the tour list counts its steps
-- `aria-label` -- provides an accessible name, optionally including "Step N of M"
+- `aria-label` -- the accessible name: `label`, or the consumer's `stepTemplate` filled in (e.g. "{label} (Step {step} of {total})")
 - `data-current` -- indicates the currently active step
 - `aria-hidden="true"` -- hides inactive steps from assistive technology
 - `hidden` -- hides inactive steps from visual rendering
@@ -36,14 +36,15 @@
 
 ## Props
 
-| Prop           | Type            | Default    | Description                                             |
-| -------------- | --------------- | ---------- | ------------------------------------------------------- |
-| `label`        | `string`        | (required) | Accessible name for this step via `aria-label`          |
-| `current`      | `boolean`       | `false`    | Whether this step is the currently visible step         |
-| `stepNumber`   | `number`        | (optional) | 1-based step number (e.g. 1, 2, 3)                      |
-| `totalSteps`   | `number`        | (optional) | Total number of steps in the tour                       |
-| `children`     | `slot`          | (required) | Step content                                            |
-| `...restProps` | HTML attributes |            | Additional attributes spread onto the container `<div>` |
+| Prop           | Type            | Default    | Description                                                                                                   |
+| -------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------- |
+| `label`        | `string`        | (required) | Accessible name for this step via `aria-label`                                                                |
+| `current`      | `boolean`       | `false`    | Whether this step is the currently visible step                                                               |
+| `stepNumber`   | `number`        | (optional) | 1-based step number (e.g. 1, 2, 3)                                                                            |
+| `totalSteps`   | `number`        | (optional) | Total number of steps in the tour                                                                             |
+| `stepTemplate` | `string`        | (optional) | With both numbers, the step's whole name: `{label}`, `{step}` and `{total}` are filled in. No English default |
+| `children`     | `slot`          | (required) | Step content                                                                                                  |
+| `...restProps` | HTML attributes |            | Additional attributes spread onto the container `<div>`                                                       |
 
 ## Acceptance Criteria
 

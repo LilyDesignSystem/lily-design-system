@@ -12,6 +12,8 @@
 //   multiple — boolean, default false. Whether to allow selecting multiple files.
 //   disabled — boolean, default false. Whether the button is disabled.
 //   onInputChange — (files: FileList | null) => void, default undefined. Callback when files are selected.
+//   selectedLabel — (count: number) => string, optional. The status for a count of files, in the consumer's words;
+//     plural forms are the consumer's. Without it the status stays empty: no English default.
 //   ...restProps — additional HTML attributes spread onto the outer <div>.
 //
 // Syntax:
@@ -61,6 +63,8 @@ export interface FileUploadProps {
     disabled?: boolean;
     /** Callback with selected files. */
     onInputChange?: (files: FileList | null) => void;
+    /** The status for a count of files; plural forms are the consumer's. */
+    selectedLabel?: (count: number) => string;
     [key: string]: unknown;
 }
 
@@ -71,6 +75,7 @@ export default function FileUpload({
     multiple = false,
     disabled = false,
     onInputChange = undefined,
+    selectedLabel = undefined,
     ...restProps
 }: FileUploadProps) {
     const inputRef = useRef<HTMLInputElement>(null);
@@ -117,11 +122,7 @@ export default function FileUpload({
                 aria-live="polite"
                 data-file-count={fileCount}
             >
-                {fileCount > 0 && (
-                    <>
-                        {fileCount} {fileCount === 1 ? "file" : "files"} selected
-                    </>
-                )}
+                {fileCount > 0 && selectedLabel ? selectedLabel(fileCount) : null}
             </span>
         </div>
     );

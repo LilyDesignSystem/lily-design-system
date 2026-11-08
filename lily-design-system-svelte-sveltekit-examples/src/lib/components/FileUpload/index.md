@@ -10,7 +10,7 @@ A button-triggered file picker for uploading files. Wraps a hidden `<input type=
 
 - Renders a `<div>` containing a `<button type="button">`, a hidden `<input type="file">`, and a polite status `<span>`.
 - Clicks on the button invoke `inputRef.click()` to open the native picker.
-- Tracks selection count via `$state()` and renders "N files selected".
+- Tracks selection count via `$state()` (`data-file-count`) and renders the consumer's `selectedLabel(count)` in the live region; without it the region stays empty.
 - Calls `onchange` with the resulting `FileList`.
 
 ## When to use it
@@ -124,7 +124,7 @@ Provide an accessible `label` (also used as button text) and a handler.
 - `aria-label` on the trigger button.
 - `aria-live="polite"` status announces file-count changes.
 - `data-file-count` attribute is exposed for CSS or testing.
-- The status text ("file" / "files selected") is currently hard-coded in English; if you need full localisation, wrap the component or provide your own live region.
+- The status text is the consumer's: pass `selectedLabel`, for example ``(n) => (n === 1 ? "1 file selected" : `${n} files selected`)``, using `Intl.PluralRules` for languages with more plural forms.
 
 ## Related components
 
