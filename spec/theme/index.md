@@ -324,11 +324,16 @@ way for file-tree items and a picker's keyboard cursor, so neither had a ring; i
 `e2e/focus-visible.spec.ts` focuses a file-tree item under each of the 63 themes alone, and a picker's cursor in the app, and
 fails on a missing or thinner outline.
 
-`bin/check-theme --contrast` reports the ring against `--color-base-100` and `--color-base-200` at 3:1, report only. 27 of
-126 pairs miss it, in 14 themes: `acid`, `black`, `bumblebee`, `business`, `cmyk`, `cupcake`, `cyberpunk`, `emerald`,
-`garden`, `pastel`, `retro`, `wireframe` and the two NHS Wales themes. Their primary colour, which the ring takes, is too
-close to the page; NHS Wales's yellow ring is 1.2:1 on white around a control that is not a button or link. Fixing them changes
-a theme's identity, so it is a decision, not a gate.
+`bin/check-theme --contrast --gate`, in `bin/test`, fails when the ring is below 3:1 against `--color-base-100` or
+`--color-base-200`, or when the theme's `--lily-focus-ring-inner` is, if it has one. When the gate arrived (2026-11-08, P22-T10a),
+27 of 126 pairs missed it, in 14 themes, and each was fixed. In the 12 general-purpose themes (`acid`, `black`, `bumblebee`,
+`business`, `cmyk`, `cupcake`, `cyberpunk`, `emerald`, `garden`, `pastel`, `retro`, `wireframe`), the primary, which the ring
+takes, was too close to the page. The ring is now the primary mixed toward `--color-base-content`, keeping as much primary as
+still reaches 3:1, from 45% (`retro`) to 90% (`acid`, `garden`). The two NHS Wales themes keep DHCW's yellow ring, 1.2:1 on
+white, and draw a 2px dark line inside it, `box-shadow: inset 0 0 0 2px var(--lily-focus-ring-inner)`, as GOV.UK draws a focused
+input; the dark line carries the contrast, and buttons and links keep DHCW's yellow block. `bin/check-theme` rule 16 fails an
+`outline` given a colour alone, and the Nunjucks app's `e2e/focus-visible.spec.ts` focuses an input under each theme and
+checks the ring, and the inner line where a theme has one.
 
 ## Forbidden in the headless layer
 

@@ -79,8 +79,10 @@ Every theme draws keyboard focus the same way: `outline: 2px solid var(--lily-fo
 `:focus-visible`, and `--lily-focus-ring` defaults to the primary colour. NHS Wales follows DHCW: 3px, no offset, and a
 yellow block with a dark bar for buttons and links. Under `forced-colors: active` the ring is `3px solid Highlight`. Never
 write the outline shorthand with a colour alone (`outline: var(--lily-focus-ring)`): it resets the style to `none` and
-draws nothing. The ring meets WCAG 2.4.7 and the 2px of 2.4.13; its 3:1 against the page (1.4.11) is reported by
-`bin/check-theme --contrast`, not gated, because some themes miss it. Details: [spec/theme](../spec/theme/index.md#focus-ring-contract-2026-11-07-tasksmd-p22-t10).
+draws nothing. The ring meets WCAG 2.4.7 and the 2px of 2.4.13, and 3:1 against the page (1.4.11), which `bin/test` gates with
+`bin/check-theme --contrast --gate`. A theme whose primary is too pale mixes the ring toward `--color-base-content`;
+a theme bound to an upstream colour that cannot reach it draws a dark inner line, `--lily-focus-ring-inner` (NHS Wales).
+`bin/check-theme` rule 16 fails an `outline` given a colour alone. Details: [spec/theme](../spec/theme/index.md#focus-ring-contract-2026-11-07-tasksmd-p22-t10).
 
 ### Forbidden in the headless layer
 
