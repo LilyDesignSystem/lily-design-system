@@ -12,6 +12,8 @@ It reads each headless catalog's shipped component source, comments removed, and
           English interface word
   plural  a `=== 1 ? "word"` switch: plural logic in English
   markup  an interface word in markup text next to an interpolation, such as `{count} selected`
+  template  a plain string holding a {placeholder} and an English interface word: a template default such as
+          "{count} of {max} characters", which `bin/check-worldwide` misses because it starts with a brace
 
 The word list is short and deliberate: words a component would put in a label or status ("of", "selected",
 "files", "step", "remaining", …). A word inside a class name, an id or a CSS property is not counted.
@@ -90,6 +92,10 @@ def findings():
             for whole, text in literals:
                 if not class_string(whole) and UI.search(text):
                     hits.append(("string", UI.search(text).group(0)))
+            for m in re.finditer(r"""(["'])((?:(?!\1).)*\{[a-z][A-Za-z]*\}(?:(?!\1).)*)\1""", code):
+                text = re.sub(r"\{[A-Za-z]+\}", " ", m.group(2))
+                if "${" not in m.group(2) and UI.search(text):
+                    hits.append(("template", UI.search(text).group(0)))
             for m in re.finditer(r'[!=]==?\s*1\s*\?\s*["\']([A-Za-z]+)', code):
                 hits.append(("plural", m.group(1)))
             if catalog in MARKUP:
