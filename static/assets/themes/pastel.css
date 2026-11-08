@@ -198,7 +198,9 @@
         /* --- Focus ring ---------------------------------------------------- */
         /* Outline colour for `:focus-visible`. Always the primary brand
            colour so focus is visually tied to interactive intent. */
-        --lily-focus-ring: var(--color-primary);
+        /* The primary alone is too close to the page for a visible ring (WCAG 1.4.11 asks 3:1), so it is
+           mixed toward the text colour until it reaches 3:1 on base-100 and base-200 (tasks.md P22-T10a). */
+        --lily-focus-ring: color-mix(in oklch, var(--color-primary) 65%, var(--color-base-content));
 
         /* --- Radii --------------------------------------------------------- */
         /* Three tiers of corner rounding. `sm` for chips/badges,
