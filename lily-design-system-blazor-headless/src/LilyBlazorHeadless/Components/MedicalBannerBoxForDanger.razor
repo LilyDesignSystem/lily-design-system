@@ -5,7 +5,7 @@
     a medical record banner box for danger information e.g. reactions, warnings, alarms, etc.
 *@
 
-<div class="@($"medical-banner-box-for-danger {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"medical-banner-box-for-danger {CssClass}".Trim())" data-type="danger" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

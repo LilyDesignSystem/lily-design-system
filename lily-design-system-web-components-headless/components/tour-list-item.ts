@@ -10,12 +10,13 @@
 //
 // Attributes:
 //   label — REQUIRED. Accessible name for this step; combined with
-//     step-number/total-steps (when both given) into "label (Step N of M)".
+//     step-template (with step-number and total-steps), {label}, {step} and {total} filled in; no English default.
 //   current — presence-based boolean, default false. When absent, the step
 //     is hidden from layout (`hidden`) and from assistive technology
 //     (aria-hidden="true").
 //   step-number — optional. 1-based step number.
 //   total-steps — optional. Total number of steps in the tour.
+//   step-template — optional. The step's whole name, e.g. "{label} (Step {step} of {total})".
 //   ...rest — spread onto the <li>.
 //
 // References:
@@ -25,7 +26,7 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["label", "current", "step-number", "total-steps"]);
+const HANDLED = new Set(["label", "current", "step-number", "total-steps", "step-template"]);
 
 export class TourListItem extends HTMLElement {
     connectedCallback(): void {
@@ -37,9 +38,13 @@ export class TourListItem extends HTMLElement {
         const label = this.getAttribute("label") ?? "";
         const stepNumber = this.getAttribute("step-number");
         const totalSteps = this.getAttribute("total-steps");
+        const template = this.getAttribute("step-template");
         const fullLabel =
-            stepNumber !== null && totalSteps !== null
-                ? `${label} (Step ${stepNumber} of ${totalSteps})`
+            template && stepNumber !== null && totalSteps !== null
+                ? template
+                      .replace("{label}", label)
+                      .replace("{step}", stepNumber)
+                      .replace("{total}", totalSteps)
                 : label;
         li.setAttribute("aria-label", fullLabel);
 

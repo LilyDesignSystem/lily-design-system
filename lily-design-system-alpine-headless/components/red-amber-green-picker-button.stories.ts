@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<button\n  class="red-amber-green-picker-button"\n  role="radio" aria-checked="false"\n  aria-label=""\n>\n  <!-- Consumer provides button content -->\n</button>';
+    '<button\n  class="red-amber-green-picker-button"\n  data-value="green"\n  role="radio" aria-checked="false"\n  aria-label=""\n>\n  <!-- Consumer provides button content -->\n</button>';
 
 const meta = {
     title: "Headless/Red Amber Green Picker Button",

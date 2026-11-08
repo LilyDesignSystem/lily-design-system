@@ -16,8 +16,8 @@ afterEach(() => {
 
 const LIST =
     '<ol class="tour-list" aria-label="Getting started">' +
-    '<lily-tour-list-item label="Welcome" current step-number="1" total-steps="2"><p>Welcome to the app!</p></lily-tour-list-item>' +
-    '<lily-tour-list-item label="Features" step-number="2" total-steps="2"><p>Here are the features.</p></lily-tour-list-item>' +
+    '<lily-tour-list-item label="Welcome" current step-number="1" total-steps="2" step-template="{label} (Step {step} of {total})"><p>Welcome to the app!</p></lily-tour-list-item>' +
+    '<lily-tour-list-item label="Features" step-number="2" total-steps="2" step-template="{label} (Step {step} of {total})"><p>Here are the features.</p></lily-tour-list-item>' +
     "</ol>";
 
 function renderList(): HTMLElement {
@@ -51,7 +51,7 @@ describe("TourListItem (upgrade in place)", () => {
         }
     });
 
-    test("aria-label combines label with step progress when both are given", () => {
+    test("aria-label fills in the consumer's step-template with the label and both numbers", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.tour-list-item"));
@@ -70,6 +70,13 @@ describe("TourListItem (upgrade in place)", () => {
         expect(items[1]!.hasAttribute("data-current")).toBe(false);
         expect(items[1]!.getAttribute("aria-hidden")).toBe("true");
         expect(items[1]!.hidden).toBe(true);
+    });
+
+    test("without step-template the name is the label alone: no English", () => {
+        document.body.innerHTML =
+            '<ol><lily-tour-list-item label="Welcome" current step-number="1" total-steps="2">Y</lily-tour-list-item></ol>';
+
+        expect(document.querySelector("li")!.getAttribute("aria-label")).toBe("Welcome");
     });
 
     test("moves the host's children into the <li>", () => {

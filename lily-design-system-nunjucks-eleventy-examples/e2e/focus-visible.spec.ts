@@ -36,6 +36,29 @@ for (const slug of themes) {
     });
 }
 
+// A focused input under each theme alone: a ring of at least 2px, and in a theme whose ring colour is too faint on the
+// page, the dark inner line (--lily-focus-ring-inner) that carries the contrast (tasks.md P22-T10a).
+for (const slug of themes) {
+    test(`${slug}: a focused input has a visible ring`, async ({ page }) => {
+        const css = readFileSync(path.join(here, "..", "..", "themes", `${slug}.css`), "utf8");
+        await page.setContent(
+            `<style>${css}</style><input class="text-input" aria-label="Name" />`,
+        );
+        await page.keyboard.press("Tab");
+        const s = await page.evaluate(() => {
+            const c = getComputedStyle(document.activeElement as Element);
+            return {
+                style: c.outlineStyle,
+                width: parseFloat(c.outlineWidth),
+                shadow: c.boxShadow,
+            };
+        });
+        expect(s.style).not.toBe("none");
+        expect(s.width).toBeGreaterThanOrEqual(2);
+        if (css.includes("--lily-focus-ring-inner:")) expect(s.shadow).toContain("inset");
+    });
+}
+
 test("a picker's keyboard cursor has a visible outline", async ({ page }) => {
     await useTheme(page, "abyss");
     await page.goto("/components/file-tree/");

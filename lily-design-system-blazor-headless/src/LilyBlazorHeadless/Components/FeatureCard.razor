@@ -5,11 +5,13 @@
     a large content card with a prominent image positioned alongside or above the text
 *@
 
-<article class="@($"feature-card {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>
+<article class="@($"feature-card {CssClass}".Trim())" data-image-position="@ImagePosition" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</article>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>As data-image-position, as in Svelte.</summary>
+    [Parameter] public string ImagePosition { get; set; } = "start";
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

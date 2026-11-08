@@ -12,7 +12,7 @@
 //   label — REQUIRED. Accessible name for the textarea, via aria-label.
 //   value — initial value; also exposed as a live `value` property.
 //   max-length — REQUIRED. Maximum number of characters allowed.
-//   counter-template — default "{count} of {max} characters". `{count}`
+//   counter-template — default "{count} / {max}", the numbers alone: no English. `{count}`
 //     and `{max}` are replaced with the actual values.
 //   rows — optional. Number of visible text rows.
 //   placeholder — optional.
@@ -28,7 +28,7 @@ export class TextAreaInputWithCharacterCounter extends HTMLElement {
     #built = false;
     #textarea: HTMLTextAreaElement | null = null;
     #counter: HTMLSpanElement | null = null;
-    #template = "{count} of {max} characters";
+    #template = "{count} / {max}";
     #maxLength = 0;
 
     connectedCallback(): void {

@@ -4,12 +4,12 @@ A single step within a `TourList` guided tour, rendered as an `<li>` of its list
 
 ## What it is
 
-`TourListItem` is a headless Svelte 5 component representing one step of a guided walkthrough. It renders a `<li>` with group-step ARIA semantics, hides itself unless it is the currently active step, and composes a progress-aware accessible label when `stepNumber` and `totalSteps` are supplied.
+`TourListItem` is a headless Svelte 5 component representing one step of a guided walkthrough. It renders a `<li>` with group-step ARIA semantics, hides itself unless it is the currently active step, and, given the consumer's `stepTemplate` with `stepNumber` and `totalSteps`, names the step with its progress.
 
 ## What it does
 
 - Renders `<li class="tour-list-item {className}">`.
-- Derives a `fullLabel` — `"{label} (Step N of M)"` when both `stepNumber` and `totalSteps` are provided, otherwise just `label` — and assigns it to `aria-label`.
+- Derives a `fullLabel` — the consumer's `stepTemplate` with `{label}`, `{step}` and `{total}` filled in, when it and both numbers are given, otherwise just `label` — and assigns it to `aria-label`. No English default.
 - Sets `data-current` when `current` is true.
 - Sets `aria-hidden="true"` and the HTML `hidden` attribute when `current` is false, so inactive steps are hidden for both sighted and assistive users.
 - Renders the `children` snippet as the step content.
@@ -30,7 +30,7 @@ A single step within a `TourList` guided tour, rendered as an `<li>` of its list
 
 ## How to use it
 
-Import and place inside `TourList` (possibly nested under a `Tour`). Pass a translated `label` and set `current` based on your external step index. Supply `stepNumber` and `totalSteps` for the "Step N of M" suffix in the accessible label.
+Import and place inside `TourList` (possibly nested under a `Tour`). Pass a translated `label` and set `current` based on your external step index. For progress in the accessible name, supply `stepNumber`, `totalSteps` and a translated `stepTemplate`, such as `"{label} (Step {step} of {total})"`.
 
 ## Props
 
@@ -39,6 +39,7 @@ Import and place inside `TourList` (possibly nested under a `Tour`). Pass a tran
 - `current` — boolean, default `false`. Whether this step is the currently visible step.
 - `stepNumber` — number, optional. 1-based step number.
 - `totalSteps` — number, optional. Total steps in the tour.
+- `stepTemplate` — string, optional. The step's whole name with `{label}`, `{step}` and `{total}`; without it the name is `label`.
 - `children` — Snippet, required. Step content.
 - `...restProps` — any additional HTML attributes spread onto the `<li>`.
 

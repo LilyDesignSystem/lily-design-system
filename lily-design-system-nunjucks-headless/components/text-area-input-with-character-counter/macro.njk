@@ -1,12 +1,14 @@
 {#
   TextAreaInputWithCharacterCounter macro — a multi-line text area plus a live
-    character counter showing "N of M characters".
+    character counter, by default the numbers alone ("5 / 200"): no English.
 
   HTML tag: <div> wrapping <textarea> + <output>
   CSS class: text-area-input-with-character-counter
 
   Params: id, name, value, maximum, rows (default 5), label, required,
     disabled, placeholder, classes, attributes.
+    counterTemplate: the counter's words in the page's language, {count} and {max} filled in.
+      Default "{count} / {max}".
 
   Usage:
     {% from "components/text-area-input-with-character-counter/macro.njk" import textAreaInputWithCharacterCounter %}
@@ -38,7 +40,7 @@
     aria-live="polite"
     for="{{ textAreaInputId }}-textarea"
     data-maximum="{{ p.maximum }}"
-  >{{ (p.value | default('')) | length }} of {{ p.maximum }} characters</output>
+  >{{ (p.counterTemplate | default("{count} / {max}")) | replace("{count}", (p.value | default('')) | length) | replace("{max}", p.maximum) }}</output>
   {%- endif %}
 </div>
 {%- endmacro -%}

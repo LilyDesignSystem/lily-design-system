@@ -62,6 +62,8 @@ describe("FileUpload", () => {
 
     test("selecting files updates the status span and dispatches lily-change", () => {
         const host = render('<lily-file-upload label="Upload files"></lily-file-upload>');
+        (host as HTMLElement & { selectedLabel: (n: number) => string }).selectedLabel = (n) =>
+            n === 1 ? "1 fichier choisi" : `${n} fichiers choisis`;
         const input = host.querySelector('input[type="file"]') as HTMLInputElement;
         const handler = vi.fn();
         host.addEventListener("lily-change", handler);
@@ -81,7 +83,7 @@ describe("FileUpload", () => {
 
         const status = host.querySelector('[aria-live="polite"]') as HTMLElement;
         expect(status.getAttribute("data-file-count")).toBe("1");
-        expect(status.textContent).toBe("1 file selected");
+        expect(status.textContent).toBe("1 fichier choisi");
         expect(handler).toHaveBeenCalledTimes(1);
     });
 

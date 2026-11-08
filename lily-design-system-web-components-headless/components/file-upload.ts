@@ -63,6 +63,9 @@ export class FileUpload extends HTMLElement {
         this.appendChild(status);
     }
 
+    // The status for a count of files, in the consumer's words; plural forms are theirs. No English default.
+    selectedLabel: ((count: number) => string) | null = null;
+
     #onClick = (): void => {
         this.#input?.click();
     };
@@ -73,7 +76,7 @@ export class FileUpload extends HTMLElement {
         const count = files?.length ?? 0;
         this.#status!.setAttribute("data-file-count", String(count));
         this.#status!.textContent =
-            count > 0 ? `${count} ${count === 1 ? "file" : "files"} selected` : "";
+            count > 0 && this.selectedLabel ? this.selectedLabel(count) : "";
         this.dispatchEvent(
             new CustomEvent("lily-change", { detail: { files }, bubbles: true, composed: true }),
         );

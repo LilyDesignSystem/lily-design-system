@@ -58,7 +58,9 @@ withDefaults(
 
 <template>
     <!-- RedAmberGreenView.vue -->
-    <span class="red-amber-green-view"
+    <span
+        class="red-amber-green-view"
+        :data-value="value || undefined"
         ><span
             v-if="label"
             class="screen-reader-span"

@@ -9,23 +9,26 @@ describe("care-card", () => {
         expect(el.getAttribute("role")).toBe("region");
     });
 
-    it("defaults data-urgency to 'non-urgent'", () => {
+    it("defaults data-type to 'non-urgent'", () => {
         const { document } = render("care-card", { text: "x" });
-        expect(document.querySelector("div.care-card").getAttribute("data-urgency")).toBe(
+        expect(document.querySelector("div.care-card").getAttribute("data-type")).toBe(
             "non-urgent",
         );
     });
 
-    it("respects a custom urgency", () => {
+    it("takes type, and still the old urgency", () => {
+        expect(
+            render("care-card", { text: "x", type: "urgent" })
+                .document.querySelector("div.care-card")
+                .getAttribute("data-type"),
+        ).toBe("urgent");
         const { document } = render("care-card", { text: "x", urgency: "urgent" });
-        expect(document.querySelector("div.care-card").getAttribute("data-urgency")).toBe("urgent");
+        expect(document.querySelector("div.care-card").getAttribute("data-type")).toBe("urgent");
     });
 
-    it("accepts emergency urgency", () => {
+    it("maps the old emergency urgency to immediate", () => {
         const { document } = render("care-card", { text: "x", urgency: "emergency" });
-        expect(document.querySelector("div.care-card").getAttribute("data-urgency")).toBe(
-            "emergency",
-        );
+        expect(document.querySelector("div.care-card").getAttribute("data-type")).toBe("immediate");
     });
 
     it("renders the heading at level 3 by default", () => {

@@ -62,6 +62,7 @@ export default function RedAmberGreenView({
     return (
         <span
             className={`red-amber-green-view ${className}`}
+            data-value={value || undefined}
             {...restProps}
         >
             {label ? <span className="screen-reader-span">{`${label} `}</span> : null}

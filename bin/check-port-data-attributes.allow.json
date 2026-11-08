@@ -1,0 +1,18 @@
+{
+  "alpine:affix:data-offset-bottom": "A state the static snippet does not show: Svelte renders data-offset-bottom only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "alpine:breadcrumb-list-item:data-current": "A state the static snippet does not show: Svelte renders data-current only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "alpine:contents-link:data-complete": "A state the static snippet does not show: Svelte renders data-complete only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "alpine:five-star-rating-view:data-filled": "A state the static snippet does not show: Svelte renders data-filled only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "alpine:middle-truncation:data-truncated": "A state the static snippet does not show: Svelte renders data-truncated only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "alpine:section-list-item:data-current": "A state the static snippet does not show: Svelte renders data-current only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "alpine:status-tag:data-type": "the prop's name and values are undecided: tone in the contract, type in Svelte (tasks.md P22-T32)",
+  "alpine:step-list-item:data-current": "A state the static snippet does not show: Svelte renders data-current only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "alpine:task-list-item:data-disabled": "A state the static snippet does not show: Svelte renders data-disabled only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "blazor:status-tag:data-type": "the prop's name and values are undecided: tone in the contract, type in Svelte (tasks.md P22-T32)",
+  "html:breadcrumb-list-item:data-current": "A state the static snippet does not show: Svelte renders data-current only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "html:character-counter:data-over-limit": "A state the static snippet does not show: Svelte renders data-over-limit only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "html:five-star-rating-view:data-filled": "A state the static snippet does not show: Svelte renders data-filled only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "html:section-list-item:data-current": "A state the static snippet does not show: Svelte renders data-current only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "html:status-tag:data-type": "the prop's name and values are undecided: tone in the contract, type in Svelte (tasks.md P22-T32)",
+  "html:task-list-item:data-disabled": "A state the static snippet does not show: Svelte renders data-disabled only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there"
+}

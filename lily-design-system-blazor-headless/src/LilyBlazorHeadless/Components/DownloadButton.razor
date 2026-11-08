@@ -5,12 +5,16 @@
     a download link styled as a button, with optional file size and format metadata
 *@
 
-<a class="@($"download-button {CssClass}".Trim())" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Label)))</a>
+<a class="@($"download-button {CssClass}".Trim())" data-file-size="@FileSize" data-file-format="@FileFormat" href="@Href" aria-label="@Label" @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Label)))</a>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter, EditorRequired] public string Href { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>As data-file-format, as in Svelte.</summary>
+    [Parameter] public string? FileFormat { get; set; }
+    /// <summary>As data-file-size, as in Svelte.</summary>
+    [Parameter] public string? FileSize { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

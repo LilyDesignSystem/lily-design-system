@@ -3,8 +3,8 @@
 
   HTML tag: <div role="note">
   CSS class: care-card
-  Data attribute: data-urgency on the root; one of
-    "non-urgent" | "urgent" | "emergency". Default "non-urgent".
+  Data attribute: data-type on the root, as in every catalog; one of
+    "non-urgent" | "urgent" | "immediate". Default "non-urgent".
   Accessibility:
     - role="note" marks the callout as ancillary content.
     - A visually-hidden prefix announces the urgency level to screen
@@ -12,8 +12,10 @@
     - params.label overrides the accessible name when necessary.
 
   Params:
-    urgency            string  "non-urgent" | "urgent" | "emergency".
+    type               string  "non-urgent" | "urgent" | "immediate".
                                Default "non-urgent".
+    urgency            string  The old name for type, still accepted;
+                               "emergency" means "immediate".
     heading            string  Visible heading text.
     headingLevel       number  Heading level 2–6. Default 3.
     screenReaderPrefix string  Visually-hidden prefix before heading.
@@ -28,19 +30,20 @@
   Usage:
     {% from "components/care-card/macro.njk" import careCard %}
     {{ careCard({
-      urgency: "urgent",
+      type: "urgent",
       heading: "Ask for an urgent GP appointment",
       screenReaderPrefix: "Urgent advice:",
       text: "You need an appointment within 24 hours."
     }) }}
 #}
 {%- macro careCard(params) -%}
-{%- set urgency = params.urgency | default("non-urgent") -%}
+{%- set urgency = params.type | default(params.urgency) | default("non-urgent") -%}
+{%- if urgency == "emergency" %}{% set urgency = "immediate" %}{% endif -%}
 {%- set level = params.headingLevel | default(3) -%}
 <div
   class="care-card{% if params.classes %} {{ params.classes }}{% endif %}"
   role="region"
-  data-urgency="{{ urgency }}"
+  data-type="{{ urgency }}"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
   {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

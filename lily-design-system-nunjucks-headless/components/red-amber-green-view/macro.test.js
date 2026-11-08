@@ -2,18 +2,18 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("red-amber-green-view", () => {
-    it("renders a <span> with the base class and default data-status", () => {
+    it("renders a <span> with the base class and default data-value", () => {
         const { document } = render("red-amber-green-view", {});
         const el = document.querySelector("span.red-amber-green-view");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("data-status")).toBe("unknown");
+        expect(el.getAttribute("data-value")).toBe("unknown");
     });
 
-    it("sets data-status from params.status", () => {
+    it("sets data-value from params.status", () => {
         const { document } = render("red-amber-green-view", { status: "amber" });
-        expect(
-            document.querySelector("span.red-amber-green-view").getAttribute("data-status"),
-        ).toBe("amber");
+        expect(document.querySelector("span.red-amber-green-view").getAttribute("data-value")).toBe(
+            "amber",
+        );
     });
 
     it("has no English of its own", () => {

@@ -16,6 +16,7 @@
 
   Body content: BannerBox children or arbitrary content via caller().
 
+    type: "info" | "success" | "warning" | "error", as data-type. Default "info".
   Usage:
     {% from "components/banner/macro.njk" import banner %}
     {% call banner({ id: "example", label: "Example" }) %}…{% endcall %}
@@ -25,6 +26,7 @@
 {%- set hasName = p.label or p.labelledBy -%}
 <div
   class="banner{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-type="{{ p.type | default('info') }}"
   aria-live="polite"
   {%- if hasName %} role="region"
     {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"

@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, input, output, signal } from "@angu
  * FileUpload — a drag-and-drop area for uploading files
  *
  * Headless Angular component: the button clicks a hidden file input. The status is the consumer's words, from
- * `selectedLabel`: the Svelte component's English "files selected" is not ported. Ships zero CSS.
+ * `selectedLabel`, as in Svelte; no English default. Ships zero CSS.
  */
 @Component({
     selector: "lily-file-upload",

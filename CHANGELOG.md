@@ -14,6 +14,34 @@ highlights.
 - **Fixed:** `bin/check-class-names`, `bin/check-html-tags`, `bin/check-port-parity`, `bin/check-port-logic` and `bin/check-worldwide` no longer treat code as a comment when a line comment contains `/*` (such as `accept="image/*"`). `bin/check-port-logic` now compares 10 more Svelte props.
 - **Fixed:** Angular `file-input` takes `accept` and `multiple`, as Svelte does; the check had not seen them.
 
+## Components build no English around a value — 2026-11-08
+
+- **Fixed:** `tour-list-item` in Svelte, React, Vue and Web Components no longer names a step `"{label} (Step N of M)"` in English. Pass `stepTemplate` (`step-template`), such as `"{label} (Step {step} of {total})"` in the page's language, as Angular and Blazor already did; without it the name is `label`.
+- **Fixed:** `text-area-input-with-character-counter` no longer defaults to English (`"{count} of {max} characters"`) in Svelte, React, Vue, Web Components, HTML and Nunjucks: the default is `"{count} / {max}"`, and Nunjucks takes `counterTemplate`. Pass your own words as `counterTemplate`.
+- **Added:** `bin/check-built-english`, in `bin/test`, fails when a headless component builds English around a value.
+- **Fixed:** `file-upload` in Svelte, React, Vue and Web Components no longer announces `"N file(s) selected"` in English. Pass `selectedLabel(count)`, with plural forms in the consumer's language, as Angular and Blazor already did; without it the live region stays empty. Consumers that relied on the English text must now pass these props.
+
+## Ports render Svelte's data-* state — 2026-11-08
+
+- **Fixed:** 70 `data-*` attributes Svelte renders were missing from a port, so a theme or consumer CSS reading them saw nothing: the fixed ones on `do-list-item`, `dont-list-item` and the `medical-banner-box` family, the HTML and Alpine snippets' state attributes, and Nunjucks and Blazor props.
+- **Added:** Nunjucks `badge`, `banner` and `medical-banner` take `type`; `beach-ball` `active`; `field` `required`; `file-upload` `fileCount`; `task-list-item` `checked` and `disabled`. Blazor gains `Badge.Type`, `BeachBall.Active`, `Current` on the breadcrumb, section and step list items, `StepList.Current`, `FeatureCard.ImagePosition`, `FlexStack.Direction`, `InfoState.Level`, `Masonry.Columns`, `DownloadButton.FileFormat` and `FileSize`, and `Affix.OffsetTop` and `OffsetBottom`.
+- **Fixed:** the Nunjucks `character-counter` no longer writes English ("12 of 200 characters"): it shows `12 / 200`, as Svelte does, or the consumer's `text`, and renders the count, limit and over-limit state.
+- **Fixed:** Blazor `CharacterCounter`, `FiveStarRatingView`, `FiveFaceRatingView`, `Watermark` and `ContainerWithFluidWidth` were stubs that rendered only their content; they now take Svelte's parameters (`Count` and `Max`, `Value`, `Labels`, `Text`, `ImageUrl`, `Gap`, `Rotate`, `PaddingInline`) and render what Svelte renders. Content passed to them still wins.
+- **Added:** `bin/check-port-data-attributes`, in `bin/test`, fails when a port lacks a `data-*` attribute Svelte renders, unless listed with a reason.
+
+## Theme colours that reach their components — 2026-11-08
+
+- **Fixed:** the themes coloured `alert`, `care-card`, `status-light`, `red-amber-green-view` and `red-amber-green-picker-button` through `data-*` attributes no catalog rendered (`data-severity`, `data-urgency`, `data-status`), so none of those colours applied. All 63 themes now use what the components render: `data-type`, `data-variant` and `data-value`.
+- **Added:** Blazor `alert` and `care-card` take `Type`, `status-light` takes `Variant`, `red-amber-green-view` takes `Value`; Nunjucks `alert` and `care-card` take `type`; `red-amber-green-view` renders `data-value` in every catalog.
+- **Changed:** Nunjucks `care-card` renders `data-type` (`immediate`, not `emergency`) and the Nunjucks RAG macros render `data-value`; `urgency` and `status` still work as params.
+- **Added:** `bin/check-theme` rule 17 fails a theme selector on an attribute no component or helper renders.
+
+## Every focus ring reaches 3:1 — 2026-11-08
+
+- **Changed:** in `acid`, `black`, `bumblebee`, `business`, `cmyk`, `cupcake`, `cyberpunk`, `emerald`, `garden`, `pastel`, `retro` and `wireframe`, the focus ring is the primary mixed toward the text colour, because the primary alone was too close to the page to see (as low as 1.25:1). Every ring now reaches 3:1 on both page surfaces (WCAG 1.4.11).
+- **Changed:** the two NHS Wales themes keep DHCW's yellow ring and draw a 2px dark line inside it, as GOV.UK draws a focused input: the yellow alone was 1.2:1 on white. Buttons and links keep the yellow block.
+- **Added:** `bin/test` fails when a theme's focus ring is below 3:1 (`bin/check-theme --contrast --gate`), or when an `outline` is given a colour alone (rule 16).
+
 ## Focus rings that draw — 2026-11-07
 
 - **Fixed:** in all 63 themes a focused file-tree item and a picker's keyboard cursor had no ring: `outline: var(--lily-focus-ring)` names a colour alone, which resets the outline style to `none`. Both are `2px solid` now.

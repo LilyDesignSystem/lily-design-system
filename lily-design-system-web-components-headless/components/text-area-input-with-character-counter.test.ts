@@ -48,7 +48,7 @@ describe("TextAreaInputWithCharacterCounter", () => {
         const counterId = textarea.getAttribute("aria-describedby")!;
         const counter = host.querySelector(`#${counterId}`) as HTMLSpanElement;
         expect(counter.getAttribute("aria-live")).toBe("polite");
-        expect(counter.textContent).toBe("0 of 500 characters");
+        expect(counter.textContent).toBe("0 / 500");
     });
 
     test("counter updates reactively as the user types", () => {
@@ -63,7 +63,7 @@ describe("TextAreaInputWithCharacterCounter", () => {
         textarea.value = "Hello";
         textarea.dispatchEvent(new Event("input", { bubbles: true }));
 
-        expect(counter.textContent).toBe("5 of 500 characters");
+        expect(counter.textContent).toBe("5 / 500");
     });
 
     test("honours a custom counter-template", () => {
@@ -86,7 +86,7 @@ describe("TextAreaInputWithCharacterCounter", () => {
         expect(host.value).toBe("abcd");
         const textarea = host.querySelector("textarea") as HTMLTextAreaElement;
         const counterId = textarea.getAttribute("aria-describedby")!;
-        expect(host.querySelector(`#${counterId}`)!.textContent).toBe("4 of 500 characters");
+        expect(host.querySelector(`#${counterId}`)!.textContent).toBe("4 / 500");
     });
 
     test("required and disabled propagate to the textarea", () => {

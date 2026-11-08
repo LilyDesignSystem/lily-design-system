@@ -199,7 +199,9 @@
         /* --- Focus ring ---------------------------------------------------- */
         /* Outline colour for `:focus-visible`. Always the primary brand
            colour so focus is visually tied to interactive intent. */
-        --lily-focus-ring: var(--color-primary);
+        /* The primary alone is too close to the page for a visible ring (WCAG 1.4.11 asks 3:1), so it is
+           mixed toward the text colour until it reaches 3:1 on base-100 and base-200 (tasks.md P22-T10a). */
+        --lily-focus-ring: color-mix(in oklch, var(--color-primary) 65%, var(--color-base-content));
 
         /* --- Radii --------------------------------------------------------- */
         /* Three tiers of corner rounding. `sm` for chips/badges,
@@ -1294,12 +1296,6 @@
     }
 
     /* --- Gantt specifics ---------------------------------------------------- */
-    /* Cells marked as bars are filled with the primary colour to render the
-       schedule bar inline within the grid. */
-    :where(.gantt-table-td[data-state="bar"]) {
-        background-color: var(--color-primary);
-    }
-
     /* Weekend, holiday and time-off shading (Gantt chart and calendar). A weekend
        is tinted; a day marked as a holiday or time off (data-unavailable /
        data-range) is striped as well, so no day is told apart by colour alone;
@@ -1360,17 +1356,17 @@
             var(--lily-surface)
         );
     }
-    /* Care card urgency variants — coloured left rail (urgent/non-urgent/
-       primary). Pattern adapted from the NHS care-card guidance. */
-    :where(.care-card[data-urgency="urgent"]) {
+    /* Care card types — coloured left rail (non-urgent, urgent, immediate), on the
+       data-type the component renders. Pattern adapted from the NHS care-card guidance. */
+    :where(.care-card[data-type="urgent"]) {
         border-color: var(--color-error);
         border-left-width: 0.375rem;
     }
-    :where(.care-card[data-urgency="non-urgent"]) {
+    :where(.care-card[data-type="non-urgent"]) {
         border-color: var(--color-info);
         border-left-width: 0.375rem;
     }
-    :where(.care-card[data-urgency="primary"]) {
+    :where(.care-card[data-type="immediate"]) {
         border-color: var(--color-primary);
         border-left-width: 0.375rem;
     }
@@ -1411,7 +1407,7 @@
 
     /* Severity variants — rail + faint background tint. */
     :where(
-        .alert[data-severity="info"],
+        .alert[data-type="info"],
         .information-callout,
         .announcement-banner
     ) {
@@ -1422,7 +1418,7 @@
             var(--lily-surface)
         );
     }
-    :where(.alert[data-severity="success"]) {
+    :where(.alert[data-type="success"]) {
         border-inline-start-color: var(--color-success);
         background-color: color-mix(
             in oklch,
@@ -1430,7 +1426,7 @@
             var(--lily-surface)
         );
     }
-    :where(.alert[data-severity="warning"], .warning-callout, .phase-banner) {
+    :where(.alert[data-type="warning"], .warning-callout, .phase-banner) {
         border-inline-start-color: var(--color-warning);
         background-color: color-mix(
             in oklch,
@@ -1439,7 +1435,7 @@
         );
     }
     :where(
-        .alert[data-severity="error"],
+        .alert[data-type="error"],
         .error-message,
         .error-summary,
         .super-banner
@@ -2127,16 +2123,16 @@
         border-radius: 50%;
         background-color: var(--color-neutral);
     }
-    :where(.status-light[data-status="success"])::before {
+    :where(.status-light[data-variant="positive"])::before {
         background-color: var(--color-success);
     }
-    :where(.status-light[data-status="warning"])::before {
+    :where(.status-light[data-variant="notice"])::before {
         background-color: var(--color-warning);
     }
-    :where(.status-light[data-status="error"])::before {
+    :where(.status-light[data-variant="negative"])::before {
         background-color: var(--color-error);
     }
-    :where(.status-light[data-status="info"])::before {
+    :where(.status-light[data-variant="informative"])::before {
         background-color: var(--color-info);
     }
 
@@ -2195,22 +2191,22 @@
     }
     /* RAG (red/amber/green) — semantic colour per status. */
     :where(
-        .red-amber-green-view[data-status="red"],
-        .red-amber-green-picker-button[data-status="red"]
+        .red-amber-green-view[data-value="red"],
+        .red-amber-green-picker-button[data-value="red"]
     ) {
         background-color: var(--color-error);
         color: var(--color-error-content);
     }
     :where(
-        .red-amber-green-view[data-status="amber"],
-        .red-amber-green-picker-button[data-status="amber"]
+        .red-amber-green-view[data-value="amber"],
+        .red-amber-green-picker-button[data-value="amber"]
     ) {
         background-color: var(--color-warning);
         color: var(--color-warning-content);
     }
     :where(
-        .red-amber-green-view[data-status="green"],
-        .red-amber-green-picker-button[data-status="green"]
+        .red-amber-green-view[data-value="green"],
+        .red-amber-green-picker-button[data-value="green"]
     ) {
         background-color: var(--color-success);
         color: var(--color-success-content);

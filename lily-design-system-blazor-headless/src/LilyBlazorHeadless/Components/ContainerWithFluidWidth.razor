@@ -3,11 +3,16 @@
 @*
     ContainerWithFluidWidth component
     a full-width content wrapper with horizontal padding
+
+    Parameters, as in Svelte:
+        PaddingInline — string, default "1rem". The inline padding, as data-padding-inline and in the inline style
+            (width: 100%; padding-inline), which is structural, as in Svelte.
 *@
 
-<div class="@($"container-with-fluid-width {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"container-with-fluid-width {CssClass}".Trim())" data-padding-inline="@PaddingInline" style="@($"width: 100%; padding-inline: {PaddingInline};")" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
+    [Parameter] public string PaddingInline { get; set; } = "1rem";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

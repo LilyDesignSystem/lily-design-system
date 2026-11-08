@@ -34,4 +34,11 @@ public class CareCardTests : TestContext
         var root = cut.Find(".care-card");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Renders_Type_as_data_type_for_the_themes()
+    {
+        Assert.Equal("non-urgent", RenderComponent<CareCard>().Find(".care-card").GetAttribute("data-type"));
+        Assert.Equal("immediate", RenderComponent<CareCard>(p => p.Add(x => x.Type, "immediate")).Find(".care-card").GetAttribute("data-type"));
+    }
 }

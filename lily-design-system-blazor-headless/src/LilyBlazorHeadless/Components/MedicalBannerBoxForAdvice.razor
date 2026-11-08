@@ -5,7 +5,7 @@
     a medical record banner box for advice information e.g. contacts, contexts, plans, etc.
 *@
 
-<div class="@($"medical-banner-box-for-advice {CssClass}".Trim())" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"medical-banner-box-for-advice {CssClass}".Trim())" data-type="advice" role="region" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

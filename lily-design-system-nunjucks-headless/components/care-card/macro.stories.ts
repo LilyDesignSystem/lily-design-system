@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/html-vite";
 const html = `<div
   class="care-card"
   role="note"
-  data-urgency="non-urgent">  <div class="care-card-body">  </div>
+  data-type="non-urgent">  <div class="care-card-body">  </div>
 </div>`;
 
 const meta = {
