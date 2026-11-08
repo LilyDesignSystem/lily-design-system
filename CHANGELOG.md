@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Every focus ring reaches 3:1 — 2026-11-08
+
+- **Changed:** in `acid`, `black`, `bumblebee`, `business`, `cmyk`, `cupcake`, `cyberpunk`, `emerald`, `garden`, `pastel`, `retro` and `wireframe`, the focus ring is the primary mixed toward the text colour, because the primary alone was too close to the page to see (as low as 1.25:1). Every ring now reaches 3:1 on both page surfaces (WCAG 1.4.11).
+- **Changed:** the two NHS Wales themes keep DHCW's yellow ring and draw a 2px dark line inside it, as GOV.UK draws a focused input: the yellow alone was 1.2:1 on white. Buttons and links keep the yellow block.
+- **Added:** `bin/test` fails when a theme's focus ring is below 3:1 (`bin/check-theme --contrast --gate`), or when an `outline` is given a colour alone (rule 16).
+
 ## Focus rings that draw — 2026-11-07
 
 - **Fixed:** in all 63 themes a focused file-tree item and a picker's keyboard cursor had no ring: `outline: var(--lily-focus-ring)` names a colour alone, which resets the outline style to `none`. Both are `2px solid` now.
