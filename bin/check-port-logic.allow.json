@@ -9,8 +9,5 @@
   "angular prop splitter.onChange": "The `value` model emits `valueChange`.",
   "angular prop tree-select.onSelect": "The Angular output is `selectionChange`; `select` would shadow the native event.",
   "angular prop tool-call.summary": "Projected as `[toolCallSummary]`: a `[summary]` selector would read as the native <summary>.",
-  "angular prop wheel-picker.onChange": "The `value` model emits `valueChange`.",
-  "angular prop description-list-item.label": "Svelte declares it and renders nothing: the prop is dead there, not missing here.",
-  "angular prop document-list-item.label": "Svelte declares it and renders nothing: the prop is dead there, not missing here.",
-  "angular prop section-list-item.label": "Svelte declares it and renders nothing: the prop is dead there, not missing here."
+  "angular prop wheel-picker.onChange": "The `value` model emits `valueChange`."
 }

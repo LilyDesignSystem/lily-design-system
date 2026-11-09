@@ -5,7 +5,6 @@ import DescriptionListItem from "./DescriptionListItem.vue";
 describe("DescriptionListItem", () => {
     it("renders with class", () => {
         const { container } = render(DescriptionListItem, {
-            props: { label: "Test" },
             slots: { default: "content" },
         });
         const el = container.querySelector(".description-list-item");

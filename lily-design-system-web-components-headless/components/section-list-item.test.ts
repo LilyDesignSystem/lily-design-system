@@ -17,7 +17,7 @@ afterEach(() => {
 const LIST =
     '<ul class="section-list" aria-label="Sections">' +
     '<lily-section-list-item><a href="/section/1">Overview</a></lily-section-list-item>' +
-    '<lily-section-list-item label="Pricing section"><a href="/section/2">Pricing</a></lily-section-list-item>' +
+    '<lily-section-list-item current><a href="/section/2">Pricing</a></lily-section-list-item>' +
     '<lily-section-list-item><a href="/section/3">FAQ</a></lily-section-list-item>' +
     "</ul>";
 
@@ -42,15 +42,14 @@ describe("SectionListItem (upgrade in place)", () => {
         expect(tags).toEqual(["LI", "LI", "LI"]);
     });
 
-    test("aria-label is rendered only when label is provided", () => {
+    test("current becomes data-current, and no aria-label is rendered", () => {
         renderList();
 
         const items = Array.from(document.querySelectorAll("li.section-list-item"));
-        expect(items.map((li) => li.getAttribute("aria-label"))).toEqual([
-            null,
-            "Pricing section",
-            null,
-        ]);
+        expect(items.map((li) => li.getAttribute("data-current"))).toEqual([null, "", null]);
+        expect(
+            items.some((li) => li.hasAttribute("aria-label") || li.hasAttribute("current")),
+        ).toBe(false);
     });
 
     test("moves the host's children into the <li>", () => {

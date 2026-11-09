@@ -12,9 +12,9 @@
 
 ## Key Behaviors
 
-- Renders a `<div>` wrapping a `<dt>` (term) and a `<dd>` (description) so each item is a single styling unit while preserving native list semantics
+- Renders a `<div>` around the consumer's `<dt>` (term) and `<dd>` (description) so each item is a single styling unit while preserving native list semantics
 - Per HTML5, wrapping `<dt>`/`<dd>` pairs in a `<div>` inside `<dl>` is valid
-- Term and description text come through props or slots
+- The consumer supplies the `<dt>` and `<dd>` as children; the component builds neither and takes no `label` (a `<div>` is generic, and ARIA does not allow naming one)
 - Spreads `restProps` onto the root `<div>`
 
 ## ARIA
@@ -27,9 +27,7 @@
 
 ## Props
 
-- `term`: string (required) (default: —) — Term shown in the `<dt>`
-- `description`: string (default: —) — Description shown in the `<dd>` (when no children slot)
-- `children`: slot (default: —) — Custom description content (overrides `description`)
+- `children`: slot (required) (default: —) — The `<dt>` and `<dd>` elements
 - `...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`
 
 ## Acceptance Criteria

@@ -6,27 +6,25 @@ One key-value pair in a description list using dt and dd elements.
 
 ## Implementation Notes
 
-- Renders a `<div>` wrapping a `<dt>` (term) and a `<dd>` (description) so each item is a single styling unit while preserving native list semantics
+- Renders a `<div>` around the consumer's `<dt>` (term) and `<dd>` (description) so each item is a single styling unit while preserving native list semantics
 - Per HTML5, wrapping `<dt>`/`<dd>` pairs in a `<div>` inside `<dl>` is valid
-- Term and description text come through props or slots
+- The consumer supplies the `<dt>` and `<dd>` as children; the component builds neither and takes no `label` (a `<div>` is generic, and ARIA does not allow naming one)
 - Spreads `restProps` onto the root `<div>`
 
 ## Props
 
-| Prop           | Type              | Default | Description                                             |
-| -------------- | ----------------- | ------- | ------------------------------------------------------- |
-| `term`         | string (required) | —       | Term shown in the `<dt>`                                |
-| `description`  | string            | —       | Description shown in the `<dd>` (when no children slot) |
-| `children`     | slot              | —       | Custom description content (overrides `description`)    |
-| `...restProps` | HTML attributes   | —       | Spread onto the root `<div>`                            |
+| Prop           | Type            | Default | Description                    |
+| -------------- | --------------- | ------- | ------------------------------ |
+| `children`     | slot (required) | —       | The `<dt>` and `<dd>` elements |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<div>`   |
 
 ## Usage
 
 ```html
-<DescriptionListItem
-  term="Email"
-  description="user@example.com"
-/>
+<DescriptionListItem>
+  <dt>Email</dt>
+  <dd>user@example.com</dd>
+</DescriptionListItem>
 ```
 
 ## Keyboard Interactions

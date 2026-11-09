@@ -34,4 +34,11 @@ public class DocumentListItemTests : TestContext
         var root = cut.Find(".document-list-item");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Renders_no_aria_label()
+    {
+        var cut = RenderComponent<DocumentListItem>(p => p.AddChildContent("<a href=\"/a\">A</a>"));
+        Assert.False(cut.Find(".document-list-item").HasAttribute("aria-label"));
+    }
 }

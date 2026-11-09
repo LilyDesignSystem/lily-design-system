@@ -6,7 +6,6 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, optional. Accepted but not rendered.
     //   current — boolean, default false. Sets an empty data-current attribute when true.
     //   children — Snippet, required. The content.
     //   ...restProps — additional HTML attributes spread onto the root <li>.
@@ -37,12 +36,10 @@
 
     let {
         class: className = "",
-        label = undefined,
         current = false,
         children,
         ...restProps
     }: {
-        label?: string;
         current?: boolean;
         children: Snippet;
         [key: string]: unknown;

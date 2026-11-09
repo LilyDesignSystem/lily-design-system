@@ -5,10 +5,9 @@
     one section navigation item
 *@
 
-<li class="@($"section-list-item {CssClass}".Trim())" data-current="@(Current ? "" : null)" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"section-list-item {CssClass}".Trim())" data-current="@(Current ? "" : null)" @attributes="AdditionalAttributes">@ChildContent</li>
 
 @code {
-    [Parameter] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     /// <summary>As data-current, as in Svelte.</summary>
     [Parameter] public bool Current { get; set; } = false;

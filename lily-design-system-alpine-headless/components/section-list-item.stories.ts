@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html =
-    '<li\n  class="section-list-item"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</li>';
+const html = '<li class="section-list-item">\n  <!-- Consumer provides content -->\n</li>';
 
 const meta = {
     title: "Headless/Section List Item",

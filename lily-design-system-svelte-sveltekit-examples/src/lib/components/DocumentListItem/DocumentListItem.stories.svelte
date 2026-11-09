@@ -14,7 +14,6 @@
 <Story
     name="Default"
     tags={["autodocs", "!dev"]}
-    args={{ label: "DocumentListItem" }}
 >
     <span>DocumentListItem</span>
 </Story>

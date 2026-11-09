@@ -14,12 +14,14 @@ description: one document entry in a document list
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;DocumentListItem
-  title="Annual report"
-  href="/annual.pdf"
-  type="PDF"
-  size="1.2 MB"
-  modified="14 January 2026"
-/&gt;
+<pre tabindex="0"><code>{% raw %}&lt;DocumentListItem&gt;
+  &lt;a
+    href="/annual.pdf"
+    download
+    &gt;Annual report&lt;/a
+  &gt;
+  &lt;span&gt;PDF&lt;/span&gt;
+  &lt;span&gt;1.2 MB&lt;/span&gt;
+&lt;/DocumentListItem&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

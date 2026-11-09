@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## List items carry no `label` — 2026-11-09
+
+- **Fixed:** `document-list-item` and `section-list-item` no longer render an `aria-label` on their `<li>` in React, Vue, Blazor, HTML, Web Components, Nunjucks and Alpine. A name on the list item replaced the link text a screen reader announces. Svelte, which is canonical, already rendered none; its `label` prop on these and `description-list-item`, which did nothing, is gone, as are the three `bin/check-port-logic.allow.json` entries for it.
+- **Added:** Vue and Web Components `section-list-item` take `current`, rendered as `data-current`, as the other catalogs do.
+- **Fixed:** the `description-list-item` and `document-list-item` contracts described props no catalog has (`term`/`description`; `title`, `href`, `type`, `size`, `modified`); they now describe the children every catalog takes. The docs site's `status-tag` page is rendered from its docs again, not from the old `tone` prose.
+
 ## `toggle-button` is a toggle button, not a switch — 2026-11-09
 
 - **Changed (breaking):** `toggle-button` renders a native `<button>` with `aria-pressed` and no `role`, the WAI-ARIA toggle button pattern, in Svelte, React, Vue, Angular, Blazor, HTML and Web Components, as Nunjucks and Alpine already did. It had `role="switch"` and `aria-checked`, the same as `switch-button`. Screen readers now announce "toggle button, pressed" instead of "switch, on"; consumer CSS or tests that select `.toggle-button[aria-checked]` or `[role="switch"]` must move to `[aria-pressed]`. The `pressed` prop is unchanged.

@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"document-list-item\" aria-label=\"one document entry in a document list\">DocumentListItem</div>";
   const svelteSource: string = "// In your Svelte component:\nimport DocumentListItem from \"lily-design-system-svelte-headless/components/DocumentListItem/DocumentListItem.svelte\";\n\n<DocumentListItem>\n  <!-- DocumentListItem content -->\n</DocumentListItem>\n";
-  const usageCode: string = "<DocumentListItem\n  title=\"Annual report\"\n  href=\"/annual.pdf\"\n  type=\"PDF\"\n  size=\"1.2 MB\"\n  modified=\"14 January 2026\"\n/>\n";
+  const usageCode: string = "<DocumentListItem>\n  <a\n    href=\"/annual.pdf\"\n    download\n    >Annual report</a\n  >\n  <span>PDF</span>\n  <span>1.2 MB</span>\n</DocumentListItem>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -78,7 +78,7 @@
       <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
       <li>HTML tag: &lt;li&gt;</li>
       <li>CSS class: .document-list-item</li>
-      <li>Interactive: yes</li>
+      <li>Interactive: no</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
@@ -88,15 +88,11 @@
     <h3>Keyboard</h3>
     <ul>
       <li>Tab moves focus onto the document link</li>
-      <li>Enter activates the link to download the document (native browser behaviour)</li>
+      <li>Enter activates the link (native browser behaviour)</li>
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>title</code>: string (required) (default: —) — Document title (link text)</li>
-      <li><code>href</code>: string (required) (default: —) — Document URL</li>
-      <li><code>type</code>: string (default: —) — File type label, e.g. <code>"PDF"</code>, <code>"DOCX"</code></li>
-      <li><code>size</code>: string (default: —) — File size, e.g. <code>"1.2 MB"</code></li>
-      <li><code>modified</code>: string (default: —) — Last-modified date string</li>
+      <li><code>children</code>: slot (required) (default: —) — The document link and its details</li>
       <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;li&gt;</code></li>
     </ul>
 </section>

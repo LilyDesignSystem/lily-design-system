@@ -34,4 +34,11 @@ public class SectionListItemTests : TestContext
         var root = cut.Find(".section-list-item");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Renders_no_aria_label()
+    {
+        var cut = RenderComponent<SectionListItem>(p => p.AddChildContent("<a href=\"/a\">A</a>"));
+        Assert.False(cut.Find(".section-list-item").HasAttribute("aria-label"));
+    }
 }

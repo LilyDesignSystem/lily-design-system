@@ -3,20 +3,27 @@ import { render } from "../../test/render.js";
 
 describe("document-list-item", () => {
     it("renders a <li> with the base class", () => {
-        const { document } = render("document-list-item", { label: "Test", text: "Content" });
+        const { document } = render("document-list-item", { text: "Content" });
         const el = document.querySelector(".document-list-item");
         expect(el).toBeTruthy();
     });
 
     it("appends params.classes to the root element", () => {
-        const { document } = render("document-list-item", { label: "Test", classes: "extra" });
+        const { document } = render("document-list-item", { classes: "extra" });
         const el = document.querySelector(".document-list-item.extra");
         expect(el).toBeTruthy();
     });
 
     it("contains no <style> or <script> tags", () => {
-        const { html } = render("document-list-item", { label: "Test" });
+        const { html } = render("document-list-item", {});
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
+    });
+
+    it("never sets aria-label", () => {
+        const { document } = render("document-list-item", { label: "Ignored" }, "x");
+        expect(document.querySelector(".document-list-item").hasAttribute("aria-label")).toBe(
+            false,
+        );
     });
 });

@@ -15,9 +15,7 @@
     "No keyboard interactions"
   ],
   "props": [
-    "`term`: string (required) (default: —) — Term shown in the `<dt>`",
-    "`description`: string (default: —) — Description shown in the `<dd>` (when no children slot)",
-    "`children`: slot (default: —) — Custom description content (overrides `description`)",
+    "`children`: slot (required) (default: —) — The `<dt>` and `<dd>` elements",
     "`...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`"
   ],
   "related": [
