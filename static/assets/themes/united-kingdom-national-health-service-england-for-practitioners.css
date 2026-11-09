@@ -820,10 +820,7 @@
         background-color: var(--lily-surface-sunken);
         border-radius: 999px;
     }
-    :where(
-        .switch-button[aria-pressed="true"],
-        .switch-button[aria-checked="true"]
-    ) {
+    :where(.switch-button[aria-checked="true"]) {
         background-color: var(--color-primary);
     }
 

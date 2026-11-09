@@ -1,10 +1,10 @@
 # Toggle Button
 
-A ToggleButton is a UI/UX component that provides a binary on/off control using a button with `role="switch"`. It communicates its state through `aria-checked` and supports both click and keyboard (Space key) interaction. The pressed state is bindable for two-way data flow.
+A ToggleButton is a UI/UX component that provides a button that stays pressed until pressed again: a native `<button>` with `aria-pressed`, the WAI-ARIA toggle button pattern, announced as "toggle button, pressed" or "not pressed". It supports click and keyboard (Enter and Space) interaction, and the pressed state is bindable for two-way data flow.
 
 **Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
 
-ToggleButtons are commonly used for settings like dark mode, notifications, or feature flags where a user needs to switch between two states. While similar to SwitchInput, the ToggleButton component uses a `pressed` prop name rather than `checked`, providing a semantic distinction for use cases where "pressed/unpressed" better describes the interaction than "checked/unchecked".
+Use it for an action that stays on, such as Bold, Italic, Mute or Favourite, often in a toolbar. For a setting that turns on or off, such as dark mode or notifications, use SwitchButton, which has `role="switch"` and is announced as "on" or "off".
 
 ## Implementation Notes
 
@@ -13,7 +13,7 @@ ToggleButtons are commonly used for settings like dark mode, notifications, or f
 
 ## Help
 
-Use ToggleButton when you need a binary on/off control with button semantics. Common scenarios include dark mode toggles, mute controls, notification switches, and feature flags. For checkbox-style toggles, consider SwitchInput instead.
+Use ToggleButton for a pressed or unpressed action, such as Bold in a text toolbar, Mute in a call, or Favourite on an item. For a setting with immediate effect, such as dark mode, use SwitchButton; for a choice in a form, use a checkbox.
 
 ## Syntax
 
@@ -81,8 +81,8 @@ Feature flag control:
 
 ## ARIA
 
-- `role="switch"` -- identifies the element as a two-state toggle switch
-- `aria-checked={pressed}` -- communicates whether the toggle is currently on (`true`) or off (`false`)
+- No `role`: a native `<button>` with `aria-pressed` is announced as a toggle button (the WAI-ARIA toggle button pattern)
+- `aria-pressed={pressed}` -- communicates whether the button is pressed (`true`) or not (`false`)
 - `aria-label={label}` -- provides the accessible name for the toggle control
 
 ## When to Use
@@ -101,7 +101,7 @@ Feature flag control:
 
 ## Headless
 
-This headless component provides a `<button>` with `role="switch"`, `aria-checked`, and `aria-label` for accessible two-state toggle behavior. It handles Space key toggling with `preventDefault`. The consumer provides all visual styling, including pressed/unpressed states and any icons or labels.
+This headless component provides a native `<button>` with `aria-pressed` and `aria-label`, and no `role`, for accessible toggle button behavior. The consumer provides all visual styling, including pressed and unpressed states and any icons or labels.
 
 ## Styles
 
@@ -110,7 +110,7 @@ The consumer provides all CSS styling. The component renders with a `.toggle-but
 ## Testing
 
 - Verify the component renders a `<button>` element with class `toggle-button`
-- Verify role="switch"` -- identifies the element as a two-state toggle switch
+- Verify the `<button>` has `aria-pressed` and no `role`
 - Verify aria-label={label}` -- provides the accessible name for the toggle control
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
@@ -132,8 +132,8 @@ ToggleButton works as a standalone component or as a child of ToggleGroup. When 
 
 ## References
 
-- WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
-- WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch
+- WAI-ARIA Button Pattern (toggle button): https://www.w3.org/WAI/ARIA/apg/patterns/button/
+- aria-pressed: https://www.w3.org/TR/wai-aria-1.2/#aria-pressed
 
 ---
 
