@@ -1,7 +1,7 @@
 // ToggleButton component
 //
 // A button that toggles between pressed and unpressed states, reporting
-// state via the WAI-ARIA Switch pattern (role="switch" + aria-checked)
+// state via the WAI-ARIA toggle button pattern (a native button with aria-pressed)
 // rather than aria-pressed, matching every other framework's port.
 //
 // Attributes:
@@ -20,13 +20,13 @@
 // scrolling on Space, a real <button> already suppresses that natively.
 //
 // Accessibility:
-//   - role="switch" identifies a two-state toggle.
-//   - aria-checked communicates on/off.
+//   - A native <button>: no role; announced as a toggle button.
+//   - aria-pressed communicates pressed / not pressed.
 //   - aria-label is the entire accessible name.
 //
 // References:
 //   - components/toggle-button/index.md (canonical contract)
-//   - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
+//   - WAI-ARIA Button Pattern (toggle button): https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
@@ -45,7 +45,6 @@ export class ToggleButton extends HTMLElement {
         const button = document.createElement("button");
         button.type = "button";
         button.className = rootClassName(this, "toggle-button");
-        button.setAttribute("role", "switch");
         passThroughAttributes(this, button, HANDLED);
         button.addEventListener("click", this.#onClick);
 
@@ -64,7 +63,7 @@ export class ToggleButton extends HTMLElement {
         if (!button) return;
         const label = this.getAttribute("label");
         if (label !== null) button.setAttribute("aria-label", label);
-        button.setAttribute("aria-checked", this.hasAttribute("pressed") ? "true" : "false");
+        button.setAttribute("aria-pressed", this.hasAttribute("pressed") ? "true" : "false");
         button.disabled = this.hasAttribute("disabled");
     }
 

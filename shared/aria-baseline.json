@@ -2881,10 +2881,10 @@
     ]
   },
   "toggle-button": {
-    "role": "switch",
+    "role": null,
     "aria": [
-      "aria-checked",
-      "aria-label"
+      "aria-label",
+      "aria-pressed"
     ]
   },
   "toggle-group": {

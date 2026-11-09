@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `toggle-button` is a toggle button, not a switch — 2026-11-09
+
+- **Changed (breaking):** `toggle-button` renders a native `<button>` with `aria-pressed` and no `role`, the WAI-ARIA toggle button pattern, in Svelte, React, Vue, Angular, Blazor, HTML and Web Components, as Nunjucks and Alpine already did. It had `role="switch"` and `aria-checked`, the same as `switch-button`. Screen readers now announce "toggle button, pressed" instead of "switch, on"; consumer CSS or tests that select `.toggle-button[aria-checked]` or `[role="switch"]` must move to `[aria-pressed]`. The `pressed` prop is unchanged.
+- **Fixed:** the themes' unpressed look for `toggle-button`, which reads `aria-pressed`, now applies in every catalog.
+- **Removed:** the themes' `.switch-button[aria-pressed="true"]` selector, which matched nothing: `switch-button` keeps `role="switch"` and `aria-checked`, for on/off settings.
+
 ## Checks read code after a `/*` in a comment — 2026-11-08
 
 - **Fixed:** `bin/check-class-names`, `bin/check-html-tags`, `bin/check-port-parity`, `bin/check-port-logic` and `bin/check-worldwide` no longer treat code as a comment when a line comment contains `/*` (such as `accept="image/*"`). `bin/check-port-logic` now compares 10 more Svelte props.

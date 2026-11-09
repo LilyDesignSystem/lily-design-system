@@ -1,18 +1,18 @@
 # ToggleButton
 
-A toggle is a UI/UX component that provides a binary on/off control using a button with `role="switch"`. It communicates its state through `aria-checked` and supports both click and keyboard (Space key) interaction. The pressed state is bindable for two-way data flow.
+A toggle button is a UI/UX component that provides a button that stays pressed until pressed again: a native `<button>` with `aria-pressed`, the WAI-ARIA toggle button pattern, announced as "toggle button, pressed" or "not pressed". It supports click and keyboard (Enter and Space) interaction, and the pressed state is bindable for two-way data flow.
 
-Toggles are commonly used for settings like dark mode, notifications, or feature flags where a user needs to switch between two states. While similar to SwitchInput, the ToggleButton component uses a `pressed` prop name rather than `checked`, providing a semantic distinction for use cases where "pressed/unpressed" better describes the interaction than "checked/unchecked".
+Use it for an action that stays on, such as Bold, Italic, Mute or Favourite, often in a toolbar. For a setting that turns on or off, such as dark mode or notifications, use SwitchButton, which has `role="switch"` and is announced as "on" or "off".
 
 ## Implementation Notes
 
-- Renders a `<button type="button">` element with `role="switch"` for toggle semantics
+- Renders a `<button type="button">` element with `aria-pressed` for toggle button semantics (no `role`)
 - Uses `$bindable()` for the `pressed` prop enabling two-way data binding with `bind:pressed`
 - Click handler toggles `pressed` when not disabled
 - Custom `onkeydown` handler processes the Space key to toggle state, with `preventDefault()` to avoid scrolling
 - The `type="button"` prevents accidental form submission
 - Supports rest props via `...restProps` for extensibility (e.g., `id`, `class`)
-- Functionally similar to SwitchInput but uses `pressed` instead of `checked` for the state prop
+- Distinct from SwitchButton: this is a toggle button (`aria-pressed`), that is a switch (`role="switch"`)
 
 ## Props
 
@@ -45,11 +45,11 @@ Toggles are commonly used for settings like dark mode, notifications, or feature
 
 ## ARIA
 
-- `role="switch"` -- identifies the element as a two-state toggle switch
-- `aria-checked={pressed}` -- communicates whether the toggle is currently on (`true`) or off (`false`)
+- No `role`: a native `<button>` with `aria-pressed` is announced as a toggle button (the WAI-ARIA toggle button pattern)
+- `aria-pressed={pressed}` -- communicates whether the button is pressed (`true`) or not (`false`)
 - `aria-label={label}` -- provides the accessible name for the toggle control
 
 ## References
 
-- WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
-- WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch
+- WAI-ARIA Button Pattern (toggle button): https://www.w3.org/WAI/ARIA/apg/patterns/button/
+- aria-pressed: https://www.w3.org/TR/wai-aria-1.2/#aria-pressed

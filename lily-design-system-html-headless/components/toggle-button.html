@@ -5,14 +5,13 @@
   HTML tag: <button>
   CSS class: toggle-button
   Keyboard: Tab to focus, Space or Enter toggles (native button activation)
-  Accessibility: role="switch", aria-checked for the on/off state, aria-label for accessible name
+  Accessibility: a native button with aria-pressed for the state (the WAI-ARIA toggle button pattern), aria-label for accessible name
   Usage:
     <button
       class="toggle-button"
       type="button"
-      role="switch"
       aria-label=""
-      aria-checked="false"
+      aria-pressed="false"
     >
     </button>
 -->
@@ -20,21 +19,20 @@
 <button
   class="toggle-button"
   type="button"
-  role="switch"
   aria-label=""
-  aria-checked="false"
+  aria-pressed="false"
 >
   <!-- Consumer provides button content -->
 </button>
 
 <script>
   // ToggleButton behavior
-  (function() {
-    'use strict';
-    document.querySelectorAll('.toggle-button').forEach(function(el) {
-      el.addEventListener('click', function() {
+  (function () {
+    "use strict";
+    document.querySelectorAll(".toggle-button").forEach(function (el) {
+      el.addEventListener("click", function () {
         if (el.disabled) return;
-        el.setAttribute('aria-checked', String(el.getAttribute('aria-checked') !== 'true'));
+        el.setAttribute("aria-pressed", String(el.getAttribute("aria-pressed") !== "true"));
       });
     });
   })();

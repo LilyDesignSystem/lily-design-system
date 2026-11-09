@@ -16,25 +16,25 @@ function render(html: string): HTMLElement {
 }
 
 describe("ToggleButton", () => {
-    test("renders role=switch on a native button", () => {
+    test("renders a native button with no role: the toggle button pattern", () => {
         const host = render('<lily-toggle-button label="Notifications"></lily-toggle-button>');
 
         const button = host.querySelector("button") as HTMLButtonElement;
-        expect(button.getAttribute("role")).toBe("switch");
+        expect(button.getAttribute("role")).toBeNull();
     });
 
-    test("defaults aria-checked to false", () => {
+    test("defaults aria-pressed to false", () => {
         const host = render('<lily-toggle-button label="Notifications"></lily-toggle-button>');
 
-        expect(host.querySelector("button")!.getAttribute("aria-checked")).toBe("false");
+        expect(host.querySelector("button")!.getAttribute("aria-pressed")).toBe("false");
     });
 
-    test("reflects the pressed attribute as aria-checked=true", () => {
+    test("reflects the pressed attribute as aria-pressed=true", () => {
         const host = render(
             '<lily-toggle-button label="Notifications" pressed></lily-toggle-button>',
         );
 
-        expect(host.querySelector("button")!.getAttribute("aria-checked")).toBe("true");
+        expect(host.querySelector("button")!.getAttribute("aria-pressed")).toBe("true");
     });
 
     test("uses label as the accessible name", () => {
@@ -55,7 +55,7 @@ describe("ToggleButton", () => {
 
         expect(host.hasAttribute("pressed")).toBe(true);
         expect(detail).toEqual({ pressed: true });
-        expect(button.getAttribute("aria-checked")).toBe("true");
+        expect(button.getAttribute("aria-pressed")).toBe("true");
     });
 
     test("toggles back off on a second click", () => {
@@ -67,7 +67,7 @@ describe("ToggleButton", () => {
         button.click();
 
         expect(host.hasAttribute("pressed")).toBe(false);
-        expect(button.getAttribute("aria-checked")).toBe("false");
+        expect(button.getAttribute("aria-pressed")).toBe("false");
     });
 
     test("does not toggle when disabled", () => {
@@ -82,11 +82,11 @@ describe("ToggleButton", () => {
         expect(button.disabled).toBe(true);
     });
 
-    test("external toggleAttribute API updates aria-checked via attributeChangedCallback", () => {
+    test("external toggleAttribute API updates aria-pressed via attributeChangedCallback", () => {
         const host = render('<lily-toggle-button label="Notifications"></lily-toggle-button>');
 
         host.toggleAttribute("pressed", true);
 
-        expect(host.querySelector("button")!.getAttribute("aria-checked")).toBe("true");
+        expect(host.querySelector("button")!.getAttribute("aria-pressed")).toBe("true");
     });
 });

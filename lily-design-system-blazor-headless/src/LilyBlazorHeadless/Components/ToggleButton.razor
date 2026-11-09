@@ -4,7 +4,7 @@
     ToggleButton component
     a button that toggles between pressed and unpressed states
 
-    A native <button> with role="switch" and aria-checked. Enter and Space click it natively, so Space needs no key
+    A native <button> with aria-pressed, the WAI-ARIA toggle button pattern (SwitchButton is the role="switch" one). Enter and Space click it natively, so Space needs no key
     handler here (Svelte's handler stops the page scrolling, which a focused button does not do).
 
     Parameters:
@@ -14,7 +14,7 @@
         ChildContent, CssClass, AdditionalAttributes (spread onto the button).
 *@
 
-<button class="@($"toggle-button {CssClass}".Trim())" type="button" role="switch" aria-checked="@(Pressed ? "true" : "false")" aria-label="@Label" disabled="@Disabled" @onclick="ToggleAsync" @attributes="AdditionalAttributes">@ChildContent</button>
+<button class="@($"toggle-button {CssClass}".Trim())" type="button" aria-pressed="@(Pressed ? "true" : "false")" aria-label="@Label" disabled="@Disabled" @onclick="ToggleAsync" @attributes="AdditionalAttributes">@ChildContent</button>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
