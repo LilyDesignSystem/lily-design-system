@@ -4,7 +4,7 @@ A small inline label that names the current state of an item — "Completed", "I
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
-The component is intentionally a static label, not a live region: it renders a `<span>` with the status text inside and a `tone` prop that the consumer maps to colour. Crucially, the meaning is always carried by the visible text — colour is reinforcement, never the only indicator. WCAG 1.4.1 (Use of Colour) requires this for users who can't perceive colour.
+The component is intentionally a static label, not a live region: it renders a `<span>` with the status text inside and a `type` prop, rendered as `data-type`, that the theme or consumer CSS maps to colour. Crucially, the meaning is always carried by the visible text — colour is reinforcement, never the only indicator. WCAG 1.4.1 (Use of Colour) requires this for users who can't perceive colour.
 
 `StatusTag` does not announce changes. If the status updating during the user's session is meaningful (e.g. "Awaiting review" → "Approved"), wrap the tag in a `Notification` or `Alert` with `aria-live="polite"`, or use `Toast` for a transient announcement. Use `Badge` for counts, `Tag` for non-status keyword labels.
 
@@ -12,28 +12,27 @@ The component is intentionally a static label, not a live region: it renders a `
 
 - Renders a `<span>` with the status text inside
 - The semantics are conveyed by the visible text and (optionally) `label`, rendered as hidden text in a `screen-reader-span` because a `<span>` cannot take a name — colour alone is never the indicator
-- Accepts a `tone` prop (e.g. `"success"`, `"warning"`, `"danger"`, `"info"`) which the consumer can use to drive class-based styling
+- Accepts a `type` prop (`"default"`, `"info"`, `"success"`, `"warning"`, `"error"`), rendered as `data-type` for the theme or consumer CSS, as on `alert`, `badge` and `banner`
 - Spreads `restProps` onto the root `<span>`
 
 ## Props
 
-| Prop           | Type              | Default   | Description                   |
-| -------------- | ----------------- | --------- | ----------------------------- |
-| `label`        | string (required) | —         | Status text shown to users    |
-| `tone`         | "neutral"         | "success" | "warning"                     | "danger" | "info" | "neutral" | Tone hint used by consumers to drive styling |
-| `...restProps` | HTML attributes   | —         | Spread onto the root `<span>` |
+| Prop           | Type                                                               | Default     | Description                                                                     |
+| -------------- | ------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------- |
+| `type`         | `"default"` \| `"info"` \| `"success"` \| `"warning"` \| `"error"` | `"default"` | The status, rendered as `data-type`; the themes colour `.status-tag[data-type]` |
+| `label`        | string (optional)                                                  | —           | Hidden text read before the content, because a `<span>` cannot take a name      |
+| `children`     | slot (required)                                                    | —           | The visible status text                                                         |
+| `...restProps` | HTML attributes                                                    | —           | Spread onto the root `<span>`                                                   |
 
 ## Usage
 
 ```html
+<StatusTag type="success">Completed</StatusTag>
 <StatusTag
-  label="Completed"
-  tone="success"
-/>
-<StatusTag
-  label="Awaiting review"
-  tone="warning"
-/>
+  type="warning"
+  label="Status:"
+  >Awaiting review</StatusTag
+>
 ```
 
 ## Keyboard Interactions
