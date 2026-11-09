@@ -25,8 +25,8 @@ Implement the Toggle Button component: a button that toggles between pressed and
 ## Acceptance Criteria
 
 - [ ] Renders <button> with class="toggle-button"
-- [ ] `role="switch"` -- identifies the element as a two-state toggle switch
-- [ ] `aria-checked={pressed}` -- communicates whether the toggle is currently on (`true`) or off (`false`)
+- [ ] No `role`: a native `<button>` with `aria-pressed` is announced as a toggle button (the WAI-ARIA toggle button pattern)
+- [ ] `aria-pressed={pressed}` -- communicates whether the button is pressed (`true`) or not (`false`)
 - [ ] `aria-label={label}` -- provides the accessible name for the toggle control
 - [ ] Keyboard: Space: Toggles between on and off states (custom handler with `preventDefault`)
 - [ ] Keyboard: Enter: Activates the button (native button behavior)

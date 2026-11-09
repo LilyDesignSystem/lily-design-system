@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `toggle-button` is a toggle button, not a switch — 2026-11-09
+
+- **Changed (breaking):** `toggle-button` renders a native `<button>` with `aria-pressed` and no `role`, the WAI-ARIA toggle button pattern, in Svelte, React, Vue, Angular, Blazor, HTML and Web Components, as Nunjucks and Alpine already did. It had `role="switch"` and `aria-checked`, the same as `switch-button`. Screen readers now announce "toggle button, pressed" instead of "switch, on"; consumer CSS or tests that select `.toggle-button[aria-checked]` or `[role="switch"]` must move to `[aria-pressed]`. The `pressed` prop is unchanged.
+- **Fixed:** the themes' unpressed look for `toggle-button`, which reads `aria-pressed`, now applies in every catalog.
+- **Removed:** the themes' `.switch-button[aria-pressed="true"]` selector, which matched nothing: `switch-button` keeps `role="switch"` and `aria-checked`, for on/off settings.
+
 ## Status tags take `type`, and the themes colour them — 2026-11-09
 
 - **Fixed:** the 63 themes coloured `.status-tag[data-status]`, which no catalog rendered, so status tags were never coloured. They now colour `.status-tag[data-type]`, as on `alert`, `badge` and `banner`.

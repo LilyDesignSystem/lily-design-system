@@ -26,12 +26,12 @@ public class ToggleButtonTests : TestContext
         Assert.Equal("value", Make(p => p.AddUnmatched("data-test", "value")).Find("button.toggle-button").GetAttribute("data-test"));
 
     [Fact]
-    public void Is_a_switch_with_its_state_and_name()
+    public void Is_a_native_toggle_button_with_its_state_and_name()
     {
         var root = Make().Find("button");
         Assert.Equal("button", root.GetAttribute("type"));
-        Assert.Equal("switch", root.GetAttribute("role"));
-        Assert.Equal("false", root.GetAttribute("aria-checked"));
+        Assert.False(root.HasAttribute("role"));
+        Assert.Equal("false", root.GetAttribute("aria-pressed"));
         Assert.Equal("Mute", root.GetAttribute("aria-label"));
     }
 
@@ -42,10 +42,10 @@ public class ToggleButtonTests : TestContext
         var cut = Make(p => p.Add(x => x.PressedChanged, (bool v) => seen = v));
         cut.Find("button").Click();
         Assert.True(seen);
-        Assert.Equal("true", cut.Find("button").GetAttribute("aria-checked"));
+        Assert.Equal("true", cut.Find("button").GetAttribute("aria-pressed"));
         cut.Find("button").Click();
         Assert.False(seen);
-        Assert.Equal("false", cut.Find("button").GetAttribute("aria-checked"));
+        Assert.Equal("false", cut.Find("button").GetAttribute("aria-pressed"));
     }
 
     [Fact]
@@ -54,6 +54,6 @@ public class ToggleButtonTests : TestContext
         var cut = Make(p => p.Add(x => x.Disabled, true));
         Assert.True(cut.Find("button").HasAttribute("disabled"));
         cut.Find("button").Click();
-        Assert.Equal("false", cut.Find("button").GetAttribute("aria-checked"));
+        Assert.Equal("false", cut.Find("button").GetAttribute("aria-pressed"));
     }
 }

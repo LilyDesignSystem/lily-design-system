@@ -9,8 +9,8 @@
   "interactive": true,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`role=\"switch\"` -- identifies the element as a two-state toggle switch",
-    "`aria-checked={pressed}` -- communicates whether the toggle is currently on (`true`) or off (`false`)",
+    "No `role`: a native `<button>` with `aria-pressed` is announced as a toggle button (the WAI-ARIA toggle button pattern)",
+    "`aria-pressed={pressed}` -- communicates whether the button is pressed (`true`) or not (`false`)",
     "`aria-label={label}` -- provides the accessible name for the toggle control"
   ],
   "keyboard": [

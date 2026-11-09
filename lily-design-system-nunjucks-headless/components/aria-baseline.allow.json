@@ -35,7 +35,5 @@
   "red-orange-yellow-green-blue-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T18), and Svelte's aria-pressed would leave such a group with no radios.",
   "red-orange-yellow-green-blue-picker-button role": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T18), and Svelte's aria-pressed would leave such a group with no radios.",
   "tag-group role": "The contract and Svelte use a <div role=\"group\">; Nunjucks keeps a <ul role=\"list\"> of tags, which a screen reader counts (tasks.md P25-T7).",
-  "tile role": "A different shape: the Nunjucks tile is a link (<a href>), where Svelte renders a <div>, a group when labelled.",
-  "toggle-button aria-checked": "Open question (tasks.md P25-T7): Nunjucks keeps the APG toggle button, aria-pressed, for controls such as bold or mute; the contract and Svelte say role=\"switch\" with aria-checked.",
-  "toggle-button role": "Open question (tasks.md P25-T7): Nunjucks keeps the APG toggle button, aria-pressed, for controls such as bold or mute; the contract and Svelte say role=\"switch\" with aria-checked."
+  "tile role": "A different shape: the Nunjucks tile is a link (<a href>), where Svelte renders a <div>, a group when labelled."
 }

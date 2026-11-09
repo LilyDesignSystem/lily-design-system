@@ -46,24 +46,24 @@ describe("ToggleButton keyboard", function () {
         return browser.execute((s, n) => document.querySelector(s).getAttribute(n), selector, name);
     }
 
-    it("Space toggles aria-checked", async function () {
+    it("Space toggles aria-pressed", async function () {
         await load();
         await browser.execute(() => document.querySelector(".toggle-button").focus());
-        expect(await attr(".toggle-button", "aria-checked")).toBe("false");
+        expect(await attr(".toggle-button", "aria-pressed")).toBe("false");
         await browser.keys(" ");
-        expect(await attr(".toggle-button", "aria-checked")).toBe("true");
+        expect(await attr(".toggle-button", "aria-pressed")).toBe("true");
         await browser.keys(" ");
-        expect(await attr(".toggle-button", "aria-checked")).toBe("false");
+        expect(await attr(".toggle-button", "aria-pressed")).toBe("false");
     });
-    it("Enter toggles aria-checked", async function () {
+    it("Enter toggles aria-pressed", async function () {
         await load();
         await browser.execute(() => document.querySelector(".toggle-button").focus());
         await browser.keys("Enter");
-        expect(await attr(".toggle-button", "aria-checked")).toBe("true");
+        expect(await attr(".toggle-button", "aria-pressed")).toBe("true");
     });
-    it("has the switch role", async function () {
+    it("is a native button with no switch role", async function () {
         await load();
-        expect(await attr(".toggle-button", "role")).toBe("switch");
+        expect(await attr(".toggle-button", "role")).toBeNull();
     });
     it("a disabled control does not toggle", async function () {
         await load();
@@ -71,6 +71,6 @@ describe("ToggleButton keyboard", function () {
             document.querySelector(".toggle-button").setAttribute("disabled", ""),
         );
         await browser.execute(() => document.querySelector(".toggle-button").click());
-        expect(await attr(".toggle-button", "aria-checked")).toBe("false");
+        expect(await attr(".toggle-button", "aria-pressed")).toBe("false");
     });
 });

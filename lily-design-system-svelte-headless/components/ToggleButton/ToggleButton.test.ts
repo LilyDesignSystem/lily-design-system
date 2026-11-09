@@ -5,9 +5,10 @@ import { describe, expect, test } from "vitest";
 import Subject from "./ToggleButton.svelte";
 
 describe("ToggleButton", () => {
-    test("renders with switch role", () => {
+    test("renders a native button with no switch role: the toggle button pattern", () => {
         render(Subject, { props: { label: "Dark mode" } });
-        expect(screen.getByRole("switch")).toBeTruthy();
+        expect(screen.getByRole("button").getAttribute("role")).toBeNull();
+        expect(screen.queryByRole("switch")).toBeNull();
     });
 
     test("has aria-label", () => {
@@ -15,31 +16,31 @@ describe("ToggleButton", () => {
         expect(screen.getByLabelText("Dark mode")).toBeTruthy();
     });
 
-    test("has aria-checked false by default", () => {
+    test("has aria-pressed false by default", () => {
         render(Subject, { props: { label: "ToggleButton" } });
-        expect(screen.getByRole("switch").getAttribute("aria-checked")).toBe("false");
+        expect(screen.getByRole("button").getAttribute("aria-pressed")).toBe("false");
     });
 
     test("toggles on click", async () => {
         const user: UserEvent = userEvent.setup();
         render(Subject, { props: { label: "ToggleButton" } });
-        const btn = screen.getByRole("switch");
+        const btn = screen.getByRole("button");
         await user.click(btn);
-        expect(btn.getAttribute("aria-checked")).toBe("true");
+        expect(btn.getAttribute("aria-pressed")).toBe("true");
     });
 
     test("toggles on space key", async () => {
         const user: UserEvent = userEvent.setup();
         render(Subject, { props: { label: "ToggleButton" } });
-        const btn = screen.getByRole("switch");
+        const btn = screen.getByRole("button");
         btn.focus();
         await user.keyboard(" ");
-        expect(btn.getAttribute("aria-checked")).toBe("true");
+        expect(btn.getAttribute("aria-pressed")).toBe("true");
     });
 
     test("supports disabled", () => {
         render(Subject, { props: { label: "ToggleButton", disabled: true } });
-        expect((screen.getByRole("switch") as HTMLButtonElement).disabled).toBe(true);
+        expect((screen.getByRole("button") as HTMLButtonElement).disabled).toBe(true);
     });
 
     test("passes through attributes", () => {

@@ -22,7 +22,7 @@ A single button item inside a TaskBar that renders as a native `<button type="bu
 ## When not to use it
 
 - Don't use it to submit forms. Use `ButtonInput type="submit"` or the `SubmitInput` component instead.
-- Don't use it to toggle a two-state setting. Use `ToggleButton` (which uses `role="switch"`).
+- Don't use it to toggle a two-state setting. Use `SwitchButton` (`role="switch"`) for an on/off setting, or `ToggleButton` (`aria-pressed`) for an action that stays pressed.
 - Don't use it for navigation. Use an `<a>` element or a `*Link` component.
 - Don't use it outside of a `TaskBar` when you need toolbar grouping semantics.
 
