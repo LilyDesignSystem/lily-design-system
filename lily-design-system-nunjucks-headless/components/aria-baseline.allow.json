@@ -1,11 +1,8 @@
 {
-  "accordion-list aria-label": "The contract and Svelte disagree: the contract's root is an <ol> of the sections, which Nunjucks follows; Svelte renders a labelled <div role=\"group\"> (tasks.md P25-T7).",
-  "accordion-list role": "The contract and Svelte disagree: the contract's root is an <ol> of the sections, which Nunjucks follows; Svelte renders a labelled <div role=\"group\"> (tasks.md P25-T7).",
   "angle-slider-range-input aria-valuemax": "A root difference: Nunjucks wraps or uses a native control, which carries this itself.",
   "angle-slider-range-input aria-valuemin": "A root difference: Nunjucks wraps or uses a native control, which carries this itself.",
   "angle-slider-range-input aria-valuenow": "A root difference: Nunjucks wraps or uses a native control, which carries this itself.",
   "angle-slider-range-input aria-valuetext": "A root difference: Nunjucks wraps or uses a native control, which carries this itself.",
-  "call-to-action role": "A different shape: the Nunjucks macro is a labelled region holding a heading, text and the consumer's link, where Svelte renders the link or button itself (tasks.md P25-T7).",
   "color-picker aria-valuemax": "A deliberate structural difference: the Nunjucks pickers are a radiogroup of role=\"radio\" buttons, so aria-checked replaces Svelte's aria-pressed.",
   "color-picker aria-valuemin": "A deliberate structural difference: the Nunjucks pickers are a radiogroup of role=\"radio\" buttons, so aria-checked replaces Svelte's aria-pressed.",
   "color-picker aria-valuenow": "A deliberate structural difference: the Nunjucks pickers are a radiogroup of role=\"radio\" buttons, so aria-checked replaces Svelte's aria-pressed.",

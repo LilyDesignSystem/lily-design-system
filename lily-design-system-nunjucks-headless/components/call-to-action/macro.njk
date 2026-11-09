@@ -1,29 +1,42 @@
 {#
   CallToAction macro — a prominent prompt encouraging user action.
 
-  HTML tag: <div role="region">
+  HTML tag: <a> when params.href is given, else <button type="button">
   CSS class: call-to-action
 
-  Params: label (required accessible name), heading, text, html,
-    id, classes, attributes. Caller content is placed after heading/text.
+  Params:
+    href        string   Makes it a link.
+    label       string   aria-label, only when the visible text is not enough.
+    disabled    boolean  Button only: a link cannot be disabled.
+    text        string   Plain text content (escaped).
+    html        string   Raw HTML content (rendered via `| safe`).
+    id, classes, attributes
+  Body content: `caller()` when neither `html` nor `text` is given.
 
   Usage:
     {% from "components/call-to-action/macro.njk" import callToAction %}
-    {{ callToAction({ id: "example", label: "Example", heading: "Example" }) }}
+    {{ callToAction({ href: "/signup", text: "Sign up now" }) }}
 #}
 {%- macro callToAction(params) -%}
 {%- set p = params | default({}) -%}
-<div
+{%- set tag = "a" if p.href else "button" -%}
+{%- if p.href -%}
+<a
   class="call-to-action{% if p.classes %} {{ p.classes }}{% endif %}"
-  role="region"
-  {%- if p.label or p.heading %} aria-label="{{ p.label or p.heading }}"{% endif %}
+  href="{{ p.href }}"
+{%- else -%}
+<button
+  class="call-to-action{% if p.classes %} {{ p.classes }}{% endif %}"
+  type="button"
+  {%- if p.disabled %} disabled{% endif %}
+{%- endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  {%- if p.heading %}<h2 class="call-to-action-heading">{{ p.heading }}</h2>{% endif %}
-  {%- if p.text %}<p class="call-to-action-text">{{ p.text }}</p>{% endif %}
   {%- if p.html -%}{{ p.html | safe }}
+  {%- elif p.text -%}{{ p.text }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</div>
+</{{ tag }}>
 {%- endmacro -%}

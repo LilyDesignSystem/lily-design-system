@@ -5,7 +5,7 @@ import "./accordion-list.js";
 import { h } from "../stories/render.js";
 
 const SLOT =
-    "<details><summary>What is this?</summary><p>A design system.</p></details><details><summary>Is it free?</summary><p>Yes.</p></details>";
+    '<li class="accordion-list-item"><details><summary>What is this?</summary><p>A design system.</p></details></li><li class="accordion-list-item"><details><summary>Is it free?</summary><p>Yes.</p></details></li>';
 
 const meta: Meta = {
     title: "Lists/AccordionList",

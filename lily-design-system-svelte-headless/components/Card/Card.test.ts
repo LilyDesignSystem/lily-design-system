@@ -11,15 +11,16 @@ function textSnippet(text: string) {
 }
 
 describe("Card", () => {
-    test("renders as an article element", () => {
+    test("renders a div with no role when unlabelled", () => {
         render(Subject, {
             props: {
                 children: textSnippet("Card content"),
             },
         });
 
-        const article = screen.getByRole("article");
-        expect(article).toBeTruthy();
+        const article = document.querySelector(".card") as HTMLElement;
+        expect(article.tagName).toBe("DIV");
+        expect(article.hasAttribute("role")).toBe(false);
         expect(article.textContent).toContain("Card content");
     });
 
@@ -68,7 +69,7 @@ describe("Card", () => {
             },
         });
 
-        expect(screen.getByRole("article", { name: "Featured card" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Featured card" })).toBeTruthy();
     });
 
     test("passes through additional HTML attributes", () => {

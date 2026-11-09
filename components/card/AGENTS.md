@@ -12,17 +12,17 @@
 
 ## Key Behaviors
 
-- Uses `<article>` for semantic standalone content grouping
+- Renders a `<div>`: a card is not always a stand-alone item, and an `<article>` on every card in a list is noise for screen-reader users. Pass `role="article"` for a card that is one
 - Heading level is configurable (2-6) for proper document outline structure
 - When `href` is provided, the heading text wraps in an `<a>` element for navigation
-- Optional `aria-label` for named landmark identification
+- Optional `label` names the card, which then has `role="group"`; with no label the `<div>` is generic and unnamed
 - Content is provided through child elements
 - Passes through all additional HTML attributes via `...restProps`
 
 ## ARIA
 
-- Implicit `article` role from the `<article>` element
-- Optional `aria-label` -- identifies the card as a named landmark for screen readers
+- No role when unlabelled: a `<div>`
+- `role="group"` and `aria-label` when `label` is given -- names the card as a group, not a landmark
 
 ## Keyboard
 
@@ -34,9 +34,9 @@
 - `heading`: string (optional) -- heading text for the card
 - `headingLevel`: 2 | 3 | 4 | 5 | 6 (default: 3) -- HTML heading level
 - `href`: string (optional) -- makes the heading a link
-- `label`: string (optional) -- `aria-label` for the article
+- `label`: string (optional) -- names the card (`aria-label`, with `role="group"`)
 - `children`: slot (required) -- card body content
-- `...restProps`: Any additional HTML attributes passed to the `<article>` element
+- `...restProps`: Any additional HTML attributes passed to the root `<div>`
 
 ## Acceptance Criteria
 

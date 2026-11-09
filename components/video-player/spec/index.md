@@ -8,12 +8,12 @@ Implement the video-player component: video-player.
 
 ## HTML Tag and CSS Class
 
-- HTML tag: `<div>`
+- HTML tag: `<figure>`
 - CSS class: `.video-player`
 
 ## Approach
 
-1. Render `<div>` as the root element with `class="video-player"`
+1. Render `<figure>` as the root element with `class="video-player"`
 2. Wire ARIA attributes per the AGENTS.md ARIA section
 3. Wire keyboard behaviour per the AGENTS.md Keyboard section
 4. Spread `restProps` for consumer customization
@@ -22,7 +22,7 @@ Implement the video-player component: video-player.
 
 ## Acceptance Criteria
 
-- [ ] Renders `<div>` with class `video-player`
+- [ ] Renders `<figure>` with class `video-player`
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] All ARIA attributes documented in AGENTS.md are applied

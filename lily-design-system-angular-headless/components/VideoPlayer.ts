@@ -14,14 +14,14 @@ import { warnMissingName } from "./dev-warning";
 /**
  * VideoPlayer — a video player with play-in-view behavior, custom controls, and IntersectionObserver support
  *
- * Headless Angular component: the contract's `<div>` holding a native `<video>`. Project custom controls with the `controls`
- * attribute and a caption with the `caption` attribute. Autoplay means play while in view, and browsers block sound, so pair
+ * Headless Angular component: the contract's `<figure>` holding a native `<video>`. Project custom controls with the `controls`
+ * attribute and a caption with the `caption` attribute (`<figcaption caption>`). Autoplay means play while in view, and browsers block sound, so pair
  * it with `muted`. Ships zero CSS.
  */
 @Component({
     selector: "lily-video-player",
     standalone: true,
-    template: `<div class="video-player {{ className() }}" role="group" [attr.aria-label]="label() || null">
+    template: `<figure class="video-player {{ className() }}" [attr.aria-label]="label() || null">
         <video
             #video
             class="video-player-element"
@@ -34,7 +34,7 @@ import { warnMissingName } from "./dev-warning";
         ></video>
         <ng-content select="[controls]" />
         <ng-content select="[caption]" />
-    </div>`,
+    </figure>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoPlayer implements OnInit {

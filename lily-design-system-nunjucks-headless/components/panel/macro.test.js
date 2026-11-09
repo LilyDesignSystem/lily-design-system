@@ -6,18 +6,19 @@ describe("panel", () => {
         const { document } = render("panel", { text: "Body" });
         expect(document.querySelector("div.panel")).toBeTruthy();
         expect(document.querySelector("section.panel")).toBeNull();
+        expect(document.querySelector("div.panel").hasAttribute("role")).toBe(false);
     });
 
-    it("upgrades to <section> when a heading is provided", () => {
+    it("is a group named by its heading when a heading is provided", () => {
         const { document } = render("panel", {
             heading: "Contact",
             text: "Body",
             id: "p1",
         });
-        const sec = document.querySelector("section.panel");
-        expect(sec).toBeTruthy();
+        const sec = document.querySelector("div.panel");
+        expect(sec.getAttribute("role")).toBe("group");
         expect(sec.getAttribute("aria-labelledby")).toBe("p1-heading");
-        const h = document.querySelector("section.panel h2.panel-heading");
+        const h = document.querySelector("div.panel h2.panel-heading");
         expect(h).toBeTruthy();
         expect(h.getAttribute("id")).toBe("p1-heading");
         expect(h.textContent).toBe("Contact");
@@ -29,7 +30,7 @@ describe("panel", () => {
             headingLevel: 3,
             text: "y",
         });
-        expect(document.querySelector("section h3.panel-heading")).toBeTruthy();
+        expect(document.querySelector("div.panel h3.panel-heading")).toBeTruthy();
     });
 
     it("falls back to aria-label when only label is provided", () => {
@@ -37,7 +38,7 @@ describe("panel", () => {
             label: "Summary",
             text: "x",
         });
-        const sec = document.querySelector("section.panel");
+        const sec = document.querySelector("div.panel");
         expect(sec.getAttribute("aria-label")).toBe("Summary");
     });
 

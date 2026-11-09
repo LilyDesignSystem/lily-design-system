@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("div.video-player");
+const el = () => document.querySelector("figure.video-player");
 
 describe("VideoPlayer", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("VideoPlayer", () => {
         expect(el().classList.contains("video-player")).toBe(true);
     });
 
-    it("uses the div element", async () => {
+    it("uses the figure element", async () => {
         await mount("video-player");
-        expect(el().tagName.toLowerCase()).toBe("div");
+        expect(el().tagName.toLowerCase()).toBe("figure");
     });
 });

@@ -2,13 +2,16 @@
 <!-- CallToAction component (Alpine.js) -->
 <!--
   Description: a prominent prompt encouraging user action
-  HTML tag: <div>
+  HTML tag: <a when it navigates, else button type="button">
   CSS class: call-to-action
-  Keyboard: None (passive element)
-  Accessibility: none of its own
+  Keyboard: Tab focuses it; Enter activates (and Space, on the button)
+  Accessibility: native link or button; aria-label only when the text is not enough
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="call-to-action">
+<a
+  class="call-to-action"
+  href=""
+>
   <!-- Consumer provides content -->
-</div>
+</a>

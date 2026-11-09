@@ -4,9 +4,9 @@ import { describe, expect, test } from "vitest";
 import Subject from "./AccordionList.vue";
 
 describe("AccordionList", () => {
-    test("renders a group", () => {
+    test("renders an ordered list", () => {
         render(Subject, { slots: { default: "content" } });
-        expect(screen.getByRole("group")).toBeTruthy();
+        expect(screen.getByRole("list").tagName).toBe("OL");
     });
 
     test("has aria-label when provided", () => {
@@ -16,7 +16,7 @@ describe("AccordionList", () => {
 
     test("no aria-label when label is empty", () => {
         render(Subject, { slots: { default: "content" } });
-        expect(screen.getByRole("group").getAttribute("aria-label")).toBeNull();
+        expect(screen.getByRole("list").getAttribute("aria-label")).toBeNull();
     });
 
     test("renders children", () => {

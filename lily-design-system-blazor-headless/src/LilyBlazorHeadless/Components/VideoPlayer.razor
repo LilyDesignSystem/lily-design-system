@@ -7,7 +7,7 @@
     VideoPlayer component
     a video player with play-in-view
 
-    The contract's <div> holding a native <video>. Autoplay here means play while in view: it pauses when half of the
+    The contract's <figure> holding a native <video>. Autoplay here means play while in view: it pauses when half of the
     video leaves the viewport. Browsers block sound, so pair it with Muted. VideoPlayer.razor.js does this, and sets
     Muted on the element, where the attribute alone has no effect after the element is created.
 
@@ -19,7 +19,7 @@
         CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"video-player {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">
+<figure class="@($"video-player {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">
     <video class="video-player-element" src="@Src" poster="@Poster" muted="@Muted" loop="@Loop" controls="@Controls" playsinline @ref="_video"></video>
     @if (ChildContent is not null)
     {
@@ -27,9 +27,9 @@
     }
     @if (Caption is not null)
     {
-        <div class="video-player-caption">@Caption</div>
+        <figcaption class="video-player-caption">@Caption</figcaption>
     }
-</div>
+</figure>
 
 @code {
     [Parameter, EditorRequired] public string Src { get; set; } = "";

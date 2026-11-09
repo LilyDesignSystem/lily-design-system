@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("div.accordion-list");
+const el = () => document.querySelector("ol.accordion-list");
 
 describe("AccordionList", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("AccordionList", () => {
         expect(el().classList.contains("accordion-list")).toBe(true);
     });
 
-    it("uses the div element", async () => {
+    it("uses the ol element", async () => {
         await mount("accordion-list");
-        expect(el().tagName.toLowerCase()).toBe("div");
+        expect(el().tagName.toLowerCase()).toBe("ol");
     });
 });

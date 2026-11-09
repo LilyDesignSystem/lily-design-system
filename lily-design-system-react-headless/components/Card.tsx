@@ -1,7 +1,7 @@
 // Card component
 //
-// A headless card that groups related content into a self-contained semantic
-// <article> element. Supports a configurable heading level (h2-h6) for proper
+// A headless card that groups related content in a <div>, which has
+// role="group" when labelled. Supports a configurable heading level (h2-h6) for proper
 // document outline, with an optional link wrapper on the heading. Commonly used
 // for product listings, user profiles, article previews, and dashboard widgets.
 //
@@ -10,9 +10,9 @@
 //   heading — string, optional. Heading text for the card.
 //   headingLevel — 2 | 3 | 4 | 5 | 6, default 3. HTML heading level.
 //   href — string, optional. Makes the heading a link.
-//   label — string, optional. aria-label for the article landmark.
+//   label — string, optional. Names the card, which then has role="group".
 //   children — ReactNode, required. Card body content.
-//   ...restProps — additional HTML attributes spread onto the <article>.
+//   ...restProps — additional HTML attributes spread onto the root <div>.
 //
 // Syntax:
 //   <Card><h3>Title</h3><p>Content</p></Card>
@@ -31,8 +31,8 @@
 //   - Enter: Activate the heading link (browser default)
 //
 // Accessibility:
-//   - Implicit article role from <article> element
-//   - Optional aria-label identifies the card as a named landmark
+//   - A <div>, not an <article>: an article on every card in a list is noise. Pass role="article" for a stand-alone card
+//   - Optional label names the card as role="group"; with no label the <div> is generic and unnamed
 //   - Heading provides document outline structure at the specified level
 //
 // Internationalization:
@@ -43,7 +43,7 @@
 //   - Heading level should match the card's position in the document outline
 //
 // References:
-//   - MDN article element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
+//   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 
 import React from "react";
 
@@ -69,9 +69,10 @@ export default function Card({
     const headingContent = href ? <a href={href}>{heading}</a> : heading;
 
     return (
-        <article
+        <div
             className={`card ${className}`}
-            aria-label={label}
+            role={label ? "group" : undefined}
+            aria-label={label || undefined}
             {...restProps}
         >
             {heading && (
@@ -90,6 +91,6 @@ export default function Card({
                 </>
             )}
             {children}
-        </article>
+        </div>
     );
 }

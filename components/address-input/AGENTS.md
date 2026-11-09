@@ -6,42 +6,37 @@
 - PascalCase: AddressInput
 - Description: an input for searching or manually entering an address
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
-- HTML tag: <input>
+- HTML tag: <div> with role="group"
 - CSS class: .address-input
 - Interactive: yes
 
 ## Key Behaviors
 
-- Renders a single `<input type="text">` with `autocomplete="street-address"` so browsers and password managers can populate it from saved addresses
-- The consumer is responsible for any postcode lookup, autocomplete dropdown, or fallback to a multi-field structured form
-- Supports two-way binding on the `value` prop
-- Accepts `required` and `disabled` HTML attributes
-- Spreads `restProps` onto the root `<input>` for consumer customization
-- All text content (label, placeholder, error messages) comes through props for internationalization
+- Renders a `<div role="group">` named by `label`, holding the consumer's labelled address fields
+- Exception to the suffix table: an `-input` whose root is not an `<input>`, because an address is several values and its fields depend on the country
+- The consumer chooses the fields and their order (one `<textarea autocomplete="street-address">` suits every country), each with its own `autocomplete` token
+- No value of its own: the fields are the form controls, so the form submits and resets them
+- Spreads `restProps` onto the root `<div>`
+- All text content (group label, field labels, error messages) comes from the consumer
 
 ## ARIA
 
-- `aria-label` (set from `label`) provides the accessible name when no visible `<label>` element wraps the input
-- `aria-required="true"` is implied when `required` is set
-- `aria-invalid` and `aria-errormessage` should be set by the consumer when validation fails
+- `role="group"` + `aria-label` (from `label`) names the set of fields
+- Each field has its own visible `<label>`; the consumer sets `aria-invalid` and `aria-errormessage` on a field that fails validation
 
 ## Keyboard
 
-- Native `<input>` keyboard behaviour applies (typing, selection, clipboard)
-- Tab moves focus into and out of the input
+- No keyboard interactions of its own; Tab moves through the consumer's fields
 
 ## Props
 
-- `label`: string (required) (default: —) — Accessible name set on `aria-label`
-- `value`: string (default: "") — Bindable address value
-- `required`: boolean (default: false) — Whether the field is required
-- `disabled`: boolean (default: false) — Whether the field is disabled
-- `autocomplete`: string (default: "street-address") — HTML autocomplete token; useful values include `street-address`, `address-line1`, `address-line2`, `postal-code`
-- `...restProps`: HTML attributes (default: —) — Spread onto the root `<input>` element
+- `label`: string (required) (default: —) — The group's accessible name, on `aria-label`
+- `children`: slot (required) (default: —) — The labelled address fields
+- `...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`
 
 ## Acceptance Criteria
 
-- [ ] Renders <input> element with class="address-input"
+- [ ] Renders <div role="group"> element with class="address-input"
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

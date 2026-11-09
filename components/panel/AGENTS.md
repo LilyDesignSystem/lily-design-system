@@ -12,15 +12,15 @@
 
 ## Key Behaviors
 
-- Renders a `<section>` HTML element, which creates a landmark region when labelled
-- The `label` prop is required and applied via `aria-label` to name the region
+- Renders a `<div role="group">`: a page of panels as `<section>` regions would flood the landmark list
+- The `label` prop is required and applied via `aria-label` to name the group
 - Content is provided via the `children` slot
-- Rest props are spread onto the `<section>` element
-- A `<section>` with `aria-label` becomes a navigable region in screen reader landmark lists
+- Rest props are spread onto the root `<div>`
+- For a panel that is a major part of the page, pass `role="region"` to make it a landmark
 
 ## ARIA
 
-- `<section aria-label="...">` -- creates a named region landmark, allowing assistive technology to list and navigate to this section
+- `<div role="group" aria-label="...">` -- a named group, announced when entered, not added to the landmark list
 - The `aria-label` value should be concise and descriptive of the panel's content
 
 ## Keyboard
@@ -29,9 +29,9 @@
 
 ## Props
 
-- `label`: string (required) -- accessible name for the panel region via `aria-label`
+- `label`: string (required) -- accessible name for the panel group via `aria-label`
 - `children`: slot (required) -- the panel content
-- `...restProps`: unknown -- additional attributes spread onto the `<section>` element
+- `...restProps`: unknown -- additional attributes spread onto the root `<div>`
 
 ## Acceptance Criteria
 
@@ -45,6 +45,4 @@
 - Documentation: index.md
 - CSS class: .panel in css-style-sheet-template.css
 - HTML headless: lily-design-system-html-headless/components/panel.html
-- WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
-- HTML section element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section
-- WAI Landmarks: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+- WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group

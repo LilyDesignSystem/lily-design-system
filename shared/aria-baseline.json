@@ -10,7 +10,7 @@
     ]
   },
   "accordion-list": {
-    "role": "group",
+    "role": null,
     "aria": [
       "aria-label"
     ]
@@ -419,7 +419,7 @@
     "aria": []
   },
   "card": {
-    "role": null,
+    "role": "group",
     "aria": [
       "aria-label"
     ]
@@ -2022,7 +2022,7 @@
     "aria": []
   },
   "panel": {
-    "role": null,
+    "role": "group",
     "aria": [
       "aria-label"
     ]

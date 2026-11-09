@@ -6,7 +6,7 @@
 - PascalCase: MutuallyExclusive
 - Description: a container ensuring only one option can be selected from a group
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
-- HTML tag: <div>
+- HTML tag: <fieldset>
 - CSS class: .mutually-exclusive
 - Interactive: yes
 
@@ -15,12 +15,12 @@
 - Wraps a group of selectable controls (typically checkboxes) and enforces that only one can be checked at a time
 - When the user checks one option, the previously-checked option is unchecked
 - Behaves like a radio group but allows the user to _uncheck_ the current selection (to leave the group with no selection)
-- Renders `role="group"` with an `aria-label` so the constraint is communicated to assistive technology
+- Renders a `<fieldset>` named by `aria-label` (its native group role), the element HTML gives a set of form controls
 - Children are passed via the `children` slot; the consumer composes the individual `CheckboxInput` controls
 
 ## ARIA
 
-- `role="group"` + `aria-label` identifies the group
+- The `<fieldset>` (implicit `group` role) + `aria-label` identifies the group
 - Each child checkbox retains its own native semantics
 - Consumers may also use `aria-describedby` to reference an explanation of the constraint
 
@@ -35,11 +35,11 @@
 - `value`: string | null (default: null) — Currently selected option's value, or null when none is selected; bindable
 - `onChange`: (value: string | null) => void (default: —) — Fired when the selected value changes
 - `children`: slot (required) (default: —) — The CheckboxInput controls that make up the group
-- `...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`
+- `...restProps`: HTML attributes (default: —) — Spread onto the root `<fieldset>`
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> element with class="mutually-exclusive"
+- [ ] Renders <fieldset> element with class="mutually-exclusive"
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

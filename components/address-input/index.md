@@ -1,63 +1,73 @@
 # AddressInput
 
-A single-line text input for capturing a postal address, with `autocomplete="street-address"` set so browsers, password managers, and platform autofill can populate it from the user's saved addresses.
+A labelled group for capturing a postal address: a `<div role="group">` named by `label`, holding the consumer's own fields, each with its `autocomplete` token so browsers, password managers and platform autofill can fill them from the user's saved addresses.
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
 Address shapes are national: the order runs largest to smallest in Japan, China and Korea and smallest to largest in
-most of Europe and the Americas; some countries have no postal code, others no street names. A single line suits
-every country, which is why this component is one field; a structured form must take its fields and their order from
-the country the address is in, not from one country's pattern. The component is intentionally minimal: it provides only the input and the autocomplete hint. Postcode lookup, suggestion dropdowns, and structured multi-field forms (street / city / region / postcode) are the consumer's responsibility — `AddressInput` is the building block, not the full address-capture flow. For typeahead behaviour, wrap or compose with `Autosuggest` or `Combobox`. For per-field validation, use a structured set of inputs instead.
+most of Europe and the Americas; some countries have no postal code, others no street names. So the component decides
+no fields: put one `<textarea autocomplete="street-address">` inside it, which suits every country, or the structured
+fields the address's country uses, in that country's order. Postcode lookup and suggestion dropdowns are the consumer's;
+for typeahead, compose with `Autosuggest` or `Combobox` inside the group.
+
+It is the one `-input` component whose root is not an `<input>` (an exception to the suffix table): an address is
+several values, and one `<input>` cannot hold a structured address.
 
 ## Implementation Notes
 
-- Renders a single `<input type="text">` with `autocomplete="street-address"` so browsers and password managers can populate it from saved addresses
-- The consumer is responsible for any postcode lookup, autocomplete dropdown, or fallback to a multi-field structured form
-- Supports two-way binding on the `value` prop
-- Accepts `required` and `disabled` HTML attributes
-- Spreads `restProps` onto the root `<input>` for consumer customization
-- All text content (label, placeholder, error messages) comes through props for internationalization
+- Renders a `<div role="group">` named by `label` through `aria-label`
+- The consumer supplies the fields as children, each with its own `<label>` and `autocomplete` token (`street-address`, `address-line1`, `address-level2`, `postal-code`, `country-name`, …)
+- No value of its own: each field is a form control, so the form submits and resets them
+- Spreads `restProps` onto the root `<div>`
+- All text content (the group label, the field labels, error messages) comes from the consumer
 
 ## Props
 
-| Prop           | Type              | Default          | Description                                                                                                      |
-| -------------- | ----------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `label`        | string (required) | —                | Accessible name set on `aria-label`                                                                              |
-| `value`        | string            | ""               | Bindable address value                                                                                           |
-| `required`     | boolean           | false            | Whether the field is required                                                                                    |
-| `disabled`     | boolean           | false            | Whether the field is disabled                                                                                    |
-| `autocomplete` | string            | "street-address" | HTML autocomplete token; useful values include `street-address`, `address-line1`, `address-line2`, `postal-code` |
-| `...restProps` | HTML attributes   | —                | Spread onto the root `<input>` element                                                                           |
+| Prop           | Type              | Default | Description                                  |
+| -------------- | ----------------- | ------- | -------------------------------------------- |
+| `label`        | string (required) | —       | The group's accessible name, on `aria-label` |
+| `children`     | slot (required)   | —       | The labelled address fields                  |
+| `...restProps` | HTML attributes   | —       | Spread onto the root `<div>`                 |
 
 ## Usage
 
 ```html
-<AddressInput
-  label="Postal address"
-  value=""
-  autocomplete="street-address"
-/>
+<AddressInput label="Delivery address">
+  <label for="street">Street</label>
+  <input
+    id="street"
+    autocomplete="address-line1"
+  />
+  <label for="town">Town or city</label>
+  <input
+    id="town"
+    autocomplete="address-level2"
+  />
+  <label for="postcode">Postal code</label>
+  <input
+    id="postcode"
+    autocomplete="postal-code"
+  />
+</AddressInput>
 ```
 
 ## Keyboard Interactions
 
-- Native `<input>` keyboard behaviour applies (typing, selection, clipboard)
-- Tab moves focus into and out of the input
+- None of its own: Tab moves through the consumer's fields, which keep native input behaviour
 
 ## ARIA
 
-- `aria-label` (set from `label`) provides the accessible name when no visible `<label>` element wraps the input
-- `aria-required="true"` is implied when `required` is set
-- `aria-invalid` and `aria-errormessage` should be set by the consumer when validation fails
+- `role="group"` and `aria-label` (from `label`) name the set of fields, announced as the user enters it
+- Each field has its own visible `<label>`; the consumer sets `aria-invalid` and `aria-errormessage` on a field that fails validation
 
 ## When to Use
 
-- Capturing a single-line postal address as part of a contact or delivery form
+- Capturing a postal address as part of a contact or delivery form, in one field or several
 - Building a postcode lookup widget where the consumer wires the lookup logic externally
 
 ## When Not to Use
 
-- Use a structured set of inputs (street, city, region, postcode) when you need separate fields for validation or formatting
+- Use `PostalCodeInput` alone when only a postal code is needed
 - Use `Combobox` or `Autosuggest` when you want a typeahead dropdown of results
 
 ## Headless
@@ -76,7 +86,7 @@ The component renders with `.address-input` as the root class. No default styles
 
 ## References
 
-- [MDN input type=text](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text)
+- [WAI-ARIA group role](https://www.w3.org/TR/wai-aria-1.2/#group)
 - [MDN autocomplete attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete)
 
 ---

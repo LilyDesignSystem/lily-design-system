@@ -7,22 +7,23 @@ describe("card", () => {
         const el = document.querySelector("div.card");
         expect(el).toBeTruthy();
         expect(document.querySelector("section.card")).toBeNull();
+        expect(el.hasAttribute("role")).toBe(false);
     });
 
-    it("upgrades to a <section> when params.label is provided", () => {
+    it("is a named group when params.label is provided", () => {
         const { document } = render("card", { text: "Body", label: "Summary card" });
-        const el = document.querySelector("section.card");
-        expect(el).toBeTruthy();
+        const el = document.querySelector("div.card");
+        expect(el.getAttribute("role")).toBe("group");
         expect(el.getAttribute("aria-label")).toBe("Summary card");
     });
 
-    it("upgrades to a <section> when params.labelledBy is provided", () => {
+    it("is a named group when params.labelledBy is provided", () => {
         const { document } = render("card", {
             html: '<h3 id="h">Heading</h3>',
             labelledBy: "h",
         });
-        const el = document.querySelector("section.card");
-        expect(el).toBeTruthy();
+        const el = document.querySelector("div.card");
+        expect(el.getAttribute("role")).toBe("group");
         expect(el.getAttribute("aria-labelledby")).toBe("h");
     });
 
@@ -32,7 +33,7 @@ describe("card", () => {
             label: "Fallback",
             labelledBy: "h",
         });
-        const el = document.querySelector("section.card");
+        const el = document.querySelector("div.card");
         expect(el.getAttribute("aria-labelledby")).toBe("h");
         expect(el.hasAttribute("aria-label")).toBe(false);
     });

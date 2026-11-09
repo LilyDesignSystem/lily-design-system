@@ -1,7 +1,7 @@
 // AccordionListItem component
 //
 // A single expandable section within an AccordionList, using the native
-// HTML <details> element for built-in disclosure behavior. The consumer
+// HTML <details> element for built-in disclosure behavior, inside an <li>. The consumer
 // provides a <summary> element (the clickable header) and content (the
 // expandable body) as children. The open prop is two-way bindable via
 // controlled, allowing parent components to programmatically control
@@ -11,7 +11,7 @@
 //   className — string, optional. CSS class name.
 //   open — boolean, default false, bindable. Whether the item is expanded.
 //   children — ReactNode, required. A <summary> and content elements.
-//   ...restProps — additional HTML attributes spread onto <details>.
+//   ...restProps — additional HTML attributes spread onto the <li>.
 //
 // Syntax:
 //   <AccordionListItem>
@@ -81,13 +81,16 @@ export default function AccordionListItem({
     };
 
     return (
-        <details
+        <li
             className={`accordion-list-item ${className}`}
-            open={open}
-            onToggle={handleToggle}
             {...restProps}
         >
-            {children}
-        </details>
+            <details
+                open={open}
+                onToggle={handleToggle}
+            >
+                {children}
+            </details>
+        </li>
     );
 }

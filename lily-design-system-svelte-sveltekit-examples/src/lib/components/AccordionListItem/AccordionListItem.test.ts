@@ -13,11 +13,12 @@ function summarySnippet(text: string) {
 }
 
 describe("AccordionListItem", () => {
-    test("renders a details element", () => {
+    test("renders an li holding a details element", () => {
         render(Subject, {
             props: { "data-testid": "ali", children: summarySnippet("Header") },
         });
-        expect(screen.getByTestId("ali").tagName).toBe("DETAILS");
+        expect(screen.getByTestId("ali").tagName).toBe("LI");
+        expect(screen.getByTestId("ali").querySelector(":scope > details")).toBeTruthy();
     });
 
     test("renders children content", () => {
@@ -29,7 +30,9 @@ describe("AccordionListItem", () => {
         render(Subject, {
             props: { "data-testid": "ali", children: summarySnippet("Q") },
         });
-        expect((screen.getByTestId("ali") as HTMLDetailsElement).open).toBe(false);
+        expect(
+            (screen.getByTestId("ali").querySelector("details") as HTMLDetailsElement).open,
+        ).toBe(false);
     });
 
     test("supports open prop", () => {
@@ -40,7 +43,9 @@ describe("AccordionListItem", () => {
                 children: summarySnippet("Q"),
             },
         });
-        expect((screen.getByTestId("ali") as HTMLDetailsElement).open).toBe(true);
+        expect(
+            (screen.getByTestId("ali").querySelector("details") as HTMLDetailsElement).open,
+        ).toBe(true);
     });
 
     test("toggles on summary click", async () => {
@@ -51,7 +56,9 @@ describe("AccordionListItem", () => {
         const summary = screen.getByText("Click me");
         await user.click(summary);
         await vi.waitFor(() => {
-            expect((screen.getByTestId("ali") as HTMLDetailsElement).open).toBe(true);
+            expect(
+                (screen.getByTestId("ali").querySelector("details") as HTMLDetailsElement).open,
+            ).toBe(true);
         });
     });
 

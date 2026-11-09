@@ -16,21 +16,23 @@ public class CallToActionTests : TestContext
         });
 
     [Fact]
-    public void Renders_with_kebab_base_class() => Assert.NotNull(Make().Find("div.call-to-action"));
+    public void Renders_with_kebab_base_class() => Assert.NotNull(Make().Find("button.call-to-action"));
 
     [Fact]
     public void CssClass_is_appended_to_kebab_base_class() =>
-        Assert.Contains("extra", Make(p => p.Add(x => x.CssClass, "extra")).Find("div.call-to-action").GetAttribute("class"));
+        Assert.Contains("extra", Make(p => p.Add(x => x.CssClass, "extra")).Find(".call-to-action").GetAttribute("class"));
 
     [Fact]
     public void AdditionalAttributes_pass_through_to_root() =>
-        Assert.Equal("value", Make(p => p.AddUnmatched("data-test", "value")).Find("div.call-to-action").GetAttribute("data-test"));
+        Assert.Equal("value", Make(p => p.AddUnmatched("data-test", "value")).Find(".call-to-action").GetAttribute("data-test"));
 
     [Fact]
     public void With_Href_it_is_a_link()
     {
         var cut = Make(p => p.Add(x => x.Href, "/join").Add(x => x.Label, "Join us").AddChildContent("Join"));
-        var link = cut.Find("div > a");
+        var link = cut.Find("a.call-to-action");
+        Assert.Empty(cut.FindAll("div"));
+        Assert.Equal("1", link.GetAttribute("data-root"));
         Assert.Equal("/join", link.GetAttribute("href"));
         Assert.Equal("Join us", link.GetAttribute("aria-label"));
         Assert.Equal("Join", link.TextContent);
@@ -42,7 +44,7 @@ public class CallToActionTests : TestContext
     {
         var clicks = 0;
         var cut = Make(p => p.Add(x => x.OnClick, () => clicks++));
-        Assert.Equal("button", cut.Find("div > button").GetAttribute("type"));
+        Assert.Equal("button", cut.Find("button.call-to-action").GetAttribute("type"));
         cut.Find("button").Click();
         Assert.Equal(1, clicks);
         Assert.Empty(cut.FindAll("a"));

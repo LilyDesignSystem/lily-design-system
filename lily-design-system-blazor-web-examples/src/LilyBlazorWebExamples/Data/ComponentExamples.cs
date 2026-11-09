@@ -17,7 +17,7 @@ public static class ComponentExamples
         ["action-bar-button"] = new("html", "<ActionBarButton\n  label=\"Delete\"\n  onClick=\"{handleDelete}\"\n>\n  Delete\n</ActionBarButton>\n", new List<ExampleVariant> {  }),
         ["action-group"] = new("html", "<ActionGroup\n  label=\"Text formatting\"\n  overflowOpen={open}\n  overflowLabel=\"More actions\"\n  onOverflowToggle={handleToggle}\n  overflow={<Menu>...</Menu>}\n>\n  <Button label=\"Bold\">B</Button>\n  <Button label=\"Italic\">I</Button>\n  <Button label=\"Underline\">U</Button>\n</ActionGroup>\n", new List<ExampleVariant> {  }),
         ["action-link"] = new("razor", "<ActionLink>\n    Content\n</ActionLink>\n", new List<ExampleVariant> {  }),
-        ["address-input"] = new("html", "<AddressInput\n  label=\"Postal address\"\n  value=\"\"\n  autocomplete=\"street-address\"\n/>\n", new List<ExampleVariant> {  }),
+        ["address-input"] = new("razor", "<AddressInput Label=\"Delivery address\">\n    <label for=\"street\">Street</label>\n    <input id=\"street\" autocomplete=\"address-line1\" />\n</AddressInput>\n", new List<ExampleVariant> {  }),
         ["addressograph-box"] = new("razor", "<AddressographBox Label=\"Patient identification\">\n    <p>Jane Doe</p>\n    <p>DOB: 1980-05-12</p>\n    <p>NHS: 943 476 5919</p>\n</AddressographBox>\n", new List<ExampleVariant> {  }),
         ["affix"] = new("razor", "<Affix>\n    Content\n</Affix>\n", new List<ExampleVariant> {  }),
         ["ai-label"] = new("razor", "<AiLabel>\n    Content\n</AiLabel>\n", new List<ExampleVariant> {  }),

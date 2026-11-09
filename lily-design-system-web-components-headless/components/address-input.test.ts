@@ -10,67 +10,61 @@ afterEach(() => {
     document.body.innerHTML = "";
 });
 
+const FIELDS =
+    '<label for="street">Street</label><input id="street" autocomplete="address-line1">' +
+    '<label for="postcode">Postal code</label><input id="postcode" autocomplete="postal-code">';
+
 function render(html: string): HTMLElement {
     document.body.innerHTML = html;
     return document.body.firstElementChild as HTMLElement;
 }
 
+function root(host: HTMLElement): HTMLDivElement {
+    return host.querySelector(":scope > div.address-input") as HTMLDivElement;
+}
+
 describe("AddressInput", () => {
-    test("renders a native input type=text with the base class", () => {
+    test("renders a <div role=group> with the base class", () => {
         const host = render('<lily-address-input label="Delivery address"></lily-address-input>');
 
-        const input = host.querySelector("input") as HTMLInputElement;
-        expect(input.type).toBe("text");
-        expect(input.classList.contains("address-input")).toBe(true);
+        expect(root(host)).toBeTruthy();
+        expect(root(host).getAttribute("role")).toBe("group");
     });
 
-    test("uses label as the accessible name", () => {
+    test("uses label as the group's accessible name", () => {
         const host = render('<lily-address-input label="Delivery address"></lily-address-input>');
 
-        expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Delivery address");
+        expect(root(host).getAttribute("aria-label")).toBe("Delivery address");
+        expect(root(host).hasAttribute("label")).toBe(false);
     });
 
-    test("defaults autocomplete to street-address", () => {
-        const host = render('<lily-address-input label="Delivery address"></lily-address-input>');
-
-        expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("street-address");
-    });
-
-    test("autocomplete attribute overrides the default", () => {
+    test("moves the consumer's fields into the group unchanged", () => {
         const host = render(
-            '<lily-address-input label="Delivery address" autocomplete="address-line1"></lily-address-input>',
+            `<lily-address-input label="Delivery address">${FIELDS}</lily-address-input>`,
         );
 
-        expect(host.querySelector("input")!.getAttribute("autocomplete")).toBe("address-line1");
+        const inputs = Array.from(root(host).querySelectorAll("input"));
+        expect(inputs.map((i) => i.getAttribute("autocomplete"))).toEqual([
+            "address-line1",
+            "postal-code",
+        ]);
     });
 
-    test("seeds the initial value from the value attribute", () => {
+    test("passes other attributes through and keeps the consumer's class", () => {
         const host = render(
-            '<lily-address-input label="Delivery address" value="221B Baker Street"></lily-address-input>',
+            '<lily-address-input label="A" class="extra" data-x="1"></lily-address-input>',
         );
 
-        expect((host.querySelector("input") as HTMLInputElement).value).toBe("221B Baker Street");
+        expect(root(host).className).toBe("address-input extra");
+        expect(root(host).getAttribute("data-x")).toBe("1");
     });
 
-    test("exposes a live value property proxying the inner input", () => {
-        const host = render(
-            '<lily-address-input label="Delivery address"></lily-address-input>',
-        ) as unknown as AddressInput;
-        const input = host.querySelector("input") as HTMLInputElement;
+    test("is idempotent if connectedCallback runs more than once", () => {
+        const host = render(`<lily-address-input label="A">${FIELDS}</lily-address-input>`);
 
-        host.value = "10 Downing Street";
+        (host as unknown as AddressInput).connectedCallback();
 
-        expect(input.value).toBe("10 Downing Street");
-        expect(host.value).toBe("10 Downing Street");
-    });
-
-    test("required and disabled propagate to the inner input", () => {
-        const host = render(
-            '<lily-address-input label="Delivery address" required disabled></lily-address-input>',
-        );
-
-        const input = host.querySelector("input") as HTMLInputElement;
-        expect(input.required).toBe(true);
-        expect(input.disabled).toBe(true);
+        expect(host.querySelectorAll("div.address-input").length).toBe(1);
+        expect(root(host).querySelectorAll("input").length).toBe(2);
     });
 });
