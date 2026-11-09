@@ -6,7 +6,7 @@
 - PascalCase: Hint
 - Description: hint text providing guidance for a form field
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <span>
+- HTML tag: <p>
 - CSS class: .hint
 - Interactive: no
 
@@ -32,7 +32,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <span> element with class="hint"
+- [ ] Renders <p> element with class="hint"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 

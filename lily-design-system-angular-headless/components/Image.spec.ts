@@ -33,15 +33,12 @@ describe("Image", () => {
         expect(el.getAttribute("loading")).toBe("lazy");
     });
 
-    test("becomes a figure with a caption", () => {
+    test("is always a bare img, never a figure", () => {
         const fixture = TestBed.createComponent(Image);
         fixture.componentRef.setInput("src", "/a.png");
         fixture.componentRef.setInput("alt", "A tulip");
-        fixture.componentRef.setInput("caption", "Spring");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector(".image");
-        expect(el.tagName).toBe("FIGURE");
-        expect(el.querySelector("img").getAttribute("alt")).toBe("A tulip");
-        expect(el.querySelector("figcaption").textContent).toBe("Spring");
+        expect(fixture.nativeElement.querySelector("figure")).toBeNull();
+        expect(fixture.nativeElement.querySelector(".image").tagName).toBe("IMG");
     });
 });

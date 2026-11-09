@@ -20,15 +20,15 @@ describe("Image", () => {
         );
         expect(screen.getByRole("img").getAttribute("src")).toBe("/img.png");
     });
-    test("renders caption in figure", () => {
-        render(
+    test("renders a bare img, never a figure", () => {
+        const { container } = render(
             <Subject
                 src="/x.jpg"
                 alt="X"
-                caption="Credit"
             />,
         );
-        expect(screen.getByText("Credit")).toBeTruthy();
+        expect(container.querySelector("img.image")).toBeTruthy();
+        expect(container.querySelector("figure")).toBeNull();
     });
     test("passes through attributes", () => {
         render(

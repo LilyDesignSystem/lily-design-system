@@ -5,7 +5,7 @@
     a callout box highlighting a warning message
 *@
 
-<div class="@($"warning-callout {CssClass}".Trim())" role="alert" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<aside class="@($"warning-callout {CssClass}".Trim())" role="alert" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</aside>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

@@ -6,16 +6,16 @@ A list of section navigation items.
 
 ## Implementation Notes
 
-- Renders an `<ol>` containing `SectionListItem` children
+- Renders an `<ul>` containing `SectionListItem` children
 - Used inside `SectionNav` to enumerate the section's pages
-- Spreads `restProps` onto the root `<ol>`
+- Spreads `restProps` onto the root `<ul>`
 
 ## Props
 
 | Prop           | Type            | Default | Description                 |
 | -------------- | --------------- | ------- | --------------------------- |
 | `children`     | slot (required) | —       | `SectionListItem` elements  |
-| `...restProps` | HTML attributes | —       | Spread onto the root `<ol>` |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<ul>` |
 
 ## Usage
 
@@ -38,7 +38,7 @@ A list of section navigation items.
 
 ## ARIA
 
-- Native ordered list semantics announce the count of items
+- Native list semantics announce the count of items
 
 ## When to Use
 

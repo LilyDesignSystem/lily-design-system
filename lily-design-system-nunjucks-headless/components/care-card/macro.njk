@@ -1,12 +1,12 @@
 {#
   CareCard macro — a medical care instruction card with urgency levels.
 
-  HTML tag: <div role="note">
+  HTML tag: <div role="group">
   CSS class: care-card
   Data attribute: data-type on the root, as in every catalog; one of
     "non-urgent" | "urgent" | "immediate". Default "non-urgent".
   Accessibility:
-    - role="note" marks the callout as ancillary content.
+    - role="group" names the card without making it a landmark.
     - A visually-hidden prefix announces the urgency level to screen
       readers (e.g. "Urgent advice:").
     - params.label overrides the accessible name when necessary.
@@ -42,7 +42,7 @@
 {%- set level = params.headingLevel | default(3) -%}
 <div
   class="care-card{% if params.classes %} {{ params.classes }}{% endif %}"
-  role="region"
+  role="group"
   data-type="{{ urgency }}"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.label %} aria-label="{{ params.label }}"{% endif %}

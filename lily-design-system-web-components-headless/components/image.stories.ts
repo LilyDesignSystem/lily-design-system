@@ -11,7 +11,6 @@ const meta: Meta = {
     args: {
         src: "https://placehold.co/400x250",
         alt: "A sunset over the ocean",
-        caption: "Photo by Jane Doe",
     },
 };
 

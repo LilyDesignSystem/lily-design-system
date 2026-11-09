@@ -9,14 +9,14 @@ describe("Hint", function () {
     });
 
     it("should render the span element with correct class", async function () {
-        const el = await $("span.hint");
+        const el = await $("p.hint");
         await expect(el).toExist();
         const className = await el.getAttribute("class");
         expect(className).toContain("hint");
     });
 
     it("should not have an aria-label attribute", async function () {
-        const el = await $("span.hint");
+        const el = await $("p.hint");
         expect(await el.getAttribute("aria-label")).toBeNull();
     });
 });

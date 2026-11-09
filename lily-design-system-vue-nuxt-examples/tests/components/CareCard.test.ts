@@ -4,13 +4,13 @@ import { describe, expect, test } from "vitest";
 import Subject from "../../components/CareCard.vue";
 
 describe("CareCard", () => {
-    test("renders as a region with heading", () => {
+    test("renders as a named group with heading", () => {
         render(Subject, {
             props: { heading: "Speak to a GP" },
             slots: { default: "Advice content" },
         });
 
-        expect(screen.getByRole("region", { name: "Speak to a GP" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Speak to a GP" })).toBeTruthy();
         expect(screen.getByRole("heading", { name: "Speak to a GP" })).toBeTruthy();
     });
 
@@ -47,7 +47,7 @@ describe("CareCard", () => {
             slots: { default: "Content" },
         });
 
-        expect(screen.getByRole("region", { name: "Non-urgent care advice" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Non-urgent care advice" })).toBeTruthy();
     });
 
     test("passes through additional HTML attributes", () => {

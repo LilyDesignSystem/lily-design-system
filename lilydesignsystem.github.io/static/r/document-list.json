@@ -16,7 +16,7 @@
   ],
   "props": [
     "`children`: slot (required) (default: —) — `DocumentListItem` children",
-    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<ol>`"
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<ul>`"
   ],
   "related": [
     "document-list-item",

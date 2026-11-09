@@ -1,7 +1,7 @@
 {#
   InformationCallout macro — a callout box highlighting informational content.
 
-  HTML tag: <div role="note">
+  HTML tag: <aside role="note">
   CSS class: information-callout
   Accessibility: role="note" marks the callout as ancillary content.
     params.heading becomes a visible heading; params.label overrides
@@ -26,7 +26,7 @@
 #}
 {%- macro informationCallout(params) -%}
 {%- set level = params.headingLevel | default(3) -%}
-<div
+<aside
   class="information-callout{% if params.classes %} {{ params.classes }}{% endif %}"
   role="note"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
@@ -43,5 +43,5 @@
   {%- elif caller %}
   {{ caller() }}
   {%- endif %}
-</div>
+</aside>
 {%- endmacro -%}

@@ -1,49 +1,32 @@
 {#
-  Footnote macro — a footnote reference or footnote content element.
-
-  HTML tag: <sup> for references (inline); <li> for content inside
-    an <ol>; a caller decides which by choosing the role.
+  Footnote macro — the footnote itself: supplementary text, a citation or a
+    clarification, linked from a reference in the main text.
+  HTML tag: <span role="note">
   CSS class: footnote
-  This macro renders the *inline reference* by default — a small
-    superscript link targeting the footnote content lower on the
-    page. For the content block, compose an <ol> with <li> children
-    in the EndNotes component instead.
-
+  Accessibility: role="note" marks it as supplementary without making it a
+    landmark (an <aside> would). The id is the target of the reference
+    (`<a href="#fn-1"><sup>1</sup></a>`); it is not used as a name.
   Params:
-    number       number|string  The footnote number/marker.
-    href         string         Target fragment (e.g. "#fn-1").
-                                Default generated from params.id.
-    id           string         Element id. Typically "fnref-1" so
-                                the content block can back-link via
-                                "#fnref-1".
-    label        string         aria-label override.
-    classes      string
-    attributes   object
-
+    id           string   Element id, the reference's target (required).
+    text         string   Plain text content (escaped).
+    html         string   Raw HTML content (rendered via `| safe`).
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
   Usage:
     {% from "components/footnote/macro.njk" import footnote %}
-    …the average adult [{{ footnote({ number: 1, href: "#fn-1", id: "fnref-1" }) }}]…
-
-    <ol class="end-notes">
-      <li id="fn-1">Source: WHO 2024 report.
-        <a href="#fnref-1">↩</a></li>
-    </ol>
+    <p>The average adult…<a href="#fn-1"><sup>1</sup></a></p>
+    {{ footnote({ id: "fn-1", text: "Source: WHO 2024 report." }) }}
 #}
 {%- macro footnote(params) -%}
-{%- set href = params.href | default("#") -%}
-<sup
+<span
   class="footnote{% if params.classes %} {{ params.classes }}{% endif %}"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
+  role="note"
   {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  <a
-    href="{{ href }}"
-    {%- if params.label %} aria-label="{{ params.label }}"{% endif %}
-  >
-    {%- if params.html -%}{{ params.html | safe }}
-    {%- elif params.number is defined -%}{{ params.number }}
-    {%- elif caller -%}{{ caller() }}
-    {%- endif -%}
-  </a>
-</sup>
+  {%- if params.html -%}{{ params.html | safe }}
+  {%- elif params.text -%}{{ params.text }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</span>
 {%- endmacro -%}

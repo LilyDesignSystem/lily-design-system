@@ -6,7 +6,7 @@
 - PascalCase: Timer
 - Description: a countdown or elapsed time display
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <span>
+- HTML tag: <time>
 - CSS class: .timer
 - Interactive: no
 
@@ -36,7 +36,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <span> element with class="timer"
+- [ ] Renders <time> element with class="timer"
 - [ ] Has aria-label attribute
 - [ ] Has role="timer"
 - [ ] Keyboard navigation works correctly

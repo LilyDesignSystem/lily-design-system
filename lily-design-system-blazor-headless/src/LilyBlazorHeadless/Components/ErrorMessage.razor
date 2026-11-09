@@ -5,7 +5,7 @@
     an error message associated with a form field
 *@
 
-<span class="@($"error-message {CssClass}".Trim())" role="alert" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<p class="@($"error-message {CssClass}".Trim())" role="alert" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</p>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

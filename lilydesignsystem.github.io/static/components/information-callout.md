@@ -74,7 +74,7 @@ The consumer provides all CSS styling. The component renders with a `.informatio
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `information-callout`
+- Verify the component renders an `<aside>` element with class `information-callout`
 - Verify role="note"` -- identifies the content as a note or supplementary information
 - Verify aria-label={label}` -- provides an accessible name describing the type of callout (e.g., "Note", "Warning", "Tip")
 - Verify pass-through attributes are applied

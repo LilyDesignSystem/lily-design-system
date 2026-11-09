@@ -4,19 +4,19 @@ A footnote provides supplementary information, citations, or clarifications that
 
 **Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
 
-This component renders as a semantic `<aside>` element with `role="note"`, giving screen readers clear indication that the content is supplementary. Each footnote is identified by a unique `id`, allowing in-page links from superscript reference markers in the main text to jump directly to the footnote.
+This component renders a `<span role="note">`, telling screen readers the content is supplementary without making each footnote a landmark, as an `<aside>` would. Each footnote is identified by a unique `id`, allowing in-page links from superscript reference markers in the main text to jump directly to the footnote.
 
 ## Implementation Notes
 
-- Renders as `<aside>` with `role="note"` for semantic supplementary content
-- The `id` prop serves double duty: it identifies the element for in-page linking and provides the `aria-label` value
+- Renders a `<span role="note">`, not an `<aside>`, so each footnote is not its own landmark
+- The `id` prop identifies the element for in-page linking (the reference links to `#id`); it is not used as a name, since an identifier such as `fn-1` is not one
 - Accepts a `children` slot for flexible footnote content (text, links, citations)
-- Spreads `restProps` onto the `<aside>` element for consumer customization
+- Spreads `restProps` onto the `<span>` element for consumer customization
 
 ## Props
 
-- `id`: string (required) -- unique footnote identifier, used for the element id and aria-label
-- `children`: slot (required) -- footnote content to render inside the aside
+- `id`: string (required) -- unique footnote identifier, used for the element id
+- `children`: slot (required) -- footnote content to render inside the span
 
 ## Usage
 
@@ -65,7 +65,6 @@ None -- this component is a passive container. Keyboard navigation is handled by
 ## ARIA
 
 - `role="note"` -- indicates supplementary content that is related to the main content
-- `aria-label="{id}"` -- provides an accessible name derived from the footnote identifier
 
 ## When to Use
 
@@ -82,7 +81,7 @@ None -- this component is a passive container. Keyboard navigation is handled by
 
 ## Headless
 
-This headless component provides an `<aside>` with `role="note"` and an `id` for in-page linking from superscript reference markers. The consumer provides all visual styling including indentation, font size, numbering, and separator lines.
+This headless component provides a `<span role="note">` with an `id` for in-page linking from superscript reference markers. The consumer provides all visual styling including indentation, font size, numbering, and separator lines.
 
 ## Styles
 
@@ -92,7 +91,7 @@ The consumer provides all CSS styling. The component renders with a `.footnote` 
 
 - Verify the component renders a `<span>` element with class `footnote`
 - Verify role="note"` -- indicates supplementary content that is related to the main content
-- Verify aria-label="{id}"` -- provides an accessible name derived from the footnote identifier
+- Verify the root has no `aria-label`
 - Verify pass-through attributes are applied
 
 ## Advice
@@ -107,7 +106,7 @@ The consumer provides all CSS styling. The component renders with a `.footnote` 
 ## References
 
 - WAI-ARIA note role: https://www.w3.org/TR/wai-aria-1.2/#note
-- MDN aside element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
+- MDN note role: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/note_role
 
 ---
 

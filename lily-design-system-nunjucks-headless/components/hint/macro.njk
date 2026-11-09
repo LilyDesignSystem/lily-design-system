@@ -1,7 +1,7 @@
 {#
   Hint macro — hint text providing guidance for a form field.
 
-  HTML tag: <div>
+  HTML tag: <p>
   CSS class: hint
   Accessibility: paired with a form field via aria-describedby.
     The field's aria-describedby should reference params.id so
@@ -25,7 +25,7 @@
     <input id="nhs-number" aria-describedby="nhs-number-hint" …>
 #}
 {%- macro hint(params) -%}
-<div
+<p
   class="hint{% if params.classes %} {{ params.classes }}{% endif %}"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.attributes %}{% for k, v in params.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
@@ -34,5 +34,5 @@
   {%- elif params.text -%}{{ params.text }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</div>
+</p>
 {%- endmacro -%}

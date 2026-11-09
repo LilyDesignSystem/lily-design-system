@@ -16,26 +16,26 @@ function render(html: string): HTMLElement {
 }
 
 describe("ErrorMessage", () => {
-    test("renders a span with role=alert (per the AGENTS.md metadata field)", () => {
+    test("renders a p with role=alert, as Svelte", () => {
         const host = render("<lily-error-message>Password is required</lily-error-message>");
 
-        const span = host.querySelector("span") as HTMLSpanElement;
+        const span = host.querySelector("p") as HTMLParagraphElement;
         expect(span.className).toBe("error-message");
-        expect(span.tagName).toBe("SPAN");
+        expect(span.tagName).toBe("P");
         expect(span.getAttribute("role")).toBe("alert");
     });
 
-    test("moves the error text into the span", () => {
+    test("moves the error text into the p", () => {
         const host = render("<lily-error-message>Password is required</lily-error-message>");
 
-        expect(host.querySelector("span")!.textContent).toBe("Password is required");
+        expect(host.querySelector("p")!.textContent).toBe("Password is required");
     });
 
-    test("passes through rest attributes onto the span", () => {
+    test("passes through rest attributes onto the p", () => {
         const host = render(
             '<lily-error-message id="password-error">Password is required</lily-error-message>',
         );
 
-        expect(host.querySelector("span")!.id).toBe("password-error");
+        expect(host.querySelector("p")!.id).toBe("password-error");
     });
 });

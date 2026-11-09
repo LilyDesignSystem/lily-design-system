@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("aside.footnote");
+const el = () => document.querySelector("span.footnote");
 
 describe("Footnote", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("Footnote", () => {
         expect(el().classList.contains("footnote")).toBe(true);
     });
 
-    it("uses the aside element", async () => {
+    it("uses the span element", async () => {
         await mount("footnote");
-        expect(el().tagName.toLowerCase()).toBe("aside");
+        expect(el().tagName.toLowerCase()).toBe("span");
     });
 });

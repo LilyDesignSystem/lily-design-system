@@ -14,5 +14,5 @@
 <Story
     name="Default"
     tags={["autodocs", "!dev"]}
-    args={{ caption: "Image Caption" }}
+    args={{ src: "https://placehold.co/400x250", alt: "A sunset over the ocean" }}
 />

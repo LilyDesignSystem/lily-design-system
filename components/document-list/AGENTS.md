@@ -6,15 +6,15 @@
 - PascalCase: DocumentList
 - Description: a list displaying documents with titles and metadata
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
-- HTML tag: <ol>
+- HTML tag: <ul>
 - CSS class: .document-list
 - Interactive: no
 
 ## Key Behaviors
 
-- Renders an `<ol>` of `DocumentListItem` children
+- Renders an `<ul>` of `DocumentListItem` children
 - Used to list downloadable or related documents (PDFs, attachments, references)
-- Spreads `restProps` onto the root `<ol>`
+- Spreads `restProps` onto the root `<ul>`
 
 ## ARIA
 
@@ -27,11 +27,11 @@
 ## Props
 
 - `children`: slot (required) (default: —) — `DocumentListItem` children
-- `...restProps`: HTML attributes (default: —) — Spread onto the root `<ol>`
+- `...restProps`: HTML attributes (default: —) — Spread onto the root `<ul>`
 
 ## Acceptance Criteria
 
-- [ ] Renders <ol> element with class="document-list"
+- [ ] Renders <ul> element with class="document-list"
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

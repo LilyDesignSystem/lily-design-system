@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Twelve more components agree on their root element — 2026-11-09
+
+The maintainer's decision, as in the earlier round: where Svelte and the contract disagreed, follow the element that carries the meaning. Breaking for consumer CSS that selects the element (`ol.document-list`, `span.hint`, `section.care-card`); selectors on the class keep working.
+
+- **Changed (breaking):** `care-card` is a `<div role="group">` named by its heading, not a `<section>` region, so a page of cards does not flood the landmark list (all nine catalogs).
+- **Changed (breaking):** `image` is always a bare `<img>`; its `caption` prop is gone. For a caption, wrap it in `figure` with a `caption` (Svelte, React, Vue, Angular, Web Components).
+- **Changed (breaking):** `footnote` is a `<span role="note">`, not an `<aside>` landmark, and is no longer named by its id (`aria-label="fn-1"` named nothing); Angular and Blazor lose `label`. The Nunjucks macro, which rendered the `<sup>` reference instead, now renders the note itself and takes `id`, `text` or `html`.
+- **Changed (breaking):** Angular, Blazor, HTML, Nunjucks and Alpine follow Svelte where they differed: `avatar` and `measurement-unit-view` are `<span>` (the Nunjucks unit is an `<abbr title>` inside it), `document-list` and `section-list` `<ul>`, `error-message` and `hint` `<p>`, `timer` `<time role="timer">`, and the two callouts `<aside>`.
+- **Fixed:** the twelve contracts' "HTML tag" lines say what ships. `bin/check-html-tags.allow.json` loses 53 entries (104 → 51), and the Nunjucks ARIA baseline one. The docs-site pages for the twelve are rendered from their docs.
+
 ## `bin/check-html-tags` reads a `baseClass` prop — 2026-11-09
 
 - **Fixed:** `bin/check-html-tags` found no root for `icon-button` and `listbox`, whose base class is a prop (`baseClass`, Angular's `input<string>(…)`, Blazor's `BaseCssClass`) so the pickers can replace it, and the allow-list held eight "unreviewed" entries for them. It now follows the prop to the root, and treats Vue's `<component :is>` as dynamic: the eight entries are gone, and the three left for `listbox` (Angular's `as="ul"` branch, Blazor's and Nunjucks' fixed `<ul>`) say why.

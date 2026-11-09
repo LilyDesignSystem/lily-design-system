@@ -9,14 +9,14 @@ describe("WarningCallout", function () {
     });
 
     it("should render the div element with correct class", async function () {
-        const el = await $("div.warning-callout");
+        const el = await $("aside.warning-callout");
         await expect(el).toExist();
         const className = await el.getAttribute("class");
         expect(className).toContain("warning-callout");
     });
 
     it("should have an aria-label attribute", async function () {
-        const el = await $("div.warning-callout");
+        const el = await $("aside.warning-callout");
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });

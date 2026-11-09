@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="warning-callout"\n  role="alert"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</div>';
+    '<aside\n  class="warning-callout"\n  role="alert"\n  aria-label=""\n>\n  <!-- Consumer provides content -->\n</aside>';
 
 const meta = {
     title: "Headless/Warning Callout",

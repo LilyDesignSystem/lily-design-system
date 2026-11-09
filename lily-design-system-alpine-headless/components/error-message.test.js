@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("span.error-message");
+const el = () => document.querySelector("p.error-message");
 
 describe("ErrorMessage", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("ErrorMessage", () => {
         expect(el().classList.contains("error-message")).toBe(true);
     });
 
-    it("uses the span element", async () => {
+    it("uses the p element", async () => {
         await mount("error-message");
-        expect(el().tagName.toLowerCase()).toBe("span");
+        expect(el().tagName.toLowerCase()).toBe("p");
     });
 });

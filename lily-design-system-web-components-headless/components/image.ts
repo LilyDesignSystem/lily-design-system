@@ -1,58 +1,32 @@
 // Image component
 //
-// A plain <img> when no caption is provided, or a <figure><img><figcaption>
-// when a caption is present.
+// A plain <img>. For a caption, wrap it in <lily-figure> with a
+// <lily-caption>.
 //
 // Attributes:
 //   src — REQUIRED. The image source URL.
 //   alt — REQUIRED. Alternative text describing the image.
-//   caption — optional. When present, wraps the image in a <figure> with a
-//     <figcaption>.
-//   loading — "lazy" | "eager", optional. Always applied to the <img>
-//     itself, in both branches.
+//   loading — "lazy" | "eager", optional.
 //
 // References:
 //   - components/image/index.md (canonical contract)
 
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["src", "alt", "caption", "loading"]);
+const HANDLED = new Set(["src", "alt", "loading"]);
 
 export class Image extends HTMLElement {
     connectedCallback(): void {
-        if (this.querySelector(":scope > img.image") || this.querySelector(":scope > figure.image"))
-            return;
+        if (this.querySelector(":scope > img.image")) return;
 
-        const src = this.getAttribute("src") ?? "";
-        const alt = this.getAttribute("alt") ?? "";
-        const caption = this.getAttribute("caption");
+        const img = document.createElement("img");
+        img.className = rootClassName(this, "image");
+        img.src = this.getAttribute("src") ?? "";
+        img.alt = this.getAttribute("alt") ?? "";
         const loading = this.getAttribute("loading");
+        if (loading === "lazy" || loading === "eager") img.setAttribute("loading", loading);
+        passThroughAttributes(this, img, HANDLED);
 
-        if (caption !== null) {
-            const figure = document.createElement("figure");
-            figure.className = rootClassName(this, "image");
-            passThroughAttributes(this, figure, HANDLED);
-
-            const img = document.createElement("img");
-            img.src = src;
-            img.alt = alt;
-            if (loading === "lazy" || loading === "eager") img.setAttribute("loading", loading);
-            figure.appendChild(img);
-
-            const figcaption = document.createElement("figcaption");
-            figcaption.textContent = caption;
-            figure.appendChild(figcaption);
-
-            this.appendChild(figure);
-        } else {
-            const img = document.createElement("img");
-            img.className = rootClassName(this, "image");
-            img.src = src;
-            img.alt = alt;
-            if (loading === "lazy" || loading === "eager") img.setAttribute("loading", loading);
-            passThroughAttributes(this, img, HANDLED);
-
-            this.appendChild(img);
-        }
+        this.appendChild(img);
     }
 }

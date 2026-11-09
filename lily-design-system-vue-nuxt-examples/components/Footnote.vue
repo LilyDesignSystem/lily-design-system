@@ -3,14 +3,14 @@
 //
 // A footnote provides supplementary information, citations, or clarifications that
 // support the main content without cluttering it. Commonly used in articles, academic
-// writing, legal documents, and documentation. Renders as a semantic <aside> element
+// writing, legal documents, and documentation. Renders a <span role="note"> (not an <aside>, so no landmark per footnote)
 // with role="note", and each footnote is identified by a unique id for in-page linking.
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   id — string, required. Unique footnote identifier, used for element id and aria-label.
+//   id — string, required. Unique footnote identifier, used for the element id.
 //   default slot. Footnote content (text, links, citations).
-//   ...restProps — additional HTML attributes spread onto the aside element.
+//   ...restProps — additional HTML attributes spread onto the <span>.
 //
 // Syntax:
 //   <Footnote id="fn1">Source: Example et al., 2024</Footnote>
@@ -30,21 +30,20 @@
 //
 // Accessibility:
 //   - role="note" indicates supplementary content related to the main content
-//   - aria-label provides an accessible name derived from the footnote identifier
 //   - The id attribute enables in-page linking from superscript reference markers
 //
 // Internationalization:
 //   - All content comes through the default slot; no hardcoded user-facing strings
-//   - The id prop is used as the aria-label; consumers should use meaningful identifiers
+//   - The id is not a name; a reference such as fn-1 links to it
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
-//   - Uses <aside> with role="note" for semantic supplementary content
+//   - Uses <span role="note"> for supplementary content
 //   - Consumer is responsible for creating in-page links to the footnote
 //
 // References:
 //   - WAI-ARIA note role: https://www.w3.org/TR/wai-aria-1.2/#note
-//   - MDN aside element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
+//   - MDN note role: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/note_role
 
 defineProps<{
     /** Unique footnote identifier. */
@@ -54,12 +53,11 @@ defineProps<{
 
 <template>
     <!-- Footnote.vue -->
-    <aside
+    <span
         class="footnote"
         :id="id"
         role="note"
-        :aria-label="id"
     >
         <slot />
-    </aside>
+    </span>
 </template>

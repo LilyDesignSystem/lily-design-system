@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("information-callout", () => {
-    it("renders a <div> with the base class and role=note", () => {
+    it("renders an <aside> with the base class and role=note", () => {
         const { document } = render("information-callout", { text: "Info" });
-        const el = document.querySelector("div.information-callout");
+        const el = document.querySelector("aside.information-callout");
         expect(el).toBeTruthy();
         expect(el.getAttribute("role")).toBe("note");
     });
@@ -14,7 +14,7 @@ describe("information-callout", () => {
             heading: "Useful",
             text: "x",
         });
-        const h = document.querySelector("div.information-callout h3");
+        const h = document.querySelector("aside.information-callout h3");
         expect(h).toBeTruthy();
         expect(h.textContent.trim()).toBe("Useful");
         expect(h.classList.contains("information-callout-label")).toBe(true);
@@ -26,14 +26,14 @@ describe("information-callout", () => {
             headingLevel: 2,
             text: "x",
         });
-        expect(document.querySelector("div.information-callout h2")).toBeTruthy();
+        expect(document.querySelector("aside.information-callout h2")).toBeTruthy();
     });
 
     it("wraps params.text in a <p>", () => {
         const { document } = render("information-callout", {
             text: "Message",
         });
-        const p = document.querySelector("div.information-callout p");
+        const p = document.querySelector("aside.information-callout p");
         expect(p).toBeTruthy();
         expect(p.textContent.trim()).toBe("Message");
     });
@@ -43,7 +43,7 @@ describe("information-callout", () => {
             heading: "x",
             html: "<ul><li>one</li></ul>",
         });
-        expect(document.querySelector("div.information-callout ul li")).toBeTruthy();
+        expect(document.querySelector("aside.information-callout ul li")).toBeTruthy();
     });
 
     it("appends params.classes", () => {
@@ -51,7 +51,7 @@ describe("information-callout", () => {
             text: "x",
             classes: "narrow",
         });
-        expect(document.querySelector("div.information-callout.narrow")).toBeTruthy();
+        expect(document.querySelector("aside.information-callout.narrow")).toBeTruthy();
     });
 
     it("sets aria-label from params.label", () => {
@@ -59,7 +59,7 @@ describe("information-callout", () => {
             text: "x",
             label: "Useful",
         });
-        expect(document.querySelector("div.information-callout").getAttribute("aria-label")).toBe(
+        expect(document.querySelector("aside.information-callout").getAttribute("aria-label")).toBe(
             "Useful",
         );
     });

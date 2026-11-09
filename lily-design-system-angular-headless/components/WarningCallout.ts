@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-warning-callout",
     standalone: true,
-    template: `<div class="warning-callout {{ className() }}" role="alert" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<aside class="warning-callout {{ className() }}" role="alert" [attr.aria-label]="label() || null"><ng-content /></aside>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WarningCallout {

@@ -14,7 +14,7 @@
 
 - NHS England inspired pattern for healthcare guidance
 - Three urgency levels: non-urgent, urgent, immediate
-- Renders as `<section role="region">` with heading for landmark navigation
+- Renders a `<div role="group">` with its heading, not a landmark, so a page of cards does not flood the landmark list
 - `aria-label` defaults to the heading text, overridable via the `label` prop
 - Uses `<h2>` for the heading element
 - `data-type` attribute exposes the urgency level for consumer CSS styling
@@ -22,7 +22,7 @@
 
 ## ARIA
 
-- `role="region"` -- identifies the card as a named landmark
+- `role="group"` -- groups the heading and body under one name
 - `aria-label` -- set from `label` prop or `heading` prop for screen reader identification
 - `data-type` -- exposes urgency level for consumer styling hooks
 
@@ -36,7 +36,7 @@
 - `heading`: string (required) -- heading text for the care card
 - `label`: string (optional) -- `aria-label` override; defaults to heading text
 - `children`: slot (required) -- the care card body content
-- `...restProps`: Any additional HTML attributes passed to the `<section>` element
+- `...restProps`: Any additional HTML attributes passed to the `<div>` element
 
 ## Acceptance Criteria
 

@@ -425,7 +425,7 @@
     ]
   },
   "care-card": {
-    "role": "region",
+    "role": "group",
     "aria": [
       "aria-label"
     ]

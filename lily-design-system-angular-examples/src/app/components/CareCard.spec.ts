@@ -20,12 +20,12 @@ describe("CareCard", () => {
         expect(el.classList.contains("extra")).toBe(true);
     });
 
-    test("has role=region, as in Svelte", () => {
+    test("has role=group, as in Svelte", () => {
         const fixture = TestBed.createComponent(CareCard);
         fixture.componentRef.setInput("label", "Story");
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector(".care-card");
-        expect(el.getAttribute("role")).toBe("region");
+        expect(el.getAttribute("role")).toBe("group");
         expect(el.getAttribute("aria-label")).toBe("Story");
     });
 

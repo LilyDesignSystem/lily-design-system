@@ -1,18 +1,7 @@
 // ErrorMessage component
 //
-// An error message associated with a form field, announced immediately
-// via role="alert" (an implicit assertive live region).
-//
-// Deviation note: components/error-message/AGENTS.md is internally
-// inconsistent — its "HTML tag" metadata field (the single source of
-// truth per this catalog's headless design rules) says `<span>`, but
-// its own "Key Behaviors" prose says "Renders a <p> element". The
-// cross-catalog implementations disagree with each other too
-// (@lilydesignsystem/svelte-headless renders a <p>;
-// @lilydesignsystem/html-headless renders a <span> — without even a
-// role). Followed the metadata field (the declared single source of
-// truth) for the tag, and the ARIA section (undisputed across every
-// source) for the role: a <span role="alert">.
+// An error message associated with a form field, a <p role="alert">
+// (an implicit assertive live region), as Svelte renders it.
 //
 // Attributes: none beyond the base class + rest-props.
 //   children — REQUIRED. Error message text content.
@@ -27,14 +16,14 @@ const HANDLED = new Set<string>([]);
 
 export class ErrorMessage extends HTMLElement {
     connectedCallback(): void {
-        if (this.querySelector(":scope > span.error-message")) return;
+        if (this.querySelector(":scope > p.error-message")) return;
 
-        const span = document.createElement("span");
-        span.className = rootClassName(this, "error-message");
-        span.setAttribute("role", "alert");
-        passThroughAttributes(this, span, HANDLED);
+        const p = document.createElement("p");
+        p.className = rootClassName(this, "error-message");
+        p.setAttribute("role", "alert");
+        passThroughAttributes(this, p, HANDLED);
 
-        moveChildrenInto(this, span);
-        this.appendChild(span);
+        moveChildrenInto(this, p);
+        this.appendChild(p);
     }
 }

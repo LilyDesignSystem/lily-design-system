@@ -9,8 +9,7 @@
   "interactive": false,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`alt=\"...\"` -- provides the accessible name for the image, required for all non-decorative images",
-    "`<figure>` and `<figcaption>` -- when caption is present, these semantic HTML elements associate the caption with the image for assistive technology"
+    "`alt=\"...\"` -- provides the accessible name for the image, required for all non-decorative images"
   ],
   "keyboard": [
     "No keyboard interactions — this is a passive element"
@@ -18,9 +17,8 @@
   "props": [
     "`src`: string (required) -- the image source URL",
     "`alt`: string (required) -- alternative text describing the image for screen readers and when the image fails to load",
-    "`caption`: string (optional) -- when provided, wraps the image in a `<figure>` with a `<figcaption>`",
     "`loading`: \"lazy\" | \"eager\" (optional) -- controls the native browser loading behavior",
-    "`...restProps`: unknown -- additional attributes spread onto the root element"
+    "`...restProps`: unknown -- additional attributes spread onto the `<img>`"
   ],
   "related": [
     "image-input",

@@ -6,15 +6,15 @@
 - PascalCase: SectionList
 - Description: a list of section navigation items
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
-- HTML tag: <ol>
+- HTML tag: <ul>
 - CSS class: .section-list
 - Interactive: no
 
 ## Key Behaviors
 
-- Renders an `<ol>` containing `SectionListItem` children
+- Renders an `<ul>` containing `SectionListItem` children
 - Used inside `SectionNav` to enumerate the section's pages
-- Spreads `restProps` onto the root `<ol>`
+- Spreads `restProps` onto the root `<ul>`
 
 ## ARIA
 
@@ -27,11 +27,11 @@
 ## Props
 
 - `children`: slot (required) (default: —) — `SectionListItem` elements
-- `...restProps`: HTML attributes (default: —) — Spread onto the root `<ol>`
+- `...restProps`: HTML attributes (default: —) — Spread onto the root `<ul>`
 
 ## Acceptance Criteria
 
-- [ ] Renders <ol> element with class="section-list"
+- [ ] Renders <ul> element with class="section-list"
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

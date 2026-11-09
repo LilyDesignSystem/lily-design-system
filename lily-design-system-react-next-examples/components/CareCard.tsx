@@ -1,7 +1,7 @@
 // CareCard component
 //
 // A headless healthcare guidance component inspired by NHS England care card
-// patterns. Renders a <section> landmark with a heading and body content,
+// patterns. Renders a <div role="group"> (not a landmark) with a heading and body content,
 // supporting three urgency tiers: non-urgent (speak to a GP), urgent (visit
 // A&E or call 111), and immediate (call 999). The data-type attribute enables
 // consumer CSS styling based on urgency level.
@@ -12,7 +12,7 @@
 //   heading — string, required. Heading text describing the care action.
 //   label — string, optional. aria-label override; defaults to heading text.
 //   children — ReactNode, required. The care card body content.
-//   ...restProps — additional HTML attributes spread onto the <section>.
+//   ...restProps — additional HTML attributes spread onto the <div>.
 //
 // Syntax:
 //   <CareCard heading="See a GP if:">
@@ -34,7 +34,7 @@
 //   None — this component is a passive content container.
 //
 // Accessibility:
-//   - role="region" identifies the card as a named landmark
+//   - role="group" groups the heading and body under one name, without a landmark per card
 //   - aria-label set from label prop or heading prop for screen reader identification
 //   - <h2> heading provides document structure
 //   - data-type exposes urgency level for consumer styling hooks
@@ -69,15 +69,15 @@ export default function CareCard({
     ...restProps
 }: CareCardProps) {
     return (
-        <section
+        <div
             className={`care-card ${className}`}
-            role="region"
+            role="group"
             aria-label={label ?? heading}
             data-type={type}
             {...restProps}
         >
             <h2>{heading}</h2>
             {children}
-        </section>
+        </div>
     );
 }
