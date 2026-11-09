@@ -6,17 +6,8 @@
 // children (typically a <dt>/<dd> pair — valid per HTML5 inside a
 // <dl>) stay exactly where they are.
 //
-// Deviation note: components/description-list-item/AGENTS.md's prose
-// describes the component itself building a <dt>/<dd> pair from `term`
-// / `description` props, but that shape is not what any of the actual
-// cross-catalog implementations render (verified against
-// @lilydesignsystem/svelte-headless and @lilydesignsystem/html-headless,
-// both of which render exactly this: a plain div with an optional
-// aria-label and a children slot, no dt/dd). Followed the real,
-// consistently-implemented contract rather than the unimplemented prose.
-//
-// Attributes:
-//   label — optional. Accessible label, via aria-label.
+// No `label`: a <div> is generic, and ARIA does not allow naming a generic
+// element. The consumer's <dt> names the group.
 //
 // References:
 //   - components/description-list-item/index.md (canonical contract)

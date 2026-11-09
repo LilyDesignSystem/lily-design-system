@@ -3,10 +3,8 @@
 
   HTML tag: <li>
   CSS class: section-list-item
-  Accessibility: the native <li> element supplies the semantics. `label`
-    is rendered as aria-label on the root; name the element when more than
-    one of its kind is on the page. Any other ARIA is passed through
-    `attributes`.
+  Accessibility: the native <li> element supplies the semantics; any ARIA
+    is passed through `attributes`.
 
   Port gap: the Svelte component also sets data-current on its root; this macro does not.
 
@@ -16,7 +14,6 @@
   Params:
     text        string   Plain text content (escaped).
     html        string   Raw HTML content (rendered via `| safe`).
-    label       string   Accessible name (aria-label).
     id          string
     classes     string   Extra classes, after the `section-list-item` base class.
     attributes  object   Extra attributes written onto the root.
@@ -25,13 +22,12 @@
 
   Usage:
     {% from "components/section-list-item/macro.njk" import sectionListItem %}
-    {{ sectionListItem({ text: "…", label: "…" }) }}
+    {{ sectionListItem({ text: "…" }) }}
 #}
 {%- macro sectionListItem(params) -%}
 {%- set p = params | default({}) -%}
 <li
   class="section-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

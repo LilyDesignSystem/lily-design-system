@@ -3,18 +3,11 @@
 // component builds the real <li>, moves the host's attributes/children into
 // it, then replaces itself.
 //
-// Deviation from the canonical AGENTS.md Props table (which lists only
-// `children` and `...restProps`): every real implementation (React, Vue)
-// accepts an optional `label` prop rendered as aria-label. The parallel
-// Svelte implementation destructures a same-named prop but never applies
-// it (a real, unrelated defect in that file) and instead applies a
-// `current` prop absent from every other catalog and from this component's
-// own AGENTS.md — not followed here, since it is not corroborated
-// elsewhere. Followed the two-catalog, working `label` → aria-label
-// behaviour.
+// Follows the Svelte reference: `current` is a styling hook (data-current), and
+// no `label`: an aria-label on the <li> would replace the link's own name.
 //
 // Attributes:
-//   label — optional; sets aria-label on the <li>.
+//   current — presence-based boolean; sets an empty data-current on the <li>.
 //   ...rest — spread onto the <li>. Children move into the <li> unchanged.
 //
 // References:
@@ -22,7 +15,7 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["label"]);
+const HANDLED = new Set(["current"]);
 
 export class SectionListItem extends HTMLElement {
     connectedCallback(): void {
@@ -30,8 +23,7 @@ export class SectionListItem extends HTMLElement {
 
         const li = document.createElement("li");
         li.className = rootClassName(this, "section-list-item");
-        const label = this.getAttribute("label");
-        if (label !== null) li.setAttribute("aria-label", label);
+        if (this.hasAttribute("current")) li.setAttribute("data-current", "");
         passThroughAttributes(this, li, HANDLED);
 
         moveChildrenInto(this, li);

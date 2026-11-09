@@ -4,7 +4,6 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, optional. Accepted but not rendered.
 //   children — React.ReactNode, required. The content.
 //   ...restProps — additional HTML attributes spread onto the root <li>.
 //
@@ -18,7 +17,7 @@
 //   - None -- not interactive; any interactive children handle their own keys
 //
 // Accessibility:
-//   - aria-label comes from `label` when given
+//   - Native <li> semantics; the link inside the item carries its own name
 //   - Put aria-current on the link inside the item to mark the current section
 //
 // Internationalization:
@@ -33,21 +32,18 @@
 
 export interface SectionListItemProps {
     className?: string;
-    label?: string;
     children: React.ReactNode;
     [key: string]: unknown;
 }
 
 export default function SectionListItem({
     className = "",
-    label = undefined,
     children,
     ...restProps
 }: SectionListItemProps) {
     return (
         <li
             className={`section-list-item ${className}`}
-            aria-label={label}
             {...restProps}
         >
             {children}

@@ -6,7 +6,6 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   label — string, optional. Accepted for API symmetry but not rendered by this component.
     //   children — Snippet, required. The <dt> and <dd> elements.
     //   ...restProps — additional HTML attributes spread onto the root <div>.
     //
@@ -20,7 +19,7 @@
     //   - None -- not interactive; any interactive children handle their own keys
     //
     // Accessibility:
-    //   - `label` is not rendered; name the element through restProps (aria-label or aria-labelledby) if it needs one
+    //   - Native semantics only; name the element through restProps (aria-labelledby) only if it needs one
     //
     // Internationalization:
     //   - No hardcoded user-facing strings
@@ -35,11 +34,9 @@
 
     let {
         class: className = "",
-        label = undefined,
         children,
         ...restProps
     }: {
-        label?: string;
         children: Snippet;
         [key: string]: unknown;
     } = $props();

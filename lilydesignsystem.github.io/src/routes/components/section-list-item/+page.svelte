@@ -90,6 +90,7 @@
     </ul>
     <h3>Props</h3>
     <ul>
+      <li><code>current</code>: boolean (default: false) — Sets an empty <code>data-current</code> on the <code>&lt;li&gt;</code> for CSS; it sets no <code>aria-current</code></li>
       <li><code>children</code>: slot (required) (default: —) — Typically a single <code>SectionLink</code></li>
       <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;li&gt;</code></li>
     </ul>

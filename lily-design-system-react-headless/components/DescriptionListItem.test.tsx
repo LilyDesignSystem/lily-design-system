@@ -4,9 +4,7 @@ import DescriptionListItem from "./DescriptionListItem";
 
 describe("DescriptionListItem", () => {
     it("renders with class", () => {
-        const { container } = render(
-            <DescriptionListItem label="Test">content</DescriptionListItem>,
-        );
+        const { container } = render(<DescriptionListItem>content</DescriptionListItem>);
         const el = container.querySelector(".description-list-item");
         expect(el).toBeTruthy();
     });

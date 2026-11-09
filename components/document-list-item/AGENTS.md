@@ -8,13 +8,13 @@
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
 - HTML tag: <li>
 - CSS class: .document-list-item
-- Interactive: yes
+- Interactive: no
 
 ## Key Behaviors
 
-- Renders an `<li>` containing the document title (as a link), file type, file size, and optional last-modified date
-- Title is rendered as an `<a download>` so browsers offer a download dialog
-- Metadata (type, size, modified) is rendered in `<span>` elements
+- Renders an `<li>` around the consumer's content: typically the document link, its file type and size, and an optional last-modified date
+- The component builds no link or metadata; the consumer writes the `<a>` (with `download` when the browser should offer to save it) and any `<span>` details
+- No `label`: an `aria-label` on the `<li>` would replace the link text a screen reader announces
 - Spreads `restProps` onto the root `<li>`
 
 ## ARIA
@@ -25,15 +25,11 @@
 ## Keyboard
 
 - Tab moves focus onto the document link
-- Enter activates the link to download the document (native browser behaviour)
+- Enter activates the link (native browser behaviour)
 
 ## Props
 
-- `title`: string (required) (default: —) — Document title (link text)
-- `href`: string (required) (default: —) — Document URL
-- `type`: string (default: —) — File type label, e.g. `"PDF"`, `"DOCX"`
-- `size`: string (default: —) — File size, e.g. `"1.2 MB"`
-- `modified`: string (default: —) — Last-modified date string
+- `children`: slot (required) (default: —) — The document link and its details
 - `...restProps`: HTML attributes (default: —) — Spread onto the root `<li>`
 
 ## Acceptance Criteria
