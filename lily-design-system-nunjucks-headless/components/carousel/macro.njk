@@ -1,7 +1,7 @@
 {#
   Carousel macro — a slideshow for cycling through content items.
 
-  HTML tag: <section role="region">
+  HTML tag: <div role="region">
   CSS class: carousel
   Accessibility: aria-roledescription="carousel". Consumer JS manages slide changes.
 
@@ -13,7 +13,7 @@
 #}
 {%- macro carousel(params) -%}
 {%- set p = params | default({}) -%}
-<section
+<div
   class="carousel{% if p.classes %} {{ p.classes }}{% endif %}"
   role="region"
   aria-roledescription="carousel"
@@ -27,5 +27,5 @@
     {%- elif caller -%}{{ caller() }}
     {%- endif -%}
   </div>
-</section>
+</div>
 {%- endmacro -%}

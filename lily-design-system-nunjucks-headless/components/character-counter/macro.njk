@@ -2,7 +2,7 @@
   CharacterCounter macro — a counter showing remaining or used
     characters in a text field.
 
-  HTML tag: <output aria-live="polite">
+  HTML tag: <span role="status" aria-live="polite">
   CSS class: character-counter
 
   Params:
@@ -30,7 +30,7 @@
 {%- if not text -%}
   {%- set text = (value ~ " / " ~ maximum) if maximum else (value ~ "") -%}
 {%- endif -%}
-<output
+<span
   class="character-counter{% if p.classes %} {{ p.classes }}{% endif %}"
   role="status"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
@@ -41,5 +41,5 @@
   {%- if p.for %} for="{{ p.for }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->{{ text }}</output>
+>{{ text }}</span>
 {%- endmacro -%}

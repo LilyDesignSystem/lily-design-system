@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<section
+const html = `<div
   class="carousel"
   role="region"
   aria-roledescription="carousel"
   aria-label="Carousel"
   data-module="carousel">
   <div class="carousel-slides"></div>
-</section>`;
+</div>`;
 
 const meta = {
     title: "Headless/Carousel",

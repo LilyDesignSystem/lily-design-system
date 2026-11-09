@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<section
-  class="tour" aria-label="Tour"></section>`;
+const html = `<div
+  class="tour"
+  role="dialog"
+  tabindex="-1" aria-label="Tour"></div>`;
 
 const meta = {
     title: "Headless/Tour",

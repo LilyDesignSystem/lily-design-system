@@ -2,7 +2,7 @@
   Tooltip macro — a small popup showing descriptive text on hover
     or focus.
 
-  HTML tag: <span role="tooltip">
+  HTML tag: <div role="tooltip">
   CSS class: tooltip
   Accessibility:
     - role="tooltip" marks this element as the tooltip content.
@@ -30,7 +30,7 @@
 #}
 {%- macro tooltip(params) -%}
 {%- set hide = params.hidden -%}
-<span
+<div
   class="tooltip{% if params.classes %} {{ params.classes }}{% endif %}"
   role="tooltip"
   id="{{ params.id }}"
@@ -41,5 +41,5 @@
   {%- elif params.text -%}{{ params.text }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</span>
+</div>
 {%- endmacro -%}

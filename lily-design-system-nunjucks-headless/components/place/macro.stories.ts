@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<address
-  class="place"></address>`;
+const html = `<article
+  class="place"></article>`;
 
 const meta = {
     title: "Headless/Place",

@@ -1,7 +1,7 @@
 {#
   TreeList macro — a hierarchical list with nested expandable items.
 
-  HTML tag: <ul role="tree"> on the root, or <ul role="group"> when
+  HTML tag: <ol role="tree"> on the root, or <ol role="group"> when
     nested inside another tree item (controlled via params.nested).
   CSS class: tree-list
 
@@ -27,7 +27,7 @@
 #}
 {%- macro treeList(params) -%}
 {%- set p = params | default({}) -%}
-<ul
+<ol
   class="tree-list{% if p.classes %} {{ p.classes }}{% endif %}"
   role="{{ 'group' if p.nested else 'tree' }}"
   {%- if not p.nested %}
@@ -40,5 +40,5 @@
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</ul>
+</ol>
 {%- endmacro -%}

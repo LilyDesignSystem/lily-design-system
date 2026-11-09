@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<span
+const html = `<div
   class="tooltip"
   role="tooltip"
-  id="" hidden></span>`;
+  id="" hidden></div>`;
 
 const meta = {
     title: "Headless/Tooltip",

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<output
+const html = `<span
   class="character-counter"
-  aria-live="polite">0 characters</output>`;
+  aria-live="polite">0 characters</span>`;
 
 const meta = {
     title: "Headless/CharacterCounter",

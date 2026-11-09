@@ -2,12 +2,12 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("place", () => {
-    it("renders an <address> with the base class", () => {
+    it("renders an <article> with the base class", () => {
         const { document } = render("place", {
             name: "Main Clinic",
             address: "1 High Street",
         });
-        expect(document.querySelector("address.place")).toBeTruthy();
+        expect(document.querySelector("article.place")).toBeTruthy();
         expect(document.querySelector(".place-name").textContent.trim()).toBe("Main Clinic");
         expect(document.querySelector(".place-address").textContent.trim()).toBe("1 High Street");
     });

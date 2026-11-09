@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("carousel", () => {
-    it("renders a <section role=region> with aria-roledescription=carousel", () => {
+    it("renders a <div role=region> with aria-roledescription=carousel", () => {
         const { document } = render("carousel", { label: "Top stories" });
-        const el = document.querySelector("section.carousel");
+        const el = document.querySelector("div.carousel");
         expect(el).toBeTruthy();
         expect(el.getAttribute("role")).toBe("region");
         expect(el.getAttribute("aria-roledescription")).toBe("carousel");

@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("mockup-tablet-landscape", () => {
-    it("renders a <figure> with the base class", () => {
+    it("renders a <div role=img> with the base class", () => {
         const { document } = render("mockup-tablet-landscape", {});
-        expect(document.querySelector("figure.mockup-tablet-landscape")).toBeTruthy();
+        expect(document.querySelector("div.mockup-tablet-landscape")).toBeTruthy();
     });
 
     it("renders a chrome bar with aria-hidden", () => {
