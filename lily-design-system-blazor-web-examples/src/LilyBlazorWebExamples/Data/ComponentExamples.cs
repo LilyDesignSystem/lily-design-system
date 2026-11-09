@@ -420,7 +420,7 @@ public static class ComponentExamples
         ["splitter"] = new("html", "<div style=\"display: flex;\">\n  <div class=\"file-tree\"><!-- file list --></div>\n  <Splitter\n    label=\"Resize file tree and editor\"\n    orientation=\"vertical\"\n  />\n  <div class=\"editor\"><!-- code editor --></div>\n</div>\n", new List<ExampleVariant> {  }),
         ["statistic"] = new("razor", "<Statistic>\n    Content\n</Statistic>\n", new List<ExampleVariant> {  }),
         ["status-light"] = new("html", "<StatusLight\n  variant=\"positive\"\n  label=\"Active\"\n/>\n<StatusLight\n  variant=\"negative\"\n  label=\"Offline\"\n/>\n<StatusLight\n  variant=\"notice\"\n  label=\"Pending review\"\n/>\n", new List<ExampleVariant> {  }),
-        ["status-tag"] = new("html", "<StatusTag\n  label=\"Completed\"\n  tone=\"success\"\n/>\n<StatusTag\n  label=\"Awaiting review\"\n  tone=\"warning\"\n/>\n", new List<ExampleVariant> {  }),
+        ["status-tag"] = new("html", "<StatusTag type=\"success\">Completed</StatusTag>\n<StatusTag\n  type=\"warning\"\n  label=\"Status:\"\n  >Awaiting review</StatusTag\n>\n", new List<ExampleVariant> {  }),
         ["step-list"] = new("razor", "<StepList>\n    Content\n</StepList>\n", new List<ExampleVariant> {  }),
         ["step-list-item"] = new("razor", "<StepListItem>\n    Content\n</StepListItem>\n", new List<ExampleVariant> {  }),
         ["sticky-promo-banner"] = new("razor", "<StickyPromoBanner Label=\"Offer\" DismissLabel=\"Dismiss\" Open=\"open\" OnDismiss=\"@(() => open = false)\">...</StickyPromoBanner>\n", new List<ExampleVariant> {  }),

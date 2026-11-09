@@ -46,4 +46,11 @@ public class StatusTagTests : TestContext
         Assert.False(root.HasAttribute("aria-label"));
         Assert.Equal("Status: ", cut.Find(".screen-reader-span").TextContent);
     }
+
+    [Fact]
+    public void Renders_Type_as_data_type_default_when_unset_as_Svelte_does()
+    {
+        Assert.Equal("default", RenderComponent<StatusTag>(p => p.AddChildContent("Draft")).Find(".status-tag").GetAttribute("data-type"));
+        Assert.Equal("error", RenderComponent<StatusTag>(p => p.AddChildContent("Failed").Add(x => x.Type, "error")).Find(".status-tag").GetAttribute("data-type"));
+    }
 }

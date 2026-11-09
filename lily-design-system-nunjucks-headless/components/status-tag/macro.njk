@@ -7,8 +7,6 @@
     read before the content, because a <span> cannot take a name. Any other
     ARIA is passed through `attributes`.
 
-  Port gap: the Svelte component also sets data-type on its root; this macro does not.
-
   Internationalization: no hardcoded user-facing strings; all text is
     supplied by the caller.
 
@@ -16,6 +14,7 @@
     text        string   Plain text content (escaped).
     html        string   Raw HTML content (rendered via `| safe`).
     label       string   Hidden text read before the content.
+    type        string   "default" | "info" | "success" | "warning" | "error", rendered as data-type. Default "default".
     id          string
     classes     string   Extra classes, after the `status-tag` base class.
     attributes  object   Extra attributes written onto the root.
@@ -30,6 +29,7 @@
 {%- set p = params | default({}) -%}
 <span
   class="status-tag{% if p.classes %} {{ p.classes }}{% endif %}"
+  data-type="{{ p.type | default('default') }}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >

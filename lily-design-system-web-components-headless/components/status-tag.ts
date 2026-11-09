@@ -4,22 +4,16 @@
 // semantics are conveyed by the visible text (and optionally aria-label)
 // — colour alone is never the indicator.
 //
-// DEVIATION FLAG: the canonical docs (components/status-tag/AGENTS.md)
-// are internally consistent with react-headless and vue-headless (no
-// role, no data-* tone attribute) but the Svelte canonical implementation
-// unconditionally sets role="status" and reads a `type` prop it renders
-// as data-type — neither of which matches the canonical AGENTS.md prose
-// ("role='status' is NOT applied by default", prop name "tone"). Since
-// two of the three concrete reference implementations and the written
-// contract agree, this port follows the documented, majority shape: no
-// role, and `tone` (matching the documented prop name) exposed as
-// data-tone for consumer styling.
+// The status is `type`, rendered as data-type, as in Svelte and as on alert, badge and banner (decided
+// 2026-11-09, tasks.md P22-T32). The older `tone` attribute this port took is still read, with its values
+// mapped (neutral to default, danger to error), so existing markup keeps its colour.
 //
 // Attributes:
 //   label — optional; hidden text read before the content, because a
 //     <span> cannot take a name.
-//   tone — "neutral" | "success" | "warning" | "danger" | "info",
-//     default "neutral". Exposed as data-tone.
+//   type — "default" | "info" | "success" | "warning" | "error", default
+//     "default". Rendered as data-type.
+//   tone — deprecated: the older name, read when `type` is absent.
 //
 // References:
 //   - components/status-tag/index.md (canonical contract)
@@ -27,7 +21,8 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["label", "tone"]);
+const HANDLED = new Set(["label", "type", "tone"]);
+const FROM_TONE: Record<string, string> = { neutral: "default", danger: "error" };
 
 export class StatusTag extends HTMLElement {
     connectedCallback(): void {
@@ -35,7 +30,11 @@ export class StatusTag extends HTMLElement {
 
         const span = document.createElement("span");
         span.className = rootClassName(this, "status-tag");
-        span.setAttribute("data-tone", this.getAttribute("tone") ?? "neutral");
+        const tone = this.getAttribute("tone");
+        span.setAttribute(
+            "data-type",
+            this.getAttribute("type") ?? (tone ? (FROM_TONE[tone] ?? tone) : "default"),
+        );
         passThroughAttributes(this, span, HANDLED);
 
         moveChildrenInto(this, span);

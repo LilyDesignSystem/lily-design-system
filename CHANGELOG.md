@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Status tags take `type`, and the themes colour them — 2026-11-09
+
+- **Fixed:** the 63 themes coloured `.status-tag[data-status]`, which no catalog rendered, so status tags were never coloured. They now colour `.status-tag[data-type]`, as on `alert`, `badge` and `banner`.
+- **Added:** `status-tag` takes `type` (`"default"`, `"info"`, `"success"`, `"warning"`, `"error"`, default `"default"`), rendered as `data-type`, in React, Vue, Blazor, HTML, Nunjucks and Alpine, as Svelte and Angular already did.
+- **Changed:** the Web Components `<lily-status-tag>` takes `type` and renders `data-type`, not `data-tone`. It still reads the older `tone` attribute, mapping `neutral` to `default` and `danger` to `error`; consumer CSS written for `[data-tone]` must move to `[data-type]`.
+- **Fixed:** the `status-tag` contract described `tone` and a required visible `label`; it now describes `type`, and `label` as the optional hidden text every catalog implements.
+
 ## Checks read code after a `/*` in a comment — 2026-11-08
 
 - **Fixed:** `bin/check-class-names`, `bin/check-html-tags`, `bin/check-port-parity`, `bin/check-port-logic` and `bin/check-worldwide` no longer treat code as a comment when a line comment contains `/*` (such as `accept="image/*"`). `bin/check-port-logic` now compares 10 more Svelte props.

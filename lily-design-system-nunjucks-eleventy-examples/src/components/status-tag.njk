@@ -14,13 +14,11 @@ description: a tag indicating status
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;StatusTag
-  label="Completed"
-  tone="success"
-/&gt;
+<pre tabindex="0"><code>{% raw %}&lt;StatusTag type="success"&gt;Completed&lt;/StatusTag&gt;
 &lt;StatusTag
-  label="Awaiting review"
-  tone="warning"
-/&gt;
+  type="warning"
+  label="Status:"
+  &gt;Awaiting review&lt;/StatusTag
+&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

@@ -149,7 +149,6 @@ STATE_SELECTOR_EXCEPTIONS = {
     ("action-link", "data-tone"): "NHS Wales: DHCW's on-dark modifier, set by the consumer; documented in the theme",
     ("inset-text", "data-tone"): "NHS Wales: a DHCW colour variant, set by the consumer; documented in the theme",
     ("tag", "data-tone"): "NHS Wales: DHCW's tag colours, set by the consumer (<span class=\"tag\" data-tone=\"purple\">); documented in the theme",
-    ("status-tag", "data-status"): "the prop's name and values are undecided: tone in the contract, type in Svelte (tasks.md P22-T32)",
 }
 
 _SVELTE_SLUGS = None

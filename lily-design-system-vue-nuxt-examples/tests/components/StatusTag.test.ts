@@ -22,4 +22,13 @@ describe("StatusTag", () => {
         expect(el.hasAttribute("aria-label")).toBe(false);
         expect(el.querySelector(".screen-reader-span")!.textContent).toBe("Status: ");
     });
+
+    it("renders type as data-type, default when unset, as Svelte does", () => {
+        const plain = render(StatusTag, { slots: { default: "Draft" } });
+        expect(plain.container.querySelector(".status-tag")!.getAttribute("data-type")).toBe(
+            "default",
+        );
+        const set = render(StatusTag, { props: { type: "error" }, slots: { default: "Failed" } });
+        expect(set.container.querySelector(".status-tag")!.getAttribute("data-type")).toBe("error");
+    });
 });
