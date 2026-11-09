@@ -25,20 +25,46 @@ const emit = (el, name, detail) => {
     el.dispatchEvent(new CustomEvent(name, { bubbles: true, detail }));
 };
 
-/** input[type=range]: the browser moves it one step, Home and End included. Shift, which it ignores, moves ten. */
-export function attachDial(input) {
-    return listen(input, "keydown", (event) => {
-        if (!event.shiftKey || input.disabled) return;
-        const rtl = isRtl(input);
-        const up = event.key === "ArrowUp" || event.key === (rtl ? "ArrowLeft" : "ArrowRight");
-        const down = event.key === "ArrowDown" || event.key === (rtl ? "ArrowRight" : "ArrowLeft");
-        if (!up && !down) return;
+/** div[role=slider]: the arrows move one step (Shift ten; reversed under RTL for left and right), Home and End go to the
+ * ends. The value is aria-valuenow, mirrored to data-value and to a hidden input, then "input" and "change" bubble. */
+export function attachDial(dial) {
+    return listen(dial, "keydown", (event) => {
+        if (dial.getAttribute("aria-disabled") === "true") return;
+        const min = number(dial, "aria-valuemin", 0);
+        const max = number(dial, "aria-valuemax", 100);
+        const step = number(dial, "data-step", 1) * (event.shiftKey ? 10 : 1);
+        const value = number(dial, "aria-valuenow", min);
+        const rtl = isRtl(dial);
+        let next;
+        if (event.key === "ArrowUp" || event.key === (rtl ? "ArrowLeft" : "ArrowRight"))
+            next = value + step;
+        else if (event.key === "ArrowDown" || event.key === (rtl ? "ArrowRight" : "ArrowLeft"))
+            next = value - step;
+        else if (event.key === "Home") next = min;
+        else if (event.key === "End") next = max;
+        else return;
         event.preventDefault();
-        const step = number(input, "step", 1) * 10;
-        const value = Number(input.value) + (up ? step : -step);
-        input.value = String(clamp(value, number(input, "min", 0), number(input, "max", 100)));
-        emit(input, "input");
-        emit(input, "change");
+        next = clamp(next, min, max);
+        if (next === value) return;
+        dial.setAttribute("aria-valuenow", String(next));
+        dial.setAttribute("data-value", String(next));
+        const field = dial.querySelector('input[type="hidden"]');
+        if (field) field.value = String(next);
+        emit(dial, "input", { value: next });
+        emit(dial, "change", { value: next });
+    });
+}
+
+/** .expander: the button shows and hides its region, and says which in aria-expanded. */
+export function attachExpander(root) {
+    const button = root.querySelector(".expander-button");
+    const region =
+        button && root.ownerDocument.getElementById(button.getAttribute("aria-controls") || "");
+    if (!button || !region) return () => {};
+    return listen(button, "click", () => {
+        const open = button.getAttribute("aria-expanded") !== "true";
+        button.setAttribute("aria-expanded", String(open));
+        region.hidden = !open;
     });
 }
 

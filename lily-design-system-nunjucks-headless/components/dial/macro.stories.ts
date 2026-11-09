@@ -1,12 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<input
+const html = `<div
   class="dial"
-  type="range"
-  min="0"
-  max="100"
-  step="1"
-  value="0">`;
+  role="slider"
+  tabindex="0"
+  aria-valuenow="50"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  data-step="1"
+  data-value="50" id="volume" aria-label="Volume"></div>`;
 
 const meta = {
     title: "Headless/Dial",

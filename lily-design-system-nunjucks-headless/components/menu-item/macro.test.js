@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("menu-item", () => {
-    it("renders an <li> wrapping a <button role=menuitem>", () => {
+    it("renders a <div role=none> wrapping a <button role=menuitem>", () => {
         const { document } = render("menu-item", { text: "Save" });
-        const li = document.querySelector("li.menu-item");
+        const li = document.querySelector("div.menu-item");
         expect(li).toBeTruthy();
         expect(li.getAttribute("role")).toBe("none");
         const btn = li.querySelector("button.menu-item-button");

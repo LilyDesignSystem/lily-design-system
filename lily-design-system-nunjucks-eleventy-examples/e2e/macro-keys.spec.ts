@@ -25,10 +25,11 @@ test("scroll-bar: Page Down moves aria-valuenow", async ({ page }) => {
 
 test("dial: Shift moves ten steps, and a plain arrow one", async ({ page }) => {
     await page.goto("/components/dial/");
-    const dial = page.locator("input.dial").first();
+    const dial = page.locator('.dial[role="slider"]').first();
     await dial.focus();
+    const start = Number(await dial.getAttribute("aria-valuenow"));
     await page.keyboard.press("Shift+ArrowRight");
-    await expect(dial).toHaveValue("60");
+    await expect(dial).toHaveAttribute("aria-valuenow", String(start + 10));
     await page.keyboard.press("ArrowRight");
-    await expect(dial).toHaveValue("61");
+    await expect(dial).toHaveAttribute("aria-valuenow", String(start + 11));
 });

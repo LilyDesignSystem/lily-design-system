@@ -1,29 +1,39 @@
 {#
   Expander macro — a control that expands to reveal more content.
 
-  HTML tag: <details>
+  HTML tag: <div>, as Svelte renders it: a <button aria-expanded
+    aria-controls> and the content in a labelled role="region", hidden while
+    collapsed. widget-init.js toggles it on click.
   CSS class: expander
 
-  Params: summary, open, id, classes, attributes.
+  Params:
+    label     string   The button's text and the region's name (required; no
+                       default, the words are yours).
+    expanded  boolean  Whether it starts open. Default false.
+    id        string   Root id; the region is "{id}-content".
+    text      string   Plain text content.
+    html      string   Raw HTML content.
+    classes   string
+    attributes object
 
   Usage:
     {% from "components/expander/macro.njk" import expander %}
-    {{ expander({ id: "example" }) }}
+    {{ expander({ id: "terms", label: "Terms and conditions", text: "…" }) }}
 #}
 {%- macro expander(params) -%}
 {%- set p = params | default({}) -%}
-<details
+{%- set contentId = (p.id | default("expander")) ~ "-content" -%}
+<div
   class="expander{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.open %} open{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  <summary class="expander-summary">{{ p.summary | default("More") }}</summary>
-  <div class="expander-body">
+  <button class="expander-button" type="button" aria-expanded="{{ 'true' if p.expanded else 'false' }}" aria-controls="{{ contentId }}">{{ p.label }}</button>
+  <div class="expander-content" id="{{ contentId }}" role="region"{% if p.label %} aria-label="{{ p.label }}"{% endif %}{% if not p.expanded %} hidden{% endif %}>
     {%- if p.html -%}{{ p.html | safe }}
     {%- elif p.text -%}{{ p.text }}
     {%- elif caller -%}{{ caller() }}
     {%- endif -%}
   </div>
-</details>
+</div>
 {%- endmacro -%}

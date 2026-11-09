@@ -9,6 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Nunjucks follows Svelte on fifteen more components — 2026-11-09
+
+The maintainer took the recommendations. Breaking for Nunjucks callers: several macros change their params.
+
+- **Changed (breaking):** `menu` and `context-menu` are a `<div role="menu">`, and their items a `<div role="none">` holding the `<button role="menuitem">`, not `<ul>` and `<li>`.
+- **Changed (breaking):** `currency-input`, `measurement-instance-input`, `measurement-system-input` and `measurement-unit-input` are a bare `<input type="text">`, as Svelte renders them: `currencySymbol`, `units`, `systems`, `unit`, `inputLabel`, `selectLabel`, `min`, `max` and `step` are gone (the consumer puts a symbol or unit beside the field).
+- **Changed (breaking):** `dial` is a `<div role="slider">` with `aria-valuenow`, not a native range: `widget-init.js` gives it the arrows (Shift ten), Home and End, and a hidden input carries the value when `name` is given.
+- **Changed (breaking):** `expander` is a `<div>` with a `<button aria-expanded>` and a labelled region, not `<details>`, and takes `label` and `expanded` for `summary` and `open`. Its English "More" default is gone. `widget-init.js` toggles it.
+- **Changed (breaking):** `qr-code-image` is a `<div role="img">` named by `label` (its `<img>` presentational), `sparkline` a `<span role="img">` around an `aria-hidden` SVG, `select-with-extras` a `<div>` holding the `<select>` (with `before` and `after`), `tag-group` a `<div role="group">` of tags (no `<li>`), and `tile` a `<div>` whose heading is the link when `href` is given, not an `<a>` around the whole tile.
+- **Fixed:** the `expander` usage in its docs passed `summary`, a prop no catalog has; it is `label`. `bin/check-html-tags.allow.json` loses 15 entries (26 → 11), and the Nunjucks ARIA baseline 9.
+
 ## `caption` is a `<figcaption>`, `tree-menu` a `<ul>` — 2026-11-09
 
 The maintainer took the recommendations.

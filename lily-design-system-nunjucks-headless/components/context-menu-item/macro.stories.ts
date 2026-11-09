@@ -1,14 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<li
+const html = `<div
   class="context-menu-item"
   role="none">
   <button
     class="context-menu-item-button"
     type="button"
     role="menuitem"  >
-    <span class="context-menu-item-text"></span>  </button>
-</li>`;
+    <span class="context-menu-item-text">Copy</span>  </button>
+</div>`;
 
 const meta = {
     title: "Headless/ContextMenuItem",

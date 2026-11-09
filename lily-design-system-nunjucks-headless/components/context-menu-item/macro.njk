@@ -1,7 +1,7 @@
 {#
   ContextMenuItem macro — one item in a context menu.
 
-  HTML tag: <li role="none"> wrapping a <button role="menuitem">
+  HTML tag: <div role="none"> wrapping a <button role="menuitem">
   CSS class: context-menu-item
 
   Params:
@@ -21,7 +21,7 @@
 #}
 {%- macro contextMenuItem(params) -%}
 {%- set p = params | default({}) -%}
-<li
+<div
   class="context-menu-item{% if p.classes %} {{ p.classes }}{% endif %}"
   role="none"
   {%- if p.danger %} data-danger="true"{% endif %}
@@ -45,5 +45,5 @@
     <kbd class="context-menu-item-shortcut">{{ p.shortcut }}</kbd>
     {%- endif %}
   </button>
-</li>
+</div>
 {%- endmacro -%}

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<ul
+const html = `<div
   class="menu"
-  role="menu" aria-label="Menu"></ul>`;
+  role="menu" aria-label="File"></div>`;
 
 const meta = {
     title: "Headless/Menu",

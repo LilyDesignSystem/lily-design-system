@@ -1,5 +1,19 @@
 .dial {
-  width: 6rem;
-  -webkit-appearance: none;
-  appearance: none;
+  display: inline-grid;
+  place-items: center;
+  inline-size: 6rem;
+  block-size: 6rem;
+  border: 4px solid var(--nhsuk-blue);
+  border-radius: 50%;
+  font-weight: var(--nhsuk-font-weight-bold);
+  cursor: pointer;
+}
+
+.dial::after {
+  content: attr(aria-valuenow);
+}
+
+.dial[aria-disabled="true"] {
+  border-color: var(--nhsuk-mid-grey);
+  cursor: not-allowed;
 }

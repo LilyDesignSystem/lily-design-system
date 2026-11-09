@@ -1,13 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
-  class="measurement-instance-input">
-  <input
-    type="number"
-    class="measurement-instance-input-value"    value=""  >
-  <select
-    class="measurement-instance-input-unit"  >  </select>
-</div>`;
+const html = `<input
+  class="measurement-instance-input"
+  type="text"
+  value="" id="weight" aria-label="Weight">`;
 
 const meta = {
     title: "Headless/MeasurementInstanceInput",

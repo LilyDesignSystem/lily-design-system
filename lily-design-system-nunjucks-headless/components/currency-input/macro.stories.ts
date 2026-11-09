@@ -1,16 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
+const html = `<input
   class="currency-input"
-  data-currency-code="EUR">
-  <span class="currency-input-symbol" aria-hidden="true">€</span>
-  <input
-    class="currency-input-value"
-    type="text"
-    inputmode="decimal"
-    pattern="[0-9]*\\.?[0-9]*"
-    value=""  >
-</div>`;
+  type="text"
+  inputmode="decimal" data-currency-code="EUR"  value="" id="price" aria-label="Price">`;
 
 const meta = {
     title: "Headless/CurrencyInput",

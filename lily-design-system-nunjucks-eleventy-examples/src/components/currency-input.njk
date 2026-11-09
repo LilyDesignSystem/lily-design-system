@@ -6,8 +6,8 @@ description: a locale-aware currency input
 
 {% from "components/currency-input/macro.njk" import currencyInput %}
 
-<p><label for="price">Price</label></p>
-{{ currencyInput({ id: "price", name: "price", value: "12.50", label: "Price in pounds" }) }}
+<p><label for="price">Price (GBP)</label></p>
+{{ currencyInput({ id: "price", name: "price", value: "12.50", currencyCode: "GBP" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

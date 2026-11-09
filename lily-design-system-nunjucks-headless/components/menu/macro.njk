@@ -1,7 +1,7 @@
 {#
   Menu macro — a list of actions or options triggered by a button.
 
-  HTML tag: <ul role="menu">
+  HTML tag: <div role="menu">, as Svelte renders it
   CSS class: menu
 
   Params:
@@ -19,7 +19,7 @@
 #}
 {%- macro menu(params) -%}
 {%- set p = params | default({}) -%}
-<ul
+<div
   class="menu{% if p.classes %} {{ p.classes }}{% endif %}"
   role="menu"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
@@ -29,5 +29,5 @@
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</ul>
+</div>
 {%- endmacro -%}
