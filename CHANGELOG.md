@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `bin/check-html-tags` reads a `baseClass` prop — 2026-11-09
+
+- **Fixed:** `bin/check-html-tags` found no root for `icon-button` and `listbox`, whose base class is a prop (`baseClass`, Angular's `input<string>(…)`, Blazor's `BaseCssClass`) so the pickers can replace it, and the allow-list held eight "unreviewed" entries for them. It now follows the prop to the root, and treats Vue's `<component :is>` as dynamic: the eight entries are gone, and the three left for `listbox` (Angular's `as="ul"` branch, Blazor's and Nunjucks' fixed `<ul>`) say why.
+- **Fixed:** the `listbox` contract lists the eleven props it lacked (`as`, `baseClass`, `navigation`, `activeIndex`, `clamp`, `typeahead`, `pageSize`, `onActivate`, `onEscape`, `onTabOut`, `ref`).
+
 ## `mutually-exclusive` is removed — 2026-11-09
 
 - **Removed (breaking):** `mutually-exclusive`, from all nine catalogs (published in 0.8.0), the eight example apps, the docs site, the 63 themes and the CSS template. Its contract promised a group of checkboxes where checking one unchecks the others, with `value` and `onChange`; no catalog implemented it, and every one rendered a labelled `<fieldset>`. That behaviour is not a WAI-ARIA APG pattern, and a screen reader does not announce the box that was unchecked. Use `radio-group` with a "None" option for one choice or none, a single `checkbox-input` for yes or no, or `fieldset` for a labelled group. The catalog is now 608 components, and Web Components 573 (tasks.md P25-T28).

@@ -97,7 +97,18 @@
     <ul>
       <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code>.</li>
       <li><code>children</code>: slot (required) -- option elements to render inside the listbox (should have <code>role="option"</code> and <code>tabindex="-1"</code>).</li>
-      <li><code>...restProps</code>: unknown -- additional attributes spread onto the container <code>&lt;div&gt;</code>.</li>
+      <li><code>as</code>: string (default: <code>"div"</code>) -- the root element. The pickers set <code>"ul"</code> for their <code>&lt;ul class="&#123;helper&#125;-list"&gt;</code>; Blazor and Nunjucks always render <code>&lt;ul&gt;</code>.</li>
+      <li><code>baseClass</code>: string (default: <code>"listbox"</code>) -- the base class token, replaced outright (not appended), for a helper whose contract needs its own class.</li>
+      <li><code>navigation</code>: <code>"roving-focus"</code> | <code>"active-descendant"</code> (default: <code>"roving-focus"</code>) -- options take focus in turn, or focus stays on the listbox and <code>aria-activedescendant</code> names the active option.</li>
+      <li><code>activeIndex</code>: number (default: <code>-1</code>; bindable) -- the active option in active-descendant mode; -1 is none.</li>
+      <li><code>clamp</code>: boolean (default: <code>false</code>) -- arrow keys stop at the first and last option instead of wrapping (active-descendant mode).</li>
+      <li><code>typeahead</code>: boolean (default: <code>false</code>) -- printable characters move to the next option whose label starts with them (active-descendant mode).</li>
+      <li><code>pageSize</code>: number (default: <code>10</code>) -- how far PageUp and PageDown move (active-descendant mode).</li>
+      <li><code>onActivate</code>: (index: number) =&gt; void -- Enter or Space on the active option (active-descendant mode).</li>
+      <li><code>onEscape</code>: () =&gt; void -- Escape pressed (active-descendant mode).</li>
+      <li><code>onTabOut</code>: (event: KeyboardEvent) =&gt; void -- Tab pressed, before focus moves; Tab is never prevented (active-descendant mode).</li>
+      <li><code>ref</code>: HTMLElement (bindable) -- the rendered root element.</li>
+      <li><code>...restProps</code>: unknown -- additional attributes spread onto the root element.</li>
     </ul>
 </section>
 <!-- END generated: canonical contract -->
