@@ -5,7 +5,7 @@
     a drawing area for capturing a handwritten signature
 *@
 
-<canvas class="@($"signature-pad {CssClass}".Trim())" role="application" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</canvas>
+<div class="@($"signature-pad {CssClass}".Trim())" role="application" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
