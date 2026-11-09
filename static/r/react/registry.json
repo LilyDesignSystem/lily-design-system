@@ -1362,7 +1362,7 @@
       "description": "A prominent prompt encouraging user action.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "categories": [
-        "content"
+        "links"
       ],
       "files": [
         {
@@ -6642,26 +6642,6 @@
       ]
     },
     {
-      "name": "mutually-exclusive",
-      "type": "registry:component",
-      "title": "MutuallyExclusive",
-      "description": "A container ensuring only one option can be selected from a group.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "content"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/MutuallyExclusive.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/MutuallyExclusive.tsx"
-        }
-      ]
-    },
-    {
       "name": "navigation-menu",
       "type": "registry:component",
       "title": "NavigationMenu",
@@ -10872,7 +10852,7 @@
         "@lily/dev-warning-utils"
       ],
       "categories": [
-        "content"
+        "media"
       ],
       "files": [
         {

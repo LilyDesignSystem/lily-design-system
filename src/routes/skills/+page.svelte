@@ -118,7 +118,7 @@
             href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-headless-skill"
             >skill</a
           >
-          (574/609)
+          (573/608)
         </td>
         <td><a aria-label="Web Components helpers skill" href="https://github.com/LilyDesignSystem/lily-design-system/tree/main/lily-design-system-web-components-helpers-skill">skill</a></td>
       </tr>
@@ -130,7 +130,7 @@
     framework runtime; the other 35 components are permanently excluded), and there is no Web Components example app yet — its
     umbrella skill says so rather than implying one exists. A ninth catalog,
     Alpine.js, is covered by a headless skill
-    (lily-design-system-alpine-headless-skill) for all 609 components, but it
+    (lily-design-system-alpine-headless-skill) for all 608 components, but it
     has no helpers or example app yet, so it has no umbrella or helpers skill.
   </p>
 

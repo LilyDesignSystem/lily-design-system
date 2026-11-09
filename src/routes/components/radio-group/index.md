@@ -93,7 +93,6 @@ RadioGroup is the container for RadioInput children. Use `<RadioGroup>` to wrap 
 - `radio-input` — a single radio button input <input type="radio">
 - `checkbox-group` — a group component that manages a collection of checkboxes with shared state
 - `segment-group` — a group of mutually exclusive segment options
-- `mutually-exclusive` — a container ensuring only one option can be selected from a group
 
 ## References
 

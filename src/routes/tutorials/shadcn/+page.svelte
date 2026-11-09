@@ -82,7 +82,7 @@ export function SaveBar() {
   <ul>
     <li>
       <code>https://lilydesignsystem.com/r/react/registry.json</code> lists
-      every item (609 components and the shared helper modules) in shadcn's
+      every item (608 components and the shared helper modules) in shadcn's
       <a href="https://ui.shadcn.com/docs/registry/registry-json">registry.json</a>
       schema.
     </li>

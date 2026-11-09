@@ -2,7 +2,7 @@
   "slug": "red-orange-yellow-green-blue-picker",
   "name": "RedOrangeYellowGreenBluePicker",
   "description": "a picker for selecting a five-level color status",
-  "htmlTag": "div",
+  "htmlTag": "fieldset",
   "category": "pickers",
   "baseClass": ".red-orange-yellow-green-blue-picker",
   "subClasses": [],

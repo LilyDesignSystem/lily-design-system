@@ -25,8 +25,7 @@
   "related": [
     "radio-input",
     "checkbox-group",
-    "segment-group",
-    "mutually-exclusive"
+    "segment-group"
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/radio-group.html",

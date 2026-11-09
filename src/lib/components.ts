@@ -310,7 +310,6 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "mockup-watch", pascal: "MockupWatch", description: "a box area that looks like a smart watch", status: "beta" },
   { name: "mockup-window", pascal: "MockupWindow", description: "a box area that looks like a desktop window", status: "beta" },
   { name: "month-input", pascal: "MonthInput", description: "an input for selecting a month and year <input type=\"month\">", status: "beta" },
-  { name: "mutually-exclusive", pascal: "MutuallyExclusive", description: "a container ensuring only one option can be selected from a group", status: "beta" },
   { name: "navigation-menu", pascal: "NavigationMenu", description: "a site-wide navigation menu with links", status: "stable" },
   { name: "nederland-burgerservice-nummer-input", pascal: "NederlandBurgerserviceNummerInput", description: "an input for entering Netherlands's Burgerservicenummer (BSN)", status: "beta" },
   { name: "nederland-burgerservice-nummer-view", pascal: "NederlandBurgerserviceNummerView", description: "a read-only display of Netherlands's Burgerservicenummer (BSN)", status: "beta" },

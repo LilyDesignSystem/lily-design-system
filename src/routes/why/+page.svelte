@@ -47,7 +47,7 @@
       locale as a prop, always explicitly.
     </li>
     <li>
-      <strong>One catalog, eight frameworks.</strong> The same 609 components
+      <strong>One catalog, eight frameworks.</strong> The same 608 components
       (548 as native Web Components) with the same class hooks and prop
       conventions in HTML, Svelte, React, Vue, Angular, Blazor, Nunjucks, and
       Web Components. Your CSS and your team's knowledge transfer across
