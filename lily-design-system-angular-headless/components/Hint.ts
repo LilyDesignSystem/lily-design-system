@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-hint",
     standalone: true,
-    template: `<span class="hint {{ className() }}" [attr.id]="id() ?? null"><ng-content /></span>`,
+    template: `<p class="hint {{ className() }}" [attr.id]="id() ?? null"><ng-content /></p>`,
     // The id belongs on the element: left on the host too it would be a duplicate.
     host: { "[attr.id]": "null" },
     changeDetection: ChangeDetectionStrategy.OnPush,

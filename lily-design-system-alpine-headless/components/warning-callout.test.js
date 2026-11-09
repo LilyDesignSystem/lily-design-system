@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("div.warning-callout");
+const el = () => document.querySelector("aside.warning-callout");
 
 describe("WarningCallout", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("WarningCallout", () => {
         expect(el().classList.contains("warning-callout")).toBe(true);
     });
 
-    it("uses the div element", async () => {
+    it("uses the aside element", async () => {
         await mount("warning-callout");
-        expect(el().tagName.toLowerCase()).toBe("div");
+        expect(el().tagName.toLowerCase()).toBe("aside");
     });
 });

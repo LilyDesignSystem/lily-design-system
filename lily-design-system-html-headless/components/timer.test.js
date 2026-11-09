@@ -9,14 +9,14 @@ describe("Timer", function () {
     });
 
     it("should render the span element with correct class", async function () {
-        const el = await $("span.timer");
+        const el = await $("time.timer");
         await expect(el).toExist();
         const className = await el.getAttribute("class");
         expect(className).toContain("timer");
     });
 
     it("should have an aria-label attribute", async function () {
-        const el = await $("span.timer");
+        const el = await $("time.timer");
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });

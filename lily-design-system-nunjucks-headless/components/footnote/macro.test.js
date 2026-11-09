@@ -2,54 +2,32 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("footnote", () => {
-    it("renders a <sup> with the base class wrapping an <a>", () => {
-        const { document } = render("footnote", {
-            number: 1,
-            href: "#fn-1",
-            id: "fnref-1",
-        });
-        const sup = document.querySelector("sup.footnote");
-        expect(sup).toBeTruthy();
-        expect(sup.getAttribute("id")).toBe("fnref-1");
-        const a = sup.querySelector("a");
-        expect(a.getAttribute("href")).toBe("#fn-1");
-        expect(a.textContent).toBe("1");
+    it('renders a <span role="note"> with the base class and the reference\'s target id', () => {
+        const { document } = render("footnote", { id: "fn-1", text: "Source: WHO 2024 report." });
+        const el = document.querySelector("span.footnote");
+        expect(el).toBeTruthy();
+        expect(el.getAttribute("role")).toBe("note");
+        expect(el.getAttribute("id")).toBe("fn-1");
+        expect(el.textContent).toBe("Source: WHO 2024 report.");
     });
 
-    it("accepts a string marker", () => {
-        const { document } = render("footnote", {
-            number: "a",
-            href: "#fn-a",
-        });
-        expect(document.querySelector("sup.footnote a").textContent).toBe("a");
+    it("is not named by its id", () => {
+        const { document } = render("footnote", { id: "fn-1", text: "Source" });
+        expect(document.querySelector(".footnote").hasAttribute("aria-label")).toBe(false);
     });
 
-    it("defaults href to '#' when omitted", () => {
-        const { document } = render("footnote", { number: 1 });
-        expect(document.querySelector("sup.footnote a").getAttribute("href")).toBe("#");
-    });
-
-    it("sets aria-label on the link when provided", () => {
-        const { document } = render("footnote", {
-            number: 1,
-            href: "#fn-1",
-            label: "Footnote 1: see source",
-        });
-        expect(document.querySelector("sup.footnote a").getAttribute("aria-label")).toBe(
-            "Footnote 1: see source",
-        );
+    it("renders html content", () => {
+        const { document } = render("footnote", { id: "fn-2", html: "<em>Journal</em>, 2024" });
+        expect(document.querySelector(".footnote em").textContent).toBe("Journal");
     });
 
     it("appends params.classes", () => {
-        const { document } = render("footnote", {
-            number: 1,
-            classes: "inline",
-        });
-        expect(document.querySelector("sup.footnote.inline")).toBeTruthy();
+        const { document } = render("footnote", { id: "fn-1", text: "x", classes: "inline" });
+        expect(document.querySelector("span.footnote.inline")).toBeTruthy();
     });
 
     it("contains no <style> or <script> tags", () => {
-        const { html } = render("footnote", { number: 1 });
+        const { html } = render("footnote", { id: "fn-1", text: "x" });
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });

@@ -8,7 +8,7 @@ The component handles image loading gracefully: if an image source is provided, 
 
 ## Implementation Notes
 
-- Renders a `<div>` element with class `avatar`
+- Renders a `<span>` element with class `avatar`
 - Spreads `restProps` onto the root element for consumer customization
 
 ## Help
@@ -130,7 +130,7 @@ The consumer provides all CSS styling. The component renders with a `.avatar` cl
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `avatar`
+- Verify the component renders a `<span>` element with class `avatar`
 - Verify role="img"` -- on the outer container, conveying that the entire avatar is an image representation
 - Verify aria-label`-- set from the`alt` prop, providing the accessible name for the avatar
 - Verify aria-hidden="true"`-- on the inner initials`<span>`, preventing duplicate announcements since the outer element already has `aria-label

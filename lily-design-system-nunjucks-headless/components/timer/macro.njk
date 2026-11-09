@@ -1,7 +1,7 @@
 {#
   Timer macro — a countdown or elapsed-time display.
 
-  HTML tag: <output>
+  HTML tag: <time role="timer">
   CSS class: timer
   Accessibility: aria-live="polite" so screen readers announce changes
     without interrupting. Use data-timer-remaining or data-timer-elapsed
@@ -18,7 +18,7 @@
 #}
 {%- macro timer(params) -%}
 {%- set p = params | default({}) -%}
-<output
+<time
   class="timer{% if p.classes %} {{ p.classes }}{% endif %}"
   role="timer"
   aria-live="polite"
@@ -28,5 +28,5 @@
   {%- if p.start %} data-start="{{ p.start }}"{% endif %}
   {%- if p.duration %} data-duration="{{ p.duration }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->{{ p.text | default('') }}</output>
+>{{ p.text | default('') }}</time>
 {%- endmacro -%}

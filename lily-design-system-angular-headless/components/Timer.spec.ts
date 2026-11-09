@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { Timer } from "./Timer";
 
 describe("Timer", () => {
-    test("renders the span root with the base class", () => {
+    test("renders the time root with the base class", () => {
         const fixture = TestBed.createComponent(Timer);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("span.timer");
+        const el = fixture.nativeElement.querySelector("time.timer");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Timer", () => {
         const fixture = TestBed.createComponent(Timer);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("span.timer");
+        const el = fixture.nativeElement.querySelector("time.timer");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

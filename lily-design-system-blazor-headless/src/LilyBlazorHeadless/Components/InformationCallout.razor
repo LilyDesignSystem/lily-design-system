@@ -5,7 +5,7 @@
     a callout box highlighting informational content
 *@
 
-<div class="@($"information-callout {CssClass}".Trim())" role="note" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<aside class="@($"information-callout {CssClass}".Trim())" role="note" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</aside>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

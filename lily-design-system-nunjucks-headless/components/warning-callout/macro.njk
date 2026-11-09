@@ -1,9 +1,9 @@
 {#
   WarningCallout macro — a callout box highlighting a warning message.
 
-  HTML tag: <div role="note">
+  HTML tag: <aside role="alert">
   CSS class: warning-callout
-  Accessibility: role="note" (ancillary information); params.heading
+  Accessibility: role="alert", as Svelte renders it; params.heading
     becomes the visible heading; params.label can override the
     accessible name.
 
@@ -27,7 +27,7 @@
 #}
 {%- macro warningCallout(params) -%}
 {%- set level = params.headingLevel | default(3) -%}
-<div
+<aside
   class="warning-callout{% if params.classes %} {{ params.classes }}{% endif %}"
   role="alert"
   {%- if params.id %} id="{{ params.id }}"{% endif %}
@@ -44,5 +44,5 @@
   {%- elif caller %}
   {{ caller() }}
   {%- endif %}
-</div>
+</aside>
 {%- endmacro -%}

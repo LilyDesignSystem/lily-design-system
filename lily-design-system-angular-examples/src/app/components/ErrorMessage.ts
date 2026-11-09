@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-error-message",
     standalone: true,
-    template: `<span class="error-message {{ className() }}" role="alert" [attr.aria-label]="label() || null"><ng-content /></span>`,
+    template: `<p class="error-message {{ className() }}" role="alert" [attr.aria-label]="label() || null"><ng-content /></p>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorMessage {

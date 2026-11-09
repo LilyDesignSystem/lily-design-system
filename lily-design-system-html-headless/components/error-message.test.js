@@ -9,14 +9,14 @@ describe("ErrorMessage", function () {
     });
 
     it("should render the span element with correct class", async function () {
-        const el = await $("span.error-message");
+        const el = await $("p.error-message");
         await expect(el).toExist();
         const className = await el.getAttribute("class");
         expect(className).toContain("error-message");
     });
 
     it("should have an aria-label attribute", async function () {
-        const el = await $("span.error-message");
+        const el = await $("p.error-message");
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });

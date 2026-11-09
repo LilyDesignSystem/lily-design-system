@@ -5,7 +5,7 @@
     hint text providing guidance for a form field
 *@
 
-<span class="@($"hint {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</span>
+<p class="@($"hint {CssClass}".Trim())" @attributes="AdditionalAttributes">@ChildContent</p>
 
 @code {
     [Parameter] public RenderFragment? ChildContent { get; set; }

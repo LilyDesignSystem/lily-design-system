@@ -1,15 +1,9 @@
 // CareCard component
 //
 // A medical care instruction card with urgency levels (NHS England
-// inspired). Renders a <section role="region"> landmark with an <h2>
-// heading and body content.
-//
-// Deviation from the canonical AGENTS.md "HTML tag" metadata field (which
-// says <div>): the real implementation in react-headless (and matched by
-// html-headless's `<div role="region">`, which is the same landmark
-// semantics on a less-specific element) renders a <section>. Followed
-// headless.md's "most specific semantic element" rule and the react
-// implementation.
+// inspired). Renders a <div role="group"> with an <h2> heading and body
+// content, not a landmark, so a page of cards does not flood the landmark
+// list.
 //
 // Attributes:
 //   type — "non-urgent" | "urgent" | "immediate", default "non-urgent".
@@ -27,22 +21,22 @@ const HANDLED = new Set(["type", "heading", "label"]);
 
 export class CareCard extends HTMLElement {
     connectedCallback(): void {
-        if (this.querySelector(":scope > section.care-card")) return;
+        if (this.querySelector(":scope > div.care-card")) return;
 
-        const section = document.createElement("section");
-        section.className = rootClassName(this, "care-card");
-        section.setAttribute("role", "region");
+        const div = document.createElement("div");
+        div.className = rootClassName(this, "care-card");
+        div.setAttribute("role", "group");
         const heading = this.getAttribute("heading") ?? "";
         const label = this.getAttribute("label");
-        section.setAttribute("aria-label", label ?? heading);
-        section.setAttribute("data-type", this.getAttribute("type") ?? "non-urgent");
-        passThroughAttributes(this, section, HANDLED);
+        div.setAttribute("aria-label", label ?? heading);
+        div.setAttribute("data-type", this.getAttribute("type") ?? "non-urgent");
+        passThroughAttributes(this, div, HANDLED);
 
         const h2 = document.createElement("h2");
         h2.textContent = heading;
-        section.appendChild(h2);
+        div.appendChild(h2);
 
-        moveChildrenInto(this, section);
-        this.appendChild(section);
+        moveChildrenInto(this, div);
+        this.appendChild(div);
     }
 }

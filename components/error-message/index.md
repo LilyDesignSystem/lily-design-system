@@ -79,7 +79,7 @@ The consumer provides all CSS styling. The component renders with a `.error-mess
 
 ## Testing
 
-- Verify the component renders a `<span>` element with class `error-message`
+- Verify the component renders a `<p>` element with class `error-message`
 - Verify role="alert"` -- creates an assertive live region so the error message is announced immediately by screen readers when it appears
 - Verify pass-through attributes are applied
 

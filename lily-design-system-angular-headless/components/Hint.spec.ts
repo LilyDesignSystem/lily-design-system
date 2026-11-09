@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { Hint } from "./Hint";
 
 describe("Hint", () => {
-    test("renders the span root with the base class", () => {
+    test("renders the p root with the base class", () => {
         const fixture = TestBed.createComponent(Hint);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("span.hint");
+        const el = fixture.nativeElement.querySelector("p.hint");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Hint", () => {
         const fixture = TestBed.createComponent(Hint);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("span.hint");
+        const el = fixture.nativeElement.querySelector("p.hint");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

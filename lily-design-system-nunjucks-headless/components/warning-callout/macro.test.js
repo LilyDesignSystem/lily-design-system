@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("warning-callout", () => {
-    it("renders a <div> with the base class and role=alert", () => {
+    it("renders an <aside> with the base class and role=alert", () => {
         const { document } = render("warning-callout", { text: "Be careful" });
-        const el = document.querySelector("div.warning-callout");
+        const el = document.querySelector("aside.warning-callout");
         expect(el).toBeTruthy();
         expect(el.getAttribute("role")).toBe("alert");
     });
@@ -14,7 +14,7 @@ describe("warning-callout", () => {
             heading: "Important",
             text: "x",
         });
-        const h = document.querySelector("div.warning-callout h3");
+        const h = document.querySelector("aside.warning-callout h3");
         expect(h).toBeTruthy();
         expect(h.textContent.trim()).toBe("Important");
         expect(h.classList.contains("warning-callout-label")).toBe(true);
@@ -26,8 +26,8 @@ describe("warning-callout", () => {
             headingLevel: 2,
             text: "x",
         });
-        expect(document.querySelector("div.warning-callout h2")).toBeTruthy();
-        expect(document.querySelector("div.warning-callout h3")).toBeNull();
+        expect(document.querySelector("aside.warning-callout h2")).toBeTruthy();
+        expect(document.querySelector("aside.warning-callout h3")).toBeNull();
     });
 
     it("wraps params.text in a <p>", () => {
@@ -35,7 +35,7 @@ describe("warning-callout", () => {
             heading: "x",
             text: "Message",
         });
-        const p = document.querySelector("div.warning-callout p");
+        const p = document.querySelector("aside.warning-callout p");
         expect(p).toBeTruthy();
         expect(p.textContent.trim()).toBe("Message");
     });
@@ -45,7 +45,7 @@ describe("warning-callout", () => {
             heading: "x",
             html: "<ul><li>one</li></ul>",
         });
-        expect(document.querySelector("div.warning-callout ul li")).toBeTruthy();
+        expect(document.querySelector("aside.warning-callout ul li")).toBeTruthy();
     });
 
     it("appends params.classes", () => {
@@ -53,19 +53,19 @@ describe("warning-callout", () => {
             text: "x",
             classes: "narrow",
         });
-        expect(document.querySelector("div.warning-callout.narrow")).toBeTruthy();
+        expect(document.querySelector("aside.warning-callout.narrow")).toBeTruthy();
     });
 
     it("sets aria-label from params.label", () => {
         const { document } = render("warning-callout", { text: "x", label: "Warning" });
-        expect(document.querySelector("div.warning-callout").getAttribute("aria-label")).toBe(
+        expect(document.querySelector("aside.warning-callout").getAttribute("aria-label")).toBe(
             "Warning",
         );
     });
 
     it("renders caller block content when no text or html is set", () => {
         const { document } = render("warning-callout", { heading: "x" }, "<p>Call</p>");
-        expect(document.querySelector("div.warning-callout p").textContent).toBe("Call");
+        expect(document.querySelector("aside.warning-callout p").textContent).toBe("Call");
     });
 
     it("contains no <style> or <script> tags", () => {

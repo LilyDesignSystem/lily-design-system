@@ -28,27 +28,18 @@ describe("Image", () => {
         expect(host.querySelector("figure")).toBeNull();
     });
 
-    test("renders a figure with figcaption when caption is provided", () => {
+    test("ignores a caption attribute: a caption belongs to the figure around it", () => {
         const host = render(
             '<lily-image src="/photo.jpg" alt="A sunset" caption="Photo by Jane Doe"></lily-image>',
         );
 
-        const figure = host.querySelector("figure")!;
-        expect(figure.className).toBe("image");
-        expect(figure.querySelector("img")!.alt).toBe("A sunset");
-        expect(figure.querySelector("figcaption")!.textContent).toBe("Photo by Jane Doe");
+        expect(host.querySelector("figure")).toBeNull();
+        expect(host.querySelector("img.image")!.alt).toBe("A sunset");
     });
 
-    test("propagates the loading attribute in both branches", () => {
-        const withoutCaption = render(
-            '<lily-image src="/a.jpg" alt="A" loading="lazy"></lily-image>',
-        );
-        expect(withoutCaption.querySelector("img")!.getAttribute("loading")).toBe("lazy");
-
-        const withCaption = render(
-            '<lily-image src="/a.jpg" alt="A" caption="Caption" loading="eager"></lily-image>',
-        );
-        expect(withCaption.querySelector("img")!.getAttribute("loading")).toBe("eager");
+    test("propagates the loading attribute", () => {
+        const host = render('<lily-image src="/a.jpg" alt="A" loading="lazy"></lily-image>');
+        expect(host.querySelector("img")!.getAttribute("loading")).toBe("lazy");
     });
 
     test("root class hook includes the consumer's class attribute", () => {

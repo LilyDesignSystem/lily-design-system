@@ -4,10 +4,10 @@ import { TestBed } from "@angular/core/testing";
 import { Avatar } from "./Avatar";
 
 describe("Avatar", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the span root with the base class", () => {
         const fixture = TestBed.createComponent(Avatar);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.avatar");
+        const el = fixture.nativeElement.querySelector("span.avatar");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Avatar", () => {
         const fixture = TestBed.createComponent(Avatar);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.avatar");
+        const el = fixture.nativeElement.querySelector("span.avatar");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

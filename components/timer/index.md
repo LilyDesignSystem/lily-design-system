@@ -89,7 +89,7 @@ The consumer provides all CSS styling. The component renders with a `.timer` cla
 
 ## Testing
 
-- Verify the component renders a `<span>` element with class `timer`
+- Verify the component renders a `<time>` element with class `timer`
 - Verify role="timer"` indicates countdown or elapsed time
 - Verify aria-label` from the label prop provides accessible name
 - Verify keyboard interactions work correctly

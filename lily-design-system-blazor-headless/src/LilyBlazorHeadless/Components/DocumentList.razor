@@ -5,7 +5,7 @@
     a list displaying documents with titles and metadata
 *@
 
-<ol class="@($"document-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
+<ul class="@($"document-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ul>
 
 @code {
     [Parameter] public string Label { get; set; } = "";

@@ -10,9 +10,10 @@ describe("Image", () => {
         render(Subject, { props: { src: "/img.png", alt: "Pic" } });
         expect(screen.getByRole("img").getAttribute("src")).toBe("/img.png");
     });
-    test("renders caption in figure", () => {
-        render(Subject, { props: { src: "/x.jpg", alt: "X", caption: "Credit" } });
-        expect(screen.getByText("Credit")).toBeTruthy();
+    test("renders a bare img, never a figure", () => {
+        const { container } = render(Subject, { props: { src: "/x.jpg", alt: "X" } });
+        expect(container.querySelector("img.image")).toBeTruthy();
+        expect(container.querySelector("figure")).toBeNull();
     });
     test("passes through attributes", () => {
         render(Subject, { props: { src: "/x.jpg", alt: "X", "data-testid": "img" } });

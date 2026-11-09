@@ -10,7 +10,7 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-care-card",
     standalone: true,
-    template: `<div class="care-card {{ className() }}" role="region" [attr.aria-label]="label() || heading() || null" [attr.data-type]="type()"><h2>{{ heading() }}</h2><ng-content /></div>`,
+    template: `<div class="care-card {{ className() }}" role="group" [attr.aria-label]="label() || heading() || null" [attr.data-type]="type()"><h2>{{ heading() }}</h2><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CareCard {

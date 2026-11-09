@@ -2,21 +2,21 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("hint", () => {
-    it("renders a <div> with the base class", () => {
+    it("renders a <p> with the base class", () => {
         const { document } = render("hint", { text: "It is a 10-digit number." });
-        const el = document.querySelector("div");
+        const el = document.querySelector("p");
         expect(el).toBeTruthy();
         expect(el.classList.contains("hint")).toBe(true);
     });
 
     it("escapes params.text", () => {
         const { document } = render("hint", { text: "A & B" });
-        expect(document.querySelector("div").textContent.trim()).toBe("A & B");
+        expect(document.querySelector("p").textContent.trim()).toBe("A & B");
     });
 
     it("renders params.html raw", () => {
         const { document } = render("hint", { html: "<em>Optional</em>" });
-        expect(document.querySelector("div em")).toBeTruthy();
+        expect(document.querySelector("p.hint em")).toBeTruthy();
     });
 
     it("sets id from params.id for aria-describedby linkage", () => {
@@ -24,12 +24,12 @@ describe("hint", () => {
             text: "x",
             id: "nhs-number-hint",
         });
-        expect(document.querySelector("div").getAttribute("id")).toBe("nhs-number-hint");
+        expect(document.querySelector("p").getAttribute("id")).toBe("nhs-number-hint");
     });
 
     it("appends params.classes", () => {
         const { document } = render("hint", { text: "x", classes: "inline" });
-        expect(document.querySelector("div.hint.inline")).toBeTruthy();
+        expect(document.querySelector("p.hint.inline")).toBeTruthy();
     });
 
     it("renders params.attributes", () => {
@@ -37,12 +37,12 @@ describe("hint", () => {
             text: "x",
             attributes: { "data-source": "form" },
         });
-        expect(document.querySelector("div").getAttribute("data-source")).toBe("form");
+        expect(document.querySelector("p").getAttribute("data-source")).toBe("form");
     });
 
     it("renders caller block content", () => {
         const { document } = render("hint", {}, "<em>Hint</em>");
-        expect(document.querySelector("div em").textContent).toBe("Hint");
+        expect(document.querySelector("p.hint em").textContent).toBe("Hint");
     });
 
     it("contains no <style> or <script> tags", () => {

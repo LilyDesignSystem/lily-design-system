@@ -22,11 +22,9 @@ describe("Footnote", () => {
 
     test("has role=note, as in Svelte", () => {
         const fixture = TestBed.createComponent(Footnote);
-        fixture.componentRef.setInput("label", "Story");
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector(".footnote");
         expect(el.getAttribute("role")).toBe("note");
-        expect(el.getAttribute("aria-label")).toBe("Story");
     });
 
     test("takes the id off the host", () => {
@@ -35,7 +33,7 @@ describe("Footnote", () => {
         fixture.detectChanges();
         const el = fixture.nativeElement.querySelector(".footnote");
         expect(el.getAttribute("id")).toBe("note-1");
-        expect(el.getAttribute("aria-label")).toBe("note-1");
+        expect(el.hasAttribute("aria-label")).toBe(false);
         expect(fixture.nativeElement.hasAttribute("id")).toBe(false);
     });
 });

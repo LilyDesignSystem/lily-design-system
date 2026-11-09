@@ -5,7 +5,7 @@
     a countdown or elapsed time display
 *@
 
-<span class="@($"timer {CssClass}".Trim())" aria-live="polite" role="timer" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<time class="@($"timer {CssClass}".Trim())" aria-live="polite" role="timer" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</time>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
