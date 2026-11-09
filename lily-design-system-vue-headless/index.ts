@@ -365,7 +365,6 @@ export { default as MockupWindow } from "./components/MockupWindow.vue";
 export { default as MonthInput } from "./components/MonthInput.vue";
 export { default as MultiSelect } from "./components/MultiSelect.vue";
 export { default as MultiSelectWithExtras } from "./components/MultiSelectWithExtras.vue";
-export { default as MutuallyExclusive } from "./components/MutuallyExclusive.vue";
 export { default as NavigationMenu } from "./components/NavigationMenu.vue";
 export { default as NederlandBurgerserviceNummerInput } from "./components/NederlandBurgerserviceNummerInput.vue";
 export { default as NederlandBurgerserviceNummerView } from "./components/NederlandBurgerserviceNummerView.vue";

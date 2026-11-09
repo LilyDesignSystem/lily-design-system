@@ -1346,9 +1346,6 @@ export { MultiSelect } from "./components/multi-select.js";
 import { MultiSelect as _MultiSelect } from "./components/multi-select.js";
 if (!customElements.get("lily-multi-select")) customElements.define("lily-multi-select", _MultiSelect);
 
-export { MutuallyExclusive } from "./components/mutually-exclusive.js";
-import { MutuallyExclusive as _MutuallyExclusive } from "./components/mutually-exclusive.js";
-if (!customElements.get("lily-mutually-exclusive")) customElements.define("lily-mutually-exclusive", _MutuallyExclusive);
 
 export { NavigationMenu } from "./components/navigation-menu.js";
 import { NavigationMenu as _NavigationMenu } from "./components/navigation-menu.js";

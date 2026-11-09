@@ -729,8 +729,6 @@ export { default as MultiSelect } from "./components/MultiSelect";
 export type { MultiSelectProps } from "./components/MultiSelect";
 export { default as MultiSelectWithExtras } from "./components/MultiSelectWithExtras";
 export type { MultiSelectWithExtrasProps } from "./components/MultiSelectWithExtras";
-export { default as MutuallyExclusive } from "./components/MutuallyExclusive";
-export type { MutuallyExclusiveProps } from "./components/MutuallyExclusive";
 export { default as NavigationMenu } from "./components/NavigationMenu";
 export type { NavigationMenuProps } from "./components/NavigationMenu";
 export { default as NederlandBurgerserviceNummerInput } from "./components/NederlandBurgerserviceNummerInput";

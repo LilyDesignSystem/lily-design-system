@@ -2050,8 +2050,7 @@
         .radio-group,
         .dial-group,
         .tag-group,
-        .avatar-group,
-        .mutually-exclusive
+        .avatar-group
     ) {
         display: inline-flex;
         gap: 0.25rem;

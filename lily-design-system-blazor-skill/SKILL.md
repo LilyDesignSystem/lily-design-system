@@ -60,7 +60,7 @@ no CSS framework dependency, and the required-routes shape below.
 ### Required routes
 
 - `/` — home page, links to every example.
-- `/components` — the full catalog index (all 609 components, with links
+- `/components` — the full catalog index (all 608 components, with links
   to individual demos).
 - `/components/{slug}` — one live demo per component, with the canonical
   metadata (description, props, ARIA, keyboard, references).

@@ -31,7 +31,7 @@ The app ships:
 
 - A Nuxt 3 app with file-based routing.
 - A `/components/[slug]` route that renders a live demo per component for all
-  609 components (via `data/component-demos.ts`).
+  608 components (via `data/component-demos.ts`).
 - 12 composed-page demos.
 - A complete NHS-aligned CSS stylesheet (`assets/css/nhs.css`).
 - Playwright e2e tests for each `/components/[slug]` route.
@@ -81,8 +81,8 @@ lily-design-system-vue-nuxt-examples/
 │   └── …
 ├── components/{PascalCase}.vue            ← 583 wrappers re-exporting headless
 ├── data/
-│   ├── component-demos.ts                 ← slug → demo-HTML (609 entries)
-│   └── components.ts                      ← catalog metadata (609 entries)
+│   ├── component-demos.ts                 ← slug → demo-HTML (608 entries)
+│   └── components.ts                      ← catalog metadata (608 entries)
 ├── assets/css/nhs.css                     ← NHS-aligned stylesheet
 ├── tests/components/{PascalCase}.test.ts  ← vitest spec per component
 ├── e2e/components/{kebab-case}.spec.ts    ← Playwright e2e per slug
@@ -100,7 +100,7 @@ lily-design-system-vue-nuxt-examples/
 | `/components/[slug]` | Per-component detail — live demo + metadata         |
 
 `/components/[slug]` renders the demo HTML from `data/component-demos.ts`
-using `v-html`. Demo data contains **609 entries** (one per canonical slug).
+using `v-html`. Demo data contains **608 entries** (one per canonical slug).
 
 ## 5. Composed-page demos
 
@@ -144,8 +144,8 @@ pnpm run storybook                   # run Storybook
 ### 9.1 Routes
 
 - [ ] `/` renders home with skip-link + standard landmarks.
-- [ ] `/components` lists all 609 canonical components.
-- [ ] `/components/[slug]` renders a live demo for all 609 slugs.
+- [ ] `/components` lists all 608 canonical components.
+- [ ] `/components/[slug]` renders a live demo for all 608 slugs.
 - [ ] All 12 composed-page demos exist.
 
 ### 9.2 Demo registry
@@ -187,7 +187,7 @@ pnpm run storybook                   # run Storybook
 - [x] Per-component test suite in `tests/components/` (490 specs when written; 264 files on 2026-10-30, so not one per component).
 - [x] Playwright e2e per slug.
 - [x] Storybook integration (commit `7a51013b`).
-- [x] Demo registry backfill: `component-demos.ts` covers all 609 canonical
+- [x] Demo registry backfill: `component-demos.ts` covers all 608 canonical
       slugs (per commit `1f1772e1`).
 - [x] Catalog metadata cleaned: orphan `medical-record-red-box` removed.
 - [x] TabGroup removal (canonical pattern is TabBar + TabBarButton + TabPanel).
@@ -222,6 +222,6 @@ pnpm run storybook                   # run Storybook
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 609 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 608 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling headless library: [../lily-design-system-vue-headless/](../../lily-design-system-vue-headless/)

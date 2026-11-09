@@ -365,7 +365,6 @@ export { default as MockupWindow } from "./components/MockupWindow/MockupWindow.
 export { default as MonthInput } from "./components/MonthInput/MonthInput.svelte";
 export { default as MultiSelect } from "./components/MultiSelect/MultiSelect.svelte";
 export { default as MultiSelectWithExtras } from "./components/MultiSelectWithExtras/MultiSelectWithExtras.svelte";
-export { default as MutuallyExclusive } from "./components/MutuallyExclusive/MutuallyExclusive.svelte";
 export { default as NavigationMenu } from "./components/NavigationMenu/NavigationMenu.svelte";
 export { default as NederlandBurgerserviceNummerInput } from "./components/NederlandBurgerserviceNummerInput/NederlandBurgerserviceNummerInput.svelte";
 export { default as NederlandBurgerserviceNummerView } from "./components/NederlandBurgerserviceNummerView/NederlandBurgerserviceNummerView.svelte";

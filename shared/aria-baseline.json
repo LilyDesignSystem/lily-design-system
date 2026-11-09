@@ -1844,12 +1844,6 @@
     "role": null,
     "aria": []
   },
-  "mutually-exclusive": {
-    "role": null,
-    "aria": [
-      "aria-label"
-    ]
-  },
   "navigation-menu": {
     "role": null,
     "aria": [

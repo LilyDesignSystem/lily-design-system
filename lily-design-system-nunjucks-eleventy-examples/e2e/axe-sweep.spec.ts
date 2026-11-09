@@ -9,7 +9,7 @@ import AxeBuilder from "@axe-core/playwright";
 import fs from "node:fs";
 import path from "node:path";
 
-// 609 pages in one test. Ten minutes is near what a CI runner takes, and failed on main and on PR 353 with no finding.
+// 608 pages in one test. Ten minutes is near what a CI runner takes, and failed on main and on PR 353 with no finding.
 const SWEEP_TIMEOUT = 1_200_000;
 
 const allow: Record<string, string> = JSON.parse(

@@ -43,7 +43,7 @@ framework rather than all seven.
   `params` shape, and server-rendering behaviour a Nunjucks consumer needs.
 - **Isn't**: the Nunjucks headless library itself (that's
   [`@lilydesignsystem/nunjucks-headless`](../lily-design-system-nunjucks-headless/),
-  which ships the 609 macros this skill explains how to call), isn't the
+  which ships the 608 macros this skill explains how to call), isn't the
   general framework-agnostic Lily skill (that's
   [`lily-design-system-skill`](../lily-design-system-skill/)), and isn't
   the Nunjucks `*-picker` helpers skill (that's

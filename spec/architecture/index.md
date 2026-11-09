@@ -24,7 +24,7 @@ It does not cover the vision or scope split (see [overview](../overview/index.md
 lily-design-system/                              ← canonical catalog + tools
 ├── AGENTS.md, AGENTS/*.md                       ← modular reference docs (AGENTS.md is the single AI file; CLAUDE.md was retired 2026-09-19)
 ├── components.tsv                               ← canonical 609-component list
-├── components/{slug}/                           ← per-component docs (609 dirs: index.md, README.md → index.md, AGENTS.md, spec/index.md)
+├── components/{slug}/                           ← per-component docs (608 dirs: index.md, README.md → index.md, AGENTS.md, spec/index.md)
 ├── component-variants.json                      ← curated extra demo states (bin/generate-examples)
 ├── css-style-sheet-template.css                 ← class-hook stylesheet template
 ├── themes/                                      ← 63 reference theme stylesheets (+ tokens/)
@@ -61,9 +61,9 @@ lily-design-system/                              ← canonical catalog + tools
 
 Headless libraries ship unstyled, accessible components; example apps demonstrate them with a full stylesheet and the three required routes (see [examples](../examples/index.md)).
 
-An 8th headless library sits outside the pairs: `@lilydesignsystem/web-components-headless` (added 2026-09-03, reached its full achievable scope 2026-09-06) ships 574 of the 609 components as native custom elements with no framework runtime and no example app — the other 35 (30 table sub-elements and 5 interactive `*ListItem` families) are permanently excluded by a real architectural limitation, not open backlog. Its own `spec/index.md` records the architecture decisions (autonomous custom elements over customized built-ins, light-DOM-only) and the exact scope.
+An 8th headless library sits outside the pairs: `@lilydesignsystem/web-components-headless` (added 2026-09-03, reached its full achievable scope 2026-09-06) ships 573 of the 608 components as native custom elements with no framework runtime and no example app — the other 35 (30 table sub-elements and 5 interactive `*ListItem` families) are permanently excluded by a real architectural limitation, not open backlog. Its own `spec/index.md` records the architecture decisions (autonomous custom elements over customized built-ins, light-DOM-only) and the exact scope.
 
-A 9th headless library, `@lilydesignsystem/alpine-headless` (added 2026-10-21, unpublished), ships all 609 components as annotated HTML snippets (`components/{slug}.html`) plus one Alpine.js plugin that owns state and keyboard behaviour: 488 are static markup and 83 have hand-written `Alpine.data` behaviour. It has its own example app, `lily-design-system-alpine-examples` (a static site: every component with a live demo, plus a page per helper), and six helpers, `alpine-data-grid`, `alpine-kanban-board`, `alpine-calendar`, `alpine-gantt-chart`, `alpine-markdown-editor` and `alpine-org-editor`, each a subset of its Svelte reference (its `spec/index.md` lists what is built and what is not); `bin/check-port-parity` compares them with Svelte. There are no Alpine pickers yet, and the headless package is not yet wired into `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless` or `bin/smoke-packages`.
+A 9th headless library, `@lilydesignsystem/alpine-headless` (added 2026-10-21, unpublished), ships all 608 components as annotated HTML snippets (`components/{slug}.html`) plus one Alpine.js plugin that owns state and keyboard behaviour: 488 are static markup and 83 have hand-written `Alpine.data` behaviour. It has its own example app, `lily-design-system-alpine-examples` (a static site: every component with a live demo, plus a page per helper), and six helpers, `alpine-data-grid`, `alpine-kanban-board`, `alpine-calendar`, `alpine-gantt-chart`, `alpine-markdown-editor` and `alpine-org-editor`, each a subset of its Svelte reference (its `spec/index.md` lists what is built and what is not); `bin/check-port-parity` compares them with Svelte. There are no Alpine pickers yet, and the headless package is not yet wired into `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless` or `bin/smoke-packages`.
 
 ## Helper packages
 
@@ -110,7 +110,7 @@ Packages are published from this repository to npm and NuGet; see [trusted-publi
 
 ## Required files per component directory
 
-Every `components/{slug}/` directory (609 of them) carries:
+Every `components/{slug}/` directory (608 of them) carries:
 
 | File            | Purpose                                                                                                   |
 | --------------- | --------------------------------------------------------------------------------------------------------- |
@@ -122,9 +122,9 @@ Every `components/{slug}/` directory (609 of them) carries:
 ## Acceptance criteria
 
 - [x] All 9 headless libraries and 8 example apps exist at the documented paths.
-- [x] `@lilydesignsystem/web-components-headless` exists at the documented path and its `spec/index.md` states its final (2026-09-06: 456/491; 574/609 as of 2026-10-25 — the full achievable scope) accounting.
+- [x] `@lilydesignsystem/web-components-headless` exists at the documented path and its `spec/index.md` states its final (2026-09-06: 456/491; 573/608 as of 2026-10-25 — the full achievable scope) accounting.
 - [x] Helper packages exist for all eight frameworks, one top-level subproject each (167 in all; the per-framework catalogs were dissolved into them 2026-10-10).
-- [x] All 609 component directories carry the required component files (`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md`; `CLAUDE.md` was retired 2026-09-19).
+- [x] All 608 component directories carry the required component files (`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md`; `CLAUDE.md` was retired 2026-09-19).
 - [x] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, and spec/plan/tasks.
 - [x] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.
 - [x] Retired 2026-10-10: subprojects are no longer pushed to standalone repositories; the mirrors were deleted and `bin/git-subtree-push` removed. Only the docs site is still a subtree, pushed by `make github-pages`.

@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `mutually-exclusive` is removed — 2026-11-09
+
+- **Removed (breaking):** `mutually-exclusive`, from all nine catalogs (published in 0.8.0), the eight example apps, the docs site, the 63 themes and the CSS template. Its contract promised a group of checkboxes where checking one unchecks the others, with `value` and `onChange`; no catalog implemented it, and every one rendered a labelled `<fieldset>`. That behaviour is not a WAI-ARIA APG pattern, and a screen reader does not announce the box that was unchecked. Use `radio-group` with a "None" option for one choice or none, a single `checkbox-input` for yes or no, or `fieldset` for a labelled group. The catalog is now 608 components, and Web Components 573 (tasks.md P25-T28).
+
 ## Cheaper, quieter CI runs — 2026-11-09
 
 - **Changed:** a newer push to a branch or pull request cancels the CI run it supersedes, every job has a `timeout-minutes` (about three times its usual duration), and a push that changes only Markdown skips the ten test jobs. `verify`, `eslint` with `format:check`, and spell check still run on every push (tasks.md P24-T4).

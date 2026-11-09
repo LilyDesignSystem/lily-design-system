@@ -298,7 +298,6 @@ mockup-tablet-portrait	MockupTabletPortrait	a box area that looks like a tablet 
 mockup-watch	MockupWatch	a box area that looks like a smart watch
 mockup-window	MockupWindow	a box area that looks like a desktop window
 month-input	MonthInput	an input for selecting a month and year <input type="month">
-mutually-exclusive	MutuallyExclusive	a container ensuring only one option can be selected from a group
 navigation-menu	NavigationMenu	a site-wide navigation menu with links
 nederland-burgerservice-nummer-input	NederlandBurgerserviceNummerInput	an input for entering Netherlands's Burgerservicenummer (BSN)
 nederland-burgerservice-nummer-view	NederlandBurgerserviceNummerView	a read-only display of Netherlands's Burgerservicenummer (BSN)

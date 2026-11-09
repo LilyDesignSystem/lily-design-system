@@ -69,7 +69,7 @@
                         slug: "address-input",
                         name: "AddressInput",
                         description: "an input for searching or manually entering an address",
-                        tag: "input",
+                        tag: "div",
                         category: "forms",
                     },
                     {
@@ -419,8 +419,8 @@
                         slug: "call-to-action",
                         name: "CallToAction",
                         description: "a prominent prompt encouraging user action",
-                        tag: "div",
-                        category: "content",
+                        tag: "a",
+                        category: "links",
                     },
                     {
                         slug: "caption",
@@ -2103,13 +2103,6 @@
                         category: "forms",
                     },
                     {
-                        slug: "mutually-exclusive",
-                        name: "MutuallyExclusive",
-                        description: "a container ensuring only one option can be selected from a group",
-                        tag: "div",
-                        category: "content",
-                    },
-                    {
                         slug: "navigation-menu",
                         name: "NavigationMenu",
                         description: "a site-wide navigation menu with links",
@@ -2162,7 +2155,7 @@
                         slug: "net-promoter-score-picker",
                         name: "NetPromoterScorePicker",
                         description: "a picker for selecting a 0-10 Net Promoter Score",
-                        tag: "div",
+                        tag: "fieldset",
                         category: "pickers",
                     },
                     {
@@ -2512,7 +2505,7 @@
                         slug: "red-amber-green-picker",
                         name: "RedAmberGreenPicker",
                         description: "a picker for selecting a red/amber/green status",
-                        tag: "div",
+                        tag: "fieldset",
                         category: "pickers",
                     },
                     {
@@ -2533,7 +2526,7 @@
                         slug: "red-orange-yellow-green-blue-picker",
                         name: "RedOrangeYellowGreenBluePicker",
                         description: "a picker for selecting a five-level color status",
-                        tag: "div",
+                        tag: "fieldset",
                         category: "pickers",
                     },
                     {
@@ -3422,8 +3415,8 @@
                         slug: "video-player",
                         name: "VideoPlayer",
                         description: "a video player with play-in-view behavior, custom controls, and IntersectionObserver support",
-                        tag: "div",
-                        category: "content",
+                        tag: "figure",
+                        category: "media",
                     },
                     {
                         slug: "visible",
@@ -4578,7 +4571,6 @@
                 'mockup-watch': '<div class="mockup-watch" role="img" aria-label="a box area that looks like a smart watch"><div style="padding:1rem;background:#f3f4f6;border:2px solid #d1d5db;border-radius:8px;text-align:center;min-height:100px;">MockupWatch Preview</div></div>',
                 'mockup-window': '<div class="mockup-window" role="img" aria-label="a box area that looks like a desktop window"><div style="padding:1rem;background:#f3f4f6;border:2px solid #d1d5db;border-radius:8px;text-align:center;min-height:100px;">MockupWindow Preview</div></div>',
                 'month-input': '<label class="label" for="demo-input">Label</label><input class="month-input" type="month" id="demo-input" aria-label="MonthInput" />',
-                'mutually-exclusive': '<fieldset class="mutually-exclusive" aria-label="Contact me by"><label><input type="checkbox" name="demo-contact" value="email" /> Email</label><label><input type="checkbox" name="demo-contact" value="phone" /> Phone</label></fieldset>',
                 'navigation-menu': '<nav class="navigation-menu" aria-label="Main"><ul><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Contact</a></li></ul></nav>',
                 'nederland-burgerservice-nummer-input': '<label class="label" for="demo-input">Label</label><input class="nederland-burgerservice-nummer-input" id="demo-input" aria-label="an input for entering Netherlands\'s Burgerservicenummer (BSN)" />',
                 'nederland-burgerservice-nummer-view': '<span class="nederland-burgerservice-nummer-view">NederlandBurgerserviceNummerView</span>',
@@ -5190,7 +5182,6 @@
                 "mockup-watch": {"usage":{"lang":"html","code":"<MockupWatch label=\"Fitness tracking app\">\n  <image\n    src=\"fitness-watch.png\"\n    alt=\"Fitness app on watch\"\n  />\n</MockupWatch>\n"}},
                 "mockup-window": {"usage":{"lang":"html","code":"<MockupWindow label=\"Application settings panel\">\n  <image\n    src=\"settings.png\"\n    alt=\"Settings panel screenshot\"\n  />\n</MockupWindow>\n"}},
                 "month-input": {"usage":{"lang":"html","code":"<MonthInput\n  label=\"Card expiry\"\n  value=\"{expiryMonth}\"\n  required\n/>\n"}},
-                "mutually-exclusive": {"usage":{"lang":"html","code":"<MutuallyExclusive\n  label=\"Preferred contact method\"\n  value=\"{contact}\"\n  onChange=\"{setContact}\"\n>\n  <CheckboxInput\n    value=\"email\"\n    label=\"Email\"\n  />\n  <CheckboxInput\n    value=\"sms\"\n    label=\"SMS\"\n  />\n  <CheckboxInput\n    value=\"post\"\n    label=\"Post\"\n  />\n</MutuallyExclusive>\n"}},
                 "navigation-menu": {"usage":{"lang":"html","code":"<NavigationMenu label=\"Main navigation\">\n  <ul>\n    <li><a href=\"/\">Home</a></li>\n    <li><a href=\"/products\">Products</a></li>\n    <li><a href=\"/about\">About</a></li>\n    <li><a href=\"/contact\">Contact</a></li>\n  </ul>\n</NavigationMenu>\n"}},
                 "nederland-burgerservice-nummer-input": {"usage":{"lang":"html","code":"<Field\n  label=\"Citizen Service Number\"\n  required\n>\n  <NederlandBurgerserviceNummerInput\n    label=\"Citizen Service Number\"\n    value=\"{value}\"\n    required\n  />\n  <Hint>9-digit number issued via the Personal Records Database (BRP)</Hint>\n  <ErrorMessage>Please enter a valid Citizen Service Number</ErrorMessage>\n</Field>\n"}},
                 "nederland-burgerservice-nummer-view": {"usage":{"lang":"html","code":"<SummaryList>\n  <SummaryListItem term=\"Citizen Service Number\">\n    <NederlandBurgerserviceNummerView value=\"{value}\" />\n  </SummaryListItem>\n</SummaryList>\n"}},

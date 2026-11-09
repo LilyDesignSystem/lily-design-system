@@ -43,7 +43,7 @@ Required routes (per `AGENTS/examples.md`, the contract every Lily example
 app follows):
 
 - `/` — home, links to the components catalog and every composed-page demo.
-- `/components` — searchable/filterable index of all 609 catalog components.
+- `/components` — searchable/filterable index of all 608 catalog components.
 - `/components/[slug]` — one detail page per component: renders the demo
   HTML via Angular's `[innerHTML]` + `DomSanitizer.bypassSecurityTrustHtml`
   (the same rendering shape as `{@html}` in svelte-sveltekit-examples,

@@ -1,10 +1,10 @@
 # Lily Design System™ - Angular Headless
 
-A headless Angular component library (Angular 20–22 peer range) implementing the Lily Design System catalog (609 components).
+A headless Angular component library (Angular 20–22 peer range) implementing the Lily Design System catalog (608 components).
 
 Components are standalone, signal-based, zero-CSS, and ship semantic HTML + ARIA only. Consumers provide all styling via the kebab-case class hooks documented in `css-style-sheet-template.css`.
 
-**Not yet complete.** Angular has a file for all 609, but at least 74 are stubs with no input beyond `label` and `className` where Svelte has more ([tasks.md](../tasks.md) P25-T15). A stub renders its element and class hook but does not take that component's other props, so check a component's inputs before relying on it.
+**Not yet complete.** Angular has a file for all 608, but at least 74 are stubs with no input beyond `label` and `className` where Svelte has more ([tasks.md](../tasks.md) P25-T15). A stub renders its element and class hook but does not take that component's other props, so check a component's inputs before relying on it.
 
 ## Sibling implementations
 
@@ -58,7 +58,7 @@ browser's `popover="auto"`. Other components rely on native element behaviour.
 
 ## Status
 
-Complete and published: all 609 catalog components as standalone, signal-based, OnPush Angular components (peer range Angular `>=20 <23`), each with a vitest spec and a Storybook story. Version 0.5.0.
+Complete and published: all 608 catalog components as standalone, signal-based, OnPush Angular components (peer range Angular `>=20 <23`), each with a vitest spec and a Storybook story. Version 0.5.0.
 
 ---
 

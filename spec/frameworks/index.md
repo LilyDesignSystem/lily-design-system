@@ -12,7 +12,7 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 
 ## Principles and rules
 
-- **One catalog, seven idioms.** Every framework implements the same 609 components with the same kebab-case base classes and the same semantic HTML; only the language and file shape differ.
+- **One catalog, seven idioms.** Every framework implements the same 608 components with the same kebab-case base classes and the same semantic HTML; only the language and file shape differ.
 - **Headless libraries ship components only.** They do not depend on their sibling app framework — e.g. svelte-headless does not depend on SvelteKit; angular-headless ships standalone components, not an Analog app.
 - **Example apps consume by copy.** Each example app copies the headless components into its own source tree rather than taking an npm/NuGet dependency, so the demos always track the in-repo headless source.
 - **Framework idioms, not framework lock-in.** Rest-props spread, two-way binding, and slots/children each use the framework's native mechanism (see [headless](../headless/index.md) for the rest-props table).
@@ -31,7 +31,7 @@ It does **not** cover: the binding markup/ARIA rules every framework obeys (see 
 | Nunjucks  | `@lilydesignsystem/nunjucks-headless` | `lily-design-system-nunjucks-eleventy-examples` | Nunjucks 3 + Eleventy                                           | `components/{slug}/macro.njk`                                                                     |
 
 Beyond the seven pairs: **Web Components** (`lily-design-system-web-components-headless`, native custom elements,
-`components/{slug}.ts`, 574 of 609; no example app) and **Alpine.js** (`lily-design-system-alpine-headless`, 609
+`components/{slug}.ts`, 573 of 608; no example app) and **Alpine.js** (`lily-design-system-alpine-headless`, 608
 annotated snippets `components/{slug}.html` plus one plugin `lily-alpine.js`; example app
 `lily-design-system-alpine-examples`). Each has its own `spec/index.md`.
 
@@ -82,7 +82,7 @@ Every library renders the same semantic element with the same kebab-case base cl
 
 ## SolidJS: investigation and recommendation (2026-10-31, tasks.md P20-T1)
 
-**Recommendation: decline a full Solid port for now; Solid apps use the Web Components catalog (574 of 609); revisit on adopter demand.** The spike shows a port is cheap per component, but a ninth full-catalog library multiplies every catalog-wide change (this month's popover change touched nine libraries) for an audience that already has a working route.
+**Recommendation: decline a full Solid port for now; Solid apps use the Web Components catalog (573 of 608); revisit on adopter demand.** The spike shows a port is cheap per component, but a ninth full-catalog library multiplies every catalog-wide change (this month's popover change touched nine libraries) for an audience that already has a working route.
 
 The spike (scratch project, not in the monorepo): `solid-js` 1.9.18, `vite-plugin-solid` 2.11, `@solidjs/testing-library` 0.8, vitest 5, jsdom 30. Five components ported from the React headless library, with the React tests carried over.
 
@@ -96,14 +96,14 @@ The spike (scratch project, not in the monorepo): `solid-js` 1.9.18, `vite-plugi
 
 - **Tests:** the React tests for the five run with two mechanical edits (the testing-library import, and `render(<X/>)` becomes `render(() => <X/>)`, done by script): 41 of 42 pass. The one failure tests React's `forwardRef`; Solid takes a `ref` callback instead.
 - **Fit:** rest-props through `splitProps`, `class` hooks, `popover="manual"`/`showModal()`, and the framework-free shared modules all carry over. `solid-js/web` `renderToString` renders `TextInput` and `Tooltip` on the server (needs the `node` export condition); effects, so the popover state, do not run there, as in the other libraries.
-- **Cost of the full catalog:** about 70 percent of the 609 components are thin wrappers that a script from the React source could produce; about 100 are behavioural and need hand ports, tests, stories and docs. Every generator and check keyed to the seven libraries (`check-class-names`, `check-html-tags`, `check-coverage`, `generate-registries`, the example app, the skills) would take an eighth.
+- **Cost of the full catalog:** about 70 percent of the 608 components are thin wrappers that a script from the React source could produce; about 100 are behavioural and need hand ports, tests, stories and docs. Every generator and check keyed to the seven libraries (`check-class-names`, `check-html-tags`, `check-coverage`, `generate-registries`, the example app, the skills) would take an eighth.
 - **The Web Components route:** a Solid test drove `<lily-tooltip>` and `<lily-text-input>` from the built catalog with `attr:` bindings and the signals toggled the tooltip. The typings (`@lilydesignsystem/web-components-headless/solid`), the `attr:`/`prop:`/`on:` rules and a tested form with a tooltip and a dialog are in the Web Components catalog's index.md and `recipes/solid/` (P20-T2).
 
 Follow-up: tasks.md P20-T2 (a SolidJS recipe for the Web Components catalog, with typings and a tested example).
 
 ## Acceptance criteria
 
-- [x] All 7 headless subprojects exist and implement all 609 canonical components (spec §11.2, §11.4). Directly re-verified 2026-10-25 via `bin/check-coverage`: 0/583 missing impl and test files across Svelte, React, Vue, Angular, HTML, Blazor, Nunjucks.
+- [x] All 7 headless subprojects exist and implement all 608 canonical components (spec §11.2, §11.4). Directly re-verified 2026-10-25 via `bin/check-coverage`: 0/583 missing impl and test files across Svelte, React, Vue, Angular, HTML, Blazor, Nunjucks.
 - [x] All 7 example subprojects exist and consume the headless components via the copy-pattern (spec §11.2).
 - [x] Each headless library expresses components in its native file shape (`.svelte`, `.tsx`, `.vue`, `.component.ts`, `.razor`, `macro.njk`, web components) with the canonical kebab-case base class.
 - [x] Each example app ships the three required routes and renders the real copied component on `/components/{slug}` (see [examples](../examples/index.md)).

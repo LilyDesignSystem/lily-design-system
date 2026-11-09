@@ -10,7 +10,7 @@ them.
 default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'
 ```
 
-The HTML examples app runs its 16 composed pages, its catalog and all 609 component pages under this policy with no violation
+The HTML examples app runs its 16 composed pages, its catalog and all 608 component pages under this policy with no violation
 (`e2e/csp.spec.ts`). Its demo pages get there by applying `style` values through the CSSOM, so that result does not extend to your
 own server-rendered or static markup for the components below.
 

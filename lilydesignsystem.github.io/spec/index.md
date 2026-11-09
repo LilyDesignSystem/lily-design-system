@@ -201,7 +201,7 @@ and `date-time-picker` shipped.
 `src/lib/components.ts` is **generated**, not hand-edited. Its single
 source of truth is the main repo's
 [`components.tsv`](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv)
-(609 rows: slug, PascalCase name, one-line description), and the generator
+(608 rows: slug, PascalCase name, one-line description), and the generator
 is the main repo's own [`bin/generate-registries`](https://github.com/LilyDesignSystem/lily-design-system/blob/main/bin/generate-registries)
 — it writes this file as one of several registries it keeps in sync
 (alongside the Svelte/React/Vue/Angular example-app registries). Regenerate
@@ -231,7 +231,7 @@ The repo root's `bin/test` enforces this: `registry_count_or_err` asserts
 
 ## 8. Acceptance criteria
 
-- [x] Every one of the 609 catalog components has a
+- [x] Every one of the 608 catalog components has a
       `src/routes/components/{slug}/+page.svelte` (enforced by `bin/test`).
 - [x] `src/lib/components.ts` entry count matches `components.tsv` row
       count (enforced by `bin/test`).

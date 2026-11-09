@@ -2,8 +2,8 @@
   "slug": "video-player",
   "name": "VideoPlayer",
   "description": "a video player with play-in-view behavior, custom controls, and IntersectionObserver support",
-  "htmlTag": "div",
-  "category": "content",
+  "htmlTag": "figure",
+  "category": "media",
   "baseClass": ".video-player",
   "subClasses": [
     "video-player-caption",

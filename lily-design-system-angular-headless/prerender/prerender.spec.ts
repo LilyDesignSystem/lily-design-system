@@ -184,7 +184,7 @@ describe("prerendering", () => {
     });
 
     it("finds every component", () => {
-        expect(components.length).toBe(609);
+        expect(components.length).toBe(608);
     });
 
     const STATES = {

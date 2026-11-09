@@ -1,6 +1,6 @@
 # Lily Design System™ - Vue Nuxt.js Examples
 
-Vue 3 + Nuxt 4 example application demonstrating all 609 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
+Vue 3 + Nuxt 4 example application demonstrating all 608 components from the [Lily Design System](https://github.com/LilyDesignSystem/lily-design-system) headless component library, styled with [NHS UK design system](https://service-manual.nhs.uk/design-system) colors, typography, spacing, and focus states.
 
 ## Features
 
@@ -86,7 +86,7 @@ lily-design-system-vue-nuxt-examples/
 | Route                   | Description                                             |
 | ----------------------- | ------------------------------------------------------- |
 | `/`                     | Home page with links to all examples                    |
-| `/components`           | Lists all 609 components with links to individual demos |
+| `/components`           | Lists all 608 components with links to individual demos |
 | `/components/{slug}`    | Demonstrates one component with a live interactive demo |
 | `/contact-form`         | Contact form example page                               |
 | `/dashboard`            | Dashboard example page                                  |
@@ -146,7 +146,7 @@ All visual styling comes from `assets/css/nhs.css`, which provides:
 - **Typography**: Frutiger W01 font family with 8-point size scale
 - **Spacing**: 10-point spacing scale (0-9)
 - **Focus states**: Yellow outline (#ffeb3b) with black text for WCAG contrast
-- **Component styles**: All 609 component CSS classes with NHS-appropriate styling
+- **Component styles**: All 608 component CSS classes with NHS-appropriate styling
 
 Components are headless (unstyled) by default. Each component renders a semantic CSS class (e.g., `button`, `alert`, `badge`) that the NHS stylesheet targets.
 
