@@ -8,28 +8,28 @@ describe("TreeMenu", function () {
         await browser.url("file://" + path.resolve(__dirname, "tree-menu.html"));
     });
 
-    it("should render the div element with correct class", async function () {
-        const el = await $("div.tree-menu");
+    it("should render the ul element with correct class", async function () {
+        const el = await $("ul.tree-menu");
         await expect(el).toExist();
         const className = await el.getAttribute("class");
         expect(className).toContain("tree-menu");
     });
 
     it("should have the correct ARIA role", async function () {
-        const el = await $("div.tree-menu");
+        const el = await $("ul.tree-menu");
         const roleAttr = await el.getAttribute("role");
         expect(roleAttr).toBe("tree");
     });
 
     it("should have an aria-label attribute", async function () {
-        const el = await $("div.tree-menu");
+        const el = await $("ul.tree-menu");
         const label = await el.getAttribute("aria-label");
         expect(label).not.toBeNull();
     });
 
     async function addItems() {
         await browser.execute(function () {
-            var root = document.querySelector("div.tree-menu");
+            var root = document.querySelector("ul.tree-menu");
             root.setAttribute("aria-label", "Site");
             root.innerHTML =
                 '<ul><li role="treeitem" tabindex="-1">Home</li><li role="treeitem" tabindex="-1">Settings</li><li role="treeitem" tabindex="-1">Profile</li></ul>';

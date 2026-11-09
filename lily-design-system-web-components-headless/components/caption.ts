@@ -1,10 +1,11 @@
 // Caption component
 //
-// A native <caption>, meant to be used as a child inside one of this
-// catalog's table-rooted components (Table, DataTable, CalendarTable,
-// GanttTable, KanbanTable). Standalone it behaves like any other
-// wrap-a-real-element component: the consumer's light-DOM children are
-// moved into the generated <caption>.
+// A native <figcaption>, as Svelte renders it, for use inside a <figure>
+// (or <lily-figure>). The consumer's light-DOM children are moved into it.
+// Known limitation: the <lily-caption> host sits between the <figure> and
+// the <figcaption>, so a browser may not take the figure's name from it;
+// give the figure aria-labelledby pointing at the caption's id. A table's
+// caption is a native <caption> inside the table.
 //
 // Attributes: none beyond the base class + rest-props.
 //
@@ -17,13 +18,13 @@ const HANDLED = new Set<string>([]);
 
 export class Caption extends HTMLElement {
     connectedCallback(): void {
-        if (this.querySelector(":scope > caption.caption")) return;
+        if (this.querySelector(":scope > figcaption.caption")) return;
 
-        const caption = document.createElement("caption");
-        caption.className = rootClassName(this, "caption");
-        passThroughAttributes(this, caption, HANDLED);
+        const figcaption = document.createElement("figcaption");
+        figcaption.className = rootClassName(this, "caption");
+        passThroughAttributes(this, figcaption, HANDLED);
 
-        moveChildrenInto(this, caption);
-        this.appendChild(caption);
+        moveChildrenInto(this, figcaption);
+        this.appendChild(figcaption);
     }
 }

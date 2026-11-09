@@ -4,7 +4,7 @@
     interactive menu of commands — typically used as a file-menu or
     settings tree with expand/collapse.
 
-  HTML tag: <div role="tree">
+  HTML tag: <ul role="tree">
   CSS class: tree-menu
 
   Params:
@@ -23,7 +23,7 @@
 #}
 {%- macro treeMenu(params) -%}
 {%- set p = params | default({}) -%}
-<div
+<ul
   class="tree-menu{% if p.classes %} {{ p.classes }}{% endif %}"
   role="tree"
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
@@ -33,5 +33,5 @@
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</div>
+</ul>
 {%- endmacro -%}

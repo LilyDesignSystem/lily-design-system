@@ -35,8 +35,8 @@ const TREE_KEYS = ["ArrowDown", "ArrowUp", "Home", "End"];
 export default function TreeMenu({ className = "", label, children, ...restProps }: TreeMenuProps) {
     warnMissingName("TreeMenu", label, restProps["aria-label"], restProps["aria-labelledby"]);
     // ArrowDown / ArrowUp move between the consumer's [role="treeitem"] items, wrapping; Home / End jump.
-    function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-        (restProps.onKeyDown as ((e: React.KeyboardEvent<HTMLDivElement>) => void) | undefined)?.(
+    function handleKeyDown(event: React.KeyboardEvent<HTMLUListElement>) {
+        (restProps.onKeyDown as ((e: React.KeyboardEvent<HTMLUListElement>) => void) | undefined)?.(
             event,
         );
         if (event.defaultPrevented || !TREE_KEYS.includes(event.key)) return;
@@ -65,7 +65,7 @@ export default function TreeMenu({ className = "", label, children, ...restProps
     }
 
     return (
-        <div
+        <ul
             className={`tree-menu ${className}`}
             role="tree"
             aria-label={label}
@@ -74,6 +74,6 @@ export default function TreeMenu({ className = "", label, children, ...restProps
             onKeyDown={handleKeyDown}
         >
             {children}
-        </div>
+        </ul>
     );
 }

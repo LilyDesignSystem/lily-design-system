@@ -7,18 +7,9 @@ describe("caption", () => {
         expect(document.querySelector("figcaption.caption")).toBeTruthy();
     });
 
-    it("switches to <caption> when params.as='caption'", () => {
-        // Wrap result in a <table> for jsdom to parse <caption> — our
-        // render helper auto-wraps when the first tag is a table part.
-        // For a <caption> standalone, we need to manually check via
-        // the html string because jsdom hoists <caption> outside when
-        // no parent table is present.
-        const { html } = render("caption", {
-            as: "caption",
-            text: "Table 1",
-        });
-        expect(html.trim().startsWith("<caption")).toBe(true);
-        expect(html).toContain('class="caption"');
+    it("is always a <figcaption>: a table's caption is the table macro's", () => {
+        const { html } = render("caption", { as: "caption", text: "Table 1" });
+        expect(html.trim().startsWith("<figcaption")).toBe(true);
     });
 
     it("escapes params.text", () => {
@@ -33,14 +24,9 @@ describe("caption", () => {
         expect(document.querySelector("figcaption.caption strong")).toBeTruthy();
     });
 
-    it("sets aria-label when provided", () => {
-        const { document } = render("caption", {
-            text: "x",
-            label: "Figure 1 caption",
-        });
-        expect(document.querySelector("figcaption.caption").getAttribute("aria-label")).toBe(
-            "Figure 1 caption",
-        );
+    it("does not name itself", () => {
+        const { document } = render("caption", { text: "x", label: "Figure 1 caption" });
+        expect(document.querySelector("figcaption.caption").hasAttribute("aria-label")).toBe(false);
     });
 
     it("appends params.classes", () => {

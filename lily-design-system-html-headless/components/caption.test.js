@@ -9,15 +9,15 @@ describe("Caption", function () {
     });
 
     it("should render the caption element with correct class", async function () {
-        const el = await $("caption.caption");
+        const el = await $("figcaption.caption");
         await expect(el).toExist();
         const className = await el.getAttribute("class");
         expect(className).toContain("caption");
     });
 
-    it("should have an aria-label attribute", async function () {
-        const el = await $("caption.caption");
+    it("does not name itself", async function () {
+        const el = await $("figcaption.caption");
         const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+        expect(label).toBeNull();
     });
 });

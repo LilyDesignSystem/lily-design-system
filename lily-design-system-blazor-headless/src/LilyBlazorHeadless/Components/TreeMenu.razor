@@ -10,7 +10,7 @@
     [role="treeitem"] items, wrapping; Home / End jump.
 *@
 
-<div @ref="_root" class="@($"tree-menu {CssClass}".Trim())" role="tree" tabindex="-1" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<ul @ref="_root" class="@($"tree-menu {CssClass}".Trim())" role="tree" tabindex="-1" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ul>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

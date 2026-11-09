@@ -1430,7 +1430,7 @@
       "name": "caption",
       "type": "registry:component",
       "title": "Caption",
-      "description": "A caption for a table or figure element.",
+      "description": "A caption for a figure element.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "categories": [
         "tables"

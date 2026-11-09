@@ -1,7 +1,7 @@
 {
   "slug": "caption",
   "name": "Caption",
-  "description": "a caption for a table or figure element",
+  "description": "a caption for a figure element",
   "htmlTag": "caption",
   "category": "tables",
   "baseClass": ".caption",

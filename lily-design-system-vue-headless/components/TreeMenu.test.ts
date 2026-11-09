@@ -4,14 +4,14 @@ import { fireEvent, render, screen } from "@testing-library/vue";
 import Subject from "./TreeMenu.vue";
 
 describe("TreeMenu", () => {
-    test("renders a div element with class tree-menu", () => {
+    test("renders a ul element with class tree-menu", () => {
         const { container } = render(Subject, {
             props: { label: "Test" },
             slots: { default: "content" },
         });
         const root = container.querySelector(".tree-menu");
         expect(root).toBeTruthy();
-        expect(root?.tagName).toBe("DIV");
+        expect(root?.tagName).toBe("UL");
     });
 
     test("renders slot content", () => {

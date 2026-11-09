@@ -1,19 +1,15 @@
 {#
-  Caption macro — a caption for a figure (or table).
+  Caption macro — a caption for a figure.
 
-  HTML tag: <figcaption> by default; switch to <caption> for table
-    captions via params.as = "caption".
+  HTML tag: <figcaption>, as Svelte renders it.
   CSS class: caption
-  Accessibility: the element implicitly names its parent figure or
-    table. For tables, prefer the Table macro's caption param so
-    the <caption> is placed first (which is an HTML requirement).
+  Accessibility: a <figcaption> names its parent <figure>. A table's
+    caption is the Table macro's caption param, which places the
+    native <caption> first, as HTML requires.
 
   Params:
-    as          string   "figcaption" (default) | "caption".
     text        string   Plain text content (escaped).
     html        string   Raw HTML content (rendered via `| safe`).
-    label       string   Accessible name (aria-label) when the
-                         visible text is ambiguous.
     id          string
     classes     string
     attributes  object
@@ -27,16 +23,14 @@
 #}
 {%- macro caption(params) -%}
 {%- set p = params | default({}) -%}
-{%- set tag = p.as | default("figcaption") -%}
-<{{ tag }}
+<figcaption
   class="caption{% if p.classes %} {{ p.classes }}{% endif %}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif p.text -%}{{ p.text }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</{{ tag }}>
+</figcaption>
 {%- endmacro -%}

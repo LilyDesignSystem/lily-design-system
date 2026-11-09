@@ -430,7 +430,7 @@ export const components: Component[] = [
   {
       slug: "caption",
       name: "Caption",
-      description: "a caption for a table or figure element",
+      description: "a caption for a figure element",
       tag: "caption",
       category: "tables",
   },

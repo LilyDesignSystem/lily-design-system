@@ -76,7 +76,7 @@
       <li>PascalCase: Caption</li>
       <li>Description: a caption for a table or figure element</li>
       <li>Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks</li>
-      <li>HTML tag: &lt;caption&gt;</li>
+      <li>HTML tag: &lt;figcaption&gt;</li>
       <li>CSS class: .caption</li>
       <li>Interactive: no</li>
     </ul>

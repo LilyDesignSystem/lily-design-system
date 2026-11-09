@@ -1,18 +1,13 @@
 // TreeMenu component
 //
-// A hierarchical tree menu with expandable branches: a <div role="tree">
-// with keyboard navigation between `[role="treeitem"]` descendants
-// (ArrowDown/ArrowUp move focus, wrapping; Home/End jump to first/last) —
-// the same navigation TreeList implements for the *navigation-landmark*
-// tree (see tree-list.ts). TreeMenu's own canonical doc documents only
-// this up/down/home/end contract (no expand/collapse keys), matching the
-// majority of the other headless catalogs (React, Svelte), which render a
-// plain `<div role="tree">` with no `<ul>` — the "Renders a <ul>" line
-// in the canonical Key Behaviors is a stray inconsistency against the
-// doc's own HTML-tag metadata, Testing section, and every implementation.
-// No native element behaviour is worth deferring to for a plain `<div>`,
-// so the custom element instance itself stands in for the wrapper (see
-// lib/dom-utils.applySelfClassName).
+// A hierarchical tree menu with expandable branches, with keyboard
+// navigation between `[role="treeitem"]` descendants (ArrowDown/ArrowUp
+// move focus, wrapping; Home/End jump to first/last), the same navigation
+// TreeList implements (see tree-list.ts). The contract's root is a
+// <ul role="tree">; an autonomous custom element cannot be a <ul>, so the
+// element itself carries role="tree" and the class hook (see
+// lib/dom-utils.applySelfClassName), the catalog's documented limit for
+// list roots. Give it role="treeitem" children, not bare <li>.
 //
 // Attributes:
 //   label — REQUIRED. Accessible name via aria-label.

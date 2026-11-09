@@ -18,13 +18,13 @@ import { warnMissingName } from "./dev-warning";
 @Component({
     selector: "lily-tree-menu",
     standalone: true,
-    template: `<div
+    template: `<ul
     class="tree-menu {{ className() }}"
     role="tree"
     tabindex="-1"
     [attr.aria-label]="label() || null"
     (keydown)="onKeydown($event)"
-  ><ng-content /></div>`,
+  ><ng-content /></ul>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TreeMenu implements OnInit {

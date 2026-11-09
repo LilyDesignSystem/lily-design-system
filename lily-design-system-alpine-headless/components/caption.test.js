@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("caption.caption");
+const el = () => document.querySelector("figcaption.caption");
 
 describe("Caption", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("Caption", () => {
         expect(el().classList.contains("caption")).toBe(true);
     });
 
-    it("uses the caption element", async () => {
+    it("uses the figcaption element", async () => {
         await mount("caption");
-        expect(el().tagName.toLowerCase()).toBe("caption");
+        expect(el().tagName.toLowerCase()).toBe("figcaption");
     });
 });
