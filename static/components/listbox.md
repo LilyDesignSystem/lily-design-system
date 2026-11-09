@@ -19,7 +19,18 @@ The component manages focus movement between options via arrow keys, with Home a
 
 - `label`: string (required) -- accessible name applied via `aria-label`.
 - `children`: slot (required) -- option elements to render inside the listbox (should have `role="option"` and `tabindex="-1"`).
-- `...restProps`: unknown -- additional attributes spread onto the container `<div>`.
+- `as`: string (default: `"div"`) -- the root element. The pickers set `"ul"` for their `<ul class="{helper}-list">`; Blazor and Nunjucks always render `<ul>`.
+- `baseClass`: string (default: `"listbox"`) -- the base class token, replaced outright (not appended), for a helper whose contract needs its own class.
+- `navigation`: `"roving-focus"` | `"active-descendant"` (default: `"roving-focus"`) -- options take focus in turn, or focus stays on the listbox and `aria-activedescendant` names the active option.
+- `activeIndex`: number (default: `-1`; bindable) -- the active option in active-descendant mode; -1 is none.
+- `clamp`: boolean (default: `false`) -- arrow keys stop at the first and last option instead of wrapping (active-descendant mode).
+- `typeahead`: boolean (default: `false`) -- printable characters move to the next option whose label starts with them (active-descendant mode).
+- `pageSize`: number (default: `10`) -- how far PageUp and PageDown move (active-descendant mode).
+- `onActivate`: (index: number) => void -- Enter or Space on the active option (active-descendant mode).
+- `onEscape`: () => void -- Escape pressed (active-descendant mode).
+- `onTabOut`: (event: KeyboardEvent) => void -- Tab pressed, before focus moves; Tab is never prevented (active-descendant mode).
+- `ref`: HTMLElement (bindable) -- the rendered root element.
+- `...restProps`: unknown -- additional attributes spread onto the root element.
 
 ## Usage
 
