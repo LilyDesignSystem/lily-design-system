@@ -7,6 +7,7 @@
 // Props:
 //   class — fallthrough attribute, optional. Vue merges it onto the root element with the base class hook.
 //   label — string, optional. Hidden text read before the content: a <span> cannot take a name.
+//   type — "default" | "info" | "success" | "warning" | "error", default "default". Rendered as data-type.
 //   default slot — required. The content.
 //   attrs — additional HTML attributes (v-bind="$attrs") on the root <span>.
 //
@@ -35,16 +36,22 @@
 withDefaults(
     defineProps<{
         label?: string;
+        /** The status, rendered as data-type for the theme: as in Svelte, and as on alert, badge and banner. */
+        type?: "default" | "info" | "success" | "warning" | "error";
     }>(),
     {
         label: undefined,
+        type: "default",
     },
 );
 </script>
 
 <template>
     <!-- StatusTag.vue -->
-    <span class="status-tag">
+    <span
+        class="status-tag"
+        :data-type="type"
+    >
         <span
             v-if="label"
             class="screen-reader-span"
