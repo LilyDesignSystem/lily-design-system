@@ -36,7 +36,8 @@ function sources(dir) {
 }
 
 // Strip comments so prose that mentions a class does not count as using it.
-const code = (s) => s.replace(/\/\*[\s\S]*?\*\//g, "").replace(/(^|[^:])\/\/.*$/gm, "$1").replace(/<!--[\s\S]*?-->/g, "");
+// Line comments go before block comments: a "/*" inside one (`"image/*"`) would otherwise hide the code after it.
+const code = (s) => s.replace(/(^|[^:])\/\/.*$/gm, "$1").replace(/\/\*[\s\S]*?\*\//g, "").replace(/<!--[\s\S]*?-->/g, "");
 
 function classHooks(texts, base) {
   const re = new RegExp(`(?<![\\w-])${base}(?:-[a-z0-9]+)*(?![\\w-])`, "g");

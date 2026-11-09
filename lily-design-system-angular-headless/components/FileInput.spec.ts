@@ -29,4 +29,22 @@ describe("FileInput", () => {
         const el = fixture.nativeElement.querySelector("input.file-input");
         expect(el.getAttribute("type")).toBe("file");
     });
+
+    test("passes accept and multiple to the input, as Svelte does", () => {
+        const fixture = TestBed.createComponent(FileInput);
+        fixture.componentRef.setInput("accept", "image/*");
+        fixture.componentRef.setInput("multiple", true);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input.file-input") as HTMLInputElement;
+        expect(el.getAttribute("accept")).toBe("image/*");
+        expect(el.multiple).toBe(true);
+    });
+
+    test("leaves accept off and multiple false by default", () => {
+        const fixture = TestBed.createComponent(FileInput);
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector("input.file-input") as HTMLInputElement;
+        expect(el.hasAttribute("accept")).toBe(false);
+        expect(el.multiple).toBe(false);
+    });
 });

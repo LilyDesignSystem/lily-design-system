@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Checks read code after a `/*` in a comment — 2026-11-08
+
+- **Fixed:** `bin/check-class-names`, `bin/check-html-tags`, `bin/check-port-parity`, `bin/check-port-logic` and `bin/check-worldwide` no longer treat code as a comment when a line comment contains `/*` (such as `accept="image/*"`). `bin/check-port-logic` now compares 10 more Svelte props.
+- **Fixed:** Angular `file-input` takes `accept` and `multiple`, as Svelte does; the check had not seen them.
+
 ## Components build no English around a value — 2026-11-08
 
 - **Fixed:** `tour-list-item` in Svelte, React, Vue and Web Components no longer names a step `"{label} (Step N of M)"` in English. Pass `stepTemplate` (`step-template`), such as `"{label} (Step {step} of {total})"` in the page's language, as Angular and Blazor already did; without it the name is `label`.

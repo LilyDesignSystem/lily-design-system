@@ -62,7 +62,8 @@ const svelteCode = (s) =>
     .replace(/^\s*\/\/.*$/gm, "")
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/\$effect\(\(\)\s*=>\s*warnMissingName\([^;]*?\),?\s*\);/g, "");
-const tsCode = (s) => s.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+// Line comments go before block comments: a "/*" inside one (`"image/*"`) would otherwise hide the code after it.
+const tsCode = (s) => s.replace(/^\s*\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "");
 const razorCode = (s) => s.replace(/@\*[\s\S]*?\*@/g, "").replace(/^\s*\/\/.*$/gm, "");
 
 // The top-level pieces of a destructuring pattern or a type literal, ignoring the separators inside brackets and strings.
@@ -89,7 +90,7 @@ const topLevel = (body) => {
 };
 
 const svelteProps = (source) => {
-  const code = source.replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+  const code = source.replace(/^\s*\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "");
   const match = code.match(/let\s*\{([\s\S]*?)\}\s*:\s*(?:\{([\s\S]*?)\}|\w+)\s*=\s*\$props\(\)/);
   if (!match) return [];
   const types = {};

@@ -41,8 +41,13 @@ const FRAMEWORKS = [
   { id: "alpine", impl: (c) => `lily-design-system-alpine-headless/components/${c.slug}.html` },
 ];
 
+// Whole-line // comments go first: a "/*" inside one (`"image/*"`) would otherwise open a block
+// comment that runs to the next "*/" and hides the real code between.
 function stripComments(text) {
   return text
+    .split("\n")
+    .filter((l) => !/^\s*\/\//.test(l))
+    .join("\n")
     .replace(/\/\*[\s\S]*?\*\//g, "")
     .replace(/<!--[\s\S]*?-->/g, "")
     .replace(/\{#[\s\S]*?#\}/g, "")
