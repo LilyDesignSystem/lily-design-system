@@ -1,6 +1,6 @@
 # accordion list Item
 
-An accordion list item is a single expandable section using native HTML `<details>` / `<summary>` elements, providing built-in keyboard accessibility and toggle behavior. It is designed to be used inside an AccordionList within an AccordionNav container.
+An accordion list item is a single expandable section: an `<li>` holding a native HTML `<details>` / `<summary>`, providing built-in keyboard accessibility and toggle behavior. It is designed to be used inside an AccordionList within an AccordionNav container.
 
 **Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
 
@@ -9,7 +9,7 @@ The component leverages the browser's native disclosure widget to deliver access
 ## Implementation Notes
 
 - Renders a `<li>` element with class `accordion-list-item`
-- Spreads `restProps` onto the root element for consumer customization
+- Spreads `restProps` onto the root `<li>` for consumer customization
 
 ## Help
 
@@ -62,7 +62,7 @@ With bindable open state:
 | `summary`      | `string`        | (required) | Text for the summary/header line                                   |
 | `open`         | `boolean`       | `false`    | Whether the item is expanded; bindable with two-way `open` binding |
 | `children`     | `slot`          | (required) | Detail content rendered when expanded                              |
-| `...restProps` | HTML attributes |            | Additional attributes passed to the `<details>` element            |
+| `...restProps` | HTML attributes |            | Additional attributes passed to the `<li>` element                 |
 
 ## Examples
 
@@ -126,7 +126,7 @@ AccordionListItem follows the Nav / List / ListItem composition pattern:
 
 - **AccordionNav** -- outer `<nav>` container providing the landmark region.
 - **AccordionList** -- `<ol>` list grouping the collapsible items.
-- **AccordionListItem** -- individual `<details>` / `<summary>` sections for each expandable item.
+- **AccordionListItem** -- an `<li>` holding the `<details>` / `<summary>` section for each expandable item.
 
 ```html
 <AccordionNav label="FAQ">

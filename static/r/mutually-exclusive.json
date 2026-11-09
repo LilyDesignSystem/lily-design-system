@@ -9,7 +9,7 @@
   "interactive": true,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "`role=\"group\"` + `aria-label` identifies the group",
+    "The `<fieldset>` (implicit `group` role) + `aria-label` identifies the group",
     "Each child checkbox retains its own native semantics",
     "Consumers may also use `aria-describedby` to reference an explanation of the constraint"
   ],
@@ -22,7 +22,7 @@
     "`value`: string | null (default: null) — Currently selected option's value, or null when none is selected; bindable",
     "`onChange`: (value: string | null) => void (default: —) — Fired when the selected value changes",
     "`children`: slot (required) (default: —) — The CheckboxInput controls that make up the group",
-    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<div>`"
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<fieldset>`"
   ],
   "related": [
     "radio-group",

@@ -9,8 +9,8 @@
   "interactive": true,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "Implicit `article` role from the `<article>` element",
-    "Optional `aria-label` -- identifies the card as a named landmark for screen readers"
+    "No role when unlabelled: a `<div>`",
+    "`role=\"group\"` and `aria-label` when `label` is given -- names the card as a group, not a landmark"
   ],
   "keyboard": [
     "Tab: Focus the heading link when `href` is provided",
@@ -20,9 +20,9 @@
     "`heading`: string (optional) -- heading text for the card",
     "`headingLevel`: 2 | 3 | 4 | 5 | 6 (default: 3) -- HTML heading level",
     "`href`: string (optional) -- makes the heading a link",
-    "`label`: string (optional) -- `aria-label` for the article",
+    "`label`: string (optional) -- names the card (`aria-label`, with `role=\"group\"`)",
     "`children`: slot (required) -- card body content",
-    "`...restProps`: Any additional HTML attributes passed to the `<article>` element"
+    "`...restProps`: Any additional HTML attributes passed to the root `<div>`"
   ],
   "related": [
     "feature-card",

@@ -36,7 +36,7 @@
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-list-item/AGENTS.md",
   "nativePlatform": {
     "decision": "native",
-    "uses": "<details>",
+    "uses": "<li> holding a <details>",
     "could_use": "name attribute"
   }
 }

@@ -107,7 +107,7 @@ AccordionList follows the Nav / List / ListItem composition pattern:
 
 - **AccordionNav** -- outer `<nav>` container providing the landmark region and accessible label.
 - **AccordionList** -- `<ol>` list grouping the collapsible items in order.
-- **AccordionListItem** -- individual `<details>` / `<summary>` sections for each expandable item.
+- **AccordionListItem** -- an `<li>` holding the `<details>` / `<summary>` section for each expandable item.
 
 ```html
 <AccordionNav label="FAQ">

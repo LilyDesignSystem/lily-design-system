@@ -12,7 +12,7 @@
   "interactive": true,
   "status": "beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows",
   "aria": [
-    "`aria-label` on container -- describes the video content for screen readers",
+    "`aria-label` on the `<figure>` -- describes the video content for screen readers",
     "Native `<video>` element provides built-in accessibility controls"
   ],
   "keyboard": [
