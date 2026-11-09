@@ -80,7 +80,27 @@ function rootTag(body, slug) {
     if (!t) continue;
     return t[1];
   }
-  return null;
+  return baseClassRoot(body, slug);
+}
+
+/**
+ * A component whose base class is a prop (`baseClass = "listbox"`, `input<string>("listbox")`, Blazor's
+ * `BaseCssClass { get; set; } = "listbox"`), so a helper can replace the token, leads its class list with that
+ * prop rather than the literal slug. Its root is the opening tag nearest before the first class binding that
+ * starts with the prop (or with Blazor's `RootClass`, which is built from it).
+ */
+function baseClassRoot(body, slug) {
+  const s = esc(slug);
+  const declared = new RegExp(
+    `\\bbaseClass\\s*[=:]\\s*["'\`]${s}["'\`]|\\bbaseClass\\s*=\\s*input<string>\\(\\s*["'\`]${s}["'\`]|\\bBaseCssClass\\s*\\{[^}]*\\}\\s*=\\s*"${s}"`,
+  );
+  if (!declared.test(body)) return null;
+  const use = /(?:\bclass|className|:class)\s*=\s*[{"'`]*\s*(?:\$\{\s*|\{\{\s*|@)?(?:baseClass|RootClass)\b/g;
+  const m = use.exec(body);
+  if (!m) return null;
+  const open = body.lastIndexOf("<", m.index);
+  const t = open < 0 ? null : body.slice(open + 1).match(/^([A-Za-z][\w:.-]*)/);
+  return t ? t[1] : null;
 }
 
 const allowPath = "bin/check-html-tags.allow.json";
@@ -105,7 +125,7 @@ for (const f of FRAMEWORKS) {
     const key = `${f.id}:${c.slug}`;
     let problem = null;
     if (got === null) problem = "no element leads its class list with the base class";
-    else if (/^svelte:element$|^svelte:|^[A-Z]|^@/.test(got) || got.includes(".")) {
+    else if (/^svelte:element$|^svelte:|^component$|^[A-Z]|^@/.test(got) || got.includes(".")) {
       perLib[f.id].dynamic++;
       continue;
     } else if (got.toLowerCase() !== want) problem = `renders <${got}>, contract says <${want}>`;
