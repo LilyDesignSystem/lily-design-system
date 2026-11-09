@@ -77,7 +77,7 @@ The consumer provides all CSS styling. The component renders with a `.measuremen
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `measurement-unit-view`
+- Verify the component renders a `<span>` element with class `measurement-unit-view`
 - Verify `label` renders as hidden text, and that the root has no `aria-label`
 - Verify pass-through attributes are applied
 

@@ -9,7 +9,7 @@
   "interactive": false,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`role=\"region\"` -- identifies the card as a named landmark",
+    "`role=\"group\"` -- groups the heading and body under one name",
     "`aria-label` -- set from `label` prop or `heading` prop for screen reader identification",
     "`data-type` -- exposes urgency level for consumer styling hooks"
   ],
@@ -21,7 +21,7 @@
     "`heading`: string (required) -- heading text for the care card",
     "`label`: string (optional) -- `aria-label` override; defaults to heading text",
     "`children`: slot (required) -- the care card body content",
-    "`...restProps`: Any additional HTML attributes passed to the `<section>` element"
+    "`...restProps`: Any additional HTML attributes passed to the `<div>` element"
   ],
   "related": [
     "card",

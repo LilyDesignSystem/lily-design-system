@@ -73,7 +73,7 @@ The consumer provides all CSS styling. The component renders with a `.warning-ca
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `warning-callout`
+- Verify the component renders an `<aside>` element with class `warning-callout`
 - Verify role="alert"` -- identifies the content as an alert; screen readers announce it immediately when it appears or changes
 - Verify aria-label={label}` -- optional accessible name to distinguish this alert from others on the page
 - Verify pass-through attributes are applied

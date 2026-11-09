@@ -87,7 +87,7 @@ The consumer provides all CSS styling. The component renders with a `.hint` clas
 
 ## Testing
 
-- Verify the component renders a `<span>` element with class `hint`
+- Verify the component renders a `<p>` element with class `hint`
 - Verify pass-through attributes are applied
 
 ## Advice

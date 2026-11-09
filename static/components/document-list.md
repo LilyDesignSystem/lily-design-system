@@ -6,16 +6,16 @@ A list displaying documents with titles and metadata.
 
 ## Implementation Notes
 
-- Renders an `<ol>` of `DocumentListItem` children
+- Renders an `<ul>` of `DocumentListItem` children
 - Used to list downloadable or related documents (PDFs, attachments, references)
-- Spreads `restProps` onto the root `<ol>`
+- Spreads `restProps` onto the root `<ul>`
 
 ## Props
 
 | Prop           | Type            | Default | Description                 |
 | -------------- | --------------- | ------- | --------------------------- |
 | `children`     | slot (required) | —       | `DocumentListItem` children |
-| `...restProps` | HTML attributes | —       | Spread onto the root `<ol>` |
+| `...restProps` | HTML attributes | —       | Spread onto the root `<ul>` |
 
 ## Usage
 
@@ -42,7 +42,7 @@ A list displaying documents with titles and metadata.
 
 ## ARIA
 
-- Native ordered list semantics
+- Native list semantics announce the count of items
 
 ## When to Use
 

@@ -16,7 +16,7 @@
   ],
   "props": [
     "`children`: slot (required) (default: —) — `SectionListItem` elements",
-    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<ol>`"
+    "`...restProps`: HTML attributes (default: —) — Spread onto the root `<ul>`"
   ],
   "related": [
     "section-nav",

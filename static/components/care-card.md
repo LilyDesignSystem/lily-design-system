@@ -4,13 +4,13 @@ A care card is a healthcare-oriented component for displaying medical guidance w
 
 **Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
 
-Each care card has a heading that describes the action and a body containing the relevant advice or conditions. The `data-type` attribute allows consumers to apply urgency-appropriate styling (e.g., blue for non-urgent, red for immediate). The card is rendered as a `<section>` landmark with an accessible label derived from the heading.
+Each care card has a heading that describes the action and a body containing the relevant advice or conditions. The `data-type` attribute allows consumers to apply urgency-appropriate styling (e.g., blue for non-urgent, red for immediate). The card is a `<div role="group">` named by its heading, not a landmark, so a page of cards does not flood the landmark list.
 
 ## Implementation Notes
 
 - NHS England inspired pattern for healthcare guidance
 - Three urgency levels: non-urgent, urgent, immediate
-- Renders as `<section role="region">` with heading for landmark navigation
+- Renders a `<div role="group">` with its heading, not a landmark, so a page of cards does not flood the landmark list
 - `aria-label` defaults to the heading text, overridable via the `label` prop
 - Uses `<h2>` for the heading element
 - `data-type` attribute exposes the urgency level for consumer CSS styling
@@ -22,7 +22,7 @@ Each care card has a heading that describes the action and a body containing the
 - `heading`: string (required) -- heading text for the care card
 - `label`: string (optional) -- `aria-label` override; defaults to heading text
 - `children`: slot (required) -- the care card body content
-- `...restProps`: Any additional HTML attributes passed to the `<section>` element
+- `...restProps`: Any additional HTML attributes passed to the `<div>` element
 
 ## Usage
 
@@ -68,7 +68,7 @@ Each care card has a heading that describes the action and a body containing the
 
 ## ARIA
 
-- `role="region"` -- identifies the card as a named landmark
+- `role="group"` -- groups the heading and body under one name
 - `aria-label` -- set from `label` prop or `heading` prop for screen reader identification
 - `data-type` -- exposes urgency level for consumer styling hooks
 
@@ -89,7 +89,7 @@ Each care card has a heading that describes the action and a body containing the
 
 ## Headless
 
-This headless CareCard component provides the semantic `<section>` with `role="region"`, accessible labeling from the heading, and a `data-type` attribute exposing the urgency level. The consumer provides all visual styling including urgency-specific colors (e.g., blue for non-urgent, red for immediate), card borders, spacing, and typography.
+This headless CareCard component provides a `<div role="group">`, accessible labeling from the heading, and a `data-type` attribute exposing the urgency level. The consumer provides all visual styling including urgency-specific colors (e.g., blue for non-urgent, red for immediate), card borders, spacing, and typography.
 
 ## Styles
 
@@ -98,7 +98,7 @@ The consumer provides all CSS styling. The component renders with a `.care-card`
 ## Testing
 
 - Verify the component renders a `<div>` element with class `care-card`
-- Verify role="region"` -- identifies the card as a named landmark
+- Verify `role="group"` groups the heading and body under one name
 - Verify aria-label`-- set from`label`prop or`heading` prop for screen reader identification
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied
