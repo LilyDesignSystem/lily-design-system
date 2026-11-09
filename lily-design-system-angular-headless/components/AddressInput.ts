@@ -2,53 +2,30 @@ import {
     ChangeDetectionStrategy,
     Component,
     input,
-    model,
     ElementRef,
     OnInit,
     inject,
 } from "@angular/core";
 import { warnMissingName } from "./dev-warning";
-import { restoreOnFormReset } from "./form-reset";
 
 /**
  * AddressInput — an input for searching or manually entering an address
  *
- * Headless Angular component. Renders the semantic HTML root with the
- * kebab-case class hook `address-input` and the consumer-provided `className`.
- * Ships zero CSS; the consumer styles via the class hook.
+ * Headless Angular component. An address is several fields, so this is the contract's `<div role="group">`, named by
+ * `label`, holding the consumer's labelled inputs (street, town, postal code, country, each with its own `autocomplete`
+ * token). It is the one `-input` component whose root is not an `<input>`. Ships zero CSS.
  */
 @Component({
     selector: "lily-address-input",
     standalone: true,
-    template: `<input
-      class="address-input {{ className() }}"
-      type="text"
-      [attr.aria-label]="label() || null"
-      autocomplete="off"
-      [value]="value()"
-      (input)="value.set($any($event.target).value)"
-      [disabled]="disabled()"
-      [required]="required()"
-    />`,
+    template: `<div class="address-input {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddressInput implements OnInit {
     private readonly lilyHost = inject(ElementRef);
 
-    /** Accessible label, applied to aria-label. */
     readonly label = input<string>("");
-    /** Extra CSS classes appended to the base class. */
     readonly className = input<string>("");
-    /** Bindable input value. */
-    readonly value = model<string>("");
-    /** Whether the input is required for form submission. */
-    readonly required = input<boolean>(false);
-    /** Whether the input is disabled. */
-    readonly disabled = input<boolean>(false);
-
-    constructor() {
-        restoreOnFormReset(this.value);
-    }
 
     ngOnInit(): void {
         const host: HTMLElement = this.lilyHost.nativeElement;

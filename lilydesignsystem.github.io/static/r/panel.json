@@ -9,16 +9,16 @@
   "interactive": false,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
-    "`<section aria-label=\"...\">` -- creates a named region landmark, allowing assistive technology to list and navigate to this section",
+    "`<div role=\"group\" aria-label=\"...\">` -- a named group, announced when entered, not added to the landmark list",
     "The `aria-label` value should be concise and descriptive of the panel's content"
   ],
   "keyboard": [
     "No keyboard interactions — this is a passive element"
   ],
   "props": [
-    "`label`: string (required) -- accessible name for the panel region via `aria-label`",
+    "`label`: string (required) -- accessible name for the panel group via `aria-label`",
     "`children`: slot (required) -- the panel content",
-    "`...restProps`: unknown -- additional attributes spread onto the `<section>` element"
+    "`...restProps`: unknown -- additional attributes spread onto the root `<div>`"
   ],
   "related": [
     "card",

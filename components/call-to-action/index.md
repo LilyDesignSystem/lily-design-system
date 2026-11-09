@@ -95,7 +95,7 @@ The consumer provides all CSS styling. The component renders with a `.call-to-ac
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `call-to-action`
+- Verify the component renders an `<a>` with class `call-to-action` when given `href`, and a `<button type="button">` otherwise
 - Verify Optional `aria-label` -- provides screen reader text when visible text alone is insufficient
 - Verify keyboard interactions work correctly
 - Verify pass-through attributes are applied

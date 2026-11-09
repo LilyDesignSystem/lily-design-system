@@ -8,12 +8,12 @@ Implement the Call To Action component: a prominent prompt encouraging user acti
 
 ## HTML Tag and CSS Class
 
-- HTML tag: <div>
+- HTML tag: <a> when `href` is given, else <button type="button">
 - CSS class: .call-to-action
 
 ## Approach
 
-1. Use semantic <div> element with class="call-to-action"
+1. Use semantic <a> (with href) or <button type="button"> element with class="call-to-action"
 2. Add ARIA attributes for accessibility
 3. Implement keyboard navigation
 4. Add vanilla JavaScript for interactive behavior
@@ -24,7 +24,7 @@ Implement the Call To Action component: a prominent prompt encouraging user acti
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> with class="call-to-action"
+- [ ] Renders <a> (with href) or <button> with class="call-to-action"
 - [ ] Optional `aria-label` -- provides screen reader text when visible text alone is insufficient
 - [ ] Keyboard: Tab: Focus the element
 - [ ] Keyboard: Enter: Activate the link or button

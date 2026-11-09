@@ -1,15 +1,24 @@
 @namespace LilyBlazorHeadless.Components
-@inherits ValueInputBase
 
 @*
     AddressInput component
     an input for searching or manually entering an address
+
+    An address is several fields, so this is the contract's <div role="group">, named by Label, holding the
+    consumer's labelled inputs (street, town, postal code, country, each with its own autocomplete token). It is
+    the one -input component whose root is not an <input>.
+
+    Parameters:
+        Label — string, required. The group's accessible name (aria-label).
+        ChildContent — the address fields.
+        CssClass, AdditionalAttributes (spread onto the div).
 *@
 
-<input class="@($"address-input {CssClass}".Trim())" type="text" aria-label="@Label" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" @attributes="AdditionalAttributes" />
+<div class="@($"address-input {CssClass}".Trim())" role="group" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" @attributes="AdditionalAttributes">@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

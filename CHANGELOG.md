@@ -9,6 +9,18 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Seven components agree on their root element — 2026-11-09
+
+The maintainer's decision: where a component's contract and Svelte disagreed on the root, follow the element that carries the meaning. Every catalog now renders the same root. Breaking for consumer CSS that selects the element itself (`article.card`, `section.panel`, `div.call-to-action`); selectors on the class keep working.
+
+- **Changed (breaking):** `card` is a `<div>`, with `role="group"` when a `label` names it, not an `<article>` (Svelte, React, Vue, Web Components; HTML and Nunjucks had `role="region"` or a `<section>`). Pass `role="article"` for a card that stands alone.
+- **Changed (breaking):** `panel` is a `<div role="group">` named by its label, not a `<section>` region (Svelte, React, Vue, Web Components, HTML, Nunjucks), so a page of panels no longer floods the landmark list.
+- **Changed (breaking):** `accordion-list` is an `<ol>` and `accordion-list-item` an `<li>` holding the `<details>` (Svelte, React, Vue; Web Components and HTML for the list), as Angular, Blazor and Nunjucks already rendered. Screen readers announce how many sections there are. `open` stays two-way; Vue's now updates when the user toggles. The Nunjucks list takes `label`.
+- **Changed (breaking):** `address-input` is a `<div role="group">` named by `label`, holding the consumer's labelled fields, in Angular, Blazor and Web Components, as the other catalogs already were. Those three lose `value`, `required`, `disabled` and `autocomplete`: each field inside carries its own. The contract records it as the one `-input` whose root is not an `<input>`.
+- **Changed (breaking):** `call-to-action` is the `<a>` (with `href`) or `<button type="button">` itself in Angular, Blazor, HTML and Nunjucks, with no wrapper `<div>`. The Nunjucks macro takes `href`, `label`, `disabled` and `text`, not `heading` and a region.
+- **Changed:** `mutually-exclusive` is a `<fieldset>` in Angular and Blazor, and `video-player` a `<figure>` with its caption as `<figcaption>` in Angular, Blazor and HTML, as the other catalogs were.
+- **Fixed:** the seven contracts' "HTML tag" lines and prose now match what ships. `bin/check-html-tags.allow.json` loses 35 entries, `bin/check-aria-baseline.allow.json` 8, and the Angular, Nunjucks and Web Components ARIA baselines 7, 3 and 1. The docs-site pages for the eight components are rendered from their docs.
+
 ## List items carry no `label` — 2026-11-09
 
 - **Fixed:** `document-list-item` and `section-list-item` no longer render an `aria-label` on their `<li>` in React, Vue, Blazor, HTML, Web Components, Nunjucks and Alpine. A name on the list item replaced the link text a screen reader announces. Svelte, which is canonical, already rendered none; its `label` prop on these and `description-list-item`, which did nothing, is gone, as are the three `bin/check-port-logic.allow.json` entries for it.

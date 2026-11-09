@@ -3,7 +3,9 @@ import type { Meta, StoryObj } from "@storybook/web-components-vite";
 import "./address-input.js";
 import { h } from "../stories/render.js";
 
-const SLOT = "";
+const SLOT =
+    '<label for="street">Street</label><input id="street" autocomplete="address-line1">' +
+    '<label for="postcode">Postal code</label><input id="postcode" autocomplete="postal-code">';
 
 const meta: Meta = {
     title: "Forms/AddressInput",

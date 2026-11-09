@@ -1,42 +1,36 @@
 // AccordionList component
 //
-// A grouped container of AccordionListItem components, one per collapsible
-// section, within an AccordionNav. Renders a <div role="group"> — not an
-// <ol> — because AccordionListItem renders a <details> element, and
-// <details> is not a valid child of <ol>/<ul> (HTML content model). The
-// custom element itself stands in for the wrapper div (see
-// lib/dom-utils.applySelfClassName) since <div> has no native behaviour
-// worth preserving as a separate element.
-//
-// Deviation from the canonical AGENTS.md "HTML tag" metadata field (which
-// says <ol>): the actual contract in every other framework (Svelte, React,
-// html-headless) renders a <div role="group">, matching the "Note" left in
-// components.md about AccordionListItem needing a non-list parent. Followed
-// the real cross-catalog implementation rather than the stale metadata
-// field.
+// An ordered list of accordion sections within an AccordionNav: an <ol>, so
+// screen readers announce how many sections there are and where each one is.
+// The host builds the real <ol> and moves its children into it, so the
+// consumer writes each section as an <li class="accordion-list-item"> holding
+// a <details> (the catalog has no custom element for the item: a host between
+// <ol> and <li> would break the list).
 //
 // Attributes:
-//   label — optional. Accessible name for the group, via aria-label. Only
-//     rendered when non-empty (an empty/absent label omits aria-label
-//     entirely, matching the other catalogs' `label || undefined`).
-//   ...rest — spread onto `this` (the host is the rendered element).
+//   label — optional. Accessible name for the list, via aria-label. Only
+//     rendered when non-empty, matching the other catalogs' `label || undefined`.
+//   ...rest — spread onto the <ol>.
 //
 // References:
 //   - components/accordion-list/index.md (canonical contract)
-//   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
+//   - HTML ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+
+const HANDLED = new Set(["label"]);
 
 export class AccordionList extends HTMLElement {
-    #built = false;
-
     connectedCallback(): void {
-        if (this.#built) return;
-        this.#built = true;
+        if (this.querySelector(":scope > ol.accordion-list")) return;
 
-        applySelfClassName(this, "accordion-list");
-        this.setAttribute("role", "group");
+        const ol = document.createElement("ol");
+        ol.className = rootClassName(this, "accordion-list");
         const label = this.getAttribute("label");
-        if (label) this.setAttribute("aria-label", label);
+        if (label) ol.setAttribute("aria-label", label);
+        passThroughAttributes(this, ol, HANDLED);
+
+        moveChildrenInto(this, ol);
+        this.appendChild(ol);
     }
 }

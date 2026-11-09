@@ -16,22 +16,22 @@ public class VideoPlayerTests : TestContext
         });
 
     [Fact]
-    public void Renders_with_kebab_base_class() => Assert.NotNull(Make().Find("div.video-player"));
+    public void Renders_with_kebab_base_class() => Assert.NotNull(Make().Find("figure.video-player"));
 
     [Fact]
     public void CssClass_is_appended_to_kebab_base_class() =>
-        Assert.Contains("extra", Make(p => p.Add(x => x.CssClass, "extra")).Find("div.video-player").GetAttribute("class"));
+        Assert.Contains("extra", Make(p => p.Add(x => x.CssClass, "extra")).Find("figure.video-player").GetAttribute("class"));
 
     [Fact]
     public void AdditionalAttributes_pass_through_to_root() =>
-        Assert.Equal("value", Make(p => p.AddUnmatched("data-test", "value")).Find("div.video-player").GetAttribute("data-test"));
+        Assert.Equal("value", Make(p => p.AddUnmatched("data-test", "value")).Find("figure.video-player").GetAttribute("data-test"));
 
     [Fact]
-    public void Is_a_named_group_around_a_native_video()
+    public void Is_a_named_figure_around_a_native_video()
     {
         var cut = Make(p => p.Add(x => x.Poster, "/a.png").Add(x => x.Loop, true));
-        Assert.Equal("group", cut.Find("div").GetAttribute("role"));
-        Assert.Equal("Tour", cut.Find("div").GetAttribute("aria-label"));
+        Assert.False(cut.Find("figure").HasAttribute("role"));
+        Assert.Equal("Tour", cut.Find("figure").GetAttribute("aria-label"));
         var video = cut.Find("video.video-player-element");
         Assert.Equal("/a.webm", video.GetAttribute("src"));
         Assert.Equal("/a.png", video.GetAttribute("poster"));
@@ -48,7 +48,7 @@ public class VideoPlayerTests : TestContext
     {
         var cut = Make(p => p.AddChildContent("<button>Play</button>").Add(x => x.Caption, "<em>Caption</em>"));
         Assert.NotNull(cut.Find(".video-player-controls > button"));
-        Assert.NotNull(cut.Find(".video-player-caption > em"));
+        Assert.NotNull(cut.Find("figcaption.video-player-caption > em"));
         Assert.Empty(Make().FindAll(".video-player-controls"));
     }
 

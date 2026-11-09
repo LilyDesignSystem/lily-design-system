@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div class="accordion-list" role="group" aria-label="">\n    <!-- Consumer provides accordion list items -->\n</div>';
+    '<ol\n  class="accordion-list"\n  aria-label=""\n>\n  <!-- Consumer provides accordion list items -->\n</ol>';
 
 const meta = {
     title: "Headless/Accordion List",

@@ -7,8 +7,16 @@ in the canonical repo root for the cross-framework documentation.
 
 ## Selector
 
+A `<div role="group">` named by `label`, holding the consumer's labelled address fields.
+
 ```html
-<lily-address-input></lily-address-input>
+<lily-address-input label="Delivery address">
+  <label for="street">Street</label>
+  <input
+    id="street"
+    autocomplete="address-line1"
+  />
+</lily-address-input>
 ```
 
 ## Files

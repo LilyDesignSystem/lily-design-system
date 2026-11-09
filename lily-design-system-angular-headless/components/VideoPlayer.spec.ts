@@ -47,15 +47,15 @@ afterEach(() => vi.unstubAllGlobals());
 
 describe("VideoPlayer", () => {
     test("renders the root with the base class and the className input", () => {
-        const el = make({ className: "extra" }).nativeElement.querySelector("div.video-player");
+        const el = make({ className: "extra" }).nativeElement.querySelector("figure.video-player");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
 
-    test("is a named group around a native video", () => {
+    test("is a named figure around a native video", () => {
         const root = make({ poster: "/a.png", loop: true, muted: true }).nativeElement;
-        expect(root.querySelector("div").getAttribute("role")).toBe("group");
-        expect(root.querySelector("div").getAttribute("aria-label")).toBe("Tour");
+        expect(root.querySelector("figure").hasAttribute("role")).toBe(false);
+        expect(root.querySelector("figure").getAttribute("aria-label")).toBe("Tour");
         const video = root.querySelector("video.video-player-element");
         expect(video.getAttribute("src")).toBe("/a.webm");
         expect(video.getAttribute("poster")).toBe("/a.png");

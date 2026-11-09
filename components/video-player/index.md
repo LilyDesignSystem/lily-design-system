@@ -4,11 +4,11 @@ A video player is a video player with play-in-view behavior, custom controls, an
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
-This headless component uses a `<div>` container with `aria-label` wrapping a `<video>` element, providing optional play-in-view behavior via IntersectionObserver and support for custom control overlays.
+This headless component uses a `<figure>` with `aria-label` wrapping a `<video>` element, providing optional play-in-view behavior via IntersectionObserver and support for custom control overlays.
 
 ## Implementation Notes
 
-- Uses `<div>` container wrapping a `<video>` element
+- Uses a `<figure>` wrapping a `<video>` element, with the caption as its `<figcaption>`
 - Optional play-in-view: auto-plays when scrolled into viewport, pauses when scrolled out
 - Uses IntersectionObserver for visibility detection
 - Supports custom control overlays via children slot
@@ -73,7 +73,7 @@ This headless component uses a `<div>` container with `aria-label` wrapping a `<
 
 ## ARIA
 
-- `aria-label` on container -- describes the video content for screen readers
+- `aria-label` on the `<figure>` -- describes the video content for screen readers
 - Native `<video>` element provides built-in accessibility controls
 
 ## When to Use
@@ -90,7 +90,7 @@ This headless component uses a `<div>` container with `aria-label` wrapping a `<
 
 ## Headless
 
-This component provides a `<div>` container with `aria-label` wrapping a `<video>` element, with zero visual styling. The consumer is responsible for all CSS including video sizing, aspect ratio, control overlay positioning, poster image display, responsive behavior, and any play/pause button styling.
+This component provides a `<figure>` with `aria-label` wrapping a `<video>` element, with zero visual styling. The consumer is responsible for all CSS including video sizing, aspect ratio, control overlay positioning, poster image display, responsive behavior, and any play/pause button styling.
 
 ## Styles
 
@@ -98,8 +98,8 @@ The consumer provides all CSS styling. The component renders with a `.video-play
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `video-player`
-- Verify `aria-label` is applied to the container
+- Verify the component renders a `<figure>` element with class `video-player`
+- Verify `aria-label` is applied to the `<figure>`, and the caption is a `<figcaption>`
 - Verify `<video>` element renders with correct `src` attribute
 - Verify `poster` attribute is applied when provided
 - Verify native controls are shown by default

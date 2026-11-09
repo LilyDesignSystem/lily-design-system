@@ -8,12 +8,12 @@ Implement the AddressInput component: an input for searching or manually enterin
 
 ## HTML Tag and CSS Class
 
-- HTML tag: `<input>`
+- HTML tag: `<div>` with `role="group"` (an exception to the `-input` suffix rule: an address is several fields)
 - CSS class: `.address-input`
 
 ## Approach
 
-1. Render `<input>` as the root element with `class="address-input"`
+1. Render `<div role="group">` as the root element with `class="address-input"`
 2. Wire ARIA attributes per the AGENTS.md ARIA section
 3. Wire keyboard behaviour per the AGENTS.md Keyboard section
 4. Spread `restProps` for consumer customization
@@ -22,7 +22,7 @@ Implement the AddressInput component: an input for searching or manually enterin
 
 ## Acceptance Criteria
 
-- [ ] Renders `<input>` with class `address-input`
+- [ ] Renders `<div role="group">` with class `address-input`, named by `label`
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] All ARIA attributes documented in AGENTS.md are applied

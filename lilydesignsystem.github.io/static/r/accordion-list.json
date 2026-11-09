@@ -5,7 +5,9 @@
   "htmlTag": "ol",
   "category": "lists",
   "baseClass": ".accordion-list",
-  "subClasses": [],
+  "subClasses": [
+    "accordion-list-item"
+  ],
   "interactive": false,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
@@ -36,7 +38,7 @@
   "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/accordion-list/AGENTS.md",
   "nativePlatform": {
     "decision": "native",
-    "uses": "div role=\"group\" of accordion-list-item <details>",
+    "uses": "<ol> of accordion-list-item <li>s, each holding a <details>",
     "could_use": "<details name> for single-open accordions"
   }
 }

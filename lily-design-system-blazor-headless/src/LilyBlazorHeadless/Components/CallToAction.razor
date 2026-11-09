@@ -4,7 +4,7 @@
     CallToAction component
     a prominent prompt to act
 
-    The contract's <div>, which the themes style as a band, holding a link when Href is given and a button otherwise.
+    The contract's <a> when Href is given, else a <button type="button">; the root carries the class hook, with no wrapper.
 
     Parameters:
         Href — string. Makes it a link.
@@ -14,16 +14,14 @@
         ChildContent, CssClass, AdditionalAttributes (spread onto the root).
 *@
 
-<div class="@($"call-to-action {CssClass}".Trim())" @attributes="AdditionalAttributes">
-    @if (!string.IsNullOrEmpty(Href))
-    {
-        <a href="@Href" aria-label="@AriaLabel">@ChildContent</a>
-    }
-    else
-    {
-        <button type="button" disabled="@Disabled" aria-label="@AriaLabel" @onclick="OnClick">@ChildContent</button>
-    }
-</div>
+@if (!string.IsNullOrEmpty(Href))
+{
+    <a class="@($"call-to-action {CssClass}".Trim())" href="@Href" aria-label="@AriaLabel" @attributes="AdditionalAttributes">@ChildContent</a>
+}
+else
+{
+    <button class="@($"call-to-action {CssClass}".Trim())" type="button" disabled="@Disabled" aria-label="@AriaLabel" @onclick="OnClick" @attributes="AdditionalAttributes">@ChildContent</button>
+}
 
 @code {
     [Parameter] public string? Href { get; set; }

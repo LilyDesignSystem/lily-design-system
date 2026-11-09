@@ -16,10 +16,11 @@ function render(html: string): HTMLElement {
 }
 
 describe("Card", () => {
-    test("renders a native article", () => {
+    test("renders a div with no role when unlabelled", () => {
         const host = render("<lily-card>Body content.</lily-card>");
 
-        expect(host.querySelector("article.card")).toBeTruthy();
+        expect(host.querySelector("div.card")).toBeTruthy();
+        expect(host.querySelector("div.card")!.hasAttribute("role")).toBe(false);
     });
 
     test("renders no heading when heading is absent", () => {
@@ -51,16 +52,17 @@ describe("Card", () => {
         expect(link.textContent).toBe("Title");
     });
 
-    test("uses label as an aria-label override on the article", () => {
+    test("a label names the card as a group", () => {
         const host = render('<lily-card label="Featured article">Body content.</lily-card>');
 
-        expect(host.querySelector("article")!.getAttribute("aria-label")).toBe("Featured article");
+        expect(host.querySelector("div.card")!.getAttribute("aria-label")).toBe("Featured article");
+        expect(host.querySelector("div.card")!.getAttribute("role")).toBe("group");
     });
 
-    test("moves original content into the article, after the heading", () => {
+    test("moves original content into the card, after the heading", () => {
         const host = render('<lily-card heading="Title">Body content.</lily-card>');
 
-        const article = host.querySelector("article")!;
+        const article = host.querySelector("div.card")!;
         expect(article.textContent).toContain("Title");
         expect(article.textContent).toContain("Body content.");
         expect(article.lastChild!.textContent).toBe("Body content.");

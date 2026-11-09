@@ -23,7 +23,7 @@ Implement the Panel component: a generic content panel with optional heading.
 ## Acceptance Criteria
 
 - [ ] Renders <div> with class="panel"
-- [ ] `<section aria-label="...">` -- creates a named region landmark, allowing assistive technology to list and navigate to this section
+- [ ] `<div role="group" aria-label="...">` -- a named group, announced when entered, not added to the landmark list
 - [ ] The `aria-label` value should be concise and descriptive of the panel's content
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

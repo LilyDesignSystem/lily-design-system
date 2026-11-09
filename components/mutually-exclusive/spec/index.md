@@ -8,12 +8,12 @@ Implement the MutuallyExclusive component: a container ensuring only one option 
 
 ## HTML Tag and CSS Class
 
-- HTML tag: `<div>`
+- HTML tag: `<fieldset>`
 - CSS class: `.mutually-exclusive`
 
 ## Approach
 
-1. Render `<div>` as the root element with `class="mutually-exclusive"`
+1. Render `<fieldset>` as the root element with `class="mutually-exclusive"`
 2. Wire ARIA attributes per the AGENTS.md ARIA section
 3. Wire keyboard behaviour per the AGENTS.md Keyboard section
 4. Spread `restProps` for consumer customization
@@ -22,7 +22,7 @@ Implement the MutuallyExclusive component: a container ensuring only one option 
 
 ## Acceptance Criteria
 
-- [ ] Renders `<div>` with class `mutually-exclusive`
+- [ ] Renders `<fieldset>` with class `mutually-exclusive`
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 - [ ] All ARIA attributes documented in AGENTS.md are applied

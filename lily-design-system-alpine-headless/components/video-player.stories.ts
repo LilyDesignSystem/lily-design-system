@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div\n  class="video-player"\n  role="group"\n  aria-label=""\n>\n  <video class="video-player-element" src="" controls playsinline></video>\n  <figcaption class="video-player-caption">\n    <!-- Consumer provides caption -->\n  </figcaption>\n</div>';
+    '<figure\n  class="video-player"\n  aria-label=""\n>\n  <video\n    class="video-player-element"\n    src=""\n    controls\n    playsinline\n  ></video>\n  <figcaption class="video-player-caption">\n    <!-- Consumer provides caption -->\n  </figcaption>\n</figure>';
 
 const meta = {
     title: "Headless/Video Player",

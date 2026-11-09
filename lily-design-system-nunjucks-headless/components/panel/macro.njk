@@ -1,9 +1,8 @@
 {#
   Panel macro — a generic content panel with optional heading.
 
-  HTML tag: <section> when a heading or label exposes the panel as
-    a region; <div> otherwise (a region landmark requires an
-    accessible name).
+  HTML tag: <div>, with role="group" when a heading or label names
+    it (a page of panels stays out of the landmark list).
   CSS class: panel
   Accessibility:
     - Prefer a visible heading paired with params.labelledBy (the
@@ -37,9 +36,9 @@
 {%- set level = params.headingLevel | default(2) -%}
 {%- set headingId = params.headingId or (params.id ~ "-heading" if params.id and params.heading) -%}
 {%- set hasLabel = params.heading or params.label or params.labelledBy -%}
-{%- set tag = "section" if hasLabel else "div" -%}
-<{{ tag }}
+<div
   class="panel{% if params.classes %} {{ params.classes }}{% endif %}"
+  {%- if hasLabel %} role="group"{% endif %}
   {%- if params.id %} id="{{ params.id }}"{% endif %}
   {%- if params.labelledBy %} aria-labelledby="{{ params.labelledBy }}"
   {%- elif headingId %} aria-labelledby="{{ headingId }}"
@@ -57,5 +56,5 @@
     {%- elif caller -%}{{ caller() }}
     {%- endif -%}
   </div>
-</{{ tag }}>
+</div>
 {%- endmacro -%}

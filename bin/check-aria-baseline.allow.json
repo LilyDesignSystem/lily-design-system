@@ -1,17 +1,11 @@
 {
-  "blazor accordion-list role": "The contract and Svelte disagree: the contract's root is an <ol> of the sections, which Blazor follows; Svelte renders a labelled <div role=\"group\"> (tasks.md P25-T7).",
-  "blazor address-input role": "The contract and Svelte disagree: the contract's root is one <input>, which Blazor follows; Svelte renders a <div role=\"group\"> of address fields (tasks.md P25-T7).",
-  "blazor call-to-action aria-label": "A different shape: Blazor's call-to-action is a container holding the consumer's link, where Svelte renders the link or button itself, named by label (tasks.md P25-T7).",
   "blazor editable role": "The static read sees Blazor's edit-mode branch first; the display mode is the role=\"button\" span Svelte renders.",
-  "blazor mutually-exclusive role": "The contract and Svelte disagree: the contract's root is a <div role=\"group\">, which Blazor follows; Svelte renders a <fieldset> (tasks.md P25-T7).",
   "blazor tag role": "The static read sees the Live branch's role=\"status\" first; the default Blazor render has no role, as Svelte's.",
-  "blazor video-player role": "The contract and Svelte disagree: the contract's root is a <div> holding the <video>, named as role=\"group\" in Blazor; Svelte renders a <figure> (tasks.md P25-T7).",
   "html angle-slider-range-input aria-valuemax": "Native: an <input type=\"range\">, whose values are the browser's; Svelte repeats them as ARIA attributes.",
   "html angle-slider-range-input aria-valuemin": "Native: an <input type=\"range\">, whose values are the browser's; Svelte repeats them as ARIA attributes.",
   "html angle-slider-range-input aria-valuenow": "Native: an <input type=\"range\">, whose values are the browser's; Svelte repeats them as ARIA attributes.",
   "html angle-slider-range-input aria-valuetext": "The snippet has no script to keep a value text in step with the input; Svelte writes it from its valueText prop.",
-  "html call-to-action aria-label": "A different shape: HTML's call-to-action is a container holding the consumer's link, where Svelte renders the link or button itself, named by label (tasks.md P25-T7).",
-  "html card role": "The contract and Svelte disagree: the contract's root is a <div>, named as role=\"region\" in HTML; Svelte renders an <article> (tasks.md P25-T7).",
+  "html call-to-action aria-label": "The HTML snippet shows no aria-label: it is optional, only for when the link or button text is not enough, and the Svelte sweep renders it with one (tasks.md P25-T27).",
   "html color-picker-button aria-pressed": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
   "html color-picker-button role": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
   "html five-face-rating-picker-button aria-pressed": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
@@ -20,11 +14,9 @@
   "html five-star-rating-picker-button role": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
   "html net-promoter-score-picker-button aria-pressed": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
   "html net-promoter-score-picker-button role": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
-  "html panel role": "The contract and Svelte disagree: the contract's root is a <div>, named as role=\"region\" in HTML; Svelte renders a labelled <section>, which is a region too (tasks.md P25-T7).",
   "html red-amber-green-picker-button aria-pressed": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
   "html red-amber-green-picker-button role": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
   "html red-orange-yellow-green-blue-picker-button aria-pressed": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
   "html red-orange-yellow-green-blue-picker-button role": "A deliberate structural difference: the HTML buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds, as in Nunjucks and Web Components; the pickers render native radios (tasks.md P25-T18, P25-T19).",
-  "html tour-list-item aria-hidden": "The snippet shows the current step, which is not hidden; Svelte's default render is a step that is not current.",
-  "html video-player role": "The contract and Svelte disagree: the contract's root is a <div> holding the <video>, named as role=\"group\" in HTML; Svelte renders a <figure> (tasks.md P25-T7)."
+  "html tour-list-item aria-hidden": "The snippet shows the current step, which is not hidden; Svelte's default render is a step that is not current."
 }

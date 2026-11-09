@@ -4,11 +4,12 @@ import { describe, expect, test } from "vitest";
 import Subject from "./Card.vue";
 
 describe("Card", () => {
-    test("renders as an article element", () => {
+    test("renders a div with no role when unlabelled", () => {
         render(Subject, { slots: { default: "Card content" } });
 
-        const article = screen.getByRole("article");
-        expect(article).toBeTruthy();
+        const article = document.querySelector(".card") as HTMLElement;
+        expect(article.tagName).toBe("DIV");
+        expect(article.hasAttribute("role")).toBe(false);
         expect(article.textContent).toContain("Card content");
     });
 
@@ -41,7 +42,7 @@ describe("Card", () => {
     test("applies aria-label", () => {
         render(Subject, { props: { label: "Featured card" }, slots: { default: "Content" } });
 
-        expect(screen.getByRole("article", { name: "Featured card" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Featured card" })).toBeTruthy();
     });
 
     test("passes through additional HTML attributes", () => {

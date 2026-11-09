@@ -2,15 +2,15 @@
 // Panel component
 //
 // A headless labeled container for grouping related content, controls, or settings.
-// It renders a semantic <section> element with an accessible label, creating a
-// named region landmark that assistive technology can identify and navigate to.
+// It renders a <div role="group"> named by its label, so assistive technology
+// announces the group without adding a landmark for every panel on the page.
 // Commonly used in dashboards, settings pages, sidebars, and multi-section layouts.
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, required. Accessible name for the panel region via aria-label.
+//   label — string, required. Accessible name for the group via aria-label.
 //   default slot. The panel content.
-//   ...restProps — additional HTML attributes spread onto the <section>.
+//   ...restProps — additional HTML attributes spread onto the root <div>.
 //
 // Syntax:
 //   <Panel label="Settings">{children}</Panel>
@@ -30,12 +30,11 @@
 //   </Panel>
 //
 // Keyboard:
-//   None — this is a passive container. Screen reader users can navigate to
-//   named regions using landmark navigation shortcuts.
+//   None — this is a passive container.
 //
 // Accessibility:
-//   - <section aria-label="..."> creates a named region landmark
-//   - Assistive technology can list and navigate to this section via landmarks
+//   - <div role="group" aria-label="..."> names the panel as a group
+//   - Not a landmark: pass role="region" for a panel that is a major part of the page
 //   - The aria-label value should be concise and descriptive of the panel content
 //
 // Internationalization:
@@ -44,13 +43,11 @@
 //
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
-//   - Uses <section> not <div> for proper landmark semantics
+//   - A <div role="group">, not a <section>: a page of panels would flood the landmark list
 //   - Do not add headings — consumer provides heading elements as needed
 //
 // References:
-//   - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
-//   - HTML section element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section
-//   - WAI Landmarks: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
+//   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 
 defineProps<{
     label: string;
@@ -59,10 +56,11 @@ defineProps<{
 
 <template>
     <!-- Panel.vue -->
-    <section
+    <div
         class="panel"
+        role="group"
         :aria-label="label"
     >
         <slot />
-    </section>
+    </div>
 </template>

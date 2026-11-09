@@ -1,7 +1,7 @@
 slug	uses	could_use	decision	notes
 accordion-checkbox	<input type="checkbox"> + panel hidden	<details>	native	The checkbox is a form value, so a <details> toggle would lose form participation.
-accordion-list-item	<details>	name attribute	native	As details.
-accordion-list	div role="group" of accordion-list-item <details>	<details name> for single-open accordions	native	Each item is a <details>; an exclusive mode could use the name attribute instead of script.
+accordion-list-item	<li> holding a <details>	name attribute	native	The <details> inside the <li> is the disclosure.
+accordion-list	<ol> of accordion-list-item <li>s, each holding a <details>	<details name> for single-open accordions	native	Each item is a <details>; an exclusive mode could use the name attribute instead of script.
 action-group	popover="auto" overflow menu opened by command="toggle-popover" commandfor (and popovertarget) on the overflow trigger; bindable overflowOpen synced from the toggle event	CSS anchor positioning	native	As split-button. Angular and Blazor were bare stubs and were ported from Svelte (P18-T11, 2026-10-30).
 alert-dialog	<dialog> showModal() via Dialog/modal.ts	command="show-modal"/"close" on consumer buttons	native	Top layer, inert background, focus trap and focus return come from the browser. commandfor cannot target it from outside today because the <dialog> is only mounted while open is true. P14-T4 (2026-10-30): showModal() in all nine libraries; the Angular and Blazor stubs (label, no alertdialog contract) were ported from Svelte.
 autosuggest	none (input role="combobox" + ul role="listbox")	<input list>+<datalist>	hand-rolled because <datalist> cannot be styled or hold rich options, and the suggestions come from the consumer as they type	Native <datalist> is a possible zero-JS fallback but cannot be styled or hold rich options.

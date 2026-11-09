@@ -23,4 +23,17 @@ describe("accordion-list", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("sets aria-label only when a label is given", () => {
+        expect(
+            render("accordion-list", {})
+                .document.querySelector("ol.accordion-list")
+                .hasAttribute("aria-label"),
+        ).toBe(false);
+        expect(
+            render("accordion-list", { label: "Questions" })
+                .document.querySelector("ol.accordion-list")
+                .getAttribute("aria-label"),
+        ).toBe("Questions");
+    });
 });

@@ -4,7 +4,7 @@ A video player with play-in-view behavior, custom controls, and IntersectionObse
 
 See `components/video-player/index.md` for canonical documentation.
 
-The contract's `<div>` holding a native `<video>`. `Autoplay` means play while in view, and browsers block sound, so pair it with `Muted`.
+The contract's `<figure>` holding a native `<video>`. `Autoplay` means play while in view, and browsers block sound, so pair it with `Muted`.
 
 ## Parameters
 

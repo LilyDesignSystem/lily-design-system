@@ -6,7 +6,7 @@
 - PascalCase: CallToAction
 - Description: a prominent prompt encouraging user action
 - Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows
-- HTML tag: <div>
+- HTML tag: <a> when `href` is given, else <button type="button">
 - CSS class: .call-to-action
 - Interactive: yes
 
@@ -42,7 +42,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <div> element with class="call-to-action"
+- [ ] Renders <a> (with href) or <button> element with class="call-to-action"
 - [ ] Has aria-label attribute
 - [ ] Keyboard navigation works correctly
 - [ ] WCAG 2.2 AAA compliant

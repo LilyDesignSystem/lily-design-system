@@ -5,7 +5,7 @@
     a container ensuring only one option can be selected from a group
 *@
 
-<div class="@($"mutually-exclusive {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<fieldset class="@($"mutually-exclusive {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</fieldset>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";

@@ -18,7 +18,7 @@ import { warnMissingName } from "./dev-warning";
 @Component({
     selector: "lily-mutually-exclusive",
     standalone: true,
-    template: `<div class="mutually-exclusive {{ className() }}" [attr.role]="label() ? 'group' : null" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<fieldset class="mutually-exclusive {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></fieldset>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MutuallyExclusive implements OnInit {

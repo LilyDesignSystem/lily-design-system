@@ -6,9 +6,9 @@
 //
 // Props:
 //   className — string, optional. CSS class name.
-//   label — string, optional. Accessible name for the group via aria-label.
+//   label — string, optional. Accessible name for the list via aria-label.
 //   default slot. AccordionListItem elements.
-//   ...restProps — additional HTML attributes spread onto the <div>.
+//   ...restProps — additional HTML attributes spread onto the <ol>.
 //
 // Syntax:
 //   <AccordionNav>
@@ -31,7 +31,7 @@
 // by AccordionListItem children.
 //
 // Accessibility:
-//   - aria-label optionally provides an accessible name for the group
+//   - An <ol>, so screen readers announce how many sections there are and where each one is; aria-label optionally names it
 //
 // Internationalization:
 //   - The label prop accepts any translated string
@@ -42,7 +42,7 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 //
 // References:
-//   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
+//   - HTML ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
 
 withDefaults(
     defineProps<{
@@ -57,11 +57,10 @@ withDefaults(
 
 <template>
     <!-- AccordionList.vue -->
-    <div
+    <ol
         class="accordion-list"
-        role="group"
         :aria-label="label || undefined"
     >
         <slot />
-    </div>
+    </ol>
 </template>

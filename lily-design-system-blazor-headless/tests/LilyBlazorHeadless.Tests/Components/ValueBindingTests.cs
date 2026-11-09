@@ -17,6 +17,7 @@ public class ValueBindingTests : TestContext
         ["ResetInput"] = "a button",
         ["ImageInput"] = "a button",
         ["HiddenInput"] = "nothing edits it",
+        ["AddressInput"] = "a group of the consumer's fields, which bind their own values",
         ["FileInput"] = "the browser keeps the files",
         ["ImageFileInput"] = "the browser keeps the files",
         ["RadioInput"] = "its value is fixed, and a group chooses",

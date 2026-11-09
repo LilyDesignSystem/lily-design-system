@@ -31,4 +31,17 @@ public class AddressInputTests : TestContext
         var root = cut.Find(".address-input");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Is_a_named_group_holding_the_fields()
+    {
+        var cut = RenderComponent<AddressInput>(p => p
+            .Add(x => x.Label, "Delivery address")
+            .AddChildContent("<input id=\"street\" />"));
+        var root = cut.Find(".address-input");
+        Assert.Equal("DIV", root.TagName);
+        Assert.Equal("group", root.GetAttribute("role"));
+        Assert.Equal("Delivery address", root.GetAttribute("aria-label"));
+        Assert.NotNull(root.QuerySelector("input#street"));
+    }
 }
