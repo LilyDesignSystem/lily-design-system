@@ -27,4 +27,13 @@ describe("status-tag", () => {
         expect(el.hasAttribute("aria-label")).toBe(false);
         expect(el.querySelector(".screen-reader-span").textContent).toBe("Status: ");
     });
+
+    it("renders type as data-type, default when unset, as Svelte does", () => {
+        const plain = render("status-tag", { text: "Draft" }).document.querySelector(".status-tag");
+        expect(plain.getAttribute("data-type")).toBe("default");
+        const set = render("status-tag", { text: "Failed", type: "error" }).document.querySelector(
+            ".status-tag",
+        );
+        expect(set.getAttribute("data-type")).toBe("error");
+    });
 });

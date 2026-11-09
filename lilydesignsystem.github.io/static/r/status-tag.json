@@ -17,7 +17,7 @@
   ],
   "props": [
     "`label`: string (optional) (default: —) — Hidden text read before the content",
-    "`tone`: \"neutral\" | \"success\" | \"warning\" | \"danger\" | \"info\" (default: \"neutral\") — Tone hint used by consumers to drive styling",
+    "`type`: \"default\" | \"info\" | \"success\" | \"warning\" | \"error\" (default: \"default\") — The status, rendered as `data-type`; the themes colour `.status-tag[data-type]`. Meaning still comes from the text (WCAG 1.4.1)",
     "`...restProps`: HTML attributes (default: —) — Spread onto the root `<span>`"
   ],
   "related": [

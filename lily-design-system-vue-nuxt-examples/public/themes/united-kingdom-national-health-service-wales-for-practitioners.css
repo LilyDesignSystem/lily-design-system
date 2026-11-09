@@ -3067,19 +3067,19 @@
         color: oklch(100% 0 0);
     }
     /* Status tags — pre-baked colour for each status. */
-    :where(.status-tag[data-status="success"]) {
+    :where(.status-tag[data-type="success"]) {
         background-color: var(--color-success);
         color: var(--color-success-content);
     }
-    :where(.status-tag[data-status="warning"]) {
+    :where(.status-tag[data-type="warning"]) {
         background-color: var(--color-warning);
         color: var(--color-warning-content);
     }
-    :where(.status-tag[data-status="error"]) {
+    :where(.status-tag[data-type="error"]) {
         background-color: var(--color-error);
         color: var(--color-error-content);
     }
-    :where(.status-tag[data-status="info"]) {
+    :where(.status-tag[data-type="info"]) {
         background-color: var(--color-info);
         color: var(--color-info-content);
     }

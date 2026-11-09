@@ -34,6 +34,8 @@
 export interface StatusTagProps {
     className?: string;
     label?: string;
+    /** The status, rendered as data-type for the theme: as in Svelte, and as on alert, badge and banner. */
+    type?: "default" | "info" | "success" | "warning" | "error";
     children: React.ReactNode;
     [key: string]: unknown;
 }
@@ -41,12 +43,14 @@ export interface StatusTagProps {
 export default function StatusTag({
     className = "",
     label = undefined,
+    type = "default",
     children,
     ...restProps
 }: StatusTagProps) {
     return (
         <span
             className={`status-tag ${className}`}
+            data-type={type}
             {...restProps}
         >
             {label ? <span className="screen-reader-span">{`${label} `}</span> : null}

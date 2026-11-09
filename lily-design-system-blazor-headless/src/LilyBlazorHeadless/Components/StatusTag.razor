@@ -5,10 +5,12 @@
     a tag showing the current status of a task
 *@
 
-<span class="@($"status-tag {CssClass}".Trim())" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@(Label + " ")</span>}@ChildContent</span>
+<span class="@($"status-tag {CssClass}".Trim())" data-type="@Type" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@(Label + " ")</span>}@ChildContent</span>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>"default", "info", "success", "warning" or "error", rendered as data-type: as in Svelte.</summary>
+    [Parameter] public string Type { get; set; } = "default";
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

@@ -24,16 +24,29 @@ describe("StatusTag", () => {
         expect(span.textContent).toBe("Completed");
     });
 
-    test("defaults data-tone to neutral", () => {
+    test("defaults data-type to default, as Svelte does", () => {
         const host = render("<lily-status-tag>Completed</lily-status-tag>");
 
-        expect(host.querySelector("span")!.getAttribute("data-tone")).toBe("neutral");
+        expect(host.querySelector("span")!.getAttribute("data-type")).toBe("default");
     });
 
-    test("honours an explicit tone", () => {
-        const host = render('<lily-status-tag tone="success">Completed</lily-status-tag>');
+    test("renders an explicit type as data-type", () => {
+        const host = render('<lily-status-tag type="success">Completed</lily-status-tag>');
 
-        expect(host.querySelector("span")!.getAttribute("data-tone")).toBe("success");
+        expect(host.querySelector("span")!.getAttribute("data-type")).toBe("success");
+        expect(host.querySelector("span")!.hasAttribute("type")).toBe(false);
+    });
+
+    test("still reads the older tone attribute, mapping danger to error and neutral to default", () => {
+        const pick = (html: string) =>
+            render(html).querySelector("span")!.getAttribute("data-type");
+
+        expect(pick('<lily-status-tag tone="danger">Failed</lily-status-tag>')).toBe("error");
+        expect(pick('<lily-status-tag tone="neutral">Draft</lily-status-tag>')).toBe("default");
+        expect(pick('<lily-status-tag tone="warning">Pending</lily-status-tag>')).toBe("warning");
+        expect(pick('<lily-status-tag type="info" tone="danger">New</lily-status-tag>')).toBe(
+            "info",
+        );
     });
 
     test("an explicit label becomes hidden text", () => {
