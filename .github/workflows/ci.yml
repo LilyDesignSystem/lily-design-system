@@ -13,10 +13,50 @@ on:
   pull_request:
     branches: [main]
 
+# A newer push to the same branch or pull request cancels the run it supersedes (tasks.md P24-T4).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  # Does this push change anything but Markdown? If not, the test matrices are skipped (they
+  # report "skipped", which a required check accepts) and only verify, eslint + Prettier and
+  # spell check run, since those read Markdown. Unknown history (a new branch, a force push)
+  # counts as code.
+  changes:
+    name: changed files
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      code: ${{ steps.diff.outputs.code }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - id: diff
+        env:
+          BASE: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          HEAD: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: |
+          if [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            echo "No usable base commit; treating the change as code."
+            echo "code=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          other="$(git diff --name-only "$BASE...$HEAD" | grep -v '\.md$' || true)"
+          if [ -n "$other" ]; then
+            echo "Changed files other than Markdown:"
+            echo "$other" | head -20
+            echo "code=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "Markdown only; the test matrices are skipped."
+            echo "code=false" >> "$GITHUB_OUTPUT"
+          fi
+
   verify:
     name: bin/test + link check + junk guard
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
 
@@ -69,6 +109,7 @@ jobs:
     # `pnpm format:check` on the same libraries; run `pnpm format` to fix.
     name: eslint
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -91,6 +132,9 @@ jobs:
     # build order, and each package builds before the next one tests.
     name: helper packages tests (${{ matrix.framework }})
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -130,6 +174,9 @@ jobs:
   headless:
     name: headless tests (${{ matrix.catalog }})
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -169,6 +216,9 @@ jobs:
   html-headless:
     name: headless tests (lily-design-system-html-headless, WebDriverIO)
     runs-on: ubuntu-latest
+    timeout-minutes: 35
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -192,6 +242,9 @@ jobs:
   dotnet-tests:
     name: dotnet test (${{ matrix.project }})
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -229,6 +282,9 @@ jobs:
     # 2026-10-10, each with its own test project in tests/.
     name: dotnet test (Blazor helper packages)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-dotnet@v6
@@ -251,6 +307,9 @@ jobs:
   example-smoke:
     name: example-app Playwright smoke (svelte-sveltekit-examples)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -297,6 +356,9 @@ jobs:
     # Playwright suite visits every component page in components.tsv.
     name: example-app build + Playwright (nunjucks-eleventy-examples)
     runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -348,6 +410,9 @@ jobs:
     # helpers; vitest mounts every demo under Alpine, and Playwright + axe visits every page in Chromium.
     name: example-app build + Playwright (alpine-examples)
     runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6
@@ -387,6 +452,9 @@ jobs:
   consumer-smoke:
     name: consumer smoke (packed tarballs import as a consumer would)
     runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -517,6 +585,9 @@ jobs:
     # build, and prerender the copied components.
     name: shadcn registry (npx shadcn add into a scratch Next.js app)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -599,6 +670,7 @@ jobs:
   spell-check:
     name: spell check (root docs + hand-authored site content)
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
