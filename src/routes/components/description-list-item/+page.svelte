@@ -5,7 +5,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"description-list-item\">DescriptionListItem</div>";
   const svelteSource: string = "// In your Svelte component:\nimport DescriptionListItem from \"lily-design-system-svelte-headless/components/DescriptionListItem/DescriptionListItem.svelte\";\n\n<DescriptionListItem>\n  <!-- DescriptionListItem content -->\n</DescriptionListItem>\n";
-  const usageCode: string = "<DescriptionListItem\n  term=\"Email\"\n  description=\"user@example.com\"\n/>\n";
+  const usageCode: string = "<DescriptionListItem>\n  <dt>Email</dt>\n  <dd>user@example.com</dd>\n</DescriptionListItem>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
@@ -90,9 +90,7 @@
     </ul>
     <h3>Props</h3>
     <ul>
-      <li><code>term</code>: string (required) (default: —) — Term shown in the <code>&lt;dt&gt;</code></li>
-      <li><code>description</code>: string (default: —) — Description shown in the <code>&lt;dd&gt;</code> (when no children slot)</li>
-      <li><code>children</code>: slot (default: —) — Custom description content (overrides <code>description</code>)</li>
+      <li><code>children</code>: slot (required) (default: —) — The <code>&lt;dt&gt;</code> and <code>&lt;dd&gt;</code> elements</li>
       <li><code>...restProps</code>: HTML attributes (default: —) — Spread onto the root <code>&lt;div&gt;</code></li>
     </ul>
 </section>

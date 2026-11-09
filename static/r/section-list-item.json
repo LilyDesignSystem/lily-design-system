@@ -15,6 +15,7 @@
     "No keyboard interactions on the list item itself; the inner link receives focus"
   ],
   "props": [
+    "`current`: boolean (default: false) — Sets an empty `data-current` on the `<li>` for CSS; it sets no `aria-current`",
     "`children`: slot (required) (default: —) — Typically a single `SectionLink`",
     "`...restProps`: HTML attributes (default: —) — Spread onto the root `<li>`"
   ],
