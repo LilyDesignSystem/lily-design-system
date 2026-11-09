@@ -70,7 +70,7 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "calendar-table-td", pascal: "CalendarTableTD", description: "a calendar table interactive grid data cell for managing dates, days, etc. <td>", status: "beta" },
   { name: "calendar-table-th", pascal: "CalendarTableTH", description: "a calendar table interactive grid header cell for managing dates, days, etc. <th>", status: "beta" },
   { name: "call-to-action", pascal: "CallToAction", description: "a prominent prompt encouraging user action", status: "beta" },
-  { name: "caption", pascal: "Caption", description: "a caption for a table or figure element", status: "stable" },
+  { name: "caption", pascal: "Caption", description: "a caption for a figure element", status: "stable" },
   { name: "card", pascal: "Card", description: "a grouped content container with header, body, and footer areas", status: "stable" },
   { name: "care-card", pascal: "CareCard", description: "a medical care instruction card with urgency levels", status: "stable" },
   { name: "carousel", pascal: "Carousel", description: "a slideshow for cycling through content items", status: "discouraged" },

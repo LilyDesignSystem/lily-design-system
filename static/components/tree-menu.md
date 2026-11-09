@@ -135,7 +135,7 @@ The consumer provides all CSS styling. The component renders with a `.tree-menu`
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `tree-menu`
+- Verify the component renders a `<ul>` element with class `tree-menu`
 - Verify role="tree"` -- identifies the container as a tree view widget
 - Verify aria-label={label}` -- provides an accessible name for the tree
 - Verify Consumer items should use `role="treeitem"` on each navigable child
