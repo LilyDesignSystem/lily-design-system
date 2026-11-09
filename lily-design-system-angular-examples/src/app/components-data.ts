@@ -74,7 +74,7 @@ export const components: ComponentMeta[] = [
       slug: "address-input",
       name: "AddressInput",
       description: "an input for searching or manually entering an address",
-      tag: "input",
+      tag: "div",
       category: "forms",
   },
   {
@@ -424,8 +424,8 @@ export const components: ComponentMeta[] = [
       slug: "call-to-action",
       name: "CallToAction",
       description: "a prominent prompt encouraging user action",
-      tag: "div",
-      category: "content",
+      tag: "a",
+      category: "links",
   },
   {
       slug: "caption",
@@ -2108,13 +2108,6 @@ export const components: ComponentMeta[] = [
       category: "forms",
   },
   {
-      slug: "mutually-exclusive",
-      name: "MutuallyExclusive",
-      description: "a container ensuring only one option can be selected from a group",
-      tag: "div",
-      category: "content",
-  },
-  {
       slug: "navigation-menu",
       name: "NavigationMenu",
       description: "a site-wide navigation menu with links",
@@ -2167,7 +2160,7 @@ export const components: ComponentMeta[] = [
       slug: "net-promoter-score-picker",
       name: "NetPromoterScorePicker",
       description: "a picker for selecting a 0-10 Net Promoter Score",
-      tag: "div",
+      tag: "fieldset",
       category: "pickers",
   },
   {
@@ -2517,7 +2510,7 @@ export const components: ComponentMeta[] = [
       slug: "red-amber-green-picker",
       name: "RedAmberGreenPicker",
       description: "a picker for selecting a red/amber/green status",
-      tag: "div",
+      tag: "fieldset",
       category: "pickers",
   },
   {
@@ -2538,7 +2531,7 @@ export const components: ComponentMeta[] = [
       slug: "red-orange-yellow-green-blue-picker",
       name: "RedOrangeYellowGreenBluePicker",
       description: "a picker for selecting a five-level color status",
-      tag: "div",
+      tag: "fieldset",
       category: "pickers",
   },
   {
@@ -3427,8 +3420,8 @@ export const components: ComponentMeta[] = [
       slug: "video-player",
       name: "VideoPlayer",
       description: "a video player with play-in-view behavior, custom controls, and IntersectionObserver support",
-      tag: "div",
-      category: "content",
+      tag: "figure",
+      category: "media",
   },
   {
       slug: "visible",

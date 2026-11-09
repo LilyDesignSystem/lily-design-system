@@ -297,7 +297,6 @@ export const componentDemos: Record<string, string> = {
   'mockup-watch': '<div class="mockup-watch" role="img" aria-label="a box area that looks like a smart watch"><div style="padding:1rem;background:#f3f4f6;border:2px solid #d1d5db;border-radius:8px;text-align:center;min-height:100px;">MockupWatch Preview</div></div>',
   'mockup-window': '<div class="mockup-window" role="img" aria-label="a box area that looks like a desktop window"><div style="padding:1rem;background:#f3f4f6;border:2px solid #d1d5db;border-radius:8px;text-align:center;min-height:100px;">MockupWindow Preview</div></div>',
   'month-input': '<label class="label" for="demo-input">Label</label><input class="month-input" type="month" id="demo-input" aria-label="MonthInput" />',
-  'mutually-exclusive': '<fieldset class="mutually-exclusive" aria-label="Contact me by"><label><input type="checkbox" name="demo-contact" value="email" /> Email</label><label><input type="checkbox" name="demo-contact" value="phone" /> Phone</label></fieldset>',
   'navigation-menu': '<nav class="navigation-menu" aria-label="Main"><ul><li><a href="#">Home</a></li><li><a href="#">About</a></li><li><a href="#">Contact</a></li></ul></nav>',
   'nederland-burgerservice-nummer-input': '<label class="label" for="demo-input">Label</label><input class="nederland-burgerservice-nummer-input" id="demo-input" aria-label="an input for entering Netherlands\'s Burgerservicenummer (BSN)" />',
   'nederland-burgerservice-nummer-view': '<span class="nederland-burgerservice-nummer-view">NederlandBurgerserviceNummerView</span>',

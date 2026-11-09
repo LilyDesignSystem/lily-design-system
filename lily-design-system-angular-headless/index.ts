@@ -366,7 +366,6 @@ export { MockupWindow } from "./components/MockupWindow";
 export { MonthInput } from "./components/MonthInput";
 export { MultiSelect } from "./components/MultiSelect";
 export { MultiSelectWithExtras } from "./components/MultiSelectWithExtras";
-export { MutuallyExclusive } from "./components/MutuallyExclusive";
 export { NavigationMenu } from "./components/NavigationMenu";
 export { NederlandBurgerserviceNummerInput } from "./components/NederlandBurgerserviceNummerInput";
 export { NederlandBurgerserviceNummerView } from "./components/NederlandBurgerserviceNummerView";

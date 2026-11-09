@@ -182,7 +182,7 @@ Lily's `llms.txt` is a curated link map by design
   files: `llms-rules.md` (the assistant-facing rules: base class first, text
   is a prop, never hard-code strings, prefer the most specific element, use
   the suffix table, `data-color` once-per-page guidance, no inline styles)
-  and one `llms-components-{category}.md` per category, because 609 entries
+  and one `llms-components-{category}.md` per category, because 608 entries
   will not fit in one file the way daisyUI's 68 do. Each entry: summary, tag,
   base class, props, required ARIA, a one-line **Use when** and **Not when**
   (from the existing When to Use / When Not to Use bullets), and a placeholder

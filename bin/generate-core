@@ -34,7 +34,7 @@
 //   bin/generate-core --check              exit 1 if an output is stale, or if a component recorded as
 //                                          Core in core.json no longer meets every criterion
 //   bin/generate-core --allow-demotion     write even though a recorded Core member lost evidence
-//   bin/generate-core --assess <file>      the same checks for all 609 components, as JSON (docs/aria-assessment.md)
+//   bin/generate-core --assess <file>      the same checks for all 608 components, as JSON (docs/aria-assessment.md)
 //
 // The report date in the ACR and core.json is kept unless something else in the output changes.
 

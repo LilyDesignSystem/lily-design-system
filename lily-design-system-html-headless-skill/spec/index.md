@@ -11,7 +11,7 @@ two-skill plan (`lily-design-system-skill` and
 
 A Claude Skill that explains how to consume
 [`@lilydesignsystem/html-headless`](../../lily-design-system-html-headless/):
-one of the seven canonical, full-catalog (609/609) headless component
+one of the seven canonical, full-catalog (608/608) headless component
 libraries, and the framework's own **reference implementation** — the
 canonical semantic HTML, ARIA, and keyboard behaviour every other framework
 binding mirrors. It is content and documentation, not a component
@@ -48,7 +48,7 @@ covers the neighbouring HTML helper packages (one top-level
 - The `*-picker` helpers catalog's own conventions — that's
   `lily-design-system-html-helpers-skill`'s job.
 - The separate, Web Components headless catalog's conventions
-  (native custom elements, light-DOM-only, 574/609) — that catalog has its
+  (native custom elements, light-DOM-only, 573/608) — that catalog has its
   own architecture decisions and its own skill.
 
 ## 3. Architecture

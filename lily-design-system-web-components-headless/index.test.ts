@@ -45,7 +45,7 @@ describe("dist/index.js (built package entry point)", () => {
         // components, and three more waves covering every remaining
         // category (lists, forms, pickers, links, overlays, tables,
         // media, data-viz, buttons, navigation, content).
-        expect(SLUGS.length).toBe(574);
+        expect(SLUGS.length).toBe(573);
     });
 
     test("a component rendered via the built bundle behaves like the source version", async () => {

@@ -1,6 +1,6 @@
 # WAI-ARIA assessment of the full catalog — Lily Design System™
 
-_Measured across all 609 components, with the tables generated from the tests ([P25](../tasks.md)). Per-component data: [aria-assessment.tsv](aria-assessment.tsv). Work
+_Measured across all 608 components, with the tables generated from the tests ([P25](../tasks.md)). Per-component data: [aria-assessment.tsv](aria-assessment.tsv). Work
 that follows from it: [tasks.md](../tasks.md) Phase 25._
 
 **Verdict: Lily is not WAI-ARIA compliant, and no component can yet be shown to be.** No screen reader has been used on any component, and most have incomplete keyboard or ARIA test evidence, per the tables below, which `bin/generate-core` keeps current. WAI-ARIA has no certification; this is a
@@ -8,28 +8,28 @@ self-assessment of evidence, not an audit.
 
 ## Result
 
-Each component is in the first band it falls into, so the bands add up to 609.
+Each component is in the first band it falls into, so the bands add up to 608.
 
 <!-- prettier-ignore-start -->
 <!-- BEGIN generated: bin/generate-core -->
 | Band                              | Components | What it means                                                                      |
 | --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
 | 1. axe failure                    | 0          | Listed in `e2e/axe-sweep.allow.json`: a WCAG A or AA rule fails on its Nunjucks page |
-| 2. Key evidence incomplete        | 103        | Its contract names keys, and fewer than eight libraries have a test that sends one |
+| 2. Key evidence incomplete        | 102        | Its contract names keys, and fewer than eight libraries have a test that sends one |
 | 3. ARIA evidence incomplete       | 316        | Its contract names ARIA, and fewer than eight libraries assert it                  |
 | 4. Automated evidence complete    | 190        | Nothing above. This is a floor, not a pass                                         |
 
 | Measure                                                   | Result     |
 | --------------------------------------------------------- | ---------- |
-| Key contracts with a key test in all eight libraries      | 62 of 165  |
+| Key contracts with a key test in all eight libraries      | 62 of 164  |
 | Custom-key widgets (arrows, Home, End, Escape), all eight | 55 of 95   |
 | Custom-key cells (widget by library): tested              | 433        |
 | Custom-key cells: the browser's, or another part's        | 325        |
 | Custom-key cells: open, keys known to be missing          | 0          |
 | Custom-key cells: absent, or with no reason               | 2          |
-| ARIA contracts asserted in all eight libraries            | 140 of 525 |
-| End-to-end evidence in Chromium, Firefox and WebKit       | 45 of 609  |
-| No keyboard or ARIA contract at all                       | 73 of 609  |
+| ARIA contracts asserted in all eight libraries            | 140 of 524 |
+| End-to-end evidence in Chromium, Firefox and WebKit       | 45 of 608  |
+| No keyboard or ARIA contract at all                       | 73 of 608  |
 <!-- END generated: bin/generate-core -->
 <!-- prettier-ignore-end -->
 
@@ -84,7 +84,7 @@ Of the 86 custom-key widgets, these have a key test in at most one library.
 ## Reproduce
 
 `bin/generate-core` writes the tables above and `aria-assessment.tsv` from the tests, and `--check` (in `bin/test`) fails when they are stale. Band 1 comes from
-`lily-design-system-nunjucks-eleventy-examples/e2e/axe-sweep.allow.json`; that spec runs axe on all 609 pages, with popups forced open, and contrast in the default and dark themes.
+`lily-design-system-nunjucks-eleventy-examples/e2e/axe-sweep.allow.json`; that spec runs axe on all 608 pages, with popups forced open, and contrast in the default and dark themes.
 
 ---
 

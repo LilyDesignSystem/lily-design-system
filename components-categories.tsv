@@ -7,7 +7,7 @@ action-bar	div	navigation
 action-bar-button	button	navigation
 action-group	div	forms
 action-link	a	links
-address-input	input	forms
+address-input	div	forms
 addressograph-box	div	content
 affix	div	content
 ai-label	span	content
@@ -57,7 +57,7 @@ calendar-table-head	thead	tables
 calendar-table-row	tr	tables
 calendar-table-td	td	tables
 calendar-table-th	th	tables
-call-to-action	div	content
+call-to-action	a	links
 caption	caption	tables
 card	div	content
 care-card	div	content
@@ -298,7 +298,6 @@ mockup-tablet-portrait	div	content
 mockup-watch	div	content
 mockup-window	div	content
 month-input	input	forms
-mutually-exclusive	div	content
 navigation-menu	nav	navigation
 nederland-burgerservice-nummer-input	input	national
 nederland-burgerservice-nummer-view	span	national
@@ -306,7 +305,7 @@ nederland-identiteitskaart-nummer-input	input	national
 nederland-identiteitskaart-nummer-view	span	national
 nederland-paspoort-nummer-input	input	national
 nederland-paspoort-nummer-view	span	national
-net-promoter-score-picker	div	pickers
+net-promoter-score-picker	fieldset	pickers
 net-promoter-score-picker-button	button	pickers
 net-promoter-score-view	span	content
 newsletter-signup	form	forms
@@ -356,10 +355,10 @@ question	div	content
 radio-group	fieldset	forms
 radio-input	input	forms
 range-input	input	forms
-red-amber-green-picker	div	pickers
+red-amber-green-picker	fieldset	pickers
 red-amber-green-picker-button	button	pickers
 red-amber-green-view	span	content
-red-orange-yellow-green-blue-picker	div	pickers
+red-orange-yellow-green-blue-picker	fieldset	pickers
 red-orange-yellow-green-blue-picker-button	button	pickers
 red-orange-yellow-green-blue-view	span	content
 related-content	aside	navigation
@@ -486,7 +485,7 @@ united-states-social-security-number-view	span	national
 url-input	input	forms
 validation-list	ul	lists
 validation-list-item	li	lists
-video-player	div	content
+video-player	figure	media
 visible	div	content
 warning-callout	div	content
 watermark	div	content

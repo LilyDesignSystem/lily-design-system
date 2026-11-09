@@ -20,7 +20,7 @@ Design System, which HTML subproject they need, how the HTML headless
 library relates to the HTML helper packages or the example app, or wants to
 see components styled and running with no framework runtime. It also draws
 the line between this plain-HTML trio and the separate Web Components
-catalogs (`<lily-*>` tags, a 574/609 headless slice), pointing to
+catalogs (`<lily-*>` tags, a 573/608 headless slice), pointing to
 [`lily-design-system-web-components-skill`](../lily-design-system-web-components-skill/)
 for that pair.
 

@@ -2,7 +2,7 @@
   "slug": "address-input",
   "name": "AddressInput",
   "description": "an input for searching or manually entering an address",
-  "htmlTag": "input",
+  "htmlTag": "div",
   "category": "forms",
   "baseClass": ".address-input",
   "subClasses": [],

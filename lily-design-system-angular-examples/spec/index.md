@@ -15,7 +15,7 @@ Based on the Angular example-app research:
   - `components/index.page.ts` → `/components`
   - `components/[slug].page.ts` → `/components/:slug`
   - `{composed}.page.ts` × 12 → `/contact-form`, `/dashboard`, …
-- **SSG prerender** via Analog's `prerender.routes` config — generates every component-detail page (609) plus the composed pages.
+- **SSG prerender** via Analog's `prerender.routes` config — generates every component-detail page (608) plus the composed pages.
 - **Headless components copied** from `lily-design-system-angular-headless/components/` into `src/app/components/` (583 × 3 files = 1,461). Same copy-pattern the other 6 example apps use; no workspace dep.
 - **Demo HTML registry** copied from `svelte-sveltekit-examples/src/lib/data/component-demos.ts` into `src/app/component-demos.ts`. Rendered via `[innerHTML]` + `DomSanitizer.bypassSecurityTrustHtml`.
 - **NHS UK CSS** copied from `svelte-sveltekit-examples/src/lib/css/nhs.css` into `src/styles/nhs.css`, imported once in `main.ts`.

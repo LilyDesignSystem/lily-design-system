@@ -31,7 +31,7 @@ The app ships:
 
 - A Next.js 15 App Router app.
 - A `/components/[slug]` route that renders a live demo per component for all
-  609 components (via `component-demos.ts`).
+  608 components (via `component-demos.ts`).
 - 12 composed-page demos.
 - A complete NHS-aligned CSS stylesheet (`assets/css/nhs.css`).
 - Playwright e2e tests for each `/components/[slug]` route.
@@ -103,8 +103,8 @@ lily-design-system-react-next-examples/
 │   ├── dashboard/page.tsx
 │   ├── …
 │   └── data/
-│       ├── component-demos.ts             ← slug → demo-HTML (609 entries)
-│       └── components.ts                  ← catalog metadata (609 entries)
+│       ├── component-demos.ts             ← slug → demo-HTML (608 entries)
+│       └── components.ts                  ← catalog metadata (608 entries)
 ├── components/{PascalCase}.tsx            ← component copies, imported as @lily/*
 ├── assets/css/nhs.css                     ← NHS-aligned stylesheet
 ├── e2e/components/{kebab-case}.spec.ts    ← Playwright e2e per slug
@@ -124,7 +124,7 @@ lily-design-system-react-next-examples/
 
 `/components/[slug]` renders the demo HTML from `component-demos.ts` using
 `dangerouslySetInnerHTML`. Demo data lives in `app/data/component-demos.ts`
-and contains **609 entries** (one per canonical slug).
+and contains **608 entries** (one per canonical slug).
 
 ## 5. Composed-page demos
 
@@ -169,8 +169,8 @@ pnpm run storybook                   # run Storybook
 ### 9.1 Routes
 
 - [ ] `/` renders home with skip-link + standard landmarks.
-- [ ] `/components` lists all 609 canonical components, searchable / filterable.
-- [ ] `/components/[slug]` renders a live demo for all 609 slugs.
+- [ ] `/components` lists all 608 canonical components, searchable / filterable.
+- [ ] `/components/[slug]` renders a live demo for all 608 slugs.
 - [ ] All 12 composed-page demos exist.
 
 ### 9.2 Demo registry
@@ -212,7 +212,7 @@ pnpm run storybook                   # run Storybook
 - [x] All 12 composed-page demos.
 - [x] Playwright e2e per slug.
 - [x] Storybook integration (commit `7a51013b`).
-- [x] Demo registry backfill: `component-demos.ts` covers all 609 canonical
+- [x] Demo registry backfill: `component-demos.ts` covers all 608 canonical
       slugs (per commit `1f1772e1`).
 - [x] Catalog metadata cleaned: orphan `medical-record-red-box` removed from
       `components.ts`; e2e spec deleted.
@@ -249,6 +249,6 @@ pnpm run storybook                   # run Storybook
 - Package manager: pnpm
 - License: MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause
 - Contact: Joel Parker Henderson <joel@joelparkerhenderson.com>
-- Canonical catalog: [../components.tsv](../../components.tsv) — 609 components
+- Canonical catalog: [../components.tsv](../../components.tsv) — 608 components
 - Root spec: [../spec/index.md](../../spec/index.md)
 - Sibling headless library: [../lily-design-system-react-headless/](../../lily-design-system-react-headless/)

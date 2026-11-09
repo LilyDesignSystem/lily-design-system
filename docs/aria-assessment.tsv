@@ -299,7 +299,6 @@ mockup-tablet-portrait	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
 mockup-watch	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
 mockup-window	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
 month-input	ARIA evidence incomplete	no	no	no	yes	8	3	no	-
-mutually-exclusive	key evidence incomplete	no	yes	no	yes	1	2	no	-
 navigation-menu	automated evidence complete	no	yes	yes	yes	8	8	yes	-
 nederland-burgerservice-nummer-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
 nederland-burgerservice-nummer-view	ARIA evidence incomplete	no	no	no	yes	1	6	no	-

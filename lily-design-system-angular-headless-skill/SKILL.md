@@ -12,7 +12,7 @@ catalog (`components.tsv`), each shipped as a standalone Angular component
 with zero CSS — semantic HTML, ARIA, and keyboard behaviour only. It is one
 of the seven **full-catalog** headless libraries (HTML, Svelte, React, Vue,
 Angular, Blazor, Nunjucks); unlike the partial Web Components catalog
-(574/609, its full achievable scope), Angular ships the entire catalog.
+(573/608, its full achievable scope), Angular ships the entire catalog.
 
 Published to npm as `@lilydesignsystem/angular-headless`:
 

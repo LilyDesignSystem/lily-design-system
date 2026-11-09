@@ -24,7 +24,7 @@
 
 A Claude Skill that ties together the three plain-HTML layers in
 this monorepo — [`@lilydesignsystem/html-headless`](../lily-design-system-html-headless/)
-(the full-catalog, 609/609 headless component library and reference
+(the full-catalog, 608/608 headless component library and reference
 implementation), [the HTML helper packages](../spec/helpers/index.md#html-helper-packages)
 (the `*-picker` custom elements and the other helper packages), and
 [`lily-design-system-html-css-js-examples`](../lily-design-system-html-css-js-examples/)
@@ -59,7 +59,7 @@ gives the example application real coverage.
   or [`lily-design-system-html-helpers-skill`](../lily-design-system-html-helpers-skill/) —
   it points at both rather than restating their contracts. Isn't the skill
   for the separate Web Components catalogs (native custom elements, a
-  574/609 headless slice, its own `lily-design-system-web-components-skill`
+  573/608 headless slice, its own `lily-design-system-web-components-skill`
   and its own `-headless-skill` / `-helpers-skill` siblings).
 
 ## Internationalization
