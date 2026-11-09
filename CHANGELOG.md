@@ -9,12 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
-## Nunjucks follows Svelte on sixteen roots — 2026-11-09
+## Ports follow Svelte on nineteen roots — 2026-11-09
 
 Svelte is canonical, and these sixteen macros rendered the same role on a different element. Breaking for consumer CSS that selects the element; selectors on the class keep working.
 
 - **Changed (breaking):** `carousel`, `file-manager` (`<div role="region">`, not `<section>`), `tour` (`<div role="dialog" tabindex="-1">`, not a `<section>` with no role), the eight `mockup-*` (`<div role="img">`, not `<figure>`), `character-counter` (`<span role="status">`, not `<output>`), `tooltip` (`<div role="tooltip">`), `tree-list` (`<ol role="tree">`), `place` (`<article>`, not `<address>`) and `separator` (always `<hr role="separator">`, with `aria-orientation="vertical"` when vertical, not a `<div>`).
 - **Fixed:** the Nunjucks stories show the markup the macros render, including the twelve components changed earlier today. `bin/check-html-tags.allow.json` loses 16 entries (51 → 35).
+- **Changed (breaking):** `avatar-text` is a `<span>` in HTML and Alpine, and Blazor `signature-pad` a `<div>` around the consumer's drawing surface rather than a `<canvas>` itself, as Svelte renders them. The allow-list loses 3 more (35 → 32); `tree-menu` in Alpine now says why it stays.
 
 ## Twelve more components agree on their root element — 2026-11-09
 
