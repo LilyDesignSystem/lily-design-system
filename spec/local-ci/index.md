@@ -29,7 +29,7 @@ What runs where today, what it costs, what is red and why, the realistic options
 | The repository is public.                                                                                                                                                                                                                | `gh repo view`                       |
 | One workflow file, `.github/workflows/ci.yml` (589 lines, 13 jobs, four of them matrices), and a tag-gated `publish.yml`. No GitLab or Codeberg pipeline exists.                                                                         | the files                            |
 | The 13 jobs: `verify`, `lint`, `helper-packages`, `headless`, `html-headless`, `dotnet-tests`, `dotnet-helper-packages`, `example-smoke`, `eleventy-example`, `alpine-examples`, `consumer-smoke`, `shadcn-registry`, `spell-check`.     | `ci.yml`                             |
-| Triggers: every push to `main` and every pull request to `main`. No `concurrency` group, no `paths` filter, no `timeout-minutes`, so superseded runs are not cancelled and a docs-only commit runs everything.                           | `ci.yml`                             |
+| Triggers: every push to `main` and every pull request to `main`. A `concurrency` group cancels a superseded run, every job has a `timeout-minutes`, and a Markdown-only push skips the test matrices (P24-T4, 2026-11-09).               | `ci.yml`                             |
 | Wall time of a run: 14 to 23 minutes (the 13 job definitions expand through four matrices).                                                                                                                                              | `gh run list`, last 7 runs           |
 | Of the last 200 `CI` runs (since 2026-10-18), 188 failed and 10 passed. The last green run was `cff2dbc9b` on 2026-10-18; the first failure after it (`6a27fce73`) was the spell check alone. Red has been the normal state for 17 days. | `gh run list`, 2026-11-04            |
 | No git hooks are installed in the working copy, and `core.hooksPath` is unset. Nothing runs before a push.                                                                                                                               | `.git/hooks`, `git config`           |
@@ -102,6 +102,12 @@ deliberately stale generated file stops a push.
 Add `concurrency: { group: ci-${{ github.ref }}, cancel-in-progress: true }`, `timeout-minutes` on every job, and `paths`
 filters so a Markdown-only commit skips the matrices. This does not need any local tooling and removes the stacked runs seen
 2026-11-04 (six within an hour). Check: two quick pushes leave one run.
+
+_Done 2026-11-09 (P24-T4)._ Not with `paths` filters: a workflow-level filter skips `verify` too, and a skipped workflow
+leaves a required check pending. Instead a `changes` job diffs the push (or the pull request against its base) and the
+test jobs run only when a file other than `*.md` changed; skipped jobs report "skipped". `verify`, `eslint` (its
+`format:check` reads Markdown) and `spell-check` always run. The timeouts are about three times each job's duration in
+the last green run on `main` (Nunjucks Playwright 31 minutes, so 60; spell check 1, so 10).
 
 ### 5. A receipt for the local run
 

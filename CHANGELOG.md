@@ -9,6 +9,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Cheaper, quieter CI runs — 2026-11-09
+
+- **Changed:** a newer push to a branch or pull request cancels the CI run it supersedes, every job has a `timeout-minutes` (about three times its usual duration), and a push that changes only Markdown skips the ten test jobs. `verify`, `eslint` with `format:check`, and spell check still run on every push (tasks.md P24-T4).
+
 ## Seven components agree on their root element — 2026-11-09
 
 The maintainer's decision: where a component's contract and Svelte disagreed on the root, follow the element that carries the meaning. Every catalog now renders the same root. Breaking for consumer CSS that selects the element itself (`article.card`, `section.panel`, `div.call-to-action`); selectors on the class keep working.
