@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
-  class="hint"></div>`;
+const html = `<p
+  class="hint"></p>`;
 
 const meta = {
     title: "Headless/Hint",

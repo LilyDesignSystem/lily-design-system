@@ -2,7 +2,7 @@
   Tour macro — a tour guide, such as for sightseeing, pathways,
     demonstrations, onboarding, etc.
 
-  HTML tag: <section>
+  HTML tag: <div role="dialog">
   `active`, when given, renders data-active, and false hides it. Escape
   (components/widget-init.js) hides it and dispatches a bubbling "close".
   CSS class: tour
@@ -22,8 +22,10 @@
 #}
 {%- macro tour(params) -%}
 {%- set p = params | default({}) -%}
-<section
+<div
   class="tour{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="dialog"
+  tabindex="-1"
   {%- if p.active != undefined %} data-active="{{ 'true' if p.active else 'false' }}"{% endif %}
   {%- if p.active === false %} hidden{% endif %}
   {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
@@ -33,5 +35,5 @@
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</section>
+</div>
 {%- endmacro -%}

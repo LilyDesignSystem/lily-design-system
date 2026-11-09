@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
+const html = `<aside
   class="warning-callout"
-  role="note"></div>`;
+  role="note"></aside>`;
 
 const meta = {
     title: "Headless/WarningCallout",

@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<figure
+const html = `<div
   class="mockup-watch">
   <div class="mockup-watch-chrome" aria-hidden="true">  </div>
   <div class="mockup-watch-body"></div>
-</figure>`;
+</div>`;
 
 const meta = {
     title: "Headless/MockupWatch",

@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<span
+const html = `<p
   class="error-message">
-  <span class="screen-reader-span">Error:</span></span>`;
+  <span class="screen-reader-span">Error:</span></p>`;
 
 const meta = {
     title: "Headless/ErrorMessage",

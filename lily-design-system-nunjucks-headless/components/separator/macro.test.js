@@ -9,9 +9,9 @@ describe("separator", () => {
         expect(el.getAttribute("data-orientation")).toBe("horizontal");
     });
 
-    it("renders a vertical <div role=separator> when orientation is 'vertical'", () => {
+    it("renders a vertical <hr aria-orientation=vertical> when orientation is 'vertical'", () => {
         const { document } = render("separator", { orientation: "vertical" });
-        const el = document.querySelector("div.separator");
+        const el = document.querySelector("hr.separator");
         expect(el).toBeTruthy();
         expect(el.getAttribute("role")).toBe("separator");
         expect(el.getAttribute("aria-orientation")).toBe("vertical");
@@ -28,7 +28,7 @@ describe("separator", () => {
             orientation: "vertical",
             label: "Sidebar divider",
         });
-        expect(document.querySelector("div.separator").getAttribute("aria-label")).toBe(
+        expect(document.querySelector("hr.separator").getAttribute("aria-label")).toBe(
             "Sidebar divider",
         );
     });

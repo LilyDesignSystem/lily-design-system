@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<abbr
-  class="measurement-unit-view"></abbr>`;
+const html = `<span
+  class="measurement-unit-view"></span>`;
 
 const meta = {
     title: "Headless/MeasurementUnitView",

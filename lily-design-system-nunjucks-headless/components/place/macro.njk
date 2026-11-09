@@ -2,7 +2,7 @@
   Place macro — a place component that contains other place-related
     information (address, coordinates, etc.).
 
-  HTML tag: <address>
+  HTML tag: <article>
   CSS class: place
 
   Params:
@@ -20,7 +20,7 @@
 #}
 {%- macro place(params) -%}
 {%- set p = params | default({}) -%}
-<address
+<article
   class="place{% if p.classes %} {{ p.classes }}{% endif %}"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
@@ -34,5 +34,5 @@
   {%- elif p.text -%}{{ p.text }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</address>
+</article>
 {%- endmacro -%}

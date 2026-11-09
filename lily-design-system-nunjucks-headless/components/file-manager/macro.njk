@@ -1,7 +1,7 @@
 {#
   FileManager macro — a file browser for navigating and managing files.
 
-  HTML tag: <section role="region">
+  HTML tag: <div role="region">
   CSS class: file-manager
 
   Params: label, id, classes, attributes. Caller provides the interior.
@@ -12,7 +12,7 @@
 #}
 {%- macro fileManager(params) -%}
 {%- set p = params | default({}) -%}
-<section
+<div
   class="file-manager{% if p.classes %} {{ p.classes }}{% endif %}"
   role="region"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
@@ -23,5 +23,5 @@
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
-</section>
+</div>
 {%- endmacro -%}

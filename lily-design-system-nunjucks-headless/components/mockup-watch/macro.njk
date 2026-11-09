@@ -1,7 +1,7 @@
 {#
   MockupWatch macro — a box area that looks like a smart watch.
 
-  HTML tag: <figure>
+  HTML tag: <div role="img">
   CSS class: mockup-watch
   Accessibility: decorative chrome is aria-hidden; the body content
     is the meaningful part.
@@ -21,7 +21,7 @@
 #}
 {%- macro mockupWatch(params) -%}
 {%- set p = params | default({}) -%}
-<figure
+<div
   class="mockup-watch{% if p.classes %} {{ p.classes }}{% endif %}"
   role="img"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
@@ -36,5 +36,5 @@
     {%- elif caller -%}{{ caller() }}
     {%- endif -%}
   </div>
-</figure>
+</div>
 {%- endmacro -%}

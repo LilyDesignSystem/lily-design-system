@@ -1,7 +1,7 @@
 {#
   MockupTabletPortrait macro — a box area that looks like a tablet computer in portrait mode.
 
-  HTML tag: <figure>
+  HTML tag: <div role="img">
   CSS class: mockup-tablet-portrait
   Accessibility: decorative chrome is aria-hidden; the body content
     is the meaningful part.
@@ -21,7 +21,7 @@
 #}
 {%- macro mockupTabletPortrait(params) -%}
 {%- set p = params | default({}) -%}
-<figure
+<div
   class="mockup-tablet-portrait{% if p.classes %} {{ p.classes }}{% endif %}"
   role="img"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
@@ -36,5 +36,5 @@
     {%- elif caller -%}{{ caller() }}
     {%- endif -%}
   </div>
-</figure>
+</div>
 {%- endmacro -%}

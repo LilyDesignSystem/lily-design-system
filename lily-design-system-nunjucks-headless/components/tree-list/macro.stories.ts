@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<ul
+const html = `<ol
   class="tree-list"
-  role="tree"></ul>`;
+  role="tree"></ol>`;
 
 const meta = {
     title: "Headless/TreeList",
