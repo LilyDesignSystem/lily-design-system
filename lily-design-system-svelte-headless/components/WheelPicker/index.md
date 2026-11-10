@@ -1,6 +1,6 @@
 # WheelPicker
 
-A vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling, typing or clicking.
+A single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling, typing or clicking.
 
 ## Canonical documentation
 

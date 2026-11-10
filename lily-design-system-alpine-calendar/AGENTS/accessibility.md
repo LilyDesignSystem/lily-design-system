@@ -15,6 +15,7 @@
 - **Live regions are deliberate**. `role="alert"` and `aria-live` are reserved for dynamic content the user must hear. Static labels stay static.
 - **Focus not obscured (WCAG 2.2 SC 2.4.11)**. A focused control is never entirely hidden by author-created content such as a fixed or sticky bar. Whatever fixes a bar to the viewport (`sticky-promo-banner`, a theme's or app's own fixed header, a bottom navigation) sets `--lily-fixed-bar-block-start` / `--lily-fixed-bar-block-end` on the root to the bar's height; the shared "Focus not obscured" section in all 63 themes turns them into `scroll-padding-block`, so the browser scrolls a focused control clear of the bar. Each example app's `e2e/focus-obscured.spec.ts` verifies it.
 - **Reduced motion**. Animations are an example-layer choice; headless components do not auto-animate. Consumers respect `prefers-reduced-motion` in their CSS.
+- **Animated text** (from DetentText and DetentNumber, [spec/detent-lessons](../spec/detent-lessons/index.md)). Text that a consumer animates as it changes, such as rolling digits, a morphing label or a counter, keeps the real text in the DOM at rest. Any animated copy is `aria-hidden="true"` and gone when the change settles. Intermediate values are never announced: a live region speaks the value it lands on, once (`aria-busy` while it moves, as `streaming-text` does), and a `role="timer"` is not made live. With `prefers-reduced-motion: reduce` the change is immediate.
 
 ## Common ARIA patterns
 

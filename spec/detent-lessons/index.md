@@ -94,8 +94,12 @@ already a wheel, and it is the answer for a closed picker ([native-primitives.ts
    rows rotate and fade with their distance from the centre. Wrap it in `@supports (animation-timeline: view())` and
    `@media (prefers-reduced-motion: no-preference)`, so browsers without scroll-driven animations keep the flat list. Try
    `scroll-snap-stop: always` with a notched mouse wheel and with a trackpad, and record what it does.
-6. **Several wheels as one control.** A composition pattern in `AGENTS/components.md`: a `<div role="group">` named by a visible
-   label, holding one `WheelPicker` per part, each with its own `label` ("Hours", "Minutes"). The order of the parts is the
+   _Result, 2026-11-10:_ the drum is `.wheel-picker-drum` in the 63 themes, `transform` only (an `opacity` fade would drop the
+   outer options' text below 4.5:1). `scroll-snap-stop: always` made no difference in Chromium to synthetic mouse-wheel events of
+   100px, which moved 2.02 rows of 44px with it and without it, so it is not adopted. A real notched wheel and a trackpad were not
+   tried, and synthetic events were not run in Firefox or WebKit.
+6. **Several wheels as one control.** A composition pattern in `AGENTS/components.md`: a `Fieldset` named by its legend (first
+   planned as a `<div role="group">`; native grouping comes first), holding one `WheelPicker` per part, each with its own `label` ("Hours", "Minutes"). The order of the parts is the
    consumer's, as for `date-field`. Then the open item in the `wheel-picker` spec: `date-time-picker` uses it for its time columns.
 7. **Animated text.** A rule in `AGENTS/accessibility.md` for any text a consumer animates: the real text stays in the DOM at rest;
    an animated copy is `aria-hidden` and removed at rest; intermediate values are never announced; with reduced motion the change
@@ -105,12 +109,12 @@ already a wheel, and it is the answer for a closed picker ([native-primitives.ts
 
 - [ ] 1. Scrolling a `wheel-picker` and letting it settle chooses the centred option, in every catalog that has script. A real-browser
       test scrolls it and checks `aria-selected`, because jsdom does not scroll.
-- [ ] 2. Every theme lets the first and last options rest in the centre.
-- [ ] 3. A disabled picker is not submitted, form reset restores the first value, and `form` reaches the hidden input.
-- [ ] 4. Orientation is built, or declined with a reason.
-- [ ] 5. The drum recipe is documented, with a reduced-motion test, and `scroll-snap-stop` has a recorded result.
-- [ ] 6. The several-wheels pattern is documented, and `date-time-picker` uses `wheel-picker` or records why not.
-- [ ] 7. The animated-text rule is in `AGENTS/accessibility.md`.
+- [x] 2. Every theme lets the first and last options rest in the centre. _(2026-11-10.)_
+- [x] 3. A disabled picker is not submitted, form reset restores the first value, and `form` reaches the hidden input. _(2026-11-10; Blazor has no reset.)_
+- [x] 4. Orientation is built, or declined with a reason. _(2026-11-10: built.)_
+- [x] 5. The drum recipe is documented, with a reduced-motion test, and `scroll-snap-stop` has a recorded result. _(2026-11-10; the result is under item 5.)_
+- [x] 6. The several-wheels pattern is documented, and `date-time-picker` uses `wheel-picker` or records why not. _(2026-11-10: it records why not.)_
+- [x] 7. The animated-text rule is in `AGENTS/accessibility.md`. _(2026-11-10; `timer` and `character-counter` do not meet it yet: P26-T8, P26-T9.)_
 
 ## Related topics
 

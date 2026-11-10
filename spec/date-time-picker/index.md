@@ -206,6 +206,14 @@ generated `<option>` children, switched to per-`<option>` `[selected]`).
 `bin/smoke-packages` and the 45 reference themes were extended to
 match; see `tasks.md` P8-T12 and `CHANGELOG.md` for the full record.
 
+## Time controls stay native selects
+
+(2026-11-10, tasks.md P26-T6.) The hour, minute and AM/PM controls stay native `<select>` elements; they do not become
+`wheel-picker`s. A `<select>` is already a wheel on mobile, needs no script, is announced and operated the same way everywhere,
+and resets and submits with its form. A `wheel-picker` would add an always-open listbox to a dialog that already holds a grid,
+and every catalog's helper would have to depend on its headless library's wheel. An app that wants wheels for a time builds
+them with the several-wheels pattern in [AGENTS/components.md](../../AGENTS/components.md).
+
 ## Calendar systems
 
 (2026-11-03, P23-T6.) `calendar` takes a CLDR id, such as `persian`, `islamic-umalqura`, `buddhist` or `hebrew`, and sets the day grid, the

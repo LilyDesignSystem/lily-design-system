@@ -2612,7 +2612,7 @@
 .middle-truncation-full {
 }
 
-/* wheel-picker: a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing */
+/* wheel-picker: a single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling or typing */
 .wheel-picker {
 }
 
@@ -2622,6 +2622,10 @@
 
 /* wheel-picker-option: sub-element of wheel-picker */
 .wheel-picker-option {
+}
+
+/* wheel-picker-drum: a modifier the consumer adds to the wheel-picker root; the themes then turn each option like a drum */
+.wheel-picker-drum {
 }
 
 /* convert-div: a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres */

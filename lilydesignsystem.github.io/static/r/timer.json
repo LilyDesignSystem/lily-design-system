@@ -2,7 +2,7 @@
   "slug": "timer",
   "name": "Timer",
   "description": "a countdown or elapsed time display",
-  "htmlTag": "span",
+  "htmlTag": "time",
   "category": "content",
   "baseClass": ".timer",
   "subClasses": [],

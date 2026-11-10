@@ -120,4 +120,49 @@ describe("wheel-picker keys", () => {
         on(list).press("Home");
         expect(document.querySelector("input").value).toBe("a");
     });
+
+    it("horizontal: the arrows are ArrowLeft and ArrowRight, swapped right-to-left", () => {
+        const { document } = render("wheel-picker", { ...base, orientation: "horizontal" });
+        const list = document.querySelector(".wheel-picker-list");
+        expect(list.getAttribute("aria-orientation")).toBe("horizontal");
+        autoInit(document);
+        const selected = () => document.querySelector('[aria-selected="true"]').textContent;
+        on(list).press("ArrowRight");
+        expect(selected()).toBe("March");
+        on(list).press("ArrowDown");
+        expect(selected()).toBe("March");
+        document.body.setAttribute("dir", "rtl");
+        on(list).press("ArrowRight");
+        expect(selected()).toBe("February");
+    });
+
+    it("a disabled picker's hidden input is disabled, and form reaches it", () => {
+        const { document } = render("wheel-picker", {
+            ...base,
+            name: "month",
+            disabled: true,
+            form: "elsewhere",
+        });
+        const input = document.querySelector("input[type=hidden]");
+        expect(input.disabled).toBe(true);
+        expect(input.getAttribute("form")).toBe("elsewhere");
+    });
+
+    it("form reset puts back the first selection and reports it", async () => {
+        const { document } = render("wheel-picker", { ...base, name: "month" });
+        const form = document.createElement("form");
+        form.append(document.querySelector(".wheel-picker"));
+        document.body.append(form);
+        autoInit(document);
+        const list = document.querySelector(".wheel-picker-list");
+        const changes = [];
+        form.addEventListener("change", (event) => changes.push(event.detail?.value));
+        on(list).press("ArrowDown");
+        expect(document.querySelector("input").value).toBe("3");
+        form.reset();
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        expect(document.querySelector('[aria-selected="true"]').textContent).toBe("February");
+        expect(document.querySelector("input").value).toBe("2");
+        expect(changes.at(-1)).toBe("2");
+    });
 });

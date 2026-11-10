@@ -1,13 +1,13 @@
 <!-- wheel-picker.html -->
 <!-- WheelPicker component (Alpine.js) -->
 <!--
-  Description: a vertical single-select listbox where the selection follows the cursor
+  Description: a single-select listbox, vertical by default, where the selection follows the cursor
   HTML tag: <div> holding a listbox <div>
   CSS class: wheel-picker (sub-elements: wheel-picker-list, wheel-picker-option)
-  Keyboard: ArrowDown / ArrowUp, Home / End, PageDown / PageUp, type-ahead over the labels; disabled options are skipped
-  Accessibility: role="listbox" with aria-orientation="vertical" and aria-activedescendant on the focusable list; each option
+  Keyboard: ArrowDown / ArrowUp (ArrowRight / ArrowLeft when horizontal, swapped right-to-left), Home / End, PageDown / PageUp, type-ahead over the labels; disabled options are skipped
+  Accessibility: role="listbox" with aria-orientation and aria-activedescendant on the focusable list; each option
     is role="option" with aria-selected (and aria-disabled when disabled). The label is the consumer's.
-  Options: options [{ value, label, disabled? }], value, loop, pageSize, disabled. A `change` event fires with { value }.
+  Options: options [{ value, label, disabled? }], value, loop, pageSize, disabled, orientation. A `change` event fires with { value }. Forms: the optional hidden input (x-ref="input", x-bind="input") carries the value, is disabled with the picker, takes your name and form attributes, and a form reset puts the picker back to its first value.
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -37,4 +37,10 @@
       ></div>
     </template>
   </div>
+  <input
+    type="hidden"
+    name="month"
+    x-ref="input"
+    x-bind="input"
+  />
 </div>

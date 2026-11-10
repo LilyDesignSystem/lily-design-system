@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { useState } from "react";
 import { describe, expect, test, vi } from "vitest";
 
@@ -184,6 +184,76 @@ describe("WheelPicker", () => {
         const input = named.container.querySelector("input[type=hidden]") as HTMLInputElement;
         expect(input.name).toBe("month");
         expect(input.value).toBe("2");
+    });
+
+    test("a disabled picker's hidden input is disabled, so it is not submitted", () => {
+        const { container } = render(
+            <form>
+                <Host
+                    name="month"
+                    disabled
+                />
+            </form>,
+        );
+        const form = container.querySelector("form")!;
+        expect((form.querySelector("input[type=hidden]") as HTMLInputElement).disabled).toBe(true);
+        expect(new FormData(form).has("month")).toBe(false);
+    });
+
+    test("passes form to the hidden input", () => {
+        const { container } = render(
+            <Host
+                name="month"
+                form="elsewhere"
+            />,
+        );
+        expect(container.querySelector("input[type=hidden]")!.getAttribute("form")).toBe(
+            "elsewhere",
+        );
+    });
+
+    test("form reset puts the picker back to its first value and reports it", async () => {
+        const onChange = vi.fn();
+        const { container } = render(
+            <form>
+                <Host
+                    name="month"
+                    onChange={onChange}
+                />
+            </form>,
+        );
+        fireEvent.keyDown(list(), { key: "ArrowDown" });
+        expect(selected()).toBe("March");
+        await act(async () => {
+            container.querySelector("form")!.reset();
+            await new Promise((resolve) => setTimeout(resolve, 5));
+        });
+        expect(selected()).toBe("February");
+        expect((container.querySelector("input[type=hidden]") as HTMLInputElement).value).toBe("2");
+        expect(onChange).toHaveBeenLastCalledWith("2");
+    });
+
+    test("horizontal: aria-orientation, ArrowRight and ArrowLeft move, ArrowDown does not", () => {
+        render(<Host orientation="horizontal" />);
+        expect(list().getAttribute("aria-orientation")).toBe("horizontal");
+        fireEvent.keyDown(list(), { key: "ArrowRight" });
+        expect(selected()).toBe("March");
+        fireEvent.keyDown(list(), { key: "ArrowLeft" });
+        expect(selected()).toBe("February");
+        fireEvent.keyDown(list(), { key: "ArrowDown" });
+        expect(selected()).toBe("February");
+    });
+
+    test("horizontal, right-to-left: the arrows swap", () => {
+        render(
+            <div dir="rtl">
+                <Host orientation="horizontal" />
+            </div>,
+        );
+        fireEvent.keyDown(list(), { key: "ArrowLeft" });
+        expect(selected()).toBe("March");
+        fireEvent.keyDown(list(), { key: "ArrowRight" });
+        expect(selected()).toBe("February");
     });
 
     test("passes rest props to the root", () => {

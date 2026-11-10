@@ -99,6 +99,7 @@ const composedPages = [
     "/timeline-and-cards",
     "/book-an-appointment",
     "/rtl-demo",
+    "/time-wheels",
 ];
 
 test.describe("accessibility: composed-page demos", () => {

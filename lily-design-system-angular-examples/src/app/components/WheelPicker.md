@@ -1,10 +1,10 @@
 # WheelPicker
 
-A vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling, typing or clicking.
+A single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling, typing or clicking.
 
 Full documentation: [components/wheel-picker/index.md](../../../../components/wheel-picker/index.md).
 
-- Inputs: `label` (required), `options` (required), `value` (two-way `model`), `loop`, `pageSize`, `disabled`, `name`, `className`.
+- Inputs: `label` (required), `options` (required), `value` (two-way `model`), `loop`, `pageSize`, `disabled`, `orientation`, `name`, `form`, `className`.
 - No rest-props spread (Angular cannot spread onto an inner element).
 
 ## Usage

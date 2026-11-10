@@ -2,7 +2,7 @@
   "slug": "hint",
   "name": "Hint",
   "description": "hint text providing guidance for a form field",
-  "htmlTag": "span",
+  "htmlTag": "p",
   "category": "content",
   "baseClass": ".hint",
   "subClasses": [],

@@ -22,6 +22,33 @@ export const WHEEL_MOVE_KEYS: readonly string[] = [
     "PageDown",
 ];
 
+/** The axis the options run along. Vertical (the default) moves with ArrowUp / ArrowDown, horizontal with ArrowLeft / ArrowRight. */
+export type WheelOrientation = "vertical" | "horizontal";
+
+/**
+ * The move a physical key makes on a wheel of this orientation, or undefined when the key does not move it. Horizontal wheels move
+ * with ArrowLeft / ArrowRight, swapped when `rtl`, so the arrow always points the way the cursor goes; their ArrowUp / ArrowDown are
+ * left to the page. Home, End, PageUp and PageDown move a wheel of either orientation.
+ */
+export function wheelMoveKey(
+    key: string,
+    orientation: WheelOrientation = "vertical",
+    rtl: boolean = false,
+): WheelMoveKey | undefined {
+    if (key === "Home" || key === "End" || key === "PageUp" || key === "PageDown") return key;
+    if (orientation === "horizontal") {
+        if (key === "ArrowRight") return rtl ? "ArrowUp" : "ArrowDown";
+        if (key === "ArrowLeft") return rtl ? "ArrowDown" : "ArrowUp";
+        return undefined;
+    }
+    return key === "ArrowDown" || key === "ArrowUp" ? key : undefined;
+}
+
+/** Whether an element is in right-to-left text: the nearest `dir` attribute says "rtl". */
+export function isWheelRtl(element: Element): boolean {
+    return element.closest("[dir]")?.getAttribute("dir")?.toLowerCase() === "rtl";
+}
+
 export interface WheelMoveOptions {
     /** Arrow keys wrap from the last enabled option to the first and back. Default false. */
     loop?: boolean;

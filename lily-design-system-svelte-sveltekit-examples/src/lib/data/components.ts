@@ -185,7 +185,7 @@ export const components = [
       slug: "avatar",
       name: "Avatar",
       description: "an avatar indicator that shows an avatar image or avatar text",
-      tag: "div",
+      tag: "span",
       category: "content",
   },
   {
@@ -423,8 +423,8 @@ export const components = [
       slug: "caption",
       name: "Caption",
       description: "a caption for a figure element",
-      tag: "caption",
-      category: "tables",
+      tag: "figcaption",
+      category: "content",
   },
   {
       slug: "card",
@@ -850,8 +850,8 @@ export const components = [
       slug: "date-field",
       name: "DateField",
       description: "a structured field for entering date components",
-      tag: "div",
-      category: "content",
+      tag: "fieldset",
+      category: "forms",
   },
   {
       slug: "date-input",
@@ -976,7 +976,7 @@ export const components = [
       slug: "document-list",
       name: "DocumentList",
       description: "a list displaying documents with titles and metadata",
-      tag: "ol",
+      tag: "ul",
       category: "lists",
   },
   {
@@ -1123,7 +1123,7 @@ export const components = [
       slug: "error-message",
       name: "ErrorMessage",
       description: "an error message associated with a form field",
-      tag: "span",
+      tag: "p",
       category: "content",
   },
   {
@@ -1536,7 +1536,7 @@ export const components = [
       slug: "hint",
       name: "Hint",
       description: "hint text providing guidance for a form field",
-      tag: "span",
+      tag: "p",
       category: "content",
   },
   {
@@ -1648,8 +1648,8 @@ export const components = [
       slug: "information-callout",
       name: "InformationCallout",
       description: "a callout box highlighting informational content",
-      tag: "div",
-      category: "content",
+      tag: "aside",
+      category: "navigation",
   },
   {
       slug: "input",
@@ -1949,7 +1949,7 @@ export const components = [
       slug: "measurement-unit-view",
       name: "MeasurementUnitView",
       description: "a read-only display of a measurement unit",
-      tag: "div",
+      tag: "span",
       category: "content",
   },
   {
@@ -2670,7 +2670,7 @@ export const components = [
       slug: "section-list",
       name: "SectionList",
       description: "a list of section navigation items",
-      tag: "ol",
+      tag: "ul",
       category: "lists",
   },
   {
@@ -3223,7 +3223,7 @@ export const components = [
       slug: "timer",
       name: "Timer",
       description: "a countdown or elapsed time display",
-      tag: "span",
+      tag: "time",
       category: "content",
   },
   {
@@ -3328,7 +3328,7 @@ export const components = [
       slug: "tree-menu",
       name: "TreeMenu",
       description: "a hierarchical tree menu with expandable branches",
-      tag: "div",
+      tag: "ul",
       category: "navigation",
   },
   {
@@ -3426,8 +3426,8 @@ export const components = [
       slug: "warning-callout",
       name: "WarningCallout",
       description: "a callout box highlighting a warning message",
-      tag: "div",
-      category: "content",
+      tag: "aside",
+      category: "navigation",
   },
   {
       slug: "watermark",
@@ -4188,7 +4188,7 @@ export const components = [
   {
       slug: "wheel-picker",
       name: "WheelPicker",
-      description: "a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing",
+      description: "a single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling or typing",
       tag: "div",
       category: "pickers",
   },

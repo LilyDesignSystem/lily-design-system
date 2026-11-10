@@ -1,6 +1,6 @@
 # WheelPicker
 
-A vertical single-select listbox where the selection follows the cursor.
+A single-select listbox, vertical by default, where the selection follows the cursor.
 
 Full documentation: [components/wheel-picker/index.md](../../../components/wheel-picker/index.md).
 
@@ -10,7 +10,7 @@ The macro renders the markup contract only. A server cannot handle keys, so the 
 
 ## Params
 
-- `label` (required), `options` (required, `[{ value, label, disabled? }]`), `value`, `loop`, `pageSize`, `disabled`, `name`, `id`, `classes`, `attributes`
+- `label` (required), `options` (required, `[{ value, label, disabled? }]`), `value`, `loop`, `pageSize`, `disabled`, `orientation`, `name`, `form`, `id`, `classes`, `attributes`
 
 ## Usage
 

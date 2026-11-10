@@ -125,4 +125,51 @@ describe("WheelPicker", () => {
         await click("May");
         expect(selected()).toBe("February");
     });
+
+    it("the hidden input carries the value and is disabled with the picker", async () => {
+        await mount(
+            "w",
+            `<form>${html(", disabled: true").replace("</div></div>", '</div><input type="hidden" name="month" x-ref="input" x-bind="input"></div>')}</form>`,
+        );
+        const input = document.querySelector("input[type=hidden]");
+        expect(input.value).toBe("2");
+        expect(input.disabled).toBe(true);
+        expect(new FormData(document.querySelector("form")).has("month")).toBe(false);
+    });
+
+    it("form reset puts the picker back to its first value and fires change", async () => {
+        await mount(
+            "w",
+            `<form>${html().replace("</div></div>", '</div><input type="hidden" name="month" x-ref="input" x-bind="input"></div>')}</form>`,
+        );
+        await key("ArrowDown");
+        expect(selected()).toBe("March");
+        const onChange = vi.fn();
+        document.querySelector(".wheel-picker").addEventListener("change", onChange);
+        document.querySelector("form").reset();
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        await tick();
+        expect(selected()).toBe("February");
+        expect(document.querySelector("input[type=hidden]").value).toBe("2");
+        expect(onChange).toHaveBeenCalledTimes(1);
+    });
+
+    it("horizontal: aria-orientation, ArrowRight and ArrowLeft move, ArrowDown does not", async () => {
+        await mount("w", html(", orientation: 'horizontal'"));
+        expect(list().getAttribute("aria-orientation")).toBe("horizontal");
+        await key("ArrowRight");
+        expect(selected()).toBe("March");
+        await key("ArrowLeft");
+        expect(selected()).toBe("February");
+        await key("ArrowDown");
+        expect(selected()).toBe("February");
+    });
+
+    it("horizontal, right-to-left: the arrows swap", async () => {
+        await mount("w", `<div dir="rtl">${html(", orientation: 'horizontal'")}</div>`);
+        await key("ArrowLeft");
+        expect(selected()).toBe("March");
+        await key("ArrowRight");
+        expect(selected()).toBe("February");
+    });
 });

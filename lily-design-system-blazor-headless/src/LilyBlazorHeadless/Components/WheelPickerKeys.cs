@@ -14,6 +14,24 @@ public static class WheelPickerKeys
 
     public const int TypeaheadResetMs = 700;
 
+    /// <summary>
+    /// The move a physical key makes, or null when it does not move the wheel. Vertical wheels move with ArrowUp / ArrowDown,
+    /// horizontal ones with ArrowLeft / ArrowRight, swapped when <paramref name="rtl"/>; Home, End, PageUp and PageDown move
+    /// either. A port of <c>wheelMoveKey</c> in shared/wheel-picker.ts.
+    /// </summary>
+    public static string? MoveKey(string key, string orientation = "vertical", bool rtl = false)
+    {
+        if (key is "Home" or "End" or "PageUp" or "PageDown") return key;
+        if (orientation == "horizontal")
+            return key switch
+            {
+                "ArrowRight" => rtl ? "ArrowUp" : "ArrowDown",
+                "ArrowLeft" => rtl ? "ArrowDown" : "ArrowUp",
+                _ => null,
+            };
+        return key is "ArrowDown" or "ArrowUp" ? key : null;
+    }
+
     /// <summary>The index to select after <paramref name="key"/>, or -1 when no option can be selected. <paramref name="current"/> is -1 for none.</summary>
     public static int NextIndex(IReadOnlyList<WheelPickerOption> options, int current, string key, bool loop = false, int pageSize = 5)
     {

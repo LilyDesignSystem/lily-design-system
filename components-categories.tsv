@@ -24,7 +24,7 @@ aspect-ratio-container	div	content
 australia-individual-healthcare-identifier-input	input	national
 australia-individual-healthcare-identifier-view	span	national
 autosuggest	div	content
-avatar	div	content
+avatar	span	content
 avatar-group	div	forms
 avatar-image	img	media
 avatar-text	span	content
@@ -58,7 +58,7 @@ calendar-table-row	tr	tables
 calendar-table-td	td	tables
 calendar-table-th	th	tables
 call-to-action	a	links
-caption	caption	tables
+caption	figcaption	content
 card	div	content
 care-card	div	content
 carousel	div	content
@@ -119,7 +119,7 @@ data-table-head	thead	tables
 data-table-row	tr	tables
 data-table-td	td	tables
 data-table-th	th	tables
-date-field	div	content
+date-field	fieldset	forms
 date-input	input	forms
 date-range	fieldset	forms
 date-time-local-input	input	forms
@@ -137,7 +137,7 @@ diff	div	content
 digital-object-identifier-link	a	links
 do-list	ul	lists
 do-list-item	li	lists
-document-list	ol	lists
+document-list	ul	lists
 document-list-item	li	lists
 dont-list	ul	lists
 dont-list-item	li	lists
@@ -158,7 +158,7 @@ emoji-character-picker	div	pickers
 end-notes	section	navigation
 england-national-health-service-number-input	input	national
 england-national-health-service-number-view	span	national
-error-message	span	content
+error-message	p	content
 error-summary	div	content
 espana-codigo-de-identificacion-fiscal-input	input	national
 espana-codigo-de-identificacion-fiscal-view	span	national
@@ -217,7 +217,7 @@ headline	div	content
 hero	section	navigation
 hero-headline	div	content
 hidden-input	input	forms
-hint	span	content
+hint	p	content
 horizontal-scroller	div	content
 hover-card	div	content
 hrvatska-osobni-identifikacijski-broj-input	input	national
@@ -233,7 +233,7 @@ image-cropper	div	content
 image-file-input	input	forms
 image-input	input	forms
 info-state	section	navigation
-information-callout	div	content
+information-callout	aside	navigation
 input	input	forms
 input-group	div	forms
 input-with-mask	div	content
@@ -276,7 +276,7 @@ measurement-instance-view	span	content
 measurement-system-input	input	forms
 measurement-system-view	span	content
 measurement-unit-input	input	forms
-measurement-unit-view	div	content
+measurement-unit-view	span	content
 medical-banner	div	overlays
 medical-banner-box	div	content
 medical-banner-box-for-advice	div	content
@@ -379,7 +379,7 @@ scroller-video	div	content
 search-input	input	forms
 section-heading	header	navigation
 section-link	a	links
-section-list	ol	lists
+section-list	ul	lists
 section-list-item	li	lists
 section-nav	nav	navigation
 segment-group	div	forms
@@ -458,7 +458,7 @@ time-picker-input	input	forms
 timeline-list	ol	lists
 timeline-list-item	li	lists
 timeout-dialog	dialog	overlays
-timer	span	content
+timer	time	content
 timer-button	button	buttons
 toast	div	content
 toggle-button	button	buttons
@@ -473,7 +473,7 @@ transfer-list	div	content
 tree-link	a	links
 tree-list	ol	lists
 tree-list-item	li	lists
-tree-menu	div	navigation
+tree-menu	ul	navigation
 tree-nav	nav	navigation
 tree-select	div	content
 united-kingdom-national-health-service-number-input	input	national
@@ -487,7 +487,7 @@ validation-list	ul	lists
 validation-list-item	li	lists
 video-player	figure	media
 visible	div	content
-warning-callout	div	content
+warning-callout	aside	navigation
 watermark	div	content
 week-input	input	forms
 aotearoa-national-health-index-input	input	national

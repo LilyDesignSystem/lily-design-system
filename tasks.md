@@ -3402,28 +3402,57 @@ T4 is a maintainer decision.
       `macro-keys.js`; Blazor records why it cannot without JS interop.
       Verify: a real-browser test in each example app with script scrolls the wheel by mouse wheel and checks that `aria-selected`
       and the hidden input follow the centre, and that `onChange` (or `change`) fired once.
-- [ ] **P26-T2 The ends reach the centre.** The 63 themes give `.wheel-picker-list` block padding (or `scroll-padding-block`) of half
-      the list less half a row, so the first and last options can rest in the centre.
+- [x] **P26-T2 The ends reach the centre.** The 63 themes give `.wheel-picker-list` block padding (or `scroll-padding-block`) of half
+      the list less half a row, so the first and last options can rest in the centre. _(2026-11-10: five rows of `max(2.75em, 44px)` with two rows of
+      block padding, in all 63 themes and their copies. The list is now `position: relative` too: the component centres an option by
+      its `offsetTop`, which was measured from the wrong element before. `e2e/wheel-picker-theme.spec.ts` in the SvelteKit app checks
+      both ends, and fails 103px off centre without the padding; it runs in Chromium and WebKit locally, and Firefox only in CI,
+      because Firefox does not launch on this machine.)_
       Verify: `bin/check-theme` passes, and an e2e test scrolls to each end and finds that option centred.
-- [ ] **P26-T3 Wheel picker forms.** The hidden input is `disabled` when the picker is, so a disabled picker is not submitted; form
+- [x] **P26-T3 Wheel picker forms.** The hidden input is `disabled` when the picker is, so a disabled picker is not submitted; form
       reset restores the first value, as the editors do; a `form` attribute reaches the hidden input; the docs say `required` does not
       apply. All nine catalogs.
-      Verify: each catalog tests that a disabled picker is missing from `FormData` and that reset restores the value.
-- [ ] **P26-T4 Horizontal wheel (maintainer decision).** An `orientation` prop: horizontal sets `aria-orientation`, uses ArrowLeft and
+      Verify: each catalog tests that a disabled picker is missing from `FormData` and that reset restores the value. _(2026-11-10: all nine catalogs. The hidden input is disabled with the picker and takes `form`.
+      Form reset was handled only in Angular and the HTML script; it is now in Svelte, React (through `onChange`), Vue, Web
+      Components, Alpine, Nunjucks and Angular (which now follows a `form` id too). Alpine had no hidden input at all; its snippet
+      now has one, `x-bind="input"`. Blazor has no reset: it reads no form without JS interop, recorded in its notes. Each catalog
+      tests it, and `e2e/time-wheels.spec.ts` resets two wheels in a real browser.)_
+- [x] **P26-T4 Horizontal wheel (maintainer decision).** An `orientation` prop: horizontal sets `aria-orientation`, uses ArrowLeft and
       ArrowRight, and swaps them under `dir="rtl"`. Build it only for a real horizontal use; `segment-group` and `carousel` cover most.
-      Verify: built with key tests in every catalog, or declined with a reason in the topic.
-- [ ] **P26-T5 A drum recipe in CSS.** Document, and offer as one opt-in theme class, a wheel look on `animation-timeline: view()`,
+      Verify: built with key tests in every catalog, or declined with a reason in the topic. _(2026-11-10, built at the maintainer's request: `orientation` in all nine catalogs, on
+      `wheelMoveKey` and `isWheelRtl` in `shared/wheel-picker.ts`, and a horizontal layout in the 63 themes, whose ends can centre
+      too (checked in Chromium and WebKit). Centring now scrolls by the distance between the two middles, which works on either
+      axis and right-to-left. Blazor does not swap the arrows right-to-left, because it cannot read `dir`.)_
+- [x] **P26-T5 A drum recipe in CSS.** Document, and offer as one opt-in theme class, a wheel look on `animation-timeline: view()`,
       inside `@supports` and `prefers-reduced-motion: no-preference`, with no script. Try `scroll-snap-stop: always` with a notched mouse
       wheel and a trackpad, and record the result.
-      Verify: an e2e test finds no animation under reduced motion; the result is in the topic.
-- [ ] **P26-T6 Several wheels as one control.** A composition pattern in `AGENTS/components.md`: a `role="group"` named by a visible
+      Verify: an e2e test finds no animation under reduced motion; the result is in the topic. _(2026-11-10: `.wheel-picker-drum` in the 63 themes, `transform` only, so no option loses contrast;
+      the same spec checks it animates where `animation-timeline` exists and not under reduced motion. `scroll-snap-stop: always`
+      changed nothing for synthetic 100px wheel events in Chromium (2.02 rows either way), so it is not adopted; no real notched
+      wheel or trackpad was tried.)_
+- [x] **P26-T6 Several wheels as one control.** A composition pattern in `AGENTS/components.md`: a `role="group"` named by a visible
       label, one `WheelPicker` per part, each labelled, in the consumer's order. Then close the open item in the `wheel-picker` spec:
       `date-time-picker` uses it for its time columns, or records why not.
-      Verify: the pattern has an example page with an e2e test; the `wheel-picker` spec item is closed.
-- [ ] **P26-T7 A rule for animated text.** In `AGENTS/accessibility.md`: the real text stays in the DOM at rest, an animated copy is
+      Verify: the pattern has an example page with an e2e test; the `wheel-picker` spec item is closed. _(2026-11-10: the pattern is in `AGENTS/components.md`, with a `Fieldset` and its legend rather than
+      a `role="group"`, since native grouping comes first. `/time-wheels` in the SvelteKit app, with `e2e/time-wheels.spec.ts`, and
+      in its axe and responsive sweeps. `date-time-picker` keeps native `<select>` time controls; the reason is in
+      `spec/date-time-picker`.)_
+- [x] **P26-T7 A rule for animated text.** In `AGENTS/accessibility.md`: the real text stays in the DOM at rest, an animated copy is
       `aria-hidden` and gone at rest, intermediate values are never announced, and reduced motion makes the change immediate. Check
       `streaming-text` and the timers against it.
-      Verify: the rule is in the file, and each component checked is listed as meeting it or as a new task.
+      Verify: the rule is in the file, and each component checked is listed as meeting it or as a new task. _(2026-11-10: the rule is in `AGENTS/accessibility.md`. Checked in Svelte: `streaming-text` and
+      `thinking` meet it (`aria-busy` while they fill), and `loading` animates nothing. `timer` does not, so it is P26-T8, and
+      `character-counter` announces every keystroke, so it is P26-T9.)_
+- [ ] **P26-T8 `timer` is not live.** `role="timer"` is `aria-live="off"` by default, because a value that changes every second
+      floods a screen reader; every catalog adds `aria-live="polite"`, which announces each tick. Drop it, and document how a consumer
+      announces a milestone ("one minute left") through a separate status region. Breaking for anyone relying on the announcements.
+      Verify: no catalog renders `aria-live` on `timer`, and the docs show the milestone pattern.
+- [ ] **P26-T9 `character-counter` announces once the typing pauses.** It is `role="status"` and announces every keystroke. Follow
+      GOV.UK's character count: keep the visible count live-free, and update a visually hidden status after a pause in typing.
+      Verify: each catalog tests that a run of keystrokes yields one announcement.
+- [ ] **P26-T10 Blazor wheel picker on a JS module.** Blazor's `WheelPicker` uses no JS interop, so it cannot call `preventDefault`
+      per key, re-centre, read `dir` or hear a form reset. Other Blazor components ship a `.razor.js` module; give this one the same.
+      Verify: bUnit and an e2e test in the Blazor examples app cover the four.
 
 ---
 
