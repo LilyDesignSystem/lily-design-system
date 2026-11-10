@@ -218,4 +218,43 @@ describe("WheelPicker", () => {
         key(h, "ArrowRight");
         expect(selected(h)).toBe("February");
     });
+
+    // jsdom lays nothing out, so each option's box is set by hand: 40px rows, the list's middle at 100.
+    function layOut(h: HTMLElement, scrolledBy: number) {
+        list(h).getBoundingClientRect = () =>
+            ({ top: 0, height: 200, left: 0, width: 100 }) as DOMRect;
+        h.querySelectorAll<HTMLElement>('[role="option"]').forEach((option, index) => {
+            option.getBoundingClientRect = () =>
+                ({ top: index * 40 - scrolledBy, height: 40, left: 0, width: 100 }) as DOMRect;
+        });
+    }
+
+    test("scrolling chooses the option the wheel settles on, and fires change once", () => {
+        const h = render();
+        const onChange = vi.fn();
+        h.addEventListener("change", onChange);
+        layOut(h, 0); // the middles are 20, 60, 100, 140, 180: March is at the list's middle
+        list(h).dispatchEvent(new Event("wheel"));
+        list(h).dispatchEvent(new Event("scroll"));
+        list(h).dispatchEvent(new Event("scrollend"));
+        expect(h.value).toBe("3");
+        expect(onChange).toHaveBeenCalledTimes(1);
+    });
+
+    test("a scroll with no gesture before it chooses nothing", () => {
+        const h = render();
+        layOut(h, 0);
+        list(h).dispatchEvent(new Event("scroll"));
+        list(h).dispatchEvent(new Event("scrollend"));
+        expect(h.value).toBe("2");
+    });
+
+    test("scrolling skips a disabled option, and settles without scrollend too", async () => {
+        const h = render();
+        layOut(h, 30); // the middles are -10, 30, 70, 110, 150: April (disabled) is nearest, then March
+        list(h).dispatchEvent(new Event("wheel"));
+        list(h).dispatchEvent(new Event("scroll"));
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        expect(h.value).toBe("3");
+    });
 });

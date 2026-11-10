@@ -256,6 +256,57 @@ describe("WheelPicker", () => {
         expect(selected()).toBe("February");
     });
 
+    // jsdom lays nothing out, so each option's box is set by hand: 40px rows, the list's middle at 100.
+    function layOut(scrolledBy: number) {
+        list().getBoundingClientRect = () =>
+            ({ top: 0, height: 200, left: 0, width: 100 }) as DOMRect;
+        screen.getAllByRole("option").forEach((option, index) => {
+            option.getBoundingClientRect = () =>
+                ({ top: index * 40 - scrolledBy, height: 40, left: 0, width: 100 }) as DOMRect;
+        });
+    }
+
+    test("scrolling chooses the option the wheel settles on, once", () => {
+        const onChange = vi.fn();
+        render(<Host onChange={onChange} />);
+        layOut(0); // the middles are 20, 60, 100, 140, 180: March is at the list's middle
+        fireEvent.wheel(list());
+        fireEvent.scroll(list());
+        fireEvent(list(), new Event("scrollend"));
+        expect(selected()).toBe("March");
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledWith("3");
+    });
+
+    test("a scroll with no gesture before it chooses nothing", () => {
+        const onChange = vi.fn();
+        render(<Host onChange={onChange} />);
+        layOut(0);
+        fireEvent.scroll(list());
+        fireEvent(list(), new Event("scrollend"));
+        expect(selected()).toBe("February");
+        expect(onChange).not.toHaveBeenCalled();
+    });
+
+    test("scrolling skips a disabled option, and settles without scrollend too", async () => {
+        render(<Host />);
+        layOut(30); // the middles are -10, 30, 70, 110, 150: April (disabled) is nearest, then March
+        fireEvent.wheel(list());
+        fireEvent.scroll(list());
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve, 200));
+        });
+        expect(selected()).toBe("March");
+    });
+
+    test("a disabled picker ignores scrolling", () => {
+        render(<Host disabled />);
+        layOut(0);
+        fireEvent.wheel(list());
+        fireEvent(list(), new Event("scrollend"));
+        expect(selected()).toBe("February");
+    });
+
     test("passes rest props to the root", () => {
         const { container } = render(
             <Host

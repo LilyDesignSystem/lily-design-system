@@ -3395,13 +3395,20 @@ From [docs/aria-assessment.md](docs/aria-assessment.md), measured on all 609 com
 From [spec/detent-lessons](spec/detent-lessons/index.md), a review of detent and svelte-detent. Order: T2, T1, T3, then T6, T5, T7;
 T4 is a maintainer decision.
 
-- [ ] **P26-T1 Scrolling chooses.** When `.wheel-picker-list` stops scrolling (`scrollend`, or a short pause after the last `scroll`
+- [x] **P26-T1 Scrolling chooses.** When `.wheel-picker-list` stops scrolling (`scrollend`, or a short pause after the last `scroll`
       where `scrollend` is missing), choose the enabled option nearest the list's middle, and re-centre if it was disabled. The
       nearest rule is a pure function in `shared/wheel-picker.ts` with tests. Landing on the option held stays a no-op, so the script's
       own centring cannot loop. Svelte first, then React, Vue, Angular, Web Components, Alpine, the HTML script and Nunjucks
       `macro-keys.js`; Blazor records why it cannot without JS interop.
       Verify: a real-browser test in each example app with script scrolls the wheel by mouse wheel and checks that `aria-selected`
-      and the hidden input follow the centre, and that `onChange` (or `change`) fired once.
+      and the hidden input follow the centre, and that `onChange` (or `change`) fired once. _(2026-11-10: `watchWheelScroll` and `wheelIndexNearest` in `shared/wheel-picker.ts`, used by
+      Svelte, React, Vue, Angular, Web Components, Alpine, the HTML script and Nunjucks. A scroll chooses only after a gesture (a
+      wheel, a touch, a pointer on the scroll bar), because a theme whose ends cannot reach the middle would otherwise let the
+      component's own centring pick the wrong option after Home. Blazor does not, without JS interop (P26-T10). Each catalog has
+      jsdom tests with laid-out boxes; `e2e/time-wheels.spec.ts` turns the hours wheel with the mouse in Chromium and WebKit and
+      checks the value, the hidden input and the centring. Running that spec in WebKit for the first time found a demo defect: a
+      form reset also resets an `<output>` inside the form, and WebKit replaces its text, so Svelte's updates went to a detached
+      node; the readout now sits outside the form.)_
 - [x] **P26-T2 The ends reach the centre.** The 63 themes give `.wheel-picker-list` block padding (or `scroll-padding-block`) of half
       the list less half a row, so the first and last options can rest in the centre. _(2026-11-10: five rows of `max(2.75em, 44px)` with two rows of
       block padding, in all 63 themes and their copies. The list is now `position: relative` too: the component centres an option by

@@ -23,7 +23,7 @@ Let a reader choose one of a short list by arrow keys, typing or clicking, with 
 8. Choosing the held option is a no-op: no callback, no event.
 9. A disabled picker is not focusable and ignores keys and clicks.
 10. With `name`, a hidden input carries the value. It is disabled while the picker is, takes `form`, and a form reset puts back the first value (Blazor excepted).
-11. Only the list scrolls to centre the chosen option, and never with animation. Planned (P26-T1, [detent-lessons](../../../spec/detent-lessons/index.md)): when the list stops scrolling, the centred enabled option becomes the value.
+11. Only the list scrolls to centre the chosen option, and never with animation. When the user turns the list and it settles, the enabled option nearest the middle becomes the value, once; a scroll with no gesture chooses nothing (P26-T1, [detent-lessons](../../../spec/detent-lessons/index.md); Blazor excepted).
 12. `restProps` spread onto the root. No CSS, inline styles or hardcoded strings.
 
 ## Acceptance Criteria
@@ -32,7 +32,7 @@ Let a reader choose one of a short list by arrow keys, typing or clicking, with 
 - [x] Ported to React, Vue, Angular, Blazor, Nunjucks, HTML, Web Components, Alpine (2026-10-23)
 - [x] The 63 themes style the wheel (scroll-snap list, filled chosen option, focus ring), and offer an opt-in drum, `.wheel-picker-drum` (P26-T5, 2026-11-10)
 - [x] Not used by `DateTimePicker`, which keeps native `<select>` time controls (P26-T6, 2026-11-10: the reason is in [spec/date-time-picker](../../../spec/date-time-picker/index.md)); several wheels compose as the pattern in `AGENTS/components.md`
-- [ ] Scrolling chooses: when the list settles, the centred enabled option is the value (P26-T1)
+- [x] Scrolling chooses: when the list settles, the centred enabled option is the value (P26-T1, 2026-11-10; not Blazor)
 - [x] The first and last options can rest in the centre in every theme (P26-T2, 2026-11-10)
 - [x] A disabled picker is not submitted, and form reset restores the first value (P26-T3, 2026-11-10; Blazor has no reset)
 - [x] Horizontal orientation, with the arrows swapped right-to-left (P26-T4, 2026-11-10; Blazor does not swap)

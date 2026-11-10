@@ -220,6 +220,50 @@ describe("WheelPicker", () => {
         rtl.remove();
     });
 
+    // jsdom lays nothing out, so each option's box is set by hand: 40px rows, the list's middle at 100.
+    function layOut(scrolledBy: number) {
+        list().getBoundingClientRect = () =>
+            ({ top: 0, height: 200, left: 0, width: 100 }) as DOMRect;
+        screen.getAllByRole("option").forEach((option, index) => {
+            option.getBoundingClientRect = () =>
+                ({ top: index * 40 - scrolledBy, height: 40, left: 0, width: 100 }) as DOMRect;
+        });
+    }
+
+    test("scrolling chooses the option the wheel settles on, once", async () => {
+        const { emitted } = make();
+        layOut(0); // the middles are 20, 60, 100, 140, 180: March is at the list's middle
+        await fireEvent.wheel(list());
+        await fireEvent.scroll(list());
+        await fireEvent(list(), new Event("scrollend"));
+        expect(emitted).toEqual(["3"]);
+    });
+
+    test("a scroll with no gesture before it chooses nothing", async () => {
+        const { emitted } = make();
+        layOut(0);
+        await fireEvent.scroll(list());
+        await fireEvent(list(), new Event("scrollend"));
+        expect(emitted).toEqual([]);
+    });
+
+    test("scrolling skips a disabled option, and settles without scrollend too", async () => {
+        const { emitted } = make();
+        layOut(30); // the middles are -10, 30, 70, 110, 150: April (disabled) is nearest, then March
+        await fireEvent.wheel(list());
+        await fireEvent.scroll(list());
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        expect(emitted).toEqual(["3"]);
+    });
+
+    test("a disabled picker ignores scrolling", async () => {
+        const { emitted } = make({ disabled: true });
+        layOut(0);
+        await fireEvent.wheel(list());
+        await fireEvent(list(), new Event("scrollend"));
+        expect(emitted).toEqual([]);
+    });
+
     test("passes attrs to the root", () => {
         const { container } = make({}, { "data-testid": "wp", id: "x" });
         const root = container.querySelector("div.wheel-picker")!;

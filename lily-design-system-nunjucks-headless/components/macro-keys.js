@@ -7,6 +7,7 @@ import {
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
+    watchWheelScroll,
     wheelMoveKey,
     wheelTypeaheadIndex,
 } from "./wheel-picker.js";
@@ -191,7 +192,8 @@ export function attachTileMap(root) {
 
 /**
  * A listbox whose selection follows the cursor, on shared/wheel-picker.ts. The list's aria-orientation picks the arrows
- * (ArrowLeft / ArrowRight when horizontal, swapped right-to-left). A form reset puts back the first selection.
+ * (ArrowLeft / ArrowRight when horizontal, swapped right-to-left). A form reset puts back the first selection, and when the
+ * user turns the wheel and it settles, the option in the middle is chosen.
  */
 export function attachWheelPicker(root) {
     const list = root.querySelector(".wheel-picker-list");
@@ -268,6 +270,16 @@ export function attachWheelPicker(root) {
         }),
     ];
     if (form) stops.push(listen(form, "reset", onReset));
+    stops.push(
+        watchWheelScroll(list, {
+            options: () => options,
+            selected: () => selected,
+            orientation: () => orientation,
+            disabled: () => list.getAttribute("aria-disabled") === "true",
+            choose: select,
+            recentre: show,
+        }),
+    );
     return () => {
         clearTimeout(resetTimer);
         stops.forEach((stop) => stop());

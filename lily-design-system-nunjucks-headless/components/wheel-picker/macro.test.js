@@ -165,4 +165,40 @@ describe("wheel-picker keys", () => {
         expect(document.querySelector("input").value).toBe("2");
         expect(changes.at(-1)).toBe("2");
     });
+
+    it("scrolling chooses the option the wheel settles on, and skips a disabled one", async () => {
+        const { document } = render("wheel-picker", {
+            ...base,
+            options: [...options, { value: "5", label: "May" }],
+        });
+        autoInit(document);
+        const list = document.querySelector(".wheel-picker-list");
+        const layOut = (scrolledBy) => {
+            // jsdom lays nothing out: 40px rows, the list's middle at 100.
+            list.getBoundingClientRect = () => ({ top: 0, height: 200, left: 0, width: 100 });
+            document.querySelectorAll('[role="option"]').forEach((option, index) => {
+                option.getBoundingClientRect = () => ({
+                    top: index * 40 - scrolledBy,
+                    height: 40,
+                    left: 0,
+                    width: 100,
+                });
+            });
+        };
+        const selected = () => document.querySelector('[aria-selected="true"]').textContent;
+        const Event = document.defaultView.Event;
+        layOut(0); // the middles are 20, 60, 100, 140, 180: March
+        list.dispatchEvent(new Event("scroll"));
+        list.dispatchEvent(new Event("scrollend"));
+        expect(selected()).toBe("February"); // no gesture, no choice
+        list.dispatchEvent(new Event("wheel"));
+        list.dispatchEvent(new Event("scrollend"));
+        expect(selected()).toBe("March");
+        layOut(30); // the middles are -10, 30, 70, 110, 150: April (disabled) is nearest, then March
+        list.dispatchEvent(new Event("wheel"));
+        list.dispatchEvent(new Event("scroll"));
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        expect(selected()).toBe("March");
+        expect(document.querySelector("input")?.value ?? "3").toBe("3");
+    });
 });

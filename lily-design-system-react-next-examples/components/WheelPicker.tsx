@@ -11,7 +11,8 @@
 //   label — string, required. Accessible name of the listbox.
 //   options — { value: string; label: string; disabled?: boolean }[], required.
 //   value — string. The selected option's value; "" or an unknown value selects nothing.
-//   onChange — (value: string) => void. Called once when the selection changes.
+//   onChange — (value: string) => void. Called once when the selection changes: by a key, a click, or the user scrolling
+//     the wheel, once it settles (never for each option it passes).
 //   loop — boolean, default false. Arrow keys wrap from the last enabled option to the first and back.
 //   pageSize — number, default 5. Enabled options PageUp / PageDown move by.
 //   disabled — boolean, default false. Ignores keys and clicks; not focusable.
@@ -31,7 +32,8 @@
 //   </div>
 //
 // Keyboard (APG listbox, selection follows focus): ArrowDown / ArrowUp (ArrowRight / ArrowLeft when horizontal), Home / End, PageDown / PageUp, type-ahead over the
-// labels. Disabled options are skipped.
+// labels. Disabled options are skipped. Scrolling: when the user turns the wheel and it settles, the enabled option nearest the
+// middle is chosen; the component's own centring chooses nothing.
 
 import React, { useEffect, useId, useRef } from "react";
 import {
@@ -39,6 +41,7 @@ import {
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
+    watchWheelScroll,
     wheelMoveKey,
     wheelTypeaheadIndex,
     type WheelOption,
@@ -126,7 +129,7 @@ export default function WheelPicker({
     };
 
     // Keep the selected option centred in the list. Only the list scrolls (never the page), and instantly: no animation.
-    useEffect(() => {
+    const centre = (): void => {
         const el = list.current;
         if (!el || selectedIndex < 0) return;
         const option = el.querySelector<HTMLElement>(`[data-index="${selectedIndex}"]`);
@@ -137,7 +140,24 @@ export default function WheelPicker({
         if (orientation === "horizontal")
             el.scrollLeft += row.left + row.width / 2 - (box.left + box.width / 2);
         else el.scrollTop += row.top + row.height / 2 - (box.top + box.height / 2);
-    }, [selectedIndex, orientation]);
+    };
+    useEffect(centre, [selectedIndex, orientation]);
+
+    // Scrolling chooses: when the user turns the wheel and it settles, the option in the middle becomes the value. The watch
+    // reads the latest render through a ref, so it is set up once.
+    const current = useRef({ options, selectedIndex, orientation, disabled, select, centre });
+    current.current = { options, selectedIndex, orientation, disabled, select, centre };
+    useEffect(() => {
+        if (!list.current) return;
+        return watchWheelScroll(list.current, {
+            options: () => current.current.options,
+            selected: () => current.current.selectedIndex,
+            orientation: () => current.current.orientation,
+            disabled: () => current.current.disabled,
+            choose: (index) => current.current.select(index),
+            recentre: () => current.current.centre(),
+        });
+    }, []);
 
     // Form reset: a hidden input keeps its value through a reset, so put the picker back to the value it was given first,
     // through onChange (the consumer holds the value): one tick after `reset`, and not when the reset was cancelled.

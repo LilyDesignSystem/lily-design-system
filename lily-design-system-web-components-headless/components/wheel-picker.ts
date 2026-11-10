@@ -21,6 +21,8 @@
 //   Other attributes (id, data-*, aria-*) are passed through to the root <div>; the host's class follows the base class.
 //
 // Events: a bubbling `change` event when the selection changes, by the user or by a form reset (read `element.value`).
+// Scrolling: when the user turns the wheel and it settles, the enabled option nearest the middle is chosen; the element's own
+// centring chooses nothing.
 //
 // Markup (light DOM, inside the host):
 //   <div class="wheel-picker">
@@ -42,6 +44,7 @@ import {
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
+    watchWheelScroll,
     wheelMoveKey,
     wheelTypeaheadIndex,
     type WheelOption,
@@ -74,6 +77,7 @@ export class WheelPicker extends HTMLElement {
     #initialValue: string | null = null;
     #form: HTMLElement | null = null;
     #resetTimer: ReturnType<typeof setTimeout> | undefined;
+    #stopScroll: (() => void) | null = null;
 
     get options(): WheelOption[] {
         return this.#options;
@@ -118,6 +122,16 @@ export class WheelPicker extends HTMLElement {
         const formId = this.getAttribute("form");
         this.#form = formId ? document.getElementById(formId) : this.closest("form");
         this.#form?.addEventListener("reset", this.#onReset);
+        // Scrolling chooses: when the user turns the wheel and it settles, the option in the middle becomes the value.
+        if (this.#list && !this.#stopScroll)
+            this.#stopScroll = watchWheelScroll(this.#list, {
+                options: () => this.#options,
+                selected: () => this.#selectedIndex,
+                orientation: () => this.#orientation,
+                disabled: () => this.#isDisabled,
+                choose: (index) => this.#select(index),
+                recentre: () => this.#centre(),
+            });
         this.#render();
     }
 
@@ -125,6 +139,8 @@ export class WheelPicker extends HTMLElement {
         clearTimeout(this.#resetTimer);
         this.#form?.removeEventListener("reset", this.#onReset);
         this.#form = null;
+        this.#stopScroll?.();
+        this.#stopScroll = null;
     }
 
     // One tick after `reset`, once the browser has reset the DOM, and not when the reset was cancelled.
@@ -203,17 +219,24 @@ export class WheelPicker extends HTMLElement {
             this.#input = null;
         }
 
-        // Keep the selected option centred in the list. Only the list scrolls (never the page), and instantly: no animation.
+        this.#centre();
+    }
+
+    // Keep the selected option centred in the list. Only the list scrolls (never the page), and instantly: no animation.
+    #centre(): void {
+        const list = this.#list;
+        const selected = this.#selectedIndex;
         const option =
-            selected >= 0 ? list.querySelector<HTMLElement>(`[data-index="${selected}"]`) : null;
-        if (option) {
-            // Move by the distance between the two middles: it works on either axis and in right-to-left.
-            const box = list.getBoundingClientRect();
-            const row = option.getBoundingClientRect();
-            if (this.#orientation === "horizontal")
-                list.scrollLeft += row.left + row.width / 2 - (box.left + box.width / 2);
-            else list.scrollTop += row.top + row.height / 2 - (box.top + box.height / 2);
-        }
+            list && selected >= 0
+                ? list.querySelector<HTMLElement>(`[data-index="${selected}"]`)
+                : null;
+        if (!list || !option) return;
+        // Move by the distance between the two middles: it works on either axis and in right-to-left.
+        const box = list.getBoundingClientRect();
+        const row = option.getBoundingClientRect();
+        if (this.#orientation === "horizontal")
+            list.scrollLeft += row.left + row.width / 2 - (box.left + box.width / 2);
+        else list.scrollTop += row.top + row.height / 2 - (box.top + box.height / 2);
     }
 
     #select(index: number): void {

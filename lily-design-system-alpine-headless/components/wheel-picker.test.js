@@ -22,6 +22,30 @@ const click = async (text) => {
     await tick();
 };
 
+function layOut(scrolledBy) {
+    // jsdom lays nothing out, so each option's box is set by hand: 40px rows, the list's middle at 100.
+    document.querySelector(".wheel-picker-list").getBoundingClientRect = () => ({
+        top: 0,
+        height: 200,
+        left: 0,
+        width: 100,
+    });
+    document.querySelectorAll('[role="option"]').forEach((option, index) => {
+        option.getBoundingClientRect = () => ({
+            top: index * 40 - scrolledBy,
+            height: 40,
+            left: 0,
+            width: 100,
+        });
+    });
+}
+function turn(settle = true) {
+    const el = document.querySelector(".wheel-picker-list");
+    el.dispatchEvent(new Event("wheel"));
+    el.dispatchEvent(new Event("scroll"));
+    if (settle) el.dispatchEvent(new Event("scrollend"));
+}
+
 describe("WheelPicker", () => {
     it("renders the element with its base class", async () => {
         await mount("wheel-picker");
@@ -171,5 +195,35 @@ describe("WheelPicker", () => {
         expect(selected()).toBe("March");
         await key("ArrowRight");
         expect(selected()).toBe("February");
+    });
+
+    it("scrolling chooses the option the wheel settles on, and fires change once", async () => {
+        await mount("w", html());
+        const onChange = vi.fn();
+        document.querySelector(".wheel-picker").addEventListener("change", onChange);
+        layOut(0); // the middles are 20, 60, 100, 140, 180: March is at the list's middle
+        turn();
+        await tick();
+        expect(selected()).toBe("March");
+        expect(onChange).toHaveBeenCalledTimes(1);
+    });
+
+    it("a scroll with no gesture before it chooses nothing", async () => {
+        await mount("w", html());
+        layOut(0);
+        const el = document.querySelector(".wheel-picker-list");
+        el.dispatchEvent(new Event("scroll"));
+        el.dispatchEvent(new Event("scrollend"));
+        await tick();
+        expect(selected()).toBe("February");
+    });
+
+    it("scrolling skips a disabled option, and settles without scrollend too", async () => {
+        await mount("w", html());
+        layOut(30); // the middles are -10, 30, 70, 110, 150: April (disabled) is nearest, then March
+        turn(false);
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        await tick();
+        expect(selected()).toBe("March");
     });
 });

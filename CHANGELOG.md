@@ -9,6 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Scrolling a wheel picker chooses — 2026-11-10
+
+tasks.md P26-T1, the main finding of [spec/detent-lessons](spec/detent-lessons/index.md).
+
+- **Changed:** turning a `wheel-picker` with a mouse wheel, a touch or the scroll bar, and letting it settle, now chooses the
+  enabled option nearest the middle, and reports it once; before, scrolling only moved the view, so the centred option was not
+  the value. A scroll with no gesture before it chooses nothing. In every catalog with script; not Blazor.
+- **Added:** `wheelIndexNearest` and `watchWheelScroll` in `shared/wheel-picker.ts`.
+- **Fixed:** the `/time-wheels` demo's readout froze in WebKit after a form reset, because a reset also resets an `<output>` in
+  the form; it now sits outside the form.
+
 ## Wheel picker lessons from detent — 2026-11-10
 
 From [spec/detent-lessons](spec/detent-lessons/index.md), tasks.md P26-T2 to P26-T7, done at the maintainer's request.

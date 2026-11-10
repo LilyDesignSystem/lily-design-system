@@ -4,6 +4,7 @@ import {
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
+    wheelIndexNearest,
     wheelMoveKey,
     wheelTypeaheadIndex,
     type WheelOption,
@@ -144,5 +145,24 @@ describe("isWheelRtl", () => {
         expect(isWheelRtl(within("RTL"))).toBe(true);
         expect(isWheelRtl(within("ltr"))).toBe(false);
         expect(isWheelRtl(within(null))).toBe(false);
+    });
+});
+
+describe("wheelIndexNearest", () => {
+    test("chooses the option whose middle is nearest the centre", () => {
+        expect(wheelIndexNearest(months, [10, 30, 50, 70, 90, 110], 52)).toBe(2);
+        expect(wheelIndexNearest(months, [10, 30, 50, 70, 90, 110], 0)).toBe(0);
+        expect(wheelIndexNearest(months, [10, 30, 50, 70, 90, 110], 500)).toBe(5);
+    });
+
+    test("skips disabled options, and a tie goes to the earlier one", () => {
+        const some = opts(["A", "B", "C"], [1]);
+        expect(wheelIndexNearest(some, [10, 30, 50], 30)).toBe(0);
+        expect(wheelIndexNearest(some, [10, 30, 50], 31)).toBe(2);
+    });
+
+    test("is -1 when nothing is enabled", () => {
+        expect(wheelIndexNearest(opts(["A"], [0]), [10], 10)).toBe(-1);
+        expect(wheelIndexNearest([], [], 10)).toBe(-1);
     });
 });
