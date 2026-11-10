@@ -3,7 +3,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { mount, tick } from "../test/mount.js";
 
-const el = () => document.querySelector("div.date-field");
+const el = () => document.querySelector("fieldset.date-field");
 
 describe("DateField", () => {
     it("renders the element with its base class", async () => {
@@ -12,8 +12,8 @@ describe("DateField", () => {
         expect(el().classList.contains("date-field")).toBe(true);
     });
 
-    it("uses the div element", async () => {
+    it("uses the fieldset element", async () => {
         await mount("date-field");
-        expect(el().tagName.toLowerCase()).toBe("div");
+        expect(el().tagName.toLowerCase()).toBe("fieldset");
     });
 });

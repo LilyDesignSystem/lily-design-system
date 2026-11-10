@@ -1,73 +1,79 @@
 # Date Field
 
-A date field provides a fully labeled date input with built-in support for descriptions and error messages. It wraps a native `<input type="date">` with a visible `<label>`, optional helper text, and validation error display, all properly linked via generated IDs for accessibility.
+A date field asks for a date as three parts, day, month and year, in a `<fieldset>` named by its `<legend>`, with optional helper text and an error message, all linked by generated ids. It suits dates people know by heart, such as a date of birth, where a calendar picker is slower than typing.
 
 **Status:** beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows.
 
-This component is ideal for forms that require date input with validation feedback. The `value` prop is bindable, allowing two-way data flow with the parent component. Error messages are announced to screen readers via `role="alert"`, and the input's invalid state is communicated through `aria-invalid` and `aria-errormessage`.
+The `value` prop is bindable and is an ISO 8601 date once all three parts are filled. The order of the parts is the consumer's (`order`), and so are the part labels: there is no English or regional default. Error messages are announced to screen readers via `role="alert"`, and each part carries `aria-invalid` while an error is shown.
 
 ## Implementation Notes
 
-- Renders a `<div>` wrapper containing a `<label>`, `<input type="date">`, optional description `<p>`, and optional error `<p>`
-- Auto-generates a unique ID for the input if none is provided, using derived value for reactivity
-- Derives `descriptionId` and `errorId` from the input ID for ARIA linking
-- Supports two-way binding on the `value` prop
-- Error paragraph uses `role="alert"` for live announcement to screen readers
+- Renders a `<fieldset>` named by a `<legend>` (`label`), holding three labelled text fields for the day, month and year parts (`inputmode="numeric"`), an optional description `<p>`, and an optional error `<p role="alert">`
+- `order` sets the order of the parts: `"ymd"` (ISO 8601, the default), `"dmy"` or `"mdy"`; the component picks no regional order of its own
+- The three part labels (`dayLabel`, `monthLabel`, `yearLabel`) are required and have no default: the words are the consumer's, in their language
+- `value` is two-way: an ISO 8601 date (`YYYY-MM-DD`) when all three parts are filled, or `""` while any is empty; a new `value` fills the parts
+- Each part is named `{name}-day`, `{name}-month` and `{name}-year`, so a server-rendered form submits without script
+- Auto-generates a unique base id when none is given; the parts are `{id}-day`, `{id}-month`, `{id}-year`, and the description and error `{id}-desc` and `{id}-error`
 
 ## Props
 
-- `label`: string (required) -- visible label text for the date field
-- `value`: string (default: "") -- current date value in YYYY-MM-DD format, two-way bindable via `value`
-- `description`: string (default: undefined) -- helper text displayed below the input
-- `error`: string (default: undefined) -- error message displayed when validation fails
-- `required`: boolean (default: false) -- whether the field is required
-- `disabled`: boolean (default: false) -- whether the field is disabled
-- `id`: string (default: undefined) -- custom ID for the input element; auto-generated if omitted
+- `label`: string (required) -- the legend, naming the whole date
+- `dayLabel`: string (required) -- the day part's label
+- `monthLabel`: string (required) -- the month part's label
+- `yearLabel`: string (required) -- the year part's label
+- `order`: "ymd" | "dmy" | "mdy" (default: "ymd") -- the order of the parts
+- `value`: string (default: "") -- the date as `YYYY-MM-DD`, or "" while a part is empty; two-way bindable
+- `name`: string (default: undefined) -- base name; the parts are `{name}-day`, `{name}-month`, `{name}-year`
+- `autocomplete`: "bday" (default: undefined) -- a date of birth: the parts autocomplete as `bday-day`, `bday-month`, `bday-year` (WCAG 1.3.5)
+- `description`: string (default: undefined) -- helper text, linked from the fieldset
+- `error`: string (default: undefined) -- error message, linked from the fieldset and announced
+- `required`: boolean (default: false) -- every part is required
+- `disabled`: boolean (default: false) -- the fieldset and its parts are disabled
+- `id`: string (default: undefined) -- base id for the parts; auto-generated if omitted
 
 ## Usage
 
-Basic date field for a registration form:
+Date of birth, day first:
 
 ```html
 <DateField
   label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  name="dob"
+  autocomplete="bday"
   value="{dateOfBirth}"
-  description="Enter as day, month, year"
+  description="For example, 27 3 2007"
   required
 />
 ```
 
-Date field with validation error:
+With a validation error, year first:
 
 ```html
 <DateField
   label="Appointment date"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
   value="{appointmentDate}"
-  error="Date must be in the future"
+  error="The date must be in the future"
   required
-/>
-```
-
-Optional date field with helper text:
-
-```html
-<DateField
-  label="Preferred start date"
-  value="{startDate}"
-  description="Leave blank if flexible"
 />
 ```
 
 ## Keyboard Interactions
 
-None beyond native `<input type="date">` keyboard behavior, which varies by browser.
+Tab moves between the three parts; each is a native text field.
 
 ## ARIA
 
-- `<label for={inputId}>` -- links the visible label to the input
-- `aria-describedby={descriptionId}` -- links the input to its description text when present
-- `aria-invalid="true"` -- indicates the input contains an invalid value when an error is present
-- `aria-errormessage={errorId}` -- links the input to its error message when present
+- `<fieldset>` + `<legend>` -- the group's name, which a screen reader announces with each part
+- `<label for>` -- names each part
+- `aria-describedby` -- on the `<fieldset>`, the description and the error when present
+- `aria-invalid="true"` -- on each part while an `error` is shown
 - `role="alert"` -- on the error paragraph, announces the error message to screen readers
 
 ## When to Use
@@ -86,7 +92,7 @@ None beyond native `<input type="date">` keyboard behavior, which varies by brow
 
 ## Headless
 
-This headless DateField component provides a `<div>` wrapper with a `<label>`, `<input type="date">`, optional description `<p>`, and optional error `<p>` with `role="alert"`, all linked by auto-generated IDs for `aria-describedby` and `aria-errormessage`. The consumer provides all visual styling including label typography, input appearance, description and error text colors, and layout.
+This headless DateField component provides a `<fieldset>` and `<legend>`, three labelled part fields, an optional description `<p>`, and an optional error `<p>` with `role="alert"`, linked from the fieldset by `aria-describedby`. The consumer provides all visual styling including label typography, input appearance, description and error text colors, and layout.
 
 ## Styles
 
@@ -94,14 +100,14 @@ The consumer provides all CSS styling. The component renders with a `.date-field
 
 ## Testing
 
-- Verify the component renders a `<div>` element with class `date-field`
+- Verify the component renders a `<fieldset>` element with class `date-field`, a `<legend>`, and the three parts in `order`
 - Verify role="alert"` -- on the error paragraph, announces the error message to screen readers
 - Verify pass-through attributes are applied
 
 ## Advice
 
 - **Designers**: Place the description text below the label and above the input to set expectations before users interact. Display error messages in a contrasting color near the input.
-- **Developers**: Use the bindable `value` prop for two-way date state. The auto-generated IDs handle all ARIA linking; provide a custom `id` prop only when you need a specific ID for testing or integration.
+- **Developers**: Use the bindable `value` prop for two-way date state; it stays "" until all three parts are filled, so validate the parts on submit. Pick `order` for your users' convention (ISO 8601 `ymd` by default). The auto-generated ids handle the ARIA linking.
 
 ## Related components
 

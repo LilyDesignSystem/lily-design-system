@@ -2,13 +2,37 @@
 <!-- DateField component (Alpine.js) -->
 <!--
   Description: a structured field for entering date components
-  HTML tag: <div>
+  HTML tag: <fieldset>
   CSS class: date-field
-  Keyboard: None (passive element)
-  Accessibility: none of its own: a <div> cannot take a name
+  Keyboard: Tab moves between the parts; each is a native text field
+  Accessibility: a legend names the group, a label each part; the fieldset's aria-describedby links any hint
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
-<div class="date-field">
-  <!-- Consumer provides content -->
-</div>
+<fieldset class="date-field">
+  <legend><!-- Consumer provides the date's name --></legend>
+  <label for="date-field-year"><!-- Consumer provides the year label --></label>
+  <input
+    class="date-field-year"
+    id="date-field-year"
+    type="text"
+    inputmode="numeric"
+    maxlength="4"
+  />
+  <label for="date-field-month"><!-- Consumer provides the month label --></label>
+  <input
+    class="date-field-month"
+    id="date-field-month"
+    type="text"
+    inputmode="numeric"
+    maxlength="2"
+  />
+  <label for="date-field-day"><!-- Consumer provides the day label --></label>
+  <input
+    class="date-field-day"
+    id="date-field-day"
+    type="text"
+    inputmode="numeric"
+    maxlength="2"
+  />
+</fieldset>

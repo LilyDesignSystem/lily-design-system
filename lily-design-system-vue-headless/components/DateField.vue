@@ -1,73 +1,81 @@
 <script setup lang="ts">
 // DateField component
 //
-// A headless date field providing a fully labeled date input with built-in support
-// for descriptions and error messages. It wraps a native <input type="date"> with
-// a visible <label>, optional helper text, and validation error display, all linked
-// via auto-generated IDs for accessibility. Error messages are announced to screen
-// readers via role="alert". Ideal for forms requiring date input with validation.
+// A date asked for as three parts, day, month and year, in a <fieldset> named by its
+// <legend>, with optional helper text and an error message, all linked by generated
+// ids. It suits dates people know by heart, such as a date of birth. The order of the
+// parts and every label are the consumer's: there is no regional or English default.
 //
 // Props:
-//   className — string, optional. CSS class name.
-//   label — string, required. Visible label text for the date field.
-//   value — string, default "". Current date value in YYYY-MM-DD format; bindable via v-model.
-//   description — string, default undefined. Helper text displayed below the input.
-//   error — string, default undefined. Error message displayed when validation fails.
-//   required — boolean, default false. Whether the field is required.
-//   disabled — boolean, default false. Whether the field is disabled.
-//   id — string, default undefined. Custom ID for the input element; auto-generated if omitted.
-//   ...restProps — additional HTML attributes spread onto the wrapper <div>.
+//   label — string, required. The legend, naming the whole date.
+//   dayLabel, monthLabel, yearLabel — string, required. The three parts' labels.
+//   order — "ymd" | "dmy" | "mdy", default "ymd" (ISO 8601). The order of the parts.
+//   v-model — string, default "". YYYY-MM-DD once all three parts are filled, else "".
+//     A new value fills the parts.
+//   name — string, optional. Base name: the parts are {name}-day, -month, -year.
+//   autocomplete — "bday", optional. A date of birth: the parts autocomplete as bday-day, -month, -year.
+//   description — string, optional. Helper text, linked from the fieldset.
+//   error — string, optional. Error message, linked from the fieldset and announced.
+//   required — boolean, default false. Every part is required.
+//   disabled — boolean, default false. The fieldset and its parts are disabled.
+//   id — string, optional. Base id: the parts are {id}-day, -month, -year.
 //
 // Syntax:
-//   <DateField label="Start date" v-model />
-//
-// Examples:
-//   <!-- Date field with error and required state -->
-//   <DateField label="End date" v-model error="Required" required />
-//   <!-- Date field with description -->
-//   <DateField label="Birthday" v-model description="Format: YYYY-MM-DD" />
+//   <DateField label="Date of birth" day-label="Day" month-label="Month" year-label="Year" v-model="dob" />
 //
 // Keyboard:
-//   - None beyond native <input type="date"> keyboard behavior, which varies by browser
+//   - Tab moves between the parts; each is a native text field
 //
 // Accessibility:
-//   - <label for={inputId}> links the visible label to the input
-//   - aria-describedby links the input to its description text when present
-//   - aria-invalid="true" indicates the input has an invalid value when error is present
-//   - aria-errormessage links the input to its error message when present
-//   - role="alert" on the error paragraph announces errors to screen readers
+//   - <fieldset> + <legend> name the group, announced with each part
+//   - <label for> names each part
+//   - aria-describedby on the fieldset links the description and the error
+//   - aria-invalid="true" on each part while an error is shown
+//   - role="alert" on the error paragraph announces it
 //
 // Internationalization:
-//   - The label, description, and error props provide all text; no hardcoded strings
-//
-// Claude rules:
-//   - Headless: no CSS, no styles — consumer provides all styling
-//   - Auto-generates a unique ID if none is provided, using computed() for reactivity
-//   - IDs are derived for description and error elements for proper ARIA linking
+//   - Every label is a prop, and the order is a prop: no English, no regional default
 //
 // References:
-//   - ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
-//   - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
+//   - WAI Forms Tutorial, grouping controls: https://www.w3.org/WAI/tutorials/forms/grouping/
 
-import { computed, useId, ref } from "vue";
-import { useFormReset } from "./form-reset";
+import { computed, onBeforeUnmount, onMounted, ref, useAttrs, useId, watch } from "vue";
+import { warnMissingName } from "./dev-warning";
+
+type Part = "day" | "month" | "year";
+type Parts = Record<Part, string>;
 
 const props = withDefaults(
     defineProps<{
-        /** Visible label for the date field. */
+        /** The legend, naming the whole date. */
         label: string;
-        /** Helper text displayed below the input. */
+        /** The day part's label. */
+        dayLabel: string;
+        /** The month part's label. */
+        monthLabel: string;
+        /** The year part's label. */
+        yearLabel: string;
+        /** The order of the parts. Default "ymd" (ISO 8601). */
+        order?: "ymd" | "dmy" | "mdy";
+        /** Base name: the parts are {name}-day, {name}-month, {name}-year. */
+        name?: string;
+        /** "bday" for a date of birth. */
+        autocomplete?: "bday";
+        /** Helper text, linked from the fieldset. */
         description?: string;
-        /** Error message when validation fails. */
+        /** Error message, linked from the fieldset and announced. */
         error?: string;
-        /** Whether the field is required. */
+        /** Every part is required. */
         required?: boolean;
-        /** Whether the field is disabled. */
+        /** The fieldset and its parts are disabled. */
         disabled?: boolean;
-        /** Custom id for the input element. */
+        /** Base id for the parts; auto-generated if omitted. */
         id?: string;
     }>(),
     {
+        order: "ymd",
+        name: undefined,
+        autocomplete: undefined,
         description: undefined,
         error: undefined,
         required: false,
@@ -77,34 +85,105 @@ const props = withDefaults(
 );
 
 const modelValue = defineModel<string>({ default: "" });
-const field = ref<HTMLInputElement | HTMLTextAreaElement | null>(null);
-useFormReset(modelValue, field);
+warnMissingName("DateField", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
-const inputId = computed(() => props.id ?? generatedId);
+const SEQUENCES: Record<"ymd" | "dmy" | "mdy", Part[]> = {
+    ymd: ["year", "month", "day"],
+    dmy: ["day", "month", "year"],
+    mdy: ["month", "day", "year"],
+};
 
-const descriptionId = computed(() => `${inputId.value}-desc`);
+/** The parts of a YYYY-MM-DD value, or empty parts for anything else. */
+function split(v: string): Parts {
+    const m = /^(\d{1,4})-(\d{1,2})-(\d{1,2})$/.exec(v ?? "");
+    return m ? { year: m[1], month: m[2], day: m[3] } : { year: "", month: "", day: "" };
+}
 
-const errorId = computed(() => `${inputId.value}-error`);
+/** YYYY-MM-DD when every part is a number, else "". The calendar check is the consumer's. */
+function join(p: Parts): string {
+    if (![p.year, p.month, p.day].every((x) => /^\d+$/.test(x))) return "";
+    return `${p.year.padStart(4, "0")}-${p.month.padStart(2, "0")}-${p.day.padStart(2, "0")}`;
+}
 
 const generatedId = `date-field-${useId()}`;
+const baseId = computed(() => props.id ?? generatedId);
+const descriptionId = computed(() => `${baseId.value}-desc`);
+const errorId = computed(() => `${baseId.value}-error`);
+const describedBy = computed(
+    () =>
+        [props.description ? descriptionId.value : "", props.error ? errorId.value : ""]
+            .filter(Boolean)
+            .join(" ") || undefined,
+);
+const labels = computed<Parts>(() => ({
+    day: props.dayLabel,
+    month: props.monthLabel,
+    year: props.yearLabel,
+}));
+const sequence = computed(() => SEQUENCES[props.order] ?? SEQUENCES.ymd);
+
+const parts = ref<Parts>(split(modelValue.value));
+watch(modelValue, (value) => {
+    // A value set from outside fills the parts; one the parts produced leaves them as typed.
+    if (value !== join(parts.value)) parts.value = split(value);
+});
+
+function update(part: Part, text: string) {
+    parts.value = { ...parts.value, [part]: text };
+    modelValue.value = join(parts.value);
+}
+
+// A form reset blanks the parts in the DOM; put the model and the parts back to the first value.
+const root = ref<HTMLFieldSetElement | null>(null);
+const initial = modelValue.value;
+let form: HTMLFormElement | null = null;
+let timer: ReturnType<typeof setTimeout> | undefined;
+function onReset(event: Event) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+        if (event.defaultPrevented) return;
+        modelValue.value = initial;
+        parts.value = split(initial);
+    }, 0);
+}
+onMounted(() => {
+    form = root.value?.closest("form") ?? null;
+    form?.addEventListener("reset", onReset);
+});
+onBeforeUnmount(() => {
+    clearTimeout(timer);
+    form?.removeEventListener("reset", onReset);
+});
 </script>
 
 <template>
     <!-- DateField.vue -->
-    <div class="date-field">
-        <label :for="inputId">{{ label }}</label>
-        <input
-            class="date-input"
-            :id="inputId"
-            type="date"
-            ref="field"
-            v-model="modelValue"
-            :required="required"
-            :disabled="disabled"
-            :aria-describedby="description ? descriptionId : undefined"
-            :aria-invalid="error ? true : undefined"
-            :aria-errormessage="error ? errorId : undefined"
-        />
+    <fieldset
+        ref="root"
+        class="date-field"
+        :aria-describedby="describedBy"
+        :disabled="disabled"
+    >
+        <legend>{{ label }}</legend>
+        <template
+            v-for="part in sequence"
+            :key="part"
+        >
+            <label :for="`${baseId}-${part}`">{{ labels[part] }}</label>
+            <input
+                :class="`date-field-${part}`"
+                :id="`${baseId}-${part}`"
+                :name="name ? `${name}-${part}` : undefined"
+                type="text"
+                inputmode="numeric"
+                :autocomplete="autocomplete === 'bday' ? `bday-${part}` : undefined"
+                :maxlength="part === 'year' ? 4 : 2"
+                :value="parts[part]"
+                :required="required"
+                :aria-invalid="error ? true : undefined"
+                @input="update(part, ($event.target as HTMLInputElement).value)"
+            />
+        </template>
         <p
             v-if="description"
             :id="descriptionId"
@@ -118,5 +197,5 @@ const generatedId = `date-field-${useId()}`;
         >
             {{ error }}
         </p>
-    </div>
+    </fieldset>
 </template>

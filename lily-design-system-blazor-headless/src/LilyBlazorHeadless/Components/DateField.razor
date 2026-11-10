@@ -3,35 +3,51 @@
 
 @*
     DateField component
-    a labelled date input with a description and an error
+    a date asked for as three parts, day, month and year, in a fieldset named by its legend
 
     Parameters:
-        Label — string, required. The visible label.
-        Value / ValueChanged — "YYYY-MM-DD", two-way (@bind-Value).
-        Description, Error — string, optional. Required, Disabled — bool.
-        Id — string, optional. The input's id.
-        CssClass, AdditionalAttributes (spread onto the root).
+        Label — string, required. The legend, naming the whole date.
+        DayLabel, MonthLabel, YearLabel — string, required. The three parts' labels; no default.
+        Order — "ymd" (ISO 8601, default) | "dmy" | "mdy". The order of the parts.
+        Value / ValueChanged — "YYYY-MM-DD" once all three parts are filled, else ""; two-way
+            (@bind-Value). A new Value fills the parts.
+        Name — string, optional. Base name: the parts are {Name}-day, -month, -year.
+        Autocomplete — "bday", optional. A date of birth: bday-day, bday-month, bday-year.
+        Description, Error — string, optional, linked from the fieldset. Required, Disabled — bool.
+        Id — string, optional. Base id: the parts are {Id}-day, -month, -year.
+        CssClass, AdditionalAttributes (spread onto the fieldset).
 *@
 
-<div class="@($"date-field {CssClass}".Trim())" @attributes="AdditionalAttributes">
-    <label for="@InputId">@Label</label>
-    <input class="date-input" id="@InputId" type="@("date")" required="@Required" disabled="@Disabled"
-           aria-describedby="@(string.IsNullOrEmpty(Description) ? null : $"{InputId}-desc")"
-           aria-invalid="@(string.IsNullOrEmpty(Error) ? null : "true")"
-           aria-errormessage="@(string.IsNullOrEmpty(Error) ? null : $"{InputId}-error")"
-           @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput" />
+<fieldset class="@($"date-field {CssClass}".Trim())" aria-describedby="@DescribedBy" disabled="@Disabled" @attributes="AdditionalAttributes">
+    <legend>@Label</legend>
+    @foreach (var part in Sequence)
+    {
+        var p = part;
+        <label for="@($"{BaseId}-{p}")">@LabelFor(p)</label>
+        <input class="@($"date-field-{p}")" id="@($"{BaseId}-{p}")" name="@(string.IsNullOrEmpty(Name) ? null : $"{Name}-{p}")"
+               type="text" inputmode="numeric" autocomplete="@(Autocomplete == "bday" ? $"bday-{p}" : null)"
+               maxlength="@(p == "year" ? 4 : 2)" required="@Required"
+               aria-invalid="@(string.IsNullOrEmpty(Error) ? null : "true")"
+               value="@_parts[p]" @oninput="@(e => UpdateAsync(p, e.Value?.ToString() ?? ""))" />
+    }
     @if (!string.IsNullOrEmpty(Description))
     {
-        <p id="@($"{InputId}-desc")">@Description</p>
+        <p id="@($"{BaseId}-desc")">@Description</p>
     }
     @if (!string.IsNullOrEmpty(Error))
     {
-        <p id="@($"{InputId}-error")" role="alert">@Error</p>
+        <p id="@($"{BaseId}-error")" role="alert">@Error</p>
     }
-</div>
+</fieldset>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string DayLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string MonthLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string YearLabel { get; set; } = "";
+    [Parameter] public string Order { get; set; } = "ymd";
+    [Parameter] public string? Name { get; set; }
+    [Parameter] public string? Autocomplete { get; set; }
     [Parameter] public string? Description { get; set; }
     [Parameter] public string? Error { get; set; }
     [Parameter] public bool Required { get; set; }
@@ -41,6 +57,56 @@
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private readonly string _generatedId = $"date-field-{Guid.NewGuid():N}";
+    private Dictionary<string, string> _parts = Split("");
 
-    private string InputId => Id ?? _generatedId;
+    private string BaseId => Id ?? _generatedId;
+
+    private string? DescribedBy
+    {
+        get
+        {
+            var ids = new List<string>();
+            if (!string.IsNullOrEmpty(Description)) ids.Add($"{BaseId}-desc");
+            if (!string.IsNullOrEmpty(Error)) ids.Add($"{BaseId}-error");
+            return ids.Count == 0 ? null : string.Join(" ", ids);
+        }
+    }
+
+    private string[] Sequence => Order switch
+    {
+        "dmy" => new[] { "day", "month", "year" },
+        "mdy" => new[] { "month", "day", "year" },
+        _ => new[] { "year", "month", "day" },
+    };
+
+    private string LabelFor(string part) => part switch { "day" => DayLabel, "month" => MonthLabel, _ => YearLabel };
+
+    protected override void OnParametersSet()
+    {
+        // A Value set from outside fills the parts; one the parts produced leaves them as typed.
+        if (Value != Join(_parts)) _parts = Split(Value);
+    }
+
+    private async Task UpdateAsync(string part, string text)
+    {
+        _parts = new Dictionary<string, string>(_parts) { [part] = text };
+        await SetValueAsync(Join(_parts));
+    }
+
+    /// <summary>The parts of a YYYY-MM-DD value, or empty parts for anything else.</summary>
+    private static Dictionary<string, string> Split(string? value)
+    {
+        var m = System.Text.RegularExpressions.Regex.Match(value ?? "", @"^(\d{1,4})-(\d{1,2})-(\d{1,2})$");
+        return m.Success
+            ? new() { ["year"] = m.Groups[1].Value, ["month"] = m.Groups[2].Value, ["day"] = m.Groups[3].Value }
+            : new() { ["year"] = "", ["month"] = "", ["day"] = "" };
+    }
+
+    /// <summary>YYYY-MM-DD when every part is a number, else "". The calendar check is the consumer's.</summary>
+    private static string Join(Dictionary<string, string> p)
+    {
+        var digits = new System.Text.RegularExpressions.Regex(@"^\d+$");
+        if (!digits.IsMatch(p["year"]) || !digits.IsMatch(p["month"]) || !digits.IsMatch(p["day"])) return "";
+        return $"{p["year"].PadLeft(4, '0')}-{p["month"].PadLeft(2, '0')}-{p["day"].PadLeft(2, '0')}";
+    }
 }

@@ -4,7 +4,6 @@
   "blazor:editable": "unreviewed: renders <input>, contract says <div> (P10-T12 baseline, 2026-10-31)",
   "blazor:listbox": "A fixed <ul role=\"listbox\">, documented in Listbox.razor: every consumer is a *-picker, which needs <ul>; Razor has no clean dynamic element.",
   "html:editable": "unreviewed: renders <span>, contract says <div> (P10-T12 baseline, 2026-10-31)",
-  "nunjucks:date-field": "unreviewed: renders <fieldset>, contract says <div> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:editable": "unreviewed: renders <span>, contract says <div> (P10-T12 baseline, 2026-10-31)",
   "nunjucks:listbox": "A fixed <ul role=\"listbox\"> (its macro header says so), for the pickers' <ul class=\"{helper}-list\">; the macro takes no element choice.",
   "react:editable": "unreviewed: renders <input>, contract says <div> (P10-T12 baseline, 2026-10-31)",

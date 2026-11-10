@@ -15,96 +15,79 @@ function render(html: string): HTMLElement {
     return document.body.firstElementChild as HTMLElement;
 }
 
+const LABELS = 'day-label="Day" month-label="Month" year-label="Year"';
+const type = (input: HTMLInputElement, value: string) => {
+    input.value = value;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+};
+const order = (host: HTMLElement) => [...host.querySelectorAll("input")].map((i) => i.className);
+
 describe("DateField", () => {
-    test("the custom element itself is the wrapper (self-is-the-wrapper)", () => {
-        const host = render('<lily-date-field label="Start date"></lily-date-field>');
-
-        expect(host.className).toBe("date-field");
-    });
-
-    test("links the label to the input via for/id", () => {
-        const host = render('<lily-date-field label="Start date"></lily-date-field>');
-
-        const label = host.querySelector("label")!;
-        const input = host.querySelector("input") as HTMLInputElement;
-        expect(label.textContent).toBe("Start date");
-        expect(label.htmlFor).toBe(input.id);
-        expect(input.id).not.toBe("");
-    });
-
-    test("renders a native date input", () => {
+    test("builds a fieldset with the base class, named by its legend", () => {
         const host = render(
-            '<lily-date-field label="Start date" value="2026-06-01"></lily-date-field>',
+            `<lily-date-field label="Date of birth" ${LABELS} class="wide"></lily-date-field>`,
         );
-
-        const input = host.querySelector("input") as HTMLInputElement;
-        expect(input.type).toBe("date");
-        expect(input.value).toBe("2026-06-01");
+        const fieldset = host.querySelector("fieldset")!;
+        expect(fieldset.className).toBe("date-field wide");
+        expect(fieldset.querySelector("legend")!.textContent).toBe("Date of birth");
     });
 
-    test("uses a caller-supplied id instead of auto-generating one", () => {
-        const host = render(
-            '<lily-date-field label="Start date" id="start-date"></lily-date-field>',
-        );
-
-        const input = host.querySelector("input") as HTMLInputElement;
-        expect(input.id).toBe("start-date");
+    test("labels each part, in ISO 8601 order by default", () => {
+        const host = render(`<lily-date-field label="D" ${LABELS} id="dob"></lily-date-field>`);
         expect(host.hasAttribute("id")).toBe(false);
+        expect(order(host)).toEqual(["date-field-year", "date-field-month", "date-field-day"]);
+        expect(host.querySelector('label[for="dob-day"]')!.textContent).toBe("Day");
+        expect(host.querySelector("#dob-day")!.getAttribute("inputmode")).toBe("numeric");
     });
 
-    test("renders a description paragraph linked via aria-describedby", () => {
-        const host = render(
-            '<lily-date-field label="Birthday" description="Format: YYYY-MM-DD"></lily-date-field>',
-        );
-
-        const input = host.querySelector("input") as HTMLInputElement;
-        const description = host.querySelector("p")!;
-        expect(description.textContent).toBe("Format: YYYY-MM-DD");
-        expect(input.getAttribute("aria-describedby")).toBe(description.id);
+    test("follows the order asked for", () => {
+        const host = render(`<lily-date-field label="D" ${LABELS} order="mdy"></lily-date-field>`);
+        expect(order(host)).toEqual(["date-field-month", "date-field-day", "date-field-year"]);
     });
 
-    test("renders an error with role=alert linked via aria-errormessage", () => {
+    test("fills the parts from value, and names them from name", () => {
         const host = render(
-            '<lily-date-field label="End date" error="Required"></lily-date-field>',
+            `<lily-date-field label="D" ${LABELS} value="2007-03-27" name="dob"></lily-date-field>`,
         );
-
-        const input = host.querySelector("input") as HTMLInputElement;
-        const error = host.querySelector('[role="alert"]') as HTMLElement;
-        expect(error.textContent).toBe("Required");
-        expect(input.getAttribute("aria-invalid")).toBe("true");
-        expect(input.getAttribute("aria-errormessage")).toBe(error.id);
+        const day = host.querySelector(".date-field-day") as HTMLInputElement;
+        expect(day.value).toBe("27");
+        expect(day.name).toBe("dob-day");
+        expect((host.querySelector(".date-field-year") as HTMLInputElement).value).toBe("2007");
     });
 
-    test("required and disabled reflect onto the input", () => {
-        const host = render(
-            '<lily-date-field label="Start date" required disabled></lily-date-field>',
-        );
-
-        const input = host.querySelector("input") as HTMLInputElement;
-        expect(input.required).toBe(true);
-        expect(input.disabled).toBe(true);
+    test('value is YYYY-MM-DD once every part is filled, and "" before', () => {
+        const host = render(`<lily-date-field label="D" ${LABELS}></lily-date-field>`) as DateField;
+        type(host.querySelector(".date-field-day")!, "5");
+        type(host.querySelector(".date-field-month")!, "9");
+        expect(host.value).toBe("");
+        type(host.querySelector(".date-field-year")!, "1990");
+        expect(host.value).toBe("1990-09-05");
+        expect(host.getAttribute("value")).toBe("1990-09-05");
+        expect((host.querySelector(".date-field-day") as HTMLInputElement).value).toBe("5");
     });
 
-    test("removing the error attribute removes the error paragraph and ARIA", () => {
+    test("links the description and the error from the fieldset, and marks the parts invalid", () => {
         const host = render(
-            '<lily-date-field label="End date" error="Required"></lily-date-field>',
+            `<lily-date-field label="D" ${LABELS} id="d" description="For example" error="Enter a real date"></lily-date-field>`,
         );
-
+        expect(host.querySelector("fieldset")!.getAttribute("aria-describedby")).toBe(
+            "d-desc d-error",
+        );
+        expect(host.querySelector("[role=alert]")!.textContent).toBe("Enter a real date");
+        expect(host.querySelector(".date-field-day")!.getAttribute("aria-invalid")).toBe("true");
         host.removeAttribute("error");
-
-        const input = host.querySelector("input") as HTMLInputElement;
-        expect(host.querySelector('[role="alert"]')).toBeNull();
-        expect(input.hasAttribute("aria-invalid")).toBe(false);
+        expect(host.querySelector("fieldset")!.getAttribute("aria-describedby")).toBe("d-desc");
+        expect(host.querySelector(".date-field-day")!.hasAttribute("aria-invalid")).toBe(false);
     });
 
-    test("exposes a live value property", () => {
+    test("autocomplete bday, required and disabled", () => {
         const host = render(
-            '<lily-date-field label="Start date"></lily-date-field>',
-        ) as unknown as DateField;
-
-        host.value = "2026-12-25";
-
-        expect(host.value).toBe("2026-12-25");
-        expect((host.querySelector("input") as HTMLInputElement).value).toBe("2026-12-25");
+            `<lily-date-field label="D" ${LABELS} autocomplete="bday" required disabled></lily-date-field>`,
+        );
+        expect(host.querySelector(".date-field-month")!.getAttribute("autocomplete")).toBe(
+            "bday-month",
+        );
+        expect((host.querySelector(".date-field-year") as HTMLInputElement).required).toBe(true);
+        expect((host.querySelector("fieldset") as HTMLFieldSetElement).disabled).toBe(true);
     });
 });

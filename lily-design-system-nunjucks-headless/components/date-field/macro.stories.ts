@@ -1,21 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html = `<fieldset
-  class="date-field">  <div class="date-field-parts">
-    <div class="date-field-part">
-      <label class="date-field-part-label" for="-day">Day</label>
-      <input class="date-field-part-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" id="-day" name="-day" value="">
-    </div>
-    <div class="date-field-part">
-      <label class="date-field-part-label" for="-month">Month</label>
-      <input class="date-field-part-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" id="-month" name="-month" value="">
-    </div>
-    <div class="date-field-part">
-      <label class="date-field-part-label" for="-year">Year</label>
-      <input class="date-field-part-input date-field-part-input-year" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" id="-year" name="-year" value="">
-    </div>
-  </div>
-</fieldset>`;
+  class="date-field">
+  <legend>Date of birth</legend>  <label for="dob-day">Day</label>
+  <input class="date-field-day" id="dob-day" type="text" inputmode="numeric" maxlength="2" value="">  <label for="dob-month">Month</label>
+  <input class="date-field-month" id="dob-month" type="text" inputmode="numeric" maxlength="2" value="">  <label for="dob-year">Year</label>
+  <input class="date-field-year" id="dob-year" type="text" inputmode="numeric" maxlength="4" value=""></fieldset>`;
 
 const meta = {
     title: "Headless/DateField",
