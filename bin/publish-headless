@@ -15,6 +15,8 @@
 #   bin/publish-headless --nuget-only --dry-run  # same, dry-run
 #   bin/publish-headless               # publish everything for real
 #
+# A real publish (not --dry-run) outside CI needs a clean, green `bin/ci --full` receipt for HEAD (tasks.md P24-T5).
+#
 # Requirements for a real publish:
 #   - npm:   `npm login` (or NPM_TOKEN in ~/.npmrc) with rights to the
 #            `lily-design-system-*` package names.
@@ -43,6 +45,13 @@ for arg in "$@"; do
     --nuget-only) NUGET_ONLY="1" ;;
   esac
 done
+
+# The receipt gate (tasks.md P24-T5): a real publish from the maintainer's machine needs `bin/ci --full` to have passed on
+# this commit from a clean tree (consumer-smoke may be skipped; CI runs it). --dry-run is not gated, and neither is CI
+# (publish.yml), which is its own clean room. LILY_PUBLISH_WITHOUT_RECEIPT=1 overrides, with a warning.
+if [ -z "$DRY" ] && [ -z "${CI:-}" ]; then
+  "$ROOT/bin/ci" --verify-receipt || exit 1
+fi
 
 # Every npm headless package's prepublishOnly runs its build, which
 # needs that package's devDependencies; nothing installed them, so a

@@ -129,6 +129,12 @@ unless a receipt for the same SHA exists, clean and all green. This makes the ex
 needing CI. A receipt is self-asserted, so it proves discipline, not integrity. Check: a publish on a dirty tree or a
 different SHA refuses.
 
+_Built 2026-11-10 (tasks.md P24-T5), the maintainer's choice of gate._ `bin/ci --full` writes the receipt; `bin/ci
+--verify-receipt` is the gate, which `bin/publish-helpers` and `bin/publish-headless` run before a real publish outside CI.
+It refuses unless the receipt is for HEAD, was written from a clean tree, the tree is still clean, and every step passed,
+except that `consumer-smoke` may be skipped: it never runs locally, and CI runs it. `LILY_PUBLISH_WITHOUT_RECEIPT=1` warns
+and lets the publish go ahead. `--dry-run` and `publish.yml` (where `CI` is set) are not gated.
+
 ### 6. A clean-room mode
 
 The most common local-versus-CI difference is state on the maintainer's machine. `bin/ci --clean` runs the full gate in a

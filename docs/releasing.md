@@ -128,7 +128,12 @@ identified release commits; earlier history has no tags.
    would. This is the gate that would have caught 0.2.0; it also runs
    in CI. Never publish a package whose packed tarball you have not
    imported.
-4. Publish: the scripts directly (npm login; NuGet via
+4. **Receipt**: from a clean tree, `bin/ci --full` (it writes `.ci/receipt.json`). A real publish from your machine
+   refuses unless the receipt is for HEAD, was written from a clean tree, the tree is still clean, and every job passed;
+   `consumer-smoke` may show as skipped, because it does not run locally and CI runs it. `bin/ci --verify-receipt` asks the
+   same question. `LILY_PUBLISH_WITHOUT_RECEIPT=1` publishes anyway, with a warning. Dry runs and `publish.yml` are not
+   gated.
+5. Publish: the scripts directly (npm login; NuGet via
    [Trusted Publishing](../spec/trusted-publishing/index.md), which
    only works inside the `publish` workflow's OIDC context — there is
    no local `NUGET_API_KEY` any more), or the tag-gated

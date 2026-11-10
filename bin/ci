@@ -4,7 +4,9 @@
 #   bin/ci --list                 the jobs, in the order --full runs them
 #   bin/ci --job <name> [arg...]  one job; a matrix job takes its matrix values (default: all of them)
 #   bin/ci --fast                 seconds: the checks that need no install (generated files, links, coverage, class names)
-#   bin/ci --full                 every job, in order; ends with a table of step, result and seconds
+#   bin/ci --full                 every job, in order; ends with a table of step, result and seconds, and writes
+#                                 .ci/receipt.json (git-ignored)
+#   bin/ci --verify-receipt        is there a receipt for HEAD, from a clean tree, with every job passing? (the publish gate)
 #
 # Each function below is one job in .github/workflows/ci.yml, and ci.yml calls `bin/ci --job <name>` for it, so the local and
 # GitHub runs cannot drift: the YAML keeps only the setup (checkout, Node, pnpm, .NET, caches, Playwright browsers).
@@ -310,6 +312,66 @@ job_spell_check() { step "spell-check" spell_check; }
 
 # --- the command line ---
 
+# The receipt of a --full run (tasks.md P24-T5): the commit, whether the tree was clean, each step's result and seconds, the
+# tool versions and the date. It is self-asserted: it proves discipline, not integrity.
+write_receipt() {
+    local sha clean i steps
+    sha="$(git rev-parse HEAD)"
+    if [ -z "$(git status --porcelain)" ]; then clean=true; else clean=false; fi
+    steps=""
+    for i in "${!STEPS[@]}"; do
+        steps+="${STEPS[$i]}"$'\t'"${RESULTS[$i]}"$'\t'"${SECONDS_TAKEN[$i]}"$'\n'
+    done
+    mkdir -p .ci
+    STEPS_TSV="$steps" SHA="$sha" CLEAN="$clean" node --input-type=module -e '
+        import { execSync } from "node:child_process";
+        import { writeFileSync } from "node:fs";
+        const version = (cmd) => { try { return execSync(cmd, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim().split("\n")[0]; } catch { return null; } };
+        const steps = process.env.STEPS_TSV.split("\n").filter(Boolean).map((line) => {
+            const [name, result, seconds] = line.split("\t");
+            return { name, result, seconds: Number(seconds) };
+        });
+        const receipt = {
+            sha: process.env.SHA,
+            clean: process.env.CLEAN === "true",
+            date: new Date().toISOString(),
+            tools: { node: process.version, pnpm: version("pnpm --version"), dotnet: version("dotnet --version"), git: version("git --version") },
+            steps,
+        };
+        writeFileSync(".ci/receipt.json", JSON.stringify(receipt, null, 2) + "\n");
+    '
+    echo "bin/ci: wrote .ci/receipt.json for $sha ($([ "$clean" = true ] && echo clean || echo "dirty tree"))"
+}
+
+# The publish gate: exit 0 only for a receipt of HEAD, written from a clean tree that is still clean, with every step passing
+# or skipped as consumer-smoke is locally (CI runs it). LILY_PUBLISH_WITHOUT_RECEIPT=1 warns and lets the publish go ahead.
+check_receipt() {
+    local problem
+    problem="$(SHA="$(git rev-parse HEAD)" DIRTY="$(git status --porcelain | head -1)" node --input-type=module -e '
+        import { existsSync, readFileSync } from "node:fs";
+        const file = ".ci/receipt.json";
+        if (!existsSync(file)) { console.log("there is no .ci/receipt.json; run bin/ci --full"); process.exit(0); }
+        const r = JSON.parse(readFileSync(file, "utf8"));
+        if (r.sha !== process.env.SHA) console.log(`the receipt is for ${r.sha}, not HEAD ${process.env.SHA}; run bin/ci --full`);
+        else if (!r.clean) console.log("the receipt was written from a dirty tree; commit or stash, then run bin/ci --full");
+        else {
+            const bad = r.steps.filter((s) => s.result !== "pass" && !(s.name === "consumer-smoke" && s.result.startsWith("skipped")));
+            if (bad.length) console.log("not every step passed: " + bad.map((s) => `${s.name} (${s.result})`).join(", "));
+            else if (process.env.DIRTY) console.log("the tree is dirty now; commit or stash first");
+        }
+    ')"
+    if [ -z "$problem" ]; then
+        echo "bin/ci: the receipt for $(git rev-parse --short HEAD) is clean and green"
+        return 0
+    fi
+    if [ -n "${LILY_PUBLISH_WITHOUT_RECEIPT:-}" ]; then
+        echo "bin/ci: WARNING: $problem; publishing anyway (LILY_PUBLISH_WITHOUT_RECEIPT is set)" >&2
+        return 0
+    fi
+    echo "bin/ci: no publish: $problem. (LILY_PUBLISH_WITHOUT_RECEIPT=1 overrides, with a warning.)" >&2
+    return 1
+}
+
 table() {
     local i
     printf '\n%-60s %-18s %s\n' "step" "result" "seconds"
@@ -319,7 +381,7 @@ table() {
 }
 
 usage() {
-    sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//'
+    sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'
     exit 2
 }
 
@@ -357,7 +419,11 @@ case "${1:-}" in
         failed=0
         for name in "${JOBS[@]}"; do run_job "$name" || failed=1; done
         table
+        write_receipt
         exit "$failed"
+        ;;
+    --verify-receipt)
+        check_receipt
         ;;
     *)
         usage
