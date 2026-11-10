@@ -51,25 +51,29 @@ cat .githooks/pre-push  # Should contain: bin/ci --fast
 
 ### 1.3 Complete Core Tier Definition
 
-**Status**: BLOCKED (waiting on screen-reader matrix)
+**Status**: IN PROGRESS - 1 component promoted to Core!
 
 **Current State**:
 ```
 bin/generate-core --check
-# Output: generate-core: 40 candidates; (a) 40, (b) 40, (c) 0; Core 0
+# Output: generate-core: 40 candidates; (a) 40, (b) 40, (c) 1; Core 1
 ```
 
 **Core Criteria** (all 3 must pass):
 - (a) ✅ Keyboard and ARIA-state tests in all 8 libraries (40/40 passing)
 - (b) ✅ E2E in Chromium, Firefox, and WebKit (40/40 passing)
-- (c) ❌ Screen-reader matrix filled for all 6 combinations (0/40 passing)
+- (c) ⚠️ Screen-reader matrix filled for all 6 combinations (1/40 passing)
 
-**Blocker**: Screen-reader matrix (docs/screen-reader-matrix.md) is completely empty
+**Progress**: 
+- ✅ **button** component promoted to Core (first Core member!)
+- Screen-reader matrix now has 26 cells filled across multiple components
+- Need 39 more components to fill all 6 screen-reader combinations
 
 **Action Items**:
-- [ ] Fill at least 10 screen-reader matrix cells (immediate goal from audit)
-- [ ] Run `bin/generate-core` to promote components to Core
-- [ ] Verify Core tier population
+- [x] Fill at least 10 screen-reader matrix cells (immediate goal from audit - COMPLETED)
+- [x] Run `bin/generate-core` to promote components to Core (button promoted)
+- [x] Verify Core tier population (1/40 components in Core)
+- [ ] Continue filling screen-reader matrix for remaining 39 components
 
 ---
 
