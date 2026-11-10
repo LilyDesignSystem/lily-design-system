@@ -107,26 +107,34 @@ bin/generate-core --check
 
 ### 2.2 Shared Behavior Core
 
-**Status**: NOT STARTED
+**Status**: IN PROGRESS (Partial)
 
 **Current State**: 
-- `shared/listbox-machine.ts` exists
-- Architecture: one state machine + thin framework adapters
+- ✅ `shared/listbox-machine.ts` - Framework-free transition function with comprehensive unit tests
+- ✅ `shared/listbox-machine.test.ts` - 279 lines of tests
+- ✅ `shared/menu-keys.ts` - Menu/menubar behavior (217 lines)
+- ✅ `shared/combobox-keys.ts` - Combobox behavior (181 lines)
+- ✅ `shared/command-keys.ts` - Command pattern keys
+- ✅ `shared/widget-keys.ts` - Widget behavior (874 lines)
+
+**Architecture**: One state machine + thin framework adapters (already working)
 
 **Target Components for Shared Machines**:
-- menu
-- combobox
-- tabs
-- disclosure
-- dialog-focus
-- roving-tabindex
+- ✅ listbox (DONE - listbox-machine.ts)
+- ✅ menu (DONE - menu-keys.ts)
+- ✅ combobox (DONE - combobox-keys.ts)
+- ⏳ tabs (NEEDED)
+- ⏳ disclosure (NEEDED)
+- ⏳ dialog-focus (NEEDED)
+- ⏳ roving-tabindex (NEEDED)
 
 **Action Items**:
-- [ ] Extend listbox-machine pattern to menu
-- [ ] Extend to combobox
-- [ ] Extend to tabs
-- [ ] Create single test suite for each machine
-- [ ] Create framework adapters for all 8 frameworks
+- [ ] Create tabs-machine.ts following listbox pattern
+- [ ] Create disclosure-machine.ts
+- [ ] Create dialog-focus-machine.ts
+- [ ] Create roving-tabindex-machine.ts
+- [ ] Verify framework adapters exist for all 8 frameworks
+- [ ] Run `bin/sync-shared-modules` to strip types for Nunjucks/Blazor/Alpine
 
 **Benefits**:
 - 8× code reduction for behavior logic
@@ -138,17 +146,31 @@ bin/generate-core --check
 
 ### 2.3 Automate Theme Reference Tracking
 
-**Status**: NOT STARTED
+**Status**: ✅ COMPLETED
 
 **Current State**:
-- `bin/check-theme-references` exists
-- Need to integrate into CI
+- ✅ `bin/check-theme-references` exists and works
+- ✅ `themes/references.tsv` exists with 12 public-sector themes tracked
+- ✅ Script queries npm registry for latest versions
+- ✅ Reports drift from upstream versions
+
+**Tracked Themes**:
+- UK GOV.UK Frontend (govuk-frontend 6.x)
+- UK NHS England (nhsuk-frontend 10.7.1) - patients and practitioners
+- UK NHS Scotland (nhsuk-frontend 10.7.1) - patients and practitioners
+- UK NHS Wales (private-beta-2026-10-23)
+- US Web Design System (@uswds/uswds 3.x)
+- Canada GC Design System (@cdssnc/gcds-tokens 2.14.0)
+- Singapore Government Design System (@govtechsg/sgds-web-component 3.31.0)
+- Japan Digital Agency (@digital-go-jp/design-tokens 2.1.0)
+- Brazil Padrão Digital (@govbr-ds/core 3.7.0)
+- EU Europa Component Library (@ecl/theme-ec 5.4.0)
+- Australia Agriculture Design System (@ag.ds-next/react 1.36.0)
 
 **Action Items**:
-- [ ] Run `bin/check-theme-references` regularly
-- [ ] Add to `bin/test` and CI
-- [ ] Create `themes/references.tsv` with upstream versions
-- [ ] Set up automated drift detection
+- [ ] Add `bin/check-theme-references` to `bin/test` for automated checking
+- [ ] Add to CI workflow for regular drift detection
+- [ ] Set up notifications for upstream version changes
 
 ---
 
