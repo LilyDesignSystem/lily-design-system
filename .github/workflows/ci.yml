@@ -60,48 +60,14 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - name: No tracked node_modules or dist
-        run: |
-          junk="$(git ls-files | grep -E '(^|/)(node_modules|dist)/|/(obj|bin)/(Debug|Release|.*\.nuget\.)' || true)"
-          if [ -n "$junk" ]; then
-            echo "Tracked build/dependency artifacts found:" >&2
-            echo "$junk" | head -20 >&2
-            exit 1
-          fi
-
       - uses: pnpm/action-setup@v6
         with:
           version: 11
       - uses: actions/setup-node@v7
         with:
           node-version: 26
-      - name: Install the docs site (generate-site-pages renders Markdown with its marked)
-        working-directory: lilydesignsystem.github.io
-        run: pnpm install --frozen-lockfile
-
-      - name: bin/test (required files + catalog/registry consistency)
-        run: bin/test
-
-      - name: bin/check-links (markdown link integrity)
-        run: bin/check-links
-
-      - name: Registries are freshly generated
-        run: |
-          bin/generate-registries
-          if ! git diff --quiet; then
-            echo "bin/generate-registries produced changes; commit regenerated registries:" >&2
-            git diff --stat >&2
-            exit 1
-          fi
-
-      - name: bin/check-coverage (7-headless-implementation drift matrix)
-        run: bin/check-coverage --quiet
-
-      - name: bin/check-class-names (every headless implementation carries its base class)
-        run: bin/check-class-names
-
-      - name: bin/check-package-metadata (every published package names the monorepo as its source)
-        run: bin/check-package-metadata
+      # The junk guard, the docs-site install, bin/test, check-links, the registries, coverage, class names and metadata.
+      - run: bin/ci --job verify
 
   lint:
     # Repo-level ESLint (eslint.config.mjs, scope set by the root "lint" script).
@@ -118,11 +84,8 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 26
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm lint
-      - run: pnpm format:check
-      - name: The Alpine snippets match their generator (tasks.md P12-T5b)
-        run: node lily-design-system-alpine-headless/generate-components.mjs --check
+      # eslint, Prettier and the Alpine generator's --check.
+      - run: bin/ci --job lint
 
   helper-packages:
     # Top-level helper packages, one subproject each (the *-helpers
@@ -155,21 +118,9 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 26
-      - name: Install the repo root (its @types/node types every package's tests)
-        run: pnpm install --frozen-lockfile
-      - name: Build the headless library they depend on
-        # Some headless libraries (HTML) are consumed as source and have no build.
-        working-directory: lily-design-system-${{ matrix.framework }}-headless
-        run: |
-          pnpm install --frozen-lockfile
-          pnpm run --if-present build
-      - name: Install, build and test each package in dependency order
-        run: |
-          for d in $(bin/list-helper-packages ${{ matrix.framework }}); do
-            echo "::group::$d"
-            ( cd "$d" && pnpm install --frozen-lockfile && pnpm run build && pnpm run --if-present check && pnpm run test )
-            echo "::endgroup::"
-          done
+      # The repo root (its @types/node types every package's tests), the headless library they depend on, then each package
+      # installed, built, checked and tested in dependency order.
+      - run: bin/ci --job helper-packages ${{ matrix.framework }}
 
   headless:
     name: headless tests (${{ matrix.catalog }})
@@ -198,20 +149,8 @@ jobs:
           node-version: 26
           cache: pnpm
           cache-dependency-path: ${{ matrix.catalog }}/pnpm-lock.yaml
-      - name: Install
-        working-directory: ${{ matrix.catalog }}
-        run: pnpm install --frozen-lockfile
-      - name: Typecheck
-        # Libraries without a `check` script are skipped; see tasks.md P12-T1.
-        working-directory: ${{ matrix.catalog }}
-        run: pnpm run --if-present check
-      - name: Build
-        # The unit suites passed while angular-headless and vue-headless did not build (tasks.md P22-T31).
-        working-directory: ${{ matrix.catalog }}
-        run: pnpm run --if-present build
-      - name: Test
-        working-directory: ${{ matrix.catalog }}
-        run: pnpm exec vitest run
+      # Install, typecheck (where there is a check script; tasks.md P12-T1), build (tasks.md P22-T31) and test.
+      - run: bin/ci --job headless ${{ matrix.catalog }}
 
   html-headless:
     name: headless tests (lily-design-system-html-headless, WebDriverIO)
@@ -229,15 +168,8 @@ jobs:
           node-version: 26
           cache: pnpm
           cache-dependency-path: lily-design-system-html-headless/pnpm-lock.yaml
-      - name: Install
-        working-directory: lily-design-system-html-headless
-        run: pnpm install --frozen-lockfile
-      - name: Typecheck
-        working-directory: lily-design-system-html-headless
-        run: pnpm run check
-      - name: Test (491 WebDriverIO specs, headless Chrome)
-        working-directory: lily-design-system-html-headless
-        run: pnpm test
+      # Install, typecheck and the WebDriverIO specs in headless Chrome.
+      - run: bin/ci --job html-headless
 
   dotnet-tests:
     name: dotnet test (${{ matrix.project }})
@@ -262,20 +194,11 @@ jobs:
           path: ~/.nuget/packages
           key: nuget-${{ matrix.project }}-${{ hashFiles(format('{0}/**/*.csproj', matrix.project)) }}
           restore-keys: nuget-${{ matrix.project }}-
-      - name: Test
-        working-directory: ${{ matrix.project }}
-        run: dotnet test ${{ matrix.csproj }}
-      # The JavaScript modules behind the components whose keys bUnit cannot run (FileTree, TreeMenu): node:test + jsdom.
+      # bin/ci also runs the JavaScript modules behind the components whose keys bUnit cannot run (tests/js), so it needs Node.
       - uses: actions/setup-node@v7
-        if: matrix.project == 'lily-design-system-blazor-headless'
         with:
           node-version: 26
-      - name: Test the JavaScript modules (tests/js)
-        if: matrix.project == 'lily-design-system-blazor-headless'
-        working-directory: ${{ matrix.project }}
-        run: |
-          npm install --prefix "$RUNNER_TEMP/jsdom" --no-save --no-audit --no-fund jsdom@30.1.3
-          JSDOM_PATH="$RUNNER_TEMP/jsdom/node_modules/jsdom" node --test tests/js/
+      - run: bin/ci --job dotnet-tests
 
   dotnet-helper-packages:
     # The Blazor helper packages, one top-level subproject each since
@@ -296,13 +219,7 @@ jobs:
           path: ~/.nuget/packages
           key: nuget-blazor-helper-packages-${{ hashFiles('lily-design-system-blazor-*/**/*.csproj') }}
           restore-keys: nuget-blazor-helper-packages-
-      - name: Test each package
-        run: |
-          for d in $(bin/list-helper-packages blazor); do
-            echo "::group::$d"
-            dotnet test "$d"/tests/*.csproj
-            echo "::endgroup::"
-          done
+      - run: bin/ci --job dotnet-helper-packages
 
   example-smoke:
     name: example-app Playwright smoke (svelte-sveltekit-examples)
@@ -339,15 +256,8 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         timeout-minutes: 10
         run: pnpm exec playwright install-deps chromium firefox webkit
-      - name: Test (accessibility, responsive, /components search, rtl-demo, book-an-appointment)
-        working-directory: lily-design-system-svelte-sveltekit-examples
-        run: |
-          pnpm exec playwright test \
-            e2e/accessibility.spec.ts \
-            e2e/responsive.spec.ts \
-            e2e/components-index.spec.ts \
-            e2e/rtl-demo.spec.ts \
-            e2e/book-an-appointment.spec.ts
+      # Accessibility, responsive, /components search, rtl-demo and book-an-appointment.
+      - run: bin/ci --job example-smoke
 
   eleventy-example:
     # Nothing built this app in CI, and it went unbuildable for weeks
@@ -369,22 +279,9 @@ jobs:
           node-version: 26
           cache: pnpm
           cache-dependency-path: lily-design-system-nunjucks-eleventy-examples/pnpm-lock.yaml
-      - name: Build the locale picker (the site serves its dist/index.js)
-        working-directory: lily-design-system-nunjucks-locale-picker
-        run: |
-          pnpm install --frozen-lockfile
-          pnpm run build
-      - name: Build the date-time picker (the /pickers/ page serves its dist/index.js)
-        working-directory: lily-design-system-nunjucks-date-time-picker
-        run: |
-          pnpm install --frozen-lockfile
-          pnpm run build
       - name: Install
         working-directory: lily-design-system-nunjucks-eleventy-examples
         run: pnpm install --frozen-lockfile
-      - name: Build
-        working-directory: lily-design-system-nunjucks-eleventy-examples
-        run: pnpm run build
       - name: Cache Playwright browsers
         uses: actions/cache@v6
         id: playwright-cache
@@ -401,9 +298,8 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         timeout-minutes: 10
         run: pnpm exec playwright install-deps chromium firefox webkit
-      - name: Test (every component page, /components search, pickers, accessibility, responsive)
-        working-directory: lily-design-system-nunjucks-eleventy-examples
-        run: pnpm exec playwright test
+      # Builds the locale and date-time pickers the site serves, builds the site, and runs every Playwright spec.
+      - run: bin/ci --job eleventy-example
 
   alpine-examples:
     # The Alpine.js example site is generated from components.tsv, the Alpine headless snippets and the four Alpine
@@ -426,9 +322,6 @@ jobs:
       - name: Install
         working-directory: lily-design-system-alpine-examples
         run: pnpm install --frozen-lockfile
-      - name: Build and unit-test (every demo mounted under Alpine)
-        working-directory: lily-design-system-alpine-examples
-        run: pnpm run build && pnpm run test
       - name: Cache Playwright browsers
         uses: actions/cache@v6
         id: playwright-cache
@@ -445,9 +338,8 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
         timeout-minutes: 10
         run: pnpm exec playwright install-deps chromium
-      - name: Test (axe on every page, the helpers' flows)
-        working-directory: lily-design-system-alpine-examples
-        run: pnpm exec playwright test
+      # Build, unit-test (every demo mounted under Alpine), then axe on every page and the helpers' flows.
+      - run: bin/ci --job alpine-examples
 
   consumer-smoke:
     name: consumer smoke (packed tarballs import as a consumer would)
@@ -493,88 +385,8 @@ jobs:
                       /opt/hostedtoolcache/CodeQL \
                       /usr/local/share/boost 2>/dev/null || true
           df -h / | tail -1
-      # Each build step cleans its subproject's node_modules once the
-      # dist exists: npm pack needs the dist and the manifest, not the
-      # dependency tree, and ten full trees would crowd the runner.
-      # --legacy-peer-deps on every npm install below: this job's `npm
-      # install` (not the project's own pnpm) has hit npm's internal
-      # Arborist crash "Cannot read properties of null (reading
-      # 'edgesOut')" on every main-branch CI run for at least 12 days
-      # (earliest run checked: 2026-09-07) -- not specific to any one
-      # catalog's peer-dependency shape (first found on angular's
-      # @angular/core/@angular/common peerDependencies, but svelte hit
-      # it too with no comparable peer complexity). --legacy-peer-deps
-      # skips npm 7+'s strict peer resolver, which sidesteps whatever
-      # graph shape trips the crash.
-      - name: Build angular dist (ng-packagr)
-        working-directory: lily-design-system-angular-headless
-        run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npm run build
-          rm -rf node_modules
-      - name: Build svelte dist
-        working-directory: lily-design-system-svelte-headless
-        run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npm run build
-          rm -rf node_modules
-      - name: Build react dist
-        working-directory: lily-design-system-react-headless
-        run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npm run build
-          rm -rf node_modules
-      - name: Build vue dist
-        working-directory: lily-design-system-vue-headless
-        run: |
-          npm install --no-audit --no-fund --legacy-peer-deps
-          npm run build
-          rm -rf node_modules
-      # bin/smoke-packages also packs the 6 picker helpers in each of
-      # these 7 npm-published helper catalogs (Blazor is NuGet, not
-      # npm, so it's excluded here same as it is from smoke-packages
-      # itself) — each catalog's own `npm run build` builds all 6 of
-      # its nested picker packages in one pass.
-      - name: Build svelte helper packages dist
-        # One top-level subproject per package, built in dependency order.
-        run: |
-          for d in $(bin/list-helper-packages svelte); do
-            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
-          done
-      - name: Build react helper packages dist
-        run: |
-          for d in $(bin/list-helper-packages react); do
-            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
-          done
-      - name: Build vue helper packages dist
-        run: |
-          for d in $(bin/list-helper-packages vue); do
-            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
-          done
-      - name: Build angular helper packages dist (ng-packagr)
-        run: |
-          for d in $(bin/list-helper-packages angular); do
-            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
-          done
-      - name: Build html helper packages dist
-        run: |
-          for d in $(bin/list-helper-packages html); do
-            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
-          done
-      - name: Build nunjucks helper packages dist
-        run: |
-          for d in $(bin/list-helper-packages nunjucks); do
-            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
-          done
-      - name: Build web-components helper packages dist
-        run: |
-          for d in $(bin/list-helper-packages web-components); do
-            ( cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules )
-          done
-      - name: Smoke every package as a consumer
-        run: |
-          bin/smoke-packages
-          df -h / | tail -1
+      # The headless and helper packages built with plain npm, as a consumer would, then bin/smoke-packages.
+      - run: bin/ci --job consumer-smoke
 
   shadcn-registry:
     # P16-T5: `npx shadcn add` against Lily's shadcn registry
@@ -593,79 +405,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 26
-      - name: Registry is freshly generated
-        run: node bin/generate-registries --check
-      - name: Serve the registry on localhost
-        run: |
-          cd lilydesignsystem.github.io/static/r/react
-          python3 -m http.server 8787 --bind 127.0.0.1 >/dev/null 2>&1 &
-          for i in $(seq 1 20); do curl -sf http://127.0.0.1:8787/registry.json >/dev/null && break; sleep 0.5; done
-          curl -sf http://127.0.0.1:8787/scroller.json >/dev/null
-      - name: Scratch Next.js app
-        run: |
-          cd "$RUNNER_TEMP"
-          npx --yes create-next-app@16.4.3 app --ts --app --eslint --tailwind --src-dir \
-            --import-alias "@/*" --use-npm --skip-install --yes
-          # create-next-app's own install trips newer npm's install-script
-          # policy (EALLOWSCRIPTS) and still exits 0, so install separately.
-          (cd app && npm install --no-audit --no-fund)
-          cat > app/components.json <<'EOF'
-          {
-            "$schema": "https://ui.shadcn.com/schema.json",
-            "style": "new-york",
-            "rsc": true,
-            "tsx": true,
-            "tailwind": { "config": "", "css": "src/app/globals.css", "baseColor": "neutral", "cssVariables": true },
-            "aliases": { "components": "@/components", "utils": "@/lib/utils", "ui": "@/components/ui", "lib": "@/lib", "hooks": "@/hooks" },
-            "registries": { "@lily": "http://127.0.0.1:8787/{name}.json" }
-          }
-          EOF
-      - name: npx shadcn add @lily/button @lily/dialog @lily/scroller
-        working-directory: ${{ runner.temp }}/app
-        run: |
-          npx --yes shadcn@latest add @lily/button @lily/dialog @lily/scroller --yes
-          for f in Button Dialog Scroller ScrollerBase; do
-            test -f "src/components/lily/$f.tsx" || { echo "missing src/components/lily/$f.tsx" >&2; exit 1; }
-          done
-      - name: Use the components, build, typecheck
-        working-directory: ${{ runner.temp }}/app
-        run: |
-          cat > src/app/demo.tsx <<'EOF'
-          "use client";
-          import { useState } from "react";
-          import Dialog from "@/components/lily/Dialog";
-          import Scroller from "@/components/lily/Scroller";
-          export default function Demo() {
-            const [open, setOpen] = useState(false);
-            const [step, setStep] = useState(0);
-            return (
-              <>
-                <button type="button" onClick={() => setOpen(true)}>Open dialog</button>
-                <Dialog label="Lily dialog" open={open} onChange={setOpen}><p>Copied with shadcn.</p></Dialog>
-                <Scroller label="Lily scroller" onIndexChange={setStep} background={<p>Step {step}</p>}>
-                  <section>One</section>
-                  <section>Two</section>
-                </Scroller>
-              </>
-            );
-          }
-          EOF
-          cat > src/app/page.tsx <<'EOF'
-          import Button from "@/components/lily/Button";
-          import Demo from "./demo";
-          export default function Home() {
-            return (<main><h1>Lily via shadcn</h1><Button type="button">Lily button</Button><Demo /></main>);
-          }
-          EOF
-          npx next build
-          npx tsc --noEmit
-      - name: Prerendered page carries the copied components
-        working-directory: ${{ runner.temp }}/app
-        run: |
-          html=.next/server/app/index.html
-          for hook in 'class="button ' 'class="scroller ' 'scroller-foreground' 'scroller-background'; do
-            grep -q "$hook" "$html" || { echo "prerendered page lacks $hook" >&2; exit 1; }
-          done
+      - run: bin/ci --job shadcn-registry
 
   spell-check:
     name: spell check (root docs + hand-authored site content)
@@ -676,9 +416,4 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 26
-      - name: cspell
-        run: |
-          npx --yes cspell --no-progress \
-            "*.md" "docs/**/*.md" "help/**/*.md" \
-            "lilydesignsystem.github.io/src/routes/+page.svelte" \
-            "lilydesignsystem.github.io/src/routes/{about,accessibility,comparisons,examples,help,lily-claude-code,lily-claude-design,lily-figma,tutorials,why}/**/*.svelte"
+      - run: bin/ci --job spell-check

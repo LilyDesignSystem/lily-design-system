@@ -4,7 +4,7 @@
 Fails when the table:
   - names a generator that is not an executable file in bin/,
   - claims `bin/x --check` for a script whose text never mentions `--check`, or
-  - omits a bin/ script that does support `--check` (other than the test runner and this script).
+  - omits a bin/ script that does support `--check` (other than the two gate runners, bin/test and bin/ci, and this script).
 Rows whose Check column starts with "none" are reported as known gaps and do not fail.
 """
 import re
@@ -40,7 +40,8 @@ for line in m.group(1).splitlines():
     elif "--check" in check and "--check" not in script.read_text():
         errors.append(f"{gen.group(1)} is listed with --check but the script has none")
 
-skip = {"bin/test", "bin/check-generated-files"}
+# The two gate runners call other scripts' --check; they generate nothing.
+skip = {"bin/test", "bin/ci", "bin/check-generated-files"}
 for script in sorted((top / "bin").iterdir()):
     rel = f"bin/{script.name}"
     if script.is_file() and rel not in skip and rel not in listed:
