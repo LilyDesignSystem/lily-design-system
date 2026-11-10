@@ -23,7 +23,7 @@ Let a reader choose one of a short list by arrow keys, typing or clicking, with 
 8. Choosing the held option is a no-op: no callback, no event.
 9. A disabled picker is not focusable and ignores keys and clicks.
 10. With `name`, a hidden input carries the value.
-11. Only the list scrolls to centre the chosen option, and never with animation.
+11. Only the list scrolls to centre the chosen option, and never with animation. Planned (P26-T1, [detent-lessons](../../../spec/detent-lessons/index.md)): when the list stops scrolling, the centred enabled option becomes the value.
 12. `restProps` spread onto the root. No CSS, inline styles or hardcoded strings.
 
 ## Acceptance Criteria
@@ -31,7 +31,10 @@ Let a reader choose one of a short list by arrow keys, typing or clicking, with 
 - [x] Svelte canonical implemented with tests per requirement, and `shared/wheel-picker.ts` with 15 tests
 - [x] Ported to React, Vue, Angular, Blazor, Nunjucks, HTML, Web Components, Alpine (2026-10-23)
 - [x] The 63 themes style the wheel (scroll-snap list, filled chosen option, focus ring)
-- [ ] Used by `DateTimePicker` for its time columns
+- [ ] Used by `DateTimePicker` for its time columns (P26-T6)
+- [ ] Scrolling chooses: when the list settles, the centred enabled option is the value (P26-T1)
+- [ ] The first and last options can rest in the centre in every theme (P26-T2)
+- [ ] A disabled picker is not submitted, and form reset restores the first value (P26-T3)
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
