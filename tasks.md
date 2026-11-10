@@ -3390,6 +3390,41 @@ From [docs/aria-assessment.md](docs/aria-assessment.md), measured on all 609 com
 - [x] **P25-T20 `emoji-character-picker` is not a grid.** It rendered `role="grid"` in eight catalogs, and `role="dialog"` hidden by default in Nunjucks, with no keys and a contract that called it passive; the demo was loose `<button>`s, not rows of cells. _(2026-11-07, maintainer's decision: drop the grid role. It is a `<div role="group">` named by `label` in all nine catalogs, holding the consumer's emoji buttons, whose keys are their own. Nunjucks loses `open` and `hidden`. The contract, the docs and the demos use buttons with an `aria-label` per emoji; the ARIA baseline is regenerated, and one Nunjucks allow-list entry is gone.)_ Verify: no catalog renders `role="grid"` or `role="dialog"` on `emoji-character-picker`.
       Verify: an external report, linked from the conformance report.
 
+## Phase 26 — Wheel picker lessons from detent (2026-11-10)
+
+From [spec/detent-lessons](spec/detent-lessons/index.md), a review of detent and svelte-detent. Order: T2, T1, T3, then T6, T5, T7;
+T4 is a maintainer decision.
+
+- [ ] **P26-T1 Scrolling chooses.** When `.wheel-picker-list` stops scrolling (`scrollend`, or a short pause after the last `scroll`
+      where `scrollend` is missing), choose the enabled option nearest the list's middle, and re-centre if it was disabled. The
+      nearest rule is a pure function in `shared/wheel-picker.ts` with tests. Landing on the option held stays a no-op, so the script's
+      own centring cannot loop. Svelte first, then React, Vue, Angular, Web Components, Alpine, the HTML script and Nunjucks
+      `macro-keys.js`; Blazor records why it cannot without JS interop.
+      Verify: a real-browser test in each example app with script scrolls the wheel by mouse wheel and checks that `aria-selected`
+      and the hidden input follow the centre, and that `onChange` (or `change`) fired once.
+- [ ] **P26-T2 The ends reach the centre.** The 63 themes give `.wheel-picker-list` block padding (or `scroll-padding-block`) of half
+      the list less half a row, so the first and last options can rest in the centre.
+      Verify: `bin/check-theme` passes, and an e2e test scrolls to each end and finds that option centred.
+- [ ] **P26-T3 Wheel picker forms.** The hidden input is `disabled` when the picker is, so a disabled picker is not submitted; form
+      reset restores the first value, as the editors do; a `form` attribute reaches the hidden input; the docs say `required` does not
+      apply. All nine catalogs.
+      Verify: each catalog tests that a disabled picker is missing from `FormData` and that reset restores the value.
+- [ ] **P26-T4 Horizontal wheel (maintainer decision).** An `orientation` prop: horizontal sets `aria-orientation`, uses ArrowLeft and
+      ArrowRight, and swaps them under `dir="rtl"`. Build it only for a real horizontal use; `segment-group` and `carousel` cover most.
+      Verify: built with key tests in every catalog, or declined with a reason in the topic.
+- [ ] **P26-T5 A drum recipe in CSS.** Document, and offer as one opt-in theme class, a wheel look on `animation-timeline: view()`,
+      inside `@supports` and `prefers-reduced-motion: no-preference`, with no script. Try `scroll-snap-stop: always` with a notched mouse
+      wheel and a trackpad, and record the result.
+      Verify: an e2e test finds no animation under reduced motion; the result is in the topic.
+- [ ] **P26-T6 Several wheels as one control.** A composition pattern in `AGENTS/components.md`: a `role="group"` named by a visible
+      label, one `WheelPicker` per part, each labelled, in the consumer's order. Then close the open item in the `wheel-picker` spec:
+      `date-time-picker` uses it for its time columns, or records why not.
+      Verify: the pattern has an example page with an e2e test; the `wheel-picker` spec item is closed.
+- [ ] **P26-T7 A rule for animated text.** In `AGENTS/accessibility.md`: the real text stays in the DOM at rest, an animated copy is
+      `aria-hidden` and gone at rest, intermediate values are never announced, and reduced motion makes the change immediate. Check
+      `streaming-text` and the timers against it.
+      Verify: the rule is in the file, and each component checked is listed as meeting it or as a new task.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
