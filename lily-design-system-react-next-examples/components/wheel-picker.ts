@@ -44,6 +44,97 @@ export function wheelMoveKey(
     return key === "ArrowDown" || key === "ArrowUp" ? key : undefined;
 }
 
+/**
+ * The enabled option nearest the middle of the list, for a wheel that has stopped scrolling, or -1 when none is enabled.
+ * `middles` holds each option's middle along the scrolling axis and `centre` the list's, in the same coordinates (for
+ * example from getBoundingClientRect). A tie goes to the earlier option.
+ */
+export function wheelIndexNearest(
+    options: readonly WheelOption[],
+    middles: readonly number[],
+    centre: number,
+): number {
+    let best = -1;
+    let bestDistance = Infinity;
+    options.forEach((option, index) => {
+        if (option.disabled || middles[index] === undefined) return;
+        const distance = Math.abs(middles[index] - centre);
+        if (distance < bestDistance) {
+            best = index;
+            bestDistance = distance;
+        }
+    });
+    return best;
+}
+
+/** How long a wheel waits after its last `scroll` event before it counts as settled, where `scrollend` is missing. */
+export const WHEEL_SCROLL_SETTLE_MS = 150;
+
+export interface WheelScrollWatch {
+    /** The options, read when the wheel settles. */
+    options: () => readonly WheelOption[];
+    /** The selected index, or -1. */
+    selected: () => number;
+    orientation: () => WheelOrientation;
+    /** A disabled wheel ignores scrolling. */
+    disabled: () => boolean;
+    /** Choose this index, as a key or a click would (a no-op when it is already chosen). */
+    choose: (index: number) => void;
+    /** Scroll the chosen option back to the centre. */
+    recentre: () => void;
+}
+
+/**
+ * Scrolling chooses (spec/detent-lessons, P26-T1). When the user turns `list` (a wheel, a touch, the scroll bar) and it settles
+ * (`scrollend`, or WHEEL_SCROLL_SETTLE_MS after the last `scroll` where that event is missing), choose the enabled option
+ * nearest the middle, or re-centre the chosen one if the wheel came to rest elsewhere, such as on a disabled option. A scroll
+ * with no gesture before it, such as the component's own centring, chooses nothing, so a list whose ends cannot reach the middle
+ * never overrides a key or a click. Returns a function that removes the listeners.
+ */
+export function watchWheelScroll(list: HTMLElement, watch: WheelScrollWatch): () => void {
+    let turned = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const gesture = (): void => {
+        turned = true;
+    };
+    const clicked = (): void => {
+        turned = false;
+    };
+    const settle = (): void => {
+        clearTimeout(timer);
+        if (!turned || watch.disabled()) return;
+        turned = false;
+        const horizontal = watch.orientation() === "horizontal";
+        const box = list.getBoundingClientRect();
+        const centre = horizontal ? box.left + box.width / 2 : box.top + box.height / 2;
+        const middles = Array.from(list.querySelectorAll<HTMLElement>('[role="option"]'), (el) => {
+            const row = el.getBoundingClientRect();
+            return horizontal ? row.left + row.width / 2 : row.top + row.height / 2;
+        });
+        const index = wheelIndexNearest(watch.options(), middles, centre);
+        if (index < 0) return;
+        if (index !== watch.selected()) watch.choose(index);
+        else if (Math.abs(middles[index] - centre) > 1) watch.recentre();
+    };
+    const scrolled = (): void => {
+        clearTimeout(timer);
+        timer = setTimeout(settle, WHEEL_SCROLL_SETTLE_MS);
+    };
+    const events: [string, () => void][] = [
+        ["wheel", gesture],
+        ["touchstart", gesture],
+        ["pointerdown", gesture],
+        ["click", clicked],
+        ["scroll", scrolled],
+        ["scrollend", settle],
+    ];
+    for (const [type, handler] of events) list.addEventListener(type, handler, { passive: true });
+    return () => {
+        clearTimeout(timer);
+        for (const [type, handler] of events) list.removeEventListener(type, handler);
+    };
+}
+
 /** Whether an element is in right-to-left text: the nearest `dir` attribute says "rtl". */
 export function isWheelRtl(element: Element): boolean {
     return element.closest("[dir]")?.getAttribute("dir")?.toLowerCase() === "rtl";

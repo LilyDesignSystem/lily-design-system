@@ -1,5 +1,7 @@
 import {
+    afterNextRender,
     ChangeDetectionStrategy,
+    DestroyRef,
     Component,
     ElementRef,
     effect,
@@ -8,6 +10,7 @@ import {
     viewChild,
     OnInit,
     inject,
+    untracked,
 } from "@angular/core";
 import { warnMissingName } from "./dev-warning";
 import {
@@ -15,6 +18,7 @@ import {
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
+    watchWheelScroll,
     wheelMoveKey,
     wheelTypeaheadIndex,
     type WheelOption,
@@ -38,7 +42,8 @@ let nextUid = 0;
  *
  * Inputs: `label` (required), `options` (required), `value` (model), `loop`, `pageSize`, `disabled`, `orientation`,
  * `name`, `form`, `className`. The hidden input is disabled with the picker, so not submitted, and a form reset puts the
- * picker back to the value it was given first.
+ * picker back to the value it was given first. Scrolling: when the user turns the wheel and it settles, the enabled option
+ * nearest the middle is chosen; the component's own centring chooses nothing.
  * Deviation from Svelte: no rest-props spread (Angular cannot spread onto an inner element).
  */
 @Component({
@@ -83,18 +88,38 @@ export class WheelPicker implements OnInit {
         restoreOnFormReset(this.value, 0, () => this.form());
         // Keep the selected option centred in the list. Only the list scrolls (never the page), and instantly: no animation.
         effect(() => {
-            const el = this.list()?.nativeElement;
-            const index = this.options().findIndex((o) => o.value === this.value());
-            const horizontal = this.orientation() === "horizontal";
-            if (!el || index < 0) return;
-            const option = el.querySelector<HTMLElement>(`[data-index="${index}"]`);
-            if (!option) return;
-            // Move by the distance between the two middles: it works on either axis and in right-to-left.
-            const box = el.getBoundingClientRect();
-            const row = option.getBoundingClientRect();
-            if (horizontal) el.scrollLeft += row.left + row.width / 2 - (box.left + box.width / 2);
-            else el.scrollTop += row.top + row.height / 2 - (box.top + box.height / 2);
+            void [this.list(), this.value(), this.options(), this.orientation()];
+            untracked(() => this.centre());
         });
+        // Scrolling chooses: when the user turns the wheel and it settles, the option in the middle becomes the value.
+        const destroyRef = inject(DestroyRef);
+        afterNextRender(() => {
+            const el = this.list()?.nativeElement;
+            if (!el) return;
+            const stop = watchWheelScroll(el, {
+                options: () => this.options(),
+                selected: () => this.selectedIndex(),
+                orientation: () => this.orientation(),
+                disabled: () => this.disabled(),
+                choose: (index) => this.select(index),
+                recentre: () => this.centre(),
+            });
+            destroyRef.onDestroy(stop);
+        });
+    }
+
+    private centre(): void {
+        const el = this.list()?.nativeElement;
+        const index = this.selectedIndex();
+        if (!el || index < 0) return;
+        const option = el.querySelector<HTMLElement>(`[data-index="${index}"]`);
+        if (!option) return;
+        // Move by the distance between the two middles: it works on either axis and in right-to-left.
+        const box = el.getBoundingClientRect();
+        const row = option.getBoundingClientRect();
+        if (this.orientation() === "horizontal")
+            el.scrollLeft += row.left + row.width / 2 - (box.left + box.width / 2);
+        else el.scrollTop += row.top + row.height / 2 - (box.top + box.height / 2);
     }
 
     private select(index: number): void {

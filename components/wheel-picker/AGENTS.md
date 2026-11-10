@@ -19,6 +19,7 @@
 - Type-ahead: letters typed within 700 ms form a prefix and move to the next enabled option whose label starts with it (diacritics and case ignored); a repeated letter cycles
 - Clicking an enabled option chooses it and focuses the list
 - Choosing the option already held is a no-op: no change callback, no event
+- Scrolling chooses: when the user turns the wheel and it settles, the enabled option nearest the middle is chosen, once; a scroll with no gesture (the component's own centring) chooses nothing. Blazor excepted
 - Keeps the chosen option centred by scrolling the list (`scrollTop`, or `scrollLeft` when horizontal), never the page, never animated
 - With `name`, a hidden input carries the value for a form. It is disabled while the picker is, `form` names a form elsewhere, and a form reset puts back the value the picker was given first (Blazor excepted, see index.md)
 - The key model is `shared/wheel-picker.ts` (`wheelMoveKey`, `nextWheelIndex`, `wheelTypeaheadIndex`, `nextWheelPrefix`, `isWheelRtl`)

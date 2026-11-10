@@ -107,7 +107,7 @@ already a wheel, and it is the answer for a closed picker ([native-primitives.ts
 
 ## Acceptance criteria
 
-- [ ] 1. Scrolling a `wheel-picker` and letting it settle chooses the centred option, in every catalog that has script. A real-browser
+- [x] 1. Scrolling a `wheel-picker` and letting it settle chooses the centred option, in every catalog that has script. _(2026-11-10: all but Blazor. Only a scroll after a gesture chooses, so the component's own centring never overrides a key or a click; `e2e/time-wheels.spec.ts` turns a wheel with the mouse in Chromium and WebKit.)_ A real-browser
       test scrolls it and checks `aria-selected`, because jsdom does not scroll.
 - [x] 2. Every theme lets the first and last options rest in the centre. _(2026-11-10.)_
 - [x] 3. A disabled picker is not submitted, form reset restores the first value, and `form` reaches the hidden input. _(2026-11-10; Blazor has no reset.)_

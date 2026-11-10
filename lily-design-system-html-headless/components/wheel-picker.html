@@ -10,7 +10,8 @@
   Attributes on the root: data-loop (arrows wrap), data-page-size (default 5). Mark the initial option aria-selected="true".
     An optional <input type="hidden" name="…"> inside the root carries the value for a form; give it a `form` attribute
     when the picker sits outside its form. The script disables it while the list is aria-disabled, so a disabled picker is
-    not submitted, and a form reset puts back the initial selection. A bubbling `change` event fires with detail.value
+    not submitted, and a form reset puts back the initial selection. When the user turns the wheel and it settles, the
+    option in the middle is chosen. A bubbling `change` event fires with detail.value
     when the selection changes.
   Usage (see the markup below)
 -->
@@ -64,6 +65,83 @@ function wheelMoveKey(
         return undefined;
     }
     return key === "ArrowDown" || key === "ArrowUp" ? key : undefined;
+}
+
+/**
+ * The enabled option nearest the middle of the list, for a wheel that has stopped scrolling, or -1 when none is enabled.
+ * `middles` holds each option's middle along the scrolling axis and `centre` the list's, in the same coordinates (for
+ * example from getBoundingClientRect). A tie goes to the earlier option.
+ */
+function wheelIndexNearest(
+    options                        ,
+    middles                   ,
+    centre        ,
+)         {
+    let best = -1;
+    let bestDistance = Infinity;
+    options.forEach((option, index) => {
+        if (option.disabled || middles[index] === undefined) return;
+        const distance = Math.abs(middles[index] - centre);
+        if (distance < bestDistance) {
+            best = index;
+            bestDistance = distance;
+        }
+    });
+    return best;
+}
+
+/** How long a wheel waits after its last `scroll` event before it counts as settled, where `scrollend` is missing. */
+const WHEEL_SCROLL_SETTLE_MS = 150;
+
+/**
+ * Scrolling chooses (spec/detent-lessons, P26-T1). When the user turns `list` (a wheel, a touch, the scroll bar) and it settles
+ * (`scrollend`, or WHEEL_SCROLL_SETTLE_MS after the last `scroll` where that event is missing), choose the enabled option
+ * nearest the middle, or re-centre the chosen one if the wheel came to rest elsewhere, such as on a disabled option. A scroll
+ * with no gesture before it, such as the component's own centring, chooses nothing, so a list whose ends cannot reach the middle
+ * never overrides a key or a click. Returns a function that removes the listeners.
+ */
+function watchWheelScroll(list             , watch                  )             {
+    let turned = false;
+    let timer                                           ;
+    const gesture = ()       => {
+        turned = true;
+    };
+    const clicked = ()       => {
+        turned = false;
+    };
+    const settle = ()       => {
+        clearTimeout(timer);
+        if (!turned || watch.disabled()) return;
+        turned = false;
+        const horizontal = watch.orientation() === "horizontal";
+        const box = list.getBoundingClientRect();
+        const centre = horizontal ? box.left + box.width / 2 : box.top + box.height / 2;
+        const middles = Array.from(list.querySelectorAll             ('[role="option"]'), (el) => {
+            const row = el.getBoundingClientRect();
+            return horizontal ? row.left + row.width / 2 : row.top + row.height / 2;
+        });
+        const index = wheelIndexNearest(watch.options(), middles, centre);
+        if (index < 0) return;
+        if (index !== watch.selected()) watch.choose(index);
+        else if (Math.abs(middles[index] - centre) > 1) watch.recentre();
+    };
+    const scrolled = ()       => {
+        clearTimeout(timer);
+        timer = setTimeout(settle, WHEEL_SCROLL_SETTLE_MS);
+    };
+    const events                         = [
+        ["wheel", gesture],
+        ["touchstart", gesture],
+        ["pointerdown", gesture],
+        ["click", clicked],
+        ["scroll", scrolled],
+        ["scrollend", settle],
+    ];
+    for (const [type, handler] of events) list.addEventListener(type, handler, { passive: true });
+    return () => {
+        clearTimeout(timer);
+        for (const [type, handler] of events) list.removeEventListener(type, handler);
+    };
 }
 
 /** Whether an element is in right-to-left text: the nearest `dir` attribute says "rtl". */
@@ -250,6 +328,16 @@ function wheelTypeaheadIndex(
         }, 0);
       });
     }
+
+    // Scrolling chooses: when the user turns the wheel and it settles, the option in the middle becomes the value.
+    watchWheelScroll(list, {
+      options: function () { return options; },
+      selected: function () { return selected; },
+      orientation: function () { return horizontal ? "horizontal" : "vertical"; },
+      disabled: function () { return list.getAttribute("aria-disabled") === "true"; },
+      choose: select,
+      recentre: centre
+    });
 
     if (hidden) hidden.disabled = list.getAttribute("aria-disabled") === "true";
     centre();

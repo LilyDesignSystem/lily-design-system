@@ -20,6 +20,7 @@ import {
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
+    watchWheelScroll,
     wheelMoveKey,
     wheelTypeaheadIndex,
 } from "./wheel-picker.js";
@@ -2807,7 +2808,8 @@ export default function lily(Alpine) {
 
     // WheelPicker: a single-select listbox, vertical by default, where the selection follows the cursor (APG listbox). The roles
     // live in the snippet; this owns the value, the keys (arrows, Home/End, PageUp/PageDown, type-ahead), centring the selected
-    // option, the optional hidden input (x-bind="input": its value, disabled with the picker) and form reset.
+    // option, the optional hidden input (x-bind="input": its value, disabled with the picker), form reset, and scrolling: when
+    // the user turns the wheel and it settles, the option in the middle is chosen.
     let wheelPickerCount = 0;
     Alpine.data("lilyWheelPicker", (config = {}) => ({
         options: config.options ?? [],
@@ -2836,8 +2838,18 @@ export default function lily(Alpine) {
                 }, 0);
             };
             this._form?.addEventListener("reset", this._onReset);
+            // Scrolling chooses: when the user turns the wheel and it settles, the option in the middle becomes the value.
+            this._stopScroll = watchWheelScroll(this.$refs.list, {
+                options: () => this.options,
+                selected: () => this.selectedIndex,
+                orientation: () => this.orientation,
+                disabled: () => this.disabled,
+                choose: (index) => this.select(index),
+                recentre: () => this.centre(),
+            });
         },
         destroy() {
+            this._stopScroll?.();
             clearTimeout(this._resetTimer);
             this._form?.removeEventListener("reset", this._onReset);
         },

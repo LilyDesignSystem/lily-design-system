@@ -33,3 +33,25 @@ test("two wheels in one named group make one time, part by part", async ({ page 
         "true",
     );
 });
+
+// P26-T1: scrolling chooses. Turning a wheel with the mouse and letting it settle makes the option in the middle the value,
+// and that option is the one centred.
+test("turning a wheel with the mouse chooses the option it settles on", async ({ page }) => {
+    await page.goto("/time-wheels");
+    const hours = page.getByRole("listbox", { name: "Hours" });
+    await expect(page.locator("output")).toHaveText("09:30");
+    const box = (await hours.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.wheel(0, 200);
+    await expect(page.locator("output")).not.toHaveText("09:30");
+    const chosen = await hours.locator('[aria-selected="true"]').textContent();
+    expect(Number(chosen)).toBeGreaterThan(9);
+    await expect(page.locator('input[name="hour"]')).toHaveValue(chosen!);
+    const offCentre = await hours.evaluate((list) => {
+        const option = list.querySelector<HTMLElement>('[aria-selected="true"]')!;
+        const a = list.getBoundingClientRect();
+        const b = option.getBoundingClientRect();
+        return Math.abs(b.top + b.height / 2 - (a.top + list.clientTop + list.clientHeight / 2));
+    });
+    expect(offCentre).toBeLessThanOrEqual(2);
+});

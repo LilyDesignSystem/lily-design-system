@@ -194,6 +194,54 @@ class Host {
     month = signal("2");
 }
 
+describe("WheelPicker scrolling", () => {
+    // jsdom lays nothing out, so each option's box is set by hand: 40px rows, the list's middle at 100.
+    function layOut(f: any, scrolledBy: number) {
+        list(f).getBoundingClientRect = () =>
+            ({ top: 0, height: 200, left: 0, width: 100 }) as DOMRect;
+        f.nativeElement
+            .querySelectorAll('[role="option"]')
+            .forEach((option: HTMLElement, index: number) => {
+                option.getBoundingClientRect = () =>
+                    ({ top: index * 40 - scrolledBy, height: 40, left: 0, width: 100 }) as DOMRect;
+            });
+    }
+    const turn = (f: any, settle = true) => {
+        list(f).dispatchEvent(new Event("wheel"));
+        list(f).dispatchEvent(new Event("scroll"));
+        if (settle) list(f).dispatchEvent(new Event("scrollend"));
+        f.detectChanges();
+    };
+
+    test("scrolling chooses the option the wheel settles on", async () => {
+        const f = make();
+        await f.whenStable();
+        layOut(f, 0); // the middles are 20, 60, 100, 140, 180: March is at the list's middle
+        turn(f);
+        expect(selected(f)).toBe("March");
+    });
+
+    test("a scroll with no gesture before it chooses nothing", async () => {
+        const f = make();
+        await f.whenStable();
+        layOut(f, 0);
+        list(f).dispatchEvent(new Event("scroll"));
+        list(f).dispatchEvent(new Event("scrollend"));
+        f.detectChanges();
+        expect(selected(f)).toBe("February");
+    });
+
+    test("scrolling skips a disabled option, and settles without scrollend too", async () => {
+        const f = make();
+        await f.whenStable();
+        layOut(f, 30); // the middles are -10, 30, 70, 110, 150: April (disabled) is nearest, then March
+        turn(f, false);
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        f.detectChanges();
+        expect(selected(f)).toBe("March");
+    });
+});
+
 describe("WheelPicker in a form", () => {
     test("form reset puts the picker back to its first value", async () => {
         const fixture = TestBed.createComponent(Host);

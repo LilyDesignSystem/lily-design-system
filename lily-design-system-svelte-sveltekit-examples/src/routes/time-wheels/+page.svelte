@@ -66,10 +66,13 @@
                 name="minute"
             />
         </Fieldset>
-        <p>Chosen: <output>{hour}:{minute}</output></p>
         <Button type="submit">Book this time</Button>
         <Button type="reset">Start again</Button>
     </form>
+
+    <!-- The readout sits outside the form: a form reset also resets an <output> inside it, and WebKit then replaces the
+         output's text, so a framework's later updates go to a node that is no longer in the page. -->
+    <p>Chosen: <output>{hour}:{minute}</output></p>
 
     {#if submitted}
         <p class="time-wheels-submitted">Submitted: {submitted}</p>

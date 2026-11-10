@@ -197,6 +197,55 @@ describe("WheelPicker", () => {
         rtl.remove();
     });
 
+    // jsdom lays nothing out, so each option's box is set by hand: 40px rows, the list's middle at 100.
+    function layOut(scrolledBy: number) {
+        list().getBoundingClientRect = () =>
+            ({ top: 0, height: 200, left: 0, width: 100 }) as DOMRect;
+        screen.getAllByRole("option").forEach((option, index) => {
+            option.getBoundingClientRect = () =>
+                ({ top: index * 40 - scrolledBy, height: 40, left: 0, width: 100 }) as DOMRect;
+        });
+    }
+
+    it("scrolling chooses the option the wheel settles on, once", async () => {
+        const onChange = vi.fn();
+        make({ onChange });
+        layOut(0); // the middles are 20, 60, 100, 140, 180: March is at the list's middle
+        await fireEvent.wheel(list());
+        await fireEvent.scroll(list());
+        await fireEvent(list(), new Event("scrollend"));
+        expect(selected()).toBe("March");
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledWith("3");
+    });
+
+    it("a scroll with no gesture before it chooses nothing", async () => {
+        const onChange = vi.fn();
+        make({ onChange });
+        layOut(0);
+        await fireEvent.scroll(list());
+        await fireEvent(list(), new Event("scrollend"));
+        expect(selected()).toBe("February");
+        expect(onChange).not.toHaveBeenCalled();
+    });
+
+    it("scrolling skips a disabled option, and settles without scrollend too", async () => {
+        make();
+        layOut(30); // the middles are -10, 30, 70, 110, 150: April (disabled) is nearest, then March
+        await fireEvent.wheel(list());
+        await fireEvent.scroll(list());
+        await new Promise((resolve) => setTimeout(resolve, 200));
+        expect(selected()).toBe("March");
+    });
+
+    it("a disabled picker ignores scrolling", async () => {
+        make({ disabled: true });
+        layOut(0);
+        await fireEvent.wheel(list());
+        await fireEvent(list(), new Event("scrollend"));
+        expect(selected()).toBe("February");
+    });
+
     it("passes rest props to the root", () => {
         const { container } = make({ "data-testid": "wp", id: "x" });
         const root = container.querySelector("div.wheel-picker")!;

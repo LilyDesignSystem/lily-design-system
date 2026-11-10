@@ -4,7 +4,7 @@
     // A single-select listbox, vertical by default, where the selection follows the cursor: moving with the arrow keys, typing, or
     // clicking an option chooses it. Use it to pick one of a short list (hours, minutes, months, years) in the manner of a
     // scroll wheel. The component owns the roles, the keys and the selected value; the wheel LOOK (scroll snapping, fading,
-    // 3-D) is the consumer's CSS. Pointer dragging and touch inertia are plain scrolling of `.wheel-picker-list`.
+    // 3-D) is the consumer's CSS. Pointer dragging and touch inertia are plain scrolling of `.wheel-picker-list`, and where it settles is chosen.
     //
     // Props:
     //   class — string, optional. Consumer class appended after the base class.
@@ -19,7 +19,8 @@
     //   name — string, optional. When set, a hidden input carries the value for a form. It is disabled, so not submitted,
     //     while the picker is disabled, and a form reset puts the picker back to the value it was given first.
     //   form — string, optional. The id of the form the hidden input belongs to, when the picker sits outside it.
-    //   onChange — (value: string) => void, optional. Called once when the selection changes.
+    //   onChange — (value: string) => void, optional. Called once when the selection changes: by a key, a click, or the user
+    //     scrolling the wheel, once it settles (never for each option it passes).
     //   ...restProps — spread onto the root <div>.
     //
     // Markup:
@@ -33,6 +34,9 @@
     // Keyboard (APG listbox, selection follows focus): ArrowDown / ArrowUp (ArrowRight / ArrowLeft when horizontal), Home / End, PageDown / PageUp, type-ahead over
     // the labels. Disabled options are skipped.
     //
+    // Scrolling (spec/detent-lessons, P26-T1): when the user turns the wheel (mouse wheel, touch, scroll bar) and it settles, the
+    // enabled option nearest the middle is chosen. The component's own centring chooses nothing.
+    //
     // Claude rules:
     //   - Headless: no CSS, no inline styles; no animation (the selected option is centred instantly).
     //   - No hardcoded user-facing strings.
@@ -44,6 +48,7 @@
         isWheelTypeaheadKey,
         nextWheelIndex,
         nextWheelPrefix,
+        watchWheelScroll,
         wheelMoveKey,
         wheelTypeaheadIndex,
         type WheelOption,
@@ -138,7 +143,7 @@
     }
 
     // Keep the selected option centred in the list. Only the list scrolls (never the page), and instantly: no animation.
-    $effect(() => {
+    function centre(): void {
         const index = selectedIndex;
         if (!list || index < 0) return;
         const option = list.querySelector<HTMLElement>(`[data-index="${index}"]`);
@@ -150,6 +155,23 @@
         if (orientation === "horizontal")
             list.scrollLeft += row.left + row.width / 2 - (box.left + box.width / 2);
         else list.scrollTop += row.top + row.height / 2 - (box.top + box.height / 2);
+    }
+    $effect(() => {
+        void [list, selectedIndex, orientation];
+        untrack(centre);
+    });
+
+    // Scrolling chooses: when the user turns the wheel and it settles, the option in the middle becomes the value.
+    $effect(() => {
+        if (!list) return;
+        return watchWheelScroll(list, {
+            options: () => options,
+            selected: () => selectedIndex,
+            orientation: () => orientation,
+            disabled: () => disabled,
+            choose: select,
+            recentre: centre,
+        });
     });
 
     // Form reset: the hidden input's value is its default, so a reset leaves it, and the picker, as the user left them. Put the

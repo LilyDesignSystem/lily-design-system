@@ -29,7 +29,8 @@
 //   </div>
 //
 // Keyboard (APG listbox, selection follows focus): ArrowDown / ArrowUp (ArrowRight / ArrowLeft when horizontal), Home / End, PageDown / PageUp, type-ahead over
-// the labels. Disabled options are skipped.
+// the labels. Disabled options are skipped. Scrolling: when the user turns the wheel and it settles, the enabled option nearest
+// the middle is chosen; the component's own centring chooses nothing.
 
 import { computed, onBeforeUnmount, onMounted, ref, useId, watch, nextTick, useAttrs } from "vue";
 import { warnMissingName } from "./dev-warning";
@@ -38,6 +39,7 @@ import {
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
+    watchWheelScroll,
     wheelMoveKey,
     wheelTypeaheadIndex,
     type WheelOption,
@@ -152,11 +154,25 @@ function onReset(event: Event): void {
         if (!event.defaultPrevented) modelValue.value = initialValue;
     }, 0);
 }
+// Scrolling chooses: when the user turns the wheel and it settles, the option in the middle becomes the value.
+let stopWatch: (() => void) | undefined;
+onMounted(() => {
+    if (list.value)
+        stopWatch = watchWheelScroll(list.value, {
+            options: () => props.options,
+            selected: () => selectedIndex.value,
+            orientation: () => props.orientation,
+            disabled: () => props.disabled,
+            choose: select,
+            recentre: centre,
+        });
+});
 onMounted(() => {
     owner = props.form ? document.getElementById(props.form) : list.value?.closest("form");
     owner?.addEventListener("reset", onReset);
 });
 onBeforeUnmount(() => {
+    stopWatch?.();
     clearTimeout(resetTimer);
     owner?.removeEventListener("reset", onReset);
 });
