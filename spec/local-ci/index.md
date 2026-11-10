@@ -106,7 +106,7 @@ drift checks, links, spell check), to be split out of `bin/test` as a flag. Enab
 deliberately stale generated file stops a push.
 
 _Built 2026-11-10 (tasks.md P24-T3)._ `.githooks/pre-push` and `bin/setup-hooks` (opt-in: it sets `core.hooksPath`, `--undo`
-unsets it). The hook skips a push that only deletes branches. It runs `bin/ci --fast`, about a minute and a half, not a
+removes it). The hook skips a push that only deletes branches. It runs `bin/ci --fast`, about a minute and a half, not a
 separate flag of `bin/test`.
 
 ### 4. Cheaper GitHub runs, whatever else happens

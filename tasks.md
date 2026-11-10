@@ -3347,7 +3347,7 @@ Nothing below was built when the phase was written. Web claims are marked unveri
       first GitHub run on the new YAML, which this PR is. `bin/check-generated-files` exempts `bin/ci` as it does `bin/test`.)_
 - [x] **P24-T3 A pre-push hook.** `.githooks/pre-push` runs `bin/ci --fast`; `bin/setup-hooks` sets `core.hooksPath`. A hook is skippable (`--no-verify`), so it prevents mistakes, not misconduct.
       Verify: a deliberately stale generated file stops a push; `bin/setup-hooks` is idempotent. _(2026-11-10: `.githooks/pre-push` runs `bin/ci --fast` and stops the push on a failure, and skips a push
-      that only deletes branches; `bin/setup-hooks` sets `core.hooksPath`, says so when it is already set, and `--undo` unsets
+      that only deletes branches; `bin/setup-hooks` sets `core.hooksPath`, says so when it is already set, and `--undo` removes
       it. Proved against a scratch bare repository with `git -c core.hooksPath=.githooks push`: a stale generated
       `components.ts` stopped the push and the remote got nothing, a clean tree pushed, a deletion skipped the checks; and in a
       scratch clone, `bin/setup-hooks` twice then `--undo`. Not enabled in the maintainer's checkout: that is their choice.)_
