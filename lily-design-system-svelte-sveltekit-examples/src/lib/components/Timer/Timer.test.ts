@@ -47,7 +47,7 @@ describe("Timer", () => {
         expect(el.getAttribute("aria-label")).toBe("Countdown");
     });
 
-    test("has aria-live polite for screen reader announcements", () => {
+    test("is not a live region, so a ticking value is not announced", () => {
         render(Subject, {
             props: {
                 label: "Countdown",
@@ -56,7 +56,7 @@ describe("Timer", () => {
         });
 
         const el = screen.getByRole("timer");
-        expect(el.getAttribute("aria-live")).toBe("polite");
+        expect(el.hasAttribute("aria-live")).toBe(false);
     });
 
     test("displays children as timer content", () => {

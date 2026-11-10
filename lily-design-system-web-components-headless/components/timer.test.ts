@@ -30,10 +30,10 @@ describe("Timer", () => {
         expect(host.querySelector("time")!.getAttribute("aria-label")).toBe("Session timeout");
     });
 
-    test("sets aria-live=polite", () => {
+    test("is not a live region", () => {
         const host = render('<lily-timer label="Countdown">05:30</lily-timer>');
 
-        expect(host.querySelector("time")!.getAttribute("aria-live")).toBe("polite");
+        expect(host.querySelector("time")!.hasAttribute("aria-live")).toBe(false);
     });
 
     test("moves children into the time element", () => {

@@ -5,7 +5,7 @@
 - Component: wheel-picker
 - PascalCase: WheelPicker
 - Description: a single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling or typing
-- Status: experimental — implemented and unit-tested in all nine headless catalogs (2026-10-23); Blazor and plain HTML/Nunjucks differ, see index.md
+- Status: experimental — implemented and unit-tested in all nine headless catalogs (2026-10-23); plain HTML/Nunjucks and static Blazor differ, see index.md
 - HTML tag: <div>
 - CSS class: .wheel-picker
 - Interactive: yes
@@ -19,9 +19,9 @@
 - Type-ahead: letters typed within 700 ms form a prefix and move to the next enabled option whose label starts with it (diacritics and case ignored); a repeated letter cycles
 - Clicking an enabled option chooses it and focuses the list
 - Choosing the option already held is a no-op: no change callback, no event
-- Scrolling chooses: when the user turns the wheel and it settles, the enabled option nearest the middle is chosen, once; a scroll with no gesture (the component's own centring) chooses nothing. Blazor excepted
+- Scrolling chooses: when the user turns the wheel and it settles, the enabled option nearest the middle is chosen, once; a scroll with no gesture (the component's own centring) chooses nothing
 - Keeps the chosen option centred by scrolling the list (`scrollTop`, or `scrollLeft` when horizontal), never the page, never animated
-- With `name`, a hidden input carries the value for a form. It is disabled while the picker is, `form` names a form elsewhere, and a form reset puts back the value the picker was given first (Blazor excepted, see index.md)
+- With `name`, a hidden input carries the value for a form. It is disabled while the picker is, `form` names a form elsewhere, and a form reset puts back the value the picker was given first
 - The key model is `shared/wheel-picker.ts` (`wheelMoveKey`, `nextWheelIndex`, `wheelTypeaheadIndex`, `nextWheelPrefix`, `isWheelRtl`)
 
 ## ARIA
@@ -33,7 +33,7 @@
 ## Keyboard
 
 - ArrowDown / ArrowUp: choose the next / previous enabled option (wrap only with `loop`)
-- ArrowRight / ArrowLeft, when horizontal: the same, swapped right-to-left (the nearest `dir`; Blazor cannot read it)
+- ArrowRight / ArrowLeft, when horizontal: the same, swapped right-to-left (the nearest `dir`)
 - Home / End: choose the first / last enabled option
 - PageDown / PageUp: move by `pageSize` enabled options, clamped
 - Printable character: type-ahead over the labels
@@ -69,7 +69,7 @@
 - [ ] Arrow, Home, End and Page keys move the choice and skip disabled options
 - [ ] Loop wraps arrows only; Home, End and Page never wrap
 - [ ] Type-ahead chooses the matching enabled option
-- [ ] Handled keys call preventDefault (Blazor excepted, see index.md)
+- [ ] Handled keys call preventDefault (Blazor through its module, see index.md)
 - [ ] Choosing the held option is a no-op
 - [ ] A disabled picker is not focusable and ignores keys and clicks, and its hidden input is not submitted
 - [ ] Form reset restores the first value; `form` reaches the hidden input

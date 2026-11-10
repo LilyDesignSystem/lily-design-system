@@ -2,8 +2,8 @@
 
 A timer is a UI/UX component that displays a countdown or elapsed time value
 in a live-updating format. It renders as a semantic HTML `<time>` element with
-`role="timer"` and `aria-live="polite"` to ensure screen readers announce
-updates without interrupting the user. The component is commonly used for
+`role="timer"`, which is not a live region: a value that changes every second
+would flood a screen reader, so the reader hears it when they ask for it. The component is commonly used for
 session timeouts, countdowns, stopwatches, cooking timers, exam time limits,
 and any scenario where users need to track the passage of time. This headless
 component provides the semantic structure and accessibility features while the
@@ -12,9 +12,9 @@ through the children snippet.
 
 ## Implementation Notes
 
-- Renders as `<time role="timer" aria-label={label} aria-live="polite">`
+- Renders as `<time role="timer" aria-label={label}>`
 - Children snippet provides the formatted timer display text
-- `aria-live="polite"` ensures screen readers announce updates without interrupting
+- Not a live region (`role="timer"` is `aria-live="off"`): announce milestones ("one minute left") in a separate `role="status"` region, never every tick
 - Consumer manages timer logic (intervals, countdowns); this component only provides structure and accessibility
 - Optional `datetime` attribute can be passed via restProps for machine-readable duration (e.g. `datetime="PT5M30S"`)
 
@@ -73,7 +73,7 @@ With machine-readable datetime attribute:
 
 - `role="timer"` indicates countdown or elapsed time
 - `aria-label` from the label prop provides accessible name
-- `aria-live="polite"` for non-intrusive screen reader announcements of updates
+- No `aria-live`: the timer is read on demand, and milestones go to a separate status region
 
 ## References
 

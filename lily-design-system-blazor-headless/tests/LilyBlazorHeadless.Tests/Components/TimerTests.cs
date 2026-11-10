@@ -34,4 +34,13 @@ public class TimerTests : TestContext
         var root = cut.Find(".timer");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Is_not_a_live_region_so_a_ticking_value_is_not_announced()
+    {
+        var cut = RenderComponent<LilyBlazorHeadless.Components.Timer>(p => p.AddChildContent("05:30"));
+        var root = cut.Find(".timer");
+        Assert.Equal("timer", root.GetAttribute("role"));
+        Assert.False(root.HasAttribute("aria-live"));
+    }
 }

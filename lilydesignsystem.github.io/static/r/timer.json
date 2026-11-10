@@ -11,7 +11,7 @@
   "aria": [
     "`role=\"timer\"` indicates countdown or elapsed time",
     "`aria-label` from the label prop provides accessible name",
-    "`aria-live=\"polite\"` for non-intrusive screen reader announcements of updates"
+    "No `aria-live`: the timer is read on demand, and milestones go to a separate status region"
   ],
   "keyboard": [
     "None -- this is an informational display, not interactive"

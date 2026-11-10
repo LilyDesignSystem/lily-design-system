@@ -3450,16 +3450,33 @@ T4 is a maintainer decision.
       Verify: the rule is in the file, and each component checked is listed as meeting it or as a new task. _(2026-11-10: the rule is in `AGENTS/accessibility.md`. Checked in Svelte: `streaming-text` and
       `thinking` meet it (`aria-busy` while they fill), and `loading` animates nothing. `timer` does not, so it is P26-T8, and
       `character-counter` announces every keystroke, so it is P26-T9.)_
-- [ ] **P26-T8 `timer` is not live.** `role="timer"` is `aria-live="off"` by default, because a value that changes every second
+- [x] **P26-T8 `timer` is not live.** `role="timer"` is `aria-live="off"` by default, because a value that changes every second
       floods a screen reader; every catalog adds `aria-live="polite"`, which announces each tick. Drop it, and document how a consumer
       announces a milestone ("one minute left") through a separate status region. Breaking for anyone relying on the announcements.
-      Verify: no catalog renders `aria-live` on `timer`, and the docs show the milestone pattern.
-- [ ] **P26-T9 `character-counter` announces once the typing pauses.** It is `role="status"` and announces every keystroke. Follow
+      Verify: no catalog renders `aria-live` on `timer`, and the docs show the milestone pattern. _(2026-11-10, done at the maintainer's request: `timer` renders no `aria-live` in any catalog; Alpine
+      already did not. The docs show the milestone pattern, a separate `role="status"` with the consumer's words, and point to WCAG
+      2.2.1. Each catalog tests that `aria-live` is absent, Angular and Blazor for the first time; `shared/aria-baseline.json` is
+      regenerated. `timer-button` keeps its live region, which its own docs already warn about.)_
+- [x] **P26-T9 `character-counter` announces once the typing pauses.** It is `role="status"` and announces every keystroke. Follow
       GOV.UK's character count: keep the visible count live-free, and update a visually hidden status after a pause in typing.
-      Verify: each catalog tests that a run of keystrokes yields one announcement.
-- [ ] **P26-T10 Blazor wheel picker on a JS module.** Blazor's `WheelPicker` uses no JS interop, so it cannot call `preventDefault`
+      Verify: each catalog tests that a run of keystrokes yields one announcement. _(2026-11-10: in all nine catalogs, for `character-counter` and `text-area-input-with-character-counter`.
+      The visible count is `aria-hidden`, and a visually hidden `role="status"` (`.screen-reader-span`, which the themes already hide)
+      takes the same text once the count has been quiet for `announceDelay` ms (default 1000; `announce-delay` in Web Components
+      and HTML, `AnnounceDelay` in Blazor). The root loses `role` and `aria-live`. Each catalog has a fake-timer test that a run of
+      changes yields one change to the status; Blazor holds the status back with a small `DelayedContent` component, public only
+      because Razor finds public components, so the consumer's own words wait too. Found on the way: the HTML composite's script
+      did not parse (`var text-area-input = …`, a rename gone wrong), so its counter never moved; the Nunjucks composite used an
+      `<output>` that no script updated, and the standalone macro rendered an invalid `for` on a `<span>`. Both now update through
+      `widget-init.js` (`data-for` for the standalone one), and the HTML snippets have browser tests. The canonical demos are fixed;
+      the composite's had an `aria-label` broken by unescaped quotes.)_
+- [x] **P26-T10 Blazor wheel picker on a JS module.** Blazor's `WheelPicker` uses no JS interop, so it cannot call `preventDefault`
       per key, re-centre, read `dir` or hear a form reset. Other Blazor components ship a `.razor.js` module; give this one the same.
-      Verify: bUnit and an e2e test in the Blazor examples app cover the four.
+      Verify: bUnit and an e2e test in the Blazor examples app cover the four. _(2026-11-10: `WheelPicker.razor.js`, loaded once interactive, with `wwwroot/wheel-picker.js`
+      generated from `shared/wheel-picker.ts` by `bin/sync-shared-modules`. It calls `preventDefault` for the handled keys, re-centres,
+      reports `dir`, chooses what the user scrolls to (through `watchWheelScroll`) and hears a form reset; .NET takes
+      `OnWheelDirection`, `OnWheelChoose` and `OnWheelReset`. bUnit tests the module's attach and the three callbacks, and
+      `/demos/composed-inputs` in the Blazor examples app, with `e2e/composed-inputs.spec.ts`, tests the four in Chromium. Under
+      static rendering none of it runs, as for the other Blazor modules.)_
 
 ---
 

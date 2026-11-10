@@ -6,7 +6,7 @@
 // element stands in for that div directly (see
 // lib/dom-utils.applySelfClassName) since <div> has no native behaviour
 // worth preserving as a separate element. Builds a real <textarea> and a
-// live-region counter <span> as children.
+// counter <span> as children: a visible, aria-hidden count and a delayed status.
 //
 // Attributes:
 //   label — REQUIRED. Accessible name for the textarea, via aria-label.
@@ -30,6 +30,9 @@ export class TextAreaInputWithCharacterCounter extends HTMLElement {
     #counter: HTMLSpanElement | null = null;
     #template = "{count} / {max}";
     #maxLength = 0;
+    #shown: HTMLSpanElement | null = null;
+    #status: HTMLSpanElement | null = null;
+    #timer: ReturnType<typeof setTimeout> | undefined;
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -55,7 +58,16 @@ export class TextAreaInputWithCharacterCounter extends HTMLElement {
 
         const counter = document.createElement("span");
         counter.id = counterId;
-        counter.setAttribute("aria-live", "polite");
+        // The visible count is aria-hidden; a visually hidden role="status" takes the same text once typing has paused for
+        // `announce-delay` ms (default 1000), so a run of keystrokes is announced once.
+        const shown = document.createElement("span");
+        shown.setAttribute("aria-hidden", "true");
+        const status = document.createElement("span");
+        status.className = "screen-reader-span";
+        status.setAttribute("role", "status");
+        counter.append(shown, status);
+        this.#shown = shown;
+        this.#status = status;
 
         this.#template = this.getAttribute("counter-template") ?? this.#template;
 
@@ -66,6 +78,11 @@ export class TextAreaInputWithCharacterCounter extends HTMLElement {
         this.#textarea = textarea;
         this.#counter = counter;
         this.#updateCounter();
+        status.textContent = shown.textContent;
+    }
+
+    disconnectedCallback(): void {
+        clearTimeout(this.#timer);
     }
 
     get value(): string {
@@ -87,10 +104,18 @@ export class TextAreaInputWithCharacterCounter extends HTMLElement {
 
     #updateCounter(): void {
         const textarea = this.#textarea;
-        const counter = this.#counter;
-        if (!textarea || !counter) return;
-        counter.textContent = this.#template
+        const shown = this.#shown;
+        const status = this.#status;
+        if (!textarea || !shown || !status) return;
+        const next = this.#template
             .replace("{count}", String(textarea.value.length))
             .replace("{max}", String(this.#maxLength));
+        shown.textContent = next;
+        clearTimeout(this.#timer);
+        if (status.textContent && status.textContent !== next)
+            this.#timer = setTimeout(
+                () => (status.textContent = next),
+                Number(this.getAttribute("announce-delay") ?? 1000),
+            );
     }
 }

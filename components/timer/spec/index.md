@@ -26,7 +26,7 @@ Implement the Timer component: a countdown or elapsed time display.
 - [ ] Renders <span> with class="timer"
 - [ ] `role="timer"` indicates countdown or elapsed time
 - [ ] `aria-label` from the label prop provides accessible name
-- [ ] `aria-live="polite"` for non-intrusive screen reader announcements of updates
+- [ ] No `aria-live`: the timer is read on demand, and milestones go to a separate status region
 - [ ] Keyboard: None -- this is an informational display, not interactive
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless

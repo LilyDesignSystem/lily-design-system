@@ -5,7 +5,7 @@
   HTML tag: <div>
   CSS class: text-area-input-with-character-counter
   Keyboard: native textarea keys; the counter updates as you type
-  Accessibility: aria-label names the textarea; aria-describedby links it to the counter; the counter is a polite status
+  Accessibility: aria-label names the textarea; aria-describedby links it to the counter, whose visible count is aria-hidden and whose hidden role=status takes it once typing pauses
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -22,7 +22,11 @@
   <span
     class="text-area-input-with-character-counter-count"
     id="text-area-input-with-character-counter-count-1"
-    aria-label=""
     x-bind="counter"
+    ><span x-bind="counterShown"></span
+    ><span
+      class="screen-reader-span"
+      x-bind="counterStatus"
+    ></span
   ></span>
 </div>

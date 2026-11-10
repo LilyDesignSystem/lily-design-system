@@ -286,6 +286,56 @@ export function attachWheelPicker(root) {
     };
 }
 
+/**
+ * A character counter (spec/detent-lessons, P26-T9): the visible count changes as the field does, and the visually hidden
+ * role="status" takes the same text only once the field has been quiet for data-announce-delay ms (default 1000), so a run
+ * of keystrokes is announced once, as GOV.UK's character count does. `field` is the textarea or input it counts, `format`
+ * builds the text from the length.
+ */
+function attachCounter(root, field, format) {
+    const shown = root.querySelector('[aria-hidden="true"]');
+    const status = root.querySelector('[role="status"]');
+    if (!field || !shown || !status) return () => {};
+    const delay = number(root, "data-announce-delay", 1000);
+    let timer;
+    const update = () => {
+        const text = format(field.value.length);
+        shown.textContent = text;
+        clearTimeout(timer);
+        timer = setTimeout(() => (status.textContent = text), delay);
+    };
+    const stop = listen(field, "input", update);
+    return () => {
+        clearTimeout(timer);
+        stop();
+    };
+}
+
+/** The standalone counter: with data-for, it counts that field and keeps its data attributes up to date. */
+export function attachCharacterCounter(root) {
+    const field = root.ownerDocument.getElementById(root.getAttribute("data-for") ?? "");
+    const max = root.hasAttribute("data-max") ? Number(root.getAttribute("data-max")) : null;
+    return attachCounter(root, field, (count) => {
+        root.setAttribute("data-count", String(count));
+        if (max !== null) {
+            root.setAttribute("data-remaining", String(max - count));
+            root.toggleAttribute("data-over-limit", count > max);
+        }
+        return max === null ? String(count) : `${count} / ${max}`;
+    });
+}
+
+/** The text area with its own counter: the counter's template comes from data-counter-template. */
+export function attachCountedTextarea(root) {
+    const counter = root.querySelector(".text-area-input-with-character-counter-counter");
+    if (!counter) return () => {};
+    const template = counter.getAttribute("data-counter-template") ?? "{count} / {max}";
+    const max = counter.getAttribute("data-maximum") ?? "";
+    return attachCounter(counter, root.querySelector("textarea"), (count) =>
+        template.replace("{count}", String(count)).replace("{max}", max),
+    );
+}
+
 /** A focusable scrolling region: the arrows scroll by data-step, default 100, and Home and End go to the ends. */
 export function attachHorizontalScroller(root) {
     return listen(root, "keydown", (event) => {

@@ -1,6 +1,6 @@
 # CharacterCounter
 
-A headless status display that shows the current character count for a text input, with an optional maximum. It uses `role="status"` plus `aria-live="polite"` so screen readers announce updates without interrupting the user, and exposes `data-count`, `data-max`, `data-remaining`, and `data-over-limit` attributes so consumers can style the counter by state.
+A headless status display that shows the current character count for a text input, with an optional maximum. It renders a visible count that is `aria-hidden` and a visually hidden `role="status"` that takes the same text once typing pauses (`announceDelay`, default 1000 ms), so a run of keystrokes is announced once.
 
 ## What it is
 
@@ -10,7 +10,7 @@ Display format is `"count / max"` when `max` is provided, or just `"count"` othe
 
 ## What it does
 
-- Renders `<span role="status" aria-live="polite">` with an optional `aria-label`.
+- Renders `<span class="character-counter">` holding `.character-counter-text` (`aria-hidden`) and `.character-counter-status` (a hidden `role="status"` with an optional `aria-label`), updated after `announceDelay` ms of quiet.
 - Displays `count / max` or `count`.
 - Adds `data-count`, `data-max`, `data-remaining` attributes.
 - Adds `data-over-limit` only when `count > max`.
@@ -116,7 +116,7 @@ Pass `count={text.length}` from the parent and optionally `max`. The component a
 
 ## Accessibility
 
-- `role="status"` plus `aria-live="polite"` announces updates without interrupting.
+- The status is announced once per pause in typing, not per keystroke.
 - `aria-label` gives the counter meaning when read standalone.
 - Visual style for over-limit state should rely on `[data-over-limit]` so screen readers and visual users get parallel signals.
 

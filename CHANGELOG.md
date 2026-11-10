@@ -9,6 +9,21 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Timers and counters stop chattering; Blazor's wheel picker gets a module — 2026-11-10
+
+tasks.md P26-T8 to P26-T10, from the animated-text rule in `AGENTS/accessibility.md`. Done at the maintainer's request.
+
+- **Changed (breaking):** `timer` is no longer `aria-live="polite"` in any catalog. `role="timer"` is `aria-live="off"` by
+  default because a value that changes every second floods a screen reader; announce milestones in a separate `role="status"`.
+- **Changed (breaking):** `character-counter` and `text-area-input-with-character-counter` no longer announce every keystroke.
+  The visible count is `aria-hidden`, and a visually hidden `role="status"` takes the same text once typing pauses
+  (`announceDelay`, default 1000 ms), as GOV.UK's character count does. The counter's root loses `role` and `aria-live`; its
+  `label` names the status. In Nunjucks the composite's `<output>` is a `<span>`, `for` renders as `data-for`, and
+  `widget-init.js` now keeps both counters up to date.
+- **Fixed:** the HTML composite's script did not parse, so its counter never moved; the canonical demos for both counters are fixed.
+- **Added:** Blazor's `WheelPicker` loads `WheelPicker.razor.js` once interactive: the handled keys no longer scroll the page, the
+  chosen option is re-centred, a horizontal wheel's arrows swap right-to-left, scrolling chooses, and a form reset restores it.
+
 ## Scrolling a wheel picker chooses — 2026-11-10
 
 tasks.md P26-T1, the main finding of [spec/detent-lessons](spec/detent-lessons/index.md).

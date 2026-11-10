@@ -18,6 +18,8 @@ const type = async (field, text) => {
 };
 const area = () => el().querySelector("textarea");
 const count = () => el().querySelector("span");
+const shown = () => count().querySelector('[aria-hidden="true"]');
+const status = () => count().querySelector('[role="status"]');
 
 describe("TextAreaInputWithCharacterCounter", () => {
     it("renders the element with its base class", async () => {
@@ -26,16 +28,17 @@ describe("TextAreaInputWithCharacterCounter", () => {
         expect(el().classList.contains("text-area-input-with-character-counter")).toBe(true);
     });
 
-    it("links the textarea to a polite counter", async () => {
+    it("links the textarea to a counter that is not live itself", async () => {
         await mount("text-area-input-with-character-counter");
         expect(area().getAttribute("aria-describedby")).toBe(count().id);
-        expect(count().getAttribute("aria-live")).toBe("polite");
-        expect(count().textContent).toBe("0 / 20");
+        expect(el().querySelector("[aria-live]")).toBeNull();
+        expect(shown().textContent).toBe("0 / 20");
+        expect(status().textContent).toBe("0 / 20");
     });
     it("updates as the user types", async () => {
         await mount("text-area-input-with-character-counter");
         await type(area(), "hello world");
-        expect(count().textContent).toBe("11 / 20");
+        expect(shown().textContent).toBe("11 / 20");
         expect(area().hasAttribute("aria-invalid")).toBe(false);
     });
     it("flags the textarea invalid and the counter over limit past the maximum", async () => {

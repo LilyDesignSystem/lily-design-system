@@ -134,3 +134,44 @@ test("tour list item: only the current step shows", async ({ page }) => {
     await expect(page.getByText("First step")).toBeHidden();
     await expect(page.getByText("Second step")).toBeVisible();
 });
+
+// P26-T10: the wheel picker's module, which a Blazor event handler cannot replace.
+test("wheel picker: keys do not scroll the page, scrolling chooses, and a form reset restores it", async ({
+    page,
+}) => {
+    const wheel = page.getByRole("listbox", { name: "Hours" });
+    const state = page.getByTestId("wheel-state");
+    await expect(state).toHaveText("Hour: 09");
+
+    await wheel.focus();
+    const handled = await wheel.evaluate(
+        (list) =>
+            new Promise<boolean>((resolve) => {
+                list.addEventListener(
+                    "keydown",
+                    (event) => setTimeout(() => resolve(event.defaultPrevented)),
+                    { once: true },
+                );
+                list.dispatchEvent(
+                    new KeyboardEvent("keydown", {
+                        key: "ArrowDown",
+                        bubbles: true,
+                        cancelable: true,
+                    }),
+                );
+            }),
+    );
+    expect(handled).toBe(true);
+    await expect(state).toHaveText("Hour: 10");
+
+    const box = (await wheel.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+    await page.mouse.wheel(0, 200);
+    await expect(state).not.toHaveText("Hour: 10");
+    const chosen = await wheel.locator('[aria-selected="true"]').textContent();
+    expect(Number(chosen)).toBeGreaterThan(10);
+    await expect(page.locator('input[name="hour"]')).toHaveValue(chosen!);
+
+    await page.getByTestId("wheel-form").getByRole("button", { name: "Start again" }).click();
+    await expect(state).toHaveText("Hour: 09");
+});

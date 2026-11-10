@@ -468,11 +468,8 @@
     ]
   },
   "character-counter": {
-    "role": "status",
-    "aria": [
-      "aria-label",
-      "aria-live"
-    ]
+    "role": null,
+    "aria": []
   },
   "chat-composer": {
     "role": null,
@@ -2856,8 +2853,7 @@
   "timer": {
     "role": "timer",
     "aria": [
-      "aria-label",
-      "aria-live"
+      "aria-label"
     ]
   },
   "timer-button": {

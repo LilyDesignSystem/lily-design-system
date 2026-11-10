@@ -167,6 +167,7 @@ EXTRA_TARGETS = {
         "lily-design-system-alpine-headless/wheel-picker.js",
         "lily-design-system-nunjucks-headless/components/wheel-picker.js",
         "lily-design-system-html-headless/components/wheel-picker.html",
+        "lily-design-system-blazor-headless/src/LilyBlazorHeadless/wwwroot/wheel-picker.js",
     ],
     # Month grids in any CLDR calendar (spec/date-time-picker), beside each picker.
     "calendar-system.ts": [

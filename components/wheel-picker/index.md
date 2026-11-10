@@ -2,7 +2,7 @@
 
 A single-select listbox, vertical by default, where the selection follows the cursor, in the manner of a scroll wheel: moving with the arrow keys, typing, or clicking an option chooses it. Use it to pick one of a short list (an hour, a minute, a month, a year) where a long `<select>` is awkward. Several wheels make one value, such as a time, in a `Fieldset` (the several-wheels pattern in `AGENTS/components.md`).
 
-**Status:** experimental — implemented and unit-tested in all nine headless catalogs (2026-10-23). Blazor, Nunjucks and plain HTML differ; see "Per-library notes".
+**Status:** experimental — implemented and unit-tested in all nine headless catalogs (2026-10-23). Nunjucks, plain HTML and Blazor under static rendering differ; see "Per-library notes".
 
 ## Implementation Notes
 
@@ -68,7 +68,7 @@ A single-select listbox, vertical by default, where the selection follows the cu
 - **Svelte** `bind:value`; **React** controlled (`value` and `onChange`); **Vue** `v-model`; **Angular** `[(value)]`, no rest-props spread; **Web Components** reads child `<option>` elements (or the `options` property) and fires `change`; **Alpine** `lilyWheelPicker({ options, value, orientation, … })` fires `change` with `{ value }`; the hidden input is the snippet's `<input type="hidden" x-ref="input" x-bind="input">`, with your `name` and `form`.
 - **HTML**: the options are in the markup (set `aria-orientation="horizontal"` on the list for a horizontal wheel); the snippet's `<script>` handles the keys, clicks, the hidden input (disabled while the list is `aria-disabled`) and form reset, and fires a bubbling `change` with `detail.value`. The key model inside the script is generated from the shared module between its `BEGIN`/`END` markers.
 - **Nunjucks**: the macro renders the markup contract (selected option, `aria-activedescendant`, `aria-orientation`, `data-loop`, `data-page-size`), and `components/widget-init.js` wires the keys and form reset.
-- **Blazor** (no JS interop): `@bind-Value`, key model `WheelPickerKeys`. A handler cannot call `preventDefault` for only some keys, so the arrow and page keys also scroll the list (give `.wheel-picker-list` `overflow: hidden` to stop that), and the chosen option is not re-centred by script. Scrolling does not choose. A horizontal wheel's arrows are not swapped right-to-left, and a form reset does not put the picker back, because the component reads neither `dir` nor the form.
+- **Blazor**: `@bind-Value`, key model `WheelPickerKeys`. `WheelPicker.razor.js`, loaded once the component is interactive, does what an event handler cannot: it calls `preventDefault` for the keys the wheel handles, re-centres the chosen option, reports the text direction (so a horizontal wheel's arrows swap right-to-left), chooses what the user scrolls to, and hears a form reset. Under static rendering none of that runs: the keys still choose, and the list scrolls with them.
 
 ## Keyboard Interactions
 

@@ -1,5 +1,5 @@
-import { render } from "@testing-library/react";
-import { describe, expect, test } from "vitest";
+import { act, render, screen } from "@testing-library/react";
+import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./TextAreaInputWithCharacterCounter";
 
@@ -49,5 +49,37 @@ describe("TextAreaInputWithCharacterCounter", () => {
             />,
         );
         expect(container.textContent).toContain("0 de 100 caractères");
+    });
+
+    test("the counter is not live itself: a status takes it once typing pauses", () => {
+        vi.useFakeTimers();
+        const { rerender, container } = render(
+            <Subject
+                label="Demo"
+                maxLength={10}
+                value=""
+            />,
+        );
+        expect(container.querySelector("[aria-live]")).toBeNull();
+        for (const value of ["a", "ab", "abc"]) {
+            rerender(
+                <Subject
+                    label="Demo"
+                    maxLength={10}
+                    value={value}
+                />,
+            );
+            act(() => vi.advanceTimersByTime(300));
+        }
+        expect(screen.getByRole("status").textContent).toBe("0 / 10");
+        act(() => vi.advanceTimersByTime(1000));
+        expect(screen.getByRole("status").textContent).toBe("3 / 10");
+        const field = screen.getByLabelText("Demo");
+        expect(
+            document
+                .getElementById(field.getAttribute("aria-describedby")!)!
+                .contains(screen.getByRole("status")),
+        ).toBe(true);
+        vi.useRealTimers();
     });
 });

@@ -2,11 +2,11 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("timer", () => {
-    it("renders a <time> with aria-live and defaults", () => {
+    it("renders a <time> that is not live, with defaults", () => {
         const { document } = render("timer", { text: "05:00" });
         const el = document.querySelector("time.timer");
         expect(el).toBeTruthy();
-        expect(el.getAttribute("aria-live")).toBe("polite");
+        expect(el.hasAttribute("aria-live")).toBe(false);
         expect(el.getAttribute("data-mode")).toBe("countdown");
         expect(el.textContent.trim()).toBe("05:00");
     });

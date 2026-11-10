@@ -17,14 +17,14 @@
 - The counter updates reactively as the user types
 - Uses `aria-describedby` to link the text-area-input to the counter for screen readers
 - Supports two-way binding on the `value` prop
-- The counter uses `aria-live="polite"` so screen readers announce changes
+- The counter's visible text is `aria-hidden`; a visually hidden `role="status"` takes the same text once typing pauses (`announceDelay`, default 1000 ms), so a run of keystrokes is announced once, as GOV.UK's character count does
 - Spreads `restProps` onto the wrapper `<div>` for consumer extensibility
 
 ## ARIA
 
 - `aria-label={label}` -- provides an accessible name for the text-area-input
 - `aria-describedby` -- links the text-area-input to the character counter
-- `aria-live="polite"` -- on the counter so screen readers announce updates
+- `role="status"` -- on a visually hidden span in the counter, updated only after a pause in typing; the visible count is `aria-hidden`
 
 ## Keyboard
 
@@ -37,6 +37,7 @@
 - `value`: string (default: "") -- bindable text-area-input value
 - `maxLength`: number (required) -- maximum number of characters allowed
 - `counterTemplate`: string (default: "{count} of {max} characters") -- template for the counter text; `{count}` and `{max}` are replaced with actual values
+- `announceDelay`: number (default: 1000) -- milliseconds of quiet before the counter's status takes the new count
 - `rows`: number (optional) -- number of visible text rows
 - `placeholder`: string (optional) -- placeholder text for the text-area-input
 - `required`: boolean (default: false) -- whether the text-area-input is required
@@ -47,7 +48,7 @@
 
 - [ ] Renders <div> element with class="text-area-input-with-character-counter"
 - [ ] Contains <textarea> with aria-label and aria-describedby
-- [ ] Contains character counter with aria-live="polite"
+- [ ] Contains a counter whose status is announced once typing pauses
 - [ ] Counter displays "[number] of [maximum] characters"
 - [ ] Counter updates reactively as user types
 - [ ] Keyboard navigation works correctly

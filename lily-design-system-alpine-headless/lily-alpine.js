@@ -1697,12 +1697,32 @@ export default function lily(Alpine) {
     // CharacterCounter: a polite status "count / max" (or just count). Give it
     // `forId` to follow a field by id; otherwise set `count` yourself. Exposes
     // data-count, data-max, data-remaining and (only when over) data-over-limit.
-    const counterBind = {
-        role: "status",
-        "aria-live": "polite",
+    // A counter's root carries the data attributes; inside it the visible count is aria-hidden, and a visually hidden
+    // role="status" takes the same text once the count has stopped changing for announceDelay ms, so a run of keystrokes
+    // is announced once, as GOV.UK's character count does (spec/detent-lessons, P26-T9).
+    const counterText = function () {
+        return this.max == null ? String(this.count) : `${this.count} / ${this.max}`;
+    };
+    const announceCount = function () {
+        this.announced = this.counterText;
+        this.$watch("counterText", (next) => {
+            clearTimeout(this._announceTimer);
+            this._announceTimer = setTimeout(() => (this.announced = next), this.announceDelay);
+        });
+    };
+    const counterShownBind = {
+        "aria-hidden": "true",
         "x-text"() {
-            return this.max == null ? String(this.count) : `${this.count} / ${this.max}`;
+            return this.counterText;
         },
+    };
+    const counterStatusBind = {
+        role: "status",
+        "x-text"() {
+            return this.announced;
+        },
+    };
+    const counterBind = {
         ":data-count"() {
             return String(this.count);
         },
@@ -1717,26 +1737,48 @@ export default function lily(Alpine) {
         },
     };
 
-    Alpine.data("lilyCharacterCounter", (max = null, forId = "") => ({
+    Alpine.data("lilyCharacterCounter", (max = null, forId = "", announceDelay = 1000) => ({
         count: 0,
         max,
+        announceDelay,
+        announced: "",
+        get counterText() {
+            return counterText.call(this);
+        },
+        destroy() {
+            clearTimeout(this._announceTimer);
+        },
         init() {
             const field = forId && document.getElementById(forId);
+            if (field) this.count = field.value.length;
+            announceCount.call(this);
             if (!field) return;
-            this.count = field.value.length;
             field.addEventListener("input", () => {
                 this.count = field.value.length;
             });
         },
         counter: counterBind,
+        counterShown: counterShownBind,
+        counterStatus: counterStatusBind,
     }));
 
     // A textarea with its own counter, linked by aria-describedby.
-    Alpine.data("lilyCountedTextarea", (max = null, value = "") => ({
+    Alpine.data("lilyCountedTextarea", (max = null, value = "", announceDelay = 1000) => ({
         value,
         max,
+        announceDelay,
+        announced: "",
         get count() {
             return this.value.length;
+        },
+        get counterText() {
+            return counterText.call(this);
+        },
+        init() {
+            announceCount.call(this);
+        },
+        destroy() {
+            clearTimeout(this._announceTimer);
         },
         textarea: {
             ":value"() {
@@ -1750,6 +1792,8 @@ export default function lily(Alpine) {
             },
         },
         counter: counterBind,
+        counterShown: counterShownBind,
+        counterStatus: counterStatusBind,
     }));
 
     // Password field with a show / hide toggle button (aria-pressed).
