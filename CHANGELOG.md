@@ -9,6 +9,11 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## A pre-push hook — 2026-11-10
+
+tasks.md P24-T3. **Added:** `.githooks/pre-push`, which runs `bin/ci --fast` before every push, and `bin/setup-hooks` to opt in
+(`--undo` to opt out). `git push --no-verify` skips it once.
+
 ## `bin/ci`: the CI gate on the maintainer's machine — 2026-11-10
 
 tasks.md P24-T2, from [spec/local-ci](spec/local-ci/index.md).
