@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `date-field` asks for a date in three parts — 2026-11-09
+
+The maintainer took the recommendation. Its catalog description, "a structured field for entering date components", and its own "When to Use" asked for separate day, month and year fields; Svelte, React, Vue, Angular, Blazor, HTML and Web Components rendered one `<input type="date">`, which is `date-input`. Breaking in every catalog.
+
+- **Changed (breaking):** `date-field` is a `<fieldset>` named by its `<legend>` (`label`), holding three labelled text fields (`inputmode="numeric"`) for the day, month and year, with the description and the error linked from the fieldset by `aria-describedby` and `aria-invalid` on each part while an error shows. All nine catalogs.
+- **Added:** `dayLabel`, `monthLabel` and `yearLabel` (required, no default: the words are the consumer's), `order` (`"ymd"`, the ISO 8601 order, by default; `"dmy"`, `"mdy"`), `name` (the parts are `{name}-day`, `-month`, `-year`, so a server-rendered form submits without script) and `autocomplete: "bday"` (WCAG 1.3.5). `value` stays two-way: `YYYY-MM-DD` once all three parts are filled, `""` before; a new `value` fills the parts, and a form reset puts the first one back.
+- **Changed (breaking):** Nunjucks, which already rendered three parts, takes `label` (or `legend`), `value`, `order`, `description` and `error`, and drops its wrapper `<div>`s and `-part` classes for the `date-field-day`, `-month` and `-year` classes the other catalogs use. `bin/check-html-tags.allow.json` loses its last Nunjucks root entry (11 → 10).
+
 ## Nunjucks follows Svelte on fifteen more components — 2026-11-09
 
 The maintainer took the recommendations. Breaking for Nunjucks callers: several macros change their params.

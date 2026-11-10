@@ -31,7 +31,7 @@
 </SelectWithExtras>
 <p data-testid="extras-state">Colour: @_colour</p>
 
-<DateField Label="Birthday" Description="Your date of birth" Error="@(_date == "" ? "Enter a date" : null)" @bind-Value="_date" data-testid="date" />
+<DateField Label="Birthday" DayLabel="Day" MonthLabel="Month" YearLabel="Year" Order="dmy" Autocomplete="bday" Description="Your date of birth" Error="@(_date == "" ? "Enter a date" : null)" @bind-Value="_date" data-testid="date" />
 <p data-testid="date-state">Date: @_date</p>
 
 <Field Label="Town" InputId="town" Required="true" Description="Where you live" Error="Enter a town" data-testid="field">

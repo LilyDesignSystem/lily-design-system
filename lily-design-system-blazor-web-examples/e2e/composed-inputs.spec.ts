@@ -61,15 +61,19 @@ test("select with extras: the extras are beside it, and it binds", async ({ page
     await expect(page.getByTestId("extras-state")).toHaveText("Colour: red");
 });
 
-test("date field: the label names it, and the error goes when it has a date", async ({ page }) => {
-    const root = page.getByTestId("date");
-    const field = root.getByLabel("Birthday");
-    await expect(field).toHaveAttribute("aria-invalid", "true");
-    await expect(root.getByRole("alert")).toHaveText("Enter a date");
-    await field.fill("2026-11-05");
+test("date field: a group named by its legend, and the error goes when all three parts are filled", async ({
+    page,
+}) => {
+    const group = page.getByRole("group", { name: "Birthday" });
+    const day = group.getByLabel("Day");
+    await expect(day).toHaveAttribute("aria-invalid", "true");
+    await expect(group.getByRole("alert")).toHaveText("Enter a date");
+    await day.fill("5");
+    await group.getByLabel("Month").fill("11");
+    await group.getByLabel("Year").fill("2026");
     await expect(page.getByTestId("date-state")).toHaveText("Date: 2026-11-05");
-    await expect(root.getByRole("alert")).toHaveCount(0);
-    await expect(field).not.toHaveAttribute("aria-invalid");
+    await expect(group.getByRole("alert")).toHaveCount(0);
+    await expect(day).not.toHaveAttribute("aria-invalid");
 });
 
 test("field: the label names the control inside", async ({ page }) => {

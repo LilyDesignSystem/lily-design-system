@@ -60,7 +60,7 @@ import { TourListItem } from "../components/TourListItem";
       </lily-select-with-extras>
       <p data-testid="extras-state">Colour: {{ colour() }}</p>
 
-      <lily-date-field label="Birthday" description="Your date of birth" [error]="date() ? '' : 'Enter a date'" [(value)]="date" data-testid="date" />
+      <lily-date-field label="Birthday" dayLabel="Day" monthLabel="Month" yearLabel="Year" order="dmy" autocomplete="bday" description="Your date of birth" [error]="date() ? '' : 'Enter a date'" [(value)]="date" data-testid="date" />
       <p data-testid="date-state">Date: {{ date() }}</p>
 
       <lily-field label="Town" inputId="town" [required]="true" description="Where you live" error="Enter a town" data-testid="field">

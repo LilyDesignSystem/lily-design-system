@@ -129,7 +129,7 @@ public static class ComponentExamples
         ["data-table-row"] = new("razor", "<DataTableRow>\n    Content\n</DataTableRow>\n", new List<ExampleVariant> {  }),
         ["data-table-td"] = new("razor", "<DataTableTD>\n    Content\n</DataTableTD>\n", new List<ExampleVariant> {  }),
         ["data-table-th"] = new("razor", "<DataTableTH>\n    Content\n</DataTableTH>\n", new List<ExampleVariant> {  }),
-        ["date-field"] = new("html", "<DateField\n  label=\"Date of birth\"\n  value=\"{dateOfBirth}\"\n  description=\"Enter as day, month, year\"\n  required\n/>\n", new List<ExampleVariant> {  }),
+        ["date-field"] = new("html", "<DateField\n  label=\"Date of birth\"\n  dayLabel=\"Day\"\n  monthLabel=\"Month\"\n  yearLabel=\"Year\"\n  order=\"dmy\"\n  name=\"dob\"\n  autocomplete=\"bday\"\n  value=\"{dateOfBirth}\"\n  description=\"For example, 27 3 2007\"\n  required\n/>\n", new List<ExampleVariant> {  }),
         ["date-input"] = new("html", "<fieldset legend=\"What is your date of birth?\">\n  <Hint>For example, 15 3 1984</Hint>\n  <DateInput\n    label=\"Date of birth\"\n    autocomplete=\"bday\"\n  />\n</fieldset>\n", new List<ExampleVariant> {  }),
         ["date-range"] = new("razor", "<DateRange Label=\"Trip dates\" StartLabel=\"Departure\" EndLabel=\"Return\"\n           @bind-Start=\"departure\" @bind-End=\"return\" />\n", new List<ExampleVariant> {  }),
         ["date-time-local-input"] = new("html", "<DateTimeLocalInput\n  label=\"Meeting start\"\n  value=\"{meetingStart}\"\n  min=\"2026-01-01T08:00\"\n  max=\"2026-12-31T18:00\"\n  required\n/>\n", new List<ExampleVariant> {  }),

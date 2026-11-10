@@ -1,42 +1,65 @@
 {#
-  DateField macro — a structured field for entering date components
-    (day, month, year) as three separate inputs in a <fieldset>.
+  DateField macro — a date asked for as three parts, day, month and year, in a
+    <fieldset> named by its <legend>, as Svelte renders it.
 
-  HTML tag: <fieldset> with three <input type="text">
+  HTML tag: <fieldset>
   CSS class: date-field
+  Accessibility: the legend names the group; each part has a <label for>;
+    aria-describedby on the fieldset links the description and the error;
+    aria-invalid on each part while an error shows; the error is role="alert".
 
   Params:
-    id, name (base; "-day", "-month", "-year" appended), legend,
-    day, month, year, dayLabel, monthLabel, yearLabel (the words for the three
-    inputs: required, no default), disabled, required, invalid, classes, attributes.
+    label        string   The legend (required). `legend` is accepted too.
+    dayLabel, monthLabel, yearLabel
+                 string   The three parts' labels (required; no default, the
+                          words are yours).
+    order        string   "ymd" (ISO 8601, default) | "dmy" | "mdy".
+    value        string   YYYY-MM-DD; fills the parts. Or give day, month, year.
+    name         string   Base name: the parts are {name}-day, -month, -year,
+                          so the form submits without script.
+    autocomplete string   "bday" for a date of birth (bday-day, -month, -year).
+    description  string   Helper text, linked from the fieldset.
+    error        string   Error message, linked from the fieldset and announced.
+    required, disabled    boolean
+    invalid      boolean  aria-invalid on the parts without an error message.
+    id           string   Base id for the parts; "date-field" if omitted.
+    classes      string
+    attributes   object   On the fieldset.
 
   Usage:
     {% from "components/date-field/macro.njk" import dateField %}
-    {{ dateField({ id: "example", dayLabel: "Day", monthLabel: "Month", yearLabel: "Year" }) }}
+    {{ dateField({ id: "dob", name: "dob", label: "Date of birth", order: "dmy",
+                   dayLabel: "Day", monthLabel: "Month", yearLabel: "Year" }) }}
 #}
 {%- macro dateField(params) -%}
 {%- set p = params | default({}) -%}
-{%- set baseId = p.id | default('') -%}
-{%- set baseName = p.name | default('') -%}
+{%- set baseId = p.id | default('date-field') -%}
+{%- set legend = p.label | default(p.legend) -%}
+{%- set sequences = { ymd: ['year', 'month', 'day'], dmy: ['day', 'month', 'year'], mdy: ['month', 'day', 'year'] } -%}
+{%- set sequence = sequences[p.order] or sequences.ymd -%}
+{%- set m = (p.value | default('')) | string -%}
+{%- set pieces = m.split('-') if m else [] -%}
+{%- set values = { year: pieces[0] if pieces | length == 3 else p.year, month: pieces[1] if pieces | length == 3 else p.month, day: pieces[2] if pieces | length == 3 else p.day } -%}
+{%- set labels = { day: p.dayLabel, month: p.monthLabel, year: p.yearLabel } -%}
+{%- set describedBy = [] -%}
+{%- if p.description %}{% set describedBy = describedBy.concat([baseId ~ '-desc']) %}{% endif -%}
+{%- if p.error %}{% set describedBy = describedBy.concat([baseId ~ '-error']) %}{% endif -%}
 <fieldset
   class="date-field{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if baseId %} id="{{ baseId }}"{% endif %}
+  {%- if describedBy | length %} aria-describedby="{{ describedBy | join(' ') }}"{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  {%- if p.legend %}<legend class="date-field-legend">{{ p.legend }}</legend>{% endif %}
-  <div class="date-field-parts">
-    <div class="date-field-part">
-      <label class="date-field-part-label" for="{{ baseId }}-day">{{ p.dayLabel }}</label>
-      <input class="date-field-part-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" id="{{ baseId }}-day" name="{{ baseName }}-day" value="{{ p.day | default('') }}"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.invalid %} aria-invalid="true"{% endif %}>
-    </div>
-    <div class="date-field-part">
-      <label class="date-field-part-label" for="{{ baseId }}-month">{{ p.monthLabel }}</label>
-      <input class="date-field-part-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" id="{{ baseId }}-month" name="{{ baseName }}-month" value="{{ p.month | default('') }}"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.invalid %} aria-invalid="true"{% endif %}>
-    </div>
-    <div class="date-field-part">
-      <label class="date-field-part-label" for="{{ baseId }}-year">{{ p.yearLabel }}</label>
-      <input class="date-field-part-input date-field-part-input-year" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" id="{{ baseId }}-year" name="{{ baseName }}-year" value="{{ p.year | default('') }}"{% if p.disabled %} disabled{% endif %}{% if p.required %} required{% endif %}{% if p.invalid %} aria-invalid="true"{% endif %}>
-    </div>
-  </div>
+  <legend>{{ legend }}</legend>
+  {%- for part in sequence %}
+  <label for="{{ baseId }}-{{ part }}">{{ labels[part] }}</label>
+  <input class="date-field-{{ part }}" id="{{ baseId }}-{{ part }}"{% if p.name %} name="{{ p.name }}-{{ part }}"{% endif %} type="text" inputmode="numeric"{% if p.autocomplete == 'bday' %} autocomplete="bday-{{ part }}"{% endif %} maxlength="{{ 4 if part == 'year' else 2 }}" value="{{ values[part] | default('') }}"{% if p.required %} required{% endif %}{% if p.error or p.invalid %} aria-invalid="true"{% endif %}>
+  {%- endfor %}
+  {%- if p.description %}
+  <p id="{{ baseId }}-desc">{{ p.description }}</p>
+  {%- endif %}
+  {%- if p.error %}
+  <p id="{{ baseId }}-error" role="alert">{{ p.error }}</p>
+  {%- endif %}
 </fieldset>
 {%- endmacro -%}

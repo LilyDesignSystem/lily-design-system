@@ -2765,6 +2765,9 @@
       "title": "DateField",
       "description": "A structured field for entering date components.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],

@@ -14,5 +14,11 @@
 <Story
     name="Default"
     tags={["autodocs", "!dev"]}
-    args={{ label: "Date Field" }}
+    args={{
+        label: "Date of birth",
+        dayLabel: "Day",
+        monthLabel: "Month",
+        yearLabel: "Year",
+        order: "dmy",
+    }}
 />

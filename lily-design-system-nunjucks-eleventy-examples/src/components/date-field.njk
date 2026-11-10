@@ -6,21 +6,31 @@ description: a structured field for entering date components
 
 {% from "components/date-field/macro.njk" import dateField %}
 
-{{ dateField({ dayLabel: "Day", monthLabel: "Month", yearLabel: "Year",
+{{ dateField({
   id: "dob",
   name: "dob",
-  legend: "Date of birth",
-  day: 20,
-  month: 4,
-  year: 1990
+  label: "Date of birth",
+  dayLabel: "Day",
+  monthLabel: "Month",
+  yearLabel: "Year",
+  order: "dmy",
+  autocomplete: "bday",
+  value: "1990-04-20",
+  description: "For example, 27 3 2007"
 }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
 <pre tabindex="0"><code>{% raw %}&lt;DateField
   label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  name="dob"
+  autocomplete="bday"
   value="{dateOfBirth}"
-  description="Enter as day, month, year"
+  description="For example, 27 3 2007"
   required
 /&gt;
 {% endraw %}</code></pre>

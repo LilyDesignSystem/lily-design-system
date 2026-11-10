@@ -7,9 +7,12 @@ const meta: Meta = {
     title: "Content/DateField",
     render: (args) => h("lily-date-field", args as Record<string, string | boolean>),
     args: {
-        label: "Start date",
-        description: "Format: YYYY-MM-DD",
-        value: "2026-06-01",
+        label: "Date of birth",
+        "day-label": "Day",
+        "month-label": "Month",
+        "year-label": "Year",
+        order: "dmy",
+        description: "For example, 27 3 2007",
     },
 };
 
