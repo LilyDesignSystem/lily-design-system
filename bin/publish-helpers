@@ -13,6 +13,8 @@
 #   bin/publish-helpers --nuget-only --dry-run  # same, dry-run
 #   bin/publish-helpers               # publish everything for real
 #
+# A real publish (not --dry-run) outside CI needs a clean, green `bin/ci --full` receipt for HEAD (tasks.md P24-T5).
+#
 # Requirements for a real publish:
 #   - npm:   `npm login` (or NPM_TOKEN in ~/.npmrc) with rights to the
 #            `lily-design-system-*` package names.
@@ -47,6 +49,13 @@ done
 # one package does not re-run every other. The Blazor/NuGet section runs
 # only when no --only is given, or when it names a Blazor helper package.
 only_matches() { [ -z "$ONLY" ] || [ "$(basename "$1")" = "$ONLY" ]; }
+
+# The receipt gate (tasks.md P24-T5): a real publish from the maintainer's machine needs `bin/ci --full` to have passed on
+# this commit from a clean tree (consumer-smoke may be skipped; CI runs it). --dry-run is not gated, and neither is CI
+# (publish.yml), which is its own clean room. LILY_PUBLISH_WITHOUT_RECEIPT=1 overrides, with a warning.
+if [ -z "$DRY" ] && [ -z "${CI:-}" ]; then
+  "$ROOT/bin/ci" --verify-receipt || exit 1
+fi
 
 # Every npm helper package's prepublishOnly runs its CATALOG's build
 # (tsup / ng-packagr), which needs that catalog's devDependencies. The

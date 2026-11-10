@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## A receipt gate on local publishes — 2026-11-10
+
+tasks.md P24-T5, the maintainer's choice. **Added:** `bin/ci --full` writes `.ci/receipt.json` (git-ignored), and
+`bin/ci --verify-receipt` checks it. **Changed:** a real `bin/publish-helpers` or `bin/publish-headless` run outside CI refuses
+unless the receipt is for HEAD, from a clean tree that is still clean, with every job passing (`consumer-smoke` may be
+skipped). `LILY_PUBLISH_WITHOUT_RECEIPT=1` overrides with a warning; `--dry-run` and `publish.yml` are not gated.
+
 ## A pre-push hook — 2026-11-10
 
 tasks.md P24-T3. **Added:** `.githooks/pre-push`, which runs `bin/ci --fast` before every push, and `bin/setup-hooks` to opt in
