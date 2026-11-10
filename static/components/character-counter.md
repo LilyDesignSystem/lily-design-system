@@ -4,11 +4,11 @@ A character counter displays the number of characters a user has typed into an i
 
 **Status:** stable — exercised in composed page flows under e2e and axe, beyond the per-component checks.
 
-The component uses `role="status"` with `aria-live="polite"` so screen readers announce updates without interrupting the user, and exposes data attributes for consumer CSS styling based on count state.
+The component announces the count once typing pauses, not on every keystroke: the visible count is `aria-hidden`, and a visually hidden `role="status"` (`.character-counter-status`, also `.screen-reader-span`) takes the same text once typing pauses (`announceDelay`, default 1000 ms), so a run of keystrokes is announced once, as GOV.UK's character count does. It exposes data attributes for consumer CSS styling based on count state.
 
 ## Implementation Notes
 
-- Renders as a `<span>` element with `role="status"` and `aria-live="polite"` for non-intrusive screen reader announcements
+- Renders as a `<span>` holding `.character-counter-text` (the visible count, `aria-hidden="true"`) and `.character-counter-status` (a visually hidden `role="status"`, named by `label`), which takes the same text once the count has stopped changing for `announceDelay` ms (default 1000)
 - Uses derived value to compute `remaining` count and `overLimit` boolean from `count` and `max` props
 - Displays "count / max" when `max` is provided, otherwise displays just the count
 - Exposes data attributes for consumer CSS: `data-count`, `data-max`, `data-remaining`, `data-over-limit`
@@ -19,7 +19,8 @@ The component uses `role="status"` with `aria-live="polite"` so screen readers a
 
 - `count`: number (default: 0) -- current character count
 - `max`: number (optional) -- maximum allowed characters; when provided, enables remaining/over-limit tracking
-- `label`: string (optional) -- accessible label for the counter via aria-label
+- `label`: string (optional) -- names the status, via `aria-label`
+- `announceDelay`: number (default: 1000) -- milliseconds of quiet before the status takes the new count
 
 ## Usage
 
@@ -58,8 +59,9 @@ None -- this component is a passive status display.
 
 ## ARIA
 
-- `role="status"` -- identifies the element as a live region that presents advisory information
-- `aria-live="polite"` -- screen readers announce updates at the next convenient pause, without interrupting the user
+- `role="status"` on `.character-counter-status`, updated only after a pause in typing, so a run of keystrokes is one announcement
+- `aria-hidden="true"` on the visible count, so it is not read twice
+- `aria-label` (from `label`) names the status
 - `aria-label` -- set from the `label` prop to provide context for what the counter represents
 
 ## When to Use
@@ -79,7 +81,7 @@ None -- this component is a passive status display.
 
 ## Headless
 
-This headless CharacterCounter component provides `role="status"` with `aria-live="polite"` for non-intrusive screen reader announcements, and exposes `data-count`, `data-max`, `data-remaining`, and `data-over-limit` attributes for styling hooks. The consumer provides all visual styling including typography, colors, positioning relative to the input, and over-limit warning styles.
+This headless CharacterCounter component provides a visible, `aria-hidden` count and a hidden `role="status"` announced once typing pauses, and exposes `data-count`, `data-max`, `data-remaining`, and `data-over-limit` attributes for styling hooks. The consumer provides all visual styling including typography, colors, positioning relative to the input, and over-limit warning styles.
 
 ## Styles
 
@@ -88,7 +90,7 @@ The consumer provides all CSS styling. The component renders with a `.character-
 ## Testing
 
 - Verify the component renders a `<span>` element with class `character-counter`
-- Verify role="status"` -- identifies the element as a live region that presents advisory information
+- Verify a run of count changes gives one change to the `role="status"`, after `announceDelay`
 - Verify aria-label`-- set from the`label` prop to provide context for what the counter represents
 - Verify pass-through attributes are applied
 

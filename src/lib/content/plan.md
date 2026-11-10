@@ -423,8 +423,7 @@ Then P26-T6 (several wheels, and the open `date-time-picker` wiring), P26-T5 (a 
 text). P26-T4 (horizontal) is a maintainer decision. The physics engine, the visual effects, haptics, sound and key acceleration
 are declined: they are animation and styling, or they fight the user's own settings.
 
-Status (2026-11-10): T1 to T7 are done. Open: three follow-ups the work found:
-T8 (`timer` announces every tick), T9 (`character-counter` announces every keystroke) and T10 (Blazor's wheel picker on a JS module).
+Status (2026-11-10): T1 to T10 are done.
 
 ---
 

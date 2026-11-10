@@ -11,7 +11,7 @@
   "aria": [
     "`aria-label={label}` -- provides an accessible name for the text-area-input",
     "`aria-describedby` -- links the text-area-input to the character counter",
-    "`aria-live=\"polite\"` -- on the counter so screen readers announce updates"
+    "`role=\"status\"` -- on a visually hidden span in the counter, updated only after a pause in typing; the visible count is `aria-hidden`"
   ],
   "keyboard": [
     "Tab: Moves focus to and from the text-area-input (native browser behavior)",
@@ -22,6 +22,7 @@
     "`value`: string (default: \"\") -- bindable text-area-input value",
     "`maxLength`: number (required) -- maximum number of characters allowed",
     "`counterTemplate`: string (default: \"{count} of {max} characters\") -- template for the counter text; `{count}` and `{max}` are replaced with actual values",
+    "`announceDelay`: number (default: 1000) -- milliseconds of quiet before the counter's status takes the new count",
     "`rows`: number (optional) -- number of visible text rows",
     "`placeholder`: string (optional) -- placeholder text for the text-area-input",
     "`required`: boolean (default: false) -- whether the text-area-input is required",

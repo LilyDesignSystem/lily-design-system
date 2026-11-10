@@ -10,7 +10,7 @@
     "wheel-picker-option"
   ],
   "interactive": true,
-  "status": "experimental — implemented and unit-tested in all nine headless catalogs (2026-10-23); Blazor and plain HTML/Nunjucks differ, see index.md",
+  "status": "experimental — implemented and unit-tested in all nine headless catalogs (2026-10-23); plain HTML/Nunjucks and static Blazor differ, see index.md",
   "aria": [
     "`role=\"listbox\"` with `aria-label`, `aria-orientation` (`vertical` or `horizontal`) and `aria-activedescendant` naming the chosen option; `aria-disabled=\"true\"` when disabled",
     "Each option: `role=\"option\"`, `aria-selected`, `aria-disabled=\"true\"` when disabled",
@@ -18,7 +18,7 @@
   ],
   "keyboard": [
     "ArrowDown / ArrowUp: choose the next / previous enabled option (wrap only with `loop`)",
-    "ArrowRight / ArrowLeft, when horizontal: the same, swapped right-to-left (the nearest `dir`; Blazor cannot read it)",
+    "ArrowRight / ArrowLeft, when horizontal: the same, swapped right-to-left (the nearest `dir`)",
     "Home / End: choose the first / last enabled option",
     "PageDown / PageUp: move by `pageSize` enabled options, clamped",
     "Printable character: type-ahead over the labels",

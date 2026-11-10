@@ -2,8 +2,8 @@
 
 A timer is a UI/UX component that displays a countdown or elapsed time value
 in a live-updating format. It renders as a semantic HTML `<time>` element with
-`role="timer"` and `aria-live="polite"` to ensure screen readers announce
-updates without interrupting the user. The component is commonly used for
+`role="timer"`, which is not a live region: a value that changes every second
+would flood a screen reader, so the reader hears it when they ask for it. The component is commonly used for
 session timeouts, countdowns, stopwatches, cooking timers, exam time limits,
 and any scenario where users need to track the passage of time. This headless
 component provides the semantic structure and accessibility features while the
@@ -14,9 +14,9 @@ through the children slot.
 
 ## Implementation Notes
 
-- Renders as `<time role="timer" aria-label={label} aria-live="polite">`
+- Renders as `<time role="timer" aria-label={label}>`
 - Children slot provides the formatted timer display text
-- `aria-live="polite"` ensures screen readers announce updates without interrupting
+- Not a live region (`role="timer"` is `aria-live="off"`): announce milestones ("one minute left") in a separate `role="status"` region, never every tick
 - Consumer manages timer logic (intervals, countdowns); this component only provides structure and accessibility
 - Optional `datetime` attribute can be passed via restProps for machine-readable duration (e.g. `datetime="PT5M30S"`)
 
@@ -56,6 +56,18 @@ through the children slot.
 >
 ```
 
+A reader who must hear the time hears a milestone, not every tick: the timer stays quiet, and a separate status region
+announces the consumer's own words when a milestone passes.
+
+```html
+<Timer
+  label="Session timeout"
+  datetime="PT1M00S"
+  >01:00</Timer
+>
+<p role="status">One minute left. Save your work.</p>
+```
+
 ## Keyboard Interactions
 
 - None -- this is an informational display, not interactive
@@ -64,12 +76,12 @@ through the children slot.
 
 - `role="timer"` indicates countdown or elapsed time
 - `aria-label` from the label prop provides accessible name
-- `aria-live="polite"` for non-intrusive screen reader announcements of updates
+- No `aria-live`: the timer is read on demand, and milestones go to a separate status region
 
 ## When to Use
 
 - Use for countdown or elapsed time display, such as session timeout, exam timer, or cooking timer.
-- Use when screen readers need to be informed of time changes via a live region.
+- Use with a separate `role="status"` region when a reader must hear a milestone, such as "one minute left".
 - Use with the `datetime` attribute for machine-readable ISO 8601 durations.
 - Use when the displayed time updates dynamically via consumer-managed intervals.
 
@@ -81,7 +93,7 @@ through the children slot.
 
 ## Headless
 
-This headless component provides a `<time>` element with `role="timer"`, `aria-label`, and `aria-live="polite"` for accessible live-updating time display. The consumer manages all timer logic (intervals, countdowns) and provides formatted display content through the children slot, plus all visual styling.
+This headless component provides a `<time>` element with `role="timer"` and `aria-label`, not live, for an accessible time display. The consumer manages all timer logic (intervals, countdowns) and provides formatted display content through the children slot, plus all visual styling.
 
 ## Styles
 
@@ -98,6 +110,7 @@ The consumer provides all CSS styling. The component renders with a `.timer` cla
 ## Advice
 
 - **Designers**: Use a clear, monospaced or tabular font for the timer digits to prevent layout shifts as numbers change. Consider color changes as time runs low.
+- **Accessibility**: Never make the timer itself live. Put milestone announcements ("five minutes left", "time is up") in a separate `role="status"` region (`role="alert"` only for the last one, if it ends the user's work), updated only when a milestone passes; WCAG 2.2.1 also asks that the user can extend a time limit.
 - **Developers**: Provide a `datetime` attribute (e.g., `datetime="PT5M30S"`) via restProps for machine-readable duration. Manage cleanup of intervals on component unmount.
 
 ## Related components
