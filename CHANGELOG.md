@@ -9,6 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `bin/ci`: the CI gate on the maintainer's machine — 2026-11-10
+
+tasks.md P24-T2, from [spec/local-ci](spec/local-ci/index.md).
+
+- **Added:** `bin/ci --list | --job <name> [matrix value] | --fast | --full`, one function per job in `.github/workflows/ci.yml`,
+  ending with a table of step, result and seconds.
+- **Changed:** `ci.yml` calls `bin/ci --job <name>` for every job and keeps only the setup, so the local and GitHub runs cannot
+  drift.
+
 ## `editable` is a `<div>` holding a native button — 2026-11-10
 
 tasks.md P25-T30, the maintainer's decision.

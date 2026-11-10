@@ -91,6 +91,14 @@ commit is known, no gate can say what "passing" means. Check: a push to `main` p
 line. The local run and the GitHub run cannot drift. The script prints a table of step, result and seconds. Check: the
 `--list` output names all 13 jobs, and `ci.yml` contains no command that `bin/ci` lacks.
 
+_Built 2026-11-10 (tasks.md P24-T2)._ The YAML keeps checkout, the Node, pnpm and .NET setup, the caches, the Playwright
+browser installs (with the app install they need first) and `consumer-smoke`'s runner clean-up; every other command is in
+`bin/ci`. Each step runs in a fresh `bash -e`, because a step called as `step ... || failed=1` would otherwise ignore
+`set -e` and fail only on its last command. `--fast` is the install-free part of `verify` plus the Alpine generator check;
+it is not split out of `bin/test`, which stays one script. Locally, `consumer-smoke` refuses to run unless `CI` or
+`LILY_CI_ALLOW_CONSUMER_SMOKE=1` is set, because it runs `npm install` inside pnpm projects and then deletes their
+`node_modules`; run it in a fresh worktree (proposal 5, the clean room, is still open).
+
 ### 3. A pre-push hook for tier 1
 
 `.githooks/pre-push` runs `bin/ci --fast`: the parts of `bin/test` that need no install (required files, generated-file

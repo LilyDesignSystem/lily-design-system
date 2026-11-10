@@ -1,0 +1,365 @@
+#!/usr/bin/env bash
+# bin/ci — the CI gate, runnable on the maintainer's machine (tasks.md P24-T2, spec/local-ci).
+#
+#   bin/ci --list                 the jobs, in the order --full runs them
+#   bin/ci --job <name> [arg...]  one job; a matrix job takes its matrix values (default: all of them)
+#   bin/ci --fast                 seconds: the checks that need no install (generated files, links, coverage, class names)
+#   bin/ci --full                 every job, in order; ends with a table of step, result and seconds
+#
+# Each function below is one job in .github/workflows/ci.yml, and ci.yml calls `bin/ci --job <name>` for it, so the local and
+# GitHub runs cannot drift: the YAML keeps only the setup (checkout, Node, pnpm, .NET, caches, Playwright browsers).
+#
+# Locally, `consumer-smoke` refuses to run unless CI is set or LILY_CI_ALLOW_CONSUMER_SMOKE=1: it runs `npm install` inside
+# pnpm projects and then deletes their node_modules, which would wreck a working checkout. Run it in a fresh worktree.
+# Playwright browsers are assumed installed (`pnpm exec playwright install chromium firefox webkit` in each app).
+
+set -uo pipefail
+
+top="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$top" || exit 1
+
+JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-helper-packages example-smoke eleventy-example
+    alpine-examples consumer-smoke shadcn-registry spell-check)
+HELPER_FRAMEWORKS=(svelte react vue angular html web-components nunjucks alpine)
+HEADLESS_CATALOGS=(lily-design-system-svelte-headless lily-design-system-react-headless lily-design-system-vue-headless
+    lily-design-system-angular-headless lily-design-system-nunjucks-headless lily-design-system-web-components-headless
+    lily-design-system-alpine-headless)
+export SCRATCH="${RUNNER_TEMP:-${TMPDIR:-/tmp}}"
+
+# Results, for the closing table.
+STEPS=()
+RESULTS=()
+SECONDS_TAKEN=()
+
+group() { if [ -n "${GITHUB_ACTIONS:-}" ]; then echo "::group::$*"; else echo "== $*"; fi; }
+endgroup() { if [ -n "${GITHUB_ACTIONS:-}" ]; then echo "::endgroup::"; fi; }
+
+# Run one named step in a subshell that stops at its first failure, and record how it went.
+step() {
+    local name="$1"
+    shift
+    local start=$SECONDS status
+    group "$name"
+    # A fresh bash, not a subshell: the caller is `step ... || failed=1`, and bash ignores `set -e` for everything run in
+    # such a context, subshells included, so a step would only fail on its last command. The functions travel along.
+    bash -e -o pipefail -c "$(declare -f); $(printf '%q ' "$@")"
+    status=$?
+    endgroup
+    STEPS+=("$name")
+    SECONDS_TAKEN+=($((SECONDS - start)))
+    if [ "$status" -eq 0 ]; then RESULTS+=("pass"); else RESULTS+=("FAIL ($status)"); fi
+    return "$status"
+}
+
+in_dir() { (cd "$1" && shift && "$@"); }
+
+# --- the install-free checks (the fast tier, and most of verify) ---
+
+no_junk() {
+    local junk
+    junk="$(git ls-files | grep -E '(^|/)(node_modules|dist)/|/(obj|bin)/(Debug|Release|.*\.nuget\.)' || true)"
+    if [ -n "$junk" ]; then
+        echo "Tracked build/dependency artifacts found:" >&2
+        echo "$junk" | head -20 >&2
+        return 1
+    fi
+}
+
+fast_checks() {
+    local failed=0
+    step "no tracked node_modules or dist" no_junk || failed=1
+    step "bin/test" bin/test || failed=1
+    step "bin/check-links" bin/check-links || failed=1
+    step "registries are freshly generated" bin/generate-registries --check || failed=1
+    step "bin/check-coverage" bin/check-coverage --quiet || failed=1
+    step "bin/check-class-names" bin/check-class-names || failed=1
+    step "bin/check-package-metadata" bin/check-package-metadata || failed=1
+    step "Alpine snippets match their generator" node lily-design-system-alpine-headless/generate-components.mjs --check || failed=1
+    return "$failed"
+}
+
+# --- the jobs, one per ci.yml job ---
+
+job_verify() {
+    local failed=0
+    step "verify: no tracked node_modules or dist" no_junk || failed=1
+    step "verify: install the docs site" in_dir lilydesignsystem.github.io pnpm install --frozen-lockfile || return 1
+    step "verify: bin/test" bin/test || failed=1
+    step "verify: bin/check-links" bin/check-links || failed=1
+    step "verify: registries are freshly generated" bin/generate-registries --check || failed=1
+    step "verify: bin/check-coverage" bin/check-coverage --quiet || failed=1
+    step "verify: bin/check-class-names" bin/check-class-names || failed=1
+    step "verify: bin/check-package-metadata" bin/check-package-metadata || failed=1
+    return "$failed"
+}
+
+job_lint() {
+    local failed=0
+    step "lint: install" pnpm install --frozen-lockfile || return 1
+    step "lint: eslint" pnpm lint || failed=1
+    step "lint: prettier" pnpm format:check || failed=1
+    step "lint: Alpine snippets match their generator" node lily-design-system-alpine-headless/generate-components.mjs --check || failed=1
+    return "$failed"
+}
+
+helper_packages_one() {
+    local framework="$1" d
+    pnpm install --frozen-lockfile
+    (cd "lily-design-system-$framework-headless" && pnpm install --frozen-lockfile && pnpm run --if-present build)
+    for d in $(bin/list-helper-packages "$framework"); do
+        echo "-- $d"
+        (cd "$d" && pnpm install --frozen-lockfile && pnpm run build && pnpm run --if-present check && pnpm run test)
+    done
+}
+
+job_helper_packages() {
+    local failed=0 framework
+    for framework in "${@:-${HELPER_FRAMEWORKS[@]}}"; do
+        step "helper-packages: $framework" helper_packages_one "$framework" || failed=1
+    done
+    return "$failed"
+}
+
+headless_one() {
+    cd "$1"
+    pnpm install --frozen-lockfile
+    pnpm run --if-present check
+    pnpm run --if-present build
+    pnpm exec vitest run
+}
+
+job_headless() {
+    local failed=0 catalog
+    for catalog in "${@:-${HEADLESS_CATALOGS[@]}}"; do
+        step "headless: $catalog" headless_one "$catalog" || failed=1
+    done
+    return "$failed"
+}
+
+html_headless() {
+    cd lily-design-system-html-headless
+    pnpm install --frozen-lockfile
+    pnpm run check
+    pnpm test
+}
+
+job_html_headless() { step "html-headless: WebDriverIO" html_headless; }
+
+dotnet_one() {
+    cd lily-design-system-blazor-headless
+    dotnet test tests/LilyBlazorHeadless.Tests/LilyBlazorHeadless.Tests.csproj
+    # The JavaScript modules behind the components whose keys bUnit cannot run: node:test + jsdom.
+    npm install --prefix "$SCRATCH/jsdom" --no-save --no-audit --no-fund jsdom@30.1.3
+    JSDOM_PATH="$SCRATCH/jsdom/node_modules/jsdom" node --test tests/js/
+}
+
+job_dotnet_tests() { step "dotnet-tests: lily-design-system-blazor-headless" dotnet_one; }
+
+dotnet_helpers() {
+    local d
+    for d in $(bin/list-helper-packages blazor); do
+        echo "-- $d"
+        dotnet test "$d"/tests/*.csproj
+    done
+}
+
+job_dotnet_helper_packages() { step "dotnet-helper-packages" dotnet_helpers; }
+
+example_smoke() {
+    cd lily-design-system-svelte-sveltekit-examples
+    pnpm install --frozen-lockfile
+    pnpm exec playwright test \
+        e2e/accessibility.spec.ts \
+        e2e/responsive.spec.ts \
+        e2e/components-index.spec.ts \
+        e2e/rtl-demo.spec.ts \
+        e2e/book-an-appointment.spec.ts
+}
+
+job_example_smoke() { step "example-smoke: svelte-sveltekit-examples" example_smoke; }
+
+eleventy_example() {
+    # The site serves the locale picker's and the date-time picker's dist/index.js.
+    (cd lily-design-system-nunjucks-locale-picker && pnpm install --frozen-lockfile && pnpm run build)
+    (cd lily-design-system-nunjucks-date-time-picker && pnpm install --frozen-lockfile && pnpm run build)
+    cd lily-design-system-nunjucks-eleventy-examples
+    pnpm install --frozen-lockfile
+    pnpm run build
+    pnpm exec playwright test
+}
+
+job_eleventy_example() { step "eleventy-example: nunjucks-eleventy-examples" eleventy_example; }
+
+alpine_examples() {
+    cd lily-design-system-alpine-examples
+    pnpm install --frozen-lockfile
+    pnpm run build
+    pnpm run test
+    pnpm exec playwright test
+}
+
+job_alpine_examples() { step "alpine-examples" alpine_examples; }
+
+consumer_smoke() {
+    local dir framework d
+    # npm, not the projects' pnpm, to install as a real consumer would. --legacy-peer-deps sidesteps an npm Arborist crash
+    # ("Cannot read properties of null (reading 'edgesOut')") seen on every run since 2026-09-07. Each build removes its
+    # node_modules once the dist exists: npm pack needs the dist and the manifest, and ten dependency trees crowd a runner.
+    for dir in angular svelte react vue; do
+        echo "-- lily-design-system-$dir-headless"
+        (cd "lily-design-system-$dir-headless" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build &&
+            rm -rf node_modules)
+    done
+    for framework in svelte react vue angular html nunjucks web-components; do
+        for d in $(bin/list-helper-packages "$framework"); do
+            echo "-- $d"
+            (cd "$d" && npm install --no-audit --no-fund --legacy-peer-deps && npm run build && rm -rf node_modules)
+        done
+    done
+    bin/smoke-packages
+}
+
+job_consumer_smoke() {
+    if [ -z "${CI:-}" ] && [ -z "${LILY_CI_ALLOW_CONSUMER_SMOKE:-}" ]; then
+        echo "consumer-smoke: skipped. It runs npm install in pnpm projects and deletes their node_modules; run it in a fresh" >&2
+        echo "worktree with LILY_CI_ALLOW_CONSUMER_SMOKE=1, or leave it to CI." >&2
+        STEPS+=("consumer-smoke")
+        SECONDS_TAKEN+=(0)
+        RESULTS+=("skipped (local)")
+        return 0
+    fi
+    step "consumer-smoke" consumer_smoke
+}
+
+shadcn_registry() {
+    node bin/generate-registries --check
+    # Serve the registry from this checkout, so the job never reads the live site.
+    (cd lilydesignsystem.github.io/static/r/react && exec python3 -m http.server 8787 --bind 127.0.0.1 >/dev/null 2>&1) &
+    local server=$! i
+    trap 'kill "$server" 2>/dev/null' RETURN
+    for i in $(seq 1 20); do curl -sf http://127.0.0.1:8787/registry.json >/dev/null && break; sleep 0.5; done
+    curl -sf http://127.0.0.1:8787/scroller.json >/dev/null
+    local app="$SCRATCH/lily-shadcn-app"
+    rm -rf "$app"
+    (cd "$SCRATCH" && npx --yes create-next-app@16.4.3 lily-shadcn-app --ts --app --eslint --tailwind --src-dir \
+        --import-alias "@/*" --use-npm --skip-install --yes)
+    # create-next-app's own install trips newer npm's install-script policy (EALLOWSCRIPTS) and still exits 0.
+    (cd "$app" && npm install --no-audit --no-fund)
+    cat > "$app/components.json" <<'EOF'
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": { "config": "", "css": "src/app/globals.css", "baseColor": "neutral", "cssVariables": true },
+  "aliases": { "components": "@/components", "utils": "@/lib/utils", "ui": "@/components/ui", "lib": "@/lib", "hooks": "@/hooks" },
+  "registries": { "@lily": "http://127.0.0.1:8787/{name}.json" }
+}
+EOF
+    cd "$app"
+    npx --yes shadcn@latest add @lily/button @lily/dialog @lily/scroller --yes
+    local f
+    for f in Button Dialog Scroller ScrollerBase; do
+        test -f "src/components/lily/$f.tsx" || { echo "missing src/components/lily/$f.tsx" >&2; return 1; }
+    done
+    cat > src/app/demo.tsx <<'EOF'
+"use client";
+import { useState } from "react";
+import Dialog from "@/components/lily/Dialog";
+import Scroller from "@/components/lily/Scroller";
+export default function Demo() {
+  const [open, setOpen] = useState(false);
+  const [step, setStep] = useState(0);
+  return (
+    <>
+      <button type="button" onClick={() => setOpen(true)}>Open dialog</button>
+      <Dialog label="Lily dialog" open={open} onChange={setOpen}><p>Copied with shadcn.</p></Dialog>
+      <Scroller label="Lily scroller" onIndexChange={setStep} background={<p>Step {step}</p>}>
+        <section>One</section>
+        <section>Two</section>
+      </Scroller>
+    </>
+  );
+}
+EOF
+    cat > src/app/page.tsx <<'EOF'
+import Button from "@/components/lily/Button";
+import Demo from "./demo";
+export default function Home() {
+  return (<main><h1>Lily via shadcn</h1><Button type="button">Lily button</Button><Demo /></main>);
+}
+EOF
+    npx next build
+    npx tsc --noEmit
+    local html=.next/server/app/index.html hook
+    for hook in 'class="button ' 'class="scroller ' 'scroller-foreground' 'scroller-background'; do
+        grep -q "$hook" "$html" || { echo "prerendered page lacks $hook" >&2; return 1; }
+    done
+}
+
+job_shadcn_registry() { step "shadcn-registry" shadcn_registry; }
+
+spell_check() {
+    npx --yes cspell --no-progress \
+        "*.md" "docs/**/*.md" "help/**/*.md" \
+        "lilydesignsystem.github.io/src/routes/+page.svelte" \
+        "lilydesignsystem.github.io/src/routes/{about,accessibility,comparisons,examples,help,lily-claude-code,lily-claude-design,lily-figma,tutorials,why}/**/*.svelte"
+}
+
+job_spell_check() { step "spell-check" spell_check; }
+
+# --- the command line ---
+
+table() {
+    local i
+    printf '\n%-60s %-18s %s\n' "step" "result" "seconds"
+    for i in "${!STEPS[@]}"; do
+        printf '%-60s %-18s %s\n' "${STEPS[$i]}" "${RESULTS[$i]}" "${SECONDS_TAKEN[$i]}"
+    done
+}
+
+usage() {
+    sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//'
+    exit 2
+}
+
+run_job() {
+    local name="$1"
+    shift
+    local fn="job_${name//-/_}"
+    if ! declare -F "$fn" >/dev/null; then
+        echo "bin/ci: no job named '$name'; bin/ci --list names them" >&2
+        exit 2
+    fi
+    "$fn" "$@"
+}
+
+case "${1:-}" in
+    --list)
+        printf '%s\n' "${JOBS[@]}"
+        ;;
+    --job)
+        [ -n "${2:-}" ] || usage
+        name="$2"
+        shift 2
+        run_job "$name" "$@"
+        status=$?
+        table
+        exit "$status"
+        ;;
+    --fast)
+        fast_checks
+        status=$?
+        table
+        exit "$status"
+        ;;
+    --full)
+        failed=0
+        for name in "${JOBS[@]}"; do run_job "$name" || failed=1; done
+        table
+        exit "$failed"
+        ;;
+    *)
+        usage
+        ;;
+esac
