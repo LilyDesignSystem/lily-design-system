@@ -22,10 +22,10 @@ function press(target: Element, key: string) {
 }
 
 describe("TreeMenu", () => {
-    test("renders the div root with the base class", () => {
+    test("renders the ul root with the base class", () => {
         const fixture = TestBed.createComponent(TreeMenu);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.tree-menu");
+        const el = fixture.nativeElement.querySelector("ul.tree-menu");
         expect(el).toBeTruthy();
     });
 
@@ -33,7 +33,7 @@ describe("TreeMenu", () => {
         const fixture = TestBed.createComponent(TreeMenu);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("div.tree-menu");
+        const el = fixture.nativeElement.querySelector("ul.tree-menu");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });

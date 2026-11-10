@@ -6,7 +6,7 @@
 - PascalCase: Caption
 - Description: a caption for a table or figure element
 - Status: stable — exercised in composed page flows under e2e and axe, beyond the per-component checks
-- HTML tag: <caption>
+- HTML tag: <figcaption>
 - CSS class: .caption
 - Interactive: no
 
@@ -32,7 +32,7 @@
 
 ## Acceptance Criteria
 
-- [ ] Renders <caption> element with class="caption"
+- [ ] Renders <figcaption> element with class="caption"
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 

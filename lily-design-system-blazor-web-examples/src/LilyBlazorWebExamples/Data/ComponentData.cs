@@ -82,7 +82,7 @@ public static class ComponentData
         new("calendar-table-td", "CalendarTableTD", "a calendar table interactive grid data cell for managing dates, days, etc. <td>", "td", "tables", "<td class=\"calendar-table-td\">15</td>"),
         new("calendar-table-th", "CalendarTableTH", "a calendar table interactive grid header cell for managing dates, days, etc. <th>", "th", "tables", "<th class=\"calendar-table-th\">Day</th>"),
         new("call-to-action", "CallToAction", "a prominent prompt encouraging user action", "a", "links", "<a class=\"call-to-action\" href=\"#\">Sign up for free</a>"),
-        new("caption", "Caption", "a caption for a table or figure element", "caption", "tables", "<caption class=\"caption\">Table caption text</caption>"),
+        new("caption", "Caption", "a caption for a figure element", "caption", "tables", "<caption class=\"caption\">Table caption text</caption>"),
         new("card", "Card", "a grouped content container with header, body, and footer areas", "div", "content", "<div class=\"card\"><h3>Card Title</h3><p>Card content goes here.</p></div>"),
         new("care-card", "CareCard", "a medical care instruction card with urgency levels", "div", "content", "<div class=\"care-card\" role=\"group\" aria-label=\"Speak to a GP if:\" data-type=\"non-urgent\"><h2>Speak to a GP if:</h2><p>you have a rash that does not fade when a glass is pressed against it.</p></div>"),
         new("carousel", "Carousel", "a slideshow for cycling through content items", "div", "content", "<div class=\"carousel\" role=\"region\" aria-label=\"Carousel\"><div>Slide 1</div></div>"),

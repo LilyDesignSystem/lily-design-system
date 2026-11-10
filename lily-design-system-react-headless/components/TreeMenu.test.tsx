@@ -4,11 +4,11 @@ import { describe, expect, test } from "vitest";
 import Subject from "./TreeMenu";
 
 describe("TreeMenu", () => {
-    test("renders a div element with class tree-menu", () => {
+    test("renders a ul element with class tree-menu", () => {
         const { container } = render(<Subject label="Test">content</Subject>);
         const root = container.querySelector(".tree-menu");
         expect(root).toBeTruthy();
-        expect(root?.tagName).toBe("DIV");
+        expect(root?.tagName).toBe("UL");
     });
 
     test("renders children content", () => {

@@ -359,7 +359,7 @@ slug below links to the per-component documentation.
 - [calendar-table-td](components/calendar-table-td): a calendar table interactive grid data cell for managing dates, days, etc. <td>
 - [calendar-table-th](components/calendar-table-th): a calendar table interactive grid header cell for managing dates, days, etc. <th>
 - [call-to-action](components/call-to-action): a prominent prompt encouraging user action
-- [caption](components/caption): a caption for a table or figure element
+- [caption](components/caption): a caption for a figure element
 - [card](components/card): a grouped content container with header, body, and footer areas
 - [care-card](components/care-card): a medical care instruction card with urgency levels
 - [carousel](components/carousel): a slideshow for cycling through content items

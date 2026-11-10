@@ -23,7 +23,7 @@
         [key: string]: unknown;
     } = $props();
 
-    let root: HTMLDivElement | undefined = $state();
+    let root: HTMLUListElement | undefined = $state();
 
     function onkeydown(event: KeyboardEvent) {
         if (!root || !["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
@@ -55,7 +55,7 @@
 </script>
 
 <!-- TreeMenu.svelte -->
-<div
+<ul
     bind:this={root}
     class={`tree-menu ${className}`}
     role="tree"
@@ -65,4 +65,4 @@
     {...restProps}
 >
     {@render children?.()}
-</div>
+</ul>

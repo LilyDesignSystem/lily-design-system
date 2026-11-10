@@ -50,7 +50,7 @@ function onKeydown(event: KeyboardEvent) {
 
 <template>
     <!-- TreeMenu.vue -->
-    <div
+    <ul
         class="tree-menu"
         role="tree"
         :aria-label="label"
@@ -58,5 +58,5 @@ function onKeydown(event: KeyboardEvent) {
         @keydown="onKeydown"
     >
         <slot />
-    </div>
+    </ul>
 </template>

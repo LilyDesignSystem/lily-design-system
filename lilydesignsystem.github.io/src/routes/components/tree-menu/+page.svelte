@@ -76,7 +76,7 @@
       <li>PascalCase: TreeMenu</li>
       <li>Description: a hierarchical tree menu with expandable branches</li>
       <li>Status: beta — implemented with key tests in Svelte, React, Vue, Angular, HTML and Blazor (P12-T5a, 2026-10-30; it was a labelled container until then) and Alpine; not yet exercised in composed flows</li>
-      <li>HTML tag: &lt;div&gt;</li>
+      <li>HTML tag: &lt;ul&gt;</li>
       <li>CSS class: .tree-menu</li>
       <li>Interactive: yes</li>
     </ul>

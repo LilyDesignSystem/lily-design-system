@@ -4,9 +4,9 @@ import { autoInit } from "../widget-init.js";
 import { on } from "../../test/keys.js";
 
 describe("tree-menu", () => {
-    it("renders a <div role=tree> with the base class", () => {
+    it("renders a <ul role=tree> with the base class", () => {
         const { document } = render("tree-menu", { label: "Files" });
-        const el = document.querySelector("div.tree-menu");
+        const el = document.querySelector("ul.tree-menu");
         expect(el).toBeTruthy();
         expect(el.getAttribute("role")).toBe("tree");
         expect(el.getAttribute("aria-label")).toBe("Files");
@@ -14,12 +14,12 @@ describe("tree-menu", () => {
 
     it("has no English aria-label of its own", () => {
         const { document } = render("tree-menu", {});
-        expect(document.querySelector("div.tree-menu").hasAttribute("aria-label")).toBe(false);
+        expect(document.querySelector("ul.tree-menu").hasAttribute("aria-label")).toBe(false);
     });
 
     it("prefers labelledBy over label", () => {
         const { document } = render("tree-menu", { label: "x", labelledBy: "h" });
-        const el = document.querySelector("div");
+        const el = document.querySelector("ul.tree-menu");
         expect(el.getAttribute("aria-labelledby")).toBe("h");
         expect(el.hasAttribute("aria-label")).toBe(false);
     });
@@ -30,7 +30,7 @@ describe("tree-menu", () => {
             {},
             '<li role="treeitem" class="tree-list-item"></li>',
         );
-        expect(document.querySelector("div.tree-menu .tree-list-item")).toBeTruthy();
+        expect(document.querySelector("ul.tree-menu .tree-list-item")).toBeTruthy();
     });
 
     it("contains no <style> or <script> tags", () => {

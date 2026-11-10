@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `caption` is a `<figcaption>`, `tree-menu` a `<ul>` — 2026-11-09
+
+The maintainer took the recommendations.
+
+- **Changed (breaking):** `caption` is a `<figcaption>`, as Svelte, React, Vue and Angular rendered it, in Blazor, HTML, Web Components, Nunjucks and Alpine too (they rendered a table `<caption>`). It names its `<figure>`; a table's caption is the table's own `<caption>` (the Nunjucks table macro's `caption` param). Blazor and Nunjucks lose `label`, and Nunjucks loses `as`. Its catalog description is now "a caption for a figure element".
+- **Changed (breaking):** `tree-menu` is a `<ul role="tree">`, as Alpine rendered it, in Svelte, React, Vue, Angular, Blazor, HTML and Nunjucks: its own usage puts `<li role="treeitem">` items in it, which a `<div>` cannot hold. Web Components keeps the element itself as the tree, its documented limit for list roots.
+- **Fixed:** `bin/check-html-tags.allow.json` loses 6 entries (32 → 26).
+
 ## Ports follow Svelte on nineteen roots — 2026-11-09
 
 Svelte is canonical, and these sixteen macros rendered the same role on a different element. Breaking for consumer CSS that selects the element; selectors on the class keep working.
