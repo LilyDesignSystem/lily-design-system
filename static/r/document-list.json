@@ -2,7 +2,7 @@
   "slug": "document-list",
   "name": "DocumentList",
   "description": "a list displaying documents with titles and metadata",
-  "htmlTag": "ol",
+  "htmlTag": "ul",
   "category": "lists",
   "baseClass": ".document-list",
   "subClasses": [],

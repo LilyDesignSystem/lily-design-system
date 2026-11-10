@@ -2,8 +2,8 @@
   "slug": "date-field",
   "name": "DateField",
   "description": "a structured field for entering date components",
-  "htmlTag": "div",
-  "category": "content",
+  "htmlTag": "fieldset",
+  "category": "forms",
   "baseClass": ".date-field",
   "subClasses": [
     "date-field-day",

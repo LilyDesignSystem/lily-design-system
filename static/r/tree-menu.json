@@ -2,7 +2,7 @@
   "slug": "tree-menu",
   "name": "TreeMenu",
   "description": "a hierarchical tree menu with expandable branches",
-  "htmlTag": "div",
+  "htmlTag": "ul",
   "category": "navigation",
   "baseClass": ".tree-menu",
   "subClasses": [],

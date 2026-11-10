@@ -2,7 +2,7 @@
   "slug": "measurement-unit-view",
   "name": "MeasurementUnitView",
   "description": "a read-only display of a measurement unit",
-  "htmlTag": "div",
+  "htmlTag": "span",
   "category": "content",
   "baseClass": ".measurement-unit-view",
   "subClasses": [],

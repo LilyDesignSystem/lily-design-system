@@ -1433,7 +1433,7 @@
       "description": "A caption for a figure element.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "categories": [
-        "tables"
+        "content"
       ],
       "files": [
         {
@@ -2769,7 +2769,7 @@
         "@lily/dev-warning-utils"
       ],
       "categories": [
-        "content"
+        "forms"
       ],
       "files": [
         {
@@ -5130,7 +5130,7 @@
       "description": "A callout box highlighting informational content.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "categories": [
-        "content"
+        "navigation"
       ],
       "files": [
         {
@@ -10926,7 +10926,7 @@
       "description": "A callout box highlighting a warning message.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "categories": [
-        "content"
+        "navigation"
       ],
       "files": [
         {
@@ -10994,7 +10994,7 @@
       "name": "wheel-picker",
       "type": "registry:component",
       "title": "WheelPicker",
-      "description": "A vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing.",
+      "description": "A single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling or typing.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
         "@lily/dev-warning-utils",
