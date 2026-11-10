@@ -16,6 +16,12 @@
 <PasswordInputOrTextInputDiv Label="Password" ToggleLabel="Show password" @bind-Value="_password" data-testid="password" />
 <p data-testid="password-state">Password: @_password</p>
 
+<form data-testid="wheel-form">
+    <WheelPicker Label="Hours" Options="_hours" @bind-Value="_hour" Name="hour" data-testid="wheel" />
+    <button type="reset">Start again</button>
+</form>
+<p data-testid="wheel-state">Hour: @_hour</p>
+
 <TextAreaInputWithCharacterCounter Label="Notes" MaxLength="10" CounterTemplate="{count} of {max}" @bind-Value="_notes" data-testid="notes" />
 
 <InputWithMask Label="Phone" Mask="___-____" @bind-Value="_phone" data-testid="mask" />
@@ -63,6 +69,9 @@
 @code {
     private string _terms = "", _searched = "", _password = "", _notes = "", _phone = "", _colour = "", _date = "", _score = "", _rag = "", _roygb = "";
     private int _submits, _step = 1;
+    private string _hour = "09";
+    private static readonly WheelPickerOption[] _hours =
+        Enumerable.Range(0, 24).Select(h => new WheelPickerOption(h.ToString("00"), h.ToString("00"))).ToArray();
     private bool _task;
 
     private static string StatusText(string status) => status switch

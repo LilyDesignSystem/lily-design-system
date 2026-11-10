@@ -8,6 +8,8 @@ namespace LilyBlazorHeadless.Tests.Components;
 
 public class WheelPickerTests : TestContext
 {
+    public WheelPickerTests() => JSInterop.Mode = JSRuntimeMode.Loose;
+
     private static readonly WheelPickerOption[] Months =
     [
         new("1", "January"), new("2", "February"), new("3", "March"), new("4", "April", true), new("5", "May"),
@@ -198,5 +200,45 @@ public class WheelPickerTests : TestContext
         Assert.Equal("ArrowDown", WheelPickerKeys.MoveKey("ArrowLeft", "horizontal", rtl: true));
         Assert.Null(WheelPickerKeys.MoveKey("ArrowDown", "horizontal"));
         Assert.Equal("End", WheelPickerKeys.MoveKey("End", "horizontal"));
+    }
+
+    [Fact] public void Loads_its_module_and_attaches_it_to_the_list()
+    {
+        var module = JSInterop.SetupModule(WheelPicker.ModulePath);
+        Render(p => p.Add(x => x.Orientation, "horizontal"));
+        var attach = Assert.Single(module.Invocations, i => i.Identifier == "attach");
+        Assert.Equal(3, attach.Arguments.Count);
+    }
+
+    [Fact] public void Right_to_left_the_module_swaps_a_horizontal_wheels_arrows()
+    {
+        var c = Render(p => p.Add(x => x.Orientation, "horizontal"));
+        c.InvokeAsync(() => c.Instance.OnWheelDirection(true));
+        c.Find(".wheel-picker-list").KeyDown(new KeyboardEventArgs { Key = "ArrowLeft" });
+        Assert.Equal("March", Selected(c));
+        c.Find(".wheel-picker-list").KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
+        Assert.Equal("February", Selected(c));
+    }
+
+    [Fact] public async Task Scrolling_chooses_through_the_module_and_skips_a_disabled_option()
+    {
+        var changes = new List<string>();
+        var c = Render(changes: changes);
+        await c.InvokeAsync(() => c.Instance.OnWheelChoose(2));
+        Assert.Equal("March", Selected(c));
+        await c.InvokeAsync(() => c.Instance.OnWheelChoose(3));
+        Assert.Equal("March", Selected(c));
+        Assert.Equal(["3"], changes);
+    }
+
+    [Fact] public async Task A_form_reset_through_the_module_restores_the_first_value()
+    {
+        var changes = new List<string>();
+        var c = Render(changes: changes);
+        c.Find(".wheel-picker-list").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+        Assert.Equal("March", Selected(c));
+        await c.InvokeAsync(() => c.Instance.OnWheelReset());
+        Assert.Equal("February", Selected(c));
+        Assert.Equal(["3", "2"], changes);
     }
 }

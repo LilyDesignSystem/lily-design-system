@@ -1,14 +1,18 @@
 {#
-  TextAreaInputWithCharacterCounter macro — a multi-line text area plus a live
+  TextAreaInputWithCharacterCounter macro — a multi-line text area plus a
     character counter, by default the numbers alone ("5 / 200"): no English.
+    The visible count is aria-hidden; a visually hidden role="status" takes the
+    same text once typing pauses, so a run of keystrokes is announced once.
+    components/widget-init.js keeps both up to date as the user types.
 
-  HTML tag: <div> wrapping <textarea> + <output>
+  HTML tag: <div> wrapping <textarea> + <span>
   CSS class: text-area-input-with-character-counter
 
   Params: id, name, value, maximum, rows (default 5), label, required,
     disabled, placeholder, classes, attributes.
     counterTemplate: the counter's words in the page's language, {count} and {max} filled in.
       Default "{count} / {max}".
+    announceDelay: milliseconds of quiet before the status takes the count. Default 1000.
 
   Usage:
     {% from "components/text-area-input-with-character-counter/macro.njk" import textAreaInputWithCharacterCounter %}
@@ -34,13 +38,14 @@
     {%- if p.disabled %} disabled{% endif %}
   >{{ p.value | default('') }}</textarea>
   {%- if p.maximum %}
-  <output
+  {%- set counterText = (p.counterTemplate | default("{count} / {max}")) | replace("{count}", (p.value | default('')) | length) | replace("{max}", p.maximum) %}
+  <span
     class="text-area-input-with-character-counter-counter"
     id="{{ textAreaInputId }}-counter"
-    aria-live="polite"
-    for="{{ textAreaInputId }}-textarea"
     data-maximum="{{ p.maximum }}"
-  >{{ (p.counterTemplate | default("{count} / {max}")) | replace("{count}", (p.value | default('')) | length) | replace("{max}", p.maximum) }}</output>
+    data-counter-template="{{ p.counterTemplate | default('{count} / {max}') }}"
+    {%- if p.announceDelay %} data-announce-delay="{{ p.announceDelay }}"{% endif %}
+  ><span aria-hidden="true">{{ counterText }}</span><span class="screen-reader-span" role="status">{{ counterText }}</span></span>
   {%- endif %}
 </div>
 {%- endmacro -%}

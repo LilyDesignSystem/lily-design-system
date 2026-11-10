@@ -1,4 +1,7 @@
 @namespace LilyBlazorHeadless.Components
+@using Microsoft.JSInterop
+@implements IAsyncDisposable
+@inject IJSRuntime JS
 
 @*
     WheelPicker component
@@ -8,14 +11,11 @@
 
     Value / ValueChanged is two-way (@bind-Value). Options are WheelPickerOption records. The key model is WheelPickerKeys.
 
-    Deviations from the Svelte canonical (Blazor here uses no JS interop):
-      - an event handler cannot call preventDefault for only some keys, so the arrow and page keys also scroll the list: give
-        .wheel-picker-list `overflow: hidden` if the wheel should not scroll under the keys, or scroll-snap it and accept it;
-      - the selected option is not re-centred by script: use CSS scroll-snap/`scroll-padding` and scroll-margin, or
-        scrollIntoView from the consumer;
-      - a horizontal wheel's ArrowLeft / ArrowRight are not swapped right-to-left, because the component cannot read `dir`;
-      - a form reset does not put the picker back: the hidden input keeps its value through a reset, and the component
-        does not hear it. Reset the bound value in the form's own reset handler.
+    WheelPicker.razor.js (spec/detent-lessons, P26-T10), loaded once the component is interactive, does what an event
+    handler cannot: it stops the page scrolling for the keys the wheel handles, keeps the chosen option centred, reports
+    the text direction (so a horizontal wheel's ArrowLeft and ArrowRight swap right-to-left), chooses the option the user
+    scrolls to once the wheel settles, and puts the picker back to its first value on a form reset. Under static rendering
+    none of that runs: the keys still choose, and the list scrolls with them.
     Orientation "horizontal" moves with ArrowLeft / ArrowRight. The hidden input is disabled with the picker, so not
     submitted, and takes Form, the id of a form elsewhere.
     Unmatched attributes spread onto the root <div>.
@@ -55,6 +55,53 @@
     private static int _count;
     private readonly string _uid = $"wheel-picker-{Interlocked.Increment(ref _count)}";
     private ElementReference _list;
+    public const string ModulePath = "./_content/LilyDesignSystem.Blazor.Headless/Components/WheelPicker.razor.js";
+    private ElementModule? _module;
+    private DotNetObjectReference<WheelPicker>? _self;
+    private bool _rtl;
+    private string _initialValue = "";
+
+    protected override void OnInitialized() => _initialValue = Value;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var state = new { orientation = Orientation == "horizontal" ? "horizontal" : "vertical", disabled = Disabled };
+        if (firstRender)
+        {
+            _self = DotNetObjectReference.Create(this);
+            _module = await ElementModule.AttachAsync(JS, ModulePath, _list, _self, state);
+        }
+        else if (_module is not null) await _module.SetAsync(state);
+    }
+
+    /// <summary>Called from JS: whether the nearest <c>dir</c> is right-to-left.</summary>
+    [JSInvokable]
+    public void OnWheelDirection(bool rtl) => _rtl = rtl;
+
+    /// <summary>Called from JS: the user scrolled the wheel and it settled on this option.</summary>
+    [JSInvokable]
+    public async Task OnWheelChoose(int index)
+    {
+        if (Disabled || index < 0 || index >= Options.Count || Options[index].Disabled) return;
+        await Select(index);
+        StateHasChanged();
+    }
+
+    /// <summary>Called from JS: the form reset; go back to the first value.</summary>
+    [JSInvokable]
+    public async Task OnWheelReset()
+    {
+        if (Value == _initialValue) return;
+        Value = _initialValue;
+        await ValueChanged.InvokeAsync(_initialValue);
+        StateHasChanged();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null) await _module.DisposeAsync();
+        _self?.Dispose();
+    }
     private (string Prefix, long At) _typeahead = ("", 0);
 
     /// <summary>Accessible name of the listbox.</summary>
@@ -100,7 +147,7 @@
     private async Task OnKeyDown(KeyboardEventArgs e)
     {
         if (Disabled) return;
-        if (WheelPickerKeys.MoveKey(e.Key, Orientation) is { } move)
+        if (WheelPickerKeys.MoveKey(e.Key, Orientation, _rtl) is { } move)
         {
             await Select(WheelPickerKeys.NextIndex(Options, SelectedIndex, move, Loop, PageSize));
         }

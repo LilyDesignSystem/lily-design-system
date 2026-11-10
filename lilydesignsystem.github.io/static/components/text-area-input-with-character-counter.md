@@ -12,7 +12,7 @@ This component is useful for feedback forms, comment fields, bio inputs, and any
 - The character counter displays "[number] of [maximum] characters" below the text-area-input
 - The counter updates reactively as the user types
 - Uses `aria-describedby` to link the text-area-input to the counter for screen readers
-- The counter uses `aria-live="polite"` so screen readers announce changes
+- The counter's visible text is `aria-hidden`; a visually hidden `role="status"` takes the same text once typing pauses (`announceDelay`, default 1000 ms), so a run of keystrokes is announced once, as GOV.UK's character count does
 - Supports two-way binding on the `value` prop
 - The `counterTemplate` prop allows customization of the counter text for internationalization
 - Spreads `restProps` onto the wrapper `<div>` for consumer extensibility
@@ -23,6 +23,7 @@ This component is useful for feedback forms, comment fields, bio inputs, and any
 - `value`: string (default: "") -- bindable text-area-input value
 - `maxLength`: number (required) -- maximum number of characters allowed
 - `counterTemplate`: string (default: "{count} of {max} characters") -- template for the counter text
+- `announceDelay`: number (default: 1000) -- milliseconds of quiet before the counter's status takes the new count
 - `rows`: number (optional) -- number of visible text rows
 - `placeholder`: string (optional) -- placeholder text for the text-area-input
 - `required`: boolean (default: false) -- whether the text-area-input is required
@@ -83,7 +84,7 @@ Internationalized counter text (French):
 
 - `aria-label={label}` -- provides an accessible name for the text-area-input
 - `aria-describedby` -- links the text-area-input to the character counter
-- `aria-live="polite"` -- on the counter so screen readers announce updates
+- `role="status"` -- on a visually hidden span in the counter, updated only after a pause in typing; the visible count is `aria-hidden`
 
 ## When to Use
 
@@ -101,7 +102,7 @@ Internationalized counter text (French):
 
 ## Headless
 
-This headless component provides a `<div>` wrapping a native `<textarea>` and a character counter `<span>` with `aria-describedby` linking, `aria-live="polite"` for announcements, and a configurable counter template. The consumer provides all visual styling.
+This headless component provides a `<div>` wrapping a native `<textarea>` and a character counter `<span>` with `aria-describedby` linking, a visible `aria-hidden` count and a hidden `role="status"` announced once typing pauses for announcements, and a configurable counter template. The consumer provides all visual styling.
 
 ## Styles
 
@@ -111,7 +112,7 @@ The consumer provides all CSS styling. The component renders with a `.text-area-
 
 - Verify the component renders a wrapper `<div>` with class `text-area-input-with-character-counter`
 - Verify it contains a `<textarea>` with `aria-label` and `aria-describedby`
-- Verify it contains a counter element with `aria-live="polite"`
+- Verify a run of keystrokes gives one change to the counter's `role="status"`, after `announceDelay`
 - Verify the counter displays the correct character count
 - Verify the counter updates as the user types
 - Verify `maxLength` is applied to the text-area-input

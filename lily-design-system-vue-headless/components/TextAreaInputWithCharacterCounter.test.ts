@@ -1,5 +1,6 @@
-import { render } from "@testing-library/vue";
-import { describe, expect, test } from "vitest";
+import { fireEvent, render, screen } from "@testing-library/vue";
+import { describe, expect, test, vi } from "vitest";
+import { nextTick } from "vue";
 
 import Subject from "./TextAreaInputWithCharacterCounter.vue";
 
@@ -33,5 +34,21 @@ describe("TextAreaInputWithCharacterCounter", () => {
             },
         });
         expect(container.textContent).toContain("0 de 100 caractères");
+    });
+
+    test("the counter is not live itself: a status takes it once typing pauses", async () => {
+        vi.useFakeTimers();
+        const { container } = render(Subject, { props: { label: "Demo", maxLength: 10 } });
+        expect(container.querySelector("[aria-live]")).toBeNull();
+        const field = screen.getByLabelText("Demo");
+        for (const text of ["a", "ab", "abc"]) {
+            await fireEvent.update(field, text);
+            vi.advanceTimersByTime(300);
+        }
+        expect(screen.getByRole("status").textContent).toBe("0 / 10");
+        vi.advanceTimersByTime(1000);
+        await nextTick();
+        expect(screen.getByRole("status").textContent).toBe("3 / 10");
+        vi.useRealTimers();
     });
 });

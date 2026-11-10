@@ -27,13 +27,14 @@ public class TextAreaInputWithCharacterCounterTests : TestContext
         Assert.Equal("value", Make(p => p.AddUnmatched("data-test", "value")).Find("div.text-area-input-with-character-counter").GetAttribute("data-test"));
 
     [Fact]
-    public void The_counter_is_live_and_describes_the_field()
+    public void The_counter_describes_the_field_and_is_not_live_itself()
     {
         var cut = Make(p => p.Add(x => x.Value, "abc").Add(x => x.Rows, 4));
         var area = cut.Find("textarea");
         var counter = cut.Find("span");
-        Assert.Equal("3/10", counter.TextContent);
-        Assert.Equal("polite", counter.GetAttribute("aria-live"));
+        Assert.Equal("3/10", counter.QuerySelector("[aria-hidden=true]")!.TextContent);
+        Assert.Equal("3/10", counter.QuerySelector("[role=status]")!.TextContent);
+        Assert.Empty(cut.FindAll("[aria-live]"));
         Assert.Equal(counter.Id, area.GetAttribute("aria-describedby"));
         Assert.Equal("10", area.GetAttribute("maxlength"));
         Assert.Equal("4", area.GetAttribute("rows"));
@@ -46,6 +47,17 @@ public class TextAreaInputWithCharacterCounterTests : TestContext
         var cut = Make(p => p.Add(x => x.ValueChanged, (string v) => seen = v));
         cut.Find("textarea").Input("hello");
         Assert.Equal("hello", seen);
-        Assert.Equal("5/10", cut.Find("span").TextContent);
+        Assert.Equal("5/10", cut.Find("span [aria-hidden=true]").TextContent);
+    }
+
+    [Fact]
+    public void Typing_is_announced_once_after_the_pause()
+    {
+        var cut = Make(p => p.Add(x => x.AnnounceDelay, 200));
+        foreach (var text in new[] { "a", "ab", "abc" })
+            cut.SetParametersAndRender(p => p.Add(x => x.Value, text));
+        Assert.Equal("3/10", cut.Find("span [aria-hidden=true]").TextContent);
+        Assert.Equal("0/10", cut.Find("[role=status]").TextContent);
+        cut.WaitForAssertion(() => Assert.Equal("3/10", cut.Find("[role=status]").TextContent), TimeSpan.FromSeconds(2));
     }
 }

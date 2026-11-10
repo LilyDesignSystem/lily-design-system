@@ -1,7 +1,8 @@
 // Timer component
 //
 // A countdown or elapsed time display. Wraps a real
-// <time role="timer" aria-live="polite">. The consumer manages the
+// <time role="timer">, not a live region (a value that changes every
+// second would flood a screen reader; announce milestones in a separate status region). The consumer manages the
 // actual timer logic (intervals, countdowns) and provides the formatted
 // display text as children; this component only provides structure and
 // accessibility.
@@ -32,7 +33,6 @@ export class Timer extends HTMLElement {
         const time = document.createElement("time");
         time.className = rootClassName(this, "timer");
         time.setAttribute("role", "timer");
-        time.setAttribute("aria-live", "polite");
         const label = this.getAttribute("label");
         if (label !== null) time.setAttribute("aria-label", label);
         passThroughAttributes(this, time, HANDLED);

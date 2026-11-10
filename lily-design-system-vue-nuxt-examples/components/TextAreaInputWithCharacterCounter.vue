@@ -9,6 +9,7 @@
 //   label — string, required. Accessible name for the text-area-input via aria-label.
 //   maxLength — number, required. Maximum number of characters allowed.
 //   counterTemplate — string, default "{count} / {max}": the numbers alone, no English. Counter text template.
+//   announceDelay — number, default 1000. Milliseconds of quiet before the counter's status takes the new count.
 //   rows — number, optional. Number of visible text rows.
 //   placeholder — string, optional. Placeholder text for the text-area-input.
 //   required — boolean, default false. Whether the text-area-input is required.
@@ -27,7 +28,8 @@
 // Accessibility:
 //   - aria-label on the text-area-input provides accessible name
 //   - aria-describedby links text-area-input to the counter
-//   - aria-live="polite" on counter announces updates to screen readers
+//   - the visible counter is aria-hidden; a visually hidden role="status" takes the same text announceDelay ms after
+//     typing pauses, so a run of keystrokes is announced once
 //
 // Internationalization:
 //   - counterTemplate prop allows full customization of counter text
@@ -36,7 +38,7 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 
-import { computed, useId, ref, useAttrs } from "vue";
+import { computed, onBeforeUnmount, useId, ref, useAttrs, watch } from "vue";
 import { useFormReset } from "./form-reset";
 import { warnMissingName } from "./dev-warning";
 
@@ -45,6 +47,8 @@ const props = withDefaults(
         label: string;
         maxLength: number;
         counterTemplate?: string;
+        /** Milliseconds of quiet before the counter's status takes the new count. */
+        announceDelay?: number;
         rows?: number;
         placeholder?: string;
         required?: boolean;
@@ -52,6 +56,7 @@ const props = withDefaults(
     }>(),
     {
         counterTemplate: "{count} / {max}",
+        announceDelay: 1000,
         rows: undefined,
         placeholder: undefined,
         required: false,
@@ -77,6 +82,15 @@ const counterText = computed(() =>
         .replace("{count}", String(modelValue.value.length))
         .replace("{max}", String(props.maxLength)),
 );
+
+// The status takes the text only once typing has paused for announceDelay ms; the visible counter is aria-hidden.
+const announced = ref(counterText.value);
+let timer: ReturnType<typeof setTimeout> | undefined;
+watch(counterText, (next) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => (announced.value = next), props.announceDelay);
+});
+onBeforeUnmount(() => clearTimeout(timer));
 </script>
 
 <template>
@@ -93,11 +107,13 @@ const counterText = computed(() =>
             :required="required"
             :disabled="disabled"
         ></textarea>
-        <span
-            :id="counterId"
-            aria-live="polite"
-        >
-            {{ counterText }}
+        <span :id="counterId">
+            <span aria-hidden="true">{{ counterText }}</span>
+            <span
+                class="screen-reader-span"
+                role="status"
+                >{{ announced }}</span
+            >
         </span>
     </div>
 </template>

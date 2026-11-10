@@ -28,4 +28,10 @@ describe("Timer", () => {
         expect(el.getAttribute("role")).toBe("timer");
         expect(el.getAttribute("aria-label")).toBe("Story");
     });
+
+    test("is not a live region, so a ticking value is not announced", () => {
+        const fixture = TestBed.createComponent(Timer);
+        fixture.detectChanges();
+        expect(fixture.nativeElement.querySelector(".timer").hasAttribute("aria-live")).toBe(false);
+    });
 });

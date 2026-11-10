@@ -15,9 +15,19 @@ describe("CharacterCounter", function () {
         expect(className).toContain("character-counter");
     });
 
-    it("should have an aria-label attribute", async function () {
-        const el = await $("span.character-counter");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+    it("hides the visible count and names the status", async function () {
+        expect(await $(".character-counter-text").getAttribute("aria-hidden")).toBe("true");
+        const status = await $(".character-counter-status");
+        expect(await status.getAttribute("role")).toBe("status");
+        expect(await status.getAttribute("aria-label")).not.toBeNull();
+    });
+
+    it("follows the field at once, and announces only after a pause", async function () {
+        await $("#character-counter-field").setValue("abc");
+        expect(await $(".character-counter-text").getText()).toBe("3 / 200");
+        expect(await $("span.character-counter").getAttribute("data-count")).toBe("3");
+        expect(await $(".character-counter-status").getProperty("textContent")).toBe("0 / 200");
+        await browser.pause(1200);
+        expect(await $(".character-counter-status").getProperty("textContent")).toBe("3 / 200");
     });
 });

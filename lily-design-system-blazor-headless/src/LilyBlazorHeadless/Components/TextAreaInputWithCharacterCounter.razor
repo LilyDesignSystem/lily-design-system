@@ -4,7 +4,7 @@
 
 @*
     TextAreaInputWithCharacterCounter component
-    a textarea with a live character count
+    a textarea with a character count
 
     Parameters:
         Label — string, required. The textarea's name.
@@ -13,15 +13,22 @@
             are the consumer's, in the consumer's language.
         Value / ValueChanged — two-way (@bind-Value).
         Rows — int?. Placeholder — string. Required, Disabled — bool.
+        AnnounceDelay — int, default 1000. Milliseconds of quiet before the counter's status takes the new count.
+
+    The visible count is aria-hidden; a visually hidden role="status" takes the same text once typing has paused for
+    AnnounceDelay ms, so a run of keystrokes is announced once.
         CssClass, AdditionalAttributes (spread onto the root).
 *@
 
 <div class="@($"text-area-input-with-character-counter {CssClass}".Trim())" @attributes="AdditionalAttributes">
     <textarea aria-label="@Label" aria-describedby="@_counterId" maxlength="@MaxLength" rows="@Rows" placeholder="@Placeholder" required="@Required" disabled="@Disabled" @bind:get="Value" @bind:set="SetValueAsync" @bind:event="oninput"></textarea>
-    <span id="@_counterId" aria-live="polite">@CounterText</span>
+    <span id="@_counterId"><span aria-hidden="true">@CounterText</span><span class="screen-reader-span" role="status"><DelayedContent Content="@StatusText" Version="@_version" /></span></span>
 </div>
 
+@implements IDisposable
+
 @code {
+    [Parameter] public int AnnounceDelay { get; set; } = 1000;
     [Parameter, EditorRequired] public string Label { get; set; } = "";
     [Parameter, EditorRequired] public int MaxLength { get; set; }
     [Parameter, EditorRequired] public string CounterTemplate { get; set; } = "";
@@ -37,4 +44,20 @@
     private string CounterText => CounterTemplate
         .Replace("{count}", Value.Length.ToString(CultureInfo.InvariantCulture))
         .Replace("{max}", MaxLength.ToString(CultureInfo.InvariantCulture));
+
+    private RenderFragment StatusText => b => b.AddContent(0, CounterText);
+
+    private readonly Debounce _debounce = new();
+    private int _version;
+    private string? _last;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        var now = CounterText;
+        if (_last is not null && _last != now)
+            _debounce.Restart(AnnounceDelay, () => InvokeAsync(() => { _version++; StateHasChanged(); }));
+        _last = now;
+    }
+
+    public void Dispose() => _debounce.Dispose();
 }

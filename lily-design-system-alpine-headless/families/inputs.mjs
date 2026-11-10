@@ -21,24 +21,26 @@ export default {
     "character-counter": {
         tag: "span",
         keyboard: "None (passive element)",
-        aria: 'role="status" with aria-live="polite"; aria-label names what is counted; data-count, data-max, data-remaining, data-over-limit',
+        aria: 'the visible count is aria-hidden; a visually hidden role="status" (named by aria-label) takes it once typing pauses (announceDelay, default 1000 ms), so a run of keystrokes is announced once; data-count, data-max, data-remaining, data-over-limit on the root',
         markup: `<input id="character-counter-field-1" type="text" aria-label="">
-<span class="character-counter" aria-label="" x-data="lilyCharacterCounter(20, 'character-counter-field-1')" x-bind="counter"></span>`,
+<span class="character-counter" x-data="lilyCharacterCounter(20, 'character-counter-field-1')" x-bind="counter"><span class="character-counter-text" x-bind="counterShown"></span><span class="character-counter-status screen-reader-span" aria-label="" x-bind="counterStatus"></span></span>`,
         sel: "span.character-counter",
-        extra: `${withSnippet()}\nconst field = () => document.getElementById("character-counter-field-1");`,
+        extra: `${withSnippet()}\nconst field = () => document.getElementById("character-counter-field-1");\nconst shown = () => el().querySelector(".character-counter-text");\nconst status = () => el().querySelector('[role="status"]');`,
         test: `
-  it("is a polite status that starts at 0 / max", async () => {
+  it("shows an aria-hidden count and a hidden status, both 0 / max at first", async () => {
     await mount("character-counter");
-    expect(el().getAttribute("role")).toBe("status");
-    expect(el().getAttribute("aria-live")).toBe("polite");
-    expect(el().textContent).toBe("0 / 20");
+    expect(el().hasAttribute("role")).toBe(false);
+    expect(el().hasAttribute("aria-live")).toBe(false);
+    expect(shown().getAttribute("aria-hidden")).toBe("true");
+    expect(shown().textContent).toBe("0 / 20");
+    expect(status().textContent).toBe("0 / 20");
     expect(el().getAttribute("data-remaining")).toBe("20");
     expect(el().hasAttribute("data-over-limit")).toBe(false);
   });
   it("follows the field it counts", async () => {
     await mount("character-counter");
     await type(field(), "hello");
-    expect(el().textContent).toBe("5 / 20");
+    expect(shown().textContent).toBe("5 / 20");
     expect(el().getAttribute("data-count")).toBe("5");
     expect(el().getAttribute("data-remaining")).toBe("15");
   });
@@ -50,10 +52,24 @@ export default {
     expect(el().hasAttribute("data-over-limit")).toBe(true);
     expect(el().getAttribute("data-remaining")).toBe("-3");
   });
+  it("a run of keystrokes is announced once, after the pause", async () => {
+    await mount("character-counter");
+    vi.useFakeTimers();
+    for (const text of ["a", "ab", "abc"]) {
+      field().value = text;
+      field().dispatchEvent(new Event("input"));
+      await vi.advanceTimersByTimeAsync(300);
+    }
+    expect(shown().textContent).toBe("3 / 20");
+    expect(status().textContent).toBe("0 / 20");
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(status().textContent).toBe("3 / 20");
+    vi.useRealTimers();
+  });
   it("without a maximum it shows just the count", async () => {
     await mount("character-counter", snippet("character-counter").replace("lilyCharacterCounter(20,", "lilyCharacterCounter(null,"));
     await type(field(), "abc");
-    expect(el().textContent).toBe("3");
+    expect(shown().textContent).toBe("3");
     expect(el().hasAttribute("data-max")).toBe(false);
     expect(el().hasAttribute("data-over-limit")).toBe(false);
   });`,
@@ -62,26 +78,27 @@ export default {
     "text-area-input-with-character-counter": {
         tag: "div",
         keyboard: "native textarea keys; the counter updates as you type",
-        aria: "aria-label names the textarea; aria-describedby links it to the counter; the counter is a polite status",
+        aria: "aria-label names the textarea; aria-describedby links it to the counter, whose visible count is aria-hidden and whose hidden role=status takes it once typing pauses",
         markup: `<div class="text-area-input-with-character-counter" x-data="lilyCountedTextarea(20)">
   <textarea class="text-area-input-with-character-counter-textarea" aria-label="" aria-describedby="text-area-input-with-character-counter-count-1" x-bind="textarea"></textarea>
-  <span class="text-area-input-with-character-counter-count" id="text-area-input-with-character-counter-count-1" aria-label="" x-bind="counter"></span>
+  <span class="text-area-input-with-character-counter-count" id="text-area-input-with-character-counter-count-1" x-bind="counter"><span x-bind="counterShown"></span><span class="screen-reader-span" x-bind="counterStatus"></span></span>
 </div>`,
         sel: "div.text-area-input-with-character-counter",
         extra: withSnippet(
-            `const area = () => el().querySelector("textarea");\nconst count = () => el().querySelector("span");`,
+            `const area = () => el().querySelector("textarea");\nconst count = () => el().querySelector("span");\nconst shown = () => count().querySelector('[aria-hidden="true"]');\nconst status = () => count().querySelector('[role="status"]');`,
         ),
         test: `
-  it("links the textarea to a polite counter", async () => {
+  it("links the textarea to a counter that is not live itself", async () => {
     await mount("text-area-input-with-character-counter");
     expect(area().getAttribute("aria-describedby")).toBe(count().id);
-    expect(count().getAttribute("aria-live")).toBe("polite");
-    expect(count().textContent).toBe("0 / 20");
+    expect(el().querySelector("[aria-live]")).toBeNull();
+    expect(shown().textContent).toBe("0 / 20");
+    expect(status().textContent).toBe("0 / 20");
   });
   it("updates as the user types", async () => {
     await mount("text-area-input-with-character-counter");
     await type(area(), "hello world");
-    expect(count().textContent).toBe("11 / 20");
+    expect(shown().textContent).toBe("11 / 20");
     expect(area().hasAttribute("aria-invalid")).toBe(false);
   });
   it("flags the textarea invalid and the counter over limit past the maximum", async () => {

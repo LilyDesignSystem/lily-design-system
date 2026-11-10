@@ -18,7 +18,9 @@ import {
     attachTreePopup,
 } from "./widget-keys.js";
 import {
+    attachCharacterCounter,
     attachChatComposer,
+    attachCountedTextarea,
     attachDial,
     attachExpander,
     attachEditable,
@@ -75,6 +77,8 @@ export function autoInit(doc = document) {
         ...all(".scroll-bar", attachScrollBar),
         ...all(".tile-map", attachTileMap),
         ...all(".wheel-picker", attachWheelPicker),
+        ...all(".character-counter[data-for]", attachCharacterCounter),
+        ...all(".text-area-input-with-character-counter", attachCountedTextarea),
         ...all(".horizontal-scroller", attachHorizontalScroller),
         ...all(".editable", attachEditable),
         ...all(".editable-form", attachEditableForm),

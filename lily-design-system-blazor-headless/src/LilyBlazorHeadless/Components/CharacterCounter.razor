@@ -9,21 +9,22 @@
         Count — int, default 0. The current character count.
         Max — int?. The limit; with it the text is "Count / Max" and data-max, data-remaining and, past the
             limit, data-over-limit are rendered.
-        Label — string. aria-label.
+        Label — string. Names the status (aria-label).
         ChildContent — the consumer's own words; when given they replace the numbers. No English default.
+        AnnounceDelay — int, default 1000. Milliseconds of quiet before the status takes the new count.
+
+    The visible count (.character-counter-text) is aria-hidden; a visually hidden role="status" (.character-counter-status,
+    also .screen-reader-span) takes the same content once Count has stopped changing for AnnounceDelay ms, so a run of
+    keystrokes is announced once, as GOV.UK's character count does.
 *@
 
-<span class="@($"character-counter {CssClass}".Trim())" aria-live="polite" role="status" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)" data-count="@Num(Count)" data-max="@(Max is { } max ? Num(max) : null)" data-remaining="@(Max is { } m ? Num(m - Count) : null)" data-over-limit="@(Max is { } l && Count > l ? "" : null)" @attributes="AdditionalAttributes">@if (ChildContent is not null)
-{
-    @ChildContent
-}
-else
-{
-    @(Max is { } total ? $"{Num(Count)} / {Num(total)}" : Num(Count))
-}</span>
+<span class="@($"character-counter {CssClass}".Trim())" data-count="@Num(Count)" data-max="@(Max is { } max ? Num(max) : null)" data-remaining="@(Max is { } m ? Num(m - Count) : null)" data-over-limit="@(Max is { } l && Count > l ? "" : null)" @attributes="AdditionalAttributes"><span class="character-counter-text" aria-hidden="true">@Shown</span><span class="character-counter-status screen-reader-span" role="status" aria-label="@(string.IsNullOrEmpty(Label) ? null : Label)"><DelayedContent Content="@Shown" Version="@_version" /></span></span>
+
+@implements IDisposable
 
 @code {
     [Parameter] public int Count { get; set; }
+    [Parameter] public int AnnounceDelay { get; set; } = 1000;
     [Parameter] public int? Max { get; set; }
     [Parameter] public string Label { get; set; } = "";
     [Parameter] public RenderFragment? ChildContent { get; set; }
@@ -31,4 +32,20 @@ else
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private static string Num(int n) => n.ToString(CultureInfo.InvariantCulture);
+
+    private RenderFragment Shown => ChildContent ?? (b => b.AddContent(0, Max is { } total ? $"{Num(Count)} / {Num(total)}" : Num(Count)));
+
+    private readonly Debounce _debounce = new();
+    private int _version;
+    private (int, int?)? _last;
+
+    protected override void OnParametersSet()
+    {
+        var now = (Count, Max);
+        if (_last is not null && _last != now)
+            _debounce.Restart(AnnounceDelay, () => InvokeAsync(() => { _version++; StateHasChanged(); }));
+        _last = now;
+    }
+
+    public void Dispose() => _debounce.Dispose();
 }

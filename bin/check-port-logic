@@ -55,6 +55,7 @@ const BLAZOR = [
   /\bIJSRuntime\b/,
   /@inherits\s+\w+/,
   /\bOnAfterRender(?:Async)?\b/,
+  /\bOnParametersSet(?:Async)?\b/, // reacting to a parameter change, such as a counter waiting for typing to pause
 ];
 
 const svelteCode = (s) =>

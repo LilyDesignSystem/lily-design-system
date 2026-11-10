@@ -3,8 +3,9 @@
 
   HTML tag: <time role="timer">
   CSS class: timer
-  Accessibility: aria-live="polite" so screen readers announce changes
-    without interrupting. Use data-timer-remaining or data-timer-elapsed
+  Accessibility: not a live region (role="timer" is aria-live="off"): a value
+    that changes every second would flood a screen reader. Announce milestones
+    ("one minute left") in a separate status region. Use data-timer-remaining or data-timer-elapsed
     to let client-side JS update the text.
 
   Params:
@@ -21,7 +22,6 @@
 <time
   class="timer{% if p.classes %} {{ p.classes }}{% endif %}"
   role="timer"
-  aria-live="polite"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   data-mode="{{ p.mode | default('countdown') }}"

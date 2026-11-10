@@ -2,7 +2,9 @@
   CharacterCounter macro — a counter showing remaining or used
     characters in a text field.
 
-  HTML tag: <span role="status" aria-live="polite">
+  HTML tag: <span>, holding the visible count (.character-counter-text, aria-hidden) and a visually hidden
+    role="status" (.character-counter-status) that takes the same text once typing pauses, so a run of keystrokes is
+    announced once. With `for`, components/widget-init.js counts that field as the user types.
   CSS class: character-counter
 
   Params:
@@ -10,8 +12,9 @@
     maximum     number  Maximum allowed characters (optional). (max also works.)
     text        string  The words to show, in the page's language. Default: the numbers alone, "12 / 200" or
                         "12", as in Svelte: no English.
-    label       string  Accessible name, e.g. "Characters used".
-    for         string  id of the input this counter describes.
+    label       string  Names the status, e.g. "Characters used".
+    for         string  id of the field this counter counts (rendered as data-for; widget-init.js follows it).
+    announceDelay number Milliseconds of quiet before the status takes the count. Default 1000.
     id          string
     classes     string
     attributes  object
@@ -32,14 +35,12 @@
 {%- endif -%}
 <span
   class="character-counter{% if p.classes %} {{ p.classes }}{% endif %}"
-  role="status"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
-  aria-live="polite"
   data-count="{{ value }}"
   {%- if maximum %} data-max="{{ maximum }}" data-remaining="{{ maximum - value }}"{% endif %}
   {%- if maximum and value > maximum %} data-over-limit{% endif %}
-  {%- if p.for %} for="{{ p.for }}"{% endif %}
+  {%- if p.for %} data-for="{{ p.for }}"{% endif %}
+  {%- if p.announceDelay %} data-announce-delay="{{ p.announceDelay }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->{{ text }}</span>
+><span class="character-counter-text" aria-hidden="true">{{ text }}</span><span class="character-counter-status screen-reader-span" role="status"{% if p.label %} aria-label="{{ p.label }}"{% endif %}>{{ text }}</span></span>
 {%- endmacro -%}

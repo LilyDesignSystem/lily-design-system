@@ -10,6 +10,7 @@
 //   value — string, default "". Current text-area-input value.
 //   maxLength — number, required. Maximum number of characters allowed.
 //   counterTemplate — string, default "{count} / {max}": the numbers alone, no English. Counter text template.
+//   announceDelay — number, default 1000. Milliseconds of quiet before the counter's status takes the new count.
 //   rows — number, optional. Number of visible text rows.
 //   placeholder — string, optional. Placeholder text for the text-area-input.
 //   onChange — (value: string) => void, optional. Callback when value changes.
@@ -27,7 +28,8 @@
 // Accessibility:
 //   - aria-label on the text-area-input provides accessible name
 //   - aria-describedby links text-area-input to the counter
-//   - aria-live="polite" on counter announces updates to screen readers
+//   - the visible counter is aria-hidden; a visually hidden role="status" takes the same text announceDelay ms after
+//     typing pauses, so a run of keystrokes is announced once
 //
 // Internationalization:
 //   - counterTemplate prop allows full customization of counter text
@@ -40,7 +42,7 @@
 // References:
 //   - MDN text-area-input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input
 
-import React, { useId } from "react";
+import React, { useEffect, useId, useState } from "react";
 import { warnMissingName } from "./dev-warning";
 
 export interface TextAreaInputWithCharacterCounterProps {
@@ -53,6 +55,8 @@ export interface TextAreaInputWithCharacterCounterProps {
     maxLength: number;
     /** Counter text template with {count} and {max} placeholders */
     counterTemplate?: string;
+    /** Milliseconds of quiet before the counter's status takes the new count */
+    announceDelay?: number;
     /** Number of visible text rows */
     rows?: number;
     /** Placeholder text for the text-area-input */
@@ -72,6 +76,7 @@ export default function TextAreaInputWithCharacterCounter({
     value = "",
     maxLength,
     counterTemplate = "{count} / {max}",
+    announceDelay = 1000,
     rows = undefined,
     placeholder = undefined,
     onChange,
@@ -90,6 +95,13 @@ export default function TextAreaInputWithCharacterCounter({
         .replace("{count}", String(value.length))
         .replace("{max}", String(maxLength));
 
+    // The status takes the text only once typing has paused for announceDelay ms; the visible counter is aria-hidden.
+    const [announced, setAnnounced] = useState(counterText);
+    useEffect(() => {
+        const timer = setTimeout(() => setAnnounced(counterText), announceDelay);
+        return () => clearTimeout(timer);
+    }, [counterText, announceDelay]);
+
     return (
         <div
             className={`text-area-input-with-character-counter ${className}`}
@@ -106,11 +118,14 @@ export default function TextAreaInputWithCharacterCounter({
                 required={required}
                 disabled={disabled}
             />
-            <span
-                id={counterId}
-                aria-live="polite"
-            >
-                {counterText}
+            <span id={counterId}>
+                <span aria-hidden="true">{counterText}</span>
+                <span
+                    className="screen-reader-span"
+                    role="status"
+                >
+                    {announced}
+                </span>
             </span>
         </div>
     );

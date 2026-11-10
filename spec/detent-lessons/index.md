@@ -107,14 +107,14 @@ already a wheel, and it is the answer for a closed picker ([native-primitives.ts
 
 ## Acceptance criteria
 
-- [x] 1. Scrolling a `wheel-picker` and letting it settle chooses the centred option, in every catalog that has script. _(2026-11-10: all but Blazor. Only a scroll after a gesture chooses, so the component's own centring never overrides a key or a click; `e2e/time-wheels.spec.ts` turns a wheel with the mouse in Chromium and WebKit.)_ A real-browser
+- [x] 1. Scrolling a `wheel-picker` and letting it settle chooses the centred option, in every catalog that has script. _(2026-11-10, and Blazor through a JS module the same day, P26-T10. Only a scroll after a gesture chooses, so the component's own centring never overrides a key or a click; `e2e/time-wheels.spec.ts` turns a wheel with the mouse in Chromium and WebKit.)_ A real-browser
       test scrolls it and checks `aria-selected`, because jsdom does not scroll.
 - [x] 2. Every theme lets the first and last options rest in the centre. _(2026-11-10.)_
 - [x] 3. A disabled picker is not submitted, form reset restores the first value, and `form` reaches the hidden input. _(2026-11-10; Blazor has no reset.)_
 - [x] 4. Orientation is built, or declined with a reason. _(2026-11-10: built.)_
 - [x] 5. The drum recipe is documented, with a reduced-motion test, and `scroll-snap-stop` has a recorded result. _(2026-11-10; the result is under item 5.)_
 - [x] 6. The several-wheels pattern is documented, and `date-time-picker` uses `wheel-picker` or records why not. _(2026-11-10: it records why not.)_
-- [x] 7. The animated-text rule is in `AGENTS/accessibility.md`. _(2026-11-10; `timer` and `character-counter` do not meet it yet: P26-T8, P26-T9.)_
+- [x] 7. The animated-text rule is in `AGENTS/accessibility.md`. _(2026-11-10; `timer` and `character-counter` met it the same day, P26-T8 and P26-T9.)_
 
 ## Related topics
 

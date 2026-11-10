@@ -12,6 +12,7 @@
     //   value — string, default "". Bindable text-area-input value.
     //   maxLength — number, required. Maximum number of characters allowed.
     //   counterTemplate — string, default "{count} / {max}": the numbers alone, no English. Counter text template.
+    //   announceDelay — number, default 1000. Milliseconds of quiet before the counter's status takes the new count.
     //   rows — number, optional. Number of visible text rows.
     //   placeholder — string, optional. Placeholder text for the text-area-input.
     //   required — boolean, default false. Whether the text-area-input is required.
@@ -28,7 +29,8 @@
     // Accessibility:
     //   - aria-label on the text-area-input provides accessible name
     //   - aria-describedby links text-area-input to the counter
-    //   - aria-live="polite" on counter announces updates to screen readers
+    //   - the visible counter text is aria-hidden; a visually hidden role="status" (.screen-reader-span) takes the same
+    //     text announceDelay ms after typing pauses, so a run of keystrokes is announced once, as GOV.UK does
     //
     // Internationalization:
     //   - counterTemplate prop allows full customization of counter text
@@ -41,6 +43,7 @@
     // References:
     //   - MDN text-area-input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input
 
+    import { untrack } from "svelte";
     import { warnMissingName } from "../dev-warning";
 
     let {
@@ -49,6 +52,7 @@
         value = $bindable(""),
         maxLength,
         counterTemplate = "{count} / {max}",
+        announceDelay = 1000,
         rows = undefined,
         placeholder = undefined,
         required = false,
@@ -59,6 +63,8 @@
         value?: string;
         maxLength: number;
         counterTemplate?: string;
+        /** Milliseconds of quiet before the counter's status takes the new count. */
+        announceDelay?: number;
         rows?: number;
         placeholder?: string;
         required?: boolean;
@@ -83,6 +89,14 @@
             .replace("{count}", String(value.length))
             .replace("{max}", String(maxLength)),
     );
+
+    // The status takes the text only once typing has paused for announceDelay ms.
+    let announced = $state(untrack(() => counterText));
+    $effect(() => {
+        const next = counterText;
+        const timer = setTimeout(() => (announced = next), announceDelay);
+        return () => clearTimeout(timer);
+    });
 </script>
 
 <!-- TextAreaInputWithCharacterCounter.svelte -->
@@ -99,10 +113,11 @@
         {placeholder}
         {required}
         {disabled}></textarea>
-    <span
-        id={counterId}
-        aria-live="polite"
-    >
-        {counterText}
+    <span id={counterId}>
+        <span aria-hidden="true">{counterText}</span>
+        <span
+            class="screen-reader-span"
+            role="status">{announced}</span
+        >
     </span>
 </div>

@@ -15,7 +15,7 @@ Implement the Text Area With Character Counter component: a multi-line text area
 
 1. Use semantic <div> wrapper with class="text-area-input-with-character-counter"
 2. Add <textarea> with aria-label, aria-describedby, and maxlength
-3. Add character counter <span> with aria-live="polite"
+3. Add character counter <span>: a visible, aria-hidden count and a hidden role="status" updated after a pause in typing
 4. Counter text uses configurable template with {count} and {max} placeholders
 5. Implement in all headless and example subprojects
 
@@ -23,7 +23,7 @@ Implement the Text Area With Character Counter component: a multi-line text area
 
 - [ ] Renders <div> with class="text-area-input-with-character-counter"
 - [ ] Contains <textarea> with aria-label and aria-describedby
-- [ ] Contains counter with aria-live="polite"
+- [x] Contains a counter whose status is announced once typing pauses (P26-T9, 2026-11-10)
 - [ ] Counter updates reactively
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS -- fully headless

@@ -12,7 +12,7 @@
 
 ## Key Behaviors
 
-- Renders as a `<span>` element with `role="status"` and `aria-live="polite"` for non-intrusive screen reader announcements
+- Renders as a `<span>` holding `.character-counter-text` (the visible count, `aria-hidden="true"`) and `.character-counter-status` (a visually hidden `role="status"`, named by `label`), which takes the same text once the count has stopped changing for `announceDelay` ms (default 1000)
 - Uses derived value to compute `remaining` count and `overLimit` boolean from `count` and `max` props
 - Displays "count / max" when `max` is provided, otherwise displays just the count
 - Exposes data attributes for consumer CSS: `data-count`, `data-max`, `data-remaining`, `data-over-limit`
@@ -21,8 +21,9 @@
 
 ## ARIA
 
-- `role="status"` -- identifies the element as a live region that presents advisory information
-- `aria-live="polite"` -- screen readers announce updates at the next convenient pause, without interrupting the user
+- `role="status"` on `.character-counter-status`, updated only after a pause in typing, so a run of keystrokes is one announcement
+- `aria-hidden="true"` on the visible count, so it is not read twice
+- `aria-label` (from `label`) names the status
 - `aria-label` -- set from the `label` prop to provide context for what the counter represents
 
 ## Keyboard
@@ -33,13 +34,14 @@
 
 - `count`: number (default: 0) -- current character count
 - `max`: number (optional) -- maximum allowed characters; when provided, enables remaining/over-limit tracking
-- `label`: string (optional) -- accessible label for the counter via aria-label
+- `label`: string (optional) -- names the status, via `aria-label`
+- `announceDelay`: number (default: 1000) -- milliseconds of quiet before the status takes the new count
 
 ## Acceptance Criteria
 
 - [ ] Renders <span> element with class="character-counter"
 - [ ] Has aria-label attribute
-- [ ] Has role="status"
+- [ ] Has a role="status" inside it that is updated only after a pause in typing
 - [ ] WCAG 2.2 AAA compliant
 - [ ] Zero CSS — fully headless
 
