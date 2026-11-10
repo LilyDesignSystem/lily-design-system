@@ -1,0 +1,46 @@
+# Build artifacts
+target/
+
+# IDE directories
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Editor temporary files
+*~
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Local environment and config files
+.env
+.env.*
+!.env.example
+*.local
+
+# Logs and test output
+*.log
+*.log.*
+logs/
+tmp/
+temp/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Distribution directories
+dist-*/
+dist/
+
+# Documentation build output
+docs/_build/
+docs/build/
+
+# Dependency libraries
+node_modules/
