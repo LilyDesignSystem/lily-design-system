@@ -1,8 +1,8 @@
 {#
   MenuItem macro — one item in a menu.
 
-  HTML tag: <li role="menuitem"> wrapping a <button> for
-    command semantics.
+  HTML tag: <div role="none"> wrapping a <button role="menuitem">, so
+    the item keeps a button's Enter, Space and disabled for free.
   CSS class: menu-item
 
   Params:
@@ -21,7 +21,7 @@
 #}
 {%- macro menuItem(params) -%}
 {%- set p = params | default({}) -%}
-<li
+<div
   class="menu-item{% if p.classes %} {{ p.classes }}{% endif %}"
   role="none"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
@@ -44,5 +44,5 @@
     <kbd class="menu-item-shortcut">{{ p.shortcut }}</kbd>
     {%- endif %}
   </button>
-</li>
+</div>
 {%- endmacro -%}

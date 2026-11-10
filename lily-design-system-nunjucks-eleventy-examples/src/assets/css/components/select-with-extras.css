@@ -1,4 +1,9 @@
 .select-with-extras {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--nhsuk-spacing-2);
+}
+.select-with-extras select {
   padding: var(--nhsuk-spacing-1);
   border: 2px solid var(--nhsuk-black);
   border-radius: 3px;

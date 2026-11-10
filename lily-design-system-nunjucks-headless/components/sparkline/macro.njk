@@ -1,7 +1,8 @@
 {#
   Sparkline macro — a small inline chart showing a data trend.
 
-  HTML tag: <svg role="img">
+  HTML tag: <span role="img"> holding an aria-hidden <svg>, as Svelte
+    renders it
   CSS class: sparkline
   Accessibility: role="img" with aria-label describing the trend.
 
@@ -38,17 +39,11 @@
   {%- set y = height - ((v - minV) * height) / span -%}
   {%- set points = points.concat([x ~ "," ~ y]) -%}
 {%- endfor -%}
-<svg
+<span
   class="sparkline{% if p.classes %} {{ p.classes }}{% endif %}"
   role="img"
-  viewBox="0 0 {{ width }} {{ height }}"
-  width="{{ width }}"
-  height="{{ height }}"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
-  xmlns="http://www.w3.org/2000/svg"
->
-  <polyline fill="none" stroke="currentColor" stroke-width="1.5" points="{{ points | join(' ') }}"/>
-</svg>
+><svg viewBox="0 0 {{ width }} {{ height }}" width="{{ width }}" height="{{ height }}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="currentColor" stroke-width="1.5" points="{{ points | join(' ') }}"/></svg></span>
 {%- endmacro -%}

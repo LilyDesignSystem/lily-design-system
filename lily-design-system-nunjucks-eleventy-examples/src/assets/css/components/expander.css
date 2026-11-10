@@ -1,11 +1,16 @@
 .expander {
   margin-bottom: var(--nhsuk-spacing-3);
 }
-.expander-summary {
+.expander-button {
   cursor: pointer;
+  border: 0;
+  background: none;
+  padding: 0;
   color: var(--nhsuk-link);
+  font: inherit;
   font-weight: var(--nhsuk-font-weight-bold);
+  text-decoration: underline;
 }
-.expander-body {
+.expander-content {
   padding-top: var(--nhsuk-spacing-2);
 }

@@ -2,24 +2,33 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("measurement-system-input", () => {
-    it("renders a <select> with the supplied options", () => {
+    it("renders a bare <input type=text> with the base class, as Svelte", () => {
         const { document } = render("measurement-system-input", {
-            value: "metric",
-            systems: [
-                { value: "metric", text: "Metric" },
-                { value: "imperial", text: "Imperial" },
-            ],
-            label: "System",
+            id: "m",
+            name: "m",
+            value: "5",
+            label: "Amount",
         });
-        const sel = document.querySelector("select.measurement-system-input");
-        expect(sel).toBeTruthy();
-        expect(sel.getAttribute("aria-label")).toBe("System");
-        expect(sel.querySelectorAll("option").length).toBe(2);
-        expect(sel.querySelector("option[selected]").getAttribute("value")).toBe("metric");
+        const el = document.querySelector("input.measurement-system-input");
+        expect(el.getAttribute("type")).toBe("text");
+        expect(el.getAttribute("aria-label")).toBe("Amount");
+        expect(el.getAttribute("name")).toBe("m");
+        expect(el.getAttribute("value")).toBe("5");
+    });
+
+    it("supports required, disabled and invalid", () => {
+        const el = render("measurement-system-input", {
+            required: true,
+            disabled: true,
+            invalid: true,
+        }).document.querySelector("input");
+        expect(el.hasAttribute("required")).toBe(true);
+        expect(el.hasAttribute("disabled")).toBe(true);
+        expect(el.getAttribute("aria-invalid")).toBe("true");
     });
 
     it("contains no <style> or <script> tags", () => {
-        const { html } = render("measurement-system-input", { systems: [] });
+        const { html } = render("measurement-system-input", {});
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });

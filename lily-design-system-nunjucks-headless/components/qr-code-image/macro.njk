@@ -1,13 +1,16 @@
 {#
   QrCodeImage macro — a QR code image generated from text or URL data.
 
-  HTML tag: <img>
+  HTML tag: <div role="img">, as Svelte renders it; the image inside is
+    presentational
   CSS class: qr-code-image
-  Accessibility: the alt text should describe the QR code's purpose.
+  Accessibility: label (or alt) names the code's purpose; the root
+    carries it, so the inner <img> has alt="".
 
   Params:
     src         string   Pre-rendered QR image URL (required).
-    alt         string   Alt text describing the code's purpose.
+    label       string   The code's purpose, the root's aria-label.
+    alt         string   Accepted for label, for older calls.
     size        number   Square side length in px.
     id          string
     classes     string
@@ -19,13 +22,17 @@
 #}
 {%- macro qrCodeImage(params) -%}
 {%- set p = params | default({}) -%}
-<img
+{%- set name = p.label | default(p.alt) -%}
+<div
   class="qr-code-image{% if p.classes %} {{ p.classes }}{% endif %}"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
-  src="{{ p.src }}"
-  alt="{{ p.alt }}"
-  {%- if p.size %} width="{{ p.size }}" height="{{ p.size }}"{% endif %}
+  role="img"
+  {%- if name %} aria-label="{{ name }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
+  {%- if p.src %}<img src="{{ p.src }}" alt=""{% if p.size %} width="{{ p.size }}" height="{{ p.size }}"{% endif %}>
+  {%- elif p.html %}{{ p.html | safe }}
+  {%- elif caller %}{{ caller() }}
+  {%- endif -%}
+</div>
 {%- endmacro -%}

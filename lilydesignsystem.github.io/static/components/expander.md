@@ -26,7 +26,7 @@ This component is useful for progressive disclosure patterns such as FAQ section
 ## Usage
 
 ```html
-<Expander summary="How to get your medical records">
+<Expander label="How to get your medical records">
   <p>You can see your GP records by:</p>
   <ul>
     <li>asking for them at your GP surgery</li>
@@ -34,7 +34,7 @@ This component is useful for progressive disclosure patterns such as FAQ section
   </ul>
 </Expander>
 
-<Expander summary="How to measure your blood glucose levels">
+<Expander label="How to measure your blood glucose levels">
   <p>
     Testing your blood glucose levels involves a simple finger prick test using a blood glucose
     monitor.

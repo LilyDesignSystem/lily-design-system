@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<ul
+const html = `<div
   class="tag-group"
-  role="list"></ul>`;
+  role="group" aria-label="Statuses"><strong class="tag">Verified</strong></div>`;
 
 const meta = {
     title: "Headless/TagGroup",

@@ -20,6 +20,7 @@ import {
 import {
     attachChatComposer,
     attachDial,
+    attachExpander,
     attachEditable,
     attachEditableForm,
     attachFileTree,
@@ -67,7 +68,8 @@ export function autoInit(doc = document) {
         ...all(".calendar-week-table", (el) => attachGrid(el)),
         ...all(".calendar-day-table", (el) => attachGrid(el)),
         ...all(".gantt-table", (el) => attachGrid(el)),
-        ...all("input.dial", attachDial),
+        ...all(".dial[role=slider]", attachDial),
+        ...all(".expander", attachExpander),
         ...all(".slider-button", attachSliderButton),
         ...all(".pin-input-div", attachPinInput),
         ...all(".scroll-bar", attachScrollBar),

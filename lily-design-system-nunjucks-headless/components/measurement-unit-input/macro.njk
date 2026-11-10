@@ -1,17 +1,17 @@
 {#
-  MeasurementUnitInput macro — an input for selecting a measurement unit.
+  MeasurementUnitInput macro — an input for a measurement unit.
 
-  HTML tag: <select>
+  HTML tag: <input type="text">, as Svelte renders it
   CSS class: measurement-unit-input
 
   Params:
-    value       string   Current selection.
-    units       array    List of {value, text} unit options.
+    id          string
     name        string
+    value       string   Current value.
+    label       string   Accessible name (aria-label), or pair a <label for>.
     required    boolean
     disabled    boolean
-    label       string
-    id          string
+    invalid     boolean  Sets aria-invalid="true".
     classes     string
     attributes  object
 
@@ -21,17 +21,16 @@
 #}
 {%- macro measurementUnitInput(params) -%}
 {%- set p = params | default({}) -%}
-<select
+<input
   class="measurement-unit-input{% if p.classes %} {{ p.classes }}{% endif %}"
+  type="text"
+  value="{{ p.value | default('') }}"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.name %} name="{{ p.name }}"{% endif %}
+  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.required %} required{% endif %}
   {%- if p.disabled %} disabled{% endif %}
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.invalid %} aria-invalid="true"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
-  {%- for u in p.units | default([]) %}
-  <option value="{{ u.value }}"{% if u.value == p.value %} selected{% endif %}>{{ u.text | default(u.value) }}</option>
-  {%- endfor %}
-</select>
 {%- endmacro -%}

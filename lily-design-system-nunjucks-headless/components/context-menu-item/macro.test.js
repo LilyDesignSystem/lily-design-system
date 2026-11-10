@@ -2,9 +2,9 @@ import { describe, it, expect } from "vitest";
 import { render } from "../../test/render.js";
 
 describe("context-menu-item", () => {
-    it("renders an <li> wrapping a <button role=menuitem>", () => {
+    it("renders a <div role=none> wrapping a <button role=menuitem>", () => {
         const { document } = render("context-menu-item", { text: "Copy" });
-        const li = document.querySelector("li.context-menu-item");
+        const li = document.querySelector("div.context-menu-item");
         expect(li).toBeTruthy();
         expect(li.getAttribute("role")).toBe("none");
         const btn = li.querySelector("button.context-menu-item-button");
@@ -27,7 +27,9 @@ describe("context-menu-item", () => {
             text: "Delete",
             danger: true,
         });
-        expect(document.querySelector("li").getAttribute("data-danger")).toBe("true");
+        expect(document.querySelector("div.context-menu-item").getAttribute("data-danger")).toBe(
+            "true",
+        );
     });
 
     it("supports disabled", () => {
