@@ -9,6 +9,18 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## `editable` is a `<div>` holding a native button — 2026-11-10
+
+tasks.md P25-T30, the maintainer's decision.
+
+- **Changed (breaking):** `editable` renders a stable `<div class="editable">` root in all nine catalogs. In display mode it holds
+  a native `<button type="button" class="editable-button">` named "value, label", and in edit mode an
+  `<input type="text" class="editable-input">`. Before, the root was a `<span role="button">` or the `<input>`, so the class and
+  passed-through attributes moved between two elements; the `role`, `tabindex` and custom Enter and Space keys are gone, and
+  `disabled` disables the button. Nunjucks, which rendered a `contenteditable` `<span role="textbox">`, follows the contract now.
+- **Fixed:** focus moves to the field on edit and back to the button on confirm or cancel in every catalog; Svelte, React, Vue
+  and Angular left it on the removed element. `bin/check-html-tags.allow.json` loses its seven `editable` entries.
+
 ## Timers and counters stop chattering; Blazor's wheel picker gets a module — 2026-11-10
 
 tasks.md P26-T8 to P26-T10, from the animated-text rule in `AGENTS/accessibility.md`. Done at the maintainer's request.

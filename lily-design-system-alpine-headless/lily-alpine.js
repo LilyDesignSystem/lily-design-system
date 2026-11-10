@@ -2080,14 +2080,12 @@ export default function lily(Alpine) {
             this.editing = false;
             this.$nextTick(() => this.$refs.display?.focus());
         },
+        // A native button: focusable, with Enter and Space, so it needs no role and no keys of its own.
         display: {
-            role: "button",
+            type: "button",
             "x-ref": "display",
-            ":tabindex"() {
-                return this.disabled ? "-1" : "0";
-            },
-            ":aria-disabled"() {
-                return this.disabled ? "true" : null;
+            ":disabled"() {
+                return this.disabled;
             },
             ":aria-label"() {
                 return this.value ? `${this.value}, ${this.label}` : this.label;
@@ -2099,12 +2097,6 @@ export default function lily(Alpine) {
                 return this.value;
             },
             "@click"() {
-                this.edit();
-            },
-            "@keydown.enter.prevent"() {
-                this.edit();
-            },
-            "@keydown.space.prevent"() {
                 this.edit();
             },
         },

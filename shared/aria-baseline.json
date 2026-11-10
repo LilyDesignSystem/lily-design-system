@@ -920,10 +920,8 @@
     "aria": []
   },
   "editable": {
-    "role": "button",
-    "aria": [
-      "aria-label"
-    ]
+    "role": null,
+    "aria": []
   },
   "eesti-isikukood-input": {
     "role": null,

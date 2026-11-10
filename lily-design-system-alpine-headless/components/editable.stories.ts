@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<div class="editable" x-data="lilyEditable(\'\', false, \'\')">\n  <span class="editable-display" x-bind="display"></span>\n  <input class="editable-input" x-bind="input" hidden>\n</div>';
+    '<div class="editable" x-data="lilyEditable(\'\', false, \'\')">\n  <button class="editable-button" x-bind="display"></button>\n  <input class="editable-input" x-bind="input" hidden>\n</div>';
 
 const meta = {
     title: "Headless/Editable",

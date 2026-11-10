@@ -4,8 +4,8 @@
   Description: an inline-editable text element that toggles between view and edit modes
   HTML tag: <div>
   CSS class: editable
-  Keyboard: Enter, Space or a click edits; Enter confirms; Escape cancels
-  Accessibility: the display is role="button" named "value, label"; tabindex 0 (or -1 with aria-disabled when disabled); the field is named by the label
+  Keyboard: Enter, Space (the button's own keys) or a click edits; Enter confirms; Escape cancels
+  Accessibility: the display is a native button named "value, label", disabled when the editable is; the field is named by the label
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
@@ -13,10 +13,10 @@
   class="editable"
   x-data="lilyEditable('', false, '')"
 >
-  <span
-    class="editable-display"
+  <button
+    class="editable-button"
     x-bind="display"
-  ></span>
+  ></button>
   <input
     class="editable-input"
     x-bind="input"

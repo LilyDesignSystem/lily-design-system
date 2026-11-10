@@ -4,8 +4,8 @@
 // display and an edit field. The canonical contract's own "HTML tag:
 // <div>" is honoured as the wrapper (this catalog's autonomous custom
 // elements always introduce one host node — see lib/dom-utils.ts);
-// inside it, a real display <span role="button"> and a real edit
-// <input type="text"> are both built once and toggled via the `hidden`
+// inside it, a native display <button type="button" class="editable-button">
+// and an edit <input type="text" class="editable-input"> are both built once and toggled via the `hidden`
 // content attribute (only one is ever visible), matching this
 // catalog's EditableForm/Drawer precedent for "hidden is equivalent to
 // conditional mount."
@@ -17,7 +17,8 @@
 //   editing — presence-based boolean; bindable edit-mode state.
 //   disabled — presence-based boolean; disables activating edit mode.
 //
-// Keyboard (display mode): Enter / Space activates edit mode.
+// Keyboard (display mode): Enter / Space activates edit mode (the button's own keys).
+// Focus moves to the field on edit, and back to the button on confirm or cancel.
 // Keyboard (edit mode): Enter confirms (copies the draft to `value`);
 // Escape cancels (reverts the draft, discarding the edit).
 //
@@ -36,7 +37,7 @@ export class Editable extends HTMLElement {
     }
 
     #built = false;
-    #display: HTMLSpanElement | null = null;
+    #display: HTMLButtonElement | null = null;
     #input: HTMLInputElement | null = null;
 
     connectedCallback(): void {
@@ -45,13 +46,15 @@ export class Editable extends HTMLElement {
 
         applySelfClassName(this, "editable");
 
-        const display = document.createElement("span");
-        display.setAttribute("role", "button");
+        // A native button: focusable, with Enter and Space, so it needs no role and no keys of its own.
+        const display = document.createElement("button");
+        display.type = "button";
+        display.className = "editable-button";
         display.addEventListener("click", this.#onActivate);
-        display.addEventListener("keydown", this.#onDisplayKeydown);
         this.#display = display;
 
         const input = document.createElement("input");
+        input.className = "editable-input";
         input.type = "text";
         input.addEventListener("keydown", this.#onInputKeydown);
         this.#input = input;
@@ -89,9 +92,7 @@ export class Editable extends HTMLElement {
             input.setAttribute("aria-label", label);
         }
         display.textContent = value;
-        display.tabIndex = disabled ? -1 : 0;
-        if (disabled) display.setAttribute("aria-disabled", "true");
-        else display.removeAttribute("aria-disabled");
+        display.disabled = disabled;
 
         display.hidden = editing;
         input.hidden = !editing;
@@ -109,6 +110,7 @@ export class Editable extends HTMLElement {
     #confirm(): void {
         this.setAttribute("value", this.#input!.value);
         this.removeAttribute("editing");
+        this.#display!.focus();
         this.dispatchEvent(
             new CustomEvent("lily-change", {
                 detail: { value: this.#input!.value },
@@ -120,17 +122,11 @@ export class Editable extends HTMLElement {
 
     #cancel(): void {
         this.removeAttribute("editing");
+        this.#display!.focus();
     }
 
     #onActivate = (): void => {
         this.#startEditing();
-    };
-
-    #onDisplayKeydown = (event: KeyboardEvent): void => {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            this.#startEditing();
-        }
     };
 
     #onInputKeydown = (event: KeyboardEvent): void => {

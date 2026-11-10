@@ -6,10 +6,10 @@ description: an inline-editable text element
 
 {% from "components/editable/macro.njk" import editable %}
 
-<p>Patient name: {{ editable({ text: "Alex Morgan", label: "Patient name" }) }}</p>
+{{ editable({ value: "Alex Morgan", label: "Patient name" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;div class="editable" contenteditable="true"&gt;Click to edit this text&lt;/div&gt;
+<pre tabindex="0"><code>{% raw %}&lt;div class="editable"&gt;&lt;button type="button" class="editable-button" aria-label="Alex Morgan, Patient name"&gt;Alex Morgan&lt;/button&gt;&lt;input type="text" class="editable-input" aria-label="Patient name" hidden&gt;&lt;/div&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

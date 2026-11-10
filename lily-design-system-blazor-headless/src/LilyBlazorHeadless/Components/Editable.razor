@@ -4,26 +4,28 @@
     Editable component
     an inline-editable text element that toggles between view and edit modes
 
-    Display mode: a <span role="button"> showing the value (or ChildContent), named "value, label" (the label alone when
-    the value is empty) so the visible text is part of the name (WCAG 2.5.3). Click, Enter or Space start editing.
-    Edit mode: an <input> named by the label, holding a draft of the value; Enter confirms it (Value / ValueChanged),
-    Escape cancels it. Editing / EditingChanged is two-way (@bind-Editing). Disabled: aria-disabled, out of the tab
-    order, never starts editing.
+    The root is a <div class="editable">. Display mode: a native <button type="button" class="editable-button"> showing
+    the value (or ChildContent), named "value, label" (the label alone when the value is empty) so the visible text is
+    part of the name (WCAG 2.5.3); a click, or the button's own Enter and Space, starts editing. Edit mode: an
+    <input class="editable-input"> named by the label, holding a draft of the value; Enter confirms it (Value /
+    ValueChanged), Escape cancels it. Editing / EditingChanged is two-way (@bind-Editing). Disabled: the button is
+    disabled and never starts editing. Focus moves to the field on edit and back to the button after.
 
-    Deviation from the Svelte canonical (Blazor here uses no JS interop): an event handler cannot call preventDefault for
-    only some keys, so Space on the display span may also scroll the page, and Enter in the input also submits an
-    enclosing form.
-    Unmatched attributes spread onto whichever element is shown.
+    Deviation from the Svelte canonical: an event handler cannot call preventDefault for only some keys, so Enter in the
+    field also submits an enclosing form.
+    Unmatched attributes spread onto the root <div>.
 *@
 
-@if (Editing)
-{
-    <input class="@($"editable {CssClass}".Trim())" type="text" aria-label="@Label" value="@_draft" @oninput="e => _draft = e.Value?.ToString() ?? string.Empty" @onkeydown="OnInputKeyDown" @attributes="AdditionalAttributes" />
-}
-else
-{
-    <span class="@($"editable {CssClass}".Trim())" role="button" tabindex="@(Disabled ? "-1" : "0")" aria-label="@AccessibleName" aria-disabled="@(Disabled ? "true" : null)" @onclick="StartEditing" @onkeydown="OnDisplayKeyDown" @attributes="AdditionalAttributes">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Value)))</span>
-}
+<div class="@($"editable {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    @if (Editing)
+    {
+        <input @ref="_input" class="editable-input" type="text" aria-label="@Label" value="@_draft" @oninput="e => _draft = e.Value?.ToString() ?? string.Empty" @onkeydown="OnInputKeyDown" />
+    }
+    else
+    {
+        <button @ref="_button" type="button" class="editable-button" aria-label="@AccessibleName" disabled="@Disabled" @onclick="StartEditing">@(ChildContent ?? (RenderFragment)(b => b.AddContent(0, Value)))</button>
+    }
+</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
@@ -40,6 +42,22 @@ else
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
     private string _draft = "";
+    private ElementReference _input;
+    private ElementReference _button;
+    // The element that had focus is removed by the switch, so focus follows the user to the element that replaces it.
+    private string? _focusNext;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var next = _focusNext;
+        _focusNext = null;
+        try
+        {
+            if (next == "input") await _input.FocusAsync();
+            else if (next == "button") await _button.FocusAsync();
+        }
+        catch (InvalidOperationException) { } // not interactive (static rendering): nothing to focus
+    }
     private string AccessibleName => string.IsNullOrEmpty(Value) ? Label : $"{Value}, {Label}";
 
     protected override void OnInitialized() => _draft = Value;
@@ -54,12 +72,8 @@ else
     {
         if (Disabled) return;
         _draft = Value;
+        _focusNext = "input";
         await SetEditing(true);
-    }
-
-    private async Task OnDisplayKeyDown(KeyboardEventArgs e)
-    {
-        if (e.Key == "Enter" || e.Key == " ") await StartEditing();
     }
 
     private async Task OnInputKeyDown(KeyboardEventArgs e)
@@ -68,11 +82,13 @@ else
         {
             Value = _draft;
             await ValueChanged.InvokeAsync(_draft);
+            _focusNext = "button";
             await SetEditing(false);
         }
         else if (e.Key == "Escape")
         {
             _draft = Value;
+            _focusNext = "button";
             await SetEditing(false);
         }
     }

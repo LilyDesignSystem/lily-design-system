@@ -354,32 +354,38 @@ export function attachHorizontalScroller(root) {
     });
 }
 
-/** contenteditable: Enter or Space or a click begins; Enter keeps, reporting "editable-change"; Escape puts it back. */
+/**
+ * Editable: the native button starts editing (a click, or its own Enter and Space); the field shows and takes focus. In the
+ * field Enter keeps the edit, firing "editable-change", and Escape puts it back; focus returns to the button.
+ */
 export function attachEditable(root) {
-    let before = null;
-    const editing = () => root.getAttribute("contenteditable") === "true";
+    const button = root.querySelector(".editable-button");
+    const input = root.querySelector(".editable-input");
+    if (!button || !input) return () => {};
+    const label = input.getAttribute("aria-label") ?? "";
     const begin = () => {
-        if (editing() || root.getAttribute("aria-disabled") === "true") return;
-        before = root.textContent;
-        root.setAttribute("contenteditable", "true");
-        root.focus();
+        if (button.disabled) return;
+        input.value = button.textContent.trim();
+        button.hidden = true;
+        input.hidden = false;
+        input.focus();
     };
     const end = (keep) => {
-        root.setAttribute("contenteditable", "false");
-        if (keep) emit(root, "editable-change", { value: root.textContent });
-        else root.textContent = before;
-        before = null;
+        const value = input.value;
+        if (keep) {
+            button.textContent = value;
+            button.setAttribute("aria-label", value ? `${value}, ${label}` : label);
+        }
+        input.hidden = true;
+        button.hidden = false;
+        button.focus();
+        if (keep) emit(root, "editable-change", { value });
     };
     const stops = [
-        listen(root, "click", begin),
-        listen(root, "keydown", (event) => {
+        listen(button, "click", begin),
+        listen(input, "keydown", (event) => {
             if (event.isComposing) return;
-            if (!editing()) {
-                if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    begin();
-                }
-            } else if (event.key === "Enter") {
+            if (event.key === "Enter") {
                 event.preventDefault();
                 end(true);
             } else if (event.key === "Escape") {
@@ -388,7 +394,6 @@ export function attachEditable(root) {
             }
         }),
     ];
-    if (editing()) before = root.textContent;
     return () => stops.forEach((stop) => stop());
 }
 

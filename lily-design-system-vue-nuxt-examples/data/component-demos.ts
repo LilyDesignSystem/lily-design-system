@@ -146,7 +146,7 @@ export const componentDemos: Record<string, string> = {
   'draft': '<div class="draft" role="group" aria-label="Draft article" data-status="in-progress"><h3>Working title</h3><p>Opening paragraph still needs a hook.</p></div>',
   'drawer': '<div class="drawer" role="dialog" aria-label="Drawer"><p>Drawer content</p></div>',
   'dropdown-menu': '<div class="dropdown-menu" role="menu" aria-label="Options"><div role="menuitem">Option 1</div><div role="menuitem">Option 2</div></div>',
-  'editable': '<div class="editable" contenteditable="true">Click to edit this text</div>',
+  'editable': '<div class="editable"><button type="button" class="editable-button" aria-label="Alex Morgan, Patient name">Alex Morgan</button><input type="text" class="editable-input" aria-label="Patient name" hidden></div>',
   'editable-form': '<form class="editable-form" aria-label="Edit"><label for="demo-editable">Content</label><input id="demo-editable" type="text" value="Editable content" /><button type="submit">Save</button></form>',
   'eesti-isikukood-input': '<label class="label" for="demo-input">Label</label><input class="eesti-isikukood-input" id="demo-input" aria-label="an input for entering Estonia\'s Isikukood (IK)" />',
   'eesti-isikukood-view': '<span class="eesti-isikukood-view">EestiIsikukoodView</span>',

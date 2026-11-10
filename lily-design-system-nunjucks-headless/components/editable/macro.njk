@@ -2,26 +2,40 @@
   Editable macro — an inline-editable text element that toggles
     between view and edit modes.
 
-  HTML tag: <span contenteditable="false">
-  CSS class: editable
+  HTML tag: <div>, holding a native <button type="button" class="editable-button"> named "value, label" and a hidden
+    <input type="text" class="editable-input"> named by the label. components/widget-init.js swaps them: a click on the
+    button (or its own Enter and Space) shows the field and focuses it; in the field Enter confirms, firing a bubbling
+    `editable-change` with detail.value, and Escape cancels; focus returns to the button.
+  CSS class: editable (sub-elements: editable-button, editable-input)
 
-  Params: text, editing (default false), label, id, classes, attributes.
+  Params: label (required), value (or text), editing (default false: the field shows first), disabled, id, classes,
+    attributes (on the root).
 
   Usage:
     {% from "components/editable/macro.njk" import editable %}
-    {{ editable({ id: "example", label: "Example", text: "Example" }) }}
+    {{ editable({ id: "example", label: "Title", value: "Draft title" }) }}
 #}
 {%- macro editable(params) -%}
 {%- set p = params | default({}) -%}
-<span
+{%- set value = p.value if p.value is defined else (p.text | default('')) -%}
+<div
   class="editable{% if p.classes %} {{ p.classes }}{% endif %}"
-  contenteditable="{{ 'true' if p.editing else 'false' }}"
-  data-module="editable"
-  role="textbox"
-  aria-multiline="false"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
-  tabindex="0"
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->{{ p.text | default('') }}</span>
+>
+  <button
+    type="button"
+    class="editable-button"
+    aria-label="{{ (value ~ ', ' ~ p.label) if value else p.label }}"
+    {%- if p.disabled %} disabled{% endif %}
+    {%- if p.editing %} hidden{% endif %}
+  >{{ value }}</button>
+  <input
+    type="text"
+    class="editable-input"
+    aria-label="{{ p.label }}"
+    value="{{ value }}"
+    {%- if not p.editing %} hidden{% endif %}
+  >
+</div>
 {%- endmacro -%}

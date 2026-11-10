@@ -1,18 +1,18 @@
 # Editable
 
-An inline-editable text control that toggles between a display `<span role="button">` and an edit `<input type="text">`. Press Enter to confirm, Escape to cancel.
+An inline-editable text control: a `<div class="editable">` holding a native `<button>` in display mode and an `<input type="text">` in edit mode. Press Enter to confirm, Escape to cancel.
 
 ## What it is
 
-`Editable` is a headless inline-edit primitive. In display mode it shows the current value inside a focusable `<span role="button">`. Activating it (Enter, Space, or click) swaps the span for an `<input>` that edits an internal draft value. Enter commits the draft back to `value`; Escape reverts the draft and returns to display mode.
+`Editable` is a headless inline-edit primitive. In display mode it shows the current value inside a native `<button type="button" class="editable-button">`. Activating it (a click, or the button's own Enter and Space) swaps the button for an `<input>` that edits an internal draft value. Enter commits the draft back to `value`; Escape reverts the draft and returns to display mode.
 
 ## What it does
 
-- Renders either a `<span role="button">` (display) or an `<input type="text">` (edit).
+- Renders a `<div class="editable">` holding either a `<button class="editable-button">` (display) or an `<input class="editable-input">` (edit); focus follows the swap.
 - Uses an internal draft `$state` so cancelling reverts without losing the original.
 - Binds both `value` (committed value) and `editing` (mode flag) via `$bindable()`.
 - Handles Enter (commit), Space (start editing), and Escape (cancel).
-- Respects `disabled` with `aria-disabled` and `tabindex="-1"`.
+- Respects `disabled` by disabling the button.
 
 ## When to use it
 
@@ -44,14 +44,14 @@ Bind `value` and provide an accessible `label`.
 
 ## Props
 
-| Prop       | Type      | Default  | Description                                  |
-| ---------- | --------- | -------- | -------------------------------------------- |
-| `class`    | `string`  | `""`     | CSS class appended to the base class.        |
-| `value`    | `string`  | `""`     | Current committed value. Bindable.           |
-| `label`    | `string`  | required | Accessible name via `aria-label`.            |
-| `editing`  | `boolean` | `false`  | Whether in edit mode. Bindable.              |
-| `disabled` | `boolean` | `false`  | Whether editing is disabled.                 |
-| `...rest`  | `unknown` | —        | Additional HTML attributes on span or input. |
+| Prop       | Type      | Default  | Description                                 |
+| ---------- | --------- | -------- | ------------------------------------------- |
+| `class`    | `string`  | `""`     | CSS class appended to the base class.       |
+| `value`    | `string`  | `""`     | Current committed value. Bindable.          |
+| `label`    | `string`  | required | Accessible name via `aria-label`.           |
+| `editing`  | `boolean` | `false`  | Whether in edit mode. Bindable.             |
+| `disabled` | `boolean` | `false`  | Whether editing is disabled.                |
+| `...rest`  | `unknown` | —        | Additional HTML attributes on the root div. |
 
 ## Usage
 
@@ -129,10 +129,9 @@ Bind `value` and provide an accessible `label`.
 
 ## Accessibility
 
-- Display mode: `role="button"` with `aria-label`, `tabindex="0"` (or `-1` when disabled).
+- Display mode: a native `<button>` with `aria-label`; disabled when `disabled` is true.
 - Edit mode: native `<input>` with `aria-label`.
 - Keyboard: Enter commits (both modes), Space starts edit, Escape cancels.
-- `aria-disabled` is set when disabled.
 
 ## Related components
 

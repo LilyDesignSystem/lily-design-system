@@ -1,6 +1,4 @@
 {
-  "editable aria-label": "Set on the inner display element, not the host the sweep reads.",
-  "editable role": "Set on the inner display element, not the host the sweep reads.",
   "five-face-rating-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",
   "five-face-rating-picker-button role": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",
   "five-star-rating-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",

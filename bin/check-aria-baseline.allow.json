@@ -1,5 +1,4 @@
 {
-  "blazor editable role": "The static read sees Blazor's edit-mode branch first; the display mode is the role=\"button\" span Svelte renders.",
   "blazor tag role": "The static read sees the Live branch's role=\"status\" first; the default Blazor render has no role, as Svelte's.",
   "html angle-slider-range-input aria-valuemax": "Native: an <input type=\"range\">, whose values are the browser's; Svelte repeats them as ARIA attributes.",
   "html angle-slider-range-input aria-valuemin": "Native: an <input type=\"range\">, whose values are the browser's; Svelte repeats them as ARIA attributes.",

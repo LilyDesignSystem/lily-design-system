@@ -1,22 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
-const html = `<div
-  class="editable"
-  aria-label=""
->
-  <!-- Consumer provides content -->
-</div>
-
-<script>
-  // Editable behavior
-  (function() {
-    'use strict';
-    // Editable: consumer implements interactive behavior
-    document.querySelectorAll('.editable').forEach(function(el) {
-      // Interactive behavior initialization
-    });
-  })();
-</script>`;
+const html = `<div class="editable">
+  <button type="button" class="editable-button" aria-label="Draft title, Title">Draft title</button>
+  <input type="text" class="editable-input" aria-label="Title" hidden>
+</div>`;
 
 const meta = {
     title: "Headless/Editable",

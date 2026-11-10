@@ -389,20 +389,22 @@ const label = async () => { ["Alice", "Alan", "Bob"].forEach((t, i) => (opts()[i
 
     editable: {
         tag: "div",
-        keyboard: "Enter, Space or a click edits; Enter confirms; Escape cancels",
-        aria: 'the display is role="button" named "value, label"; tabindex 0 (or -1 with aria-disabled when disabled); the field is named by the label',
+        keyboard:
+            "Enter, Space (the button's own keys) or a click edits; Enter confirms; Escape cancels",
+        aria: 'the display is a native button named "value, label", disabled when the editable is; the field is named by the label',
         markup: `<div class="editable" x-data="lilyEditable('', false, '')">
-  <span class="editable-display" x-bind="display"></span>
+  <button class="editable-button" x-bind="display"></button>
   <input class="editable-input" x-bind="input" hidden>
 </div>`,
         sel: "div.editable",
-        extra: withSnippet(`const display = () => el().querySelector(".editable-display");\nconst field = () => el().querySelector("input");
+        extra: withSnippet(`const display = () => el().querySelector(".editable-button");\nconst field = () => el().querySelector("input");
 const named = (args) => snippet("editable").replace("lilyEditable('', false, '')", "lilyEditable(" + args + ")");`),
         test: `
   it("shows the display as a button and hides the field", async () => {
     await mount("editable", named("'Joel', false, 'Name'"));
-    expect(display().getAttribute("role")).toBe("button");
-    expect(display().getAttribute("tabindex")).toBe("0");
+    expect(display().tagName).toBe("BUTTON");
+    expect(display().getAttribute("type")).toBe("button");
+    expect(display().hasAttribute("role")).toBe(false);
     expect(display().textContent).toBe("Joel");
     expect(display().getAttribute("aria-label")).toBe("Joel, Name");
     expect(field().hidden).toBe(true);
@@ -411,8 +413,8 @@ const named = (args) => snippet("editable").replace("lilyEditable('', false, '')
     await mount("editable", named("'', false, 'Name'"));
     expect(display().getAttribute("aria-label")).toBe("Name");
   });
-  it("a click or Enter or Space starts editing and focuses the field", async () => {
-    for (const start of [() => display().click(), () => press(display(), "Enter"), () => press(display(), " ")]) {
+  it("a click (what Enter and Space do on a button) starts editing and focuses the field", async () => {
+    for (const start of [() => display().click()]) {
       await mount("editable", named("'Joel', false, 'Name'"));
       await start(); await tick();
       expect(display().hidden).toBe(true);
@@ -442,10 +444,9 @@ const named = (args) => snippet("editable").replace("lilyEditable('', false, '')
     expect(display().textContent).toBe("Joel");
     expect(field().hidden).toBe(true);
   });
-  it("when disabled it is not tabbable and does not edit", async () => {
+  it("when disabled the button is disabled and does not edit", async () => {
     await mount("editable", named("'Joel', false, 'Name', true"));
-    expect(display().getAttribute("tabindex")).toBe("-1");
-    expect(display().getAttribute("aria-disabled")).toBe("true");
+    expect(display().disabled).toBe(true);
     display().click(); await tick();
     expect(field().hidden).toBe(true);
   });`,

@@ -16,7 +16,7 @@ const type = async (field, text) => {
     field.dispatchEvent(new Event("input", { bubbles: true }));
     await tick();
 };
-const display = () => el().querySelector(".editable-display");
+const display = () => el().querySelector(".editable-button");
 const field = () => el().querySelector("input");
 const named = (args) =>
     snippet("editable").replace("lilyEditable('', false, '')", "lilyEditable(" + args + ")");
@@ -30,8 +30,9 @@ describe("Editable", () => {
 
     it("shows the display as a button and hides the field", async () => {
         await mount("editable", named("'Joel', false, 'Name'"));
-        expect(display().getAttribute("role")).toBe("button");
-        expect(display().getAttribute("tabindex")).toBe("0");
+        expect(display().tagName).toBe("BUTTON");
+        expect(display().getAttribute("type")).toBe("button");
+        expect(display().hasAttribute("role")).toBe(false);
         expect(display().textContent).toBe("Joel");
         expect(display().getAttribute("aria-label")).toBe("Joel, Name");
         expect(field().hidden).toBe(true);
@@ -40,12 +41,8 @@ describe("Editable", () => {
         await mount("editable", named("'', false, 'Name'"));
         expect(display().getAttribute("aria-label")).toBe("Name");
     });
-    it("a click or Enter or Space starts editing and focuses the field", async () => {
-        for (const start of [
-            () => display().click(),
-            () => press(display(), "Enter"),
-            () => press(display(), " "),
-        ]) {
+    it("a click (what Enter and Space do on a button) starts editing and focuses the field", async () => {
+        for (const start of [() => display().click()]) {
             await mount("editable", named("'Joel', false, 'Name'"));
             await start();
             await tick();
@@ -80,10 +77,9 @@ describe("Editable", () => {
         expect(display().textContent).toBe("Joel");
         expect(field().hidden).toBe(true);
     });
-    it("when disabled it is not tabbable and does not edit", async () => {
+    it("when disabled the button is disabled and does not edit", async () => {
         await mount("editable", named("'Joel', false, 'Name', true"));
-        expect(display().getAttribute("tabindex")).toBe("-1");
-        expect(display().getAttribute("aria-disabled")).toBe("true");
+        expect(display().disabled).toBe(true);
         display().click();
         await tick();
         expect(field().hidden).toBe(true);

@@ -7,7 +7,7 @@ describe("Editable", () => {
     test("renders the div root with the base class", () => {
         const fixture = TestBed.createComponent(Editable);
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("span.editable");
+        const el = fixture.nativeElement.querySelector("div.editable");
         expect(el).toBeTruthy();
     });
 
@@ -15,7 +15,7 @@ describe("Editable", () => {
         const fixture = TestBed.createComponent(Editable);
         fixture.componentRef.setInput("className", "extra");
         fixture.detectChanges();
-        const el = fixture.nativeElement.querySelector("span.editable");
+        const el = fixture.nativeElement.querySelector("div.editable");
         expect(el).toBeTruthy();
         expect(el.classList.contains("extra")).toBe(true);
     });
@@ -41,14 +41,14 @@ describe("Editable — display button and text field", () => {
         return fixture;
     }
     const span = (f: ComponentFixture<Editable>) =>
-        f.nativeElement.querySelector("span.editable") as HTMLElement;
+        f.nativeElement.querySelector("div.editable > button.editable-button") as HTMLButtonElement;
     const field = (f: ComponentFixture<Editable>) =>
-        f.nativeElement.querySelector("input.editable") as HTMLInputElement;
+        f.nativeElement.querySelector("div.editable > input.editable-input") as HTMLInputElement;
 
     test('shows the value as a button named "value, label"', () => {
         const f = create();
-        expect(span(f).getAttribute("role")).toBe("button");
-        expect(span(f).getAttribute("tabindex")).toBe("0");
+        expect(span(f).tagName).toBe("BUTTON");
+        expect(span(f).getAttribute("type")).toBe("button");
         expect(span(f).getAttribute("aria-label")).toBe("Hello, Title");
         expect(span(f).textContent?.trim()).toBe("Hello");
     });
@@ -57,16 +57,17 @@ describe("Editable — display button and text field", () => {
         expect(span(create({ value: "" })).getAttribute("aria-label")).toBe("Title");
     });
 
-    test("click, Enter and Space start editing with the value as the draft", () => {
-        for (const how of ["click", "Enter", " "]) {
-            const f = create();
-            if (how === "click") span(f).click();
-            else expect(key(span(f), how).defaultPrevented).toBe(true);
-            f.detectChanges();
-            expect(f.componentInstance.editing()).toBe(true);
-            expect(field(f).value).toBe("Hello");
-            expect(field(f).getAttribute("aria-label")).toBe("Title");
-        }
+    test("a click (what Enter and Space do on a button) starts editing, and focus moves to the field", async () => {
+        const f = create();
+        document.body.appendChild(f.nativeElement);
+        span(f).click();
+        f.detectChanges();
+        await f.whenStable();
+        expect(f.componentInstance.editing()).toBe(true);
+        expect(field(f).value).toBe("Hello");
+        expect(field(f).getAttribute("aria-label")).toBe("Title");
+        expect(document.activeElement).toBe(field(f));
+        f.nativeElement.remove();
     });
 
     test("Enter in the field commits the draft and leaves editing", () => {
@@ -82,6 +83,18 @@ describe("Editable — display button and text field", () => {
         expect(span(f).textContent?.trim()).toBe("World");
     });
 
+    test("leaving the field returns focus to the button", async () => {
+        const f = create();
+        document.body.appendChild(f.nativeElement);
+        span(f).click();
+        f.detectChanges();
+        key(field(f), "Escape");
+        f.detectChanges();
+        await f.whenStable();
+        expect(document.activeElement).toBe(span(f));
+        f.nativeElement.remove();
+    });
+
     test("Escape discards the draft and keeps the old value", () => {
         const f = create();
         span(f).click();
@@ -94,12 +107,10 @@ describe("Editable — display button and text field", () => {
         expect(f.componentInstance.editing()).toBe(false);
     });
 
-    test("disabled: out of the tab order, aria-disabled, cannot start editing", () => {
+    test("disabled: the button is disabled, and cannot start editing", () => {
         const f = create({ disabled: true });
-        expect(span(f).getAttribute("tabindex")).toBe("-1");
-        expect(span(f).getAttribute("aria-disabled")).toBe("true");
+        expect(span(f).disabled).toBe(true);
         span(f).click();
-        key(span(f), "Enter");
         f.detectChanges();
         expect(f.componentInstance.editing()).toBe(false);
     });
