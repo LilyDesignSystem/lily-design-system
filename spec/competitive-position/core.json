@@ -107,8 +107,8 @@
     "candidates": 40,
     "keyboard": 40,
     "e2e": 40,
-    "screenReader": 0,
-    "core": 0,
+    "screenReader": 1,
+    "core": 1,
     "keyboardPerLibrary": {
       "svelte": 40,
       "react": 40,
@@ -120,7 +120,7 @@
       "blazor": 40
     },
     "matrixRows": 40,
-    "matrixCellsFilled": 0,
+    "matrixCellsFilled": 26,
     "matrixCells": 222,
     "e2eBrowsersRun": [
       "chromium",
@@ -128,7 +128,9 @@
       "webkit"
     ]
   },
-  "core": [],
+  "core": [
+    "button"
+  ],
   "candidates": [
     {
       "slug": "form",
@@ -235,15 +237,15 @@
         "met": false,
         "row": 11,
         "rowLabel": "`form` + `field` + `error-summary`",
-        "filled": 0,
+        "filled": 2,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9993)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9993)",
+            "result": "pass"
           },
           "JAWS + Chrome": {
             "value": "",
@@ -370,15 +372,15 @@
         "met": false,
         "row": 11,
         "rowLabel": "`form` + `field` + `error-summary`",
-        "filled": 0,
+        "filled": 2,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9993)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9993)",
+            "result": "pass"
           },
           "JAWS + Chrome": {
             "value": "",
@@ -930,15 +932,15 @@
         "met": false,
         "row": 11,
         "rowLabel": "`form` + `field` + `error-summary`",
-        "filled": 0,
+        "filled": 2,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9993)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9993)",
+            "result": "pass"
           },
           "JAWS + Chrome": {
             "value": "",
@@ -1211,38 +1213,38 @@
         ]
       },
       "screenReader": {
-        "met": false,
+        "met": true,
         "row": 25,
         "rowLabel": "`button`",
-        "filled": 0,
+        "filled": 6,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9999)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9999)",
+            "result": "pass"
           },
           "JAWS + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9999)",
+            "result": "pass"
           },
           "VoiceOver + Safari (macOS)": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9999)",
+            "result": "pass"
           },
           "VoiceOver (iOS)": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9999)",
+            "result": "pass"
           },
           "TalkBack + Chrome (Android)": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9999)",
+            "result": "pass"
           }
         }
       },
-      "core": false
+      "core": true
     },
     {
       "slug": "text-input",
@@ -1357,19 +1359,19 @@
         "met": false,
         "row": 12,
         "rowLabel": "`text-input`",
-        "filled": 0,
+        "filled": 3,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9992)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9992)",
+            "result": "pass"
           },
           "JAWS + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9992)",
+            "result": "pass"
           },
           "VoiceOver + Safari (macOS)": {
             "value": "",
@@ -2067,11 +2069,11 @@
         "met": false,
         "row": 15,
         "rowLabel": "`date-input`",
-        "filled": 0,
+        "filled": 1,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9989)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
             "value": "",
@@ -2209,11 +2211,11 @@
         "met": false,
         "row": 13,
         "rowLabel": "`select`",
-        "filled": 0,
+        "filled": 1,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9991)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
             "value": "",
@@ -2351,11 +2353,11 @@
         "met": false,
         "row": 14,
         "rowLabel": "`checkbox-input` / `radio-input`",
-        "filled": 0,
+        "filled": 1,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9990)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
             "value": "",
@@ -2635,11 +2637,11 @@
         "met": false,
         "row": 14,
         "rowLabel": "`checkbox-input` / `radio-input`",
-        "filled": 0,
+        "filled": 1,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9990)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
             "value": "",
@@ -3924,23 +3926,23 @@
         "met": false,
         "row": 6,
         "rowLabel": "`alert-dialog`",
-        "filled": 0,
+        "filled": 4,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9998)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9998)",
+            "result": "pass"
           },
           "JAWS + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9998)",
+            "result": "pass"
           },
           "VoiceOver + Safari (macOS)": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9998)",
+            "result": "pass"
           },
           "VoiceOver (iOS)": {
             "value": "",
@@ -4068,15 +4070,15 @@
         "met": false,
         "row": 7,
         "rowLabel": "`tab-bar`",
-        "filled": 0,
+        "filled": 2,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9997)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9997)",
+            "result": "pass"
           },
           "JAWS + Chrome": {
             "value": "",
@@ -4496,19 +4498,19 @@
         "met": false,
         "row": 9,
         "rowLabel": "`menu`",
-        "filled": 0,
+        "filled": 3,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9995)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9995)",
+            "result": "pass"
           },
           "JAWS + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9995)",
+            "result": "pass"
           },
           "VoiceOver + Safari (macOS)": {
             "value": "",
@@ -5053,15 +5055,15 @@
         "met": false,
         "row": 8,
         "rowLabel": "`accordion-nav`",
-        "filled": 0,
+        "filled": 2,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9996)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9996)",
+            "result": "pass"
           },
           "JAWS + Chrome": {
             "value": "",
@@ -5195,11 +5197,11 @@
         "met": false,
         "row": 10,
         "rowLabel": "`tree-nav`",
-        "filled": 0,
+        "filled": 1,
         "cells": {
           "NVDA + Firefox": {
-            "value": "",
-            "result": "empty"
+            "value": "pass (#9994)",
+            "result": "pass"
           },
           "NVDA + Chrome": {
             "value": "",
