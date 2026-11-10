@@ -1,0 +1,25 @@
+#!/bin/sh
+# .githooks/pre-push — run the fast tier of the CI gate before a push (tasks.md P24-T3, spec/local-ci).
+#
+# Enabled by bin/setup-hooks. It runs `bin/ci --fast`: the checks that need no install (required files, generated-file drift,
+# links, coverage, class names, package metadata, the Alpine generator), about a minute and a half. A failure stops the push.
+#
+# A hook is skippable (`git push --no-verify`), so it prevents mistakes, not misconduct; CI still runs everything.
+
+top="$(git rev-parse --show-toplevel)" || exit 1
+cd "$top" || exit 1
+
+# Pushing nothing but a branch deletion needs no checks.
+deleting_only=1
+while read -r _local_ref local_sha _remote_ref _remote_sha; do
+    case "$local_sha" in
+        *[!0]*) deleting_only=0 ;;
+    esac
+done
+if [ "$deleting_only" -eq 1 ]; then exit 0; fi
+
+if ! bin/ci --fast; then
+    echo >&2
+    echo "pre-push: bin/ci --fast failed; the push is stopped. Fix it, or push with --no-verify to skip this hook." >&2
+    exit 1
+fi

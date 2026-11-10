@@ -206,6 +206,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [generate-site-pages](../bin/generate-site-pages): Docs-site component pages from components/{slug}/index.md, with the Example section refreshed on every page
 - [generate-sitemap](../bin/generate-sitemap): Docs-site sitemap.xml from the route tree (`--check` reports drift)
 - [ci](../bin/ci): The CI gate on the maintainer's machine: `--list`, `--job <name> [matrix value]`, `--fast` (the install-free checks) and `--full` (every job), ending with a table of step, result and seconds. Each function is one job of `.github/workflows/ci.yml`, which calls `bin/ci --job <name>`, so the two cannot drift; `consumer-smoke` refuses to run locally unless `CI` or `LILY_CI_ALLOW_CONSUMER_SMOKE=1` is set
+- [setup-hooks](../bin/setup-hooks): Point `core.hooksPath` at `.githooks/`, whose `pre-push` runs `bin/ci --fast` before every push (opt-in, idempotent; `--undo` reverts; `git push --no-verify` skips one push)
 - [smoke-packages](../bin/smoke-packages): Pack + install each published headless tarball into a scratch consumer and render it
 
 ## Inspirations

@@ -3345,8 +3345,12 @@ Nothing below was built when the phase was written. Web claims are marked unveri
       projects. Run locally: `--fast`, and `--job verify`, `lint`, `headless lily-design-system-svelte-headless`, `dotnet-tests`,
       `dotnet-helper-packages` and `spell-check`, all passing. Not yet: `--full` on a clean checkout (needs P24-T6), and the
       first GitHub run on the new YAML, which this PR is. `bin/check-generated-files` exempts `bin/ci` as it does `bin/test`.)_
-- [ ] **P24-T3 A pre-push hook.** `.githooks/pre-push` runs `bin/ci --fast`; `bin/setup-hooks` sets `core.hooksPath`. A hook is skippable (`--no-verify`), so it prevents mistakes, not misconduct.
-      Verify: a deliberately stale generated file stops a push; `bin/setup-hooks` is idempotent.
+- [x] **P24-T3 A pre-push hook.** `.githooks/pre-push` runs `bin/ci --fast`; `bin/setup-hooks` sets `core.hooksPath`. A hook is skippable (`--no-verify`), so it prevents mistakes, not misconduct.
+      Verify: a deliberately stale generated file stops a push; `bin/setup-hooks` is idempotent. _(2026-11-10: `.githooks/pre-push` runs `bin/ci --fast` and stops the push on a failure, and skips a push
+      that only deletes branches; `bin/setup-hooks` sets `core.hooksPath`, says so when it is already set, and `--undo` unsets
+      it. Proved against a scratch bare repository with `git -c core.hooksPath=.githooks push`: a stale generated
+      `components.ts` stopped the push and the remote got nothing, a clean tree pushed, a deletion skipped the checks; and in a
+      scratch clone, `bin/setup-hooks` twice then `--undo`. Not enabled in the maintainer's checkout: that is their choice.)_
 - [x] **P24-T4 Cheaper, quieter GitHub runs.** _(2026-11-04: `ci.yml` has no `concurrency`, no `paths` filter and no `timeout-minutes`; six runs stacked within an hour.)_ Add `concurrency: { group: ci-${{ github.ref }}, cancel-in-progress: true }`, `timeout-minutes` on every job, and `paths` filters so a Markdown-only commit skips the matrices (keep `verify` and `spell-check`). _(2026-11-09: done. `concurrency` cancels a superseded run; every job has `timeout-minutes`, about three times its last green duration; a `changes` job, not a `paths` filter, skips the ten test jobs when only `*.md` changed, so they report skipped rather than leaving a check pending. `verify`, `eslint` and `spell-check` always run.)_
       Verify: two quick pushes leave one run; a docs-only commit runs only `verify`, `lint` and `spell-check`.
 - [ ] **P24-T5 A receipt for the local run.** `bin/ci --full` writes `.ci/receipt.json` (SHA, clean or dirty tree, each job's result and duration, tool versions, date; git-ignored). `bin/publish-helpers` and `bin/publish-headless` refuse a real publish without a clean, all-green receipt for the same SHA. A receipt is self-asserted: it proves discipline, not integrity.

@@ -1,0 +1,31 @@
+#!/bin/sh
+# bin/setup-hooks — use this repository's own git hooks, in .githooks/ (tasks.md P24-T3).
+#
+#   bin/setup-hooks          point core.hooksPath at .githooks (safe to run again)
+#   bin/setup-hooks --undo   go back to git's own .git/hooks
+#
+# The hooks: .githooks/pre-push runs `bin/ci --fast` before every push. Skip one push with `git push --no-verify`.
+set -eu
+
+top="$(git rev-parse --show-toplevel)"
+cd "$top"
+
+case "${1:-}" in
+    --undo)
+        git config --unset core.hooksPath || true
+        echo "setup-hooks: core.hooksPath unset; git uses .git/hooks again"
+        ;;
+    "")
+        chmod +x .githooks/*
+        if [ "$(git config --get core.hooksPath || true)" = ".githooks" ]; then
+            echo "setup-hooks: already set (core.hooksPath = .githooks)"
+        else
+            git config core.hooksPath .githooks
+            echo "setup-hooks: core.hooksPath = .githooks; pushes now run bin/ci --fast first"
+        fi
+        ;;
+    *)
+        sed -n '2,7p' "$0" | sed 's/^# \{0,1\}//'
+        exit 2
+        ;;
+esac
