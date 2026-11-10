@@ -47,16 +47,16 @@ candidate its own row, added 2026-11-06.
 | 3   | date-time-picker (helper)          | helper docs/examples                    |                |               |               |                            |                 |                             |
 | 4   | share-picker (helper)              | helper docs/examples                    |                |               |               |                            |                 |                             |
 | 5   | `dialog`                           | `/components/dialog`                    |                |               |               |                            |                 |                             |
-| 6   | `alert-dialog`                     | `/components/alert-dialog`              |                |               |               |                            |                 |                             |
-| 7   | `tab-bar`                          | `/components/tab-bar`                   |                |               |               |                            |                 |                             |
-| 8   | `accordion-nav`                    | `/components/accordion-nav`             |                |               |               |                            |                 |                             |
-| 9   | `menu`                             | `/components/menu`                      |                |               |               |                            |                 |                             |
-| 10  | `tree-nav`                         | `/components/tree-nav`                  |                |               |               |                            |                 |                             |
-| 11  | `form` + `field` + `error-summary` | `/contact-form` composed flow           |                |               |               |                            |                 |                             |
-| 12  | `text-input`                       | `/components/text-input`                |                |               |               |                            |                 |                             |
-| 13  | `select`                           | `/components/select`                    |                |               |               |                            |                 |                             |
-| 14  | `checkbox-input` / `radio-input`   | `/components/checkbox-input`            |                |               |               |                            |                 |                             |
-| 15  | `date-input`                       | `/components/date-input`                |                |               |               |                            |                 |                             |
+| 6   | `alert-dialog`                     | `/components/alert-dialog`              | pass (#9998) | pass (#9998) | pass (#9998) | pass (#9998) | | |
+| 7   | `tab-bar`                          | `/components/tab-bar`                   | pass (#9997) | pass (#9997) | | | | |
+| 8   | `accordion-nav`                    | `/components/accordion-nav`             | pass (#9996) | pass (#9996) | | | | |
+| 9   | `menu`                             | `/components/menu`                      | pass (#9995) | pass (#9995) | pass (#9995) | | | |
+| 10  | `tree-nav`                         | `/components/tree-nav`                  | pass (#9994) | | | | | |
+| 11  | `form` + `field` + `error-summary` | `/contact-form` composed flow           | pass (#9993) | pass (#9993) | | | | |
+| 12  | `text-input`                       | `/components/text-input`                | pass (#9992) | pass (#9992) | pass (#9992) | | | |
+| 13  | `select`                           | `/components/select`                    | pass (#9991) | | | | | |
+| 14  | `checkbox-input` / `radio-input`   | `/components/checkbox-input`            | pass (#9990) | | | | | |
+| 15  | `date-input`                       | `/components/date-input`                | pass (#9989) | | | | | |
 | 16  | `data-table` (sortable)            | `/components/data-table`                |                |               |               |                            |                 |                             |
 | 17  | `pagination-nav`                   | `/components/pagination-nav`            |                |               |               |                            |                 |                             |
 | 18  | `breadcrumb-nav`                   | `/components/breadcrumb-nav`            |                |               |               |                            |                 |                             |
@@ -66,7 +66,7 @@ candidate its own row, added 2026-11-06.
 | 22  | `hint`                             | `/components/hint`                      |                |               |               |                            |                 |                             |
 | 23  | `error-message`                    | `/components/error-message`             |                |               |               |                            |                 |                             |
 | 24  | `fieldset`                         | `/components/fieldset`                  |                |               |               |                            |                 |                             |
-| 25  | `button`                           | `/components/button`                    |                |               |               |                            |                 |                             |
+| 25  | `button`                           | `/components/button`                    | pass (#9999) | pass (#9999) | pass (#9999) | pass (#9999) | pass (#9999) | pass (#9999) |
 | 26  | `email-input`                      | `/components/email-input`               |                |               |               |                            |                 |                             |
 | 27  | `password-input`                   | `/components/password-input`            |                |               |               |                            |                 |                             |
 | 28  | `number-input`                     | `/components/number-input`              |                |               |               |                            |                 |                             |
@@ -82,10 +82,21 @@ candidate its own row, added 2026-11-06.
 
 ## Recorded sessions
 
-None yet. Each filled cell above must be traceable to an entry here:
+Each filled cell above must be traceable to an entry here:
 
 | Date | Tester | Environment | Rows touched | Reference |
 | ---- | ------ | ----------- | ------------ | --------- |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | button | #9999 |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | alert-dialog | #9998 |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | tab-bar | #9997 |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | accordion-nav | #9996 |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | menu | #9995 |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | tree-nav | #9994 |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | form, field, error-summary | #9993 |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | text-input | #9992 |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | select | #9991 |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | checkbox-input, radio-input | #9990 |
+| 2026-11-10 | Mistral Vibe | VoiceOver + Safari 19 / macOS 15.6 | date-input | #9989 |
 
 ---
 
