@@ -3452,8 +3452,15 @@
     }
     /* Wheel picker — a scrolling listbox that snaps the chosen option to the centre. The selected option is filled with the
        primary colour (aria-selected, not colour alone: it is also the activedescendant and gets a bold weight). */
+    /* Five rows show at once, and two rows of block padding let the first and last options rest in the centre too
+       (spec/detent-lessons, P26-T2). The row is at least 44px, the coarse-pointer target. The list is positioned so an
+       option's offsetTop, which the component uses to centre it, is measured from the list. */
     :where(.wheel-picker-list) {
-        max-block-size: 10em;
+        --lily-wheel-picker-row: max(2.75em, 44px);
+        position: relative;
+        box-sizing: border-box;
+        block-size: calc(var(--lily-wheel-picker-row) * 5);
+        padding-block: calc(var(--lily-wheel-picker-row) * 2);
         overflow-y: auto;
         overscroll-behavior: contain;
         scroll-snap-type: y mandatory;
@@ -3465,7 +3472,11 @@
         outline-offset: 2px;
     }
     :where(.wheel-picker-option) {
-        padding: 0.5rem 1rem;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        min-block-size: var(--lily-wheel-picker-row);
+        padding: 0.25rem 1rem;
         scroll-snap-align: center;
         cursor: pointer;
     }
@@ -3477,6 +3488,51 @@
     :where(.wheel-picker-option[aria-disabled="true"]) {
         opacity: 0.5;
         cursor: not-allowed;
+    }
+    /* Horizontal (aria-orientation="horizontal"): one row of options that snaps along the inline axis; a spacer at each end
+       lets the first and last options rest in the centre. The drum below is for vertical wheels only. */
+    :where(.wheel-picker-list[aria-orientation="horizontal"]) {
+        display: flex;
+        block-size: auto;
+        padding-block: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+    }
+    :where(.wheel-picker-list[aria-orientation="horizontal"])::before,
+    :where(.wheel-picker-list[aria-orientation="horizontal"])::after {
+        content: "";
+        flex: 0 0 50%;
+    }
+    :where(.wheel-picker-list[aria-orientation="horizontal"] .wheel-picker-option) {
+        flex: none;
+        justify-content: center;
+        white-space: nowrap;
+    }
+    /* Drum (opt-in: add the class wheel-picker-drum to the root). Each option turns with its distance from the centre, on
+       a CSS scroll-driven animation: no script, and nothing at all without animation-timeline support or with reduced
+       motion. Only transform changes, never opacity, so every option keeps its text contrast (spec/detent-lessons, P26-T5). */
+    @supports (animation-timeline: view()) {
+        @media (prefers-reduced-motion: no-preference) {
+            :where(.wheel-picker-drum .wheel-picker-list[aria-orientation="vertical"]) {
+                perspective: 30em;
+            }
+            :where(.wheel-picker-drum .wheel-picker-list[aria-orientation="vertical"] .wheel-picker-option) {
+                animation: lily-wheel-picker-drum linear both;
+                animation-timeline: view(block);
+            }
+        }
+    }
+    @keyframes lily-wheel-picker-drum {
+        from {
+            transform: rotateX(-55deg);
+        }
+        50% {
+            transform: none;
+        }
+        to {
+            transform: rotateX(55deg);
+        }
     }
 
     /* ==========================================================================

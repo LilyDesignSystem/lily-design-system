@@ -28,7 +28,7 @@ Each component is in the first band it falls into, so the bands add up to 608.
 | Custom-key cells: open, keys known to be missing          | 0          |
 | Custom-key cells: absent, or with no reason               | 2          |
 | ARIA contracts asserted in all eight libraries            | 141 of 524 |
-| End-to-end evidence in Chromium, Firefox and WebKit       | 45 of 608  |
+| End-to-end evidence in Chromium, Firefox and WebKit       | 47 of 608  |
 | No keyboard or ARIA contract at all                       | 73 of 608  |
 <!-- END generated: bin/generate-core -->
 <!-- prettier-ignore-end -->

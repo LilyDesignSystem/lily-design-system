@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // WheelPicker component
 //
-// A vertical single-select listbox where the selection follows the cursor: moving with the arrow keys, typing, or
+// A single-select listbox, vertical by default, where the selection follows the cursor: moving with the arrow keys, typing, or
 // clicking an option chooses it. Use it to pick one of a short list (hours, minutes, months, years) in the manner of a
 // scroll wheel. The component owns the roles and the keys; the wheel LOOK (scroll snapping, fading, 3-D) is the
 // consumer's CSS.
@@ -13,30 +13,35 @@
 //   loop — boolean, default false. Arrow keys wrap from the last enabled option to the first and back.
 //   pageSize — number, default 5. Enabled options PageUp / PageDown move by.
 //   disabled — boolean, default false. Ignores keys and clicks; not focusable.
-//   name — string, optional. When set, a hidden input carries the value for a form.
+//   orientation — "vertical" | "horizontal", default "vertical". Horizontal moves with ArrowLeft / ArrowRight, swapped
+//     right-to-left (the nearest `dir`).
+//   name — string, optional. When set, a hidden input carries the value for a form. It is disabled, so not submitted,
+//     while the picker is disabled, and a form reset puts the picker back to the value it was given first.
+//   form — string, optional. The id of the form the hidden input belongs to, when the picker sits outside it.
 //   ...restProps (attrs) — fall through onto the root <div>, with the consumer class after the base class.
 //
 // Markup:
 //   <div class="wheel-picker">
-//     <div class="wheel-picker-list" role="listbox" aria-orientation="vertical" tabindex="0" aria-activedescendant>
+//     <div class="wheel-picker-list" role="listbox" aria-orientation tabindex="0" aria-activedescendant>
 //       <div class="wheel-picker-option" role="option" aria-selected aria-disabled? data-value>…</div>
 //     </div>
-//     <input type="hidden" name value>   (only with `name`)
+//     <input type="hidden" name value form? disabled?>   (only with `name`)
 //   </div>
 //
-// Keyboard (APG listbox, selection follows focus): ArrowDown / ArrowUp, Home / End, PageDown / PageUp, type-ahead over
+// Keyboard (APG listbox, selection follows focus): ArrowDown / ArrowUp (ArrowRight / ArrowLeft when horizontal), Home / End, PageDown / PageUp, type-ahead over
 // the labels. Disabled options are skipped.
 
-import { computed, onMounted, ref, useId, watch, nextTick, useAttrs } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, useId, watch, nextTick, useAttrs } from "vue";
 import { warnMissingName } from "./dev-warning";
 import {
+    isWheelRtl,
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
-    WHEEL_MOVE_KEYS,
+    wheelMoveKey,
     wheelTypeaheadIndex,
-    type WheelMoveKey,
     type WheelOption,
+    type WheelOrientation,
     type WheelTypeahead,
 } from "./wheel-picker";
 
@@ -52,14 +57,20 @@ const props = withDefaults(
         pageSize?: number;
         /** Ignores keys and clicks. */
         disabled?: boolean;
+        /** The axis the options run along. Default "vertical". */
+        orientation?: WheelOrientation;
         /** Form field name for a hidden input. */
         name?: string;
+        /** The id of the form the hidden input belongs to, when the picker is outside it. */
+        form?: string;
     }>(),
     {
         loop: false,
         pageSize: 5,
         disabled: false,
+        orientation: "vertical",
         name: undefined,
+        form: undefined,
     },
 );
 
@@ -87,10 +98,15 @@ function select(index: number): void {
 
 function onKeydown(event: KeyboardEvent): void {
     if (props.disabled) return;
-    if (WHEEL_MOVE_KEYS.includes(event.key)) {
+    const move = wheelMoveKey(
+        event.key,
+        props.orientation,
+        list.value ? isWheelRtl(list.value) : false,
+    );
+    if (move) {
         event.preventDefault();
         select(
-            nextWheelIndex(props.options, selectedIndex.value, event.key as WheelMoveKey, {
+            nextWheelIndex(props.options, selectedIndex.value, move, {
                 loop: props.loop,
                 pageSize: props.pageSize,
             }),
@@ -115,10 +131,35 @@ function centre(): void {
     if (!el || selectedIndex.value < 0) return;
     const option = el.querySelector<HTMLElement>(`[data-index="${selectedIndex.value}"]`);
     if (!option) return;
-    el.scrollTop = option.offsetTop - (el.clientHeight - option.offsetHeight) / 2;
+    // Move by the distance between the two middles: it works on either axis and in right-to-left.
+    const box = el.getBoundingClientRect();
+    const row = option.getBoundingClientRect();
+    if (props.orientation === "horizontal")
+        el.scrollLeft += row.left + row.width / 2 - (box.left + box.width / 2);
+    else el.scrollTop += row.top + row.height / 2 - (box.top + box.height / 2);
 }
 onMounted(centre);
 watch(selectedIndex, () => nextTick(centre));
+
+// Form reset: a hidden input keeps its value through a reset, so put the picker back to the value it was given first, one
+// tick after `reset`, and not when the reset was cancelled.
+const initialValue = modelValue.value;
+let owner: HTMLElement | null | undefined;
+let resetTimer: ReturnType<typeof setTimeout> | undefined;
+function onReset(event: Event): void {
+    clearTimeout(resetTimer);
+    resetTimer = setTimeout(() => {
+        if (!event.defaultPrevented) modelValue.value = initialValue;
+    }, 0);
+}
+onMounted(() => {
+    owner = props.form ? document.getElementById(props.form) : list.value?.closest("form");
+    owner?.addEventListener("reset", onReset);
+});
+onBeforeUnmount(() => {
+    clearTimeout(resetTimer);
+    owner?.removeEventListener("reset", onReset);
+});
 </script>
 
 <template>
@@ -129,7 +170,7 @@ watch(selectedIndex, () => nextTick(centre));
             class="wheel-picker-list"
             role="listbox"
             :aria-label="label"
-            aria-orientation="vertical"
+            :aria-orientation="orientation"
             :aria-disabled="disabled ? 'true' : undefined"
             :aria-activedescendant="
                 selectedIndex >= 0 ? `${uid}-option-${selectedIndex}` : undefined
@@ -157,6 +198,8 @@ watch(selectedIndex, () => nextTick(centre));
             type="hidden"
             :name="name"
             :value="modelValue"
+            :form="form"
+            :disabled="disabled"
         />
     </div>
 </template>

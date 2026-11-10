@@ -1,15 +1,17 @@
 <!-- wheel-picker.html -->
 <!-- WheelPicker component -->
 <!--
-  Description: a vertical single-select listbox where the selection follows the cursor
+  Description: a single-select listbox, vertical by default, where the selection follows the cursor
   HTML tag: <div> holding a listbox <div>
   CSS class: wheel-picker (sub-elements: wheel-picker-list, wheel-picker-option)
-  Keyboard: ArrowDown / ArrowUp, Home / End, PageDown / PageUp, type-ahead over the labels; disabled options are skipped
-  Accessibility: role="listbox" with aria-orientation="vertical" and aria-activedescendant on the focusable list; each option
+  Keyboard: ArrowDown / ArrowUp (ArrowRight / ArrowLeft with aria-orientation="horizontal", swapped right-to-left), Home / End, PageDown / PageUp, type-ahead over the labels; disabled options are skipped
+  Accessibility: role="listbox" with aria-orientation ("vertical", or "horizontal") and aria-activedescendant on the focusable list; each option
     is role="option" with aria-selected (and aria-disabled when disabled). The label is the consumer's.
   Attributes on the root: data-loop (arrows wrap), data-page-size (default 5). Mark the initial option aria-selected="true".
-    An optional <input type="hidden" name="…"> inside the root carries the value for a form. A bubbling `change` event
-    fires with detail.value when the selection changes.
+    An optional <input type="hidden" name="…"> inside the root carries the value for a form; give it a `form` attribute
+    when the picker sits outside its form. The script disables it while the list is aria-disabled, so a disabled picker is
+    not submitted, and a form reset puts back the initial selection. A bubbling `change` event fires with detail.value
+    when the selection changes.
   Usage (see the markup below)
 -->
 
@@ -42,6 +44,32 @@ const WHEEL_MOVE_KEYS                    = [
     "PageUp",
     "PageDown",
 ];
+
+/** The axis the options run along. Vertical (the default) moves with ArrowUp / ArrowDown, horizontal with ArrowLeft / ArrowRight. */
+
+/**
+ * The move a physical key makes on a wheel of this orientation, or undefined when the key does not move it. Horizontal wheels move
+ * with ArrowLeft / ArrowRight, swapped when `rtl`, so the arrow always points the way the cursor goes; their ArrowUp / ArrowDown are
+ * left to the page. Home, End, PageUp and PageDown move a wheel of either orientation.
+ */
+function wheelMoveKey(
+    key        ,
+    orientation                   = "vertical",
+    rtl          = false,
+)                           {
+    if (key === "Home" || key === "End" || key === "PageUp" || key === "PageDown") return key;
+    if (orientation === "horizontal") {
+        if (key === "ArrowRight") return rtl ? "ArrowUp" : "ArrowDown";
+        if (key === "ArrowLeft") return rtl ? "ArrowDown" : "ArrowUp";
+        return undefined;
+    }
+    return key === "ArrowDown" || key === "ArrowUp" ? key : undefined;
+}
+
+/** Whether an element is in right-to-left text: the nearest `dir` attribute says "rtl". */
+function isWheelRtl(element         )          {
+    return element.closest("[dir]")?.getAttribute("dir")?.toLowerCase() === "rtl";
+}
 
 /** Indexes of the options that can be selected. */
 function enabledIndexes(options                        )           {
@@ -151,23 +179,30 @@ function wheelTypeaheadIndex(
       return { value: el.getAttribute("data-value"), label: el.textContent, disabled: el.getAttribute("aria-disabled") === "true" };
     });
     var hidden = root.querySelector('input[type="hidden"]');
+    var horizontal = list.getAttribute("aria-orientation") === "horizontal";
     var loop = root.hasAttribute("data-loop");
     var pageSize = Number(root.getAttribute("data-page-size") || 5);
     var typeahead = { prefix: "", at: 0 };
     var selected = optionEls.findIndex(function (el) { return el.getAttribute("aria-selected") === "true"; });
     var initial = selected;
 
+    // Move by the distance between the two middles: it works on either axis and in right-to-left.
     function centre() {
       if (selected < 0) return;
-      var el = optionEls[selected];
-      list.scrollTop = el.offsetTop - (list.clientHeight - el.offsetHeight) / 2;
+      var box = list.getBoundingClientRect();
+      var row = optionEls[selected].getBoundingClientRect();
+      if (horizontal) list.scrollLeft += row.left + row.width / 2 - (box.left + box.width / 2);
+      else list.scrollTop += row.top + row.height / 2 - (box.top + box.height / 2);
     }
 
     function show() {
       optionEls.forEach(function (el, i) { el.setAttribute("aria-selected", String(i === selected)); });
       if (selected >= 0) list.setAttribute("aria-activedescendant", optionEls[selected].id);
       else list.removeAttribute("aria-activedescendant");
-      if (hidden) hidden.value = selected >= 0 ? options[selected].value : "";
+      if (hidden) {
+        hidden.value = selected >= 0 ? options[selected].value : "";
+        hidden.disabled = list.getAttribute("aria-disabled") === "true";
+      }
       centre();
     }
 
@@ -180,9 +215,10 @@ function wheelTypeaheadIndex(
 
     list.addEventListener("keydown", function (event) {
       if (list.getAttribute("aria-disabled") === "true") return;
-      if (WHEEL_MOVE_KEYS.indexOf(event.key) !== -1) {
+      var move = wheelMoveKey(event.key, horizontal ? "horizontal" : "vertical", isWheelRtl(list));
+      if (move) {
         event.preventDefault();
-        select(nextWheelIndex(options, selected, event.key, { loop: loop, pageSize: pageSize }));
+        select(nextWheelIndex(options, selected, move, { loop: loop, pageSize: pageSize }));
       } else if (isWheelTypeaheadKey(event)) {
         typeahead = nextWheelPrefix(typeahead, event.key, Date.now());
         select(wheelTypeaheadIndex(options, selected, typeahead.prefix));
@@ -200,7 +236,7 @@ function wheelTypeaheadIndex(
     // Form reset: the selection lives in aria-selected and a hidden input the browser's
     // reset does not restore, so put back the initial selection one tick after the reset
     // (and not when a listener cancelled it).
-    var form = root.closest("form");
+    var form = (hidden && hidden.form) || root.closest("form");
     if (form) {
       form.addEventListener("reset", function (event) {
         setTimeout(function () {
@@ -215,6 +251,7 @@ function wheelTypeaheadIndex(
       });
     }
 
+    if (hidden) hidden.disabled = list.getAttribute("aria-disabled") === "true";
     centre();
   }
 

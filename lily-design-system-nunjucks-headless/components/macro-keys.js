@@ -3,10 +3,11 @@
 // so an attribute a macro renders is the state: aria-valuenow, data-active, data-editing, aria-expanded.
 
 import {
+    isWheelRtl,
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
-    WHEEL_MOVE_KEYS,
+    wheelMoveKey,
     wheelTypeaheadIndex,
 } from "./wheel-picker.js";
 
@@ -188,7 +189,10 @@ export function attachTileMap(root) {
     });
 }
 
-/** A listbox whose selection follows the cursor, on shared/wheel-picker.ts. */
+/**
+ * A listbox whose selection follows the cursor, on shared/wheel-picker.ts. The list's aria-orientation picks the arrows
+ * (ArrowLeft / ArrowRight when horizontal, swapped right-to-left). A form reset puts back the first selection.
+ */
 export function attachWheelPicker(root) {
     const list = root.querySelector(".wheel-picker-list");
     const optionEls = [...root.querySelectorAll(".wheel-picker-option")];
@@ -198,30 +202,58 @@ export function attachWheelPicker(root) {
         disabled: el.getAttribute("aria-disabled") === "true",
     }));
     const hidden = root.querySelector('input[type="hidden"]');
+    const orientation =
+        list.getAttribute("aria-orientation") === "horizontal" ? "horizontal" : "vertical";
     const move = {
         loop: root.hasAttribute("data-loop"),
         pageSize: number(root, "data-page-size", 5),
     };
     let typeahead = { prefix: "", at: 0 };
     let selected = optionEls.findIndex((el) => el.getAttribute("aria-selected") === "true");
+    const initial = selected;
+
+    function show() {
+        optionEls.forEach((el, i) => el.setAttribute("aria-selected", String(i === selected)));
+        if (selected >= 0) list.setAttribute("aria-activedescendant", optionEls[selected].id);
+        else list.removeAttribute("aria-activedescendant");
+        if (hidden) hidden.value = selected >= 0 ? options[selected].value : "";
+        if (selected < 0) return;
+        // Move by the distance between the two middles: it works on either axis and in right-to-left.
+        const box = list.getBoundingClientRect();
+        const row = optionEls[selected].getBoundingClientRect();
+        if (orientation === "horizontal")
+            list.scrollLeft += row.left + row.width / 2 - (box.left + box.width / 2);
+        else list.scrollTop += row.top + row.height / 2 - (box.top + box.height / 2);
+    }
 
     function select(index) {
         if (index < 0 || index === selected) return;
         selected = index;
-        optionEls.forEach((el, i) => el.setAttribute("aria-selected", String(i === index)));
-        list.setAttribute("aria-activedescendant", optionEls[index].id);
-        if (hidden) hidden.value = options[index].value;
-        const el = optionEls[index];
-        list.scrollTop = el.offsetTop - (list.clientHeight - el.offsetHeight) / 2;
+        show();
         emit(root, "change", { value: options[index].value });
     }
+
+    // Form reset: a hidden input keeps its value through a reset, so put back the first selection one tick later, and not
+    // when the reset was cancelled. The input's own `form` follows a `form` attribute.
+    const form = hidden?.form ?? root.closest("form");
+    let resetTimer;
+    const onReset = (event) => {
+        clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+            if (event.defaultPrevented || selected === initial) return;
+            selected = initial;
+            show();
+            emit(root, "change", { value: selected >= 0 ? options[selected].value : "" });
+        }, 0);
+    };
 
     const stops = [
         listen(list, "keydown", (event) => {
             if (list.getAttribute("aria-disabled") === "true") return;
-            if (WHEEL_MOVE_KEYS.includes(event.key)) {
+            const key = wheelMoveKey(event.key, orientation, isWheelRtl(list));
+            if (key) {
                 event.preventDefault();
-                select(nextWheelIndex(options, selected, event.key, move));
+                select(nextWheelIndex(options, selected, key, move));
             } else if (isWheelTypeaheadKey(event)) {
                 typeahead = nextWheelPrefix(typeahead, event.key, Date.now());
                 select(wheelTypeaheadIndex(options, selected, typeahead.prefix));
@@ -235,7 +267,11 @@ export function attachWheelPicker(root) {
             list.focus();
         }),
     ];
-    return () => stops.forEach((stop) => stop());
+    if (form) stops.push(listen(form, "reset", onReset));
+    return () => {
+        clearTimeout(resetTimer);
+        stops.forEach((stop) => stop());
+    };
 }
 
 /** A focusable scrolling region: the arrows scroll by data-step, default 100, and Home and End go to the ends. */

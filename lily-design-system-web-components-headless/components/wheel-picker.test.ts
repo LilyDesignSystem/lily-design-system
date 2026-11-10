@@ -170,4 +170,52 @@ describe("WheelPicker", () => {
         expect(root.getAttribute("data-testid")).toBe("wp");
         expect(root.id).toBe("x");
     });
+
+    test("a disabled element's hidden input is disabled, so it is not submitted", () => {
+        document.body.innerHTML = `<form><lily-wheel-picker label="Month" value="2" name="month" disabled>${OPTIONS}</lily-wheel-picker></form>`;
+        const form = document.querySelector("form")!;
+        expect(form.querySelector<HTMLInputElement>("input[type=hidden]")!.disabled).toBe(true);
+        expect(new FormData(form).has("month")).toBe(false);
+    });
+
+    test("passes form to the hidden input, and not to the root", () => {
+        const h = render('label="Month" value="2" name="month" form="elsewhere"');
+        expect(h.querySelector("input[type=hidden]")!.getAttribute("form")).toBe("elsewhere");
+        expect(h.querySelector(".wheel-picker")!.hasAttribute("form")).toBe(false);
+    });
+
+    test("form reset puts the element back to its first value and fires change", async () => {
+        document.body.innerHTML = `<form><lily-wheel-picker label="Month" value="2" name="month">${OPTIONS}</lily-wheel-picker></form>`;
+        const h = document.querySelector("lily-wheel-picker") as WheelPicker;
+        key(h, "ArrowDown");
+        expect(h.value).toBe("3");
+        const onChange = vi.fn();
+        h.addEventListener("change", onChange);
+        document.querySelector("form")!.reset();
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        expect(h.value).toBe("2");
+        expect(selected(h)).toBe("February");
+        expect(h.querySelector<HTMLInputElement>("input[type=hidden]")!.value).toBe("2");
+        expect(onChange).toHaveBeenCalledTimes(1);
+    });
+
+    test("horizontal: aria-orientation, ArrowRight and ArrowLeft move, ArrowDown does not", () => {
+        const h = render('label="Month" value="2" orientation="horizontal"');
+        expect(list(h).getAttribute("aria-orientation")).toBe("horizontal");
+        key(h, "ArrowRight");
+        expect(selected(h)).toBe("March");
+        key(h, "ArrowLeft");
+        expect(selected(h)).toBe("February");
+        key(h, "ArrowDown");
+        expect(selected(h)).toBe("February");
+    });
+
+    test("horizontal, right-to-left: the arrows swap", () => {
+        document.body.innerHTML = `<div dir="rtl"><lily-wheel-picker label="Month" value="2" orientation="horizontal">${OPTIONS}</lily-wheel-picker></div>`;
+        const h = document.querySelector("lily-wheel-picker") as WheelPicker;
+        key(h, "ArrowLeft");
+        expect(selected(h)).toBe("March");
+        key(h, "ArrowRight");
+        expect(selected(h)).toBe("February");
+    });
 });

@@ -10,6 +10,8 @@
 // not change, which Angular would never re-render.
 //
 // `index` picks which native control of the host the model drives (default the first).
+// `formId`, when it returns an id, names the form to follow instead of the one around the host (a control whose
+// `form` attribute puts it in a form elsewhere).
 
 import { DestroyRef, ElementRef, afterNextRender, inject, type ModelSignal } from "@angular/core";
 
@@ -27,11 +29,16 @@ function write(el: Field, value: unknown): void {
     }
 }
 
-export function restoreOnFormReset<T>(model: ModelSignal<T>, index = 0): void {
+export function restoreOnFormReset<T>(
+    model: ModelSignal<T>,
+    index = 0,
+    formId?: () => string | undefined,
+): void {
     const host = inject<ElementRef<HTMLElement>>(ElementRef);
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
-        const form = host.nativeElement.closest("form");
+        const id = formId?.();
+        const form = id ? document.getElementById(id) : host.nativeElement.closest("form");
         if (!form) return;
         const initial = model();
         const snapshot = (): T => (Array.isArray(initial) ? ([...initial] as T) : initial);

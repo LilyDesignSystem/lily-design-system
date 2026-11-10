@@ -32,6 +32,7 @@ const routes = [
     "/timeline-and-cards",
     "/book-an-appointment",
     "/rtl-demo",
+    "/time-wheels",
 ];
 
 async function expectNoHorizontalOverflow(page: import("@playwright/test").Page, label: string) {

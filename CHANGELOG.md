@@ -9,6 +9,24 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Wheel picker lessons from detent — 2026-11-10
+
+From [spec/detent-lessons](spec/detent-lessons/index.md), tasks.md P26-T2 to P26-T7, done at the maintainer's request.
+
+- **Fixed:** in the 63 themes the first and last options of a `wheel-picker` can rest in the centre (two rows of block padding,
+  five rows of at least 44px), and the list is `position: relative`, so the centring that measured an option's `offsetTop` from the
+  wrong element now measures from the list. Centring now scrolls by the distance between the two middles in every catalog.
+- **Fixed:** a disabled `wheel-picker`'s hidden input was submitted; it is disabled with the picker in all nine catalogs. Form reset
+  puts the picker back to its first value in every catalog but Blazor (it was handled only in Angular and the HTML script). Alpine's
+  snippet gains the hidden input it lacked.
+- **Added:** `orientation` (`"vertical"` by default, or `"horizontal"`: ArrowLeft and ArrowRight, swapped right-to-left except in
+  Blazor) and `form` on `wheel-picker`, with `wheelMoveKey` and `isWheelRtl` in `shared/wheel-picker.ts` and a horizontal layout in
+  the themes.
+- **Added:** an opt-in drum, `.wheel-picker-drum`, in the 63 themes: CSS scroll-driven animation, `transform` only, nothing under
+  reduced motion.
+- **Added:** the several-wheels pattern in `AGENTS/components.md`, with `/time-wheels` in the SvelteKit app; the animated-text rule in
+  `AGENTS/accessibility.md`. `date-time-picker` keeps native `<select>` time controls, with the reason in its spec.
+
 ## `date-field` asks for a date in three parts — 2026-11-09
 
 The maintainer took the recommendation. Its catalog description, "a structured field for entering date components", and its own "When to Use" asked for separate day, month and year fields; Svelte, React, Vue, Angular, Blazor, HTML and Web Components rendered one `<input type="date">`, which is `date-input`. Breaking in every catalog.

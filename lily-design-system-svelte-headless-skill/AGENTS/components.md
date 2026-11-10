@@ -284,6 +284,35 @@ logo.
 - Never put a body's logo, crest or mark in a theme ([visual-identity.md](visual-identity.md)).
 - Example: `pages/logo-slot.html` in the HTML examples app, with `e2e/logo-slot.spec.ts`.
 
+### Several wheels pattern
+
+A composition, not a component: one value asked for in parts, such as a time, with one `WheelPicker` per part inside a
+`Fieldset` whose legend names the whole value.
+
+```tsx
+<Fieldset legend="Appointment time">
+  <WheelPicker
+    label="Hours"
+    options={hours}
+    bind:value={hour}
+    name="hour"
+  />
+  <WheelPicker
+    label="Minutes"
+    options={minutes}
+    bind:value={minute}
+    name="minute"
+  />
+</Fieldset>
+```
+
+- The legend names the whole value; each wheel's `label` names its part. Tab moves between the parts.
+- The order of the parts, the 12- or 24-hour clock and every label are the consumer's, as for `date-field`.
+- Each part is its own form field; join them in the consumer's code. A form reset puts every wheel back.
+- For a date a person knows by heart, prefer `date-field`, which can be typed; a wheel suits a short range skimmed by feel.
+- `date-time-picker` keeps its native `<select>` time controls; see [spec/date-time-picker](../spec/date-time-picker/index.md).
+- Example: `/time-wheels` in the SvelteKit examples app, with `e2e/time-wheels.spec.ts`.
+
 ### Patient banner pattern
 
 A labelled `<section aria-label>` holding a `dl` of consumer-supplied items (name, date of birth, national identifier shown with its `-view` component, gender, adverse reactions); no field truncated or hidden at a narrow width. Not a component and not named `patient-header` (the suffix table maps `-header` to `<header>`). Details: [`medical-banner`](../components/medical-banner/index.md).

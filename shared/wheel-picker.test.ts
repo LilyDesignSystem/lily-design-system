@@ -1,8 +1,10 @@
 import { describe, expect, test } from "vitest";
 import {
+    isWheelRtl,
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
+    wheelMoveKey,
     wheelTypeaheadIndex,
     type WheelOption,
 } from "./wheel-picker";
@@ -102,5 +104,45 @@ describe("type-ahead", () => {
         expect(isWheelTypeaheadKey({ key: " " })).toBe(false);
         expect(isWheelTypeaheadKey({ key: "Enter" })).toBe(false);
         expect(isWheelTypeaheadKey({ key: "a", ctrlKey: true })).toBe(false);
+    });
+});
+
+describe("wheelMoveKey", () => {
+    test("a vertical wheel moves with ArrowUp and ArrowDown only", () => {
+        expect(wheelMoveKey("ArrowDown")).toBe("ArrowDown");
+        expect(wheelMoveKey("ArrowUp", "vertical")).toBe("ArrowUp");
+        expect(wheelMoveKey("ArrowRight", "vertical")).toBeUndefined();
+        expect(wheelMoveKey("ArrowLeft", "vertical", true)).toBeUndefined();
+    });
+
+    test("a horizontal wheel moves with ArrowLeft and ArrowRight, swapped right-to-left", () => {
+        expect(wheelMoveKey("ArrowRight", "horizontal")).toBe("ArrowDown");
+        expect(wheelMoveKey("ArrowLeft", "horizontal")).toBe("ArrowUp");
+        expect(wheelMoveKey("ArrowRight", "horizontal", true)).toBe("ArrowUp");
+        expect(wheelMoveKey("ArrowLeft", "horizontal", true)).toBe("ArrowDown");
+        expect(wheelMoveKey("ArrowDown", "horizontal")).toBeUndefined();
+    });
+
+    test("Home, End and the Page keys move either orientation", () => {
+        for (const key of ["Home", "End", "PageUp", "PageDown"]) {
+            expect(wheelMoveKey(key, "vertical")).toBe(key);
+            expect(wheelMoveKey(key, "horizontal", true)).toBe(key);
+        }
+        expect(wheelMoveKey("Enter", "horizontal")).toBeUndefined();
+    });
+});
+
+describe("isWheelRtl", () => {
+    // A stand-in for Element.closest("[dir]"), so this file runs without a DOM.
+    const within = (dir: string | null) =>
+        ({
+            closest: () => (dir === null ? null : { getAttribute: () => dir }),
+        }) as unknown as Element;
+
+    test("follows the nearest dir attribute", () => {
+        expect(isWheelRtl(within("rtl"))).toBe(true);
+        expect(isWheelRtl(within("RTL"))).toBe(true);
+        expect(isWheelRtl(within("ltr"))).toBe(false);
+        expect(isWheelRtl(within(null))).toBe(false);
     });
 });

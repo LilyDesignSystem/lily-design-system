@@ -72,6 +72,11 @@
             description: "Task lists, checklists, editable content, and tags",
         },
         {
+            href: "/time-wheels",
+            title: "Time with Wheels",
+            description: "Two wheel pickers in one fieldset make one time, with form reset",
+        },
+        {
             href: "/timeline-and-cards",
             title: "Timeline & Cards",
             description: "Timelines, avatars, figures, emoji, and tours",

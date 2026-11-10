@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+import { Component, signal } from "@angular/core";
 import { TestBed } from "@angular/core/testing";
 
 import { WheelPicker } from "./WheelPicker";
@@ -142,5 +143,74 @@ describe("WheelPicker", () => {
         const input = named.nativeElement.querySelector("input[type=hidden]") as HTMLInputElement;
         expect(input.getAttribute("name")).toBe("month");
         expect(input.value).toBe("2");
+    });
+
+    test("a disabled picker's hidden input is disabled, so it is not submitted", () => {
+        const f = make({ name: "month", disabled: true });
+        const input = f.nativeElement.querySelector("input[type=hidden]") as HTMLInputElement;
+        expect(input.disabled).toBe(true);
+    });
+
+    test("passes form to the hidden input", () => {
+        const f = make({ name: "month", form: "elsewhere" });
+        expect(f.nativeElement.querySelector("input[type=hidden]").getAttribute("form")).toBe(
+            "elsewhere",
+        );
+    });
+
+    test("horizontal: aria-orientation, ArrowRight and ArrowLeft move, ArrowDown does not", () => {
+        const f = make({ orientation: "horizontal" });
+        expect(list(f).getAttribute("aria-orientation")).toBe("horizontal");
+        key(f, "ArrowRight");
+        expect(selected(f)).toBe("March");
+        key(f, "ArrowLeft");
+        expect(selected(f)).toBe("February");
+        key(f, "ArrowDown");
+        expect(selected(f)).toBe("February");
+    });
+
+    test("horizontal, right-to-left: the arrows swap", () => {
+        const f = make({ orientation: "horizontal" });
+        const rtl = document.body.appendChild(document.createElement("div"));
+        rtl.setAttribute("dir", "rtl");
+        rtl.appendChild(f.nativeElement);
+        key(f, "ArrowLeft");
+        expect(selected(f)).toBe("March");
+        key(f, "ArrowRight");
+        expect(selected(f)).toBe("February");
+        rtl.remove();
+    });
+});
+
+@Component({
+    standalone: true,
+    imports: [WheelPicker],
+    template: `<form>
+        <lily-wheel-picker label="Month" [options]="months" name="month" [(value)]="month" />
+    </form>`,
+})
+class Host {
+    months = months;
+    month = signal("2");
+}
+
+describe("WheelPicker in a form", () => {
+    test("form reset puts the picker back to its first value", async () => {
+        const fixture = TestBed.createComponent(Host);
+        document.body.appendChild(fixture.nativeElement);
+        fixture.detectChanges();
+        await fixture.whenStable();
+        const el = fixture.nativeElement as HTMLElement;
+        el.querySelector<HTMLElement>(".wheel-picker-list")!.dispatchEvent(
+            new KeyboardEvent("keydown", { key: "ArrowDown", bubbles: true, cancelable: true }),
+        );
+        fixture.detectChanges();
+        expect(fixture.componentInstance.month()).toBe("3");
+        el.querySelector("form")!.reset();
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        fixture.detectChanges();
+        expect(fixture.componentInstance.month()).toBe("2");
+        expect(el.querySelector<HTMLInputElement>("input[type=hidden]")!.value).toBe("2");
+        fixture.nativeElement.remove();
     });
 });

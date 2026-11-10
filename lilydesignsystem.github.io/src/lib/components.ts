@@ -608,7 +608,7 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "chat-composer", pascal: "ChatComposer", description: "a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress", status: "beta" },
   { name: "heatmap-chart-with-year-of-days", pascal: "HeatmapChartWithYearOfDays", description: "a heatmap chart of one year of days, one cell per day in week columns and weekday rows", status: "experimental" },
   { name: "middle-truncation", pascal: "MiddleTruncation", description: "a string shortened in the middle to fit its width, keeping the start and the end", status: "experimental" },
-  { name: "wheel-picker", pascal: "WheelPicker", description: "a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing", status: "experimental" },
+  { name: "wheel-picker", pascal: "WheelPicker", description: "a single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling or typing", status: "experimental" },
   { name: "convert-div", pascal: "ConvertDiv", description: "a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres", status: "beta" },
   { name: "convert-from-div", pascal: "ConvertFromDiv", description: "the source side of a conversion, holding the value and unit to convert from", status: "beta" },
   { name: "convert-from-value-div", pascal: "ConvertFromValueDiv", description: "the value to convert from, such as a text input holding the number of dollars", status: "beta" },

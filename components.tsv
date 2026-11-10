@@ -596,7 +596,7 @@ mark	Mark	an inline highlight marking text as relevant or referenced, such as a 
 chat-composer	ChatComposer	a chat input form with a text area that grows with its content, sends on Enter, and turns its send button into a stop button while a reply is in progress
 heatmap-chart-with-year-of-days	HeatmapChartWithYearOfDays	a heatmap chart of one year of days, one cell per day in week columns and weekday rows
 middle-truncation	MiddleTruncation	a string shortened in the middle to fit its width, keeping the start and the end
-wheel-picker	WheelPicker	a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing
+wheel-picker	WheelPicker	a single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling or typing
 convert-div	ConvertDiv	a group that converts a value from one unit into another, such as dollars into euros or miles into kilometres
 convert-from-div	ConvertFromDiv	the source side of a conversion, holding the value and unit to convert from
 convert-from-value-div	ConvertFromValueDiv	the value to convert from, such as a text input holding the number of dollars

@@ -60,7 +60,7 @@ calendar-table-td	key evidence incomplete	no	yes	yes	yes	1	5	no	-
 calendar-table-th	automated evidence complete	no	no	no	no	7	1	no	-
 call-to-action	key evidence incomplete	no	yes	no	yes	4	5	no	-
 caption	automated evidence complete	no	no	no	no	8	2	no	-
-card	key evidence incomplete	no	yes	no	yes	1	7	no	-
+card	key evidence incomplete	no	yes	no	yes	1	7	yes	-
 care-card	ARIA evidence incomplete	no	no	no	yes	1	4	no	-
 carousel	ARIA evidence incomplete	no	yes	yes	yes	8	7	no	-
 cascader	automated evidence complete	no	yes	yes	yes	8	8	no	-
@@ -597,7 +597,7 @@ mark	ARIA evidence incomplete	no	no	no	yes	1	0	no	-
 chat-composer	key evidence incomplete	no	yes	no	yes	7	5	no	-
 heatmap-chart-with-year-of-days	automated evidence complete	no	no	no	yes	8	8	no	-
 middle-truncation	automated evidence complete	no	no	no	yes	1	8	yes	-
-wheel-picker	automated evidence complete	no	yes	yes	yes	8	8	no	-
+wheel-picker	automated evidence complete	no	yes	yes	yes	8	8	yes	-
 convert-div	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
 convert-from-div	automated evidence complete	no	no	no	no	1	8	no	-
 convert-from-value-div	automated evidence complete	no	no	no	no	1	8	no	-

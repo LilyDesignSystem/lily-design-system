@@ -165,4 +165,38 @@ public class WheelPickerTests : TestContext
         Assert.Equal(2, WheelPickerKeys.TypeaheadIndex(Months, 0, "Mar"));
         Assert.Equal(0, WheelPickerKeys.TypeaheadIndex([new WheelPickerOption("1", "École")], -1, "e"));
     }
+
+    [Fact] public void Horizontal_moves_with_ArrowRight_and_ArrowLeft_not_ArrowDown()
+    {
+        var c = Render(p => p.Add(x => x.Orientation, "horizontal"));
+        var list = c.Find(".wheel-picker-list");
+        Assert.Equal("horizontal", list.GetAttribute("aria-orientation"));
+        list.KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
+        Assert.Equal("March", Selected(c));
+        c.Find(".wheel-picker-list").KeyDown(new KeyboardEventArgs { Key = "ArrowLeft" });
+        Assert.Equal("February", Selected(c));
+        c.Find(".wheel-picker-list").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
+        Assert.Equal("February", Selected(c));
+    }
+
+    [Fact] public void A_disabled_pickers_hidden_input_is_disabled_and_Form_reaches_it()
+    {
+        var c = Render(p => p.Add(x => x.Name, "month").Add(x => x.Disabled, true).Add(x => x.Form, "elsewhere"));
+        var input = c.Find("input[type=hidden]");
+        Assert.True(input.HasAttribute("disabled"));
+        Assert.Equal("elsewhere", input.GetAttribute("form"));
+        var enabled = Render(p => p.Add(x => x.Name, "month"));
+        Assert.False(enabled.Find("input[type=hidden]").HasAttribute("disabled"));
+    }
+
+    [Fact] public void MoveKey_matches_the_shared_model()
+    {
+        Assert.Equal("ArrowDown", WheelPickerKeys.MoveKey("ArrowDown"));
+        Assert.Null(WheelPickerKeys.MoveKey("ArrowRight"));
+        Assert.Equal("ArrowDown", WheelPickerKeys.MoveKey("ArrowRight", "horizontal"));
+        Assert.Equal("ArrowUp", WheelPickerKeys.MoveKey("ArrowRight", "horizontal", rtl: true));
+        Assert.Equal("ArrowDown", WheelPickerKeys.MoveKey("ArrowLeft", "horizontal", rtl: true));
+        Assert.Null(WheelPickerKeys.MoveKey("ArrowDown", "horizontal"));
+        Assert.Equal("End", WheelPickerKeys.MoveKey("End", "horizontal"));
+    }
 }

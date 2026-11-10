@@ -3622,7 +3622,7 @@
     {
       "slug": "wheel-picker",
       "name": "WheelPicker",
-      "description": "a vertical single-select listbox where the selection follows the cursor, for choosing one of a short list by scrolling or typing",
+      "description": "a single-select listbox, vertical by default, where the selection follows the cursor, for choosing one of a short list by scrolling or typing",
       "manifest": "https://lilydesignsystem.com/r/wheel-picker.json"
     },
     {

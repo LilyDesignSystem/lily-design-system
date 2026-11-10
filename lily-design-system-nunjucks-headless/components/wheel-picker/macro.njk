@@ -1,5 +1,5 @@
 {#
-  WheelPicker macro -- a vertical single-select listbox where the selection follows the cursor.
+  WheelPicker macro -- a single-select listbox, vertical by default, where the selection follows the cursor.
 
   Renders the markup contract: a listbox holding one role="option" per entry, the selected one aria-selected, and an
   optional hidden input. A server cannot handle keys, so components/widget-init.js does (it reads this markup,
@@ -7,7 +7,7 @@
 
   HTML tag: <div> holding a listbox <div>
   CSS class: wheel-picker (sub-elements: wheel-picker-list, wheel-picker-option)
-  Accessibility: role="listbox", aria-orientation="vertical", aria-activedescendant naming the selected option; each option
+  Accessibility: role="listbox", aria-orientation (vertical, or horizontal), aria-activedescendant naming the selected option; each option
     role="option" with aria-selected (and aria-disabled when disabled).
 
   Params:
@@ -16,8 +16,12 @@
     value       string   The selected option's value; none or unknown selects nothing.
     loop        boolean  Arrow keys wrap (data-loop).
     pageSize    number   Enabled options PageUp / PageDown move by (data-page-size), default 5.
-    disabled    boolean  Not focusable; the script ignores keys and clicks.
-    name        string   When set, a hidden input carries the value for a form.
+    disabled    boolean  Not focusable; the script ignores keys and clicks; the hidden input is disabled, so not submitted.
+    orientation string   "vertical" (default) or "horizontal": the script then moves with ArrowLeft / ArrowRight,
+                         swapped right-to-left.
+    name        string   When set, a hidden input carries the value for a form. The script puts back the first
+                         selection on a form reset.
+    form        string   The id of the form the hidden input belongs to, when the picker sits outside it.
     id          string   Id prefix for the options, and the root's id.
     classes     string   Consumer-provided extra CSS classes.
     attributes  object   Extra HTML attributes as key/value pairs (on the root).
@@ -42,7 +46,7 @@
   <div
     class="wheel-picker-list"
     role="listbox"
-    aria-orientation="vertical"
+    aria-orientation="{{ 'horizontal' if p.orientation == 'horizontal' else 'vertical' }}"
     {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
     {%- if p.disabled %} aria-disabled="true"{% endif %}
     {%- if selected.length %} aria-activedescendant="{{ prefix }}-option-{{ selected[0] }}"{% endif %}
@@ -60,7 +64,7 @@
     {%- endfor %}
   </div>
   {%- if p.name %}
-  <input type="hidden" name="{{ p.name }}" value="{{ p.value }}">
+  <input type="hidden" name="{{ p.name }}" value="{{ p.value }}"{% if p.form %} form="{{ p.form }}"{% endif %}{% if p.disabled %} disabled{% endif %}>
   {%- endif %}
 </div>
 {%- endmacro -%}

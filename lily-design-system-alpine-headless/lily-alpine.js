@@ -16,10 +16,11 @@ import { attachCropper, attachGrid, attachSplitView, attachToolbar } from "./wid
 import { truncateMiddle } from "./middle-truncation.js";
 import { setupOverflowNavigation } from "./overflow-navigation.js";
 import {
+    isWheelRtl,
     isWheelTypeaheadKey,
     nextWheelIndex,
     nextWheelPrefix,
-    WHEEL_MOVE_KEYS,
+    wheelMoveKey,
     wheelTypeaheadIndex,
 } from "./wheel-picker.js";
 
@@ -2804,8 +2805,9 @@ export default function lily(Alpine) {
         },
     }));
 
-    // WheelPicker: a vertical single-select listbox where the selection follows the cursor (APG listbox). The roles live in the
-    // snippet; this owns the value, the keys (arrows, Home/End, PageUp/PageDown, type-ahead) and centring the selected option.
+    // WheelPicker: a single-select listbox, vertical by default, where the selection follows the cursor (APG listbox). The roles
+    // live in the snippet; this owns the value, the keys (arrows, Home/End, PageUp/PageDown, type-ahead), centring the selected
+    // option, the optional hidden input (x-bind="input": its value, disabled with the picker) and form reset.
     let wheelPickerCount = 0;
     Alpine.data("lilyWheelPicker", (config = {}) => ({
         options: config.options ?? [],
@@ -2813,11 +2815,31 @@ export default function lily(Alpine) {
         loop: Boolean(config.loop),
         pageSize: config.pageSize ?? 5,
         disabled: Boolean(config.disabled),
+        orientation: config.orientation === "horizontal" ? "horizontal" : "vertical",
         uid: `wheel-picker-${++wheelPickerCount}`,
         _typeahead: { prefix: "", at: 0 },
+        _initial: config.value ?? "",
+        _form: null,
+        _resetTimer: undefined,
         init() {
             this.$nextTick(() => this.centre());
             this.$watch("value", () => this.$nextTick(() => this.centre()));
+            // Form reset: a hidden input keeps its value through a reset, so put the picker back to its first value, one tick
+            // after `reset` and not when it was cancelled. The input's own `form` follows a `form` attribute.
+            this._form = this.$refs.input?.form ?? this.$el.closest("form");
+            this._onReset = (event) => {
+                clearTimeout(this._resetTimer);
+                this._resetTimer = setTimeout(() => {
+                    if (event.defaultPrevented || this.value === this._initial) return;
+                    this.value = this._initial;
+                    this.$dispatch("change", { value: this._initial });
+                }, 0);
+            };
+            this._form?.addEventListener("reset", this._onReset);
+        },
+        destroy() {
+            clearTimeout(this._resetTimer);
+            this._form?.removeEventListener("reset", this._onReset);
         },
         get selectedIndex() {
             return this.options.findIndex((o) => o.value === this.value);
@@ -2829,16 +2851,31 @@ export default function lily(Alpine) {
             this.value = next;
             this.$dispatch("change", { value: next });
         },
-        // Only the list scrolls (never the page), and instantly: no animation.
+        // Only the list scrolls (never the page), and instantly: no animation. Moving by the distance between the two middles
+        // works on either axis and in right-to-left.
         centre() {
             const list = this.$refs.list;
             const option = list?.querySelector(`[data-index="${this.selectedIndex}"]`);
-            if (list && option)
-                list.scrollTop = option.offsetTop - (list.clientHeight - option.offsetHeight) / 2;
+            if (!list || !option) return;
+            const box = list.getBoundingClientRect();
+            const row = option.getBoundingClientRect();
+            if (this.orientation === "horizontal")
+                list.scrollLeft += row.left + row.width / 2 - (box.left + box.width / 2);
+            else list.scrollTop += row.top + row.height / 2 - (box.top + box.height / 2);
+        },
+        input: {
+            ":value"() {
+                return this.value;
+            },
+            ":disabled"() {
+                return this.disabled;
+            },
         },
         list: {
             role: "listbox",
-            "aria-orientation": "vertical",
+            ":aria-orientation"() {
+                return this.orientation;
+            },
             ":aria-disabled"() {
                 return this.disabled ? "true" : null;
             },
@@ -2850,10 +2887,11 @@ export default function lily(Alpine) {
             },
             "@keydown"(event) {
                 if (this.disabled) return;
-                if (WHEEL_MOVE_KEYS.includes(event.key)) {
+                const move = wheelMoveKey(event.key, this.orientation, isWheelRtl(this.$refs.list));
+                if (move) {
                     event.preventDefault();
                     this.select(
-                        nextWheelIndex(this.options, this.selectedIndex, event.key, {
+                        nextWheelIndex(this.options, this.selectedIndex, move, {
                             loop: this.loop,
                             pageSize: this.pageSize,
                         }),

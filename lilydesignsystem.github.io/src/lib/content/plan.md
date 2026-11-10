@@ -409,6 +409,23 @@ was read in the logs is the repository's own doing (Firefox and WebKit are not i
 an hour. Order: P24-T1 first, since nothing can replace a red gate; then P24-T2 (`bin/ci`), the keystone that T3, T5, T6 and T10
 build on; P24-T4 needs nothing and can go at any time. P24-T7 and T8 are trials; P24-T9 is a maintainer decision.
 
+## Phase 26 — Wheel picker lessons from detent (2026-11-10)
+
+A review of [detent](https://github.com/hayderkg/detent) (React) and its Svelte 5 port
+[svelte-detent](https://github.com/orefalo/svelte-detent), two styled wheel pickers on their own physics engine. Full findings and
+what is declined: [spec/detent-lessons](spec/detent-lessons/index.md). Tasks:
+[tasks.md](tasks.md#phase-26--wheel-picker-lessons-from-detent-2026-11-10).
+
+The finding: Lily's `wheel-picker` is a wheel in name only. Its roles and keys are right, but scrolling it by mouse wheel, trackpad or
+touch only moves the view, so the option in the centre is not the value. Fixing that (P26-T1) needs P26-T2 first, since without block
+padding the first and last options can never reach the centre. P26-T3 is a small form fix, and a disabled picker is submitted today.
+Then P26-T6 (several wheels, and the open `date-time-picker` wiring), P26-T5 (a CSS drum recipe) and P26-T7 (a rule for animated
+text). P26-T4 (horizontal) is a maintainer decision. The physics engine, the visual effects, haptics, sound and key acceleration
+are declined: they are animation and styling, or they fight the user's own settings.
+
+Status (2026-11-10): T2 to T7 are done. Open: T1 (scrolling chooses, now unblocked by T2), and three follow-ups the work found:
+T8 (`timer` announces every tick), T9 (`character-counter` announces every keystroke) and T10 (Blazor's wheel picker on a JS module).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

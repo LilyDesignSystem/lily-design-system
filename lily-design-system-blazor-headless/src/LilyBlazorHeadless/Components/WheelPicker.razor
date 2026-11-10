@@ -2,7 +2,7 @@
 
 @*
     WheelPicker component
-    A vertical single-select listbox where the selection follows the cursor: moving with the arrow keys, typing, or clicking an
+    A single-select listbox, vertical by default, where the selection follows the cursor: moving with the arrow keys, typing, or clicking an
     option chooses it. Use it to pick one of a short list (hours, minutes, months, years) in the manner of a scroll wheel. The
     component owns the roles and the keys; the wheel LOOK (scroll snapping, fading, 3-D) is the consumer's CSS.
 
@@ -12,7 +12,12 @@
       - an event handler cannot call preventDefault for only some keys, so the arrow and page keys also scroll the list: give
         .wheel-picker-list `overflow: hidden` if the wheel should not scroll under the keys, or scroll-snap it and accept it;
       - the selected option is not re-centred by script: use CSS scroll-snap/`scroll-padding` and scroll-margin, or
-        scrollIntoView from the consumer.
+        scrollIntoView from the consumer;
+      - a horizontal wheel's ArrowLeft / ArrowRight are not swapped right-to-left, because the component cannot read `dir`;
+      - a form reset does not put the picker back: the hidden input keeps its value through a reset, and the component
+        does not hear it. Reset the bound value in the form's own reset handler.
+    Orientation "horizontal" moves with ArrowLeft / ArrowRight. The hidden input is disabled with the picker, so not
+    submitted, and takes Form, the id of a form elsewhere.
     Unmatched attributes spread onto the root <div>.
 *@
 
@@ -21,7 +26,7 @@
          class="wheel-picker-list"
          role="listbox"
          aria-label="@Label"
-         aria-orientation="vertical"
+         aria-orientation="@(Orientation == "horizontal" ? "horizontal" : "vertical")"
          aria-disabled="@(Disabled ? "true" : null)"
          aria-activedescendant="@(SelectedIndex >= 0 ? $"{_uid}-option-{SelectedIndex}" : null)"
          tabindex="@(Disabled ? -1 : 0)"
@@ -42,7 +47,7 @@
     </div>
     @if (!string.IsNullOrEmpty(Name))
     {
-        <input type="hidden" name="@Name" value="@Value" />
+        <input type="hidden" name="@Name" value="@Value" form="@Form" disabled="@Disabled" />
     }
 </div>
 
@@ -65,8 +70,12 @@
     [Parameter] public int PageSize { get; set; } = 5;
     /// <summary>Ignores keys and clicks; not focusable.</summary>
     [Parameter] public bool Disabled { get; set; }
-    /// <summary>When set, a hidden input carries the value for a form.</summary>
+    /// <summary>"vertical" (default) or "horizontal".</summary>
+    [Parameter] public string Orientation { get; set; } = "vertical";
+    /// <summary>When set, a hidden input carries the value for a form; it is disabled while the picker is.</summary>
     [Parameter] public string? Name { get; set; }
+    /// <summary>The id of the form the hidden input belongs to, when the picker sits outside it.</summary>
+    [Parameter] public string? Form { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
@@ -91,9 +100,9 @@
     private async Task OnKeyDown(KeyboardEventArgs e)
     {
         if (Disabled) return;
-        if (Array.IndexOf(WheelPickerKeys.MoveKeys, e.Key) >= 0)
+        if (WheelPickerKeys.MoveKey(e.Key, Orientation) is { } move)
         {
-            await Select(WheelPickerKeys.NextIndex(Options, SelectedIndex, e.Key, Loop, PageSize));
+            await Select(WheelPickerKeys.NextIndex(Options, SelectedIndex, move, Loop, PageSize));
         }
         else if (WheelPickerKeys.IsTypeaheadKey(e.Key, e.CtrlKey, e.AltKey, e.MetaKey))
         {

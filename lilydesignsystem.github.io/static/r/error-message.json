@@ -2,7 +2,7 @@
   "slug": "error-message",
   "name": "ErrorMessage",
   "description": "an error message associated with a form field",
-  "htmlTag": "span",
+  "htmlTag": "p",
   "category": "content",
   "baseClass": ".error-message",
   "subClasses": [],

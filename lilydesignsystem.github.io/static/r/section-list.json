@@ -2,7 +2,7 @@
   "slug": "section-list",
   "name": "SectionList",
   "description": "a list of section navigation items",
-  "htmlTag": "ol",
+  "htmlTag": "ul",
   "category": "lists",
   "baseClass": ".section-list",
   "subClasses": [],

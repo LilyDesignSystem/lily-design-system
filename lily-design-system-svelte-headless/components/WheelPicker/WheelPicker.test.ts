@@ -137,6 +137,66 @@ describe("WheelPicker", () => {
         expect(input.value).toBe("2");
     });
 
+    it("a disabled picker's hidden input is disabled, so it is not submitted", () => {
+        const form = document.body.appendChild(document.createElement("form"));
+        render(WheelPicker, {
+            target: form,
+            props: { label: "Month", options: months, value: "2", name: "month", disabled: true },
+        });
+        expect((form.querySelector("input[type=hidden]") as HTMLInputElement).disabled).toBe(true);
+        expect(new FormData(form).has("month")).toBe(false);
+        form.remove();
+    });
+
+    it("passes form to the hidden input", () => {
+        const { container } = make({ name: "month", form: "elsewhere" });
+        expect(container.querySelector("input[type=hidden]")!.getAttribute("form")).toBe(
+            "elsewhere",
+        );
+    });
+
+    it("form reset puts the picker back to its first value and reports it", async () => {
+        const form = document.body.appendChild(document.createElement("form"));
+        const onChange = vi.fn();
+        render(WheelPicker, {
+            target: form,
+            props: { label: "Month", options: months, value: "2", name: "month", onChange },
+        });
+        await fireEvent.keyDown(list(), { key: "ArrowDown" });
+        expect(selected()).toBe("March");
+        form.reset();
+        await new Promise((resolve) => setTimeout(resolve, 5));
+        expect(selected()).toBe("February");
+        expect((form.querySelector("input[type=hidden]") as HTMLInputElement).value).toBe("2");
+        expect(onChange).toHaveBeenLastCalledWith("2");
+        form.remove();
+    });
+
+    it("horizontal: aria-orientation, ArrowRight and ArrowLeft move, ArrowDown does not", async () => {
+        make({ orientation: "horizontal" });
+        expect(list().getAttribute("aria-orientation")).toBe("horizontal");
+        await fireEvent.keyDown(list(), { key: "ArrowRight" });
+        expect(selected()).toBe("March");
+        await fireEvent.keyDown(list(), { key: "ArrowLeft" });
+        expect(selected()).toBe("February");
+        await fireEvent.keyDown(list(), { key: "ArrowDown" });
+        expect(selected()).toBe("February");
+    });
+
+    it("horizontal, right-to-left: the arrows swap", async () => {
+        const rtl = document.body.appendChild(document.createElement("div"));
+        rtl.setAttribute("dir", "rtl");
+        render(WheelPicker, {
+            target: rtl,
+            props: { label: "Month", options: months, value: "2", orientation: "horizontal" },
+        });
+        await fireEvent.keyDown(list(), { key: "ArrowLeft" });
+        expect(selected()).toBe("March");
+        await fireEvent.keyDown(list(), { key: "ArrowRight" });
+        expect(selected()).toBe("February");
+        rtl.remove();
+    });
+
     it("passes rest props to the root", () => {
         const { container } = make({ "data-testid": "wp", id: "x" });
         const root = container.querySelector("div.wheel-picker")!;
