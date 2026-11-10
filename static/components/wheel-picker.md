@@ -12,6 +12,7 @@ A single-select listbox, vertical by default, where the selection follows the cu
 - Centres the chosen option by scrolling the list by the distance between the two middles (`scrollTop`, or `scrollLeft` when horizontal, which also works right-to-left): only the list scrolls, never the page, and never animated
 - Forms: with `name`, a hidden input carries the value. It is disabled while the picker is, so a disabled picker is not submitted; `form` names a form elsewhere; a form reset puts the picker back to the value it was given first and reports the change. Native validation (`required`) does not apply to a hidden input: validate the value in your form code
 - The wheel look (scroll snapping, a fading edge, a 3-D tilt, momentum on touch) is the consumer's CSS. Dragging and touch inertia are plain scrolling of `.wheel-picker-list`
+- Scrolling chooses: when the user turns the wheel (a mouse wheel, a touch, the scroll bar) and it settles (`scrollend`, or 150 ms after the last `scroll`), the enabled option nearest the middle becomes the value, and `onChange` fires once, never for each option passed. A scroll with no gesture before it, such as the component's own centring, chooses nothing. `watchWheelScroll` and `wheelIndexNearest` in `shared/wheel-picker.ts`
 - The 63 reference themes style it as a scroll-snapping list of five rows with the chosen option filled and bold. Two rows of block padding let the first and last options rest in the centre, and the list is `position: relative` so the centring script measures from it
 - Add the class `wheel-picker-drum` to the root and the themes turn each option like a drum, on a CSS scroll-driven animation: no script, and a flat list without `animation-timeline` support or with reduced motion
 
@@ -67,7 +68,7 @@ A single-select listbox, vertical by default, where the selection follows the cu
 - **Svelte** `bind:value`; **React** controlled (`value` and `onChange`); **Vue** `v-model`; **Angular** `[(value)]`, no rest-props spread; **Web Components** reads child `<option>` elements (or the `options` property) and fires `change`; **Alpine** `lilyWheelPicker({ options, value, orientation, … })` fires `change` with `{ value }`; the hidden input is the snippet's `<input type="hidden" x-ref="input" x-bind="input">`, with your `name` and `form`.
 - **HTML**: the options are in the markup (set `aria-orientation="horizontal"` on the list for a horizontal wheel); the snippet's `<script>` handles the keys, clicks, the hidden input (disabled while the list is `aria-disabled`) and form reset, and fires a bubbling `change` with `detail.value`. The key model inside the script is generated from the shared module between its `BEGIN`/`END` markers.
 - **Nunjucks**: the macro renders the markup contract (selected option, `aria-activedescendant`, `aria-orientation`, `data-loop`, `data-page-size`), and `components/widget-init.js` wires the keys and form reset.
-- **Blazor** (no JS interop): `@bind-Value`, key model `WheelPickerKeys`. A handler cannot call `preventDefault` for only some keys, so the arrow and page keys also scroll the list (give `.wheel-picker-list` `overflow: hidden` to stop that), and the chosen option is not re-centred by script. A horizontal wheel's arrows are not swapped right-to-left, and a form reset does not put the picker back, because the component reads neither `dir` nor the form.
+- **Blazor** (no JS interop): `@bind-Value`, key model `WheelPickerKeys`. A handler cannot call `preventDefault` for only some keys, so the arrow and page keys also scroll the list (give `.wheel-picker-list` `overflow: hidden` to stop that), and the chosen option is not re-centred by script. Scrolling does not choose. A horizontal wheel's arrows are not swapped right-to-left, and a form reset does not put the picker back, because the component reads neither `dir` nor the form.
 
 ## Keyboard Interactions
 
@@ -118,6 +119,7 @@ Target `.wheel-picker`, `.wheel-picker-list` (give it a height, `position: relat
 - Disabled: not focusable, ignores keys and clicks
 - Hidden input only with `name`, carrying the value; disabled with the picker; `form` reaches it; form reset restores the first value
 - Horizontal: ArrowRight / ArrowLeft move, swapped right-to-left; ArrowDown does not; rest props reach the root
+- Scrolling with a gesture and settling chooses the middle option once; a scroll with no gesture chooses nothing; a disabled option is skipped; a disabled picker ignores scrolling
 
 ## Advice
 
