@@ -16,13 +16,16 @@ function render(html: string): HTMLElement {
 }
 
 describe("Editable", () => {
-    test("displays a span with role=button by default", () => {
+    test("displays a native button by default", () => {
         const host = render('<lily-editable label="Name" value="Ada"></lily-editable>');
 
-        const span = host.querySelector("span")!;
+        const span = host.querySelector("button")!;
         const input = host.querySelector("input") as HTMLInputElement;
         expect(host.className).toBe("editable");
-        expect(span.getAttribute("role")).toBe("button");
+        expect(span.type).toBe("button");
+        expect(span.className).toBe("editable-button");
+        expect(input.className).toBe("editable-input");
+        expect(span.hasAttribute("role")).toBe(false);
         expect(span.hidden).toBe(false);
         expect(span.textContent).toBe("Ada");
         expect(input.hidden).toBe(true);
@@ -31,40 +34,30 @@ describe("Editable", () => {
     test("names the display with the value then the label, and the edit element by its label", () => {
         const host = render('<lily-editable label="Name" value="Ada"></lily-editable>');
 
-        expect(host.querySelector("span")!.getAttribute("aria-label")).toBe("Ada, Name");
+        expect(host.querySelector("button")!.getAttribute("aria-label")).toBe("Ada, Name");
         expect(host.querySelector("input")!.getAttribute("aria-label")).toBe("Name");
     });
 
-    test("clicking the display span activates edit mode", () => {
+    test("clicking the button activates edit mode, and focus moves to the field", () => {
         const host = render('<lily-editable label="Name" value="Ada"></lily-editable>');
 
-        host.querySelector("span")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        host.querySelector("button")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
         expect(host.hasAttribute("editing")).toBe(true);
-        expect(host.querySelector("span")!.hidden).toBe(true);
+        expect(host.querySelector("button")!.hidden).toBe(true);
         const input = host.querySelector("input") as HTMLInputElement;
         expect(input.hidden).toBe(false);
         expect(input.value).toBe("Ada");
-    });
-
-    test("Enter/Space on the display span activates edit mode", () => {
-        const host = render('<lily-editable label="Name" value="Ada"></lily-editable>');
-
-        host.querySelector("span")!.dispatchEvent(
-            new KeyboardEvent("keydown", { key: "Enter", bubbles: true }),
-        );
-
-        expect(host.hasAttribute("editing")).toBe(true);
+        expect(document.activeElement).toBe(input);
     });
 
     test("does not activate edit mode when disabled", () => {
         const host = render('<lily-editable label="Name" value="Ada" disabled></lily-editable>');
 
-        host.querySelector("span")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+        host.querySelector("button")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 
         expect(host.hasAttribute("editing")).toBe(false);
-        expect(host.querySelector("span")!.getAttribute("aria-disabled")).toBe("true");
-        expect(host.querySelector("span")!.tabIndex).toBe(-1);
+        expect(host.querySelector("button")!.disabled).toBe(true);
     });
 
     test("Enter in edit mode confirms and dispatches lily-change", () => {
@@ -97,5 +90,6 @@ describe("Editable", () => {
 
         expect(host.hasAttribute("editing")).toBe(false);
         expect(host.value).toBe("Ada");
+        expect(document.activeElement).toBe(host.querySelector("button"));
     });
 });

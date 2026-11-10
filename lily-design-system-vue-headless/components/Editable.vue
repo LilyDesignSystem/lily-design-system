@@ -2,9 +2,10 @@
 // Editable component
 //
 // An inline-editable text component that toggles between a read-only display
-// and an input field for editing. In display mode it renders a <span> with
-// role="button"; in edit mode it renders an <input type="text">. Pressing
-// Enter confirms the edit and Escape cancels it, reverting to the original value.
+// and an input field for editing. The root is a <div class="editable">; in
+// display mode it holds a native <button type="button"> showing the value, in edit
+// mode an <input type="text">. Enter confirms the edit and Escape cancels it;
+// focus moves to the input on edit and back to the button on confirm or cancel.
 //
 // Props:
 //   className — string, optional. CSS class name.
@@ -12,7 +13,7 @@
 //   label — string, required. Accessible name for the editable control.
 //   editing — boolean, default false. Whether the component is in edit mode; bindable.
 //   disabled — boolean, default false. Whether editing is disabled.
-//   ...restProps — additional HTML attributes spread onto the <span> or <input>.
+//   ...restProps — additional HTML attributes spread onto the root <div>.
 //
 // Syntax:
 //   <Editable label="Name" v-model />
@@ -25,17 +26,15 @@
 //   <Editable label="Title" v-model v-model:editing />
 //
 // Keyboard:
-//   - Enter (display mode): activate edit mode
-//   - Space (display mode): activate edit mode
+//   - Enter or Space (display mode): activate edit mode (the native button's own keys)
 //   - Enter (edit mode): confirm the edit and return to display mode
 //   - Escape (edit mode): cancel the edit and return to display mode
 //
 // Accessibility:
-//   - role="button" on the display span indicates it is activatable
+//   - a native <button> in display mode: focusable, with Enter and Space, no role to add
 //   - aria-label provides the accessible name in both modes; in view mode it is "value, label" so the visible
 //     text is part of the name (WCAG 2.5.3 label in name)
-//   - aria-disabled on the span when disabled
-//   - tabindex="0" when enabled, tabindex="-1" when disabled
+//   - the button is disabled when `disabled` is true
 //
 // Internationalization:
 //   - The label prop accepts any string; consumers provide localized text
@@ -48,7 +47,7 @@
 // References:
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
-import { ref, useAttrs } from "vue";
+import { nextTick, ref, useAttrs } from "vue";
 import { warnMissingName } from "./dev-warning";
 
 const props = withDefaults(
@@ -70,21 +69,32 @@ const modelValue = defineModel<string>({ default: "" });
 const editing = defineModel<boolean>("editing", { default: false });
 
 const draft = ref(modelValue.value);
+const input = ref<HTMLInputElement | null>(null);
+const button = ref<HTMLButtonElement | null>(null);
 
-function startEditing() {
+// The element that had focus is removed by the switch, so focus follows the user to the element that replaces it.
+async function startEditing() {
     if (props.disabled) return;
     draft.value = modelValue.value;
     editing.value = true;
+    await nextTick();
+    input.value?.focus();
+}
+
+async function finish() {
+    editing.value = false;
+    await nextTick();
+    button.value?.focus();
 }
 
 function confirm() {
     modelValue.value = draft.value;
-    editing.value = false;
+    void finish();
 }
 
 function cancel() {
     draft.value = modelValue.value;
-    editing.value = false;
+    void finish();
 }
 
 function onkeydown(event: KeyboardEvent) {
@@ -96,35 +106,30 @@ function onkeydown(event: KeyboardEvent) {
         cancel();
     }
 }
-
-function onDisplayKeydown(event: KeyboardEvent) {
-    if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        startEditing();
-    }
-}
 </script>
 
 <template>
     <!-- Editable.vue -->
-    <input
-        v-if="editing"
-        class="editable"
-        type="text"
-        :aria-label="label"
-        v-model="draft"
-        @keydown="onkeydown"
-    />
-    <span
-        v-else
-        class="editable"
-        role="button"
-        :tabindex="disabled ? -1 : 0"
-        :aria-label="modelValue ? `${modelValue}, ${label}` : label"
-        :aria-disabled="disabled || undefined"
-        @click="startEditing"
-        @keydown="onDisplayKeydown"
-    >
-        {{ modelValue }}
-    </span>
+    <div class="editable">
+        <input
+            v-if="editing"
+            ref="input"
+            class="editable-input"
+            type="text"
+            :aria-label="label"
+            v-model="draft"
+            @keydown="onkeydown"
+        />
+        <button
+            v-else
+            ref="button"
+            class="editable-button"
+            type="button"
+            :aria-label="modelValue ? `${modelValue}, ${label}` : label"
+            :disabled="disabled"
+            @click="startEditing"
+        >
+            {{ modelValue }}
+        </button>
+    </div>
 </template>

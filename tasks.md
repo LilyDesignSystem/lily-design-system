@@ -3204,6 +3204,17 @@ Plan: [plan.md § Phase 22](plan.md#phase-22--lessons-topics-triaged-into-tasks-
 - [x] **P25-T28 `mutually-exclusive` does what its contract says.** The contract describes a group that unchecks the other checkboxes when one is checked, with a bindable `value` and `onChange`; Svelte and every port render only the `<fieldset>`, so the constraint is the consumer's. Either implement it (Svelte first) or reword the contract as a labelled container. Verify: a test checks one box, then another, and finds only the second checked; or the contract lists no `value`. _(2026-11-09: neither. The maintainer's decision: delete the component. Its name described a rule, not a thing; the rule, checkboxes that uncheck each other, is not an APG pattern and is not announced when it happens; and the `<fieldset>` it rendered is `fieldset`. Removed from all nine catalogs, the eight example apps, the docs site, the 63 themes and the CSS template; the catalog is 608 and Web Components 573.)_
 
 - [x] **P25-T29 Twelve more components agree on their root element.** Where Svelte and the contract disagreed (`bin/check-html-tags.allow.json`, "unreviewed"), the maintainer took the recommendations: the contract follows Svelte for `document-list` and `section-list` (`<ul>`), `error-message` and `hint` (`<p>`), `avatar` and `measurement-unit-view` (`<span>`), `timer` (`<time role="timer">`) and the two callouts (`<aside role="note">`, `role="alert"`); the code changes for `care-card` (`<div role="group">`, not a `<section>` region), `image` (a bare `<img>`, no `caption`) and `footnote` (`<span role="note">`, not named by its id). Verify: `bin/check-html-tags` passes with 51 entries, none for these twelve. _(2026-11-09: done; `caption` and `editable` left for their own look.)_
+- [x] **P25-T30 `editable` is a `<div>` holding a native button.** Its contract said `<div>`, but every catalog rendered the
+      element itself as the root, a `<span role="button">` while viewing and an `<input>` while editing, so the root changed with
+      the mode: seven `bin/check-html-tags.allow.json` entries, "unreviewed" since 2026-10-31. _(2026-11-10, maintainer's decision:
+      a stable `<div class="editable">` root holding a native `<button type="button" class="editable-button">` in display mode and
+      the `<input class="editable-input">` in edit mode, in all nine catalogs. The button brings focus, Enter and Space, so the
+      custom keys and `role="button"` are gone; disabled is the button's `disabled`. Focus now moves to the field on edit and
+      back to the button after, which Svelte, React, Vue and Angular did not do. The class and passed-through attributes stay on
+      the root in both modes. Nunjucks was a `contenteditable` `<span role="textbox">`, and its Eleventy page put the macro in
+      a `<p>`; both follow the contract now, and `widget-init.js` swaps the two elements. Breaking: the root and the view element
+      change. The allow-list is down to the three `listbox` entries, and one ARIA baseline allow-list entry is gone.)_
+      Verify: `bin/check-html-tags` lists no `editable` entry, and each catalog tests the root, the button and the focus moves.
 
 - [ ] **P22-T11 Whole-card link recipe.** Bootstrap 9b. One `<a>` in the heading whose `::after` covers the card; nested links and buttons stay above it. Needs the recipes layer (P22-T27).
       Verify: A recipe test asserts one link and a visible focus indicator.

@@ -26,10 +26,10 @@ Implement the Editable component: an inline-editable text element that toggles b
 
 - [ ] Renders <div> with class="editable"
 - [ ] `aria-label={label}` -- provides an accessible name in both display and edit modes
-- [ ] `role="button"` -- on the display span, indicates it is an activatable element
-- [ ] `aria-disabled={disabled}` -- on the display span when disabled, communicates the disabled state
+- [ ] A native `<button>` in display mode: no `role` to add
+- [ ] `disabled` on the button when `disabled` is true
 - [ ] Keyboard: Enter: Activate edit mode
-- [ ] Keyboard: Space: Activate edit mode
+- [ ] Keyboard: Space (the button's own): Activate edit mode
 - [ ] Keyboard: Enter: Confirm the edit and return to display mode
 - [ ] Keyboard: Escape: Cancel the edit and return to display mode
 - [ ] WCAG 2.2 AAA compliant
