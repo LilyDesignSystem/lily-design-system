@@ -5,6 +5,8 @@ spec context is [spec/tooling/](../spec/tooling/index.md); the scripts
 are [`bin/publish-headless`](../bin/publish-headless) and
 [`bin/publish-helpers`](../bin/publish-helpers).
 
+**CI's job** is to prove the **clean-room** result for an outside observer and to hold the OIDC identity for publishing; the maintainer's gate is `bin/ci` (tasks.md P24-T10).
+
 Who may decide a release is ready and run this procedure — including an
 agentic Claude Code session, per [GOVERNANCE.md](../GOVERNANCE.md) § AI
 agent publish authority — is a separate question from what the procedure

@@ -173,9 +173,11 @@ done
       `generate-component-categories` have none, and `generate-sitemap --check` is not run (tasks.md P13-T1).
 - [ ] `generate-storybook-stories.mjs` produces stories for the headless libraries. Overstated as written: reading the script, its `PROJECTS` array only targets `@lilydesignsystem/svelte-headless` (plus the SvelteKit examples app) — it does not touch React, Vue, Angular, HTML, Nunjucks, or Web Components headless at all. Those five full-catalog libraries do carry 608/608 `.stories.*` files each (`bin/check-coverage`, 2026-10-30) and Web Components carries 573/573 (its full achievable scope), so stories exist everywhere they should, but not because this script produced them — no other generator script exists in `bin/` for the other frameworks, so how those non-Svelte story files were produced/kept in sync is undocumented. Leaving open as a real doc/tooling mismatch, not a missing-stories defect.
 
-## Local CI (planned)
+## Local CI
 
-The gate today is `bin/test` plus 13 GitHub Actions jobs. A tiered `bin/ci`, a pre-push hook and a run receipt are planned so the same checks run on the maintainer's machine first: [local-ci](../local-ci/index.md).
+The gate today is `bin/test` plus 13 GitHub Actions jobs. A tiered `bin/ci`, a pre-push hook and a run receipt let the same checks run on the maintainer's machine first: [local-ci](../local-ci/index.md).
+
+CI's job is to prove the **clean-room** result for an outside observer and to hold the OIDC identity for publishing; the maintainer's gate is `bin/ci` (tasks.md P24-T10).
 
 ## Related topics
 
