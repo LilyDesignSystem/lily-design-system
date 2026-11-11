@@ -62,7 +62,7 @@ You don't need to be an expert! Testing **one component with one screen-reader c
 
 ### Option 2: Full Session (More Comprehensive)
 
-Follow the [session script](screen-reader-session.md) for a complete testing session.
+Follow the [session script](../../screen-reader-session.md) for a complete testing session.
 
 **Time commitment**: 1-2 hours
 
