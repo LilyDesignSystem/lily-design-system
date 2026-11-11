@@ -35,10 +35,10 @@
   "devDependencies": {
     "@types/alpinejs": "^3.17.0",
     "alpinejs": "^3.17.5",
-    "jsdom": "^30.1.3",
+    "jsdom": "^31.0.0",
     "tsup": "^9.0.0",
-    "typescript": "^5.9.3",
-    "vitest": "^5.0.5"
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
   },
   "keywords": [
     "lily",
