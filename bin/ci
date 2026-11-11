@@ -7,6 +7,7 @@
 #   bin/ci --full                 every job, in order; ends with a table of step, result and seconds, and writes
 #                                 .ci/receipt.json (git-ignored)
 #   bin/ci --verify-receipt        is there a receipt for HEAD, from a clean tree, with every job passing? (the publish gate)
+#   bin/ci --clean                a clean-room mode: runs --full in a fresh git worktree of HEAD (tasks.md P24-T6)
 #
 # Each function below is one job in .github/workflows/ci.yml, and ci.yml calls `bin/ci --job <name>` for it, so the local and
 # GitHub runs cannot drift: the YAML keeps only the setup (checkout, Node, pnpm, .NET, caches, Playwright browsers).
@@ -381,7 +382,7 @@ table() {
 }
 
 usage() {
-    sed -n '2,10p' "$0" | sed 's/^# \{0,1\}//'
+    sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'
     exit 2
 }
 
@@ -421,6 +422,17 @@ case "${1:-}" in
         table
         write_receipt
         exit "$failed"
+        ;;
+    --clean)
+        # Clean-room mode: run --full in a fresh git worktree of HEAD (tasks.md P24-T6)
+        worktree_dir="$(mktemp -d -t ci-clean-XXXXXX)"
+        echo "bin/ci: clean-room worktree at $worktree_dir"
+        git worktree add --detach "$worktree_dir" HEAD
+        result=0
+        (cd "$worktree_dir" && bin/ci --full) || result=$?
+        git worktree remove --force "$worktree_dir"
+        rm -rf "$worktree_dir"
+        exit "$result"
         ;;
     --verify-receipt)
         check_receipt
