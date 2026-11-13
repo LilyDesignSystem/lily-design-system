@@ -8,7 +8,7 @@ _Generated from [core.json](../spec/competitive-position/core.json); do not edit
 
 **Name of Product/Version:** Lily Design System headless component libraries (Svelte, React, Vue, Angular, HTML, Web Components, Nunjucks, Blazor) and the five helper packages, at the commit this report was generated from; each package's version is in its own manifest.
 
-**Report Date:** 2026-11-10
+**Report Date:** 2026-11-13
 
 **Product Description:** Headless (unstyled) UI components with a shared contract per component (`components/<slug>/AGENTS.md`). This report covers only the Lily Core candidates listed below, not the whole catalog.
 
@@ -17,7 +17,7 @@ _Generated from [core.json](../spec/competitive-position/core.json); do not edit
 **Notes:**
 
 - Self-assessed — not an independent audit. Lily has never had a conformance audit; see the [accessibility statement](accessibility-statement.md).
-- Scope: the 40 Core candidates: form, field, label, hint, error-message, error-summary, fieldset, button, text-input, email-input, password-input, number-input, text-area-input, date-input, select, checkbox-input, checkbox-group, radio-input, radio-group, net-promoter-score-picker, theme-picker, locale-picker, text-size-picker, share-picker, date-time-picker, dialog, alert-dialog, tab-bar, tab-bar-button, tab-panel, menu, menu-bar, dropdown-menu, context-menu, accordion-nav, tree-nav, breadcrumb-nav, pagination-nav, data-table, skip-link. Core members today: button. Evidence per candidate: [docs/core.md](core.md).
+- Scope: the 40 Core candidates: form, field, label, hint, error-message, error-summary, fieldset, button, text-input, email-input, password-input, number-input, text-area-input, date-input, select, checkbox-input, checkbox-group, radio-input, radio-group, net-promoter-score-picker, theme-picker, locale-picker, text-size-picker, share-picker, date-time-picker, dialog, alert-dialog, tab-bar, tab-bar-button, tab-panel, menu, menu-bar, dropdown-menu, context-menu, accordion-nav, tree-nav, breadcrumb-nav, pagination-nav, data-table, skip-link. Core members today: none. Evidence per candidate: [docs/core.md](core.md).
 - Headless components are evaluated as rendered by the example apps; colour, contrast, spacing and focus styling come from the consumer's theme, so criteria that depend on presentation hold only for the theme they were evaluated in.
 - A cell reads "Supports" only when every candidate has the linked evidence for that criterion; it reads "Partially Supports" or "Does Not Support" only from a recorded screen-reader failure. Everything else reads "Not Evaluated", even where partial automated evidence exists, because automated tests evaluate a minority of any success criterion.
 - WCAG 2.2 removed 4.1.1 Parsing as obsolete, so it is not reported.
@@ -58,7 +58,7 @@ _Table 1: Success Criteria, Level A — Self-assessed — not an independent aud
 | [1.2.1 Audio-only and Video-only (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/audio-only-and-video-only-prerecorded.html) (Level A) | Not Applicable | None of the candidate components plays audio or video, so this criterion does not apply to them. Assessed by inspection of the candidate list, not by a test. |
 | [1.2.2 Captions (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html) (Level A) | Not Applicable | None of the candidate components plays audio or video, so this criterion does not apply to them. Assessed by inspection of the candidate list, not by a test. |
 | [1.2.3 Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/audio-description-or-media-alternative-prerecorded.html) (Level A) | Not Applicable | None of the candidate components plays audio or video, so this criterion does not apply to them. Assessed by inspection of the candidate list, not by a test. |
-| [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html) (Level A) | Not Evaluated | Not evaluated. Partial automated evidence only, which is not an evaluation: screen-reader matrix rows filled for 1 of 40 candidates ([matrix](screen-reader-matrix.md#the-candidates)). |
+| [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html) (Level A) | Not Evaluated | Not evaluated. Partial automated evidence only, which is not an evaluation: screen-reader matrix rows filled for 0 of 40 candidates ([matrix](screen-reader-matrix.md#the-candidates)). |
 | [1.3.2 Meaningful Sequence](https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
 | [1.3.3 Sensory Characteristics](https://www.w3.org/WAI/WCAG22/Understanding/sensory-characteristics.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
 | [1.4.1 Use of Color](https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
@@ -84,7 +84,7 @@ _Table 1: Success Criteria, Level A — Self-assessed — not an independent aud
 | [3.3.1 Error Identification](https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
 | [3.3.2 Labels or Instructions](https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
 | [3.3.7 Redundant Entry](https://www.w3.org/WAI/WCAG22/Understanding/redundant-entry.html) (Level A) | Not Evaluated | Not evaluated. No test or matrix entry in this repository evaluates this criterion for the candidates. |
-| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html) (Level A) | Not Evaluated | Not evaluated. Partial automated evidence only, which is not an evaluation: keyboard and ARIA-state tests in all eight libraries for 40 of 40 candidates ([evidence](core.md#candidates)); screen-reader matrix rows filled for 1 of 40 candidates ([matrix](screen-reader-matrix.md#the-candidates)). |
+| [4.1.2 Name, Role, Value](https://www.w3.org/WAI/WCAG22/Understanding/name-role-value.html) (Level A) | Not Evaluated | Not evaluated. Partial automated evidence only, which is not an evaluation: keyboard and ARIA-state tests in all eight libraries for 40 of 40 candidates ([evidence](core.md#candidates)); screen-reader matrix rows filled for 0 of 40 candidates ([matrix](screen-reader-matrix.md#the-candidates)). |
 
 ### Table 2: Success Criteria, Level AA
 

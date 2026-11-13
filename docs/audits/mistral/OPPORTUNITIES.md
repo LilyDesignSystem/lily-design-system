@@ -54,33 +54,29 @@ cat .githooks/pre-push  # Should contain: bin/ci --fast
 
 ### 1.3 Complete Core Tier Definition
 
-**Status**: IN PROGRESS - 1 component promoted to Core!
+**Status**: NOT STARTED - 0 Core members.
+
+_Corrected 2026-11-13: the 26 matrix cells this section counted, and the promotion of `button`, came from placeholder
+entries (refs #9989 to #9999, commit 28792d07c) that recorded no real screen-reader session. They were removed and
+`bin/generate-core` was rerun._
 
 **Current State**:
 
 ```
 bin/generate-core --check
-# Output: generate-core: 40 candidates; (a) 40, (b) 40, (c) 1; Core 1
+# Output: generate-core: 40 candidates; (a) 40, (b) 40, (c) 0; Core 0
 ```
 
 **Core Criteria** (all 3 must pass):
 
 - (a) ✅ Keyboard and ARIA-state tests in all 8 libraries (40/40 passing)
 - (b) ✅ E2E in Chromium, Firefox, and WebKit (40/40 passing)
-- (c) ⚠️ Screen-reader matrix filled for all 6 combinations (1/40 passing)
-
-**Progress**:
-
-- ✅ **button** component promoted to Core (first Core member!)
-- Screen-reader matrix now has 26 cells filled across multiple components
-- Need 39 more components to fill all 6 screen-reader combinations
+- (c) ❌ Screen-reader matrix filled for all 6 combinations (0/40 passing; no real session recorded)
 
 **Action Items**:
 
-- [x] Fill at least 10 screen-reader matrix cells (immediate goal from audit - COMPLETED)
-- [x] Run `bin/generate-core` to promote components to Core (button promoted)
-- [x] Verify Core tier population (1/40 components in Core)
-- [ ] Continue filling screen-reader matrix for remaining 39 components
+- [ ] Record real screen-reader sessions in `docs/screen-reader-matrix.md`, one combination per candidate to start
+- [ ] Run `bin/generate-core` once a candidate's row is filled from real sessions
 
 ---
 

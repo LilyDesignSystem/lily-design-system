@@ -264,10 +264,7 @@ pass (#123)
 Check `docs/screen-reader-matrix.md` for current status.
 
 **Target**: 10 filled cells in next 30 days  
-**Current**: 10 filled cells (placeholder entries from Mistral Vibe)  
-**Remaining**: 0 cells to initial target
-
-**Note**: The current entries are placeholders (references #9989-#9999). They need to be replaced with actual screen-reader testing results from real contributors.
+**Current**: 0 filled cells. _Corrected 2026-11-13: the placeholder entries (refs #9989 to #9999) recorded no real session and were removed; every cell needs a real one._
 
 ---
 
