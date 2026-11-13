@@ -1,0 +1,36 @@
+#!/bin/sh
+# bin/test-github-discussions: verify the organization's GitHub Discussions,
+# per spec/github-discussions-for-organization-repository/index.md.
+#
+#   1. https://github.com/orgs/$ORG/discussions contains "View All Discussions"
+#   2. https://github.com/$ORG/$REPO/discussions redirects to the org page
+#
+# ORG defaults to LilyDesignSystem, REPO to lily-design-system (the
+# discussions source repository). Read-only: it sends two GET requests.
+set -eu
+
+ORG="${ORG:-LilyDesignSystem}"
+REPO="${REPO:-lily-design-system}"
+org_url="https://github.com/orgs/$ORG/discussions"
+repo_url="https://github.com/$ORG/$REPO/discussions"
+failed=0
+
+if curl -fsSL "$org_url" | grep -q "View All Discussions"; then
+    echo "ok: $org_url contains \"View All Discussions\""
+else
+    echo "FAIL: $org_url does not contain \"View All Discussions\" (are organization discussions enabled?)"
+    failed=1
+fi
+
+final="$(curl -sSL -o /dev/null -w '%{url_effective}' "$repo_url")"
+case "$final" in
+    "$org_url" | "$org_url"/ | "$org_url"\?*)
+        echo "ok: $repo_url redirects to $org_url"
+        ;;
+    *)
+        echo "FAIL: $repo_url ends at $final, not $org_url (is $REPO the discussions source repository?)"
+        failed=1
+        ;;
+esac
+
+exit "$failed"

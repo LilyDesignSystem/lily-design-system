@@ -1,9 +1,9 @@
 ##
-# Makefile for contact-relationship-management.
+# Makefile for Lily Design System.
 ##
 
 ##
-# make: Build everything,
+# make: Display this help message.
 ##
 .PHONY: default
 default: help
@@ -58,7 +58,8 @@ lint: lint-markdown
 ##
 .PHONY: lint-markdown
 lint-markdown:
-	@bash scripts/lint-markdown.sh check --quiet
+	npx prettier --check "**/*.md"
+	bin/check-links
 
 ##
 # make publish-github-pages: Publish the website subproject to its own sibling repository.
