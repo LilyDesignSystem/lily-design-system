@@ -2,6 +2,7 @@
 # Regenerate candidates with: npx cspell --words-only <paths> | sort -u
 # then re-categorise by hand -- do not bulk-append unreviewed output.
 # Coined or technical English (not in general dictionaries)
+centiles
 baselined
 bootcamp
 bootstrapper
@@ -56,6 +57,9 @@ unrun
 untasked
 webstatus
 # Acronyms and initialisms
+SBAR
+ISMP
+FHIR
 CSUN
 DHCW
 DTCG

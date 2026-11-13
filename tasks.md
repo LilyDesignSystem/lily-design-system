@@ -3506,6 +3506,55 @@ T4 is a maintainer decision.
       `/demos/composed-inputs` in the Blazor examples app, with `e2e/composed-inputs.spec.ts`, tests the four in Chromium. Under
       static rendering none of it runs, as for the other Blazor modules.)_
 
+## Phase 27 — Healthcare user interfaces (2026-11-13)
+
+From [spec/healthcare-ui](spec/healthcare-ui/index.md), research into clinical portals, results and reporting, medicines,
+decision support and hospital dashboards. Order: T1 first (the others format through it), then T2 to T7, then T8 to T10. Each
+new component goes through `bin/new-component` into all nine catalogs, Svelte first. T11 and T12 are maintainer decisions.
+Lily ships no clinical logic: a task that would compute a score, centile, dose or range is out of scope.
+
+- [ ] **P27-T1 `shared/clinical-format.ts`.** Pure functions: `formatQuantity(value, unit, locale)` (no trailing zero, a leading
+      zero, a space before the unit, through `Intl.NumberFormat`) and `ageParts(birth, at)` (the CUI age bands as numbers and a
+      unit key, no words). Synced by `bin/sync-shared-modules`.
+      Verify: unit tests for `5` not `5.0`, `0.5` not `.5`, locales with a comma decimal, and every age band boundary; `bin/sync-shared-modules --check` passes.
+- [ ] **P27-T2 `observation-view`.** A `<span>` with `-value`, `-unit`, `-range` and `-flag` parts. `interpretation` takes a FHIR
+      v3 code (`N`, `L`, `H`, `LL`, `HH`, `A`, …) and renders `data-interpretation`; the flag text comes from `flagLabels`; `status`
+      is `final`, `preliminary`, `not-recorded` or `unavailable`, each with consumer text.
+      Verify: each catalog tests a code's label and data attribute, and that `not-recorded` and `unavailable` render different text; `bin/check-worldwide` and `bin/check-built-english` pass.
+- [ ] **P27-T3 `allergy-list` and `allergy-list-item`.** `status` is required: `known`, `none-known`, `not-recorded` or
+      `unavailable`, each with consumer text, so the list is never blank. Items have substance, reaction and severity parts and a
+      last-updated `<time>`.
+      Verify: a missing `status` raises the development warning (`bin/check-dev-warnings`); each status renders its text; the 320px sweep shows no truncation.
+- [ ] **P27-T4 `medication-view`.** Name, strength, form, route and frequency parts; never truncated; tall man letters as
+      consumer-marked segments (no bundled list); the strength through `formatQuantity`.
+      Verify: each catalog tests the parts and a tall man segment; the 320px sweep with a long name shows it wrapped, not cut.
+- [ ] **P27-T5 `decision-support-card`.** The CDS Hooks card: required `summary`, `indicator` (`info`, `warning`, `critical`, as
+      `data-indicator`) and `sourceLabel`; detail in the slot; suggestions as buttons (`selectionBehavior` `at-most-one` or `any`);
+      links as links; dismissing with `overrideReasons` asks for one. Not a live region by default.
+      Verify: key and ARIA tests in all nine catalogs; a test that dismissal without a reason is refused when reasons are given; an axe-clean demo.
+- [ ] **P27-T6 `early-warning-score-view`.** A score, `data-band`, the scoring system's name and the consumer's escalation text.
+      Display only.
+      Verify: each catalog tests the band attribute and text; its `AGENTS.md` says it computes nothing, and review finds no scoring code.
+- [ ] **P27-T7 `age-view`.** An age in consumer-chosen units, from `ageParts()`; words from `Intl.DurationFormat` or the consumer.
+      Verify: tests at the band boundaries in Svelte and one port; `bin/check-built-english` passes.
+- [ ] **P27-T8 Patient banner rules.** On the existing composition (P22, DHCW item 3): two identifiers, a deceased state as
+      `data-deceased` plus text, consumer text for each missing value, no truncation, allergies through P27-T3. In
+      `medical-banner`'s docs and `AGENTS/components.md`.
+      Verify: an e2e test at 320px with a long name and many allergies finds every field visible and unclipped.
+- [ ] **P27-T9 Five example pages.** In the SvelteKit app: an International Patient Summary (allergies, medicines, problems,
+      with an empty reason), a ward board (changes summarised in one polite region, not announced one by one), a medicines
+      administration chart on `data-table`, an observations chart on `line-chart` with its data table, an SBAR handover form.
+      Verify: each page has an e2e spec, passes the axe catalog, and is completed by keyboard alone.
+- [ ] **P27-T10 `docs/patterns/healthcare.md`.** Alert tiering (inline, visible, interrupting only for critical with a reason),
+      wrong-patient safeguards (two identifiers; restriction declined, with the JAMA 2019 trial), dates and times
+      (unambiguous month, explicit `hourCycle`, never a default), the regulation note, and what Lily does not do.
+      Verify: the page exists, is linked from the site, and `bin/check-links` passes.
+- [ ] **P27-T11 `body-map` (maintainer decision).** A consumer SVG whose regions are buttons, with a list alternative.
+      Verify: built with key tests, or declined with a reason in the topic.
+- [ ] **P27-T12 A 0 to 10 rating scale (maintainer decision).** Generalise `net-promoter-score-picker` or add
+      `numeric-rating-scale-picker`. Either way, `five-face-rating-picker`'s docs say it is not a validated pain scale.
+      Verify: the decision is in the topic, and the `five-face-rating-picker` note is in its `index.md`.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
