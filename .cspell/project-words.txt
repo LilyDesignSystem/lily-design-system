@@ -81,6 +81,11 @@ DSFR
 ELFA
 SGDS
 # Tools, platforms, and brand names
+govbr
+govtechsg
+cdssnc
+catthehacker
+nektos
 analogjs
 Blazor
 bref
@@ -128,6 +133,10 @@ solidjs
 stephcraft
 Nastaliq
 # Web/CSS/tooling terms not in the base dictionaries
+yourusername
+fromdateiso
+dryrun
+actrc
 codepoint
 flexbox
 networkidle
@@ -373,6 +382,7 @@ saudiyah
 tongyi
 wataniyah
 # Non-English UI strings quoted in docs (the picker labels' locales)
+Padrão
 Tudalennau
 caramellatte
 resetted
