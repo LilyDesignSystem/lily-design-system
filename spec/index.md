@@ -158,7 +158,7 @@ achievable scope (Web Components, 573/608), 1 Alpine.js headless library
 subproject each (the per-framework catalogs were dissolved into them 2026-10-10;
 `bin/list-helper-packages <framework>`). Packages publish from this
 monorepo; the per-subproject subtree mirrors were deleted 2026-10-10, and
-only the docs site is still pushed to its own repository (`make github-pages`).
+only the docs site is still pushed to its own repository (`make publish-github-pages`).
 Full directory tree, the per-framework table, and the
 multi-forge source hosting: [spec/architecture/](architecture/index.md).
 
@@ -388,7 +388,7 @@ Scripts live in `bin/`:
 | `bin/ci`                                                                                                                | The CI gate locally: `--list`, `--job <name>`, `--fast`, `--full`; `ci.yml` calls it, so the two cannot drift.                                                                           |
 | `bin/setup-hooks`                                                                                                       | Opt in to `.githooks/`: `pre-push` runs `bin/ci --fast` before every push; `--undo` reverts.                                                                                             |
 | `bin/smoke-packages`                                                                                                    | Pack + install every headless + npm helper tarball into a scratch consumer and render it.                                                                                                |
-| `bin/make-github-pages`                                                                                                 | Push the docs site subtree to its `github-pages` remote; invoked by `make github-pages`.                                                                                                 |
+| `bin/publish-github-pages`                                                                                              | Push the docs site subtree to its `github-pages` remote; invoked by `make publish-github-pages`.                                                                                         |
 | `bin/check-native-primitives`                                                                                           | Every Svelte overlay or popup component records its native-platform decision, in step with `spec/competitive-position/native-primitives.tsv`.                                            |
 | `bin/check-dev-warnings`                                                                                                | Every interactive component with a required `label` warns when it is missing, in four catalogs, unless allow-listed.                                                                     |
 | `bin/check-lifecycle`                                                                                                   | A `deprecated` or `discouraged` component names its replacement or cited alternative; `docs/adopters.md` is valid.                                                                       |
@@ -409,7 +409,7 @@ Scripts live in `bin/`:
 
 Which of these `bin/test` runs as a gate, and the complete list with flags: [spec/tooling](tooling/index.md).
 
-A root `Makefile`'s `github-pages` target wraps `bin/make-github-pages`
+A root `Makefile`'s `publish-github-pages` target wraps `bin/publish-github-pages`
 as a memorable entry point. See
 [monorepo-github-pages](monorepo-github-pages/index.md).
 
@@ -644,7 +644,7 @@ Long-term: versioned releases per subproject npm/NuGet package
   slug, name, description)
 - Companion docs: [AGENTS.md](../AGENTS.md), [AGENTS/*.md](../AGENTS/),
   [index.md](../index.md), [CHANGELOG.md](../CHANGELOG.md)
-- Source and publishing: this monorepo only (subtree mirrors deleted 2026-10-10; the docs site's own repository is pushed by `make github-pages`)
+- Source and publishing: this monorepo only (subtree mirrors deleted 2026-10-10; the docs site's own repository is pushed by `make publish-github-pages`)
 
 ### 14.1 Changelog highlights
 

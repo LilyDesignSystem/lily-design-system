@@ -88,13 +88,13 @@ always exits 0.
 
 ### Publishing and release
 
-| Script              | Purpose                                                                                                                |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `publish-headless`  | Build and publish the 7 headless libraries (npm / NuGet); continues past an already-published package.                 |
-| `publish-helpers`   | Build (in `list-helper-packages` order) and publish every helper package: npm for the JS frameworks, NuGet for Blazor. |
-| `verify-published`  | Is every helper package's local version on npm / nuget.org? `--wait N` polls through registry lag. Never publishes.    |
-| `smoke-packages`    | Pack and install each headless and npm helper tarball into a scratch consumer and render it.                           |
-| `make-github-pages` | Push `lilydesignsystem.github.io/` to its own repository via git subtree (`make github-pages`).                        |
+| Script                 | Purpose                                                                                                                |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `publish-headless`     | Build and publish the 7 headless libraries (npm / NuGet); continues past an already-published package.                 |
+| `publish-helpers`      | Build (in `list-helper-packages` order) and publish every helper package: npm for the JS frameworks, NuGet for Blazor. |
+| `verify-published`     | Is every helper package's local version on npm / nuget.org? `--wait N` polls through registry lag. Never publishes.    |
+| `smoke-packages`       | Pack and install each headless and npm helper tarball into a scratch consumer and render it.                           |
+| `publish-github-pages` | Push `lilydesignsystem.github.io/` to its own repository via git subtree (`make publish-github-pages`).                |
 
 ## Verification: bin/test
 
@@ -156,7 +156,7 @@ done
 
 ## Subtree push (retired)
 
-`bin/git-subtree-push` pushed each subproject to its own standalone repository until 2026-10-10, when those mirrors were deleted and the script removed. Only the docs site is still a subtree; `bin/make-github-pages` (`make github-pages`) pushes it. Packages publish from the monorepo: see [trusted-publishing](../trusted-publishing/index.md) § Monorepo publishing.
+`bin/git-subtree-push` pushed each subproject to its own standalone repository until 2026-10-10, when those mirrors were deleted and the script removed. Only the docs site is still a subtree; `bin/publish-github-pages` (`make publish-github-pages`) pushes it. Packages publish from the monorepo: see [trusted-publishing](../trusted-publishing/index.md) § Monorepo publishing.
 
 ## Acceptance criteria
 

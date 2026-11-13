@@ -113,7 +113,7 @@ lilydesignsystem.github.io/
 ```
 
 This directory is a `git subtree`, pushed to its own standalone remote
-(`LilyDesignSystem/lilydesignsystem.github.io`) by `make github-pages` at
+(`LilyDesignSystem/lilydesignsystem.github.io`) by `make publish-github-pages` at
 the repo root — the one subproject that still has a repository of its own
 (since 2026-10-10; every other subproject's mirror was deleted), because
 GitHub Pages serves the site from it.

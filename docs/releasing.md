@@ -112,7 +112,7 @@ spec/tooling) or pin a commit.
    and Codeberg).
 4. GitHub Release from the CHANGELOG section:
    `gh release create vX.Y.Z --title "X.Y.Z — <name>" --notes-file <notes> --verify-tag`.
-5. `make github-pages` if the docs site changed (the site is the one
+5. `make publish-github-pages` if the docs site changed (the site is the one
    subproject still pushed to a repository of its own).
 
 Retroactive tags v0.2.0–v0.6.0 were created 2026-08-26 against the

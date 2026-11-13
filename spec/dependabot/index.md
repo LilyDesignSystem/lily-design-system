@@ -25,7 +25,7 @@ Enable GitHub Dependabot .github/dependabot.yml for scheduled update PRs.
 - **Scope note**: this covers the canonical monorepo, which since 2026-10-10
   is the only source repository (the per-subproject subtree mirrors were
   deleted). The docs site's own repository (`lilydesignsystem.github.io`,
-  pushed by `make github-pages`) gets no `.github/dependabot.yml` of its
+  pushed by `make publish-github-pages`) gets no `.github/dependabot.yml` of its
   own; its dependencies are covered by this file's entry for its directory.
 
 ## Ignore rules and how a round is closed (2026-10-18)
