@@ -177,6 +177,9 @@ example_smoke() {
         e2e/components-index.spec.ts \
         e2e/rtl-demo.spec.ts \
         e2e/book-an-appointment.spec.ts
+    # Every component page through axe, a second framework beside Nunjucks and Alpine. Chromium only: axe reads the DOM,
+    # and three browsers would triple the job for the same findings.
+    pnpm exec playwright test e2e/axe-catalog.spec.ts --project chromium
 }
 
 job_example_smoke() { step "example-smoke: svelte-sveltekit-examples" example_smoke; }
