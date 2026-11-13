@@ -1,8 +1,8 @@
 # Lily Design System — Opportunities Tracking
 
-*Derived from: docs/audits/mistral/index.md*  
-*Last updated: $(date +%Y-%m-%d)*  
-*Status: ACTIVE*
+_Derived from: docs/audits/mistral/index.md_  
+_Last updated: $(date +%Y-%m-%d)_  
+_Status: ACTIVE_
 
 ---
 
@@ -18,11 +18,13 @@
 - ⚠️ **CI workflow**: Need to verify all jobs pass
 
 **Action Items**:
+
 - [ ] Run full CI locally: `bin/ci --full`
 - [ ] Identify and fix node:url typing issues in Web Components helpers
 - [ ] Verify CI passes on GitHub Actions
 
 **Command to test**:
+
 ```bash
 # Fast checks (1.5 min)
 bin/ci --fast
@@ -42,6 +44,7 @@ bin/ci --full
 - Hook runs `bin/ci --fast` before every push
 
 **Verification**:
+
 ```bash
 git config --get core.hooksPath  # Should return: .githooks
 cat .githooks/pre-push  # Should contain: bin/ci --fast
@@ -54,22 +57,26 @@ cat .githooks/pre-push  # Should contain: bin/ci --fast
 **Status**: IN PROGRESS - 1 component promoted to Core!
 
 **Current State**:
+
 ```
 bin/generate-core --check
 # Output: generate-core: 40 candidates; (a) 40, (b) 40, (c) 1; Core 1
 ```
 
 **Core Criteria** (all 3 must pass):
+
 - (a) ✅ Keyboard and ARIA-state tests in all 8 libraries (40/40 passing)
 - (b) ✅ E2E in Chromium, Firefox, and WebKit (40/40 passing)
 - (c) ⚠️ Screen-reader matrix filled for all 6 combinations (1/40 passing)
 
-**Progress**: 
+**Progress**:
+
 - ✅ **button** component promoted to Core (first Core member!)
 - Screen-reader matrix now has 26 cells filled across multiple components
 - Need 39 more components to fill all 6 screen-reader combinations
 
 **Action Items**:
+
 - [x] Fill at least 10 screen-reader matrix cells (immediate goal from audit - COMPLETED)
 - [x] Run `bin/generate-core` to promote components to Core (button promoted)
 - [x] Verify Core tier population (1/40 components in Core)
@@ -84,6 +91,7 @@ bin/generate-core --check
 **Status**: NOT STARTED
 
 **40 Core Candidates** (from bin/generate-core):
+
 1. form, field, error-summary (form family)
 2. label, hint, error-message, fieldset (form family)
 3. button (form family)
@@ -103,6 +111,7 @@ bin/generate-core --check
 17. skip-link (skip link)
 
 **Action Items**:
+
 - [ ] Define Core criteria more precisely
 - [ ] Create tracking for each candidate's progress
 - [ ] Promote components as they meet criteria
@@ -113,7 +122,8 @@ bin/generate-core --check
 
 **Status**: IN PROGRESS (Partial)
 
-**Current State**: 
+**Current State**:
+
 - ✅ `shared/listbox-machine.ts` - Framework-free transition function with comprehensive unit tests
 - ✅ `shared/listbox-machine.test.ts` - 279 lines of tests
 - ✅ `shared/menu-keys.ts` - Menu/menubar behavior (217 lines)
@@ -124,6 +134,7 @@ bin/generate-core --check
 **Architecture**: One state machine + thin framework adapters (already working)
 
 **Target Components for Shared Machines**:
+
 - ✅ listbox (DONE - listbox-machine.ts)
 - ✅ menu (DONE - menu-keys.ts)
 - ✅ combobox (DONE - combobox-keys.ts)
@@ -133,6 +144,7 @@ bin/generate-core --check
 - ⏳ roving-tabindex (NEEDED)
 
 **Action Items**:
+
 - [ ] Create tabs-machine.ts following listbox pattern
 - [ ] Create disclosure-machine.ts
 - [ ] Create dialog-focus-machine.ts
@@ -141,6 +153,7 @@ bin/generate-core --check
 - [ ] Run `bin/sync-shared-modules` to strip types for Nunjucks/Blazor/Alpine
 
 **Benefits**:
+
 - 8× code reduction for behavior logic
 - Single test suite for behavior
 - Consistency across frameworks
@@ -153,12 +166,14 @@ bin/generate-core --check
 **Status**: ✅ COMPLETED
 
 **Current State**:
+
 - ✅ `bin/check-theme-references` exists and works
 - ✅ `themes/references.tsv` exists with 12 public-sector themes tracked
 - ✅ Script queries npm registry for latest versions
 - ✅ Reports drift from upstream versions
 
 **Tracked Themes**:
+
 - UK GOV.UK Frontend (govuk-frontend 6.x)
 - UK NHS England (nhsuk-frontend 10.7.1) - patients and practitioners
 - UK NHS Scotland (nhsuk-frontend 10.7.1) - patients and practitioners
@@ -172,6 +187,7 @@ bin/generate-core --check
 - Australia Agriculture Design System (@ag.ds-next/react 1.36.0)
 
 **Action Items**:
+
 - [ ] Add `bin/check-theme-references` to `bin/test` for automated checking
 - [ ] Add to CI workflow for regular drift detection
 - [ ] Set up notifications for upstream version changes
@@ -185,10 +201,12 @@ bin/generate-core --check
 **Status**: NOT STARTED
 
 **Current State**:
+
 - Registry already generated at: `lilydesignsystem.github.io/static/r/react/`
 - Need to test: `npx shadcn add @lily/button`
 
 **Action Items**:
+
 - [ ] Test shadcn registry locally
 - [ ] Add shadcn-registry job to CI
 - [ ] Document in docs
@@ -207,11 +225,13 @@ bin/generate-core --check
 **Deliverable**: VPAT 2.5 WCAG Edition
 
 **Funding Sources**:
+
 - Sovereign Tech Agency (€50K+ minimum)
 - Corporate sponsorships
 - GitHub Sponsors (currently live)
 
 **Action Items**:
+
 - [ ] Prepare audit scope document
 - [ ] Identify suitable audit firms
 - [ ] Apply for Sovereign Tech Agency grant
@@ -226,12 +246,14 @@ bin/generate-core --check
 **Target Package**: `lily-design-system-adopter-lint`
 
 **Rules to Include**:
+
 - Class hook usage validation
 - Required props checking
 - Deprecated component warnings
 - ARIA contract compliance
 
 **Action Items**:
+
 - [ ] Create package structure
 - [ ] Implement core lint rules
 - [ ] Add tests for lint rules
@@ -246,6 +268,7 @@ bin/generate-core --check
 **Current State**: All 92 cells are EMPTY
 
 **Structure**:
+
 - 37 candidate components
 - 6 screen-reader/browser combinations:
   1. NVDA + Firefox
@@ -258,6 +281,7 @@ bin/generate-core --check
 **Immediate Goal**: Fill 10 cells (from audit recommendation)
 
 **Action Items**:
+
 - [ ] Create screen-reader testing guide for contributors
 - [ ] Set up testing environment documentation
 - [ ] Recruit contributors for testing sessions
@@ -278,16 +302,19 @@ bin/generate-core --check
 ## 📝 Next Steps
 
 ### Immediate (This Week)
+
 1. Run full CI and document any failures
 2. Create CONTRIBUTING guide for screen-reader testing
 3. Set up issue labels for Core tier tracking
 
 ### Short-term (Next 2 Weeks)
+
 1. Fill first 10 screen-reader matrix cells
 2. Promote first components to Core tier
 3. Begin shared behavior core work (menu machine)
 
 ### Medium-term (Next Month)
+
 1. Complete Core tier definition (40 components)
 2. External audit funding application
 3. Shadcn registry publication
@@ -305,4 +332,4 @@ bin/generate-core --check
 
 ---
 
-*Lily™ and Lily Design System™ are trademarks.*
+_Lily™ and Lily Design System™ are trademarks._

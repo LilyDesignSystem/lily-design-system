@@ -1,8 +1,8 @@
 # Lily Design System — Strategic Assessment & Improvement Roadmap
 
-*Assessment conducted by: Mistral Vibe (Mistral AI)*
-*Date: 2026-11-04*
-*Version: 1.0*
+_Assessment conducted by: Mistral Vibe (Mistral AI)_
+_Date: 2026-11-04_
+_Version: 1.0_
 
 ---
 
@@ -27,14 +27,14 @@ The **Lily Design System** is an exceptionally sophisticated, production-grade h
 
 ### 2. Unparalleled Testing Infrastructure
 
-| Layer | Coverage | Status |
-|-------|----------|--------|
-| Unit tests | 608/608 components × 7 frameworks | ✅ All passing |
-| Storybook | 608/608 stories × 6 frameworks | ✅ Full coverage |
-| Playwright e2e | 9,747 specs across 8 apps | ✅ All passing |
-| axe-core accessibility | 31/31 routes baseline | ✅ WCAG 2.2 AA clean |
-| Responsive sweep | 4 viewports + 320px + 400% zoom | ✅ All passing |
-| Cross-engine testing | Chromium, Firefox, WebKit | ✅ 2026-10-29 |
+| Layer                  | Coverage                          | Status               |
+| ---------------------- | --------------------------------- | -------------------- |
+| Unit tests             | 608/608 components × 7 frameworks | ✅ All passing       |
+| Storybook              | 608/608 stories × 6 frameworks    | ✅ Full coverage     |
+| Playwright e2e         | 9,747 specs across 8 apps         | ✅ All passing       |
+| axe-core accessibility | 31/31 routes baseline             | ✅ WCAG 2.2 AA clean |
+| Responsive sweep       | 4 viewports + 320px + 400% zoom   | ✅ All passing       |
+| Cross-engine testing   | Chromium, Firefox, WebKit         | ✅ 2026-10-29        |
 
 - **Pattern testers**: 24 interaction contracts tested across all 8 catalogs
 - **Port parity verification**: `bin/check-port-parity`, `bin/check-port-logic`, `bin/check-port-data-attributes`
@@ -93,12 +93,12 @@ The **Lily Design System** is an exceptionally sophisticated, production-grade h
 
 ### 2. Proof & Credibility Gaps
 
-| Gap | Status | Impact |
-|-----|--------|--------|
-| Screen reader matrix | Empty (20/20 cells) | Blocks Core tier claims |
-| Lily Core membership | 0 members | Cannot claim "proven" components |
-| External audit | None completed | Limits enterprise adoption |
-| Real-world usage | Unknown | No case studies or adopters |
+| Gap                  | Status              | Impact                           |
+| -------------------- | ------------------- | -------------------------------- |
+| Screen reader matrix | Empty (20/20 cells) | Blocks Core tier claims          |
+| Lily Core membership | 0 members           | Cannot claim "proven" components |
+| External audit       | None completed      | Limits enterprise adoption       |
+| Real-world usage     | Unknown             | No case studies or adopters      |
 
 ### 3. Testing Infrastructure Issues
 
@@ -228,9 +228,9 @@ bin/check-theme-references
 - **Scope**: Core tier (40 components)
 - **Deliverable**: VPAT 2.5 WCAG Edition
 - **Funding sources**:
-    - Sovereign Tech Agency (€50K+ minimum)
-    - Corporate sponsorships
-    - GitHub Sponsors (currently live)
+  - Sovereign Tech Agency (€50K+ minimum)
+  - Corporate sponsorships
+  - GitHub Sponsors (currently live)
 
 **Impact**: Enterprise-grade conformance claim.
 
@@ -302,42 +302,42 @@ bin/check-theme-references
 
 ### Immediate Actions (Next 30 Days)
 
-| Action | Owner | Effort | Impact |
-|--------|-------|--------|--------|
-| Fix CI (Playwright browsers, node:url) | Maintainer | 2 days | 🔴 **Critical** |
-| Enable pre-push hooks | Maintainer | 1 hour | 🟡 High |
-| Fill 10 screen-reader matrix cells | Maintainer | 3 days | 🟡 High |
-| Update COMPARE.md with Radix/Base UI | Maintainer | 1 day | 🟢 Medium |
-| Complete support policy (MAINTAINERS.md) | Maintainer | 1 day | 🟢 Medium |
+| Action                                   | Owner      | Effort | Impact          |
+| ---------------------------------------- | ---------- | ------ | --------------- |
+| Fix CI (Playwright browsers, node:url)   | Maintainer | 2 days | 🔴 **Critical** |
+| Enable pre-push hooks                    | Maintainer | 1 hour | 🟡 High         |
+| Fill 10 screen-reader matrix cells       | Maintainer | 3 days | 🟡 High         |
+| Update COMPARE.md with Radix/Base UI     | Maintainer | 1 day  | 🟢 Medium       |
+| Complete support policy (MAINTAINERS.md) | Maintainer | 1 day  | 🟢 Medium       |
 
 ### Short-Term (Next 90 Days)
 
-| Action | Owner | Effort | Impact |
-|--------|-------|--------|--------|
-| Define and populate Lily Core (20 components) | Maintainer | 10 days | 🔴 **Critical** |
-| Extend shared behavior core (listbox → menu, combobox) | Maintainer | 7 days | 🟡 High |
-| Publish shadcn registry and test | Maintainer | 2 days | 🟡 High |
-| Automate theme reference tracking | Maintainer | 2 days | 🟢 Medium |
-| Recruit 2 co-maintainers | Maintainer | Ongoing | 🔴 **Critical** |
+| Action                                                 | Owner      | Effort  | Impact          |
+| ------------------------------------------------------ | ---------- | ------- | --------------- |
+| Define and populate Lily Core (20 components)          | Maintainer | 10 days | 🔴 **Critical** |
+| Extend shared behavior core (listbox → menu, combobox) | Maintainer | 7 days  | 🟡 High         |
+| Publish shadcn registry and test                       | Maintainer | 2 days  | 🟡 High         |
+| Automate theme reference tracking                      | Maintainer | 2 days  | 🟢 Medium       |
+| Recruit 2 co-maintainers                               | Maintainer | Ongoing | 🔴 **Critical** |
 
 ### Medium-Term (Next 180 Days)
 
-| Action | Owner | Effort | Impact |
-|--------|-------|--------|--------|
+| Action                             | Owner     | Effort  | Impact          |
+| ---------------------------------- | --------- | ------- | --------------- |
 | Complete Lily Core (40 components) | Core Team | 30 days | 🔴 **Critical** |
-| External audit funding application | Core Team | 5 days | 🟡 High |
-| Adopter lint rules package | Core Team | 7 days | 🟢 Medium |
-| Figma token import/export | Core Team | 5 days | 🟢 Medium |
-| Second publisher for npm/NuGet | Core Team | 2 days | 🟢 Medium |
+| External audit funding application | Core Team | 5 days  | 🟡 High         |
+| Adopter lint rules package         | Core Team | 7 days  | 🟢 Medium       |
+| Figma token import/export          | Core Team | 5 days  | 🟢 Medium       |
+| Second publisher for npm/NuGet     | Core Team | 2 days  | 🟢 Medium       |
 
 ### Long-Term (6-12 Months)
 
-| Action | Owner | Effort | Impact |
-|--------|-------|--------|--------|
-| Enterprise support offering | Core Team | 20 days | 🟡 High |
+| Action                         | Owner     | Effort  | Impact    |
+| ------------------------------ | --------- | ------- | --------- |
+| Enterprise support offering    | Core Team | 20 days | 🟡 High   |
 | Design system survey expansion | Core Team | 10 days | 🟢 Medium |
-| Bootstrap migration guide | Core Team | 5 days | 🟢 Medium |
-| DaisyUI token-only themes | Core Team | 10 days | 🟢 Medium |
+| Bootstrap migration guide      | Core Team | 5 days  | 🟢 Medium |
+| DaisyUI token-only themes      | Core Team | 10 days | 🟢 Medium |
 
 ---
 
@@ -367,6 +367,7 @@ Lily Design System
 ```
 
 **Benefits**:
+
 - Clear value proposition for different user segments
 - Focused maintenance for Core
 - Gradual expansion path for Extended
@@ -386,6 +387,7 @@ shared/listbox-machine.ts (100 lines)
 ```
 
 **Benefits**:
+
 - 8× code reduction for behavior logic
 - Single test suite for behavior
 - Consistency across frameworks
@@ -409,6 +411,7 @@ Maintainer Onboarding:
 ```
 
 **Benefits**:
+
 - Scalable community engagement
 - Reduced maintainer burden
 - Faster issue resolution
@@ -433,6 +436,7 @@ Publish Requirements:
 ```
 
 **Benefits**:
+
 - Consistent quality
 - Predictable releases
 - Automated enforcement
@@ -445,13 +449,13 @@ Publish Requirements:
 
 ### Revenue Streams
 
-| Stream | Status | Potential | Effort |
-|--------|--------|-----------|--------|
-| GitHub Sponsors | Live | $5K-50K/year | Low |
-| Open Collective | Planned | $5K-50K/year | Medium |
-| Enterprise Support | Not started | $50K-500K/year | High |
-| Grants (Sovereign Tech, etc.) | Not active | $50K-200K | High |
-| Consulting/Implementation | Not started | $100K-1M/year | Medium |
+| Stream                        | Status      | Potential      | Effort |
+| ----------------------------- | ----------- | -------------- | ------ |
+| GitHub Sponsors               | Live        | $5K-50K/year   | Low    |
+| Open Collective               | Planned     | $5K-50K/year   | Medium |
+| Enterprise Support            | Not started | $50K-500K/year | High   |
+| Grants (Sovereign Tech, etc.) | Not active  | $50K-200K      | High   |
+| Consulting/Implementation     | Not started | $100K-1M/year  | Medium |
 
 ### Funding Priorities
 
@@ -474,23 +478,23 @@ Publish Requirements:
 
 ### Technical Metrics
 
-| Metric | Current | Target (6mo) | Target (12mo) |
-|--------|---------|--------------|---------------|
-| CI green rate | ~10% | 95% | 99% |
-| Core components | 0 | 20 | 40 |
-| Screen-reader matrix filled | 0% | 50% | 100% |
-| Adopters | Unknown | 10 | 50 |
-| GitHub stars | N/A | +500 | +2000 |
-| Sponsors | N/A | 5 | 20 |
+| Metric                      | Current | Target (6mo) | Target (12mo) |
+| --------------------------- | ------- | ------------ | ------------- |
+| CI green rate               | ~10%    | 95%          | 99%           |
+| Core components             | 0       | 20           | 40            |
+| Screen-reader matrix filled | 0%      | 50%          | 100%          |
+| Adopters                    | Unknown | 10           | 50            |
+| GitHub stars                | N/A     | +500         | +2000         |
+| Sponsors                    | N/A     | 5            | 20            |
 
 ### Business Metrics
 
-| Metric | Current | Target (6mo) | Target (12mo) |
-|--------|---------|--------------|---------------|
-| Monthly funding | $0 | $2K | $10K |
-| Co-maintainers | 0 | 2 | 5 |
-| Enterprise customers | 0 | 2 | 10 |
-| Grant applications | 0 | 2 | 5 |
+| Metric               | Current | Target (6mo) | Target (12mo) |
+| -------------------- | ------- | ------------ | ------------- |
+| Monthly funding      | $0      | $2K          | $10K          |
+| Co-maintainers       | 0       | 2            | 5             |
+| Enterprise customers | 0       | 2            | 10            |
+| Grant applications   | 0       | 2            | 5             |
 
 ---
 
@@ -530,6 +534,7 @@ Publish Requirements:
 - ✅ Shared behavior machines
 
 This creates a **minimum viable enterprise offering** that can:
+
 - Attract funding
 - Gain adopters
 - Build credibility
@@ -560,9 +565,9 @@ Lily Design System is **uniquely positioned** because:
 
 ---
 
-*This assessment is based on comprehensive analysis of the Lily Design System codebase, documentation, and project management materials as of November 2026.*
+_This assessment is based on comprehensive analysis of the Lily Design System codebase, documentation, and project management materials as of November 2026._
 
-*Assessment conducted by: Mistral Vibe (Mistral AI)*
+_Assessment conducted by: Mistral Vibe (Mistral AI)_
 
 ---
 

@@ -23,7 +23,7 @@ Version: `act version 0.2.97`
 On Apple M-series (arm64), act prints:
 
 ```
-level=warning msg= ⚠ You are using Apple M-series chip and you have not specified container architecture, 
+level=warning msg= ⚠ You are using Apple M-series chip and you have not specified container architecture,
 you might encounter issues while running act. If so, try running it with '--container-architecture linux/amd64'. ⚠
 ```
 
@@ -36,6 +36,7 @@ act -j verify --container-architecture linux/amd64 --dryrun
 ```
 
 Successfully simulates the verify job:
+
 - Set up job
 - actions/checkout@v7
 - pnpm/action-setup@v6
@@ -52,6 +53,7 @@ Without configuration, act prompts interactively for image selection (Large/Medi
 ### 4. Full execution
 
 Running without `--dryrun` attempts to:
+
 1. Pull the Docker image
 2. Create and start a container
 3. Execute the workflow steps
@@ -67,6 +69,7 @@ ACT_DEFAULT_IMAGE=medium act -j verify --container-architecture linux/amd64
 ## Compatibility gaps (unverified)
 
 From act documentation and secondary sources:
+
 - Concurrency: act does not support `concurrency` groups
 - Parts of the `github` context may not be available
 - `workflow_dispatch` inputs are not supported
@@ -80,4 +83,4 @@ act can run simple workflows like `verify` locally for testing. For arm64 macOS 
 
 ---
 
-*tasks.md P24-T7*
+_tasks.md P24-T7_

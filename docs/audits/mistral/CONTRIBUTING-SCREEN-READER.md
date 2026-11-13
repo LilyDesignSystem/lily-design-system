@@ -1,7 +1,7 @@
 # Screen-Reader Testing Contribution Guide
 
-*Part of: Lily Design System Core Tier Initiative*  
-*See also: docs/screen-reader-matrix.md, docs/audits/mistral/OPPORTUNITIES.md*
+_Part of: Lily Design System Core Tier Initiative_  
+_See also: docs/screen-reader-matrix.md, docs/audits/mistral/OPPORTUNITIES.md_
 
 ---
 
@@ -17,14 +17,14 @@ The Lily Design System has **40 Core candidate components** that need screen-rea
 
 ### The 6 Required Combinations (for Core tier)
 
-| # | Screen Reader | Browser | OS | Matrix Column |
-|---|--------------|---------|-----|---------------|
-| 1 | NVDA | Firefox | Windows | NVDA + Firefox |
-| 2 | NVDA | Chrome | Windows | NVDA + Chrome |
-| 3 | JAWS | Chrome | Windows | JAWS + Chrome |
-| 4 | VoiceOver | Safari | macOS | VoiceOver + Safari (macOS) |
-| 5 | VoiceOver | Safari | iOS | VoiceOver (iOS) |
-| 6 | TalkBack | Chrome | Android | TalkBack + Chrome (Android) |
+| #   | Screen Reader | Browser | OS      | Matrix Column               |
+| --- | ------------- | ------- | ------- | --------------------------- |
+| 1   | NVDA          | Firefox | Windows | NVDA + Firefox              |
+| 2   | NVDA          | Chrome  | Windows | NVDA + Chrome               |
+| 3   | JAWS          | Chrome  | Windows | JAWS + Chrome               |
+| 4   | VoiceOver     | Safari  | macOS   | VoiceOver + Safari (macOS)  |
+| 5   | VoiceOver     | Safari  | iOS     | VoiceOver (iOS)             |
+| 6   | TalkBack      | Chrome  | Android | TalkBack + Chrome (Android) |
 
 ### The 40 Core Candidate Components
 
@@ -72,14 +72,15 @@ Follow the [session script](../../screen-reader-session.md) for a complete testi
 
 Use **one** of these marks per cell, with an issue/PR reference:
 
-| Mark | Meaning | Example |
-|------|---------|---------|
-| `pass (#123)` | Announced role, name, state, and value correctly | `pass (#456)` |
+| Mark           | Meaning                                                          | Example        |
+| -------------- | ---------------------------------------------------------------- | -------------- |
+| `pass (#123)`  | Announced role, name, state, and value correctly                 | `pass (#456)`  |
 | `minor (#123)` | Usable, but announcement is awkward, duplicated, or over-verbose | `minor (#456)` |
-| `fail (#123)` | Wrong/missing role, name, or state; unreachable; or a trap | `fail (#456)` |
-| *(empty)* | Not yet tested | (leave blank) |
+| `fail (#123)`  | Wrong/missing role, name, or state; unreachable; or a trap       | `fail (#456)`  |
+| _(empty)_      | Not yet tested                                                   | (leave blank)  |
 
 **Example entry**:
+
 ```
 | button | `/components/button` | pass (#456) | minor (#457) | pass (#458) | | | |
 ```
@@ -91,23 +92,28 @@ Use **one** of these marks per cell, with an issue/PR reference:
 For each component, verify that the screen reader **correctly announces**:
 
 ### Role
+
 - Does it announce the correct ARIA role?
 - Example: Button announces as "button", not "generic"
 
 ### Name
+
 - Does it announce the accessible name?
 - Example: Button with text "Submit" announces as "Submit button"
 
 ### State
+
 - Does it announce the current state?
 - Example: Expanded accordion announces as "expanded"
 - Example: Checked checkbox announces as "checked"
 
 ### Value
+
 - Does it announce the value (for form inputs)?
 - Example: Text input with "hello" announces as "hello edit text"
 
 ### Interactions
+
 - Can you activate/focus the component using the screen reader?
 - Does it respond correctly to keyboard navigation?
 - Are there any keyboard traps?
@@ -121,16 +127,19 @@ For each component, verify that the screen reader **correctly announces**:
 **Setup**: Built into macOS (no installation needed)
 
 **How to enable**:
+
 1. Press `Cmd + F5` or go to System Settings > Accessibility > VoiceOver
 2. Use `Cmd + F5` to toggle VoiceOver on/off
 
 **Basic VoiceOver commands**:
+
 - `Ctrl + Option + Space`: Read from cursor
 - `Ctrl + Option + Shift + Arrow`: Move cursor
 - `Ctrl + Option + Command + H`: Go to home
 - `Ctrl + Option + U`: Open rotor
 
 **Demo URLs**:
+
 - Local: `file:///path/to/lily-design-system/lilydesignsystem.github.io/index.html`
 - Live: https://lilydesignsystem.github.io/ (may not have latest changes)
 
@@ -141,6 +150,7 @@ For each component, verify that the screen reader **correctly announces**:
 **Setup**: Free download from https://www.nvaccess.org/
 
 **Basic NVDA commands**:
+
 - `Tab`: Move to next element
 - `Shift + Tab`: Move to previous element
 - `Enter`: Activate element
@@ -160,6 +170,7 @@ For each component, verify that the screen reader **correctly announces**:
 **Setup**: Built into iOS
 
 **How to enable**:
+
 1. Go to Settings > Accessibility > VoiceOver
 2. Toggle VoiceOver on
 
@@ -170,6 +181,7 @@ For each component, verify that the screen reader **correctly announces**:
 **Setup**: Built into Android
 
 **How to enable**:
+
 1. Go to Settings > Accessibility > TalkBack
 2. Toggle TalkBack on
 
@@ -209,11 +221,13 @@ Use the [screen-reader report issue form](https://github.com/LilyDesignSystem/li
 **Date**: 2026-11-15
 
 **Test results**:
+
 ```
 | 25 | button | `/components/button` | | | | pass (#123) | | |
 ```
 
 **Session record**:
+
 ```
 | Date | Tester | Environment | Rows touched | Reference |
 | ---- | ------ | ----------- | ------------ | --------- |
@@ -221,6 +235,7 @@ Use the [screen-reader report issue form](https://github.com/LilyDesignSystem/li
 ```
 
 **PR/Issue description**:
+
 ```
 # Screen-reader test: button with VoiceOver + Safari
 
@@ -276,4 +291,4 @@ If you're new to screen-reader testing:
 
 ---
 
-*Lily™ and Lily Design System™ are trademarks.*
+_Lily™ and Lily Design System™ are trademarks._
