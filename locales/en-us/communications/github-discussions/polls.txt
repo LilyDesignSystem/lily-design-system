@@ -1,0 +1,23 @@
+Which screen reader and browser do you or your users rely on most?
+
+Description:
+
+Lily Design System™ has automated keyboard and ARIA tests for its 40 core candidate components, but no screen-reader testing has been recorded yet. The [screen-reader matrix](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/screen-reader-matrix.md) needs six combinations filled for each component, and the testing will happen one combination at a time.
+
+This poll decides which combination gets tested first. The result is advisory: the maintainer will start with the most-voted combination, unless the comments give a strong reason to do otherwise. There is no closing date; the first round of testing will use the result as it stands when it starts.
+
+Please vote for the one combination you use most, or that most of your users use. If you can, say why in a comment: whether you use a screen reader yourself, test with one, or know it from your users' data.
+
+Poll question: Which screen reader and browser do you or your users rely on most?
+
+Options:
+
+1. NVDA with Firefox (Windows)
+2. NVDA with Chrome (Windows)
+3. JAWS with Chrome (Windows)
+4. VoiceOver with Safari (macOS)
+5. VoiceOver with Safari (iOS)
+6. TalkBack with Chrome (Android)
+7. Something else (explain in comments)
+
+Lily™ and Lily Design System™ are trademarks.

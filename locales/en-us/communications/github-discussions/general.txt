@@ -1,0 +1,22 @@
+Say hello and tell us what you are building
+
+Welcome to the General category of Lily Design System™ Discussions. This is the place for introductions, use cases, opinions, and anything that does not fit another category.
+
+I will go first. I'm Joel, and I maintain Lily. I started it because I wanted one set of accessible, unstyled components that I could use in any framework and dress in any visual identity, from a public-sector service to a product dashboard.
+
+## Your turn
+
+What are you building, and what made you look at Lily for it? A sentence or two is plenty.
+
+## Where other topics belong
+
+- **Q&A**: questions about using Lily
+- **Ideas**: suggested changes and new components
+- **Show and tell**: things you have built with Lily
+- **Issues**: bugs, at https://github.com/LilyDesignSystem/lily-design-system/issues
+
+Please follow the [code of conduct](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CODE_OF_CONDUCT.md).
+
+Thank you for stopping by. I will reply to the first comments myself.
+
+Lily™ and Lily Design System™ are trademarks.

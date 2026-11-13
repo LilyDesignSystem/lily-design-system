@@ -1,0 +1,57 @@
+How to ask a question about Lily
+
+This category is for questions about using Lily Design System™. Ask one question per discussion, and when a reply solves it, mark that reply as the answer so the next person can find it.
+
+Bugs belong in [Issues](https://github.com/LilyDesignSystem/lily-design-system/issues), not here. If Lily does something its documentation says it should not, that is a bug.
+
+## Before you ask
+
+- Search Discussions and Issues for the same question.
+- Check the component's page at https://lilydesignsystem.com/components/ for its props, keyboard behavior, and ARIA.
+
+## Checklist for a good question
+
+Copy these headings into a new discussion and fill them in.
+
+### Goal
+
+What are you trying to do, in one sentence?
+
+### What I tried
+
+What did you do, in order?
+
+### Expected
+
+What did you expect to happen?
+
+### Actual
+
+What happened instead? Paste exact error text in a code block, not a screenshot.
+
+### Environment
+
+- Lily package and version, for example `@lilydesignsystem/svelte-headless` and the version in your lockfile
+- Framework and version
+- Browser and operating system
+- Screen reader and version, if the question is about one
+
+### Minimal example
+
+The smallest code that shows the problem, in a fenced code block:
+
+```svelte
+<script>
+  import { BreadcrumbNav } from "@lilydesignsystem/svelte-headless";
+</script>
+
+<BreadcrumbNav label="Breadcrumb">...</BreadcrumbNav>
+```
+
+Remove secrets, tokens, and personal data from anything you paste.
+
+## Please keep questions specific
+
+"How do I give an icon-only button an accessible name in React?" gets an answer. "Help" does not.
+
+Lily™ and Lily Design System™ are trademarks.

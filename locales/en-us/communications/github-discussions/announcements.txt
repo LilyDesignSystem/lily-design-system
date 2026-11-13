@@ -1,0 +1,33 @@
+Welcome to Lily Design System Discussions
+
+Discussions are now open for Lily Design System™, a free, open-source design system: unstyled, accessible components with semantic HTML, ARIA, and keyboard behavior, and every visual decision left to you. This is the place to ask questions, propose ideas, and share what you build, without opening an issue.
+
+## What this means for you
+
+- You can ask how to use Lily and get an answer that the next person can find.
+- You can suggest a change before anyone writes code, and see what others think of it.
+- You can show what you have built with Lily, and see what others have built.
+
+## Where things stand
+
+Lily is pre-1.0. The headless packages are on npm and NuGet at 0.x versions, so expect breaking changes before 1.0. The components have automated keyboard and ARIA tests, but no screen-reader testing has been recorded yet; the [screen-reader matrix](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/screen-reader-matrix.md) shows what is still empty.
+
+## Where to go for what
+
+- **Q&A**: questions about using Lily. Mark the reply that solves it as the answer.
+- **Ideas**: proposed changes and new components, starting from the problem they solve.
+- **Polls**: questions put to a vote.
+- **Show and tell**: things you have built with Lily.
+- **General**: introductions and anything else.
+- **Issues**: bugs and defects, at https://github.com/LilyDesignSystem/lily-design-system/issues
+- **Security reports**: privately, as described in [SECURITY.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/SECURITY.md), never in Discussions.
+
+Everyone here follows the [code of conduct](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CODE_OF_CONDUCT.md). If you want to contribute, start with [CONTRIBUTING.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CONTRIBUTING.md).
+
+## One thing to do now
+
+Reply below with the one thing that would stop you from adopting Lily today. A specific objection is the most useful thing you can give this project.
+
+Documentation and the full component catalog: https://lilydesignsystem.com/
+
+Lily™ and Lily Design System™ are trademarks.
