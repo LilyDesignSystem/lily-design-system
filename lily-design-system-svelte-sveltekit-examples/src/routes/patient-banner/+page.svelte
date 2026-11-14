@@ -18,8 +18,11 @@
     function ageWords(birth: string, at: string) {
         const parts = ageParts(birth, at);
         const duration = Object.fromEntries(parts.map((p) => [p.unit, p.value]));
-        const DurationFormat = (Intl as unknown as { DurationFormat?: new (l: string, o: object) => { format(d: object): string } })
-            .DurationFormat;
+        const DurationFormat = (
+            Intl as unknown as {
+                DurationFormat?: new (l: string, o: object) => { format(d: object): string };
+            }
+        ).DurationFormat;
         const value = DurationFormat
             ? new DurationFormat("en-GB", { style: "long" }).format(duration)
             : parts.map((p) => `${p.value} ${p.unit}`).join(" ");
