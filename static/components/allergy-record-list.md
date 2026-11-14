@@ -1,15 +1,15 @@
-# Allergy List
+# Allergy Record List
 
-AllergyList is a headless list of a patient's allergies and intolerances. It renders as a `<ul>`. Its status is required, because "no known allergies", "allergies not recorded" and "allergies unavailable" are different facts, and an empty list could be read as any of them.
+AllergyRecordList is a headless list of a patient's allergies and intolerances. It renders as a `<ul>`. Its status is required, because "no known allergies", "allergies not recorded" and "allergies unavailable" are different facts, and an empty list could be read as any of them.
 
 **Status:** experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
 ## Implementation Notes
 
-- Renders `<ul class="allergy-list">` with `data-status` and `aria-label`
+- Renders `<ul class="allergy-record-list">` with `data-status` and `aria-label`
 - `status` is required: `known`, `none-known`, `not-recorded` or `unavailable`
-- For any status but `known`, `statusLabel` is the list's one item, `li.allergy-list-status`, so the list is never blank
-- Holds `allergy-list-item` children for status `known`
+- For any status but `known`, `statusLabel` is the list's one item, `li.allergy-record-list-status`, so the list is never blank
+- Holds `allergy-record-list-item` children for status `known`
 - A missing `status` or `statusLabel` raises a development warning
 
 ## Props
@@ -17,25 +17,25 @@ AllergyList is a headless list of a patient's allergies and intolerances. It ren
 - `status`: "known" | "none-known" | "not-recorded" | "unavailable" (required) — rendered as `data-status`
 - `statusLabel`: string (required) — the status in words; names the list, and is its one item unless status is `known`
 - `label`: string (optional) — the accessible name, when it should differ from `statusLabel`
-- `children`: slot (optional) — `allergy-list-item` items
+- `children`: slot (optional) — `allergy-record-list-item` items
 - `...restProps`: any — additional HTML attributes spread onto the root
 
 ## Usage
 
 ```html
-<AllergyList
+<AllergyRecordList
   status="known"
   statusLabel="Known allergies"
 >
-  <AllergyListItem
+  <AllergyRecordListItem
     substance="Penicillin"
     reaction="Anaphylaxis"
     severity="severe"
     severityLabel="Severe"
   />
-</AllergyList>
+</AllergyRecordList>
 
-<AllergyList
+<AllergyRecordList
   status="none-known"
   statusLabel="No known allergies"
 />
@@ -62,11 +62,11 @@ None. This is not an interactive component.
 
 ## Headless
 
-This headless component ships zero CSS and decides nothing visual. The consumer provides all styling targeting the `.allergy-list` class hook, and every word.
+This headless component ships zero CSS and decides nothing visual. The consumer provides all styling targeting the `.allergy-record-list` class hook, and every word.
 
 ## Styles
 
-`.allergy-list`, `.allergy-list-status`, and the `[data-status]` attribute (for example, the strongest emphasis on `known`).
+`.allergy-record-list`, `.allergy-record-list-status`, and the `[data-status]` attribute (for example, the strongest emphasis on `known`).
 
 ## Testing
 
@@ -82,7 +82,7 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 ## Related components
 
-- `allergy-list-item` — one allergy or intolerance in an allergy list
+- `allergy-record-list-item` — one allergy or intolerance in an allergy list
 - `medical-banner-box-for-danger` — a medical record banner box for danger information
 
 ## References

@@ -1,12 +1,12 @@
-# Allergy List Item
+# Allergy Record List Item
 
-AllergyListItem is one allergy or intolerance in an `allergy-list`: the substance, the reaction, the severity and when the record was last updated. It renders as an `<li>`. Every word is the consumer's.
+AllergyRecordListItem is one allergy or intolerance in an `allergy-record-list`: the substance, the reaction, the severity and when the record was last updated. It renders as an `<li>`. Every word is the consumer's.
 
 **Status:** experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
 ## Implementation Notes
 
-- Renders `<li class="allergy-list-item">` with parts `-substance`, `-reaction`, `-severity` and `-updated`
+- Renders `<li class="allergy-record-list-item">` with parts `-substance`, `-reaction`, `-severity` and `-updated`
 - `severity` (`mild`, `moderate`, `severe`, the FHIR AllergyIntolerance reaction severity) renders as `data-severity`, and its words as text
 - `-updated` is a `<time datetime>`, shown only when `updatedLabel` is given
 - The substance is never truncated
@@ -25,7 +25,7 @@ AllergyListItem is one allergy or intolerance in an `allergy-list`: the substanc
 ## Usage
 
 ```html
-<AllergyListItem
+<AllergyRecordListItem
   substance="Penicillin"
   reaction="Anaphylaxis"
   severity="severe"
@@ -45,21 +45,21 @@ None. This is not an interactive component.
 
 ## When to Use
 
-- Use inside `allergy-list` for each recorded allergy or intolerance.
+- Use inside `allergy-record-list` for each recorded allergy or intolerance.
 - Use when severity and the date of the record matter to the reader.
 
 ## When Not to Use
 
-- Do not use outside an `allergy-list`.
+- Do not use outside an `allergy-record-list`.
 - Do not use for a status such as "no known allergies" — that is the list's `status`.
 
 ## Headless
 
-This headless component ships zero CSS and decides nothing visual. The consumer provides all styling targeting the `.allergy-list-item` class hook, and every word.
+This headless component ships zero CSS and decides nothing visual. The consumer provides all styling targeting the `.allergy-record-list-item` class hook, and every word.
 
 ## Styles
 
-`.allergy-list-item` and its parts, and `[data-severity]`.
+`.allergy-record-list-item` and its parts, and `[data-severity]`.
 
 ## Testing
 
@@ -73,7 +73,7 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 ## Related components
 
-- `allergy-list` — a list of a patient's allergies and intolerances
+- `allergy-record-list` — a list of a patient's allergies and intolerances
 
 ## References
 
