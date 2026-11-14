@@ -12,7 +12,7 @@ export interface MedicationNameSegment {
 @Component({
     selector: "lily-medication-view",
     standalone: true,
-    template: `<span class="medication-view {{ className() }}">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}<span class="medication-view-name">@if (nameSegments().length) {@for (segment of nameSegments(); track $index) {@if (segment.tallMan) {<span class="medication-view-tall-man">{{ segment.text }}</span>} @else {{{ segment.text }}}}} @else {{{ name() }}}</span>@if (strength()) {{{ " " }}<span class="medication-view-strength">{{ strength() }}</span>}@if (form()) {{{ " " }}<span class="medication-view-form">{{ form() }}</span>}@if (route()) {{{ " " }}<span class="medication-view-route">{{ route() }}</span>}@if (frequency()) {{{ " " }}<span class="medication-view-frequency">{{ frequency() }}</span>}</span>`,
+    template: `<span class="medication-view {{ className() }}">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}<span class="medication-view-name">@if (nameSegments().length) {@for (segment of nameSegments(); track $index) {@if (segment.tallMan) {<span class="medication-view-tall-man">{{ segment.text }}</span>} @else {{{ segment.text }}}}} @else {{{ name() }}}</span>@if (strength()) {{{ " " }}<span class="medication-view-strength">{{ strength() }}</span>}@if (form()) {{{ " " }}<span class="medication-view-form">{{ form() }}</span>}@if (route()) {{{ " " }}<span class="medication-view-route">{{ route() }}</span>}@if (frequency()) {{{ " " }}<span class="medication-view-frequency">{{ frequency() }}</span>}@if (dosageText()) {{{ " " }}<span class="medication-view-dosage">{{ dosageText() }}</span>}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MedicationView {
@@ -26,4 +26,6 @@ export class MedicationView {
     readonly form = input<string>("");
     readonly route = input<string>("");
     readonly frequency = input<string>("");
+    /** The dose as free text (FHIR Dosage.text). */
+    readonly dosageText = input<string>("");
 }

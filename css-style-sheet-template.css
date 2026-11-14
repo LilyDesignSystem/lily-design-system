@@ -2772,6 +2772,10 @@
 .medication-view-frequency {
 }
 
+/* medication-view-dosage: sub-element of medication-view */
+.medication-view-dosage {
+}
+
 /* decision-support-card: a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons */
 .decision-support-card {
 }

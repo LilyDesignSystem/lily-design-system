@@ -39,4 +39,14 @@ describe("MedicationView", () => {
         const b = mount({ name: "hydroxyzine HCl" });
         expect(b.querySelector(".medication-view-tall-man")).toBeNull();
     });
+
+    test("renders a free-text dose as its own part", () => {
+        const root = mount({
+            name: "metformin",
+            dosageText: "Take one tablet twice a day with food",
+        });
+        expect(root.querySelector(".medication-view-dosage")?.textContent).toBe(
+            "Take one tablet twice a day with food",
+        );
+    });
 });

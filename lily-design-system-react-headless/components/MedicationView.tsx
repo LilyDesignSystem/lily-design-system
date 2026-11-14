@@ -18,6 +18,8 @@ export interface MedicationViewProps {
     form?: string;
     route?: string;
     frequency?: string;
+    /** The dose as free text (FHIR Dosage.text), when the record has no structured parts. */
+    dosageText?: string;
     [key: string]: unknown;
 }
 
@@ -40,6 +42,7 @@ export default function MedicationView({
     form,
     route,
     frequency,
+    dosageText,
     ...restProps
 }: MedicationViewProps) {
     return (
@@ -79,6 +82,10 @@ export default function MedicationView({
             <Part
                 name="frequency"
                 text={frequency}
+            />
+            <Part
+                name="dosage"
+                text={dosageText}
             />
         </span>
     );

@@ -12,7 +12,7 @@
 
 ## Key Behaviors
 
-- Renders `<span class="medication-view">` with parts `-name`, `-strength`, `-form`, `-route` and `-frequency`
+- Renders `<span class="medication-view">` with parts `-name`, `-strength`, `-form`, `-route`, `-frequency` and `-dosage`
 - Tall man letters come from the consumer as marked segments of the name (`nameSegments`), each marked part rendered as `.medication-view-tall-man`; nothing is marked automatically
 - The strength arrives formatted by the consumer: `formatQuantity` writes `5 mg`, never `5.0 mg`, and `0.5 mg`, never `.5 mg`
 - No part is ever truncated
@@ -33,6 +33,7 @@
 - `form`: string (optional) — the dose form
 - `route`: string (optional) — the route
 - `frequency`: string (optional) — how often
+- `dosageText`: string (optional) — the dose as free text (FHIR `Dosage.text`), when the record has no structured parts; rendered as `-dosage`
 - `label`: string (optional) — hidden text naming the value
 - `...restProps`: any — additional HTML attributes spread onto the root
 

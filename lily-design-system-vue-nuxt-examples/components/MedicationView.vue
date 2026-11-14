@@ -12,6 +12,8 @@ withDefaults(
         form?: string;
         route?: string;
         frequency?: string;
+        /** The dose as free text (FHIR Dosage.text). */
+        dosageText?: string;
     }>(),
     { name: "" },
 );
@@ -44,6 +46,8 @@ withDefaults(
             >{{ " " }}<span class="medication-view-route">{{ route }}</span></template
         ><template v-if="frequency"
             >{{ " " }}<span class="medication-view-frequency">{{ frequency }}</span></template
+        ><template v-if="dosageText"
+            >{{ " " }}<span class="medication-view-dosage">{{ dosageText }}</span></template
         ></span
     >
 </template>

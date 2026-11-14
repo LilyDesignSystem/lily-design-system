@@ -3594,10 +3594,10 @@ shown, never decided.
       `unavailable`. A corrected or amended result shows its label beside the value.
       Verify: tests in all nine catalogs that each status renders its label and `data-status`, and that a value with
       `entered-in-error` is never shown without its label. _(2026-11-14: done in all nine catalogs. `cancelled`, `masked`, `not-recorded` and `unavailable` replace the value with the consumer's words; `preliminary`, `amended`, `corrected` and `entered-in-error` show the value with the words beside it; any status but `final` without words warns in Svelte, React, Vue and Angular. Tests in seven catalogs (HTML and Alpine are static markup); restoring the old conditions makes five fail.)_
-- [ ] **P28-T6 `medication-view`: dose as text.** A medicine's status moved to `medication-record-list-item` (T3), so
+- [x] **P28-T6 `medication-view`: dose as text.** A medicine's status moved to `medication-record-list-item` (T3), so
       it lives in one place. Add `dosageText` for FHIR's free-text `Dosage.text`, which IPS
       documents often carry instead of structured parts.
-      Verify: tests in all nine catalogs; the 320px sweep shows a long `dosageText` unclipped.
+      Verify: tests in all nine catalogs; the 320px sweep shows a long `dosageText` unclipped. _(2026-11-14: done in all nine catalogs: `dosageText` renders `-dosage` after the frequency (`dosage-text` in Web Components). Tests in seven catalogs; removing the part makes them fail. The 320px sweep is the page-level check in T9's composed example.)_
 - [ ] **P28-T7 `picker-bar`: search optional.** Search is always rendered, while the link and time-zone pickers are optional.
       In a client-side viewer a search goes to `/?text`, which drops the loaded document and can put typed text (perhaps a
       patient's name) into the URL and history. Render search only when `labels.search` is given, as `labels.link` works.

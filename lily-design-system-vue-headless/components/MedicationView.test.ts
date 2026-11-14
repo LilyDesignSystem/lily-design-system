@@ -37,4 +37,13 @@ describe("MedicationView", () => {
         const b = render(Subject, { props: { name: "hydroxyzine HCl" } });
         expect(b.container.querySelector(".medication-view-tall-man")).toBeNull();
     });
+
+    test("renders a free-text dose as its own part", () => {
+        const { container } = render(Subject, {
+            props: { name: "metformin", dosageText: "Take one tablet twice a day with food" },
+        });
+        expect(container.querySelector(".medication-view-dosage")?.textContent).toBe(
+            "Take one tablet twice a day with food",
+        );
+    });
 });
