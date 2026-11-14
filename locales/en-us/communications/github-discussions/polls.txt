@@ -1,0 +1,17 @@
+What do you want more of in Lily?
+
+This poll helps decides which features get created first. The result is advisory: the maintainer will start with the most-voted combination, unless the comments give a strong reason to do otherwise. There is no closing date; the first round of testing will use the result as it stands when it starts.
+
+Please vote for the one combination you use most, or that most of your users use. If you can, say why in a comment: whether you use a screen reader yourself, test with one, or know it from your users' data.
+
+What do you want more of in Lily?
+
+Options:
+
+- Features such as new components
+- Platforms such as new systems in addition to React, Vue, Svelte, ec.
+- Accessibility such as ARIA, usability, reasonable adjustments, etc.
+- Locales such as more languages and geographic regions
+- Themes such as more color options
+- Examples
+- Tutorials

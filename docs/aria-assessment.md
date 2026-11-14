@@ -44,9 +44,13 @@ The custom-key row matters most: those are the widgets where script, not the bro
 ## What this does not show
 
 - **Evidence is not behaviour.** A test file that sends a key and asserts an attribute counts, even if it tests something else. A passing band is a floor.
-- **axe saw one catalog, in one state.** It ran on Nunjucks only, on the default theme, with widgets closed. It cannot judge keyboard use or announcements,
-  and automated tools find only part of WCAG. Nothing here says the other seven catalogs are clean; findings marked "contract" were checked by reading
-  the named catalogs, not by running axe on them.
+- **axe sees three of nine catalogs.** _(Updated 2026-11-13.)_ The band counts above come from the Nunjucks sweep, which CI runs on every push
+  with widgets both closed and forced open, and contrast in the default and dark themes (`e2e/axe-sweep.spec.ts`). The Alpine app's
+  `e2e/axe-catalog.spec.ts` and the SvelteKit app's `e2e/axe-catalog.spec.ts` also run every component page through axe in CI, closed and in
+  one theme. Svelte's first run in CI found four demos with an unnamed `role="img"` (`net-promoter-score-view`, `red-amber-green-view`,
+  `red-orange-yellow-green-blue-view`, `theme-view`), now fixed. axe cannot judge keyboard use or announcements, and automated tools find only
+  part of WCAG. Nothing here says the React, Vue, Angular, HTML, Web Components or Blazor catalogs are clean; findings marked "contract" were
+  checked by reading the named catalogs, not by running axe on them.
 - **Colour contrast is unconfirmed.** Ten pages reported it, but this run did not wait for theme transitions, which is a known false positive. See P25-T9.
 - **Stale demos can hide problems.** Some demo pages show an empty component, so axe had little to judge.
 

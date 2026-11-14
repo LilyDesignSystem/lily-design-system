@@ -14,7 +14,7 @@ It does not cover the vision or scope split (see [overview](../overview/index.md
 
 - The repository root holds the **canonical catalog and tools**; subprojects hold framework-specific implementations.
 - `AGENTS.md` and `AGENTS/*.md` at the repo root are **canonical**; `bin/sync` rsyncs them into each subproject (rsync, not symlinks — a copy stays correct when a subproject is packaged or copied out on its own).
-- Every subproject is a directory of this monorepo; packages publish from here (see [trusted-publishing](../trusted-publishing/index.md) § Monorepo publishing). Until 2026-10-10 each subproject was also its own public `git subtree` repository; those mirrors were deleted, and only the docs site (`lilydesignsystem.github.io`, GitHub Pages) is still pushed to a repository of its own, by `make github-pages`.
+- Every subproject is a directory of this monorepo; packages publish from here (see [trusted-publishing](../trusted-publishing/index.md) § Monorepo publishing). Until 2026-10-10 each subproject was also its own public `git subtree` repository; those mirrors were deleted, and only the docs site (`lilydesignsystem.github.io`, GitHub Pages) is still pushed to a repository of its own, by `make publish-github-pages`.
 - Every subproject and every component directory must carry the **required files** below; `bin/test` verifies their presence.
 - `README.md` is always a **symlink to `index.md`**.
 
@@ -88,7 +88,7 @@ The root `themes/` directory ships 63 reference theme stylesheets (NHS England/S
 
 ## Source hosting
 
-The monorepo is the only source repository. Until 2026-10-10 each subproject was also its own public `git subtree` repository; those mirrors were deleted, and only the docs site (`lilydesignsystem.github.io`, GitHub Pages) is still pushed to a repository of its own, by `make github-pages`. The monorepo's `origin` fans out to **three forges** — GitHub, Codeberg, and GitLab — under the `LilyDesignSystem` organisation:
+The monorepo is the only source repository. Until 2026-10-10 each subproject was also its own public `git subtree` repository; those mirrors were deleted, and only the docs site (`lilydesignsystem.github.io`, GitHub Pages) is still pushed to a repository of its own, by `make publish-github-pages`. The monorepo's `origin` fans out to **three forges** — GitHub, Codeberg, and GitLab — under the `LilyDesignSystem` organisation:
 
 ```
 origin  fetch: git@github.com:LilyDesignSystem/lily-design-system.git
@@ -127,7 +127,7 @@ Every `components/{slug}/` directory (608 of them) carries:
 - [x] All 608 component directories carry the required component files (`index.md`, `README.md` symlink, `AGENTS.md`, `spec/index.md`; `CLAUDE.md` was retired 2026-09-19).
 - [x] Every subproject carries `index.md`, `README.md` symlink, `AGENTS.md`, and spec/plan/tasks.
 - [x] `AGENTS.md` / `AGENTS/*.md` are canonical at the root and rsynced (not symlinked) into subprojects.
-- [x] Retired 2026-10-10: subprojects are no longer pushed to standalone repositories; the mirrors were deleted and `bin/git-subtree-push` removed. Only the docs site is still a subtree, pushed by `make github-pages`.
+- [x] Retired 2026-10-10: subprojects are no longer pushed to standalone repositories; the mirrors were deleted and `bin/git-subtree-push` removed. Only the docs site is still a subtree, pushed by `make publish-github-pages`.
 - [x] The monorepo's `origin` fans out to GitHub, Codeberg, and GitLab on push. (Per-subproject remotes and their partial fan-out were retired with the subtree mirrors, 2026-10-10.)
 - [x] `bin/test` passes against the repository, all components, and all subprojects.
 

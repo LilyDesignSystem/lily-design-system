@@ -1,0 +1,28 @@
+Show us what you have built with Lily
+
+This category is for sharing what you have made with Lily Design System™: an app, a theme, an integration with another framework, a tutorial, or an experiment. Finished or not, it is welcome here.
+
+## How to share
+
+Copy these headings into a new discussion and fill them in.
+
+- **What it is**: one sentence.
+- **Why you made it**: two or three sentences.
+- **Something to look at**: a screenshot, a short code sample, or a link to a demo.
+- **How to try it**: a few steps, or a link.
+- **What was hard or surprising**: one thing.
+- **What you would like back**: feedback, contributors, or other people's examples.
+
+## My example
+
+**What it is**: the Lily example apps, one per framework, each showing every component with a complete stylesheet.
+
+**Why I made it**: the headless components ship no CSS, so on their own they look like plain HTML. The example apps show what they look like with real styling, real interactivity, and a working page shell, so you can judge Lily before you commit to it.
+
+**How to try it**: open https://lilydesignsystem.com/examples/ and pick a framework. Each component has its own page with a live demo and its markup.
+
+**What was hard**: keeping the same component behaving the same way in nine frameworks. The source of every app is in the repository: https://github.com/LilyDesignSystem/lily-design-system
+
+**What I would like back**: show yours. Anything built with Lily, however small, helps the next person see what is possible.
+
+Lily™ and Lily Design System™ are trademarks.

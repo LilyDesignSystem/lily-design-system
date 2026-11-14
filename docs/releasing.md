@@ -5,6 +5,8 @@ spec context is [spec/tooling/](../spec/tooling/index.md); the scripts
 are [`bin/publish-headless`](../bin/publish-headless) and
 [`bin/publish-helpers`](../bin/publish-helpers).
 
+**CI's job** is to prove the **clean-room** result for an outside observer and to hold the OIDC identity for publishing; the maintainer's gate is `bin/ci` (tasks.md P24-T10).
+
 Who may decide a release is ready and run this procedure — including an
 agentic Claude Code session, per [GOVERNANCE.md](../GOVERNANCE.md) § AI
 agent publish authority — is a separate question from what the procedure
@@ -110,7 +112,7 @@ spec/tooling) or pin a commit.
    and Codeberg).
 4. GitHub Release from the CHANGELOG section:
    `gh release create vX.Y.Z --title "X.Y.Z — <name>" --notes-file <notes> --verify-tag`.
-5. `make github-pages` if the docs site changed (the site is the one
+5. `make publish-github-pages` if the docs site changed (the site is the one
    subproject still pushed to a repository of its own).
 
 Retroactive tags v0.2.0–v0.6.0 were created 2026-08-26 against the

@@ -26,24 +26,30 @@ tutorials are at **<https://lilydesignsystem.com/>**.
 
 ## What is actually published today
 
-Be aware of this before you plan around it — the website documents all seven
-frameworks, but not all seven are on a registry yet.
+Be aware of this before you plan around it: every package is pre-1.0, so a
+minor version may break things (see the support policy in
+[MAINTAINERS.md](MAINTAINERS.md#support-policy)). Pin exact versions.
 
-| Package family                                               | Registry | Status    |
-| ------------------------------------------------------------ | -------- | --------- |
-| `@lilydesignsystem/svelte-headless`                          | npm      | **0.3.1** |
-| `@lilydesignsystem/react-headless`                           | npm      | **0.3.1** |
-| `@lilydesignsystem/vue-headless`                             | npm      | **0.3.1** |
-| `@lilydesignsystem/html-headless`                            | npm      | **0.1.0** |
-| `@lilydesignsystem/angular-headless`                         | npm      | **0.1.0** |
-| `@lilydesignsystem/nunjucks-headless`                        | npm      | **0.1.0** |
-| `LilyDesignSystem.Blazor.Headless`                           | NuGet    | **0.1.1** |
-| All 30 JavaScript helper packages (6 frameworks × 5 helpers) | npm      | **0.1.0** |
-| The 5 Blazor helper packages                                 | NuGet    | **0.1.0** |
+| Package                                         | Registry    | Latest (2026-11-13)      |
+| ----------------------------------------------- | ----------- | ------------------------ |
+| `@lilydesignsystem/svelte-headless`             | npm         | **0.8.0**                |
+| `@lilydesignsystem/react-headless`              | npm         | **0.8.0**                |
+| `@lilydesignsystem/vue-headless`                | npm         | **0.8.0**                |
+| `@lilydesignsystem/html-headless`               | npm         | **0.10.0**               |
+| `@lilydesignsystem/angular-headless`            | npm         | **0.9.0**                |
+| `@lilydesignsystem/nunjucks-headless`           | npm         | **0.8.0**                |
+| `@lilydesignsystem/web-components-headless`     | npm         | **0.9.0**                |
+| `LilyDesignSystem.Blazor.Headless`              | NuGet       | **0.8.0**                |
+| `@lilydesignsystem/alpine-headless`             | npm         | not yet published        |
+| Helper packages (pickers, data grid, kanban, …) | npm / NuGet | each has its own version |
 
-All seven headless libraries and all 35 helper packages are installable from
-a registry as of 2026-09-02. Path 1 always works regardless — nothing about
-Lily requires the registry.
+Each helper package is versioned on its own. `bin/verify-published` checks every
+one against its registry; on 2026-11-13, 161 of 163 were published, and the
+two missing were `@lilydesignsystem/pattern-testers` and
+`LilyDesignSystem.Blazor.LocaleTranslations` 0.4.0. To see a package's current
+version, run `npm view @lilydesignsystem/<name> version`.
+
+Path 1 always works regardless: nothing about Lily requires the registry.
 
 ## Path 1 — Copy the markup (zero install)
 

@@ -3368,8 +3368,8 @@ Nothing below was built when the phase was written. Web claims are marked unveri
       Verify: one job runs green on the Forgejo runner, or the notes name why it cannot.
 - [ ] **P24-T9 Decide on a second forge's CI.** _(Maintainer decision.)_ Options: Woodpecker on Codeberg by request form (hosted, "as-is and might break at any time", `linux/amd64` only), Forgejo Actions on your own runner (T8), a self-hosted GitHub runner, or none. A self-hosted runner on this public repository must run only `push` on `main`, never pull requests from forks. GitLab's open source program and the postponed GitHub self-hosted fee are unverified for 2026.
       Verify: the decision and its reason are recorded in `spec/local-ci`.
-- [ ] **P24-T10 Say what CI is for.** Once T2 exists: CI proves the clean-room result for an outside observer and holds the OIDC identity for publishing; the maintainer's gate is `bin/ci`. State it in `spec/tooling` and `docs/releasing.md`.
-      Verify: both documents say it, and `bin/check-links` passes.
+- [x] **P24-T10 Say what CI is for.** Once T2 exists: CI proves the clean-room result for an outside observer and holds the OIDC identity for publishing; the maintainer's gate is `bin/ci`. State it in `spec/tooling` and `docs/releasing.md`.
+      Verify: both documents say it, and `bin/check-links` passes. _(2026-11-13: done in be89a5556; `spec/tooling` and `docs/releasing.md` both say it, and `bin/check-links` passes.)_
 - [ ] **P24-T11 Measure before optimising.** Record each job's duration and cache hit rate for a month (`gh run list`, `gh run view`); the 13 jobs repeat the same installs, so a shared cache or a combined install may save more than any local tool.
       Verify: a table of job, median minutes and cache hits is in `spec/local-ci`.
 

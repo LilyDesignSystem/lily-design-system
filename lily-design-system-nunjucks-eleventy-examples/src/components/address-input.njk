@@ -14,10 +14,22 @@ description: an input for searching or manually entering an address
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
-<pre tabindex="0"><code>{% raw %}&lt;AddressInput
-  label="Postal address"
-  value=""
-  autocomplete="street-address"
-/&gt;
+<pre tabindex="0"><code>{% raw %}&lt;AddressInput label="Delivery address"&gt;
+  &lt;label for="street"&gt;Street&lt;/label&gt;
+  &lt;input
+    id="street"
+    autocomplete="address-line1"
+  /&gt;
+  &lt;label for="town"&gt;Town or city&lt;/label&gt;
+  &lt;input
+    id="town"
+    autocomplete="address-level2"
+  /&gt;
+  &lt;label for="postcode"&gt;Postal code&lt;/label&gt;
+  &lt;input
+    id="postcode"
+    autocomplete="postal-code"
+  /&gt;
+&lt;/AddressInput&gt;
 {% endraw %}</code></pre>
 {# END generated: examples #}

@@ -3,9 +3,9 @@ import AxeBuilder from "@axe-core/playwright";
 import { components } from "../src/lib/data/components";
 
 // Plan P4-T1: the full-catalog accessibility sweep — axe against every
-// one of the 491 /components/{slug} detail pages, not just the ~16
-// samples the baseline suite checks. Rule set matches the baseline
-// suite (WCAG 2.0/2.1 A+AA, 2.2 AA).
+// /components/{slug} detail page, not just the samples the baseline suite
+// checks. Rule set matches the baseline suite (WCAG 2.0/2.1 A+AA, 2.2 AA).
+// CI runs it in Chromium in the example-smoke job (bin/ci).
 const wcagTags = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
 test.describe("axe: full component catalog", () => {

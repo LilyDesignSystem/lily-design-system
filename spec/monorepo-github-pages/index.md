@@ -54,13 +54,13 @@ and `bin/git-subtree-push` removed.
   the monorepo working tree, and its own README/AGENTS files (inherited
   from the subtree export) still describe it as a subproject of the
   canonical monorepo, pointing back there for all real work.
-- **Publishing is `make github-pages`**, fanned out to three forges
-  (GitHub, Codeberg, GitLab). `make github-pages` is a thin
+- **Publishing is `make publish-github-pages`**, fanned out to three forges
+  (GitHub, Codeberg, GitLab). `make publish-github-pages` is a thin
   `Makefile` target delegating to the POSIX shell script
-  `bin/make-github-pages`, which runs
+  `bin/publish-github-pages`, which runs
   `git subtree push --prefix=lilydesignsystem.github.io github-pages main`
   against the `github-pages` git remote (kept consistent with the same
-  `make github-pages` convention used across this maintainer's other
+  `make publish-github-pages` convention used across this maintainer's other
   repositories). Until 2026-10-10 a second remote alias,
   `lilydesignsystem.github.io`, served `bin/git-subtree-push`; both were
   removed with the other subtree mirrors.
@@ -73,26 +73,26 @@ and `bin/git-subtree-push` removed.
   ordinary clone of the standalone remote, keeping it current after a
   push is just `git -C ~/git/lilydesignsystem/lilydesignsystem.github.io pull`.
   It is never the target of a `git push` from anywhere except the
-  monorepo's own `make github-pages`.
+  monorepo's own `make publish-github-pages`.
 
 ## Detail sections
 
 ### Path map
 
-| What                                   | Where                                                                                                                                                                  |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Monorepo (source of truth)             | `~/git/lilydesignsystem/lily-design-system/`                                                                                                                           |
-| Docs site subproject (edit here)       | `~/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io/`                                                                                                |
-| Standalone export (read-only, derived) | `~/git/lilydesignsystem/lilydesignsystem.github.io/` — a **sibling** of the monorepo, not nested inside it                                                             |
-| Standalone remote(s)                   | `git@{github,codeberg,gitlab}.com:LilyDesignSystem/lilydesignsystem.github.io.git`, reachable from the monorepo as the `github-pages` git remote (`make github-pages`) |
-| Live site                              | <https://lilydesignsystem.com/>                                                                                                                                        |
-| Publish shortcut                       | `make github-pages` (root `Makefile`) → `bin/make-github-pages`                                                                                                        |
+| What                                   | Where                                                                                                                                                                          |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Monorepo (source of truth)             | `~/git/lilydesignsystem/lily-design-system/`                                                                                                                                   |
+| Docs site subproject (edit here)       | `~/git/lilydesignsystem/lily-design-system/lilydesignsystem.github.io/`                                                                                                        |
+| Standalone export (read-only, derived) | `~/git/lilydesignsystem/lilydesignsystem.github.io/` — a **sibling** of the monorepo, not nested inside it                                                                     |
+| Standalone remote(s)                   | `git@{github,codeberg,gitlab}.com:LilyDesignSystem/lilydesignsystem.github.io.git`, reachable from the monorepo as the `github-pages` git remote (`make publish-github-pages`) |
+| Live site                              | <https://lilydesignsystem.com/>                                                                                                                                                |
+| Publish shortcut                       | `make publish-github-pages` (root `Makefile`) → `bin/publish-github-pages`                                                                                                     |
 
 ### Publish flow
 
 1. Edit `lilydesignsystem.github.io/` inside the monorepo as usual; commit
    there.
-2. `make github-pages` — splits that subdirectory's history and pushes it
+2. `make publish-github-pages` — splits that subdirectory's history and pushes it
    to all three standalone remotes.
 3. The standalone repo's own `deploy.yml` (installed at its root once the
    subtree lands there) builds and deploys to GitHub Pages.
@@ -122,8 +122,8 @@ rediscovering by surprise.
       for a subtree split).
 - [x] This topic is linked from [spec/index.md](../index.md)'s topic
       table.
-- [x] `make github-pages` (root `Makefile`) delegates to the POSIX
-      shell script `bin/make-github-pages`, which runs
+- [x] `make publish-github-pages` (root `Makefile`) delegates to the POSIX
+      shell script `bin/publish-github-pages`, which runs
       `git subtree push --prefix=lilydesignsystem.github.io github-pages main`
       against the `github-pages` remote — verified 2026-08-31 (`Everything
 up-to-date` on all three push URLs). Since 2026-10-10 it is the
@@ -140,7 +140,7 @@ up-to-date` on all three push URLs). Since 2026-10-10 it is the
 
 ## Sources
 
-- [bin/make-github-pages](../../bin/make-github-pages)
+- [bin/publish-github-pages](../../bin/publish-github-pages)
 - [Makefile](../../Makefile)
 
 ---

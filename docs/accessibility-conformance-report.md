@@ -8,7 +8,7 @@ _Generated from [core.json](../spec/competitive-position/core.json); do not edit
 
 **Name of Product/Version:** Lily Design System headless component libraries (Svelte, React, Vue, Angular, HTML, Web Components, Nunjucks, Blazor) and the five helper packages, at the commit this report was generated from; each package's version is in its own manifest.
 
-**Report Date:** 2026-11-10
+**Report Date:** 2026-11-13
 
 **Product Description:** Headless (unstyled) UI components with a shared contract per component (`components/<slug>/AGENTS.md`). This report covers only the Lily Core candidates listed below, not the whole catalog.
 

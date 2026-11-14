@@ -1,0 +1,39 @@
+How to suggest an idea for Lily
+
+This category is for proposed changes to Lily Design System™: a new component, a missing prop, a theme, a helper, or a change of direction. Please start each idea in its own discussion, and start from the problem, not the solution. A solution without a problem is hard to judge.
+
+## How to suggest an idea
+
+Copy these headings into a new discussion and fill them in.
+
+### Problem
+
+What is hard or impossible today, for whom, and when? One or two sentences.
+
+### Proposal
+
+What would you change? A short list is fine if it has parts. If it is a component, which existing Lily component is closest, and how does yours differ?
+
+### Alternatives
+
+What do you do today instead, including doing nothing? Does another component, a composition of existing ones, or your own CSS already get you most of the way?
+
+### Costs
+
+What would it cost? For example: another prop to port to every framework, a breaking change, a new user-facing string, or more to test.
+
+### Open questions
+
+What do you want readers to tell you? For example: "Would this solve your case?"
+
+## What Lily will not take on
+
+Some things are out of scope by design: bundled stylesheets, fonts, or icons in the headless components; a CSS framework dependency; data fetching, routing, or persistence; and hard-coded English text. Ideas that need one of these are unlikely to be accepted, but an idea that solves the same problem another way is welcome.
+
+## What happens next
+
+The maintainer reads every idea. An idea that is accepted becomes a numbered task in [tasks.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/tasks.md) or an issue, linked from the discussion. Posting an idea is not a promise that it will be built.
+
+If you want to answer one of the open design questions Lily already has, see [RFC.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/RFC.md).
+
+Lily™ and Lily Design System™ are trademarks.

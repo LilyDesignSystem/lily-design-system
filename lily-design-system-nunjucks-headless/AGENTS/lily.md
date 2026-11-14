@@ -147,8 +147,9 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 
 ## Tools
 
-- [Makefile](../Makefile): `make github-pages` delegates to [bin/make-github-pages](../bin/make-github-pages), see [spec/monorepo-github-pages/index.md](../spec/monorepo-github-pages/index.md)
-- [make-github-pages](../bin/make-github-pages): Push `lilydesignsystem.github.io/` to its own repository via git subtree (the one subproject that still has one; it serves GitHub Pages)
+- [Makefile](../Makefile): `make publish-github-pages` delegates to [bin/publish-github-pages](../bin/publish-github-pages), see [spec/monorepo-github-pages/index.md](../spec/monorepo-github-pages/index.md)
+- [publish-github-pages](../bin/publish-github-pages): Push `lilydesignsystem.github.io/` to its own repository via git subtree (the one subproject that still has one; it serves GitHub Pages)
+- [test-github-discussions](../bin/test-github-discussions): Verify the organization's GitHub Discussions page exists and the source repository's discussions redirect to it (`make test`); see [spec/github-discussions-for-organization-repository/index.md](../spec/github-discussions-for-organization-repository/index.md)
 - [list-components-as-kebab-case](../bin/list-components-as-kebab-case): List components as kebab case
 - [list-components-as-pascal-case](../bin/list-components-as-pascal-case): List components as PascalCase
 - [list-implementations](../bin/list-implementations): List implementation directories
