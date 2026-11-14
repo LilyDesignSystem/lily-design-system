@@ -2,7 +2,7 @@
 
 A guide for teams building clinical software with Lily Design System™: clinical portals, results and reporting, prescribing and
 medicines administration, decision support and hospital dashboards (tasks.md P27-T10). The research, sources and decisions behind
-it are in [spec/healthcare-ui](../../spec/healthcare-ui/index.md).
+it are in [spec/healthcare-ui](../../../spec/healthcare-ui/index.md).
 
 ## What Lily does, and what it does not
 
@@ -49,7 +49,7 @@ severity and make only the severe ones interruptive.
 
 ## The patient banner
 
-The composition is documented in [`medical-banner`](../../components/medical-banner/index.md#patient-banner), with a working page
+The composition is documented in [`medical-banner`](../../../components/medical-banner/index.md#patient-banner), with a working page
 at `/patient-banner` in the SvelteKit example app:
 
 - two identifiers; age beside the date of birth (`age-view`);

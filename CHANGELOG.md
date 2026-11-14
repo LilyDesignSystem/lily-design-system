@@ -17,7 +17,7 @@ tasks.md P27-T11 and P27-T12, on the maintainer's approval, from [spec/healthcar
   submitted with the form; a click on a `data-region` shape toggles it where script runs.
 - **Added:** `numeric-rating-scale-picker` in all nine catalogs: native radios from `min` to `max` (0 to 10), the consumer's
   anchor words linked to the end radios.
-- **Added:** five clinical example pages in the SvelteKit app (P27-T9) and `docs/patterns/healthcare.md` (P27-T10).
+- **Added:** five clinical example pages in the SvelteKit app (P27-T9) and `docs/patterns/healthcare/index.md` (P27-T10).
 - **Changed:** `five-face-rating-picker` says it is not a pain scale.
 
 ## Healthcare display components, catalog 615 — 2026-11-14

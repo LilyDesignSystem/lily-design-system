@@ -130,7 +130,7 @@ clinical logic in Lily. Items 1 to 12 were built on 2026-11-14; the rest are ope
 | 7. Patient banner rules                   | a documented composition (DHCW item 3)                                    | **Adopt** as rules and tests on the composition: two identifiers, a deceased state as `data-deceased` plus text, consumer text for missing values, no truncation at 320px, allergies through item 2.                                                                                                          |
 | 8. `shared/clinical-format.ts`            | none                                                                      | **Adopt.** Pure functions with tests: `formatQuantity(value, unit, locale)` (no trailing zero, a leading zero, a space before the unit, via `Intl.NumberFormat`), `ageParts(birth, at)`. No clinical judgement, no unit conversion.                                                                           |
 | 9. Example pages                          | `/contact-form`, `/dashboard` and others                                  | **Adopt** in the SvelteKit app first: an IPS patient summary, a ward board (live updates summarised, not announced one by one), a medicines administration chart on `data-table`, an observations chart on `line-chart` with its data table, an SBAR handover form.                                           |
-| 10. Adopter guidance                      | none                                                                      | **Adopt** as `docs/patterns/healthcare.md`: alert tiering, wrong-patient safeguards, dates and times, the regulation note, and what Lily does not do.                                                                                                                                                         |
+| 10. Adopter guidance                      | none                                                                      | **Adopt** as `docs/patterns/healthcare/index.md`: alert tiering, wrong-patient safeguards, dates and times, the regulation note, and what Lily does not do.                                                                                                                                                   |
 | 11. `body-map`                            | none                                                                      | **Built (approved 2026-11-14), with checkboxes rather than buttons.** A consumer-supplied SVG of the body whose regions are real buttons, with a list alternative. Useful for wounds and pain sites; build only for a real use.                                                                               |
 | 12. A numeric rating scale (0 to 10)      | `net-promoter-score-picker` is 0 to 10                                    | **Built (approved 2026-11-14) as `numeric-rating-scale-picker`.** Generalise or add `numeric-rating-scale-picker` with consumer-supplied anchors. In the meantime, document that `five-face-rating-picker` is not a pain scale.                                                                               |
 | Scoring, centiles, dose calculation       | —                                                                         | **Decline.** Clinical logic.                                                                                                                                                                                                                                                                                  |
@@ -152,12 +152,12 @@ clinical logic in Lily. Items 1 to 12 were built on 2026-11-14; the rest are ope
 - [x] 7. The patient banner rules are in `medical-banner`'s docs and `AGENTS/components.md`, with an e2e test at 320px.
 - [x] 8. `shared/clinical-format.ts` with tests, synced by `bin/sync-shared-modules`.
 - [x] 9. The five example pages exist in the SvelteKit app, pass axe, and are reachable by keyboard alone.
-- [x] 10. `docs/patterns/healthcare.md` exists and is linked from each healthcare component's page.
+- [x] 10. `docs/patterns/healthcare/index.md` exists and is linked from each healthcare component's page.
 - [x] 11–12. Each maintainer decision is recorded here: `body-map` and a 0 to 10 rating scale were both approved on 2026-11-14 (tasks.md P27-T11, P27-T12).
 
 ## Adopter guide
 
-[docs/patterns/healthcare.md](../../docs/patterns/healthcare.md): what Lily does and does not do, alert tiering,
+[docs/patterns/healthcare/index.md](../../docs/patterns/healthcare/index.md): what Lily does and does not do, alert tiering,
 wrong-patient safeguards, the patient banner, results, medicines, dates and times, dashboards.
 
 ## Related topics
