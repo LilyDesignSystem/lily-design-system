@@ -67,6 +67,7 @@ The composition is documented with [medical-banner](https://lilydesignsystem.com
 
 - Generic names in lower case, except tall man letters from the FDA and ISMP lists or your country's (Australia and Canada publish their own). Mark them in `nameSegments`; Lily never guesses them.
 - Write the strength with `formatQuantity`: no trailing zero, a leading zero, a no-break space before the unit.
+- Keep a result's comparator: `formatQuantity(5, "mmol/L", locale, "<")` writes "<5 mmol/L". FHIR's `Quantity.comparator` is written <, ≤, ≥ or >; dropping it turns "less than 5" into "5".
 - Write mL, never cc, and avoid every abbreviation on ISMP's error-prone list.
 - Never truncate a medicine's name or dose.
 
@@ -80,6 +81,51 @@ The composition is documented with [medical-banner](https://lilydesignsystem.com
 
 - A ward board or command-centre screen updates often. Never announce each change: keep one polite summary region ("3 beds free, 2 discharges due") and let people read the board.
 - Every state on a board (bed clean, occupied, blocked) is text or a `data-*` state with words, never colour alone.
+
+## From FHIR to Lily
+
+Lily does not read FHIR resources; your code maps them to Lily's props. These tables map the HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). The code mapping is a suggestion: your clinical safety review decides it, and the words for every state are your own.
+
+IPS sections and the Lily components for them
+
+| IPS section | Lily |
+| --- | --- |
+| Allergies and intolerances (`48765-2`) | [allergy-record-list](https://lilydesignsystem.com/components/allergy-record-list/) and its items |
+| Medication summary (`10160-0`) | [medication-record-list](https://lilydesignsystem.com/components/medication-record-list/), each item holding a [medication-view](https://lilydesignsystem.com/components/medication-view/) |
+| Problem list (`11450-4`) | [problem-record-list](https://lilydesignsystem.com/components/problem-record-list/) and its items |
+| Immunizations (`11369-6`) | [immunization-record-list](https://lilydesignsystem.com/components/immunization-record-list/) and its items |
+| Results (`30954-2`) | [observation-view](https://lilydesignsystem.com/components/observation-view/), in a data table or summary list |
+| History of procedures (`47519-4`) | [procedure-record-list](https://lilydesignsystem.com/components/procedure-record-list/) and its items |
+| Medical devices (`46264-8`) | [device-record-list](https://lilydesignsystem.com/components/device-record-list/) and its items |
+| Alerts (`104605-1`) | Warning text or an alert, never behind a collapsed control |
+| Any other section | [record-list](https://lilydesignsystem.com/components/record-list/) and its items |
+| A required section the document leaves out | The section's list with `status="omitted"` |
+
+FHIR codes and the Lily values for them
+
+| FHIR | Lily |
+| --- | --- |
+| `emptyReason` `nilknown` | The list's `status="none-known"` |
+| `emptyReason` `notasked`, `notstarted` | `status="not-recorded"` |
+| `emptyReason` `unavailable`, `withheld`, `closed` | `status="unavailable"`, with words that say which |
+| The IPS codes `no-known-allergies`, `no-known-medications` and the like | `status="none-known"` |
+| The IPS codes `no-allergy-info`, `no-medication-info` and the like | `status="not-recorded"` |
+| `AllergyIntolerance.criticality` | `criticality`, apart from a reaction's `severity` |
+| `clinicalStatus`, `verificationStatus` | The same props on the allergy and problem items, with the same codes |
+| `MedicationStatement.status` | The medication item's `status` |
+| `Dosage.text` | `medication-view` `dosageText` |
+| `Observation.status` | `observation-view` `status`, with the same codes |
+| `Observation.dataAbsentReason` `masked` | `status="masked"` |
+| `Quantity.comparator` | `formatQuantity(value, unit, locale, comparator)` |
+
+Map an `entered-in-error` record to its `entered-in-error` status, with words, rather than dropping it silently: whether to show it at all is your service's decision.
+
+## Coded values
+
+- Show `Coding.display`; if there is none, `CodeableConcept.text`; if neither, `system|code`. Never an empty cell.
+- Offer a control that reveals the code system and code beside each value, such as a toggle button that says "Show codes". Hidden codes stay out of the reading order until shown.
+- Mark clinical text with the document's language (`lang`), which may differ from the interface's. Translate the interface; never translate the clinical content.
+- Lily ships no terminology: no SNOMED CT, LOINC, ATC or UCUM lookups. Write what the document says. The SvelteKit example's `/patient-summary` page shows the pattern.
 
 ## What Lily will not do
 

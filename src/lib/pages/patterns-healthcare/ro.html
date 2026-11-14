@@ -96,6 +96,7 @@
   <ul>
     <li>Denumiri generice cu litere mici, cu excepția literelor tall man din listele FDA și ISMP sau din lista țării dumneavoastră (Australia și Canada își publică propriile liste). Marcați-le în <code>nameSegments</code>; Lily nu le ghicește niciodată.</li>
     <li>Scrieți concentrația cu <code>formatQuantity</code>: fără zero final, cu zero inițial, cu un spațiu fix înainte de unitate.</li>
+    <li>Păstrați comparatorul unui rezultat: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> scrie „&lt;5 mmol/L”. <code>Quantity.comparator</code> din FHIR se scrie &lt;, ≤, ≥ sau &gt;; dacă îl omiteți, „mai puțin de 5” devine „5”.</li>
     <li>Scrieți mL, niciodată cc, și evitați orice abreviere din lista ISMP a abrevierilor predispuse la erori.</li>
     <li>Nu trunchiați niciodată denumirea sau doza unui medicament.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Un panou de secție sau un ecran de centru de comandă se actualizează des. Nu anunțați niciodată fiecare schimbare: păstrați o regiune de rezumat politicoasă („3 paturi libere, 2 externări așteptate”) și lăsați oamenii să citească panoul.</li>
     <li>Fiecare stare de pe un panou (pat curățat, ocupat, blocat) este text sau o stare <code>data-*</code> cu cuvinte, niciodată doar culoarea.</li>
+  </ul>
+
+  <h2>De la FHIR la Lily</h2>
+  <p>Lily nu citește resurse FHIR; codul dumneavoastră le mapează pe proprietățile Lily. Aceste tabele mapează Rezumatul Internațional al Pacientului HL7 FHIR (IPS 2.0.1, FHIR R4). Maparea codurilor este o sugestie: o stabilește evaluarea dumneavoastră de siguranță clinică, iar cuvintele pentru fiecare stare sunt ale dumneavoastră.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Secțiunile IPS și componentele Lily pentru ele</caption>
+      <thead>
+        <tr>
+          <th>Secțiune IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alergii și intoleranțe (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> și elementele sale</td>
+        </tr>
+        <tr>
+          <td>Rezumatul medicației (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, fiecare element conținând un <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Lista de probleme (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> și elementele sale</td>
+        </tr>
+        <tr>
+          <td>Imunizări (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> și elementele sale</td>
+        </tr>
+        <tr>
+          <td>Rezultate (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, într-un tabel de date sau într-o listă-rezumat</td>
+        </tr>
+        <tr>
+          <td>Istoricul procedurilor (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> și elementele sale</td>
+        </tr>
+        <tr>
+          <td>Dispozitive medicale (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> și elementele sale</td>
+        </tr>
+        <tr>
+          <td>Alerte (<code>104605-1</code>)</td>
+          <td>Text de avertizare sau o alertă, niciodată în spatele unui control restrâns</td>
+        </tr>
+        <tr>
+          <td>Orice altă secțiune</td>
+          <td><a href="/components/record-list/">record-list</a> și elementele sale</td>
+        </tr>
+        <tr>
+          <td>O secțiune obligatorie pe care documentul o omite</td>
+          <td>Lista secțiunii cu <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Codurile FHIR și valorile Lily pentru ele</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> al listei</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, cu cuvinte care spun care este cazul</td>
+        </tr>
+        <tr>
+          <td>Codurile IPS <code>no-known-allergies</code>, <code>no-known-medications</code> și altele asemănătoare</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Codurile IPS <code>no-allergy-info</code>, <code>no-medication-info</code> și altele asemănătoare</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, separat de <code>severity</code> al unei reacții</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Aceleași proprietăți la elementele de alergie și de problemă, cu aceleași coduri</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> al elementului de medicament</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>status</code> al <code>observation-view</code>, cu aceleași coduri</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Mapați o înregistrare <code>entered-in-error</code> pe statusul ei <code>entered-in-error</code>, cu cuvinte, în loc să o eliminați în tăcere: dacă o afișați deloc este decizia serviciului dumneavoastră.</p>
+
+  <h2>Valori codificate</h2>
+  <ul>
+    <li>Afișați <code>Coding.display</code>; dacă nu există, <code>CodeableConcept.text</code>; dacă nu există nici acesta, <code>system|code</code>. Niciodată o celulă goală.</li>
+    <li>Oferiți un control care dezvăluie sistemul de coduri și codul lângă fiecare valoare, de exemplu un buton de comutare cu textul „Afișează codurile”. Codurile ascunse rămân în afara ordinii de citire până la afișare.</li>
+    <li>Marcați textul clinic cu limba documentului (<code>lang</code>), care poate diferi de cea a interfeței. Traduceți interfața; niciodată conținutul clinic.</li>
+    <li>Lily nu livrează terminologie: nicio căutare SNOMED CT, LOINC, ATC sau UCUM. Scrieți ce spune documentul. Pagina <code>/patient-summary</code> din exemplul SvelteKit arată modelul.</li>
   </ul>
 
   <h2>Ce nu va face Lily</h2>

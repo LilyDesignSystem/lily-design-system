@@ -96,6 +96,7 @@
   <ul>
     <li>일반명은 소문자로 쓰되, FDA와 ISMP 목록 또는 자국 목록(호주와 캐나다는 자체 목록을 발표합니다)의 tall man 대문자는 예외입니다. 이를 <code>nameSegments</code>에 표시합니다. Lily는 이를 추측하지 않습니다.</li>
     <li>함량은 <code>formatQuantity</code>로 씁니다. 뒤에 붙는 0 없음, 앞의 0 있음, 단위 앞에 줄바꿈 없는 공백.</li>
+    <li>결과의 비교 기호를 유지합니다. <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code>는 "&lt;5 mmol/L"로 씁니다. FHIR의 <code>Quantity.comparator</code>는 &lt;, ≤, ≥ 또는 &gt;로 적으며, 이를 빼면 "5 미만"이 "5"가 됩니다.</li>
     <li>cc가 아니라 mL로 쓰고, ISMP의 오류 유발 약어 목록에 있는 모든 약어를 피합니다.</li>
     <li>의약품 이름이나 용량을 절대 줄여 자르지 마십시오.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>병동 보드나 상황실 화면은 자주 갱신됩니다. 변경 때마다 알리지 마십시오. 정중한(polite) 요약 리전 하나를 유지하고("빈 병상 3개, 퇴원 예정 2명") 사람들이 보드를 직접 읽게 합니다.</li>
     <li>보드의 모든 상태(병상 청소 완료, 사용 중, 사용 불가)는 텍스트 또는 말이 있는 <code>data-*</code> 상태이며, 색상만으로 나타내지 않습니다.</li>
+  </ul>
+
+  <h2>FHIR에서 Lily로</h2>
+  <p>Lily는 FHIR 리소스를 읽지 않으며, 여러분의 코드가 이를 Lily의 props에 대응시킵니다. 이 두 표는 HL7 FHIR International Patient Summary(IPS 2.0.1, FHIR R4)를 대응시킨 것입니다. 코드 대응은 제안일 뿐이며, 결정은 임상 안전성 검토가 내리고, 모든 상태를 나타내는 말은 여러분이 직접 정합니다.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS 섹션과 이에 대응하는 Lily 컴포넌트</caption>
+      <thead>
+        <tr>
+          <th>IPS 섹션</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>알레르기 및 불내성(<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> 및 그 항목</td>
+        </tr>
+        <tr>
+          <td>투약 요약(<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, 각 항목에 <a href="/components/medication-view/">medication-view</a>를 포함</td>
+        </tr>
+        <tr>
+          <td>문제 목록(<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> 및 그 항목</td>
+        </tr>
+        <tr>
+          <td>예방접종(<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> 및 그 항목</td>
+        </tr>
+        <tr>
+          <td>검사 결과(<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, 데이터 테이블 또는 요약 목록 안에서 사용</td>
+        </tr>
+        <tr>
+          <td>시술 이력(<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> 및 그 항목</td>
+        </tr>
+        <tr>
+          <td>의료기기(<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> 및 그 항목</td>
+        </tr>
+        <tr>
+          <td>경고(<code>104605-1</code>)</td>
+          <td>경고 문구 또는 알림. 접힌 컨트롤 뒤에는 절대 두지 않음</td>
+        </tr>
+        <tr>
+          <td>그 밖의 섹션</td>
+          <td><a href="/components/record-list/">record-list</a> 및 그 항목</td>
+        </tr>
+        <tr>
+          <td>문서가 생략한 필수 섹션</td>
+          <td>해당 섹션의 목록에 <code>status="omitted"</code> 지정</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR 코드와 그에 대응하는 Lily 값</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>목록의 <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, 어느 쪽인지 알려 주는 문구와 함께</td>
+        </tr>
+        <tr>
+          <td>IPS 코드 <code>no-known-allergies</code>, <code>no-known-medications</code> 등</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS 코드 <code>no-allergy-info</code>, <code>no-medication-info</code> 등</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, 반응의 <code>severity</code>와는 별개</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>알레르기 및 문제 항목의 동일한 props, 동일한 코드</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>투약 항목의 <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code>의 <code>status</code>, 동일한 코드</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><code>entered-in-error</code> 기록은 조용히 제외하지 말고 문구와 함께 <code>entered-in-error</code> 상태에 대응시킵니다. 표시할지 여부는 서비스가 결정합니다.</p>
+
+  <h2>코드화된 값</h2>
+  <ul>
+    <li><code>Coding.display</code>를 표시하고, 없으면 <code>CodeableConcept.text</code>, 둘 다 없으면 <code>system|code</code>를 표시합니다. 빈 셀은 절대 두지 않습니다.</li>
+    <li>각 값 옆에 코드 체계와 코드를 보여 주는 컨트롤을 제공합니다. 예를 들어 "코드 표시"라고 적힌 토글 버튼입니다. 숨겨진 코드는 표시되기 전까지 읽기 순서에서 제외됩니다.</li>
+    <li>임상 텍스트에는 인터페이스의 언어와 다를 수 있는 문서의 언어(<code>lang</code>)를 표시합니다. 인터페이스는 번역하되 임상 내용은 절대 번역하지 않습니다.</li>
+    <li>Lily는 용어 체계를 제공하지 않습니다. SNOMED CT, LOINC, ATC, UCUM 조회도 없습니다. 문서에 적힌 대로 쓰십시오. SvelteKit 예제의 <code>/patient-summary</code> 페이지가 이 패턴을 보여 줍니다.</li>
   </ul>
 
   <h2>Lily가 하지 않는 일</h2>

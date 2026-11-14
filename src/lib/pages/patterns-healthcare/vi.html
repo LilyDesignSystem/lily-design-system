@@ -96,6 +96,7 @@
   <ul>
     <li>Tên gốc viết thường, trừ các chữ tall man viết hoa theo danh sách của FDA và ISMP hoặc của nước bạn (Úc và Canada tự công bố danh sách riêng). Đánh dấu chúng trong <code>nameSegments</code>; Lily không bao giờ đoán.</li>
     <li>Viết hàm lượng bằng <code>formatQuantity</code>: không có số 0 ở cuối, có số 0 ở đầu, một khoảng trắng không ngắt dòng trước đơn vị.</li>
+    <li>Giữ lại dấu so sánh của kết quả: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> viết "&lt;5 mmol/L". <code>Quantity.comparator</code> của FHIR được viết là &lt;, ≤, ≥ hoặc &gt;; bỏ nó đi sẽ biến "nhỏ hơn 5" thành "5".</li>
     <li>Viết mL, không bao giờ cc, và tránh mọi chữ viết tắt trong danh sách dễ gây lỗi của ISMP.</li>
     <li>Không bao giờ cắt bớt tên hay liều dùng của thuốc.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Bảng khoa phòng hoặc màn hình trung tâm điều hành được cập nhật thường xuyên. Không bao giờ thông báo từng thay đổi: giữ một vùng tóm tắt ở mức lịch sự (polite) ("còn 3 giường trống, 2 ca sắp xuất viện") và để mọi người tự đọc bảng.</li>
     <li>Mọi trạng thái trên bảng (giường đã dọn, có người, bị khóa) là văn bản hoặc trạng thái <code>data-*</code> kèm chữ, không bao giờ chỉ dùng màu sắc.</li>
+  </ul>
+
+  <h2>Từ FHIR sang Lily</h2>
+  <p>Lily không đọc tài nguyên FHIR; mã của bạn ánh xạ chúng sang props của Lily. Hai bảng này ánh xạ HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Việc ánh xạ mã chỉ là gợi ý: đánh giá an toàn lâm sàng của bạn quyết định, và lời lẽ cho mọi trạng thái là của riêng bạn.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Các mục IPS và các thành phần Lily tương ứng</caption>
+      <thead>
+        <tr>
+          <th>Mục IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Dị ứng và không dung nạp (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> và các mục con của nó</td>
+        </tr>
+        <tr>
+          <td>Tóm tắt thuốc (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, mỗi mục chứa một <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Danh sách vấn đề (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> và các mục con của nó</td>
+        </tr>
+        <tr>
+          <td>Tiêm chủng (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> và các mục con của nó</td>
+        </tr>
+        <tr>
+          <td>Kết quả (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, trong bảng dữ liệu hoặc danh sách tóm tắt</td>
+        </tr>
+        <tr>
+          <td>Tiền sử thủ thuật (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> và các mục con của nó</td>
+        </tr>
+        <tr>
+          <td>Thiết bị y tế (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> và các mục con của nó</td>
+        </tr>
+        <tr>
+          <td>Cảnh báo (<code>104605-1</code>)</td>
+          <td>Văn bản cảnh báo hoặc một thông báo, không bao giờ nằm sau một điều khiển đã thu gọn</td>
+        </tr>
+        <tr>
+          <td>Mục khác</td>
+          <td><a href="/components/record-list/">record-list</a> và các mục con của nó</td>
+        </tr>
+        <tr>
+          <td>Một mục bắt buộc mà tài liệu bỏ qua</td>
+          <td>Danh sách của mục đó với <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Mã FHIR và các giá trị Lily tương ứng</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> của danh sách</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, kèm lời lẽ nói rõ là trường hợp nào</td>
+        </tr>
+        <tr>
+          <td>Các mã IPS <code>no-known-allergies</code>, <code>no-known-medications</code> và tương tự</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Các mã IPS <code>no-allergy-info</code>, <code>no-medication-info</code> và tương tự</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, tách biệt với <code>severity</code> của phản ứng</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Cùng các props trên mục dị ứng và mục vấn đề, với cùng các mã</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> của mục thuốc</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>status</code> của <code>observation-view</code>, với cùng các mã</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Ánh xạ bản ghi <code>entered-in-error</code> sang trạng thái <code>entered-in-error</code> của nó, kèm lời lẽ, thay vì lặng lẽ bỏ đi: có hiển thị nó hay không là quyết định của dịch vụ của bạn.</p>
+
+  <h2>Giá trị được mã hóa</h2>
+  <ul>
+    <li>Hiển thị <code>Coding.display</code>; nếu không có thì <code>CodeableConcept.text</code>; nếu cả hai đều không có thì <code>system|code</code>. Không bao giờ để ô trống.</li>
+    <li>Cung cấp một điều khiển hiện hệ mã và mã bên cạnh mỗi giá trị, chẳng hạn một nút bật tắt ghi "Hiện mã". Mã bị ẩn không nằm trong thứ tự đọc cho đến khi được hiện.</li>
+    <li>Đánh dấu văn bản lâm sàng bằng ngôn ngữ của tài liệu (<code>lang</code>), có thể khác với ngôn ngữ của giao diện. Dịch giao diện; không bao giờ dịch nội dung lâm sàng.</li>
+    <li>Lily không kèm theo thuật ngữ nào: không có tra cứu SNOMED CT, LOINC, ATC hay UCUM. Hãy viết đúng những gì tài liệu nói. Trang <code>/patient-summary</code> của ví dụ SvelteKit cho thấy mẫu này.</li>
   </ul>
 
   <h2>Những gì Lily sẽ không làm</h2>

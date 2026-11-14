@@ -96,6 +96,7 @@
   <ul>
     <li>जेनेरिक नाम छोटे अक्षरों में, सिवाय FDA और ISMP की सूचियों या आपके देश की सूची (ऑस्ट्रेलिया और कनाडा अपनी सूची प्रकाशित करते हैं) के tall man अक्षरों के। उन्हें <code>nameSegments</code> में चिह्नित करें; Lily कभी अनुमान नहीं लगाता।</li>
     <li>मात्रा <code>formatQuantity</code> से लिखें: अंत में कोई शून्य नहीं, आरंभ में शून्य, और इकाई से पहले नो-ब्रेक स्पेस।</li>
+    <li>किसी परिणाम का तुलनाचिह्न (comparator) बनाए रखें: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> “&lt;5 mmol/L” लिखता है। FHIR का <code>Quantity.comparator</code> &lt;, ≤, ≥ या &gt; के रूप में लिखा जाता है; उसे छोड़ देने से “5 से कम” केवल “5” बन जाता है।</li>
     <li>mL लिखें, कभी cc नहीं, और ISMP की त्रुटि-प्रवण संक्षेपों की सूची के हर संक्षेप से बचें।</li>
     <li>दवा का नाम या खुराक कभी न काटें।</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>वार्ड बोर्ड या कमांड-सेंटर स्क्रीन बार-बार अपडेट होती है। हर बदलाव की घोषणा कभी न करें: एक विनम्र (polite) सारांश क्षेत्र रखें (“3 बिस्तर खाली, 2 छुट्टियाँ बाकी”) और लोगों को बोर्ड पढ़ने दें।</li>
     <li>बोर्ड पर हर स्थिति (बिस्तर साफ़, भरा हुआ, अवरुद्ध) पाठ है या शब्दों वाली <code>data-*</code> स्थिति, कभी केवल रंग नहीं।</li>
+  </ul>
+
+  <h2>FHIR से Lily तक</h2>
+  <p>Lily FHIR संसाधनों को नहीं पढ़ता; आपका कोड उन्हें Lily के props से जोड़ता है। ये तालिकाएँ HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4) को जोड़ती हैं। कोड-मैपिंग एक सुझाव है: उसका निर्णय आपकी नैदानिक सुरक्षा समीक्षा करती है, और हर स्थिति के शब्द आपके अपने हैं।</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS अनुभाग और उनके लिए Lily घटक</caption>
+      <thead>
+        <tr>
+          <th>IPS अनुभाग</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>एलर्जी और असहिष्णुताएँ (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> और उसके आइटम</td>
+        </tr>
+        <tr>
+          <td>दवाइयों का सारांश (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, जिसके हर आइटम में <a href="/components/medication-view/">medication-view</a> है</td>
+        </tr>
+        <tr>
+          <td>समस्या सूची (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> और उसके आइटम</td>
+        </tr>
+        <tr>
+          <td>टीकाकरण (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> और उसके आइटम</td>
+        </tr>
+        <tr>
+          <td>परिणाम (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, डेटा तालिका या सारांश सूची में</td>
+        </tr>
+        <tr>
+          <td>प्रक्रियाओं का इतिहास (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> और उसके आइटम</td>
+        </tr>
+        <tr>
+          <td>चिकित्सा उपकरण (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> और उसके आइटम</td>
+        </tr>
+        <tr>
+          <td>चेतावनियाँ (<code>104605-1</code>)</td>
+          <td>चेतावनी पाठ या अलर्ट, कभी किसी सिमटे हुए नियंत्रण के पीछे नहीं</td>
+        </tr>
+        <tr>
+          <td>कोई अन्य अनुभाग</td>
+          <td><a href="/components/record-list/">record-list</a> और उसके आइटम</td>
+        </tr>
+        <tr>
+          <td>कोई आवश्यक अनुभाग जिसे दस्तावेज़ छोड़ देता है</td>
+          <td>उस अनुभाग की सूची, <code>status="omitted"</code> के साथ</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR कोड और उनके लिए Lily मान</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>सूची का <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, साथ में ऐसे शब्द जो बताएँ कि कौन-सी स्थिति है</td>
+        </tr>
+        <tr>
+          <td>IPS कोड <code>no-known-allergies</code>, <code>no-known-medications</code> और इसी तरह के अन्य</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS कोड <code>no-allergy-info</code>, <code>no-medication-info</code> और इसी तरह के अन्य</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, प्रतिक्रिया की <code>severity</code> से अलग</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>एलर्जी और समस्या के आइटमों पर वही props, उन्हीं कोड के साथ</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>दवा के आइटम का <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, उन्हीं कोड के साथ</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><code>entered-in-error</code> रिकॉर्ड को चुपचाप हटाने के बजाय शब्दों के साथ उसकी <code>entered-in-error</code> स्थिति से जोड़ें: उसे दिखाना है या नहीं, यह आपकी सेवा का निर्णय है।</p>
+
+  <h2>कोडित मान</h2>
+  <ul>
+    <li><code>Coding.display</code> दिखाएँ; यदि वह नहीं है, तो <code>CodeableConcept.text</code>; यदि दोनों नहीं हैं, तो <code>system|code</code>। कभी खाली सेल नहीं।</li>
+    <li>ऐसा नियंत्रण दें जो हर मान के बगल में कोड प्रणाली और कोड प्रकट करे, जैसे “कोड दिखाएँ” कहने वाला टॉगल बटन। छिपे हुए कोड दिखाए जाने तक पढ़ने के क्रम से बाहर रहते हैं।</li>
+    <li>नैदानिक पाठ को दस्तावेज़ की भाषा (<code>lang</code>) से चिह्नित करें, जो इंटरफ़ेस की भाषा से भिन्न हो सकती है। इंटरफ़ेस का अनुवाद करें; नैदानिक सामग्री का अनुवाद कभी न करें।</li>
+    <li>Lily कोई शब्दावली नहीं देता: SNOMED CT, LOINC, ATC या UCUM की कोई खोज नहीं। जो दस्तावेज़ कहता है, वही लिखें। SvelteKit उदाहरण का <code>/patient-summary</code> पृष्ठ यह पैटर्न दिखाता है।</li>
   </ul>
 
   <h2>Lily क्या नहीं करेगा</h2>

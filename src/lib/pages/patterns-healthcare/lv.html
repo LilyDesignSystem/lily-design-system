@@ -96,6 +96,7 @@
   <ul>
     <li>Vispārīgie nosaukumi ar mazajiem burtiem, izņemot tall man burtus no FDA un ISMP vai jūsu valsts sarakstiem (Austrālija un Kanāda publicē savus). Atzīmējiet tos <code>nameSegments</code>; Lily nekad tos neuzmin.</li>
     <li>Stiprumu rakstiet ar <code>formatQuantity</code>: bez noslēdzošās nulles, ar sākuma nulli un nedalāmu atstarpi pirms vienības.</li>
+    <li>Saglabājiet rezultāta salīdzināšanas zīmi: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> raksta „&lt;5 mmol/L”. FHIR <code>Quantity.comparator</code> raksta kā &lt;, ≤, ≥ vai &gt;; ja to izlaiž, „mazāk nekā 5” kļūst par „5”.</li>
     <li>Rakstiet mL, nekad cc, un izvairieties no katra saīsinājuma ISMP kļūdu riska saīsinājumu sarakstā.</li>
     <li>Nekad nesaīsiniet zāļu nosaukumu vai devu.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Nodaļas tāfele vai vadības centra ekrāns tiek atjaunināts bieži. Nekad nepaziņojiet katru izmaiņu: turiet vienu pieklājīgu kopsavilkuma reģionu („3 brīvas gultas, 2 plānotas izrakstīšanas”) un ļaujiet cilvēkiem lasīt tāfeli.</li>
     <li>Katrs stāvoklis tāfelē (gulta tīra, aizņemta, bloķēta) ir teksts vai <code>data-*</code> stāvoklis ar vārdiem, nekad tikai krāsa.</li>
+  </ul>
+
+  <h2>No FHIR uz Lily</h2>
+  <p>Lily nelasa FHIR resursus; jūsu kods tos kartē uz Lily props. Šīs tabulas kartē HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Kodu kartējums ir ieteikums: to nosaka jūsu klīniskās drošības pārskats, un vārdi katram stāvoklim ir jūsu pašu.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS sadaļas un tām atbilstošie Lily komponenti</caption>
+      <thead>
+        <tr>
+          <th>IPS sadaļa</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alerģijas un nepanesība (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> un tā vienumi</td>
+        </tr>
+        <tr>
+          <td>Zāļu kopsavilkums (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, katrs vienums satur <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Problēmu saraksts (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> un tā vienumi</td>
+        </tr>
+        <tr>
+          <td>Vakcinācijas (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> un tā vienumi</td>
+        </tr>
+        <tr>
+          <td>Rezultāti (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, datu tabulā vai kopsavilkuma sarakstā</td>
+        </tr>
+        <tr>
+          <td>Procedūru vēsture (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> un tā vienumi</td>
+        </tr>
+        <tr>
+          <td>Medicīniskās ierīces (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> un tā vienumi</td>
+        </tr>
+        <tr>
+          <td>Brīdinājumi (<code>104605-1</code>)</td>
+          <td>Brīdinājuma teksts vai brīdinājums, nekad aiz sakļautas vadīklas</td>
+        </tr>
+        <tr>
+          <td>Jebkura cita sadaļa</td>
+          <td><a href="/components/record-list/">record-list</a> un tā vienumi</td>
+        </tr>
+        <tr>
+          <td>Obligāta sadaļa, ko dokuments izlaiž</td>
+          <td>Sadaļas saraksts ar <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR kodi un tiem atbilstošās Lily vērtības</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Saraksta <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, ar vārdiem, kas norāda, kurš</td>
+        </tr>
+        <tr>
+          <td>IPS kodi <code>no-known-allergies</code>, <code>no-known-medications</code> un tamlīdzīgi</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS kodi <code>no-allergy-info</code>, <code>no-medication-info</code> un tamlīdzīgi</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, atsevišķi no reakcijas <code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Tie paši props uz alerģijas un problēmas vienumiem, ar tiem pašiem kodiem</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Zāļu vienuma <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, ar tiem pašiem kodiem</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Ierakstu ar statusu <code>entered-in-error</code> kartējiet uz statusu <code>entered-in-error</code>, ar vārdiem, nevis klusībā to izlaižot: vai to vispār rādīt, ir jūsu pakalpojuma lēmums.</p>
+
+  <h2>Kodētas vērtības</h2>
+  <ul>
+    <li>Rādiet <code>Coding.display</code>; ja tā nav, <code>CodeableConcept.text</code>; ja nav neviena, <code>system|code</code>. Nekad tukša šūna.</li>
+    <li>Piedāvājiet vadīklu, kas blakus katrai vērtībai parāda kodu sistēmu un kodu, piemēram, pārslēgšanas pogu ar tekstu „Rādīt kodus”. Paslēptie kodi paliek ārpus lasīšanas secības, līdz tie tiek parādīti.</li>
+    <li>Klīnisko tekstu atzīmējiet ar dokumenta valodu (<code>lang</code>), kas var atšķirties no saskarnes valodas. Tulkojiet saskarni; klīnisko saturu nekad netulkojiet.</li>
+    <li>Lily nepiegādā terminoloģiju: nekādu SNOMED CT, LOINC, ATC vai UCUM meklēšanu. Rakstiet to, ko saka dokuments. SvelteKit piemēra lapa <code>/patient-summary</code> rāda paraugu.</li>
   </ul>
 
   <h2>Ko Lily nedarīs</h2>

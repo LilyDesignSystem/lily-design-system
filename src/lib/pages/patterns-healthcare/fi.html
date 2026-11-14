@@ -96,6 +96,7 @@
   <ul>
     <li>Geneeriset nimet pienillä kirjaimilla, paitsi tall man -kirjaimet FDA:n ja ISMP:n tai oman maasi luetteloista (Australia ja Kanada julkaisevat omansa). Merkitse ne kohtaan <code>nameSegments</code>; Lily ei koskaan arvaa niitä.</li>
     <li>Kirjoita vahvuus funktiolla <code>formatQuantity</code>: ei loppunollaa, etunolla, sitova välilyönti ennen yksikköä.</li>
+    <li>Säilytä tuloksen vertailumerkki: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> kirjoittaa ”&lt;5 mmol/L”. FHIR:n <code>Quantity.comparator</code> kirjoitetaan &lt;, ≤, ≥ tai &gt;; jos se jätetään pois, ”alle 5” muuttuu muotoon ”5”.</li>
     <li>Kirjoita mL, ei koskaan cc, ja vältä kaikkia ISMP:n virhealttiiden lyhenteiden luettelon lyhenteitä.</li>
     <li>Älä koskaan katkaise lääkkeen nimeä tai annosta.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Osastotaulu tai johtokeskuksen näyttö päivittyy usein. Älä koskaan ilmoita jokaisesta muutoksesta: pidä yksi kohtelias yhteenvetoalue (”3 vuodepaikkaa vapaana, 2 kotiutusta tulossa”) ja anna ihmisten lukea taulua.</li>
     <li>Jokainen taulun tila (vuode siivottu, varattu, estetty) on tekstiä tai <code>data-*</code>-tila sanoineen, ei koskaan pelkkä väri.</li>
+  </ul>
+
+  <h2>FHIR:stä Lilyyn</h2>
+  <p>Lily ei lue FHIR-resursseja; koodisi kuvaa ne Lilyn propseiksi. Nämä taulukot kuvaavat HL7 FHIR International Patient Summaryn (IPS 2.0.1, FHIR R4). Koodikuvaus on ehdotus: kliininen turvallisuusarviosi ratkaisee sen, ja kunkin tilan sanat ovat omiasi.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS-osiot ja niitä vastaavat Lily-komponentit</caption>
+      <thead>
+        <tr>
+          <th>IPS-osio</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Allergiat ja intoleranssit (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> ja sen kohteet</td>
+        </tr>
+        <tr>
+          <td>Lääkitysyhteenveto (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, ja jokainen kohde sisältää komponentin <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Ongelmaluettelo (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> ja sen kohteet</td>
+        </tr>
+        <tr>
+          <td>Rokotukset (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> ja sen kohteet</td>
+        </tr>
+        <tr>
+          <td>Tulokset (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, datataulukossa tai yhteenvetoluettelossa</td>
+        </tr>
+        <tr>
+          <td>Toimenpidehistoria (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> ja sen kohteet</td>
+        </tr>
+        <tr>
+          <td>Lääkinnälliset laitteet (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> ja sen kohteet</td>
+        </tr>
+        <tr>
+          <td>Hälytykset (<code>104605-1</code>)</td>
+          <td>Varoitusteksti tai hälytys, ei koskaan suljetun kontrollin takana</td>
+        </tr>
+        <tr>
+          <td>Mikä tahansa muu osio</td>
+          <td><a href="/components/record-list/">record-list</a> ja sen kohteet</td>
+        </tr>
+        <tr>
+          <td>Pakollinen osio, jonka dokumentti jättää pois</td>
+          <td>Osion luettelo, jossa on <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR-koodit ja niitä vastaavat Lily-arvot</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Luettelon <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, ja sanat kertovat, mistä on kyse</td>
+        </tr>
+        <tr>
+          <td>IPS-koodit <code>no-known-allergies</code>, <code>no-known-medications</code> ja vastaavat</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS-koodit <code>no-allergy-info</code>, <code>no-medication-info</code> ja vastaavat</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, erillään reaktion <code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Samat propsit allergia- ja ongelmakohteissa, samoilla koodeilla</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Lääkekohteen <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, samoilla koodeilla</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Kuvaa <code>entered-in-error</code>-tieto tilaan <code>entered-in-error</code>, sanoin, sen sijaan että se jätetään äänettömästi pois: näytetäänkö se lainkaan, on palvelusi päätös.</p>
+
+  <h2>Koodatut arvot</h2>
+  <ul>
+    <li>Näytä <code>Coding.display</code>; jos sitä ei ole, <code>CodeableConcept.text</code>; jos kumpaakaan ei ole, <code>system|code</code>. Ei koskaan tyhjää solua.</li>
+    <li>Tarjoa kontrolli, joka näyttää koodijärjestelmän ja koodin kunkin arvon vieressä, esimerkiksi vaihtopainike, jossa lukee ”Näytä koodit”. Piilotetut koodit pysyvät lukujärjestyksen ulkopuolella, kunnes ne näytetään.</li>
+    <li>Merkitse kliininen teksti dokumentin kielellä (<code>lang</code>), joka voi poiketa käyttöliittymän kielestä. Käännä käyttöliittymä; älä koskaan käännä kliinistä sisältöä.</li>
+    <li>Lily ei sisällä terminologiaa: ei SNOMED CT-, LOINC-, ATC- tai UCUM-hakuja. Kirjoita se, mitä dokumentti sanoo. SvelteKit-esimerkin sivu <code>/patient-summary</code> näyttää mallin.</li>
   </ul>
 
   <h2>Mitä Lily ei tee</h2>

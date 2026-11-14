@@ -96,6 +96,7 @@
   <ul>
     <li>Jeneng generik nganggo aksara cilik, kajaba aksara tall man saka dhaptar FDA lan ISMP utawa dhaptar negara sampeyan (Australia lan Kanada nerbitake dhewe). Tandhanana ing <code>nameSegments</code>; Lily ora tau nebak.</li>
     <li>Tulisen kekuwatan nganggo <code>formatQuantity</code>: ora ana nol buntut, nol ing ngarep, lan spasi tanpa pegat sadurunge satuan.</li>
+    <li>Pertahanna pembanding asil: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> nulis "&lt;5 mmol/L". <code>Quantity.comparator</code> saka FHIR ditulis &lt;, ≤, ≥ utawa &gt;; yen dibuwang, "kurang saka 5" dadi "5".</li>
     <li>Tulisen mL, aja cc, lan singkirana saben singkatan ing dhaptar ISMP sing rawan kesalahan.</li>
     <li>Aja tau motong jeneng utawa dosis obat.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Papan bangsal utawa layar pusat komando kerep dianyari. Aja ngumumake saben owah-owahan: gawea siji wilayah ringkesan sing sopan ("3 amben kosong, 2 pasien arep mulih") lan wong dikon maca papane dhewe.</li>
     <li>Saben kahanan ing papan (amben resik, kapakéni, diblokir) iku teks utawa kahanan <code>data-*</code> mawa tembung, ora mung warna.</li>
+  </ul>
+
+  <h2>Saka FHIR menyang Lily</h2>
+  <p>Lily ora maca sumber daya FHIR; kodemu mapak menyang props Lily. Tabel-tabel iki mapak HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Pemetaan kode iku saran: tinjauan keamanan klinismu sing nemtokake, lan tembung kanggo saben kahanan iku tembungmu dhewe.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Bagian IPS lan komponen Lily kanggo bagian kasebut</caption>
+      <thead>
+        <tr>
+          <th>Bagian IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alergi lan intoleransi (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> lan item-itemé</td>
+        </tr>
+        <tr>
+          <td>Ringkesan obat (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, saben item ngemot <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Dhaptar masalah (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> lan item-itemé</td>
+        </tr>
+        <tr>
+          <td>Imunisasi (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> lan item-itemé</td>
+        </tr>
+        <tr>
+          <td>Asil (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, ing tabel data utawa dhaptar ringkesan</td>
+        </tr>
+        <tr>
+          <td>Riwayat prosedur (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> lan item-itemé</td>
+        </tr>
+        <tr>
+          <td>Piranti medis (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> lan item-itemé</td>
+        </tr>
+        <tr>
+          <td>Peringatan (<code>104605-1</code>)</td>
+          <td>Teks peringatan utawa waspada, aja nganti ana ing mburi kontrol sing dilipet</td>
+        </tr>
+        <tr>
+          <td>Bagian liyane apa wae</td>
+          <td><a href="/components/record-list/">record-list</a> lan item-itemé</td>
+        </tr>
+        <tr>
+          <td>Bagian wajib sing ora kalebu ing dokumen</td>
+          <td>Dhaptar bagian kasebut karo <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Kode FHIR lan nilai Lily kanggo kode kasebut</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> saka dhaptar</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, karo tembung sing nerangake endi</td>
+        </tr>
+        <tr>
+          <td>Kode IPS <code>no-known-allergies</code>, <code>no-known-medications</code> lan sing padha</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Kode IPS <code>no-allergy-info</code>, <code>no-medication-info</code> lan sing padha</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, kajaba <code>severity</code> reaksi</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Props sing padha ing item alergi lan masalah, karo kode sing padha</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> item obat</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, karo kode sing padha</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Petakna cathetan <code>entered-in-error</code> menyang status <code>entered-in-error</code>, nganggo tembung, aja dibuwang meneng-meneng: arep ditampilake apa ora iku keputusan layananmu.</p>
+
+  <h2>Nilai sing dikodekake</h2>
+  <ul>
+    <li>Tampilna <code>Coding.display</code>; yen ora ana, <code>CodeableConcept.text</code>; yen loro-lorone ora ana, <code>system|code</code>. Aja nganti ana sel kosong.</li>
+    <li>Wenehana kontrol sing nuduhake sistem kode lan kode ing sandhinge saben nilai, kayata tombol toggle sing nulis "Tampilake kode". Kode sing didhelikake ora kalebu urutan wacan nganti ditampilake.</li>
+    <li>Tandhanana teks klinis nganggo basa dokumen (<code>lang</code>), sing bisa beda saka basa antarmuka. Terjemahna antarmuka; aja nate nerjemahake isi klinis.</li>
+    <li>Lily ora nyedhiyakake terminologi: ora ana panelusuran SNOMED CT, LOINC, ATC utawa UCUM. Tulisen apa sing dikandhakake dokumen. Conto SvelteKit nuduhake pola kasebut ing kaca <code>/patient-summary</code>.</li>
   </ul>
 
   <h2>Apa sing ora bakal ditindakake Lily</h2>

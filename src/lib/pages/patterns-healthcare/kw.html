@@ -96,6 +96,7 @@
   <ul>
     <li>Hanow kynsa yn lytherennow byghan, marnas lytherennow tall man a rolyow FDA hag ISMP py a'th pow (Ostrali ha Kanada a bupsha y honan). Ardhewgh anedha yn <code>nameSegments</code>; Lily ny waylyn nevra anedha.</li>
     <li>Skrifewgh an nerth gans <code>formatQuantity</code>: heb nowt diwettha, gans nowt kynsa, gans spas heb terri kyns an unn.</li>
+    <li>Gwithewgh kehaval sewyans: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> a skriv “&lt;5 mmol/L”. <code>Quantity.comparator</code> FHIR yw skrifys avel &lt;, ≤, ≥ py &gt;; mar teuvewgh anodho, “le es 5” a dheu “5”.</li>
     <li>Skrifewgh mL, nevra cc, ha skeusewgh pub berrheans a rol ISMP a vydh tyn dhe gammow.</li>
     <li>Na drenkewgh nevra hanow py dos medhegneth.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Bord wardh py skrin kreslu-ardhyans a nowedha yn fenowgh. Na dherivewgh nevra pub chanj: gwithewgh unn rannvro dhyskrifans jentyl (“3 gwely rydh, 2 dyllans gwrys”) ha gesewgh tus dhe redya an bord.</li>
     <li>Pub stad war bord (gwely glan, kemmerys, lettys) yw tekst py stad <code>data-*</code> gans geryow, nevra liw hepken.</li>
+  </ul>
+
+  <h2>A FHIR dhe Lily</h2>
+  <p>Nyns usi Lily FHIR dhe redya; agas kod a'n mapya dhe berthow Lily. An tablys ma a vap Dyvyskrif Glaf Kesstrodhek HL7 FHIR (IPS 2.0.1, FHIR R4). An mapyans a godhow yw profys: agas dhivyn a surder klinikel a'n ordn, ha'n geryow rag peub stat yw agas aga honan.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Rannow IPS ha'n kuntellow Lily ragdhe</caption>
+      <thead>
+        <tr>
+          <th>Rann IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alergiow ha heb-godhesans (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> ha'y elvennow</td>
+        </tr>
+        <tr>
+          <td>Dyvyskrif medhegnow (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, gans peub elven ow talgh <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Rol a dhrefenow (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> ha'y elvennow</td>
+        </tr>
+        <tr>
+          <td>Imynyansow (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> ha'y elvennow</td>
+        </tr>
+        <tr>
+          <td>Sewyansow (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, yn tabel data py rol dyvyskrif</td>
+        </tr>
+        <tr>
+          <td>Hyns a obereth (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> ha'y elvennow</td>
+        </tr>
+        <tr>
+          <td>Daffar medhegel (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> ha'y elvennow</td>
+        </tr>
+        <tr>
+          <td>Gwarnyansow (<code>104605-1</code>)</td>
+          <td>Tekst gwarnya py gwarnyans, nevra tu ha daskor gwithyans degreys</td>
+        </tr>
+        <tr>
+          <td>Pub rann aral</td>
+          <td><a href="/components/record-list/">record-list</a> ha'y elvennow</td>
+        </tr>
+        <tr>
+          <td>Rann res a asow an skrif dhe-ves</td>
+          <td>Rol an rann gans <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Kodow FHIR ha'n gwerthow Lily ragdhe</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> an rol</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, gans geryow a laver pyth yw</td>
+        </tr>
+        <tr>
+          <td>Kodow IPS <code>no-known-allergies</code>, <code>no-known-medications</code> ha kehaval</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Kodow IPS <code>no-allergy-info</code>, <code>no-medication-info</code> ha kehaval</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, dyvers dhiworth <code>severity</code> a dhyskrans</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>An keth berthow war elvennow alergi ha drefenow, gans an keth kodow</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> an elven medhek</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>status</code> <code>observation-view</code>, gans an keth kodow</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Mapyewgh rekord <code>entered-in-error</code> dh'y stat <code>entered-in-error</code>, gans geryow, yn le y dhe-ves yn ostyn: pan na vo gwelys, dhe'gas gonis yw an dhivyn.</p>
+
+  <h2>Gwerthow kodys</h2>
+  <ul>
+    <li>Diskwedhewgh <code>Coding.display</code>; mar nyns eus, <code>CodeableConcept.text</code>; mar nyns eus onan, <code>system|code</code>. Nevra kell wag.</li>
+    <li>Profyewgh gwithyans a dhiskwa an system godhow ha'n kod ryb peub gwerth, avel button trogh gans “Diskwedhewgh kodow”. Kodow kudhys a bys ves a'n ordn redya erna vons diskwedhys.</li>
+    <li>Merkyewgh tekst klinikel gans yeth an skrif (<code>lang</code>), a yll bos dyffrans dhiworth yeth an etrefas. Treylyewgh an etrefas; nevra an dalgh klinikel.</li>
+    <li>Nyns usi Lily termynologieth: nyns eus whythrans SNOMED CT, LOINC, ATC py UCUM. Skrifewgh an pyth a laver an skrif. An folen <code>/patient-summary</code> a'n ensample SvelteKit a dhiskwa an patron.</li>
   </ul>
 
   <h2>An pyth na wra Lily</h2>

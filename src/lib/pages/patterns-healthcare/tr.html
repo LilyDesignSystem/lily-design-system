@@ -96,6 +96,7 @@
   <ul>
     <li>Jenerik adlar küçük harfle, FDA ve ISMP listelerindeki veya ülkenizin listesindeki tall man harfleri hariç (Avustralya ve Kanada kendi listelerini yayımlar). Bunları <code>nameSegments</code> içinde işaretleyin; Lily bunları asla tahmin etmez.</li>
     <li>Gücü <code>formatQuantity</code> ile yazın: sondaki sıfır yok, baştaki sıfır var, birimden önce bölünmeyen boşluk.</li>
+    <li>Bir sonucun karşılaştırıcısını koruyun: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code>, “&lt;5 mmol/L” yazar. FHIR'in <code>Quantity.comparator</code> değeri &lt;, ≤, ≥ veya &gt; olarak yazılır; bunu atlamak “5'ten az” ifadesini “5”e çevirir.</li>
     <li>mL yazın, asla cc yazmayın ve ISMP'nin hataya açık kısaltmalar listesindeki her kısaltmadan kaçının.</li>
     <li>Bir ilacın adını veya dozunu asla kesmeyin.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Bir servis panosu veya komuta merkezi ekranı sık güncellenir. Her değişikliği asla duyurmayın: tek bir nazik özet bölgesi tutun (“3 yatak boş, 2 taburculuk bekleniyor”) ve insanların panoyu okumasına izin verin.</li>
     <li>Bir panodaki her durum (yatak temiz, dolu, engelli) metindir veya sözcükler içeren bir <code>data-*</code> durumudur; asla yalnızca renk değildir.</li>
+  </ul>
+
+  <h2>FHIR'den Lily'ye</h2>
+  <p>Lily FHIR kaynaklarını okumaz; kodunuz bunları Lily'nin özelliklerine eşler. Bu tablolar HL7 FHIR Uluslararası Hasta Özeti'ni (IPS 2.0.1, FHIR R4) eşler. Kod eşlemesi bir öneridir: kararı klinik güvenlik değerlendirmeniz verir ve her durum için kullanılacak sözcükler sizindir.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS bölümleri ve bunlar için Lily bileşenleri</caption>
+      <thead>
+        <tr>
+          <th>IPS bölümü</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alerjiler ve intoleranslar (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> ve öğeleri</td>
+        </tr>
+        <tr>
+          <td>İlaç özeti (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>; her öğe bir <a href="/components/medication-view/">medication-view</a> içerir</td>
+        </tr>
+        <tr>
+          <td>Sorun listesi (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> ve öğeleri</td>
+        </tr>
+        <tr>
+          <td>Bağışıklamalar (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> ve öğeleri</td>
+        </tr>
+        <tr>
+          <td>Sonuçlar (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, bir veri tablosunda veya özet listesinde</td>
+        </tr>
+        <tr>
+          <td>İşlem geçmişi (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> ve öğeleri</td>
+        </tr>
+        <tr>
+          <td>Tıbbi cihazlar (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> ve öğeleri</td>
+        </tr>
+        <tr>
+          <td>Uyarılar (<code>104605-1</code>)</td>
+          <td>Uyarı metni veya bir uyarı; asla daraltılmış bir denetimin arkasında değil</td>
+        </tr>
+        <tr>
+          <td>Diğer herhangi bir bölüm</td>
+          <td><a href="/components/record-list/">record-list</a> ve öğeleri</td>
+        </tr>
+        <tr>
+          <td>Belgenin dışarıda bıraktığı zorunlu bir bölüm</td>
+          <td>Bölümün <code>status="omitted"</code> olan listesi</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR kodları ve bunlar için Lily değerleri</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Listenin <code>status="none-known"</code> değeri</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, hangisi olduğunu söyleyen sözcüklerle</td>
+        </tr>
+        <tr>
+          <td><code>no-known-allergies</code>, <code>no-known-medications</code> ve benzeri IPS kodları</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>no-allergy-info</code>, <code>no-medication-info</code> ve benzeri IPS kodları</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td>Bir reaksiyonun <code>severity</code> değerinden ayrı olarak <code>criticality</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Alerji ve sorun öğelerinde aynı özellikler, aynı kodlarla</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>İlaç öğesinin <code>status</code> değeri</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> bileşeninin <code>status</code> değeri, aynı kodlarla</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Bir <code>entered-in-error</code> kaydını sessizce atmak yerine, sözcüklerle, <code>entered-in-error</code> durumuna eşleyin: gösterilip gösterilmeyeceği hizmetinizin kararıdır.</p>
+
+  <h2>Kodlanmış değerler</h2>
+  <ul>
+    <li><code>Coding.display</code> değerini gösterin; yoksa <code>CodeableConcept.text</code>; ikisi de yoksa <code>system|code</code>. Asla boş bir hücre olmaz.</li>
+    <li>Her değerin yanında kod sistemini ve kodu gösteren bir denetim sunun; örneğin “Kodları göster” yazan bir geçiş düğmesi. Gizli kodlar gösterilene kadar okuma sırasının dışında kalır.</li>
+    <li>Klinik metni belgenin diliyle (<code>lang</code>) işaretleyin; bu, arayüzün dilinden farklı olabilir. Arayüzü çevirin; klinik içeriği asla çevirmeyin.</li>
+    <li>Lily terminoloji sunmaz: SNOMED CT, LOINC, ATC veya UCUM aramaları yoktur. Belgenin söylediğini yazın. Örüntüyü SvelteKit örneğinin <code>/patient-summary</code> sayfası gösterir.</li>
   </ul>
 
   <h2>Lily'nin yapmayacakları</h2>

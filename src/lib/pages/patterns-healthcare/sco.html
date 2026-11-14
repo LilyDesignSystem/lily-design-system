@@ -96,6 +96,7 @@
   <ul>
     <li>Generic names in lawer case, except tall man letters frae the FDA an ISMP lists or yer country's (Australia an Canada publish thair ain). Mairk them in <code>nameSegments</code>; Lily niver guesses them.</li>
     <li>Scrieve the strength wi <code>formatQuantity</code>: nae trailin zero, a leadin zero, an a no-brak space afore the unit.</li>
+    <li>Haud a result's comparator: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> writes "&lt;5 mmol/L". FHIR's <code>Quantity.comparator</code> is written &lt;, ≤, ≥ or &gt;; drappin it turns "less nor 5" intae "5".</li>
     <li>Scrieve mL, niver cc, an avoid ilka abbreviation on ISMP's error-prone list.</li>
     <li>Niver cut short a medicine's name or dose.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>A ward board or command-centre screen updates aften. Niver announce ilka chynge: keep ae couthie summary region ("3 beds free, 2 discharges due") an lat fowk read the board.</li>
     <li>Ilka state on a board (bed clean, occupied, blockit) is text or a <code>data-*</code> state wi wirds, niver colour alane.</li>
+  </ul>
+
+  <h2>Frae FHIR tae Lily</h2>
+  <p>Lily disnae read FHIR resources; yer code maps them tae Lily's props. Thir tables map the HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). The code mapping is a suggestion: yer clinical safety review decides it, an the wirds for ilka state are yer ain.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS sections an the Lily components for them</caption>
+      <thead>
+        <tr>
+          <th>IPS section</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Allergies an intolerances (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> an its items</td>
+        </tr>
+        <tr>
+          <td>Medication summary (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, ilka item haudin a <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Problem list (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> an its items</td>
+        </tr>
+        <tr>
+          <td>Immunizations (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> an its items</td>
+        </tr>
+        <tr>
+          <td>Results (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, in a data table or summary list</td>
+        </tr>
+        <tr>
+          <td>History o procedures (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> an its items</td>
+        </tr>
+        <tr>
+          <td>Medical devices (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> an its items</td>
+        </tr>
+        <tr>
+          <td>Alerts (<code>104605-1</code>)</td>
+          <td>Warnin text or an alert, niver ahint a collapsed control</td>
+        </tr>
+        <tr>
+          <td>Ony ither section</td>
+          <td><a href="/components/record-list/">record-list</a> an its items</td>
+        </tr>
+        <tr>
+          <td>A required section the document leaves oot</td>
+          <td>The section's list wi <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR codes an the Lily values for them</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>The list's <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, wi wirds that say which</td>
+        </tr>
+        <tr>
+          <td>The IPS codes <code>no-known-allergies</code>, <code>no-known-medications</code> an the like</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>The IPS codes <code>no-allergy-info</code>, <code>no-medication-info</code> an the like</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, apairt frae a reaction's <code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>The same props on the allergy an problem items, wi the same codes</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>The medication item's <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, wi the same codes</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Map an <code>entered-in-error</code> record tae its <code>entered-in-error</code> status, wi wirds, raither nor drappin it quaietly: whither tae shaw it at aa is yer service's decision.</p>
+
+  <h2>Coded values</h2>
+  <ul>
+    <li>Shaw <code>Coding.display</code>; gin there's nane, <code>CodeableConcept.text</code>; gin neither, <code>system|code</code>. Niver an tuim cell.</li>
+    <li>Offer a control that reveals the code system an code aside ilka value, sic as a toggle button that says "Shaw codes". Hidden codes bide oot the readin order till shawn.</li>
+    <li>Mairk clinical text wi the document's leid (<code>lang</code>), that micht differ frae the interface's. Translate the interface; niver translate the clinical content.</li>
+    <li>Lily ships nae terminology: nae SNOMED CT, LOINC, ATC or UCUM lookups. Scrieve whit the document says. The SvelteKit example's <code>/patient-summary</code> page shaws the pattern.</li>
   </ul>
 
   <h2>Whit Lily will no dae</h2>

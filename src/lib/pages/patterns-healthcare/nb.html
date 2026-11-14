@@ -96,6 +96,7 @@
   <ul>
     <li>Generiske navn med små bokstaver, unntatt tall man-bokstaver fra listene til FDA og ISMP eller ditt eget land (Australia og Canada publiserer egne). Marker dem i <code>nameSegments</code>; Lily gjetter dem aldri.</li>
     <li>Skriv styrken med <code>formatQuantity</code>: ingen avsluttende null, en innledende null, et hardt mellomrom før enheten.</li>
+    <li>Behold et resultats sammenligningstegn: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> skriver «&lt;5 mmol/L». FHIRs <code>Quantity.comparator</code> skrives &lt;, ≤, ≥ eller &gt;; hvis det utelates, blir «mindre enn 5» til «5».</li>
     <li>Skriv mL, aldri cc, og unngå enhver forkortelse på ISMPs liste over feilutsatte forkortelser.</li>
     <li>Avkort aldri navnet eller dosen til et legemiddel.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>En avdelingstavle eller et skjermbilde i en kommandosentral oppdateres ofte. Kunngjør aldri hver endring: ha én høflig oppsummeringsregion («3 senger ledige, 2 utskrivninger venter») og la folk lese tavlen.</li>
     <li>Hver tilstand på en tavle (seng rengjort, opptatt, sperret) er tekst eller en <code>data-*</code>-tilstand med ord, aldri bare farge.</li>
+  </ul>
+
+  <h2>Fra FHIR til Lily</h2>
+  <p>Lily leser ikke FHIR-ressurser; koden din tilordner dem til Lilys props. Disse tabellene tilordner HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Kodetilordningen er et forslag: din kliniske sikkerhetsvurdering avgjør den, og ordene for hver tilstand er dine egne.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS-avsnitt og Lily-komponentene for dem</caption>
+      <thead>
+        <tr>
+          <th>IPS-avsnitt</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Allergier og intoleranser (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> og dens poster</td>
+        </tr>
+        <tr>
+          <td>Legemiddeloversikt (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, der hver post inneholder en <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Problemliste (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> og dens poster</td>
+        </tr>
+        <tr>
+          <td>Vaksinasjoner (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> og dens poster</td>
+        </tr>
+        <tr>
+          <td>Prøvesvar (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, i en datatabell eller sammendragsliste</td>
+        </tr>
+        <tr>
+          <td>Tidligere inngrep (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> og dens poster</td>
+        </tr>
+        <tr>
+          <td>Medisinsk utstyr (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> og dens poster</td>
+        </tr>
+        <tr>
+          <td>Varsler (<code>104605-1</code>)</td>
+          <td>Varseltekst eller et varsel, aldri bak en sammenfoldet kontroll</td>
+        </tr>
+        <tr>
+          <td>Ethvert annet avsnitt</td>
+          <td><a href="/components/record-list/">record-list</a> og dens poster</td>
+        </tr>
+        <tr>
+          <td>Et obligatorisk avsnitt som dokumentet utelater</td>
+          <td>Avsnittets liste med <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR-koder og Lily-verdiene for dem</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Listens <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, med ord som angir hvilken</td>
+        </tr>
+        <tr>
+          <td>IPS-kodene <code>no-known-allergies</code>, <code>no-known-medications</code> og lignende</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS-kodene <code>no-allergy-info</code>, <code>no-medication-info</code> og lignende</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, atskilt fra en reaksjons <code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>De samme props på allergi- og problempostene, med de samme kodene</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Legemiddelpostens <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, med de samme kodene</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Tilordne en <code>entered-in-error</code>-post til statusen <code>entered-in-error</code>, med ord, i stedet for å droppe den stille: om den i det hele tatt skal vises, er tjenestens beslutning.</p>
+
+  <h2>Kodede verdier</h2>
+  <ul>
+    <li>Vis <code>Coding.display</code>; hvis den mangler, <code>CodeableConcept.text</code>; hvis ingen av dem finnes, <code>system|code</code>. Aldri en tom celle.</li>
+    <li>Tilby en kontroll som viser kodesystem og kode ved siden av hver verdi, for eksempel en vekslingsknapp med teksten «Vis koder». Skjulte koder står utenfor leserekkefølgen til de vises.</li>
+    <li>Merk klinisk tekst med dokumentets språk (<code>lang</code>), som kan avvike fra grensesnittets. Oversett grensesnittet; oversett aldri det kliniske innholdet.</li>
+    <li>Lily leverer ingen terminologi: ingen oppslag i SNOMED CT, LOINC, ATC eller UCUM. Skriv det dokumentet sier. SvelteKit-eksemplets side <code>/patient-summary</code> viser mønsteret.</li>
   </ul>
 
   <h2>Hva Lily ikke vil gjøre</h2>

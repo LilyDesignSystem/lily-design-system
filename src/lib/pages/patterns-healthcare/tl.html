@@ -96,6 +96,7 @@
   <ul>
     <li>Mga generic na pangalan sa maliliit na titik, maliban sa mga titik na tall man mula sa mga listahan ng FDA at ISMP o ng inyong bansa (naglalathala ng sarili nila ang Australia at Canada). Markahan ang mga ito sa <code>nameSegments</code>; hindi kailanman hinuhulaan ng Lily.</li>
     <li>Isulat ang lakas gamit ang <code>formatQuantity</code>: walang trailing zero, may leading zero, at no-break space bago ang yunit.</li>
+    <li>Panatilihin ang comparator ng resulta: ang <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> ay nagsusulat ng "&lt;5 mmol/L". Ang <code>Quantity.comparator</code> ng FHIR ay isinusulat na &lt;, ≤, ≥ o &gt;; kapag inalis ito, ang "mas mababa sa 5" ay nagiging "5".</li>
     <li>Isulat ang mL, hindi cc, at iwasan ang bawat daglat sa listahan ng ISMP na madaling magkamali.</li>
     <li>Huwag kailanman putulin ang pangalan o dosis ng gamot.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Madalas ma-update ang ward board o screen ng command centre. Huwag ianunsyo ang bawat pagbabago: magtago ng isang magalang na summary region ("3 kama ang bakante, 2 paglabas ang inaasahan") at hayaang basahin ng mga tao ang board.</li>
     <li>Ang bawat estado sa board (malinis ang kama, may okupante, nakaharang) ay teksto o estadong <code>data-*</code> na may mga salita, hindi kulay lamang.</li>
+  </ul>
+
+  <h2>Mula sa FHIR patungo sa Lily</h2>
+  <p>Hindi nagbabasa ng mga resource ng FHIR ang Lily; ang code ninyo ang nagma-map sa mga ito sa mga prop ng Lily. Imina-map ng dalawang talahanayang ito ang HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Mungkahi lamang ang pagma-map ng code: ang inyong clinical safety review ang magpapasya, at sa inyo ang mga salita para sa bawat estado.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Mga seksiyon ng IPS at ang mga component ng Lily para sa mga ito</caption>
+      <thead>
+        <tr>
+          <th>Seksiyon ng IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mga allergy at intolerance (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> at ang mga item nito</td>
+        </tr>
+        <tr>
+          <td>Buod ng gamot (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, na ang bawat item ay may hawak na <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Listahan ng problema (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> at ang mga item nito</td>
+        </tr>
+        <tr>
+          <td>Mga immunization (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> at ang mga item nito</td>
+        </tr>
+        <tr>
+          <td>Mga resulta (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, sa data table o summary list</td>
+        </tr>
+        <tr>
+          <td>Kasaysayan ng mga procedure (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> at ang mga item nito</td>
+        </tr>
+        <tr>
+          <td>Mga medical device (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> at ang mga item nito</td>
+        </tr>
+        <tr>
+          <td>Mga alerto (<code>104605-1</code>)</td>
+          <td>Warning text o alerto, hindi kailanman nasa likod ng nakatiklop na kontrol</td>
+        </tr>
+        <tr>
+          <td>Anumang ibang seksiyon</td>
+          <td><a href="/components/record-list/">record-list</a> at ang mga item nito</td>
+        </tr>
+        <tr>
+          <td>Isang kinakailangang seksiyon na iniwan ng dokumento</td>
+          <td>Ang listahan ng seksiyon na may <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Mga code ng FHIR at ang mga halaga ng Lily para sa mga ito</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Ang <code>status="none-known"</code> ng listahan</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, na may mga salitang nagsasabi kung alin</td>
+        </tr>
+        <tr>
+          <td>Ang mga code ng IPS na <code>no-known-allergies</code>, <code>no-known-medications</code> at ang mga katulad nito</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Ang mga code ng IPS na <code>no-allergy-info</code>, <code>no-medication-info</code> at ang mga katulad nito</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, bukod sa <code>severity</code> ng isang reaksyon</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Ang parehong mga prop sa mga item ng allergy at problema, na may parehong mga code</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Ang <code>status</code> ng item ng gamot</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, na may parehong mga code</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>I-map ang rekord na <code>entered-in-error</code> sa status nitong <code>entered-in-error</code>, na may mga salita, sa halip na tahimik na alisin: nasa serbisyo ninyo ang pasya kung ipapakita ito.</p>
+
+  <h2>Mga naka-code na halaga</h2>
+  <ul>
+    <li>Ipakita ang <code>Coding.display</code>; kung wala, ang <code>CodeableConcept.text</code>; kung wala ang dalawa, ang <code>system|code</code>. Huwag kailanman mag-iwan ng walang lamang cell.</li>
+    <li>Magbigay ng kontrol na nagpapakita ng code system at code sa tabi ng bawat halaga, tulad ng toggle button na nagsasabing "Ipakita ang mga code". Nananatili sa labas ng reading order ang mga nakatagong code hanggang maipakita.</li>
+    <li>Markahan ang clinical text ng wika ng dokumento (<code>lang</code>), na maaaring iba sa wika ng interface. Isalin ang interface; huwag kailanman isalin ang clinical na nilalaman.</li>
+    <li>Walang kasamang terminolohiya ang Lily: walang paghahanap sa SNOMED CT, LOINC, ATC o UCUM. Isulat ang sinasabi ng dokumento. Ipinapakita ng pahinang <code>/patient-summary</code> ng halimbawa sa SvelteKit ang pattern.</li>
   </ul>
 
   <h2>Ang hindi gagawin ng Lily</h2>
