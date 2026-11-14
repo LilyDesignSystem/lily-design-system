@@ -44,6 +44,29 @@ describe("ObservationView", () => {
         expect(b.querySelector(".observation-view-status")?.textContent).toBe("Result unavailable");
     });
 
+    test.each([
+        ["amended", "Amended"],
+        ["corrected", "Corrected"],
+        ["entered-in-error", "Entered in error"],
+    ])("an %s result shows its value with its words beside it", (status, words) => {
+        const body = render(
+            `<lily-observation-view value="5.9" status="${status}" status-label="${words}"></lily-observation-view>`,
+        );
+        expect(body.querySelector(".observation-view-value")?.textContent).toBe("5.9");
+        expect(body.querySelector(".observation-view-status")?.textContent).toBe(words);
+    });
+
+    test.each([
+        ["cancelled", "Test cancelled"],
+        ["masked", "Withheld"],
+    ])("a %s result shows its words instead of a value", (status, words) => {
+        const body = render(
+            `<lily-observation-view value="5.9" status="${status}" status-label="${words}"></lily-observation-view>`,
+        );
+        expect(body.querySelector(".observation-view-value")).toBeNull();
+        expect(body.querySelector(".observation-view-status")?.textContent).toBe(words);
+    });
+
     test("label renders as hidden text, not aria-label", () => {
         const body = render(
             `<lily-observation-view label="Potassium" value="4.1"></lily-observation-view>`,

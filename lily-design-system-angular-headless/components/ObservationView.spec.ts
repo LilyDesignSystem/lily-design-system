@@ -43,6 +43,25 @@ describe("ObservationView", () => {
         expect(b.getAttribute("data-status")).toBe("unavailable");
     });
 
+    test.each([
+        ["amended", "Amended"],
+        ["corrected", "Corrected"],
+        ["entered-in-error", "Entered in error"],
+    ])("an %s result shows its value with its words beside it", (status, words) => {
+        const root = mount({ value: "5.9", status, statusLabel: words });
+        expect(root.querySelector(".observation-view-value")?.textContent).toBe("5.9");
+        expect(root.querySelector(".observation-view-status")?.textContent).toBe(words);
+    });
+
+    test.each([
+        ["cancelled", "Test cancelled"],
+        ["masked", "Withheld"],
+    ])("a %s result shows its words instead of a value", (status, words) => {
+        const root = mount({ value: "5.9", status, statusLabel: words });
+        expect(root.querySelector(".observation-view-value")).toBeNull();
+        expect(root.querySelector(".observation-view-status")?.textContent).toBe(words);
+    });
+
     test("label renders as hidden text, not aria-label", () => {
         const root = mount({ label: "Potassium", value: "4.1" });
         expect(root.querySelector(".screen-reader-span")?.textContent).toBe("Potassium ");

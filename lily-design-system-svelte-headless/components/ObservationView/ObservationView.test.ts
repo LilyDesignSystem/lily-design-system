@@ -57,6 +57,26 @@ describe("ObservationView", () => {
         expect(part("status")?.textContent).toBe("Result unavailable");
     });
 
+    test.each([
+        ["amended", "Amended"],
+        ["corrected", "Corrected"],
+        ["entered-in-error", "Entered in error"],
+    ])("an %s result shows its value with its words beside it", (status, words) => {
+        render(Subject, { props: { value: "5.9", status, statusLabel: words } as never });
+        expect(root().getAttribute("data-status")).toBe(status);
+        expect(part("value")?.textContent).toBe("5.9");
+        expect(part("status")?.textContent).toBe(words);
+    });
+
+    test.each([
+        ["cancelled", "Test cancelled"],
+        ["masked", "Withheld"],
+    ])("a %s result shows its words instead of a value", (status, words) => {
+        render(Subject, { props: { value: "5.9", status, statusLabel: words } as never });
+        expect(part("value")).toBeNull();
+        expect(part("status")?.textContent).toBe(words);
+    });
+
     test("a preliminary result shows its value and its status", () => {
         render(Subject, {
             props: { value: "140", status: "preliminary", statusLabel: "Preliminary" },

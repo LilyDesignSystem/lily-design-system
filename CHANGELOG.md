@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Result statuses and quantity comparators — 2026-11-14
+
+- **Added:** `observation-view` takes FHIR's `amended`, `corrected`, `cancelled` and `entered-in-error`, and `masked` (withheld for
+  privacy). A cancelled or masked result shows its words instead of a value; an amended, corrected or entered-in-error one shows the
+  value with its words beside it (tasks.md P28-T5).
+- **Added:** `formatQuantity(value, unit, locale, comparator?)` keeps FHIR's `Quantity.comparator`: "<5 mmol/L", never "5 mmol/L"
+  (P28-T4); the same in the C# port.
+
 ## Record lists, catalog 629 — 2026-11-14
 
 tasks.md P28-T2 and P28-T3, from the International Patient Summary review in [spec/healthcare-ui](spec/healthcare-ui/index.md).

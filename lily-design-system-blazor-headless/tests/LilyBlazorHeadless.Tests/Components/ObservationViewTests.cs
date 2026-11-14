@@ -32,6 +32,27 @@ public class ObservationViewTests : TestContext
         Assert.Empty(cut.FindAll(".observation-view-value"));
     }
 
+    [Theory]
+    [InlineData("amended", "Amended")]
+    [InlineData("corrected", "Corrected")]
+    [InlineData("entered-in-error", "Entered in error")]
+    public void Amended_corrected_and_entered_in_error_show_the_value_with_their_words(string status, string words)
+    {
+        var cut = RenderComponent<ObservationView>(p => p.Add(x => x.Value, "5.9").Add(x => x.Status, status).Add(x => x.StatusLabel, words));
+        Assert.Equal("5.9", cut.Find(".observation-view-value").TextContent);
+        Assert.Equal(words, cut.Find(".observation-view-status").TextContent);
+    }
+
+    [Theory]
+    [InlineData("cancelled", "Test cancelled")]
+    [InlineData("masked", "Withheld")]
+    public void Cancelled_and_masked_show_their_words_instead_of_a_value(string status, string words)
+    {
+        var cut = RenderComponent<ObservationView>(p => p.Add(x => x.Value, "5.9").Add(x => x.Status, status).Add(x => x.StatusLabel, words));
+        Assert.Empty(cut.FindAll(".observation-view-value"));
+        Assert.Equal(words, cut.Find(".observation-view-status").TextContent);
+    }
+
     [Fact]
     public void Label_is_hidden_text_not_aria_label()
     {

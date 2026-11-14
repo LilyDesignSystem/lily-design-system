@@ -6,8 +6,9 @@
   CSS class: observation-view (parts: observation-view-value, -unit, -flag, -range, -status)
   Spec: spec/healthcare-ui
   Attributes: data-interpretation (a FHIR v3 ObservationInterpretation code: N, L, H, LL, HH, A, ...), data-status
-    (final, preliminary, not-recorded, unavailable). The flag is the consumer's words, never the code or a colour alone.
-    A not-recorded or unavailable result shows its words in .observation-view-status instead of a value, never a blank.
+    (final, preliminary, amended, corrected, entered-in-error, cancelled, masked, not-recorded, unavailable). The flag is the
+    consumer's words, never the code or a colour alone. A cancelled, masked, not-recorded or unavailable result shows its
+    words in .observation-view-status instead of a value, never a blank; any other status but final shows them beside it.
     The value and unit are joined by a no-break space. Lily computes no flag and no range.
 -->
 

@@ -3589,11 +3589,11 @@ shown, never decided.
 - [x] **P28-T4 `formatQuantity` comparator.** FHIR `Quantity.comparator` (`<`, `<=`, `>=`, `>`) is dropped today, so "<5 mmol/L"
       is written "5 mmol/L". Add an optional comparator, written with the locale's number and the signs `<`, `≤`, `≥`, `>`.
       Verify: tests for each comparator and for none, in the shared module and the C# port. _(2026-11-14: done. `formatQuantity(value, unit, locale, comparator?)` in `shared/clinical-format.ts`, synced to every TypeScript catalog and Alpine, and `QuantityComparator` exported; an unknown comparator throws. The C# port `ClinicalFormat.FormatQuantity` takes the same optional comparator. Tests in both; dropping the sign makes them fail.)_
-- [ ] **P28-T5 `observation-view`: the rest of FHIR's statuses.** Add `amended`, `corrected`, `cancelled` and
+- [x] **P28-T5 `observation-view`: the rest of FHIR's statuses.** Add `amended`, `corrected`, `cancelled` and
       `entered-in-error`, each requiring `statusLabel`, and `masked` (withheld for privacy, from `dataAbsentReason`), which is not
       `unavailable`. A corrected or amended result shows its label beside the value.
       Verify: tests in all nine catalogs that each status renders its label and `data-status`, and that a value with
-      `entered-in-error` is never shown without its label.
+      `entered-in-error` is never shown without its label. _(2026-11-14: done in all nine catalogs. `cancelled`, `masked`, `not-recorded` and `unavailable` replace the value with the consumer's words; `preliminary`, `amended`, `corrected` and `entered-in-error` show the value with the words beside it; any status but `final` without words warns in Svelte, React, Vue and Angular. Tests in seven catalogs (HTML and Alpine are static markup); restoring the old conditions makes five fail.)_
 - [ ] **P28-T6 `medication-view`: dose as text.** A medicine's status moved to `medication-record-list-item` (T3), so
       it lives in one place. Add `dosageText` for FHIR's free-text `Dosage.text`, which IPS
       documents often carry instead of structured parts.

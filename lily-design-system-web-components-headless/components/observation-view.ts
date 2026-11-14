@@ -2,8 +2,12 @@
 // (spec/healthcare-ui item 1). Renders a light-DOM <span class="observation-view">. Shows what the consumer decided;
 // computes no flag and no range.
 // Attributes: label, value, unit, interpretation (FHIR v3 code -> data-interpretation), flag-label, range,
-//   status (final | preliminary | not-recorded | unavailable -> data-status), status-label.
+//   status (final | preliminary | amended | corrected | entered-in-error | cancelled | masked | not-recorded | unavailable
+//   -> data-status), status-label.
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
+
+// FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
+const MISSING: readonly string[] = ["cancelled", "masked", "not-recorded", "unavailable"];
 
 const HANDLED = new Set([
     "label",
@@ -39,14 +43,14 @@ export class ObservationView extends HTMLElement {
             hidden.textContent = `${attr("label")} `;
             span.append(hidden);
         }
-        if (status === "not-recorded" || status === "unavailable") {
+        if (MISSING.includes(status)) {
             span.append(part("status", attr("status-label")));
         } else {
             span.append(part("value", attr("value")));
             if (attr("unit")) span.append(" ", part("unit", attr("unit")));
             if (attr("flag-label")) span.append(" ", part("flag", attr("flag-label")));
             if (attr("range")) span.append(" ", part("range", attr("range")));
-            if (status === "preliminary" && attr("status-label"))
+            if (status !== "final" && attr("status-label"))
                 span.append(" ", part("status", attr("status-label")));
         }
         passThroughAttributes(this, span, HANDLED);

@@ -44,6 +44,29 @@ describe("ObservationView", () => {
         expect(part(b.container, "status")?.textContent).toBe("Result unavailable");
     });
 
+    test.each([
+        ["amended", "Amended"],
+        ["corrected", "Corrected"],
+        ["entered-in-error", "Entered in error"],
+    ])("an %s result shows its value with its words beside it", (status, words) => {
+        const { container } = render(Subject, {
+            props: { value: "5.9", status, statusLabel: words } as never,
+        });
+        expect(part(container, "value")?.textContent).toBe("5.9");
+        expect(part(container, "status")?.textContent).toBe(words);
+    });
+
+    test.each([
+        ["cancelled", "Test cancelled"],
+        ["masked", "Withheld"],
+    ])("a %s result shows its words instead of a value", (status, words) => {
+        const { container } = render(Subject, {
+            props: { value: "5.9", status, statusLabel: words } as never,
+        });
+        expect(part(container, "value")).toBeNull();
+        expect(part(container, "status")?.textContent).toBe(words);
+    });
+
     test("label renders as hidden text, not aria-label", () => {
         const { container } = render(Subject, { props: { label: "Potassium", value: "4.1" } });
         const root = container.querySelector(".observation-view") as HTMLElement;
