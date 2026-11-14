@@ -24,7 +24,7 @@
           <td>Стойността, решението за флага, референтния диапазон</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> и <a href="/components/allergy-list-item/">allergy-list-item</a>: статус, който никога не е празен</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> и <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: статус, който никога не е празен</td>
           <td>Записът за алергията и нейната терминология</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Генеричните имена с малки букви, освен буквите tall man от списъците на FDA и ISMP или от списъка на вашата страна (Австралия и Канада публикуват свои). Отбелязвайте ги в <code>nameSegments</code>; Lily никога не ги налучква.</li>
     <li>Пишете силата с <code>formatQuantity</code>: без нула в края, с водеща нула, с неразделящ интервал преди единицата.</li>
+    <li>Запазвайте оператора за сравнение на резултата: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> записва „&lt;5 mmol/L“. <code>Quantity.comparator</code> във FHIR се записва като &lt;, ≤, ≥ или &gt;; ако се пропусне, „по-малко от 5“ става „5“.</li>
     <li>Пишете mL, никога cc, и избягвайте всяко съкращение от списъка на ISMP с податливите на грешка.</li>
     <li>Никога не съкращавайте името или дозата на лекарство.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Табло на отделение или екран на команден център се обновява често. Никога не обявявайте всяка промяна: дръжте една учтива област с обобщение („3 свободни легла, 2 предстоящи изписвания“) и оставете хората да четат таблото.</li>
     <li>Всяко състояние на таблото (леглото е чисто, заето, блокирано) е текст или състояние <code>data-*</code> с думи, никога само цвят.</li>
+  </ul>
+
+  <h2>От FHIR към Lily</h2>
+  <p>Lily не чете ресурси на FHIR; вашият код ги съпоставя към props на Lily. Тези таблици съпоставят HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Съпоставянето на кодовете е предложение: решава го вашата клинична проверка за безопасност, а думите за всяко състояние са ваши.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Секции на IPS и съответните компоненти на Lily</caption>
+      <thead>
+        <tr>
+          <th>Секция на IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Алергии и непоносимости (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> и неговите елементи</td>
+        </tr>
+        <tr>
+          <td>Обобщение на лекарствата (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, като всеки елемент съдържа <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Списък с проблеми (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> и неговите елементи</td>
+        </tr>
+        <tr>
+          <td>Имунизации (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> и неговите елементи</td>
+        </tr>
+        <tr>
+          <td>Резултати (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, в таблица с данни или обобщаващ списък</td>
+        </tr>
+        <tr>
+          <td>История на процедурите (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> и неговите елементи</td>
+        </tr>
+        <tr>
+          <td>Медицински изделия (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> и неговите елементи</td>
+        </tr>
+        <tr>
+          <td>Предупреждения (<code>104605-1</code>)</td>
+          <td>Предупредителен текст или сигнал, никога зад свит контрол</td>
+        </tr>
+        <tr>
+          <td>Всяка друга секция</td>
+          <td><a href="/components/record-list/">record-list</a> и неговите елементи</td>
+        </tr>
+        <tr>
+          <td>Задължителна секция, която документът пропуска</td>
+          <td>Списъкът на секцията с <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Кодове на FHIR и съответните стойности на Lily</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> на списъка</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, с думи, които казват кое е то</td>
+        </tr>
+        <tr>
+          <td>Кодовете на IPS <code>no-known-allergies</code>, <code>no-known-medications</code> и подобни</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Кодовете на IPS <code>no-allergy-info</code>, <code>no-medication-info</code> и подобни</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, отделно от <code>severity</code> на реакцията</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Същите props при елементите за алергия и за проблем, със същите кодове</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> на елемента за лекарство</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, със същите кодове</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Съпоставяйте запис <code>entered-in-error</code> към неговото състояние <code>entered-in-error</code>, с думи, вместо да го пропускате мълчаливо: дали да се показва изобщо, е решение на вашата услуга.</p>
+
+  <h2>Кодирани стойности</h2>
+  <ul>
+    <li>Показвайте <code>Coding.display</code>; ако няма, <code>CodeableConcept.text</code>; ако няма нито едно, <code>system|code</code>. Никога празна клетка.</li>
+    <li>Предложете контрол, който разкрива кодовата система и кода до всяка стойност, например превключващ бутон с надпис „Покажи кодовете“. Скритите кодове остават извън реда на четене, докато не бъдат показани.</li>
+    <li>Отбелязвайте клиничния текст с езика на документа (<code>lang</code>), който може да се различава от този на интерфейса. Превеждайте интерфейса; никога не превеждайте клиничното съдържание.</li>
+    <li>Lily не доставя терминология: без търсене в SNOMED CT, LOINC, ATC или UCUM. Пишете това, което казва документът. Страницата <code>/patient-summary</code> на примера със SvelteKit показва шаблона.</li>
   </ul>
 
   <h2>Какво Lily няма да прави</h2>

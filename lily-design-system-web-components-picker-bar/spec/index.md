@@ -96,15 +96,15 @@ functions — and so are JS-property-only, matching this catalog's
 existing convention for `<lily-share-picker>`'s `targets` and
 `<lily-date-time-picker>`'s `labels`:
 
-| Property        | Type                                                                    | Required | Default        |
-| --------------- | ----------------------------------------------------------------------- | -------- | -------------- |
-| `labels`        | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes      | all seven `""` |
-| `searchProps`   | `Partial<SearchPickerProps>`                                            | no       | `{}`           |
-| `shareTargets`  | `ShareTarget[]` (re-exported from `share-picker`)                       | no       | `[]`           |
-| `themeProps`    | `Partial<ThemePickerProps>`                                             | no       | `{}`           |
-| `localeProps`   | `Partial<LocalePickerProps>`                                            | no       | `{}`           |
-| `textSizeProps` | `Partial<TextSizePickerProps>`                                          | no       | `{}`           |
-| `shareProps`    | `Partial<SharePickerProps>`                                             | no       | `{}`           |
+| Property        | Type                                                                       | Required | Default        |
+| --------------- | -------------------------------------------------------------------------- | -------- | -------------- |
+| `labels`        | `{ search?, searchInput?, searchSubmit?, theme, locale, textSize, share }` | yes      | all seven `""` |
+| `searchProps`   | `Partial<SearchPickerProps>`                                               | no       | `{}`           |
+| `shareTargets`  | `ShareTarget[]` (re-exported from `share-picker`)                          | no       | `[]`           |
+| `themeProps`    | `Partial<ThemePickerProps>`                                                | no       | `{}`           |
+| `localeProps`   | `Partial<LocalePickerProps>`                                               | no       | `{}`           |
+| `textSizeProps` | `Partial<TextSizePickerProps>`                                             | no       | `{}`           |
+| `shareProps`    | `Partial<SharePickerProps>`                                                | no       | `{}`           |
 
 `labels`' default is seven empty strings, not English text — mirroring
 `<lily-date-time-picker>`'s own `DEFAULT_LABELS` exactly (see its

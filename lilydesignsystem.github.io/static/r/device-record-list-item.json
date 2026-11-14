@@ -1,0 +1,46 @@
+{
+  "slug": "device-record-list-item",
+  "name": "DeviceRecordListItem",
+  "description": "one medical device in a device record list, with its status and when it was used",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".device-record-list-item",
+  "subClasses": [
+    "device-record-list-item-device",
+    "device-record-list-item-status",
+    "device-record-list-item-timing"
+  ],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "No ARIA beyond the native `<li>`; every status is text, never colour alone"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`device`: string (required) — the device; never truncated",
+    "`status`: \"active\" | \"completed\" | \"entered-in-error\" | \"intended\" | \"stopped\" | \"on-hold\" (optional) — FHIR DeviceUseStatement status; rendered as `data-status`",
+    "`statusLabel`: string (optional; required when `status` is set) — the status in words",
+    "`timing`: string (optional) — when it was used, for <time datetime>",
+    "`timingLabel`: string (optional) — that date as the consumer writes it; the `<time>` shows only when set",
+    "`children`: slot (optional) — anything else, such as a link to the full record",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "device-record-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/device-record-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/DeviceRecordListItem/DeviceRecordListItem.svelte",
+    "react": "lily-design-system-react-headless/components/DeviceRecordListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/DeviceRecordListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/DeviceRecordListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/device-record-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/device-record-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/device-record-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DeviceRecordListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/device-record-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/device-record-list-item/AGENTS.md"
+}

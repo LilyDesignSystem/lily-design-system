@@ -54,20 +54,20 @@ sibling picker in this catalog already relies on, no manual
 
 ## 4. Props
 
-| Prop            | Type                                                                    | Required | Default                 |
-| --------------- | ----------------------------------------------------------------------- | -------- | ----------------------- |
-| `labels`        | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes      | —                       |
-| `searchProps`   | `Partial<SearchPicker Props>`                                           | no       | `{}`                    |
-| `themesUrl`     | `string`                                                                | yes      | —                       |
-| `themes`        | `string[]`                                                              | no       | `DEFAULT_THEMES` (§5.1) |
-| `themeProps`    | `Partial<ThemePicker Props>`                                            | no       | `{}`                    |
-| `locales`       | `string[]`                                                              | yes      | —                       |
-| `localeProps`   | `Partial<LocalePicker Props>`                                           | no       | `{}`                    |
-| `sizes`         | `string[]`                                                              | no       | `DEFAULT_SIZES` (§5.2)  |
-| `textSizeProps` | `Partial<TextSizePicker Props>`                                         | no       | `{}`                    |
-| `shareTargets`  | `ShareTarget[]`                                                         | no       | `[]`                    |
-| `shareProps`    | `Partial<SharePicker Props>`                                            | no       | `{}`                    |
-| `class`         | `string`                                                                | no       | `""`                    |
+| Prop            | Type                                                                       | Required | Default                 |
+| --------------- | -------------------------------------------------------------------------- | -------- | ----------------------- |
+| `labels`        | `{ search?, searchInput?, searchSubmit?, theme, locale, textSize, share }` | yes      | —                       |
+| `searchProps`   | `Partial<SearchPicker Props>`                                              | no       | `{}`                    |
+| `themesUrl`     | `string`                                                                   | yes      | —                       |
+| `themes`        | `string[]`                                                                 | no       | `DEFAULT_THEMES` (§5.1) |
+| `themeProps`    | `Partial<ThemePicker Props>`                                               | no       | `{}`                    |
+| `locales`       | `string[]`                                                                 | yes      | —                       |
+| `localeProps`   | `Partial<LocalePicker Props>`                                              | no       | `{}`                    |
+| `sizes`         | `string[]`                                                                 | no       | `DEFAULT_SIZES` (§5.2)  |
+| `textSizeProps` | `Partial<TextSizePicker Props>`                                            | no       | `{}`                    |
+| `shareTargets`  | `ShareTarget[]`                                                            | no       | `[]`                    |
+| `shareProps`    | `Partial<SharePicker Props>`                                               | no       | `{}`                    |
+| `class`         | `string`                                                                   | no       | `""`                    |
 
 `labels` carries the seven accessible names as one object, following
 `date-time-picker`'s precedent (AGENTS/helpers.md): structural labels

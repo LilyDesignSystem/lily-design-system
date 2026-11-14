@@ -395,3 +395,6 @@ caramellatte
 resetted
 mmol
 Codeable
+notasked
+notstarted
+nilknown

@@ -14,6 +14,7 @@ See `components/medication-view/index.md` for the canonical documentation, and [
 - `Form`: string (optional) — the dose form
 - `Route`: string (optional) — the route
 - `Frequency`: string (optional) — how often
+- `DosageText`: string (optional) — the dose as free text (FHIR `Dosage.text`), when the record has no structured parts; rendered as `-dosage`
 - `Label`: string (optional) — hidden text naming the value
 
 ---

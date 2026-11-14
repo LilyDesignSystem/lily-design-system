@@ -1,0 +1,27 @@
+---
+layout: layouts/component-demo.njk
+title: MedicationRecordListItem
+description: one medicine in a medication record list, with its status and when it applies
+---
+
+
+{% from "components/medication-record-list/macro.njk" import medicationRecordList %}
+{% from "components/medication-record-list-item/macro.njk" import medicationRecordListItem %}
+
+<h2>Default</h2>
+{% call medicationRecordList({ status: "known", statusLabel: "Current medicines" }) %}
+  {{ medicationRecordListItem({ status: "active", statusLabel: "Active", effective: "2025-03-03", effectiveLabel: "Since 3 Mar 2025", html: "ramipril 5 mg capsule, oral, once a day" }) }}
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;MedicationRecordListItem
+  status="active"
+  statusLabel="Active"
+  effective="2025-03-03"
+  effectiveLabel="Since 3 Mar 2025"
+&gt;
+  ramipril 5 mg capsule, oral, once a day
+&lt;/MedicationRecordListItem&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

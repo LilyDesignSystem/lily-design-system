@@ -1,0 +1,50 @@
+---
+layout: layouts/component-demo.njk
+title: AllergyRecordList
+description: a list of a patient's allergies and intolerances, whose status is never blank
+---
+
+{% from "components/allergy-record-list/macro.njk" import allergyRecordList %}
+{% from "components/allergy-record-list-item/macro.njk" import allergyRecordListItem %}
+
+<h2>Default</h2>
+{% call allergyRecordList({ status: "known", statusLabel: "Known allergies" }) %}
+  {{ allergyRecordListItem({ substance: "Penicillin", reaction: "Anaphylaxis", severity: "severe", severityLabel: "Severe", criticality: "high", criticalityLabel: "High risk", clinicalStatus: "active", clinicalStatusLabel: "Active", verificationStatus: "confirmed", verificationStatusLabel: "Confirmed", typeLabel: "Allergy", categoryLabel: "Medication", updated: "2026-11-03", updatedLabel: "Updated 3 Nov 2026" }) }}
+{% endcall %}
+<h2>No known allergies</h2>
+{{ allergyRecordList({ status: "none-known", statusLabel: "No known allergies" }) }}
+<h2>Not recorded</h2>
+{{ allergyRecordList({ status: "not-recorded", statusLabel: "Allergies not recorded" }) }}
+<h2>Omitted from the document</h2>
+{{ allergyRecordList({ status: "omitted", statusLabel: "Section missing from the document" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;AllergyRecordList
+  status="known"
+  statusLabel="Known allergies"
+&gt;
+  &lt;AllergyRecordListItem
+    substance="Penicillin"
+    reaction="Anaphylaxis"
+    severity="severe"
+    severityLabel="Severe"
+    criticality="high"
+    criticalityLabel="High risk"
+    clinicalStatus="active"
+    clinicalStatusLabel="Active"
+    verificationStatus="confirmed"
+    verificationStatusLabel="Confirmed"
+    typeLabel="Allergy"
+    categoryLabel="Medication"
+    updated="2026-11-03"
+    updatedLabel="Updated 3 Nov 2026"
+  /&gt;
+&lt;/AllergyRecordList&gt;
+
+&lt;AllergyRecordList
+  status="none-known"
+  statusLabel="No known allergies"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

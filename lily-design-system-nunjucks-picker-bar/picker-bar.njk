@@ -76,8 +76,8 @@
 ] -%}
 {#
   Params (single `opts` object):
-    labels        — object, required: { link?, search, searchInput,
-                    searchSubmit, theme, locale, timeZone?, textSize, share }.
+    labels        — object, required: { link?, search?, searchInput?,
+                    searchSubmit?, theme, locale, timeZone?, textSize, share }.
                     `link` names the link picker's button and list and is
                     needed only when `links` is supplied.
                     The seven accessible names: `search` names the
@@ -175,6 +175,7 @@
   attributes: linkProps.attributes
 }) }}
 {%- endif %}
+{%- if opts.labels.search %}
 {{ searchPicker({
   label: opts.labels.search,
   inputLabel: opts.labels.searchInput,
@@ -187,6 +188,7 @@
   classes: searchProps.classes,
   attributes: searchProps.attributes
 }) }}
+{%- endif %}
 {{ themePicker({
   label: opts.labels.theme,
   themesUrl: opts.themesUrl,

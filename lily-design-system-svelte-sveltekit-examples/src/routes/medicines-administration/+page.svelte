@@ -11,9 +11,9 @@
     import TableTH from "#lib/components/TableTH/TableTH.svelte";
     import TableTD from "#lib/components/TableTD/TableTD.svelte";
     import MedicationView from "#lib/components/MedicationView/MedicationView.svelte";
-    import { formatQuantity } from "#lib/components/clinical-format";
+    import { formatQuantity } from "#lib/components/clinical-format.ts";
 
-    const times = ["08:00", "12:00", "18:00", "22:00"];
+    const times = ["08:00", "12:00", "18:00", "22:00"] as const;
     const rows = [
         {
             medicine: {

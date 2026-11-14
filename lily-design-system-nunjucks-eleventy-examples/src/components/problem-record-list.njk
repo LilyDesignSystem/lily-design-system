@@ -1,0 +1,45 @@
+---
+layout: layouts/component-demo.njk
+title: ProblemRecordList
+description: a list of a patient's problems and conditions, whose status is never blank
+---
+
+
+{% from "components/problem-record-list/macro.njk" import problemRecordList %}
+{% from "components/problem-record-list-item/macro.njk" import problemRecordListItem %}
+
+<h2>Default</h2>
+{% call problemRecordList({ status: "known", statusLabel: "Problems" }) %}
+  {{ problemRecordListItem({ condition: "Type 2 diabetes", clinicalStatus: "active", clinicalStatusLabel: "Active", verificationStatus: "confirmed", verificationStatusLabel: "Confirmed", severityLabel: "Moderate", onset: "2019-06-01", onsetLabel: "Since June 2019", abatement: "2024-01-15", abatementLabel: "Resolved 15 Jan 2024" }) }}
+{% endcall %}
+<h2>No known problems</h2>
+{{ problemRecordList({ status: "none-known", statusLabel: "No known problems" }) }}
+<h2>Omitted from the document</h2>
+{{ problemRecordList({ status: "omitted", statusLabel: "Section missing from the document" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ProblemRecordList
+  status="known"
+  statusLabel="Problems"
+&gt;
+  &lt;ProblemRecordListItem
+    condition="Type 2 diabetes"
+    clinicalStatus="active"
+    clinicalStatusLabel="Active"
+    verificationStatus="confirmed"
+    verificationStatusLabel="Confirmed"
+    severityLabel="Moderate"
+    onset="2019-06-01"
+    onsetLabel="Since June 2019"
+    abatement="2024-01-15"
+    abatementLabel="Resolved 15 Jan 2024"
+  /&gt;
+&lt;/ProblemRecordList&gt;
+
+&lt;ProblemRecordList
+  status="none-known"
+  statusLabel="No known problems"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

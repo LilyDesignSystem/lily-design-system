@@ -169,7 +169,7 @@ Rules (P27-T8, [spec/healthcare-ui](https://github.com/LilyDesignSystem/lily-des
   Joint Commission, Quick Safety 45).
 - **Never truncated.** No field is ever truncated, clipped or hidden at a narrow width: wrap instead. This is a patient-safety
   rule, and allergies stay visible at every width.
-- **Allergies are never blank.** Show them with `allergy-list`, whose required `status` tells "no known allergies" apart from
+- **Allergies are never blank.** Show them with `allergy-record-list`, whose required `status` tells "no known allergies" apart from
   "not recorded" and "unavailable".
 - **Age beside the date of birth.** Use `age-view` with `ageParts()`, so an infant's age reads in weeks and days.
 - **A missing value is words.** Show the consumer's text ("Not known"), never `?`, `-` or an empty cell.

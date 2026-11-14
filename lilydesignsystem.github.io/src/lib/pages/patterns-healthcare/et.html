@@ -24,7 +24,7 @@
           <td>Väärtuse, märke otsuse, võrdlusvahemiku</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> ja <a href="/components/allergy-list-item/">allergy-list-item</a>: staatus, mis ei ole kunagi tühi</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> ja <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: staatus, mis ei ole kunagi tühi</td>
           <td>Allergiakirje ja selle terminoloogia</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Üldnimetused väiketähtedega, välja arvatud tall man tähed FDA ja ISMP loenditest või teie riigi loendist (Austraalia ja Kanada avaldavad omad). Märkige need <code>nameSegments</code> väljal; Lily ei oleta neid kunagi.</li>
     <li>Kirjutage tugevus funktsiooniga <code>formatQuantity</code>: ilma lõpunullita, alguse nulliga, mittekatkestava tühikuga enne ühikut.</li>
+    <li>Säilitage tulemuse võrdlusmärk: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> kirjutab „&lt;5 mmol/L“. FHIR-i <code>Quantity.comparator</code> kirjutatakse &lt;, ≤, ≥ või &gt;; selle väljajätmisel muutub „vähem kui 5“ väärtuseks „5“.</li>
     <li>Kirjutage mL, mitte kunagi cc, ja vältige iga lühendit ISMP veaohtlike lühendite loendist.</li>
     <li>Ärge kunagi lühendage ravimi nime ega annust.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Osakonna tahvel või juhtimiskeskuse ekraan uueneb sageli. Ärge kunagi teatage iga muudatust: hoidke üht viisakat kokkuvõtte piirkonda („3 vaba voodit, 2 oodatavat väljakirjutamist“) ja laske inimestel tahvlit lugeda.</li>
     <li>Iga tahvli olek (voodi puhas, hõivatud, blokeeritud) on tekst või sõnadega <code>data-*</code> olek, mitte kunagi ainult värv.</li>
+  </ul>
+
+  <h2>FHIR-ist Lilysse</h2>
+  <p>Lily ei loe FHIR-i ressursse; teie kood seob need Lily props'idega. Need tabelid seovad HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Koodide seos on soovitus: selle otsustab teie kliinilise ohutuse ülevaatus ja iga oleku sõnad on teie enda.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS-i jaotised ja neile vastavad Lily komponendid</caption>
+      <thead>
+        <tr>
+          <th>IPS-i jaotis</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Allergiad ja talumatused (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> ja selle kirjed</td>
+        </tr>
+        <tr>
+          <td>Ravimite kokkuvõte (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, kus iga kirje sisaldab <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Probleemide loend (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> ja selle kirjed</td>
+        </tr>
+        <tr>
+          <td>Immuniseerimised (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> ja selle kirjed</td>
+        </tr>
+        <tr>
+          <td>Tulemused (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a> andmetabelis või kokkuvõtteloendis</td>
+        </tr>
+        <tr>
+          <td>Protseduuride ajalugu (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> ja selle kirjed</td>
+        </tr>
+        <tr>
+          <td>Meditsiiniseadmed (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> ja selle kirjed</td>
+        </tr>
+        <tr>
+          <td>Hoiatused (<code>104605-1</code>)</td>
+          <td>Hoiatustekst või hoiatus, mitte kunagi kokkupandud juhtelemendi taga</td>
+        </tr>
+        <tr>
+          <td>Mis tahes muu jaotis</td>
+          <td><a href="/components/record-list/">record-list</a> ja selle kirjed</td>
+        </tr>
+        <tr>
+          <td>Nõutav jaotis, mille dokument välja jätab</td>
+          <td>Jaotise loend väärtusega <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR-i koodid ja neile vastavad Lily väärtused</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Loendi <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, sõnadega, mis ütlevad, milline neist</td>
+        </tr>
+        <tr>
+          <td>IPS-i koodid <code>no-known-allergies</code>, <code>no-known-medications</code> ja sarnased</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS-i koodid <code>no-allergy-info</code>, <code>no-medication-info</code> ja sarnased</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, eraldi reaktsiooni <code>severity</code> väärtusest</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Samad props'id allergia- ja probleemikirjetel, samade koodidega</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Ravimikirje <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, samade koodidega</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Seostage kirje <code>entered-in-error</code> selle olekuga <code>entered-in-error</code>, sõnadega, mitte ei jätke seda vaikselt välja: kas seda üldse näidata, otsustab teie teenus.</p>
+
+  <h2>Kodeeritud väärtused</h2>
+  <ul>
+    <li>Kuvage <code>Coding.display</code>; kui seda pole, <code>CodeableConcept.text</code>; kui kumbagi pole, <code>system|code</code>. Mitte kunagi tühja lahtrit.</li>
+    <li>Pakkuge juhtelementi, mis näitab iga väärtuse kõrval koodisüsteemi ja koodi, näiteks lülitusnuppu tekstiga „Näita koode“. Peidetud koodid jäävad lugemisjärjekorrast välja, kuni need kuvatakse.</li>
+    <li>Märgistage kliiniline tekst dokumendi keelega (<code>lang</code>), mis võib liidese keelest erineda. Tõlkige liides; ärge kunagi tõlkige kliinilist sisu.</li>
+    <li>Lily ei paku terminoloogiat: ei SNOMED CT, LOINC, ATC ega UCUM päringuid. Kirjutage see, mida dokument ütleb. Mustrit näitab SvelteKit-i näite leht <code>/patient-summary</code>.</li>
   </ul>
 
   <h2>Mida Lily ei tee</h2>

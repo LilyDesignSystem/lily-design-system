@@ -1,0 +1,16 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    MedicationRecordListItem: one medicine in a medication record list, with its status and when it applies (tasks.md P28-T3, spec/healthcare-ui). Props: MedicationRecordListItem.md.
+*@
+<li class="@($"medication-record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes">@ChildContent@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="medication-record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(EffectiveLabel)) {@(" ")<time class="medication-record-list-item-effective" datetime="@Effective">@EffectiveLabel</time>}</li>
+@code {
+    /// <summary>FHIR MedicationStatement status.</summary>
+    [Parameter] public string? Status { get; set; }
+    [Parameter] public string? StatusLabel { get; set; }
+    /// <summary>when the medicine applies, for <time datetime>.</summary>
+    [Parameter] public string? Effective { get; set; }
+    [Parameter] public string? EffectiveLabel { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

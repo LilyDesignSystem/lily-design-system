@@ -22,10 +22,13 @@
                     @attributes="LinkAttributes" />
     }
 
-    <SearchPicker Label="@Labels.Search"
-                  InputLabel="@Labels.SearchInput"
-                  SubmitLabel="@Labels.SearchSubmit"
-                  @attributes="SearchAttributes" />
+    @if (!string.IsNullOrEmpty(Labels.Search))
+    {
+        <SearchPicker Label="@Labels.Search"
+                      InputLabel="@(Labels.SearchInput ?? "")"
+                      SubmitLabel="@(Labels.SearchSubmit ?? "")"
+                      @attributes="SearchAttributes" />
+    }
 
     <ThemePicker Label="@Labels.Theme"
                  ThemesUrl="@ThemesUrl"

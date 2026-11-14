@@ -39,20 +39,20 @@ describe("development warnings", () => {
     test("a missing required prop warns, saying why", () => {
         const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
         warnMissingProp(
-            "AllergyList",
+            "AllergyRecordList",
             "status",
             undefined,
             "An allergy list must say whether allergies are known.",
         );
         expect(spy).toHaveBeenCalledOnce();
         expect(spy.mock.calls[0][0]).toContain(
-            "AllergyList has no status. An allergy list must say",
+            "AllergyRecordList has no status. An allergy list must say",
         );
     });
 
     test("a present prop does not warn", () => {
         const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
-        warnMissingProp("AllergyList", "status", "none-known", "why");
+        warnMissingProp("AllergyRecordList", "status", "none-known", "why");
         expect(spy).not.toHaveBeenCalled();
     });
 

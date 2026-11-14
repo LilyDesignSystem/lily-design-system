@@ -1,0 +1,27 @@
+{#
+  ProcedureRecordListItem macro — one procedure in a procedure record list, with its status and when it was performed (tasks.md P28-T3, spec/healthcare-ui).
+
+  HTML tag: <li>
+  CSS class: procedure-record-list-item (parts: -procedure, -status, -performed)
+
+  Params:
+    procedure            the procedure; never truncated; required
+    status               FHIR Procedure status
+    statusLabel          the status in words
+    performed            when it was performed, for <time datetime>
+    performedLabel       that date as the consumer writes it
+    html, id, classes, attributes
+
+  Usage:
+    {% from "components/procedure-record-list-item/macro.njk" import procedureRecordListItem %}
+    {{ procedureRecordListItem({ procedure: "Appendectomy", status: "completed", statusLabel: "Completed", performed: "2018-04-22", performedLabel: "22 Apr 2018" }) }}
+#}
+{%- macro procedureRecordListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="procedure-record-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.status %} data-status="{{ p.status }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="procedure-record-list-item-procedure">{{ p.procedure }}</span>{%- if p.statusLabel %} <span class="procedure-record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.performedLabel %} <time class="procedure-record-list-item-performed"{% if p.performed %} datetime="{{ p.performed }}"{% endif %}>{{ p.performedLabel }}</time>{% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
+{%- endmacro -%}

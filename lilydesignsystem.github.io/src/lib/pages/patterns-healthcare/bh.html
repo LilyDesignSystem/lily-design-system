@@ -24,7 +24,7 @@
           <td>मान, फ़्लैग के निर्णय, संदर्भ सीमा</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> आ <a href="/components/allergy-list-item/">allergy-list-item</a>: एगो स्थिति जे कबो खाली ना रहे</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> आ <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: एगो स्थिति जे कबो खाली ना रहे</td>
           <td>एलर्जी के रिकॉर्ड आ ओकर शब्दावली</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>जेनेरिक नाम छोट अक्षर में, खाली FDA आ ISMP के सूची भा रउरा देश के सूची (ऑस्ट्रेलिया आ कनाडा अपन सूची छापेलें) के tall man अक्षर छोड़ के। ओकरा के <code>nameSegments</code> में चिह्नित करीं; Lily कबो अनुमान ना लगावेला।</li>
     <li>मात्रा <code>formatQuantity</code> से लिखीं: अंत में कवनो शून्य ना, शुरू में शून्य, आ इकाई से पहिले नो-ब्रेक स्पेस।</li>
+    <li>नतीजा के तुलना-चिन्ह (comparator) बचा के राखीं: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> “&lt;5 mmol/L” लिखेला। FHIR के <code>Quantity.comparator</code> &lt;, ≤, ≥ भा &gt; के रूप में लिखल जाला; एकरा के छोड़ देला पर “5 से कम” खाली “5” हो जाला।</li>
     <li>mL लिखीं, कबो cc ना, आ ISMP के गलती-प्रवण संक्षेप के सूची के हर संक्षेप से बचीं।</li>
     <li>दवाई के नाम भा खुराक कबो मत काटीं।</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>वार्ड बोर्ड भा कमांड-सेंटर स्क्रीन बार-बार अपडेट होला। हर बदलाव के घोषणा कबो मत करीं: एगो विनम्र (polite) सारांश क्षेत्र रखीं (“3 बिस्तर खाली, 2 छुट्टी बाकी”) आ लोग के बोर्ड पढ़े दीं।</li>
     <li>बोर्ड पर हर स्थिति (बिस्तर साफ, भरल, अवरुद्ध) पाठ ह भा शब्द वाला <code>data-*</code> स्थिति, कबो खाली रंग ना।</li>
+  </ul>
+
+  <h2>FHIR से Lily तक</h2>
+  <p>Lily FHIR संसाधन ना पढ़ेला; रउरा कोड ओकनी के Lily के props से जोड़ेला। ई तालिका HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4) के जोड़ेली स। कोड-मैपिंग एगो सुझाव ह: एकर फैसला रउरा नैदानिक सुरक्षा समीक्षा करेला, आ हर स्थिति के शब्द रउरे अपन बा।</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS खंड आ ओकनी खातिर Lily घटक</caption>
+      <thead>
+        <tr>
+          <th>IPS खंड</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>एलर्जी आ असहनशीलता (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> आ एकर आइटम</td>
+        </tr>
+        <tr>
+          <td>दवाई के सारांश (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, जेकरा हर आइटम में <a href="/components/medication-view/">medication-view</a> बा</td>
+        </tr>
+        <tr>
+          <td>समस्या सूची (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> आ एकर आइटम</td>
+        </tr>
+        <tr>
+          <td>टीकाकरण (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> आ एकर आइटम</td>
+        </tr>
+        <tr>
+          <td>नतीजा (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, डेटा तालिका भा सारांश सूची में</td>
+        </tr>
+        <tr>
+          <td>प्रक्रिया के इतिहास (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> आ एकर आइटम</td>
+        </tr>
+        <tr>
+          <td>चिकित्सा उपकरण (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> आ एकर आइटम</td>
+        </tr>
+        <tr>
+          <td>चेतावनी (<code>104605-1</code>)</td>
+          <td>चेतावनी पाठ भा अलर्ट, कबो सिकुड़ल नियंत्रण के पीछे ना</td>
+        </tr>
+        <tr>
+          <td>कवनो दोसर खंड</td>
+          <td><a href="/components/record-list/">record-list</a> आ एकर आइटम</td>
+        </tr>
+        <tr>
+          <td>कवनो जरूरी खंड जेकरा के दस्तावेज़ छोड़ देला</td>
+          <td><code>status="omitted"</code> के साथे ओह खंड के सूची</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR कोड आ ओकनी खातिर Lily मान</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>सूची के <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, साथ में अइसन शब्द जे बतावे कि कवन वाला</td>
+        </tr>
+        <tr>
+          <td>IPS कोड <code>no-known-allergies</code>, <code>no-known-medications</code> आ एही तरह के दोसर</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS कोड <code>no-allergy-info</code>, <code>no-medication-info</code> आ एही तरह के दोसर</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, प्रतिक्रिया के <code>severity</code> से अलग</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>एलर्जी आ समस्या के आइटम पर उहे props, उहे कोड के साथे</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>दवाई के आइटम के <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, उहे कोड के साथे</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><code>entered-in-error</code> रिकॉर्ड के चुपचाप हटावे के बजाय शब्द के साथे ओकर <code>entered-in-error</code> स्थिति से जोड़ीं: ओकरा के देखावे के बा कि ना, ई रउरा सेवा के फैसला ह।</p>
+
+  <h2>कोड वाला मान</h2>
+  <ul>
+    <li><code>Coding.display</code> देखाईं; अगर उ ना होखे त <code>CodeableConcept.text</code>; अगर दुनों ना होखे त <code>system|code</code>। कबो खाली सेल ना।</li>
+    <li>अइसन नियंत्रण दीं जे हर मान के बगल में कोड प्रणाली आ कोड देखावे, जइसे “कोड देखाईं” कहे वाला टॉगल बटन। छिपल कोड देखावल जाए तक पढ़े के क्रम से बाहर रहेलें।</li>
+    <li>नैदानिक पाठ पर दस्तावेज़ के भाषा (<code>lang</code>) के निशान लगाईं, जे इंटरफ़ेस के भाषा से अलग हो सकेला। इंटरफ़ेस के अनुवाद करीं; नैदानिक सामग्री के अनुवाद कबो मत करीं।</li>
+    <li>Lily कवनो शब्दावली ना देला: SNOMED CT, LOINC, ATC भा UCUM के कवनो खोज ना। दस्तावेज़ जवन कहेला उहे लिखीं। SvelteKit उदाहरण के <code>/patient-summary</code> पृष्ठ ई पैटर्न देखावेला।</li>
   </ul>
 
   <h2>Lily का ना करी</h2>

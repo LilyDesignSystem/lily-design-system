@@ -1,0 +1,33 @@
+{#
+  ProblemRecordListItem macro — one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution (tasks.md P28-T3, spec/healthcare-ui).
+
+  HTML tag: <li>
+  CSS class: problem-record-list-item (parts: -condition, -clinical-status, -verification-status, -severity, -onset, -abatement)
+
+  Params:
+    condition            the problem or condition; never truncated; required
+    clinicalStatus       FHIR Condition clinicalStatus
+    clinicalStatusLabel  the clinicalStatus in words
+    verificationStatus   FHIR Condition verificationStatus; a refuted or entered-in-error record must never read as a confirmed one
+    verificationStatusLabel the verificationStatus in words
+    severityLabel        the severity in words
+    onset                when it began, for <time datetime>
+    onsetLabel           that date as the consumer writes it
+    abatement            when it resolved, for <time datetime>
+    abatementLabel       that date as the consumer writes it
+    html, id, classes, attributes
+
+  Usage:
+    {% from "components/problem-record-list-item/macro.njk" import problemRecordListItem %}
+    {{ problemRecordListItem({ condition: "Type 2 diabetes", clinicalStatus: "active", clinicalStatusLabel: "Active", verificationStatus: "confirmed", verificationStatusLabel: "Confirmed", severityLabel: "Moderate", onset: "2019-06-01", onsetLabel: "Since June 2019", abatement: "2024-01-15", abatementLabel: "Resolved 15 Jan 2024" }) }}
+#}
+{%- macro problemRecordListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="problem-record-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.clinicalStatus %} data-clinical-status="{{ p.clinicalStatus }}"{% endif %}
+  {%- if p.verificationStatus %} data-verification-status="{{ p.verificationStatus }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="problem-record-list-item-condition">{{ p.condition }}</span>{%- if p.clinicalStatusLabel %} <span class="problem-record-list-item-clinical-status">{{ p.clinicalStatusLabel }}</span>{% endif -%}{%- if p.verificationStatusLabel %} <span class="problem-record-list-item-verification-status">{{ p.verificationStatusLabel }}</span>{% endif -%}{%- if p.severityLabel %} <span class="problem-record-list-item-severity">{{ p.severityLabel }}</span>{% endif -%}{%- if p.onsetLabel %} <time class="problem-record-list-item-onset"{% if p.onset %} datetime="{{ p.onset }}"{% endif %}>{{ p.onsetLabel }}</time>{% endif -%}{%- if p.abatementLabel %} <time class="problem-record-list-item-abatement"{% if p.abatement %} datetime="{{ p.abatement }}"{% endif %}>{{ p.abatementLabel }}</time>{% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
+{%- endmacro -%}

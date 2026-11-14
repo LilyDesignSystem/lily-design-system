@@ -1,0 +1,28 @@
+---
+layout: layouts/component-demo.njk
+title: ImmunizationRecordListItem
+description: one immunization in an immunization record list, with vaccine, date, dose and status
+---
+
+
+{% from "components/immunization-record-list/macro.njk" import immunizationRecordList %}
+{% from "components/immunization-record-list-item/macro.njk" import immunizationRecordListItem %}
+
+<h2>Default</h2>
+{% call immunizationRecordList({ status: "known", statusLabel: "Immunizations" }) %}
+  {{ immunizationRecordListItem({ vaccine: "MMR vaccine", occurrence: "2025-09-12", occurrenceLabel: "12 Sep 2025", doseNumberLabel: "Dose 2 of 2", status: "completed", statusLabel: "Given", lotNumber: "AB1234" }) }}
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ImmunizationRecordListItem
+  vaccine="MMR vaccine"
+  occurrence="2025-09-12"
+  occurrenceLabel="12 Sep 2025"
+  doseNumberLabel="Dose 2 of 2"
+  status="completed"
+  statusLabel="Given"
+  lotNumber="AB1234"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

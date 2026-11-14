@@ -24,7 +24,7 @@
           <td>Y gwerth, y penderfyniad ar y faner, yr amrediad cyfeirio</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> a <a href="/components/allergy-list-item/">allergy-list-item</a>: statws nad yw byth yn wag</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> a <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: statws nad yw byth yn wag</td>
           <td>Y cofnod alergedd a’i derminoleg</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Enwau generig mewn llythrennau bach, ac eithrio llythrennau tall man o restrau’r FDA a’r ISMP neu restr eich gwlad (mae Awstralia a Chanada yn cyhoeddi eu rhai eu hunain). Marciwch nhw yn <code>nameSegments</code>; nid yw Lily byth yn dyfalu.</li>
     <li>Ysgrifennwch y cryfder gyda <code>formatQuantity</code>: dim sero ar y diwedd, sero ar y dechrau, gofod di-dor cyn yr uned.</li>
+    <li>Cadwch gymharydd canlyniad: mae <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> yn ysgrifennu “&lt;5 mmol/L”. Ysgrifennir <code>Quantity.comparator</code> FHIR fel &lt;, ≤, ≥ neu &gt;; mae ei hepgor yn troi “llai na 5” yn “5”.</li>
     <li>Ysgrifennwch mL, byth cc, ac osgowch bob byrfodd ar restr ISMP o rai sy’n dueddol o wallau.</li>
     <li>Peidiwch byth â thalfyrru enw na dos meddyginiaeth.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Mae bwrdd ward neu sgrin canolfan reoli yn diweddaru’n aml. Peidiwch byth â chyhoeddi pob newid: cadwch un rhanbarth crynodeb cwrtais (“3 gwely’n rhydd, 2 ryddhad i ddod”) a gadewch i bobl ddarllen y bwrdd.</li>
     <li>Mae pob cyflwr ar fwrdd (gwely’n lân, wedi’i feddiannu, wedi’i rwystro) yn destun neu’n gyflwr <code>data-*</code> gyda geiriau, byth lliw yn unig.</li>
+  </ul>
+
+  <h2>O FHIR i Lily</h2>
+  <p>Nid yw Lily yn darllen adnoddau FHIR; mae eich cod chi yn eu mapio i briodweddau (props) Lily. Mae’r tablau hyn yn mapio HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Awgrym yw’r mapio codau: eich adolygiad diogelwch clinigol sy’n ei benderfynu, ac mae’r geiriau ar gyfer pob cyflwr yn eiddo i chi.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Adrannau IPS a’r cydrannau Lily ar eu cyfer</caption>
+      <thead>
+        <tr>
+          <th>Adran IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alergeddau ac anoddefiadau (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> a’i eitemau</td>
+        </tr>
+        <tr>
+          <td>Crynodeb o feddyginiaethau (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, gyda phob eitem yn cynnwys <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Rhestr problemau (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> a’i eitemau</td>
+        </tr>
+        <tr>
+          <td>Imiwneiddiadau (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> a’i eitemau</td>
+        </tr>
+        <tr>
+          <td>Canlyniadau (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, mewn tabl data neu restr grynodeb</td>
+        </tr>
+        <tr>
+          <td>Hanes gweithdrefnau (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> a’i eitemau</td>
+        </tr>
+        <tr>
+          <td>Dyfeisiau meddygol (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> a’i eitemau</td>
+        </tr>
+        <tr>
+          <td>Rhybuddion (<code>104605-1</code>)</td>
+          <td>Testun rhybudd neu rybudd, byth y tu ôl i reolydd wedi’i gwympo</td>
+        </tr>
+        <tr>
+          <td>Unrhyw adran arall</td>
+          <td><a href="/components/record-list/">record-list</a> a’i eitemau</td>
+        </tr>
+        <tr>
+          <td>Adran ofynnol y mae’r ddogfen yn ei gadael allan</td>
+          <td>Rhestr yr adran gyda <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Codau FHIR a’r gwerthoedd Lily ar eu cyfer</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> y rhestr</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, gyda geiriau sy’n dweud pa un</td>
+        </tr>
+        <tr>
+          <td>Codau IPS <code>no-known-allergies</code>, <code>no-known-medications</code> a’r tebyg</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Codau IPS <code>no-allergy-info</code>, <code>no-medication-info</code> a’r tebyg</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, ar wahân i <code>severity</code> adwaith</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Yr un priodweddau ar yr eitemau alergedd a phroblem, gyda’r un codau</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> yr eitem feddyginiaeth</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, gyda’r un codau</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Mapiwch gofnod <code>entered-in-error</code> i’w statws <code>entered-in-error</code>, gyda geiriau, yn hytrach na’i hepgor yn dawel: penderfyniad eich gwasanaeth chi yw a ddylid ei ddangos o gwbl.</p>
+
+  <h2>Gwerthoedd wedi’u codio</h2>
+  <ul>
+    <li>Dangoswch <code>Coding.display</code>; os nad oes un, <code>CodeableConcept.text</code>; os nad oes yr un, <code>system|code</code>. Byth gell wag.</li>
+    <li>Cynigiwch reolydd sy’n datgelu’r system godau a’r cod wrth ymyl pob gwerth, megis botwm togl sy’n dweud “Dangos codau”. Mae codau cudd yn aros allan o drefn ddarllen nes eu dangos.</li>
+    <li>Marciwch destun clinigol gydag iaith y ddogfen (<code>lang</code>), a all fod yn wahanol i iaith y rhyngwyneb. Cyfieithwch y rhyngwyneb; peidiwch byth â chyfieithu’r cynnwys clinigol.</li>
+    <li>Nid yw Lily yn cynnwys terminoleg: dim chwilio SNOMED CT, LOINC, ATC na UCUM. Ysgrifennwch yr hyn y mae’r ddogfen yn ei ddweud. Mae tudalen <code>/patient-summary</code> yr enghraifft SvelteKit yn dangos y patrwm.</li>
   </ul>
 
   <h2>Beth na wna Lily</h2>

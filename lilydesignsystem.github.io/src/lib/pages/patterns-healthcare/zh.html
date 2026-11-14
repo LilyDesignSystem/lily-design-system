@@ -24,7 +24,7 @@
           <td>数值、标志的判定、参考范围</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> 和 <a href="/components/allergy-list-item/">allergy-list-item</a>：绝不为空白的状态</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> 和 <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>：绝不为空白的状态</td>
           <td>过敏记录及其术语体系</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>通用名用小写，但 FDA 和 ISMP 清单，或你所在国家清单（澳大利亚和加拿大发布了各自的清单）中的 tall man 大写字母除外。在 <code>nameSegments</code> 中标记它们；Lily 绝不猜测。</li>
     <li>用 <code>formatQuantity</code> 书写规格：末尾不带零，前面带零，单位前加不换行空格。</li>
+    <li>保留结果的比较符：<code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> 写作“&lt;5 mmol/L”。FHIR 的 <code>Quantity.comparator</code> 写作 &lt;、≤、≥ 或 &gt;；丢掉它会把“小于 5”变成“5”。</li>
     <li>写 mL，绝不写 cc，并避免 ISMP 易错缩写清单上的所有缩写。</li>
     <li>绝不截断药品的名称或剂量。</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>病区看板或指挥中心屏幕更新频繁。绝不要对每次变化都播报：保留一个礼貌（polite）的摘要区域（“3 张空床，2 位待出院”），让人们自己阅读看板。</li>
     <li>看板上的每一种状态（床位已清洁、已占用、已封闭）都是文字，或带有文字的 <code>data-*</code> 状态，绝不只靠颜色。</li>
+  </ul>
+
+  <h2>从 FHIR 到 Lily</h2>
+  <p>Lily 不读取 FHIR 资源；由你的代码把它们映射到 Lily 的 props。这两张表映射的是 HL7 FHIR 国际患者摘要（IPS 2.0.1，FHIR R4）。代码映射只是建议：由你的临床安全评审来决定，每种状态所用的文字由你自己撰写。</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS 章节及对应的 Lily 组件</caption>
+      <thead>
+        <tr>
+          <th>IPS 章节</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>过敏和不耐受（<code>48765-2</code>）</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> 及其子项</td>
+        </tr>
+        <tr>
+          <td>用药摘要（<code>10160-0</code>）</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>，每个子项包含一个 <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>问题列表（<code>11450-4</code>）</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> 及其子项</td>
+        </tr>
+        <tr>
+          <td>免疫接种（<code>11369-6</code>）</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> 及其子项</td>
+        </tr>
+        <tr>
+          <td>检查结果（<code>30954-2</code>）</td>
+          <td><a href="/components/observation-view/">observation-view</a>，放在数据表格或摘要列表中</td>
+        </tr>
+        <tr>
+          <td>手术史（<code>47519-4</code>）</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> 及其子项</td>
+        </tr>
+        <tr>
+          <td>医疗器械（<code>46264-8</code>）</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> 及其子项</td>
+        </tr>
+        <tr>
+          <td>警示（<code>104605-1</code>）</td>
+          <td>警告文字或提示，绝不放在折叠的控件之后</td>
+        </tr>
+        <tr>
+          <td>其他章节</td>
+          <td><a href="/components/record-list/">record-list</a> 及其子项</td>
+        </tr>
+        <tr>
+          <td>文档遗漏的必填章节</td>
+          <td>该章节的列表，带 <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR 代码及对应的 Lily 值</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>列表的 <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>，并用文字说明是哪一种</td>
+        </tr>
+        <tr>
+          <td>IPS 代码 <code>no-known-allergies</code>、<code>no-known-medications</code> 等</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS 代码 <code>no-allergy-info</code>、<code>no-medication-info</code> 等</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>，与反应的 <code>severity</code> 分开</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>过敏和问题子项上相同的 props，使用相同的代码</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>用药子项的 <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> 的 <code>status</code>，使用相同的代码</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>把 <code>entered-in-error</code> 记录映射到其 <code>entered-in-error</code> 状态，并配上文字，而不是悄悄丢弃：是否显示它由你的服务决定。</p>
+
+  <h2>编码值</h2>
+  <ul>
+    <li>显示 <code>Coding.display</code>；没有则显示 <code>CodeableConcept.text</code>；两者都没有则显示 <code>system|code</code>。绝不留空单元格。</li>
+    <li>提供一个控件，在每个值旁边显示代码系统和代码，例如标有“显示代码”的切换按钮。隐藏的代码在显示之前不进入阅读顺序。</li>
+    <li>用文档的语言（<code>lang</code>）标记临床文本，它可能与界面语言不同。翻译界面，绝不翻译临床内容。</li>
+    <li>Lily 不附带术语库：没有 SNOMED CT、LOINC、ATC 或 UCUM 查询。照文档所写如实书写。SvelteKit 示例的 <code>/patient-summary</code> 页面展示了这一模式。</li>
   </ul>
 
   <h2>Lily 不做什么</h2>

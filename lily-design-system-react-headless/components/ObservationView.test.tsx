@@ -54,6 +54,37 @@ describe("ObservationView", () => {
         );
     });
 
+    test.each([
+        ["amended", "Amended"],
+        ["corrected", "Corrected"],
+        ["entered-in-error", "Entered in error"],
+    ] as const)("an %s result shows its value with its words beside it", (status, words) => {
+        const { container } = render(
+            <Subject
+                value="5.9"
+                status={status}
+                statusLabel={words}
+            />,
+        );
+        expect(part(container, "value")?.textContent).toBe("5.9");
+        expect(part(container, "status")?.textContent).toBe(words);
+    });
+
+    test.each([
+        ["cancelled", "Test cancelled"],
+        ["masked", "Withheld"],
+    ] as const)("a %s result shows its words instead of a value", (status, words) => {
+        const { container } = render(
+            <Subject
+                value="5.9"
+                status={status}
+                statusLabel={words}
+            />,
+        );
+        expect(part(container, "value")).toBeNull();
+        expect(part(container, "status")?.textContent).toBe(words);
+    });
+
     test("label renders as hidden text, not aria-label", () => {
         const { container } = render(
             <Subject

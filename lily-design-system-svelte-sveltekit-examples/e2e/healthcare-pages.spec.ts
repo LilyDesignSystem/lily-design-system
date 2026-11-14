@@ -34,6 +34,20 @@ test("the patient summary has the three IPS sections, and an empty one says why"
         "No information about current problems is available",
     );
     await expect(page.locator(".medication-view-tall-man")).toHaveText("ALAZINE");
+    await expect(page.locator(".problem-record-list")).toHaveAttribute(
+        "data-status",
+        "not-recorded",
+    );
+    await expect(page.locator(".medication-record-list-item-status").first()).toHaveText("Active");
+    await expect(page.locator(".allergy-record-list-item")).toHaveAttribute(
+        "data-criticality",
+        "high",
+    );
+    // Coded values (P28-T9): hidden until asked for, then beside each entry.
+    await expect(page.getByText("ATC A10BA02")).toBeHidden();
+    await page.getByRole("button", { name: "Show codes" }).press("Enter");
+    await expect(page.getByText("ATC A10BA02")).toBeVisible();
+    await expect(page.getByText("SNOMED CT 373270004")).toBeVisible();
     await expect(page.locator(".medication-view-strength").last()).toHaveText("0.05 mg");
 });
 

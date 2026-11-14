@@ -1,0 +1,40 @@
+---
+layout: layouts/component-demo.njk
+title: DeviceRecordList
+description: a list of a patient's medical devices, whose status is never blank
+---
+
+
+{% from "components/device-record-list/macro.njk" import deviceRecordList %}
+{% from "components/device-record-list-item/macro.njk" import deviceRecordListItem %}
+
+<h2>Default</h2>
+{% call deviceRecordList({ status: "known", statusLabel: "Medical devices" }) %}
+  {{ deviceRecordListItem({ device: "Cardiac pacemaker", status: "active", statusLabel: "In use", timing: "2021-02-08", timingLabel: "Since 8 Feb 2021" }) }}
+{% endcall %}
+<h2>No known medical devices</h2>
+{{ deviceRecordList({ status: "none-known", statusLabel: "No known medical devices" }) }}
+<h2>Omitted from the document</h2>
+{{ deviceRecordList({ status: "omitted", statusLabel: "Section missing from the document" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;DeviceRecordList
+  status="known"
+  statusLabel="Medical devices"
+&gt;
+  &lt;DeviceRecordListItem
+    device="Cardiac pacemaker"
+    status="active"
+    statusLabel="In use"
+    timing="2021-02-08"
+    timingLabel="Since 8 Feb 2021"
+  /&gt;
+&lt;/DeviceRecordList&gt;
+
+&lt;DeviceRecordList
+  status="none-known"
+  statusLabel="No known medical devices"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

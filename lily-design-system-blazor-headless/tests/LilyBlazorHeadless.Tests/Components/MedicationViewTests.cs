@@ -29,4 +29,11 @@ public class MedicationViewTests : TestContext
         var plain = RenderComponent<MedicationView>(p => p.Add(x => x.Name, "hydroxyzine HCl"));
         Assert.Empty(plain.FindAll(".medication-view-tall-man"));
     }
+
+    [Fact]
+    public void Renders_a_free_text_dose_as_its_own_part()
+    {
+        var cut = RenderComponent<MedicationView>(p => p.Add(x => x.Name, "metformin").Add(x => x.DosageText, "Take one tablet twice a day with food"));
+        Assert.Equal("Take one tablet twice a day with food", cut.Find(".medication-view-dosage").TextContent);
+    }
 }

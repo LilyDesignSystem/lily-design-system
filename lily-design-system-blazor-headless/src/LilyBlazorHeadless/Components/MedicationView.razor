@@ -3,7 +3,7 @@
     MedicationView: a medicine's name, strength, form, route and frequency, none truncated (spec/healthcare-ui item 3).
     Tall man letters come from the consumer as marked segments; Lily ships no list. Props: MedicationView.md.
 *@
-<span class="@($"medication-view {CssClass}".Trim())" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}<span class="medication-view-name">@if (NameSegments is { Count: > 0 }) {@foreach (var segment in NameSegments) {@if (segment.TallMan) {<span class="medication-view-tall-man">@segment.Text</span>} else {@segment.Text}}} else {@Name}</span>@if (!string.IsNullOrEmpty(Strength)) {@(" ")<span class="medication-view-strength">@Strength</span>}@if (!string.IsNullOrEmpty(Form)) {@(" ")<span class="medication-view-form">@Form</span>}@if (!string.IsNullOrEmpty(Route)) {@(" ")<span class="medication-view-route">@Route</span>}@if (!string.IsNullOrEmpty(Frequency)) {@(" ")<span class="medication-view-frequency">@Frequency</span>}</span>
+<span class="@($"medication-view {CssClass}".Trim())" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}<span class="medication-view-name">@if (NameSegments is { Count: > 0 }) {@foreach (var segment in NameSegments) {@if (segment.TallMan) {<span class="medication-view-tall-man">@segment.Text</span>} else {@segment.Text}}} else {@Name}</span>@if (!string.IsNullOrEmpty(Strength)) {@(" ")<span class="medication-view-strength">@Strength</span>}@if (!string.IsNullOrEmpty(Form)) {@(" ")<span class="medication-view-form">@Form</span>}@if (!string.IsNullOrEmpty(Route)) {@(" ")<span class="medication-view-route">@Route</span>}@if (!string.IsNullOrEmpty(Frequency)) {@(" ")<span class="medication-view-frequency">@Frequency</span>}@if (!string.IsNullOrEmpty(DosageText)) {@(" ")<span class="medication-view-dosage">@DosageText</span>}</span>
 @code {
     [Parameter] public string? Label { get; set; }
     [Parameter] public string Name { get; set; } = "";
@@ -14,6 +14,8 @@
     [Parameter] public string? Form { get; set; }
     [Parameter] public string? Route { get; set; }
     [Parameter] public string? Frequency { get; set; }
+    /// <summary>The dose as free text (FHIR Dosage.text).</summary>
+    [Parameter] public string? DosageText { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 }

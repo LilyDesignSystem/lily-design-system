@@ -1,0 +1,28 @@
+<!-- record-list.html -->
+<!-- RecordList component (Alpine.js) -->
+<!--
+  Description: a list of records from one section of a patient's record, whose status is never blank
+  HTML tag: <ul>
+  CSS class: record-list
+  Keyboard: 
+  Accessibility: 
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<ul
+  class="record-list"
+  data-status="known"
+  aria-label="Vital signs"
+>
+  <li
+    class="record-list-item"
+    data-status="final"
+  >
+    Blood pressure 128/82 mmHg <span class="record-list-item-status">Final</span>
+    <time
+      class="record-list-item-updated"
+      datetime="2026-11-03"
+      >Updated 3 Nov 2026</time
+    >
+  </li>
+</ul>

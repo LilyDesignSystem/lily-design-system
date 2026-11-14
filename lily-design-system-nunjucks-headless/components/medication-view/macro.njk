@@ -10,6 +10,7 @@
     nameSegments   [{ text, tallMan }], the name in parts with tall man letters marked; used instead of name
     strength       formatted by the consumer ("25 mg")
     form, route, frequency, label, id, classes, attributes
+    dosageText     the dose as free text (FHIR Dosage.text)
 
   Usage:
     {% from "components/medication-view/macro.njk" import medicationView %}
@@ -30,5 +31,6 @@
 {%- if p.strength %} <span class="medication-view-strength">{{ p.strength }}</span>{% endif -%}
 {%- if p.form %} <span class="medication-view-form">{{ p.form }}</span>{% endif -%}
 {%- if p.route %} <span class="medication-view-route">{{ p.route }}</span>{% endif -%}
-{%- if p.frequency %} <span class="medication-view-frequency">{{ p.frequency }}</span>{% endif -%}</span>
+{%- if p.frequency %} <span class="medication-view-frequency">{{ p.frequency }}</span>{% endif -%}
+{%- if p.dosageText %} <span class="medication-view-dosage">{{ p.dosageText }}</span>{% endif -%}</span>
 {%- endmacro -%}

@@ -24,7 +24,7 @@
           <td>Reikšmė, sprendimas dėl žymos, atskaitos intervalas</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> ir <a href="/components/allergy-list-item/">allergy-list-item</a>: būsena, kuri niekada nėra tuščia</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> ir <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: būsena, kuri niekada nėra tuščia</td>
           <td>Alergijos įrašas ir jo terminija</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Generiniai pavadinimai mažosiomis raidėmis, išskyrus tall man raides iš FDA ir ISMP arba jūsų šalies sąrašų (Australija ir Kanada skelbia savo). Pažymėkite jas <code>nameSegments</code>; „Lily“ jų niekada neatspėja.</li>
     <li>Stiprumą rašykite su <code>formatQuantity</code>: be galinio nulio, su pradiniu nuliu ir nelūžtančiu tarpu prieš vienetą.</li>
+    <li>Išsaugokite rezultato palyginimo ženklą: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> užrašo „&lt;5 mmol/L“. FHIR <code>Quantity.comparator</code> rašoma &lt;, ≤, ≥ arba &gt;; jį praleidus, „mažiau nei 5“ virsta „5“.</li>
     <li>Rašykite mL, niekada cc, ir venkite visų santrumpų iš ISMP klaidų rizikos santrumpų sąrašo.</li>
     <li>Niekada nesutrumpinkite vaisto pavadinimo ar dozės.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Skyriaus lenta ar valdymo centro ekranas atnaujinamas dažnai. Niekada neskelbkite kiekvieno pakeitimo: laikykite vieną mandagią santraukos sritį („3 laisvos lovos, 2 numatyti išrašymai“) ir leiskite žmonėms skaityti lentą.</li>
     <li>Kiekviena lentos būsena (lova švari, užimta, užblokuota) yra tekstas arba <code>data-*</code> būsena su žodžiais, niekada vien spalva.</li>
+  </ul>
+
+  <h2>Nuo FHIR prie Lily</h2>
+  <p>„Lily“ neskaito FHIR išteklių; jūsų kodas susieja juos su „Lily“ props. Šios lentelės susieja HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Kodų susiejimas yra pasiūlymas: dėl jo sprendžia jūsų klinikinis saugos vertinimas, o kiekvienos būsenos žodžiai yra jūsų pačių.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS skyriai ir juos atitinkantys Lily komponentai</caption>
+      <thead>
+        <tr>
+          <th>IPS skyrius</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alergijos ir netoleravimas (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> ir jo elementai</td>
+        </tr>
+        <tr>
+          <td>Vaistų santrauka (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, kiekvienas elementas turi <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Problemų sąrašas (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> ir jo elementai</td>
+        </tr>
+        <tr>
+          <td>Skiepai (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> ir jo elementai</td>
+        </tr>
+        <tr>
+          <td>Rezultatai (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, duomenų lentelėje arba suvestinės sąraše</td>
+        </tr>
+        <tr>
+          <td>Procedūrų istorija (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> ir jo elementai</td>
+        </tr>
+        <tr>
+          <td>Medicinos priemonės (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> ir jo elementai</td>
+        </tr>
+        <tr>
+          <td>Įspėjimai (<code>104605-1</code>)</td>
+          <td>Įspėjimo tekstas arba įspėjimas, niekada už suskleisto valdiklio</td>
+        </tr>
+        <tr>
+          <td>Bet kuris kitas skyrius</td>
+          <td><a href="/components/record-list/">record-list</a> ir jo elementai</td>
+        </tr>
+        <tr>
+          <td>Privalomas skyrius, kurio dokumentas nepateikia</td>
+          <td>Skyriaus sąrašas su <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR kodai ir juos atitinkančios Lily reikšmės</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Sąrašo <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, su žodžiais, nurodančiais, kuri</td>
+        </tr>
+        <tr>
+          <td>IPS kodai <code>no-known-allergies</code>, <code>no-known-medications</code> ir panašūs</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS kodai <code>no-allergy-info</code>, <code>no-medication-info</code> ir panašūs</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, atskirai nuo reakcijos <code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Tos pačios savybės (props) alergijos ir problemos elementuose, su tais pačiais kodais</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Vaisto elemento <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, su tais pačiais kodais</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Įrašą su būsena <code>entered-in-error</code> susiekite su būsena <code>entered-in-error</code>, pateikdami žodžius, užuot jį tyliai pašalinę: ar jį apskritai rodyti, sprendžia jūsų paslauga.</p>
+
+  <h2>Koduotos reikšmės</h2>
+  <ul>
+    <li>Rodykite <code>Coding.display</code>; jei jo nėra, <code>CodeableConcept.text</code>; jei nėra nė vieno, <code>system|code</code>. Niekada tuščias langelis.</li>
+    <li>Pasiūlykite valdiklį, kuris prie kiekvienos reikšmės parodo kodų sistemą ir kodą, pavyzdžiui, perjungimo mygtuką su tekstu „Rodyti kodus“. Paslėpti kodai lieka už skaitymo tvarkos, kol parodomi.</li>
+    <li>Klinikinį tekstą pažymėkite dokumento kalba (<code>lang</code>), kuri gali skirtis nuo sąsajos kalbos. Sąsają išverskite; klinikinio turinio niekada neverskite.</li>
+    <li>„Lily“ nepateikia terminologijos: jokių SNOMED CT, LOINC, ATC ar UCUM paieškų. Rašykite tai, ką sako dokumentas. SvelteKit pavyzdžio puslapis <code>/patient-summary</code> rodo šabloną.</li>
   </ul>
 
   <h2>Ko „Lily“ nedarys</h2>

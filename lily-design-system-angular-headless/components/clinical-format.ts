@@ -7,6 +7,7 @@
  *   formatQuantity(5, "mg", "en-GB")   "5 mg"        (no trailing zero: never "5.0 mg")
  *   formatQuantity(0.5, "mg", "de-DE") "0,5 mg"      (always a leading zero: never ".5 mg")
  *   formatQuantity(5000, "units", "en") "5,000 units" (grouping, so 5000 and 500 are not confused)
+ *   formatQuantity(5, "mmol/L", "en-GB", "<") "<5 mmol/L" (FHIR Quantity.comparator: <, <=, >=, >; never dropped)
  *
  * The number and unit are joined by a no-break space (U+00A0), so a line break can never separate a dose from its unit.
  * The rules are those of ISMP's guidelines for electronic communication of medication information, which the Australian and
@@ -21,6 +22,16 @@
  * bands are one national convention; a consumer with another can ignore ageParts and pass its own text.
  */
 
+/** FHIR Quantity.comparator. A result of "<5" is not a result of "5", so the comparator is never dropped. */
+export type QuantityComparator = "<" | "<=" | ">=" | ">";
+
+const COMPARATOR_SIGN: Record<QuantityComparator, string> = {
+    "<": "<",
+    "<=": "≤",
+    ">=": "≥",
+    ">": ">",
+};
+
 export type AgeUnit = "minutes" | "hours" | "days" | "weeks" | "months" | "years";
 
 export interface AgePart {
@@ -33,17 +44,31 @@ const MINUTE = 60_000;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
-/** A quantity and its unit, written the safe way: no trailing zero, a leading zero, grouping, a no-break space. */
-export function formatQuantity(value: number, unit: string, locale: string): string {
+/**
+ * A quantity and its unit, written the safe way: no trailing zero, a leading zero, grouping, a no-break space. A FHIR
+ * comparator is written before the number as <, ≤, ≥ or >, with no space.
+ */
+export function formatQuantity(
+    value: number,
+    unit: string,
+    locale: string,
+    comparator?: QuantityComparator,
+): string {
     if (!Number.isFinite(value))
         throw new RangeError("formatQuantity: value must be a finite number");
     if (!locale) throw new RangeError("formatQuantity: a locale is required");
+    if (
+        comparator !== undefined &&
+        !Object.prototype.hasOwnProperty.call(COMPARATOR_SIGN, comparator)
+    )
+        throw new RangeError(`formatQuantity: not a FHIR comparator: ${String(comparator)}`);
     // maximumFractionDigits keeps every digit the caller gave; Intl never writes trailing zeros and always writes a leading one.
     const number = new Intl.NumberFormat(locale, {
         maximumFractionDigits: 20,
         useGrouping: true,
     }).format(value);
-    return unit ? `${number}${NO_BREAK_SPACE}${unit}` : number;
+    const written = comparator ? `${COMPARATOR_SIGN[comparator]}${number}` : number;
+    return unit ? `${written}${NO_BREAK_SPACE}${unit}` : written;
 }
 
 function toDate(value: Date | string): Date {

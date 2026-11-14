@@ -2,7 +2,7 @@
 // item 3). Renders a light-DOM <span class="medication-view">. Tall man letters come from the consumer as marked
 // segments; Lily ships no list.
 // Attributes: label, name, name-segments (JSON: [{"text":"hydr"},{"text":"ALAZINE","tallMan":true}]), strength, form,
-//   route, frequency.
+//   route, frequency, dosage-text (FHIR Dosage.text).
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const HANDLED = new Set([
@@ -13,6 +13,7 @@ const HANDLED = new Set([
     "form",
     "route",
     "frequency",
+    "dosage-text",
 ]);
 
 function parseSegments(raw: string | null): { text: string; tallMan?: boolean }[] {
@@ -51,10 +52,16 @@ export class MedicationView extends HTMLElement {
             }
         } else name.textContent = attr("name");
         span.append(name);
-        for (const key of ["strength", "form", "route", "frequency"]) {
+        for (const [key, part_] of [
+            ["strength", "strength"],
+            ["form", "form"],
+            ["route", "route"],
+            ["frequency", "frequency"],
+            ["dosage-text", "dosage"],
+        ] as const) {
             if (!attr(key)) continue;
             const part = document.createElement("span");
-            part.className = `medication-view-${key}`;
+            part.className = `medication-view-${part_}`;
             part.textContent = attr(key);
             span.append(" ", part);
         }

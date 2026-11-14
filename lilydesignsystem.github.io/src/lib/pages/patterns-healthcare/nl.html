@@ -24,7 +24,7 @@
           <td>De waarde, de beslissing over de markering, het referentiebereik</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> en <a href="/components/allergy-list-item/">allergy-list-item</a>: een status die nooit leeg is</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> en <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: een status die nooit leeg is</td>
           <td>Het allergiedossier en de terminologie ervan</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Generieke namen in kleine letters, behalve tall-manletters uit de lijsten van de FDA en het ISMP of van uw eigen land (Australië en Canada publiceren hun eigen lijst). Markeer ze in <code>nameSegments</code>; Lily raadt ze nooit.</li>
     <li>Schrijf de sterkte met <code>formatQuantity</code>: geen nul achteraan, wel een nul vooraan, een harde spatie vóór de eenheid.</li>
+    <li>Behoud het vergelijkingsteken van een uitslag: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> schrijft „&lt;5 mmol/L”. Het <code>Quantity.comparator</code> van FHIR wordt geschreven als &lt;, ≤, ≥ of &gt;; laat u het weg, dan wordt „minder dan 5” tot „5”.</li>
     <li>Schrijf mL, nooit cc, en vermijd elke afkorting op de ISMP-lijst van foutgevoelige afkortingen.</li>
     <li>Kap nooit de naam of dosis van een geneesmiddel af.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Een afdelingsbord of meldkamerscherm wordt vaak bijgewerkt. Kondig nooit elke wijziging aan: houd één beleefde samenvattingsregio („3 bedden vrij, 2 ontslagen gepland”) en laat mensen het bord lezen.</li>
     <li>Elke toestand op een bord (bed schoon, bezet, geblokkeerd) is tekst of een <code>data-*</code>-toestand met woorden, nooit alleen kleur.</li>
+  </ul>
+
+  <h2>Van FHIR naar Lily</h2>
+  <p>Lily leest geen FHIR-resources; uw code koppelt ze aan de props van Lily. Deze tabellen koppelen de HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). De codekoppeling is een suggestie: uw klinische veiligheidsbeoordeling beslist erover, en de woorden voor elke toestand zijn uw eigen.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS-secties en de Lily-componenten daarvoor</caption>
+      <thead>
+        <tr>
+          <th>IPS-sectie</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Allergieën en intoleranties (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> en de items ervan</td>
+        </tr>
+        <tr>
+          <td>Medicatieoverzicht (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, elk item met een <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Probleemlijst (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> en de items ervan</td>
+        </tr>
+        <tr>
+          <td>Vaccinaties (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> en de items ervan</td>
+        </tr>
+        <tr>
+          <td>Uitslagen (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, in een gegevenstabel of samenvattingslijst</td>
+        </tr>
+        <tr>
+          <td>Eerdere ingrepen (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> en de items ervan</td>
+        </tr>
+        <tr>
+          <td>Medische hulpmiddelen (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> en de items ervan</td>
+        </tr>
+        <tr>
+          <td>Waarschuwingen (<code>104605-1</code>)</td>
+          <td>Waarschuwingstekst of een waarschuwing, nooit achter een ingeklapt bedieningselement</td>
+        </tr>
+        <tr>
+          <td>Elke andere sectie</td>
+          <td><a href="/components/record-list/">record-list</a> en de items ervan</td>
+        </tr>
+        <tr>
+          <td>Een verplichte sectie die het document weglaat</td>
+          <td>De lijst van de sectie met <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR-codes en de Lily-waarden daarvoor</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Van de lijst: <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, met woorden die zeggen welke</td>
+        </tr>
+        <tr>
+          <td>De IPS-codes <code>no-known-allergies</code>, <code>no-known-medications</code> en dergelijke</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>De IPS-codes <code>no-allergy-info</code>, <code>no-medication-info</code> en dergelijke</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, los van de reactie-<code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Dezelfde props op de allergie- en probleemitems, met dezelfde codes</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Van het medicatie-item: <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, met dezelfde codes</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Koppel een <code>entered-in-error</code>-registratie aan de status <code>entered-in-error</code>, met woorden, in plaats van haar stilzwijgend weg te laten: of ze getoond wordt, beslist uw dienst.</p>
+
+  <h2>Gecodeerde waarden</h2>
+  <ul>
+    <li>Toon <code>Coding.display</code>; is die er niet, <code>CodeableConcept.text</code>; is geen van beide er, <code>system|code</code>. Nooit een lege cel.</li>
+    <li>Bied een bedieningselement dat het codesysteem en de code naast elke waarde toont, zoals een schakelknop met „Codes tonen”. Verborgen codes blijven buiten de leesvolgorde totdat ze worden getoond.</li>
+    <li>Markeer klinische tekst met de taal van het document (<code>lang</code>), die kan verschillen van die van de interface. Vertaal de interface; vertaal nooit de klinische inhoud.</li>
+    <li>Lily levert geen terminologie mee: geen opzoeken in SNOMED CT, LOINC, ATC of UCUM. Schrijf wat het document zegt. De pagina <code>/patient-summary</code> van het SvelteKit-voorbeeld toont het patroon.</li>
   </ul>
 
   <h2>Wat Lily niet zal doen</h2>

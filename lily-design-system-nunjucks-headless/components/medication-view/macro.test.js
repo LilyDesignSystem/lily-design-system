@@ -32,4 +32,14 @@ describe("medication-view", () => {
         const b = render("medication-view", { name: "hydroxyzine HCl" }).document;
         expect(b.querySelector(".medication-view-tall-man")).toBeNull();
     });
+
+    it("renders a free-text dose as its own part", () => {
+        const { document } = render("medication-view", {
+            name: "metformin",
+            dosageText: "Take one tablet twice a day with food",
+        });
+        expect(document.querySelector(".medication-view-dosage").textContent).toBe(
+            "Take one tablet twice a day with food",
+        );
+    });
 });

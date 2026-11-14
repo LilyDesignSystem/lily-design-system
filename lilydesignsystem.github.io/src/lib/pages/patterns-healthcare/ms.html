@@ -24,7 +24,7 @@
           <td>Nilai, keputusan bendera, julat rujukan</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> dan <a href="/components/allergy-list-item/">allergy-list-item</a>: status yang tidak pernah kosong</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> dan <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: status yang tidak pernah kosong</td>
           <td>Rekod alahan dan terminologinya</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Nama generik dalam huruf kecil, kecuali huruf tall man daripada senarai FDA dan ISMP atau senarai negara anda (Australia dan Kanada menerbitkan senarai sendiri). Tandakannya dalam <code>nameSegments</code>; Lily tidak pernah meneka.</li>
     <li>Tulis kekuatan dengan <code>formatQuantity</code>: tiada sifar hujung, ada sifar permulaan, dan ruang tanpa pemisah sebelum unit.</li>
+    <li>Kekalkan pembanding keputusan: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> menulis "&lt;5 mmol/L". <code>Quantity.comparator</code> FHIR ditulis &lt;, ≤, ≥ atau &gt;; menggugurkannya menjadikan "kurang daripada 5" sebagai "5".</li>
     <li>Tulis mL, jangan cc, dan elakkan setiap singkatan dalam senarai ISMP yang terdedah kepada ralat.</li>
     <li>Jangan sekali-kali memotong nama atau dos ubat.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Papan wad atau skrin pusat arahan dikemas kini kerap. Jangan umumkan setiap perubahan: kekalkan satu kawasan ringkasan sopan ("3 katil kosong, 2 discaj dijangka") dan biarkan orang membaca papan itu.</li>
     <li>Setiap keadaan pada papan (katil bersih, diduduki, disekat) ialah teks atau keadaan <code>data-*</code> dengan perkataan, bukan warna sahaja.</li>
+  </ul>
+
+  <h2>Daripada FHIR kepada Lily</h2>
+  <p>Lily tidak membaca sumber FHIR; kod anda memetakannya kepada props Lily. Jadual ini memetakan HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Pemetaan kod ialah cadangan: semakan keselamatan klinikal anda yang menentukannya, dan perkataan bagi setiap keadaan ialah perkataan anda sendiri.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Bahagian IPS dan komponen Lily untuknya</caption>
+      <thead>
+        <tr>
+          <th>Bahagian IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alahan dan intoleransi (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> dan item-itemnya</td>
+        </tr>
+        <tr>
+          <td>Ringkasan ubat (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, setiap item memegang <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Senarai masalah (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> dan item-itemnya</td>
+        </tr>
+        <tr>
+          <td>Imunisasi (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> dan item-itemnya</td>
+        </tr>
+        <tr>
+          <td>Keputusan (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, dalam jadual data atau senarai ringkasan</td>
+        </tr>
+        <tr>
+          <td>Sejarah prosedur (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> dan item-itemnya</td>
+        </tr>
+        <tr>
+          <td>Peranti perubatan (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> dan item-itemnya</td>
+        </tr>
+        <tr>
+          <td>Amaran (<code>104605-1</code>)</td>
+          <td>Teks amaran atau makluman, tidak sekali-kali di sebalik kawalan yang dilipat</td>
+        </tr>
+        <tr>
+          <td>Mana-mana bahagian lain</td>
+          <td><a href="/components/record-list/">record-list</a> dan item-itemnya</td>
+        </tr>
+        <tr>
+          <td>Bahagian yang diperlukan yang ditinggalkan oleh dokumen</td>
+          <td>Senarai bahagian itu dengan <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Kod FHIR dan nilai Lily untuknya</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> senarai</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, dengan perkataan yang menyatakan yang mana</td>
+        </tr>
+        <tr>
+          <td>Kod IPS <code>no-known-allergies</code>, <code>no-known-medications</code> dan seumpamanya</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Kod IPS <code>no-allergy-info</code>, <code>no-medication-info</code> dan seumpamanya</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, selain <code>severity</code> sesuatu reaksi</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Props yang sama pada item alahan dan masalah, dengan kod yang sama</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> item ubat</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, dengan kod yang sama</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Petakan rekod <code>entered-in-error</code> kepada status <code>entered-in-error</code>nya, dengan perkataan, dan bukan menggugurkannya secara senyap: sama ada hendak menunjukkannya atau tidak ialah keputusan perkhidmatan anda.</p>
+
+  <h2>Nilai berkod</h2>
+  <ul>
+    <li>Tunjukkan <code>Coding.display</code>; jika tiada, <code>CodeableConcept.text</code>; jika kedua-duanya tiada, <code>system|code</code>. Jangan sekali-kali sel kosong.</li>
+    <li>Sediakan kawalan yang mendedahkan sistem kod dan kod di sebelah setiap nilai, seperti butang togol yang berbunyi "Tunjukkan kod". Kod tersembunyi kekal di luar tertib bacaan sehingga ditunjukkan.</li>
+    <li>Tandakan teks klinikal dengan bahasa dokumen (<code>lang</code>), yang mungkin berbeza daripada bahasa antara muka. Terjemahkan antara muka; jangan sekali-kali menterjemah kandungan klinikal.</li>
+    <li>Lily tidak menyediakan terminologi: tiada carian SNOMED CT, LOINC, ATC atau UCUM. Tulis apa yang dokumen katakan. Contoh SvelteKit menunjukkan coraknya pada halaman <code>/patient-summary</code>.</li>
   </ul>
 
   <h2>Apa yang Lily tidak akan lakukan</h2>

@@ -24,7 +24,7 @@
           <td>Balioa, banderari buruzko erabakia, erreferentzia-barrutia</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> eta <a href="/components/allergy-list-item/">allergy-list-item</a>: inoiz hutsik ez dagoen egoera</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> eta <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: inoiz hutsik ez dagoen egoera</td>
           <td>Alergiaren erregistroa eta haren terminologia</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Izen generikoak letra xehez, FDA eta ISMP zerrendetako tall man letrak izan ezik, edo zure herrialdekoak (Australiak eta Kanadak beren zerrendak argitaratzen dituzte). Markatu itzazu <code>nameSegments</code>-en; Lily-k ez ditu inoiz asmatzen.</li>
     <li>Idatzi indarra <code>formatQuantity</code>-rekin: amaierako zerorik gabe, hasierako zeroarekin, unitatearen aurretik tarte hautsezin batekin.</li>
+    <li>Mantendu emaitzaren konparatzailea: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code>-k «&lt;5 mmol/L» idazten du. FHIRen <code>Quantity.comparator</code> &lt;, ≤, ≥ edo &gt; gisa idazten da; kenduz gero, «5 baino gutxiago» «5» bihurtzen da.</li>
     <li>Idatzi mL, inoiz ez cc, eta saihestu ISMPren akatsetarako joera duten laburduren zerrendako laburdura guztiak.</li>
     <li>Ez laburtu inoiz sendagai baten izena edo dosia.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Ataleko taula batek edo komando-zentroko pantaila batek maiz eguneratzen dira. Ez iragarri inoiz aldaketa bakoitza: eduki laburpen-eskualde ohiko bat («3 ohe libre, 2 alta espero») eta utzi jendeari taula irakurtzen.</li>
     <li>Taula bateko egoera guztiak (ohe garbia, okupatua, blokeatua) testua dira edo hitzak dituen <code>data-*</code> egoera, inoiz ez kolorea bakarrik.</li>
+  </ul>
+
+  <h2>FHIRtik Lilyra</h2>
+  <p>Lily-k ez ditu FHIR baliabideak irakurtzen; zure kodeak Lily-ren props-etara mapatzen ditu. Taula hauek HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4) mapatzen dute. Kodeen mapaketa iradokizun bat da: zure segurtasun klinikoaren berrikuspenak erabakitzen du, eta egoera bakoitzerako hitzak zureak dira.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS atalak eta haien Lily osagaiak</caption>
+      <thead>
+        <tr>
+          <th>IPS atala</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alergiak eta intolerantziak (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> eta bere elementuak</td>
+        </tr>
+        <tr>
+          <td>Medikazioaren laburpena (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, elementu bakoitzak <a href="/components/medication-view/">medication-view</a> bat duela</td>
+        </tr>
+        <tr>
+          <td>Arazo-zerrenda (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> eta bere elementuak</td>
+        </tr>
+        <tr>
+          <td>Immunizazioak (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> eta bere elementuak</td>
+        </tr>
+        <tr>
+          <td>Emaitzak (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, datu-taula batean edo laburpen-zerrenda batean</td>
+        </tr>
+        <tr>
+          <td>Prozeduren historia (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> eta bere elementuak</td>
+        </tr>
+        <tr>
+          <td>Gailu medikoak (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> eta bere elementuak</td>
+        </tr>
+        <tr>
+          <td>Alertak (<code>104605-1</code>)</td>
+          <td>Ohar-testu bat edo alerta bat, inoiz ez tolestutako kontrol baten atzean</td>
+        </tr>
+        <tr>
+          <td>Beste edozein atal</td>
+          <td><a href="/components/record-list/">record-list</a> eta bere elementuak</td>
+        </tr>
+        <tr>
+          <td>Dokumentuak uzten duen derrigorrezko atal bat</td>
+          <td>Atalaren zerrenda, <code>status="omitted"</code> duena</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR kodeak eta haien Lily balioak</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Zerrendaren <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, zein den esaten duten hitzekin</td>
+        </tr>
+        <tr>
+          <td><code>no-known-allergies</code>, <code>no-known-medications</code> eta antzeko IPS kodeak</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>no-allergy-info</code>, <code>no-medication-info</code> eta antzeko IPS kodeak</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, erreakzio baten <code>severity</code>-tik bereizita</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Props berak alergia- eta arazo-elementuetan, kode berekin</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Medikamentu-elementuaren <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, kode berekin</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Mapatu <code>entered-in-error</code> erregistro bat bere <code>entered-in-error</code> egoerara, hitzekin, isilean baztertu beharrean: erakutsi behar den ala ez zure zerbitzuaren erabakia da.</p>
+
+  <h2>Kodetutako balioak</h2>
+  <ul>
+    <li>Erakutsi <code>Coding.display</code>; ez badago, <code>CodeableConcept.text</code>; bat ere ez badago, <code>system|code</code>. Inoiz ez gelaxka huts bat.</li>
+    <li>Eskaini kontrol bat, balio bakoitzaren ondoan kode-sistema eta kodea erakusten dituena, adibidez «Erakutsi kodeak» dioen txandakatze-botoi bat. Ezkutuko kodeak irakurketa-ordenatik kanpo geratzen dira erakutsi arte.</li>
+    <li>Markatu testu klinikoa dokumentuaren hizkuntzarekin (<code>lang</code>), interfazearenarekin ez datorrena izan daitekeena. Itzuli interfazea; ez itzuli inoiz eduki klinikoa.</li>
+    <li>Lily-k ez du terminologiarik ematen: ez SNOMED CT, LOINC, ATC edo UCUM bilaketarik. Idatzi dokumentuak dioena. SvelteKit adibidearen <code>/patient-summary</code> orriak eredua erakusten du.</li>
   </ul>
 
   <h2>Zer ez duen egingo Lily-k</h2>

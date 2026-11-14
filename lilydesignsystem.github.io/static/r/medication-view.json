@@ -28,6 +28,7 @@
     "`form`: string (optional) — the dose form",
     "`route`: string (optional) — the route",
     "`frequency`: string (optional) — how often",
+    "`dosageText`: string (optional) — the dose as free text (FHIR `Dosage.text`), when the record has no structured parts; rendered as `-dosage`",
     "`label`: string (optional) — hidden text naming the value",
     "`...restProps`: any — additional HTML attributes spread onto the root"
   ],

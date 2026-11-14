@@ -1,0 +1,22 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    ImmunizationRecordListItem: one immunization in an immunization record list, with vaccine, date, dose and status (tasks.md P28-T3, spec/healthcare-ui). Props: ImmunizationRecordListItem.md.
+*@
+<li class="@($"immunization-record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes"><span class="immunization-record-list-item-vaccine">@Vaccine</span>@if (!string.IsNullOrEmpty(OccurrenceLabel)) {@(" ")<time class="immunization-record-list-item-occurrence" datetime="@Occurrence">@OccurrenceLabel</time>}@if (!string.IsNullOrEmpty(DoseNumberLabel)) {@(" ")<span class="immunization-record-list-item-dose-number">@DoseNumberLabel</span>}@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="immunization-record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(LotNumber)) {@(" ")<span class="immunization-record-list-item-lot-number">@LotNumber</span>}@ChildContent</li>
+@code {
+    /// <summary>the vaccine given; never truncated.</summary>
+    [Parameter, EditorRequired] public string Vaccine { get; set; } = "";
+    /// <summary>when it was given, for <time datetime>.</summary>
+    [Parameter] public string? Occurrence { get; set; }
+    [Parameter] public string? OccurrenceLabel { get; set; }
+    /// <summary>the dose in words ("Dose 2 of 2").</summary>
+    [Parameter] public string? DoseNumberLabel { get; set; }
+    /// <summary>FHIR Immunization status.</summary>
+    [Parameter] public string? Status { get; set; }
+    [Parameter] public string? StatusLabel { get; set; }
+    /// <summary>the vaccine's lot number.</summary>
+    [Parameter] public string? LotNumber { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

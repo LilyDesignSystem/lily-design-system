@@ -27,7 +27,7 @@ see the modular specification docs under [spec/](spec/index.md).
 
 ## How the pieces fit
 
-Lily is a stack of layers, each owning one job: the **catalog** (617 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (63 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
+Lily is a stack of layers, each owning one job: the **catalog** (629 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (63 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
 
 ## AI agent support
 
@@ -85,8 +85,8 @@ Headless versions if you want to use components with all your own styles:
 - [Angular headless](lily-design-system-angular-headless)
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
-- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (582 of 617; the remaining 35 are permanently excluded, not backlog)
-- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 617 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and six helpers: the data grid, kanban board, calendar, Gantt chart, Markdown editor and Org editor
+- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (594 of 629; the remaining 35 are permanently excluded, not backlog)
+- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 629 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and six helpers: the data grid, kanban board, calendar, Gantt chart, Markdown editor and Org editor
 
 ## Helpers
 
@@ -304,7 +304,7 @@ The theme-picker helper loads them at runtime.
 
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 617 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 629 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -752,14 +752,26 @@ slug below links to the per-component documentation.
 - [picture](components/picture): a responsive image wrapper that lets the browser choose among several sources, using the native picture element
 - [warning-text](components/warning-text): a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer
 - [observation-view](components/observation-view): a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag
-- [allergy-list](components/allergy-list): a list of a patient's allergies and intolerances, whose status is never blank
-- [allergy-list-item](components/allergy-list-item): one allergy or intolerance in an allergy list, with substance, reaction, severity and last update
+- [allergy-record-list](components/allergy-record-list): a list of a patient's allergies and intolerances, whose status is never blank
+- [allergy-record-list-item](components/allergy-record-list-item): one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status
 - [medication-view](components/medication-view): a read-only display of a medicine, with its name, strength, form, route and frequency
 - [decision-support-card](components/decision-support-card): a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons
 - [early-warning-score-view](components/early-warning-score-view): a read-only display of an early warning score, with its band and escalation text
 - [age-view](components/age-view): a read-only display of a person's age, in the units suited to it
 - [numeric-rating-scale-picker](components/numeric-rating-scale-picker): a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end
 - [body-map](components/body-map): a picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region
+- [record-list](components/record-list): a list of records from one section of a patient's record, whose status is never blank
+- [medication-record-list](components/medication-record-list): a list of a patient's medicines, whose status is never blank
+- [problem-record-list](components/problem-record-list): a list of a patient's problems and conditions, whose status is never blank
+- [immunization-record-list](components/immunization-record-list): a list of a patient's immunizations, whose status is never blank
+- [procedure-record-list](components/procedure-record-list): a list of a patient's procedures, whose status is never blank
+- [device-record-list](components/device-record-list): a list of a patient's medical devices, whose status is never blank
+- [record-list-item](components/record-list-item): one record in a record list, with its status and last update around the consumer's content
+- [medication-record-list-item](components/medication-record-list-item): one medicine in a medication record list, with its status and when it applies
+- [problem-record-list-item](components/problem-record-list-item): one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution
+- [immunization-record-list-item](components/immunization-record-list-item): one immunization in an immunization record list, with vaccine, date, dose and status
+- [procedure-record-list-item](components/procedure-record-list-item): one procedure in a procedure record list, with its status and when it was performed
+- [device-record-list-item](components/device-record-list-item): one medical device in a device record list, with its status and when it was used
 
 ## Special-Purpose Identifiers
 

@@ -1,0 +1,17 @@
+import type { Meta, StoryObj } from "@storybook/angular";
+import { AllergyRecordList } from "./AllergyRecordList";
+
+const meta: Meta<AllergyRecordList> = {
+    title: "Headless/AllergyRecordList",
+    component: AllergyRecordList,
+    tags: ["autodocs"],
+};
+
+export default meta;
+type Story = StoryObj<AllergyRecordList>;
+
+export const Default: Story = {
+    render: () => ({
+        template: `<lily-allergy-record-list status="none-known" statusLabel="No known allergies"></lily-allergy-record-list>`,
+    }),
+};

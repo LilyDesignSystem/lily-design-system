@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: ProcedureRecordListItem
+description: one procedure in a procedure record list, with its status and when it was performed
+---
+
+
+{% from "components/procedure-record-list/macro.njk" import procedureRecordList %}
+{% from "components/procedure-record-list-item/macro.njk" import procedureRecordListItem %}
+
+<h2>Default</h2>
+{% call procedureRecordList({ status: "known", statusLabel: "Procedures" }) %}
+  {{ procedureRecordListItem({ procedure: "Appendectomy", status: "completed", statusLabel: "Completed", performed: "2018-04-22", performedLabel: "22 Apr 2018" }) }}
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ProcedureRecordListItem
+  procedure="Appendectomy"
+  status="completed"
+  statusLabel="Completed"
+  performed="2018-04-22"
+  performedLabel="22 Apr 2018"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

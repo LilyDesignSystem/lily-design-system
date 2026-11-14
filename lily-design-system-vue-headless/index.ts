@@ -612,13 +612,25 @@ export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/Zhon
 
 // Healthcare display components and clinical formatting (spec/healthcare-ui, P27).
 export { default as AgeView } from "./components/AgeView.vue";
-export { default as AllergyList } from "./components/AllergyList.vue";
-export { default as AllergyListItem } from "./components/AllergyListItem.vue";
+export { default as AllergyRecordList } from "./components/AllergyRecordList.vue";
+export { default as AllergyRecordListItem } from "./components/AllergyRecordListItem.vue";
+export { default as RecordList } from "./components/RecordList.vue";
+export { default as MedicationRecordList } from "./components/MedicationRecordList.vue";
+export { default as ProblemRecordList } from "./components/ProblemRecordList.vue";
+export { default as ImmunizationRecordList } from "./components/ImmunizationRecordList.vue";
+export { default as ProcedureRecordList } from "./components/ProcedureRecordList.vue";
+export { default as DeviceRecordList } from "./components/DeviceRecordList.vue";
+export { default as RecordListItem } from "./components/RecordListItem.vue";
+export { default as MedicationRecordListItem } from "./components/MedicationRecordListItem.vue";
+export { default as ProblemRecordListItem } from "./components/ProblemRecordListItem.vue";
+export { default as ImmunizationRecordListItem } from "./components/ImmunizationRecordListItem.vue";
+export { default as ProcedureRecordListItem } from "./components/ProcedureRecordListItem.vue";
+export { default as DeviceRecordListItem } from "./components/DeviceRecordListItem.vue";
 export { default as DecisionSupportCard } from "./components/DecisionSupportCard.vue";
 export { default as EarlyWarningScoreView } from "./components/EarlyWarningScoreView.vue";
 export { default as MedicationView } from "./components/MedicationView.vue";
 export { default as ObservationView } from "./components/ObservationView.vue";
 export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
-export type { AgePart, AgeUnit } from "./components/clinical-format";
+export type { AgePart, AgeUnit, QuantityComparator } from "./components/clinical-format";
 export { default as BodyMap } from "./components/BodyMap.vue";
 export { default as NumericRatingScalePicker } from "./components/NumericRatingScalePicker.vue";

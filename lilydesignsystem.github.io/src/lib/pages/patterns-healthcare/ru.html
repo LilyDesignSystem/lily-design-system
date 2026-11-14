@@ -24,7 +24,7 @@
           <td>Значение, решение об отметке, референсный диапазон</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> и <a href="/components/allergy-list-item/">allergy-list-item</a>: статус, который никогда не бывает пустым</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> и <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: статус, который никогда не бывает пустым</td>
           <td>Запись об аллергии и её терминологию</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Непатентованные названия строчными буквами, кроме букв tall man из списков FDA и ISMP или списка вашей страны (Австралия и Канада публикуют свои). Отмечайте их в <code>nameSegments</code>; Lily никогда не угадывает их.</li>
     <li>Записывайте дозировку через <code>formatQuantity</code>: без конечного нуля, с ведущим нулём, с неразрывным пробелом перед единицей.</li>
+    <li>Сохраняйте компаратор результата: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> записывает «&lt;5 mmol/L». <code>Quantity.comparator</code> в FHIR записывается как &lt;, ≤, ≥ или &gt;; если его опустить, «меньше 5» превращается в «5».</li>
     <li>Пишите mL, а не cc, и избегайте любых сокращений из списка ISMP, склонных к ошибкам.</li>
     <li>Никогда не обрезайте название или дозу лекарства.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Доска отделения или экран центра управления обновляется часто. Никогда не объявляйте каждое изменение: держите один вежливый сводный регион («3 свободные койки, 2 выписки ожидаются») и позвольте людям читать доску.</li>
     <li>Каждое состояние на доске (койка убрана, занята, заблокирована) — это текст или состояние <code>data-*</code> со словами, а не один только цвет.</li>
+  </ul>
+
+  <h2>От FHIR к Lily</h2>
+  <p>Lily не читает ресурсы FHIR; ваш код сопоставляет их со свойствами Lily. Эти таблицы сопоставляют международную сводку о пациенте HL7 FHIR (IPS 2.0.1, FHIR R4). Сопоставление кодов — лишь предложение: его определяет ваша оценка клинической безопасности, а слова для каждого состояния ваши собственные.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Разделы IPS и компоненты Lily для них</caption>
+      <thead>
+        <tr>
+          <th>Раздел IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Аллергии и непереносимости (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> и его элементы</td>
+        </tr>
+        <tr>
+          <td>Сводка по лекарствам (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, каждый элемент которого содержит <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Список проблем (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> и его элементы</td>
+        </tr>
+        <tr>
+          <td>Иммунизации (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> и его элементы</td>
+        </tr>
+        <tr>
+          <td>Результаты (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a> в таблице данных или сводном списке</td>
+        </tr>
+        <tr>
+          <td>История процедур (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> и его элементы</td>
+        </tr>
+        <tr>
+          <td>Медицинские изделия (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> и его элементы</td>
+        </tr>
+        <tr>
+          <td>Оповещения (<code>104605-1</code>)</td>
+          <td>Предупреждающий текст или оповещение, никогда не за свёрнутым элементом управления</td>
+        </tr>
+        <tr>
+          <td>Любой другой раздел</td>
+          <td><a href="/components/record-list/">record-list</a> и его элементы</td>
+        </tr>
+        <tr>
+          <td>Обязательный раздел, который документ опускает</td>
+          <td>Список раздела с <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Коды FHIR и соответствующие им значения Lily</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> списка</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code> со словами, поясняющими причину</td>
+        </tr>
+        <tr>
+          <td>Коды IPS <code>no-known-allergies</code>, <code>no-known-medications</code> и подобные</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Коды IPS <code>no-allergy-info</code>, <code>no-medication-info</code> и подобные</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, отдельно от <code>severity</code> реакции</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Те же свойства у элементов аллергий и проблем, с теми же кодами</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> элемента лекарства</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>status</code> у <code>observation-view</code>, с теми же кодами</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Сопоставляйте запись <code>entered-in-error</code> с её статусом <code>entered-in-error</code>, со словами, а не отбрасывайте её молча: показывать ли её вообще, решает ваш сервис.</p>
+
+  <h2>Кодированные значения</h2>
+  <ul>
+    <li>Показывайте <code>Coding.display</code>; если его нет — <code>CodeableConcept.text</code>; если нет и его — <code>system|code</code>. Никогда не пустая ячейка.</li>
+    <li>Предложите элемент управления, который показывает систему кодов и код рядом с каждым значением, например кнопку-переключатель «Показать коды». Скрытые коды не входят в порядок чтения, пока не показаны.</li>
+    <li>Помечайте клинический текст языком документа (<code>lang</code>), который может отличаться от языка интерфейса. Переводите интерфейс; никогда не переводите клиническое содержание.</li>
+    <li>Lily не поставляет терминологию: никаких справочников SNOMED CT, LOINC, ATC или UCUM. Пишите то, что сказано в документе. Образец показывает страница <code>/patient-summary</code> примера SvelteKit.</li>
   </ul>
 
   <h2>Чего Lily не будет делать</h2>

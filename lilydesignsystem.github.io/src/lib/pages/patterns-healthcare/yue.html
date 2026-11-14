@@ -24,7 +24,7 @@
           <td>數值、標記嘅判斷、參考範圍</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> 同 <a href="/components/allergy-list-item/">allergy-list-item</a>：永遠唔會留空嘅狀態</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> 同 <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>：永遠唔會留空嘅狀態</td>
           <td>過敏記錄同佢嘅術語體系</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>通用名用小寫，但 FDA 同 ISMP 清單，或者你所在國家嘅清單（澳洲同加拿大發佈咗各自嘅清單）入面嘅 tall man 大寫字母除外。喺 <code>nameSegments</code> 標記佢哋；Lily 永遠唔會估。</li>
     <li>用 <code>formatQuantity</code> 寫劑量規格：尾部唔帶零，前面帶零，單位前面加不換行空格。</li>
+    <li>保留結果嘅比較符：<code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> 會寫成「&lt;5 mmol/L」。FHIR 嘅 <code>Quantity.comparator</code> 寫成 &lt;、≤、≥ 或者 &gt;；漏咗佢，「細過 5」就會變成「5」。</li>
     <li>寫 mL，唔好寫 cc，並避免 ISMP 易錯縮寫清單上嘅所有縮寫。</li>
     <li>永遠唔好截斷藥物嘅名稱或者劑量。</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>病房看板或者指揮中心畫面會頻密更新。千祈唔好每次改動都播報：保留一個禮貌（polite）嘅摘要區域（「3 張空床，2 位待出院」），等人自己睇個看板。</li>
     <li>看板上面每個狀態（床位已清潔、佔用中、已封閉）都係文字，或者帶文字嘅 <code>data-*</code> 狀態，絕對唔可以淨係靠顏色。</li>
+  </ul>
+
+  <h2>由 FHIR 到 Lily</h2>
+  <p>Lily 唔會讀取 FHIR 資源；你嘅程式碼要將佢哋對應到 Lily 嘅 props。呢兩個表對應嘅係 HL7 FHIR 國際病人摘要（IPS 2.0.1，FHIR R4）。代碼對應只係建議：由你嘅臨床安全評審決定，每個狀態用嘅文字就由你自己撰寫。</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS 章節同對應嘅 Lily 元件</caption>
+      <thead>
+        <tr>
+          <th>IPS 章節</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>過敏同不耐受（<code>48765-2</code>）</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> 同佢嘅子項</td>
+        </tr>
+        <tr>
+          <td>用藥摘要（<code>10160-0</code>）</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>，每個子項包含一個 <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>問題清單（<code>11450-4</code>）</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> 同佢嘅子項</td>
+        </tr>
+        <tr>
+          <td>免疫接種（<code>11369-6</code>）</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> 同佢嘅子項</td>
+        </tr>
+        <tr>
+          <td>檢驗結果（<code>30954-2</code>）</td>
+          <td><a href="/components/observation-view/">observation-view</a>，放喺資料表格或者摘要清單入面</td>
+        </tr>
+        <tr>
+          <td>手術紀錄（<code>47519-4</code>）</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> 同佢嘅子項</td>
+        </tr>
+        <tr>
+          <td>醫療器材（<code>46264-8</code>）</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> 同佢嘅子項</td>
+        </tr>
+        <tr>
+          <td>警示（<code>104605-1</code>）</td>
+          <td>警告文字或者提示，絕對唔可以收喺摺埋嘅控制項後面</td>
+        </tr>
+        <tr>
+          <td>其他章節</td>
+          <td><a href="/components/record-list/">record-list</a> 同佢嘅子項</td>
+        </tr>
+        <tr>
+          <td>文件漏咗嘅必填章節</td>
+          <td>該章節嘅清單，帶 <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR 代碼同對應嘅 Lily 值</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>清單嘅 <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>，並用文字講明係邊一種</td>
+        </tr>
+        <tr>
+          <td>IPS 代碼 <code>no-known-allergies</code>、<code>no-known-medications</code> 等等</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS 代碼 <code>no-allergy-info</code>、<code>no-medication-info</code> 等等</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>，同反應嘅 <code>severity</code> 分開</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>過敏同問題子項上面一樣嘅 props，用一樣嘅代碼</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>用藥子項嘅 <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> 嘅 <code>status</code>，用一樣嘅代碼</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>將 <code>entered-in-error</code> 紀錄對應到佢嘅 <code>entered-in-error</code> 狀態，並配上文字，而唔係靜靜雞丟棄：係咪顯示佢，由你嘅服務決定。</p>
+
+  <h2>編碼值</h2>
+  <ul>
+    <li>顯示 <code>Coding.display</code>；冇嘅話顯示 <code>CodeableConcept.text</code>；兩樣都冇就顯示 <code>system|code</code>。絕對唔可以留空單元格。</li>
+    <li>提供一個控制項，喺每個值旁邊顯示代碼系統同代碼，例如寫住「顯示代碼」嘅切換按鈕。隱藏咗嘅代碼喺顯示之前唔會入閱讀次序。</li>
+    <li>用文件嘅語言（<code>lang</code>）標記臨床文字，佢可能同介面嘅語言唔同。翻譯介面，絕對唔好翻譯臨床內容。</li>
+    <li>Lily 唔附帶術語庫：冇 SNOMED CT、LOINC、ATC 或者 UCUM 查詢。照文件所寫如實寫低。SvelteKit 範例嘅 <code>/patient-summary</code> 頁面示範咗呢個模式。</li>
   </ul>
 
   <h2>Lily 唔會做嘅嘢</h2>

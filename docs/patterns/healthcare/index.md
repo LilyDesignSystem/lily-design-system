@@ -12,16 +12,16 @@ translations into the site's 63 other languages; this file is the source, and th
 Lily gives you display contracts: semantic markup, ARIA, keyboard behaviour and class hooks for the things clinical screens repeat.
 It does not give you clinical logic, clinical content or a regulatory claim.
 
-| Lily provides                                                               | You provide                                                        |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `observation-view`: a value, unit, flag in words, range, and missing states | The value, the flag decision, the reference range                  |
-| `allergy-list`, `allergy-list-item`: a status that is never blank           | The allergy record and its terminology                             |
-| `medication-view`: name, strength, form, route, frequency, none truncated   | The drug data, tall man segments, the formatted strength           |
-| `decision-support-card`: the CDS Hooks card shape                           | The rules, the suggestion actions, recording the outcome           |
-| `early-warning-score-view`: a score, band and escalation, displayed         | The scoring system and its validated calculation                   |
-| `age-view` and `ageParts()`: an age in units suited to it                   | The words for the units (`Intl.DurationFormat` or your own labels) |
-| `formatQuantity()`: 5 mg, never 5.0 mg; 0.5 mg, never .5 mg                 | The number, the unit and the locale                                |
-| The patient banner composition                                              | Every label and value, and who may see clinical information        |
+| Lily provides                                                                   | You provide                                                        |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `observation-view`: a value, unit, flag in words, range, and missing states     | The value, the flag decision, the reference range                  |
+| `allergy-record-list`, `allergy-record-list-item`: a status that is never blank | The allergy record and its terminology                             |
+| `medication-view`: name, strength, form, route, frequency, none truncated       | The drug data, tall man segments, the formatted strength           |
+| `decision-support-card`: the CDS Hooks card shape                               | The rules, the suggestion actions, recording the outcome           |
+| `early-warning-score-view`: a score, band and escalation, displayed             | The scoring system and its validated calculation                   |
+| `age-view` and `ageParts()`: an age in units suited to it                       | The words for the units (`Intl.DurationFormat` or your own labels) |
+| `formatQuantity()`: 5 mg, never 5.0 mg; 0.5 mg, never .5 mg                     | The number, the unit and the locale                                |
+| The patient banner composition                                                  | Every label and value, and who may see clinical information        |
 
 **Regulation.** Software that computes a score, a centile, a dose or a drug interaction is usually a medical device. Lily computes none
 of these, on purpose. If your product is regulated, you own its usability engineering file (IEC 62366-1, the FDA's human factors
@@ -56,7 +56,7 @@ The composition is documented in [`medical-banner`](../../../components/medical-
 at `/patient-banner` in the SvelteKit example app:
 
 - two identifiers; age beside the date of birth (`age-view`);
-- allergies through `allergy-list`, so "no known allergies", "not recorded" and "unavailable" never look alike;
+- allergies through `allergy-record-list`, so "no known allergies", "not recorded" and "unavailable" never look alike;
 - a missing value is words ("Not known"), never `?`, `-` or an empty cell;
 - a deceased patient: `data-deceased` for the theme, and a visible line of text, never colour alone;
 - no field truncated, clipped or hidden at any width; it wraps.
@@ -74,6 +74,8 @@ at `/patient-banner` in the SvelteKit example app:
 - Generic names in lower case, except tall man letters from the FDA and ISMP lists or your country's (Australia and Canada publish
   their own). Mark them in `nameSegments`; Lily never guesses them.
 - Write the strength with `formatQuantity`: no trailing zero, a leading zero, a no-break space before the unit.
+- Keep a result's comparator: `formatQuantity(5, "mmol/L", locale, "<")` writes "<5 mmol/L". FHIR's `Quantity.comparator`
+  (`<`, `<=`, `>=`, `>`) is written `<`, `≤`, `≥`, `>`; dropping it turns "less than 5" into "5".
 - Write mL, never cc, and avoid every abbreviation on ISMP's error-prone list.
 - Never truncate a medicine's name or dose.
 
@@ -89,6 +91,66 @@ at `/patient-banner` in the SvelteKit example app:
 - A ward board or command-centre screen updates often. Never announce each change: keep one polite summary region ("3 beds free,
   2 discharges due") and let people read the board.
 - Every state on a board (bed clean, occupied, blocked) is text or a `data-*` state with words, never colour alone.
+
+## From FHIR to Lily
+
+Lily does not read FHIR resources; your code maps them to Lily's props. The tables below are the mapping for the HL7 FHIR
+International Patient Summary (IPS 2.0.1, FHIR R4). The code mapping is a suggestion: your clinical safety review decides it,
+and the words for every state are your own.
+
+### Sections
+
+| IPS section (LOINC)                        | Lily                                                                                           |
+| ------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| Allergies and intolerances (`48765-2`)     | `allergy-record-list`, `allergy-record-list-item`                                              |
+| Medication summary (`10160-0`)             | `medication-record-list`, `medication-record-list-item` holding a `medication-view`            |
+| Problem list (`11450-4`)                   | `problem-record-list`, `problem-record-list-item`                                              |
+| Immunizations (`11369-6`)                  | `immunization-record-list`, `immunization-record-list-item`                                    |
+| Results (`30954-2`)                        | `observation-view`, in a `data-table` or `summary-list`; a DiagnosticReport is a group of them |
+| History of procedures (`47519-4`)          | `procedure-record-list`, `procedure-record-list-item`                                          |
+| Medical devices (`46264-8`)                | `device-record-list`, `device-record-list-item`                                                |
+| Alerts (`104605-1`)                        | `warning-text`, or `alert`; never behind a collapsed control                                   |
+| Any other section                          | `record-list`, `record-list-item`                                                              |
+| A required section the document leaves out | the section's list with `status="omitted"`                                                     |
+
+### Codes
+
+| FHIR                                                                         | Lily                                                              |
+| ---------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `Composition.section.emptyReason` `nilknown`                                 | the list's `status="none-known"`                                  |
+| `emptyReason` `notasked`, `notstarted`                                       | `status="not-recorded"`                                           |
+| `emptyReason` `unavailable`, `withheld`, `closed`                            | `status="unavailable"`, with words that say which                 |
+| IPS absent and unknown codes `no-known-allergies`, `no-known-medications`, … | `status="none-known"`                                             |
+| IPS absent and unknown codes `no-allergy-info`, `no-medication-info`, …      | `status="not-recorded"`                                           |
+| `AllergyIntolerance.criticality`                                             | `allergy-record-list-item` `criticality`                          |
+| `AllergyIntolerance.reaction.severity`                                       | `allergy-record-list-item` `severity`                             |
+| `AllergyIntolerance.clinicalStatus`, `.verificationStatus`                   | `clinicalStatus`, `verificationStatus` (same codes)               |
+| `Condition.clinicalStatus`, `.verificationStatus`                            | `problem-record-list-item` `clinicalStatus`, `verificationStatus` |
+| `MedicationStatement.status`                                                 | `medication-record-list-item` `status`                            |
+| `Dosage.text`                                                                | `medication-view` `dosageText`                                    |
+| `Immunization.status`, `Procedure.status`, `DeviceUseStatement.status`       | the item's `status` (same codes)                                  |
+| `Observation.status`                                                         | `observation-view` `status` (same codes)                          |
+| `Observation.interpretation` (v3 ObservationInterpretation)                  | `observation-view` `interpretation`, with `flagLabel`             |
+| `Observation.dataAbsentReason` `masked`                                      | `observation-view` `status="masked"`                              |
+| `dataAbsentReason` `asked-unknown`, `not-asked`, `not-performed`             | `status="not-recorded"`                                           |
+| `dataAbsentReason` `unknown`, `temp-unknown`, `error`                        | `status="unavailable"`                                            |
+| `Quantity.comparator`                                                        | `formatQuantity(value, unit, locale, comparator)`                 |
+
+Map an `entered-in-error` record to its `entered-in-error` status, with words, rather than dropping it silently: whether to show
+it at all is your service's decision.
+
+## Coded values
+
+A coded value is written for a person first and a code second:
+
+- Show `Coding.display`; if there is none, `CodeableConcept.text`; if neither, `system|code`. Never an empty cell.
+- Offer a control that reveals the code system and code beside each value (for example a `toggle-button`, "Show codes"), for the
+  people who check them. Hidden codes stay out of the reading order until shown (`hidden`, not only visually hidden).
+- Mark clinical text with the document's language (`lang`), which may differ from the interface's, so a screen reader pronounces
+  it correctly. Translate the interface; never translate the clinical content.
+- Lily ships no terminology: no SNOMED CT, LOINC, ATC or UCUM lookups. Write what the document says.
+
+The SvelteKit example's `/patient-summary` page shows the pattern.
 
 ## What Lily will not do
 

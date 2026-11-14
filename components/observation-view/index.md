@@ -9,7 +9,7 @@ ObservationView is a headless read-only display of one clinical observation or t
 - Renders `<span class="observation-view">` with parts `observation-view-value`, `-unit`, `-flag`, `-range` and `-status`
 - `interpretation` is a FHIR v3 ObservationInterpretation code (`N`, `L`, `H`, `LL`, `HH`, `A`, …), rendered as `data-interpretation` and never as text
 - `flagLabel` is the flag in the consumer's words; it is required whenever the flag is not normal, so the meaning is never colour alone (a development warning says so)
-- `status` is `final`, `preliminary`, `not-recorded` or `unavailable`, rendered as `data-status`; a not-recorded or unavailable result shows `statusLabel` instead of the value, so it is never blank or a dash
+- `status` is a FHIR Observation status (`final`, `preliminary`, `amended`, `corrected`, `entered-in-error`, `cancelled`), or `masked`, `not-recorded` or `unavailable`, rendered as `data-status`. `cancelled`, `masked`, `not-recorded` and `unavailable` show `statusLabel` instead of the value, so a missing result is never blank or a dash; every other status but `final` shows the value with `statusLabel` beside it, so an amended, corrected or entered-in-error result never reads as a plain one
 - The value and unit are joined by a no-break space, so they never wrap apart
 
 ## Props
@@ -19,7 +19,7 @@ ObservationView is a headless read-only display of one clinical observation or t
 - `interpretation`: string (optional) — a FHIR v3 ObservationInterpretation code, rendered as `data-interpretation`
 - `flagLabel`: string (optional) — the flag in words ("High"); required when the flag is not normal
 - `range`: string (optional) — the reference range as text
-- `status`: "final" | "preliminary" | "not-recorded" | "unavailable" (optional) — default `final`, rendered as `data-status`
+- `status`: "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" (optional) — default `final`, rendered as `data-status`
 - `statusLabel`: string (optional) — the words for a status that is not final; replaces the value when it is missing
 - `label`: string (optional) — hidden text naming the observation, when no visible caption does
 - `...restProps`: any — additional HTML attributes spread onto the root
@@ -78,7 +78,7 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 - Each part renders, and the value and unit are joined by a no-break space
 - An interpretation code renders as `data-interpretation` and its consumer label as text
-- `not-recorded` and `unavailable` render different words and no value
+- `not-recorded` and `unavailable` render different words and no value; `cancelled` and `masked` replace the value with their words; `amended`, `corrected` and `entered-in-error` show the value with their words
 - A missing `flagLabel` for an abnormal code, or a missing `statusLabel`, raises a development warning
 
 ## Advice

@@ -3567,44 +3567,49 @@ shown, never decided.
 - [ ] **P28-T1 Publish the healthcare components.** The published `@lilydesignsystem/svelte-headless` 0.8.0 has none of the
       Phase 27 components or `clinical-format`. Bump and publish the nine headless libraries (`bin/publish-headless`).
       Verify: `bin/verify-published` finds the new versions, and the packed Svelte tarball contains `AllergyList`.
-- [ ] **P28-T2 `allergy-list-item`: criticality, verification and clinical status.** FHIR keeps `criticality` (`low`, `high`,
+- [x] **P28-T2 `allergy-record-list-item` (was `allergy-list-item`): criticality, verification and clinical status.** FHIR keeps `criticality` (`low`, `high`,
       `unable-to-assess`: the risk of a future reaction) apart from a reaction's `severity`; Lily has only the second. Add
       `criticality` (`data-criticality`) with `criticalityLabel`, `verificationStatus` (`unconfirmed`, `presumed`, `confirmed`,
       `refuted`, `entered-in-error`; `data-verification-status`) with its label, `clinicalStatus` (`active`, `inactive`,
       `resolved`; `data-clinical-status`) with its label, and `typeLabel` and `categoryLabel` parts.
       Verify: tests in all nine catalogs for each attribute and label; a `refuted` or `entered-in-error` item without its label
-      raises `warnMissingProp`, because it must never read as a confirmed allergy.
-- [ ] **P28-T3 One status contract for every required summary section (maintainer decision: the name).** IPS requires
-      medications, allergies and problems, each of which can be "none known" or "no information"; only `allergy-list` has the
-      never-blank status. Add a generic list and item with the same `status` contract (candidate name `record-list`,
-      `record-list-item`), the item carrying T2's `data-clinical-status` and `data-verification-status` vocabulary for problems;
-      add a fifth status, `omitted` (a required section the document leaves out), here and to `allergy-list`.
-      Verify: tests that each of the five statuses renders its consumer text in all nine catalogs; the IPS demo page uses it for
-      medications and problems.
-- [ ] **P28-T4 `formatQuantity` comparator.** FHIR `Quantity.comparator` (`<`, `<=`, `>=`, `>`) is dropped today, so "<5 mmol/L"
+      raises `warnMissingProp`, because it must never read as a confirmed allergy. _(2026-11-14: done with T3, in all nine catalogs: `criticality`, `clinicalStatus` and `verificationStatus` as `data-*` with consumer words, and `typeLabel` and `categoryLabel` parts. A status without its words raises `warnMissingProp` in Svelte, React, Vue and Angular, for every coded status, not only refuted ones.)_
+- [x] **P28-T3 Record lists, one per summary section (maintainer decision, 2026-11-14).** IPS requires medications, allergies
+      and problems, each of which can be "none known" or "no information"; Phase 27 gave only allergies a never-blank status.
+      The maintainer chose one list per clinical domain, all sharing one `status` contract (`known`, `none-known`,
+      `not-recorded`, `unavailable`, and a new `omitted`, for a required section the document leaves out), each with its own
+      item: `record-list` and `record-list-item` (generic, for any other section), `allergy-record-list` and
+      `allergy-record-list-item` (renamed from `allergy-list` and `allergy-list-item`, 2026-11-14, before either was published),
+      `medication-record-list`, `problem-record-list`, `immunization-record-list`, `procedure-record-list` and
+      `device-record-list`, each with its `-item`. Items carry their domain's parts and FHIR statuses as `data-*` with consumer
+      words (a problem's clinical and verification status; an immunization's vaccine, date, dose and status; a procedure's and a
+      device's status and dates). Catalog 617 to 629.
+      Verify: tests in all nine catalogs that each list renders each of the five statuses' consumer text and each item its parts;
+      the IPS demo page uses the medication, allergy and problem lists. _(2026-11-14: done. 14 components (12 new, the allergy pair renamed), catalog 629 (Web Components 594), generated from one data model into all nine catalogs with tests, stories and docs; tests checked to fail when a part, a status or the omitted state is removed. `/patient-summary` uses the medication, allergy and problem lists, with e2e assertions; axe-clean on all 14 component pages in the SvelteKit and Nunjucks apps.)_
+- [x] **P28-T4 `formatQuantity` comparator.** FHIR `Quantity.comparator` (`<`, `<=`, `>=`, `>`) is dropped today, so "<5 mmol/L"
       is written "5 mmol/L". Add an optional comparator, written with the locale's number and the signs `<`, `≤`, `≥`, `>`.
-      Verify: tests for each comparator and for none, in the shared module and the C# port.
-- [ ] **P28-T5 `observation-view`: the rest of FHIR's statuses.** Add `amended`, `corrected`, `cancelled` and
+      Verify: tests for each comparator and for none, in the shared module and the C# port. _(2026-11-14: done. `formatQuantity(value, unit, locale, comparator?)` in `shared/clinical-format.ts`, synced to every TypeScript catalog and Alpine, and `QuantityComparator` exported; an unknown comparator throws. The C# port `ClinicalFormat.FormatQuantity` takes the same optional comparator. Tests in both; dropping the sign makes them fail.)_
+- [x] **P28-T5 `observation-view`: the rest of FHIR's statuses.** Add `amended`, `corrected`, `cancelled` and
       `entered-in-error`, each requiring `statusLabel`, and `masked` (withheld for privacy, from `dataAbsentReason`), which is not
       `unavailable`. A corrected or amended result shows its label beside the value.
       Verify: tests in all nine catalogs that each status renders its label and `data-status`, and that a value with
-      `entered-in-error` is never shown without its label.
-- [ ] **P28-T6 `medication-view`: status and dose as text.** Add `status` (`active`, `on-hold`, `stopped`, `completed`,
-      `entered-in-error`; `data-status`) with `statusLabel`, and `dosageText` for FHIR's free-text `Dosage.text`, which IPS
+      `entered-in-error` is never shown without its label. _(2026-11-14: done in all nine catalogs. `cancelled`, `masked`, `not-recorded` and `unavailable` replace the value with the consumer's words; `preliminary`, `amended`, `corrected` and `entered-in-error` show the value with the words beside it; any status but `final` without words warns in Svelte, React, Vue and Angular. Tests in seven catalogs (HTML and Alpine are static markup); restoring the old conditions makes five fail.)_
+- [x] **P28-T6 `medication-view`: dose as text.** A medicine's status moved to `medication-record-list-item` (T3), so
+      it lives in one place. Add `dosageText` for FHIR's free-text `Dosage.text`, which IPS
       documents often carry instead of structured parts.
-      Verify: tests in all nine catalogs; the 320px sweep shows a long `dosageText` unclipped.
-- [ ] **P28-T7 `picker-bar`: search optional.** Search is always rendered, while the link and time-zone pickers are optional.
+      Verify: tests in all nine catalogs; the 320px sweep shows a long `dosageText` unclipped. _(2026-11-14: done in all nine catalogs: `dosageText` renders `-dosage` after the frequency (`dosage-text` in Web Components). Tests in seven catalogs; removing the part makes them fail. The 320px sweep is the page-level check in T9's composed example.)_
+- [x] **P28-T7 `picker-bar`: search optional.** Search is always rendered, while the link and time-zone pickers are optional.
       In a client-side viewer a search goes to `/?text`, which drops the loaded document and can put typed text (perhaps a
       patient's name) into the URL and history. Render search only when `labels.search` is given, as `labels.link` works.
-      Verify: tests in all eight catalogs that the bar renders no search picker without the label, and one with it.
-- [ ] **P28-T8 FHIR to Lily mapping in the adopter guide.** In `docs/patterns/healthcare/index.md`: IPS sections to Lily
+      Verify: tests in all eight catalogs that the bar renders no search picker without the label, and one with it. _(2026-11-14: done in all eight catalogs: without `labels.search` no search picker renders, and the three search labels are optional in each labels type (C# record included). A test in each; removing Svelte's guard makes it fail. Recorded as Unreleased in each package's CHANGELOG; the version bump waits for the release, T1.)_
+- [x] **P28-T8 FHIR to Lily mapping in the adopter guide.** In `docs/patterns/healthcare/index.md`: IPS sections to Lily
       components, and FHIR codes to Lily states (Observation interpretation and status, AllergyIntolerance criticality and
       verification, the IPS `no-known-*` and `no-*-info` codes, `dataAbsentReason`, `emptyReason`).
-      Verify: the table exists, each Lily value it names is in a component's `AGENTS.md`, and `bin/check-links` passes.
-- [ ] **P28-T9 Coded values, as a pattern.** Show `coding.display`, then `CodeableConcept.text`, then `system|code`, with a
+      Verify: the table exists, each Lily value it names is in a component's `AGENTS.md`, and `bin/check-links` passes. _(2026-11-14: done. "From FHIR to Lily" in `docs/patterns/healthcare/index.md` and on the site page: IPS sections to components, and FHIR codes (emptyReason, the IPS absent and unknown codes, criticality, the statuses, dataAbsentReason, comparator, Dosage.text) to Lily values, as a suggestion the adopter's clinical safety review decides. Every Lily value it names is in a component's `AGENTS.md`; `bin/check-links` passes.)_
+- [x] **P28-T9 Coded values, as a pattern.** Show `coding.display`, then `CodeableConcept.text`, then `system|code`, with a
       control that reveals the code system and code, and the document's `lang` on clinical text. A documented pattern in the
       guide, not a component, since Lily ships no terminology.
-      Verify: the pattern is in the guide, with a working example on the SvelteKit `/patient-summary` page.
+      Verify: the pattern is in the guide, with a working example on the SvelteKit `/patient-summary` page. _(2026-11-14: done. "Coded values" in the guide and on the site page; `/patient-summary` has a "Show codes" toggle button that reveals ATC and SNOMED CT codes (`hidden` until pressed) and marks the clinical content with the document's `lang`. Its e2e test checks the codes are hidden, then shown by Enter, in Chromium and WebKit. The same commit fixes the three Phase 27 pages' `clinical-format` imports, which svelte-check could not resolve.)_
 
 ---
 

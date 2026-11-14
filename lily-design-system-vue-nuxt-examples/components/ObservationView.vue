@@ -4,6 +4,9 @@
 import { computed } from "vue";
 import { warnMissingProp } from "./dev-warning";
 
+// FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
+const MISSING: readonly string[] = ["cancelled", "masked", "not-recorded", "unavailable"];
+
 const props = withDefaults(
     defineProps<{
         /** Hidden text naming the observation. */
@@ -15,7 +18,16 @@ const props = withDefaults(
         /** The consumer's words for the flag; required when it is not normal. */
         flagLabel?: string;
         range?: string;
-        status?: "final" | "preliminary" | "not-recorded" | "unavailable";
+        status?:
+            | "final"
+            | "preliminary"
+            | "amended"
+            | "corrected"
+            | "entered-in-error"
+            | "cancelled"
+            | "masked"
+            | "not-recorded"
+            | "unavailable";
         statusLabel?: string;
     }>(),
     { value: "", status: "final" },
@@ -36,7 +48,7 @@ if (props.interpretation && props.interpretation !== "N")
         "An abnormal flag needs words, not colour alone (WCAG 1.4.1).",
     );
 
-const missing = computed(() => props.status === "not-recorded" || props.status === "unavailable");
+const missing = computed(() => MISSING.includes(props.status ?? "final"));
 </script>
 
 <template>
@@ -61,7 +73,7 @@ const missing = computed(() => props.status === "not-recorded" || props.status =
                 >{{ " " }}<span class="observation-view-flag">{{ flagLabel }}</span></template
             ><template v-if="range"
                 >{{ " " }}<span class="observation-view-range">{{ range }}</span></template
-            ><template v-if="status === 'preliminary' && statusLabel"
+            ><template v-if="(status ?? 'final') !== 'final' && statusLabel"
                 >{{ " " }}<span class="observation-view-status">{{ statusLabel }}</span></template
             ></template
         ></span

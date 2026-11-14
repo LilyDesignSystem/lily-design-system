@@ -16,6 +16,7 @@
     //   form — string, optional. The dose form ("tablet").
     //   route — string, optional. The route ("oral").
     //   frequency — string, optional. How often ("twice daily").
+    //   dosageText — string, optional. The dose as free text (FHIR Dosage.text), when the record has no structured parts.
     //   ...restProps — additional HTML attributes spread onto the <span>.
     //
     // Syntax:
@@ -34,6 +35,7 @@
         form,
         route,
         frequency,
+        dosageText,
         ...restProps
     }: {
         label?: string;
@@ -43,6 +45,7 @@
         form?: string;
         route?: string;
         frequency?: string;
+        dosageText?: string;
         [key: string]: unknown;
     } = $props();
 </script>
@@ -60,5 +63,6 @@
         >{/if}{#if form}{" "}<span class="medication-view-form">{form}</span
         >{/if}{#if route}{" "}<span class="medication-view-route">{route}</span
         >{/if}{#if frequency}{" "}<span class="medication-view-frequency">{frequency}</span
+        >{/if}{#if dosageText}{" "}<span class="medication-view-dosage">{dosageText}</span
         >{/if}</span
 >

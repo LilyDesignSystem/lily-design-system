@@ -4,6 +4,12 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## Unreleased
+
+- Search is optional: without `labels.search` the bar renders no search picker (tasks.md P28-T7). A client-side app
+  can leave it out, since a search navigates to `/?text` and drops the app's state. `search`, `searchInput` and
+  `searchSubmit` are optional in the labels type; give all three to keep search. Not breaking: a bar given them is unchanged.
+
 ## 0.5.3 — 2026-11-06
 
 - Depends on `svelte-headless` ^0.8.0.

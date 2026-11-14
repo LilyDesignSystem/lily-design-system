@@ -1,0 +1,29 @@
+<!-- medication-record-list-item.html -->
+<!-- MedicationRecordListItem component (Alpine.js) -->
+<!--
+  Description: one medicine in a medication record list, with its status and when it applies
+  HTML tag: <li>
+  CSS class: medication-record-list-item
+  Keyboard: 
+  Accessibility: 
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<ul
+  class="medication-record-list"
+  data-status="known"
+  aria-label="Current medicines"
+>
+  <li
+    class="medication-record-list-item"
+    data-status="active"
+  >
+    ramipril 5 mg capsule, oral, once a day
+    <span class="medication-record-list-item-status">Active</span>
+    <time
+      class="medication-record-list-item-effective"
+      datetime="2025-03-03"
+      >Since 3 Mar 2025</time
+    >
+  </li>
+</ul>

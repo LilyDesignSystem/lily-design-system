@@ -619,14 +619,26 @@ export { ToolbarOptions, SplitterOptions, TreeSelection, TreePopupOptions, Menti
 
 // Healthcare display components and clinical formatting (spec/healthcare-ui, P27).
 export { AgeView } from "./components/AgeView";
-export { AllergyList } from "./components/AllergyList";
-export { AllergyListItem } from "./components/AllergyListItem";
+export { AllergyRecordList } from "./components/AllergyRecordList";
+export { AllergyRecordListItem } from "./components/AllergyRecordListItem";
+export { RecordList } from "./components/RecordList";
+export { MedicationRecordList } from "./components/MedicationRecordList";
+export { ProblemRecordList } from "./components/ProblemRecordList";
+export { ImmunizationRecordList } from "./components/ImmunizationRecordList";
+export { ProcedureRecordList } from "./components/ProcedureRecordList";
+export { DeviceRecordList } from "./components/DeviceRecordList";
+export { RecordListItem } from "./components/RecordListItem";
+export { MedicationRecordListItem } from "./components/MedicationRecordListItem";
+export { ProblemRecordListItem } from "./components/ProblemRecordListItem";
+export { ImmunizationRecordListItem } from "./components/ImmunizationRecordListItem";
+export { ProcedureRecordListItem } from "./components/ProcedureRecordListItem";
+export { DeviceRecordListItem } from "./components/DeviceRecordListItem";
 export { DecisionSupportCard } from "./components/DecisionSupportCard";
 export { EarlyWarningScoreView } from "./components/EarlyWarningScoreView";
 export { MedicationView } from "./components/MedicationView";
 export { ObservationView } from "./components/ObservationView";
 export { MedicationNameSegment } from "./components/MedicationView";
 export { DecisionSupportSuggestion } from "./components/DecisionSupportCard";
-export { ageParts, formatQuantity, toIsoDuration, AgePart, AgeUnit } from "./components/clinical-format";
+export { ageParts, formatQuantity, toIsoDuration, AgePart, AgeUnit, QuantityComparator } from "./components/clinical-format";
 export { BodyMap, BodyMapRegion } from "./components/BodyMap";
 export { NumericRatingScalePicker } from "./components/NumericRatingScalePicker";

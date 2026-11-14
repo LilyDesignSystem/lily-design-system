@@ -24,7 +24,7 @@
           <td>Hodnotu, rozhodnutí o příznaku, referenční rozmezí</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> a <a href="/components/allergy-list-item/">allergy-list-item</a>: stav, který není nikdy prázdný</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> a <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: stav, který není nikdy prázdný</td>
           <td>Záznam o alergii a jeho terminologii</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Generické názvy malými písmeny, kromě písmen tall man ze seznamů FDA a ISMP nebo seznamu vaší země (Austrálie a Kanada vydávají vlastní). Označte je v <code>nameSegments</code>; Lily je nikdy nehádá.</li>
     <li>Sílu zapisujte pomocí <code>formatQuantity</code>: bez koncové nuly, s úvodní nulou, s nezalomitelnou mezerou před jednotkou.</li>
+    <li>Zachovejte u výsledku porovnávací operátor: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> zapíše „&lt;5 mmol/L“. <code>Quantity.comparator</code> ve FHIR se zapisuje &lt;, ≤, ≥ nebo &gt;; jeho vynecháním se z „méně než 5“ stane „5“.</li>
     <li>Pište mL, nikdy cc, a vyhněte se každé zkratce ze seznamu zkratek náchylných k chybám podle ISMP.</li>
     <li>Nikdy nezkracujte název ani dávku léku.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Tabule oddělení nebo obrazovka velínu se aktualizuje často. Nikdy neoznamujte každou změnu: ponechte jednu zdvořilou souhrnnou oblast („3 volná lůžka, 2 očekávaná propuštění“) a nechte lidi číst tabuli.</li>
     <li>Každý stav na tabuli (lůžko čisté, obsazené, blokované) je text nebo stav <code>data-*</code> se slovy, nikdy jen barva.</li>
+  </ul>
+
+  <h2>Od FHIR k Lily</h2>
+  <p>Lily nečte zdroje FHIR; váš kód je mapuje na props Lily. Tyto tabulky mapují HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Mapování kódů je návrh: rozhodne o něm vaše klinické posouzení bezpečnosti a slova pro každý stav jsou vaše vlastní.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Sekce IPS a odpovídající komponenty Lily</caption>
+      <thead>
+        <tr>
+          <th>Sekce IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alergie a intolerance (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> a jeho položky</td>
+        </tr>
+        <tr>
+          <td>Přehled léků (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, každá položka obsahuje <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Seznam problémů (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> a jeho položky</td>
+        </tr>
+        <tr>
+          <td>Očkování (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> a jeho položky</td>
+        </tr>
+        <tr>
+          <td>Výsledky (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a> v datové tabulce nebo souhrnném seznamu</td>
+        </tr>
+        <tr>
+          <td>Anamnéza výkonů (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> a jeho položky</td>
+        </tr>
+        <tr>
+          <td>Zdravotnické prostředky (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> a jeho položky</td>
+        </tr>
+        <tr>
+          <td>Výstrahy (<code>104605-1</code>)</td>
+          <td>Varovný text nebo upozornění, nikdy ne za sbaleným ovládacím prvkem</td>
+        </tr>
+        <tr>
+          <td>Jakákoli jiná sekce</td>
+          <td><a href="/components/record-list/">record-list</a> a jeho položky</td>
+        </tr>
+        <tr>
+          <td>Povinná sekce, kterou dokument vynechává</td>
+          <td>Seznam sekce s <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Kódy FHIR a jim odpovídající hodnoty Lily</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> seznamu</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, se slovy, která říkají, který z nich</td>
+        </tr>
+        <tr>
+          <td>Kódy IPS <code>no-known-allergies</code>, <code>no-known-medications</code> a podobné</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Kódy IPS <code>no-allergy-info</code>, <code>no-medication-info</code> a podobné</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, odlišně od <code>severity</code> reakce</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Stejné props u položek alergií a problémů, se stejnými kódy</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> položky léku</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, se stejnými kódy</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Záznam <code>entered-in-error</code> mapujte na jeho stav <code>entered-in-error</code>, se slovy, a nevynechávejte jej tiše: zda se vůbec zobrazí, je rozhodnutí vaší služby.</p>
+
+  <h2>Kódované hodnoty</h2>
+  <ul>
+    <li>Zobrazte <code>Coding.display</code>; není-li, <code>CodeableConcept.text</code>; není-li ani to, <code>system|code</code>. Nikdy prázdnou buňku.</li>
+    <li>Nabídněte ovládací prvek, který u každé hodnoty odhalí kódový systém a kód, například přepínací tlačítko s textem „Zobrazit kódy“. Skryté kódy zůstávají mimo pořadí čtení, dokud se nezobrazí.</li>
+    <li>Označte klinický text jazykem dokumentu (<code>lang</code>), který se může lišit od jazyka rozhraní. Rozhraní překládejte; klinický obsah nikdy nepřekládejte.</li>
+    <li>Lily nedodává žádnou terminologii: žádné vyhledávání v SNOMED CT, LOINC, ATC ani UCUM. Pište to, co říká dokument. Vzor ukazuje stránka <code>/patient-summary</code> v příkladu SvelteKit.</li>
   </ul>
 
   <h2>Co Lily nedělá</h2>

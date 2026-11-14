@@ -1,0 +1,29 @@
+{#
+  ImmunizationRecordListItem macro — one immunization in an immunization record list, with vaccine, date, dose and status (tasks.md P28-T3, spec/healthcare-ui).
+
+  HTML tag: <li>
+  CSS class: immunization-record-list-item (parts: -vaccine, -occurrence, -dose-number, -status, -lot-number)
+
+  Params:
+    vaccine              the vaccine given; never truncated; required
+    occurrence           when it was given, for <time datetime>
+    occurrenceLabel      that date as the consumer writes it
+    doseNumberLabel      the dose in words ("Dose 2 of 2")
+    status               FHIR Immunization status
+    statusLabel          the status in words
+    lotNumber            the vaccine's lot number
+    html, id, classes, attributes
+
+  Usage:
+    {% from "components/immunization-record-list-item/macro.njk" import immunizationRecordListItem %}
+    {{ immunizationRecordListItem({ vaccine: "MMR vaccine", occurrence: "2025-09-12", occurrenceLabel: "12 Sep 2025", doseNumberLabel: "Dose 2 of 2", status: "completed", statusLabel: "Given", lotNumber: "AB1234" }) }}
+#}
+{%- macro immunizationRecordListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="immunization-record-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.status %} data-status="{{ p.status }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="immunization-record-list-item-vaccine">{{ p.vaccine }}</span>{%- if p.occurrenceLabel %} <time class="immunization-record-list-item-occurrence"{% if p.occurrence %} datetime="{{ p.occurrence }}"{% endif %}>{{ p.occurrenceLabel }}</time>{% endif -%}{%- if p.doseNumberLabel %} <span class="immunization-record-list-item-dose-number">{{ p.doseNumberLabel }}</span>{% endif -%}{%- if p.statusLabel %} <span class="immunization-record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.lotNumber %} <span class="immunization-record-list-item-lot-number">{{ p.lotNumber }}</span>{% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
+{%- endmacro -%}

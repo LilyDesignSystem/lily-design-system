@@ -612,11 +612,23 @@ export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/Zhon
 
 // Healthcare display components and clinical formatting (spec/healthcare-ui, P27).
 export { default as AgeView } from "./components/AgeView/AgeView.svelte";
-export { default as AllergyList } from "./components/AllergyList/AllergyList.svelte";
-export { default as AllergyListItem } from "./components/AllergyListItem/AllergyListItem.svelte";
+export { default as AllergyRecordList } from "./components/AllergyRecordList/AllergyRecordList.svelte";
+export { default as AllergyRecordListItem } from "./components/AllergyRecordListItem/AllergyRecordListItem.svelte";
+export { default as RecordList } from "./components/RecordList/RecordList.svelte";
+export { default as MedicationRecordList } from "./components/MedicationRecordList/MedicationRecordList.svelte";
+export { default as ProblemRecordList } from "./components/ProblemRecordList/ProblemRecordList.svelte";
+export { default as ImmunizationRecordList } from "./components/ImmunizationRecordList/ImmunizationRecordList.svelte";
+export { default as ProcedureRecordList } from "./components/ProcedureRecordList/ProcedureRecordList.svelte";
+export { default as DeviceRecordList } from "./components/DeviceRecordList/DeviceRecordList.svelte";
+export { default as RecordListItem } from "./components/RecordListItem/RecordListItem.svelte";
+export { default as MedicationRecordListItem } from "./components/MedicationRecordListItem/MedicationRecordListItem.svelte";
+export { default as ProblemRecordListItem } from "./components/ProblemRecordListItem/ProblemRecordListItem.svelte";
+export { default as ImmunizationRecordListItem } from "./components/ImmunizationRecordListItem/ImmunizationRecordListItem.svelte";
+export { default as ProcedureRecordListItem } from "./components/ProcedureRecordListItem/ProcedureRecordListItem.svelte";
+export { default as DeviceRecordListItem } from "./components/DeviceRecordListItem/DeviceRecordListItem.svelte";
 export { default as DecisionSupportCard } from "./components/DecisionSupportCard/DecisionSupportCard.svelte";
 export { default as EarlyWarningScoreView } from "./components/EarlyWarningScoreView/EarlyWarningScoreView.svelte";
 export { default as MedicationView } from "./components/MedicationView/MedicationView.svelte";
 export { default as ObservationView } from "./components/ObservationView/ObservationView.svelte";
 export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
-export type { AgePart, AgeUnit } from "./components/clinical-format";
+export type { AgePart, AgeUnit, QuantityComparator } from "./components/clinical-format";

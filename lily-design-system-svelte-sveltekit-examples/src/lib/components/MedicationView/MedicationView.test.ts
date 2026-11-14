@@ -46,4 +46,13 @@ describe("MedicationView", () => {
         expect(part("strength")).toBeNull();
         expect(part("route")).toBeNull();
     });
+
+    test("renders a free-text dose as its own part", () => {
+        render(Subject, {
+            props: { name: "metformin", dosageText: "Take one tablet twice a day with food" },
+        });
+        expect(document.querySelector(".medication-view-dosage")?.textContent).toBe(
+            "Take one tablet twice a day with food",
+        );
+    });
 });

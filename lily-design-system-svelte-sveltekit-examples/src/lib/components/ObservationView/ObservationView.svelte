@@ -14,9 +14,10 @@
     //   flagLabel — string, optional. The consumer's words for the flag ("High"). Required whenever the flag is not normal,
     //     so the meaning is never colour alone (WCAG 1.4.1); a development warning says so.
     //   range — string, optional. The reference range as text ("3.5–5.3").
-    //   status — "final" | "preliminary" | "not-recorded" | "unavailable", default "final". Rendered as data-status.
+    //   status — "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable", default "final". Rendered as data-status.
     //   statusLabel — string, optional. The consumer's words for a status that is not final ("Not recorded"). For
-    //     not-recorded and unavailable it replaces the value, so a missing result is never a blank or a dash.
+    //     cancelled, masked, not-recorded and unavailable it replaces the value, so a missing result is never a blank or a
+    //     dash; for any other status but final it is shown beside the value.
     //   ...restProps — additional HTML attributes spread onto the <span>.
     //
     // Syntax:
@@ -33,6 +34,10 @@
     // References:
     //   - FHIR Observation.interpretation: https://hl7.org/fhir/observation.html
     import { warnMissingProp } from "../dev-warning";
+
+    // FHIR statuses with no value to show: the consumer's words replace it. Every other status that is not final shows the
+    // value with its words beside it, so an amended, corrected or entered-in-error result never reads as a plain one.
+    const MISSING: readonly string[] = ["cancelled", "masked", "not-recorded", "unavailable"];
 
     let {
         class: className = "",
@@ -52,12 +57,21 @@
         interpretation?: string;
         flagLabel?: string;
         range?: string;
-        status?: "final" | "preliminary" | "not-recorded" | "unavailable";
+        status?:
+            | "final"
+            | "preliminary"
+            | "amended"
+            | "corrected"
+            | "entered-in-error"
+            | "cancelled"
+            | "masked"
+            | "not-recorded"
+            | "unavailable";
         statusLabel?: string;
         [key: string]: unknown;
     } = $props();
 
-    const missing = $derived(status === "not-recorded" || status === "unavailable");
+    const missing = $derived(MISSING.includes(status));
 
     $effect(() => {
         if (status !== "final")
@@ -89,7 +103,7 @@
                 class="observation-view-unit">{unit}</span
             >{/if}{#if flagLabel}{" "}<span class="observation-view-flag">{flagLabel}</span
             >{/if}{#if range}{" "}<span class="observation-view-range">{range}</span
-            >{/if}{#if status === "preliminary" && statusLabel}{" "}<span
-                class="observation-view-status">{statusLabel}</span
+            >{/if}{#if status !== "final" && statusLabel}{" "}<span class="observation-view-status"
+                >{statusLabel}</span
             >{/if}{/if}</span
 >

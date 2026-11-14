@@ -1,0 +1,31 @@
+---
+layout: layouts/component-demo.njk
+title: ProblemRecordListItem
+description: one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution
+---
+
+
+{% from "components/problem-record-list/macro.njk" import problemRecordList %}
+{% from "components/problem-record-list-item/macro.njk" import problemRecordListItem %}
+
+<h2>Default</h2>
+{% call problemRecordList({ status: "known", statusLabel: "Problems" }) %}
+  {{ problemRecordListItem({ condition: "Type 2 diabetes", clinicalStatus: "active", clinicalStatusLabel: "Active", verificationStatus: "confirmed", verificationStatusLabel: "Confirmed", severityLabel: "Moderate", onset: "2019-06-01", onsetLabel: "Since June 2019", abatement: "2024-01-15", abatementLabel: "Resolved 15 Jan 2024" }) }}
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ProblemRecordListItem
+  condition="Type 2 diabetes"
+  clinicalStatus="active"
+  clinicalStatusLabel="Active"
+  verificationStatus="confirmed"
+  verificationStatusLabel="Confirmed"
+  severityLabel="Moderate"
+  onset="2019-06-01"
+  onsetLabel="Since June 2019"
+  abatement="2024-01-15"
+  abatementLabel="Resolved 15 Jan 2024"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

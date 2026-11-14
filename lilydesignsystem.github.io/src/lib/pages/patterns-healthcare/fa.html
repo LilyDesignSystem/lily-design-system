@@ -24,7 +24,7 @@
           <td>مقدار، تصمیم دربارهٔ پرچم، بازهٔ مرجع</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> و <a href="/components/allergy-list-item/">allergy-list-item</a>: وضعیتی که هرگز خالی نیست</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> و <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: وضعیتی که هرگز خالی نیست</td>
           <td>سابقهٔ آلرژی و واژگان آن</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>نام‌های ژنریک با حروف کوچک، به‌جز حروف tall man از فهرست‌های FDA و ISMP یا فهرست کشور شما (استرالیا و کانادا فهرست خود را منتشر می‌کنند). آن‌ها را در <code>nameSegments</code> علامت بزنید؛ Lily هرگز آن‌ها را حدس نمی‌زند.</li>
     <li>قدرت را با <code>formatQuantity</code> بنویسید: بدون صفر پایانی، با صفر ابتدایی، و یک فاصلهٔ بدون شکست پیش از واحد.</li>
+    <li>عملگر مقایسهٔ نتیجه را نگه دارید: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> عبارت «&lt;5 mmol/L» را می‌نویسد. <code>Quantity.comparator</code> در FHIR به‌صورت &lt;، ≤، ≥ یا &gt; نوشته می‌شود؛ حذف آن «کمتر از 5» را به «5» تبدیل می‌کند.</li>
     <li>mL بنویسید، نه cc، و از هر اختصاری که در فهرست اختصارهای خطاخیز ISMP آمده بپرهیزید.</li>
     <li>هرگز نام یا دوز دارو را کوتاه نکنید.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>تابلوی بخش یا صفحهٔ مرکز فرماندهی مدام به‌روز می‌شود. هرگز هر تغییر را اعلام نکنید: یک ناحیهٔ خلاصهٔ مؤدبانه نگه دارید («۳ تخت خالی، ۲ ترخیص در پیش») و بگذارید مردم تابلو را بخوانند.</li>
     <li>هر وضعیت روی تابلو (تخت تمیز، اشغال، مسدود) متن یا وضعیت <code>data-*</code> همراه با کلمات است، هرگز فقط رنگ.</li>
+  </ul>
+
+  <h2>از FHIR به Lily</h2>
+  <p>Lily منابع FHIR را نمی‌خواند؛ کد شما آن‌ها را به props در Lily نگاشت می‌کند. این جدول‌ها HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4) را نگاشت می‌کنند. نگاشت کدها پیشنهادی است: بازبینی ایمنی بالینی شما دربارهٔ آن تصمیم می‌گیرد و واژه‌های هر حالت از آنِ خود شماست.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">بخش‌های IPS و مؤلفه‌های Lily برای آن‌ها</caption>
+      <thead>
+        <tr>
+          <th>بخش IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>آلرژی‌ها و عدم تحمل‌ها (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> و موارد آن</td>
+        </tr>
+        <tr>
+          <td>خلاصهٔ داروها (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>، که هر مورد شامل یک <a href="/components/medication-view/">medication-view</a> است</td>
+        </tr>
+        <tr>
+          <td>فهرست مشکلات (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> و موارد آن</td>
+        </tr>
+        <tr>
+          <td>ایمن‌سازی‌ها (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> و موارد آن</td>
+        </tr>
+        <tr>
+          <td>نتایج (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>، در یک جدول داده یا فهرست خلاصه</td>
+        </tr>
+        <tr>
+          <td>سابقهٔ اقدام‌های درمانی (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> و موارد آن</td>
+        </tr>
+        <tr>
+          <td>تجهیزات پزشکی (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> و موارد آن</td>
+        </tr>
+        <tr>
+          <td>هشدارها (<code>104605-1</code>)</td>
+          <td>متن هشدار یا یک هشدار، هرگز پشت یک کنترل جمع‌شده</td>
+        </tr>
+        <tr>
+          <td>هر بخش دیگر</td>
+          <td><a href="/components/record-list/">record-list</a> و موارد آن</td>
+        </tr>
+        <tr>
+          <td>بخش الزامی که سند آن را حذف کرده است</td>
+          <td>فهرست بخش با <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">کدهای FHIR و مقادیر Lily برای آن‌ها</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> فهرست</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>، با کلماتی که می‌گویند کدام</td>
+        </tr>
+        <tr>
+          <td>کدهای IPS مانند <code>no-known-allergies</code>، <code>no-known-medications</code> و موارد مشابه</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>کدهای IPS مانند <code>no-allergy-info</code>، <code>no-medication-info</code> و موارد مشابه</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>، جدا از <code>severity</code> یک واکنش</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>همان props روی موردهای آلرژی و مشکل، با همان کدها</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> مورد دارو</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>، با همان کدها</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>رکورد <code>entered-in-error</code> را با کلمات به وضعیت <code>entered-in-error</code> آن نگاشت کنید، به‌جای آنکه بی‌صدا حذفش کنید: اینکه اصلاً نمایش داده شود یا نه تصمیم سرویس شماست.</p>
+
+  <h2>مقادیر کدگذاری‌شده</h2>
+  <ul>
+    <li><code>Coding.display</code> را نمایش دهید؛ اگر نبود، <code>CodeableConcept.text</code>؛ اگر هیچ‌کدام نبود، <code>system|code</code>. هرگز یک خانهٔ خالی.</li>
+    <li>کنترلی ارائه دهید که سامانهٔ کدگذاری و کد را کنار هر مقدار آشکار کند، مانند دکمهٔ تغییر وضعیتی که می‌گوید «نمایش کدها». کدهای پنهان تا زمان نمایش از ترتیب خواندن بیرون می‌مانند.</li>
+    <li>متن بالینی را با زبان سند (<code>lang</code>) علامت‌گذاری کنید که ممکن است با زبان رابط متفاوت باشد. رابط را ترجمه کنید؛ هرگز محتوای بالینی را ترجمه نکنید.</li>
+    <li>Lily هیچ واژگانی ارائه نمی‌دهد: هیچ جست‌وجویی در SNOMED CT، LOINC، ATC یا UCUM نیست. آنچه سند می‌گوید بنویسید. صفحهٔ <code>/patient-summary</code> در نمونهٔ SvelteKit این الگو را نشان می‌دهد.</li>
   </ul>
 
   <h2>آنچه Lily انجام نخواهد داد</h2>

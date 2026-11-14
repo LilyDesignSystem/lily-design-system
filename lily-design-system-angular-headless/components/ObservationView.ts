@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, OnInit, computed, input } from "@angular/core";
 import { warnMissingProp } from "./dev-warning";
 
+// FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
+const MISSING: readonly string[] = ["cancelled", "masked", "not-recorded", "unavailable"];
+
 /**
  * ObservationView: a read-only clinical observation or result, with unit, flag and reference range (spec/healthcare-ui
  * item 1). Shows what the consumer decided; computes no flag and no range. Props and rules: ObservationView.md.
@@ -8,7 +11,7 @@ import { warnMissingProp } from "./dev-warning";
 @Component({
     selector: "lily-observation-view",
     standalone: true,
-    template: `<span class="observation-view {{ className() }}" [attr.data-interpretation]="interpretation() || null" [attr.data-status]="status()">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}@if (missing()) {<span class="observation-view-status">{{ statusLabel() }}</span>} @else {<span class="observation-view-value">{{ value() }}</span>@if (unit()) {{{ " " }}<span class="observation-view-unit">{{ unit() }}</span>}@if (flagLabel()) {{{ " " }}<span class="observation-view-flag">{{ flagLabel() }}</span>}@if (range()) {{{ " " }}<span class="observation-view-range">{{ range() }}</span>}@if (status() === "preliminary" && statusLabel()) {{{ " " }}<span class="observation-view-status">{{ statusLabel() }}</span>}}</span>`,
+    template: `<span class="observation-view {{ className() }}" [attr.data-interpretation]="interpretation() || null" [attr.data-status]="status()">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}@if (missing()) {<span class="observation-view-status">{{ statusLabel() }}</span>} @else {<span class="observation-view-value">{{ value() }}</span>@if (unit()) {{{ " " }}<span class="observation-view-unit">{{ unit() }}</span>}@if (flagLabel()) {{{ " " }}<span class="observation-view-flag">{{ flagLabel() }}</span>}@if (range()) {{{ " " }}<span class="observation-view-range">{{ range() }}</span>}@if (status() !== "final" && statusLabel()) {{{ " " }}<span class="observation-view-status">{{ statusLabel() }}</span>}}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ObservationView implements OnInit {
@@ -24,11 +27,19 @@ export class ObservationView implements OnInit {
     /** The consumer's words for the flag; required when it is not normal. */
     readonly flagLabel = input<string>("");
     readonly range = input<string>("");
-    readonly status = input<"final" | "preliminary" | "not-recorded" | "unavailable">("final");
+    readonly status = input<
+        | "final"
+        | "preliminary"
+        | "amended"
+        | "corrected"
+        | "entered-in-error"
+        | "cancelled"
+        | "masked"
+        | "not-recorded"
+        | "unavailable"
+    >("final");
     readonly statusLabel = input<string>("");
-    protected readonly missing = computed(
-        () => this.status() === "not-recorded" || this.status() === "unavailable",
-    );
+    protected readonly missing = computed(() => MISSING.includes(this.status()));
 
     ngOnInit(): void {
         if (this.status() !== "final")

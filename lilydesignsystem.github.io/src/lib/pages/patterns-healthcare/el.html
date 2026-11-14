@@ -24,7 +24,7 @@
           <td>Την τιμή, την απόφαση για τη σήμανση, το εύρος αναφοράς</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> και <a href="/components/allergy-list-item/">allergy-list-item</a>: μια κατάσταση που δεν είναι ποτέ κενή</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> και <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: μια κατάσταση που δεν είναι ποτέ κενή</td>
           <td>Την καταγραφή της αλλεργίας και την ορολογία της</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Γενόσημες ονομασίες με πεζά, εκτός από τα γράμματα tall man των καταλόγων FDA και ISMP ή του καταλόγου της χώρας σας (η Αυστραλία και ο Καναδάς δημοσιεύουν δικούς τους). Σημειώστε τα στο <code>nameSegments</code>· η Lily δεν τα μαντεύει ποτέ.</li>
     <li>Γράψτε την περιεκτικότητα με το <code>formatQuantity</code>: χωρίς μηδενικό στο τέλος, με μηδενικό στην αρχή, με άσπαστο κενό πριν από τη μονάδα.</li>
+    <li>Διατηρήστε τον τελεστή σύγκρισης ενός αποτελέσματος: το <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> γράφει «&lt;5 mmol/L». Το <code>Quantity.comparator</code> του FHIR γράφεται &lt;, ≤, ≥ ή &gt;· αν παραλειφθεί, το «λιγότερο από 5» γίνεται «5».</li>
     <li>Γράψτε mL, ποτέ cc, και αποφύγετε κάθε συντομογραφία από τον κατάλογο του ISMP με τις επιρρεπείς σε σφάλματα.</li>
     <li>Μην περικόπτετε ποτέ το όνομα ή τη δόση ενός φαρμάκου.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Ένας πίνακας κλινικής ή οθόνη κέντρου διοίκησης ενημερώνεται συχνά. Μην ανακοινώνετε ποτέ κάθε αλλαγή: κρατήστε μία ευγενική περιοχή σύνοψης («3 ελεύθερα κρεβάτια, 2 αναμενόμενα εξιτήρια») και αφήστε τους ανθρώπους να διαβάσουν τον πίνακα.</li>
     <li>Κάθε κατάσταση σε έναν πίνακα (κρεβάτι καθαρό, κατειλημμένο, αποκλεισμένο) είναι κείμενο ή κατάσταση <code>data-*</code> με λέξεις, ποτέ μόνο χρώμα.</li>
+  </ul>
+
+  <h2>Από το FHIR στη Lily</h2>
+  <p>Η Lily δεν διαβάζει πόρους FHIR· ο κώδικάς σας τους αντιστοιχίζει στα props της Lily. Οι πίνακες αυτοί αντιστοιχίζουν το HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Η αντιστοίχιση των κωδικών είναι πρόταση: την αποφασίζει η κλινική αξιολόγηση ασφάλειάς σας και οι λέξεις για κάθε κατάσταση είναι δικές σας.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Ενότητες IPS και τα αντίστοιχα στοιχεία της Lily</caption>
+      <thead>
+        <tr>
+          <th>Ενότητα IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Αλλεργίες και δυσανεξίες (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> και τα στοιχεία της</td>
+        </tr>
+        <tr>
+          <td>Σύνοψη φαρμάκων (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, με κάθε στοιχείο να περιέχει ένα <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Λίστα προβλημάτων (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> και τα στοιχεία της</td>
+        </tr>
+        <tr>
+          <td>Εμβολιασμοί (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> και τα στοιχεία της</td>
+        </tr>
+        <tr>
+          <td>Αποτελέσματα (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, σε πίνακα δεδομένων ή σε λίστα σύνοψης</td>
+        </tr>
+        <tr>
+          <td>Ιστορικό επεμβάσεων (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> και τα στοιχεία της</td>
+        </tr>
+        <tr>
+          <td>Ιατροτεχνολογικά προϊόντα (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> και τα στοιχεία της</td>
+        </tr>
+        <tr>
+          <td>Ειδοποιήσεις (<code>104605-1</code>)</td>
+          <td>Κείμενο προειδοποίησης ή ειδοποίηση, ποτέ πίσω από συμπτυγμένο χειριστήριο</td>
+        </tr>
+        <tr>
+          <td>Οποιαδήποτε άλλη ενότητα</td>
+          <td><a href="/components/record-list/">record-list</a> και τα στοιχεία της</td>
+        </tr>
+        <tr>
+          <td>Μια απαιτούμενη ενότητα που το έγγραφο παραλείπει</td>
+          <td>Η λίστα της ενότητας με <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Κωδικοί FHIR και οι αντίστοιχες τιμές της Lily</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Το <code>status="none-known"</code> της λίστας</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, με λέξεις που λένε ποιο από τα δύο</td>
+        </tr>
+        <tr>
+          <td>Οι κωδικοί IPS <code>no-known-allergies</code>, <code>no-known-medications</code> και παρόμοιοι</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Οι κωδικοί IPS <code>no-allergy-info</code>, <code>no-medication-info</code> και παρόμοιοι</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, ξεχωριστά από το <code>severity</code> μιας αντίδρασης</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Τα ίδια props στα στοιχεία αλλεργίας και προβλήματος, με τους ίδιους κωδικούς</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Το <code>status</code> του στοιχείου φαρμάκου</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, με τους ίδιους κωδικούς</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Αντιστοιχίστε μια εγγραφή <code>entered-in-error</code> στην κατάστασή της <code>entered-in-error</code>, με λέξεις, αντί να την παραλείπετε σιωπηλά: το αν θα εμφανίζεται καθόλου είναι απόφαση της υπηρεσίας σας.</p>
+
+  <h2>Κωδικοποιημένες τιμές</h2>
+  <ul>
+    <li>Εμφανίστε το <code>Coding.display</code>· αν δεν υπάρχει, το <code>CodeableConcept.text</code>· αν δεν υπάρχει κανένα, το <code>system|code</code>. Ποτέ κενό κελί.</li>
+    <li>Προσφέρετε ένα χειριστήριο που αποκαλύπτει το σύστημα κωδικοποίησης και τον κωδικό δίπλα σε κάθε τιμή, όπως ένα κουμπί εναλλαγής που γράφει «Εμφάνιση κωδικών». Οι κρυμμένοι κωδικοί μένουν εκτός της σειράς ανάγνωσης μέχρι να εμφανιστούν.</li>
+    <li>Σημάνετε το κλινικό κείμενο με τη γλώσσα του εγγράφου (<code>lang</code>), η οποία μπορεί να διαφέρει από τη γλώσσα της διεπαφής. Μεταφράστε τη διεπαφή· μην μεταφράζετε ποτέ το κλινικό περιεχόμενο.</li>
+    <li>Η Lily δεν παρέχει ορολογία: καμία αναζήτηση σε SNOMED CT, LOINC, ATC ή UCUM. Γράψτε ό,τι λέει το έγγραφο. Η σελίδα <code>/patient-summary</code> του παραδείγματος SvelteKit δείχνει το μοτίβο.</li>
   </ul>
 
   <h2>Τι δεν θα κάνει η Lily</h2>

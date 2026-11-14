@@ -24,7 +24,7 @@
           <td>القيمة، وقرار وضع العلامة، والنطاق المرجعي</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> و<a href="/components/allergy-list-item/">allergy-list-item</a>: حالة لا تكون فارغة أبدًا</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> و<a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: حالة لا تكون فارغة أبدًا</td>
           <td>سجل الحساسية ومصطلحاته</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>الأسماء العلمية بأحرف صغيرة، باستثناء أحرف tall man من قوائم FDA وISMP أو قائمة بلدك (تنشر أستراليا وكندا قائمتيهما). علّمها في <code>nameSegments</code>؛ فـLily لا تخمّنها أبدًا.</li>
     <li>اكتب التركيز باستخدام <code>formatQuantity</code>: دون صفر زائد في آخره، وبصفر في البداية، ومسافة غير فاصلة قبل الوحدة.</li>
+    <li>احتفظ بعامل المقارنة في النتيجة: يكتب <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> «&lt;5 mmol/L». يُكتب <code>Quantity.comparator</code> في FHIR بالصيغة &lt; أو ≤ أو ≥ أو &gt;؛ وحذفه يحوّل «أقل من 5» إلى «5».</li>
     <li>اكتب mL وليس cc، وتجنب كل اختصار وارد في قائمة ISMP للاختصارات المعرّضة للخطأ.</li>
     <li>لا تقتطع اسم الدواء أو جرعته أبدًا.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>لوحة الجناح أو شاشة مركز القيادة تتحدث كثيرًا. لا تُعلن كل تغيير أبدًا: أبقِ منطقة ملخص مهذبة واحدة («3 أسرّة شاغرة، وخروج مريضين مرتقب») ودع الناس يقرؤون اللوحة.</li>
     <li>كل حالة على اللوحة (سرير نظيف، مشغول، محجوب) نص أو حالة <code>data-*</code> مع كلمات، وليس اللون وحده أبدًا.</li>
+  </ul>
+
+  <h2>من FHIR إلى Lily</h2>
+  <p>لا تقرأ Lily موارد FHIR؛ بل يربطها الكود الخاص بك بخصائص (props) Lily. تربط هذه الجداول HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). ربط الرموز اقتراح: تقرره مراجعتك للسلامة السريرية، والكلمات الخاصة بكل حالة من اختيارك.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">أقسام IPS ومكونات Lily المقابلة لها</caption>
+      <thead>
+        <tr>
+          <th>قسم IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>الحساسيات وعدم التحمّل (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> وعناصرها</td>
+        </tr>
+        <tr>
+          <td>ملخص الأدوية (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>، على أن يحتوي كل عنصر على <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>قائمة المشكلات (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> وعناصرها</td>
+        </tr>
+        <tr>
+          <td>التطعيمات (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> وعناصرها</td>
+        </tr>
+        <tr>
+          <td>النتائج (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>، في جدول بيانات أو قائمة ملخصة</td>
+        </tr>
+        <tr>
+          <td>سجل الإجراءات (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> وعناصرها</td>
+        </tr>
+        <tr>
+          <td>الأجهزة الطبية (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> وعناصرها</td>
+        </tr>
+        <tr>
+          <td>التنبيهات (<code>104605-1</code>)</td>
+          <td>نص تحذيري أو تنبيه، وليس خلف عنصر تحكم مطوي أبدًا</td>
+        </tr>
+        <tr>
+          <td>أي قسم آخر</td>
+          <td><a href="/components/record-list/">record-list</a> وعناصرها</td>
+        </tr>
+        <tr>
+          <td>قسم مطلوب يُغفله المستند</td>
+          <td>قائمة القسم مع <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">رموز FHIR وقيم Lily المقابلة لها</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> للقائمة</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>، مع كلمات توضّح أيّها</td>
+        </tr>
+        <tr>
+          <td>رموز IPS <code>no-known-allergies</code> و<code>no-known-medications</code> وما شابهها</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>رموز IPS <code>no-allergy-info</code> و<code>no-medication-info</code> وما شابهها</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>، بمعزل عن <code>severity</code> الخاص بالتفاعل</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>الخصائص نفسها في عناصر الحساسية والمشكلة، مع الرموز نفسها</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> الخاص بعنصر الدواء</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>، مع الرموز نفسها</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>اربط السجل <code>entered-in-error</code> بحالته <code>entered-in-error</code>، مع كلمات، بدل إسقاطه بصمت: أما إظهاره أصلًا فقرار خدمتك.</p>
+
+  <h2>القيم المرمّزة</h2>
+  <ul>
+    <li>اعرض <code>Coding.display</code>؛ وإن لم يوجد فـ<code>CodeableConcept.text</code>؛ وإن لم يوجد أي منهما فـ<code>system|code</code>. لا تترك خلية فارغة أبدًا.</li>
+    <li>وفّر عنصر تحكم يكشف نظام الترميز والرمز بجانب كل قيمة، مثل زر تبديل يقول «إظهار الرموز». تبقى الرموز المخفية خارج ترتيب القراءة حتى تُعرض.</li>
+    <li>ضع على النص السريري لغة المستند (<code>lang</code>)، وقد تختلف عن لغة الواجهة. ترجم الواجهة؛ ولا تترجم المحتوى السريري أبدًا.</li>
+    <li>لا تقدّم Lily أي مصطلحات: لا بحث في SNOMED CT أو LOINC أو ATC أو UCUM. اكتب ما يقوله المستند. تعرض الصفحة <code>/patient-summary</code> في مثال SvelteKit النمط.</li>
   </ul>
 
   <h2>ما لن تفعله Lily</h2>

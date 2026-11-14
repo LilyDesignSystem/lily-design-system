@@ -68,9 +68,9 @@ seven-step scale `largest`, `larger`, `large`, `normal`, `small`,
 `smaller`, `smallest`, starting on `normal`. It excludes `motion-picker`
 (no natural spot in this row) and `date-time-picker` (a form control,
 not a page-header control). Its accessible names arrive as one
-required `labels` object (`{ link?, search, searchInput, searchSubmit, theme,
+required `labels` object (`{ link?, search?, searchInput?, searchSubmit?, theme,
 locale, timeZone?, textSize, share }` — `link` only when `links` is given, `timeZone` only with `timeZoneProps.locale`; search needs three: its button, its field,
-and its `⏎` button), no English default — same reasoning as `date-time-picker`'s `labels`.
+and its `⏎` button; search is optional since 2026-11-14 — without `search` the bar has no search picker), no English default — same reasoning as `date-time-picker`'s `labels`.
 Full contract: [spec/helpers/index.md § picker-bar contract](../spec/helpers/index.md).
 
 ## Rules

@@ -1,0 +1,50 @@
+{
+  "slug": "immunization-record-list-item",
+  "name": "ImmunizationRecordListItem",
+  "description": "one immunization in an immunization record list, with vaccine, date, dose and status",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".immunization-record-list-item",
+  "subClasses": [
+    "immunization-record-list-item-dose-number",
+    "immunization-record-list-item-lot-number",
+    "immunization-record-list-item-occurrence",
+    "immunization-record-list-item-status",
+    "immunization-record-list-item-vaccine"
+  ],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "No ARIA beyond the native `<li>`; every status is text, never colour alone"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`vaccine`: string (required) — the vaccine given; never truncated",
+    "`occurrence`: string (optional) — when it was given, for <time datetime>",
+    "`occurrenceLabel`: string (optional) — that date as the consumer writes it; the `<time>` shows only when set",
+    "`doseNumberLabel`: string (optional) — the dose in words (\"Dose 2 of 2\")",
+    "`status`: \"completed\" | \"entered-in-error\" | \"not-done\" (optional) — FHIR Immunization status; rendered as `data-status`",
+    "`statusLabel`: string (optional; required when `status` is set) — the status in words",
+    "`lotNumber`: string (optional) — the vaccine's lot number",
+    "`children`: slot (optional) — anything else, such as a link to the full record",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "immunization-record-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/immunization-record-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/ImmunizationRecordListItem/ImmunizationRecordListItem.svelte",
+    "react": "lily-design-system-react-headless/components/ImmunizationRecordListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/ImmunizationRecordListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/ImmunizationRecordListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/immunization-record-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/immunization-record-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/immunization-record-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ImmunizationRecordListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/immunization-record-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/immunization-record-list-item/AGENTS.md"
+}

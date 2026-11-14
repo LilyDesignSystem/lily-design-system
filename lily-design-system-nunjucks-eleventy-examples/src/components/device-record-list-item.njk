@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: DeviceRecordListItem
+description: one medical device in a device record list, with its status and when it was used
+---
+
+
+{% from "components/device-record-list/macro.njk" import deviceRecordList %}
+{% from "components/device-record-list-item/macro.njk" import deviceRecordListItem %}
+
+<h2>Default</h2>
+{% call deviceRecordList({ status: "known", statusLabel: "Medical devices" }) %}
+  {{ deviceRecordListItem({ device: "Cardiac pacemaker", status: "active", statusLabel: "In use", timing: "2021-02-08", timingLabel: "Since 8 Feb 2021" }) }}
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;DeviceRecordListItem
+  device="Cardiac pacemaker"
+  status="active"
+  statusLabel="In use"
+  timing="2021-02-08"
+  timingLabel="Since 8 Feb 2021"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

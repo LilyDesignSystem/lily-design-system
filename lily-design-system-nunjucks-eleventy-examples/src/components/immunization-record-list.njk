@@ -1,0 +1,42 @@
+---
+layout: layouts/component-demo.njk
+title: ImmunizationRecordList
+description: a list of a patient's immunizations, whose status is never blank
+---
+
+
+{% from "components/immunization-record-list/macro.njk" import immunizationRecordList %}
+{% from "components/immunization-record-list-item/macro.njk" import immunizationRecordListItem %}
+
+<h2>Default</h2>
+{% call immunizationRecordList({ status: "known", statusLabel: "Immunizations" }) %}
+  {{ immunizationRecordListItem({ vaccine: "MMR vaccine", occurrence: "2025-09-12", occurrenceLabel: "12 Sep 2025", doseNumberLabel: "Dose 2 of 2", status: "completed", statusLabel: "Given", lotNumber: "AB1234" }) }}
+{% endcall %}
+<h2>No immunizations recorded</h2>
+{{ immunizationRecordList({ status: "none-known", statusLabel: "No immunizations recorded" }) }}
+<h2>Omitted from the document</h2>
+{{ immunizationRecordList({ status: "omitted", statusLabel: "Section missing from the document" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ImmunizationRecordList
+  status="known"
+  statusLabel="Immunizations"
+&gt;
+  &lt;ImmunizationRecordListItem
+    vaccine="MMR vaccine"
+    occurrence="2025-09-12"
+    occurrenceLabel="12 Sep 2025"
+    doseNumberLabel="Dose 2 of 2"
+    status="completed"
+    statusLabel="Given"
+    lotNumber="AB1234"
+  /&gt;
+&lt;/ImmunizationRecordList&gt;
+
+&lt;ImmunizationRecordList
+  status="none-known"
+  statusLabel="No immunizations recorded"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

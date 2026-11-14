@@ -24,7 +24,7 @@
           <td>Az érték, a jelzésről szóló döntés, a referenciatartomány</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> és <a href="/components/allergy-list-item/">allergy-list-item</a>: soha nem üres állapot</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> és <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: soha nem üres állapot</td>
           <td>Az allergiabejegyzés és terminológiája</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>A generikus nevek kisbetűvel, kivéve az FDA és az ISMP vagy a ti országotok listáin szereplő tall man betűket (Ausztrália és Kanada a sajátját teszi közzé). Jelöljétek őket a <code>nameSegments</code> mezőben; a Lily soha nem találgatja őket.</li>
     <li>A hatáserősséget a <code>formatQuantity</code> függvénnyel írjátok: záró nulla nélkül, kezdő nullával, és törhetetlen szóközzel a mértékegység előtt.</li>
+    <li>Őrizzétek meg az eredmény összehasonlító jelét: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> ezt írja: „&lt;5 mmol/L”. A FHIR <code>Quantity.comparator</code> értéke &lt;, ≤, ≥ vagy &gt;; ha elhagyjátok, a „kevesebb mint 5” „5”-té válik.</li>
     <li>Írjatok mL-t, soha nem cc-t, és kerüljetek minden rövidítést az ISMP hibára hajlamos rövidítések listájáról.</li>
     <li>Soha ne csonkoljátok a gyógyszer nevét vagy adagját.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Egy osztálytábla vagy egy irányítóközponti képernyő gyakran frissül. Soha ne jelentsetek be minden változást: tartsatok egy udvarias összefoglaló régiót („3 szabad ágy, 2 elbocsátás várható”), és hagyjátok, hogy az emberek olvassák a táblát.</li>
     <li>A tábla minden állapota (ágy tiszta, foglalt, zárolt) szöveg vagy <code>data-*</code> állapot szavakkal, soha nem csak szín.</li>
+  </ul>
+
+  <h2>A FHIR-től a Lilyig</h2>
+  <p>A Lily nem olvas FHIR-erőforrásokat; a ti kódotok képezi le őket a Lily propjaira. Ezek a táblázatok a HL7 FHIR International Patient Summary-t (IPS 2.0.1, FHIR R4) képezik le. A kódleképezés javaslat: a ti klinikai biztonsági felülvizsgálatotok dönt róla, és minden állapot szavai a ti saját szavaitok.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS-szakaszok és a nekik megfelelő Lily-komponensek</caption>
+      <thead>
+        <tr>
+          <th>IPS-szakasz</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Allergiák és intoleranciák (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> és annak elemei</td>
+        </tr>
+        <tr>
+          <td>Gyógyszeres összefoglaló (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, minden elem ezt tartalmazza: <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Problémalista (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> és annak elemei</td>
+        </tr>
+        <tr>
+          <td>Oltások (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> és annak elemei</td>
+        </tr>
+        <tr>
+          <td>Eredmények (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, adattáblázatban vagy összefoglaló listában</td>
+        </tr>
+        <tr>
+          <td>Korábbi beavatkozások (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> és annak elemei</td>
+        </tr>
+        <tr>
+          <td>Orvostechnikai eszközök (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> és annak elemei</td>
+        </tr>
+        <tr>
+          <td>Riasztások (<code>104605-1</code>)</td>
+          <td>Figyelmeztető szöveg vagy riasztás, soha nem összecsukott vezérlő mögött</td>
+        </tr>
+        <tr>
+          <td>Bármely más szakasz</td>
+          <td><a href="/components/record-list/">record-list</a> és annak elemei</td>
+        </tr>
+        <tr>
+          <td>Kötelező szakasz, amelyet a dokumentum kihagy</td>
+          <td>A szakasz listája ezzel: <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR-kódok és a nekik megfelelő Lily-értékek</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>A lista értéke: <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, szavakkal, amelyek megmondják, melyik</td>
+        </tr>
+        <tr>
+          <td>Az IPS-kódok: <code>no-known-allergies</code>, <code>no-known-medications</code> és hasonlók</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Az IPS-kódok: <code>no-allergy-info</code>, <code>no-medication-info</code> és hasonlók</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, elkülönítve a reakció <code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Ugyanezek a propok az allergia- és problémaelemeken, ugyanazokkal a kódokkal</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>A gyógyszerelem: <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, ugyanazokkal a kódokkal</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Az <code>entered-in-error</code> állapotú bejegyzést képezzétek le erre az állapotra: <code>entered-in-error</code>, szavakkal, ahelyett hogy csendben elhagynátok: hogy egyáltalán megjelenjen-e, az a ti szolgáltatástok döntése.</p>
+
+  <h2>Kódolt értékek</h2>
+  <ul>
+    <li>Mutassátok: <code>Coding.display</code>; ha nincs, akkor: <code>CodeableConcept.text</code>; ha egyik sincs, akkor: <code>system|code</code>. Soha nem üres cella.</li>
+    <li>Kínáljatok egy vezérlőt, amely minden érték mellett megmutatja a kódrendszert és a kódot, például egy „Kódok megjelenítése” feliratú kapcsológombot. A rejtett kódok addig nem kerülnek az olvasási sorrendbe, amíg meg nem jelennek.</li>
+    <li>A klinikai szöveget jelöljétek a dokumentum nyelvével (<code>lang</code>), amely eltérhet a felület nyelvétől. A felületet fordítsátok le; a klinikai tartalmat soha ne fordítsátok.</li>
+    <li>A Lily nem szállít terminológiát: nincs SNOMED CT-, LOINC-, ATC- vagy UCUM-keresés. Azt írjátok, amit a dokumentum mond. A SvelteKit-példa <code>/patient-summary</code> oldala mutatja a mintát.</li>
   </ul>
 
   <h2>Mit nem tesz a Lily</h2>

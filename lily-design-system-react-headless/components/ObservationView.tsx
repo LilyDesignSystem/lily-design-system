@@ -3,6 +3,9 @@
 import React from "react";
 import { warnMissingProp } from "./dev-warning";
 
+// FHIR statuses with no value to show: the consumer's words replace it (spec/healthcare-ui, tasks.md P28-T5).
+const MISSING: readonly string[] = ["cancelled", "masked", "not-recorded", "unavailable"];
+
 export interface ObservationViewProps {
     className?: string;
     /** Hidden text naming the observation, when no visible caption does. */
@@ -17,7 +20,16 @@ export interface ObservationViewProps {
     flagLabel?: string;
     /** The reference range as text. */
     range?: string;
-    status?: "final" | "preliminary" | "not-recorded" | "unavailable";
+    status?:
+        | "final"
+        | "preliminary"
+        | "amended"
+        | "corrected"
+        | "entered-in-error"
+        | "cancelled"
+        | "masked"
+        | "not-recorded"
+        | "unavailable";
     /** The consumer's words for a status that is not final; replaces the value when not-recorded or unavailable. */
     statusLabel?: string;
     [key: string]: unknown;
@@ -49,7 +61,7 @@ export default function ObservationView({
             flagLabel,
             "An abnormal flag needs words, not colour alone (WCAG 1.4.1).",
         );
-    const missing = status === "not-recorded" || status === "unavailable";
+    const missing = MISSING.includes(status);
     return (
         <span
             className={`observation-view ${className}`}
@@ -81,7 +93,7 @@ export default function ObservationView({
                             <span className="observation-view-range">{range}</span>
                         </>
                     ) : null}
-                    {status === "preliminary" && statusLabel ? (
+                    {status !== "final" && statusLabel ? (
                         <>
                             {" "}
                             <span className="observation-view-status">{statusLabel}</span>

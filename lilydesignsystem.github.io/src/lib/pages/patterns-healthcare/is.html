@@ -24,7 +24,7 @@
           <td>Gildið, ákvörðun um merkið, viðmiðunarbilið</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> og <a href="/components/allergy-list-item/">allergy-list-item</a>: staða sem er aldrei auð</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> og <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: staða sem er aldrei auð</td>
           <td>Ofnæmisskráningin og hugtakanotkun hennar</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Samheiti með litlum stöfum, nema tall man stafi af listum FDA og ISMP eða lands þíns (Ástralía og Kanada gefa út sína eigin). Merktu þá í <code>nameSegments</code>; Lily giskar aldrei á þá.</li>
     <li>Skrifaðu styrkinn með <code>formatQuantity</code>: engin lokanúlla, upphafsnúlla og óbrjótanlegt bil á undan einingunni.</li>
+    <li>Haltu samanburðartákni niðurstöðu: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> skrifar „&lt;5 mmol/L“. <code>Quantity.comparator</code> í FHIR er skrifað &lt;, ≤, ≥ eða &gt;; ef því er sleppt verður „minna en 5“ að „5“.</li>
     <li>Skrifaðu mL, aldrei cc, og forðastu allar skammstafanir á lista ISMP yfir villuhættulegar skammstafanir.</li>
     <li>Styttu aldrei heiti lyfs eða skammt.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Deildartafla eða skjár stjórnstöðvar uppfærist oft. Tilkynntu aldrei hverja breytingu: hafðu eitt kurteist samantektarsvæði („3 rúm laus, 2 útskriftir væntanlegar“) og leyfðu fólki að lesa töfluna.</li>
     <li>Hvert ástand á töflu (rúm hreint, upptekið, lokað) er texti eða <code>data-*</code> ástand með orðum, aldrei litur einn.</li>
+  </ul>
+
+  <h2>Frá FHIR til Lily</h2>
+  <p>Lily les ekki FHIR-tilföng; kóðinn þinn varpar þeim á props Lily. Þessar töflur varpa HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Kóðavörpunin er tillaga: klínískt öryggismat þitt ræður henni og orðin fyrir hverja stöðu eru þín eigin.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS-kaflar og Lily-íhlutirnir fyrir þá</caption>
+      <thead>
+        <tr>
+          <th>IPS-kafli</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ofnæmi og óþol (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> og færslur hans</td>
+        </tr>
+        <tr>
+          <td>Lyfjayfirlit (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, þar sem hver færsla geymir <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Vandamálalisti (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> og færslur hans</td>
+        </tr>
+        <tr>
+          <td>Bólusetningar (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> og færslur hans</td>
+        </tr>
+        <tr>
+          <td>Niðurstöður (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, í gagnatöflu eða yfirlitslista</td>
+        </tr>
+        <tr>
+          <td>Saga aðgerða (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> og færslur hans</td>
+        </tr>
+        <tr>
+          <td>Lækningatæki (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> og færslur hans</td>
+        </tr>
+        <tr>
+          <td>Viðvaranir (<code>104605-1</code>)</td>
+          <td>Viðvörunartexti eða viðvörun, aldrei á bak við samanbrotinn stýrihlut</td>
+        </tr>
+        <tr>
+          <td>Hver annar kafli</td>
+          <td><a href="/components/record-list/">record-list</a> og færslur hans</td>
+        </tr>
+        <tr>
+          <td>Skyldukafli sem skjalið sleppir</td>
+          <td>Listi kaflans með <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR-kóðar og Lily-gildin fyrir þá</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Listinn með <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, með orðum sem segja hvor</td>
+        </tr>
+        <tr>
+          <td>IPS-kóðarnir <code>no-known-allergies</code>, <code>no-known-medications</code> og þess háttar</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS-kóðarnir <code>no-allergy-info</code>, <code>no-medication-info</code> og þess háttar</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, aðskilið frá viðbragðs <code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Sömu props á ofnæmis- og vandamálafærslum, með sömu kóðum</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Lyfjafærslan: <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, með sömu kóðum</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Varpaðu færslu með stöðuna <code>entered-in-error</code> á stöðuna <code>entered-in-error</code>, með orðum í stað þess að sleppa henni þegjandi: hvort hún er sýnd yfirleitt er ákvörðun þjónustu þinnar.</p>
+
+  <h2>Kóðuð gildi</h2>
+  <ul>
+    <li>Sýndu <code>Coding.display</code>; ef hann er enginn, <code>CodeableConcept.text</code>; ef hvorugt er til, <code>system|code</code>. Aldrei tómur reitur.</li>
+    <li>Bjóddu stýringu sem sýnir kóðakerfið og kóðann við hlið hvers gildis, til dæmis rofahnapp sem segir „Sýna kóða“. Faldir kóðar eru utan lestraraðar þar til þeir eru sýndir.</li>
+    <li>Merktu klínískan texta með tungumáli skjalsins (<code>lang</code>), sem getur verið annað en tungumál viðmótsins. Þýddu viðmótið; þýddu aldrei klínískt efni.</li>
+    <li>Lily fylgir engin hugtakaskrá: engar uppflettingar í SNOMED CT, LOINC, ATC eða UCUM. Skrifaðu það sem skjalið segir. SvelteKit-dæmið, síðan <code>/patient-summary</code> sýnir mynstrið.</li>
   </ul>
 
   <h2>Hvað Lily gerir ekki</h2>

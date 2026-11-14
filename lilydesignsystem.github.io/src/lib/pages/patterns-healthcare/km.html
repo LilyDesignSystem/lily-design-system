@@ -24,7 +24,7 @@
           <td>តម្លៃ ការសម្រេចចិត្តដាក់ទង់ ជួរយោង</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> និង <a href="/components/allergy-list-item/">allergy-list-item</a>៖ ស្ថានភាពដែលមិនដែលទទេ</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> និង <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>៖ ស្ថានភាពដែលមិនដែលទទេ</td>
           <td>កំណត់ត្រាអាឡែស៊ី និងប្រព័ន្ធវាក្យស័ព្ទរបស់វា</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>ឈ្មោះទូទៅសរសេរជាអក្សរតូច លើកលែងតែអក្សរធំ tall man ពីបញ្ជីរបស់ FDA និង ISMP ឬរបស់ប្រទេសអ្នក (អូស្ត្រាលី និងកាណាដាបោះពុម្ពផ្សាយបញ្ជីផ្ទាល់ខ្លួនរបស់ខ្លួន)។ សម្គាល់វាក្នុង <code>nameSegments</code>៖ Lily មិនដែលទាយទេ។</li>
     <li>សរសេរកម្លាំងថ្នាំដោយ <code>formatQuantity</code>៖ គ្មានសូន្យនៅចុង មានសូន្យនៅខាងមុខ និងចន្លោះមិនបំបែកបន្ទាត់នៅមុនឯកតា។</li>
+    <li>រក្សាតួប្រៀបធៀបនៃលទ្ធផល៖ <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> សរសេរជា "&lt;5 mmol/L"។ <code>Quantity.comparator</code> របស់ FHIR ត្រូវបានសរសេរជា &lt;, ≤, ≥ ឬ &gt;; ប្រសិនបើដកចេញ "តិចជាង 5" នឹងក្លាយជា "5"។</li>
     <li>សរសេរ mL មិនមែន cc ទេ ហើយជៀសវាងអក្សរកាត់ទាំងអស់នៅក្នុងបញ្ជីងាយបង្កកំហុសរបស់ ISMP។</li>
     <li>មិនត្រូវកាត់ឈ្មោះ ឬកម្រិតថ្នាំជាដាច់ខាត។</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>ក្តារវួដ ឬអេក្រង់មជ្ឈមណ្ឌលបញ្ជាការធ្វើបច្ចុប្បន្នភាពញឹកញាប់។ កុំប្រកាសរាល់ការផ្លាស់ប្តូរ៖ រក្សាតំបន់សង្ខេបបែបសុភាព (polite) មួយ ("គ្រែទំនេរ 3 អ្នកត្រូវចេញពីពេទ្យ 2 នាក់") ហើយទុកឱ្យមនុស្សអានក្តារដោយខ្លួនឯង។</li>
     <li>រាល់ស្ថានភាពនៅលើក្តារ (គ្រែស្អាត មានអ្នកជំងឺ ត្រូវបានបិទ) គឺជាអត្ថបទ ឬស្ថានភាព <code>data-*</code> ដែលមានពាក្យ មិនមែនពណ៌តែមួយមុខទេ។</li>
+  </ul>
+
+  <h2>ពី FHIR ទៅ Lily</h2>
+  <p>Lily មិនអានធនធាន FHIR ទេ; កូដរបស់អ្នកគូសផែនទីពួកវាទៅ props របស់ Lily។ តារាងទាំងពីរនេះគូសផែនទី HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4)។ ការគូសផែនទីកូដគ្រាន់តែជាសំណូមពរ៖ ការត្រួតពិនិត្យសុវត្ថិភាពគ្លីនិករបស់អ្នកជាអ្នកសម្រេច ហើយពាក្យសម្រាប់គ្រប់ស្ថានភាពជារបស់អ្នកផ្ទាល់។</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">ផ្នែករបស់ IPS និងសមាសធាតុ Lily ដែលត្រូវគ្នា</caption>
+      <thead>
+        <tr>
+          <th>ផ្នែករបស់ IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ប្រតិកម្មអាលែហ្ស៊ី និងការមិនអត់ឱនចំពោះសារធាតុ (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> និងធាតុរងរបស់វា</td>
+        </tr>
+        <tr>
+          <td>សង្ខេបថ្នាំ (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a> ដោយធាតុនីមួយៗមាន <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>បញ្ជីបញ្ហា (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> និងធាតុរងរបស់វា</td>
+        </tr>
+        <tr>
+          <td>ការចាក់វ៉ាក់សាំង (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> និងធាតុរងរបស់វា</td>
+        </tr>
+        <tr>
+          <td>លទ្ធផល (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a> ក្នុងតារាងទិន្នន័យ ឬបញ្ជីសង្ខេប</td>
+        </tr>
+        <tr>
+          <td>ប្រវត្តិនីតិវិធី (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> និងធាតុរងរបស់វា</td>
+        </tr>
+        <tr>
+          <td>ឧបករណ៍វេជ្ជសាស្ត្រ (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> និងធាតុរងរបស់វា</td>
+        </tr>
+        <tr>
+          <td>ការជូនដំណឹង (<code>104605-1</code>)</td>
+          <td>អត្ថបទព្រមាន ឬការជូនដំណឹង មិនត្រូវលាក់ក្រោយធាតុបញ្ជាដែលបានបង្រួមជាដាច់ខាត</td>
+        </tr>
+        <tr>
+          <td>ផ្នែកផ្សេងទៀត</td>
+          <td><a href="/components/record-list/">record-list</a> និងធាតុរងរបស់វា</td>
+        </tr>
+        <tr>
+          <td>ផ្នែកដែលតម្រូវ ប៉ុន្តែឯកសារបានលុបចោល</td>
+          <td>បញ្ជីរបស់ផ្នែកនោះជាមួយ <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">កូដ FHIR និងតម្លៃ Lily ដែលត្រូវគ្នា</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> របស់បញ្ជី</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code> ជាមួយពាក្យដែលប្រាប់ថាជាករណីមួយណា</td>
+        </tr>
+        <tr>
+          <td>កូដ IPS <code>no-known-allergies</code>, <code>no-known-medications</code> និងកូដស្រដៀងគ្នា</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>កូដ IPS <code>no-allergy-info</code>, <code>no-medication-info</code> និងកូដស្រដៀងគ្នា</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code> ដាច់ពី <code>severity</code> របស់ប្រតិកម្ម</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>props ដូចគ្នានៅលើធាតុអាលែហ្ស៊ី និងធាតុបញ្ហា ជាមួយកូដដូចគ្នា</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> របស់ធាតុថ្នាំ</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>status</code> របស់ <code>observation-view</code> ជាមួយកូដដូចគ្នា</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>គូសផែនទីកំណត់ត្រា <code>entered-in-error</code> ទៅស្ថានភាព <code>entered-in-error</code> របស់វា ជាមួយពាក្យ ជាជាងបោះចោលដោយស្ងៀមស្ងាត់៖ ថាតើត្រូវបង្ហាញវាឬអត់ ជាការសម្រេចចិត្តរបស់សេវាកម្មរបស់អ្នក។</p>
+
+  <h2>តម្លៃដែលមានកូដ</h2>
+  <ul>
+    <li>បង្ហាញ <code>Coding.display</code>; បើគ្មាន បង្ហាញ <code>CodeableConcept.text</code>; បើគ្មានទាំងពីរ បង្ហាញ <code>system|code</code>។ មិនត្រូវទុកក្រឡាទទេជាដាច់ខាត។</li>
+    <li>ផ្តល់ធាតុបញ្ជាដែលបង្ហាញប្រព័ន្ធកូដ និងកូដនៅជាប់នឹងតម្លៃនីមួយៗ ដូចជាប៊ូតុងបិទបើកដែលសរសេរថា "បង្ហាញកូដ"។ កូដដែលលាក់នឹងមិននៅក្នុងលំដាប់អានរហូតដល់បង្ហាញ។</li>
+    <li>សម្គាល់អត្ថបទគ្លីនិកជាមួយភាសានៃឯកសារ (<code>lang</code>) ដែលអាចខុសពីភាសាអ៊ីនធើហ្វេស។ បកប្រែអ៊ីនធើហ្វេស; មិនត្រូវបកប្រែខ្លឹមសារគ្លីនិកជាដាច់ខាត។</li>
+    <li>Lily មិនមានវាក្យស័ព្ទបច្ចេកទេសមកជាមួយទេ៖ គ្មានការស្វែងរក SNOMED CT, LOINC, ATC ឬ UCUM។ សរសេរតាមអ្វីដែលឯកសារនិយាយ។ ទំព័រ <code>/patient-summary</code> របស់ឧទាហរណ៍ SvelteKit បង្ហាញលំនាំនេះ។</li>
   </ul>
 
   <h2>អ្វីដែល Lily នឹងមិនធ្វើ</h2>

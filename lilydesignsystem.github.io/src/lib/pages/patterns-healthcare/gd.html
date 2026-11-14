@@ -24,7 +24,7 @@
           <td>An luach, co-dhùnadh na brataich, an raon-tuairisgeil</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> agus <a href="/components/allergy-list-item/">allergy-list-item</a>: inbhe nach eil a-chaoidh falamh</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> agus <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: inbhe nach eil a-chaoidh falamh</td>
           <td>An clàr aileirdsidh agus a theirmeòlas</td>
         </tr>
         <tr>
@@ -96,6 +96,7 @@
   <ul>
     <li>Ainmean coitcheann ann an litrichean beaga, ach a-mhàin litrichean “tall man” bho liostaichean an FDA agus ISMP no an fheadhainn aig do dhùthcha (bidh Astràilia agus Canada a’ foillseachadh an fheadhainn aca fhèin). Comharraich iad ann an <code>nameSegments</code>; chan tomhais Lily iad a-chaoidh.</li>
     <li>Sgrìobh an neart le <code>formatQuantity</code>: gun neoni air deireadh, le neoni air thoiseach, agus beàrn gun bhriseadh ron aonad.</li>
+    <li>Cùm coimeas toraidh: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> a’ sgrìobhadh “&lt;5 mmol/L”. Tha <code>Quantity.comparator</code> aig FHIR air a sgrìobhadh &lt;, ≤, ≥ no &gt;; ma dh’fhàgas tu às e, bidh “nas lugha na 5” a’ fàs “5”.</li>
     <li>Sgrìobh mL, gu bràth cc, agus seachain a h-uile giorrachadh a tha air liosta ISMP de ghiorrachaidhean a bhios buailteach do mhearachdan.</li>
     <li>Na gearr ainm no dòs cungaidh goirid gu bràth.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Bidh bòrd uàird no sgrìon ionad-stiùiridh ag ùrachadh gu tric. Na cuir an cèill gach atharrachadh gu bràth: cùm aon raon geàrr-chunntais socair (“3 leapannan saor, 2 leigeil-às ri thighinn”) agus leig le daoine am bòrd a leughadh.</li>
     <li>Tha a h-uile staid air bòrd (leabaidh glan, làn, bacte) na teacsa no na staid <code>data-*</code> le faclan, chan ann dath a-mhàin.</li>
+  </ul>
+
+  <h2>Bho FHIR gu Lily</h2>
+  <p>Chan eil Lily a’ leughadh goireasan FHIR; bidh an còd agad gam mapadh gu props Lily. Tha na clàran seo a’ mapadh HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Tha am mapadh còd na mholadh: tha an lèirmheas sàbhailteachd clinigeach agad a’ co-dhùnadh air, agus is e na faclan airson gach staid na faclan agad fhèin.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Earrannan IPS agus na co-phàirtean Lily dhaibh</caption>
+      <thead>
+        <tr>
+          <th>Earrann IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Aileirdsidhean is neo-fhulangas (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> agus na nithean aice</td>
+        </tr>
+        <tr>
+          <td>Geàrr-chunntas cungaidhean (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, le gach nì a’ gabhail a-steach <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Liosta dhuilgheadasan (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> agus na nithean aice</td>
+        </tr>
+        <tr>
+          <td>Banachdaichean (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> agus na nithean aice</td>
+        </tr>
+        <tr>
+          <td>Toraidhean (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, ann an clàr dàta no liosta geàrr-chunntais</td>
+        </tr>
+        <tr>
+          <td>Eachdraidh phròiseasan (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> agus na nithean aice</td>
+        </tr>
+        <tr>
+          <td>Innealan meidigeach (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> agus na nithean aice</td>
+        </tr>
+        <tr>
+          <td>Rabhaidhean (<code>104605-1</code>)</td>
+          <td>Teacsa rabhaidh no rabhadh, gu bràth air cùl smachd a tha air a dhùnadh</td>
+        </tr>
+        <tr>
+          <td>Earrann sam bith eile</td>
+          <td><a href="/components/record-list/">record-list</a> agus na nithean aice</td>
+        </tr>
+        <tr>
+          <td>Earrann riatanach a dh’fhàgas an sgrìobhainn às</td>
+          <td>Liosta na h-earrainn le <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Còdan FHIR agus na luachan Lily dhaibh</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Liosta le <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, le faclan a chanas dè an tè</td>
+        </tr>
+        <tr>
+          <td>Na còdan IPS <code>no-known-allergies</code>, <code>no-known-medications</code> agus an leithid</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Na còdan IPS <code>no-allergy-info</code>, <code>no-medication-info</code> agus an leithid</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, air leth bho ath-bhualadh <code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Na h-aon props air na nithean aileirdsidh is duilgheadais, leis na h-aon chòdan</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Nì a’ chungaidh: <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, leis na h-aon chòdan</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Mapaich clàr le inbhe <code>entered-in-error</code> gu inbhe <code>entered-in-error</code>, le faclan, an àite a leigeil air falbh gu sàmhach: is e co-dhùnadh do sheirbheis a bheil e ri sheall idir.</p>
+
+  <h2>Luachan còdaichte</h2>
+  <ul>
+    <li>Seall <code>Coding.display</code>; mura eil gin, <code>CodeableConcept.text</code>; mura eil gin dhiubh, <code>system|code</code>. Gu bràth cealla fhalamh.</li>
+    <li>Tairg smachd a sheallas an siostam còdan agus an còd ri taobh gach luach, mar phutan toglaidh a tha ag ràdh “Seall còdan”. Fuirichidh còdan falaichte taobh a-muigh òrdugh na leughaidh gus an tèid an sealltainn.</li>
+    <li>Comharraich teacsa clinigeach le cànan na sgrìobhainn (<code>lang</code>), a dh’fhaodas a bhith eadar-dhealaichte bho chànan an eadar-aghaidh. Eadar-theangaich an t-eadar-aghaidh; na eadar-theangaich susbaint chlinigeach gu bràth.</li>
+    <li>Chan eil Lily a’ libhrigeadh teirmeòlas: gun lorg SNOMED CT, LOINC, ATC no UCUM. Sgrìobh na tha an sgrìobhainn ag ràdh. Seallaidh an duilleag <code>/patient-summary</code> ann an eisimpleir SvelteKit am pàtran.</li>
   </ul>
 
   <h2>Na nach dèan Lily</h2>

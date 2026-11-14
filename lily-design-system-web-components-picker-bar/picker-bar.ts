@@ -153,12 +153,16 @@ export type PickerBarLabels = {
      * supplied; the link picker renders only when both are present.
      */
     link?: string;
-    /** Accessible name for the search picker's button and search landmark. */
-    search: string;
+    /**
+     * Accessible name for the search picker's button and search landmark. Optional: omitted or empty, the bar has no search
+     * picker (a client-side app whose search would navigate away from its state can leave it out). When given, `searchInput`
+     * and `searchSubmit` are needed too.
+     */
+    search?: string;
     /** Accessible name for the search picker's text field. */
-    searchInput: string;
+    searchInput?: string;
     /** Accessible name for the search picker's ⏎ submit button. */
-    searchSubmit: string;
+    searchSubmit?: string;
     /** Accessible name for the theme picker's button and listbox. */
     theme: string;
     /** Accessible name for the locale picker's button and listbox. */
@@ -312,9 +316,9 @@ export class PickerBar extends HTMLElement {
         this.#syncLink();
         this.#syncTimeZone();
         if (this.#searchEl) {
-            this.#searchEl.label = this.#labels.search;
-            this.#searchEl.inputLabel = this.#labels.searchInput;
-            this.#searchEl.submitLabel = this.#labels.searchSubmit;
+            this.#searchEl.label = this.#labels.search ?? "";
+            this.#searchEl.inputLabel = this.#labels.searchInput ?? "";
+            this.#searchEl.submitLabel = this.#labels.searchSubmit ?? "";
         }
         if (this.#themeEl) this.#themeEl.label = this.#labels.theme;
         if (this.#localeEl) this.#localeEl.label = this.#labels.locale;
@@ -507,12 +511,16 @@ export class PickerBar extends HTMLElement {
         this.replaceChildren(root);
 
         // Search comes first in the row (maintainer-directed, 2026-10-02).
-        const searchEl = document.createElement("lily-search-picker") as SearchPicker;
-        searchEl.label = this.#labels.search;
-        searchEl.inputLabel = this.#labels.searchInput;
-        searchEl.submitLabel = this.#labels.searchSubmit;
-        Object.assign(searchEl, this.#searchProps);
-        root.appendChild(searchEl);
+        // Only when the app names it: a client-side app can leave search out (tasks.md P28-T7).
+        let searchEl: SearchPicker | null = null;
+        if (this.#labels.search) {
+            searchEl = document.createElement("lily-search-picker") as SearchPicker;
+            searchEl.label = this.#labels.search;
+            searchEl.inputLabel = this.#labels.searchInput ?? "";
+            searchEl.submitLabel = this.#labels.searchSubmit ?? "";
+            Object.assign(searchEl, this.#searchProps);
+            root.appendChild(searchEl);
+        }
 
         const themeEl = document.createElement("lily-theme-picker") as ThemePicker;
         themeEl.label = this.#labels.theme;

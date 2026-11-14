@@ -1,0 +1,33 @@
+{#
+  ProcedureRecordList macro — a list of a patient's procedures, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui).
+  For any status but "known", statusLabel is the list's one item.
+
+  HTML tag: <ul>
+  CSS class: procedure-record-list (part: procedure-record-list-status)
+
+  Params:
+    status       "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" (required), rendered as data-status
+    statusLabel  the consumer's words for the status (required); names the list
+    label        the accessible name, when it should differ from statusLabel
+    html, id, classes, attributes
+
+  Body content: procedureRecordListItem children via caller() or params.html.
+
+  Usage:
+    {% from "components/procedure-record-list/macro.njk" import procedureRecordList %}
+    {{ procedureRecordList({ status: "none-known", statusLabel: "No known procedures" }) }}
+#}
+{%- macro procedureRecordList(params) -%}
+{%- set p = params | default({}) -%}
+<ul
+  class="procedure-record-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.status %} data-status="{{ p.status }}"{% endif %} aria-label="{{ p.label or p.statusLabel }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.status != "known" %}<li class="procedure-record-list-status">{{ p.statusLabel }}</li>{% endif -%}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</ul>
+{%- endmacro -%}
