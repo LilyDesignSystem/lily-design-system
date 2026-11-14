@@ -9,6 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Release — 2026-11-14
+
+tasks.md P28-T1. The healthcare components (Phase 27) and the record lists (Phase 28) on npm and NuGet.
+
+- `svelte-headless`, `react-headless`, `vue-headless`, `nunjucks-headless` and `LilyDesignSystem.Blazor.Headless` 0.9.0;
+  `angular-headless` 0.10.0; `html-headless` 0.11.0; `web-components-headless` 0.10.0.
+- `alpine-headless` 0.1.0, its first release: `bin/publish-headless` now publishes it.
+- `picker-bar` 0.6.0 in all eight catalogs (search optional).
+- **Fixed before release:** the generated package indexes of the four TypeScript libraries now export `clinical-format`; a
+  hand edit in Phase 27 would have been dropped by the publish build.
+
 ## Result statuses and quantity comparators — 2026-11-14
 
 - **Added:** `observation-view` takes FHIR's `amended`, `corrected`, `cancelled` and `entered-in-error`, and `masked` (withheld for

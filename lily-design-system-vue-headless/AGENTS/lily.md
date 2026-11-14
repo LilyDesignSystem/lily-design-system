@@ -21,7 +21,7 @@ backlog. See its own `spec/index.md` for the architecture decisions
 and the exact scope.
 
 A 9th, [Lily Design System: Alpine.js headless](../lily-design-system-alpine-headless)
-(added 2026-10-21; `@lilydesignsystem/alpine-headless` 0.1.0, not yet published), covers all 629 components as annotated HTML
+(added 2026-10-21; `@lilydesignsystem/alpine-headless`, first published 0.1.0 on 2026-11-14), covers all 629 components as annotated HTML
 snippets (`components/{slug}.html`) plus one Alpine plugin (`lily-alpine.js`)
 whose `Alpine.data` behaviours own state and keyboard for the interactive ones. Its example app is [`lily-design-system-alpine-examples`](../lily-design-system-alpine-examples); its six helpers are `lily-design-system-alpine-{data-grid,kanban-board,calendar,gantt-chart,markdown-editor,org-editor}` (`@lilydesignsystem/alpine-*`), each a subset of its Svelte reference. See its `spec/index.md`.
 
@@ -170,7 +170,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [update](../bin/update): Start Claude Code with a standing "update, upgrade, fix, harmonize, audit, test" prompt over every subproject
 - [generate-storybook-stories.mjs](../bin/generate-storybook-stories.mjs): Generate Storybook stories
 - [publish-helpers](../bin/publish-helpers): Build and publish every helper package (npm / NuGet)
-- [publish-headless](../bin/publish-headless): Build and publish the 7 full-catalog headless libraries and Web Components (npm / NuGet); Alpine is not in it yet
+- [publish-headless](../bin/publish-headless): Build and publish the 7 full-catalog headless libraries, Web Components and Alpine (npm / NuGet)
 - [generate-registries](../bin/generate-registries): Regenerate example-app catalog registries from components.tsv
 - [check-links](../bin/check-links): Verify relative markdown links resolve
 - [check-dtcg-tokens](../bin/check-dtcg-tokens): `themes/tokens/*.json` and `lily.resolver.json` are strict DTCG 2025.10 (in bin/test)
