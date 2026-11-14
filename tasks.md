@@ -3541,10 +3541,10 @@ Lily ships no clinical logic: a task that would compute a score, centile, dose o
       `data-deceased` plus text, consumer text for each missing value, no truncation, allergies through P27-T3. In
       `medical-banner`'s docs and `AGENTS/components.md`.
       Verify: an e2e test at 320px with a long name and many allergies finds every field visible and unclipped. _(2026-11-14: done. Rules in `components/medical-banner/index.md` and `AGENTS/components.md`; `/patient-banner` in the SvelteKit app; `e2e/patient-banner.spec.ts` passes in Chromium and WebKit, and fails when a field is clipped with an ellipsis.)_
-- [ ] **P27-T9 Five example pages.** In the SvelteKit app: an International Patient Summary (allergies, medicines, problems,
+- [x] **P27-T9 Five example pages.** In the SvelteKit app: an International Patient Summary (allergies, medicines, problems,
       with an empty reason), a ward board (changes summarised in one polite region, not announced one by one), a medicines
       administration chart on `data-table`, an observations chart on `line-chart` with its data table, an SBAR handover form.
-      Verify: each page has an e2e spec, passes the axe catalog, and is completed by keyboard alone.
+      Verify: each page has an e2e spec, passes the axe catalog, and is completed by keyboard alone. _(2026-11-14: done. `/patient-summary`, `/ward-board`, `/medicines-administration`, `/observations-chart` and `/handover` in the SvelteKit app, linked from its home page. `e2e/healthcare-pages.spec.ts` runs axe on each and checks its rule, and passes in Chromium and WebKit (Firefox only in CI); the handover is completed by keyboard alone, with Option+Tab to the button in WebKit as Safari needs. Blanking a chart cell makes it fail.)_
 - [x] **P27-T10 `docs/patterns/healthcare.md`.** Alert tiering (inline, visible, interrupting only for critical with a reason),
       wrong-patient safeguards (two identifiers; restriction declined, with the JAMA 2019 trial), dates and times
       (unambiguous month, explicit `hourCycle`, never a default), the regulation note, and what Lily does not do.

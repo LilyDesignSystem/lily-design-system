@@ -444,7 +444,7 @@ calculation (that makes software a medical device, and it belongs in the adopter
 data, no tall man list, no Wong-Baker FACES and no NEWS2 chart replica. Limiting open records is declined on the evidence. T11
 (`body-map`) and T12 (a 0 to 10 scale) are maintainer decisions.
 
-Status (2026-11-14): T1 to T8 done (catalog 615); T11 and T12 approved by the maintainer, to build; T9 and T10 open.
+Status (2026-11-14): T1 to T10 done (catalog 615); T11 and T12 approved by the maintainer, to build.
 
 ---
 

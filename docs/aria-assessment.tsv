@@ -612,5 +612,5 @@ allergy-list	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
 allergy-list-item	automated evidence complete	no	no	no	no	1	0	no	-
 medication-view	ARIA evidence incomplete	no	no	no	yes	1	0	no	-
 decision-support-card	key evidence incomplete	no	yes	no	yes	7	8	no	-
-early-warning-score-view	ARIA evidence incomplete	no	no	no	yes	1	0	no	-
+early-warning-score-view	ARIA evidence incomplete	no	no	no	yes	1	0	yes	-
 age-view	automated evidence complete	no	no	no	yes	1	8	yes	-

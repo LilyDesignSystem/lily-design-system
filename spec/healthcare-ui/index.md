@@ -8,7 +8,7 @@ medical banner, a care card, a patient banner composition, 164 national identifi
 the small, safety-critical display contracts that clinical software repeats on every screen: a result with its reference range
 and flag, an allergy status that is never blank, a medicine written the safe way, a decision-support card, a patient's age. This
 topic proposes seven components, one shared formatting module and five example pages, and declines everything that would put
-clinical logic in Lily. Items 1 to 8 were built on 2026-11-14; the rest are open acceptance criteria and tasks in
+clinical logic in Lily. Items 1 to 10 were built on 2026-11-14; the rest are open acceptance criteria and tasks in
 [tasks.md](../../tasks.md#phase-27--healthcare-user-interfaces-2026-11-13).
 
 ## Scope
@@ -151,7 +151,7 @@ clinical logic in Lily. Items 1 to 8 were built on 2026-11-14; the rest are open
 - [x] 6. `age-view` and `ageParts()` with tests at each band boundary.
 - [x] 7. The patient banner rules are in `medical-banner`'s docs and `AGENTS/components.md`, with an e2e test at 320px.
 - [x] 8. `shared/clinical-format.ts` with tests, synced by `bin/sync-shared-modules`.
-- [ ] 9. The five example pages exist in the SvelteKit app, pass axe, and are reachable by keyboard alone.
+- [x] 9. The five example pages exist in the SvelteKit app, pass axe, and are reachable by keyboard alone.
 - [x] 10. `docs/patterns/healthcare.md` exists and is linked from each healthcare component's page.
 - [x] 11–12. Each maintainer decision is recorded here: `body-map` and a 0 to 10 rating scale were both approved on 2026-11-14 (tasks.md P27-T11, P27-T12).
 
