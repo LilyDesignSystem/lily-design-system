@@ -3545,10 +3545,10 @@ Lily ships no clinical logic: a task that would compute a score, centile, dose o
       with an empty reason), a ward board (changes summarised in one polite region, not announced one by one), a medicines
       administration chart on `data-table`, an observations chart on `line-chart` with its data table, an SBAR handover form.
       Verify: each page has an e2e spec, passes the axe catalog, and is completed by keyboard alone.
-- [ ] **P27-T10 `docs/patterns/healthcare.md`.** Alert tiering (inline, visible, interrupting only for critical with a reason),
+- [x] **P27-T10 `docs/patterns/healthcare.md`.** Alert tiering (inline, visible, interrupting only for critical with a reason),
       wrong-patient safeguards (two identifiers; restriction declined, with the JAMA 2019 trial), dates and times
       (unambiguous month, explicit `hourCycle`, never a default), the regulation note, and what Lily does not do.
-      Verify: the page exists, is linked from the site, and `bin/check-links` passes.
+      Verify: the page exists, is linked from the site, and `bin/check-links` passes. _(2026-11-14: done. `docs/patterns/healthcare.md`, linked from the spec and from each of the seven healthcare components' pages; the site has no route for pattern docs, so the link is from the component pages built from them. `bin/check-links` passes.)_
 - [ ] **P27-T11 `body-map` (maintainer decision).** A consumer SVG whose regions are buttons, with a list alternative.
       Verify: built with key tests, or declined with a reason in the topic. _(2026-11-14: approved by the maintainer; to build.)_
 - [ ] **P27-T12 A 0 to 10 rating scale (maintainer decision).** Generalise `net-promoter-score-picker` or add

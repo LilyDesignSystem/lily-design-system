@@ -57,6 +57,9 @@ unrun
 untasked
 webstatus
 # Acronyms and initialisms
+LOINC
+SNOMED
+AHRQ
 SBAR
 ISMP
 FHIR

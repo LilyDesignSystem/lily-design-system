@@ -79,6 +79,7 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 - FHIR AllergyIntolerance: https://hl7.org/fhir/allergyintolerance.html
 - Spec: spec/healthcare-ui/index.md
+- Adopter guide: https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/patterns/healthcare.md
 
 ---
 

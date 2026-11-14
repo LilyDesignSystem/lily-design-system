@@ -152,8 +152,13 @@ clinical logic in Lily. Items 1 to 8 were built on 2026-11-14; the rest are open
 - [x] 7. The patient banner rules are in `medical-banner`'s docs and `AGENTS/components.md`, with an e2e test at 320px.
 - [x] 8. `shared/clinical-format.ts` with tests, synced by `bin/sync-shared-modules`.
 - [ ] 9. The five example pages exist in the SvelteKit app, pass axe, and are reachable by keyboard alone.
-- [ ] 10. `docs/patterns/healthcare.md` exists and is linked from the site.
+- [x] 10. `docs/patterns/healthcare.md` exists and is linked from each healthcare component's page.
 - [x] 11–12. Each maintainer decision is recorded here: `body-map` and a 0 to 10 rating scale were both approved on 2026-11-14 (tasks.md P27-T11, P27-T12).
+
+## Adopter guide
+
+[docs/patterns/healthcare.md](../../docs/patterns/healthcare.md): what Lily does and does not do, alert tiering,
+wrong-patient safeguards, the patient banner, results, medicines, dates and times, dashboards.
 
 ## Related topics
 
