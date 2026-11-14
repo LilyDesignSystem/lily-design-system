@@ -21,6 +21,7 @@
     "prettier": "^3.9.10",
     "prettier-plugin-svelte": "^4.1.1",
     "svelte": "^5.57.3",
+    "syncpack": "^15.3.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.1"
   }
