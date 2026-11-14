@@ -353,8 +353,11 @@
       "name": "allergy-record-list-item",
       "type": "registry:component",
       "title": "AllergyRecordListItem",
-      "description": "One allergy or intolerance in an allergy list, with substance, reaction, severity and last update.",
+      "description": "One allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "lists"
       ],
@@ -3070,6 +3073,46 @@
       ]
     },
     {
+      "name": "device-record-list",
+      "type": "registry:component",
+      "title": "DeviceRecordList",
+      "description": "A list of a patient's medical devices, whose status is never blank.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/DeviceRecordList.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/DeviceRecordList.tsx"
+        }
+      ]
+    },
+    {
+      "name": "device-record-list-item",
+      "type": "registry:component",
+      "title": "DeviceRecordListItem",
+      "description": "One medical device in a device record list, with its status and when it was used.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/DeviceRecordListItem.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/DeviceRecordListItem.tsx"
+        }
+      ]
+    },
+    {
       "name": "dial",
       "type": "registry:component",
       "title": "Dial",
@@ -5181,6 +5224,46 @@
       ]
     },
     {
+      "name": "immunization-record-list",
+      "type": "registry:component",
+      "title": "ImmunizationRecordList",
+      "description": "A list of a patient's immunizations, whose status is never blank.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/ImmunizationRecordList.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/ImmunizationRecordList.tsx"
+        }
+      ]
+    },
+    {
+      "name": "immunization-record-list-item",
+      "type": "registry:component",
+      "title": "ImmunizationRecordListItem",
+      "description": "One immunization in an immunization record list, with vaccine, date, dose and status.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/ImmunizationRecordListItem.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/ImmunizationRecordListItem.tsx"
+        }
+      ]
+    },
+    {
       "name": "indonesia-nomor-induk-kependudukan-input",
       "type": "registry:component",
       "title": "IndonesiaNomorIndukKependudukanInput",
@@ -6287,6 +6370,46 @@
           "path": "lily-design-system-react-headless/components/MedicalBannerBoxForDanger.tsx",
           "type": "registry:component",
           "target": "@components/lily/MedicalBannerBoxForDanger.tsx"
+        }
+      ]
+    },
+    {
+      "name": "medication-record-list",
+      "type": "registry:component",
+      "title": "MedicationRecordList",
+      "description": "A list of a patient's medicines, whose status is never blank.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/MedicationRecordList.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/MedicationRecordList.tsx"
+        }
+      ]
+    },
+    {
+      "name": "medication-record-list-item",
+      "type": "registry:component",
+      "title": "MedicationRecordListItem",
+      "description": "One medicine in a medication record list, with its status and when it applies.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/MedicationRecordListItem.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/MedicationRecordListItem.tsx"
         }
       ]
     },
@@ -7923,6 +8046,86 @@
       ]
     },
     {
+      "name": "problem-record-list",
+      "type": "registry:component",
+      "title": "ProblemRecordList",
+      "description": "A list of a patient's problems and conditions, whose status is never blank.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/ProblemRecordList.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/ProblemRecordList.tsx"
+        }
+      ]
+    },
+    {
+      "name": "problem-record-list-item",
+      "type": "registry:component",
+      "title": "ProblemRecordListItem",
+      "description": "One problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/ProblemRecordListItem.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/ProblemRecordListItem.tsx"
+        }
+      ]
+    },
+    {
+      "name": "procedure-record-list",
+      "type": "registry:component",
+      "title": "ProcedureRecordList",
+      "description": "A list of a patient's procedures, whose status is never blank.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/ProcedureRecordList.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/ProcedureRecordList.tsx"
+        }
+      ]
+    },
+    {
+      "name": "procedure-record-list-item",
+      "type": "registry:component",
+      "title": "ProcedureRecordListItem",
+      "description": "One procedure in a procedure record list, with its status and when it was performed.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/ProcedureRecordListItem.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/ProcedureRecordListItem.tsx"
+        }
+      ]
+    },
+    {
       "name": "product-card",
       "type": "registry:component",
       "title": "ProductCard",
@@ -8112,6 +8315,46 @@
           "path": "lily-design-system-react-headless/components/RangeInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/RangeInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "record-list",
+      "type": "registry:component",
+      "title": "RecordList",
+      "description": "A list of records from one section of a patient's record, whose status is never blank.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/RecordList.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RecordList.tsx"
+        }
+      ]
+    },
+    {
+      "name": "record-list-item",
+      "type": "registry:component",
+      "title": "RecordListItem",
+      "description": "One record in a record list, with its status and last update around the consumer's content.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "lists"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/RecordListItem.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RecordListItem.tsx"
         }
       ]
     },

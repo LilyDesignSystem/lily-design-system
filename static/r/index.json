@@ -1,5 +1,5 @@
 {
-  "count": 617,
+  "count": 629,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -118,7 +118,7 @@
     {
       "slug": "allergy-record-list-item",
       "name": "AllergyRecordListItem",
-      "description": "one allergy or intolerance in an allergy list, with substance, reaction, severity and last update",
+      "description": "one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status",
       "manifest": "https://lilydesignsystem.com/r/allergy-record-list-item.json"
     },
     {
@@ -1010,6 +1010,18 @@
       "manifest": "https://lilydesignsystem.com/r/deutschland-krankenversichertennummer-view.json"
     },
     {
+      "slug": "device-record-list",
+      "name": "DeviceRecordList",
+      "description": "a list of a patient's medical devices, whose status is never blank",
+      "manifest": "https://lilydesignsystem.com/r/device-record-list.json"
+    },
+    {
+      "slug": "device-record-list-item",
+      "name": "DeviceRecordListItem",
+      "description": "one medical device in a device record list, with its status and when it was used",
+      "manifest": "https://lilydesignsystem.com/r/device-record-list-item.json"
+    },
+    {
       "slug": "dial",
       "name": "Dial",
       "description": "a rotary dial control for selecting a value",
@@ -1712,6 +1724,18 @@
       "manifest": "https://lilydesignsystem.com/r/image-input.json"
     },
     {
+      "slug": "immunization-record-list",
+      "name": "ImmunizationRecordList",
+      "description": "a list of a patient's immunizations, whose status is never blank",
+      "manifest": "https://lilydesignsystem.com/r/immunization-record-list.json"
+    },
+    {
+      "slug": "immunization-record-list-item",
+      "name": "ImmunizationRecordListItem",
+      "description": "one immunization in an immunization record list, with vaccine, date, dose and status",
+      "manifest": "https://lilydesignsystem.com/r/immunization-record-list-item.json"
+    },
+    {
       "slug": "indonesia-nomor-induk-kependudukan-input",
       "name": "IndonesiaNomorIndukKependudukanInput",
       "description": "an input for entering Indonesia's Nomor Induk Kependudukan (NIK)",
@@ -2076,6 +2100,18 @@
       "name": "MedicalBannerBoxForDanger",
       "description": "a medical record banner box for danger information e.g. reactions, warnings, alarms, etc.",
       "manifest": "https://lilydesignsystem.com/r/medical-banner-box-for-danger.json"
+    },
+    {
+      "slug": "medication-record-list",
+      "name": "MedicationRecordList",
+      "description": "a list of a patient's medicines, whose status is never blank",
+      "manifest": "https://lilydesignsystem.com/r/medication-record-list.json"
+    },
+    {
+      "slug": "medication-record-list-item",
+      "name": "MedicationRecordListItem",
+      "description": "one medicine in a medication record list, with its status and when it applies",
+      "manifest": "https://lilydesignsystem.com/r/medication-record-list-item.json"
     },
     {
       "slug": "medication-view",
@@ -2600,6 +2636,30 @@
       "manifest": "https://lilydesignsystem.com/r/prathet-thai-lek-prajam-tua-prachachon-view.json"
     },
     {
+      "slug": "problem-record-list",
+      "name": "ProblemRecordList",
+      "description": "a list of a patient's problems and conditions, whose status is never blank",
+      "manifest": "https://lilydesignsystem.com/r/problem-record-list.json"
+    },
+    {
+      "slug": "problem-record-list-item",
+      "name": "ProblemRecordListItem",
+      "description": "one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution",
+      "manifest": "https://lilydesignsystem.com/r/problem-record-list-item.json"
+    },
+    {
+      "slug": "procedure-record-list",
+      "name": "ProcedureRecordList",
+      "description": "a list of a patient's procedures, whose status is never blank",
+      "manifest": "https://lilydesignsystem.com/r/procedure-record-list.json"
+    },
+    {
+      "slug": "procedure-record-list-item",
+      "name": "ProcedureRecordListItem",
+      "description": "one procedure in a procedure record list, with its status and when it was performed",
+      "manifest": "https://lilydesignsystem.com/r/procedure-record-list-item.json"
+    },
+    {
       "slug": "product-card",
       "name": "ProductCard",
       "description": "a specialized card for displaying a product with image, title, price, and actions",
@@ -2664,6 +2724,18 @@
       "name": "RangeInput",
       "description": "a slider input for selecting a value within a range <input type=\"range\">",
       "manifest": "https://lilydesignsystem.com/r/range-input.json"
+    },
+    {
+      "slug": "record-list",
+      "name": "RecordList",
+      "description": "a list of records from one section of a patient's record, whose status is never blank",
+      "manifest": "https://lilydesignsystem.com/r/record-list.json"
+    },
+    {
+      "slug": "record-list-item",
+      "name": "RecordListItem",
+      "description": "one record in a record list, with its status and last update around the consumer's content",
+      "manifest": "https://lilydesignsystem.com/r/record-list-item.json"
     },
     {
       "slug": "red-amber-green-picker",

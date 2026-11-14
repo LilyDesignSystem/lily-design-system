@@ -1,0 +1,54 @@
+{
+  "slug": "problem-record-list-item",
+  "name": "ProblemRecordListItem",
+  "description": "one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".problem-record-list-item",
+  "subClasses": [
+    "problem-record-list-item-abatement",
+    "problem-record-list-item-clinical-status",
+    "problem-record-list-item-condition",
+    "problem-record-list-item-onset",
+    "problem-record-list-item-severity",
+    "problem-record-list-item-verification-status"
+  ],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "No ARIA beyond the native `<li>`; every status is text, never colour alone"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`condition`: string (required) — the problem or condition; never truncated",
+    "`clinicalStatus`: \"active\" | \"recurrence\" | \"relapse\" | \"inactive\" | \"remission\" | \"resolved\" (optional) — FHIR Condition clinicalStatus; rendered as `data-clinical-status`",
+    "`clinicalStatusLabel`: string (optional; required when `clinicalStatus` is set) — the clinicalStatus in words",
+    "`verificationStatus`: \"unconfirmed\" | \"provisional\" | \"differential\" | \"confirmed\" | \"refuted\" | \"entered-in-error\" (optional) — FHIR Condition verificationStatus; a refuted or entered-in-error record must never read as a confirmed one; rendered as `data-verification-status`",
+    "`verificationStatusLabel`: string (optional; required when `verificationStatus` is set) — the verificationStatus in words",
+    "`severityLabel`: string (optional) — the severity in words",
+    "`onset`: string (optional) — when it began, for <time datetime>",
+    "`onsetLabel`: string (optional) — that date as the consumer writes it; the `<time>` shows only when set",
+    "`abatement`: string (optional) — when it resolved, for <time datetime>",
+    "`abatementLabel`: string (optional) — that date as the consumer writes it; the `<time>` shows only when set",
+    "`children`: slot (optional) — anything else, such as a link to the full record",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "problem-record-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/problem-record-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/ProblemRecordListItem/ProblemRecordListItem.svelte",
+    "react": "lily-design-system-react-headless/components/ProblemRecordListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/ProblemRecordListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/ProblemRecordListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/problem-record-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/problem-record-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/problem-record-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ProblemRecordListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/problem-record-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/problem-record-list-item/AGENTS.md"
+}

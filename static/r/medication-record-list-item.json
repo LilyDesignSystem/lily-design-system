@@ -1,0 +1,44 @@
+{
+  "slug": "medication-record-list-item",
+  "name": "MedicationRecordListItem",
+  "description": "one medicine in a medication record list, with its status and when it applies",
+  "htmlTag": "li",
+  "category": "lists",
+  "baseClass": ".medication-record-list-item",
+  "subClasses": [
+    "medication-record-list-item-effective",
+    "medication-record-list-item-status"
+  ],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "No ARIA beyond the native `<li>`; every status is text, never colour alone"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`children`: slot — the medicine, usually a MedicationView",
+    "`status`: \"active\" | \"completed\" | \"entered-in-error\" | \"intended\" | \"stopped\" | \"on-hold\" | \"unknown\" | \"not-taken\" (optional) — FHIR MedicationStatement status; rendered as `data-status`",
+    "`statusLabel`: string (optional; required when `status` is set) — the status in words",
+    "`effective`: string (optional) — when the medicine applies, for <time datetime>",
+    "`effectiveLabel`: string (optional) — that date as the consumer writes it; the `<time>` shows only when set",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "medication-record-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/medication-record-list-item.html",
+    "svelte": "lily-design-system-svelte-headless/components/MedicationRecordListItem/MedicationRecordListItem.svelte",
+    "react": "lily-design-system-react-headless/components/MedicationRecordListItem.tsx",
+    "vue": "lily-design-system-vue-headless/components/MedicationRecordListItem.vue",
+    "angular": "lily-design-system-angular-headless/components/MedicationRecordListItem.ts",
+    "web-components": "lily-design-system-web-components-headless/components/medication-record-list-item.ts",
+    "alpine": "lily-design-system-alpine-headless/components/medication-record-list-item.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/medication-record-list-item/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MedicationRecordListItem.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/medication-record-list-item/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/medication-record-list-item/AGENTS.md"
+}

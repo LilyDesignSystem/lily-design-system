@@ -1,0 +1,47 @@
+{
+  "slug": "procedure-record-list",
+  "name": "ProcedureRecordList",
+  "description": "a list of a patient's procedures, whose status is never blank",
+  "htmlTag": "ul",
+  "category": "lists",
+  "baseClass": ".procedure-record-list",
+  "subClasses": [
+    "procedure-record-list-item",
+    "procedure-record-list-item-performed",
+    "procedure-record-list-item-procedure",
+    "procedure-record-list-item-status",
+    "procedure-record-list-status"
+  ],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "A `<ul>` named by `aria-label`; the status is text, never an icon or a colour alone"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`status`: \"known\" | \"none-known\" | \"not-recorded\" | \"unavailable\" | \"omitted\" (required) — rendered as `data-status`",
+    "`statusLabel`: string (required) — the status in words; names the list, and is its one item unless status is `known`",
+    "`label`: string (optional) — the accessible name, when it should differ from `statusLabel`",
+    "`children`: slot (optional) — `procedure-record-list-item` items",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "procedure-record-list-item",
+    "record-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/procedure-record-list.html",
+    "svelte": "lily-design-system-svelte-headless/components/ProcedureRecordList/ProcedureRecordList.svelte",
+    "react": "lily-design-system-react-headless/components/ProcedureRecordList.tsx",
+    "vue": "lily-design-system-vue-headless/components/ProcedureRecordList.vue",
+    "angular": "lily-design-system-angular-headless/components/ProcedureRecordList.ts",
+    "web-components": "lily-design-system-web-components-headless/components/procedure-record-list.ts",
+    "alpine": "lily-design-system-alpine-headless/components/procedure-record-list.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/procedure-record-list/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ProcedureRecordList.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/procedure-record-list/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/procedure-record-list/AGENTS.md"
+}

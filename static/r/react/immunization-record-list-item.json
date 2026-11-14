@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "immunization-record-list-item",
+  "type": "registry:component",
+  "title": "ImmunizationRecordListItem",
+  "description": "One immunization in an immunization record list, with vaccine, date, dose and status.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ImmunizationRecordListItem.tsx",
+      "content": "import React from \"react\";\nimport { warnMissingProp } from \"./dev-warning\";\n\n// ImmunizationRecordListItem: one immunization in an immunization record list, with vaccine, date, dose and status (tasks.md P28-T3, spec/healthcare-ui). Props: ImmunizationRecordListItem.md.\n\nexport interface ImmunizationRecordListItemProps {\n    className?: string;\n    /** the vaccine given; never truncated */\n    vaccine: string;\n    /** when it was given, for <time datetime> */\n    occurrence?: string;\n    occurrenceLabel?: string;\n    /** the dose in words (\"Dose 2 of 2\") */\n    doseNumberLabel?: string;\n    /** FHIR Immunization status */\n    status?: \"completed\" | \"entered-in-error\" | \"not-done\";\n    statusLabel?: string;\n    /** the vaccine's lot number */\n    lotNumber?: string;\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ImmunizationRecordListItem({\n    className = \"\",\n    vaccine,\n    occurrence,\n    occurrenceLabel,\n    doseNumberLabel,\n    status,\n    statusLabel,\n    lotNumber,\n    children,\n    ...restProps\n}: ImmunizationRecordListItemProps) {\n    if (status)\n        warnMissingProp(\n            \"ImmunizationRecordListItem\",\n            \"statusLabel\",\n            statusLabel,\n            \"a status needs words a person can read, never a code alone.\",\n        );\n    return (\n        <li\n            className={`immunization-record-list-item ${className}`}\n            data-status={status}\n            {...restProps}\n        >\n            <span className=\"immunization-record-list-item-vaccine\">{vaccine}</span>\n            {occurrenceLabel ? (\n                <>\n                    {\" \"}\n                    <time\n                        className=\"immunization-record-list-item-occurrence\"\n                        dateTime={occurrence}\n                    >\n                        {occurrenceLabel}\n                    </time>\n                </>\n            ) : null}\n            {doseNumberLabel ? (\n                <>\n                    {\" \"}\n                    <span className=\"immunization-record-list-item-dose-number\">\n                        {doseNumberLabel}\n                    </span>\n                </>\n            ) : null}\n            {statusLabel ? (\n                <>\n                    {\" \"}\n                    <span className=\"immunization-record-list-item-status\">{statusLabel}</span>\n                </>\n            ) : null}\n            {lotNumber ? (\n                <>\n                    {\" \"}\n                    <span className=\"immunization-record-list-item-lot-number\">{lotNumber}</span>\n                </>\n            ) : null}\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ImmunizationRecordListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/immunization-record-list-item/"
+}
