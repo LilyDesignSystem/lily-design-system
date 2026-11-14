@@ -181,7 +181,7 @@ export type PickerBarLabels = {
       }
       @if (labels().search) {
         <lily-search-picker
-          [label]="labels().search"
+          [label]="labels().search ?? ''"
           [inputLabel]="labels().searchInput ?? ''"
           [submitLabel]="labels().searchSubmit ?? ''"
           [placeholder]="searchPlaceholder()"
