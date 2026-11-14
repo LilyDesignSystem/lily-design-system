@@ -1,0 +1,124 @@
+<!-- title: Antarmuka pangguna kesehatan — Lily Design System -->
+<!-- description: Pandhuan kanggo tim sing nggawe piranti lunak klinis nganggo Lily: apa sing diwenehake Lily lan apa sing ditinggal kanggo sampeyan, tingkatan weca, pangayoman saka salah pasien, banner pasien, asil, obat, tanggal lan dasbor. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Antarmuka pangguna kesehatan</h1>
+  <p class="page-intro-tagline">Pandhuan kanggo tim sing nggawe piranti lunak klinis nganggo Lily: portal klinis, asil lan laporan, nulis resep lan pengelolaan obat, pendhukung keputusan lan dasbor rumah sakit.</p>
+  <p>Terjemahan kaca iki minangka draf mesin sing durung ditinjau. <a href="/patterns/healthcare/#healthcare-title" >Kaca basa Inggris</a > minangka versi sing sah.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Apa sing ditindakake Lily, lan apa sing ora</h2>
+  <p>Lily maringi kontrak tampilan: markup semantik, ARIA, prilaku keyboard lan class hook kanggo bab-bab sing bola-bali ing layar klinis. Lily ora maringi logika klinis, isi klinis utawa klaim regulasi.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Apa sing diwenehake Lily, lan apa sing sampeyan wenehi</caption>
+      <thead>
+        <tr>
+          <th>Lily nyedhiyakake</th>
+          <th>Sampeyan nyedhiyakake</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: nilai, satuan, tandha mawa tembung, rentang, lan kahanan kosong</td>
+          <td>Nilai, putusan tandha, rentang rujukan</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> lan <a href="/components/allergy-list-item/">allergy-list-item</a>: status sing ora tau kosong</td>
+          <td>Cathetan alergi lan terminologine</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: jeneng, kekuwatan, wujud, rute lan frekuensi, ora ana sing dipotong</td>
+          <td>Data obat, segmen tall man, kekuwatan sing wis diformat</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: wangun kertu CDS Hooks</td>
+          <td>Aturan, tumindak saran, nyathet asil</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: skor, pita lan eskalasi, ditampilake</td>
+          <td>Sistem skoring lan itungan sing wis divalidasi</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> lan <code>ageParts()</code>: umur ing satuan sing cocog</td>
+          <td>Tembung kanggo satuan (<code>Intl.DurationFormat</code> utawa label dhewe)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, aja 5,0 mg; 0,5 mg, aja ,5 mg</td>
+          <td>Angka, satuan lan locale</td>
+        </tr>
+        <tr>
+          <td>Komposisi banner pasien</td>
+          <td>Saben label lan nilai, lan sapa sing oleh ndeleng informasi klinis</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulasi.</strong> Piranti lunak sing ngitung skor, centile, dosis utawa interaksi obat biasane minangka piranti medis. Lily ora ngitung salah siji saka iki, kanthi sengaja. Yen produk sampeyan diatur, sampeyan sing nanggung berkas rekayasa kegunaane (IEC 62366-1, pandhuan faktor manungsa FDA, EU MDR). Tes Lily, laporan kesesuaian aksesibilitas sing dinilai dhewe lan matriks screen reader bisa dadi bukti ing berkas kuwi; ora ana sing minangka klaim kesesuaian, lan matriks durung ana asile.</p>
+
+  <h2>Weca: ngganggu mung kanggo sing kritis</h2>
+  <p>Kesel weca iku masalah keamanan: yen saben weca ngganggu, wong bakal nolak kabeh. Pandhuan AHRQ yaiku nggawe tingkatan weca miturut tingkat keparahan lan mung sing abot sing ngganggu.</p>
+  <ul>
+    <li><strong>Informasi</strong> (<code>indicator="info"</code>): sebaris, ing jejere tugas, kertu pendhukung keputusan ing kaca.</li>
+    <li><strong>Pènget</strong> (<code>indicator="warning"</code>): katon tanpa ngalangi, kertu sing padha, digawe katon mencolok; ora nganggo modal.</li>
+    <li><strong>Kritis</strong> (<code>indicator="critical"</code>): selehna kertu ing jero dialog weca, lan wènèhana <code>overrideReasons</code> supaya nolak kertu kuwi njaluk alasan.</li>
+    <li>Kertu pendhukung keputusan ora tau dadi wilayah live dhewe. Umumna kertu kritis anyar kanthi mindhah fokus menyang dialog, dudu nganggo <code>aria-live</code>.</li>
+    <li>Busaken kertu nalika kedadean sing dijawab kertu kuwi kedadean maneh, lan catheta saben asil (ditampa, utawa ditolak mawa alasane).</li>
+  </ul>
+
+  <h2>Kesalahan salah pasien: kenali, aja matesi</h2>
+  <ul>
+    <li>Tampilna rong pangenal ing ngendi wae data pasien katon: jeneng karo tanggal lahir, lan pangenal nasional karo komponen view-ne (The Joint Commission, Quick Safety 45).</li>
+    <li>Gunakna banner pasien ing saben layar sing tumindak marang rekam medis siji pasien, lan tetepna katon.</li>
+    <li>Sadurunge tumindak ing rekam medis sing dudu ing banner, konfirmasia nganggo jeneng, tanggal lahir lan pangenal.</li>
+    <li>Aja matesi pira rekam medis sing bisa dibukak klinisi: uji acak marang 3.356 klinisi (JAMA, 2019) nemokake yen iku ora nyuda pesenan salah pasien, lan wong golek dalan liya.</li>
+  </ul>
+
+  <h2>Banner pasien</h2>
+  <p>Komposisine didokumentasi karo <a href="/components/medical-banner/">medical-banner</a>, lan ana kaca sing makarya ing <code>/patient-banner</code> ing app conto SvelteKit:</p>
+  <ul>
+    <li>rong pangenal, lan umur ing jejere tanggal lahir;</li>
+    <li>alergi liwat dhaptar alergi, supaya "ora ana alergi sing dikenal", "ora dicathet" lan "ora kasedhiya" ora tau katon padha;</li>
+    <li>nilai sing ora ana yaiku tembung ("Ora dingerteni"), dudu tandha pitakon, garis utawa sel kosong;</li>
+    <li>pasien sing wis seda: <code>data-deceased</code> kanggo tema, lan sebaris teks sing katon, ora mung warna;</li>
+    <li>ora ana kolom sing dipotong, dikliping utawa didhelikake ing lebar apa wae; kolom kuwi mlipet.</li>
+  </ul>
+
+  <h2>Asil</h2>
+  <ul>
+    <li>Siji tampilan kanggo asil, saka sistem apa wae: observation view.</li>
+    <li>Tandha iku tembung saka terjemahan sampeyan (<code>flagLabel</code>), karo kode interpretasi FHIR minangka <code>data-interpretation</code> kanggo tema.</li>
+    <li>Pisahna asil anyar saka sing sadurunge, lan tuduhna tren (sparkline, utawa grafik garis karo tabel datane): klinisi nggoleki owah-owahan sing wigati, ora mung rentange.</li>
+    <li>Asil sing ora tau dicathet lan sing ora kasedhiya iku kahanan sing beda, mawa tembung sing beda.</li>
+  </ul>
+
+  <h2>Obat</h2>
+  <ul>
+    <li>Jeneng generik nganggo aksara cilik, kajaba aksara tall man saka dhaptar FDA lan ISMP utawa dhaptar negara sampeyan (Australia lan Kanada nerbitake dhewe). Tandhanana ing <code>nameSegments</code>; Lily ora tau nebak.</li>
+    <li>Tulisen kekuwatan nganggo <code>formatQuantity</code>: ora ana nol buntut, nol ing ngarep, lan spasi tanpa pegat sadurunge satuan.</li>
+    <li>Tulisen mL, aja cc, lan singkirana saben singkatan ing dhaptar ISMP sing rawan kesalahan.</li>
+    <li>Aja tau motong jeneng utawa dosis obat.</li>
+  </ul>
+
+  <h2>Tanggal lan wektu</h2>
+  <ul>
+    <li>Tulisen sasi nganggo teks supaya tanggal ora bisa diwaca rong cara (<code>Intl.DateTimeFormat</code> karo <code>month: "short"</code>).</li>
+    <li>Pilihen jam kanthi sengaja: wènèhana <code>hourCycle</code> kanthi cetha. NHS njaluk jam 24; iku aturan Inggris, dudu aturan donya, mulane Lily ora tau milih kanggo sampeyan.</li>
+    <li>Umur manut pita Common User Interface liwat <code>ageParts()</code>; layanan sing nduweni kabiasaan liya maringi tembunge dhewe.</li>
+  </ul>
+
+  <h2>Dasbor</h2>
+  <ul>
+    <li>Papan bangsal utawa layar pusat komando kerep dianyari. Aja ngumumake saben owah-owahan: gawea siji wilayah ringkesan sing sopan ("3 amben kosong, 2 pasien arep mulih") lan wong dikon maca papane dhewe.</li>
+    <li>Saben kahanan ing papan (amben resik, kapakéni, diblokir) iku teks utawa kahanan <code>data-*</code> mawa tembung, ora mung warna.</li>
+  </ul>
+
+  <h2>Apa sing ora bakal ditindakake Lily</h2>
+  <ul>
+    <li>Ngitung skor weca dini, centile pertumbuhan, dosis utawa rentang rujukan.</li>
+    <li>Nyedhiyakake basis data obat, dhaptar tall man, utawa kode SNOMED CT, ICD, LOINC utawa UCUM.</li>
+    <li>Nyalin instrumen sing nduwe lisensi (Wong-Baker FACES) utawa desain lembaga liya (grafik NEWS2).</li>
+    <li>Matesi cacahe rekam medis sing dibukak bebarengan.</li>
+  </ul>
+  <p>Riset, sumber lan keputusan ing mburine pandhuan iki ana ing <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

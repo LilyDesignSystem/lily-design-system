@@ -1,0 +1,124 @@
+<!-- title: 医療向けユーザーインターフェース — Lily Design System -->
+<!-- description: Lily で臨床ソフトウェアを構築するチームのためのガイド。Lily が提供するもの、利用者に委ねるもの、アラートの階層化、患者取り違えの防止策、患者バナー、検査結果、医薬品、日付、ダッシュボードを扱います。 -->
+<section class="page-intro">
+  <h1 id="healthcare-title">医療向けユーザーインターフェース</h1>
+  <p class="page-intro-tagline">Lily で臨床ソフトウェアを構築するチームのためのガイド。臨床ポータル、検査結果とレポート、処方と投薬管理、意思決定支援、病院ダッシュボードを扱います。</p>
+  <p>このページの翻訳は未レビューの機械翻訳による下書きです。<a href="/patterns/healthcare/#healthcare-title" >英語版のページ</a >が正式な版です。</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Lily が行うこと、行わないこと</h2>
+  <p>Lily が提供するのは表示の契約です。臨床画面で繰り返し現れる要素について、セマンティックなマークアップ、ARIA、キーボード操作、クラスフックを提供します。臨床ロジック、臨床コンテンツ、規制上の主張は提供しません。</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Lily が提供するもの、利用者が用意するもの</caption>
+      <thead>
+        <tr>
+          <th>Lily が提供するもの</th>
+          <th>利用者が用意するもの</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: 値、単位、言葉によるフラグ、基準範囲、欠損状態</td>
+          <td>値、フラグの判定、基準範囲</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> と <a href="/components/allergy-list-item/">allergy-list-item</a>: 空欄にならないステータス</td>
+          <td>アレルギー記録とその用語体系</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: 名称、規格、剤形、投与経路、頻度。いずれも省略しない</td>
+          <td>薬剤データ、tall man の区間、整形済みの規格</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: CDS Hooks のカード形式</td>
+          <td>ルール、提案アクション、結果の記録</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: スコア、区分、エスカレーションの表示</td>
+          <td>スコアリング方式と、検証済みのその計算</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> と <code>ageParts()</code>: 年齢に適した単位での年齢表示</td>
+          <td>単位を表す言葉（<code>Intl.DurationFormat</code> または独自のラベル）</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5.0 mg ではなく 5 mg、.5 mg ではなく 0.5 mg</td>
+          <td>数値、単位、ロケール</td>
+        </tr>
+        <tr>
+          <td>患者バナーの構成</td>
+          <td>すべてのラベルと値、および臨床情報を閲覧できる人</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>規制。</strong>スコア、成長パーセンタイル、用量、薬物相互作用を計算するソフトウェアは、通常は医療機器にあたります。Lily はこれらを意図的に一切計算しません。製品が規制対象である場合、そのユーザビリティエンジニアリングファイル（IEC 62366-1、FDA のヒューマンファクターガイダンス、EU MDR）は利用者の責任です。Lily のテスト、自己評価によるアクセシビリティ適合レポート、スクリーンリーダーのマトリクスは、そのファイルの証拠になり得ますが、いずれも適合の主張ではなく、マトリクスにはまだ結果がありません。</p>
+
+  <h2>アラート: 割り込むのは重大なものだけ</h2>
+  <p>アラート疲れは安全上の問題です。すべてのアラートが割り込むと、人はすべてを閉じてしまいます。AHRQ の指針は、アラートを重大度で階層化し、重大なものだけを割り込みにすることです。</p>
+  <ul>
+    <li><strong>情報</strong>（<code>indicator="info"</code>）: 作業の横にインラインで表示する、ページ内の意思決定支援カード。</li>
+    <li><strong>警告</strong>（<code>indicator="warning"</code>）: 操作を妨げずに見える状態で表示する、目立つよう装飾した同じカード。モーダルにはしない。</li>
+    <li><strong>重大</strong>（<code>indicator="critical"</code>）: カードをアラートダイアログの中に入れ、<code>overrideReasons</code> を用意して、閉じるときに理由を尋ねる。</li>
+    <li>意思決定支援カードそのものがライブリージョンになることは決してありません。新しい重大なカードは、<code>aria-live</code> ではなく、ダイアログ内へフォーカスを移して知らせます。</li>
+    <li>カードが対応したイベントが再び起きたらカードを削除し、各結果（承認、または理由付きの上書き）を記録します。</li>
+  </ul>
+
+  <h2>患者取り違えエラー: 識別させる。制限はしない</h2>
+  <ul>
+    <li>患者のデータが表示されるすべての場所で、2 つの識別子を表示します。氏名と生年月日、そして国民識別番号をその view コンポーネントで表示します（The Joint Commission, Quick Safety 45）。</li>
+    <li>1 人の患者の記録に対して操作を行うすべての画面で患者バナーを使い、常に見える状態に保ちます。</li>
+    <li>バナーに表示されている記録とは別の記録に対して操作を行う前に、氏名、生年月日、識別子で確認します。</li>
+    <li>臨床医が開ける記録の数を制限しないでください。臨床医 3,356 人によるランダム化試験（JAMA、2019 年）では、制限しても患者取り違えの指示は減らず、人は制限を回避することが分かりました。</li>
+  </ul>
+
+  <h2>患者バナー</h2>
+  <p>この構成は <a href="/components/medical-banner/">medical-banner</a> に記載されています。SvelteKit のサンプルアプリには <code>/patient-banner</code> に動作するページがあります。</p>
+  <ul>
+    <li>2 つの識別子と、生年月日の横の年齢。</li>
+    <li>アレルギーは allergy list で表示し、「アレルギーなし」「未記録」「利用不可」が決して同じに見えないようにする。</li>
+    <li>欠損値は言葉（「不明」）で示し、疑問符、ダッシュ、空のセルにはしない。</li>
+    <li>死亡した患者: テーマ用の <code>data-deceased</code> と、目に見える文章。色だけで示してはならない。</li>
+    <li>どの幅でも、フィールドを切り詰めたり、切り取ったり、隠したりしない。折り返して表示する。</li>
+  </ul>
+
+  <h2>検査結果</h2>
+  <ul>
+    <li>どのシステム由来の結果でも、表示は 1 つです。observation view を使います。</li>
+    <li>フラグは翻訳した言葉（<code>flagLabel</code>）で示し、FHIR の解釈コードをテーマ用に <code>data-interpretation</code> として付けます。</li>
+    <li>新しい結果と以前の結果を分け、推移（スパークライン、またはデータテーブル付きの折れ線グラフ）を示します。臨床医が探しているのは範囲だけでなく、有意な変化です。</li>
+    <li>一度も記録されていない結果と、利用できない結果は別の状態であり、異なる言葉で示します。</li>
+  </ul>
+
+  <h2>医薬品</h2>
+  <ul>
+    <li>一般名は小文字で書きます。ただし、FDA と ISMP のリスト、または自国のリスト（オーストラリアとカナダは独自のものを公表しています）にある tall man の大文字は除きます。それらは <code>nameSegments</code> に指定します。Lily が推測することは決してありません。</li>
+    <li>規格は <code>formatQuantity</code> で書きます。末尾のゼロなし、先頭のゼロあり、単位の前にノーブレークスペース。</li>
+    <li>cc ではなく mL と書き、ISMP の誤りやすい略語のリストにある略語はすべて避けます。</li>
+    <li>医薬品の名称や用量を切り詰めてはいけません。</li>
+  </ul>
+
+  <h2>日付と時刻</h2>
+  <ul>
+    <li>日付が 2 通りに読めないよう、月は文字で書きます（<code>Intl.DateTimeFormat</code> と <code>month: "short"</code>）。</li>
+    <li>時計の方式は意図して選びます。<code>hourCycle</code> を明示的に渡してください。NHS は 24 時間表記を求めていますが、これは英国の規則であって世界共通ではないため、Lily が代わりに選ぶことは決してありません。</li>
+    <li>年齢は <code>ageParts()</code> を通じて Common User Interface の区分に従います。別の慣習を持つサービスは、独自の言葉を渡します。</li>
+  </ul>
+
+  <h2>ダッシュボード</h2>
+  <ul>
+    <li>病棟ボードやコマンドセンターの画面は頻繁に更新されます。変更のたびに知らせてはいけません。丁寧な（polite）要約リージョンを 1 つ保ち（「空床 3、退院予定 2」）、ボードは人が読むに任せます。</li>
+    <li>ボード上のすべての状態（ベッド清掃済み、使用中、使用不可）は、テキスト、または言葉を伴う <code>data-*</code> の状態で示し、色だけで示してはいけません。</li>
+  </ul>
+
+  <h2>Lily が行わないこと</h2>
+  <ul>
+    <li>早期警告スコア、成長パーセンタイル、用量、基準範囲を計算すること。</li>
+    <li>薬剤データベース、tall man リスト、または SNOMED CT、ICD、LOINC、UCUM のコードを同梱すること。</li>
+    <li>ライセンスされた評価尺度（Wong-Baker FACES）や、他機関のデザイン（NEWS2 のチャート）を複製すること。</li>
+    <li>同時に開くレコード数を制限すること。</li>
+  </ul>
+  <p>この指針の背景にある調査、出典、決定事項は <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a> にあります。</p>
+</section>

@@ -1,0 +1,124 @@
+<!-- title: Gebruikersinterfaces voor de zorg — Lily Design System -->
+<!-- description: Een gids voor teams die met Lily klinische software bouwen: wat Lily levert en wat het aan u overlaat, het indelen van waarschuwingen, waarborgen tegen patiëntverwisseling, de patiëntbanner, uitslagen, geneesmiddelen, datums en dashboards. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Gebruikersinterfaces voor de zorg</h1>
+  <p class="page-intro-tagline">Een gids voor teams die met Lily klinische software bouwen: klinische portalen, uitslagen en rapportage, voorschrijven en toedienen van geneesmiddelen, beslisondersteuning en ziekenhuisdashboards.</p>
+  <p>Deze vertaling is een niet-gecontroleerd machineconcept. <a href="/patterns/healthcare/#healthcare-title" >De Engelse pagina</a > is de gezaghebbende versie.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Wat Lily doet, en wat niet</h2>
+  <p>Lily geeft u weergavecontracten: semantische markup, ARIA, toetsenbordgedrag en class-hooks voor wat klinische schermen steeds herhalen. Het geeft u geen klinische logica, geen klinische inhoud en geen regelgevende claim.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Wat Lily levert, en wat u levert</caption>
+      <thead>
+        <tr>
+          <th>Lily levert</th>
+          <th>U levert</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: een waarde, eenheid, markering in woorden, bereik en ontbrekende toestanden</td>
+          <td>De waarde, de beslissing over de markering, het referentiebereik</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> en <a href="/components/allergy-list-item/">allergy-list-item</a>: een status die nooit leeg is</td>
+          <td>Het allergiedossier en de terminologie ervan</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: naam, sterkte, toedieningsvorm, toedieningsweg en frequentie, niets afgekapt</td>
+          <td>De geneesmiddelgegevens, de tall-mansegmenten, de opgemaakte sterkte</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: de kaartvorm van CDS Hooks</td>
+          <td>De regels, de voorgestelde acties, het vastleggen van de uitkomst</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: een score, categorie en escalatie, weergegeven</td>
+          <td>Het scoresysteem en de gevalideerde berekening ervan</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> en <code>ageParts()</code>: een leeftijd in de eenheden die erbij passen</td>
+          <td>De woorden voor de eenheden (<code>Intl.DurationFormat</code> of uw eigen labels)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, nooit 5,0 mg; 0,5 mg, nooit ,5 mg</td>
+          <td>Het getal, de eenheid en de locale</td>
+        </tr>
+        <tr>
+          <td>De samenstelling van de patiëntbanner</td>
+          <td>Elk label en elke waarde, en wie klinische informatie mag zien</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regelgeving.</strong> Software die een score, een percentiel, een dosis of een geneesmiddelinteractie berekent, is meestal een medisch hulpmiddel. Lily berekent daar niets van, met opzet. Valt uw product onder regelgeving, dan bent u eigenaar van het bruikbaarheidsdossier (IEC 62366-1, de human-factorsrichtlijnen van de FDA, de Europese MDR). De tests van Lily, het zelf beoordeelde toegankelijkheidsconformiteitsrapport en de schermlezermatrix kunnen bewijs zijn in dat dossier; geen van alle is een conformiteitsclaim, en de matrix heeft nog geen resultaten.</p>
+
+  <h2>Waarschuwingen: onderbreek alleen voor wat kritiek is</h2>
+  <p>Waarschuwingsmoeheid is een veiligheidsprobleem: als elke waarschuwing onderbreekt, klikken mensen ze allemaal weg. Het advies van de AHRQ is waarschuwingen naar ernst in te delen en alleen de ernstige onderbrekend te maken.</p>
+  <ul>
+    <li><strong>Informatie</strong> (<code>indicator="info"</code>): in de tekst, naast de taak, een beslisondersteuningskaart op de pagina.</li>
+    <li><strong>Waarschuwing</strong> (<code>indicator="warning"</code>): zichtbaar zonder te blokkeren, dezelfde kaart, opvallend vormgegeven; geen modaal venster.</li>
+    <li><strong>Kritiek</strong> (<code>indicator="critical"</code>): plaats de kaart in een waarschuwingsdialoog en bied <code>overrideReasons</code> aan, zodat wegklikken om een reden vraagt.</li>
+    <li>Een beslisondersteuningskaart is nooit vanzelf een live-regio. Kondig een nieuwe kritieke kaart aan door de focus naar de dialoog te verplaatsen, niet met <code>aria-live</code>.</li>
+    <li>Verwijder een kaart als de gebeurtenis waarop ze reageerde opnieuw plaatsvindt, en leg elke uitkomst vast (geaccepteerd, of genegeerd met de reden).</li>
+  </ul>
+
+  <h2>Patiëntverwisseling: identificeren, niet beperken</h2>
+  <ul>
+    <li>Toon twee identificatoren overal waar gegevens van een patiënt verschijnen: de naam met de geboortedatum, en het nationale nummer met zijn weergavecomponent (The Joint Commission, Quick Safety 45).</li>
+    <li>Gebruik de patiëntbanner op elk scherm dat op het dossier van één patiënt werkt, en houd hem zichtbaar.</li>
+    <li>Laat een handeling op een ander dossier dan dat in de banner eerst bevestigen met naam, geboortedatum en identificator.</li>
+    <li>Beperk niet hoeveel dossiers een zorgverlener mag openen: een gerandomiseerde studie onder 3.356 zorgverleners (JAMA, 2019) vond dat dit voorschriften bij de verkeerde patiënt niet verminderde, en mensen omzeilen het.</li>
+  </ul>
+
+  <h2>De patiëntbanner</h2>
+  <p>De samenstelling is gedocumenteerd bij <a href="/components/medical-banner/">medical-banner</a>, met een werkende pagina op <code>/patient-banner</code> in de SvelteKit-voorbeeldapp:</p>
+  <ul>
+    <li>twee identificatoren, en de leeftijd naast de geboortedatum;</li>
+    <li>allergieën via een allergielijst, zodat „geen bekende allergieën”, „niet vastgelegd” en „niet beschikbaar” nooit op elkaar lijken;</li>
+    <li>een ontbrekende waarde staat in woorden („Onbekend”), nooit als vraagteken, streepje of lege cel;</li>
+    <li>een overleden patiënt: <code>data-deceased</code> voor het thema, en een zichtbare regel tekst, nooit alleen kleur;</li>
+    <li>geen veld afgekapt, bijgesneden of verborgen bij welke breedte ook; het loopt door naar de volgende regel.</li>
+  </ul>
+
+  <h2>Uitslagen</h2>
+  <ul>
+    <li>Eén weergave voor een uitslag, uit welk systeem die ook komt: de observatieweergave.</li>
+    <li>De markering bestaat uit woorden uit uw vertaling (<code>flagLabel</code>), met de FHIR-interpretatiecode als <code>data-interpretation</code> voor het thema.</li>
+    <li>Scheid nieuwe uitslagen van eerdere en toon een trend (een sparkline, of een lijngrafiek met zijn gegevenstabel): zorgverleners zoeken een betekenisvolle verandering, niet alleen het bereik.</li>
+    <li>Een uitslag die nooit is vastgelegd en een die niet beschikbaar is, zijn verschillende toestanden, met verschillende woorden.</li>
+  </ul>
+
+  <h2>Geneesmiddelen</h2>
+  <ul>
+    <li>Generieke namen in kleine letters, behalve tall-manletters uit de lijsten van de FDA en het ISMP of van uw eigen land (Australië en Canada publiceren hun eigen lijst). Markeer ze in <code>nameSegments</code>; Lily raadt ze nooit.</li>
+    <li>Schrijf de sterkte met <code>formatQuantity</code>: geen nul achteraan, wel een nul vooraan, een harde spatie vóór de eenheid.</li>
+    <li>Schrijf mL, nooit cc, en vermijd elke afkorting op de ISMP-lijst van foutgevoelige afkortingen.</li>
+    <li>Kap nooit de naam of dosis van een geneesmiddel af.</li>
+  </ul>
+
+  <h2>Datums en tijden</h2>
+  <ul>
+    <li>Schrijf de maand als tekst, zodat een datum niet op twee manieren te lezen is (<code>Intl.DateTimeFormat</code> met <code>month: "short"</code>).</li>
+    <li>Kies de klok bewust: geef <code>hourCycle</code> expliciet door. De NHS vraagt om de 24-uursklok; dat is een Britse regel, geen wereldwijde, dus Lily kiest hem nooit voor u.</li>
+    <li>Leeftijden volgen de categorieën van de Common User Interface via <code>ageParts()</code>; een dienst met een andere conventie geeft zijn eigen woorden door.</li>
+  </ul>
+
+  <h2>Dashboards</h2>
+  <ul>
+    <li>Een afdelingsbord of meldkamerscherm wordt vaak bijgewerkt. Kondig nooit elke wijziging aan: houd één beleefde samenvattingsregio („3 bedden vrij, 2 ontslagen gepland”) en laat mensen het bord lezen.</li>
+    <li>Elke toestand op een bord (bed schoon, bezet, geblokkeerd) is tekst of een <code>data-*</code>-toestand met woorden, nooit alleen kleur.</li>
+  </ul>
+
+  <h2>Wat Lily niet zal doen</h2>
+  <ul>
+    <li>Een vroegewaarschuwingsscore, een groeipercentiel, een dosis of een referentiebereik berekenen.</li>
+    <li>Een geneesmiddeldatabase, een tall-manlijst, of codes uit SNOMED CT, ICD, LOINC of UCUM meeleveren.</li>
+    <li>Een gelicentieerd instrument (Wong-Baker FACES) of het ontwerp van een andere instantie (de NEWS2-kaart) nabootsen.</li>
+    <li>Het aantal tegelijk geopende dossiers beperken.</li>
+  </ul>
+  <p>Het onderzoek, de bronnen en de beslissingen achter deze gids staan in <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

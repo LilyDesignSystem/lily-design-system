@@ -1,0 +1,124 @@
+<!-- title: Osasun-arloko erabiltzaile-interfazeak — Lily Design System -->
+<!-- description: Lily-rekin software klinikoa eraikitzen duten taldeentzako gida: zer eskaintzen duen Lily-k eta zer uzten dizun zeure esku, alertak mailakatzea, pazientea nahastearen aurkako babesak, pazientearen banner-a, emaitzak, sendagaiak, datak eta aginte-panelak. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Osasun-arloko erabiltzaile-interfazeak</h1>
+  <p class="page-intro-tagline">Lily-rekin software klinikoa eraikitzen duten taldeentzako gida: atari klinikoak, emaitzak eta txostenak, sendagaien preskripzioa eta administrazioa, erabakiak hartzeko laguntza eta ospitaleetako aginte-panelak.</p>
+  <p>Orri honen itzulpenak berrikusi gabeko makina-zirriborroak dira. <a href="/patterns/healthcare/#healthcare-title" >Ingelesezko orria</a > da erreferentziazko bertsioa.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Zer egiten duen Lily-k eta zer ez</h2>
+  <p>Lily-k bistaratze-kontratuak ematen dizkizu: markaketa semantikoa, ARIA, teklatuaren portaera eta pantaila klinikoetan errepikatzen diren gauzetarako klase-gakoak. Ez dizu ematen logika klinikorik, eduki klinikorik edo erregulazio-aldarrikapenik.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Zer eskaintzen duen Lily-k eta zer eskaintzen duzun zuk</caption>
+      <thead>
+        <tr>
+          <th>Lily-k eskaintzen du</th>
+          <th>Zuk eskaintzen duzu</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: balioa, unitatea, hitzez adierazitako bandera, barrutia eta balio falta denaren egoerak</td>
+          <td>Balioa, banderari buruzko erabakia, erreferentzia-barrutia</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> eta <a href="/components/allergy-list-item/">allergy-list-item</a>: inoiz hutsik ez dagoen egoera</td>
+          <td>Alergiaren erregistroa eta haren terminologia</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: izena, indarra, forma, bidea eta maiztasuna, ezer laburtu gabe</td>
+          <td>Sendagaiaren datuak, tall man segmentuak, formatutako indarra</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: CDS Hooks txartelaren forma</td>
+          <td>Arauak, iradokizunen ekintzak, emaitza erregistratzea</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: puntuazioa, tartea eta eskalatzea, bistaratuta</td>
+          <td>Puntuazio-sistema eta haren kalkulu baliozkotua</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> eta <code>ageParts()</code>: adin bat egokitzen zaizkion unitateetan</td>
+          <td>Unitateen hitzak (<code>Intl.DurationFormat</code> edo zeure etiketak)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, inoiz ez 5,0 mg; 0,5 mg, inoiz ez ,5 mg</td>
+          <td>Zenbakia, unitatea eta lokalizazioa</td>
+        </tr>
+        <tr>
+          <td>Pazientearen banner-aren osaera</td>
+          <td>Etiketa eta balio guztiak, eta nork ikus dezakeen informazio klinikoa</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Erregulazioa.</strong> Puntuazio bat, pertzentil bat, dosi bat edo sendagaien elkarrekintza bat kalkulatzen duen softwarea gailu mediko bat izan ohi da. Lily-k ez du horietako bat ere kalkulatzen, nahita. Zure produktua erregulatuta badago, zeuk zaitu haren erabilgarritasun-ingeniaritzaren fitxategiaren arduraduna (IEC 62366-1, FDAren giza faktoreei buruzko gidak, EU MDR). Lily-ren probak, bere buruari egindako irisgarritasun-betetze txostena eta pantaila-irakurgailuen matrizea froga izan daitezke fitxategi horretan; horietako bat ere ez da betetze-aldarrikapena, eta matrizeak ez du oraindik emaitzarik.</p>
+
+  <h2>Alertak: eten kritikoa denagatik soilik</h2>
+  <p>Alerten nekea segurtasun-arazo bat da: alerta guztiek eteten dutenean, jendeak guztiak baztertzen ditu. AHRQren gidaritza alertak larritasunaren arabera mailakatzea da, eta larriak soilik eten ditzaten egitea.</p>
+  <ul>
+    <li><strong>Informazioa</strong> (<code>indicator="info"</code>): lerroan txertatua, zereginaren ondoan, orriko erabakiak hartzeko laguntza-txartel bat.</li>
+    <li><strong>Abisua</strong> (<code>indicator="warning"</code>): ikusgai blokeatu gabe, txartel bera, nabarmentzeko estilatua; modalik ez.</li>
+    <li><strong>Kritikoa</strong> (<code>indicator="critical"</code>): jarri txartela alerta-elkarrizketa batean, eta eskaini <code>overrideReasons</code>, baztertzeak arrazoia eska dezan.</li>
+    <li>Erabakiak hartzeko laguntza-txartel bat ez da inoiz eskualde bizia berez. Iragarri txartel kritiko berri bat fokua elkarrizketara eramanez, ez <code>aria-live</code> bidez.</li>
+    <li>Kendu txartela erantzun zion gertaera berriro gertatzen denean, eta erregistratu emaitza bakoitza (onartua, edo arrazoiarekin gainidatzia).</li>
+  </ul>
+
+  <h2>Paziente okerraren akatsak: identifikatu, ez mugatu</h2>
+  <ul>
+    <li>Erakutsi bi identifikatzaile pazientearen datuak agertzen diren leku guztietan: izena jaiotza-datarekin, eta identifikatzaile nazionala bere ikusizko osagaiarekin (The Joint Commission, Quick Safety 45).</li>
+    <li>Erabili pazientearen banner-a paziente baten erregistroan jarduten duen pantaila guztietan, eta eduki ikusgai.</li>
+    <li>Banner-ean dagoena ez den beste erregistro batean ekintza bat egin aurretik, berretsi izenarekin, jaiotza-datarekin eta identifikatzailearekin.</li>
+    <li>Ez mugatu zenbat erregistro ireki ditzakeen klinikari batek: 3.356 klinikariren zorizko saiakuntza batek (JAMA, 2019) aurkitu zuen horrek ez zuela paziente okerrerako eskaerak murriztu, eta jendeak saihestu egiten duela.</li>
+  </ul>
+
+  <h2>Pazientearen banner-a</h2>
+  <p>Osaera <a href="/components/medical-banner/">medical-banner</a>-ekin dokumentatuta dago, SvelteKit adibide-aplikazioko <code>/patient-banner</code> orri funtzional batekin:</p>
+  <ul>
+    <li>bi identifikatzaile, eta adina jaiotza-dataren ondoan;</li>
+    <li>alergiak alergia-zerrenda baten bidez, «alergiarik ez da ezagutzen», «erregistratu gabe» eta «ez dago eskuragarri» inoiz berdin ez ikusteko;</li>
+    <li>falta den balioa hitzez idazten da («Ezezaguna»), inoiz ez galdera-ikur, marratxo edo gelaxka huts bidez;</li>
+    <li>hildako paziente bat: <code>data-deceased</code> gaiarentzat, eta testu-lerro ikusgai bat, inoiz ez kolorea bakarrik;</li>
+    <li>ez da eremurik laburtzen, mozten edo ezkutatzen zabalera batean ere; lerro-jauzia egiten du.</li>
+  </ul>
+
+  <h2>Emaitzak</h2>
+  <ul>
+    <li>Emaitza baterako bista bakarra, edozein sistematatik etorrita ere: behaketa-bista.</li>
+    <li>Bandera zure itzulpeneko hitzak dira (<code>flagLabel</code>), FHIR interpretazio-kodea <code>data-interpretation</code> gisa gaiarentzat.</li>
+    <li>Bereizi emaitza berriak aurreko emaitzetatik, eta erakutsi joera bat (sparkline bat, edo lerro-grafiko bat bere datu-taularekin): klinikariek aldaketa esanguratsu bat bilatzen dute, ez barrutia bakarrik.</li>
+    <li>Inoiz erregistratu ez zen emaitza bat eta eskuragarri ez dagoen bat egoera desberdinak dira, hitz desberdinekin.</li>
+  </ul>
+
+  <h2>Sendagaiak</h2>
+  <ul>
+    <li>Izen generikoak letra xehez, FDA eta ISMP zerrendetako tall man letrak izan ezik, edo zure herrialdekoak (Australiak eta Kanadak beren zerrendak argitaratzen dituzte). Markatu itzazu <code>nameSegments</code>-en; Lily-k ez ditu inoiz asmatzen.</li>
+    <li>Idatzi indarra <code>formatQuantity</code>-rekin: amaierako zerorik gabe, hasierako zeroarekin, unitatearen aurretik tarte hautsezin batekin.</li>
+    <li>Idatzi mL, inoiz ez cc, eta saihestu ISMPren akatsetarako joera duten laburduren zerrendako laburdura guztiak.</li>
+    <li>Ez laburtu inoiz sendagai baten izena edo dosia.</li>
+  </ul>
+
+  <h2>Datak eta orduak</h2>
+  <ul>
+    <li>Idatzi hilabetea testu gisa, data bat bi eratan irakur ez dadin (<code>Intl.DateTimeFormat</code> <code>month: "short"</code>-ekin).</li>
+    <li>Aukeratu erlojua nahita: pasatu <code>hourCycle</code> esplizituki. NHSk 24 orduko erlojua eskatzen du; hori Erresuma Batuko arau bat da, ez mundukoa, beraz Lily-k ez du inoiz zure ordez hautatzen.</li>
+    <li>Adinak Common User Interface-ren bandak jarraitzen ditu <code>ageParts()</code> bidez; beste konbentzio bat duen zerbitzu batek bere hitzak pasatzen ditu.</li>
+  </ul>
+
+  <h2>Aginte-panelak</h2>
+  <ul>
+    <li>Ataleko taula batek edo komando-zentroko pantaila batek maiz eguneratzen dira. Ez iragarri inoiz aldaketa bakoitza: eduki laburpen-eskualde ohiko bat («3 ohe libre, 2 alta espero») eta utzi jendeari taula irakurtzen.</li>
+    <li>Taula bateko egoera guztiak (ohe garbia, okupatua, blokeatua) testua dira edo hitzak dituen <code>data-*</code> egoera, inoiz ez kolorea bakarrik.</li>
+  </ul>
+
+  <h2>Zer ez duen egingo Lily-k</h2>
+  <ul>
+    <li>Ez du kalkulatuko alerta goiztiarraren puntuaziorik, hazkunde-pertzentilik, dosirik edo erreferentzia-barrutirik.</li>
+    <li>Ez du bidaliko sendagai-datu-baserik, tall man zerrendarik, ezta SNOMED CT, CIE, LOINC edo UCUM kodeak.</li>
+    <li>Ez du erreproduzituko lizentziadun tresna bat (Wong-Baker FACES) edo beste erakunde baten diseinua (NEWS2 diagrama).</li>
+    <li>Ez du mugatuko aldi berean irekitako erregistro kopurua.</li>
+  </ul>
+  <p>Gida honen atzean dauden ikerketa, iturri eta erabakiak <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>-n daude.</p>
+</section>

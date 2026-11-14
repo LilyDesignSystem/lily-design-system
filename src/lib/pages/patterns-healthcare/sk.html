@@ -1,0 +1,124 @@
+<!-- title: Používateľské rozhrania v zdravotníctve — Lily Design System -->
+<!-- description: Sprievodca pre tímy, ktoré vytvárajú klinický softvér s Lily: čo Lily poskytuje a čo necháva na vás, odstupňovanie upozornení, ochrana pred zámenou pacienta, banner pacienta, výsledky, lieky, dátumy a prehľadové panely. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Používateľské rozhrania v zdravotníctve</h1>
+  <p class="page-intro-tagline">Sprievodca pre tímy, ktoré vytvárajú klinický softvér s Lily: klinické portály, výsledky a výkazníctvo, predpisovanie a podávanie liekov, podpora rozhodovania a nemocničné prehľadové panely.</p>
+  <p>Preklady tejto stránky sú neskontrolované strojové návrhy. <a href="/patterns/healthcare/#healthcare-title" >Anglická stránka</a > je záväzná verzia.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Čo Lily robí a čo nerobí</h2>
+  <p>Lily vám dáva kontrakty zobrazenia: sémantické značkovanie, ARIA, správanie klávesnice a háčiky tried pre veci, ktoré sa opakujú na klinických obrazovkách. Nedáva vám klinickú logiku, klinický obsah ani regulačné tvrdenie.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Čo poskytuje Lily a čo poskytujete vy</caption>
+      <thead>
+        <tr>
+          <th>Lily poskytuje</th>
+          <th>Vy poskytujete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: hodnotu, jednotku, príznak slovami, rozsah a stavy chýbajúcich údajov</td>
+          <td>Hodnotu, rozhodnutie o príznaku, referenčný rozsah</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> a <a href="/components/allergy-list-item/">allergy-list-item</a>: stav, ktorý nikdy nie je prázdny</td>
+          <td>Záznam o alergii a jeho terminológiu</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: názov, silu, formu, cestu podania a frekvenciu, nič sa neskracuje</td>
+          <td>Údaje o lieku, segmenty tall man, naformátovanú silu</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: tvar karty CDS Hooks</td>
+          <td>Pravidlá, akcie návrhov, zaznamenanie výsledku</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: skóre, pásmo a eskaláciu, zobrazené</td>
+          <td>Systém skórovania a jeho validovaný výpočet</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> a <code>ageParts()</code>: vek v jednotkách, ktoré mu vyhovujú</td>
+          <td>Slová pre jednotky (<code>Intl.DurationFormat</code> alebo vaše vlastné označenia)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, nikdy 5,0 mg; 0,5 mg, nikdy ,5 mg</td>
+          <td>Číslo, jednotku a jazykové nastavenie</td>
+        </tr>
+        <tr>
+          <td>Zloženie bannera pacienta</td>
+          <td>Každé označenie a hodnotu a to, kto smie vidieť klinické informácie</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulácia.</strong> Softvér, ktorý počíta skóre, percentil, dávku alebo liekovú interakciu, je zvyčajne zdravotnícka pomôcka. Lily nič z toho nepočíta, zámerne. Ak je váš produkt regulovaný, zodpovedáte za jeho dokumentáciu použiteľnosti (IEC 62366-1, usmernenie FDA o ľudských faktoroch, EU MDR). Testy Lily, jej samostatne posúdená správa o súlade s prístupnosťou a jej matica čítačiek obrazovky môžu byť dôkazom v tejto dokumentácii; nič z toho nie je vyhlásenie o súlade a matica zatiaľ nemá výsledky.</p>
+
+  <h2>Upozornenia: prerušujte len kvôli kritickému</h2>
+  <p>Únava z upozornení je bezpečnostný problém: keď každé upozornenie prerušuje, ľudia ich zahodia všetky. Odporúčanie AHRQ je odstupňovať upozornenia podľa závažnosti a prerušujúce urobiť len tie závažné.</p>
+  <ul>
+    <li><strong>Informácia</strong> (<code>indicator="info"</code>): priamo v texte, vedľa úlohy, karta podpory rozhodovania na stránke.</li>
+    <li><strong>Varovanie</strong> (<code>indicator="warning"</code>): viditeľné bez blokovania, tá istá karta, štýlovaná tak, aby vynikla; bez modálneho okna.</li>
+    <li><strong>Kritické</strong> (<code>indicator="critical"</code>): vložte kartu do dialógu upozornenia a ponúknite <code>overrideReasons</code>, aby sa pri jej zatvorení pýtal dôvod.</li>
+    <li>Karta podpory rozhodovania nikdy nie je sama osebe živou oblasťou. Novú kritickú kartu oznámte presunutím fokusu do dialógu, nie cez <code>aria-live</code>.</li>
+    <li>Odstráňte kartu, keď sa udalosť, na ktorú odpovedala, stane znova, a zaznamenajte každý výsledok (prijatá, alebo prepísaná s dôvodom).</li>
+  </ul>
+
+  <h2>Zámeny pacienta: identifikujte, neobmedzujte</h2>
+  <ul>
+    <li>Zobrazte dva identifikátory všade, kde sa objavia údaje pacienta: meno s dátumom narodenia a národný identifikátor s jeho komponentom zobrazenia (The Joint Commission, Quick Safety 45).</li>
+    <li>Používajte banner pacienta na každej obrazovke, ktorá pracuje so záznamom jedného pacienta, a nechajte ho viditeľný.</li>
+    <li>Pred akciou so záznamom, ktorý nie je ten v banneri, ju potvrďte menom, dátumom narodenia a identifikátorom.</li>
+    <li>Neobmedzujte, koľko záznamov môže klinik otvoriť: randomizovaná štúdia s 3 356 klinikmi (JAMA, 2019) zistila, že to neznížilo počet objednávok pre nesprávneho pacienta, a ľudia to obchádzajú.</li>
+  </ul>
+
+  <h2>Banner pacienta</h2>
+  <p>Zloženie je zdokumentované pri <a href="/components/medical-banner/">medical-banner</a>, s funkčnou stránkou na <code>/patient-banner</code> v ukážkovej aplikácii SvelteKit:</p>
+  <ul>
+    <li>dva identifikátory a vek vedľa dátumu narodenia;</li>
+    <li>alergie cez zoznam alergií, aby „žiadne známe alergie“, „nezaznamenané“ a „nedostupné“ nikdy nevyzerali rovnako;</li>
+    <li>chýbajúca hodnota je slovami („Neznáme“), nikdy otáznik, pomlčka alebo prázdna bunka;</li>
+    <li>zomretý pacient: <code>data-deceased</code> pre tému a viditeľný riadok textu, nikdy len farba;</li>
+    <li>žiadne pole nie je skrátené, orezané ani skryté pri žiadnej šírke; text sa zalamuje.</li>
+  </ul>
+
+  <h2>Výsledky</h2>
+  <ul>
+    <li>Jedno zobrazenie výsledku, nech pochádza z ktoréhokoľvek systému: zobrazenie pozorovania.</li>
+    <li>Príznak sú slová z vášho prekladu (<code>flagLabel</code>), s interpretačným kódom FHIR v <code>data-interpretation</code> pre tému.</li>
+    <li>Oddeľte nové výsledky od skorších a ukážte trend (sparkline alebo čiarový graf s tabuľkou údajov): klinici hľadajú významnú zmenu, nielen rozsah.</li>
+    <li>Výsledok, ktorý nebol nikdy zaznamenaný, a nedostupný výsledok sú rozdielne stavy s rozdielnymi slovami.</li>
+  </ul>
+
+  <h2>Lieky</h2>
+  <ul>
+    <li>Generické názvy malými písmenami, okrem písmen tall man zo zoznamov FDA a ISMP alebo zo zoznamu vašej krajiny (Austrália a Kanada zverejňujú vlastné). Označte ich v <code>nameSegments</code>; Lily ich nikdy neuhádne.</li>
+    <li>Silu zapisujte cez <code>formatQuantity</code>: bez koncovej nuly, s úvodnou nulou, s nezalomiteľnou medzerou pred jednotkou.</li>
+    <li>Píšte mL, nikdy cc, a vyhnite sa každej skratke zo zoznamu skratiek náchylných na chyby od ISMP.</li>
+    <li>Nikdy neskracujte názov ani dávku lieku.</li>
+  </ul>
+
+  <h2>Dátumy a časy</h2>
+  <ul>
+    <li>Mesiac píšte textom, aby sa dátum nedal čítať dvoma spôsobmi (<code>Intl.DateTimeFormat</code> s <code>month: "short"</code>).</li>
+    <li>Hodiny zvoľte zámerne: odovzdajte <code>hourCycle</code> výslovne. NHS žiada 24-hodinový formát; to je britské pravidlo, nie celosvetové, preto ho Lily nikdy nevyberá za vás.</li>
+    <li>Vek sleduje pásma Common User Interface cez <code>ageParts()</code>; služba s inou konvenciou odovzdá vlastné slová.</li>
+  </ul>
+
+  <h2>Prehľadové panely</h2>
+  <ul>
+    <li>Oddelenská tabuľa alebo obrazovka riadiaceho centra sa aktualizuje často. Nikdy neoznamujte každú zmenu: majte jednu zdvorilú súhrnnú oblasť („3 voľné lôžka, 2 plánované prepustenia“) a nechajte ľudí čítať tabuľu.</li>
+    <li>Každý stav na tabuli (lôžko vyčistené, obsadené, blokované) je text alebo stav <code>data-*</code> so slovami, nikdy len farba.</li>
+  </ul>
+
+  <h2>Čo Lily nebude robiť</h2>
+  <ul>
+    <li>Počítať skóre včasného varovania, rastový percentil, dávku ani referenčný rozsah.</li>
+    <li>Dodávať databázu liekov, zoznam tall man ani kódy SNOMED CT, MKCH, LOINC či UCUM.</li>
+    <li>Reprodukovať licencovaný nástroj (Wong-Baker FACES) ani dizajn iného orgánu (tabuľku NEWS2).</li>
+    <li>Obmedzovať počet súčasne otvorených záznamov.</li>
+  </ul>
+  <p>Výskum, zdroje a rozhodnutia za týmto sprievodcom sú v <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

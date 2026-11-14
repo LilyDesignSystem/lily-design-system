@@ -1,0 +1,124 @@
+<!-- title: Mga user interface sa pangangalagang pangkalusugan — Lily Design System -->
+<!-- description: Gabay para sa mga koponang gumagawa ng clinical software gamit ang Lily: ang ibinibigay ng Lily at ang iniiwan nito sa inyo, pag-aantas ng mga alerto, pananggalang laban sa maling pasyente, ang patient banner, mga resulta, mga gamot, mga petsa at mga dashboard. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Mga user interface sa pangangalagang pangkalusugan</h1>
+  <p class="page-intro-tagline">Gabay para sa mga koponang gumagawa ng clinical software gamit ang Lily: mga clinical portal, mga resulta at pag-uulat, pagrereseta at pagbibigay ng gamot, suporta sa pagpapasya at mga dashboard ng ospital.</p>
+  <p>Ang mga salin ng pahinang ito ay hindi pa nasusuring machine draft. <a href="/patterns/healthcare/#healthcare-title" >Ang pahinang Ingles</a > ang opisyal na bersyon.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Ang ginagawa ng Lily, at ang hindi nito ginagawa</h2>
+  <p>Nagbibigay ang Lily ng mga kontrata sa pagpapakita: semantikong markup, ARIA, gawi ng keyboard at mga class hook para sa mga paulit-ulit sa mga clinical screen. Hindi ito nagbibigay ng clinical logic, clinical na nilalaman o pahayag ng regulasyon.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Ang ibinibigay ng Lily, at ang ibinibigay ninyo</caption>
+      <thead>
+        <tr>
+          <th>Ibinibigay ng Lily</th>
+          <th>Ibinibigay ninyo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: isang halaga, yunit, flag sa salita, saklaw, at mga kalagayang kulang</td>
+          <td>Ang halaga, ang pasya sa flag, ang saklaw ng sanggunian</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> at <a href="/components/allergy-list-item/">allergy-list-item</a>: isang status na hindi kailanman blangko</td>
+          <td>Ang talaan ng allergy at ang terminolohiya nito</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: pangalan, lakas, anyo, ruta at dalas, walang pinuputol</td>
+          <td>Ang datos ng gamot, ang mga segment ng tall man, ang naka-format na lakas</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: ang hugis ng card ng CDS Hooks</td>
+          <td>Ang mga tuntunin, ang mga aksyong mungkahi, ang pagtatala ng kinalabasan</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: isang marka, antas at eskalasyon, ipinapakita</td>
+          <td>Ang sistema ng pagmamarka at ang napatunayang kalkulasyon nito</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> at <code>ageParts()</code>: isang edad sa mga yunit na angkop dito</td>
+          <td>Ang mga salita para sa mga yunit (<code>Intl.DurationFormat</code> o ang sarili ninyong label)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, hindi 5.0 mg; 0.5 mg, hindi .5 mg</td>
+          <td>Ang numero, ang yunit at ang locale</td>
+        </tr>
+        <tr>
+          <td>Ang komposisyon ng patient banner</td>
+          <td>Bawat label at halaga, at kung sino ang maaaring makakita ng klinikal na impormasyon</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulasyon.</strong> Ang software na nagkakalkula ng marka, centile, dosis o interaksyon ng gamot ay karaniwang medical device. Wala sa mga ito ang kinakalkula ng Lily, sinadya. Kung regulado ang produkto ninyo, kayo ang may-ari ng usability engineering file nito (IEC 62366-1, ang gabay ng FDA sa human factors, EU MDR). Ang mga pagsusuri ng Lily, ang sariling-tayang ulat ng pagsunod nito sa accessibility at ang screen-reader matrix nito ay maaaring maging ebidensya sa file na iyon; wala sa mga ito ang pahayag ng pagsunod, at wala pang resulta ang matrix.</p>
+
+  <h2>Mga alerto: mang-istorbo lamang para sa kritikal</h2>
+  <p>Problema sa kaligtasan ang alert fatigue: kapag nang-iistorbo ang bawat alerto, binabalewala ng mga tao ang lahat. Ang gabay ng AHRQ ay iantas ang mga alerto ayon sa tindi at gawing nakaka-istorbo lamang ang malulubha.</p>
+  <ul>
+    <li><strong>Impormasyon</strong> (<code>indicator="info"</code>): nasa linya, katabi ng gawain, isang decision-support card sa pahina.</li>
+    <li><strong>Babala</strong> (<code>indicator="warning"</code>): nakikita nang hindi humaharang, ang parehong card, may estilong namumukod; walang modal.</li>
+    <li><strong>Kritikal</strong> (<code>indicator="critical"</code>): ilagay ang card sa loob ng alert dialog, at maglaan ng <code>overrideReasons</code> para humingi ng dahilan kapag ito ay isinara.</li>
+    <li>Ang decision-support card ay hindi kailanman live region nang mag-isa. Ipabatid ang bagong kritikal na card sa paglipat ng focus papasok sa dialog, hindi sa pamamagitan ng <code>aria-live</code>.</li>
+    <li>Alisin ang card kapag nangyari muli ang pangyayaring sinagot nito, at itala ang bawat kinalabasan (tinanggap, o nilampasan kasama ang dahilan).</li>
+  </ul>
+
+  <h2>Mga pagkakamali sa maling pasyente: kilalanin, huwag higpitan</h2>
+  <ul>
+    <li>Magpakita ng dalawang identifier saanman lumilitaw ang datos ng pasyente: ang pangalan kasama ang petsa ng kapanganakan, at ang pambansang identifier kasama ang view component nito (The Joint Commission, Quick Safety 45).</li>
+    <li>Gamitin ang patient banner sa bawat screen na kumikilos sa talaan ng isang pasyente, at panatilihin itong nakikita.</li>
+    <li>Bago ang aksyon sa talaang iba sa nasa banner, kumpirmahin ito gamit ang pangalan, petsa ng kapanganakan at identifier.</li>
+    <li>Huwag limitahan kung ilang talaan ang maaaring buksan ng clinician: natuklasan ng isang randomised trial ng 3,356 clinician (JAMA, 2019) na hindi nito binawasan ang maling order sa pasyente, at humahanap ng paraan ang mga tao para lampasan ito.</li>
+  </ul>
+
+  <h2>Ang patient banner</h2>
+  <p>Nakadokumento ang komposisyon sa <a href="/components/medical-banner/">medical-banner</a>, may gumaganang pahina sa <code>/patient-banner</code> sa SvelteKit example app:</p>
+  <ul>
+    <li>dalawang identifier, at ang edad sa tabi ng petsa ng kapanganakan;</li>
+    <li>mga allergy sa pamamagitan ng allergy list, para ang "walang kilalang allergy", "hindi naitala" at "hindi magagamit" ay hindi kailanman magmukhang magkakapareho;</li>
+    <li>ang nawawalang halaga ay mga salita ("Hindi alam"), hindi tandang pananong, gitling o walang lamang cell;</li>
+    <li>isang pasyenteng pumanaw: <code>data-deceased</code> para sa theme, at isang nakikitang linya ng teksto, hindi kulay lamang;</li>
+    <li>walang field na pinutol, tinabas o itinago sa anumang lapad; bumabalot ito.</li>
+  </ul>
+
+  <h2>Mga resulta</h2>
+  <ul>
+    <li>Iisang display para sa resulta, saanmang sistema ito nanggaling: ang observation view.</li>
+    <li>Ang flag ay mga salita mula sa salin ninyo (<code>flagLabel</code>), kasama ang interpretation code ng FHIR bilang <code>data-interpretation</code> para sa theme.</li>
+    <li>Ihiwalay ang mga bagong resulta sa mga nauna, at magpakita ng trend (isang sparkline, o line chart na may data table nito): hinahanap ng mga clinician ang makabuluhang pagbabago, hindi lamang ang saklaw.</li>
+    <li>Magkaibang kalagayan, na may magkaibang salita, ang resultang hindi kailanman naitala at ang resultang hindi magagamit.</li>
+  </ul>
+
+  <h2>Mga gamot</h2>
+  <ul>
+    <li>Mga generic na pangalan sa maliliit na titik, maliban sa mga titik na tall man mula sa mga listahan ng FDA at ISMP o ng inyong bansa (naglalathala ng sarili nila ang Australia at Canada). Markahan ang mga ito sa <code>nameSegments</code>; hindi kailanman hinuhulaan ng Lily.</li>
+    <li>Isulat ang lakas gamit ang <code>formatQuantity</code>: walang trailing zero, may leading zero, at no-break space bago ang yunit.</li>
+    <li>Isulat ang mL, hindi cc, at iwasan ang bawat daglat sa listahan ng ISMP na madaling magkamali.</li>
+    <li>Huwag kailanman putulin ang pangalan o dosis ng gamot.</li>
+  </ul>
+
+  <h2>Mga petsa at oras</h2>
+  <ul>
+    <li>Isulat ang buwan bilang teksto para hindi mabasa ang petsa sa dalawang paraan (<code>Intl.DateTimeFormat</code> na may <code>month: "short"</code>).</li>
+    <li>Piliin ang orasan nang sinasadya: ipasa nang tahasan ang <code>hourCycle</code>. Hinihingi ng NHS ang 24-oras na orasan; tuntunin iyon ng UK, hindi pandaigdigan, kaya hindi kailanman pinipili ito ng Lily para sa inyo.</li>
+    <li>Sinusunod ng mga edad ang mga banda ng Common User Interface sa pamamagitan ng <code>ageParts()</code>; ang serbisyong may ibang kaugalian ay nagpapasa ng sarili nitong mga salita.</li>
+  </ul>
+
+  <h2>Mga dashboard</h2>
+  <ul>
+    <li>Madalas ma-update ang ward board o screen ng command centre. Huwag ianunsyo ang bawat pagbabago: magtago ng isang magalang na summary region ("3 kama ang bakante, 2 paglabas ang inaasahan") at hayaang basahin ng mga tao ang board.</li>
+    <li>Ang bawat estado sa board (malinis ang kama, may okupante, nakaharang) ay teksto o estadong <code>data-*</code> na may mga salita, hindi kulay lamang.</li>
+  </ul>
+
+  <h2>Ang hindi gagawin ng Lily</h2>
+  <ul>
+    <li>Magkalkula ng early warning score, growth centile, dosis o saklaw ng sanggunian.</li>
+    <li>Maghatid ng database ng gamot, listahan ng tall man, o mga code ng SNOMED CT, ICD, LOINC o UCUM.</li>
+    <li>Kopyahin ang lisensyadong instrumento (Wong-Baker FACES) o ang disenyo ng ibang katawan (ang tsart ng NEWS2).</li>
+    <li>Limitahan ang bilang ng mga talaang sabay na bukas.</li>
+  </ul>
+  <p>Ang pananaliksik, mga pinagmulan at mga pasya sa likod ng gabay na ito ay nasa <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

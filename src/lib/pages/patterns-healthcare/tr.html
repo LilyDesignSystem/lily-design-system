@@ -1,0 +1,124 @@
+<!-- title: Sağlık Hizmetleri Kullanıcı Arayüzleri — Lily Design System -->
+<!-- description: Lily ile klinik yazılım geliştiren ekipler için bir rehber: Lily'nin neyi sağladığı ve neyi size bıraktığı, uyarıların kademelendirilmesi, yanlış hasta hatalarına karşı önlemler, hasta başlığı, sonuçlar, ilaçlar, tarihler ve panolar. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Sağlık hizmetleri kullanıcı arayüzleri</h1>
+  <p class="page-intro-tagline">Lily ile klinik yazılım geliştiren ekipler için bir rehber: klinik portallar, sonuçlar ve raporlama, ilaç yazımı ve uygulaması, karar desteği ve hastane panoları.</p>
+  <p>Bu sayfanın çevirileri gözden geçirilmemiş makine taslaklarıdır. <a href="/patterns/healthcare/#healthcare-title" >İngilizce sayfa</a > geçerli sürümdür.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Lily ne yapar, ne yapmaz</h2>
+  <p>Lily size görüntüleme sözleşmeleri sunar: klinik ekranlarda tekrarlanan öğeler için anlamsal işaretleme, ARIA, klavye davranışı ve sınıf kancaları. Size klinik mantık, klinik içerik veya bir mevzuat beyanı sunmaz.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Lily'nin sağladıkları ve sizin sağlamanız gerekenler</caption>
+      <thead>
+        <tr>
+          <th>Lily'nin sağladıkları</th>
+          <th>Sizin sağlayacaklarınız</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: bir değer, birim, sözcüklerle işaret, aralık ve eksik durumları</td>
+          <td>Değer, işaret kararı, referans aralığı</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> ve <a href="/components/allergy-list-item/">allergy-list-item</a>: asla boş olmayan bir durum</td>
+          <td>Alerji kaydı ve terminolojisi</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: ad, güç, form, yol ve sıklık, hiçbiri kesilmeden</td>
+          <td>İlaç verisi, tall man bölümleri, biçimlendirilmiş güç</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: CDS Hooks kartının biçimi</td>
+          <td>Kurallar, öneri eylemleri, sonucun kaydedilmesi</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: bir puan, bant ve yükseltme, görüntülenmiş olarak</td>
+          <td>Puanlama sistemi ve doğrulanmış hesaplaması</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> ve <code>ageParts()</code>: yaşa uygun birimlerle bir yaş</td>
+          <td>Birimler için sözcükler (<code>Intl.DurationFormat</code> veya kendi etiketleriniz)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, asla 5,0 mg değil; 0,5 mg, asla ,5 mg değil</td>
+          <td>Sayı, birim ve yerel ayar</td>
+        </tr>
+        <tr>
+          <td>Hasta başlığı kompozisyonu</td>
+          <td>Her etiket ve değer ile klinik bilgiyi kimin görebileceği</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Mevzuat.</strong> Bir puanı, persentili, dozu veya ilaç etkileşimini hesaplayan yazılım genellikle bir tıbbi cihazdır. Lily bunların hiçbirini bilerek hesaplamaz. Ürününüz düzenlemeye tabiyse, kullanılabilirlik mühendisliği dosyası sizin sorumluluğunuzdadır (IEC 62366-1, FDA'nın insan faktörleri kılavuzu, EU MDR). Lily'nin testleri, kendi kendine değerlendirilmiş erişilebilirlik uygunluk raporu ve ekran okuyucu matrisi bu dosyada kanıt olabilir; hiçbiri bir uygunluk beyanı değildir ve matrisin henüz sonucu yoktur.</p>
+
+  <h2>Uyarılar: yalnızca kritik olan için kesintiye uğratın</h2>
+  <p>Uyarı yorgunluğu bir güvenlik sorunudur: her uyarı kesintiye neden olduğunda insanlar hepsini kapatır. AHRQ'nun rehberi, uyarıları ciddiyete göre kademelendirmek ve yalnızca ciddi olanları kesintiye neden olacak şekilde yapmaktır.</p>
+  <ul>
+    <li><strong>Bilgi</strong> (<code>indicator="info"</code>): satır içi, görevin yanında, sayfada bir karar destek kartı.</li>
+    <li><strong>Uyarı</strong> (<code>indicator="warning"</code>): engellemeden görünür, aynı kart, öne çıkacak şekilde biçimlendirilmiş; modal yok.</li>
+    <li><strong>Kritik</strong> (<code>indicator="critical"</code>): kartı bir uyarı iletişim kutusunun içine koyun ve <code>overrideReasons</code> sunun; böylece kapatılırken bir neden istenir.</li>
+    <li>Bir karar destek kartı kendi başına asla bir canlı bölge değildir. Yeni bir kritik kartı <code>aria-live</code> ile değil, odağı iletişim kutusuna taşıyarak duyurun.</li>
+    <li>Kartın yanıt verdiği olay yeniden gerçekleştiğinde kartı kaldırın ve her sonucu kaydedin (kabul edildi veya nedeniyle geçersiz kılındı).</li>
+  </ul>
+
+  <h2>Yanlış hasta hataları: tanımlayın, kısıtlamayın</h2>
+  <ul>
+    <li>Hasta verisinin göründüğü her yerde iki tanımlayıcı gösterin: ad ile doğum tarihi ve ulusal tanımlayıcı ile görüntüleme bileşeni (The Joint Commission, Quick Safety 45).</li>
+    <li>Bir hastanın kaydı üzerinde işlem yapan her ekranda hasta başlığını kullanın ve görünür tutun.</li>
+    <li>Başlıktaki dışındaki bir kayıt üzerinde işlem yapmadan önce, adı, doğum tarihi ve tanımlayıcıyla onaylayın.</li>
+    <li>Bir klinisyenin kaç kayıt açabileceğini sınırlamayın: 3.356 klinisyenle yapılan randomize bir çalışma (JAMA, 2019) bunun yanlış hasta istemlerini azaltmadığını buldu ve insanlar bunu aşmanın yolunu buluyor.</li>
+  </ul>
+
+  <h2>Hasta başlığı</h2>
+  <p>Kompozisyon <a href="/components/medical-banner/">medical-banner</a> ile belgelenmiştir; SvelteKit örnek uygulamasında <code>/patient-banner</code> adresinde çalışan bir sayfa vardır:</p>
+  <ul>
+    <li>iki tanımlayıcı ve doğum tarihinin yanında yaş;</li>
+    <li>alerjiler bir alerji listesi aracılığıyla, böylece “bilinen alerji yok”, “kaydedilmedi” ve “kullanılamıyor” asla birbirine benzemez;</li>
+    <li>eksik bir değer sözcüklerle ifade edilir (“Bilinmiyor”), asla soru işareti, tire veya boş hücre olmaz;</li>
+    <li>vefat etmiş bir hasta: tema için <code>data-deceased</code> ve görünür bir metin satırı, asla yalnızca renk değil;</li>
+    <li>hiçbir alan, hiçbir genişlikte kesilmez, kırpılmaz veya gizlenmez; alt satıra sarılır.</li>
+  </ul>
+
+  <h2>Sonuçlar</h2>
+  <ul>
+    <li>Hangi sistemden gelirse gelsin bir sonuç için tek bir görüntü: gözlem görünümü.</li>
+    <li>İşaret, çevirinizden gelen sözcüklerdir (<code>flagLabel</code>); FHIR yorum kodu tema için <code>data-interpretation</code> olarak verilir.</li>
+    <li>Yeni sonuçları öncekilerden ayırın ve bir eğilim gösterin (bir sparkline veya veri tablosuyla bir çizgi grafik): klinisyenler yalnızca aralığı değil, anlamlı bir değişikliği arar.</li>
+    <li>Hiç kaydedilmemiş bir sonuç ile kullanılamayan bir sonuç farklı durumlardır ve farklı sözcüklerle gösterilir.</li>
+  </ul>
+
+  <h2>İlaçlar</h2>
+  <ul>
+    <li>Jenerik adlar küçük harfle, FDA ve ISMP listelerindeki veya ülkenizin listesindeki tall man harfleri hariç (Avustralya ve Kanada kendi listelerini yayımlar). Bunları <code>nameSegments</code> içinde işaretleyin; Lily bunları asla tahmin etmez.</li>
+    <li>Gücü <code>formatQuantity</code> ile yazın: sondaki sıfır yok, baştaki sıfır var, birimden önce bölünmeyen boşluk.</li>
+    <li>mL yazın, asla cc yazmayın ve ISMP'nin hataya açık kısaltmalar listesindeki her kısaltmadan kaçının.</li>
+    <li>Bir ilacın adını veya dozunu asla kesmeyin.</li>
+  </ul>
+
+  <h2>Tarihler ve saatler</h2>
+  <ul>
+    <li>Bir tarihin iki şekilde okunamaması için ayı metin olarak yazın (<code>Intl.DateTimeFormat</code> ile <code>month: "short"</code>).</li>
+    <li>Saati bilinçli seçin: <code>hourCycle</code> değerini açıkça geçin. NHS 24 saatlik saati ister; bu bir Birleşik Krallık kuralıdır, dünya geneli bir kural değildir; bu yüzden Lily bunu sizin yerinize asla seçmez.</li>
+    <li>Yaşlar, <code>ageParts()</code> aracılığıyla Common User Interface bantlarını izler; başka bir kurala sahip bir hizmet kendi sözcüklerini geçer.</li>
+  </ul>
+
+  <h2>Panolar</h2>
+  <ul>
+    <li>Bir servis panosu veya komuta merkezi ekranı sık güncellenir. Her değişikliği asla duyurmayın: tek bir nazik özet bölgesi tutun (“3 yatak boş, 2 taburculuk bekleniyor”) ve insanların panoyu okumasına izin verin.</li>
+    <li>Bir panodaki her durum (yatak temiz, dolu, engelli) metindir veya sözcükler içeren bir <code>data-*</code> durumudur; asla yalnızca renk değildir.</li>
+  </ul>
+
+  <h2>Lily'nin yapmayacakları</h2>
+  <ul>
+    <li>Bir erken uyarı puanını, büyüme persentilini, dozu veya referans aralığını hesaplamak.</li>
+    <li>Bir ilaç veritabanı, tall man listesi veya SNOMED CT, ICD, LOINC ya da UCUM kodları sunmak.</li>
+    <li>Lisanslı bir aracı (Wong-Baker FACES) veya başka bir kurumun tasarımını (NEWS2 çizelgesi) yeniden üretmek.</li>
+    <li>Aynı anda açık kayıt sayısını sınırlamak.</li>
+  </ul>
+  <p>Bu rehberin arkasındaki araştırma, kaynaklar ve kararlar <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a> içindedir.</p>
+</section>

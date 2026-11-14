@@ -1,0 +1,124 @@
+<!-- title: Comhéadain úsáideora cúraim sláinte — Lily Design System -->
+<!-- description: Treoir do fhoirne a bhíonn ag tógáil bogearraí cliniciúla le Lily: an méid a sholáthraíonn Lily agus an méid a fhágann sí fút féin, rangú na n-aláram, cosaintí in aghaidh an othair mhícheart, meirge an othair, torthaí, cógais, dátaí agus deais. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Comhéadain úsáideora cúraim sláinte</h1>
+  <p class="page-intro-tagline">Treoir do fhoirne a bhíonn ag tógáil bogearraí cliniciúla le Lily: tairseacha cliniciúla, torthaí agus tuairisciú, údarú agus riar cógas, tacaíocht cinnteoireachta agus deais ospidéil.</p>
+  <p>Is dréachtaí meaisín gan athbhreithniú iad aistriúcháin na leathanaigh seo. Is é <a href="/patterns/healthcare/#healthcare-title" >an leathanach Béarla</a > an leagan údarásach.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Cad a dhéanann Lily, agus cad nach ndéanann</h2>
+  <p>Tugann Lily conarthaí taispeána duit: marcáil shéimeantach, ARIA, iompar méarchláir agus crúcaí aicme do na rudaí a athdhéanann scáileáin chliniciúla. Ní thugann sí loighic chliniciúil, ábhar cliniciúil ná éileamh rialála duit.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Cad a sholáthraíonn Lily, agus cad a sholáthraíonn tú</caption>
+      <thead>
+        <tr>
+          <th>Soláthraíonn Lily</th>
+          <th>Soláthraíonn tú</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: luach, aonad, bratach i bhfocail, raon, agus staideanna luacha ar iarraidh</td>
+          <td>An luach, an cinneadh faoin mbratach, an raon tagartha</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> agus <a href="/components/allergy-list-item/">allergy-list-item</a>: stádas nach bhfuil folamh riamh</td>
+          <td>An taifead ailléirge agus a téarmaíocht</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: ainm, neart, foirm, bealach agus minicíocht, gan aon rud giorraithe</td>
+          <td>Sonraí an chógais, na deighleoga tall man, an neart formáidithe</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: cruth chárta CDS Hooks</td>
+          <td>Na rialacha, gníomhartha na moltaí, an toradh a thaifeadadh</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: scór, banda agus ardú céime, ar taispeáint</td>
+          <td>An córas scórála agus a ríomh bailíochtaithe</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> agus <code>ageParts()</code>: aois in aonaid a oireann di</td>
+          <td>Na focail do na haonaid (<code>Intl.DurationFormat</code> nó do lipéid féin)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, 5.0 mg riamh; 0.5 mg, .5 mg riamh</td>
+          <td>An uimhir, an t-aonad agus an logchaighdeán</td>
+        </tr>
+        <tr>
+          <td>Comhdhéanamh mheirge an othair</td>
+          <td>Gach lipéad agus luach, agus cé a fhéadfaidh faisnéis chliniciúil a fheiceáil</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Rialáil.</strong> Is gnách gur feiste leighis é bogearra a ríomhann scór, ceatadán, dáileog nó idirghníomhú cógas. Ní ríomhann Lily aon cheann díobh seo, d’aon ghnó. Má tá do tháirge rialaithe, is leatsa a chomhad innealtóireachta inúsáidteachta (IEC 62366-1, treoir an FDA ar fhachtóirí daonna, EU MDR). Is féidir le tástálacha Lily, a tuarascáil féinmheasta ar chomhréireacht inrochtaineachta agus a maitrís léitheoirí scáileáin a bheith ina fianaise sa chomhad sin; ní éileamh comhréireachta aon cheann díobh, agus níl aon torthaí sa mhaitrís go fóill.</p>
+
+  <h2>Foláirimh: ná cuir isteach ach ar an méid atá criticiúil</h2>
+  <p>Is fadhb sábháilteachta é tuirse foláirimh: nuair a chuireann gach foláireamh isteach, déanann daoine neamhaird orthu go léir. Is é treoir AHRQ foláirimh a rangú de réir déine agus gan ligean ach do na cinn dhéine cur isteach.</p>
+  <ul>
+    <li><strong>Faisnéis</strong> (<code>indicator="info"</code>): inlíne, in aice leis an tasc, cárta tacaíochta cinnteoireachta sa leathanach.</li>
+    <li><strong>Rabhadh</strong> (<code>indicator="warning"</code>): infheicthe gan blocáil, an cárta céanna, stíleáilte le seasamh amach; gan modh.</li>
+    <li><strong>Criticiúil</strong> (<code>indicator="critical"</code>): cuir an cárta taobh istigh de dhialóg foláirimh, agus tairg <code>overrideReasons</code> ionas go n-iarrfaidh a dhiúltú cúis.</li>
+    <li>Ní réigiún beo cárta tacaíochta cinnteoireachta leis féin riamh. Fógair cárta criticiúil nua trí fhócas a bhogadh isteach sa dialóg, ní trí <code>aria-live</code>.</li>
+    <li>Bain cárta nuair a tharlaíonn an teagmhas ar fhreagair sé dó arís, agus taifead gach toradh (glactha, nó sáraithe lena chúis).</li>
+  </ul>
+
+  <h2>Earráidí an othair mhícheart: aithin, ná srian</h2>
+  <ul>
+    <li>Taispeáin dhá aitheantóir aon áit a bhfuil sonraí othair le feiceáil: an t-ainm leis an dáta breithe, agus an t-aitheantóir náisiúnta lena chomhpháirt amhairc (The Joint Commission, Quick Safety 45).</li>
+    <li>Úsáid meirge an othair ar gach scáileán a ghníomhaíonn ar thaifead othair amháin, agus coinnigh infheicthe é.</li>
+    <li>Sula ndéanann tú gníomh ar thaifead seachas an ceann sa mheirge, deimhnigh é leis an ainm, an dáta breithe agus an t-aitheantóir.</li>
+    <li>Ná cuir teorainn le líon na dtaifead a fhéadfaidh cliniceoir a oscailt: fuair triail randamaithe le 3,356 cliniceoir (JAMA, 2019) nár laghdaigh sé orduithe don othar mícheart, agus go dtéann daoine timpeall air.</li>
+  </ul>
+
+  <h2>Meirge an othair</h2>
+  <p>Tá an comhdhéanamh doiciméadaithe le <a href="/components/medical-banner/">medical-banner</a>, le leathanach oibre ag <code>/patient-banner</code> in aip samplaí SvelteKit:</p>
+  <ul>
+    <li>dhá aitheantóir, agus an aois in aice leis an dáta breithe;</li>
+    <li>ailléirgí trí liosta ailléirgí, ionas nach mbeidh “aon ailléirge aitheanta”, “gan taifeadadh” agus “gan a bheith ar fáil” cosúil le chéile riamh;</li>
+    <li>is focail atá i luach atá ar iarraidh (“Anaithnid”), ní comhartha ceiste, fleiscín ná cill fholamh riamh;</li>
+    <li>othar atá básaithe: <code>data-deceased</code> don téama, agus líne théacs infheicthe, ní dath amháin riamh;</li>
+    <li>níl aon réimse giorraithe, gearrtha ná i bhfolach ag aon leithead; fillteann sé.</li>
+  </ul>
+
+  <h2>Torthaí</h2>
+  <ul>
+    <li>Amharc amháin ar thoradh, pé córas as ar tháinig sé: an t-amharc breathnóireachta.</li>
+    <li>Is focail ón aistriúchán agatsa an bhratach (<code>flagLabel</code>), le cód léirmhínithe FHIR mar <code>data-interpretation</code> don téama.</li>
+    <li>Scar torthaí nua ó cheannacha níos luaithe, agus taispeáin treocht (spréacharlíne, nó cairt líne lena tábla sonraí): bíonn cliniceoirí ag lorg athraithe shuntasaigh, ní an raon amháin.</li>
+    <li>Is staideanna difriúla iad toradh nár taifeadadh riamh agus toradh nach bhfuil ar fáil, le focail dhifriúla.</li>
+  </ul>
+
+  <h2>Cógais</h2>
+  <ul>
+    <li>Ainmneacha cineálacha i litreacha beaga, ach amháin litreacha tall man ó liostaí an FDA agus ISMP nó ó liosta do thíre (foilsíonn an Astráil agus Ceanada a gcuid féin). Marcáil iad in <code>nameSegments</code>; ní thomhaiseann Lily riamh iad.</li>
+    <li>Scríobh an neart le <code>formatQuantity</code>: gan nialas ag an deireadh, le nialas ar tosach, le spás neamhbhriste roimh an aonad.</li>
+    <li>Scríobh mL, cc riamh, agus seachain gach giorrúchán atá ar liosta ISMP de na cinn is dóchúla earráid.</li>
+    <li>Ná giorraigh riamh ainm ná dáileog cógais.</li>
+  </ul>
+
+  <h2>Dátaí agus amanna</h2>
+  <ul>
+    <li>Scríobh an mhí mar théacs ionas nach féidir dáta a léamh ar dhá bhealach (<code>Intl.DateTimeFormat</code> le <code>month: "short"</code>).</li>
+    <li>Roghnaigh an clog d’aon ghnó: pas <code>hourCycle</code> go sainráite. Iarrann an NHS an clog 24 uair; riail na Ríochta Aontaithe é sin, ní riail dhomhanda, mar sin ní roghnaíonn Lily riamh duit é.</li>
+    <li>Leanann aoiseanna bandaí an Common User Interface trí <code>ageParts()</code>; cuireann seirbhís le coinbhinsiún eile a focail féin ar aghaidh.</li>
+  </ul>
+
+  <h2>Deais</h2>
+  <ul>
+    <li>Nuashonraítear bord barda nó scáileán lárionaid ceannais go minic. Ná fógair gach athrú riamh: coinnigh réigiún achoimre séimh amháin (“3 leaba saor, 2 scaoileadh amach ag teacht”) agus lig do dhaoine an bord a léamh.</li>
+    <li>Is téacs nó staid <code>data-*</code> le focail gach staid ar bhord (leaba glan, áitithe, blocáilte), ní dath amháin riamh.</li>
+  </ul>
+
+  <h2>Na rudaí nach ndéanfaidh Lily</h2>
+  <ul>
+    <li>Scór luathrabhaidh, ceatadán fáis, dáileog nó raon tagartha a ríomh.</li>
+    <li>Bunachar sonraí cógas, liosta tall man, ná cóid SNOMED CT, CIE, LOINC nó UCUM a sheoladh.</li>
+    <li>Ionstraim cheadúnaithe (Wong-Baker FACES) nó dearadh comhlachta eile (cairt NEWS2) a atáirgeadh.</li>
+    <li>Teorainn a chur le líon na dtaifead atá oscailte ag an am céanna.</li>
+  </ul>
+  <p>Tá an taighde, na foinsí agus na cinntí taobh thiar den treoir seo ag <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

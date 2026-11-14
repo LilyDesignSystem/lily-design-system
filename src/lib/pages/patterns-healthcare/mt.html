@@ -1,0 +1,124 @@
+<!-- title: Interfaces tal-utent fil-kura tas-saħħa — Lily Design System -->
+<!-- description: Gwida għal timijiet li jibnu softwer kliniku b'Lily: x'jipprovdi Lily u x'jħalli f'idejk, il-livelli tat-twissijiet, salvagwardji kontra l-iżball tal-pazjent, il-bandiera tal-pazjent, ir-riżultati, il-mediċini, id-dati u d-dashboards. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Interfaces tal-utent fil-kura tas-saħħa</h1>
+  <p class="page-intro-tagline">Gwida għal timijiet li jibnu softwer kliniku b'Lily: portali kliniċi, riżultati u rappurtar, preskrizzjoni u amministrazzjoni tal-mediċini, appoġġ għad-deċiżjonijiet u dashboards tal-isptarijiet.</p>
+  <p>It-traduzzjonijiet ta' din il-paġna huma abbozzi awtomatiċi mhux riveduti. <a href="/patterns/healthcare/#healthcare-title" >Il-paġna bl-Ingliż</a > hija l-verżjoni awtorevoli.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>X'jagħmel Lily, u x'ma jagħmilx</h2>
+  <p>Lily jagħti kuntratti ta' wiri: markup semantiku, ARIA, mġiba tat-tastiera u class hooks għal dak li l-iskrins kliniċi jirrepetu. Ma jagħtix loġika klinika, kontenut kliniku jew dikjarazzjoni regolatorja.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">X'jipprovdi Lily, u x'tipprovdi int</caption>
+      <thead>
+        <tr>
+          <th>Lily jipprovdi</th>
+          <th>Int tipprovdi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: valur, unità, bandiera bil-kliem, firxa, u stati ta' data nieqsa</td>
+          <td>Il-valur, id-deċiżjoni dwar il-bandiera, il-firxa ta' referenza</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> u <a href="/components/allergy-list-item/">allergy-list-item</a>: status li qatt mhu vojt</td>
+          <td>Ir-rekord tal-allerġija u t-terminoloġija tiegħu</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: isem, qawwa, forma, rotta u frekwenza, xejn maqtugħ</td>
+          <td>Id-data tal-mediċina, is-segmenti tall man, il-qawwa fformattjata</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: il-forma tal-karta CDS Hooks</td>
+          <td>Ir-regoli, l-azzjonijiet ta' suġġeriment, ir-reġistrazzjoni tar-riżultat</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: punteġġ, medda u eskalazzjoni, murija</td>
+          <td>Is-sistema tal-punteġġ u l-kalkolu validat tagħha</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> u <code>ageParts()</code>: età f'unitajiet li jaqblu magħha</td>
+          <td>Il-kliem għall-unitajiet (<code>Intl.DurationFormat</code> jew it-tikketti tiegħek stess)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, qatt 5.0 mg; 0.5 mg, qatt .5 mg</td>
+          <td>In-numru, l-unità u l-locale</td>
+        </tr>
+        <tr>
+          <td>Il-kompożizzjoni tal-bandiera tal-pazjent</td>
+          <td>Kull tikketta u valur, u min jista' jara informazzjoni klinika</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regolamentazzjoni.</strong> Softwer li jikkalkula punteġġ, ċentil, doża jew interazzjoni tal-mediċini ġeneralment huwa apparat mediku. Lily ma jikkalkula l-ebda wieħed minn dawn, apposta. Jekk il-prodott tiegħek huwa regolat, il-fajl tal-inġinerija tal-użabbiltà tiegħu huwa tiegħek (IEC 62366-1, il-gwida tal-FDA dwar il-fatturi umani, EU MDR). It-testijiet ta' Lily, ir-rapport tiegħu dwar il-konformità tal-aċċessibbiltà li evalwa hu stess u l-matriċi tiegħu tal-qarrejja tal-iskrin jistgħu jkunu evidenza f'dak il-fajl; l-ebda wieħed minnhom mhu talba ta' konformità, u l-matriċi għad m'għandha l-ebda riżultat.</p>
+
+  <h2>Twissijiet: interrompi biss għal dak kritiku</h2>
+  <p>L-għeja min-twissijiet hija problema ta' sigurtà: meta kull twissija tinterrompi, in-nies jiċħdu lkoll. Il-gwida tal-AHRQ hija li t-twissijiet jitqiegħdu f'livelli skont is-severità u li biss is-severi jinterrompu.</p>
+  <ul>
+    <li><strong>Informazzjoni</strong> (<code>indicator="info"</code>): inline, ħdejn il-kompitu, karta ta' appoġġ għad-deċiżjonijiet fil-paġna.</li>
+    <li><strong>Twissija</strong> (<code>indicator="warning"</code>): viżibbli mingħajr ma timblokka, l-istess karta, stilizzata biex tidher; l-ebda modal.</li>
+    <li><strong>Kritiku</strong> (<code>indicator="critical"</code>): poġġi l-karta ġewwa dialogu ta' twissija, u offri <code>overrideReasons</code> biex it-tneħħija tagħha titlob raġuni.</li>
+    <li>Karta ta' appoġġ għad-deċiżjonijiet qatt m'hija live region waħedha. Ħabbar karta kritika ġdida billi tmexxi l-fokus ġewwa d-dialogu, mhux b'<code>aria-live</code>.</li>
+    <li>Neħħi karta meta l-avveniment li weġbet għalih iseħħ mill-ġdid, u rreġistra kull riżultat (aċċettat, jew miċħud bir-raġuni tiegħu).</li>
+  </ul>
+
+  <h2>Żbalji tal-pazjent ħażin: identifika, tirrestrinġix</h2>
+  <ul>
+    <li>Uri żewġ identifikaturi kullimkien fejn tidher id-data ta' pazjent: l-isem mad-data tat-twelid, u l-identifikatur nazzjonali bil-komponent view tiegħu (The Joint Commission, Quick Safety 45).</li>
+    <li>Uża l-bandiera tal-pazjent fuq kull skrin li jaġixxi fuq ir-rekord ta' pazjent wieħed, u żommha viżibbli.</li>
+    <li>Qabel azzjoni fuq rekord ieħor minbarra dak fil-bandiera, ikkonfermaha bl-isem, id-data tat-twelid u l-identifikatur.</li>
+    <li>Tillimitax kemm jista' jiftaħ rekords kliniku: prova randomizzata ta' 3,356 kliniku (JAMA, 2019) sabet li ma naqqsitx l-ordnijiet għall-pazjent ħażin, u n-nies isibu mod kif jevitawha.</li>
+  </ul>
+
+  <h2>Il-bandiera tal-pazjent</h2>
+  <p>Il-kompożizzjoni hija ddokumentata ma' <a href="/components/medical-banner/">medical-banner</a>, b'paġna li taħdem f'<code>/patient-banner</code> fl-app ta' eżempju SvelteKit:</p>
+  <ul>
+    <li>żewġ identifikaturi, u l-età ħdejn id-data tat-twelid;</li>
+    <li>allerġiji permezz ta' lista ta' allerġiji, biex “l-ebda allerġija magħrufa”, “mhux irreġistrat” u “mhux disponibbli” qatt ma jidhru l-istess;</li>
+    <li>valur nieqes huwa kliem (“Mhux magħruf”), qatt marka ta' mistoqsija, linja jew ċellola vojta;</li>
+    <li>pazjent mejjet: <code>data-deceased</code> għat-tema, u linja ta' test viżibbli, qatt kulur biss;</li>
+    <li>l-ebda qasam mhu maqtugħ, maqtugħ barra jew moħbi fi kwalunkwe wisa'; jitkaser fuq linji.</li>
+  </ul>
+
+  <h2>Riżultati</h2>
+  <ul>
+    <li>Wiri wieħed għal riżultat, minn kwalunkwe sistema li ġie: l-observation view.</li>
+    <li>Il-bandiera hija kliem mit-traduzzjoni tiegħek (<code>flagLabel</code>), bil-kodiċi ta' interpretazzjoni FHIR bħala <code>data-interpretation</code> għat-tema.</li>
+    <li>Aqsam ir-riżultati l-ġodda minn dawk ta' qabel, u uri xejra (sparkline, jew mudell b'linja bit-tabella tad-data tagħha): il-kliniċi qed ifittxu bidla sinifikanti, mhux biss il-firxa.</li>
+    <li>Riżultat li qatt ma ġie rreġistrat u wieħed li mhuwiex disponibbli huma stati differenti, b'kliem differenti.</li>
+  </ul>
+
+  <h2>Mediċini</h2>
+  <ul>
+    <li>Ismijiet ġeneriċi b'ittri żgħar, ħlief ittri tall man mil-listi tal-FDA u tal-ISMP jew tal-pajjiż tiegħek (l-Awstralja u l-Kanada jippubblikaw tagħhom stess). Immarkahom f'<code>nameSegments</code>; Lily qatt ma jaqta' b'ġuħ.</li>
+    <li>Ikteb il-qawwa b'<code>formatQuantity</code>: l-ebda żero fl-aħħar, żero fil-bidu, u spazju mingħajr qsim qabel l-unità.</li>
+    <li>Ikteb mL, qatt cc, u evita kull abbrevjazzjoni mil-lista tal-ISMP ta' abbrevjazzjonijiet suxxettibbli għall-iżbalji.</li>
+    <li>Qatt ma taqta' isem jew doża ta' mediċina.</li>
+  </ul>
+
+  <h2>Dati u ħinijiet</h2>
+  <ul>
+    <li>Ikteb ix-xahar bħala test biex data ma tkunx tista' tinqara b'żewġ modi (<code>Intl.DateTimeFormat</code> b'<code>month: "short"</code>).</li>
+    <li>Agħżel l-arloġġ apposta: għaddi <code>hourCycle</code> b'mod espliċitu. L-NHS jitlob arloġġ ta' 24 siegħa; dik hija regola tar-Renju Unit, mhux dinjija, u għalhekk Lily qatt ma jagħżilha għalik.</li>
+    <li>L-etajiet isegwu l-meded tal-Common User Interface permezz ta' <code>ageParts()</code>; servizz b'konvenzjoni oħra jgħaddi l-kliem tiegħu stess.</li>
+  </ul>
+
+  <h2>Dashboards</h2>
+  <ul>
+    <li>Bord ta' wirda jew skrin ta' ċentru ta' kmand jaġġornaw spiss. Qatt ma tħabbar kull bidla: żomm reġjun wieħed ta' sommarju polite (“3 sodod vojta, 2 skariġi mistennija”) u ħalli lin-nies jaqraw il-bord.</li>
+    <li>Kull stat fuq bord (sodda nadifa, okkupata, imblukkata) huwa test jew stat <code>data-*</code> bil-kliem, qatt kulur biss.</li>
+  </ul>
+
+  <h2>X'ma jagħmilx Lily</h2>
+  <ul>
+    <li>Jikkalkula punteġġ ta' twissija bikrija, ċentil ta' tkabbir, doża jew firxa ta' referenza.</li>
+    <li>Jagħti database tal-mediċini, lista tall man, jew kodiċijiet SNOMED CT, ICD, LOINC jew UCUM.</li>
+    <li>Jirriproduċi strument liċenzjat (Wong-Baker FACES) jew disinn ta' korp ieħor (il-grafika NEWS2).</li>
+    <li>Jillimita n-numru ta' rekords miftuħin f'daqqa.</li>
+  </ul>
+  <p>Ir-riċerka, is-sorsi u d-deċiżjonijiet wara din il-gwida huma f'<a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

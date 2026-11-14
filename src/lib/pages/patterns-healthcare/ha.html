@@ -1,0 +1,124 @@
+<!-- title: Mu'amalar masu amfani ta kiwon lafiya — Lily Design System -->
+<!-- description: Jagora ga ƙungiyoyin da ke gina manhajar asibiti da Lily: abin da Lily ke bayarwa da abin da ya bar muku, rarraba faɗakarwa zuwa matakai, kariya daga kuskuren mara lafiya, tutar mara lafiya, sakamako, magunguna, kwanuka da allunan bayanai. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Mu'amalar masu amfani ta kiwon lafiya</h1>
+  <p class="page-intro-tagline">Jagora ga ƙungiyoyin da ke gina manhajar asibiti da Lily: kofofin asibiti, sakamako da rahoto, rubuta magani da bayar da magunguna, tallafin yanke shawara da allunan bayanan asibiti.</p>
+  <p>Fassarorin wannan shafi daftarin na'ura ne da ba a duba ba. <a href="/patterns/healthcare/#healthcare-title" >Shafin Turanci</a > shi ne sigar da aka dogara da ita.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Abin da Lily ke yi, da abin da ba ya yi</h2>
+  <p>Lily yana ba ku yarjejeniyoyin nuni: alamar semantic, ARIA, halayen madannai da class hooks don abubuwan da allunan asibiti ke maimaitawa. Ba ya ba ku dabarun asibiti, abubuwan cikin asibiti ko da'awar bin ka'ida.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Abin da Lily ke bayarwa, da abin da ku ke bayarwa</caption>
+      <thead>
+        <tr>
+          <th>Lily yana bayarwa</th>
+          <th>Ku ke bayarwa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: ƙima, naúrar, tuta da kalmomi, iyaka, da yanayin rashi</td>
+          <td>Ƙimar, hukuncin tuta, iyakar tunani</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> da <a href="/components/allergy-list-item/">allergy-list-item</a>: matsayi wanda ba ya zama fanko</td>
+          <td>Bayanan rashin lafiyar jiki da kalmomin da ake amfani da su</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: suna, ƙarfi, siffa, hanya da yawan sha, ba a yanke komai ba</td>
+          <td>Bayanan magani, sassan tall man, ƙarfin da aka tsara</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: siffar katin CDS Hooks</td>
+          <td>Dokokin, ayyukan shawara, rubuta sakamako</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: maki, mataki da ɗaga rahoto, a nuna</td>
+          <td>Tsarin yin maki da lissafinsa da aka tabbatar</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> da <code>ageParts()</code>: shekaru a ma'aunin da ya dace</td>
+          <td>Kalmomin ma'aunan (<code>Intl.DurationFormat</code> ko lakabinku)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, ba 5.0 mg ba; 0.5 mg, ba .5 mg ba</td>
+          <td>Lambar, naúrar da yare</td>
+        </tr>
+        <tr>
+          <td>Haɗin tutar mara lafiya</td>
+          <td>Kowane lakabi da ƙima, da waɗanda aka yarda su ga bayanan asibiti</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Ka'ida.</strong> Manhajar da ke lissafa maki, centile, adadin magani ko mu'amalar magunguna yawanci na'urar likita ce. Lily ba ya lissafa ko ɗaya daga cikinsu, da gangan. Idan samfurinku yana ƙarƙashin ka'ida, ku ne ke da alhakin fayil ɗin injiniyancin amfani (IEC 62366-1, jagorar FDA kan abubuwan ɗan adam, EU MDR). Gwaje-gwajen Lily, rahotonsa na bin ka'idar samun dama da ya tantance kansa da teburin masu karanta allo na iya zama shaida a fayil ɗin; babu ɗayansu da'awar bin ka'ida, kuma teburin ba shi da sakamako tukuna.</p>
+
+  <h2>Faɗakarwa: katse ne kawai don abin da ke da muhimmanci</h2>
+  <p>Gajiyar faɗakarwa matsalar tsaro ce: idan kowace faɗakarwa tana katsewa, mutane za su yi watsi da dukkansu. Jagorar AHRQ ita ce a rarraba faɗakarwa gwargwadon tsananin su, a bar masu tsanani kawai su katse.</p>
+  <ul>
+    <li><strong>Bayani</strong> (<code>indicator="info"</code>): a cikin layi, kusa da aikin, katin tallafin yanke shawara a shafin.</li>
+    <li><strong>Gargaɗi</strong> (<code>indicator="warning"</code>): a gani ba tare da toshewa ba, katin ɗaya, an tsara shi ya fito fili; babu modal.</li>
+    <li><strong>Mai tsanani</strong> (<code>indicator="critical"</code>): a saka katin cikin akwatin faɗakarwa, kuma a bayar da <code>overrideReasons</code> don a nemi dalili idan an watsar da shi.</li>
+    <li>Katin tallafin yanke shawara ba ya zama yankin live da kansa. A sanar da sabon kati mai tsanani ta hanyar kai hankali (focus) cikin akwatin, ba ta <code>aria-live</code> ba.</li>
+    <li>A cire kati idan abin da ya amsa ya sake faruwa, a kuma rubuta kowane sakamako (an karɓa, ko an watsar da dalilinsa).</li>
+  </ul>
+
+  <h2>Kuskuren mara lafiya: a tantance, kada a hana</h2>
+  <ul>
+    <li>A nuna alamomin tantancewa biyu duk inda bayanan mara lafiya suka bayyana: suna da ranar haihuwa, da lambar shaidar ƙasa tare da sashenta na kallo (The Joint Commission, Quick Safety 45).</li>
+    <li>A yi amfani da tutar mara lafiya a kowane shafi da ke aiki a kan bayanan mara lafiya ɗaya, a kuma bar ta a bayyane.</li>
+    <li>Kafin wani aiki a kan bayanan da ba na mara lafiyar da ke tutar ba, a tabbatar da shi da suna, ranar haihuwa da lambar shaida.</li>
+    <li>Kada a iyakance yawan bayanan da likita zai iya buɗewa: gwajin bazuwar kan likitoci 3,356 (JAMA, 2019) ya gano cewa bai rage odar mara lafiyar da ba daidai ba, kuma mutane na ƙetare shi.</li>
+  </ul>
+
+  <h2>Tutar mara lafiya</h2>
+  <p>An rubuta haɗin a cikin <a href="/components/medical-banner/">medical-banner</a>, tare da shafi mai aiki a <code>/patient-banner</code> cikin manhajar misali ta SvelteKit:</p>
+  <ul>
+    <li>alamomin tantancewa biyu, da shekaru kusa da ranar haihuwa;</li>
+    <li>rashin lafiyar jiki ta hanyar jerin rashin lafiyar jiki, don "babu rashin lafiyar jiki da aka sani", "ba a rubuta ba" da "babu" kada su yi kama da juna;</li>
+    <li>ƙimar da ba ta nan kalmomi ne ("Ba a sani ba"), ba alamar tambaya, layi ko ɗakin fanko ba;</li>
+    <li>mara lafiya da ya mutu: <code>data-deceased</code> don jigo, da layin rubutu a bayyane, ba launi kaɗai ba;</li>
+    <li>babu filin da aka yanke, aka datse ko aka ɓoye a kowane faɗi; yana naɗewa.</li>
+  </ul>
+
+  <h2>Sakamako</h2>
+  <ul>
+    <li>Nuni ɗaya ga sakamako, ko daga wane tsari ya fito: observation view.</li>
+    <li>Tutar kalmomi ne daga fassararku (<code>flagLabel</code>), tare da lambar fassarar FHIR a matsayin <code>data-interpretation</code> don jigo.</li>
+    <li>A raba sabbin sakamako da na baya, a nuna yanayin sauyi (sparkline, ko zanen layi da teburin bayanansa): likitoci suna neman sauyi mai muhimmanci, ba iyaka kaɗai ba.</li>
+    <li>Sakamakon da ba a taɓa rubutawa ba da wanda babu su yanayi ne daban-daban, masu kalmomi daban-daban.</li>
+  </ul>
+
+  <h2>Magunguna</h2>
+  <ul>
+    <li>Sunayen gama-gari da ƙananan haruffa, sai dai haruffan tall man daga jerin FDA da ISMP ko na ƙasarku (Ostiraliya da Kanada suna buga nasu). A yi musu alama a cikin <code>nameSegments</code>; Lily ba ya hasashensu ba.</li>
+    <li>A rubuta ƙarfi da <code>formatQuantity</code>: babu sifili a ƙarshe, sifili a farko, da sarari maras karyewa kafin naúrar.</li>
+    <li>A rubuta mL, ba cc ba, a guji kowane taƙaitawa da ke jerin kurakuran ISMP.</li>
+    <li>Kada a yanke sunan magani ko adadinsa.</li>
+  </ul>
+
+  <h2>Kwanuka da lokuta</h2>
+  <ul>
+    <li>A rubuta wata da kalmomi don kada a iya karanta kwanan wata ta hanyoyi biyu (<code>Intl.DateTimeFormat</code> da <code>month: "short"</code>).</li>
+    <li>A zaɓi agogo da gangan: a ba da <code>hourCycle</code> a fili. NHS tana buƙatar agogon awa 24; wannan dokar Birtaniya ce, ba ta duniya ba, don haka Lily ba ya zaɓa muku ba.</li>
+    <li>Shekaru suna bin rukunin Common User Interface ta <code>ageParts()</code>; sabis mai wata al'ada yana ba da nasa kalmomin.</li>
+  </ul>
+
+  <h2>Allunan bayanai</h2>
+  <ul>
+    <li>Allon unguwar asibiti ko cibiyar umarni yana sabuntawa akai-akai. Kada a sanar da kowane sauyi: a ajiye yankin taƙaitawa guda mai sauƙi ("gadaje 3 babu kowa, ana sa ran sallama 2") a bar mutane su karanta allon.</li>
+    <li>Kowane yanayi a allo (gado mai tsabta, da mutum, an rufe) rubutu ne ko yanayin <code>data-*</code> mai kalmomi, ba launi kaɗai ba.</li>
+  </ul>
+
+  <h2>Abin da Lily ba zai yi ba</h2>
+  <ul>
+    <li>Lissafa maki na gargaɗin farko, centile na girma, adadin magani ko iyakar tunani.</li>
+    <li>Bayar da rumbun bayanan magani, jerin tall man, ko lambobin SNOMED CT, ICD, LOINC ko UCUM.</li>
+    <li>Kwafar kayan aiki mai lasisi (Wong-Baker FACES) ko zanen wata hukuma (taswirar NEWS2).</li>
+    <li>Iyakance yawan bayanan da za a buɗe a lokaci ɗaya.</li>
+  </ul>
+  <p>Bincike, tushe da shawarwarin da ke bayan wannan jagorar suna cikin <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

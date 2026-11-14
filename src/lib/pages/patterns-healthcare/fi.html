@@ -1,0 +1,124 @@
+<!-- title: Terveydenhuollon käyttöliittymät — Lily Design System -->
+<!-- description: Opas tiimeille, jotka rakentavat kliinisiä ohjelmistoja Lilyllä: mitä Lily tarjoaa ja mitä se jättää sinulle, hälytysten porrastus, potilasvirheiden ehkäisy, potilasbanneri, tulokset, lääkkeet, päivämäärät ja koontinäytöt. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Terveydenhuollon käyttöliittymät</h1>
+  <p class="page-intro-tagline">Opas tiimeille, jotka rakentavat kliinisiä ohjelmistoja Lilyllä: kliiniset portaalit, tulokset ja raportointi, lääkkeiden määrääminen ja antaminen, päätöksenteon tuki ja sairaaloiden koontinäytöt.</p>
+  <p>Tämä käännös on tarkistamaton konekäännösluonnos. <a href="/patterns/healthcare/#healthcare-title" >Englanninkielinen sivu</a > on virallinen versio.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Mitä Lily tekee ja mitä ei</h2>
+  <p>Lily antaa sinulle esityssopimuksia: semanttisen merkinnän, ARIAn, näppäimistön toiminnan ja luokkakoukut asioille, jotka toistuvat kliinisissä näkymissä. Se ei anna sinulle kliinistä logiikkaa, kliinistä sisältöä eikä sääntelyyn liittyvää väitettä.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Mitä Lily tarjoaa ja mitä sinä tarjoat</caption>
+      <thead>
+        <tr>
+          <th>Lily tarjoaa</th>
+          <th>Sinä tarjoat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: arvo, yksikkö, merkintä sanoin, viitealue ja puuttuvat tilat</td>
+          <td>Arvon, merkintää koskevan päätöksen, viitealueen</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> ja <a href="/components/allergy-list-item/">allergy-list-item</a>: tila, joka ei ole koskaan tyhjä</td>
+          <td>Allergiatiedot ja niiden terminologian</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: nimi, vahvuus, lääkemuoto, antoreitti ja antotiheys, mitään katkaisematta</td>
+          <td>Lääketiedot, tall man -osat, muotoillun vahvuuden</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: CDS Hooksin korttimuoto</td>
+          <td>Säännöt, ehdotetut toimet, lopputuloksen kirjaamisen</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: pistemäärä, luokka ja eskalointi, näytettyinä</td>
+          <td>Pisteytysjärjestelmän ja sen validoidun laskennan</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> ja <code>ageParts()</code>: ikä sille sopivissa yksiköissä</td>
+          <td>Yksiköiden sanat (<code>Intl.DurationFormat</code> tai omat nimikkeesi)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, ei koskaan 5,0 mg; 0,5 mg, ei koskaan ,5 mg</td>
+          <td>Luvun, yksikön ja kieliasetuksen</td>
+        </tr>
+        <tr>
+          <td>Potilasbannerin koostamisen</td>
+          <td>Jokaisen nimikkeen ja arvon, ja kuka saa nähdä kliiniset tiedot</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Sääntely.</strong> Ohjelmisto, joka laskee pistemäärän, persentiilin, annoksen tai lääkkeiden yhteisvaikutuksen, on yleensä lääkinnällinen laite. Lily ei laske mitään näistä, tarkoituksella. Jos tuotteesi on säännelty, sen käytettävyystekninen tiedosto on sinun (IEC 62366-1, FDA:n inhimillisten tekijöiden ohjeistus, EU:n MDR). Lilyn testit, sen itse arvioitu saavutettavuuden vaatimustenmukaisuusraportti ja sen ruudunlukijamatriisi voivat olla näyttöä tuossa tiedostossa; mikään niistä ei ole vaatimustenmukaisuusväite, eikä matriisissa ole vielä tuloksia.</p>
+
+  <h2>Hälytykset: keskeytä vain kriittisestä</h2>
+  <p>Hälytysväsymys on turvallisuusongelma: kun jokainen hälytys keskeyttää, ihmiset kuittaavat ne kaikki. AHRQ:n ohje on porrastaa hälytykset vakavuuden mukaan ja tehdä vain vakavista keskeyttäviä.</p>
+  <ul>
+    <li><strong>Tieto</strong> (<code>indicator="info"</code>): tekstin seassa, tehtävän vieressä, päätöstukikortti sivulla.</li>
+    <li><strong>Varoitus</strong> (<code>indicator="warning"</code>): näkyvä estämättä, sama kortti, erottuvaksi tyyliteltynä; ei modaali-ikkunaa.</li>
+    <li><strong>Kriittinen</strong> (<code>indicator="critical"</code>): sijoita kortti hälytysvalintaikkunaan ja tarjoa <code>overrideReasons</code>, jotta sen hylkääminen vaatii syyn.</li>
+    <li>Päätöstukikortti ei ole koskaan itsessään live-alue. Ilmoita uudesta kriittisestä kortista siirtämällä kohdistus valintaikkunaan, ei <code>aria-live</code>-määreellä.</li>
+    <li>Poista kortti, kun tapahtuma, johon se vastasi, toistuu, ja kirjaa jokainen lopputulos (hyväksytty tai ohitettu syineen).</li>
+  </ul>
+
+  <h2>Potilasvirheet: tunnista, älä rajoita</h2>
+  <ul>
+    <li>Näytä kaksi tunnistetta kaikkialla, missä potilaan tietoja näkyy: nimi syntymäajan kanssa sekä kansallinen tunniste näyttökomponentteineen (The Joint Commission, Quick Safety 45).</li>
+    <li>Käytä potilasbanneria jokaisessa näkymässä, joka käsittelee yhden potilaan tietoja, ja pidä se näkyvissä.</li>
+    <li>Ennen toimintoa muulle kuin bannerissa näkyvälle potilastiedolle vahvista se nimellä, syntymäajalla ja tunnisteella.</li>
+    <li>Älä rajoita, kuinka monta potilastietoa kliinikko saa avata: satunnaistettu tutkimus 3 356 kliinikolla (JAMA, 2019) osoitti, ettei se vähentänyt väärälle potilaalle tehtyjä määräyksiä, ja ihmiset kiertävät sen.</li>
+  </ul>
+
+  <h2>Potilasbanneri</h2>
+  <p>Koostaminen on dokumentoitu kohdassa <a href="/components/medical-banner/">medical-banner</a>, ja toimiva sivu on osoitteessa <code>/patient-banner</code> SvelteKit-esimerkkisovelluksessa:</p>
+  <ul>
+    <li>kaksi tunnistetta ja ikä syntymäajan vieressä;</li>
+    <li>allergiat allergialuettelon kautta, jotta ”ei tunnettuja allergioita”, ”ei kirjattu” ja ”ei saatavilla” eivät koskaan näytä samalta;</li>
+    <li>puuttuva arvo kirjoitetaan sanoin (”Ei tiedossa”), ei koskaan kysymysmerkkinä, viivana tai tyhjänä soluna;</li>
+    <li>kuollut potilas: <code>data-deceased</code> teemalle ja näkyvä tekstirivi, ei koskaan pelkkä väri;</li>
+    <li>yhtään kenttää ei katkaista, rajata tai piiloteta millään leveydellä; teksti rivittyy.</li>
+  </ul>
+
+  <h2>Tulokset</h2>
+  <ul>
+    <li>Yksi esitys tulokselle, tuli se mistä järjestelmästä tahansa: havaintonäkymä.</li>
+    <li>Merkintä on sanoja käännöksestäsi (<code>flagLabel</code>), ja FHIR-tulkintakoodi on <code>data-interpretation</code>-määreenä teemaa varten.</li>
+    <li>Erota uudet tulokset aiemmista ja näytä kehitys (sparkline tai viivakaavio datataulukkoineen): kliinikot etsivät merkittävää muutosta, eivät pelkkää viitealuetta.</li>
+    <li>Tulos, jota ei koskaan kirjattu, ja tulos, joka ei ole saatavilla, ovat eri tiloja, joilla on eri sanat.</li>
+  </ul>
+
+  <h2>Lääkkeet</h2>
+  <ul>
+    <li>Geneeriset nimet pienillä kirjaimilla, paitsi tall man -kirjaimet FDA:n ja ISMP:n tai oman maasi luetteloista (Australia ja Kanada julkaisevat omansa). Merkitse ne kohtaan <code>nameSegments</code>; Lily ei koskaan arvaa niitä.</li>
+    <li>Kirjoita vahvuus funktiolla <code>formatQuantity</code>: ei loppunollaa, etunolla, sitova välilyönti ennen yksikköä.</li>
+    <li>Kirjoita mL, ei koskaan cc, ja vältä kaikkia ISMP:n virhealttiiden lyhenteiden luettelon lyhenteitä.</li>
+    <li>Älä koskaan katkaise lääkkeen nimeä tai annosta.</li>
+  </ul>
+
+  <h2>Päivämäärät ja kellonajat</h2>
+  <ul>
+    <li>Kirjoita kuukausi tekstinä, jotta päivämäärää ei voi lukea kahdella tavalla (<code>Intl.DateTimeFormat</code> ja <code>month: "short"</code>).</li>
+    <li>Valitse kello harkiten: anna <code>hourCycle</code> nimenomaisesti. NHS edellyttää 24 tunnin kelloa; se on brittiläinen sääntö, ei maailmanlaajuinen, joten Lily ei koskaan valitse sitä puolestasi.</li>
+    <li>Iät noudattavat Common User Interfacen luokkia funktion <code>ageParts()</code> kautta; palvelu, jolla on toinen käytäntö, antaa omat sanansa.</li>
+  </ul>
+
+  <h2>Koontinäytöt</h2>
+  <ul>
+    <li>Osastotaulu tai johtokeskuksen näyttö päivittyy usein. Älä koskaan ilmoita jokaisesta muutoksesta: pidä yksi kohtelias yhteenvetoalue (”3 vuodepaikkaa vapaana, 2 kotiutusta tulossa”) ja anna ihmisten lukea taulua.</li>
+    <li>Jokainen taulun tila (vuode siivottu, varattu, estetty) on tekstiä tai <code>data-*</code>-tila sanoineen, ei koskaan pelkkä väri.</li>
+  </ul>
+
+  <h2>Mitä Lily ei tee</h2>
+  <ul>
+    <li>Laske varhaisen varoituksen pistemäärää, kasvupersentiiliä, annosta tai viitealuetta.</li>
+    <li>Toimita lääketietokantaa, tall man -luetteloa tai SNOMED CT-, ICD-, LOINC- tai UCUM-koodeja.</li>
+    <li>Jäljittele lisensoitua mittaria (Wong-Baker FACES) tai toisen tahon suunnittelua (NEWS2-kaaviota).</li>
+    <li>Rajoita samanaikaisesti avoinna olevien potilastietojen määrää.</li>
+  </ul>
+  <p>Tämän oppaan taustalla oleva tutkimus, lähteet ja päätökset ovat kohdassa <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

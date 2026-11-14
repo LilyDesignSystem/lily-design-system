@@ -1,0 +1,124 @@
+<!-- title: 醫療用戶介面 — Lily Design System -->
+<!-- description: 畀用 Lily 建構臨床軟件嘅團隊嘅指南：Lily 提供啲乜、留畀你啲乜，警示分級、防止認錯病人嘅措施、病人橫幅、檢驗結果、藥物、日期同儀表板。 -->
+<section class="page-intro">
+  <h1 id="healthcare-title">醫療用戶介面</h1>
+  <p class="page-intro-tagline">畀用 Lily 建構臨床軟件嘅團隊嘅指南：臨床入口網站、檢驗結果同報告、處方同給藥管理、決策支援同醫院儀表板。</p>
+  <p>呢頁嘅翻譯係未經審閱嘅機器翻譯草稿。<a href="/patterns/healthcare/#healthcare-title" >英文頁面</a >先係權威版本。</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Lily 做啲乜，唔做啲乜</h2>
+  <p>Lily 提供嘅係顯示契約：針對臨床畫面入面不斷重複出現嘅嘢，提供語義標記、ARIA、鍵盤行為同 class 掛鉤。佢唔提供臨床邏輯、臨床內容或者監管聲明。</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Lily 提供啲乜，你要提供啲乜</caption>
+      <thead>
+        <tr>
+          <th>Lily 提供</th>
+          <th>你提供</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>：數值、單位、用文字表達嘅標記、範圍，同缺失狀態</td>
+          <td>數值、標記嘅判斷、參考範圍</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> 同 <a href="/components/allergy-list-item/">allergy-list-item</a>：永遠唔會留空嘅狀態</td>
+          <td>過敏記錄同佢嘅術語體系</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>：名稱、劑量規格、劑型、給藥途徑同頻率，全部唔會截斷</td>
+          <td>藥物資料、tall man 分段、格式化咗嘅劑量規格</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>：CDS Hooks 卡片形式</td>
+          <td>規則、建議操作、結果嘅記錄</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>：分數、級別同升級處理嘅顯示</td>
+          <td>評分系統同佢經過驗證嘅計算</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> 同 <code>ageParts()</code>：用啱嗰個年齡嘅單位表示年齡</td>
+          <td>單位嘅文字（<code>Intl.DurationFormat</code> 或者你自己嘅標籤）</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>：寫 5 mg，唔好寫 5.0 mg；寫 0.5 mg，唔好寫 .5 mg</td>
+          <td>數字、單位同地區設定</td>
+        </tr>
+        <tr>
+          <td>病人橫幅嘅組合</td>
+          <td>每個標籤同數值，以及邊個可以睇臨床資料</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>監管。</strong>計算分數、生長百分位、劑量或者藥物相互作用嘅軟件，通常屬於醫療器材。Lily 特登唔計算其中任何一樣。如果你嘅產品受監管，佢嘅可用性工程文件（IEC 62366-1、FDA 嘅人為因素指引、EU MDR）由你負責。Lily 嘅測試、自我評估嘅無障礙符合性報告同螢幕閱讀器矩陣可以做嗰份文件入面嘅證據；不過冇一樣係符合性聲明，而且個矩陣暫時仲未有結果。</p>
+
+  <h2>警示：只係對危急情況先打斷用戶</h2>
+  <p>警示疲勞係安全問題：如果每個警示都打斷用戶，人哋就會全部閂咗佢。AHRQ 嘅指引係按嚴重程度將警示分級，只係畀嚴重嘅警示打斷用戶。</p>
+  <ul>
+    <li><strong>資訊</strong>（<code>indicator="info"</code>）：內嵌喺工作旁邊，係頁面入面嘅決策支援卡片。</li>
+    <li><strong>警告</strong>（<code>indicator="warning"</code>）：睇得到但唔會阻擋操作，用同一張卡片，樣式更加顯眼；唔用彈出視窗。</li>
+    <li><strong>危急</strong>（<code>indicator="critical"</code>）：將卡片放入警示對話框，並提供 <code>overrideReasons</code>，咁樣關閉嗰陣就會要求填寫原因。</li>
+    <li>決策支援卡片本身永遠唔係即時區域。新嘅危急卡片係靠將焦點移入對話框嚟通知，而唔係靠 <code>aria-live</code>。</li>
+    <li>當卡片所回應嘅事件再次發生，就移除張卡片，並記錄每次結果（已接受，或者附原因被覆蓋）。</li>
+  </ul>
+
+  <h2>認錯病人嘅差錯：要核對，唔好限制</h2>
+  <ul>
+    <li>凡係顯示病人資料嘅地方，都要顯示兩個識別資料：姓名加出生日期，以及用對應 view 組件顯示嘅國民身份識別號碼（The Joint Commission, Quick Safety 45）。</li>
+    <li>喺每個針對某位病人記錄操作嘅畫面都用病人橫幅，並保持佢一直睇得到。</li>
+    <li>喺對橫幅所示記錄以外嘅另一份記錄執行操作之前，要用姓名、出生日期同識別號碼確認。</li>
+    <li>唔好限制臨床人員可以打開幾多份記錄：一項涉及 3,356 名臨床人員嘅隨機試驗（JAMA，2019）發現，咁做並冇減少認錯病人嘅醫囑，而且人哋會想辦法繞過限制。</li>
+  </ul>
+
+  <h2>病人橫幅</h2>
+  <p>呢個組合記載喺 <a href="/components/medical-banner/">medical-banner</a>，SvelteKit 示範應用程式喺 <code>/patient-banner</code> 有一個行得通嘅頁面：</p>
+  <ul>
+    <li>兩個識別資料，以及出生日期旁邊嘅年齡；</li>
+    <li>過敏資料透過過敏列表顯示，等「無已知過敏」、「未有記錄」同「無法提供」永遠唔會睇落一樣；</li>
+    <li>缺失嘅值用文字表達（「不詳」），唔好用問號、破折號或者空白儲存格；</li>
+    <li>已身故病人：為主題提供 <code>data-deceased</code>，並顯示一行睇得到嘅文字，絕對唔可以淨係靠顏色；</li>
+    <li>任何闊度都唔會截斷、裁切或者隱藏任何欄位，而係自動換行。</li>
+  </ul>
+
+  <h2>檢驗結果</h2>
+  <ul>
+    <li>無論結果嚟自邊個系統，結果只有一種顯示方式：觀察結果檢視。</li>
+    <li>標記係來自你嘅翻譯嘅文字（<code>flagLabel</code>），FHIR 解讀代碼就以 <code>data-interpretation</code> 提供畀主題。</li>
+    <li>將新結果同之前嘅結果分開，並顯示趨勢（迷你折線圖，或者附數據表嘅折線圖）：臨床人員留意嘅係顯著變化，而唔只係範圍。</li>
+    <li>從來未記錄過嘅結果同無法取得嘅結果係唔同嘅狀態，要用唔同嘅文字表達。</li>
+  </ul>
+
+  <h2>藥物</h2>
+  <ul>
+    <li>通用名用小寫，但 FDA 同 ISMP 清單，或者你所在國家嘅清單（澳洲同加拿大發佈咗各自嘅清單）入面嘅 tall man 大寫字母除外。喺 <code>nameSegments</code> 標記佢哋；Lily 永遠唔會估。</li>
+    <li>用 <code>formatQuantity</code> 寫劑量規格：尾部唔帶零，前面帶零，單位前面加不換行空格。</li>
+    <li>寫 mL，唔好寫 cc，並避免 ISMP 易錯縮寫清單上嘅所有縮寫。</li>
+    <li>永遠唔好截斷藥物嘅名稱或者劑量。</li>
+  </ul>
+
+  <h2>日期同時間</h2>
+  <ul>
+    <li>月份用文字寫，咁日期就唔會有兩種讀法（<code>Intl.DateTimeFormat</code> 配合 <code>month: "short"</code>）。</li>
+    <li>要有意識咁揀時鐘制式：明確傳入 <code>hourCycle</code>。NHS 要求用 24 小時制；嗰個係英國嘅規定，唔係全世界嘅規定，所以 Lily 永遠唔會代你揀。</li>
+    <li>年齡透過 <code>ageParts()</code> 跟 Common User Interface 嘅分段；用其他慣例嘅服務就傳入自己嘅文字。</li>
+  </ul>
+
+  <h2>儀表板</h2>
+  <ul>
+    <li>病房看板或者指揮中心畫面會頻密更新。千祈唔好每次改動都播報：保留一個禮貌（polite）嘅摘要區域（「3 張空床，2 位待出院」），等人自己睇個看板。</li>
+    <li>看板上面每個狀態（床位已清潔、佔用中、已封閉）都係文字，或者帶文字嘅 <code>data-*</code> 狀態，絕對唔可以淨係靠顏色。</li>
+  </ul>
+
+  <h2>Lily 唔會做嘅嘢</h2>
+  <ul>
+    <li>計算早期預警分數、生長百分位、劑量或者參考範圍。</li>
+    <li>附帶藥物資料庫、tall man 清單，或者 SNOMED CT、ICD、LOINC、UCUM 代碼。</li>
+    <li>複製有牌照嘅量表（Wong-Baker FACES）或者其他機構嘅設計（NEWS2 圖表）。</li>
+    <li>限制同時打開嘅記錄數量。</li>
+  </ul>
+  <p>呢份指南背後嘅研究、來源同決定記載喺 <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>。</p>
+</section>
