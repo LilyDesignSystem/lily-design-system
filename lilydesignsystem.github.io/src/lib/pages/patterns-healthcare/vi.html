@@ -1,0 +1,124 @@
+<!-- title: Giao diện người dùng y tế — Lily Design System -->
+<!-- description: Hướng dẫn cho các nhóm xây dựng phần mềm lâm sàng với Lily: Lily cung cấp gì và để lại gì cho bạn, phân tầng cảnh báo, biện pháp chống nhầm bệnh nhân, biểu ngữ bệnh nhân, kết quả xét nghiệm, thuốc, ngày giờ và bảng điều khiển. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Giao diện người dùng y tế</h1>
+  <p class="page-intro-tagline">Hướng dẫn cho các nhóm xây dựng phần mềm lâm sàng với Lily: cổng thông tin lâm sàng, kết quả và báo cáo, kê đơn và cấp phát thuốc, hỗ trợ ra quyết định và bảng điều khiển bệnh viện.</p>
+  <p>Bản dịch của trang này là bản nháp dịch máy chưa được rà soát. <a href="/patterns/healthcare/#healthcare-title" >Trang tiếng Anh</a > là phiên bản chính thức.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Lily làm gì và không làm gì</h2>
+  <p>Lily cung cấp các hợp đồng hiển thị: markup ngữ nghĩa, ARIA, hành vi bàn phím và các class hook cho những thứ lặp lại trên màn hình lâm sàng. Lily không cung cấp logic lâm sàng, nội dung lâm sàng hay tuyên bố về quy định pháp lý.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Lily cung cấp gì, và bạn cung cấp gì</caption>
+      <thead>
+        <tr>
+          <th>Lily cung cấp</th>
+          <th>Bạn cung cấp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: giá trị, đơn vị, cờ bằng lời, khoảng tham chiếu và các trạng thái thiếu dữ liệu</td>
+          <td>Giá trị, quyết định gắn cờ, khoảng tham chiếu</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> và <a href="/components/allergy-list-item/">allergy-list-item</a>: một trạng thái không bao giờ để trống</td>
+          <td>Hồ sơ dị ứng và hệ thuật ngữ của nó</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: tên, hàm lượng, dạng bào chế, đường dùng và tần suất, không bị cắt bớt</td>
+          <td>Dữ liệu thuốc, các đoạn tall man, hàm lượng đã định dạng</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: dạng thẻ CDS Hooks</td>
+          <td>Các quy tắc, hành động đề xuất, việc ghi lại kết quả</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: hiển thị điểm số, mức và việc báo động cấp trên</td>
+          <td>Hệ thống tính điểm và phép tính đã được kiểm chứng của nó</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> và <code>ageParts()</code>: tuổi theo đơn vị phù hợp với tuổi đó</td>
+          <td>Từ ngữ cho các đơn vị (<code>Intl.DurationFormat</code> hoặc nhãn của riêng bạn)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, không bao giờ 5.0 mg; 0,5 mg, không bao giờ ,5 mg</td>
+          <td>Con số, đơn vị và ngôn ngữ vùng (locale)</td>
+        </tr>
+        <tr>
+          <td>Cách ghép biểu ngữ bệnh nhân</td>
+          <td>Mọi nhãn và giá trị, và ai được xem thông tin lâm sàng</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Quy định pháp lý.</strong> Phần mềm tính điểm số, bách phân vị tăng trưởng, liều dùng hay tương tác thuốc thường là thiết bị y tế. Lily cố ý không tính bất kỳ thứ nào trong số đó. Nếu sản phẩm của bạn chịu sự quản lý, bạn chịu trách nhiệm về hồ sơ kỹ thuật khả dụng của nó (IEC 62366-1, hướng dẫn yếu tố con người của FDA, EU MDR). Các bài kiểm thử của Lily, báo cáo tuân thủ khả năng tiếp cận tự đánh giá và ma trận trình đọc màn hình có thể là bằng chứng trong hồ sơ đó; không thứ nào trong số đó là một tuyên bố tuân thủ, và ma trận chưa có kết quả nào.</p>
+
+  <h2>Cảnh báo: chỉ ngắt quãng với những gì nghiêm trọng</h2>
+  <p>Mệt mỏi vì cảnh báo là một vấn đề an toàn: khi mọi cảnh báo đều ngắt quãng, người ta sẽ bỏ qua tất cả. Hướng dẫn của AHRQ là phân tầng cảnh báo theo mức độ nghiêm trọng và chỉ để những cảnh báo nghiêm trọng ngắt quãng người dùng.</p>
+  <ul>
+    <li><strong>Thông tin</strong> (<code>indicator="info"</code>): nằm cùng dòng, bên cạnh tác vụ, một thẻ hỗ trợ ra quyết định trong trang.</li>
+    <li><strong>Cảnh báo</strong> (<code>indicator="warning"</code>): hiển thị mà không chặn thao tác, cùng thẻ đó nhưng được tạo kiểu nổi bật; không dùng modal.</li>
+    <li><strong>Nghiêm trọng</strong> (<code>indicator="critical"</code>): đặt thẻ vào trong một hộp thoại cảnh báo, và cung cấp <code>overrideReasons</code> để việc đóng thẻ yêu cầu một lý do.</li>
+    <li>Một thẻ hỗ trợ ra quyết định không bao giờ tự nó là vùng trực tiếp (live region). Hãy thông báo thẻ nghiêm trọng mới bằng cách chuyển tiêu điểm vào hộp thoại, không phải bằng <code>aria-live</code>.</li>
+    <li>Gỡ thẻ khi sự kiện mà nó đã phản hồi xảy ra lần nữa, và ghi lại từng kết quả (được chấp nhận, hoặc bị bỏ qua kèm lý do).</li>
+  </ul>
+
+  <h2>Lỗi nhầm bệnh nhân: giúp nhận diện, đừng hạn chế</h2>
+  <ul>
+    <li>Hiển thị hai định danh ở mọi nơi dữ liệu của bệnh nhân xuất hiện: họ tên cùng ngày sinh, và mã định danh quốc gia cùng thành phần view của nó (The Joint Commission, Quick Safety 45).</li>
+    <li>Dùng biểu ngữ bệnh nhân trên mọi màn hình thực hiện thao tác trên hồ sơ của một bệnh nhân, và luôn giữ nó hiển thị.</li>
+    <li>Trước khi thực hiện thao tác trên một hồ sơ khác với hồ sơ trong biểu ngữ, hãy xác nhận bằng họ tên, ngày sinh và định danh.</li>
+    <li>Đừng giới hạn số hồ sơ mà một nhân viên lâm sàng được mở: một thử nghiệm ngẫu nhiên trên 3.356 nhân viên lâm sàng (JAMA, 2019) cho thấy điều đó không làm giảm các y lệnh nhầm bệnh nhân, và người ta sẽ tìm cách lách.</li>
+  </ul>
+
+  <h2>Biểu ngữ bệnh nhân</h2>
+  <p>Cách ghép này được mô tả cùng với <a href="/components/medical-banner/">medical-banner</a>, với một trang hoạt động tại <code>/patient-banner</code> trong ứng dụng ví dụ SvelteKit:</p>
+  <ul>
+    <li>hai định danh, và tuổi bên cạnh ngày sinh;</li>
+    <li>dị ứng qua một allergy list, để "không có dị ứng đã biết", "chưa ghi nhận" và "không có sẵn" không bao giờ trông giống nhau;</li>
+    <li>giá trị thiếu được thể hiện bằng lời ("Chưa rõ"), không bao giờ là dấu hỏi, dấu gạch ngang hay ô trống;</li>
+    <li>bệnh nhân đã tử vong: <code>data-deceased</code> cho chủ đề giao diện, và một dòng chữ hiển thị, không bao giờ chỉ dùng màu sắc;</li>
+    <li>không trường nào bị cắt bớt, xén hay ẩn ở bất kỳ chiều rộng nào; nó xuống dòng.</li>
+  </ul>
+
+  <h2>Kết quả</h2>
+  <ul>
+    <li>Một cách hiển thị cho một kết quả, dù nó đến từ hệ thống nào: observation view.</li>
+    <li>Cờ là lời từ bản dịch của bạn (<code>flagLabel</code>), với mã diễn giải FHIR là <code>data-interpretation</code> cho chủ đề giao diện.</li>
+    <li>Tách kết quả mới khỏi kết quả trước đó, và cho thấy xu hướng (biểu đồ sparkline, hoặc biểu đồ đường kèm bảng dữ liệu): nhân viên lâm sàng tìm sự thay đổi có ý nghĩa, không chỉ khoảng giá trị.</li>
+    <li>Một kết quả chưa từng được ghi nhận và một kết quả không có sẵn là các trạng thái khác nhau, với lời lẽ khác nhau.</li>
+  </ul>
+
+  <h2>Thuốc</h2>
+  <ul>
+    <li>Tên gốc viết thường, trừ các chữ tall man viết hoa theo danh sách của FDA và ISMP hoặc của nước bạn (Úc và Canada tự công bố danh sách riêng). Đánh dấu chúng trong <code>nameSegments</code>; Lily không bao giờ đoán.</li>
+    <li>Viết hàm lượng bằng <code>formatQuantity</code>: không có số 0 ở cuối, có số 0 ở đầu, một khoảng trắng không ngắt dòng trước đơn vị.</li>
+    <li>Viết mL, không bao giờ cc, và tránh mọi chữ viết tắt trong danh sách dễ gây lỗi của ISMP.</li>
+    <li>Không bao giờ cắt bớt tên hay liều dùng của thuốc.</li>
+  </ul>
+
+  <h2>Ngày và giờ</h2>
+  <ul>
+    <li>Viết tháng bằng chữ để một ngày không thể bị đọc theo hai cách (<code>Intl.DateTimeFormat</code> với <code>month: "short"</code>).</li>
+    <li>Chọn kiểu đồng hồ một cách có chủ đích: truyền <code>hourCycle</code> một cách tường minh. NHS yêu cầu đồng hồ 24 giờ; đó là quy tắc của Vương quốc Anh, không phải của toàn thế giới, nên Lily không bao giờ chọn thay cho bạn.</li>
+    <li>Tuổi theo các dải của Common User Interface thông qua <code>ageParts()</code>; một dịch vụ có quy ước khác sẽ truyền từ ngữ của riêng mình.</li>
+  </ul>
+
+  <h2>Bảng điều khiển</h2>
+  <ul>
+    <li>Bảng khoa phòng hoặc màn hình trung tâm điều hành được cập nhật thường xuyên. Không bao giờ thông báo từng thay đổi: giữ một vùng tóm tắt ở mức lịch sự (polite) ("còn 3 giường trống, 2 ca sắp xuất viện") và để mọi người tự đọc bảng.</li>
+    <li>Mọi trạng thái trên bảng (giường đã dọn, có người, bị khóa) là văn bản hoặc trạng thái <code>data-*</code> kèm chữ, không bao giờ chỉ dùng màu sắc.</li>
+  </ul>
+
+  <h2>Những gì Lily sẽ không làm</h2>
+  <ul>
+    <li>Tính điểm cảnh báo sớm, bách phân vị tăng trưởng, liều dùng hay khoảng tham chiếu.</li>
+    <li>Đi kèm cơ sở dữ liệu thuốc, danh sách tall man, hay mã SNOMED CT, ICD, LOINC hoặc UCUM.</li>
+    <li>Tái tạo một công cụ có bản quyền (Wong-Baker FACES) hay thiết kế của tổ chức khác (biểu đồ NEWS2).</li>
+    <li>Giới hạn số hồ sơ được mở cùng lúc.</li>
+  </ul>
+  <p>Nghiên cứu, nguồn và các quyết định đằng sau hướng dẫn này nằm trong <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

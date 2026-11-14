@@ -1,0 +1,124 @@
+<!-- title: Efanasow devnydhyer yn yeghes — Lily Design System -->
+<!-- description: Hynsa rag ekipow a dhrehevel medhelweyth klinikel gans Lily: an pyth a ro Lily ha'n pyth a asow dhywgh, derevyans gwarnyansow, gwithyansow erbynn kammgemmeres a glaf, baner an glaf, sewyansow, medhegnow, dedhyow ha tavlennow-kenwel. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Efanasow devnydhyer yn yeghes</h1>
+  <p class="page-intro-tagline">Hynsa rag ekipow a dhrehevel medhelweyth klinikel gans Lily: porthellow klinikel, sewyansow ha derivadow, ordena ha rydhsans medhegnow, skoodhyans dewisyans ha tavlennow-kenwel yn klavjiti.</p>
+  <p>Treylyansow a'n folen ma yw drafftow mekanik anwrys. <a href="/patterns/healthcare/#healthcare-title" >An folen Saesnek</a > yw an versyon awtorys.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>An pyth a wra Lily, ha'n pyth na wra</h2>
+  <p>Lily a ros dhywgh kevambosow displetyans: markya semantek, ARIA, jawnsyans an kebmyn ha higow klass rag an taclow a dhegesh war skrynyow klinikel. Ny ros dhywgh logik klinikel, dehwelans klinikel na ensampel reolans.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">An pyth a ro Lily, hag an pyth a rewgh why</caption>
+      <thead>
+        <tr>
+          <th>Lily a ro</th>
+          <th>Why a ro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: gwerth, unn, baner yn geryow, ystynnans ha stadys gwerth ow ladhes</td>
+          <td>An gwerth, an dhewisyans a'n baner, an ystynnans dheskrifa</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> ha <a href="/components/allergy-list-item/">allergy-list-item</a>: stat na vydh nevra gwag</td>
+          <td>An rekord alergi ha'y dermynologieth</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: hanow, nerth, furv, fordh ha mynsys, travyth ny vydh trenkys</td>
+          <td>Data an medhegneth, an rannow tall man, an nerth furvys</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: furv an kerdh CDS Hooks</td>
+          <td>An reolyow, an gweythow profys, notya an sewyans</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: skor, bagas hag ardhyllyans, displetys</td>
+          <td>An system skorya ha'y gonter gwiryys</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> ha <code>ageParts()</code>: oos yn unnow gwiw dhodho</td>
+          <td>An geryow rag an unnow (<code>Intl.DurationFormat</code> py y honan lavarow)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, nevra 5.0 mg; 0.5 mg, nevra .5 mg</td>
+          <td>An niver, an unn ha'n localeth</td>
+        </tr>
+        <tr>
+          <td>Kesstrethans baner an glaf</td>
+          <td>Pub lavar ha gwerth, ha piw a yll gweles kedhlow klinikel</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Reolans.</strong> Medhelweyth a gonta skor, centil, dos py kesoberans medhegnow yw yn kemmyn drefen medhegel. Ny gonta Lily travyth anodho, a-vyn. Mara'th eus reolys dha vroduk, why a'n jeves an dosher a vheynans devnydhyans (IEC 62366-1, hynsa FDA a'n fatlow denyl, EU MDR). Prevyansow Lily, y dherivas a gesrywvos kefrysys a hedhyans a-dro dhe gedhlow tevlus ha'y matrix redyer skrin a yll bos displetyans y'n dosher na; nyns yw travyth anodho dyskwedhyans a gesrywvos, ha nyns eus sewyans y'n matrix hwath.</p>
+
+  <h2>Gwarnyansow: terri hepken rag an pyth yw kritek</h2>
+  <p>Skwithter gwarnyansow yw kudyn a sawder: pan wra pub gwarnyans terri, tus a dhegh pub unn anodho. Hynsa AHRQ yw derevel gwarnyansow warlergh dhe'ga garowder ha gul hepken an re garow terri.</p>
+  <ul>
+    <li><strong>Kedhlow</strong> (<code>indicator="info"</code>): y'n linen, ryb an oberen, kerdh skoodhyans dewisyans y'n folen.</li>
+    <li><strong>Gwarnyans</strong> (<code>indicator="warning"</code>): gwelys heb lettya, an keth kerdh, furvys rag sevel dhe-ves; heb modal.</li>
+    <li><strong>Kritek</strong> (<code>indicator="critical"</code>): gorrewgh an kerdh a-berth yn kesklappya gwarnyans, ha profyewgh <code>overrideReasons</code> may fo govynnys acheson pan y'n degh.</li>
+    <li>Kerdh skoodhyans dewisyans ny vydh nevra rannvro fyw ynno y honan. Derivewgh kerdh kritek nowydh dre dreylya an fok y'n kesklappya, na dre <code>aria-live</code>.</li>
+    <li>Dilehewgh kerdh pan wrella an hwarvos a worthebis dhodho arta, ha notyewgh pub sewyans (kemmerys, py dhe-ves gans y acheson).</li>
+  </ul>
+
+  <h2>Kammgemmeres glaf: aswon, na lettyewgh</h2>
+  <ul>
+    <li>Dysqwedhewgh dew aswonyer ple pynag a omdhysqwa data glaf: an hanow gans an dedh genesigeth, ha'n aswonyer kenedhlek gans y elven gwel (The Joint Commission, Quick Safety 45).</li>
+    <li>Devnydhewgh baner an glaf war bub skrin a oberas war rekord unn glaf, ha gwithewgh orth y welys.</li>
+    <li>Kyns gweythres war rekord forth dres hedna y'n baner, kadarnhewgh gans an hanow, an dedh genesigeth hag an aswonyer.</li>
+    <li>Na lettyewgh pyw lyes rekord a yll medhek egerry: previans randomys gans 3,356 medhek (JAMA, 2019) a gafas na dhisikhas ordenyow dhe'n klaf cam, ha tus a gav fordh a-dro dhodho.</li>
+  </ul>
+
+  <h2>Baner an glaf</h2>
+  <p>An kesstrethans yw skrifys orth <a href="/components/medical-banner/">medical-banner</a>, gans folen oberys orth <code>/patient-banner</code> y'n app skeul SvelteKit:</p>
+  <ul>
+    <li>dew aswonyer, hag an oos ryb an dedh genesigeth;</li>
+    <li>alergiow dre rol alergiow, may na'n gwelir nevra haval “alergiow aswonys vyth nyns eus”, “ny notyas” ha “ny'th eus”;</li>
+    <li>gwerth ow ladhes yw geryow (“Anaswonys”), nevra arwodh govyn, dash py kell wag;</li>
+    <li>klaf marow: <code>data-deceased</code> rag an tema, ha linen welys a dhyskrifans, nevra liw hepken;</li>
+    <li>nyns eus maes trenkys, skubys py kudhys orth lethed vyth; ev a blegh.</li>
+  </ul>
+
+  <h2>Sewyansow</h2>
+  <ul>
+    <li>Unn displetyans rag sewyans, pynag system a dheuth anodho: an gwel a'n arsyans.</li>
+    <li>An baner yw geryow a'th treylyans (<code>flagLabel</code>), gans kod ynterprettyans FHIR avel <code>data-interpretation</code> rag an tema.</li>
+    <li>Dyberthewgh sewyansow nowydh a'n re kyns ha dyskwedhewgh tuedh (sparkline, py chart linen gans y dabel data): medhogyon a hwila chanj bryntyn, nyns hepken an ystynnans.</li>
+    <li>Sewyans na veu nevra notys ha re nyns yw ynno yw stadys dyffrans, gans geryow dyffrans.</li>
+  </ul>
+
+  <h2>Medhegnow</h2>
+  <ul>
+    <li>Hanow kynsa yn lytherennow byghan, marnas lytherennow tall man a rolyow FDA hag ISMP py a'th pow (Ostrali ha Kanada a bupsha y honan). Ardhewgh anedha yn <code>nameSegments</code>; Lily ny waylyn nevra anedha.</li>
+    <li>Skrifewgh an nerth gans <code>formatQuantity</code>: heb nowt diwettha, gans nowt kynsa, gans spas heb terri kyns an unn.</li>
+    <li>Skrifewgh mL, nevra cc, ha skeusewgh pub berrheans a rol ISMP a vydh tyn dhe gammow.</li>
+    <li>Na drenkewgh nevra hanow py dos medhegneth.</li>
+  </ul>
+
+  <h2>Dedhyow hag eurow</h2>
+  <ul>
+    <li>Skrifewgh an mis avel tekst may na yller redya dedh a'n dhew fordh (<code>Intl.DateTimeFormat</code> gans <code>month: "short"</code>).</li>
+    <li>Dewisewgh an horlonj a-vyn: tremenewgh <code>hourCycle</code> yn splan. An NHS a wovynn horlonj 24 our; hedna yw reyth an Pow Unys, nyns yw reyth ollvys, ytho ny dhewisa Lily nevra ragowgh.</li>
+    <li>Oosow a sew bagasow an Common User Interface dre <code>ageParts()</code>; gonsel gans kevambos aral a dremen y honan lavarow.</li>
+  </ul>
+
+  <h2>Tavlennow-kenwel</h2>
+  <ul>
+    <li>Bord wardh py skrin kreslu-ardhyans a nowedha yn fenowgh. Na dherivewgh nevra pub chanj: gwithewgh unn rannvro dhyskrifans jentyl (“3 gwely rydh, 2 dyllans gwrys”) ha gesewgh tus dhe redya an bord.</li>
+    <li>Pub stad war bord (gwely glan, kemmerys, lettys) yw tekst py stad <code>data-*</code> gans geryow, nevra liw hepken.</li>
+  </ul>
+
+  <h2>An pyth na wra Lily</h2>
+  <ul>
+    <li>Kontya skor ardhyans a-varr, centil kressyans, dos py ystynnans dheskrifa.</li>
+    <li>Danvon pennfenten medhegnow, rol tall man, py kodow SNOMED CT, CIM, LOINC py UCUM.</li>
+    <li>Eskopiya instrumant gans lis (Wong-Baker FACES) py gwrians corf aral (an chart NEWS2).</li>
+    <li>Lettya niver an rekordys ygor war an eur kynsa.</li>
+  </ul>
+  <p>An whelyans, an fentynnow ha'n dewisyansow a-dryv an hynsa ma yw yn <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

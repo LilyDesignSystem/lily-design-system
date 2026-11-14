@@ -1,0 +1,124 @@
+<!-- title: Antara muka pengguna penjagaan kesihatan — Lily Design System -->
+<!-- description: Panduan untuk pasukan yang membina perisian klinikal dengan Lily: apa yang disediakan Lily dan apa yang diserahkan kepada anda, pengelasan amaran mengikut peringkat, perlindungan daripada pesakit yang salah, sepanduk pesakit, keputusan, ubat, tarikh dan papan pemuka. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Antara muka pengguna penjagaan kesihatan</h1>
+  <p class="page-intro-tagline">Panduan untuk pasukan yang membina perisian klinikal dengan Lily: portal klinikal, keputusan dan pelaporan, preskripsi dan pentadbiran ubat, sokongan keputusan dan papan pemuka hospital.</p>
+  <p>Terjemahan halaman ini ialah draf mesin yang belum disemak. <a href="/patterns/healthcare/#healthcare-title" >Halaman bahasa Inggeris</a > ialah versi yang sah.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Apa yang Lily lakukan, dan apa yang tidak</h2>
+  <p>Lily memberi anda kontrak paparan: markup semantik, ARIA, tingkah laku papan kekunci dan cangkuk kelas untuk perkara yang berulang pada skrin klinikal. Lily tidak memberi logik klinikal, kandungan klinikal atau tuntutan kawal selia.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Apa yang Lily sediakan, dan apa yang anda sediakan</caption>
+      <thead>
+        <tr>
+          <th>Lily menyediakan</th>
+          <th>Anda menyediakan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: nilai, unit, bendera dalam perkataan, julat, dan keadaan tiada</td>
+          <td>Nilai, keputusan bendera, julat rujukan</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> dan <a href="/components/allergy-list-item/">allergy-list-item</a>: status yang tidak pernah kosong</td>
+          <td>Rekod alahan dan terminologinya</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: nama, kekuatan, bentuk, laluan dan kekerapan, tiada yang dipotong</td>
+          <td>Data ubat, segmen tall man, kekuatan yang diformatkan</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: bentuk kad CDS Hooks</td>
+          <td>Peraturan, tindakan cadangan, merekod hasil</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: skor, jalur dan peningkatan, dipaparkan</td>
+          <td>Sistem pemarkahan dan pengiraannya yang telah disahkan</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> dan <code>ageParts()</code>: umur dalam unit yang sesuai</td>
+          <td>Perkataan untuk unit (<code>Intl.DurationFormat</code> atau label anda sendiri)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, jangan 5.0 mg; 0.5 mg, jangan .5 mg</td>
+          <td>Nombor, unit dan locale</td>
+        </tr>
+        <tr>
+          <td>Komposisi sepanduk pesakit</td>
+          <td>Setiap label dan nilai, dan siapa yang boleh melihat maklumat klinikal</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Peraturan.</strong> Perisian yang mengira skor, sentil, dos atau interaksi ubat biasanya ialah peranti perubatan. Lily tidak mengira satu pun daripada ini, dengan sengaja. Jika produk anda dikawal selia, anda memiliki fail kejuruteraan kebolehgunaannya (IEC 62366-1, panduan faktor manusia FDA, EU MDR). Ujian Lily, laporan pematuhan kebolehcapaian yang dinilai sendiri dan matriks pembaca skrinnya boleh menjadi bukti dalam fail itu; tiada satu pun ialah tuntutan pematuhan, dan matriks itu belum mempunyai keputusan.</p>
+
+  <h2>Amaran: ganggu hanya untuk yang kritikal</h2>
+  <p>Keletihan amaran ialah masalah keselamatan: apabila setiap amaran mengganggu, orang menolak semuanya. Panduan AHRQ ialah mengelaskan amaran mengikut tahap keterukan dan menjadikan hanya yang teruk bersifat mengganggu.</p>
+  <ul>
+    <li><strong>Maklumat</strong> (<code>indicator="info"</code>): sebaris, di sebelah tugas, kad sokongan keputusan dalam halaman.</li>
+    <li><strong>Amaran</strong> (<code>indicator="warning"</code>): kelihatan tanpa menghalang, kad yang sama, digayakan supaya menonjol; tiada modal.</li>
+    <li><strong>Kritikal</strong> (<code>indicator="critical"</code>): letakkan kad di dalam dialog amaran, dan sediakan <code>overrideReasons</code> supaya menolaknya meminta sebab.</li>
+    <li>Kad sokongan keputusan tidak pernah menjadi kawasan hidup dengan sendirinya. Umumkan kad kritikal baharu dengan memindahkan fokus ke dalam dialog, bukan melalui <code>aria-live</code>.</li>
+    <li>Alihkan kad apabila peristiwa yang dijawabnya berlaku sekali lagi, dan rekodkan setiap hasil (diterima, atau ditolak berserta sebabnya).</li>
+  </ul>
+
+  <h2>Ralat pesakit yang salah: kenal pasti, jangan hadkan</h2>
+  <ul>
+    <li>Tunjukkan dua pengenal di mana-mana data pesakit muncul: nama dengan tarikh lahir, dan pengenal kebangsaan dengan komponen paparannya (The Joint Commission, Quick Safety 45).</li>
+    <li>Gunakan sepanduk pesakit pada setiap skrin yang bertindak ke atas rekod seorang pesakit, dan pastikan ia kelihatan.</li>
+    <li>Sebelum bertindak ke atas rekod selain yang ada dalam sepanduk, sahkannya dengan nama, tarikh lahir dan pengenal.</li>
+    <li>Jangan hadkan bilangan rekod yang boleh dibuka oleh doktor: percubaan rawak ke atas 3,356 doktor (JAMA, 2019) mendapati ia tidak mengurangkan pesanan pesakit yang salah, dan orang mencari jalan mengelaknya.</li>
+  </ul>
+
+  <h2>Sepanduk pesakit</h2>
+  <p>Komposisi ini didokumenkan dengan <a href="/components/medical-banner/">medical-banner</a>, dengan halaman yang berfungsi di <code>/patient-banner</code> dalam aplikasi contoh SvelteKit:</p>
+  <ul>
+    <li>dua pengenal, dan umur di sebelah tarikh lahir;</li>
+    <li>alahan melalui senarai alahan, supaya "tiada alahan diketahui", "tidak direkodkan" dan "tidak tersedia" tidak pernah kelihatan serupa;</li>
+    <li>nilai yang tiada ialah perkataan ("Tidak diketahui"), bukan tanda soal, sempang atau sel kosong;</li>
+    <li>pesakit yang telah meninggal: <code>data-deceased</code> untuk tema, dan satu baris teks yang kelihatan, bukan warna sahaja;</li>
+    <li>tiada medan dipotong, dipangkas atau disembunyikan pada sebarang lebar; ia dibalut.</li>
+  </ul>
+
+  <h2>Keputusan</h2>
+  <ul>
+    <li>Satu paparan untuk keputusan, daripada sistem mana pun ia datang: paparan pemerhatian (observation view).</li>
+    <li>Bendera ialah perkataan daripada terjemahan anda (<code>flagLabel</code>), dengan kod tafsiran FHIR sebagai <code>data-interpretation</code> untuk tema.</li>
+    <li>Asingkan keputusan baharu daripada yang terdahulu, dan tunjukkan aliran (garis percikan, atau carta garis dengan jadual datanya): doktor mencari perubahan ketara, bukan julat sahaja.</li>
+    <li>Keputusan yang tidak pernah direkodkan dan yang tidak tersedia ialah keadaan berbeza, dengan perkataan berbeza.</li>
+  </ul>
+
+  <h2>Ubat</h2>
+  <ul>
+    <li>Nama generik dalam huruf kecil, kecuali huruf tall man daripada senarai FDA dan ISMP atau senarai negara anda (Australia dan Kanada menerbitkan senarai sendiri). Tandakannya dalam <code>nameSegments</code>; Lily tidak pernah meneka.</li>
+    <li>Tulis kekuatan dengan <code>formatQuantity</code>: tiada sifar hujung, ada sifar permulaan, dan ruang tanpa pemisah sebelum unit.</li>
+    <li>Tulis mL, jangan cc, dan elakkan setiap singkatan dalam senarai ISMP yang terdedah kepada ralat.</li>
+    <li>Jangan sekali-kali memotong nama atau dos ubat.</li>
+  </ul>
+
+  <h2>Tarikh dan masa</h2>
+  <ul>
+    <li>Tulis bulan sebagai teks supaya tarikh tidak boleh dibaca dua cara (<code>Intl.DateTimeFormat</code> dengan <code>month: "short"</code>).</li>
+    <li>Pilih jam dengan sengaja: berikan <code>hourCycle</code> secara jelas. NHS meminta jam 24 jam; itu peraturan UK, bukan peraturan sedunia, jadi Lily tidak pernah memilihnya untuk anda.</li>
+    <li>Umur mengikut jalur Common User Interface melalui <code>ageParts()</code>; perkhidmatan dengan konvensyen lain memberikan perkataannya sendiri.</li>
+  </ul>
+
+  <h2>Papan pemuka</h2>
+  <ul>
+    <li>Papan wad atau skrin pusat arahan dikemas kini kerap. Jangan umumkan setiap perubahan: kekalkan satu kawasan ringkasan sopan ("3 katil kosong, 2 discaj dijangka") dan biarkan orang membaca papan itu.</li>
+    <li>Setiap keadaan pada papan (katil bersih, diduduki, disekat) ialah teks atau keadaan <code>data-*</code> dengan perkataan, bukan warna sahaja.</li>
+  </ul>
+
+  <h2>Apa yang Lily tidak akan lakukan</h2>
+  <ul>
+    <li>Mengira skor amaran awal, sentil pertumbuhan, dos atau julat rujukan.</li>
+    <li>Menyediakan pangkalan data ubat, senarai tall man, atau kod SNOMED CT, ICD, LOINC atau UCUM.</li>
+    <li>Menghasilkan semula instrumen berlesen (Wong-Baker FACES) atau reka bentuk badan lain (carta NEWS2).</li>
+    <li>Mengehadkan bilangan rekod yang dibuka serentak.</li>
+  </ul>
+  <p>Kajian, sumber dan keputusan di sebalik panduan ini terdapat dalam <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

@@ -4,6 +4,9 @@ A guide for teams building clinical software with Lily Design System™: clinica
 medicines administration, decision support and hospital dashboards (tasks.md P27-T10). The research, sources and decisions behind
 it are in [spec/healthcare-ui](../../../spec/healthcare-ui/index.md).
 
+This guide is also on the website at <https://lilydesignsystem.com/patterns/healthcare/>, with unreviewed machine
+translations into the site's 63 other languages; this file is the source, and the site page (`lilydesignsystem.github.io/src/routes/patterns/healthcare/+page.svelte`) must follow it.
+
 ## What Lily does, and what it does not
 
 Lily gives you display contracts: semantic markup, ARIA, keyboard behaviour and class hooks for the things clinical screens repeat.

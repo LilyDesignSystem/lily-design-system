@@ -1,0 +1,124 @@
+<!-- title: Interfaces de usuario sanitarias — Lily Design System -->
+<!-- description: Una guía para los equipos que crean software clínico con Lily: lo que Lily ofrece y lo que deja en sus manos, la jerarquización de alertas, las salvaguardas contra errores de paciente, el banner del paciente, los resultados, los medicamentos, las fechas y los paneles. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Interfaces de usuario sanitarias</h1>
+  <p class="page-intro-tagline">Una guía para los equipos que crean software clínico con Lily: portales clínicos, resultados e informes, prescripción y administración de medicamentos, apoyo a la decisión y paneles hospitalarios.</p>
+  <p>Esta traducción es un borrador automático sin revisar. <a href="/patterns/healthcare/#healthcare-title" >La página en inglés</a > es la versión de referencia.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Lo que Lily hace y lo que no</h2>
+  <p>Lily le ofrece contratos de presentación: marcado semántico, ARIA, comportamiento de teclado y ganchos de clase para lo que las pantallas clínicas repiten. No le ofrece lógica clínica, contenido clínico ni una declaración regulatoria.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Lo que ofrece Lily y lo que ofrece usted</caption>
+      <thead>
+        <tr>
+          <th>Lily ofrece</th>
+          <th>Usted ofrece</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: un valor, una unidad, un indicador en palabras, un intervalo y los estados ausentes</td>
+          <td>El valor, la decisión del indicador, el intervalo de referencia</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> y <a href="/components/allergy-list-item/">allergy-list-item</a>: un estado que nunca está vacío</td>
+          <td>El registro de alergias y su terminología</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: nombre, concentración, forma, vía y frecuencia, sin truncar nada</td>
+          <td>Los datos del medicamento, los segmentos tall man, la concentración formateada</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: la forma de tarjeta de CDS Hooks</td>
+          <td>Las reglas, las acciones sugeridas, el registro del resultado</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: una puntuación, un nivel y una escalada, mostrados</td>
+          <td>El sistema de puntuación y su cálculo validado</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> y <code>ageParts()</code>: una edad en las unidades adecuadas</td>
+          <td>Las palabras para las unidades (<code>Intl.DurationFormat</code> o sus propias etiquetas)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, nunca 5,0 mg; 0,5 mg, nunca ,5 mg</td>
+          <td>El número, la unidad y la configuración regional</td>
+        </tr>
+        <tr>
+          <td>La composición del banner del paciente</td>
+          <td>Cada etiqueta y cada valor, y quién puede ver la información clínica</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulación.</strong> El software que calcula una puntuación, un percentil, una dosis o una interacción farmacológica suele ser un producto sanitario. Lily no calcula nada de esto, a propósito. Si su producto está regulado, a usted le corresponde su expediente de ingeniería de usabilidad (IEC 62366-1, la guía de factores humanos de la FDA, el MDR de la UE). Las pruebas de Lily, su informe de conformidad de accesibilidad autoevaluado y su matriz de lectores de pantalla pueden servir de evidencia en ese expediente; ninguno es una declaración de conformidad, y la matriz aún no tiene resultados.</p>
+
+  <h2>Alertas: interrumpir solo por lo crítico</h2>
+  <p>La fatiga de alertas es un problema de seguridad: cuando cada alerta interrumpe, se acaban descartando todas. La AHRQ recomienda jerarquizar las alertas por gravedad y hacer interruptivas solo las graves.</p>
+  <ul>
+    <li><strong>Información</strong> (<code>indicator="info"</code>): integrada, junto a la tarea, una tarjeta de apoyo a la decisión en la página.</li>
+    <li><strong>Advertencia</strong> (<code>indicator="warning"</code>): visible sin bloquear, la misma tarjeta, con un estilo que destaque; sin ventana modal.</li>
+    <li><strong>Crítica</strong> (<code>indicator="critical"</code>): ponga la tarjeta dentro de un diálogo de alerta y ofrezca <code>overrideReasons</code> para que al descartarla se pida un motivo.</li>
+    <li>Una tarjeta de apoyo a la decisión nunca es por sí misma una región en vivo. Anuncie una nueva tarjeta crítica moviendo el foco al diálogo, no con <code>aria-live</code>.</li>
+    <li>Retire una tarjeta cuando vuelva a producirse el evento al que respondía, y registre cada resultado (aceptada, o anulada con su motivo).</li>
+  </ul>
+
+  <h2>Errores de paciente: identificar, no restringir</h2>
+  <ul>
+    <li>Muestre dos identificadores dondequiera que aparezcan datos de un paciente: el nombre con la fecha de nacimiento, y el identificador nacional con su componente de visualización (The Joint Commission, Quick Safety 45).</li>
+    <li>Use el banner del paciente en cada pantalla que actúe sobre la historia de un paciente, y manténgalo visible.</li>
+    <li>Antes de una acción sobre una historia distinta de la del banner, confírmela con el nombre, la fecha de nacimiento y el identificador.</li>
+    <li>No limite cuántas historias puede abrir un profesional clínico: un ensayo aleatorizado con 3356 profesionales (JAMA, 2019) halló que no reducía las órdenes al paciente equivocado, y la gente lo esquiva.</li>
+  </ul>
+
+  <h2>El banner del paciente</h2>
+  <p>La composición está documentada en <a href="/components/medical-banner/">medical-banner</a>, con una página funcional en <code>/patient-banner</code> en la aplicación de ejemplo de SvelteKit:</p>
+  <ul>
+    <li>dos identificadores, y la edad junto a la fecha de nacimiento;</li>
+    <li>las alergias mediante una lista de alergias, para que «sin alergias conocidas», «no registrado» y «no disponible» nunca se parezcan;</li>
+    <li>un valor ausente se escribe con palabras («Desconocido»), nunca con un signo de interrogación, un guion o una celda vacía;</li>
+    <li>un paciente fallecido: <code>data-deceased</code> para el tema, y una línea de texto visible, nunca solo el color;</li>
+    <li>ningún campo truncado, recortado u oculto a ningún ancho; se ajusta a la línea siguiente.</li>
+  </ul>
+
+  <h2>Resultados</h2>
+  <ul>
+    <li>Una sola presentación para un resultado, venga del sistema que venga: la vista de observación.</li>
+    <li>El indicador son palabras de su traducción (<code>flagLabel</code>), con el código de interpretación de FHIR como <code>data-interpretation</code> para el tema.</li>
+    <li>Separe los resultados nuevos de los anteriores y muestre una tendencia (un minigráfico, o un gráfico de líneas con su tabla de datos): los profesionales buscan un cambio significativo, no solo el intervalo.</li>
+    <li>Un resultado que nunca se registró y uno que no está disponible son estados distintos, con palabras distintas.</li>
+  </ul>
+
+  <h2>Medicamentos</h2>
+  <ul>
+    <li>Nombres genéricos en minúsculas, salvo las letras tall man de las listas de la FDA y del ISMP o de su país (Australia y Canadá publican las suyas). Márquelas en <code>nameSegments</code>; Lily nunca las adivina.</li>
+    <li>Escriba la concentración con <code>formatQuantity</code>: sin cero final, con cero inicial, con un espacio de no separación antes de la unidad.</li>
+    <li>Escriba mL, nunca cc, y evite todas las abreviaturas de la lista de abreviaturas propensas a errores del ISMP.</li>
+    <li>Nunca trunque el nombre ni la dosis de un medicamento.</li>
+  </ul>
+
+  <h2>Fechas y horas</h2>
+  <ul>
+    <li>Escriba el mes con letras para que una fecha no pueda leerse de dos maneras (<code>Intl.DateTimeFormat</code> con <code>month: "short"</code>).</li>
+    <li>Elija el reloj a propósito: pase <code>hourCycle</code> de forma explícita. El NHS pide el reloj de 24 horas; es una norma británica, no mundial, así que Lily nunca lo elige por usted.</li>
+    <li>Las edades siguen los tramos de la Common User Interface mediante <code>ageParts()</code>; un servicio con otra convención aporta sus propias palabras.</li>
+  </ul>
+
+  <h2>Paneles</h2>
+  <ul>
+    <li>Un tablero de planta o una pantalla de centro de mando se actualiza a menudo. Nunca anuncie cada cambio: mantenga una sola región de resumen cortés («3 camas libres, 2 altas previstas») y deje que la gente lea el tablero.</li>
+    <li>Cada estado de un tablero (cama limpia, ocupada, bloqueada) es texto o un estado <code>data-*</code> con palabras, nunca solo el color.</li>
+  </ul>
+
+  <h2>Lo que Lily no hará</h2>
+  <ul>
+    <li>Calcular una puntuación de alerta temprana, un percentil de crecimiento, una dosis o un intervalo de referencia.</li>
+    <li>Incluir una base de datos de medicamentos, una lista tall man, ni códigos de SNOMED CT, CIE, LOINC o UCUM.</li>
+    <li>Reproducir un instrumento con licencia (Wong-Baker FACES) o el diseño de otro organismo (el gráfico NEWS2).</li>
+    <li>Limitar el número de historias abiertas a la vez.</li>
+  </ul>
+  <p>La investigación, las fuentes y las decisiones detrás de esta guía están en <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

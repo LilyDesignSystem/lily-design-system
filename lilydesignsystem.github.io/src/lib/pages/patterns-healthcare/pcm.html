@@ -1,0 +1,124 @@
+<!-- title: Health user interface dem — Lily Design System -->
+<!-- description: Guide for teams wey dey build clinical software with Lily: wetin Lily dey give and wetin e leave for you, how to arrange alert dem by level, how to protect against wrong patient, di patient banner, results, medicine dem, dates and dashboard dem. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Health user interface dem</h1>
+  <p class="page-intro-tagline">Guide for teams wey dey build clinical software with Lily: clinical portal dem, results and reporting, how to prescribe and give medicine, decision support and hospital dashboard dem.</p>
+  <p>Translation dem of dis page na machine draft wey nobody don check. <a href="/patterns/healthcare/#healthcare-title" >Di English page</a > na di correct version.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Wetin Lily dey do, and wetin e no dey do</h2>
+  <p>Lily dey give you display contracts: semantic markup, ARIA, keyboard behaviour and class hooks for di tins wey dey repeat for clinical screens. E no dey give you clinical logic, clinical content or any regulatory claim.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Wetin Lily dey give, and wetin you go give</caption>
+      <thead>
+        <tr>
+          <th>Lily dey give</th>
+          <th>You go give</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: value, unit, flag for words, range, and wetin to show when nothing dey</td>
+          <td>Di value, how to decide di flag, di reference range</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> and <a href="/components/allergy-list-item/">allergy-list-item</a>: status wey no dey ever empty</td>
+          <td>Di allergy record and im terminology</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: name, strength, form, route and how often, no part dey cut</td>
+          <td>Di drug data, di tall man segments, di strength wey dem don format</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: di shape of CDS Hooks card</td>
+          <td>Di rules, di suggestion actions, how to record wetin happen</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: score, band and escalation, as dem show am</td>
+          <td>Di scoring system and im validated calculation</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> and <code>ageParts()</code>: age for units wey fit am</td>
+          <td>Di words for di units (<code>Intl.DurationFormat</code> or your own labels)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, never 5.0 mg; 0.5 mg, never .5 mg</td>
+          <td>Di number, di unit and di locale</td>
+        </tr>
+        <tr>
+          <td>Di patient banner composition</td>
+          <td>Every label and value, and who fit see clinical information</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulation.</strong> Software wey dey calculate score, centile, dose or drug interaction na medical device normally. Lily no dey calculate any of dem, for purpose. If dem dey regulate your product, na you get im usability engineering file (IEC 62366-1, FDA human factors guidance, EU MDR). Lily tests, im self-assessed accessibility conformance report and im screen-reader matrix fit be evidence for dat file; none of dem na conformance claim, and di matrix neva get any result.</p>
+
+  <h2>Alerts: interrupt only for wetin dey critical</h2>
+  <p>Alert fatigue na safety wahala: if every alert dey interrupt, people go dismiss all of dem. AHRQ guidance na to arrange alert dem by how serious dem be and make only di serious ones interrupt.</p>
+  <ul>
+    <li><strong>Information</strong> (<code>indicator="info"</code>): inline, beside di work, one decision-support card inside di page.</li>
+    <li><strong>Warning</strong> (<code>indicator="warning"</code>): dem fit see am without blocking, di same card, wey dem style make e stand out; no modal.</li>
+    <li><strong>Critical</strong> (<code>indicator="critical"</code>): put di card inside alert dialog, and give <code>overrideReasons</code> so say if person dismiss am, e go ask for reason.</li>
+    <li>Decision-support card no dey ever be live region by itself. Announce new critical card by moving focus enter di dialog, no use <code>aria-live</code>.</li>
+    <li>Remove card when di event wey e answer happen again, and record every outcome (dem accept am, or dem override am with di reason).</li>
+  </ul>
+
+  <h2>Wrong-patient errors: identify, no restrict</h2>
+  <ul>
+    <li>Show two identifiers anywhere wey patient data dey show: di name with di date of birth, and di national identifier with im view component (The Joint Commission, Quick Safety 45).</li>
+    <li>Use di patient banner for every screen wey dey act on one patient record, and make e dey show.</li>
+    <li>Before action on record wey no be di one for di banner, confirm am with di name, date of birth and identifier.</li>
+    <li>No limit how many records clinician fit open: randomised trial of 3,356 clinicians (JAMA, 2019) find say e no reduce wrong-patient orders, and people dey find way waka around am.</li>
+  </ul>
+
+  <h2>Di patient banner</h2>
+  <p>Dem document di composition with <a href="/components/medical-banner/">medical-banner</a>, with working page for <code>/patient-banner</code> inside di SvelteKit example app:</p>
+  <ul>
+    <li>two identifiers, and di age beside di date of birth;</li>
+    <li>allergies through allergy list, so say "no known allergies", "not recorded" and "unavailable" no go ever look di same;</li>
+    <li>missing value na words ("Not known"), no be question mark, dash or empty cell;</li>
+    <li>patient wey don die: <code>data-deceased</code> for di theme, and one line of text wey dey show, no be colour alone;</li>
+    <li>no field dey cut, clip or hide for any width; e dey wrap.</li>
+  </ul>
+
+  <h2>Results</h2>
+  <ul>
+    <li>One display for result, no matter which system e come from: di observation view.</li>
+    <li>Di flag na words from your translation (<code>flagLabel</code>), with di FHIR interpretation code as <code>data-interpretation</code> for di theme.</li>
+    <li>Separate new results from di earlier ones, and show trend (sparkline, or line chart with im data table): clinicians dey look for big change, no be only di range.</li>
+    <li>Result wey dem neva ever record and one wey no dey available na different states, with different words.</li>
+  </ul>
+
+  <h2>Medicines</h2>
+  <ul>
+    <li>Generic names for lower case, except tall man letters from FDA and ISMP lists or your country own (Australia and Canada dey publish dia own). Mark dem for <code>nameSegments</code>; Lily no dey ever guess dem.</li>
+    <li>Write di strength with <code>formatQuantity</code>: no trailing zero, one leading zero, and no-break space before di unit.</li>
+    <li>Write mL, never cc, and avoid every abbreviation for ISMP error-prone list.</li>
+    <li>Never cut medicine name or dose.</li>
+  </ul>
+
+  <h2>Dates and times</h2>
+  <ul>
+    <li>Write di month as text so say dem no fit read date two ways (<code>Intl.DateTimeFormat</code> with <code>month: "short"</code>).</li>
+    <li>Choose di clock on purpose: pass <code>hourCycle</code> clearly. NHS dey ask for 24-hour clock; dat one na UK rule, no be worldwide one, so Lily no dey ever pick am for you.</li>
+    <li>Ages dey follow di Common User Interface bands through <code>ageParts()</code>; service wey get another convention go pass im own words.</li>
+  </ul>
+
+  <h2>Dashboards</h2>
+  <ul>
+    <li>Ward board or command-centre screen dey update often. No announce every change: keep one polite summary region ("3 beds free, 2 discharges due") and let people read di board.</li>
+    <li>Every state for board (bed clean, occupied, blocked) na text or <code>data-*</code> state with words, no be colour alone.</li>
+  </ul>
+
+  <h2>Wetin Lily no go do</h2>
+  <ul>
+    <li>Calculate early warning score, growth centile, dose or reference range.</li>
+    <li>Ship drug database, tall man list, or SNOMED CT, ICD, LOINC or UCUM codes.</li>
+    <li>Copy licensed instrument (Wong-Baker FACES) or another body design (di NEWS2 chart).</li>
+    <li>Limit how many records dey open at once.</li>
+  </ul>
+  <p>Di research, sources and decisions wey dey behind dis guide dey for <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

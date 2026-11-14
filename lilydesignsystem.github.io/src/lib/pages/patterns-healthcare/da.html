@@ -1,0 +1,124 @@
+<!-- title: Brugergrænseflader til sundhedsvæsenet — Lily Design System -->
+<!-- description: En vejledning til teams, der bygger klinisk software med Lily: hvad Lily leverer, og hvad det overlader til dig, inddeling af advarsler, sikring mod patientforveksling, patientbanneret, prøvesvar, lægemidler, datoer og dashboards. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Brugergrænseflader til sundhedsvæsenet</h1>
+  <p class="page-intro-tagline">En vejledning til teams, der bygger klinisk software med Lily: kliniske portaler, prøvesvar og rapportering, ordination og administration af lægemidler, beslutningsstøtte og hospitalsdashboards.</p>
+  <p>Denne oversættelse er et ugennemset maskinudkast. <a href="/patterns/healthcare/#healthcare-title" >Den engelske side</a > er den gældende version.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Hvad Lily gør, og hvad det ikke gør</h2>
+  <p>Lily giver dig visningskontrakter: semantisk markup, ARIA, tastaturadfærd og klassehooks til det, kliniske skærme gentager. Det giver dig ikke klinisk logik, klinisk indhold eller en regulatorisk påstand.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Hvad Lily leverer, og hvad du leverer</caption>
+      <thead>
+        <tr>
+          <th>Lily leverer</th>
+          <th>Du leverer</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: en værdi, en enhed, en markering i ord, et interval og manglende tilstande</td>
+          <td>Værdien, beslutningen om markering, referenceintervallet</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> og <a href="/components/allergy-list-item/">allergy-list-item</a>: en status, der aldrig er tom</td>
+          <td>Allergiregistreringen og dens terminologi</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: navn, styrke, form, indgiftsvej og hyppighed, intet afkortet</td>
+          <td>Lægemiddeldata, tall man-segmenterne, den formaterede styrke</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: kortformen fra CDS Hooks</td>
+          <td>Reglerne, de foreslåede handlinger, registreringen af udfaldet</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: en score, et niveau og en eskalering, vist</td>
+          <td>Scoringssystemet og dets validerede beregning</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> og <code>ageParts()</code>: en alder i de enheder, der passer til den</td>
+          <td>Ordene for enhederne (<code>Intl.DurationFormat</code> eller dine egne etiketter)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, aldrig 5,0 mg; 0,5 mg, aldrig ,5 mg</td>
+          <td>Tallet, enheden og sprogindstillingen</td>
+        </tr>
+        <tr>
+          <td>Sammensætningen af patientbanneret</td>
+          <td>Hver etiket og værdi, og hvem der må se kliniske oplysninger</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulering.</strong> Software, der beregner en score, en percentil, en dosis eller en lægemiddelinteraktion, er som regel medicinsk udstyr. Lily beregner intet af dette, med vilje. Hvis dit produkt er reguleret, ejer du dets dokumentation for brugervenlighed (IEC 62366-1, FDA's vejledning om menneskelige faktorer, EU's MDR). Lilys tests, dets selvvurderede rapport om tilgængelighedsoverensstemmelse og dets skærmlæsermatrix kan være dokumentation i den; ingen af dem er en påstand om overensstemmelse, og matrixen har endnu ingen resultater.</p>
+
+  <h2>Advarsler: afbryd kun for det kritiske</h2>
+  <p>Advarselstræthed er et sikkerhedsproblem: når hver advarsel afbryder, klikker folk dem alle væk. AHRQ anbefaler at inddele advarsler efter alvor og kun lade de alvorlige afbryde.</p>
+  <ul>
+    <li><strong>Information</strong> (<code>indicator="info"</code>): i teksten, ved siden af opgaven, et beslutningsstøttekort på siden.</li>
+    <li><strong>Advarsel</strong> (<code>indicator="warning"</code>): synlig uden at blokere, det samme kort, udformet til at skille sig ud; ingen modal.</li>
+    <li><strong>Kritisk</strong> (<code>indicator="critical"</code>): læg kortet i en advarselsdialog, og tilbyd <code>overrideReasons</code>, så det kræver en begrundelse at afvise det.</li>
+    <li>Et beslutningsstøttekort er aldrig i sig selv en live-region. Annoncér et nyt kritisk kort ved at flytte fokus ind i dialogen, ikke med <code>aria-live</code>.</li>
+    <li>Fjern et kort, når den hændelse, det besvarede, sker igen, og registrér hvert udfald (accepteret eller tilsidesat med begrundelse).</li>
+  </ul>
+
+  <h2>Patientforveksling: identificér, begræns ikke</h2>
+  <ul>
+    <li>Vis to identifikatorer overalt, hvor en patients data vises: navnet med fødselsdatoen og det nationale id med dets visningskomponent (The Joint Commission, Quick Safety 45).</li>
+    <li>Brug patientbanneret på hver skærm, der handler på én patients journal, og hold det synligt.</li>
+    <li>Før en handling på en anden journal end den i banneret skal den bekræftes med navn, fødselsdato og identifikator.</li>
+    <li>Begræns ikke, hvor mange journaler en kliniker må åbne: et randomiseret forsøg med 3.356 klinikere (JAMA, 2019) viste, at det ikke reducerede ordinationer til den forkerte patient, og folk omgår det.</li>
+  </ul>
+
+  <h2>Patientbanneret</h2>
+  <p>Sammensætningen er beskrevet ved <a href="/components/medical-banner/">medical-banner</a>, med en fungerende side på <code>/patient-banner</code> i SvelteKit-eksempelappen:</p>
+  <ul>
+    <li>to identifikatorer, og alderen ved siden af fødselsdatoen;</li>
+    <li>allergier gennem en allergiliste, så „ingen kendte allergier“, „ikke registreret“ og „ikke tilgængelig“ aldrig ligner hinanden;</li>
+    <li>en manglende værdi skrives med ord („Ukendt“), aldrig som spørgsmålstegn, bindestreg eller tom celle;</li>
+    <li>en afdød patient: <code>data-deceased</code> til temaet og en synlig tekstlinje, aldrig kun farve;</li>
+    <li>intet felt afkortet, beskåret eller skjult ved nogen bredde; det ombrydes.</li>
+  </ul>
+
+  <h2>Prøvesvar</h2>
+  <ul>
+    <li>Én visning af et prøvesvar, uanset hvilket system det kom fra: observationsvisningen.</li>
+    <li>Markeringen er ord fra din oversættelse (<code>flagLabel</code>), med FHIR-fortolkningskoden som <code>data-interpretation</code> til temaet.</li>
+    <li>Adskil nye prøvesvar fra tidligere, og vis en udvikling (en sparkline eller et kurvediagram med sin datatabel): klinikere leder efter en betydelig ændring, ikke kun intervallet.</li>
+    <li>Et prøvesvar, der aldrig er registreret, og et, der ikke er tilgængeligt, er forskellige tilstande med forskellige ord.</li>
+  </ul>
+
+  <h2>Lægemidler</h2>
+  <ul>
+    <li>Generiske navne med små bogstaver, undtagen tall man-bogstaver fra FDA's og ISMP's lister eller dit lands (Australien og Canada udgiver deres egne). Markér dem i <code>nameSegments</code>; Lily gætter dem aldrig.</li>
+    <li>Skriv styrken med <code>formatQuantity</code>: intet efterstillet nul, et foranstillet nul, et hårdt mellemrum før enheden.</li>
+    <li>Skriv mL, aldrig cc, og undgå enhver forkortelse på ISMP's liste over fejlbehæftede forkortelser.</li>
+    <li>Afkort aldrig et lægemiddels navn eller dosis.</li>
+  </ul>
+
+  <h2>Datoer og klokkeslæt</h2>
+  <ul>
+    <li>Skriv måneden som tekst, så en dato ikke kan læses på to måder (<code>Intl.DateTimeFormat</code> med <code>month: "short"</code>).</li>
+    <li>Vælg uret med vilje: angiv <code>hourCycle</code> udtrykkeligt. NHS beder om 24-timersuret; det er en britisk regel, ikke en global, så Lily vælger det aldrig for dig.</li>
+    <li>Aldre følger Common User Interfaces niveauer gennem <code>ageParts()</code>; en tjeneste med en anden konvention angiver sine egne ord.</li>
+  </ul>
+
+  <h2>Dashboards</h2>
+  <ul>
+    <li>En afdelingstavle eller en kommandocentralskærm opdateres ofte. Annoncér aldrig hver ændring: hold én høflig opsummeringsregion („3 senge ledige, 2 udskrivelser forestående“), og lad folk læse tavlen.</li>
+    <li>Hver tilstand på en tavle (seng rengjort, optaget, spærret) er tekst eller en <code>data-*</code>-tilstand med ord, aldrig kun farve.</li>
+  </ul>
+
+  <h2>Hvad Lily ikke vil gøre</h2>
+  <ul>
+    <li>Beregne en tidlig varslingsscore, en vækstpercentil, en dosis eller et referenceinterval.</li>
+    <li>Levere en lægemiddeldatabase, en tall man-liste eller koder fra SNOMED CT, ICD, LOINC eller UCUM.</li>
+    <li>Gengive et licenseret instrument (Wong-Baker FACES) eller en anden organisations design (NEWS2-skemaet).</li>
+    <li>Begrænse antallet af journaler, der er åbne på én gang.</li>
+  </ul>
+  <p>Undersøgelsen, kilderne og beslutningerne bag denne vejledning findes i <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

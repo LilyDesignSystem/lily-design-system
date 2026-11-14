@@ -1,0 +1,124 @@
+<!-- title: Eadar-aghaidhean cleachdaiche airson cùram slàinte — Lily Design System -->
+<!-- description: Treòir do sgiobaidhean a tha a’ togail bathar-bog clionaigeach le Lily: na bheir Lily seachad agus na dh’fhàgas e dhutsa, rangachadh rabhaidhean, dìonan an aghaidh mearachdan euslaintich, bann an euslaintich, toraidhean, cungaidhean, cinn-latha agus deas-bhùird. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Eadar-aghaidhean cleachdaiche airson cùram slàinte</h1>
+  <p class="page-intro-tagline">Treòir do sgiobaidhean a tha a’ togail bathar-bog clionaigeach le Lily: portail clionaigeach, toraidhean agus aithris, òrdachadh agus rianachd chungaidhean, taic co-dhùnaidh agus deas-bhùird ospadail.</p>
+  <p>Tha eadar-theangachaidhean den duilleag seo nan dreachdan inneal gun sgrùdadh. <a href="/patterns/healthcare/#healthcare-title" >An duilleag Beurla</a > an dreach ùghdarrasach.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Na tha Lily a’ dèanamh, agus na nach eil</h2>
+  <p>Bheir Lily seachad cùmhnantan taisbeanaidh: margadh semantach, ARIA, giùlan meur-chlàir agus dealbhan clas airson na rudan a tha sgrìnichean clionaigeach a’ dèanamh a-rithist. Chan eil e a’ toirt loidsig chlionaigeach, susbaint chlionaigeach no tagradh riaghlaidh.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Na bheir Lily seachad, agus na bheir thu fhèin seachad</caption>
+      <thead>
+        <tr>
+          <th>Bheir Lily seachad</th>
+          <th>Bheir thu fhèin seachad</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: luach, aonad, bratach ann am faclan, raon, agus staidean a tha a dhìth</td>
+          <td>An luach, co-dhùnadh na brataich, an raon-tuairisgeil</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> agus <a href="/components/allergy-list-item/">allergy-list-item</a>: inbhe nach eil a-chaoidh falamh</td>
+          <td>An clàr aileirdsidh agus a theirmeòlas</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: ainm, neart, cruth, slighe agus tricead, gun dad air a ghearradh goirid</td>
+          <td>Dàta na cungaidh, na pìosan “tall man”, an neart cruth-aichte</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: cruth a’ chairt CDS Hooks</td>
+          <td>Na riaghailtean, na gnìomhan molaidh, clàradh an toraidh</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: sgòr, còmhlan agus àrdachadh, air an taisbeanadh</td>
+          <td>An siostam sgòraidh agus an àireamhachadh dearbhte aige</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> agus <code>ageParts()</code>: aois ann an aonadan a tha freagarrach dhi</td>
+          <td>Na faclan airson na h-aonadan (<code>Intl.DurationFormat</code> no na leibheil agad fhèin)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, gu bràth 5.0 mg; 0.5 mg, gu bràth .5 mg</td>
+          <td>An àireamh, an t-aonad agus an locale</td>
+        </tr>
+        <tr>
+          <td>Co-dhèanamh bann an euslaintich</td>
+          <td>A h-uile leibheal agus luach, agus cò dh’fhaodas fiosrachadh clionaigeach fhaicinn</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Riaghladh.</strong> Mar as trice tha bathar-bog a thathas ag obrachadh a-mach sgòr, ceudamh, dòs no eadar-obrachadh chungaidhean na ghoireas meidigeach. Chan obraich Lily a-mach gin dhiubh sin, a dh’aona ghnothach. Ma tha do thoradh fo riaghladh, is leatsa am faidhle innleadaireachd cleachdaidh aige (IEC 62366-1, stiùireadh nam factaran daonna aig an FDA, EU MDR). Faodaidh deuchainnean Lily, an aithisg co-chòrdalachd inntrigeadh a rinn e fhèin a mheasadh agus a mhaitrisear leughadair-sgrìn a bhith na fhianais san fhaidhle sin; chan eil gin dhiubh nan tagradh co-chòrdalachd, agus chan eil toraidhean sam bith sa mhaitris fhathast.</p>
+
+  <h2>Rabhaidhean: cuir stad air a’ chùis chunnartach a-mhàin</h2>
+  <p>Tha sgìths rabhaidh na dhuilgheadas sàbhailteachd: nuair a bhriseas a h-uile rabhadh a-steach, bidh daoine gan cur air falbh uile. Is e stiùireadh AHRQ rabhaidhean a rangachadh a-rèir cho dona ’s a tha iad agus gun a bhith a’ briseadh a-steach ach airson an fheadhainn dhona.</p>
+  <ul>
+    <li><strong>Fiosrachadh</strong> (<code>indicator="info"</code>): taobh a-staigh na loidhne, ri taobh na h-obrach, cairt taic co-dhùnaidh air an duilleag.</li>
+    <li><strong>Rabhadh</strong> (<code>indicator="warning"</code>): follaiseach gun bhacadh, an aon chairt, air a stoidhleadh gus seasamh a-mach; gun modal.</li>
+    <li><strong>Èiginneach</strong> (<code>indicator="critical"</code>): cuir a’ chairt a-staigh ann an còmhradh rabhaidh, agus tairg <code>overrideReasons</code> airson gum bi adhbhar riatanach nuair a thèid a leigeil seachad.</li>
+    <li>Chan e raon beò a th’ ann an cairt taic co-dhùnaidh leis fhèin a-chaoidh. Cuir an cèill cairt èiginneach ùr le fòcas a ghluasad a-steach don chòmhradh, chan ann le <code>aria-live</code>.</li>
+    <li>Thoir air falbh cairt nuair a thachras an tachartas dhan do fhreagair i a-rithist, agus clàraich gach toradh (air a ghabhail, no air a leigeil seachad leis an adhbhar aige).</li>
+  </ul>
+
+  <h2>Mearachdan euslaintich cearr: comharraich, na cuingich</h2>
+  <ul>
+    <li>Seall dà aithnichear a h-uile àite a bheil dàta euslaintich a’ nochdadh: an t-ainm còmhla ris an ceann-latha breith, agus an t-aithnichear nàiseanta leis a cho-phàirt view aige (The Joint Commission, Quick Safety 45).</li>
+    <li>Cleachd bann an euslaintich air gach sgrìon a ghabhas gnìomh air clàr aon euslaintich, agus cùm follaiseach e.</li>
+    <li>Mus gabh thu gnìomh air clàr eile seach an tè ann am bann, daingnich e leis an ainm, an ceann-latha breith agus an t-aithnichear.</li>
+    <li>Na cuingich cia mheud clàr as urrainn do chliniceach fhosgladh: lorg deuchainn air thuaiream de 3,356 clinicich (JAMA, 2019) nach do lùghdaich e òrdughan don euslainteach cheàrr, agus gu bheil daoine a’ faighinn timcheall air.</li>
+  </ul>
+
+  <h2>Bann an euslaintich</h2>
+  <p>Tha an co-dhèanamh air a sgrìobhadh sìos le <a href="/components/medical-banner/">medical-banner</a>, le duilleag obrach aig <code>/patient-banner</code> san aplacaid eisimpleir SvelteKit:</p>
+  <ul>
+    <li>dà aithnichear, agus an aois ri taobh an ceann-latha breith;</li>
+    <li>aileirdsidhean tro liosta aileirdsidh, gus nach bi “aileirdsidhean neo-aithnichte”, “gun chlàradh” agus “gun fhaighinn” a’ coimhead coltach ri chèile;</li>
+    <li>is e faclan a th’ ann an luach a tha a dhìth (“Neo-aithnichte”), chan e comharra ceist, strìochag no cealla fhalamh;</li>
+    <li>euslainteach a chaochail: <code>data-deceased</code> airson an theama, agus loidhne teacsa fhaicsinneach, chan ann dath a-mhàin;</li>
+    <li>gun raon air a ghearradh goirid, air a ghearradh dheth no air fhalach aig leud sam bith; tha e a’ pasgadh.</li>
+  </ul>
+
+  <h2>Toraidhean</h2>
+  <ul>
+    <li>Aon taisbeanadh airson toradh, ge b’ e dè an siostam às an tàinig e: an sealladh amharc-sgrùdaidh.</li>
+    <li>Is e faclan bhon eadar-theangachadh agad a th’ anns a’ bhratach (<code>flagLabel</code>), le còd mìneachaidh FHIR mar <code>data-interpretation</code> airson an theama.</li>
+    <li>Cuir toraidhean ùra air leth bho na fheadhainn nas tràithe, agus seall a’ ghluasad (sparkline, no graf loidhne leis an clàr dàta aige): bidh clinicich a’ coimhead airson atharrachadh cudromach, chan ann an raon a-mhàin.</li>
+    <li>Tha toradh nach deach a chlàradh a-riamh agus toradh nach eil ri fhaighinn nan staidean eadar-dhealaichte, le faclan eadar-dhealaichte.</li>
+  </ul>
+
+  <h2>Cungaidhean</h2>
+  <ul>
+    <li>Ainmean coitcheann ann an litrichean beaga, ach a-mhàin litrichean “tall man” bho liostaichean an FDA agus ISMP no an fheadhainn aig do dhùthcha (bidh Astràilia agus Canada a’ foillseachadh an fheadhainn aca fhèin). Comharraich iad ann an <code>nameSegments</code>; chan tomhais Lily iad a-chaoidh.</li>
+    <li>Sgrìobh an neart le <code>formatQuantity</code>: gun neoni air deireadh, le neoni air thoiseach, agus beàrn gun bhriseadh ron aonad.</li>
+    <li>Sgrìobh mL, gu bràth cc, agus seachain a h-uile giorrachadh a tha air liosta ISMP de ghiorrachaidhean a bhios buailteach do mhearachdan.</li>
+    <li>Na gearr ainm no dòs cungaidh goirid gu bràth.</li>
+  </ul>
+
+  <h2>Cinn-latha agus amannan</h2>
+  <ul>
+    <li>Sgrìobh am mìos mar theacsa gus nach gabh ceann-latha a leughadh an dà dhòigh (<code>Intl.DateTimeFormat</code> le <code>month: "short"</code>).</li>
+    <li>Tagh an cloc a dh’aon ghnothach: thoir seachad <code>hourCycle</code> gu soilleir. Tha an NHS ag iarraidh cloc 24 uair; is e riaghailt Rìoghachd Aonaichte a tha sin, chan e riaghailt cruinneil, agus mar sin cha taghadh Lily a-chaoidh dhutsa e.</li>
+    <li>Tha aoisean a’ leantainn còmhlain Common User Interface tro <code>ageParts()</code>; bheir seirbheis le gnàthas eile seachad na faclan aice fhèin.</li>
+  </ul>
+
+  <h2>Deas-bhùird</h2>
+  <ul>
+    <li>Bidh bòrd uàird no sgrìon ionad-stiùiridh ag ùrachadh gu tric. Na cuir an cèill gach atharrachadh gu bràth: cùm aon raon geàrr-chunntais socair (“3 leapannan saor, 2 leigeil-às ri thighinn”) agus leig le daoine am bòrd a leughadh.</li>
+    <li>Tha a h-uile staid air bòrd (leabaidh glan, làn, bacte) na teacsa no na staid <code>data-*</code> le faclan, chan ann dath a-mhàin.</li>
+  </ul>
+
+  <h2>Na nach dèan Lily</h2>
+  <ul>
+    <li>Sgòr rabhaidh tràth, ceudamh fàis, dòs no raon-tuairisgeil obrachadh a-mach.</li>
+    <li>Stòr-dàta chungaidhean, liosta “tall man”, no còdan SNOMED CT, ICD, LOINC no UCUM a chuir a-mach.</li>
+    <li>Ionnsramaid fo cheadachas (Wong-Baker FACES) no dealbhadh buidheann eile (clàr NEWS2) ath-aithris.</li>
+    <li>Cuingeachadh air cia mheud clàr a tha fosgailte aig an aon àm.</li>
+  </ul>
+  <p>Tha an rannsachadh, na stòran agus na co-dhùnaidhean air cùl na treòrach seo ann an <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

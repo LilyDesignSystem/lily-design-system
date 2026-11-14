@@ -20,5 +20,6 @@
   { "slug": "compare-spectrum", "route": "compare/lily-design-system-and-adobe-spectrum" },
   { "slug": "compare-ant", "route": "compare/lily-design-system-and-ant-design" },
   { "slug": "compare-shadcn", "route": "compare/lily-design-system-and-shadcn-ui" },
-  { "slug": "compare-daisyui", "route": "compare/lily-design-system-and-daisyui" }
+  { "slug": "compare-daisyui", "route": "compare/lily-design-system-and-daisyui" },
+  { "slug": "patterns-healthcare", "route": "patterns/healthcare" }
 ]

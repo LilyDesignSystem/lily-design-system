@@ -9,6 +9,14 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Healthcare guide on the website, in 64 languages — 2026-11-14
+
+- **Added:** the healthcare adopter guide as a site page, `/patterns/healthcare/`, from `docs/patterns/healthcare/index.md`, with
+  translations into the site's 63 other languages. Every translation is an **unreviewed machine draft** and says so at the top,
+  linking the English page as the authoritative version; clinical wording needs a fluent clinician's review before anyone relies
+  on it. The seven healthcare component pages link to it.
+- **Added:** Phase 28 in `tasks.md`, lessons from the International Patient Summary viewer specification.
+
 ## Body map and numeric rating scale, catalog 617 — 2026-11-14
 
 tasks.md P27-T11 and P27-T12, on the maintainer's approval, from [spec/healthcare-ui](spec/healthcare-ui/index.md).

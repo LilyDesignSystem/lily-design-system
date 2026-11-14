@@ -1,0 +1,124 @@
+<!-- title: Korisnička sučelja u zdravstvu — Lily Design System -->
+<!-- description: Vodič za timove koji grade klinički softver s Lilyjem: što Lily pruža, a što prepušta vama, razine upozorenja, zaštita od zamjene pacijenta, zaglavlje pacijenta, nalazi, lijekovi, datumi i nadzorne ploče. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Korisnička sučelja u zdravstvu</h1>
+  <p class="page-intro-tagline">Vodič za timove koji grade klinički softver s Lilyjem: klinički portali, nalazi i izvještavanje, propisivanje i primjena lijekova, podrška odlučivanju i bolničke nadzorne ploče.</p>
+  <p>Prijevodi ove stranice neprovjereni su strojni nacrti. <a href="/patterns/healthcare/#healthcare-title" >Engleska stranica</a > je mjerodavna verzija.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Što Lily radi, a što ne</h2>
+  <p>Lily pruža ugovore o prikazu: semantičku oznaku, ARIA, ponašanje tipkovnice i klasne kuke za ono što se na kliničkim zaslonima ponavlja. Ne pruža kliničku logiku, klinički sadržaj niti regulatornu tvrdnju.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Što pruža Lily, a što pružate vi</caption>
+      <thead>
+        <tr>
+          <th>Lily pruža</th>
+          <th>Vi pružate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: vrijednost, jedinica, oznaka riječima, raspon i stanja nedostajućih podataka</td>
+          <td>Vrijednost, odluka o oznaci, referentni raspon</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> i <a href="/components/allergy-list-item/">allergy-list-item</a>: status koji nikada nije prazan</td>
+          <td>Zapis o alergiji i njegova terminologija</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: naziv, jačina, oblik, put primjene i učestalost, ništa skraćeno</td>
+          <td>Podaci o lijeku, tall man segmenti, formatirana jačina</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: oblik kartice CDS Hooks</td>
+          <td>Pravila, radnje prijedloga, bilježenje ishoda</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: zbroj bodova, pojas i eskalacija, prikazani</td>
+          <td>Sustav bodovanja i njegov validirani izračun</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> i <code>ageParts()</code>: dob u jedinicama koje joj odgovaraju</td>
+          <td>Riječi za jedinice (<code>Intl.DurationFormat</code> ili vaše vlastite oznake)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, nikad 5,0 mg; 0,5 mg, nikad ,5 mg</td>
+          <td>Broj, jedinica i regionalna postavka</td>
+        </tr>
+        <tr>
+          <td>Sastav zaglavlja pacijenta</td>
+          <td>Svaka oznaka i vrijednost te tko smije vidjeti kliničke informacije</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulativa.</strong> Softver koji izračunava zbroj bodova, centil, dozu ili interakciju lijekova obično je medicinski proizvod. Lily ne izračunava ništa od toga, namjerno. Ako je vaš proizvod reguliran, datoteku inženjerstva uporabljivosti vodite vi (IEC 62366-1, smjernice FDA-a o ljudskim čimbenicima, EU MDR). Lilyjevi testovi, njezino samoprocijenjeno izvješće o usklađenosti s pristupačnošću i matrica čitača zaslona mogu biti dokaz u toj datoteci; nijedno od toga nije tvrdnja o sukladnosti, a matrica još nema rezultata.</p>
+
+  <h2>Upozorenja: prekidajte samo zbog kritičnog</h2>
+  <p>Zamor od upozorenja sigurnosni je problem: kad svako upozorenje prekida rad, ljudi odbacuju sva. Smjernica AHRQ-a jest razvrstati upozorenja po težini i samo teška učiniti prekidnima.</p>
+  <ul>
+    <li><strong>Informacija</strong> (<code>indicator="info"</code>): u retku, uz zadatak, kartica podrške odlučivanju na stranici.</li>
+    <li><strong>Upozorenje</strong> (<code>indicator="warning"</code>): vidljivo bez blokiranja, ista kartica, stilizirana da se ističe; bez modalnog prozora.</li>
+    <li><strong>Kritično</strong> (<code>indicator="critical"</code>): stavite karticu unutar dijaloga upozorenja i ponudite <code>overrideReasons</code> kako bi se pri odbacivanju tražio razlog.</li>
+    <li>Kartica podrške odlučivanju sama po sebi nikada nije živa regija. Novu kritičnu karticu najavite premještanjem fokusa u dijalog, a ne s <code>aria-live</code>.</li>
+    <li>Uklonite karticu kad se događaj na koji je odgovarala ponovno dogodi i zabilježite svaki ishod (prihvaćeno ili nadjačano s razlogom).</li>
+  </ul>
+
+  <h2>Pogreške zamjene pacijenta: identificirajte, ne ograničavajte</h2>
+  <ul>
+    <li>Prikažite dva identifikatora gdje god se pojavljuju podaci o pacijentu: ime s datumom rođenja te nacionalni identifikator s njegovom view komponentom (The Joint Commission, Quick Safety 45).</li>
+    <li>Koristite zaglavlje pacijenta na svakom zaslonu koji djeluje na zapis jednog pacijenta i održavajte ga vidljivim.</li>
+    <li>Prije radnje na zapisu koji nije onaj u zaglavlju potvrdite je imenom, datumom rođenja i identifikatorom.</li>
+    <li>Ne ograničavajte koliko zapisa kliničar smije otvoriti: randomizirano ispitivanje s 3356 kliničara (JAMA, 2019) pokazalo je da to nije smanjilo narudžbe za pogrešnog pacijenta, a ljudi to zaobilaze.</li>
+  </ul>
+
+  <h2>Zaglavlje pacijenta</h2>
+  <p>Sastav je dokumentiran uz <a href="/components/medical-banner/">medical-banner</a>, s radnom stranicom na <code>/patient-banner</code> u primjeru aplikacije SvelteKit:</p>
+  <ul>
+    <li>dva identifikatora i dob uz datum rođenja;</li>
+    <li>alergije kroz popis alergija, tako da „nema poznatih alergija”, „nije zabilježeno” i „nedostupno” nikad ne izgledaju isto;</li>
+    <li>nedostajuća vrijednost su riječi („Nije poznato”), nikad upitnik, crtica ili prazna ćelija;</li>
+    <li>preminuli pacijent: <code>data-deceased</code> za temu i vidljiv redak teksta, nikad samo boja;</li>
+    <li>nijedno polje nije skraćeno, odrezano ili skriveno ni pri kojoj širini; prelama se.</li>
+  </ul>
+
+  <h2>Nalazi</h2>
+  <ul>
+    <li>Jedan prikaz za nalaz, iz kojeg god sustava dolazio: prikaz opservacije.</li>
+    <li>Oznaka su riječi iz vašeg prijevoda (<code>flagLabel</code>), s FHIR interpretacijskim kodom kao <code>data-interpretation</code> za temu.</li>
+    <li>Odvojite nove nalaze od ranijih i prikažite trend (sparkline ili linijski grafikon s tablicom podataka): kliničari traže značajnu promjenu, a ne samo raspon.</li>
+    <li>Nalaz koji nikad nije zabilježen i nalaz koji je nedostupan različita su stanja, s različitim riječima.</li>
+  </ul>
+
+  <h2>Lijekovi</h2>
+  <ul>
+    <li>Generički nazivi malim slovima, osim tall man slova s popisa FDA-a i ISMP-a ili vaše zemlje (Australija i Kanada objavljuju vlastite). Označite ih u <code>nameSegments</code>; Lily ih nikad ne pogađa.</li>
+    <li>Jačinu zapišite s <code>formatQuantity</code>: bez završne nule, s početnom nulom i nerazdvojivim razmakom prije jedinice.</li>
+    <li>Pišite mL, nikad cc, i izbjegavajte svaku kraticu s ISMP-ova popisa kratica sklonih pogreškama.</li>
+    <li>Nikad ne skraćujte naziv ni dozu lijeka.</li>
+  </ul>
+
+  <h2>Datumi i vremena</h2>
+  <ul>
+    <li>Mjesec napišite tekstom kako se datum ne bi mogao pročitati na dva načina (<code>Intl.DateTimeFormat</code> s <code>month: "short"</code>).</li>
+    <li>Sat odaberite namjerno: izričito proslijedite <code>hourCycle</code>. NHS traži 24-satni sat; to je britansko pravilo, a ne svjetsko, pa ga Lily nikad ne bira umjesto vas.</li>
+    <li>Dob prati pojaseve Common User Interface putem <code>ageParts()</code>; usluga s drugom konvencijom proslijeđuje vlastite riječi.</li>
+  </ul>
+
+  <h2>Nadzorne ploče</h2>
+  <ul>
+    <li>Ploča odjela ili zaslon zapovjednog centra često se ažurira. Nikad ne najavljujte svaku promjenu: zadržite jednu pristojnu regiju sažetka („3 slobodna kreveta, 2 otpusta očekuju”) i pustite ljude da čitaju ploču.</li>
+    <li>Svako stanje na ploči (krevet čist, zauzet, blokiran) tekst je ili stanje <code>data-*</code> s riječima, nikad samo boja.</li>
+  </ul>
+
+  <h2>Što Lily neće raditi</h2>
+  <ul>
+    <li>Izračunavati zbroj ranog upozorenja, centil rasta, dozu ili referentni raspon.</li>
+    <li>Isporučivati bazu lijekova, popis tall man ili šifre SNOMED CT, MKB, LOINC ili UCUM.</li>
+    <li>Reproducirati licencirani instrument (Wong-Baker FACES) ili dizajn drugog tijela (NEWS2 tablicu).</li>
+    <li>Ograničavati broj istodobno otvorenih zapisa.</li>
+  </ul>
+  <p>Istraživanje, izvori i odluke iza ovog vodiča nalaze se u <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

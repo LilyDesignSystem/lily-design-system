@@ -1,0 +1,124 @@
+<!-- title: Veselības aprūpes lietotāja saskarnes — Lily Design System -->
+<!-- description: Ceļvedis komandām, kas veido klīnisko programmatūru ar Lily: ko Lily nodrošina un ko atstāj jums, brīdinājumu līmeņošana, aizsardzība pret pacienta sajaukšanu, pacienta josla, rezultāti, zāles, datumi un informācijas paneļi. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Veselības aprūpes lietotāja saskarnes</h1>
+  <p class="page-intro-tagline">Ceļvedis komandām, kas veido klīnisko programmatūru ar Lily: klīniskie portāli, rezultāti un pārskati, zāļu izrakstīšana un ievadīšana, lēmumu atbalsts un slimnīcu informācijas paneļi.</p>
+  <p>Šīs lapas tulkojumi ir nepārbaudīti mašīntulkojuma melnraksti. <a href="/patterns/healthcare/#healthcare-title" >Angļu valodas lapa</a > ir autoritatīvā versija.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Ko Lily dara un ko nedara</h2>
+  <p>Lily nodrošina attēlošanas līgumus: semantisko iezīmējumu, ARIA, tastatūras uzvedību un klašu āķus tam, ko klīniskie ekrāni atkārto. Tā nenodrošina klīnisko loģiku, klīnisko saturu vai regulatīvu apgalvojumu.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Ko nodrošina Lily un ko nodrošināt jums</caption>
+      <thead>
+        <tr>
+          <th>Lily nodrošina</th>
+          <th>Jūs nodrošināt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: vērtība, mērvienība, karodziņš vārdos, diapazons un trūkstošo datu stāvokļi</td>
+          <td>Vērtība, lēmums par karodziņu, references diapazons</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> un <a href="/components/allergy-list-item/">allergy-list-item</a>: statuss, kas nekad nav tukšs</td>
+          <td>Alerģijas ieraksts un tā terminoloģija</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: nosaukums, stiprums, forma, ievadīšanas veids un biežums, nekas nav saīsināts</td>
+          <td>Zāļu dati, tall man segmenti, formatētais stiprums</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: CDS Hooks kartītes forma</td>
+          <td>Noteikumi, ieteikuma darbības, iznākuma ierakstīšana</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: rādītājs, josla un eskalācija, attēloti</td>
+          <td>Vērtēšanas sistēma un tās validētais aprēķins</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> un <code>ageParts()</code>: vecums tam piemērotās vienībās</td>
+          <td>Vārdi vienībām (<code>Intl.DurationFormat</code> vai jūsu pašu etiķetes)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, nekad 5,0 mg; 0,5 mg, nekad ,5 mg</td>
+          <td>Skaitlis, mērvienība un lokalizācija</td>
+        </tr>
+        <tr>
+          <td>Pacienta joslas kompozīcija</td>
+          <td>Katra etiķete un vērtība un tas, kas drīkst redzēt klīnisko informāciju</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulējums.</strong> Programmatūra, kas aprēķina rādītāju, centili, devu vai zāļu mijiedarbību, parasti ir medicīnas ierīce. Lily neaprēķina nevienu no tiem, apzināti. Ja jūsu produkts ir regulēts, tā lietojamības inženierijas lieta ir jūsu atbildība (IEC 62366-1, FDA cilvēkfaktoru norādījumi, EU MDR). Lily testi, tās pašnovērtētais pieejamības atbilstības ziņojums un ekrāna lasītāju matrica var būt pierādījumi šajā lietā; neviens no tiem nav atbilstības apgalvojums, un matricā vēl nav rezultātu.</p>
+
+  <h2>Brīdinājumi: pārtrauciet tikai kritiskā gadījumā</h2>
+  <p>Brīdinājumu nogurums ir drošības problēma: kad katrs brīdinājums pārtrauc darbu, cilvēki noraida tos visus. AHRQ norādījums ir līmeņot brīdinājumus pēc smaguma un pārtraucošus padarīt tikai smagos.</p>
+  <ul>
+    <li><strong>Informācija</strong> (<code>indicator="info"</code>): rindā, blakus uzdevumam, lēmumu atbalsta kartīte lapā.</li>
+    <li><strong>Brīdinājums</strong> (<code>indicator="warning"</code>): redzams, nebloķējot, tā pati kartīte, stilizēta, lai izceltos; bez modāla loga.</li>
+    <li><strong>Kritisks</strong> (<code>indicator="critical"</code>): ievietojiet kartīti brīdinājuma dialogā un piedāvājiet <code>overrideReasons</code>, lai tās noraidīšanai tiktu prasīts iemesls.</li>
+    <li>Lēmumu atbalsta kartīte pati par sevi nekad nav dzīvs reģions. Jaunu kritisku kartīti paziņojiet, pārvietojot fokusu dialogā, nevis ar <code>aria-live</code>.</li>
+    <li>Noņemiet kartīti, kad notikums, uz kuru tā atbildēja, notiek atkal, un ierakstiet katru iznākumu (pieņemts vai atcelts ar iemeslu).</li>
+  </ul>
+
+  <h2>Pacienta sajaukšanas kļūdas: identificējiet, neierobežojiet</h2>
+  <ul>
+    <li>Rādiet divus identifikatorus visur, kur parādās pacienta dati: vārdu ar dzimšanas datumu un valsts identifikatoru ar tā view komponentu (The Joint Commission, Quick Safety 45).</li>
+    <li>Izmantojiet pacienta joslu katrā ekrānā, kas darbojas ar viena pacienta ierakstu, un turiet to redzamu.</li>
+    <li>Pirms darbības ar citu ierakstu, nevis to, kas ir joslā, apstipriniet to ar vārdu, dzimšanas datumu un identifikatoru.</li>
+    <li>Neierobežojiet, cik ierakstu ārsts drīkst atvērt: randomizēts pētījums ar 3 356 ārstiem (JAMA, 2019) atklāja, ka tas nesamazināja pasūtījumus nepareizam pacientam, un cilvēki to apiet.</li>
+  </ul>
+
+  <h2>Pacienta josla</h2>
+  <p>Kompozīcija ir dokumentēta ar <a href="/components/medical-banner/">medical-banner</a>, ar darbojošos lapu <code>/patient-banner</code> SvelteKit piemēra lietotnē:</p>
+  <ul>
+    <li>divi identifikatori un vecums blakus dzimšanas datumam;</li>
+    <li>alerģijas caur alerģiju sarakstu, lai „zināmu alerģiju nav”, „nav ierakstīts” un „nav pieejams” nekad neizskatītos vienādi;</li>
+    <li>trūkstoša vērtība ir vārdi („Nav zināms”), nekad jautājuma zīme, domuzīme vai tukša šūna;</li>
+    <li>miris pacients: <code>data-deceased</code> tēmai un redzama teksta rinda, nekad tikai krāsa;</li>
+    <li>neviens lauks nav saīsināts, apgriezts vai paslēpts nevienā platumā; teksts tiek pārlauzts.</li>
+  </ul>
+
+  <h2>Rezultāti</h2>
+  <ul>
+    <li>Viens rezultāta skats, no jebkuras sistēmas, no kuras tas nācis: novērojuma skats (observation view).</li>
+    <li>Karodziņš ir vārdi no jūsu tulkojuma (<code>flagLabel</code>), ar FHIR interpretācijas kodu kā <code>data-interpretation</code> tēmai.</li>
+    <li>Nošķiriet jaunus rezultātus no agrākiem un parādiet tendenci (sparkline vai līniju diagrammu ar tās datu tabulu): ārsti meklē būtisku izmaiņu, ne tikai diapazonu.</li>
+    <li>Rezultāts, kas nekad nav ierakstīts, un rezultāts, kas nav pieejams, ir dažādi stāvokļi, ar dažādiem vārdiem.</li>
+  </ul>
+
+  <h2>Zāles</h2>
+  <ul>
+    <li>Vispārīgie nosaukumi ar mazajiem burtiem, izņemot tall man burtus no FDA un ISMP vai jūsu valsts sarakstiem (Austrālija un Kanāda publicē savus). Atzīmējiet tos <code>nameSegments</code>; Lily nekad tos neuzmin.</li>
+    <li>Stiprumu rakstiet ar <code>formatQuantity</code>: bez noslēdzošās nulles, ar sākuma nulli un nedalāmu atstarpi pirms vienības.</li>
+    <li>Rakstiet mL, nekad cc, un izvairieties no katra saīsinājuma ISMP kļūdu riska saīsinājumu sarakstā.</li>
+    <li>Nekad nesaīsiniet zāļu nosaukumu vai devu.</li>
+  </ul>
+
+  <h2>Datumi un laiki</h2>
+  <ul>
+    <li>Mēnesi rakstiet kā tekstu, lai datumu nevarētu nolasīt divējādi (<code>Intl.DateTimeFormat</code> ar <code>month: "short"</code>).</li>
+    <li>Pulksteni izvēlieties apzināti: skaidri nododiet <code>hourCycle</code>. NHS prasa 24 stundu pulksteni; tas ir Apvienotās Karalistes noteikums, nevis pasaules, tāpēc Lily nekad to neizvēlas jūsu vietā.</li>
+    <li>Vecumi seko Common User Interface joslām caur <code>ageParts()</code>; pakalpojums ar citu konvenciju nodod savus vārdus.</li>
+  </ul>
+
+  <h2>Informācijas paneļi</h2>
+  <ul>
+    <li>Nodaļas tāfele vai vadības centra ekrāns tiek atjaunināts bieži. Nekad nepaziņojiet katru izmaiņu: turiet vienu pieklājīgu kopsavilkuma reģionu („3 brīvas gultas, 2 plānotas izrakstīšanas”) un ļaujiet cilvēkiem lasīt tāfeli.</li>
+    <li>Katrs stāvoklis tāfelē (gulta tīra, aizņemta, bloķēta) ir teksts vai <code>data-*</code> stāvoklis ar vārdiem, nekad tikai krāsa.</li>
+  </ul>
+
+  <h2>Ko Lily nedarīs</h2>
+  <ul>
+    <li>Aprēķināt agrīnās brīdināšanas rādītāju, augšanas centili, devu vai references diapazonu.</li>
+    <li>Piegādāt zāļu datubāzi, tall man sarakstu vai SNOMED CT, SSK, LOINC vai UCUM kodus.</li>
+    <li>Atveidot licencētu instrumentu (Wong-Baker FACES) vai citas iestādes dizainu (NEWS2 diagrammu).</li>
+    <li>Ierobežot vienlaikus atvērto ierakstu skaitu.</li>
+  </ul>
+  <p>Šī ceļveža pētījumi, avoti un lēmumi ir <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

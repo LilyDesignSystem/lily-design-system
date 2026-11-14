@@ -1,0 +1,124 @@
+<!-- title: Healthcare uiser interfaces — Lily Design System -->
+<!-- description: A guide fur teams biggin clinical saftware wi Lily: whit Lily gies ye an whit it leaves tae ye, alert tierin, wrang-patient safeguards, the patient banner, results, medicines, dates an dashboards. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Healthcare uiser interfaces</h1>
+  <p class="page-intro-tagline">A guide fur teams biggin clinical saftware wi Lily: clinical portals, results an reportin, prescribin an medicines administration, decision support an hospital dashboards.</p>
+  <p>This owersettin is a machine draft that naebody has checkit yet. <a href="/patterns/healthcare/#healthcare-title" >The English page</a > is the ane that coonts.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Whit Lily daes, an whit it daesnae</h2>
+  <p>Lily gies ye display contracts: semantic markup, ARIA, keyboard behaviour an class hooks fur the things clinical screens repeat. It daesnae gie ye clinical logic, clinical content or a regulatory claim.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Whit Lily provides, an whit ye provide</caption>
+      <thead>
+        <tr>
+          <th>Lily provides</th>
+          <th>Ye provide</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: a value, unit, flag in words, range, an missin states</td>
+          <td>The value, the flag decision, the reference range</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> an <a href="/components/allergy-list-item/">allergy-list-item</a>: a status that's niver blank</td>
+          <td>The allergy record an its terminology</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: name, strength, form, route an frequency, nane o it cuttit aff</td>
+          <td>The drug data, the tall man segments, the formattit strength</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: the CDS Hooks caird shape</td>
+          <td>The rules, the suggestion actions, recordin the ootcome</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: a score, band an escalation, displayit</td>
+          <td>The scorin system an its validatit calculation</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> an <code>ageParts()</code>: an age in units that suit it</td>
+          <td>The wirds fur the units (<code>Intl.DurationFormat</code> or yer ain labels)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, niver 5.0 mg; 0.5 mg, niver .5 mg</td>
+          <td>The nummer, the unit an the locale</td>
+        </tr>
+        <tr>
+          <td>The patient banner composition</td>
+          <td>Ilka label an value, an wha can see clinical information</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulation.</strong> Saftware that works oot a score, a centile, a dose or a drug interaction is usually a medical device. Lily works oot nane o thae, on purpose. If yer product is regulatit, ye ain its usability engineerin file (IEC 62366-1, the FDA's human factors guidance, EU MDR). Lily's tests, its self-assessit accessibility conformance report an its screen-reader matrix can be evidence in that file; nane o them is a conformance claim, an the matrix haes nae results yet.</p>
+
+  <h2>Alerts: interrupt anely fur whit's critical</h2>
+  <p>Alert fatigue is a safety problem: whan ilka alert interrupts, fowk dismiss them aw. AHRQ's guidance is tae tier alerts bi severity an mak anely the severe anes interruptive.</p>
+  <ul>
+    <li><strong>Information</strong> (<code>indicator="info"</code>): inline, aside the task, a decision-support caird in the page.</li>
+    <li><strong>Warnin</strong> (<code>indicator="warning"</code>): veesible athoot blockin, the same caird, stylit tae staund oot; nae modal.</li>
+    <li><strong>Critical</strong> (<code>indicator="critical"</code>): pit the caird inside an alert dialog, an offer <code>overrideReasons</code> sae dismissin it asks fur a reason.</li>
+    <li>A decision-support caird is niver a live region bi itsel. Announce a new critical caird bi movin focus intae the dialog, no bi <code>aria-live</code>.</li>
+    <li>Tak awa a caird whan the event it answert happens again, an record ilka ootcome (accepit, or owerridden wi its reason).</li>
+  </ul>
+
+  <h2>Wrang-patient errors: identify, dinnae restrict</h2>
+  <ul>
+    <li>Shaw twa identifiers wherever a patient's data appears: the name wi the date o birth, an the national identifier wi its view component (The Joint Commission, Quick Safety 45).</li>
+    <li>Uise the patient banner on ilka screen that acts on ae patient's record, an keep it veesible.</li>
+    <li>Afore an action on a record ither than the ane in the banner, confirm it wi the name, date o birth an identifier.</li>
+    <li>Dinnae limit hou mony records a clinician can open: a randomised trial o 3,356 clinicians (JAMA, 2019) fand that it didnae reduce wrang-patient orders, an fowk wirk roond it.</li>
+  </ul>
+
+  <h2>The patient banner</h2>
+  <p>The composition is documentit wi <a href="/components/medical-banner/">medical-banner</a>, wi a wirkin page at <code>/patient-banner</code> in the SvelteKit example app:</p>
+  <ul>
+    <li>twa identifiers, an the age aside the date o birth;</li>
+    <li>allergies throu an allergy list, sae "nae kent allergies", "no recordit" an "unavailable" niver luik alike;</li>
+    <li>a missin value is wirds ("No kent"), niver a question mark, a dash or an toom cell;</li>
+    <li>a deceased patient: <code>data-deceased</code> fur the theme, an a veesible line o text, niver colour alane;</li>
+    <li>nae field cuttit short, clippit or hidden at ony width; it wraps.</li>
+  </ul>
+
+  <h2>Results</h2>
+  <ul>
+    <li>Ae display fur a result, whitever system it cam frae: the observation view.</li>
+    <li>The flag is wirds frae yer translation (<code>flagLabel</code>), wi the FHIR interpretation code as <code>data-interpretation</code> fur the theme.</li>
+    <li>Separate new results frae earlier anes, an shaw a trend (a sparkline, or a line chart wi its data table): clinicians luik fur a significant chynge, no jist the range.</li>
+    <li>A result that wis niver recordit an ane that's unavailable are different states, wi different wirds.</li>
+  </ul>
+
+  <h2>Medicines</h2>
+  <ul>
+    <li>Generic names in lawer case, except tall man letters frae the FDA an ISMP lists or yer country's (Australia an Canada publish thair ain). Mairk them in <code>nameSegments</code>; Lily niver guesses them.</li>
+    <li>Scrieve the strength wi <code>formatQuantity</code>: nae trailin zero, a leadin zero, an a no-brak space afore the unit.</li>
+    <li>Scrieve mL, niver cc, an avoid ilka abbreviation on ISMP's error-prone list.</li>
+    <li>Niver cut short a medicine's name or dose.</li>
+  </ul>
+
+  <h2>Dates an times</h2>
+  <ul>
+    <li>Scrieve the month as text sae a date cannae be read twa weys (<code>Intl.DateTimeFormat</code> wi <code>month: "short"</code>).</li>
+    <li>Pick the clock on purpose: pass <code>hourCycle</code> explicitly. The NHS asks fur the 24-hour clock; that's a UK rule, no a warldwide ane, sae Lily niver picks it fur ye.</li>
+    <li>Ages follae the Common User Interface bands throu <code>ageParts()</code>; a service wi anither convention passes its ain wirds.</li>
+  </ul>
+
+  <h2>Dashboards</h2>
+  <ul>
+    <li>A ward board or command-centre screen updates aften. Niver announce ilka chynge: keep ae couthie summary region ("3 beds free, 2 discharges due") an lat fowk read the board.</li>
+    <li>Ilka state on a board (bed clean, occupied, blockit) is text or a <code>data-*</code> state wi wirds, niver colour alane.</li>
+  </ul>
+
+  <h2>Whit Lily will no dae</h2>
+  <ul>
+    <li>Work oot an early warnin score, a growth centile, a dose or a reference range.</li>
+    <li>Ship a drug database, a tall man list, or SNOMED CT, ICD, LOINC or UCUM codes.</li>
+    <li>Reproduce a licensed instrument (Wong-Baker FACES) or anither body's design (the NEWS2 chart).</li>
+    <li>Limit the nummer o records open at yince.</li>
+  </ul>
+  <p>The research, sources an decisions ahint this guide are in <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

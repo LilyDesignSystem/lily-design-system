@@ -104,6 +104,7 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - AHRQ PSNet primer, alert fatigue: https://psnet.ahrq.gov/primer/alert-fatigue
 - Spec: spec/healthcare-ui/index.md
 - Adopter guide: https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/patterns/healthcare/index.md
+- Adopter guide on the website, with translations: https://lilydesignsystem.com/patterns/healthcare/
 
 ---
 

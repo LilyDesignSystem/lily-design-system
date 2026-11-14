@@ -1,0 +1,124 @@
+<!-- title: Sveikatos priežiūros naudotojo sąsajos — Lily Design System -->
+<!-- description: Vadovas komandoms, kurios kuria klinikinę programinę įrangą su „Lily“: ką „Lily“ pateikia ir ką palieka jums, įspėjimų pakopos, apsauga nuo paciento supainiojimo, paciento juosta, rezultatai, vaistai, datos ir skydeliai. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Sveikatos priežiūros naudotojo sąsajos</h1>
+  <p class="page-intro-tagline">Vadovas komandoms, kurios kuria klinikinę programinę įrangą su „Lily“: klinikiniai portalai, rezultatai ir ataskaitos, vaistų skyrimas ir davimas, sprendimų parama ir ligoninių skydeliai.</p>
+  <p>Šio puslapio vertimai yra nepatikrinti mašininiai juodraščiai. <a href="/patterns/healthcare/#healthcare-title" >Anglų kalbos puslapis</a > yra autoritetinga versija.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Ką „Lily“ daro ir ko nedaro</h2>
+  <p>„Lily“ pateikia rodymo sutartis: semantinį žymėjimą, ARIA, klaviatūros elgseną ir klasių kabliukus tam, kas klinikiniuose ekranuose kartojasi. Ji nepateikia klinikinės logikos, klinikinio turinio ar reguliacinio teiginio.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Ką pateikia „Lily“ ir ką pateikiate jūs</caption>
+      <thead>
+        <tr>
+          <th>„Lily“ pateikia</th>
+          <th>Jūs pateikiate</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: reikšmė, vienetas, žyma žodžiais, intervalas ir trūkstamų duomenų būsenos</td>
+          <td>Reikšmė, sprendimas dėl žymos, atskaitos intervalas</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> ir <a href="/components/allergy-list-item/">allergy-list-item</a>: būsena, kuri niekada nėra tuščia</td>
+          <td>Alergijos įrašas ir jo terminija</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: pavadinimas, stiprumas, forma, vartojimo būdas ir dažnis, niekas nesutrumpinta</td>
+          <td>Vaisto duomenys, tall man segmentai, suformatuotas stiprumas</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: CDS Hooks kortelės forma</td>
+          <td>Taisyklės, siūlymo veiksmai, rezultato užfiksavimas</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: balas, juosta ir eskalavimas, parodyti</td>
+          <td>Vertinimo sistema ir jos patvirtintas skaičiavimas</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> ir <code>ageParts()</code>: amžius jam tinkamais vienetais</td>
+          <td>Vienetų žodžiai (<code>Intl.DurationFormat</code> arba jūsų pačių etiketės)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, niekada 5,0 mg; 0,5 mg, niekada ,5 mg</td>
+          <td>Skaičius, vienetas ir lokalė</td>
+        </tr>
+        <tr>
+          <td>Paciento juostos kompozicija</td>
+          <td>Kiekviena etiketė ir reikšmė bei tai, kas gali matyti klinikinę informaciją</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Reguliavimas.</strong> Programinė įranga, skaičiuojanti balą, centilį, dozę ar vaistų sąveiką, paprastai yra medicinos priemonė. „Lily“ tyčia neskaičiuoja nė vieno iš jų. Jei jūsų produktas reguliuojamas, jo tinkamumo naudoti inžinerijos bylą tvarkote jūs (IEC 62366-1, FDA žmogiškųjų veiksnių gairės, EU MDR). „Lily“ testai, jos pačios įvertinta prieinamumo atitikties ataskaita ir ekrano skaitytuvų matrica gali būti įrodymai toje byloje; nė vienas iš jų nėra atitikties teiginys, o matricoje dar nėra rezultatų.</p>
+
+  <h2>Įspėjimai: pertraukite tik dėl kritinių</h2>
+  <p>Įspėjimų nuovargis yra saugos problema: kai kiekvienas įspėjimas pertraukia, žmonės atmeta juos visus. AHRQ rekomendacija – skirstyti įspėjimus pagal sunkumą ir pertraukiančiais padaryti tik sunkiuosius.</p>
+  <ul>
+    <li><strong>Informacija</strong> (<code>indicator="info"</code>): eilutėje, šalia užduoties, sprendimų paramos kortelė puslapyje.</li>
+    <li><strong>Įspėjimas</strong> (<code>indicator="warning"</code>): matomas neblokuojant, ta pati kortelė, išsiskiriantis stiliumi; be modalinio lango.</li>
+    <li><strong>Kritinis</strong> (<code>indicator="critical"</code>): įdėkite kortelę į įspėjimo dialogą ir pasiūlykite <code>overrideReasons</code>, kad jį atmetant būtų prašoma priežasties.</li>
+    <li>Sprendimų paramos kortelė pati niekada nėra gyvoji sritis. Naują kritinę kortelę paskelbkite perkeldami fokusą į dialogą, o ne per <code>aria-live</code>.</li>
+    <li>Pašalinkite kortelę, kai įvykis, į kurį ji atsakė, įvyksta dar kartą, ir užfiksuokite kiekvieną rezultatą (priimta arba pakeista nurodžius priežastį).</li>
+  </ul>
+
+  <h2>Paciento supainiojimo klaidos: atpažinkite, neribokite</h2>
+  <ul>
+    <li>Rodykite du identifikatorius visur, kur rodomi paciento duomenys: vardą su gimimo data ir nacionalinį identifikatorių su jo view komponentu (The Joint Commission, Quick Safety 45).</li>
+    <li>Naudokite paciento juostą kiekviename ekrane, veikiančiame vieno paciento įrašą, ir laikykite ją matomą.</li>
+    <li>Prieš veiksmą su kitu įrašu nei juostoje, patvirtinkite jį vardu, gimimo data ir identifikatoriumi.</li>
+    <li>Neribokite, kiek įrašų gali atidaryti gydytojas: atsitiktinių imčių tyrimas su 3 356 gydytojais (JAMA, 2019) parodė, kad tai nesumažino užsakymų ne tam pacientui, o žmonės tai apeina.</li>
+  </ul>
+
+  <h2>Paciento juosta</h2>
+  <p>Kompozicija aprašyta su <a href="/components/medical-banner/">medical-banner</a>, veikiantis puslapis yra <code>/patient-banner</code> SvelteKit pavyzdinėje programoje:</p>
+  <ul>
+    <li>du identifikatoriai ir amžius šalia gimimo datos;</li>
+    <li>alergijos per alergijų sąrašą, kad „žinomų alergijų nėra“, „neužfiksuota“ ir „nepasiekiama“ niekada neatrodytų vienodai;</li>
+    <li>trūkstama reikšmė yra žodžiai („Nežinoma“), niekada klaustukas, brūkšnys ar tuščias langelis;</li>
+    <li>miręs pacientas: <code>data-deceased</code> temai ir matoma teksto eilutė, niekada vien spalva;</li>
+    <li>joks laukas nėra sutrumpintas, nukirptas ar paslėptas jokiu plotu; tekstas laužomas.</li>
+  </ul>
+
+  <h2>Rezultatai</h2>
+  <ul>
+    <li>Vienas rezultato rodinys, iš kad ir kokios sistemos jis būtų: stebėjimo rodinys (observation view).</li>
+    <li>Žyma yra žodžiai iš jūsų vertimo (<code>flagLabel</code>), o FHIR interpretavimo kodas yra <code>data-interpretation</code> temai.</li>
+    <li>Atskirkite naujus rezultatus nuo ankstesnių ir parodykite tendenciją (sparkline arba linijinę diagramą su duomenų lentele): gydytojai ieško reikšmingo pokyčio, o ne tik intervalo.</li>
+    <li>Rezultatas, kuris niekada nebuvo užfiksuotas, ir nepasiekiamas rezultatas yra skirtingos būsenos, su skirtingais žodžiais.</li>
+  </ul>
+
+  <h2>Vaistai</h2>
+  <ul>
+    <li>Generiniai pavadinimai mažosiomis raidėmis, išskyrus tall man raides iš FDA ir ISMP arba jūsų šalies sąrašų (Australija ir Kanada skelbia savo). Pažymėkite jas <code>nameSegments</code>; „Lily“ jų niekada neatspėja.</li>
+    <li>Stiprumą rašykite su <code>formatQuantity</code>: be galinio nulio, su pradiniu nuliu ir nelūžtančiu tarpu prieš vienetą.</li>
+    <li>Rašykite mL, niekada cc, ir venkite visų santrumpų iš ISMP klaidų rizikos santrumpų sąrašo.</li>
+    <li>Niekada nesutrumpinkite vaisto pavadinimo ar dozės.</li>
+  </ul>
+
+  <h2>Datos ir laikas</h2>
+  <ul>
+    <li>Mėnesį rašykite tekstu, kad datos nebūtų galima perskaityti dviem būdais (<code>Intl.DateTimeFormat</code> su <code>month: "short"</code>).</li>
+    <li>Laikrodį pasirinkite sąmoningai: aiškiai perduokite <code>hourCycle</code>. NHS prašo 24 valandų laikrodžio; tai Jungtinės Karalystės taisyklė, ne pasaulinė, todėl „Lily“ jo niekada nepasirenka už jus.</li>
+    <li>Amžius seka Common User Interface juostas per <code>ageParts()</code>; paslauga su kita konvencija perduoda savo žodžius.</li>
+  </ul>
+
+  <h2>Skydeliai</h2>
+  <ul>
+    <li>Skyriaus lenta ar valdymo centro ekranas atnaujinamas dažnai. Niekada neskelbkite kiekvieno pakeitimo: laikykite vieną mandagią santraukos sritį („3 laisvos lovos, 2 numatyti išrašymai“) ir leiskite žmonėms skaityti lentą.</li>
+    <li>Kiekviena lentos būsena (lova švari, užimta, užblokuota) yra tekstas arba <code>data-*</code> būsena su žodžiais, niekada vien spalva.</li>
+  </ul>
+
+  <h2>Ko „Lily“ nedarys</h2>
+  <ul>
+    <li>Skaičiuoti ankstyvojo perspėjimo balo, augimo centilio, dozės ar atskaitos intervalo.</li>
+    <li>Pateikti vaistų duomenų bazės, tall man sąrašo ar SNOMED CT, TLK, LOINC ar UCUM kodų.</li>
+    <li>Atkartoti licencijuoto instrumento (Wong-Baker FACES) ar kitos institucijos dizaino (NEWS2 diagramos).</li>
+    <li>Riboti vienu metu atidarytų įrašų skaičiaus.</li>
+  </ul>
+  <p>Šio vadovo tyrimai, šaltiniai ir sprendimai pateikti <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

@@ -1,0 +1,124 @@
+<!-- title: Violesura vya watumiaji vya huduma za afya — Lily Design System -->
+<!-- description: Mwongozo kwa timu zinazounda programu za kliniki kwa kutumia Lily: Lily hutoa nini na huacha nini kwako, kupanga tahadhari kwa ngazi, kinga dhidi ya mgonjwa asiye sahihi, bango la mgonjwa, matokeo, dawa, tarehe na dashibodi. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Violesura vya watumiaji vya huduma za afya</h1>
+  <p class="page-intro-tagline">Mwongozo kwa timu zinazounda programu za kliniki kwa kutumia Lily: tovuti za kliniki, matokeo na ripoti, kuandika dawa na kutoa dawa, usaidizi wa maamuzi na dashibodi za hospitali.</p>
+  <p>Tafsiri za ukurasa huu ni rasimu za mashine ambazo hazijakaguliwa. <a href="/patterns/healthcare/#healthcare-title" >Ukurasa wa Kiingereza</a > ndio toleo rasmi.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Lily hufanya nini, na haifanyi nini</h2>
+  <p>Lily inakupa mikataba ya uonyeshaji: alama za kisemantiki, ARIA, tabia ya kibodi na class hooks kwa mambo yanayojirudia kwenye skrini za kliniki. Haikupi mantiki ya kliniki, maudhui ya kliniki wala dai la udhibiti.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Lily hutoa nini, na wewe unatoa nini</caption>
+      <thead>
+        <tr>
+          <th>Lily hutoa</th>
+          <th>Wewe unatoa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: thamani, kipimo, alama kwa maneno, kiwango, na hali za kutokuwepo</td>
+          <td>Thamani, uamuzi wa alama, kiwango rejea</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> na <a href="/components/allergy-list-item/">allergy-list-item</a>: hali ambayo kamwe haiachwi wazi</td>
+          <td>Rekodi ya mzio na istilahi zake</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: jina, nguvu, umbo, njia na marudio, hakuna kinachokatwa</td>
+          <td>Data ya dawa, sehemu za tall man, nguvu iliyoumbizwa</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: umbo la kadi ya CDS Hooks</td>
+          <td>Kanuni, vitendo vya mapendekezo, kurekodi matokeo</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: alama, daraja na kupandisha ngazi, vinaonyeshwa</td>
+          <td>Mfumo wa alama na hesabu yake iliyothibitishwa</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> na <code>ageParts()</code>: umri katika vipimo vinavyofaa</td>
+          <td>Maneno ya vipimo (<code>Intl.DurationFormat</code> au lebo zako mwenyewe)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, kamwe si 5.0 mg; 0.5 mg, kamwe si .5 mg</td>
+          <td>Nambari, kipimo na lugha ya eneo (locale)</td>
+        </tr>
+        <tr>
+          <td>Muundo wa bango la mgonjwa</td>
+          <td>Kila lebo na thamani, na nani anaweza kuona taarifa za kliniki</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Udhibiti.</strong> Programu inayokokotoa alama, sentail, dozi au mwingiliano wa dawa kwa kawaida ni kifaa cha matibabu. Lily haikokotoi chochote kati ya hivi, kwa makusudi. Ikiwa bidhaa yako inadhibitiwa, wewe ndiye mmiliki wa faili lake la uhandisi wa utumiaji (IEC 62366-1, mwongozo wa FDA wa vipengele vya binadamu, EU MDR). Majaribio ya Lily, ripoti yake ya kujitathmini ya ulinganifu wa ufikivu na jedwali lake la visoma skrini yanaweza kuwa ushahidi katika faili hilo; hakuna kati ya hivyo ni dai la ulinganifu, na jedwali bado halina matokeo.</p>
+
+  <h2>Tahadhari: katiza kwa yale muhimu sana tu</h2>
+  <p>Uchovu wa tahadhari ni tatizo la usalama: kila tahadhari ikikatiza, watu huzikataa zote. Mwongozo wa AHRQ ni kupanga tahadhari kwa ngazi kulingana na ukali na kufanya zile kali tu ndizo zikatize.</p>
+  <ul>
+    <li><strong>Taarifa</strong> (<code>indicator="info"</code>): ndani ya mstari, kando ya kazi, kadi ya usaidizi wa maamuzi ndani ya ukurasa.</li>
+    <li><strong>Onyo</strong> (<code>indicator="warning"</code>): inaonekana bila kuzuia, kadi ile ile, iliyopambwa ili ionekane; hakuna modali.</li>
+    <li><strong>Hatari</strong> (<code>indicator="critical"</code>): weka kadi ndani ya kisanduku cha tahadhari, na toa <code>overrideReasons</code> ili kuikataa kuulize sababu.</li>
+    <li>Kadi ya usaidizi wa maamuzi kamwe si eneo la moja kwa moja yenyewe. Tangaza kadi mpya ya hatari kwa kuhamisha mwelekeo (focus) ndani ya kisanduku, si kwa <code>aria-live</code>.</li>
+    <li>Ondoa kadi tukio ililolijibu likitokea tena, na rekodi kila matokeo (imekubaliwa, au imepuuzwa pamoja na sababu yake).</li>
+  </ul>
+
+  <h2>Makosa ya mgonjwa asiye sahihi: tambua, usizuie</h2>
+  <ul>
+    <li>Onyesha vitambulisho viwili popote data ya mgonjwa inapoonekana: jina na tarehe ya kuzaliwa, na kitambulisho cha taifa pamoja na kijenzi chake cha kuonyesha (The Joint Commission, Quick Safety 45).</li>
+    <li>Tumia bango la mgonjwa kwenye kila skrini inayofanya kazi kwenye rekodi ya mgonjwa mmoja, na liache lionekane.</li>
+    <li>Kabla ya hatua kwenye rekodi tofauti na ile iliyo kwenye bango, ithibitishe kwa jina, tarehe ya kuzaliwa na kitambulisho.</li>
+    <li>Usipunguze idadi ya rekodi ambazo mhudumu wa kliniki anaweza kufungua: jaribio la nasibu la wahudumu 3,356 (JAMA, 2019) lilipata kuwa halikupunguza maagizo ya mgonjwa asiye sahihi, na watu hulikwepa.</li>
+  </ul>
+
+  <h2>Bango la mgonjwa</h2>
+  <p>Muundo huu umeandikwa pamoja na <a href="/components/medical-banner/">medical-banner</a>, na ukurasa unaofanya kazi kwenye <code>/patient-banner</code> katika programu ya mfano ya SvelteKit:</p>
+  <ul>
+    <li>vitambulisho viwili, na umri kando ya tarehe ya kuzaliwa;</li>
+    <li>mizio kupitia orodha ya mizio, ili "hakuna mzio unaojulikana", "haijarekodiwa" na "haipatikani" visionekane kamwe kuwa sawa;</li>
+    <li>thamani isiyopo ni maneno ("Haijulikani"), si alama ya kuuliza, kistari au seli tupu;</li>
+    <li>mgonjwa aliyefariki: <code>data-deceased</code> kwa mandhari, na mstari wa maandishi unaoonekana, si rangi peke yake;</li>
+    <li>hakuna sehemu iliyokatwa, kupunguzwa au kufichwa kwa upana wowote; inajifunga mstarini.</li>
+  </ul>
+
+  <h2>Matokeo</h2>
+  <ul>
+    <li>Onyesho moja kwa matokeo, yawe yametoka mfumo gani: observation view.</li>
+    <li>Alama ni maneno kutoka tafsiri yako (<code>flagLabel</code>), na msimbo wa ufasiri wa FHIR kama <code>data-interpretation</code> kwa mandhari.</li>
+    <li>Tenganisha matokeo mapya na ya awali, na onyesha mwelekeo (sparkline, au mchoro wa mstari pamoja na jedwali lake la data): wahudumu hutafuta mabadiliko makubwa, si kiwango tu.</li>
+    <li>Matokeo ambayo hayajawahi kurekodiwa na yale ambayo hayapatikani ni hali tofauti, zenye maneno tofauti.</li>
+  </ul>
+
+  <h2>Dawa</h2>
+  <ul>
+    <li>Majina ya jumla kwa herufi ndogo, isipokuwa herufi za tall man kutoka orodha za FDA na ISMP au za nchi yako (Australia na Kanada huchapisha zao). Ziweke alama katika <code>nameSegments</code>; Lily haikisii kamwe.</li>
+    <li>Andika nguvu kwa <code>formatQuantity</code>: hakuna sifuri ya mwisho, sifuri ya mwanzo, na nafasi isiyovunjika kabla ya kipimo.</li>
+    <li>Andika mL, kamwe si cc, na epuka kila kifupi kilicho kwenye orodha ya ISMP ya makosa yanayoweza kutokea.</li>
+    <li>Kamwe usikate jina au dozi ya dawa.</li>
+  </ul>
+
+  <h2>Tarehe na saa</h2>
+  <ul>
+    <li>Andika mwezi kwa maandishi ili tarehe isisomeke kwa njia mbili (<code>Intl.DateTimeFormat</code> pamoja na <code>month: "short"</code>).</li>
+    <li>Chagua saa kwa makusudi: toa <code>hourCycle</code> waziwazi. NHS inaomba saa 24; hiyo ni kanuni ya Uingereza, si ya dunia nzima, kwa hiyo Lily haichagui kwa niaba yako kamwe.</li>
+    <li>Umri hufuata madaraja ya Common User Interface kupitia <code>ageParts()</code>; huduma yenye utaratibu mwingine hutoa maneno yake yenyewe.</li>
+  </ul>
+
+  <h2>Dashibodi</h2>
+  <ul>
+    <li>Ubao wa wodi au skrini ya kituo cha uongozaji husasishwa mara kwa mara. Usitangaze kila badiliko: weka eneo moja la muhtasari la upole ("vitanda 3 vitupu, wagonjwa 2 wanatarajiwa kuruhusiwa") na uwaache watu wasome ubao.</li>
+    <li>Kila hali kwenye ubao (kitanda safi, kimekaliwa, kimezuiwa) ni maandishi au hali ya <code>data-*</code> yenye maneno, si rangi peke yake.</li>
+  </ul>
+
+  <h2>Lily haitafanya nini</h2>
+  <ul>
+    <li>Kukokotoa alama ya tahadhari ya mapema, sentail ya ukuaji, dozi au kiwango rejea.</li>
+    <li>Kusafirisha hifadhidata ya dawa, orodha ya tall man, au misimbo ya SNOMED CT, ICD, LOINC au UCUM.</li>
+    <li>Kunakili chombo chenye leseni (Wong-Baker FACES) au muundo wa shirika lingine (chati ya NEWS2).</li>
+    <li>Kupunguza idadi ya rekodi zilizofunguliwa kwa wakati mmoja.</li>
+  </ul>
+  <p>Utafiti, vyanzo na maamuzi nyuma ya mwongozo huu yako katika <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

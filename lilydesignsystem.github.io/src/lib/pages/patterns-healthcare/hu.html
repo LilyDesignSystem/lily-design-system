@@ -1,0 +1,124 @@
+<!-- title: Egészségügyi felhasználói felületek — Lily Design System -->
+<!-- description: Útmutató klinikai szoftvert építő csapatoknak a Lilyvel: mit nyújt a Lily és mit hagy rátok, a riasztások szintezése, a betegtévesztés elleni védelem, a betegfejléc, az eredmények, a gyógyszerek, a dátumok és az irányítópultok. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Egészségügyi felhasználói felületek</h1>
+  <p class="page-intro-tagline">Útmutató klinikai szoftvert építő csapatoknak a Lilyvel: klinikai portálok, eredmények és jelentések, gyógyszerrendelés és -beadás, döntéstámogatás és kórházi irányítópultok.</p>
+  <p>Ennek az oldalnak a fordításai nem ellenőrzött gépi tervezetek. <a href="/patterns/healthcare/#healthcare-title" >Az angol oldal</a > a mérvadó változat.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Mit tesz a Lily, és mit nem</h2>
+  <p>A Lily megjelenítési szerződéseket ad: szemantikus jelölést, ARIA-t, billentyűzetes viselkedést és osztálykampókat azokhoz, amik a klinikai képernyőkön ismétlődnek. Nem ad klinikai logikát, klinikai tartalmat és szabályozási állítást.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Mit nyújt a Lily, és mit nyújtotok ti</caption>
+      <thead>
+        <tr>
+          <th>A Lily nyújtja</th>
+          <th>Ti nyújtjátok</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: érték, mértékegység, szavakkal kifejezett jelzés, tartomány és hiányzó állapotok</td>
+          <td>Az érték, a jelzésről szóló döntés, a referenciatartomány</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> és <a href="/components/allergy-list-item/">allergy-list-item</a>: soha nem üres állapot</td>
+          <td>Az allergiabejegyzés és terminológiája</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: név, hatáserősség, gyógyszerforma, alkalmazási mód és gyakoriság, semmi sincs csonkolva</td>
+          <td>A gyógyszeradatok, a tall man szegmensek, a formázott hatáserősség</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: a CDS Hooks kártya alakja</td>
+          <td>A szabályok, a javaslati műveletek, az eredmény rögzítése</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: pontszám, sáv és eszkaláció megjelenítve</td>
+          <td>A pontozási rendszer és validált számítása</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> és <code>ageParts()</code>: életkor a hozzá illő egységekben</td>
+          <td>Az egységek szavai (<code>Intl.DurationFormat</code> vagy a saját címkéitek)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, soha nem 5,0 mg; 0,5 mg, soha nem ,5 mg</td>
+          <td>A szám, a mértékegység és a nyelvi beállítás</td>
+        </tr>
+        <tr>
+          <td>A betegfejléc összeállítása</td>
+          <td>Minden címke és érték, és hogy ki láthat klinikai információt</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Szabályozás.</strong> Az a szoftver, amely pontszámot, percentilist, adagot vagy gyógyszer-kölcsönhatást számít ki, általában orvostechnikai eszköz. A Lily szándékosan egyiket sem számítja. Ha a terméketek szabályozott, a használhatósági mérnöki dokumentáció a tiétek (IEC 62366-1, az FDA emberi tényezőkre vonatkozó útmutatója, EU MDR). A Lily tesztjei, az önértékelt akadálymentességi megfelelőségi jelentése és a képernyőolvasó-mátrixa bizonyítékul szolgálhatnak ebben a dokumentációban; egyik sem megfelelőségi állítás, és a mátrixban még nincsenek eredmények.</p>
+
+  <h2>Riasztások: csak a kritikusnál szakítsatok félbe</h2>
+  <p>A riasztási fáradtság biztonsági probléma: ha minden riasztás megszakít, az emberek mindet elvetik. Az AHRQ útmutatása szerint a riasztásokat súlyosság szerint kell szintezni, és csak a súlyosak legyenek megszakítók.</p>
+  <ul>
+    <li><strong>Információ</strong> (<code>indicator="info"</code>): a szövegben, a feladat mellett, egy döntéstámogató kártya az oldalon.</li>
+    <li><strong>Figyelmeztetés</strong> (<code>indicator="warning"</code>): blokkolás nélkül látható, ugyanaz a kártya, kiemelkedően stílusozva; nincs modális ablak.</li>
+    <li><strong>Kritikus</strong> (<code>indicator="critical"</code>): tegyétek a kártyát egy riasztási párbeszédablakba, és kínáljatok <code>overrideReasons</code> értéket, hogy az elvetés indoklást kérjen.</li>
+    <li>A döntéstámogató kártya önmagában soha nem élő régió. Az új kritikus kártyát úgy jelentsétek be, hogy a fókuszt a párbeszédablakba mozgatjátok, nem <code>aria-live</code>-val.</li>
+    <li>Távolítsatok el egy kártyát, amikor az esemény, amelyre válaszolt, újra bekövetkezik, és rögzítsetek minden eredményt (elfogadva, vagy felülbírálva az indoklásával).</li>
+  </ul>
+
+  <h2>Betegtévesztési hibák: azonosítsatok, ne korlátozzatok</h2>
+  <ul>
+    <li>Mutassatok két azonosítót mindenütt, ahol beteg adatai megjelennek: a nevet a születési dátummal, és a nemzeti azonosítót a view komponensével (The Joint Commission, Quick Safety 45).</li>
+    <li>Használjátok a betegfejlécet minden olyan képernyőn, amely egy beteg adatlapján cselekszik, és tartsátok láthatón.</li>
+    <li>A fejlécben szereplőtől eltérő adatlapon végzett művelet előtt erősítsétek meg a névvel, a születési dátummal és az azonosítóval.</li>
+    <li>Ne korlátozzátok, hány adatlapot nyithat meg egy klinikus: egy 3 356 klinikussal végzett randomizált vizsgálat (JAMA, 2019) szerint ez nem csökkentette a téves betegre szóló rendeléseket, és az emberek kijátsszák.</li>
+  </ul>
+
+  <h2>A betegfejléc</h2>
+  <p>Az összeállítás a <a href="/components/medical-banner/">medical-banner</a> oldalán van dokumentálva, működő oldallal a <code>/patient-banner</code> címen a SvelteKit példaalkalmazásban:</p>
+  <ul>
+    <li>két azonosító, és az életkor a születési dátum mellett;</li>
+    <li>allergiák allergialistán keresztül, hogy az „ismert allergia nincs”, a „nincs rögzítve” és a „nem elérhető” soha ne nézzen ki egyformán;</li>
+    <li>a hiányzó érték szavakkal van kifejezve („Nem ismert”), soha nem kérdőjellel, gondolatjellel vagy üres cellával;</li>
+    <li>elhunyt beteg: <code>data-deceased</code> a témához, és látható szövegsor, soha nem csak szín;</li>
+    <li>egyetlen mező sincs csonkolva, levágva vagy elrejtve semmilyen szélességen; tördelődik.</li>
+  </ul>
+
+  <h2>Eredmények</h2>
+  <ul>
+    <li>Egyetlen megjelenítés egy eredményhez, bármelyik rendszerből is jött: az observation view.</li>
+    <li>A jelzés a ti fordításotokból származó szavak (<code>flagLabel</code>), a FHIR értelmezési kóddal <code>data-interpretation</code> néven a témához.</li>
+    <li>Különítsétek el az új eredményeket a korábbiaktól, és mutassatok trendet (sparkline-t, vagy vonaldiagramot az adattáblázatával): a klinikusok jelentős változást keresnek, nem csak a tartományt.</li>
+    <li>Az eredmény, amelyet soha nem rögzítettek, és az, amely nem elérhető, különböző állapotok, különböző szavakkal.</li>
+  </ul>
+
+  <h2>Gyógyszerek</h2>
+  <ul>
+    <li>A generikus nevek kisbetűvel, kivéve az FDA és az ISMP vagy a ti országotok listáin szereplő tall man betűket (Ausztrália és Kanada a sajátját teszi közzé). Jelöljétek őket a <code>nameSegments</code> mezőben; a Lily soha nem találgatja őket.</li>
+    <li>A hatáserősséget a <code>formatQuantity</code> függvénnyel írjátok: záró nulla nélkül, kezdő nullával, és törhetetlen szóközzel a mértékegység előtt.</li>
+    <li>Írjatok mL-t, soha nem cc-t, és kerüljetek minden rövidítést az ISMP hibára hajlamos rövidítések listájáról.</li>
+    <li>Soha ne csonkoljátok a gyógyszer nevét vagy adagját.</li>
+  </ul>
+
+  <h2>Dátumok és időpontok</h2>
+  <ul>
+    <li>A hónapot szövegként írjátok, hogy a dátumot ne lehessen kétféleképpen olvasni (<code>Intl.DateTimeFormat</code> a <code>month: "short"</code> beállítással).</li>
+    <li>Az órarendszert szándékosan válasszátok: adjátok át kifejezetten az <code>hourCycle</code> értéket. Az NHS a 24 órás időkijelzést kéri; ez brit szabály, nem világszabály, ezért a Lily soha nem választja ki helyettetek.</li>
+    <li>Az életkorok a Common User Interface sávjait követik az <code>ageParts()</code> függvényen keresztül; más szokású szolgáltatás a saját szavait adja át.</li>
+  </ul>
+
+  <h2>Irányítópultok</h2>
+  <ul>
+    <li>Egy osztálytábla vagy egy irányítóközponti képernyő gyakran frissül. Soha ne jelentsetek be minden változást: tartsatok egy udvarias összefoglaló régiót („3 szabad ágy, 2 elbocsátás várható”), és hagyjátok, hogy az emberek olvassák a táblát.</li>
+    <li>A tábla minden állapota (ágy tiszta, foglalt, zárolt) szöveg vagy <code>data-*</code> állapot szavakkal, soha nem csak szín.</li>
+  </ul>
+
+  <h2>Mit nem tesz a Lily</h2>
+  <ul>
+    <li>Korai figyelmeztető pontszámot, növekedési percentilist, adagot vagy referenciatartományt számítani.</li>
+    <li>Gyógyszeradatbázist, tall man listát, vagy SNOMED CT, BNO, LOINC vagy UCUM kódokat szállítani.</li>
+    <li>Licencelt műszert (Wong-Baker FACES) vagy más szervezet tervét (a NEWS2 táblázatot) reprodukálni.</li>
+    <li>Korlátozni az egyszerre megnyitott adatlapok számát.</li>
+  </ul>
+  <p>Az útmutató mögötti kutatás, források és döntések a <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a> oldalon találhatók.</p>
+</section>

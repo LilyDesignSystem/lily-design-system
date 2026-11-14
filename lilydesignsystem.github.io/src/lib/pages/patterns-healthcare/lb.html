@@ -1,0 +1,124 @@
+<!-- title: Benotzerinterfacen am Gesondheetswiesen — Lily Design System -->
+<!-- description: E Guide fir Equipen, déi klinesch Software mat Lily bauen: wat Lily bitt a wat et Iech iwwerléisst, Alarmstufen, Schutzmoossnamen géint Patientenverwiesselungen, de Patientebanner, Resultater, Medikamenter, Datumer an Dashboards. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Benotzerinterfacen am Gesondheetswiesen</h1>
+  <p class="page-intro-tagline">E Guide fir Equipen, déi klinesch Software mat Lily bauen: klinesch Portaler, Resultater a Berichterstattung, Verschreiwen a Medikamenteverofreechung, Entscheedungsënnerstëtzung an Dashboarden fir Spideeler.</p>
+  <p>Iwwersetzunge vun dëser Säit sinn net iwwerpréift Maschinnentwërf. <a href="/patterns/healthcare/#healthcare-title" >D'englesch Säit</a > ass déi verbindlech Versioun.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Wat Lily mécht, a wat net</h2>
+  <p>Lily gëtt Iech Duerstellungsverträg: semantescht Markup, ARIA, Tastaturverhalen a Klassen-Hooks fir dat, wat op klineschen Écranen ëmmer erëm virkënnt. Et gëtt Iech keng klinesch Logik, keen klineschen Inhalt a keng reglementaresch Behaaptung.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Wat Lily bitt, a wat Dir bitt</caption>
+      <thead>
+        <tr>
+          <th>Lily bitt</th>
+          <th>Dir bitt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: e Wäert, eng Eenheet, e Flag a Wierder, e Beräich a Zoustänn fir feelend Wäerter</td>
+          <td>De Wäert, d'Entscheedung iwwer de Flag, de Referenzberäich</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> an <a href="/components/allergy-list-item/">allergy-list-item</a>: e Status, deen ni eidel ass</td>
+          <td>D'Allergieregister an seng Terminologie</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: Numm, Stäerkt, Form, Wee a Frequenz, näischt ofgeschnidden</td>
+          <td>Déi pharmazeutesch Donnéeën, d'tall-man-Segmenter, déi formatéiert Stäerkt</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: d'Form vun der CDS-Hooks-Kaart</td>
+          <td>D'Reegelen, d'Virschlagsaktiounen, d'Opzeechne vum Resultat</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: e Score, eng Band an eng Eskalatioun, ugewisen</td>
+          <td>D'Scoresystem a seng validéiert Berechnung</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> an <code>ageParts()</code>: en Alter an Eenheeten, déi derzou passen</td>
+          <td>D'Wierder fir d'Eenheeten (<code>Intl.DurationFormat</code> oder Är eege Beschrëftungen)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, ni 5,0 mg; 0,5 mg, ni ,5 mg</td>
+          <td>D'Zuel, d'Eenheet an d'Locale</td>
+        </tr>
+        <tr>
+          <td>D'Zesummesetzung vum Patientebanner</td>
+          <td>All Beschrëftung an all Wäert, a wien klinesch Informatioune gesäe däerf</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Reglementéierung.</strong> Software, déi e Score, e Zentil, eng Dosis oder eng Medikamenteninteraktioun berechent, ass normalerweis e Medizinprodukt. Lily berechent keng vun dësen, mat Absiicht. Wann Äre Produkt reglementéiert ass, sidd Dir fir säin Usability-Engineering-Dossier verantwortlech (IEC 62366-1, d'Leitlinne vun der FDA zu Human Factors, EU MDR). D'Tester vu Lily, säi selwer bewäerte Konformitéitsbericht zur Zougänglechkeet a seng Screenreader-Matrix kënnen Beweis an deem Dossier sinn; keen dovun ass eng Konformitéitsbehaaptung, an d'Matrix huet nach keng Resultater.</p>
+
+  <h2>Alarmer: nëmmen ënnerbriechen, wann et kritesch ass</h2>
+  <p>Alarmmiddegkeet ass e Sécherheetsproblem: wann all Alarm ënnerbrécht, ignoréiere d'Leit se all. D'Empfehlung vun der AHRQ ass, Alarmer no Schwéieregrad ze stufen an nëmmen déi schwéier ënnerbriechend ze maachen.</p>
+  <ul>
+    <li><strong>Informatioun</strong> (<code>indicator="info"</code>): am Text, nieft der Aufgab, eng Entscheedungsënnerstëtzungskaart op der Säit.</li>
+    <li><strong>Warnung</strong> (<code>indicator="warning"</code>): ze gesinn ouni ze blockéieren, déiselwecht Kaart, opfälleg gestalt; kee Modal.</li>
+    <li><strong>Kritesch</strong> (<code>indicator="critical"</code>): setzt d'Kaart an en Alarmdialog, a biet <code>overrideReasons</code> un, sou datt d'Zoumaache vun engem Grond freet.</li>
+    <li>Eng Entscheedungsënnerstëtzungskaart ass ni vu sech selwer eng Live-Regioun. Kënnegt eng nei kritesch Kaart un, andeems Dir de Fokus an den Dialog réckelt, net duerch <code>aria-live</code>.</li>
+    <li>Läscht eng Kaart, wann dat Evenement, op dat se geäntwert huet, nees geschitt, a registréiert all Resultat (ugeholl, oder mat Grond iwwerschriwwen).</li>
+  </ul>
+
+  <h2>Patientenverwiesselungen: identifizéieren, net aschränken</h2>
+  <ul>
+    <li>Weist zwee Identifikatioune iwwerall, wou Daten vun engem Patient erschéngen: den Numm mam Gebuertsdatum, an déi national Identifikatioun mat hirer View-Komponent (The Joint Commission, Quick Safety 45).</li>
+    <li>Benotzt de Patientebanner op all Écran, dee mam Dossier vun engem Patient schafft, a looss en sichtbar.</li>
+    <li>Ier Dir eng Aktioun op engem aneren Dossier maacht wéi deem am Banner, bestätegt se mam Numm, Gebuertsdatum an der Identifikatioun.</li>
+    <li>Limitéiert net, wéivill Dossieren e Kliniker opmaache kann: eng randomiséiert Studie mat 3.356 Klinikeren (JAMA, 2019) huet fonnt, datt dat Verwiesselungen vu Bestellunge net reduzéiert huet, a Leit ëmginn et.</li>
+  </ul>
+
+  <h2>De Patientebanner</h2>
+  <p>D'Zesummesetzung ass bei <a href="/components/medical-banner/">medical-banner</a> dokumentéiert, mat enger funktionéierender Säit op <code>/patient-banner</code> an der SvelteKit-Beispillapp:</p>
+  <ul>
+    <li>zwou Identifikatiounen, an den Alter nieft dem Gebuertsdatum;</li>
+    <li>Allergien duerch eng Allergieslëscht, sou datt „keng bekannten Allergien“, „net opgeholl“ an „net verfügbar“ ni gläich ausgesinn;</li>
+    <li>e feelende Wäert ass a Wierder („Net bekannt“), ni e Fragezeechen, e Stréch oder eng eidel Zell;</li>
+    <li>e verstuerbene Patient: <code>data-deceased</code> fir d'Thema, an eng sichtbar Zeil Text, ni nëmmen d'Faarf;</li>
+    <li>keent Feld ofgeschnidden, ofgeschnidden oder verstoppt bei iergendeng Breet; et ëmbrécht.</li>
+  </ul>
+
+  <h2>Resultater</h2>
+  <ul>
+    <li>Eng eenzeg Duerstellung fir e Resultat, egal aus wéi engem System et kënnt: d'Observatiounsvue.</li>
+    <li>De Flag ass a Wierder aus Ärer Iwwersetzung (<code>flagLabel</code>), mam FHIR-Interpretatiounscode als <code>data-interpretation</code> fir d'Thema.</li>
+    <li>Trennt nei Resultater vun fréieren a weist en Trend (eng Sparkline, oder en Linnendiagramm mat senger Datentabell): Klinikere sichen eng bedeitend Ännerung, net nëmmen de Beräich.</li>
+    <li>E Resultat, dat ni opgeholl gouf, an een, dee net verfügbar ass, si verschidde Zoustänn, mat verschiddene Wierder.</li>
+  </ul>
+
+  <h2>Medikamenter</h2>
+  <ul>
+    <li>Generesch Nimm a Klengbuschtawen, ausser tall-man-Buschtawen aus de Lëschte vun der FDA an der ISMP oder vun Ärem Land (Australien a Kanada publizéieren hir eege). Markéiert se an <code>nameSegments</code>; Lily rét se ni.</li>
+    <li>Schreift d'Stäerkt mat <code>formatQuantity</code>: keng nofolgend Null, eng féierend Null, en net-ëmbriechende Espace virun der Eenheet.</li>
+    <li>Schreift mL, ni cc, a vermeit all Ofkierzung op der ISMP-Lëscht vun de feelerafällegen Ofkierzungen.</li>
+    <li>Kierzt ni den Numm oder d'Dosis vun engem Medikament of.</li>
+  </ul>
+
+  <h2>Datumer an Zäiten</h2>
+  <ul>
+    <li>Schreift de Mount als Text, sou datt een Datum net op zwou Weeër ka gelies ginn (<code>Intl.DateTimeFormat</code> mat <code>month: "short"</code>).</li>
+    <li>Wielt d'Auer mat Bedacht: gitt <code>hourCycle</code> explizit un. D'NHS freet no der 24-Stonne-Auer; dat ass eng Regel fir d'Vereenegt Kinnekräich, net eng weltwäit, dofir wielt Lily se ni fir Iech.</li>
+    <li>Alter follegen de Banden vun der Common User Interface duerch <code>ageParts()</code>; e Service mat enger anerer Konventioun gëtt seng eege Wierder weider.</li>
+  </ul>
+
+  <h2>Dashboards</h2>
+  <ul>
+    <li>En Statiounsbord oder e Kommandozentrum-Écran aktualiséiert dacks. Kënnegt ni all Ännerung un: haalt eng roueg Zesummefaassungsregioun („3 Better fräi, 2 Entlooss erwaart“) an looss d'Leit d'Bord liesen.</li>
+    <li>All Zoustand um Bord (Bett gebotzt, besat, gespaart) ass Text oder e <code>data-*</code>-Zoustand mat Wierder, ni nëmmen d'Faarf.</li>
+  </ul>
+
+  <h2>Wat Lily net mécht</h2>
+  <ul>
+    <li>Een Early-Warning-Score, e Wuesstemszentil, eng Dosis oder e Referenzberäich berechnen.</li>
+    <li>Eng Medikamentedatebank, eng tall-man-Lëscht oder SNOMED-CT-, CIM-, LOINC- oder UCUM-Codë matliwweren.</li>
+    <li>En Instrument ënner Lizenz (Wong-Baker FACES) oder d'Design vun engem anere Gremium (d'NEWS2-Tabell) reproduzéieren.</li>
+    <li>D'Zuel vun de gläichzäiteg oppenen Dossieren limitéieren.</li>
+  </ul>
+  <p>D'Fuerschung, d'Quellen an d'Decisioune hanner dësem Guide stinn an <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

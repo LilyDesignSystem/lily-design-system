@@ -1,0 +1,124 @@
+<!-- title: Tervishoiu kasutajaliidesed — Lily Design System -->
+<!-- description: Juhend meeskondadele, kes loovad Lily abil kliinilist tarkvara: mida Lily pakub ja mida jätab teie hooleks, teavituste astmestamine, vale patsiendi vastased kaitsemeetmed, patsiendiriba, tulemused, ravimid, kuupäevad ja töölauad. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Tervishoiu kasutajaliidesed</h1>
+  <p class="page-intro-tagline">Juhend meeskondadele, kes loovad Lily abil kliinilist tarkvara: kliinilised portaalid, tulemused ja aruandlus, ravimite määramine ja manustamine, otsustustugi ning haiglate töölauad.</p>
+  <p>Selle lehe tõlked on läbivaatamata masintõlke mustandid. <a href="/patterns/healthcare/#healthcare-title" >Ingliskeelne leht</a > on kehtiv versioon.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Mida Lily teeb ja mida mitte</h2>
+  <p>Lily annab teile kuvalepingud: semantilise märgenduse, ARIA, klaviatuurikäitumise ja klassikonksud asjadele, mida kliinilised ekraanid korduvalt vajavad. See ei anna kliinilist loogikat, kliinilist sisu ega regulatiivset väidet.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Mida pakub Lily ja mida pakute teie</caption>
+      <thead>
+        <tr>
+          <th>Lily pakub</th>
+          <th>Teie pakute</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: väärtus, ühik, sõnadega märge, vahemik ja puuduva väärtuse olekud</td>
+          <td>Väärtuse, märke otsuse, võrdlusvahemiku</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> ja <a href="/components/allergy-list-item/">allergy-list-item</a>: staatus, mis ei ole kunagi tühi</td>
+          <td>Allergiakirje ja selle terminoloogia</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: nimi, tugevus, vorm, manustamistee ja sagedus, mitte midagi pole lühendatud</td>
+          <td>Ravimiandmed, tall man segmendid, vormindatud tugevus</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: CDS Hooks kaardi kuju</td>
+          <td>Reeglid, ettepanekute toimingud, tulemuse salvestamine</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: skoor, riskirühm ja eskaleerimine, kuvatud</td>
+          <td>Skoorimissüsteemi ja selle valideeritud arvutuse</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> ja <code>ageParts()</code>: vanus talle sobivates ühikutes</td>
+          <td>Ühikute sõnad (<code>Intl.DurationFormat</code> või teie enda sildid)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, mitte kunagi 5,0 mg; 0,5 mg, mitte kunagi ,5 mg</td>
+          <td>Arvu, ühiku ja lokaadi</td>
+        </tr>
+        <tr>
+          <td>Patsiendiriba kompositsiooni</td>
+          <td>Iga silt ja väärtus ning see, kes tohib kliinilist teavet näha</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulatsioon.</strong> Tarkvara, mis arvutab skoori, protsentiili, annuse või ravimite koostoime, on tavaliselt meditsiiniseade. Lily ei arvuta ühtegi neist, tahtlikult. Kui teie toode on reguleeritud, vastutate selle kasutatavuse inseneeria toimiku eest (IEC 62366-1, FDA inimfaktorite juhised, EU MDR). Lily testid, selle isehinnatud juurdepääsetavuse vastavusaruanne ja ekraanilugejate maatriks võivad olla selle toimiku tõendid; ükski neist ei ole vastavusväide ja maatriksis pole veel tulemusi.</p>
+
+  <h2>Teavitused: katkestage ainult kriitilise puhul</h2>
+  <p>Teavituste väsimus on ohutusprobleem: kui iga teavitus katkestab, lükkavad inimesed need kõik tagasi. AHRQ juhis on astmestada teavitused tõsiduse järgi ja lasta katkestada ainult tõsistel.</p>
+  <ul>
+    <li><strong>Teave</strong> (<code>indicator="info"</code>): reasisene, ülesande kõrval, otsustustoe kaart lehel.</li>
+    <li><strong>Hoiatus</strong> (<code>indicator="warning"</code>): nähtav ilma blokeerimata, sama kaart, silmatorkavalt kujundatud; ilma modaalaknata.</li>
+    <li><strong>Kriitiline</strong> (<code>indicator="critical"</code>): pange kaart hoiatusdialoogi ja pakkuge <code>overrideReasons</code>, et selle tagasilükkamisel küsitaks põhjust.</li>
+    <li>Otsustustoe kaart ei ole kunagi iseenesest elav piirkond. Teatage uuest kriitilisest kaardist, viies fookuse dialoogi, mitte <code>aria-live</code> abil.</li>
+    <li>Eemaldage kaart, kui sündmus, millele see vastas, juhtub uuesti, ja salvestage iga tulemus (aktsepteeritud või tühistatud koos põhjusega).</li>
+  </ul>
+
+  <h2>Vale patsiendi vead: tuvastage, ärge piirake</h2>
+  <ul>
+    <li>Näidake kahte identifikaatorit igal pool, kus patsiendi andmed ilmuvad: nimi koos sünnikuupäevaga ning riiklik identifikaator selle vaatekomponendiga (The Joint Commission, Quick Safety 45).</li>
+    <li>Kasutage patsiendiriba igal ekraanil, mis tegutseb ühe patsiendi kirjega, ja hoidke see nähtaval.</li>
+    <li>Enne toimingut kirjega, mis ei ole ribal olev kiri, kinnitage see nime, sünnikuupäeva ja identifikaatoriga.</li>
+    <li>Ärge piirake, mitu kirjet kliinik avada tohib: randomiseeritud uuring 3356 kliinikuga (JAMA, 2019) leidis, et see ei vähendanud vale patsiendi tellimusi ja inimesed saavad sellest mööda.</li>
+  </ul>
+
+  <h2>Patsiendiriba</h2>
+  <p>Kompositsioon on dokumenteeritud komponendis <a href="/components/medical-banner/">medical-banner</a>, töötava lehega aadressil <code>/patient-banner</code> SvelteKiti näiterakenduses:</p>
+  <ul>
+    <li>kaks identifikaatorit ja vanus sünnikuupäeva kõrval;</li>
+    <li>allergiad allergiate loendi kaudu, et „teadaolevaid allergiaid pole“, „pole registreeritud“ ja „pole saadaval“ ei näeks kunagi ühesugused välja;</li>
+    <li>puuduv väärtus on sõnad („Teadmata“), mitte kunagi küsimärk, kriips ega tühi lahter;</li>
+    <li>surnud patsient: <code>data-deceased</code> teema jaoks ja nähtav tekstirida, mitte kunagi ainult värv;</li>
+    <li>ühtegi välja ei lühendata, ei lõigata ega peideta üheski laiuses; see murdub mitmele reale.</li>
+  </ul>
+
+  <h2>Tulemused</h2>
+  <ul>
+    <li>Üks vaade tulemusele, olenemata sellest, millisest süsteemist see pärines: vaatluse vaade.</li>
+    <li>Märge on sõnad teie tõlkest (<code>flagLabel</code>), FHIR-i tõlgendamiskood on teema jaoks <code>data-interpretation</code>.</li>
+    <li>Eraldage uued tulemused varasematest ja näidake trendi (sparkline või joondiagramm koos andmetabeliga): kliinikud otsivad olulist muutust, mitte ainult vahemikku.</li>
+    <li>Tulemus, mida pole kunagi registreeritud, ja tulemus, mis pole saadaval, on erinevad olekud, erinevate sõnadega.</li>
+  </ul>
+
+  <h2>Ravimid</h2>
+  <ul>
+    <li>Üldnimetused väiketähtedega, välja arvatud tall man tähed FDA ja ISMP loenditest või teie riigi loendist (Austraalia ja Kanada avaldavad omad). Märkige need <code>nameSegments</code> väljal; Lily ei oleta neid kunagi.</li>
+    <li>Kirjutage tugevus funktsiooniga <code>formatQuantity</code>: ilma lõpunullita, alguse nulliga, mittekatkestava tühikuga enne ühikut.</li>
+    <li>Kirjutage mL, mitte kunagi cc, ja vältige iga lühendit ISMP veaohtlike lühendite loendist.</li>
+    <li>Ärge kunagi lühendage ravimi nime ega annust.</li>
+  </ul>
+
+  <h2>Kuupäevad ja kellaajad</h2>
+  <ul>
+    <li>Kirjutage kuu tekstina, et kuupäeva ei saaks kahel viisil lugeda (<code>Intl.DateTimeFormat</code> koos <code>month: "short"</code>).</li>
+    <li>Valige kellaaja vorming teadlikult: andke <code>hourCycle</code> selgesõnaliselt. NHS nõuab 24-tunnist kella; see on Ühendkuningriigi, mitte ülemaailmne reegel, seega ei vali Lily seda teie eest kunagi.</li>
+    <li>Vanused järgivad Common User Interface vanuserühmi funktsiooni <code>ageParts()</code> kaudu; teine tava järgiv teenus annab oma sõnad.</li>
+  </ul>
+
+  <h2>Töölauad</h2>
+  <ul>
+    <li>Osakonna tahvel või juhtimiskeskuse ekraan uueneb sageli. Ärge kunagi teatage iga muudatust: hoidke üht viisakat kokkuvõtte piirkonda („3 vaba voodit, 2 oodatavat väljakirjutamist“) ja laske inimestel tahvlit lugeda.</li>
+    <li>Iga tahvli olek (voodi puhas, hõivatud, blokeeritud) on tekst või sõnadega <code>data-*</code> olek, mitte kunagi ainult värv.</li>
+  </ul>
+
+  <h2>Mida Lily ei tee</h2>
+  <ul>
+    <li>Ei arvuta varajase hoiatuse skoori, kasvu protsentiili, annust ega võrdlusvahemikku.</li>
+    <li>Ei tarni ravimiandmebaasi, tall man loendit ega SNOMED CT, RHK, LOINC või UCUM koode.</li>
+    <li>Ei reprodutseeri litsentseeritud instrumenti (Wong-Baker FACES) ega teise asutuse kujundust (NEWS2 diagramm).</li>
+    <li>Ei piira samaaegselt avatud kirjete arvu.</li>
+  </ul>
+  <p>Selle juhendi taga olevad uuringud, allikad ja otsused on lehel <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

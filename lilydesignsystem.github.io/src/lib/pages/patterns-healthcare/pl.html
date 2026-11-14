@@ -1,0 +1,124 @@
+<!-- title: Interfejsy użytkownika w ochronie zdrowia — Lily Design System -->
+<!-- description: Przewodnik dla zespołów tworzących oprogramowanie kliniczne z Lily: co Lily zapewnia, a co pozostawia Tobie, stopniowanie alertów, zabezpieczenia przed pomyłkami co do pacjenta, baner pacjenta, wyniki, leki, daty i panele. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Interfejsy użytkownika w ochronie zdrowia</h1>
+  <p class="page-intro-tagline">Przewodnik dla zespołów tworzących oprogramowanie kliniczne z Lily: portale kliniczne, wyniki i raportowanie, przepisywanie i podawanie leków, wspomaganie decyzji oraz szpitalne panele informacyjne.</p>
+  <p>Tłumaczenia tej strony są niezweryfikowanymi roboczymi tłumaczeniami maszynowymi. <a href="/patterns/healthcare/#healthcare-title" >Strona angielska</a > jest wersją obowiązującą.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Co Lily robi, a czego nie robi</h2>
+  <p>Lily dostarcza kontrakty wyświetlania: semantyczny kod, ARIA, obsługę klawiatury i punkty zaczepienia klas dla elementów, które powtarzają się na ekranach klinicznych. Nie dostarcza logiki klinicznej, treści klinicznych ani deklaracji regulacyjnej.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Co zapewnia Lily, a co zapewniasz Ty</caption>
+      <thead>
+        <tr>
+          <th>Lily zapewnia</th>
+          <th>Ty zapewniasz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: wartość, jednostkę, flagę słowami, zakres i stany braku danych</td>
+          <td>Wartość, decyzję o fladze, zakres referencyjny</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> i <a href="/components/allergy-list-item/">allergy-list-item</a>: status, który nigdy nie jest pusty</td>
+          <td>Rekord alergii i jego terminologię</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: nazwę, moc, postać, drogę podania i częstotliwość, nic nie jest obcinane</td>
+          <td>Dane o leku, segmenty tall man, sformatowaną moc</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: kształt karty CDS Hooks</td>
+          <td>Reguły, akcje sugestii, zapisywanie wyniku</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: wynik, przedział i eskalację, wyświetlone</td>
+          <td>System punktacji i jego zwalidowane obliczenie</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> i <code>ageParts()</code>: wiek w odpowiednich jednostkach</td>
+          <td>Słowa oznaczające jednostki (<code>Intl.DurationFormat</code> lub własne etykiety)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, nigdy 5,0 mg; 0,5 mg, nigdy ,5 mg</td>
+          <td>Liczbę, jednostkę i ustawienia regionalne</td>
+        </tr>
+        <tr>
+          <td>Kompozycję banera pacjenta</td>
+          <td>Każdą etykietę i wartość oraz to, kto może widzieć informacje kliniczne</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulacje.</strong> Oprogramowanie, które oblicza wynik punktowy, centyl, dawkę lub interakcję leków, jest zwykle wyrobem medycznym. Lily nie oblicza żadnej z tych rzeczy, celowo. Jeśli Twój produkt podlega regulacjom, to Ty odpowiadasz za dokumentację inżynierii użyteczności (IEC 62366-1, wytyczne FDA dotyczące czynników ludzkich, EU MDR). Testy Lily, jej samodzielnie oceniony raport zgodności z wymaganiami dostępności i jej macierz czytników ekranu mogą być dowodem w tej dokumentacji; żadne z nich nie jest deklaracją zgodności, a macierz nie ma jeszcze wyników.</p>
+
+  <h2>Alerty: przerywaj pracę tylko wtedy, gdy sytuacja jest krytyczna</h2>
+  <p>Zmęczenie alertami to problem bezpieczeństwa: gdy każdy alert przerywa pracę, ludzie odrzucają je wszystkie. Wytyczne AHRQ zalecają stopniowanie alertów według ważności i przerywanie pracy tylko przy poważnych.</p>
+  <ul>
+    <li><strong>Informacja</strong> (<code>indicator="info"</code>): w tekście, obok zadania, karta wspomagania decyzji na stronie.</li>
+    <li><strong>Ostrzeżenie</strong> (<code>indicator="warning"</code>): widoczne bez blokowania, ta sama karta, wyróżniona stylem; bez okna modalnego.</li>
+    <li><strong>Krytyczny</strong> (<code>indicator="critical"</code>): umieść kartę w oknie dialogowym alertu i udostępnij <code>overrideReasons</code>, aby zamknięcie jej wymagało podania powodu.</li>
+    <li>Karta wspomagania decyzji nigdy sama w sobie nie jest regionem na żywo. Nową kartę krytyczną ogłoś, przenosząc fokus do okna dialogowego, a nie przez <code>aria-live</code>.</li>
+    <li>Usuń kartę, gdy zdarzenie, na które odpowiadała, wystąpi ponownie, i zapisz każdy wynik (przyjęta albo odrzucona z podaniem powodu).</li>
+  </ul>
+
+  <h2>Pomyłki co do pacjenta: identyfikuj, nie ograniczaj</h2>
+  <ul>
+    <li>Pokazuj dwa identyfikatory wszędzie tam, gdzie pojawiają się dane pacjenta: imię i nazwisko z datą urodzenia oraz krajowy identyfikator z jego komponentem widoku (The Joint Commission, Quick Safety 45).</li>
+    <li>Używaj banera pacjenta na każdym ekranie, który działa na dokumentacji jednego pacjenta, i utrzymuj go widocznym.</li>
+    <li>Przed działaniem na dokumentacji innej niż ta w banerze potwierdź je imieniem i nazwiskiem, datą urodzenia i identyfikatorem.</li>
+    <li>Nie ograniczaj liczby dokumentacji, które może otworzyć klinicysta: randomizowane badanie z udziałem 3 356 klinicystów (JAMA, 2019) wykazało, że nie zmniejszyło to liczby zleceń dla niewłaściwego pacjenta, a ludzie to obchodzą.</li>
+  </ul>
+
+  <h2>Baner pacjenta</h2>
+  <p>Kompozycja jest opisana przy <a href="/components/medical-banner/">medical-banner</a>, a działająca strona znajduje się pod <code>/patient-banner</code> w aplikacji przykładowej SvelteKit:</p>
+  <ul>
+    <li>dwa identyfikatory oraz wiek obok daty urodzenia;</li>
+    <li>alergie przez listę alergii, tak aby „brak znanych alergii”, „nie zapisano” i „niedostępne” nigdy nie wyglądały tak samo;</li>
+    <li>brakująca wartość jest wyrażona słowami („Nieznane”), nigdy znakiem zapytania, kreską ani pustą komórką;</li>
+    <li>zmarły pacjent: <code>data-deceased</code> dla motywu oraz widoczny wiersz tekstu, nigdy sam kolor;</li>
+    <li>żadne pole nie jest obcinane, przycinane ani ukrywane przy żadnej szerokości; zawija się.</li>
+  </ul>
+
+  <h2>Wyniki</h2>
+  <ul>
+    <li>Jeden sposób wyświetlania wyniku, bez względu na system, z którego pochodzi: widok obserwacji.</li>
+    <li>Flaga to słowa z Twojego tłumaczenia (<code>flagLabel</code>), a kod interpretacji FHIR jest w <code>data-interpretation</code> dla motywu.</li>
+    <li>Oddzielaj nowe wyniki od wcześniejszych i pokazuj trend (wykres liniowy sparkline lub wykres liniowy z tabelą danych): klinicyści szukają istotnej zmiany, a nie tylko zakresu.</li>
+    <li>Wynik, którego nigdy nie zapisano, i wynik niedostępny to różne stany, opisane różnymi słowami.</li>
+  </ul>
+
+  <h2>Leki</h2>
+  <ul>
+    <li>Nazwy generyczne małymi literami, z wyjątkiem liter tall man z list FDA i ISMP lub list Twojego kraju (Australia i Kanada publikują własne). Oznacz je w <code>nameSegments</code>; Lily nigdy ich nie zgaduje.</li>
+    <li>Zapisuj moc za pomocą <code>formatQuantity</code>: bez końcowego zera, z zerem wiodącym, ze spacją nierozdzielającą przed jednostką.</li>
+    <li>Pisz mL, nigdy cc, i unikaj każdego skrótu z listy skrótów obarczonych ryzykiem błędu według ISMP.</li>
+    <li>Nigdy nie obcinaj nazwy ani dawki leku.</li>
+  </ul>
+
+  <h2>Daty i godziny</h2>
+  <ul>
+    <li>Zapisuj miesiąc słownie, aby daty nie dało się odczytać na dwa sposoby (<code>Intl.DateTimeFormat</code> z <code>month: "short"</code>).</li>
+    <li>Wybierz zegar świadomie: przekaż <code>hourCycle</code> jawnie. NHS wymaga zegara 24-godzinnego; to zasada brytyjska, nie ogólnoświatowa, więc Lily nigdy nie wybiera jej za Ciebie.</li>
+    <li>Wiek jest zgodny z przedziałami Common User Interface przez <code>ageParts()</code>; usługa z inną konwencją przekazuje własne słowa.</li>
+  </ul>
+
+  <h2>Panele</h2>
+  <ul>
+    <li>Tablica oddziałowa lub ekran centrum dowodzenia aktualizuje się często. Nigdy nie ogłaszaj każdej zmiany: utrzymuj jeden uprzejmy region podsumowania („3 wolne łóżka, 2 planowane wypisy”) i pozwól ludziom czytać tablicę.</li>
+    <li>Każdy stan na tablicy (łóżko czyste, zajęte, zablokowane) jest tekstem lub stanem <code>data-*</code> ze słowami, nigdy samym kolorem.</li>
+  </ul>
+
+  <h2>Czego Lily nie zrobi</h2>
+  <ul>
+    <li>Obliczać wyniku wczesnego ostrzegania, centyla wzrostu, dawki ani zakresu referencyjnego.</li>
+    <li>Dostarczać bazy leków, listy tall man ani kodów SNOMED CT, ICD, LOINC czy UCUM.</li>
+    <li>Odtwarzać licencjonowanego narzędzia (Wong-Baker FACES) ani projektu innej instytucji (karty NEWS2).</li>
+    <li>Ograniczać liczby jednocześnie otwartych dokumentacji.</li>
+  </ul>
+  <p>Badania, źródła i decyzje stojące za tym przewodnikiem znajdują się w <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

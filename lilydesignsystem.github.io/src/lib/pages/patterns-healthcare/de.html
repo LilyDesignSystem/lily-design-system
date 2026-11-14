@@ -1,0 +1,124 @@
+<!-- title: Benutzeroberflächen im Gesundheitswesen — Lily Design System -->
+<!-- description: Ein Leitfaden für Teams, die mit Lily klinische Software bauen: was Lily bereitstellt und was es Ihnen überlässt, Abstufung von Warnungen, Schutz vor Patientenverwechslung, das Patientenbanner, Befunde, Arzneimittel, Datumsangaben und Dashboards. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Benutzeroberflächen im Gesundheitswesen</h1>
+  <p class="page-intro-tagline">Ein Leitfaden für Teams, die mit Lily klinische Software bauen: klinische Portale, Befunde und Berichte, Verordnung und Verabreichung von Arzneimitteln, Entscheidungsunterstützung und Krankenhaus-Dashboards.</p>
+  <p>Diese Übersetzung ist ein nicht geprüfter maschineller Entwurf. <a href="/patterns/healthcare/#healthcare-title" >Die englische Seite</a > ist die maßgebliche Fassung.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Was Lily tut und was nicht</h2>
+  <p>Lily liefert Ihnen Darstellungsverträge: semantisches Markup, ARIA, Tastaturverhalten und Klassen-Hooks für das, was sich auf klinischen Bildschirmen wiederholt. Es liefert Ihnen weder klinische Logik noch klinische Inhalte noch eine regulatorische Aussage.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Was Lily bereitstellt und was Sie bereitstellen</caption>
+      <thead>
+        <tr>
+          <th>Lily stellt bereit</th>
+          <th>Sie stellen bereit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: ein Wert, eine Einheit, eine Kennzeichnung in Worten, ein Bereich und fehlende Zustände</td>
+          <td>Den Wert, die Entscheidung über die Kennzeichnung, den Referenzbereich</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> und <a href="/components/allergy-list-item/">allergy-list-item</a>: ein Status, der nie leer ist</td>
+          <td>Den Allergieeintrag und seine Terminologie</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: Name, Stärke, Darreichungsform, Applikationsweg und Häufigkeit, nichts davon abgeschnitten</td>
+          <td>Die Arzneimitteldaten, die Tall-Man-Segmente, die formatierte Stärke</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: die Kartenform von CDS Hooks</td>
+          <td>Die Regeln, die vorgeschlagenen Aktionen, die Erfassung des Ergebnisses</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: ein Score, eine Stufe und eine Eskalation, angezeigt</td>
+          <td>Das Scoring-System und seine validierte Berechnung</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> und <code>ageParts()</code>: ein Alter in den dazu passenden Einheiten</td>
+          <td>Die Wörter für die Einheiten (<code>Intl.DurationFormat</code> oder eigene Beschriftungen)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, nie 5,0 mg; 0,5 mg, nie ,5 mg</td>
+          <td>Die Zahl, die Einheit und die Locale</td>
+        </tr>
+        <tr>
+          <td>Die Zusammenstellung des Patientenbanners</td>
+          <td>Jede Beschriftung und jeden Wert, und wer klinische Informationen sehen darf</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Regulierung.</strong> Software, die einen Score, ein Perzentil, eine Dosis oder eine Arzneimittelwechselwirkung berechnet, ist in der Regel ein Medizinprodukt. Lily berechnet nichts davon, mit Absicht. Ist Ihr Produkt reguliert, gehört Ihnen seine Gebrauchstauglichkeitsakte (IEC 62366-1, die Human-Factors-Leitlinien der FDA, EU-MDR). Die Tests von Lily, sein selbst bewerteter Barrierefreiheits-Konformitätsbericht und seine Screenreader-Matrix können Nachweise in dieser Akte sein; keiner davon ist eine Konformitätsaussage, und die Matrix hat noch keine Ergebnisse.</p>
+
+  <h2>Warnungen: nur bei Kritischem unterbrechen</h2>
+  <p>Alarmmüdigkeit ist ein Sicherheitsproblem: Wenn jede Warnung unterbricht, werden alle weggeklickt. Die AHRQ empfiehlt, Warnungen nach Schweregrad abzustufen und nur die schweren unterbrechend zu machen.</p>
+  <ul>
+    <li><strong>Information</strong> (<code>indicator="info"</code>): eingebettet, neben der Aufgabe, eine Entscheidungsunterstützungskarte in der Seite.</li>
+    <li><strong>Warnung</strong> (<code>indicator="warning"</code>): sichtbar, ohne zu blockieren, dieselbe Karte, auffällig gestaltet; kein Modal.</li>
+    <li><strong>Kritisch</strong> (<code>indicator="critical"</code>): Setzen Sie die Karte in einen Warndialog und bieten Sie <code>overrideReasons</code> an, damit beim Schließen ein Grund verlangt wird.</li>
+    <li>Eine Entscheidungsunterstützungskarte ist nie von sich aus eine Live-Region. Kündigen Sie eine neue kritische Karte an, indem Sie den Fokus in den Dialog verschieben, nicht mit <code>aria-live</code>.</li>
+    <li>Entfernen Sie eine Karte, wenn das Ereignis, auf das sie antwortete, erneut eintritt, und erfassen Sie jedes Ergebnis (angenommen oder mit Begründung übergangen).</li>
+  </ul>
+
+  <h2>Patientenverwechslungen: identifizieren, nicht einschränken</h2>
+  <ul>
+    <li>Zeigen Sie zwei Identifikatoren überall dort, wo Daten eines Patienten erscheinen: den Namen mit dem Geburtsdatum und die nationale Kennung mit ihrer Anzeigekomponente (The Joint Commission, Quick Safety 45).</li>
+    <li>Verwenden Sie das Patientenbanner auf jedem Bildschirm, der auf die Akte eines Patienten wirkt, und halten Sie es sichtbar.</li>
+    <li>Bestätigen Sie vor einer Aktion an einer anderen Akte als der im Banner diese mit Name, Geburtsdatum und Kennung.</li>
+    <li>Begrenzen Sie nicht, wie viele Akten eine Ärztin oder ein Arzt öffnen darf: Eine randomisierte Studie mit 3.356 Klinikern (JAMA, 2019) ergab, dass dies Verordnungen beim falschen Patienten nicht verringert, und man umgeht es.</li>
+  </ul>
+
+  <h2>Das Patientenbanner</h2>
+  <p>Die Zusammenstellung ist bei <a href="/components/medical-banner/">medical-banner</a> dokumentiert, mit einer funktionierenden Seite unter <code>/patient-banner</code> in der SvelteKit-Beispiel-App:</p>
+  <ul>
+    <li>zwei Identifikatoren und das Alter neben dem Geburtsdatum;</li>
+    <li>Allergien über eine Allergieliste, damit „keine bekannten Allergien“, „nicht erfasst“ und „nicht verfügbar“ nie gleich aussehen;</li>
+    <li>ein fehlender Wert wird in Worten angegeben („Nicht bekannt“), nie als Fragezeichen, Strich oder leere Zelle;</li>
+    <li>ein verstorbener Patient: <code>data-deceased</code> für das Theme und eine sichtbare Textzeile, nie nur Farbe;</li>
+    <li>kein Feld abgeschnitten, beschnitten oder ausgeblendet, bei keiner Breite; es bricht um.</li>
+  </ul>
+
+  <h2>Befunde</h2>
+  <ul>
+    <li>Eine Darstellung für einen Befund, aus welchem System er auch stammt: die Beobachtungsansicht.</li>
+    <li>Die Kennzeichnung besteht aus Wörtern Ihrer Übersetzung (<code>flagLabel</code>), mit dem FHIR-Interpretationscode als <code>data-interpretation</code> für das Theme.</li>
+    <li>Trennen Sie neue Befunde von früheren und zeigen Sie einen Verlauf (eine Sparkline oder ein Liniendiagramm mit seiner Datentabelle): Klinikerinnen und Kliniker suchen eine bedeutsame Veränderung, nicht nur den Bereich.</li>
+    <li>Ein nie erfasster Befund und ein nicht verfügbarer Befund sind verschiedene Zustände, mit verschiedenen Wörtern.</li>
+  </ul>
+
+  <h2>Arzneimittel</h2>
+  <ul>
+    <li>Generische Namen in Kleinbuchstaben, außer Tall-Man-Buchstaben aus den Listen von FDA und ISMP oder Ihres Landes (Australien und Kanada veröffentlichen eigene). Markieren Sie sie in <code>nameSegments</code>; Lily errät sie nie.</li>
+    <li>Schreiben Sie die Stärke mit <code>formatQuantity</code>: keine nachgestellte Null, eine führende Null, ein geschütztes Leerzeichen vor der Einheit.</li>
+    <li>Schreiben Sie mL, nie cc, und vermeiden Sie jede Abkürzung auf der ISMP-Liste fehleranfälliger Abkürzungen.</li>
+    <li>Kürzen Sie nie den Namen oder die Dosis eines Arzneimittels.</li>
+  </ul>
+
+  <h2>Datum und Uhrzeit</h2>
+  <ul>
+    <li>Schreiben Sie den Monat als Text, damit ein Datum nicht auf zwei Arten gelesen werden kann (<code>Intl.DateTimeFormat</code> mit <code>month: "short"</code>).</li>
+    <li>Wählen Sie die Uhr bewusst: Übergeben Sie <code>hourCycle</code> ausdrücklich. Der NHS verlangt die 24-Stunden-Uhr; das ist eine britische Regel, keine weltweite, daher wählt Lily sie nie für Sie.</li>
+    <li>Altersangaben folgen den Stufen der Common User Interface über <code>ageParts()</code>; ein Dienst mit einer anderen Konvention übergibt eigene Wörter.</li>
+  </ul>
+
+  <h2>Dashboards</h2>
+  <ul>
+    <li>Eine Stationstafel oder ein Leitstellenbildschirm aktualisiert sich oft. Kündigen Sie nie jede Änderung an: Halten Sie eine höfliche Zusammenfassungsregion („3 Betten frei, 2 Entlassungen fällig“) und lassen Sie die Menschen die Tafel lesen.</li>
+    <li>Jeder Zustand auf einer Tafel (Bett gereinigt, belegt, gesperrt) ist Text oder ein <code>data-*</code>-Zustand mit Worten, nie nur Farbe.</li>
+  </ul>
+
+  <h2>Was Lily nicht tun wird</h2>
+  <ul>
+    <li>Einen Frühwarnscore, ein Wachstumsperzentil, eine Dosis oder einen Referenzbereich berechnen.</li>
+    <li>Eine Arzneimitteldatenbank, eine Tall-Man-Liste oder Codes aus SNOMED CT, ICD, LOINC oder UCUM mitliefern.</li>
+    <li>Ein lizenziertes Instrument (Wong-Baker FACES) oder das Design einer anderen Stelle (das NEWS2-Diagramm) nachbilden.</li>
+    <li>Die Zahl der gleichzeitig geöffneten Akten begrenzen.</li>
+  </ul>
+  <p>Die Recherche, die Quellen und die Entscheidungen hinter diesem Leitfaden finden Sie in <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>

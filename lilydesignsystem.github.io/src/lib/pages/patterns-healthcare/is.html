@@ -1,0 +1,124 @@
+<!-- title: Notendaviðmót í heilbrigðisþjónustu — Lily Design System -->
+<!-- description: Leiðarvísir fyrir teymi sem smíða klínískan hugbúnað með Lily: hvað Lily býður og hvað hún skilur eftir hjá þér, stigskipting viðvarana, varnir gegn rangri sjúklingagreiningu, sjúklingaborði, niðurstöður, lyf, dagsetningar og mælaborð. -->
+<section class="page-intro">
+  <h1 id="healthcare-title">Notendaviðmót í heilbrigðisþjónustu</h1>
+  <p class="page-intro-tagline">Leiðarvísir fyrir teymi sem smíða klínískan hugbúnað með Lily: klínískar gáttir, niðurstöður og skýrslugerð, ávísun og gjöf lyfja, ákvörðunarstuðningur og mælaborð sjúkrahúsa.</p>
+  <p>Þýðingar þessarar síðu eru óyfirfarin vélræn drög. <a href="/patterns/healthcare/#healthcare-title" >Enska síðan</a > er hin gildandi útgáfa.</p>
+</section>
+
+<section class="prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2>Hvað Lily gerir og hvað hún gerir ekki</h2>
+  <p>Lily veitir birtingarsamninga: merkingarbært markup, ARIA, lyklaborðshegðun og klasafestur fyrir það sem klínískir skjáir endurtaka. Hún veitir ekki klíníska rökvísi, klínískt efni eða reglugerðarfullyrðingu.</p>
+  <div role="region" aria-labelledby="healthcare-provides" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-provides">Hvað Lily býður og hvað þú býður</caption>
+      <thead>
+        <tr>
+          <th>Lily býður</th>
+          <th>Þú býður</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/components/observation-view/">observation-view</a>: gildi, eining, merki í orðum, bil og ástand þegar gögn vantar</td>
+          <td>Gildið, ákvörðun um merkið, viðmiðunarbilið</td>
+        </tr>
+        <tr>
+          <td><a href="/components/allergy-list/">allergy-list</a> og <a href="/components/allergy-list-item/">allergy-list-item</a>: staða sem er aldrei auð</td>
+          <td>Ofnæmisskráningin og hugtakanotkun hennar</td>
+        </tr>
+        <tr>
+          <td><a href="/components/medication-view/">medication-view</a>: heiti, styrkur, lyfjaform, íkomuleið og tíðni, ekkert stytt</td>
+          <td>Lyfjagögnin, tall man hlutarnir, sniðinn styrkur</td>
+        </tr>
+        <tr>
+          <td><a href="/components/decision-support-card/">decision-support-card</a>: lögun CDS Hooks spjaldsins</td>
+          <td>Reglurnar, tillöguaðgerðirnar, skráning niðurstöðunnar</td>
+        </tr>
+        <tr>
+          <td><a href="/components/early-warning-score-view/">early-warning-score-view</a>: stig, band og stigmögnun, birt</td>
+          <td>Stigakerfið og staðfestur útreikningur þess</td>
+        </tr>
+        <tr>
+          <td><a href="/components/age-view/">age-view</a> og <code>ageParts()</code>: aldur í einingum sem henta honum</td>
+          <td>Orðin fyrir einingarnar (<code>Intl.DurationFormat</code> eða þín eigin merki)</td>
+        </tr>
+        <tr>
+          <td><code>formatQuantity()</code>: 5 mg, aldrei 5,0 mg; 0,5 mg, aldrei ,5 mg</td>
+          <td>Talan, einingin og svæðisstillingin</td>
+        </tr>
+        <tr>
+          <td>Samsetning sjúklingaborðans</td>
+          <td>Hvert merki og hvert gildi, og hver má sjá klínískar upplýsingar</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><strong>Reglugerð.</strong> Hugbúnaður sem reiknar stig, hundraðshlutamark, skammt eða lyfjamilliverkun er yfirleitt lækningatæki. Lily reiknar ekkert af þessu, af ásettu ráði. Ef varan þín fellur undir reglugerð átt þú notendaviðmótsverkfræðiskjalið (IEC 62366-1, leiðbeiningar FDA um mannlega þætti, EU MDR). Prófanir Lily, sjálfsmetin skýrsla hennar um samræmi við aðgengi og skjálesaramatrixa hennar geta verið gögn í því skjali; ekkert af því er samræmisfullyrðing og matrixan hefur engar niðurstöður enn.</p>
+
+  <h2>Viðvaranir: truflaðu aðeins vegna þess sem er alvarlegt</h2>
+  <p>Viðvörunarþreyta er öryggisvandamál: þegar allar viðvaranir trufla afgreiða menn þær allar burt. Leiðbeining AHRQ er að stigskipta viðvörunum eftir alvarleika og láta aðeins þær alvarlegu trufla.</p>
+  <ul>
+    <li><strong>Upplýsingar</strong> (<code>indicator="info"</code>): í línu, við hlið verkefnisins, ákvörðunarstuðningsspjald á síðunni.</li>
+    <li><strong>Aðvörun</strong> (<code>indicator="warning"</code>): sýnileg án þess að loka, sama spjald, stílað þannig að það skeri sig úr; enginn modal-gluggi.</li>
+    <li><strong>Alvarlegt</strong> (<code>indicator="critical"</code>): settu spjaldið inn í viðvörunarglugga og bjóddu <code>overrideReasons</code> svo að það krefjist ástæðu að hafna því.</li>
+    <li>Ákvörðunarstuðningsspjald er aldrei lifandi svæði eitt og sér. Tilkynntu nýtt alvarlegt spjald með því að færa fókus inn í gluggann, ekki með <code>aria-live</code>.</li>
+    <li>Fjarlægðu spjald þegar atburðurinn sem það svaraði gerist aftur og skráðu hverja niðurstöðu (samþykkt, eða hafnað með ástæðu).</li>
+  </ul>
+
+  <h2>Rangar sjúklingaskráningar: auðkenndu, ekki takmarka</h2>
+  <ul>
+    <li>Sýndu tvö auðkenni hvar sem gögn sjúklings birtast: nafnið með fæðingardegi og landsauðkennið með view-íhlut þess (The Joint Commission, Quick Safety 45).</li>
+    <li>Notaðu sjúklingaborðann á hverjum skjá sem framkvæmir aðgerð á skrá eins sjúklings og hafðu hann sýnilegan.</li>
+    <li>Áður en aðgerð er gerð á skrá sem er ekki sú í borðanum skaltu staðfesta hana með nafni, fæðingardegi og auðkenni.</li>
+    <li>Ekki takmarka hve margar skrár læknir má opna: slembiröðuð rannsókn á 3.356 læknum (JAMA, 2019) sýndi að það fækkaði ekki pöntunum fyrir rangan sjúkling og fólk fer í kringum það.</li>
+  </ul>
+
+  <h2>Sjúklingaborðinn</h2>
+  <p>Samsetningin er skjalfest með <a href="/components/medical-banner/">medical-banner</a>, með virkri síðu á <code>/patient-banner</code> í SvelteKit dæmaforritinu:</p>
+  <ul>
+    <li>tvö auðkenni, og aldurinn við hlið fæðingardags;</li>
+    <li>ofnæmi í gegnum ofnæmislista, svo að „engin þekkt ofnæmi“, „ekki skráð“ og „ekki tiltækt“ líti aldrei eins út;</li>
+    <li>gildi sem vantar eru orð („Ekki vitað“), aldrei spurningarmerki, strik eða tómur reitur;</li>
+    <li>látinn sjúklingur: <code>data-deceased</code> fyrir þemað og sýnileg textalína, aldrei litur einn;</li>
+    <li>enginn reitur er styttur, klipptur eða falinn á neinni breidd; textinn brotnar um.</li>
+  </ul>
+
+  <h2>Niðurstöður</h2>
+  <ul>
+    <li>Ein birting fyrir niðurstöðu, úr hvaða kerfi sem hún kemur: observation view.</li>
+    <li>Merkið er orð úr þinni þýðingu (<code>flagLabel</code>), með FHIR túlkunarkóðanum sem <code>data-interpretation</code> fyrir þemað.</li>
+    <li>Aðgreindu nýjar niðurstöður frá eldri og sýndu leitni (sparkline, eða línurit með gagnatöflu þess): læknar leita að marktækri breytingu, ekki aðeins bilinu.</li>
+    <li>Niðurstaða sem aldrei var skráð og niðurstaða sem er ekki tiltæk eru ólíkar stöður, með ólíkum orðum.</li>
+  </ul>
+
+  <h2>Lyf</h2>
+  <ul>
+    <li>Samheiti með litlum stöfum, nema tall man stafi af listum FDA og ISMP eða lands þíns (Ástralía og Kanada gefa út sína eigin). Merktu þá í <code>nameSegments</code>; Lily giskar aldrei á þá.</li>
+    <li>Skrifaðu styrkinn með <code>formatQuantity</code>: engin lokanúlla, upphafsnúlla og óbrjótanlegt bil á undan einingunni.</li>
+    <li>Skrifaðu mL, aldrei cc, og forðastu allar skammstafanir á lista ISMP yfir villuhættulegar skammstafanir.</li>
+    <li>Styttu aldrei heiti lyfs eða skammt.</li>
+  </ul>
+
+  <h2>Dagsetningar og tímar</h2>
+  <ul>
+    <li>Skrifaðu mánuðinn sem texta svo að ekki sé hægt að lesa dagsetningu á tvo vegu (<code>Intl.DateTimeFormat</code> með <code>month: "short"</code>).</li>
+    <li>Veldu klukkuna af ásettu ráði: sendu <code>hourCycle</code> skýrt. NHS biður um 24 stunda klukku; það er bresk regla, ekki heimsregla, svo Lily velur hana aldrei fyrir þig.</li>
+    <li>Aldur fylgir böndum Common User Interface í gegnum <code>ageParts()</code>; þjónusta með aðra venju sendir sín eigin orð.</li>
+  </ul>
+
+  <h2>Mælaborð</h2>
+  <ul>
+    <li>Deildartafla eða skjár stjórnstöðvar uppfærist oft. Tilkynntu aldrei hverja breytingu: hafðu eitt kurteist samantektarsvæði („3 rúm laus, 2 útskriftir væntanlegar“) og leyfðu fólki að lesa töfluna.</li>
+    <li>Hvert ástand á töflu (rúm hreint, upptekið, lokað) er texti eða <code>data-*</code> ástand með orðum, aldrei litur einn.</li>
+  </ul>
+
+  <h2>Hvað Lily gerir ekki</h2>
+  <ul>
+    <li>Reikna snemmviðvörunarstig, vaxtarhundraðshlutamark, skammt eða viðmiðunarbil.</li>
+    <li>Afhenda lyfjagagnagrunn, tall man lista, eða SNOMED CT, ICD, LOINC eða UCUM kóða.</li>
+    <li>Endurskapa leyfisskylt mælitæki (Wong-Baker FACES) eða hönnun annars aðila (NEWS2 töfluna).</li>
+    <li>Takmarka fjölda skráa sem eru opnar í einu.</li>
+  </ul>
+  <p>Rannsóknirnar, heimildirnar og ákvarðanirnar að baki þessum leiðarvísi eru í <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
+</section>
