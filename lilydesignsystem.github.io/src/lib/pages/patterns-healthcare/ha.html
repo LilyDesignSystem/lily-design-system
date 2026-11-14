@@ -96,6 +96,7 @@
   <ul>
     <li>Sunayen gama-gari da ƙananan haruffa, sai dai haruffan tall man daga jerin FDA da ISMP ko na ƙasarku (Ostiraliya da Kanada suna buga nasu). A yi musu alama a cikin <code>nameSegments</code>; Lily ba ya hasashensu ba.</li>
     <li>A rubuta ƙarfi da <code>formatQuantity</code>: babu sifili a ƙarshe, sifili a farko, da sarari maras karyewa kafin naúrar.</li>
+    <li>A kiyaye alamar kwatanta ta sakamako: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> yana rubuta "&lt;5 mmol/L". Ana rubuta <code>Quantity.comparator</code> na FHIR a matsayin &lt;, ≤, ≥ ko &gt;; barin shi yana mayar da "ƙasa da 5" zuwa "5".</li>
     <li>A rubuta mL, ba cc ba, a guji kowane taƙaitawa da ke jerin kurakuran ISMP.</li>
     <li>Kada a yanke sunan magani ko adadinsa.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Allon unguwar asibiti ko cibiyar umarni yana sabuntawa akai-akai. Kada a sanar da kowane sauyi: a ajiye yankin taƙaitawa guda mai sauƙi ("gadaje 3 babu kowa, ana sa ran sallama 2") a bar mutane su karanta allon.</li>
     <li>Kowane yanayi a allo (gado mai tsabta, da mutum, an rufe) rubutu ne ko yanayin <code>data-*</code> mai kalmomi, ba launi kaɗai ba.</li>
+  </ul>
+
+  <h2>Daga FHIR zuwa Lily</h2>
+  <p>Lily ba ya karanta albarkatun FHIR; lambar ku tana daidaita su da props na Lily. Waɗannan teburori suna daidaita HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Daidaita lambobi shawara ce: nazarin amincin asibiti naku ne zai yanke shawara, kuma kalmomin kowane yanayi naku ne.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Sassan IPS da abubuwan Lily nasu</caption>
+      <thead>
+        <tr>
+          <th>Sashen IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alerji da rashin jurewa (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> da abubuwan cikinsa</td>
+        </tr>
+        <tr>
+          <td>Taƙaitaccen magunguna (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, kowane abu yana ɗauke da <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Jerin matsaloli (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> da abubuwan cikinsa</td>
+        </tr>
+        <tr>
+          <td>Allurar rigakafi (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> da abubuwan cikinsa</td>
+        </tr>
+        <tr>
+          <td>Sakamako (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, a cikin teburin bayanai ko jerin taƙaitawa</td>
+        </tr>
+        <tr>
+          <td>Tarihin hanyoyin jinya (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> da abubuwan cikinsa</td>
+        </tr>
+        <tr>
+          <td>Na'urorin lafiya (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> da abubuwan cikinsa</td>
+        </tr>
+        <tr>
+          <td>Gargaɗi (<code>104605-1</code>)</td>
+          <td>Rubutun gargaɗi ko faɗakarwa, ba a bayan abin sarrafawa da aka naɗe ba</td>
+        </tr>
+        <tr>
+          <td>Duk wani sashe</td>
+          <td><a href="/components/record-list/">record-list</a> da abubuwan cikinsa</td>
+        </tr>
+        <tr>
+          <td>Sashen da ake buƙata wanda takardar ta bari</td>
+          <td>Jerin sashen tare da <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Lambobin FHIR da ƙimar Lily nasu</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> na jerin</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, tare da kalmomin da ke faɗar wanne</td>
+        </tr>
+        <tr>
+          <td>Lambobin IPS <code>no-known-allergies</code>, <code>no-known-medications</code> da makamantansu</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Lambobin IPS <code>no-allergy-info</code>, <code>no-medication-info</code> da makamantansu</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, ban da <code>severity</code> na amsa</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Props iri ɗaya a kan abubuwan alerji da matsala, da lambobi iri ɗaya</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> na abin magani</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, da lambobi iri ɗaya</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>A daidaita rikodin <code>entered-in-error</code> da yanayinsa na <code>entered-in-error</code>, tare da kalmomi, maimakon a jefar da shi a hankali: ko a nuna shi ko a'a shawarar sabis ɗinku ce.</p>
+
+  <h2>Ƙimar da aka sa wa lamba</h2>
+  <ul>
+    <li>A nuna <code>Coding.display</code>; idan babu, <code>CodeableConcept.text</code>; idan babu ko ɗaya, <code>system|code</code>. Kada a taɓa barin akwati fanko.</li>
+    <li>A bayar da abin sarrafawa da ke bayyana tsarin lamba da lambar kusa da kowace ƙima, kamar maɓallin sauyawa da ke cewa "Nuna lambobi". Lambobin da aka ɓoye ba sa cikin tsarin karatu har sai an nuna su.</li>
+    <li>A yi wa rubutun asibiti alama da harshen takardar (<code>lang</code>), wanda zai iya bambanta da na mahaɗa. A fassara mahaɗa; kada a taɓa fassara abubuwan asibiti.</li>
+    <li>Lily ba ya kawo ƙamus na likitanci: babu binciken SNOMED CT, LOINC, ATC ko UCUM. A rubuta abin da takardar ta faɗa. Misalin SvelteKit yana nuna tsarin a shafin <code>/patient-summary</code>.</li>
   </ul>
 
   <h2>Abin da Lily ba zai yi ba</h2>

@@ -96,6 +96,7 @@
   <ul>
     <li>Ismijiet ġeneriċi b'ittri żgħar, ħlief ittri tall man mil-listi tal-FDA u tal-ISMP jew tal-pajjiż tiegħek (l-Awstralja u l-Kanada jippubblikaw tagħhom stess). Immarkahom f'<code>nameSegments</code>; Lily qatt ma jaqta' b'ġuħ.</li>
     <li>Ikteb il-qawwa b'<code>formatQuantity</code>: l-ebda żero fl-aħħar, żero fil-bidu, u spazju mingħajr qsim qabel l-unità.</li>
+    <li>Żomm il-komparatur ta' riżultat: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> jikteb “&lt;5 mmol/L”. <code>Quantity.comparator</code> ta' FHIR jinkiteb &lt;, ≤, ≥ jew &gt;; jekk titneħħa, “inqas minn 5” isir “5”.</li>
     <li>Ikteb mL, qatt cc, u evita kull abbrevjazzjoni mil-lista tal-ISMP ta' abbrevjazzjonijiet suxxettibbli għall-iżbalji.</li>
     <li>Qatt ma taqta' isem jew doża ta' mediċina.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Bord ta' wirda jew skrin ta' ċentru ta' kmand jaġġornaw spiss. Qatt ma tħabbar kull bidla: żomm reġjun wieħed ta' sommarju polite (“3 sodod vojta, 2 skariġi mistennija”) u ħalli lin-nies jaqraw il-bord.</li>
     <li>Kull stat fuq bord (sodda nadifa, okkupata, imblukkata) huwa test jew stat <code>data-*</code> bil-kliem, qatt kulur biss.</li>
+  </ul>
+
+  <h2>Minn FHIR għal Lily</h2>
+  <p>Lily ma taqrax riżorsi FHIR; il-kodiċi tiegħek jimmappjahom għall-props ta' Lily. Dawn it-tabelli jimmappjaw l-HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Il-mappjar tal-kodiċijiet huwa suġġeriment: ir-reviżjoni tas-sigurtà klinika tiegħek tiddeċiedi dwaru, u l-kliem għal kull stat huwa tiegħek.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Taqsimiet tal-IPS u l-komponenti ta' Lily għalihom</caption>
+      <thead>
+        <tr>
+          <th>Taqsima tal-IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Allerġiji u intolleranzi (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> u l-oġġetti tagħha</td>
+        </tr>
+        <tr>
+          <td>Sommarju tal-mediċini (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, kull oġġett ikollu <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Lista tal-problemi (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> u l-oġġetti tagħha</td>
+        </tr>
+        <tr>
+          <td>Tilqim (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> u l-oġġetti tagħha</td>
+        </tr>
+        <tr>
+          <td>Riżultati (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, f'tabella tad-data jew lista ta' sommarju</td>
+        </tr>
+        <tr>
+          <td>Storja tal-proċeduri (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> u l-oġġetti tagħha</td>
+        </tr>
+        <tr>
+          <td>Apparat mediku (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> u l-oġġetti tagħha</td>
+        </tr>
+        <tr>
+          <td>Twissijiet (<code>104605-1</code>)</td>
+          <td>Test ta' twissija jew twissija, qatt wara kontroll mitwi</td>
+        </tr>
+        <tr>
+          <td>Kwalunkwe taqsima oħra</td>
+          <td><a href="/components/record-list/">record-list</a> u l-oġġetti tagħha</td>
+        </tr>
+        <tr>
+          <td>Taqsima meħtieġa li d-dokument iħalli barra</td>
+          <td>Il-lista tat-taqsima b'<code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Kodiċijiet FHIR u l-valuri ta' Lily għalihom</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Il-lista b'<code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, b'kliem li jgħid liema</td>
+        </tr>
+        <tr>
+          <td>Il-kodiċijiet tal-IPS <code>no-known-allergies</code>, <code>no-known-medications</code> u simili</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Il-kodiċijiet tal-IPS <code>no-allergy-info</code>, <code>no-medication-info</code> u simili</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, apparti mir-reazzjoni <code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>L-istess props fuq l-oġġetti tal-allerġija u tal-problema, bl-istess kodiċijiet</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>L-oġġett tal-mediċina: <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, bl-istess kodiċijiet</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Immappja rekord bi status <code>entered-in-error</code> għall-status <code>entered-in-error</code>, b'kliem, minflok ma tneħħiha bil-kwiet: jekk għandux jintwera xejn huwa d-deċiżjoni tas-servizz tiegħek.</p>
+
+  <h2>Valuri kodifikati</h2>
+  <ul>
+    <li>Uri <code>Coding.display</code>; jekk m'hemmx, <code>CodeableConcept.text</code>; jekk l-ebda waħda, <code>system|code</code>. Qatt ċellola vojta.</li>
+    <li>Offri kontroll li juri s-sistema tal-kodiċijiet u l-kodiċi maġenb kull valur, bħal buttuna ta' toggle li tgħid “Uri l-kodiċijiet”. Kodiċijiet moħbija jibqgħu barra mill-ordni tal-qari sakemm jintwerew.</li>
+    <li>Immarka t-test kliniku bil-lingwa tad-dokument (<code>lang</code>), li tista' tkun differenti minn dik tal-interface. Ittraduċi l-interface; qatt ma tittraduċi l-kontenut kliniku.</li>
+    <li>Lily ma ssuppliex terminoloġija: l-ebda tfittxijiet ta' SNOMED CT, LOINC, ATC jew UCUM. Ikteb dak li jgħid id-dokument. Il-paġna <code>/patient-summary</code> tal-eżempju SvelteKit turi x-xejra.</li>
   </ul>
 
   <h2>X'ma jagħmilx Lily</h2>

@@ -96,6 +96,7 @@
   <ul>
     <li>Generesch Nimm a Klengbuschtawen, ausser tall-man-Buschtawen aus de Lëschte vun der FDA an der ISMP oder vun Ärem Land (Australien a Kanada publizéieren hir eege). Markéiert se an <code>nameSegments</code>; Lily rét se ni.</li>
     <li>Schreift d'Stäerkt mat <code>formatQuantity</code>: keng nofolgend Null, eng féierend Null, en net-ëmbriechende Espace virun der Eenheet.</li>
+    <li>Haalt de Komparator vun engem Resultat: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> schreift „&lt;5 mmol/L“. <code>Quantity.comparator</code> vu FHIR gëtt als &lt;, ≤, ≥ oder &gt; geschriwwen; wann een en ewechléisst, gëtt aus „manner wéi 5“ een „5“.</li>
     <li>Schreift mL, ni cc, a vermeit all Ofkierzung op der ISMP-Lëscht vun de feelerafällegen Ofkierzungen.</li>
     <li>Kierzt ni den Numm oder d'Dosis vun engem Medikament of.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>En Statiounsbord oder e Kommandozentrum-Écran aktualiséiert dacks. Kënnegt ni all Ännerung un: haalt eng roueg Zesummefaassungsregioun („3 Better fräi, 2 Entlooss erwaart“) an looss d'Leit d'Bord liesen.</li>
     <li>All Zoustand um Bord (Bett gebotzt, besat, gespaart) ass Text oder e <code>data-*</code>-Zoustand mat Wierder, ni nëmmen d'Faarf.</li>
+  </ul>
+
+  <h2>Vu FHIR op Lily</h2>
+  <p>Lily liest keng FHIR-Ressourcen; Äre Code mapt se op d'Props vu Lily. Dës Tabellë mappen den HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). D'Mapping vun de Codë ass e Virschlag: Är Bewäertung vun der klinescher Sécherheet entscheet doriwwer, an d'Wierder fir all Zoustand sinn Är eege.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS-Rubriken an d'Lily-Komponente derfir</caption>
+      <thead>
+        <tr>
+          <th>IPS-Rubrik</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Allergien an Intolleranzen (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> a seng Elementer</td>
+        </tr>
+        <tr>
+          <td>Medikamenteniwwersiicht (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, wou all Element e <a href="/components/medication-view/">medication-view</a> enthält</td>
+        </tr>
+        <tr>
+          <td>Problemlëscht (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> a seng Elementer</td>
+        </tr>
+        <tr>
+          <td>Impfungen (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> a seng Elementer</td>
+        </tr>
+        <tr>
+          <td>Resultater (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, an enger Datentabell oder enger Zesummefaassungslëscht</td>
+        </tr>
+        <tr>
+          <td>Geschicht vun den Interventiounen (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> a seng Elementer</td>
+        </tr>
+        <tr>
+          <td>Medizinesch Apparater (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> a seng Elementer</td>
+        </tr>
+        <tr>
+          <td>Alarmer (<code>104605-1</code>)</td>
+          <td>Warntext oder en Alarm, ni hannert engem zougeklappte Bedienelement</td>
+        </tr>
+        <tr>
+          <td>All aner Rubrik</td>
+          <td><a href="/components/record-list/">record-list</a> a seng Elementer</td>
+        </tr>
+        <tr>
+          <td>Eng néideg Rubrik, déi den Dokument ewechléisst</td>
+          <td>D'Lëscht vun der Rubrik mat <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR-Codë an d'Lily-Wäerter derfir</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> vun der Lëscht</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, mat Wierder, déi soen, wéi eent et ass</td>
+        </tr>
+        <tr>
+          <td>D'IPS-Codë <code>no-known-allergies</code>, <code>no-known-medications</code> an ähnlech</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>D'IPS-Codë <code>no-allergy-info</code>, <code>no-medication-info</code> an ähnlech</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, getrennt vum <code>severity</code> vun enger Reaktioun</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Déiselwecht Props bei den Allergie- a Problemelementer, mat deene selwechte Codë</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> vum Medikamentelement</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>status</code> vum <code>observation-view</code>, mat deene selwechte Codë</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Mapt en <code>entered-in-error</code>-Enregistrement op säi Status <code>entered-in-error</code>, mat Wierder, amplaz et roueg ewechzeloossen: ob et iwwerhaapt gewise gëtt, entscheet Äre Service.</p>
+
+  <h2>Codéiert Wäerter</h2>
+  <ul>
+    <li>Weist <code>Coding.display</code>; wann et keen gëtt, <code>CodeableConcept.text</code>; wann och dee feelt, <code>system|code</code>. Ni eng eidel Zell.</li>
+    <li>Bitt e Bedienelement un, dat bei all Wäert de Codesystem an de Code weist, zum Beispill e Wiesselknäppchen mat „Codë weisen“. Verstoppte Codë bleiwen ausserhalb vun der Liesreiefolleg, bis se gewise ginn.</li>
+    <li>Markéiert klineschen Text mat der Sprooch vum Dokument (<code>lang</code>), déi vun där vun der Interface ofwäiche ka. Iwwersetzt d'Interface; ni de klineschen Inhalt.</li>
+    <li>Lily liwwert keng Terminologie: keng SNOMED-CT-, LOINC-, ATC- oder UCUM-Nosichen. Schreift, wat den Dokument seet. D'Muster weist d'Säit <code>/patient-summary</code> vum SvelteKit-Beispill.</li>
   </ul>
 
   <h2>Wat Lily net mécht</h2>

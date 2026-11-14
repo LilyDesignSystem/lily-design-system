@@ -96,6 +96,7 @@
   <ul>
     <li>Generički nazivi malim slovima, osim tall man slova s popisa FDA-a i ISMP-a ili vaše zemlje (Australija i Kanada objavljuju vlastite). Označite ih u <code>nameSegments</code>; Lily ih nikad ne pogađa.</li>
     <li>Jačinu zapišite s <code>formatQuantity</code>: bez završne nule, s početnom nulom i nerazdvojivim razmakom prije jedinice.</li>
+    <li>Zadržite komparator nalaza: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> ispisuje „&lt;5 mmol/L”. FHIR-ov <code>Quantity.comparator</code> zapisuje se kao &lt;, ≤, ≥ ili &gt;; ako ga izostavite, „manje od 5” postaje „5”.</li>
     <li>Pišite mL, nikad cc, i izbjegavajte svaku kraticu s ISMP-ova popisa kratica sklonih pogreškama.</li>
     <li>Nikad ne skraćujte naziv ni dozu lijeka.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Ploča odjela ili zaslon zapovjednog centra često se ažurira. Nikad ne najavljujte svaku promjenu: zadržite jednu pristojnu regiju sažetka („3 slobodna kreveta, 2 otpusta očekuju”) i pustite ljude da čitaju ploču.</li>
     <li>Svako stanje na ploči (krevet čist, zauzet, blokiran) tekst je ili stanje <code>data-*</code> s riječima, nikad samo boja.</li>
+  </ul>
+
+  <h2>Iz FHIR-a u Lily</h2>
+  <p>Lily ne čita FHIR resurse; vaš ih kôd preslikava u Lilyjeve props. Ove tablice preslikavaju HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Preslikavanje kodova je prijedlog: o njemu odlučuje vaša klinička sigurnosna procjena, a riječi za svako stanje vaše su.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS odjeljci i Lily komponente za njih</caption>
+      <thead>
+        <tr>
+          <th>IPS odjeljak</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Alergije i intolerancije (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> i njegove stavke</td>
+        </tr>
+        <tr>
+          <td>Sažetak lijekova (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, pri čemu svaka stavka sadrži <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Popis problema (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> i njegove stavke</td>
+        </tr>
+        <tr>
+          <td>Cijepljenja (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> i njegove stavke</td>
+        </tr>
+        <tr>
+          <td>Nalazi (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, u podatkovnoj tablici ili sažetom popisu</td>
+        </tr>
+        <tr>
+          <td>Povijest zahvata (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> i njegove stavke</td>
+        </tr>
+        <tr>
+          <td>Medicinski proizvodi (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> i njegove stavke</td>
+        </tr>
+        <tr>
+          <td>Upozorenja (<code>104605-1</code>)</td>
+          <td>Tekst upozorenja ili upozorenje, nikad iza sklopljene kontrole</td>
+        </tr>
+        <tr>
+          <td>Bilo koji drugi odjeljak</td>
+          <td><a href="/components/record-list/">record-list</a> i njegove stavke</td>
+        </tr>
+        <tr>
+          <td>Obavezan odjeljak koji dokument izostavlja</td>
+          <td>Popis odjeljka s <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR kodovi i Lily vrijednosti za njih</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Popis sa <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, s riječima koje kažu koje je</td>
+        </tr>
+        <tr>
+          <td>IPS kodovi <code>no-known-allergies</code>, <code>no-known-medications</code> i slično</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS kodovi <code>no-allergy-info</code>, <code>no-medication-info</code> i slično</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, odvojeno od reakcijskog <code>severity</code></td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Isti props na stavkama alergije i problema, s istim kodovima</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Stavka lijeka: <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, s istim kodovima</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Zapis sa statusom <code>entered-in-error</code> preslikajte u status <code>entered-in-error</code> riječima, umjesto da ga tiho izostavite: hoće li se uopće prikazati, odluka je vaše usluge.</p>
+
+  <h2>Kodirane vrijednosti</h2>
+  <ul>
+    <li>Prikažite <code>Coding.display</code>; ako ga nema, <code>CodeableConcept.text</code>; ako nema ni jednog ni drugog, <code>system|code</code>. Nikad prazna ćelija.</li>
+    <li>Ponudite kontrolu koja uz svaku vrijednost otkriva sustav kodova i kod, primjerice gumb za prebacivanje s tekstom „Prikaži kodove”. Skriveni kodovi ostaju izvan redoslijeda čitanja dok se ne prikažu.</li>
+    <li>Klinički tekst označite jezikom dokumenta (<code>lang</code>), koji se može razlikovati od jezika sučelja. Prevedite sučelje; klinički sadržaj nikad ne prevodite.</li>
+    <li>Lily ne isporučuje terminologiju: nema pretraga SNOMED CT, LOINC, ATC ili UCUM. Napišite što dokument kaže. Stranica <code>/patient-summary</code> u SvelteKit primjeru pokazuje obrazac.</li>
   </ul>
 
   <h2>Što Lily neće raditi</h2>

@@ -96,6 +96,7 @@
   <ul>
     <li>பொதுப் பெயர்கள் சிறிய எழுத்துகளில், FDA மற்றும் ISMP பட்டியல்கள் அல்லது உங்கள் நாட்டின் பட்டியல் (ஆஸ்திரேலியாவும் கனடாவும் தம்முடையதை வெளியிடுகின்றன) தரும் tall man எழுத்துகள் தவிர. அவற்றை <code>nameSegments</code> இல் குறியுங்கள்; Lily ஒருபோதும் ஊகிப்பதில்லை.</li>
     <li>வீரியத்தை <code>formatQuantity</code> கொண்டு எழுதுங்கள்: பின்னால் பூஜ்யம் இல்லை, முன்னால் பூஜ்யம் உண்டு, அலகுக்கு முன் உடையாத இடைவெளி.</li>
+    <li>முடிவின் ஒப்பீட்டுக் குறியைத் (comparator) தக்கவைத்துக்கொள்ளுங்கள்: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> “&lt;5 mmol/L” என எழுதுகிறது. FHIR இன் <code>Quantity.comparator</code> &lt;, ≤, ≥ அல்லது &gt; என எழுதப்படுகிறது; அதை விட்டுவிட்டால் “5 ஐ விடக் குறைவு” என்பது வெறும் “5” ஆகிவிடும்.</li>
     <li>mL என எழுதுங்கள், ஒருபோதும் cc அல்ல, ISMP-யின் பிழைக்கு இடமான சுருக்கங்களின் பட்டியலில் உள்ள ஒவ்வொரு சுருக்கத்தையும் தவிருங்கள்.</li>
     <li>மருந்தின் பெயரையோ அளவையோ ஒருபோதும் வெட்டாதீர்கள்.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>வார்டு பலகை அல்லது கட்டளை மைய திரை அடிக்கடி புதுப்பிக்கப்படும். ஒவ்வொரு மாற்றத்தையும் ஒருபோதும் அறிவிக்காதீர்கள்: ஒரு மென்மையான (polite) சுருக்கப் பகுதியை வையுங்கள் (“3 படுக்கைகள் காலி, 2 வெளியேற்றங்கள் காத்திருக்கின்றன”), மக்கள் பலகையைப் படிக்கட்டும்.</li>
     <li>பலகையில் ஒவ்வொரு நிலையும் (படுக்கை சுத்தம், நிரம்பியது, தடுக்கப்பட்டது) உரை அல்லது சொற்களுடன் கூடிய <code>data-*</code> நிலை, ஒருபோதும் நிறம் மட்டுமே அல்ல.</li>
+  </ul>
+
+  <h2>FHIR இலிருந்து Lily க்கு</h2>
+  <p>Lily FHIR வளங்களைப் படிப்பதில்லை; உங்கள் குறியீடு அவற்றை Lily இன் props உடன் இணைக்கிறது. இந்த அட்டவணைகள் HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4) ஐ இணைக்கின்றன. குறியீட்டு இணைப்பு ஒரு பரிந்துரை: அதை முடிவு செய்வது உங்கள் மருத்துவப் பாதுகாப்பு மதிப்பாய்வு, ஒவ்வொரு நிலைக்கான சொற்களும் உங்களுடையவையே.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS பிரிவுகளும் அவற்றுக்கான Lily கூறுகளும்</caption>
+      <thead>
+        <tr>
+          <th>IPS பிரிவு</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ஒவ்வாமைகளும் சகிப்பின்மைகளும் (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> மற்றும் அதன் உருப்படிகள்</td>
+        </tr>
+        <tr>
+          <td>மருந்துகளின் சுருக்கம் (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, அதன் ஒவ்வொரு உருப்படியிலும் ஒரு <a href="/components/medication-view/">medication-view</a> இருக்கும்</td>
+        </tr>
+        <tr>
+          <td>பிரச்சினைப் பட்டியல் (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> மற்றும் அதன் உருப்படிகள்</td>
+        </tr>
+        <tr>
+          <td>தடுப்பூசிகள் (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> மற்றும் அதன் உருப்படிகள்</td>
+        </tr>
+        <tr>
+          <td>முடிவுகள் (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, தரவு அட்டவணையிலோ சுருக்கப் பட்டியலிலோ</td>
+        </tr>
+        <tr>
+          <td>செயல்முறைகளின் வரலாறு (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> மற்றும் அதன் உருப்படிகள்</td>
+        </tr>
+        <tr>
+          <td>மருத்துவ சாதனங்கள் (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> மற்றும் அதன் உருப்படிகள்</td>
+        </tr>
+        <tr>
+          <td>எச்சரிக்கைகள் (<code>104605-1</code>)</td>
+          <td>எச்சரிக்கை உரை அல்லது அலர்ட், ஒருபோதும் மடக்கப்பட்ட கட்டுப்பாட்டின் பின்னால் அல்ல</td>
+        </tr>
+        <tr>
+          <td>வேறு எந்தப் பிரிவும்</td>
+          <td><a href="/components/record-list/">record-list</a> மற்றும் அதன் உருப்படிகள்</td>
+        </tr>
+        <tr>
+          <td>ஆவணம் விட்டுவிடும் தேவையான பிரிவு</td>
+          <td><code>status="omitted"</code> உடன் அந்தப் பிரிவின் பட்டியல்</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR குறியீடுகளும் அவற்றுக்கான Lily மதிப்புகளும்</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>பட்டியலின் <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, எது என்பதைச் சொல்லும் சொற்களுடன்</td>
+        </tr>
+        <tr>
+          <td>IPS குறியீடுகள் <code>no-known-allergies</code>, <code>no-known-medications</code> மற்றும் இவை போன்றவை</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS குறியீடுகள் <code>no-allergy-info</code>, <code>no-medication-info</code> மற்றும் இவை போன்றவை</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, எதிர்வினையின் <code>severity</code> இலிருந்து வேறுபட்டது</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>ஒவ்வாமை மற்றும் பிரச்சினை உருப்படிகளில் அதே props, அதே குறியீடுகளுடன்</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>மருந்து உருப்படியின் <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, அதே குறியீடுகளுடன்</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><code>entered-in-error</code> பதிவை அமைதியாக நீக்குவதற்குப் பதிலாக, சொற்களுடன் அதன் <code>entered-in-error</code> நிலைக்கு இணைக்கவும்: அதைக் காட்டுவதா வேண்டாமா என்பது உங்கள் சேவையின் முடிவு.</p>
+
+  <h2>குறியிடப்பட்ட மதிப்புகள்</h2>
+  <ul>
+    <li><code>Coding.display</code> ஐக் காட்டுங்கள்; அது இல்லையென்றால் <code>CodeableConcept.text</code>; இரண்டும் இல்லையென்றால் <code>system|code</code>. ஒருபோதும் வெற்றுக் கட்டம் அல்ல.</li>
+    <li>ஒவ்வொரு மதிப்புக்கும் அருகில் குறியீட்டு முறையையும் குறியீட்டையும் வெளிப்படுத்தும் கட்டுப்பாட்டை வழங்குங்கள், எடுத்துக்காட்டாக “குறியீடுகளைக் காட்டு” எனும் மாற்று பொத்தான். மறைக்கப்பட்ட குறியீடுகள் காட்டப்படும்வரை வாசிப்பு வரிசைக்கு வெளியே இருக்கும்.</li>
+    <li>மருத்துவ உரையை ஆவணத்தின் மொழியால் (<code>lang</code>) குறிக்கவும், அது இடைமுகத்தின் மொழியிலிருந்து வேறுபடலாம். இடைமுகத்தை மொழிபெயர்க்கவும்; மருத்துவ உள்ளடக்கத்தை ஒருபோதும் மொழிபெயர்க்காதீர்கள்.</li>
+    <li>Lily எந்தச் சொற்களஞ்சியத்தையும் வழங்குவதில்லை: SNOMED CT, LOINC, ATC அல்லது UCUM தேடல்கள் இல்லை. ஆவணம் சொல்வதையே எழுதுங்கள். SvelteKit எடுத்துக்காட்டின் <code>/patient-summary</code> பக்கம் இந்த வடிவத்தைக் காட்டுகிறது.</li>
   </ul>
 
   <h2>Lily செய்யாதவை</h2>

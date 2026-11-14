@@ -96,6 +96,7 @@
   <ul>
     <li>Ainmneacha cineálacha i litreacha beaga, ach amháin litreacha tall man ó liostaí an FDA agus ISMP nó ó liosta do thíre (foilsíonn an Astráil agus Ceanada a gcuid féin). Marcáil iad in <code>nameSegments</code>; ní thomhaiseann Lily riamh iad.</li>
     <li>Scríobh an neart le <code>formatQuantity</code>: gan nialas ag an deireadh, le nialas ar tosach, le spás neamhbhriste roimh an aonad.</li>
+    <li>Coinnigh comparadóir toraidh: scríobhann <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> “&lt;5 mmol/L”. Scríobhtar <code>Quantity.comparator</code> FHIR mar &lt;, ≤, ≥ nó &gt;; má fhágtar ar lár é, athraítear “níos lú ná 5” go “5”.</li>
     <li>Scríobh mL, cc riamh, agus seachain gach giorrúchán atá ar liosta ISMP de na cinn is dóchúla earráid.</li>
     <li>Ná giorraigh riamh ainm ná dáileog cógais.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Nuashonraítear bord barda nó scáileán lárionaid ceannais go minic. Ná fógair gach athrú riamh: coinnigh réigiún achoimre séimh amháin (“3 leaba saor, 2 scaoileadh amach ag teacht”) agus lig do dhaoine an bord a léamh.</li>
     <li>Is téacs nó staid <code>data-*</code> le focail gach staid ar bhord (leaba glan, áitithe, blocáilte), ní dath amháin riamh.</li>
+  </ul>
+
+  <h2>Ó FHIR go Lily</h2>
+  <p>Ní léann Lily acmhainní FHIR; mapálann do chód iad le props Lily. Mapálann na táblaí seo an HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Moladh is ea an mapáil cód: cinneann do athbhreithniú sábháilteachta cliniciúla é, agus is leatsa na focail do gach staid.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Rannáin IPS agus na comhpháirteanna Lily dóibh</caption>
+      <thead>
+        <tr>
+          <th>Rannán IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ailléirgí agus éadulaingtí (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> agus a míreanna</td>
+        </tr>
+        <tr>
+          <td>Achoimre cógais (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, agus <a href="/components/medication-view/">medication-view</a> i ngach mír</td>
+        </tr>
+        <tr>
+          <td>Liosta fadhbanna (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> agus a míreanna</td>
+        </tr>
+        <tr>
+          <td>Imdhíonadh (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> agus a míreanna</td>
+        </tr>
+        <tr>
+          <td>Torthaí (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, i dtábla sonraí nó i liosta achoimre</td>
+        </tr>
+        <tr>
+          <td>Stair nósanna imeachta (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> agus a míreanna</td>
+        </tr>
+        <tr>
+          <td>Feistí leighis (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> agus a míreanna</td>
+        </tr>
+        <tr>
+          <td>Foláirimh (<code>104605-1</code>)</td>
+          <td>Téacs rabhaidh nó foláireamh, ná taobh thiar de rialú fillte riamh</td>
+        </tr>
+        <tr>
+          <td>Aon rannán eile</td>
+          <td><a href="/components/record-list/">record-list</a> agus a míreanna</td>
+        </tr>
+        <tr>
+          <td>Rannán riachtanach a fhágann an doiciméad ar lár</td>
+          <td>Liosta an rannáin le <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Cóid FHIR agus na luachanna Lily dóibh</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> an liosta</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, le focail a deir cé acu</td>
+        </tr>
+        <tr>
+          <td>Cóid IPS <code>no-known-allergies</code>, <code>no-known-medications</code> agus a leithéid</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Cóid IPS <code>no-allergy-info</code>, <code>no-medication-info</code> agus a leithéid</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, scartha ó <code>severity</code> imoibrithe</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Na props céanna ar na míreanna ailléirge agus fadhbanna, leis na cóid chéanna</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> na míre cógais</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, leis na cóid chéanna</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Mapáil taifead <code>entered-in-error</code> dá stádas <code>entered-in-error</code>, le focail, in ionad é a scaoileadh go ciúin: cinneadh do sheirbhíse is ea an dtaispeántar ar chor ar bith é.</p>
+
+  <h2>Luachanna códaithe</h2>
+  <ul>
+    <li>Taispeáin <code>Coding.display</code>; mura bhfuil ceann ann, <code>CodeableConcept.text</code>; mura bhfuil ceachtar ann, <code>system|code</code>. Ná cill fholamh riamh.</li>
+    <li>Tairg rialú a nochtann an córas códaithe agus an cód le taobh gach luacha, mar chnaipe scoránaigh a deir “Taispeáin cóid”. Fanann cóid fholaithe lasmuigh d’ord léitheoireachta go dtí go dtaispeántar iad.</li>
+    <li>Marcáil an téacs cliniciúil le teanga an doiciméid (<code>lang</code>), a d’fhéadfadh a bheith difriúil le teanga an chomhéadain. Aistrigh an comhéadan; ná haistrigh an t-ábhar cliniciúil riamh.</li>
+    <li>Ní sholáthraíonn Lily téarmeolaíocht: gan cuardach SNOMED CT, LOINC, ATC ná UCUM. Scríobh an méid a deir an doiciméad. Taispeánann leathanach <code>/patient-summary</code> shampla SvelteKit an patrún.</li>
   </ul>
 
   <h2>Na rudaí nach ndéanfaidh Lily</h2>

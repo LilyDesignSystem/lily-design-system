@@ -96,6 +96,7 @@
   <ul>
     <li>Majina ya jumla kwa herufi ndogo, isipokuwa herufi za tall man kutoka orodha za FDA na ISMP au za nchi yako (Australia na Kanada huchapisha zao). Ziweke alama katika <code>nameSegments</code>; Lily haikisii kamwe.</li>
     <li>Andika nguvu kwa <code>formatQuantity</code>: hakuna sifuri ya mwisho, sifuri ya mwanzo, na nafasi isiyovunjika kabla ya kipimo.</li>
+    <li>Weka kilinganishi cha matokeo: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> huandika "&lt;5 mmol/L". <code>Quantity.comparator</code> ya FHIR huandikwa &lt;, ≤, ≥ au &gt;; kukiacha hubadilisha "chini ya 5" kuwa "5".</li>
     <li>Andika mL, kamwe si cc, na epuka kila kifupi kilicho kwenye orodha ya ISMP ya makosa yanayoweza kutokea.</li>
     <li>Kamwe usikate jina au dozi ya dawa.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Ubao wa wodi au skrini ya kituo cha uongozaji husasishwa mara kwa mara. Usitangaze kila badiliko: weka eneo moja la muhtasari la upole ("vitanda 3 vitupu, wagonjwa 2 wanatarajiwa kuruhusiwa") na uwaache watu wasome ubao.</li>
     <li>Kila hali kwenye ubao (kitanda safi, kimekaliwa, kimezuiwa) ni maandishi au hali ya <code>data-*</code> yenye maneno, si rangi peke yake.</li>
+  </ul>
+
+  <h2>Kutoka FHIR hadi Lily</h2>
+  <p>Lily haisomi rasilimali za FHIR; msimbo wako huzioanisha na props za Lily. Majedwali haya yanaoanisha HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). Uoanishaji wa misimbo ni pendekezo: mapitio yako ya usalama wa kliniki ndiyo huamua, na maneno ya kila hali ni yako mwenyewe.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">Sehemu za IPS na vijenzi vya Lily kwa ajili yake</caption>
+      <thead>
+        <tr>
+          <th>Sehemu ya IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mzio na kutovumilia (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> na vipengee vyake</td>
+        </tr>
+        <tr>
+          <td>Muhtasari wa dawa (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, kila kipengee kikiwa na <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>Orodha ya matatizo (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> na vipengee vyake</td>
+        </tr>
+        <tr>
+          <td>Chanjo (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> na vipengee vyake</td>
+        </tr>
+        <tr>
+          <td>Matokeo (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, katika jedwali la data au orodha ya muhtasari</td>
+        </tr>
+        <tr>
+          <td>Historia ya taratibu (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> na vipengee vyake</td>
+        </tr>
+        <tr>
+          <td>Vifaa vya matibabu (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> na vipengee vyake</td>
+        </tr>
+        <tr>
+          <td>Tahadhari (<code>104605-1</code>)</td>
+          <td>Maandishi ya onyo au tahadhari, kamwe si nyuma ya kidhibiti kilichokunjwa</td>
+        </tr>
+        <tr>
+          <td>Sehemu nyingine yoyote</td>
+          <td><a href="/components/record-list/">record-list</a> na vipengee vyake</td>
+        </tr>
+        <tr>
+          <td>Sehemu inayohitajika ambayo hati imeiacha</td>
+          <td>Orodha ya sehemu hiyo yenye <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">Misimbo ya FHIR na thamani za Lily kwa ajili yake</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> ya orodha</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, pamoja na maneno yanayosema ni ipi</td>
+        </tr>
+        <tr>
+          <td>Misimbo ya IPS <code>no-known-allergies</code>, <code>no-known-medications</code> na kama hiyo</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Misimbo ya IPS <code>no-allergy-info</code>, <code>no-medication-info</code> na kama hiyo</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, mbali na <code>severity</code> ya mwitikio</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Props zilezile kwenye vipengee vya mzio na tatizo, pamoja na misimbo ileile</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> ya kipengee cha dawa</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, pamoja na misimbo ileile</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Oanisha rekodi ya <code>entered-in-error</code> na hali yake ya <code>entered-in-error</code>, pamoja na maneno, badala ya kuiacha kimya kimya: kuionyesha au la ni uamuzi wa huduma yako.</p>
+
+  <h2>Thamani zenye misimbo</h2>
+  <ul>
+    <li>Onyesha <code>Coding.display</code>; ikiwa hakuna, <code>CodeableConcept.text</code>; ikiwa hakuna zote mbili, <code>system|code</code>. Kamwe usiache seli tupu.</li>
+    <li>Toa kidhibiti kinachofichua mfumo wa msimbo na msimbo kando ya kila thamani, kama kitufe cha kubadilisha kinachosema "Onyesha misimbo". Misimbo iliyofichwa hukaa nje ya mpangilio wa usomaji hadi ioneshwe.</li>
+    <li>Weka alama kwenye maandishi ya kliniki kwa lugha ya hati (<code>lang</code>), ambayo inaweza kutofautiana na ya kiolesura. Tafsiri kiolesura; kamwe usitafsiri maudhui ya kliniki.</li>
+    <li>Lily haisafirishi istilahi: hakuna utafutaji wa SNOMED CT, LOINC, ATC au UCUM. Andika kile hati inachosema. Mfano wa SvelteKit unaonyesha mtindo huo kwenye ukurasa wa <code>/patient-summary</code>.</li>
   </ul>
 
   <h2>Lily haitafanya nini</h2>

@@ -96,6 +96,7 @@
   <ul>
     <li>ຊື່ສາມັນຂຽນດ້ວຍຕົວພິມນ້ອຍ, ຍົກເວັ້ນຕົວອັກສອນ tall man ຈາກລາຍການຂອງ FDA ແລະ ISMP ຫຼື ຂອງປະເທດທ່ານ (ອົດສະຕຣາລີ ແລະ ການາດາປະກາດລາຍການຂອງຕົນເອງ). ໝາຍມັນໄວ້ໃນ <code>nameSegments</code>; Lily ບໍ່ເຄີຍເດົາ.</li>
     <li>ຂຽນຄວາມແຮງດ້ວຍ <code>formatQuantity</code>: ບໍ່ມີສູນທ້າຍ, ມີສູນນຳໜ້າ, ແລະ ມີຊ່ອງວ່າງແບບບໍ່ຕັດແຖວກ່ອນໜ່ວຍ.</li>
+    <li>ຮັກສາຕົວປຽບທຽບຂອງຜົນໄວ້: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> ຂຽນເປັນ "&lt;5 mmol/L". <code>Quantity.comparator</code> ຂອງ FHIR ຂຽນເປັນ &lt;, ≤, ≥ ຫຼື &gt;; ຖ້າຕັດອອກ "ໜ້ອຍກວ່າ 5" ຈະກາຍເປັນ "5".</li>
     <li>ຂຽນ mL, ບໍ່ແມ່ນ cc, ແລະ ຫຼີກລ່ຽງຕົວຫຍໍ້ທຸກຕົວໃນລາຍການທີ່ເຮັດໃຫ້ເກີດຂໍ້ຜິດພາດງ່າຍຂອງ ISMP.</li>
     <li>ຫ້າມຕັດທອນຊື່ ຫຼື ຂະໜາດຢາເດັດຂາດ.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>ກະດານປະຈຳຫໍຜູ້ປ່ວຍ ຫຼື ໜ້າຈໍສູນບັນຊາການອັບເດດເລື້ອຍໆ. ຫ້າມປະກາດທຸກການປ່ຽນແປງ: ໃຫ້ມີພື້ນທີ່ສະຫຼຸບແບບສຸພາບ (polite) ໜຶ່ງແຫ່ງ ("ຕຽງວ່າງ 3 ຕຽງ, ລໍຖ້າອອກໂຮງໝໍ 2 ຄົນ") ແລະ ໃຫ້ຄົນອ່ານກະດານເອງ.</li>
     <li>ທຸກສະຖານະເທິງກະດານ (ຕຽງສະອາດ, ມີຄົນເຈັບ, ຖືກປິດ) ເປັນຂໍ້ຄວາມ ຫຼື ສະຖານະ <code>data-*</code> ທີ່ມີຖ້ອຍຄຳ, ບໍ່ໃຊ້ສີພຽງຢ່າງດຽວ.</li>
+  </ul>
+
+  <h2>ຈາກ FHIR ເຖິງ Lily</h2>
+  <p>Lily ບໍ່ອ່ານຊັບພະຍາກອນ FHIR; ໂຄດຂອງທ່ານແມັບມັນໄປຍັງ props ຂອງ Lily. ຕາຕະລາງທັງສອງນີ້ແມັບ HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4). ການແມັບລະຫັດເປັນພຽງຄຳແນະນຳ: ການທົບທວນຄວາມປອດໄພທາງຄລີນິກຂອງທ່ານເປັນຜູ້ຕັດສິນ, ແລະ ຖ້ອຍຄຳສຳລັບທຸກສະຖານະແມ່ນຂອງທ່ານເອງ.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">ພາກສ່ວນຂອງ IPS ແລະ ຄອມໂປເນັນ Lily ທີ່ກົງກັນ</caption>
+      <thead>
+        <tr>
+          <th>ພາກສ່ວນຂອງ IPS</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>ການແພ້ ແລະ ພາວະບໍ່ທົນຕໍ່ສານ (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> ແລະ ລາຍການຍ່ອຍ</td>
+        </tr>
+        <tr>
+          <td>ສະຫຼຸບຢາ (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a> ໂດຍແຕ່ລະລາຍການມີ <a href="/components/medication-view/">medication-view</a></td>
+        </tr>
+        <tr>
+          <td>ລາຍການບັນຫາ (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> ແລະ ລາຍການຍ່ອຍ</td>
+        </tr>
+        <tr>
+          <td>ການສັກວັກຊີນ (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> ແລະ ລາຍການຍ່ອຍ</td>
+        </tr>
+        <tr>
+          <td>ຜົນກວດ (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a> ໃນຕາຕະລາງຂໍ້ມູນ ຫຼື ລາຍການສະຫຼຸບ</td>
+        </tr>
+        <tr>
+          <td>ປະຫວັດການເຮັດຫັດຖະການ (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> ແລະ ລາຍການຍ່ອຍ</td>
+        </tr>
+        <tr>
+          <td>ອຸປະກອນການແພດ (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> ແລະ ລາຍການຍ່ອຍ</td>
+        </tr>
+        <tr>
+          <td>ການແຈ້ງເຕືອນ (<code>104605-1</code>)</td>
+          <td>ຂໍ້ຄວາມເຕືອນ ຫຼື ການແຈ້ງເຕືອນ, ຫ້າມຊ່ອນໄວ້ຫຼັງຕົວຄວບຄຸມທີ່ຫຍໍ້ຢູ່ເດັດຂາດ</td>
+        </tr>
+        <tr>
+          <td>ພາກສ່ວນອື່ນໆ</td>
+          <td><a href="/components/record-list/">record-list</a> ແລະ ລາຍການຍ່ອຍ</td>
+        </tr>
+        <tr>
+          <td>ພາກສ່ວນທີ່ຈຳເປັນແຕ່ເອກະສານຂ້າມໄປ</td>
+          <td>ລາຍການຂອງພາກສ່ວນນັ້ນພ້ອມ <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">ລະຫັດ FHIR ແລະ ຄ່າ Lily ທີ່ກົງກັນ</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td><code>status="none-known"</code> ຂອງລາຍການ</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code> ພ້ອມຖ້ອຍຄຳທີ່ບອກວ່າເປັນກໍລະນີໃດ</td>
+        </tr>
+        <tr>
+          <td>ລະຫັດ IPS <code>no-known-allergies</code>, <code>no-known-medications</code> ແລະ ລະຫັດທຳນອງດຽວກັນ</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>ລະຫັດ IPS <code>no-allergy-info</code>, <code>no-medication-info</code> ແລະ ລະຫັດທຳນອງດຽວກັນ</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code> ແຍກຈາກ <code>severity</code> ຂອງປະຕິກິລິຍາ</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>props ດຽວກັນເທິງລາຍການພູມແພ້ ແລະ ລາຍການບັນຫາ, ພ້ອມລະຫັດດຽວກັນ</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td><code>status</code> ຂອງລາຍການຢາ</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>status</code> ຂອງ <code>observation-view</code> ພ້ອມລະຫັດດຽວກັນ</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>ແມັບບັນທຶກ <code>entered-in-error</code> ໄປຍັງສະຖານະ <code>entered-in-error</code> ຂອງມັນ ພ້ອມຖ້ອຍຄຳ, ແທນທີ່ຈະຖິ້ມໄປງຽບໆ: ຈະສະແດງຫຼືບໍ່ເປັນການຕັດສິນໃຈຂອງບໍລິການຂອງທ່ານ.</p>
+
+  <h2>ຄ່າທີ່ມີລະຫັດ</h2>
+  <ul>
+    <li>ສະແດງ <code>Coding.display</code>; ຖ້າບໍ່ມີໃຫ້ສະແດງ <code>CodeableConcept.text</code>; ຖ້າບໍ່ມີທັງສອງໃຫ້ສະແດງ <code>system|code</code>. ຫ້າມປ່ອຍຊ່ອງຫວ່າງເດັດຂາດ.</li>
+    <li>ຈັດໃຫ້ມີຕົວຄວບຄຸມທີ່ເປີດເຜີຍລະບົບລະຫັດ ແລະ ລະຫັດຂ້າງແຕ່ລະຄ່າ, ເຊັ່ນ ປຸ່ມສະຫຼັບທີ່ຂຽນວ່າ "ສະແດງລະຫັດ". ລະຫັດທີ່ຊ່ອນຢູ່ຈະບໍ່ຢູ່ໃນລຳດັບການອ່ານຈົນກວ່າຈະສະແດງ.</li>
+    <li>ລະບຸພາສາຂອງເອກະສານ (<code>lang</code>) ເທິງຂໍ້ຄວາມທາງຄລີນິກ, ເຊິ່ງອາດຕ່າງຈາກພາສາຂອງສ່ວນຕິດຕໍ່. ແປສ່ວນຕິດຕໍ່; ຫ້າມແປເນື້ອຫາທາງຄລີນິກເດັດຂາດ.</li>
+    <li>Lily ບໍ່ມີສັບມາດຕະຖານມາໃຫ້: ບໍ່ມີການຄົ້ນຫາ SNOMED CT, LOINC, ATC ຫຼື UCUM. ຂຽນຕາມທີ່ເອກະສານບອກ. ໜ້າ <code>/patient-summary</code> ຂອງຕົວຢ່າງ SvelteKit ສະແດງຮູບແບບນີ້.</li>
   </ul>
 
   <h2>ສິ່ງທີ່ Lily ຈະບໍ່ເຮັດ</h2>

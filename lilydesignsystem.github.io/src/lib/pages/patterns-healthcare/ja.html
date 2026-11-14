@@ -96,6 +96,7 @@
   <ul>
     <li>一般名は小文字で書きます。ただし、FDA と ISMP のリスト、または自国のリスト（オーストラリアとカナダは独自のものを公表しています）にある tall man の大文字は除きます。それらは <code>nameSegments</code> に指定します。Lily が推測することは決してありません。</li>
     <li>規格は <code>formatQuantity</code> で書きます。末尾のゼロなし、先頭のゼロあり、単位の前にノーブレークスペース。</li>
+    <li>結果の比較演算子を残します。<code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> は「&lt;5 mmol/L」と書きます。FHIR の <code>Quantity.comparator</code> は &lt;、≤、≥、&gt; のいずれかで書かれ、これを落とすと「5 未満」が「5」になってしまいます。</li>
     <li>cc ではなく mL と書き、ISMP の誤りやすい略語のリストにある略語はすべて避けます。</li>
     <li>医薬品の名称や用量を切り詰めてはいけません。</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>病棟ボードやコマンドセンターの画面は頻繁に更新されます。変更のたびに知らせてはいけません。丁寧な（polite）要約リージョンを 1 つ保ち（「空床 3、退院予定 2」）、ボードは人が読むに任せます。</li>
     <li>ボード上のすべての状態（ベッド清掃済み、使用中、使用不可）は、テキスト、または言葉を伴う <code>data-*</code> の状態で示し、色だけで示してはいけません。</li>
+  </ul>
+
+  <h2>FHIR から Lily へ</h2>
+  <p>Lily は FHIR リソースを読み取りません。コードがそれらを Lily の props に対応付けます。この 2 つの表は HL7 FHIR International Patient Summary（IPS 2.0.1、FHIR R4）を対応付けたものです。コードの対応は提案であり、決めるのは臨床安全性のレビューです。各状態を表す言葉は、各自で用意します。</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS のセクションと対応する Lily コンポーネント</caption>
+      <thead>
+        <tr>
+          <th>IPS セクション</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>アレルギーおよび不耐症（<code>48765-2</code>）</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a>とその項目</td>
+        </tr>
+        <tr>
+          <td>投薬サマリー（<code>10160-0</code>）</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>。各項目に <a href="/components/medication-view/">medication-view</a> を含めます</td>
+        </tr>
+        <tr>
+          <td>問題リスト（<code>11450-4</code>）</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a>とその項目</td>
+        </tr>
+        <tr>
+          <td>予防接種（<code>11369-6</code>）</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a>とその項目</td>
+        </tr>
+        <tr>
+          <td>検査結果（<code>30954-2</code>）</td>
+          <td><a href="/components/observation-view/">observation-view</a>。データテーブルまたはサマリーリストの中で使います</td>
+        </tr>
+        <tr>
+          <td>処置の履歴（<code>47519-4</code>）</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a>とその項目</td>
+        </tr>
+        <tr>
+          <td>医療機器（<code>46264-8</code>）</td>
+          <td><a href="/components/device-record-list/">device-record-list</a>とその項目</td>
+        </tr>
+        <tr>
+          <td>アラート（<code>104605-1</code>）</td>
+          <td>警告テキストまたはアラート。折りたたまれたコントロールの内側には決して置きません</td>
+        </tr>
+        <tr>
+          <td>その他のセクション</td>
+          <td><a href="/components/record-list/">record-list</a>とその項目</td>
+        </tr>
+        <tr>
+          <td>文書が省いた必須セクション</td>
+          <td>そのセクションのリストに <code>status="omitted"</code> を指定します</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR のコードと対応する Lily の値</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>リストの <code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>。どれに当たるかを示す言葉を添えます</td>
+        </tr>
+        <tr>
+          <td>IPS コード <code>no-known-allergies</code>、<code>no-known-medications</code> など</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>IPS コード <code>no-allergy-info</code>、<code>no-medication-info</code> など</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>。反応の <code>severity</code> とは別です</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>アレルギーと問題の項目にある同じ props。同じコードを使います</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>投薬項目の <code>status</code></td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> の <code>status</code>。同じコードを使います</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p><code>entered-in-error</code> の記録は、黙って除外せずに、言葉を添えて <code>entered-in-error</code> 状態に対応付けます。表示するかどうかはサービスが決めます。</p>
+
+  <h2>コード化された値</h2>
+  <ul>
+    <li><code>Coding.display</code> を表示します。なければ <code>CodeableConcept.text</code>、どちらもなければ <code>system|code</code> を表示します。空のセルは決して出しません。</li>
+    <li>各値の横にコード体系とコードを表示するコントロールを用意します。たとえば「コードを表示」と書かれたトグルボタンです。非表示のコードは、表示されるまで読み上げ順序に含まれません。</li>
+    <li>臨床テキストには、インターフェースの言語とは異なる場合がある文書の言語（<code>lang</code>）を指定します。インターフェースは翻訳しますが、臨床の内容は決して翻訳しません。</li>
+    <li>Lily は用語集を同梱しません。SNOMED CT、LOINC、ATC、UCUM の検索はありません。文書に書かれていることをそのまま書きます。SvelteKit の例の <code>/patient-summary</code> ページがそのパターンを示しています。</li>
   </ul>
 
   <h2>Lily が行わないこと</h2>

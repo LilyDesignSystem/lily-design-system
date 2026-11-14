@@ -96,6 +96,7 @@
   <ul>
     <li>Generische Namen in Kleinbuchstaben, außer Tall-Man-Buchstaben aus den Listen von FDA und ISMP oder Ihres Landes (Australien und Kanada veröffentlichen eigene). Markieren Sie sie in <code>nameSegments</code>; Lily errät sie nie.</li>
     <li>Schreiben Sie die Stärke mit <code>formatQuantity</code>: keine nachgestellte Null, eine führende Null, ein geschütztes Leerzeichen vor der Einheit.</li>
+    <li>Behalten Sie den Vergleichsoperator eines Befunds bei: <code>formatQuantity(5, "mmol/L", locale, "&lt;")</code> schreibt „&lt;5 mmol/L“. Der <code>Quantity.comparator</code> von FHIR wird als &lt;, ≤, ≥ oder &gt; geschrieben; lässt man ihn weg, wird aus „weniger als 5“ ein „5“.</li>
     <li>Schreiben Sie mL, nie cc, und vermeiden Sie jede Abkürzung auf der ISMP-Liste fehleranfälliger Abkürzungen.</li>
     <li>Kürzen Sie nie den Namen oder die Dosis eines Arzneimittels.</li>
   </ul>
@@ -111,6 +112,132 @@
   <ul>
     <li>Eine Stationstafel oder ein Leitstellenbildschirm aktualisiert sich oft. Kündigen Sie nie jede Änderung an: Halten Sie eine höfliche Zusammenfassungsregion („3 Betten frei, 2 Entlassungen fällig“) und lassen Sie die Menschen die Tafel lesen.</li>
     <li>Jeder Zustand auf einer Tafel (Bett gereinigt, belegt, gesperrt) ist Text oder ein <code>data-*</code>-Zustand mit Worten, nie nur Farbe.</li>
+  </ul>
+
+  <h2>Von FHIR zu Lily</h2>
+  <p>Lily liest keine FHIR-Ressourcen; Ihr Code bildet sie auf die Props von Lily ab. Diese Tabellen bilden die HL7 FHIR International Patient Summary (IPS 2.0.1, FHIR R4) ab. Die Code-Zuordnung ist ein Vorschlag: Ihre klinische Sicherheitsprüfung entscheidet darüber, und die Wörter für jeden Zustand sind Ihre eigenen.</p>
+  <div role="region" aria-labelledby="healthcare-sections" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-sections">IPS-Abschnitte und die zugehörigen Lily-Komponenten</caption>
+      <thead>
+        <tr>
+          <th>IPS-Abschnitt</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Allergien und Unverträglichkeiten (<code>48765-2</code>)</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> und ihre Einträge</td>
+        </tr>
+        <tr>
+          <td>Medikationsübersicht (<code>10160-0</code>)</td>
+          <td><a href="/components/medication-record-list/">medication-record-list</a>, wobei jeder Eintrag eine <a href="/components/medication-view/">medication-view</a> enthält</td>
+        </tr>
+        <tr>
+          <td>Problemliste (<code>11450-4</code>)</td>
+          <td><a href="/components/problem-record-list/">problem-record-list</a> und ihre Einträge</td>
+        </tr>
+        <tr>
+          <td>Impfungen (<code>11369-6</code>)</td>
+          <td><a href="/components/immunization-record-list/">immunization-record-list</a> und ihre Einträge</td>
+        </tr>
+        <tr>
+          <td>Befunde (<code>30954-2</code>)</td>
+          <td><a href="/components/observation-view/">observation-view</a>, in einer Datentabelle oder Zusammenfassungsliste</td>
+        </tr>
+        <tr>
+          <td>Vorgeschichte von Eingriffen (<code>47519-4</code>)</td>
+          <td><a href="/components/procedure-record-list/">procedure-record-list</a> und ihre Einträge</td>
+        </tr>
+        <tr>
+          <td>Medizinprodukte (<code>46264-8</code>)</td>
+          <td><a href="/components/device-record-list/">device-record-list</a> und ihre Einträge</td>
+        </tr>
+        <tr>
+          <td>Warnungen (<code>104605-1</code>)</td>
+          <td>Ein Warntext oder eine Warnung, nie hinter einem eingeklappten Bedienelement</td>
+        </tr>
+        <tr>
+          <td>Jeder andere Abschnitt</td>
+          <td><a href="/components/record-list/">record-list</a> und ihre Einträge</td>
+        </tr>
+        <tr>
+          <td>Ein erforderlicher Abschnitt, den das Dokument auslässt</td>
+          <td>Die Liste des Abschnitts mit <code>status="omitted"</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div role="region" aria-labelledby="healthcare-codes" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-codes">FHIR-Codes und die zugehörigen Lily-Werte</caption>
+      <thead>
+        <tr>
+          <th>FHIR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>emptyReason</code> <code>nilknown</code></td>
+          <td>Der <code>status="none-known"</code> der Liste</td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>notasked</code>, <code>notstarted</code></td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>emptyReason</code> <code>unavailable</code>, <code>withheld</code>, <code>closed</code></td>
+          <td><code>status="unavailable"</code>, mit Wörtern, die sagen, welcher Fall vorliegt</td>
+        </tr>
+        <tr>
+          <td>Die IPS-Codes <code>no-known-allergies</code>, <code>no-known-medications</code> und ähnliche</td>
+          <td><code>status="none-known"</code></td>
+        </tr>
+        <tr>
+          <td>Die IPS-Codes <code>no-allergy-info</code>, <code>no-medication-info</code> und ähnliche</td>
+          <td><code>status="not-recorded"</code></td>
+        </tr>
+        <tr>
+          <td><code>AllergyIntolerance.criticality</code></td>
+          <td><code>criticality</code>, getrennt vom <code>severity</code> einer Reaktion</td>
+        </tr>
+        <tr>
+          <td><code>clinicalStatus</code>, <code>verificationStatus</code></td>
+          <td>Dieselben Props an den Allergie- und Problemeinträgen, mit denselben Codes</td>
+        </tr>
+        <tr>
+          <td><code>MedicationStatement.status</code></td>
+          <td>Der <code>status</code> des Medikationseintrags</td>
+        </tr>
+        <tr>
+          <td><code>Dosage.text</code></td>
+          <td><code>medication-view</code> <code>dosageText</code></td>
+        </tr>
+        <tr>
+          <td><code>Observation.status</code></td>
+          <td><code>observation-view</code> <code>status</code>, mit denselben Codes</td>
+        </tr>
+        <tr>
+          <td><code>Observation.dataAbsentReason</code> <code>masked</code></td>
+          <td><code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>Quantity.comparator</code></td>
+          <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Bilden Sie einen Datensatz <code>entered-in-error</code> auf seinen Status <code>entered-in-error</code> ab, mit Wörtern, statt ihn stillschweigend wegzulassen: Ob er überhaupt angezeigt wird, entscheidet Ihr Dienst.</p>
+
+  <h2>Codierte Werte</h2>
+  <ul>
+    <li>Zeigen Sie <code>Coding.display</code> an; falls es fehlt, <code>CodeableConcept.text</code>; falls beides fehlt, <code>system|code</code>. Nie eine leere Zelle.</li>
+    <li>Bieten Sie ein Bedienelement an, das neben jedem Wert das Codesystem und den Code zeigt, etwa eine Umschaltfläche mit der Aufschrift „Codes anzeigen“. Verborgene Codes bleiben außerhalb der Lesereihenfolge, bis sie angezeigt werden.</li>
+    <li>Kennzeichnen Sie klinischen Text mit der Sprache des Dokuments (<code>lang</code>), die von der der Oberfläche abweichen kann. Übersetzen Sie die Oberfläche; übersetzen Sie niemals den klinischen Inhalt.</li>
+    <li>Lily liefert keine Terminologie: keine Abfragen von SNOMED CT, LOINC, ATC oder UCUM. Schreiben Sie, was das Dokument sagt. Die Seite <code>/patient-summary</code> des SvelteKit-Beispiels zeigt das Muster.</li>
   </ul>
 
   <h2>Was Lily nicht tun wird</h2>

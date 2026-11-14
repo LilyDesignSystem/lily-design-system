@@ -3602,14 +3602,14 @@ shown, never decided.
       In a client-side viewer a search goes to `/?text`, which drops the loaded document and can put typed text (perhaps a
       patient's name) into the URL and history. Render search only when `labels.search` is given, as `labels.link` works.
       Verify: tests in all eight catalogs that the bar renders no search picker without the label, and one with it. _(2026-11-14: done in all eight catalogs: without `labels.search` no search picker renders, and the three search labels are optional in each labels type (C# record included). A test in each; removing Svelte's guard makes it fail. Recorded as Unreleased in each package's CHANGELOG; the version bump waits for the release, T1.)_
-- [ ] **P28-T8 FHIR to Lily mapping in the adopter guide.** In `docs/patterns/healthcare/index.md`: IPS sections to Lily
+- [x] **P28-T8 FHIR to Lily mapping in the adopter guide.** In `docs/patterns/healthcare/index.md`: IPS sections to Lily
       components, and FHIR codes to Lily states (Observation interpretation and status, AllergyIntolerance criticality and
       verification, the IPS `no-known-*` and `no-*-info` codes, `dataAbsentReason`, `emptyReason`).
-      Verify: the table exists, each Lily value it names is in a component's `AGENTS.md`, and `bin/check-links` passes.
-- [ ] **P28-T9 Coded values, as a pattern.** Show `coding.display`, then `CodeableConcept.text`, then `system|code`, with a
+      Verify: the table exists, each Lily value it names is in a component's `AGENTS.md`, and `bin/check-links` passes. _(2026-11-14: done. "From FHIR to Lily" in `docs/patterns/healthcare/index.md` and on the site page: IPS sections to components, and FHIR codes (emptyReason, the IPS absent and unknown codes, criticality, the statuses, dataAbsentReason, comparator, Dosage.text) to Lily values, as a suggestion the adopter's clinical safety review decides. Every Lily value it names is in a component's `AGENTS.md`; `bin/check-links` passes.)_
+- [x] **P28-T9 Coded values, as a pattern.** Show `coding.display`, then `CodeableConcept.text`, then `system|code`, with a
       control that reveals the code system and code, and the document's `lang` on clinical text. A documented pattern in the
       guide, not a component, since Lily ships no terminology.
-      Verify: the pattern is in the guide, with a working example on the SvelteKit `/patient-summary` page.
+      Verify: the pattern is in the guide, with a working example on the SvelteKit `/patient-summary` page. _(2026-11-14: done. "Coded values" in the guide and on the site page; `/patient-summary` has a "Show codes" toggle button that reveals ATC and SNOMED CT codes (`hidden` until pressed) and marks the clinical content with the document's `lang`. Its e2e test checks the codes are hidden, then shown by Enter, in Chromium and WebKit. The same commit fixes the three Phase 27 pages' `clinical-format` imports, which svelte-check could not resolve.)_
 
 ---
 

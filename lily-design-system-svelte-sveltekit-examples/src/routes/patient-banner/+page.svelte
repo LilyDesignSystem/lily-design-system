@@ -10,7 +10,7 @@
     import AllergyRecordList from "#lib/components/AllergyRecordList/AllergyRecordList.svelte";
     import AllergyRecordListItem from "#lib/components/AllergyRecordListItem/AllergyRecordListItem.svelte";
     import EnglandNationalHealthServiceNumberView from "#lib/components/EnglandNationalHealthServiceNumberView/EnglandNationalHealthServiceNumberView.svelte";
-    import { ageParts, toIsoDuration } from "#lib/components/clinical-format";
+    import { ageParts, toIsoDuration } from "#lib/components/clinical-format.ts";
 
     // Demo content in English through the same props a consumer would translate. The age words come from Intl where the
     // browser has Intl.DurationFormat, and from the numbers alone otherwise; Lily writes no unit words.
