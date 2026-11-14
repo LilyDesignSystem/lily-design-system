@@ -68,7 +68,7 @@ keyboard contract as documented in that element's own `spec/index.md`.
 standard `getAttribute("class")` / `element.className`, following this
 catalog's existing convention (e.g. `<theme-picker>`).
 
-`labels` (`{ search, searchInput, searchSubmit, theme, locale,
+`labels` (`{ search?, searchInput?, searchSubmit?, theme, locale,
 textSize, share }`, the seven accessible names) and `shareTargets` (its `href` is a function) are **property-only**
 — no honest attribute encoding exists for either, the same reasoning
 `date-time-picker`'s `labels` and `share-picker`'s `targets` already

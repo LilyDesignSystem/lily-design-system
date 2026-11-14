@@ -57,7 +57,16 @@
         interpretation?: string;
         flagLabel?: string;
         range?: string;
-        status?: "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable";
+        status?:
+            | "final"
+            | "preliminary"
+            | "amended"
+            | "corrected"
+            | "entered-in-error"
+            | "cancelled"
+            | "masked"
+            | "not-recorded"
+            | "unavailable";
         statusLabel?: string;
         [key: string]: unknown;
     } = $props();

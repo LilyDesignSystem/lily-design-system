@@ -53,22 +53,24 @@ markup of its own beyond the root wrapper.
 
 ## 4. Props
 
-| Prop            | Type                                                                           | Required | Default                 |
-| --------------- | ------------------------------------------------------------------------------ | -------- | ----------------------- |
-| `labels`        | `{ link?, search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes      | —                       |
-| `links`         | `LinkItem[]`                                                                   | no       | `[]` (no link picker)   |
-| `linkProps`     | `Partial<LinkPicker Props>`                                                    | no       | `{}`                    |
-| `searchProps`   | `Partial<SearchPicker Props>`                                                  | no       | `{}`                    |
-| `themesUrl`     | `string`                                                                       | yes      | —                       |
-| `themes`        | `string[]`                                                                     | no       | `DEFAULT_THEMES` (§5.1) |
-| `themeProps`    | `Partial<ThemePicker Props>`                                                   | no       | `{}`                    |
-| `locales`       | `string[]`                                                                     | yes      | —                       |
-| `localeProps`   | `Partial<LocalePicker Props>`                                                  | no       | `{}`                    |
-| `sizes`         | `string[]`                                                                     | no       | `DEFAULT_SIZES` (§5.2)  |
-| `textSizeProps` | `Partial<TextSizePicker Props>`                                                | no       | `{}`                    |
-| `shareTargets`  | `ShareTarget[]`                                                                | no       | `[]`                    |
-| `shareProps`    | `Partial<SharePicker Props>`                                                   | no       | `{}`                    |
-| `class`         | `string`                                                                       | no       | `""`                    |
+| Prop            | Type                                                                              | Required | Default                 |
+| --------------- | --------------------------------------------------------------------------------- | -------- | ----------------------- |
+| `labels`        | `{ link?, search?, searchInput?, searchSubmit?, theme, locale, textSize, share }` | yes      | —                       |
+| `links`         | `LinkItem[]`                                                                      | no       | `[]` (no link picker)   |
+| `linkProps`     | `Partial<LinkPicker Props>`                                                       | no       | `{}`                    |
+| `searchProps`   | `Partial<SearchPicker Props>`                                                     | no       | `{}`                    |
+| `themesUrl`     | `string`                                                                          | yes      | —                       |
+| `themes`        | `string[]`                                                                        | no       | `DEFAULT_THEMES` (§5.1) |
+| `themeProps`    | `Partial<ThemePicker Props>`                                                      | no       | `{}`                    |
+| `locales`       | `string[]`                                                                        | yes      | —                       |
+| `localeProps`   | `Partial<LocalePicker Props>`                                                     | no       | `{}`                    |
+| `sizes`         | `string[]`                                                                        | no       | `DEFAULT_SIZES` (§5.2)  |
+| `textSizeProps` | `Partial<TextSizePicker Props>`                                                   | no       | `{}`                    |
+| `shareTargets`  | `ShareTarget[]`                                                                   | no       | `[]`                    |
+| `shareProps`    | `Partial<SharePicker Props>`                                                      | no       | `{}`                    |
+| `class`         | `string`                                                                          | no       | `""`                    |
+
+Search is optional (2026-11-14, tasks.md P28-T7): without `labels.search` the bar renders no search picker, and the theme picker comes first after any link picker. A client-side app, such as a viewer that holds a document in memory, leaves it out, because submitting a search navigates to `/?text`, which drops the app's state and can put typed text into the URL and history. When `labels.search` is given, `searchInput` and `searchSubmit` are needed too.
 
 `labels` carries the seven accessible names as one object, following
 `date-time-picker`'s precedent (AGENTS/helpers.md): structural labels

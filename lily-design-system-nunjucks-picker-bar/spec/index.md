@@ -102,21 +102,21 @@ the renderable options (`placeholder`, `value`, `action`, `name`, `id`,
 Single `opts` object (see `picker-bar.njk`'s own header comment for the
 authoritative, most detailed list):
 
-| Param           | Type                                                                    | Required | Default                 |
-| --------------- | ----------------------------------------------------------------------- | -------- | ----------------------- |
-| `labels`        | `{ search, searchInput, searchSubmit, theme, locale, textSize, share }` | yes      | —                       |
-| `themesUrl`     | `string`                                                                | yes      | —                       |
-| `locales`       | `array<string>`                                                         | yes      | —                       |
-| `themes`        | `array<string>`                                                         | no       | `DEFAULT_THEMES` (§5.1) |
-| `sizes`         | `array<string>`                                                         | no       | `DEFAULT_SIZES` (§5.2)  |
-| `shareTargets`  | `array<object>`                                                         | no       | `[]`                    |
-| `searchProps`   | `object`                                                                | no       | `{}`                    |
-| `themeProps`    | `object`                                                                | no       | `{}`                    |
-| `localeProps`   | `object`                                                                | no       | `{}`                    |
-| `textSizeProps` | `object`                                                                | no       | `{}`                    |
-| `shareProps`    | `object`                                                                | no       | `{}`                    |
-| `classes`       | `string`                                                                | no       | `""`                    |
-| `attributes`    | `object`                                                                | no       | `{}`                    |
+| Param           | Type                                                                       | Required | Default                 |
+| --------------- | -------------------------------------------------------------------------- | -------- | ----------------------- |
+| `labels`        | `{ search?, searchInput?, searchSubmit?, theme, locale, textSize, share }` | yes      | —                       |
+| `themesUrl`     | `string`                                                                   | yes      | —                       |
+| `locales`       | `array<string>`                                                            | yes      | —                       |
+| `themes`        | `array<string>`                                                            | no       | `DEFAULT_THEMES` (§5.1) |
+| `sizes`         | `array<string>`                                                            | no       | `DEFAULT_SIZES` (§5.2)  |
+| `shareTargets`  | `array<object>`                                                            | no       | `[]`                    |
+| `searchProps`   | `object`                                                                   | no       | `{}`                    |
+| `themeProps`    | `object`                                                                   | no       | `{}`                    |
+| `localeProps`   | `object`                                                                   | no       | `{}`                    |
+| `textSizeProps` | `object`                                                                   | no       | `{}`                    |
+| `shareProps`    | `object`                                                                   | no       | `{}`                    |
+| `classes`       | `string`                                                                   | no       | `""`                    |
+| `attributes`    | `object`                                                                   | no       | `{}`                    |
 
 `labels` carries seven required accessible names, with no English
 default: `search` names the search picker's icon button and search

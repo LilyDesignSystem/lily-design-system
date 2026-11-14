@@ -109,12 +109,16 @@ export type PickerBarLabels = {
      * supplied; the link picker renders only when both are present.
      */
     link?: string;
-    /** Accessible name for the search picker's button and search landmark. */
-    search: string;
+    /**
+     * Accessible name for the search picker's button and search landmark. Optional: omitted or empty, the bar has no search
+     * picker (a client-side app whose search would navigate away from its state can leave it out). When given, `searchInput`
+     * and `searchSubmit` are needed too.
+     */
+    search?: string;
     /** Accessible name for the search picker's text field. */
-    searchInput: string;
+    searchInput?: string;
     /** Accessible name for the search picker's ⏎ submit button. */
-    searchSubmit: string;
+    searchSubmit?: string;
     /** Accessible name for the theme picker's button and listbox. */
     theme: string;
     /** Accessible name for the locale picker's button and listbox. */
@@ -221,9 +225,10 @@ const emit = defineEmits<{
             @navigate="(id: string, href: string) => emit('link-navigate', id, href)"
         />
         <SearchPicker
+            v-if="labels.search"
             :label="labels.search"
-            :inputLabel="labels.searchInput"
-            :submitLabel="labels.searchSubmit"
+            :inputLabel="labels.searchInput ?? ''"
+            :submitLabel="labels.searchSubmit ?? ''"
             v-bind="searchProps"
             @search="(query: string, href: string) => emit('search', query, href)"
         />

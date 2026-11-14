@@ -401,4 +401,18 @@ public class PickerBarTests : TestContext
         });
         Assert.Equal(2, cut.FindAll(".time-zone-picker-option").Count);
     }
+
+    // search is optional — tasks.md P28-T7
+    [Fact]
+    public void Without_Labels_Search_there_is_no_search_picker_and_theme_comes_first()
+    {
+        var cut = RenderComponent<PickerBar>(p =>
+        {
+            p.Add(x => x.Labels, Labels with { Search = null, SearchInput = null, SearchSubmit = null });
+            p.Add(x => x.ThemesUrl, ThemesUrl);
+            p.Add(x => x.Locales, Locales);
+        });
+        Assert.Empty(cut.FindAll(".search-picker"));
+        Assert.Contains("theme-picker", cut.Find("div.picker-bar > div").ClassList);
+    }
 }

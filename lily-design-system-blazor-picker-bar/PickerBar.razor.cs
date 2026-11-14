@@ -20,14 +20,15 @@ public sealed record PickerBarLabels
     /// <c>Links</c> is supplied; the link picker renders only when both are present.</summary>
     public string? Link { get; init; }
 
-    /// <summary>Accessible name for the search picker's icon button and search landmark.</summary>
-    public required string Search { get; init; }
+    /// <summary>Accessible name for the search picker's icon button and search landmark. Optional: null or empty, the bar has
+    /// no search picker (tasks.md P28-T7); when given, SearchInput and SearchSubmit are needed too.</summary>
+    public string? Search { get; init; }
 
     /// <summary>Accessible name for the search picker's text field.</summary>
-    public required string SearchInput { get; init; }
+    public string? SearchInput { get; init; }
 
     /// <summary>Accessible name for the search picker's ⏎ submit button.</summary>
-    public required string SearchSubmit { get; init; }
+    public string? SearchSubmit { get; init; }
 
     /// <summary>Accessible name for the theme picker's button and listbox.</summary>
     public required string Theme { get; init; }

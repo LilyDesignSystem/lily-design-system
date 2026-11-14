@@ -3598,10 +3598,10 @@ shown, never decided.
       it lives in one place. Add `dosageText` for FHIR's free-text `Dosage.text`, which IPS
       documents often carry instead of structured parts.
       Verify: tests in all nine catalogs; the 320px sweep shows a long `dosageText` unclipped. _(2026-11-14: done in all nine catalogs: `dosageText` renders `-dosage` after the frequency (`dosage-text` in Web Components). Tests in seven catalogs; removing the part makes them fail. The 320px sweep is the page-level check in T9's composed example.)_
-- [ ] **P28-T7 `picker-bar`: search optional.** Search is always rendered, while the link and time-zone pickers are optional.
+- [x] **P28-T7 `picker-bar`: search optional.** Search is always rendered, while the link and time-zone pickers are optional.
       In a client-side viewer a search goes to `/?text`, which drops the loaded document and can put typed text (perhaps a
       patient's name) into the URL and history. Render search only when `labels.search` is given, as `labels.link` works.
-      Verify: tests in all eight catalogs that the bar renders no search picker without the label, and one with it.
+      Verify: tests in all eight catalogs that the bar renders no search picker without the label, and one with it. _(2026-11-14: done in all eight catalogs: without `labels.search` no search picker renders, and the three search labels are optional in each labels type (C# record included). A test in each; removing Svelte's guard makes it fail. Recorded as Unreleased in each package's CHANGELOG; the version bump waits for the release, T1.)_
 - [ ] **P28-T8 FHIR to Lily mapping in the adopter guide.** In `docs/patterns/healthcare/index.md`: IPS sections to Lily
       components, and FHIR codes to Lily states (Observation interpretation and status, AllergyIntolerance criticality and
       verification, the IPS `no-known-*` and `no-*-info` codes, `dataAbsentReason`, `emptyReason`).

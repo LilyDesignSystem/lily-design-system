@@ -14,6 +14,7 @@ highlights.
 - **Added:** `observation-view` takes FHIR's `amended`, `corrected`, `cancelled` and `entered-in-error`, and `masked` (withheld for
   privacy). A cancelled or masked result shows its words instead of a value; an amended, corrected or entered-in-error one shows the
   value with its words beside it (tasks.md P28-T5).
+- **Changed:** `picker-bar` in all eight catalogs renders search only when `labels.search` is given, so a client-side app can leave it out (P28-T7).
 - **Added:** `medication-view` takes `dosageText`, the dose as free text (FHIR `Dosage.text`), as a `-dosage` part (P28-T6).
 - **Added:** `formatQuantity(value, unit, locale, comparator?)` keeps FHIR's `Quantity.comparator`: "<5 mmol/L", never "5 mmol/L"
   (P28-T4); the same in the C# port.

@@ -335,3 +335,16 @@ describe("picker-bar — time-zone-picker wiring (§T1–§T4)", () => {
         expect(el.textContent).toContain("el más grande");
     });
 });
+
+describe("PickerBar — search is optional (tasks.md P28-T7)", () => {
+    test("without labels.search there is no search picker, and theme comes first", () => {
+        const el = mount({
+            labels: { theme: "Theme", locale: "Language", textSize: "Text size", share: "Share" },
+        });
+        const tags = Array.from(el.querySelector(".picker-bar")?.children ?? []).map((c) =>
+            c.tagName.toLowerCase(),
+        );
+        expect(tags).not.toContain("search-picker");
+        expect(tags[0]).toBe("theme-picker");
+    });
+});
