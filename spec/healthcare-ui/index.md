@@ -138,6 +138,25 @@ clinical logic in Lily. Items 1 to 12 were built on 2026-11-14; the rest are ope
 | Tall man lists, drug and terminology data | —                                                                         | **Decline.** Licensed, regional, changing; the consumer supplies them.                                                                                                                                                                                                                                        |
 | Limiting the number of open records       | —                                                                         | **Decline.** No evidence it reduces wrong-patient errors (JAMA 2019); clinicians work around it.                                                                                                                                                                                                              |
 
+## Lessons from the International Patient Summary viewer (2026-11-14)
+
+The `international-patient-summary-ui-with-svelte` specification describes a read-only viewer for HL7 FHIR International Patient
+Summary documents (IPS 2.0.1, FHIR R4), built on Lily's Svelte packages. All 30 Lily components it maps exist; its version
+numbers are out of date (`svelte-headless` 0.2.0, now 0.8.0; `svelte-picker-bar` 0.1.0, now 0.5.3, which requires three search
+labels the specification does not supply). Its needs, against Phase 27 (tasks [Phase 28](../../tasks.md#phase-28--lessons-from-the-international-patient-summary-viewer-2026-11-14)):
+
+| Item                                                  | Lily today                                                 | Decision                                                                                                            |
+| ----------------------------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| 13. Publish                                           | the healthcare components are not in any published package | **Adopt** (P28-T1).                                                                                                 |
+| 14. Allergy criticality and verification              | `allergy-list-item` has a reaction `severity` only         | **Adopt** criticality, verification and clinical status, type and category, each with consumer text (T2).           |
+| 15. Never-blank status beyond allergies               | only `allergy-list` has it                                 | **Adopt** a generic list with the same status contract, and an `omitted` status (T3; the name is the maintainer's). |
+| 16. Quantity comparator                               | `formatQuantity` drops `<`, `≤`, `≥`, `>`                  | **Adopt** (T4): "<5 mmol/L" must not read "5 mmol/L".                                                               |
+| 17. Result statuses                                   | `final`, `preliminary`, `not-recorded`, `unavailable`      | **Adopt** `amended`, `corrected`, `cancelled`, `entered-in-error` and `masked` (T5).                                |
+| 18. Medicine status and free-text dose                | name, strength, form, route, frequency                     | **Adopt** `status` and `dosageText` (T6).                                                                           |
+| 19. Search in `picker-bar`                            | always rendered                                            | **Adopt** optional search (T7): a client-side viewer's search would drop the document and log typed text.           |
+| 20. FHIR mapping and coded values                     | none                                                       | **Adopt** as guide content and a pattern, not a component (T8, T9).                                                 |
+| Validation, terminology lookups, narrative sanitising | —                                                          | **Decline.** The consumer's code: the HL7 validator, a terminology server, a sanitiser.                             |
+
 ## Acceptance criteria
 
 - [x] 1. `observation-view` in all nine catalogs, with tests that each interpretation code renders its consumer label and its

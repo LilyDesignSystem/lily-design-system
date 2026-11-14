@@ -3555,6 +3555,57 @@ Lily ships no clinical logic: a task that would compute a score, centile, dose o
       `numeric-rating-scale-picker`. Either way, `five-face-rating-picker`'s docs say it is not a validated pain scale.
       Verify: the decision is in the topic, and the `five-face-rating-picker` note is in its `index.md`. _(2026-11-14: approved by the maintainer. Built 2026-11-14 as a new component, not by generalising `net-promoter-score-picker` (whose contract stays): `numeric-rating-scale-picker` in all nine catalogs, native radios from `min` to `max` in a `<fieldset>`, the consumer's anchor words linked by `aria-describedby`. `five-face-rating-picker`'s When Not to Use now says it is not a pain scale. The native radio keys are allow-listed for Blazor, Nunjucks and Alpine, as for `radio-group`.)_
 
+## Phase 28 — Lessons from the International Patient Summary viewer (2026-11-14)
+
+From a review of the `international-patient-summary-ui-with-svelte` specification, a read-only FHIR IPS viewer built on Lily's
+Svelte packages ([spec/healthcare-ui](spec/healthcare-ui/index.md#lessons-from-the-international-patient-summary-viewer-2026-11-14)).
+The viewer's needs show where the Phase 27 contracts stop short of FHIR. Order: T1 is a release (the maintainer publishes);
+T2 to T6 change component contracts in all nine catalogs, Svelte first, and are minor-version changes; T7 is a helper change in
+all eight catalogs; T8 and T9 are documentation. Lily still ships no clinical logic: every status here is the consumer's value,
+shown, never decided.
+
+- [ ] **P28-T1 Publish the healthcare components.** The published `@lilydesignsystem/svelte-headless` 0.8.0 has none of the
+      Phase 27 components or `clinical-format`. Bump and publish the nine headless libraries (`bin/publish-headless`).
+      Verify: `bin/verify-published` finds the new versions, and the packed Svelte tarball contains `AllergyList`.
+- [ ] **P28-T2 `allergy-list-item`: criticality, verification and clinical status.** FHIR keeps `criticality` (`low`, `high`,
+      `unable-to-assess`: the risk of a future reaction) apart from a reaction's `severity`; Lily has only the second. Add
+      `criticality` (`data-criticality`) with `criticalityLabel`, `verificationStatus` (`unconfirmed`, `presumed`, `confirmed`,
+      `refuted`, `entered-in-error`; `data-verification-status`) with its label, `clinicalStatus` (`active`, `inactive`,
+      `resolved`; `data-clinical-status`) with its label, and `typeLabel` and `categoryLabel` parts.
+      Verify: tests in all nine catalogs for each attribute and label; a `refuted` or `entered-in-error` item without its label
+      raises `warnMissingProp`, because it must never read as a confirmed allergy.
+- [ ] **P28-T3 One status contract for every required summary section (maintainer decision: the name).** IPS requires
+      medications, allergies and problems, each of which can be "none known" or "no information"; only `allergy-list` has the
+      never-blank status. Add a generic list and item with the same `status` contract (candidate name `record-list`,
+      `record-list-item`), the item carrying T2's `data-clinical-status` and `data-verification-status` vocabulary for problems;
+      add a fifth status, `omitted` (a required section the document leaves out), here and to `allergy-list`.
+      Verify: tests that each of the five statuses renders its consumer text in all nine catalogs; the IPS demo page uses it for
+      medications and problems.
+- [ ] **P28-T4 `formatQuantity` comparator.** FHIR `Quantity.comparator` (`<`, `<=`, `>=`, `>`) is dropped today, so "<5 mmol/L"
+      is written "5 mmol/L". Add an optional comparator, written with the locale's number and the signs `<`, `≤`, `≥`, `>`.
+      Verify: tests for each comparator and for none, in the shared module and the C# port.
+- [ ] **P28-T5 `observation-view`: the rest of FHIR's statuses.** Add `amended`, `corrected`, `cancelled` and
+      `entered-in-error`, each requiring `statusLabel`, and `masked` (withheld for privacy, from `dataAbsentReason`), which is not
+      `unavailable`. A corrected or amended result shows its label beside the value.
+      Verify: tests in all nine catalogs that each status renders its label and `data-status`, and that a value with
+      `entered-in-error` is never shown without its label.
+- [ ] **P28-T6 `medication-view`: status and dose as text.** Add `status` (`active`, `on-hold`, `stopped`, `completed`,
+      `entered-in-error`; `data-status`) with `statusLabel`, and `dosageText` for FHIR's free-text `Dosage.text`, which IPS
+      documents often carry instead of structured parts.
+      Verify: tests in all nine catalogs; the 320px sweep shows a long `dosageText` unclipped.
+- [ ] **P28-T7 `picker-bar`: search optional.** Search is always rendered, while the link and time-zone pickers are optional.
+      In a client-side viewer a search goes to `/?text`, which drops the loaded document and can put typed text (perhaps a
+      patient's name) into the URL and history. Render search only when `labels.search` is given, as `labels.link` works.
+      Verify: tests in all eight catalogs that the bar renders no search picker without the label, and one with it.
+- [ ] **P28-T8 FHIR to Lily mapping in the adopter guide.** In `docs/patterns/healthcare/index.md`: IPS sections to Lily
+      components, and FHIR codes to Lily states (Observation interpretation and status, AllergyIntolerance criticality and
+      verification, the IPS `no-known-*` and `no-*-info` codes, `dataAbsentReason`, `emptyReason`).
+      Verify: the table exists, each Lily value it names is in a component's `AGENTS.md`, and `bin/check-links` passes.
+- [ ] **P28-T9 Coded values, as a pattern.** Show `coding.display`, then `CodeableConcept.text`, then `system|code`, with a
+      control that reveals the code system and code, and the document's `lang` on clinical text. A documented pattern in the
+      guide, not a component, since Lily ships no terminology.
+      Verify: the pattern is in the guide, with a working example on the SvelteKit `/patient-summary` page.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
