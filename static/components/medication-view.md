@@ -83,6 +83,7 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 - ISMP guidelines for electronic communication of medication information: https://online.ecri.org/hubfs/ISMP/Resources/ISMP_Electronic_Guidelines.pdf
 - ISMP Canada TALLman principles: https://www.ismp-canada.org/download/TALLman/Principles_for_the_Application_of_TALLman_Lettering_in_Canada.pdf
 - Spec: spec/healthcare-ui/index.md
+- Adopter guide: https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/patterns/healthcare.md
 
 ---
 
