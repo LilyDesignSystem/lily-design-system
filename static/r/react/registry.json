@@ -956,6 +956,26 @@
       ]
     },
     {
+      "name": "body-map",
+      "type": "registry:component",
+      "title": "BodyMap",
+      "description": "A picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/BodyMap.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/BodyMap.tsx"
+        }
+      ]
+    },
+    {
       "name": "body-text",
       "type": "registry:component",
       "title": "BodyText",
@@ -7099,6 +7119,26 @@
           "path": "lily-design-system-react-headless/components/NumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/NumberInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "numeric-rating-scale-picker",
+      "type": "registry:component",
+      "title": "NumericRatingScalePicker",
+      "description": "A picker for a 0 to 10 rating, such as pain, with the consumer's words at each end.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "pickers"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/NumericRatingScalePicker.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/NumericRatingScalePicker.tsx"
         }
       ]
     },

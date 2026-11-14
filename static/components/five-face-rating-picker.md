@@ -87,6 +87,7 @@ Standard radio group keyboard behavior provided by the browser:
 
 ## When Not to Use
 
+- Do not use as a pain scale. It is a satisfaction scale, not a validated pain instrument, and face pain scales such as Wong-Baker FACES are licensed — for a 0 to 10 pain rating use `numeric-rating-scale-picker`.
 - Do not use for display-only ratings -- use FiveFaceRatingView instead.
 - Do not use for generic product or service reviews where stars are the expected convention -- use FiveStarRatingPicker.
 - Do not use for 0-10 scale survey questions -- use NetPromoterScorePicker.

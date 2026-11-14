@@ -1,0 +1,51 @@
+{
+  "slug": "numeric-rating-scale-picker",
+  "name": "NumericRatingScalePicker",
+  "description": "a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end",
+  "htmlTag": "fieldset",
+  "category": "pickers",
+  "baseClass": ".numeric-rating-scale-picker",
+  "subClasses": [
+    "numeric-rating-scale-picker-legend",
+    "numeric-rating-scale-picker-max-label",
+    "numeric-rating-scale-picker-min-label",
+    "numeric-rating-scale-picker-option",
+    "numeric-rating-scale-picker-options"
+  ],
+  "interactive": true,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "A native `<fieldset>` named by its `<legend>`; each radio is named by its number; the end radios are described by the anchor words"
+  ],
+  "keyboard": [
+    "Tab moves into the group, to the chosen radio or the first; the arrow keys move and choose (native radios)"
+  ],
+  "props": [
+    "`label`: string (required) — the question, rendered as the `<legend>`",
+    "`min`: number (optional) — the lowest value, default 0",
+    "`max`: number (optional) — the highest value, default 10",
+    "`minLabel`: string (optional) — the words for the lowest value",
+    "`maxLabel`: string (optional) — the words for the highest value",
+    "`value`: string (optional) — the chosen value (bindable or controlled)",
+    "`name`: string (optional) — the radios' form name, default `rating`",
+    "`required`: boolean (optional) — the form needs an answer",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "net-promoter-score-picker",
+    "radio-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/numeric-rating-scale-picker.html",
+    "svelte": "lily-design-system-svelte-headless/components/NumericRatingScalePicker/NumericRatingScalePicker.svelte",
+    "react": "lily-design-system-react-headless/components/NumericRatingScalePicker.tsx",
+    "vue": "lily-design-system-vue-headless/components/NumericRatingScalePicker.vue",
+    "angular": "lily-design-system-angular-headless/components/NumericRatingScalePicker.ts",
+    "web-components": "lily-design-system-web-components-headless/components/numeric-rating-scale-picker.ts",
+    "alpine": "lily-design-system-alpine-headless/components/numeric-rating-scale-picker.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/numeric-rating-scale-picker/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NumericRatingScalePicker.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/numeric-rating-scale-picker/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/numeric-rating-scale-picker/AGENTS.md"
+}

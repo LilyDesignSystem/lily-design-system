@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "body-map",
+  "type": "registry:component",
+  "title": "BodyMap",
+  "description": "A picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/BodyMap.tsx",
+      "content": "\"use client\";\n\n// BodyMap: marking regions of the body on a consumer-supplied drawing (spec/healthcare-ui item 11). A fieldset named by\n// its legend; the drawing is aria-hidden; every region is a real checkbox in a list, which submits with the form, and a\n// click on a shape marked data-region toggles it. Props: BodyMap.md.\nimport React, { useEffect, useRef, useState } from \"react\";\nimport { warnMissingName } from \"./dev-warning\";\n\nexport interface BodyMapRegion {\n    id: string;\n    label: string;\n}\n\nexport interface BodyMapProps {\n    className?: string;\n    /** The question, rendered as the legend. */\n    label: string;\n    regions: BodyMapRegion[];\n    /** Controlled chosen region ids. */\n    selected?: string[];\n    /** Uncontrolled starting choice. */\n    defaultSelected?: string[];\n    onChange?: (selected: string[]) => void;\n    /** The checkboxes' form name. */\n    name?: string;\n    /** The drawing; mark each clickable shape with data-region. */\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function BodyMap({\n    className = \"\",\n    label,\n    regions,\n    selected,\n    defaultSelected = [],\n    onChange,\n    name,\n    children,\n    ...restProps\n}: BodyMapProps) {\n    warnMissingName(\"BodyMap\", label, restProps[\"aria-labelledby\"]);\n    const [inner, setInner] = useState<string[]>(defaultSelected);\n    const current = selected ?? inner;\n    const figure = useRef<HTMLDivElement>(null);\n\n    function toggle(id: string) {\n        const next = current.includes(id) ? current.filter((s) => s !== id) : [...current, id];\n        setInner(next);\n        onChange?.(next);\n    }\n\n    useEffect(() => {\n        for (const shape of figure.current?.querySelectorAll(\"[data-region]\") ?? []) {\n            if (current.includes(shape.getAttribute(\"data-region\") ?? \"\"))\n                shape.setAttribute(\"data-selected\", \"true\");\n            else shape.removeAttribute(\"data-selected\");\n        }\n    });\n\n    return (\n        <fieldset\n            className={`body-map ${className}`}\n            {...restProps}\n        >\n            <legend className=\"body-map-legend\">{label}</legend>\n            {children ? (\n                <div\n                    ref={figure}\n                    className=\"body-map-figure\"\n                    aria-hidden=\"true\"\n                    onClick={(event) => {\n                        const id = (event.target as Element)\n                            .closest(\"[data-region]\")\n                            ?.getAttribute(\"data-region\");\n                        if (id && regions.some((r) => r.id === id)) toggle(id);\n                    }}\n                >\n                    {children}\n                </div>\n            ) : null}\n            <ul className=\"body-map-regions\">\n                {regions.map((region) => (\n                    <li key={region.id}>\n                        <label className=\"body-map-region\">\n                            <input\n                                type=\"checkbox\"\n                                name={name}\n                                value={region.id}\n                                checked={current.includes(region.id)}\n                                onChange={() => toggle(region.id)}\n                            />{\" \"}\n                            {region.label}\n                        </label>\n                    </li>\n                ))}\n            </ul>\n        </fieldset>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/BodyMap.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/body-map/"
+}
