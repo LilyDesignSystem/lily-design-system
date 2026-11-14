@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "allergy-list-item",
+  "type": "registry:component",
+  "title": "AllergyListItem",
+  "description": "One allergy or intolerance in an allergy list, with substance, reaction, severity and last update.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AllergyListItem.tsx",
+      "content": "import React from \"react\";\n\n// AllergyListItem: one allergy or intolerance in an AllergyList (spec/healthcare-ui item 2). Props: AllergyListItem.md.\n\nexport interface AllergyListItemProps {\n    className?: string;\n    /** What the patient reacts to. Never truncated. */\n    substance: string;\n    reaction?: string;\n    /** FHIR AllergyIntolerance reaction severity, rendered as data-severity. */\n    severity?: \"mild\" | \"moderate\" | \"severe\";\n    /** The consumer's words for the severity. */\n    severityLabel?: string;\n    /** When the record was last updated, for <time datetime>. */\n    updated?: string;\n    /** That date as the consumer writes it; the <time> is shown only when set. */\n    updatedLabel?: string;\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function AllergyListItem({\n    className = \"\",\n    substance,\n    reaction,\n    severity,\n    severityLabel,\n    updated,\n    updatedLabel,\n    children,\n    ...restProps\n}: AllergyListItemProps) {\n    return (\n        <li\n            className={`allergy-list-item ${className}`}\n            data-severity={severity}\n            {...restProps}\n        >\n            <span className=\"allergy-list-item-substance\">{substance}</span>\n            {reaction ? (\n                <>\n                    {\" \"}\n                    <span className=\"allergy-list-item-reaction\">{reaction}</span>\n                </>\n            ) : null}\n            {severityLabel ? (\n                <>\n                    {\" \"}\n                    <span className=\"allergy-list-item-severity\">{severityLabel}</span>\n                </>\n            ) : null}\n            {updatedLabel ? (\n                <>\n                    {\" \"}\n                    <time\n                        className=\"allergy-list-item-updated\"\n                        dateTime={updated}\n                    >\n                        {updatedLabel}\n                    </time>\n                </>\n            ) : null}\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AllergyListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/allergy-list-item/"
+}

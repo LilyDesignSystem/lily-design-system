@@ -1,0 +1,65 @@
+{
+  "slug": "decision-support-card",
+  "name": "DecisionSupportCard",
+  "description": "a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".decision-support-card",
+  "subClasses": [
+    "decision-support-card-detail",
+    "decision-support-card-dismiss",
+    "decision-support-card-header",
+    "decision-support-card-indicator",
+    "decision-support-card-override",
+    "decision-support-card-override-label",
+    "decision-support-card-override-reason",
+    "decision-support-card-source",
+    "decision-support-card-suggestion",
+    "decision-support-card-suggestions",
+    "decision-support-card-summary"
+  ],
+  "interactive": true,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "`role=\"group\"` with `aria-label` from the summary (or `label`). Not a landmark and not a live region. `aria-invalid` on the reason select when a dismissal is refused"
+  ],
+  "keyboard": [
+    "Tab moves through the source link, suggestions, links, the reason select and the dismiss button; Enter or Space activates a suggestion or the dismiss button"
+  ],
+  "props": [
+    "`summary`: string (required) — the one-sentence summary (CDS Hooks: under 140 characters); names the card",
+    "`indicator`: \"info\" | \"warning\" | \"critical\" (required) — rendered as `data-indicator`",
+    "`indicatorLabel`: string (required) — the indicator in words",
+    "`sourceLabel`: string (required) — where the guidance comes from",
+    "`sourceHref`: string (optional) — a link to the source",
+    "`suggestions`: { id, label, isRecommended? }[] (optional) — each a button",
+    "`links`: { label, href }[] (optional) — links to more information",
+    "`dismissLabel`: string (optional) — the dismiss button's text; no button without it",
+    "`overrideReasons`: { code, display }[] (optional) — when given, dismissing asks for one",
+    "`overrideReasonLabel`: string (optional) — the reason select's label",
+    "`overrideReasonPlaceholder`: string (optional) — the text of the select's empty first option",
+    "`label`: string (optional) — the accessible name, when it should differ from the summary",
+    "`children`: slot (optional) — the detail",
+    "`onSuggestion`: callback (optional) — called with the chosen suggestion's id",
+    "`onDismiss`: callback (optional) — called with the chosen reason's code, or none when no reasons are offered",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "alert-dialog",
+    "care-card",
+    "medication-view"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/decision-support-card.html",
+    "svelte": "lily-design-system-svelte-headless/components/DecisionSupportCard/DecisionSupportCard.svelte",
+    "react": "lily-design-system-react-headless/components/DecisionSupportCard.tsx",
+    "vue": "lily-design-system-vue-headless/components/DecisionSupportCard.vue",
+    "angular": "lily-design-system-angular-headless/components/DecisionSupportCard.ts",
+    "web-components": "lily-design-system-web-components-headless/components/decision-support-card.ts",
+    "alpine": "lily-design-system-alpine-headless/components/decision-support-card.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/decision-support-card/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DecisionSupportCard.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/decision-support-card/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/decision-support-card/AGENTS.md"
+}

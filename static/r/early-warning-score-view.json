@@ -1,0 +1,48 @@
+{
+  "slug": "early-warning-score-view",
+  "name": "EarlyWarningScoreView",
+  "description": "a read-only display of an early warning score, with its band and escalation text",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".early-warning-score-view",
+  "subClasses": [
+    "early-warning-score-view-band",
+    "early-warning-score-view-escalation",
+    "early-warning-score-view-score",
+    "early-warning-score-view-system"
+  ],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "No role and no `aria-label`; `label` renders as hidden text. The band is text, never colour alone"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`score`: string | number (required) — the score the consumer computed",
+    "`system`: string (optional) — the scoring system's name, such as NEWS2",
+    "`band`: string (optional) — the consumer's band key, rendered as `data-band`",
+    "`bandLabel`: string (optional) — the band in words; required with `band`",
+    "`escalation`: string (optional) — what to do",
+    "`label`: string (optional) — hidden text naming the value",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "observation-view",
+    "gauge-chart"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/early-warning-score-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/EarlyWarningScoreView/EarlyWarningScoreView.svelte",
+    "react": "lily-design-system-react-headless/components/EarlyWarningScoreView.tsx",
+    "vue": "lily-design-system-vue-headless/components/EarlyWarningScoreView.vue",
+    "angular": "lily-design-system-angular-headless/components/EarlyWarningScoreView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/early-warning-score-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/early-warning-score-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/early-warning-score-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EarlyWarningScoreView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/early-warning-score-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/early-warning-score-view/AGENTS.md"
+}

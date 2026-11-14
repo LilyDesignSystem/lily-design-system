@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "observation-view",
+  "type": "registry:component",
+  "title": "ObservationView",
+  "description": "A read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ObservationView.tsx",
+      "content": "import React from \"react\";\nimport { warnMissingProp } from \"./dev-warning\";\n\n// ObservationView: a read-only clinical observation or result, with unit, flag and reference range (spec/healthcare-ui item 1).\n// Shows what the consumer decided; computes no flag and no range. Props and rules: ObservationView.md.\n\nexport interface ObservationViewProps {\n    className?: string;\n    /** Hidden text naming the observation, when no visible caption does. */\n    label?: string;\n    /** The value, formatted by the consumer. */\n    value?: string;\n    /** The unit, joined to the value by a no-break space. */\n    unit?: string;\n    /** A FHIR v3 ObservationInterpretation code (\"N\", \"L\", \"H\", \"LL\", \"HH\", \"A\", ...), rendered as data-interpretation. */\n    interpretation?: string;\n    /** The consumer's words for the flag (\"High\"). Required when the flag is not normal. */\n    flagLabel?: string;\n    /** The reference range as text. */\n    range?: string;\n    status?: \"final\" | \"preliminary\" | \"not-recorded\" | \"unavailable\";\n    /** The consumer's words for a status that is not final; replaces the value when not-recorded or unavailable. */\n    statusLabel?: string;\n    [key: string]: unknown;\n}\n\nexport default function ObservationView({\n    className = \"\",\n    label,\n    value = \"\",\n    unit,\n    interpretation,\n    flagLabel,\n    range,\n    status = \"final\",\n    statusLabel,\n    ...restProps\n}: ObservationViewProps) {\n    if (status !== \"final\")\n        warnMissingProp(\n            \"ObservationView\",\n            \"statusLabel\",\n            statusLabel,\n            \"A result that is not final must say so in words.\",\n        );\n    if (interpretation && interpretation !== \"N\")\n        warnMissingProp(\n            \"ObservationView\",\n            \"flagLabel\",\n            flagLabel,\n            \"An abnormal flag needs words, not colour alone (WCAG 1.4.1).\",\n        );\n    const missing = status === \"not-recorded\" || status === \"unavailable\";\n    return (\n        <span\n            className={`observation-view ${className}`}\n            data-interpretation={interpretation || undefined}\n            data-status={status}\n            {...restProps}\n        >\n            {label ? <span className=\"screen-reader-span\">{`${label} `}</span> : null}\n            {missing ? (\n                <span className=\"observation-view-status\">{statusLabel}</span>\n            ) : (\n                <>\n                    <span className=\"observation-view-value\">{value}</span>\n                    {unit ? (\n                        <>\n                            {\" \"}\n                            <span className=\"observation-view-unit\">{unit}</span>\n                        </>\n                    ) : null}\n                    {flagLabel ? (\n                        <>\n                            {\" \"}\n                            <span className=\"observation-view-flag\">{flagLabel}</span>\n                        </>\n                    ) : null}\n                    {range ? (\n                        <>\n                            {\" \"}\n                            <span className=\"observation-view-range\">{range}</span>\n                        </>\n                    ) : null}\n                    {status === \"preliminary\" && statusLabel ? (\n                        <>\n                            {\" \"}\n                            <span className=\"observation-view-status\">{statusLabel}</span>\n                        </>\n                    ) : null}\n                </>\n            )}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ObservationView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/observation-view/"
+}

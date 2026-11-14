@@ -1,5 +1,5 @@
 {
-  "count": 608,
+  "count": 615,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -74,6 +74,12 @@
       "manifest": "https://lilydesignsystem.com/r/affix.json"
     },
     {
+      "slug": "age-view",
+      "name": "AgeView",
+      "description": "a read-only display of a person's age, in the units suited to it",
+      "manifest": "https://lilydesignsystem.com/r/age-view.json"
+    },
+    {
       "slug": "ai-label",
       "name": "AiLabel",
       "description": "an indicator of AI instances that is a pathway to AI explainability",
@@ -102,6 +108,18 @@
       "name": "AlertDialog",
       "description": "a modal dialog for urgent messages requiring user acknowledgment",
       "manifest": "https://lilydesignsystem.com/r/alert-dialog.json"
+    },
+    {
+      "slug": "allergy-list",
+      "name": "AllergyList",
+      "description": "a list of a patient's allergies and intolerances, whose status is never blank",
+      "manifest": "https://lilydesignsystem.com/r/allergy-list.json"
+    },
+    {
+      "slug": "allergy-list-item",
+      "name": "AllergyListItem",
+      "description": "one allergy or intolerance in an allergy list, with substance, reaction, severity and last update",
+      "manifest": "https://lilydesignsystem.com/r/allergy-list-item.json"
     },
     {
       "slug": "angle-slider-range-input",
@@ -950,6 +968,12 @@
       "manifest": "https://lilydesignsystem.com/r/date-time-view.json"
     },
     {
+      "slug": "decision-support-card",
+      "name": "DecisionSupportCard",
+      "description": "a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons",
+      "manifest": "https://lilydesignsystem.com/r/decision-support-card.json"
+    },
+    {
       "slug": "description-list",
       "name": "DescriptionList",
       "description": "a definition list displaying information in key-value format <dl>",
@@ -1068,6 +1092,12 @@
       "name": "DropdownMenu",
       "description": "a menu that opens below a trigger button",
       "manifest": "https://lilydesignsystem.com/r/dropdown-menu.json"
+    },
+    {
+      "slug": "early-warning-score-view",
+      "name": "EarlyWarningScoreView",
+      "description": "a read-only display of an early warning score, with its band and escalation text",
+      "manifest": "https://lilydesignsystem.com/r/early-warning-score-view.json"
     },
     {
       "slug": "ecuador-cedula-de-identidad-input",
@@ -2042,6 +2072,12 @@
       "manifest": "https://lilydesignsystem.com/r/medical-banner-box-for-danger.json"
     },
     {
+      "slug": "medication-view",
+      "name": "MedicationView",
+      "description": "a read-only display of a medicine, with its name, strength, form, route and frequency",
+      "manifest": "https://lilydesignsystem.com/r/medication-view.json"
+    },
+    {
       "slug": "mentions-input",
       "name": "MentionsInput",
       "description": "a text input with at-mention autocomplete suggestions",
@@ -2298,6 +2334,12 @@
       "name": "NumberInput",
       "description": "an input for entering a numeric value with validation <input type=\"number\">",
       "manifest": "https://lilydesignsystem.com/r/number-input.json"
+    },
+    {
+      "slug": "observation-view",
+      "name": "ObservationView",
+      "description": "a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag",
+      "manifest": "https://lilydesignsystem.com/r/observation-view.json"
     },
     {
       "slug": "one-time-password-input",
