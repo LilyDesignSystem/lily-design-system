@@ -752,8 +752,8 @@ slug below links to the per-component documentation.
 - [picture](components/picture): a responsive image wrapper that lets the browser choose among several sources, using the native picture element
 - [warning-text](components/warning-text): a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer
 - [observation-view](components/observation-view): a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag
-- [allergy-list](components/allergy-list): a list of a patient's allergies and intolerances, whose status is never blank
-- [allergy-list-item](components/allergy-list-item): one allergy or intolerance in an allergy list, with substance, reaction, severity and last update
+- [allergy-record-list](components/allergy-record-list): a list of a patient's allergies and intolerances, whose status is never blank
+- [allergy-record-list-item](components/allergy-record-list-item): one allergy or intolerance in an allergy list, with substance, reaction, severity and last update
 - [medication-view](components/medication-view): a read-only display of a medicine, with its name, strength, form, route and frequency
 - [decision-support-card](components/decision-support-card): a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons
 - [early-warning-score-view](components/early-warning-score-view): a read-only display of an early warning score, with its band and escalation text

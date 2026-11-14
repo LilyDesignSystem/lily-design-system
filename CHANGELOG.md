@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Allergy list renamed — 2026-11-14
+
+- **Changed:** `allergy-list` and `allergy-list-item` are now `allergy-record-list` and `allergy-record-list-item` (`AllergyRecordList`,
+  `AllergyRecordListItem`) in all nine catalogs, with their class hooks (`allergy-record-list-status`, `allergy-record-list-item-substance`, …),
+  the first of the record lists planned in tasks.md P28-T3. Neither was published under the old name.
+
 ## Healthcare guide on the website, in 64 languages — 2026-11-14
 
 - **Added:** the healthcare adopter guide as a site page, `/patterns/healthcare/`, from `docs/patterns/healthcare/index.md`, with

@@ -19,7 +19,7 @@ What Lily provides, and what you provide
 | Lily provides | You provide |
 | --- | --- |
 | [observation-view](https://lilydesignsystem.com/components/observation-view/): a value, unit, flag in words, range, and missing states | The value, the flag decision, the reference range |
-| [allergy-list](https://lilydesignsystem.com/components/allergy-list/) and [allergy-list-item](https://lilydesignsystem.com/components/allergy-list-item/): a status that is never blank | The allergy record and its terminology |
+| [allergy-record-list](https://lilydesignsystem.com/components/allergy-record-list/) and [allergy-record-list-item](https://lilydesignsystem.com/components/allergy-record-list-item/): a status that is never blank | The allergy record and its terminology |
 | [medication-view](https://lilydesignsystem.com/components/medication-view/): name, strength, form, route and frequency, none truncated | The drug data, the tall man segments, the formatted strength |
 | [decision-support-card](https://lilydesignsystem.com/components/decision-support-card/): the CDS Hooks card shape | The rules, the suggestion actions, recording the outcome |
 | [early-warning-score-view](https://lilydesignsystem.com/components/early-warning-score-view/): a score, band and escalation, displayed | The scoring system and its validated calculation |

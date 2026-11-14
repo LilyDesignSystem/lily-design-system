@@ -45,7 +45,7 @@
           <td>The value, the flag decision, the reference range</td>
         </tr>
         <tr>
-          <td><a href="/components/allergy-list/">allergy-list</a> and <a href="/components/allergy-list-item/">allergy-list-item</a>: a status that is never blank</td>
+          <td><a href="/components/allergy-record-list/">allergy-record-list</a> and <a href="/components/allergy-record-list-item/">allergy-record-list-item</a>: a status that is never blank</td>
           <td>The allergy record and its terminology</td>
         </tr>
         <tr>

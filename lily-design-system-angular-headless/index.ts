@@ -619,8 +619,8 @@ export { ToolbarOptions, SplitterOptions, TreeSelection, TreePopupOptions, Menti
 
 // Healthcare display components and clinical formatting (spec/healthcare-ui, P27).
 export { AgeView } from "./components/AgeView";
-export { AllergyList } from "./components/AllergyList";
-export { AllergyListItem } from "./components/AllergyListItem";
+export { AllergyRecordList } from "./components/AllergyRecordList";
+export { AllergyRecordListItem } from "./components/AllergyRecordListItem";
 export { DecisionSupportCard } from "./components/DecisionSupportCard";
 export { EarlyWarningScoreView } from "./components/EarlyWarningScoreView";
 export { MedicationView } from "./components/MedicationView";

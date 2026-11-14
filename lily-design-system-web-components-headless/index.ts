@@ -70,13 +70,13 @@ export { Alert } from "./components/alert.js";
 import { Alert as _Alert } from "./components/alert.js";
 if (!customElements.get("lily-alert")) customElements.define("lily-alert", _Alert);
 
-export { AllergyListItem } from "./components/allergy-list-item.js";
-import { AllergyListItem as _AllergyListItem } from "./components/allergy-list-item.js";
-if (!customElements.get("lily-allergy-list-item")) customElements.define("lily-allergy-list-item", _AllergyListItem);
+export { AllergyRecordListItem } from "./components/allergy-record-list-item.js";
+import { AllergyRecordListItem as _AllergyRecordListItem } from "./components/allergy-record-list-item.js";
+if (!customElements.get("lily-allergy-record-list-item")) customElements.define("lily-allergy-record-list-item", _AllergyRecordListItem);
 
-export { AllergyList } from "./components/allergy-list.js";
-import { AllergyList as _AllergyList } from "./components/allergy-list.js";
-if (!customElements.get("lily-allergy-list")) customElements.define("lily-allergy-list", _AllergyList);
+export { AllergyRecordList } from "./components/allergy-record-list.js";
+import { AllergyRecordList as _AllergyRecordList } from "./components/allergy-record-list.js";
+if (!customElements.get("lily-allergy-record-list")) customElements.define("lily-allergy-record-list", _AllergyRecordList);
 
 export { AngleSliderRangeInput } from "./components/angle-slider-range-input.js";
 import { AngleSliderRangeInput as _AngleSliderRangeInput } from "./components/angle-slider-range-input.js";

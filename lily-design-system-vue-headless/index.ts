@@ -612,8 +612,8 @@ export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/Zhon
 
 // Healthcare display components and clinical formatting (spec/healthcare-ui, P27).
 export { default as AgeView } from "./components/AgeView.vue";
-export { default as AllergyList } from "./components/AllergyList.vue";
-export { default as AllergyListItem } from "./components/AllergyListItem.vue";
+export { default as AllergyRecordList } from "./components/AllergyRecordList.vue";
+export { default as AllergyRecordListItem } from "./components/AllergyRecordListItem.vue";
 export { default as DecisionSupportCard } from "./components/DecisionSupportCard.vue";
 export { default as EarlyWarningScoreView } from "./components/EarlyWarningScoreView.vue";
 export { default as MedicationView } from "./components/MedicationView.vue";

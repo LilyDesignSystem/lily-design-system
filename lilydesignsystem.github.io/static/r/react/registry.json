@@ -330,9 +330,9 @@
       ]
     },
     {
-      "name": "allergy-list",
+      "name": "allergy-record-list",
       "type": "registry:component",
-      "title": "AllergyList",
+      "title": "AllergyRecordList",
       "description": "A list of a patient's allergies and intolerances, whose status is never blank.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "registryDependencies": [
@@ -343,16 +343,16 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AllergyList.tsx",
+          "path": "lily-design-system-react-headless/components/AllergyRecordList.tsx",
           "type": "registry:component",
-          "target": "@components/lily/AllergyList.tsx"
+          "target": "@components/lily/AllergyRecordList.tsx"
         }
       ]
     },
     {
-      "name": "allergy-list-item",
+      "name": "allergy-record-list-item",
       "type": "registry:component",
-      "title": "AllergyListItem",
+      "title": "AllergyRecordListItem",
       "description": "One allergy or intolerance in an allergy list, with substance, reaction, severity and last update.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
       "categories": [
@@ -360,9 +360,9 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AllergyListItem.tsx",
+          "path": "lily-design-system-react-headless/components/AllergyRecordListItem.tsx",
           "type": "registry:component",
-          "target": "@components/lily/AllergyListItem.tsx"
+          "target": "@components/lily/AllergyRecordListItem.tsx"
         }
       ]
     },

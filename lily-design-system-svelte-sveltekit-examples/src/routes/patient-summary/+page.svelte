@@ -4,8 +4,8 @@
     // the consumer's words for why (the IPS emptyReason), never an empty space. e2e/healthcare-pages.spec.ts checks it.
     import Header from "#lib/components/Header/Header.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
-    import AllergyList from "#lib/components/AllergyList/AllergyList.svelte";
-    import AllergyListItem from "#lib/components/AllergyListItem/AllergyListItem.svelte";
+    import AllergyRecordList from "#lib/components/AllergyRecordList/AllergyRecordList.svelte";
+    import AllergyRecordListItem from "#lib/components/AllergyRecordListItem/AllergyRecordListItem.svelte";
     import MedicationView from "#lib/components/MedicationView/MedicationView.svelte";
     import { formatQuantity } from "#lib/components/clinical-format";
 
@@ -32,11 +32,11 @@
 
     <section aria-labelledby="ips-allergies">
         <h2 id="ips-allergies">Allergies and intolerances</h2>
-        <AllergyList
+        <AllergyRecordList
             status="known"
             statusLabel="Known allergies"
         >
-            <AllergyListItem
+            <AllergyRecordListItem
                 substance="Penicillin"
                 reaction="Anaphylaxis"
                 severity="severe"
@@ -44,7 +44,7 @@
                 updated="2026-11-03"
                 updatedLabel="Updated 3 Nov 2026"
             />
-        </AllergyList>
+        </AllergyRecordList>
     </section>
 
     <section aria-labelledby="ips-medicines">

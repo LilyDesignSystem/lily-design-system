@@ -15,7 +15,7 @@ It does not give you clinical logic, clinical content or a regulatory claim.
 | Lily provides                                                               | You provide                                                        |
 | --------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 | `observation-view`: a value, unit, flag in words, range, and missing states | The value, the flag decision, the reference range                  |
-| `allergy-list`, `allergy-list-item`: a status that is never blank           | The allergy record and its terminology                             |
+| `allergy-record-list`, `allergy-record-list-item`: a status that is never blank           | The allergy record and its terminology                             |
 | `medication-view`: name, strength, form, route, frequency, none truncated   | The drug data, tall man segments, the formatted strength           |
 | `decision-support-card`: the CDS Hooks card shape                           | The rules, the suggestion actions, recording the outcome           |
 | `early-warning-score-view`: a score, band and escalation, displayed         | The scoring system and its validated calculation                   |
@@ -56,7 +56,7 @@ The composition is documented in [`medical-banner`](../../../components/medical-
 at `/patient-banner` in the SvelteKit example app:
 
 - two identifiers; age beside the date of birth (`age-view`);
-- allergies through `allergy-list`, so "no known allergies", "not recorded" and "unavailable" never look alike;
+- allergies through `allergy-record-list`, so "no known allergies", "not recorded" and "unavailable" never look alike;
 - a missing value is words ("Not known"), never `?`, `-` or an empty cell;
 - a deceased patient: `data-deceased` for the theme, and a visible line of text, never colour alone;
 - no field truncated, clipped or hidden at any width; it wraps.

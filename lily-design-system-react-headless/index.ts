@@ -1221,10 +1221,10 @@ export type { ZhongguoJuminShenfenzhengHaomaViewProps } from "./components/Zhong
 // Healthcare display components and clinical formatting (spec/healthcare-ui, P27).
 export { default as AgeView } from "./components/AgeView";
 export type { AgeViewProps } from "./components/AgeView";
-export { default as AllergyList } from "./components/AllergyList";
-export type { AllergyListProps } from "./components/AllergyList";
-export { default as AllergyListItem } from "./components/AllergyListItem";
-export type { AllergyListItemProps } from "./components/AllergyListItem";
+export { default as AllergyRecordList } from "./components/AllergyRecordList";
+export type { AllergyRecordListProps } from "./components/AllergyRecordList";
+export { default as AllergyRecordListItem } from "./components/AllergyRecordListItem";
+export type { AllergyRecordListItemProps } from "./components/AllergyRecordListItem";
 export { default as DecisionSupportCard } from "./components/DecisionSupportCard";
 export type { DecisionSupportCardProps } from "./components/DecisionSupportCard";
 export { default as EarlyWarningScoreView } from "./components/EarlyWarningScoreView";

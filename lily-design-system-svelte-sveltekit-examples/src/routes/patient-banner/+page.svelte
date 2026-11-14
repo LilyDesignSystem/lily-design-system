@@ -1,14 +1,14 @@
 <script lang="ts">
     // Patient banner: the composition in components/medical-banner/index.md (spec/healthcare-ui item 7, P27-T8). A labelled
     // <section> holding a dl of consumer-supplied items: two identifiers (name and date of birth, then the NHS number), age,
-    // gender and allergies through AllergyList, so the allergy status is never blank. A deceased patient's banner carries
+    // gender and allergies through AllergyRecordList, so the allergy status is never blank. A deceased patient's banner carries
     // data-deceased and says so in words, not by colour alone. A missing value is the consumer's words ("Not known"), never a
     // dash. Nothing is truncated: e2e/patient-banner.spec.ts checks every field at 320px.
     import Header from "#lib/components/Header/Header.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
     import AgeView from "#lib/components/AgeView/AgeView.svelte";
-    import AllergyList from "#lib/components/AllergyList/AllergyList.svelte";
-    import AllergyListItem from "#lib/components/AllergyListItem/AllergyListItem.svelte";
+    import AllergyRecordList from "#lib/components/AllergyRecordList/AllergyRecordList.svelte";
+    import AllergyRecordListItem from "#lib/components/AllergyRecordListItem/AllergyRecordListItem.svelte";
     import EnglandNationalHealthServiceNumberView from "#lib/components/EnglandNationalHealthServiceNumberView/EnglandNationalHealthServiceNumberView.svelte";
     import { ageParts, toIsoDuration } from "#lib/components/clinical-format";
 
@@ -80,11 +80,11 @@
             <div>
                 <dt>Allergies</dt>
                 <dd>
-                    <AllergyList
+                    <AllergyRecordList
                         status="known"
                         statusLabel="Known allergies"
                     >
-                        <AllergyListItem
+                        <AllergyRecordListItem
                             substance="Penicillin and other beta-lactam antibiotics"
                             reaction="Anaphylaxis"
                             severity="severe"
@@ -92,25 +92,25 @@
                             updated="2026-11-03"
                             updatedLabel="Updated 3 Nov 2026"
                         />
-                        <AllergyListItem
+                        <AllergyRecordListItem
                             substance="Non-steroidal anti-inflammatory drugs"
                             reaction="Bronchospasm"
                             severity="moderate"
                             severityLabel="Moderate"
                         />
-                        <AllergyListItem
+                        <AllergyRecordListItem
                             substance="Latex"
                             reaction="Contact dermatitis"
                             severity="mild"
                             severityLabel="Mild"
                         />
-                        <AllergyListItem
+                        <AllergyRecordListItem
                             substance="Chlorhexidine gluconate skin preparations"
                             reaction="Urticaria"
                             severity="moderate"
                             severityLabel="Moderate"
                         />
-                    </AllergyList>
+                    </AllergyRecordList>
                 </dd>
             </div>
         </dl>
@@ -151,7 +151,7 @@
             <div>
                 <dt>Allergies</dt>
                 <dd>
-                    <AllergyList
+                    <AllergyRecordList
                         status="not-recorded"
                         statusLabel="Allergies not recorded"
                     />
