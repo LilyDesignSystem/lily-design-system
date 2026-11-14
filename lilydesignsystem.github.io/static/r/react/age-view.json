@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "age-view",
+  "type": "registry:component",
+  "title": "AgeView",
+  "description": "A read-only display of a person's age, in the units suited to it.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AgeView.tsx",
+      "content": "import React from \"react\";\n\n// AgeView: a person's age in the consumer's words, usually from ageParts() (spec/healthcare-ui item 6). Props: AgeView.md.\n\nexport interface AgeViewProps {\n    className?: string;\n    label?: string;\n    /** The age as the consumer writes it (\"3 weeks 2 days\"). */\n    value: string;\n    /** The same age as an ISO 8601 duration, as data-duration. */\n    duration?: string;\n    [key: string]: unknown;\n}\n\nexport default function AgeView({\n    className = \"\",\n    label,\n    value = \"\",\n    duration,\n    ...restProps\n}: AgeViewProps) {\n    return (\n        <span\n            className={`age-view ${className}`}\n            data-duration={duration}\n            {...restProps}\n        >\n            {label ? <span className=\"screen-reader-span\">{`${label} `}</span> : null}\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AgeView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/age-view/"
+}

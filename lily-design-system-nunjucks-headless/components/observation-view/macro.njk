@@ -1,0 +1,36 @@
+{#
+  ObservationView macro — a read-only clinical observation or result, with unit, flag and reference range
+  (spec/healthcare-ui item 1). Shows what the consumer decided; computes no flag and no range.
+
+  HTML tag: <span>
+  CSS class: observation-view (parts: -value, -unit, -flag, -range, -status)
+
+  Params:
+    value, unit, range         strings, formatted by the consumer
+    interpretation             a FHIR v3 ObservationInterpretation code, rendered as data-interpretation
+    flagLabel                  the consumer's words for the flag; required when it is not normal
+    status                     "final" (default) | "preliminary" | "not-recorded" | "unavailable"
+    statusLabel                the words for a status that is not final; replaces the value when missing
+    label, id, classes, attributes
+
+  Usage:
+    {% from "components/observation-view/macro.njk" import observationView %}
+    {{ observationView({ label: "Potassium", value: "5.9", unit: "mmol/L", interpretation: "H", flagLabel: "High", range: "3.5–5.3" }) }}
+#}
+{%- macro observationView(params) -%}
+{%- set p = params | default({}) -%}
+{%- set status = p.status | default("final") -%}
+<span
+  class="observation-view{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.interpretation %} data-interpretation="{{ p.interpretation }}"{% endif %} data-status="{{ status }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{% if p.label %}<span class="screen-reader-span">{{ p.label }} </span>{% endif %}
+{%- if status == "not-recorded" or status == "unavailable" -%}<span class="observation-view-status">{{ p.statusLabel }}</span>
+{%- else -%}<span class="observation-view-value">{{ p.value | default("") }}</span>
+{%- if p.unit %}&#160;<span class="observation-view-unit">{{ p.unit }}</span>{% endif -%}
+{%- if p.flagLabel %} <span class="observation-view-flag">{{ p.flagLabel }}</span>{% endif -%}
+{%- if p.range %} <span class="observation-view-range">{{ p.range }}</span>{% endif -%}
+{%- if status == "preliminary" and p.statusLabel %} <span class="observation-view-status">{{ p.statusLabel }}</span>{% endif -%}
+{%- endif -%}</span>
+{%- endmacro -%}

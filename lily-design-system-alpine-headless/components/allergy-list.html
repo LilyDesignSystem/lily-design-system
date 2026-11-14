@@ -1,0 +1,25 @@
+<!-- allergy-list.html -->
+<!-- AllergyList component (Alpine.js) -->
+<!--
+  Description: a list of a patient's allergies and intolerances, whose status is never blank
+  HTML tag: <ul>
+  CSS class: allergy-list
+  Keyboard: 
+  Accessibility: 
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<ul
+  class="allergy-list"
+  data-status="known"
+  aria-label="Known allergies"
+>
+  <li
+    class="allergy-list-item"
+    data-severity="severe"
+  >
+    <span class="allergy-list-item-substance">Penicillin</span>
+    <span class="allergy-list-item-reaction">Anaphylaxis</span>
+    <span class="allergy-list-item-severity">Severe</span>
+  </li>
+</ul>

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 
-import { resetDevWarnings, warnDeprecated, warnMissingName } from "./dev-warning";
+import { resetDevWarnings, warnDeprecated, warnMissingName, warnMissingProp } from "./dev-warning";
 
 afterEach(() => {
     vi.restoreAllMocks();
@@ -34,6 +34,26 @@ describe("development warnings", () => {
         const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
         warnDeprecated("Old", "New", "1.0.0");
         expect(spy.mock.calls[0][0]).toContain("Use New");
+    });
+
+    test("a missing required prop warns, saying why", () => {
+        const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+        warnMissingProp(
+            "AllergyList",
+            "status",
+            undefined,
+            "An allergy list must say whether allergies are known.",
+        );
+        expect(spy).toHaveBeenCalledOnce();
+        expect(spy.mock.calls[0][0]).toContain(
+            "AllergyList has no status. An allergy list must say",
+        );
+    });
+
+    test("a present prop does not warn", () => {
+        const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
+        warnMissingProp("AllergyList", "status", "none-known", "why");
+        expect(spy).not.toHaveBeenCalled();
     });
 
     test("production is silent", () => {

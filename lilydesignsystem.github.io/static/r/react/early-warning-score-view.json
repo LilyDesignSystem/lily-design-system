@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "early-warning-score-view",
+  "type": "registry:component",
+  "title": "EarlyWarningScoreView",
+  "description": "A read-only display of an early warning score, with its band and escalation text.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/EarlyWarningScoreView.tsx",
+      "content": "import React from \"react\";\nimport { warnMissingProp } from \"./dev-warning\";\n\n// EarlyWarningScoreView: an early warning score with its band and escalation (spec/healthcare-ui item 5). Display only:\n// it computes nothing. Props: EarlyWarningScoreView.md.\n\nexport interface EarlyWarningScoreViewProps {\n    className?: string;\n    label?: string;\n    /** The score the consumer computed. */\n    score: string | number;\n    /** The scoring system's name (\"NEWS2\"). */\n    system?: string;\n    /** The consumer's band key, as data-band. */\n    band?: string;\n    /** The band in words; required with band. */\n    bandLabel?: string;\n    escalation?: string;\n    [key: string]: unknown;\n}\n\nexport default function EarlyWarningScoreView({\n    className = \"\",\n    label,\n    score,\n    system,\n    band,\n    bandLabel,\n    escalation,\n    ...restProps\n}: EarlyWarningScoreViewProps) {\n    if (band)\n        warnMissingProp(\n            \"EarlyWarningScoreView\",\n            \"bandLabel\",\n            bandLabel,\n            \"A band needs words, not colour alone (WCAG 1.4.1).\",\n        );\n    return (\n        <span\n            className={`early-warning-score-view ${className}`}\n            data-band={band}\n            {...restProps}\n        >\n            {label ? <span className=\"screen-reader-span\">{`${label} `}</span> : null}\n            {system ? (\n                <>\n                    <span className=\"early-warning-score-view-system\">{system}</span>{\" \"}\n                </>\n            ) : null}\n            <span className=\"early-warning-score-view-score\">{score}</span>\n            {bandLabel ? (\n                <>\n                    {\" \"}\n                    <span className=\"early-warning-score-view-band\">{bandLabel}</span>\n                </>\n            ) : null}\n            {escalation ? (\n                <>\n                    {\" \"}\n                    <span className=\"early-warning-score-view-escalation\">{escalation}</span>\n                </>\n            ) : null}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/EarlyWarningScoreView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/early-warning-score-view/"
+}

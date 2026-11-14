@@ -1217,3 +1217,23 @@ export { default as ZhongguoJuminShenfenzhengHaomaInput } from "./components/Zho
 export type { ZhongguoJuminShenfenzhengHaomaInputProps } from "./components/ZhongguoJuminShenfenzhengHaomaInput";
 export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView";
 export type { ZhongguoJuminShenfenzhengHaomaViewProps } from "./components/ZhongguoJuminShenfenzhengHaomaView";
+
+// Healthcare display components and clinical formatting (spec/healthcare-ui, P27).
+export { default as AgeView } from "./components/AgeView";
+export type { AgeViewProps } from "./components/AgeView";
+export { default as AllergyList } from "./components/AllergyList";
+export type { AllergyListProps } from "./components/AllergyList";
+export { default as AllergyListItem } from "./components/AllergyListItem";
+export type { AllergyListItemProps } from "./components/AllergyListItem";
+export { default as DecisionSupportCard } from "./components/DecisionSupportCard";
+export type { DecisionSupportCardProps } from "./components/DecisionSupportCard";
+export { default as EarlyWarningScoreView } from "./components/EarlyWarningScoreView";
+export type { EarlyWarningScoreViewProps } from "./components/EarlyWarningScoreView";
+export { default as MedicationView } from "./components/MedicationView";
+export type { MedicationViewProps } from "./components/MedicationView";
+export { default as ObservationView } from "./components/ObservationView";
+export type { ObservationViewProps } from "./components/ObservationView";
+export type { MedicationNameSegment } from "./components/MedicationView";
+export type { DecisionSupportSuggestion } from "./components/DecisionSupportCard";
+export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
+export type { AgePart, AgeUnit } from "./components/clinical-format";

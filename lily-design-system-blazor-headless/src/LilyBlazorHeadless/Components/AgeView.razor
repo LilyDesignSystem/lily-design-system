@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    AgeView: a person's age in the consumer's words, usually from ClinicalFormat.AgeParts (spec/healthcare-ui item 6).
+    Props: AgeView.md.
+*@
+<span class="@($"age-view {CssClass}".Trim())" data-duration="@(string.IsNullOrEmpty(Duration) ? null : Duration)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@Value</span>
+@code {
+    [Parameter] public string? Label { get; set; }
+    /// <summary>The age as the consumer writes it.</summary>
+    [Parameter, EditorRequired] public string Value { get; set; } = "";
+    /// <summary>The same age as an ISO 8601 duration, as data-duration.</summary>
+    [Parameter] public string? Duration { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

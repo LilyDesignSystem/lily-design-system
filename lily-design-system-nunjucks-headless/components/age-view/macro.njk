@@ -1,0 +1,24 @@
+{#
+  AgeView macro — a person's age in the consumer's words (spec/healthcare-ui item 6).
+
+  HTML tag: <span>
+  CSS class: age-view
+
+  Params:
+    value      the age as the consumer writes it (required)
+    duration   the same age as an ISO 8601 duration, rendered as data-duration
+    label, id, classes, attributes
+
+  Usage:
+    {% from "components/age-view/macro.njk" import ageView %}
+    {{ ageView({ value: "3 weeks 2 days", duration: "P23D" }) }}
+#}
+{%- macro ageView(params) -%}
+{%- set p = params | default({}) -%}
+<span
+  class="age-view{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.duration %} data-duration="{{ p.duration }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{% if p.label %}<span class="screen-reader-span">{{ p.label }} </span>{% endif %}{{ p.value | default("") }}</span>
+{%- endmacro -%}

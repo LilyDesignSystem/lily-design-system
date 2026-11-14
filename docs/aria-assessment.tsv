@@ -158,7 +158,7 @@ emoji	ARIA evidence incomplete	no	no	no	yes	8	7	no	-
 emoji-character-picker	key evidence incomplete	no	yes	no	yes	1	3	no	-
 end-notes	ARIA evidence incomplete	no	no	no	yes	1	6	no	-
 england-national-health-service-number-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
-england-national-health-service-number-view	ARIA evidence incomplete	no	no	no	yes	1	6	no	-
+england-national-health-service-number-view	ARIA evidence incomplete	no	no	no	yes	1	6	yes	-
 error-message	automated evidence complete	yes	no	no	yes	8	8	yes	-
 error-summary	automated evidence complete	yes	no	no	yes	8	8	yes	-
 espana-codigo-de-identificacion-fiscal-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
@@ -607,3 +607,10 @@ convert-into-value-div	automated evidence complete	no	no	no	no	1	8	no	-
 convert-into-unit-div	automated evidence complete	no	no	no	no	1	8	no	-
 picture	ARIA evidence incomplete	no	no	no	yes	1	0	no	-
 warning-text	automated evidence complete	no	no	no	yes	1	8	no	-
+observation-view	automated evidence complete	no	no	no	yes	1	8	no	-
+allergy-list	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
+allergy-list-item	automated evidence complete	no	no	no	no	1	0	no	-
+medication-view	ARIA evidence incomplete	no	no	no	yes	1	0	no	-
+decision-support-card	key evidence incomplete	no	yes	no	yes	7	8	no	-
+early-warning-score-view	ARIA evidence incomplete	no	no	no	yes	1	0	no	-
+age-view	automated evidence complete	no	no	no	yes	1	8	yes	-

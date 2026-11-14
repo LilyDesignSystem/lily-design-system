@@ -1,6 +1,6 @@
 # Lily Design System™
 
-> Free, open-source, headless design system: a canonical catalog of 608
+> Free, open-source, headless design system: a canonical catalog of 615
 > accessible components implemented across seven frameworks (HTML, Svelte,
 > React, Vue, Angular, Blazor, Nunjucks) plus Web Components and Alpine.js catalogs, paired
 > with fully styled example apps that demonstrate the same catalog end to end.
@@ -87,7 +87,7 @@ searchable component catalog: https://lilydesignsystem.com/.
   the canonical helpers, one top-level subproject each — the eleven pickers,
   picker-bar, data-grid, kanban-board, gantt-chart, calendar, filter, markdown-editor, org-editor, locale-translations (20 packages).
 - [@lilydesignsystem/alpine-headless](lily-design-system-alpine-headless/index.md):
-  all 608 components as Alpine.js snippets plus one plugin.
+  all 615 components as Alpine.js snippets plus one plugin.
 - The other headless, example and helper subprojects (184 in all, for
   React, Vue, Angular, Blazor, HTML, Nunjucks, Web Components and
   Alpine.js) follow the same shape — see [AGENTS/lily.md](AGENTS/lily.md) for the full list.

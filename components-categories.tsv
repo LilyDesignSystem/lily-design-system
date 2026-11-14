@@ -606,3 +606,10 @@ convert-into-value-div	div	content
 convert-into-unit-div	div	content
 picture	picture	content
 warning-text	div	content
+observation-view	span	content
+allergy-list	ul	lists
+allergy-list-item	li	lists
+medication-view	span	content
+decision-support-card	div	content
+early-warning-score-view	span	content
+age-view	span	content

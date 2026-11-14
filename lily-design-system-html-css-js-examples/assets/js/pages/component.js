@@ -4258,6 +4258,55 @@
                         tag: "div",
                         category: "content",
                     },
+                    {
+                        slug: "observation-view",
+                        name: "ObservationView",
+                        description: "a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag",
+                        tag: "span",
+                        category: "content",
+                    },
+                    {
+                        slug: "allergy-list",
+                        name: "AllergyList",
+                        description: "a list of a patient's allergies and intolerances, whose status is never blank",
+                        tag: "ul",
+                        category: "lists",
+                    },
+                    {
+                        slug: "allergy-list-item",
+                        name: "AllergyListItem",
+                        description: "one allergy or intolerance in an allergy list, with substance, reaction, severity and last update",
+                        tag: "li",
+                        category: "lists",
+                    },
+                    {
+                        slug: "medication-view",
+                        name: "MedicationView",
+                        description: "a read-only display of a medicine, with its name, strength, form, route and frequency",
+                        tag: "span",
+                        category: "content",
+                    },
+                    {
+                        slug: "decision-support-card",
+                        name: "DecisionSupportCard",
+                        description: "a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons",
+                        tag: "div",
+                        category: "content",
+                    },
+                    {
+                        slug: "early-warning-score-view",
+                        name: "EarlyWarningScoreView",
+                        description: "a read-only display of an early warning score, with its band and escalation text",
+                        tag: "span",
+                        category: "content",
+                    },
+                    {
+                        slug: "age-view",
+                        name: "AgeView",
+                        description: "a read-only display of a person's age, in the units suited to it",
+                        tag: "span",
+                        category: "content",
+                    },
                 ];
 
                 function escapeHtml(text) {
@@ -4879,6 +4928,13 @@
                 'convert-into-unit-div': '<div class="convert-into-unit-div"><label for="convert-into-unit">Into</label> <select id="convert-into-unit"><option value="EUR">Euros</option><option value="USD">US dollars</option></select></div>',
                 'picture': '<picture class="picture"><source srcset="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/3000/svg%27 width=%27640%27 height=%27300%27%3E%3Crect width=%27640%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E" media="(min-width: 48rem)" type="image/svg+xml"><img src="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E" alt="A pale blue rectangle standing in for a photograph" width="320" height="200"></picture>',
                 'warning-text': '<div class="warning-text"><span class="warning-text-icon" aria-hidden="true">!</span><strong class="warning-text-text"><span class="screen-reader-span">Warning</span> You can be fined up to £5,000 if you do not register.</strong></div>',
+                'observation-view': '<span class="observation-view" data-interpretation="H" data-status="final"><span class="screen-reader-span">Potassium </span><span class="observation-view-value">5.9</span>&#160;<span class="observation-view-unit">mmol/L</span> <span class="observation-view-flag">High</span> <span class="observation-view-range">3.5–5.3</span></span>',
+                'allergy-list': '<ul class="allergy-list" data-status="known" aria-label="Known allergies"><li class="allergy-list-item" data-severity="severe"><span class="allergy-list-item-substance">Penicillin</span> <span class="allergy-list-item-reaction">Anaphylaxis</span> <span class="allergy-list-item-severity">Severe</span></li></ul>',
+                'allergy-list-item': '<ul class="allergy-list" data-status="known" aria-label="Known allergies"><li class="allergy-list-item" data-severity="severe"><span class="allergy-list-item-substance">Penicillin</span> <span class="allergy-list-item-reaction">Anaphylaxis</span> <span class="allergy-list-item-severity">Severe</span> <time class="allergy-list-item-updated" datetime="2026-11-03">Updated 3 Nov 2026</time></li></ul>',
+                'medication-view': '<span class="medication-view"><span class="medication-view-name">hydr<span class="medication-view-tall-man">ALAZINE</span></span> <span class="medication-view-strength">25&#160;mg</span> <span class="medication-view-form">tablet</span> <span class="medication-view-route">oral</span> <span class="medication-view-frequency">twice daily</span></span>',
+                'decision-support-card': '<div class="decision-support-card" role="group" aria-label="Penicillin allergy recorded" data-indicator="critical"><p class="decision-support-card-header"><span class="decision-support-card-indicator">Critical</span> <span class="decision-support-card-summary">Penicillin allergy recorded</span></p><div class="decision-support-card-detail"><p>Amoxicillin is a penicillin.</p></div><p class="decision-support-card-source"><a href="#">Local formulary</a></p><div class="decision-support-card-suggestions"><button type="button" class="decision-support-card-suggestion" data-recommended="true">Cancel amoxicillin</button></div><form class="decision-support-card-override"><label class="decision-support-card-override-label">Reason for dismissing <select class="decision-support-card-override-reason" name="overrideReason" required><option value="">Choose a reason</option><option value="error">Allergy recorded in error</option></select></label><button type="submit" class="decision-support-card-dismiss">Dismiss</button></form></div>',
+                'early-warning-score-view': '<span class="early-warning-score-view" data-band="high"><span class="early-warning-score-view-system">NEWS2</span> <span class="early-warning-score-view-score">7</span> <span class="early-warning-score-view-band">High</span> <span class="early-warning-score-view-escalation">Urgent response</span></span>',
+                'age-view': '<span class="age-view" data-duration="P23D"><span class="screen-reader-span">Age </span>3 weeks 2 days</span>',
             };
 
             var componentExamples = {
@@ -5490,6 +5546,13 @@
                 "convert-into-unit-div": {"usage":{"lang":"html","code":"<ConvertDiv label=\"Currency converter\">\n  <ConvertFromDiv>\n    <ConvertFromValueDiv>\n      <label for=\"from-value\">Amount</label>\n      <input\n        id=\"from-value\"\n        type=\"text\"\n        inputmode=\"decimal\"\n        value=\"100\"\n      />\n    </ConvertFromValueDiv>\n    <ConvertFromUnitDiv>\n      <label for=\"from-unit\">From</label>\n      <select id=\"from-unit\">\n        <option value=\"USD\">US dollars</option>\n        <option value=\"EUR\">Euros</option>\n      </select>\n    </ConvertFromUnitDiv>\n  </ConvertFromDiv>\n  <ConvertIntoDiv>\n    <ConvertIntoValueDiv>\n      <label for=\"into-value\">Converted</label>\n      <input\n        id=\"into-value\"\n        type=\"text\"\n        inputmode=\"decimal\"\n        value=\"92.10\"\n        readonly\n      />\n    </ConvertIntoValueDiv>\n    <ConvertIntoUnitDiv>\n      <label for=\"into-unit\">Into</label>\n      <select id=\"into-unit\">\n        <option value=\"EUR\">Euros</option>\n        <option value=\"USD\">US dollars</option>\n      </select>\n    </ConvertIntoUnitDiv>\n  </ConvertIntoDiv>\n</ConvertDiv>\n"}},
                 "picture": {"usage":{"lang":"html","code":"<picture class=\"picture\"><source srcset=\"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/3000/svg%27 width=%27640%27 height=%27300%27%3E%3Crect width=%27640%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E\" media=\"(min-width: 48rem)\" type=\"image/svg+xml\"><img src=\"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E\" alt=\"A pale blue rectangle standing in for a photograph\" width=\"320\" height=\"200\"></picture>\n"},"variants":[{"title":"Format choice with a fallback image, lazy-loaded","html":"<picture class=\"picture\"><source srcset=\"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E\" type=\"image/svg+xml\"><img src=\"data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27320%27 height=%27200%27%3E%3Crect width=%27320%27 height=%27200%27 fill=%27%23c8d9ee%27/%3E%3C/svg%3E\" alt=\"A pale blue rectangle standing in for a photograph\" width=\"320\" height=\"200\" loading=\"lazy\" decoding=\"async\"></picture>"}]},
                 "warning-text": {"usage":{"lang":"html","code":"<div class=\"warning-text\"><span class=\"warning-text-icon\" aria-hidden=\"true\">!</span><strong class=\"warning-text-text\"><span class=\"screen-reader-span\">Warning</span> You can be fined up to £5,000 if you do not register.</strong></div>\n"},"variants":[{"title":"Inline SVG icon","html":"<div class=\"warning-text\"><span class=\"warning-text-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" focusable=\"false\"><circle cx=\"12\" cy=\"12\" r=\"11\" fill=\"currentColor\"/><rect x=\"11\" y=\"6\" width=\"2\" height=\"8\" fill=\"Canvas\"/><rect x=\"11\" y=\"16\" width=\"2\" height=\"2\" fill=\"Canvas\"/></svg></span><strong class=\"warning-text-text\"><span class=\"screen-reader-span\">Warning</span> You must appeal within 1 year of getting your decision letter.</strong></div>"}]},
+                "observation-view": {"usage":{"lang":"html","code":"<SummaryList>\n  <SummaryListItem term=\"Potassium\">\n    <ObservationView\n      value=\"5.9\"\n      unit=\"mmol/L\"\n      interpretation=\"H\"\n      flagLabel=\"High\"\n      range=\"3.5–5.3\"\n    />\n  </SummaryListItem>\n  <SummaryListItem term=\"Sodium\">\n    <ObservationView\n      status=\"not-recorded\"\n      statusLabel=\"Not recorded\"\n    />\n  </SummaryListItem>\n</SummaryList>\n"}},
+                "allergy-list": {"usage":{"lang":"html","code":"<AllergyList\n  status=\"known\"\n  statusLabel=\"Known allergies\"\n>\n  <AllergyListItem\n    substance=\"Penicillin\"\n    reaction=\"Anaphylaxis\"\n    severity=\"severe\"\n    severityLabel=\"Severe\"\n  />\n</AllergyList>\n\n<AllergyList\n  status=\"none-known\"\n  statusLabel=\"No known allergies\"\n/>\n"}},
+                "allergy-list-item": {"usage":{"lang":"html","code":"<AllergyListItem\n  substance=\"Penicillin\"\n  reaction=\"Anaphylaxis\"\n  severity=\"severe\"\n  severityLabel=\"Severe\"\n  updated=\"2026-11-03\"\n  updatedLabel=\"Updated 3 Nov 2026\"\n/>\n"}},
+                "medication-view": {"usage":{"lang":"html","code":"<MedicationView\n  nameSegments={[{ text: \"hydr\" }, { text: \"ALAZINE\", tallMan: true }]}\n  strength=\"25 mg\"\n  form=\"tablet\"\n  route=\"oral\"\n  frequency=\"twice daily\"\n/>\n"}},
+                "decision-support-card": {"usage":{"lang":"html","code":"<DecisionSupportCard\n  summary=\"Penicillin allergy recorded\"\n  indicator=\"critical\"\n  indicatorLabel=\"Critical\"\n  sourceLabel=\"Local formulary\"\n  suggestions={[{ id: \"cancel\", label: \"Cancel amoxicillin\", isRecommended: true }]}\n  dismissLabel=\"Dismiss\"\n  overrideReasons={[{ code: \"aware\", display: \"Patient tolerated before\" }]}\n  overrideReasonLabel=\"Reason for dismissing\"\n  overrideReasonPlaceholder=\"Choose a reason\"\n>\n  <p>Amoxicillin is a penicillin.</p>\n</DecisionSupportCard>\n"}},
+                "early-warning-score-view": {"usage":{"lang":"html","code":"<EarlyWarningScoreView\n  system=\"NEWS2\"\n  score=\"{7}\"\n  band=\"high\"\n  bandLabel=\"High\"\n  escalation=\"Urgent response\"\n/>\n"}},
+                "age-view": {"usage":{"lang":"html","code":"<span class=\"age-view\" data-duration=\"P23D\"><span class=\"screen-reader-span\">Age </span>3 weeks 2 days</span>\n"}},
 /* END componentExamples */};
 
                 // Demo markup may hold style attributes, which a strict Content Security Policy blocks when parsed. Rename

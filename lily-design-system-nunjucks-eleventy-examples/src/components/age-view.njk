@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: AgeView
+description: a read-only display of a person's age, in the units suited to it
+---
+
+{% from "components/age-view/macro.njk" import ageView %}
+
+<h2>Default</h2>
+<p>{{ ageView({ text: "AgeView example", label: "AgeView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;span class="age-view" data-duration="P23D"&gt;&lt;span class="screen-reader-span"&gt;Age &lt;/span&gt;3 weeks 2 days&lt;/span&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

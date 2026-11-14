@@ -107,6 +107,26 @@ EXTRA_TARGETS = {
         "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/Command.razor.js",
         "lily-design-system-html-headless/components/command.html",
     ],
+    # Clinical display formatting (spec/healthcare-ui, P27-T1): exported by each TypeScript library and Alpine for consumers.
+    "clinical-format.ts": [
+        "lily-design-system-svelte-headless/components/clinical-format.ts",
+        "lily-design-system-svelte-sveltekit-examples/src/lib/components/clinical-format.ts",
+        "lily-design-system-react-headless/components/clinical-format.ts",
+        "lily-design-system-react-next-examples/components/clinical-format.ts",
+        "lily-design-system-vue-headless/components/clinical-format.ts",
+        "lily-design-system-vue-nuxt-examples/components/clinical-format.ts",
+        "lily-design-system-angular-headless/components/clinical-format.ts",
+        "lily-design-system-angular-examples/src/app/components/clinical-format.ts",
+        "lily-design-system-web-components-headless/lib/clinical-format.ts",
+        "lily-design-system-alpine-headless/clinical-format.js",
+    ],
+    "clinical-format.test.ts": [
+        "lily-design-system-svelte-headless/components/clinical-format.test.ts",
+        "lily-design-system-react-headless/components/clinical-format.test.ts",
+        "lily-design-system-vue-headless/components/clinical-format.test.ts",
+        "lily-design-system-angular-headless/components/clinical-format.spec.ts",  # Angular runs *.spec.ts
+        "lily-design-system-web-components-headless/lib/clinical-format.test.ts",
+    ],
     "middle-truncation.ts": [
         "lily-design-system-svelte-headless/components/MiddleTruncation/middle-truncation.ts",
         "lily-design-system-react-headless/components/middle-truncation.ts",

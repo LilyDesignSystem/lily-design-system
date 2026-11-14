@@ -1,0 +1,25 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    ObservationView: a read-only clinical observation or result, with unit, flag and reference range
+    (spec/healthcare-ui item 1). Shows what the consumer decided; computes no flag and no range.
+    Props and rules: ObservationView.md.
+*@
+<span class="@($"observation-view {CssClass}".Trim())" data-interpretation="@(string.IsNullOrEmpty(Interpretation) ? null : Interpretation)" data-status="@Status" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@if (Status is "not-recorded" or "unavailable") {<span class="observation-view-status">@StatusLabel</span>} else {<span class="observation-view-value">@Value</span>@if (!string.IsNullOrEmpty(Unit)) {@(" ")<span class="observation-view-unit">@Unit</span>}@if (!string.IsNullOrEmpty(FlagLabel)) {@(" ")<span class="observation-view-flag">@FlagLabel</span>}@if (!string.IsNullOrEmpty(Range)) {@(" ")<span class="observation-view-range">@Range</span>}@if (Status == "preliminary" && !string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="observation-view-status">@StatusLabel</span>}}</span>
+@code {
+    /// <summary>Hidden text naming the observation.</summary>
+    [Parameter] public string? Label { get; set; }
+    /// <summary>The value, formatted by the consumer.</summary>
+    [Parameter] public string Value { get; set; } = "";
+    /// <summary>The unit, joined to the value by a no-break space.</summary>
+    [Parameter] public string? Unit { get; set; }
+    /// <summary>A FHIR v3 ObservationInterpretation code, rendered as data-interpretation.</summary>
+    [Parameter] public string? Interpretation { get; set; }
+    /// <summary>The consumer's words for the flag; required when it is not normal.</summary>
+    [Parameter] public string? FlagLabel { get; set; }
+    [Parameter] public string? Range { get; set; }
+    /// <summary>final, preliminary, not-recorded or unavailable.</summary>
+    [Parameter] public string Status { get; set; } = "final";
+    [Parameter] public string? StatusLabel { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

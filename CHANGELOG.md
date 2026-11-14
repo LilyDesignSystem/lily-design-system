@@ -9,6 +9,23 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Healthcare display components, catalog 615 — 2026-11-14
+
+tasks.md P27-T1 to P27-T8, from [spec/healthcare-ui](spec/healthcare-ui/index.md).
+
+- **Added:** seven components in all nine headless catalogs (Web Components now 580 of 615): `observation-view` (a result with
+  unit, FHIR interpretation flag in words, reference range, and distinct not-recorded and unavailable states), `allergy-list`
+  and `allergy-list-item` (a status that is never blank), `medication-view` (consumer-marked tall man letters, nothing truncated),
+  `decision-support-card` (the CDS Hooks card; dismissing asks for a reason when reasons are offered), `early-warning-score-view`
+  (display only) and `age-view`.
+- **Added:** `shared/clinical-format.ts` — `formatQuantity` (no trailing zero, a leading zero, grouping, a no-break space before
+  the unit), `ageParts` (the NHS Common User Interface age bands) and `toIsoDuration` — exported by the Svelte, React, Vue,
+  Angular and Web Components libraries and Alpine, with a C# port (`ClinicalFormat`) in Blazor.
+- **Added:** `warnMissingProp` development warning; the patient banner rules (two identifiers, a deceased state in words, words
+  for missing values, nothing truncated) and the SvelteKit `/patient-banner` page with `e2e/patient-banner.spec.ts` at 320px.
+- **Changed:** `bin/check-port-logic` ignores a Svelte effect that only raises development warnings; the Angular prerender test
+  reads the catalog count from `components.tsv`.
+
 ## A receipt gate on local publishes — 2026-11-10
 
 tasks.md P24-T5, the maintainer's choice. **Added:** `bin/ci --full` writes `.ci/receipt.json` (git-ignored), and

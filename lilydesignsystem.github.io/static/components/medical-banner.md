@@ -161,12 +161,24 @@ A documented composition, not a component. A labelled section holding a `dl` of 
 </section>
 ```
 
-Rules:
+Rules (P27-T8, [spec/healthcare-ui](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md) item 7):
 
 - The `aria-label` and every `dt` and `dd` string come from the consumer. Lily supplies no English.
-- No field is ever truncated, clipped or hidden at a narrow width: wrap instead. This is a patient-safety rule, and adverse reactions stay visible at every width.
-- Show the identifier with its national identifier `-view` component (for example `england-national-health-service-number-view`), so grouping and normalization stay consistent.
-- It is not named `patient-header` because Lily's suffix table maps `-header` to `<header>`, which would be wrong for a labelled `<section>` that is not page chrome. If the composition proves awkward in the example apps, a `patient-banner` component (root `<section>`) is the candidate.
+- **Two identifiers.** Show at least two, such as the name with the date of birth, and the national identifier with its `-view`
+  component (for example `england-national-health-service-number-view`), so grouping and normalization stay consistent (The
+  Joint Commission, Quick Safety 45).
+- **Never truncated.** No field is ever truncated, clipped or hidden at a narrow width: wrap instead. This is a patient-safety
+  rule, and allergies stay visible at every width.
+- **Allergies are never blank.** Show them with `allergy-list`, whose required `status` tells "no known allergies" apart from
+  "not recorded" and "unavailable".
+- **Age beside the date of birth.** Use `age-view` with `ageParts()`, so an infant's age reads in weeks and days.
+- **A missing value is words.** Show the consumer's text ("Not known"), never `?`, `-` or an empty cell.
+- **A deceased patient is said in words.** Put `data-deceased="true"` on the section for the theme, and a visible line of text
+  ("Deceased"); never colour or pattern alone. Show the date of death and the age at death.
+- It is not named `patient-header` because Lily's suffix table maps `-header` to `<header>`, which would be wrong for a labelled
+  `<section>` that is not page chrome. If the composition proves awkward in the example apps, a `patient-banner` component (root
+  `<section>`) is the candidate.
+- Example: `/patient-banner` in the SvelteKit examples app, with `e2e/patient-banner.spec.ts` checking every field at 320px.
 
 ## Advice
 

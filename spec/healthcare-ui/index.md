@@ -8,7 +8,7 @@ medical banner, a care card, a patient banner composition, 164 national identifi
 the small, safety-critical display contracts that clinical software repeats on every screen: a result with its reference range
 and flag, an allergy status that is never blank, a medicine written the safe way, a decision-support card, a patient's age. This
 topic proposes seven components, one shared formatting module and five example pages, and declines everything that would put
-clinical logic in Lily. Nothing here is built yet; each item is an open acceptance criterion and a task in
+clinical logic in Lily. Items 1 to 8 were built on 2026-11-14; the rest are open acceptance criteria and tasks in
 [tasks.md](../../tasks.md#phase-27--healthcare-user-interfaces-2026-11-13).
 
 ## Scope
@@ -140,20 +140,20 @@ clinical logic in Lily. Nothing here is built yet; each item is an open acceptan
 
 ## Acceptance criteria
 
-- [ ] 1. `observation-view` in all nine catalogs, with tests that each interpretation code renders its consumer label and its
+- [x] 1. `observation-view` in all nine catalogs, with tests that each interpretation code renders its consumer label and its
       `data-interpretation`, and that `not-recorded` and `unavailable` render different text.
-- [ ] 2. `allergy-list` and `allergy-list-item` in all nine catalogs; a missing `status` is a development warning; each status
+- [x] 2. `allergy-list` and `allergy-list-item` in all nine catalogs; a missing `status` is a development warning; each status
       renders its consumer text.
-- [ ] 3. `medication-view` in all nine catalogs; tall man segments render as marked parts; the 320px sweep shows no truncation.
-- [ ] 4. `decision-support-card` in all nine catalogs; suggestions are buttons, links are links, dismissing with
+- [x] 3. `medication-view` in all nine catalogs; tall man segments render as marked parts; the 320px sweep shows no truncation.
+- [x] 4. `decision-support-card` in all nine catalogs; suggestions are buttons, links are links, dismissing with
       `overrideReasons` asks for one; key and ARIA tests.
-- [ ] 5. `early-warning-score-view` in all nine catalogs; it has no scoring code (a review check in its `AGENTS.md`).
-- [ ] 6. `age-view` and `ageParts()` with tests at each band boundary.
-- [ ] 7. The patient banner rules are in `medical-banner`'s docs and `AGENTS/components.md`, with an e2e test at 320px.
-- [ ] 8. `shared/clinical-format.ts` with tests, synced by `bin/sync-shared-modules`.
+- [x] 5. `early-warning-score-view` in all nine catalogs; it has no scoring code (a review check in its `AGENTS.md`).
+- [x] 6. `age-view` and `ageParts()` with tests at each band boundary.
+- [x] 7. The patient banner rules are in `medical-banner`'s docs and `AGENTS/components.md`, with an e2e test at 320px.
+- [x] 8. `shared/clinical-format.ts` with tests, synced by `bin/sync-shared-modules`.
 - [ ] 9. The five example pages exist in the SvelteKit app, pass axe, and are reachable by keyboard alone.
 - [ ] 10. `docs/patterns/healthcare.md` exists and is linked from the site.
-- [ ] 11–12. Each maintainer decision is recorded here.
+- [x] 11–12. Each maintainer decision is recorded here: `body-map` and a 0 to 10 rating scale were both approved on 2026-11-14 (tasks.md P27-T11, P27-T12).
 
 ## Related topics
 

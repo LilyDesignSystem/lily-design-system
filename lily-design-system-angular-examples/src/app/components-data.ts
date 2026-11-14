@@ -4263,6 +4263,55 @@ export const components: ComponentMeta[] = [
       tag: "div",
       category: "content",
   },
+  {
+      slug: "observation-view",
+      name: "ObservationView",
+      description: "a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag",
+      tag: "span",
+      category: "content",
+  },
+  {
+      slug: "allergy-list",
+      name: "AllergyList",
+      description: "a list of a patient's allergies and intolerances, whose status is never blank",
+      tag: "ul",
+      category: "lists",
+  },
+  {
+      slug: "allergy-list-item",
+      name: "AllergyListItem",
+      description: "one allergy or intolerance in an allergy list, with substance, reaction, severity and last update",
+      tag: "li",
+      category: "lists",
+  },
+  {
+      slug: "medication-view",
+      name: "MedicationView",
+      description: "a read-only display of a medicine, with its name, strength, form, route and frequency",
+      tag: "span",
+      category: "content",
+  },
+  {
+      slug: "decision-support-card",
+      name: "DecisionSupportCard",
+      description: "a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons",
+      tag: "div",
+      category: "content",
+  },
+  {
+      slug: "early-warning-score-view",
+      name: "EarlyWarningScoreView",
+      description: "a read-only display of an early warning score, with its band and escalation text",
+      tag: "span",
+      category: "content",
+  },
+  {
+      slug: "age-view",
+      name: "AgeView",
+      description: "a read-only display of a person's age, in the units suited to it",
+      tag: "span",
+      category: "content",
+  },
 ];
 
 /** Category id → display label (plan P6-T5's category filter). */

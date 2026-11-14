@@ -1,0 +1,32 @@
+{#
+  AllergyListItem macro — one allergy or intolerance in an AllergyList (spec/healthcare-ui item 2).
+
+  HTML tag: <li>
+  CSS class: allergy-list-item (parts: -substance, -reaction, -severity, -updated)
+
+  Params:
+    substance       what the patient reacts to (required); never truncated
+    reaction        the manifestation
+    severity        "mild" | "moderate" | "severe", rendered as data-severity
+    severityLabel   the consumer's words for the severity
+    updated         when the record was last updated, for <time datetime>
+    updatedLabel    that date as the consumer writes it
+    html, id, classes, attributes
+
+  Usage:
+    {% from "components/allergy-list-item/macro.njk" import allergyListItem %}
+    {{ allergyListItem({ substance: "Penicillin", reaction: "Anaphylaxis", severity: "severe", severityLabel: "Severe" }) }}
+#}
+{%- macro allergyListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="allergy-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.severity %} data-severity="{{ p.severity }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="allergy-list-item-substance">{{ p.substance }}</span>
+{%- if p.reaction %} <span class="allergy-list-item-reaction">{{ p.reaction }}</span>{% endif -%}
+{%- if p.severityLabel %} <span class="allergy-list-item-severity">{{ p.severityLabel }}</span>{% endif -%}
+{%- if p.updatedLabel %} <time class="allergy-list-item-updated"{% if p.updated %} datetime="{{ p.updated }}"{% endif %}>{{ p.updatedLabel }}</time>{% endif -%}
+{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
+{%- endmacro -%}

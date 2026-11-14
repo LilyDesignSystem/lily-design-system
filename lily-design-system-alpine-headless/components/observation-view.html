@@ -1,0 +1,22 @@
+<!-- observation-view.html -->
+<!-- ObservationView component (Alpine.js) -->
+<!--
+  Description: a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag
+  HTML tag: <span>
+  CSS class: observation-view
+  Keyboard: 
+  Accessibility: 
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<span
+  class="observation-view"
+  data-interpretation="H"
+  data-status="final"
+  ><span class="screen-reader-span">Potassium </span
+  ><span class="observation-view-value">5.9</span>&#160;<span class="observation-view-unit"
+    >mmol/L</span
+  >
+  <span class="observation-view-flag">High</span>
+  <span class="observation-view-range">3.5–5.3</span></span
+>

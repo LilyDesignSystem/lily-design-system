@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "allergy-list",
+  "type": "registry:component",
+  "title": "AllergyList",
+  "description": "A list of a patient's allergies and intolerances, whose status is never blank.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/AllergyList.tsx",
+      "content": "import React from \"react\";\nimport { warnMissingProp } from \"./dev-warning\";\n\n// AllergyList: a patient's allergies and intolerances, whose status is never blank (spec/healthcare-ui item 2).\n// For any status but \"known\", statusLabel is the list's one item. Props and rules: AllergyList.md.\n\nexport interface AllergyListProps {\n    className?: string;\n    status: \"known\" | \"none-known\" | \"not-recorded\" | \"unavailable\";\n    /** The consumer's words for the status; names the list, and is its one item unless status is \"known\". */\n    statusLabel: string;\n    /** The accessible name, when it should differ from statusLabel. */\n    label?: string;\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function AllergyList({\n    className = \"\",\n    status,\n    statusLabel,\n    label,\n    children,\n    ...restProps\n}: AllergyListProps) {\n    warnMissingProp(\n        \"AllergyList\",\n        \"status\",\n        status,\n        \"An allergy list must say whether allergies are known, none known, not recorded or unavailable.\",\n    );\n    warnMissingProp(\n        \"AllergyList\",\n        \"statusLabel\",\n        statusLabel,\n        \"The status needs words a person can read.\",\n    );\n    return (\n        <ul\n            className={`allergy-list ${className}`}\n            data-status={status}\n            aria-label={label ?? statusLabel}\n            {...restProps}\n        >\n            {status !== \"known\" ? <li className=\"allergy-list-status\">{statusLabel}</li> : null}\n            {children}\n        </ul>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AllergyList.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/allergy-list/"
+}

@@ -609,3 +609,14 @@ export { default as YisraelTeudatZehutInput } from "./components/YisraelTeudatZe
 export { default as YisraelTeudatZehutView } from "./components/YisraelTeudatZehutView/YisraelTeudatZehutView.svelte";
 export { default as ZhongguoJuminShenfenzhengHaomaInput } from "./components/ZhongguoJuminShenfenzhengHaomaInput/ZhongguoJuminShenfenzhengHaomaInput.svelte";
 export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView/ZhongguoJuminShenfenzhengHaomaView.svelte";
+
+// Healthcare display components and clinical formatting (spec/healthcare-ui, P27).
+export { default as AgeView } from "./components/AgeView/AgeView.svelte";
+export { default as AllergyList } from "./components/AllergyList/AllergyList.svelte";
+export { default as AllergyListItem } from "./components/AllergyListItem/AllergyListItem.svelte";
+export { default as DecisionSupportCard } from "./components/DecisionSupportCard/DecisionSupportCard.svelte";
+export { default as EarlyWarningScoreView } from "./components/EarlyWarningScoreView/EarlyWarningScoreView.svelte";
+export { default as MedicationView } from "./components/MedicationView/MedicationView.svelte";
+export { default as ObservationView } from "./components/ObservationView/ObservationView.svelte";
+export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
+export type { AgePart, AgeUnit } from "./components/clinical-format";

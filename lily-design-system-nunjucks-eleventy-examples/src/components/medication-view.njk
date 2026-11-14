@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: MedicationView
+description: a read-only display of a medicine, with its name, strength, form, route and frequency
+---
+
+{% from "components/medication-view/macro.njk" import medicationView %}
+
+<h2>Default</h2>
+<p>{{ medicationView({ text: "MedicationView example", label: "MedicationView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;MedicationView
+  nameSegments={[{ text: "hydr" }, { text: "ALAZINE", tallMan: true }]}
+  strength="25 mg"
+  form="tablet"
+  route="oral"
+  frequency="twice daily"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

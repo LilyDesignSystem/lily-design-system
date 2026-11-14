@@ -2671,3 +2671,159 @@
 /* warning-text-text: sub-element of warning-text (the strong line: hidden prefix, then the text) */
 .warning-text-text {
 }
+
+/* observation-view: a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag */
+.observation-view {
+}
+
+/* observation-view-value: sub-element of observation-view */
+.observation-view-value {
+}
+
+/* observation-view-unit: sub-element of observation-view */
+.observation-view-unit {
+}
+
+/* observation-view-flag: sub-element of observation-view */
+.observation-view-flag {
+}
+
+/* observation-view-range: sub-element of observation-view */
+.observation-view-range {
+}
+
+/* observation-view-status: sub-element of observation-view */
+.observation-view-status {
+}
+
+/* allergy-list: a list of a patient's allergies and intolerances, whose status is never blank */
+.allergy-list {
+}
+
+/* allergy-list-status: sub-element of allergy-list */
+.allergy-list-status {
+}
+
+/* allergy-list-item: one allergy or intolerance in an allergy list, with substance, reaction, severity and last update */
+.allergy-list-item {
+}
+
+/* allergy-list-item-substance: sub-element of allergy-list-item */
+.allergy-list-item-substance {
+}
+
+/* allergy-list-item-reaction: sub-element of allergy-list-item */
+.allergy-list-item-reaction {
+}
+
+/* allergy-list-item-severity: sub-element of allergy-list-item */
+.allergy-list-item-severity {
+}
+
+/* allergy-list-item-updated: sub-element of allergy-list-item */
+.allergy-list-item-updated {
+}
+
+/* medication-view: a read-only display of a medicine, with its name, strength, form, route and frequency */
+.medication-view {
+}
+
+/* medication-view-name: sub-element of medication-view */
+.medication-view-name {
+}
+
+/* medication-view-tall-man: sub-element of medication-view */
+.medication-view-tall-man {
+}
+
+/* medication-view-strength: sub-element of medication-view */
+.medication-view-strength {
+}
+
+/* medication-view-form: sub-element of medication-view */
+.medication-view-form {
+}
+
+/* medication-view-route: sub-element of medication-view */
+.medication-view-route {
+}
+
+/* medication-view-frequency: sub-element of medication-view */
+.medication-view-frequency {
+}
+
+/* decision-support-card: a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons */
+.decision-support-card {
+}
+
+/* decision-support-card-header: sub-element of decision-support-card */
+.decision-support-card-header {
+}
+
+/* decision-support-card-indicator: sub-element of decision-support-card */
+.decision-support-card-indicator {
+}
+
+/* decision-support-card-summary: sub-element of decision-support-card */
+.decision-support-card-summary {
+}
+
+/* decision-support-card-detail: sub-element of decision-support-card */
+.decision-support-card-detail {
+}
+
+/* decision-support-card-source: sub-element of decision-support-card */
+.decision-support-card-source {
+}
+
+/* decision-support-card-suggestions: sub-element of decision-support-card */
+.decision-support-card-suggestions {
+}
+
+/* decision-support-card-suggestion: sub-element of decision-support-card */
+.decision-support-card-suggestion {
+}
+
+/* decision-support-card-links: sub-element of decision-support-card */
+.decision-support-card-links {
+}
+
+/* decision-support-card-override: sub-element of decision-support-card */
+.decision-support-card-override {
+}
+
+/* decision-support-card-override-label: sub-element of decision-support-card */
+.decision-support-card-override-label {
+}
+
+/* decision-support-card-override-reason: sub-element of decision-support-card */
+.decision-support-card-override-reason {
+}
+
+/* decision-support-card-dismiss: sub-element of decision-support-card */
+.decision-support-card-dismiss {
+}
+
+/* early-warning-score-view: a read-only display of an early warning score, with its band and escalation text */
+.early-warning-score-view {
+}
+
+/* early-warning-score-view-system: sub-element of early-warning-score-view */
+.early-warning-score-view-system {
+}
+
+/* early-warning-score-view-score: sub-element of early-warning-score-view */
+.early-warning-score-view-score {
+}
+
+/* early-warning-score-view-band: sub-element of early-warning-score-view */
+.early-warning-score-view-band {
+}
+
+/* early-warning-score-view-escalation: sub-element of early-warning-score-view */
+.early-warning-score-view-escalation {
+}
+
+/* age-view: a read-only display of a person's age, in the units suited to it */
+.age-view {
+}

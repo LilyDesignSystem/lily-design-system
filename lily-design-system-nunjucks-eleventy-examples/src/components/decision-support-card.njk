@@ -1,0 +1,28 @@
+---
+layout: layouts/component-demo.njk
+title: DecisionSupportCard
+description: a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons
+---
+
+{% from "components/decision-support-card/macro.njk" import decisionSupportCard %}
+
+<h2>Default</h2>
+<p>{{ decisionSupportCard({ text: "DecisionSupportCard example", label: "DecisionSupportCard example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;DecisionSupportCard
+  summary="Penicillin allergy recorded"
+  indicator="critical"
+  indicatorLabel="Critical"
+  sourceLabel="Local formulary"
+  suggestions={[{ id: "cancel", label: "Cancel amoxicillin", isRecommended: true }]}
+  dismissLabel="Dismiss"
+  overrideReasons={[{ code: "aware", display: "Patient tolerated before" }]}
+  overrideReasonLabel="Reason for dismissing"
+  overrideReasonPlaceholder="Choose a reason"
+&gt;
+  &lt;p&gt;Amoxicillin is a penicillin.&lt;/p&gt;
+&lt;/DecisionSupportCard&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

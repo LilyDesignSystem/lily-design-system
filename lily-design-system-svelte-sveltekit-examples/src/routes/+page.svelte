@@ -41,6 +41,12 @@
             description: "Headers, footers, sidebars, and content layout",
         },
         {
+            href: "/patient-banner",
+            title: "Patient Banner",
+            description:
+                "Two identifiers, age, allergies that are never blank, and a deceased patient, at every width",
+        },
+        {
             href: "/rating-and-feedback",
             title: "Rating & Feedback",
             description: "Star ratings, NPS, face ratings, and RAG status",

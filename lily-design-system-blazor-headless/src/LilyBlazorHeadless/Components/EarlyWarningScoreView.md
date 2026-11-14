@@ -1,0 +1,20 @@
+# EarlyWarningScoreView
+
+A read-only display of an early warning score, with its band and escalation text.
+
+A Blazor component that renders `<span>`.
+
+See `components/early-warning-score-view/index.md` for the canonical documentation, and [spec/healthcare-ui](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md) for the rules.
+
+## Props
+
+- `Score`: string | number (required) — the score the consumer computed
+- `System`: string (optional) — the scoring system's name, such as NEWS2
+- `Band`: string (optional) — the consumer's band key, rendered as `data-band`
+- `BandLabel`: string (optional) — the band in words; required with `band`
+- `Escalation`: string (optional) — what to do
+- `Label`: string (optional) — hidden text naming the value
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

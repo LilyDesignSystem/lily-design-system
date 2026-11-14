@@ -1,0 +1,33 @@
+{#
+  AllergyList macro — a patient's allergies and intolerances, whose status is never blank (spec/healthcare-ui item 2).
+  For any status but "known", statusLabel is the list's one item.
+
+  HTML tag: <ul>
+  CSS class: allergy-list (part: allergy-list-status)
+
+  Params:
+    status       "known" | "none-known" | "not-recorded" | "unavailable" (required), rendered as data-status
+    statusLabel  the consumer's words for the status (required); names the list
+    label        the accessible name, when it should differ from statusLabel
+    html, id, classes, attributes
+
+  Body content: allergyListItem children via caller() or params.html.
+
+  Usage:
+    {% from "components/allergy-list/macro.njk" import allergyList %}
+    {{ allergyList({ status: "none-known", statusLabel: "No known allergies" }) }}
+#}
+{%- macro allergyList(params) -%}
+{%- set p = params | default({}) -%}
+<ul
+  class="allergy-list{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.status %} data-status="{{ p.status }}"{% endif %} aria-label="{{ p.label or p.statusLabel }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.status != "known" %}<li class="allergy-list-status">{{ p.statusLabel }}</li>{% endif -%}
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</ul>
+{%- endmacro -%}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "medication-view",
+  "type": "registry:component",
+  "title": "MedicationView",
+  "description": "A read-only display of a medicine, with its name, strength, form, route and frequency.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/MedicationView.tsx",
+      "content": "import React from \"react\";\n\n// MedicationView: a medicine's name, strength, form, route and frequency, none truncated (spec/healthcare-ui item 3).\n// Tall man letters come from the consumer as marked segments; Lily ships no list. Props: MedicationView.md.\n\nexport interface MedicationNameSegment {\n    text: string;\n    tallMan?: boolean;\n}\n\nexport interface MedicationViewProps {\n    className?: string;\n    label?: string;\n    name?: string;\n    /** The name in parts, tall man letters marked; used instead of name. */\n    nameSegments?: MedicationNameSegment[];\n    /** The strength, formatted by the consumer (\"25 mg\"). */\n    strength?: string;\n    form?: string;\n    route?: string;\n    frequency?: string;\n    [key: string]: unknown;\n}\n\nfunction Part({ name, text }: { name: string; text?: string }) {\n    if (!text) return null;\n    return (\n        <>\n            {\" \"}\n            <span className={`medication-view-${name}`}>{text}</span>\n        </>\n    );\n}\n\nexport default function MedicationView({\n    className = \"\",\n    label,\n    name = \"\",\n    nameSegments,\n    strength,\n    form,\n    route,\n    frequency,\n    ...restProps\n}: MedicationViewProps) {\n    return (\n        <span\n            className={`medication-view ${className}`}\n            {...restProps}\n        >\n            {label ? <span className=\"screen-reader-span\">{`${label} `}</span> : null}\n            <span className=\"medication-view-name\">\n                {nameSegments\n                    ? nameSegments.map((segment, i) =>\n                          segment.tallMan ? (\n                              <span\n                                  key={i}\n                                  className=\"medication-view-tall-man\"\n                              >\n                                  {segment.text}\n                              </span>\n                          ) : (\n                              <React.Fragment key={i}>{segment.text}</React.Fragment>\n                          ),\n                      )\n                    : name}\n            </span>\n            <Part\n                name=\"strength\"\n                text={strength}\n            />\n            <Part\n                name=\"form\"\n                text={form}\n            />\n            <Part\n                name=\"route\"\n                text={route}\n            />\n            <Part\n                name=\"frequency\"\n                text={frequency}\n            />\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/MedicationView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/medication-view/"
+}

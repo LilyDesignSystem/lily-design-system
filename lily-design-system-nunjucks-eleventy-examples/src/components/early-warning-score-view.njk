@@ -1,0 +1,22 @@
+---
+layout: layouts/component-demo.njk
+title: EarlyWarningScoreView
+description: a read-only display of an early warning score, with its band and escalation text
+---
+
+{% from "components/early-warning-score-view/macro.njk" import earlyWarningScoreView %}
+
+<h2>Default</h2>
+<p>{{ earlyWarningScoreView({ text: "EarlyWarningScoreView example", label: "EarlyWarningScoreView example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;EarlyWarningScoreView
+  system="NEWS2"
+  score="{7}"
+  band="high"
+  bandLabel="High"
+  escalation="Urgent response"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

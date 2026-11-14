@@ -1,6 +1,6 @@
 ## Components
 
-The canonical catalog of 608 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
+The canonical catalog of 615 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
 
 Use the bin tools to query the catalog programmatically:
 
@@ -315,7 +315,7 @@ A composition, not a component: one value asked for in parts, such as a time, wi
 
 ### Patient banner pattern
 
-A labelled `<section aria-label>` holding a `dl` of consumer-supplied items (name, date of birth, national identifier shown with its `-view` component, gender, adverse reactions); no field truncated or hidden at a narrow width. Not a component and not named `patient-header` (the suffix table maps `-header` to `<header>`). Details: [`medical-banner`](../components/medical-banner/index.md).
+A labelled `<section aria-label>` holding a `dl` of consumer-supplied items: two identifiers (name and date of birth, then the national identifier shown with its `-view` component), age (`age-view`), gender and allergies (`allergy-list`, whose status is never blank). No field truncated or hidden at a narrow width; a missing value is the consumer's words, never a dash; a deceased patient has `data-deceased` and a visible line of text, never colour alone. Not a component and not named `patient-header` (the suffix table maps `-header` to `<header>`). Details: [`medical-banner`](../components/medical-banner/index.md); example `/patient-banner` in the SvelteKit app, checked at 320px by `e2e/patient-banner.spec.ts`.
 
 ### Table pattern: Table → Head/Body → Row → TH/TD
 
