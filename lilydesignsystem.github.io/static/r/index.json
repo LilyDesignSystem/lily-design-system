@@ -1,5 +1,5 @@
 {
-  "count": 615,
+  "count": 617,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -318,6 +318,12 @@
       "name": "Blockquote",
       "description": "a block-level quotation with optional source citation",
       "manifest": "https://lilydesignsystem.com/r/blockquote.json"
+    },
+    {
+      "slug": "body-map",
+      "name": "BodyMap",
+      "description": "a picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region",
+      "manifest": "https://lilydesignsystem.com/r/body-map.json"
     },
     {
       "slug": "body-text",
@@ -2334,6 +2340,12 @@
       "name": "NumberInput",
       "description": "an input for entering a numeric value with validation <input type=\"number\">",
       "manifest": "https://lilydesignsystem.com/r/number-input.json"
+    },
+    {
+      "slug": "numeric-rating-scale-picker",
+      "name": "NumericRatingScalePicker",
+      "description": "a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end",
+      "manifest": "https://lilydesignsystem.com/r/numeric-rating-scale-picker.json"
     },
     {
       "slug": "observation-view",

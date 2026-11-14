@@ -620,3 +620,5 @@ export { default as MedicationView } from "./components/MedicationView.vue";
 export { default as ObservationView } from "./components/ObservationView.vue";
 export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
 export type { AgePart, AgeUnit } from "./components/clinical-format";
+export { default as BodyMap } from "./components/BodyMap.vue";
+export { default as NumericRatingScalePicker } from "./components/NumericRatingScalePicker.vue";

@@ -625,4 +625,6 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "decision-support-card", pascal: "DecisionSupportCard", description: "a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons", status: "experimental" },
   { name: "early-warning-score-view", pascal: "EarlyWarningScoreView", description: "a read-only display of an early warning score, with its band and escalation text", status: "experimental" },
   { name: "age-view", pascal: "AgeView", description: "a read-only display of a person's age, in the units suited to it", status: "experimental" },
+  { name: "numeric-rating-scale-picker", pascal: "NumericRatingScalePicker", description: "a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end", status: "experimental" },
+  { name: "body-map", pascal: "BodyMap", description: "a picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region", status: "experimental" },
 ];

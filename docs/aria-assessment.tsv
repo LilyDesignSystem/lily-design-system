@@ -614,3 +614,5 @@ medication-view	ARIA evidence incomplete	no	no	no	yes	1	0	no	-
 decision-support-card	key evidence incomplete	no	yes	no	yes	7	8	no	-
 early-warning-score-view	ARIA evidence incomplete	no	no	no	yes	1	0	yes	-
 age-view	automated evidence complete	no	no	no	yes	1	8	yes	-
+numeric-rating-scale-picker	key evidence incomplete	no	yes	yes	no	7	6	no	-
+body-map	key evidence incomplete	no	yes	no	yes	7	8	no	-

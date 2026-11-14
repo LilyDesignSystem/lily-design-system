@@ -4304,6 +4304,20 @@ export const components = [
       tag: "span",
       category: "content",
   },
+  {
+      slug: "numeric-rating-scale-picker",
+      name: "NumericRatingScalePicker",
+      description: "a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end",
+      tag: "fieldset",
+      category: "pickers",
+  },
+  {
+      slug: "body-map",
+      name: "BodyMap",
+      description: "a picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region",
+      tag: "fieldset",
+      category: "forms",
+  },
 ];
 
 /** Category id → display label (plan P6-T5's category filter). */

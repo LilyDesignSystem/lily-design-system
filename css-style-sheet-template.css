@@ -2827,3 +2827,47 @@
 /* age-view: a read-only display of a person's age, in the units suited to it */
 .age-view {
 }
+
+/* numeric-rating-scale-picker: a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end */
+.numeric-rating-scale-picker {
+}
+
+/* numeric-rating-scale-picker-legend: sub-element of numeric-rating-scale-picker */
+.numeric-rating-scale-picker-legend {
+}
+
+/* numeric-rating-scale-picker-min-label: sub-element of numeric-rating-scale-picker */
+.numeric-rating-scale-picker-min-label {
+}
+
+/* numeric-rating-scale-picker-options: sub-element of numeric-rating-scale-picker */
+.numeric-rating-scale-picker-options {
+}
+
+/* numeric-rating-scale-picker-option: sub-element of numeric-rating-scale-picker */
+.numeric-rating-scale-picker-option {
+}
+
+/* numeric-rating-scale-picker-max-label: sub-element of numeric-rating-scale-picker */
+.numeric-rating-scale-picker-max-label {
+}
+
+/* body-map: a picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region */
+.body-map {
+}
+
+/* body-map-legend: sub-element of body-map */
+.body-map-legend {
+}
+
+/* body-map-figure: sub-element of body-map */
+.body-map-figure {
+}
+
+/* body-map-regions: sub-element of body-map */
+.body-map-regions {
+}
+
+/* body-map-region: sub-element of body-map */
+.body-map-region {
+}

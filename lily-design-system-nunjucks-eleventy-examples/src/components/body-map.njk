@@ -1,0 +1,21 @@
+---
+layout: layouts/component-demo.njk
+title: BodyMap
+description: a picker for marking regions of the body on a consumer-supplied drawing, with a list of region buttons
+---
+
+{% from "components/body-map/macro.njk" import bodyMap %}
+
+<h2>Default</h2>
+<p>{{ bodyMap({ text: "BodyMap example", label: "BodyMap example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;BodyMap label="Where is the pain?" name="sites" regions={[{ id: "head", label: "Head" }, { id: "chest", label: "Chest" }]}&gt;
+  &lt;svg viewBox="0 0 40 80"&gt;
+    &lt;circle data-region="head" cx="20" cy="8" r="7" /&gt;
+    &lt;rect data-region="chest" x="10" y="17" width="20" height="22" /&gt;
+  &lt;/svg&gt;
+&lt;/BodyMap&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

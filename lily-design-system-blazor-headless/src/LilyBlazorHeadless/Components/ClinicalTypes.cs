@@ -11,3 +11,6 @@ public record DecisionSupportLink(string Label, string Href);
 
 /// <summary>A reason a user can give for dismissing a DecisionSupportCard (CDS Hooks overrideReasons).</summary>
 public record DecisionSupportOverrideReason(string Code, string Display);
+
+/// <summary>A region on a BodyMap, with the consumer's words for it.</summary>
+public record BodyMapRegion(string Id, string Label);

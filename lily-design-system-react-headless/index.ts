@@ -1237,3 +1237,7 @@ export type { MedicationNameSegment } from "./components/MedicationView";
 export type { DecisionSupportSuggestion } from "./components/DecisionSupportCard";
 export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
 export type { AgePart, AgeUnit } from "./components/clinical-format";
+export { default as BodyMap } from "./components/BodyMap";
+export type { BodyMapProps, BodyMapRegion } from "./components/BodyMap";
+export { default as NumericRatingScalePicker } from "./components/NumericRatingScalePicker";
+export type { NumericRatingScalePickerProps } from "./components/NumericRatingScalePicker";

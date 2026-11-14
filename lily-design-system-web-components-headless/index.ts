@@ -210,6 +210,10 @@ export { Blockquote } from "./components/blockquote.js";
 import { Blockquote as _Blockquote } from "./components/blockquote.js";
 if (!customElements.get("lily-blockquote")) customElements.define("lily-blockquote", _Blockquote);
 
+export { BodyMap } from "./components/body-map.js";
+import { BodyMap as _BodyMap } from "./components/body-map.js";
+if (!customElements.get("lily-body-map")) customElements.define("lily-body-map", _BodyMap);
+
 export { BodyText } from "./components/body-text.js";
 import { BodyText as _BodyText } from "./components/body-text.js";
 if (!customElements.get("lily-body-text")) customElements.define("lily-body-text", _BodyText);
@@ -1445,6 +1449,10 @@ if (!customElements.get("lily-notification")) customElements.define("lily-notifi
 export { NumberInput } from "./components/number-input.js";
 import { NumberInput as _NumberInput } from "./components/number-input.js";
 if (!customElements.get("lily-number-input")) customElements.define("lily-number-input", _NumberInput);
+
+export { NumericRatingScalePicker } from "./components/numeric-rating-scale-picker.js";
+import { NumericRatingScalePicker as _NumericRatingScalePicker } from "./components/numeric-rating-scale-picker.js";
+if (!customElements.get("lily-numeric-rating-scale-picker")) customElements.define("lily-numeric-rating-scale-picker", _NumericRatingScalePicker);
 
 export { ObservationView } from "./components/observation-view.js";
 import { ObservationView as _ObservationView } from "./components/observation-view.js";

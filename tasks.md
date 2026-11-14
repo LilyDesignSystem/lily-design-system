@@ -3549,11 +3549,11 @@ Lily ships no clinical logic: a task that would compute a score, centile, dose o
       wrong-patient safeguards (two identifiers; restriction declined, with the JAMA 2019 trial), dates and times
       (unambiguous month, explicit `hourCycle`, never a default), the regulation note, and what Lily does not do.
       Verify: the page exists, is linked from the site, and `bin/check-links` passes. _(2026-11-14: done. `docs/patterns/healthcare.md`, linked from the spec and from each of the seven healthcare components' pages; the site has no route for pattern docs, so the link is from the component pages built from them. `bin/check-links` passes.)_
-- [ ] **P27-T11 `body-map` (maintainer decision).** A consumer SVG whose regions are buttons, with a list alternative.
-      Verify: built with key tests, or declined with a reason in the topic. _(2026-11-14: approved by the maintainer; to build.)_
-- [ ] **P27-T12 A 0 to 10 rating scale (maintainer decision).** Generalise `net-promoter-score-picker` or add
+- [x] **P27-T11 `body-map` (maintainer decision).** A consumer SVG whose regions are buttons, with a list alternative.
+      Verify: built with key tests, or declined with a reason in the topic. _(2026-11-14: approved by the maintainer. Built 2026-11-14: `body-map` in all nine catalogs, a `<fieldset>` with a legend, the consumer's drawing (`aria-hidden`) and a real checkbox per region, so it submits with the form and needs no script; changed from the plan's buttons to checkboxes, following the choice-chip rule. Where script runs, a click on a `data-region` shape toggles it and chosen shapes get `data-selected`; Blazor's `Drawing` fragment receives the chosen ids instead (no JS interop). Tests in every catalog, Space in the TypeScript ones.)_
+- [x] **P27-T12 A 0 to 10 rating scale (maintainer decision).** Generalise `net-promoter-score-picker` or add
       `numeric-rating-scale-picker`. Either way, `five-face-rating-picker`'s docs say it is not a validated pain scale.
-      Verify: the decision is in the topic, and the `five-face-rating-picker` note is in its `index.md`. _(2026-11-14: approved by the maintainer; to build.)_
+      Verify: the decision is in the topic, and the `five-face-rating-picker` note is in its `index.md`. _(2026-11-14: approved by the maintainer. Built 2026-11-14 as a new component, not by generalising `net-promoter-score-picker` (whose contract stays): `numeric-rating-scale-picker` in all nine catalogs, native radios from `min` to `max` in a `<fieldset>`, the consumer's anchor words linked by `aria-describedby`. `five-face-rating-picker`'s When Not to Use now says it is not a pain scale. The native radio keys are allow-listed for Blazor, Nunjucks and Alpine, as for `radio-group`.)_
 
 ---
 

@@ -1,0 +1,37 @@
+{#
+  NumericRatingScalePicker macro — a 0 to 10 rating such as a numeric pain rating scale (spec/healthcare-ui item 12).
+  A fieldset named by its legend, one native radio per number, the consumer's anchor words linked to the end radios.
+
+  HTML tag: <fieldset>
+  CSS class: numeric-rating-scale-picker (parts: -legend, -min-label, -options, -option, -max-label)
+
+  Params:
+    label (required, the legend), min (default 0), max (default 10), minLabel, maxLabel, value, name (default "rating"),
+    required, id (used for the anchor ids; default "numeric-rating-scale-picker"), classes, attributes
+
+  Usage:
+    {% from "components/numeric-rating-scale-picker/macro.njk" import numericRatingScalePicker %}
+    {{ numericRatingScalePicker({ label: "How bad is your pain now?", minLabel: "No pain", maxLabel: "Worst pain imaginable" }) }}
+#}
+{%- macro numericRatingScalePicker(params) -%}
+{%- set p = params | default({}) -%}
+{%- set min = p.min if p.min is defined else 0 -%}
+{%- set max = p.max if p.max is defined else 10 -%}
+{%- set base = p.id or "numeric-rating-scale-picker" -%}
+<fieldset
+  class="numeric-rating-scale-picker{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><legend class="numeric-rating-scale-picker-legend">{{ p.label }}</legend>
+{%- if p.minLabel %}<span class="numeric-rating-scale-picker-min-label" id="{{ base }}-min">{{ p.minLabel }}</span>{% endif -%}
+<span class="numeric-rating-scale-picker-options">
+{%- for step in range(min, max + 1) -%}
+<label class="numeric-rating-scale-picker-option"><input type="radio" name="{{ p.name or 'rating' }}" value="{{ step }}"
+  {%- if p.value is defined and (p.value | string) == (step | string) %} checked{% endif %}
+  {%- if p.required and loop.first %} required{% endif %}
+  {%- if loop.first and p.minLabel %} aria-describedby="{{ base }}-min"{% elif loop.last and p.maxLabel %} aria-describedby="{{ base }}-max"{% endif %}> {{ step }}</label>
+{%- endfor -%}
+</span>
+{%- if p.maxLabel %}<span class="numeric-rating-scale-picker-max-label" id="{{ base }}-max">{{ p.maxLabel }}</span>{% endif -%}
+</fieldset>
+{%- endmacro -%}

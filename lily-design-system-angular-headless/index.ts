@@ -628,3 +628,5 @@ export { ObservationView } from "./components/ObservationView";
 export { MedicationNameSegment } from "./components/MedicationView";
 export { DecisionSupportSuggestion } from "./components/DecisionSupportCard";
 export { ageParts, formatQuantity, toIsoDuration, AgePart, AgeUnit } from "./components/clinical-format";
+export { BodyMap, BodyMapRegion } from "./components/BodyMap";
+export { NumericRatingScalePicker } from "./components/NumericRatingScalePicker";

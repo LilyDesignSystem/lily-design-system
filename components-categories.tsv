@@ -613,3 +613,5 @@ medication-view	span	content
 decision-support-card	div	content
 early-warning-score-view	span	content
 age-view	span	content
+numeric-rating-scale-picker	fieldset	pickers
+body-map	fieldset	forms

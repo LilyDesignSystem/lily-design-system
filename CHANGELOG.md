@@ -9,6 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Body map and numeric rating scale, catalog 617 — 2026-11-14
+
+tasks.md P27-T11 and P27-T12, on the maintainer's approval, from [spec/healthcare-ui](spec/healthcare-ui/index.md).
+
+- **Added:** `body-map` in all nine catalogs: a fieldset with the consumer's drawing (`aria-hidden`) and a checkbox per region,
+  submitted with the form; a click on a `data-region` shape toggles it where script runs.
+- **Added:** `numeric-rating-scale-picker` in all nine catalogs: native radios from `min` to `max` (0 to 10), the consumer's
+  anchor words linked to the end radios.
+- **Added:** five clinical example pages in the SvelteKit app (P27-T9) and `docs/patterns/healthcare.md` (P27-T10).
+- **Changed:** `five-face-rating-picker` says it is not a pain scale.
+
 ## Healthcare display components, catalog 615 — 2026-11-14
 
 tasks.md P27-T1 to P27-T8, from [spec/healthcare-ui](spec/healthcare-ui/index.md).
