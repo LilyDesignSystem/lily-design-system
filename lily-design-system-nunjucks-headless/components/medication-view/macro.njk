@@ -1,0 +1,34 @@
+{#
+  MedicationView macro — a medicine's name, strength, form, route and frequency, none truncated (spec/healthcare-ui
+  item 3). Tall man letters come from the consumer as marked segments; Lily ships no list.
+
+  HTML tag: <span>
+  CSS class: medication-view (parts: -name, -tall-man, -strength, -form, -route, -frequency)
+
+  Params:
+    name           the name as plain text
+    nameSegments   [{ text, tallMan }], the name in parts with tall man letters marked; used instead of name
+    strength       formatted by the consumer ("25 mg")
+    form, route, frequency, label, id, classes, attributes
+
+  Usage:
+    {% from "components/medication-view/macro.njk" import medicationView %}
+    {{ medicationView({ nameSegments: [{ text: "hydr" }, { text: "ALAZINE", tallMan: true }], strength: "25 mg" }) }}
+#}
+{%- macro medicationView(params) -%}
+{%- set p = params | default({}) -%}
+<span
+  class="medication-view{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{% if p.label %}<span class="screen-reader-span">{{ p.label }} </span>{% endif %}<span class="medication-view-name">
+{%- if p.nameSegments and p.nameSegments.length -%}
+{%- for segment in p.nameSegments -%}
+{%- if segment.tallMan %}<span class="medication-view-tall-man">{{ segment.text }}</span>{% else %}{{ segment.text }}{% endif -%}
+{%- endfor -%}
+{%- else -%}{{ p.name | default("") }}{%- endif -%}</span>
+{%- if p.strength %} <span class="medication-view-strength">{{ p.strength }}</span>{% endif -%}
+{%- if p.form %} <span class="medication-view-form">{{ p.form }}</span>{% endif -%}
+{%- if p.route %} <span class="medication-view-route">{{ p.route }}</span>{% endif -%}
+{%- if p.frequency %} <span class="medication-view-frequency">{{ p.frequency }}</span>{% endif -%}</span>
+{%- endmacro -%}

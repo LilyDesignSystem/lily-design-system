@@ -1,0 +1,51 @@
+{
+  "slug": "observation-view",
+  "name": "ObservationView",
+  "description": "a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".observation-view",
+  "subClasses": [
+    "observation-view-flag",
+    "observation-view-range",
+    "observation-view-unit",
+    "observation-view-value"
+  ],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "No role and no `aria-label`: a `<span>` cannot be named, so `label` renders as hidden text in a `screen-reader-span`. The flag is text, so a screen reader hears it"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (optional) — the value, formatted by the consumer",
+    "`unit`: string (optional) — the unit, such as `mmol/L`",
+    "`interpretation`: string (optional) — a FHIR v3 ObservationInterpretation code, rendered as `data-interpretation`",
+    "`flagLabel`: string (optional) — the flag in words (\"High\"); required when the flag is not normal",
+    "`range`: string (optional) — the reference range as text",
+    "`status`: \"final\" | \"preliminary\" | \"not-recorded\" | \"unavailable\" (optional) — default `final`, rendered as `data-status`",
+    "`statusLabel`: string (optional) — the words for a status that is not final; replaces the value when it is missing",
+    "`label`: string (optional) — hidden text naming the observation, when no visible caption does",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "measurement-instance-view",
+    "sparkline",
+    "summary-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/observation-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/ObservationView/ObservationView.svelte",
+    "react": "lily-design-system-react-headless/components/ObservationView.tsx",
+    "vue": "lily-design-system-vue-headless/components/ObservationView.vue",
+    "angular": "lily-design-system-angular-headless/components/ObservationView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/observation-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/observation-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/observation-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ObservationView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/observation-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/observation-view/AGENTS.md"
+}

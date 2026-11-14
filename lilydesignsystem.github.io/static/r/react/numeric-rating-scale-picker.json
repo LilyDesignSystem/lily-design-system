@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "numeric-rating-scale-picker",
+  "type": "registry:component",
+  "title": "NumericRatingScalePicker",
+  "description": "A picker for a 0 to 10 rating, such as pain, with the consumer's words at each end.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/NumericRatingScalePicker.tsx",
+      "content": "\"use client\";\n\n// NumericRatingScalePicker: a 0 to 10 rating such as a numeric pain rating scale (spec/healthcare-ui item 12). A fieldset\n// named by its legend, one native radio per number, the consumer's anchor words linked to the end radios. Props:\n// NumericRatingScalePicker.md.\nimport React, { useId, useState } from \"react\";\nimport { warnMissingName } from \"./dev-warning\";\n\nexport interface NumericRatingScalePickerProps {\n    className?: string;\n    /** The question, rendered as the legend. */\n    label: string;\n    min?: number;\n    max?: number;\n    /** The words for the lowest value. */\n    minLabel?: string;\n    /** The words for the highest value. */\n    maxLabel?: string;\n    /** Controlled value. */\n    value?: string;\n    /** Uncontrolled starting value. */\n    defaultValue?: string;\n    onChange?: (value: string) => void;\n    name?: string;\n    required?: boolean;\n    [key: string]: unknown;\n}\n\nexport default function NumericRatingScalePicker({\n    className = \"\",\n    label,\n    min = 0,\n    max = 10,\n    minLabel,\n    maxLabel,\n    value,\n    defaultValue = \"\",\n    onChange,\n    name = \"rating\",\n    required = false,\n    ...restProps\n}: NumericRatingScalePickerProps) {\n    warnMissingName(\"NumericRatingScalePicker\", label, restProps[\"aria-labelledby\"]);\n    const id = useId();\n    const [inner, setInner] = useState(defaultValue);\n    const current = value ?? inner;\n    const steps = Array.from({ length: Math.max(0, max - min + 1) }, (_, i) => min + i);\n    return (\n        <fieldset\n            className={`numeric-rating-scale-picker ${className}`}\n            {...restProps}\n        >\n            <legend className=\"numeric-rating-scale-picker-legend\">{label}</legend>\n            {minLabel ? (\n                <span\n                    className=\"numeric-rating-scale-picker-min-label\"\n                    id={`${id}-min`}\n                >\n                    {minLabel}\n                </span>\n            ) : null}\n            <span className=\"numeric-rating-scale-picker-options\">\n                {steps.map((step, i) => (\n                    <label\n                        key={step}\n                        className=\"numeric-rating-scale-picker-option\"\n                    >\n                        <input\n                            type=\"radio\"\n                            name={name}\n                            value={String(step)}\n                            checked={current === String(step)}\n                            required={required && i === 0}\n                            aria-describedby={\n                                i === 0 && minLabel\n                                    ? `${id}-min`\n                                    : i === steps.length - 1 && maxLabel\n                                      ? `${id}-max`\n                                      : undefined\n                            }\n                            onChange={() => {\n                                setInner(String(step));\n                                onChange?.(String(step));\n                            }}\n                        />{\" \"}\n                        {step}\n                    </label>\n                ))}\n            </span>\n            {maxLabel ? (\n                <span\n                    className=\"numeric-rating-scale-picker-max-label\"\n                    id={`${id}-max`}\n                >\n                    {maxLabel}\n                </span>\n            ) : null}\n        </fieldset>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/NumericRatingScalePicker.tsx"
+    }
+  ],
+  "categories": [
+    "pickers"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/numeric-rating-scale-picker/"
+}

@@ -618,4 +618,13 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "convert-into-unit-div", pascal: "ConvertIntoUnitDiv", description: "the unit to convert into, such as a select box of currencies or lengths", status: "beta" },
   { name: "picture", pascal: "Picture", description: "a responsive image wrapper that lets the browser choose among several sources, using the native picture element", status: "beta" },
   { name: "warning-text", pascal: "WarningText", description: "a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer", status: "beta" },
+  { name: "observation-view", pascal: "ObservationView", description: "a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag", status: "experimental" },
+  { name: "allergy-list", pascal: "AllergyList", description: "a list of a patient's allergies and intolerances, whose status is never blank", status: "experimental" },
+  { name: "allergy-list-item", pascal: "AllergyListItem", description: "one allergy or intolerance in an allergy list, with substance, reaction, severity and last update", status: "experimental" },
+  { name: "medication-view", pascal: "MedicationView", description: "a read-only display of a medicine, with its name, strength, form, route and frequency", status: "experimental" },
+  { name: "decision-support-card", pascal: "DecisionSupportCard", description: "a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons", status: "experimental" },
+  { name: "early-warning-score-view", pascal: "EarlyWarningScoreView", description: "a read-only display of an early warning score, with its band and escalation text", status: "experimental" },
+  { name: "age-view", pascal: "AgeView", description: "a read-only display of a person's age, in the units suited to it", status: "experimental" },
+  { name: "numeric-rating-scale-picker", pascal: "NumericRatingScalePicker", description: "a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end", status: "experimental" },
+  { name: "body-map", pascal: "BodyMap", description: "a picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region", status: "experimental" },
 ];

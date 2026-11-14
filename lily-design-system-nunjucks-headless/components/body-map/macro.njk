@@ -1,0 +1,33 @@
+{#
+  BodyMap macro — marking regions of the body on a consumer-supplied drawing (spec/healthcare-ui item 11). A fieldset
+  named by its legend; the drawing (caller() or params.drawing) is aria-hidden; every region is a real checkbox in a list,
+  which submits with the form. Server-rendered: a click on a drawing shape does nothing without the consumer's script; the
+  checkboxes are the control.
+
+  HTML tag: <fieldset>
+  CSS class: body-map (parts: -legend, -figure, -regions, -region)
+
+  Params:
+    label (required, the legend), regions ([{ id, label }], required), selected (array of ids), name, drawing (HTML),
+    id, classes, attributes
+
+  Usage:
+    {% from "components/body-map/macro.njk" import bodyMap %}
+    {{ bodyMap({ label: "Where is the pain?", name: "sites", regions: [{ id: "head", label: "Head" }] }) }}
+#}
+{%- macro bodyMap(params) -%}
+{%- set p = params | default({}) -%}
+{%- set chosen = p.selected or [] -%}
+<fieldset
+  class="body-map{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><legend class="body-map-legend">{{ p.label }}</legend>
+{%- set drawing = (p.drawing | safe) if p.drawing else (caller() if caller else "") -%}
+{%- if drawing | trim %}<div class="body-map-figure" aria-hidden="true">{{ drawing }}</div>{% endif -%}
+<ul class="body-map-regions">
+{%- for region in p.regions or [] -%}
+<li><label class="body-map-region"><input type="checkbox"{% if p.name %} name="{{ p.name }}"{% endif %} value="{{ region.id }}"{% if region.id in chosen %} checked{% endif %}> {{ region.label }}</label></li>
+{%- endfor -%}
+</ul></fieldset>
+{%- endmacro -%}

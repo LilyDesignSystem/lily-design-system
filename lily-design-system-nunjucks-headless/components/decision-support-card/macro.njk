@@ -1,0 +1,54 @@
+{#
+  DecisionSupportCard macro — a clinical decision support card in the CDS Hooks shape (spec/healthcare-ui item 4).
+  Not a live region: whether a critical card interrupts is the consumer's choice.
+
+  HTML tag: <div role="group">
+  CSS class: decision-support-card (parts: -header, -indicator, -summary, -detail, -source, -suggestions,
+    -suggestion, -links, -override, -override-label, -override-reason, -dismiss)
+
+  Params:
+    summary, indicator ("info" | "warning" | "critical"), indicatorLabel, sourceLabel   required
+    sourceHref
+    suggestions                [{ id, label, isRecommended }], each a button with data-suggestion-id
+    links                      [{ label, href }]
+    dismissLabel               the dismiss button's text; no form without it
+    overrideReasons            [{ code, display }]; when given, the reason select is required
+    overrideReasonLabel, overrideReasonPlaceholder
+    formAction, formMethod     where the dismiss form posts (the server records the reason)
+    html, label, id, classes, attributes
+
+  Server-rendered: the dismiss form keeps native validation, so the browser refuses to submit it without a reason.
+  The consumer's script or server handles suggestion clicks (data-suggestion-id) and the submitted reason.
+
+  Usage:
+    {% from "components/decision-support-card/macro.njk" import decisionSupportCard %}
+    {% call decisionSupportCard({ summary: "Penicillin allergy recorded", indicator: "critical", indicatorLabel: "Critical", sourceLabel: "Local formulary" }) %}<p>…</p>{% endcall %}
+#}
+{%- macro decisionSupportCard(params) -%}
+{%- set p = params | default({}) -%}
+<div
+  class="decision-support-card{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="group" aria-label="{{ p.label or p.summary }}" data-indicator="{{ p.indicator | default('info') }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <p class="decision-support-card-header"><span class="decision-support-card-indicator">{{ p.indicatorLabel }}</span> <span class="decision-support-card-summary">{{ p.summary }}</span></p>
+  {%- set detail = (p.html | safe) if p.html else (caller() if caller else "") -%}
+  {%- if detail | trim %}<div class="decision-support-card-detail">{{ detail }}</div>{% endif %}
+  <p class="decision-support-card-source">{% if p.sourceHref %}<a href="{{ p.sourceHref }}">{{ p.sourceLabel }}</a>{% else %}{{ p.sourceLabel }}{% endif %}</p>
+  {%- if p.suggestions and p.suggestions.length %}
+  <div class="decision-support-card-suggestions">
+    {%- for s in p.suggestions %}<button type="button" class="decision-support-card-suggestion" data-suggestion-id="{{ s.id }}"{% if s.isRecommended %} data-recommended="true"{% endif %}>{{ s.label }}</button>{% endfor -%}
+  </div>
+  {%- endif %}
+  {%- if p.links and p.links.length %}
+  <ul class="decision-support-card-links">{% for link in p.links %}<li><a href="{{ link.href }}">{{ link.label }}</a></li>{% endfor %}</ul>
+  {%- endif %}
+  {%- if p.dismissLabel %}
+  <form class="decision-support-card-override"{% if p.formAction %} action="{{ p.formAction }}"{% endif %} method="{{ p.formMethod | default('post') }}">
+    {%- if p.overrideReasons and p.overrideReasons.length %}<label class="decision-support-card-override-label">{{ p.overrideReasonLabel }} <select class="decision-support-card-override-reason" name="overrideReason" required><option value="">{{ p.overrideReasonPlaceholder }}</option>{% for r in p.overrideReasons %}<option value="{{ r.code }}">{{ r.display }}</option>{% endfor %}</select></label>{% endif -%}
+    <button type="submit" class="decision-support-card-dismiss">{{ p.dismissLabel }}</button>
+  </form>
+  {%- endif %}
+</div>
+{%- endmacro -%}

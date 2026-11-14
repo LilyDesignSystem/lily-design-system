@@ -1,1 +1,5 @@
-{}
+{
+  "angular:clinical-format.ts:string:days": "AgeUnit keys returned by ageParts() for code, never shown: the consumer turns them into words with Intl.DurationFormat or its own labels (spec/healthcare-ui, P27-T1).",
+  "angular:clinical-format.ts:string:hours": "AgeUnit keys returned by ageParts() for code, never shown: the consumer turns them into words with Intl.DurationFormat or its own labels (spec/healthcare-ui, P27-T1).",
+  "angular:clinical-format.ts:string:minutes": "AgeUnit keys returned by ageParts() for code, never shown: the consumer turns them into words with Intl.DurationFormat or its own labels (spec/healthcare-ui, P27-T1)."
+}

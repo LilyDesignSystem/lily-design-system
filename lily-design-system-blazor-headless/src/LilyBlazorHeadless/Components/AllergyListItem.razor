@@ -1,0 +1,19 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    AllergyListItem: one allergy or intolerance in an AllergyList (spec/healthcare-ui item 2). Props: AllergyListItem.md.
+*@
+<li class="@($"allergy-list-item {CssClass}".Trim())" data-severity="@(string.IsNullOrEmpty(Severity) ? null : Severity)" @attributes="AdditionalAttributes"><span class="allergy-list-item-substance">@Substance</span>@if (!string.IsNullOrEmpty(Reaction)) {@(" ")<span class="allergy-list-item-reaction">@Reaction</span>}@if (!string.IsNullOrEmpty(SeverityLabel)) {@(" ")<span class="allergy-list-item-severity">@SeverityLabel</span>}@if (!string.IsNullOrEmpty(UpdatedLabel)) {@(" ")<time class="allergy-list-item-updated" datetime="@Updated">@UpdatedLabel</time>}@ChildContent</li>
+@code {
+    /// <summary>What the patient reacts to. Never truncated.</summary>
+    [Parameter, EditorRequired] public string Substance { get; set; } = "";
+    [Parameter] public string? Reaction { get; set; }
+    /// <summary>mild, moderate or severe (FHIR AllergyIntolerance), rendered as data-severity.</summary>
+    [Parameter] public string? Severity { get; set; }
+    [Parameter] public string? SeverityLabel { get; set; }
+    /// <summary>When the record was last updated, for time datetime.</summary>
+    [Parameter] public string? Updated { get; set; }
+    [Parameter] public string? UpdatedLabel { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

@@ -1,0 +1,40 @@
+{
+  "slug": "age-view",
+  "name": "AgeView",
+  "description": "a read-only display of a person's age, in the units suited to it",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".age-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "No role and no `aria-label`; `label` renders as hidden text"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the age as the consumer writes it",
+    "`duration`: string (optional) — the same age as an ISO 8601 duration, rendered as `data-duration`",
+    "`label`: string (optional) — hidden text naming the value",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "date-time-view",
+    "medical-banner"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/age-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/AgeView/AgeView.svelte",
+    "react": "lily-design-system-react-headless/components/AgeView.tsx",
+    "vue": "lily-design-system-vue-headless/components/AgeView.vue",
+    "angular": "lily-design-system-angular-headless/components/AgeView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/age-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/age-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/age-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AgeView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/age-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/age-view/AGENTS.md"
+}

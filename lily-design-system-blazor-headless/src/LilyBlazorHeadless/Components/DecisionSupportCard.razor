@@ -1,0 +1,84 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    DecisionSupportCard: a clinical decision support card in the CDS Hooks shape (spec/healthcare-ui item 4). Not a live
+    region: whether a critical card interrupts is the consumer's choice. Props and rules: DecisionSupportCard.md.
+*@
+<div class="@($"decision-support-card {CssClass}".Trim())" role="group" aria-label="@(Label ?? Summary)" data-indicator="@Indicator" @attributes="AdditionalAttributes">
+    <p class="decision-support-card-header"><span class="decision-support-card-indicator">@IndicatorLabel</span> <span class="decision-support-card-summary">@Summary</span></p>
+    @if (ChildContent is not null) {<div class="decision-support-card-detail">@ChildContent</div>}
+    <p class="decision-support-card-source">@if (!string.IsNullOrEmpty(SourceHref)) {<a href="@SourceHref">@SourceLabel</a>} else {@SourceLabel}</p>
+    @if (Suggestions is { Count: > 0 })
+    {
+        <div class="decision-support-card-suggestions">
+            @foreach (var suggestion in Suggestions)
+            {
+                <button type="button" class="decision-support-card-suggestion" data-recommended="@(suggestion.IsRecommended ? "true" : null)" @onclick="() => OnSuggestion.InvokeAsync(suggestion.Id)">@suggestion.Label</button>
+            }
+        </div>
+    }
+    @if (Links is { Count: > 0 })
+    {
+        <ul class="decision-support-card-links">
+            @foreach (var link in Links) {<li><a href="@link.Href">@link.Label</a></li>}
+        </ul>
+    }
+    @if (!string.IsNullOrEmpty(DismissLabel))
+    {
+        <form class="decision-support-card-override" novalidate @onsubmit="Dismiss" @onsubmit:preventDefault>
+            @if (OverrideReasons is { Count: > 0 })
+            {
+                <label class="decision-support-card-override-label">@OverrideReasonLabel <select @ref="select" class="decision-support-card-override-reason" required aria-invalid="@(invalid ? "true" : null)" value="@reason" @onchange="Choose"><option value="">@OverrideReasonPlaceholder</option>@foreach (var option in OverrideReasons) {<option value="@option.Code">@option.Display</option>}</select></label>
+            }
+            <button type="submit" class="decision-support-card-dismiss">@DismissLabel</button>
+        </form>
+    }
+</div>
+@code {
+    /// <summary>The one-sentence summary; names the card.</summary>
+    [Parameter, EditorRequired] public string Summary { get; set; } = "";
+    /// <summary>info, warning or critical, rendered as data-indicator.</summary>
+    [Parameter, EditorRequired] public string Indicator { get; set; } = "info";
+    /// <summary>The indicator in words, so urgency is never colour alone.</summary>
+    [Parameter, EditorRequired] public string IndicatorLabel { get; set; } = "";
+    [Parameter, EditorRequired] public string SourceLabel { get; set; } = "";
+    [Parameter] public string? SourceHref { get; set; }
+    /// <summary>The detail.</summary>
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public IReadOnlyList<DecisionSupportSuggestion>? Suggestions { get; set; }
+    /// <summary>Called with the chosen suggestion's id; the consumer applies it and enforces selectionBehavior.</summary>
+    [Parameter] public EventCallback<string> OnSuggestion { get; set; }
+    [Parameter] public IReadOnlyList<DecisionSupportLink>? Links { get; set; }
+    /// <summary>The dismiss button's text; no button without it.</summary>
+    [Parameter] public string? DismissLabel { get; set; }
+    /// <summary>When given, dismissing asks for one.</summary>
+    [Parameter] public IReadOnlyList<DecisionSupportOverrideReason>? OverrideReasons { get; set; }
+    [Parameter] public string? OverrideReasonLabel { get; set; }
+    [Parameter] public string OverrideReasonPlaceholder { get; set; } = "";
+    /// <summary>Called with the chosen reason's code, or null when no reasons are offered.</summary>
+    [Parameter] public EventCallback<string?> OnDismiss { get; set; }
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string reason = "";
+    private bool invalid;
+    private ElementReference select;
+
+    private void Choose(ChangeEventArgs e)
+    {
+        reason = e.Value?.ToString() ?? "";
+        invalid = false;
+    }
+
+    private async Task Dismiss()
+    {
+        if (OverrideReasons is { Count: > 0 } && string.IsNullOrEmpty(reason))
+        {
+            invalid = true;
+            await select.FocusAsync();
+            return;
+        }
+        invalid = false;
+        await OnDismiss.InvokeAsync(string.IsNullOrEmpty(reason) ? null : reason);
+    }
+}

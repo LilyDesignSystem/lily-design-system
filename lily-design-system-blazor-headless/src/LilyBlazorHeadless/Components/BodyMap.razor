@@ -1,0 +1,37 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    BodyMap: marking regions of the body on a consumer-supplied drawing (spec/healthcare-ui item 11). A fieldset named by
+    its legend; the drawing is aria-hidden; every region is a real checkbox in a list, which submits with the form.
+    Deviation (no JS interop): a click on a drawing shape does not toggle it, and the component cannot mark shapes;
+    Drawing receives the chosen ids, so the consumer writes data-selected on its own shapes. Props: BodyMap.md.
+*@
+<fieldset class="@($"body-map {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <legend class="body-map-legend">@Label</legend>
+    @if (Drawing is not null) {<div class="body-map-figure" aria-hidden="true">@Drawing(Selected)</div>}
+    <ul class="body-map-regions">
+        @foreach (var region in Regions)
+        {
+            <li><label class="body-map-region"><input type="checkbox" name="@Name" value="@region.Id" checked="@Selected.Contains(region.Id)" @onchange="() => Toggle(region.Id)" /> @region.Label</label></li>
+        }
+    </ul>
+</fieldset>
+@code {
+    /// <summary>The question, rendered as the legend.</summary>
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public IReadOnlyList<BodyMapRegion> Regions { get; set; } = [];
+    /// <summary>The chosen region ids; bind with @bind-Selected.</summary>
+    [Parameter] public IReadOnlyList<string> Selected { get; set; } = [];
+    [Parameter] public EventCallback<IReadOnlyList<string>> SelectedChanged { get; set; }
+    /// <summary>The checkboxes' form name.</summary>
+    [Parameter] public string? Name { get; set; }
+    /// <summary>The drawing, given the chosen ids so the consumer can mark its shapes data-selected.</summary>
+    [Parameter] public RenderFragment<IReadOnlyList<string>>? Drawing { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private async Task Toggle(string id)
+    {
+        Selected = Selected.Contains(id) ? Selected.Where(s => s != id).ToList() : [.. Selected, id];
+        await SelectedChanged.InvokeAsync(Selected);
+    }
+}

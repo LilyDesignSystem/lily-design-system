@@ -616,3 +616,17 @@ export { SearchSegment } from "./components/search-text";
 export { TypeaheadState } from "./components/typeahead";
 export { WheelOption, WheelMoveKey, WheelMoveOptions, WheelTypeahead } from "./components/wheel-picker";
 export { ToolbarOptions, SplitterOptions, TreeSelection, TreePopupOptions, MentionsOptions, CropRect, CropperOptions, GridOptions } from "./components/widget-keys";
+
+// Healthcare display components and clinical formatting (spec/healthcare-ui, P27).
+export { AgeView } from "./components/AgeView";
+export { AllergyList } from "./components/AllergyList";
+export { AllergyListItem } from "./components/AllergyListItem";
+export { DecisionSupportCard } from "./components/DecisionSupportCard";
+export { EarlyWarningScoreView } from "./components/EarlyWarningScoreView";
+export { MedicationView } from "./components/MedicationView";
+export { ObservationView } from "./components/ObservationView";
+export { MedicationNameSegment } from "./components/MedicationView";
+export { DecisionSupportSuggestion } from "./components/DecisionSupportCard";
+export { ageParts, formatQuantity, toIsoDuration, AgePart, AgeUnit } from "./components/clinical-format";
+export { BodyMap, BodyMapRegion } from "./components/BodyMap";
+export { NumericRatingScalePicker } from "./components/NumericRatingScalePicker";

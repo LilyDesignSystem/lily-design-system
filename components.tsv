@@ -606,3 +606,12 @@ convert-into-value-div	ConvertIntoValueDiv	the converted value, such as a text i
 convert-into-unit-div	ConvertIntoUnitDiv	the unit to convert into, such as a select box of currencies or lengths
 picture	Picture	a responsive image wrapper that lets the browser choose among several sources, using the native picture element
 warning-text	WarningText	a short warning shown as an icon and a bold line of text, with a visually hidden prefix supplied by the consumer
+observation-view	ObservationView	a read-only display of a clinical observation or test result, with its unit, reference range and interpretation flag
+allergy-list	AllergyList	a list of a patient's allergies and intolerances, whose status is never blank
+allergy-list-item	AllergyListItem	one allergy or intolerance in an allergy list, with substance, reaction, severity and last update
+medication-view	MedicationView	a read-only display of a medicine, with its name, strength, form, route and frequency
+decision-support-card	DecisionSupportCard	a clinical decision support card with a summary, urgency indicator, source, suggestions and override reasons
+early-warning-score-view	EarlyWarningScoreView	a read-only display of an early warning score, with its band and escalation text
+age-view	AgeView	a read-only display of a person's age, in the units suited to it
+numeric-rating-scale-picker	NumericRatingScalePicker	a picker for a 0 to 10 rating, such as pain, with the consumer's words at each end
+body-map	BodyMap	a picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region

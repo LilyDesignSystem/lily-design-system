@@ -1,0 +1,20 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    AllergyList: a patient's allergies and intolerances, whose status is never blank (spec/healthcare-ui item 2).
+    For any status but "known", StatusLabel is the list's one item. Props and rules: AllergyList.md.
+*@
+<ul class="@($"allergy-list {CssClass}".Trim())" data-status="@Status" aria-label="@(Label ?? StatusLabel)" @attributes="AdditionalAttributes">
+    @if (Status != "known") {<li class="allergy-list-status">@StatusLabel</li>}
+    @ChildContent
+</ul>
+@code {
+    /// <summary>known, none-known, not-recorded or unavailable. Required.</summary>
+    [Parameter, EditorRequired] public string Status { get; set; } = "";
+    /// <summary>The consumer's words for the status; names the list. Required.</summary>
+    [Parameter, EditorRequired] public string StatusLabel { get; set; } = "";
+    /// <summary>The accessible name, when it should differ from StatusLabel.</summary>
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

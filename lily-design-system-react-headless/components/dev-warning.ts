@@ -32,6 +32,20 @@ export function warnMissingName(component: string, ...names: unknown[]): void {
     warn(`${component} has no accessible name. Set its label (WCAG 4.1.2).`);
 }
 
+/**
+ * Warn when a prop that must never be blank is missing, such as an allergy list's status. `why` says what goes wrong
+ * without it, so the message is useful on its own.
+ */
+export function warnMissingProp(
+    component: string,
+    prop: string,
+    value: unknown,
+    why: string,
+): void {
+    if (value !== undefined && value !== null && value !== "") return;
+    warn(`${component} has no ${prop}. ${why}`);
+}
+
 /** Warn when a deprecated component is used, naming what replaces it. */
 export function warnDeprecated(
     component: string,

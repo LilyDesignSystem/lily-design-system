@@ -1,0 +1,48 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    NumericRatingScalePicker: a 0 to 10 rating such as a numeric pain rating scale (spec/healthcare-ui item 12). A fieldset
+    named by its legend, one native radio per number, the consumer's anchor words linked to the end radios.
+    Props: NumericRatingScalePicker.md.
+*@
+<fieldset class="@($"numeric-rating-scale-picker {CssClass}".Trim())" @attributes="AdditionalAttributes">
+    <legend class="numeric-rating-scale-picker-legend">@Label</legend>
+    @if (!string.IsNullOrEmpty(MinLabel)) {<span class="numeric-rating-scale-picker-min-label" id="@($"{id}-min")">@MinLabel</span>}
+    <span class="numeric-rating-scale-picker-options">
+        @for (var i = 0; i <= Max - Min; i++)
+        {
+            var step = Min + i;
+            var index = i;
+            <label class="numeric-rating-scale-picker-option"><input type="radio" name="@Name" value="@step" checked="@(Value == step.ToString())" required="@(Required && index == 0)" aria-describedby="@DescribedBy(index)" @onchange="() => Choose(step)" /> @step</label>
+        }
+    </span>
+    @if (!string.IsNullOrEmpty(MaxLabel)) {<span class="numeric-rating-scale-picker-max-label" id="@($"{id}-max")">@MaxLabel</span>}
+</fieldset>
+@code {
+    /// <summary>The question, rendered as the legend.</summary>
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public int Min { get; set; }
+    [Parameter] public int Max { get; set; } = 10;
+    [Parameter] public string? MinLabel { get; set; }
+    [Parameter] public string? MaxLabel { get; set; }
+    [Parameter] public string Value { get; set; } = "";
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    [Parameter] public string Name { get; set; } = "rating";
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string id = $"numeric-rating-scale-picker-{Guid.NewGuid():N}";
+
+    private string? DescribedBy(int index)
+    {
+        if (index == 0 && !string.IsNullOrEmpty(MinLabel)) return $"{id}-min";
+        if (index == Max - Min && !string.IsNullOrEmpty(MaxLabel)) return $"{id}-max";
+        return null;
+    }
+
+    private async Task Choose(int step)
+    {
+        Value = step.ToString();
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

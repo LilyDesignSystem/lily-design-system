@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://lilydesignsystem.com/</loc><lastmod>2026-11-09</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://lilydesignsystem.com/</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
   <url><loc>https://lilydesignsystem.com/about/</loc><lastmod>2026-10-07</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://lilydesignsystem.com/accessibility/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/accessibility/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/ar-001/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/ar-001/about/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/ar-001/accessibility/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
@@ -118,15 +118,15 @@
   <url><loc>https://lilydesignsystem.com/bn-001/tutorials/theming/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/bn-001/tutorials/vue/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/bn-001/why/</loc><lastmod>2026-10-07</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/compare/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-adobe-spectrum/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-ant-design/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-daisyui/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-dhcw-design-system/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-gov-uk-design-system/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-shadcn-ui/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-us-web-design-system/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/</loc><lastmod>2026-11-09</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://lilydesignsystem.com/compare/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-adobe-spectrum/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-ant-design/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-daisyui/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-dhcw-design-system/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-gov-uk-design-system/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-shadcn-ui/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/compare/lily-design-system-and-us-web-design-system/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/</loc><lastmod>2026-11-14</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://lilydesignsystem.com/components/accordion-checkbox/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/accordion-link/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/accordion-list/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -139,11 +139,14 @@
   <url><loc>https://lilydesignsystem.com/components/address-input/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/addressograph-box/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/affix/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/age-view/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/ai-label/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/alba-community-health-index-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/alba-community-health-index-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/alert/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/alert-dialog/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/allergy-list/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/allergy-list-item/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/angle-slider-range-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/announcement-banner/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/answer/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -161,7 +164,7 @@
   <url><loc>https://lilydesignsystem.com/components/australia-tax-file-number-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/australia-tax-file-number-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/autosuggest/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/avatar/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/avatar/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/avatar-group/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/avatar-image/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/avatar-text/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -177,6 +180,7 @@
   <url><loc>https://lilydesignsystem.com/components/bharat-aadhaar-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/bharat-aadhaar-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/blockquote/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/body-map/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/body-text/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/brasil-cartao-nacional-de-saude-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/brasil-cartao-nacional-de-saude-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -206,9 +210,9 @@
   <url><loc>https://lilydesignsystem.com/components/canada-social-insurance-number-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/canada-social-insurance-number-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/candlestick-chart/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/caption/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/caption/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/card/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/care-card/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/care-card/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/carousel/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/cascader/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/cesko-cestovni-pas-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -216,7 +220,7 @@
   <url><loc>https://lilydesignsystem.com/components/cesko-rodne-cislo-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/cesko-rodne-cislo-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/character/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/character-counter/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/character-counter/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/chat-composer/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/chat-list/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/chat-list-item/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -279,12 +283,13 @@
   <url><loc>https://lilydesignsystem.com/components/data-table-row/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/data-table-td/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/data-table-th/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/date-field/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/date-field/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/date-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/date-range/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/date-time-local-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/date-time-now-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/date-time-view/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/decision-support-card/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/description-list/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/description-list-item/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/details/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -297,7 +302,7 @@
   <url><loc>https://lilydesignsystem.com/components/digital-object-identifier-link/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/do-list/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/do-list-item/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/document-list/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/document-list/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/document-list-item/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/dont-list/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/dont-list-item/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -305,9 +310,10 @@
   <url><loc>https://lilydesignsystem.com/components/draft/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/drawer/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/dropdown-menu/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/early-warning-score-view/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/ecuador-cedula-de-identidad-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/ecuador-cedula-de-identidad-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/editable/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/editable/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/editable-form/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/eesti-isikukood-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/eesti-isikukood-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -323,7 +329,7 @@
   <url><loc>https://lilydesignsystem.com/components/end-notes/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/england-national-health-service-number-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/england-national-health-service-number-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/error-message/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/error-message/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/error-summary/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/espana-codigo-de-identificacion-fiscal-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/espana-codigo-de-identificacion-fiscal-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -352,7 +358,7 @@
   <url><loc>https://lilydesignsystem.com/components/float-button/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/floating-panel/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/footer/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/footnote/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/footnote/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/form/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/framer/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/france-numero-d-identification-au-repertoire-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -389,7 +395,7 @@
   <url><loc>https://lilydesignsystem.com/components/hero/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/hero-headline/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/hidden-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/hint/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/hint/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/hong-kong-identity-card-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/hong-kong-identity-card-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/horizontal-scroller/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -402,19 +408,19 @@
   <url><loc>https://lilydesignsystem.com/components/icon-button/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/icon-list/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/icon-list-item/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/image/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/image/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/image-cropper/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/image-file-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/image-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/indonesia-nomor-induk-kependudukan-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/indonesia-nomor-induk-kependudukan-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/info-state/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/information-callout/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/information-callout/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/input-group/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/input-with-mask/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/inset-text/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/iran-kod-e-melli-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/iran-kod-e-melli-input/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/iran-kod-e-melli-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/island-kennitala-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/island-kennitala-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -443,7 +449,7 @@
   <url><loc>https://lilydesignsystem.com/components/lietuva-pasas-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/lietuva-pasas-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/line-chart/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/listbox/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/listbox/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/loading/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/luxembourg-matricule-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/luxembourg-matricule-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -462,11 +468,12 @@
   <url><loc>https://lilydesignsystem.com/components/measurement-system-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/measurement-system-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/measurement-unit-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/measurement-unit-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/measurement-unit-view/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/medical-banner/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/medical-banner-box/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/medical-banner-box-for-advice/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/medical-banner-box-for-danger/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/medication-view/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/mentions-input/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/menu/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/menu-bar/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -500,7 +507,7 @@
   <url><loc>https://lilydesignsystem.com/components/nederland-paspoort-nummer-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/net-promoter-score-picker/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/net-promoter-score-picker-button/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/net-promoter-score-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/net-promoter-score-view/</loc><lastmod>2026-11-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/newsletter-signup/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/nigeria-national-identification-number-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/nigeria-national-identification-number-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -510,6 +517,8 @@
   <url><loc>https://lilydesignsystem.com/components/norge-fodselsnummer-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/notification/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/number-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/numeric-rating-scale-picker/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/observation-view/</loc><lastmod>2026-11-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/one-time-password-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/option/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/organization/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -521,7 +530,7 @@
   <url><loc>https://lilydesignsystem.com/components/pagination-list/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/pagination-list-item/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/pagination-nav/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/pakistan-computerized-national-identity-card-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/pakistan-computerized-national-identity-card-input/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/pakistan-computerized-national-identity-card-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/panel/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/password-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -559,15 +568,15 @@
   <url><loc>https://lilydesignsystem.com/components/qr-code-image/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/question/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/radar-chart/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/radio-group/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/radio-group/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/radio-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/range-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/red-amber-green-picker/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/red-amber-green-picker-button/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/red-amber-green-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/red-amber-green-view/</loc><lastmod>2026-11-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/red-orange-yellow-green-blue-picker/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/red-orange-yellow-green-blue-picker-button/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/red-orange-yellow-green-blue-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/red-orange-yellow-green-blue-view/</loc><lastmod>2026-11-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/related-content/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/reset-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/resizable/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -592,7 +601,7 @@
   <url><loc>https://lilydesignsystem.com/components/search-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/section-heading/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/section-link/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/section-list/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/section-list/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/section-list-item/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/section-nav/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/segment-group/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -657,7 +666,7 @@
   <url><loc>https://lilydesignsystem.com/components/tag/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/tag-group/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/tag-input-div/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input/</loc><lastmod>2026-11-11</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/task-bar/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/task-bar-button/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -666,13 +675,13 @@
   <url><loc>https://lilydesignsystem.com/components/tel-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/tel-link/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/text-area-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/text-area-input-with-character-counter/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/text-area-input-with-character-counter/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/text-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/text-input-with-search/</loc><lastmod>2026-11-05</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/theme-provider/</loc><lastmod>2026-10-14</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/theme-select/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/theme-select-option/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/theme-view/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/theme-view/</loc><lastmod>2026-11-13</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/thinking/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/tile/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/tile-map/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -681,7 +690,7 @@
   <url><loc>https://lilydesignsystem.com/components/timeline-list/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/timeline-list-item/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/timeout-dialog/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/timer/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/timer/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/timer-button/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/toast/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/toggle-button/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -702,7 +711,7 @@
   <url><loc>https://lilydesignsystem.com/components/tree-link/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/tree-list/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/tree-list-item/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/tree-menu/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/tree-menu/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/tree-nav/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/tree-select/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/tuaisceart-eireann-health-and-care-number-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -726,11 +735,11 @@
   <url><loc>https://lilydesignsystem.com/components/viet-nam-can-cuoc-cong-dan-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/viet-nam-can-cuoc-cong-dan-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/visible/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/warning-callout/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/warning-callout/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/warning-text/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/watermark/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/week-input/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/components/wheel-picker/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/components/wheel-picker/</loc><lastmod>2026-11-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/yisrael-teudat-zehut-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/yisrael-teudat-zehut-view/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/components/zhongguo-jumin-shenfenzheng-haoma-input/</loc><lastmod>2026-11-07</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
@@ -2474,7 +2483,7 @@
   <url><loc>https://lilydesignsystem.com/pt-pt/tutorials/theming/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/pt-pt/tutorials/vue/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/pt-pt/why/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/quality/</loc><lastmod>2026-11-06</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/quality/</loc><lastmod>2026-11-13</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/ro-001/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/ro-001/about/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/ro-001/accessibility/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
@@ -2614,7 +2623,7 @@
   <url><loc>https://lilydesignsystem.com/sk-sk/tutorials/theming/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/sk-sk/tutorials/vue/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/sk-sk/why/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/skills/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/skills/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/sl-001/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/sl-001/about/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/sl-001/accessibility/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
@@ -2915,17 +2924,17 @@
   <url><loc>https://lilydesignsystem.com/tr-tr/tutorials/theming/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/tr-tr/tutorials/vue/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/tr-tr/why/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/tutorials/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/tutorials/angular/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/tutorials/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/tutorials/angular/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/tutorials/blazor/</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/tutorials/helpers/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/tutorials/html/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/tutorials/html/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/tutorials/nunjucks/</loc><lastmod>2026-10-10</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/tutorials/react/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/tutorials/shadcn/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/tutorials/svelte/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/tutorials/react/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/tutorials/shadcn/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/tutorials/svelte/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/tutorials/theming/</loc><lastmod>2026-11-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://lilydesignsystem.com/tutorials/vue/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://lilydesignsystem.com/tutorials/vue/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://lilydesignsystem.com/uk-001/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/uk-001/about/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/uk-001/accessibility/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
@@ -3018,7 +3027,7 @@
   <url><loc>https://lilydesignsystem.com/vi-vn/tutorials/theming/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/vi-vn/tutorials/vue/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/vi-vn/why/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://lilydesignsystem.com/why/</loc><lastmod>2026-11-04</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://lilydesignsystem.com/why/</loc><lastmod>2026-11-09</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/wuu-001/</loc><lastmod>2026-10-28</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/wuu-001/about/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://lilydesignsystem.com/wuu-001/accessibility/</loc><lastmod>2026-10-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>

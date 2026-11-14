@@ -1,0 +1,17 @@
+<!-- allergy-list.html -->
+<!-- AllergyList component -->
+<!--
+  Description: a list of a patient's allergies and intolerances, whose status is never blank
+  HTML tag: <ul>
+  CSS class: allergy-list (part: allergy-list-status)
+  Spec: spec/healthcare-ui
+  Attributes: data-status (known, none-known, not-recorded, unavailable) and aria-label (the status in words).
+    For any status but "known", the status words are the list's one item, li.allergy-list-status, so the list is never
+    blank: "no known allergies", "not recorded" and "unavailable" are different facts.
+  Usage (status other than known):
+    <ul class="allergy-list" data-status="none-known" aria-label="No known allergies">
+      <li class="allergy-list-status">No known allergies</li>
+    </ul>
+-->
+
+<ul class="allergy-list" data-status="known" aria-label="Known allergies"><li class="allergy-list-item" data-severity="severe"><span class="allergy-list-item-substance">Penicillin</span> <span class="allergy-list-item-reaction">Anaphylaxis</span> <span class="allergy-list-item-severity">Severe</span></li></ul>

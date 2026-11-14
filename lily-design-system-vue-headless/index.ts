@@ -609,3 +609,16 @@ export { default as YisraelTeudatZehutInput } from "./components/YisraelTeudatZe
 export { default as YisraelTeudatZehutView } from "./components/YisraelTeudatZehutView.vue";
 export { default as ZhongguoJuminShenfenzhengHaomaInput } from "./components/ZhongguoJuminShenfenzhengHaomaInput.vue";
 export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView.vue";
+
+// Healthcare display components and clinical formatting (spec/healthcare-ui, P27).
+export { default as AgeView } from "./components/AgeView.vue";
+export { default as AllergyList } from "./components/AllergyList.vue";
+export { default as AllergyListItem } from "./components/AllergyListItem.vue";
+export { default as DecisionSupportCard } from "./components/DecisionSupportCard.vue";
+export { default as EarlyWarningScoreView } from "./components/EarlyWarningScoreView.vue";
+export { default as MedicationView } from "./components/MedicationView.vue";
+export { default as ObservationView } from "./components/ObservationView.vue";
+export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
+export type { AgePart, AgeUnit } from "./components/clinical-format";
+export { default as BodyMap } from "./components/BodyMap.vue";
+export { default as NumericRatingScalePicker } from "./components/NumericRatingScalePicker.vue";

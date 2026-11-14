@@ -1,0 +1,47 @@
+{
+  "slug": "body-map",
+  "name": "BodyMap",
+  "description": "a picker for marking regions of the body on a consumer-supplied drawing, with a checkbox for each region",
+  "htmlTag": "fieldset",
+  "category": "forms",
+  "baseClass": ".body-map",
+  "subClasses": [
+    "body-map-figure",
+    "body-map-legend",
+    "body-map-region",
+    "body-map-regions"
+  ],
+  "interactive": true,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "A native `<fieldset>` named by its `<legend>`; each checkbox is named by the region's words. The drawing is `aria-hidden`, since its shapes are not focusable; the list is the equivalent"
+  ],
+  "keyboard": [
+    "Tab moves through the checkboxes; Space toggles one"
+  ],
+  "props": [
+    "`label`: string (required) — the question, rendered as the `<legend>`",
+    "`regions`: { id, label }[] (required) — the regions, in the order the list shows them",
+    "`selected`: string[] (optional) — the chosen region ids (bindable or controlled)",
+    "`name`: string (optional) — the checkboxes' form name",
+    "`children`: slot (optional) — the drawing; mark each clickable shape with `data-region`",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "checkbox-group",
+    "figure"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/body-map.html",
+    "svelte": "lily-design-system-svelte-headless/components/BodyMap/BodyMap.svelte",
+    "react": "lily-design-system-react-headless/components/BodyMap.tsx",
+    "vue": "lily-design-system-vue-headless/components/BodyMap.vue",
+    "angular": "lily-design-system-angular-headless/components/BodyMap.ts",
+    "web-components": "lily-design-system-web-components-headless/components/body-map.ts",
+    "alpine": "lily-design-system-alpine-headless/components/body-map.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/body-map/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BodyMap.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/body-map/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/body-map/AGENTS.md"
+}

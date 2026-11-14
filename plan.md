@@ -425,6 +425,27 @@ are declined: they are animation and styling, or they fight the user's own setti
 
 Status (2026-11-10): T1 to T10 are done.
 
+## Phase 27 — Healthcare user interfaces (2026-11-13)
+
+Research into clinical portal software, results and reporting, prescribing and medicines administration, decision support and
+hospital operations dashboards. Full findings, sources and what is declined: [spec/healthcare-ui](spec/healthcare-ui/index.md).
+Tasks: [tasks.md](tasks.md#phase-27--healthcare-user-interfaces-2026-11-13).
+
+The finding: Lily has the large clinical pieces (medical banner, care card, the patient banner composition, 164 national
+identifiers, the charts) but not the small display contracts that clinical screens repeat everywhere and where errors harm
+people: a result with its range and flag, an allergy status that is never blank, a medicine written the ISMP way, a CDS Hooks
+decision-support card, an age in the right units, an early warning score shown but not computed. Seven components (P27-T2 to
+T7) and one shared formatting module (T1, first) cover them; the patient banner gains testable rules (T8); five example pages
+(T9) and an adopter guide (T10) show them in use. The standards are international (FHIR, CDS Hooks, the International Patient
+Summary, UCUM), with national guidance (NHS CUI, ISMP, the Australian and Canadian tall man principles) cited where it agrees.
+
+The boundary is the important part: Lily ships no clinical logic, content or licensed instrument. No scoring, centiles or dose
+calculation (that makes software a medical device, and it belongs in the adopter's validated code), no drug or terminology
+data, no tall man list, no Wong-Baker FACES and no NEWS2 chart replica. Limiting open records is declined on the evidence. T11
+(`body-map`) and T12 (a 0 to 10 scale) are maintainer decisions.
+
+Status (2026-11-14): T1 to T12 done (catalog 617); T11 and T12 on the maintainer's approval.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

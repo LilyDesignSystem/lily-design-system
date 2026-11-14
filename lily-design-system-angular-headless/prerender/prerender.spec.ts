@@ -12,6 +12,7 @@ import {
 import { NgComponentOutlet } from "@angular/common";
 import { bootstrapApplication } from "@angular/platform-browser";
 import { provideServerRendering, renderApplication } from "@angular/platform-server";
+import { readFileSync } from "node:fs";
 import * as lily from "../index";
 
 type Inputs = Record<string, unknown>;
@@ -184,7 +185,11 @@ describe("prerendering", () => {
     });
 
     it("finds every component", () => {
-        expect(components.length).toBe(608);
+        // The catalog's own count, so a new component cannot make this test stale.
+        const catalog = readFileSync(new URL("../../components.tsv", import.meta.url), "utf8")
+            .trim()
+            .split("\n").length;
+        expect(components.length).toBe(catalog);
     });
 
     const STATES = {

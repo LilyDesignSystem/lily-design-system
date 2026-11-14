@@ -31,14 +31,42 @@
             description: "File inputs, drag-and-drop uploads, and progress",
         },
         {
+            href: "/handover",
+            title: "Handover",
+            description: "An SBAR handover form, completed and sent by keyboard alone",
+        },
+        {
+            href: "/medicines-administration",
+            title: "Medicines Administration",
+            description: "A medicines administration chart where every dose is written in words",
+        },
+        {
             href: "/navigation-and-menus",
             title: "Navigation & Menus",
             description: "Navigation menus, toolbars, and pagination",
         },
         {
+            href: "/observations-chart",
+            title: "Observations Chart",
+            description:
+                "A vital sign over time with its data table, a flag in words and an early warning score",
+        },
+        {
             href: "/page-layout",
             title: "Page Layout",
             description: "Headers, footers, sidebars, and content layout",
+        },
+        {
+            href: "/patient-banner",
+            title: "Patient Banner",
+            description:
+                "Two identifiers, age, allergies that are never blank, and a deceased patient, at every width",
+        },
+        {
+            href: "/patient-summary",
+            title: "Patient Summary",
+            description:
+                "An International Patient Summary: allergies, medicines and problems, never blank",
         },
         {
             href: "/rating-and-feedback",
@@ -80,6 +108,11 @@
             href: "/timeline-and-cards",
             title: "Timeline & Cards",
             description: "Timelines, avatars, figures, emoji, and tours",
+        },
+        {
+            href: "/ward-board",
+            title: "Ward Board",
+            description: "Bed states in words, with changes summarised in one status line",
         },
     ];
 </script>

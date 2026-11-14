@@ -58,11 +58,41 @@ const BLAZOR = [
   /\bOnParametersSet(?:Async)?\b/, // reacting to a parameter change, such as a counter waiting for typing to pause
 ];
 
+// An effect whose body only calls development warnings (warnMissingName, warnMissingProp), each perhaps behind an `if`, is
+// not behaviour: Angular raises the same warnings in ngOnInit, and Blazor has none.
+const dropWarningEffects = (s) => {
+  let out = s;
+  for (let start = out.indexOf("$effect(() => {"); start !== -1; start = out.indexOf("$effect(() => {", start + 1)) {
+    let depth = 0;
+    let end = -1;
+    for (let i = out.indexOf("{", start); i < out.length; i += 1) {
+      if (out[i] === "{") depth += 1;
+      else if (out[i] === "}" && --depth === 0) {
+        end = i;
+        break;
+      }
+    }
+    if (end === -1) break;
+    const body = out.slice(out.indexOf("{", start) + 1, end);
+    const rest = body
+      .replace(/warnMissing\w+\((?:[^()]|\([^()]*\))*\);?/g, "")
+      .replace(/\bif\s*\((?:[^()]|\([^()]*\))*\)/g, "")
+      .trim();
+    if (rest === "") {
+      const close = out.slice(end).match(/^\}\s*\);?/);
+      out = out.slice(0, start) + out.slice(end + (close ? close[0].length : 1));
+    }
+  }
+  return out;
+};
+
 const svelteCode = (s) =>
-  s
-    .replace(/^\s*\/\/.*$/gm, "")
-    .replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/\$effect\(\(\)\s*=>\s*warnMissingName\([^;]*?\),?\s*\);/g, "");
+  dropWarningEffects(
+    s
+      .replace(/^\s*\/\/.*$/gm, "")
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/\$effect\(\(\)\s*=>\s*warnMissingName\([^;]*?\),?\s*\);/g, ""),
+  );
 // Line comments go before block comments: a "/*" inside one (`"image/*"`) would otherwise hide the code after it.
 const tsCode = (s) => s.replace(/^\s*\/\/.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "");
 const razorCode = (s) => s.replace(/@\*[\s\S]*?\*@/g, "").replace(/^\s*\/\/.*$/gm, "");

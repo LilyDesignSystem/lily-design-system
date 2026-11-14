@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: AllergyList
+description: a list of a patient's allergies and intolerances, whose status is never blank
+---
+
+{% from "components/allergy-list/macro.njk" import allergyList %}
+
+<h2>Default</h2>
+{% from "components/allergy-list-item/macro.njk" import allergyListItem %}
+{% call allergyList({ status: "known", statusLabel: "Known allergies" }) %}
+  {{ allergyListItem({ substance: "Penicillin", reaction: "Anaphylaxis", severity: "severe", severityLabel: "Severe" }) }}
+  {{ allergyListItem({ substance: "Latex", reaction: "Rash", severity: "mild", severityLabel: "Mild" }) }}
+{% endcall %}
+<h2>No known allergies</h2>
+{{ allergyList({ status: "none-known", statusLabel: "No known allergies" }) }}
+<h2>Not recorded</h2>
+{{ allergyList({ status: "not-recorded", statusLabel: "Allergies not recorded" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;AllergyList
+  status="known"
+  statusLabel="Known allergies"
+&gt;
+  &lt;AllergyListItem
+    substance="Penicillin"
+    reaction="Anaphylaxis"
+    severity="severe"
+    severityLabel="Severe"
+  /&gt;
+&lt;/AllergyList&gt;
+
+&lt;AllergyList
+  status="none-known"
+  statusLabel="No known allergies"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

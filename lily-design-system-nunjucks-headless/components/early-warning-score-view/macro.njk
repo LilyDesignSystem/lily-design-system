@@ -1,0 +1,31 @@
+{#
+  EarlyWarningScoreView macro — an early warning score with its band and escalation (spec/healthcare-ui item 5).
+  Display only: it computes nothing.
+
+  HTML tag: <span>
+  CSS class: early-warning-score-view (parts: -system, -score, -band, -escalation)
+
+  Params:
+    score       the score the consumer computed (required)
+    system      the scoring system's name
+    band        the consumer's band key, rendered as data-band
+    bandLabel   the band in words; required with band
+    escalation, label, id, classes, attributes
+
+  Usage:
+    {% from "components/early-warning-score-view/macro.njk" import earlyWarningScoreView %}
+    {{ earlyWarningScoreView({ system: "NEWS2", score: 7, band: "high", bandLabel: "High", escalation: "Urgent response" }) }}
+#}
+{%- macro earlyWarningScoreView(params) -%}
+{%- set p = params | default({}) -%}
+<span
+  class="early-warning-score-view{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.band %} data-band="{{ p.band }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{% if p.label %}<span class="screen-reader-span">{{ p.label }} </span>{% endif %}
+{%- if p.system %}<span class="early-warning-score-view-system">{{ p.system }}</span> {% endif -%}
+<span class="early-warning-score-view-score">{{ p.score }}</span>
+{%- if p.bandLabel %} <span class="early-warning-score-view-band">{{ p.bandLabel }}</span>{% endif -%}
+{%- if p.escalation %} <span class="early-warning-score-view-escalation">{{ p.escalation }}</span>{% endif -%}</span>
+{%- endmacro -%}

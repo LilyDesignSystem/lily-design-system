@@ -1,0 +1,26 @@
+---
+layout: layouts/component-demo.njk
+title: AllergyListItem
+description: one allergy or intolerance in an allergy list, with substance, reaction, severity and last update
+---
+
+{% from "components/allergy-list-item/macro.njk" import allergyListItem %}
+
+<h2>Default</h2>
+{% from "components/allergy-list/macro.njk" import allergyList %}
+{% call allergyList({ status: "known", statusLabel: "Known allergies" }) %}
+  {{ allergyListItem({ substance: "Penicillin", reaction: "Anaphylaxis", severity: "severe", severityLabel: "Severe", updated: "2026-11-03", updatedLabel: "Updated 3 Nov 2026" }) }}
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;AllergyListItem
+  substance="Penicillin"
+  reaction="Anaphylaxis"
+  severity="severe"
+  severityLabel="Severe"
+  updated="2026-11-03"
+  updatedLabel="Updated 3 Nov 2026"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

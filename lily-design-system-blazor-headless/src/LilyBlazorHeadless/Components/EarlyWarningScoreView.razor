@@ -1,0 +1,20 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    EarlyWarningScoreView: an early warning score with its band and escalation (spec/healthcare-ui item 5).
+    Display only: it computes nothing. Props: EarlyWarningScoreView.md.
+*@
+<span class="@($"early-warning-score-view {CssClass}".Trim())" data-band="@(string.IsNullOrEmpty(Band) ? null : Band)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@if (!string.IsNullOrEmpty(System)) {<span class="early-warning-score-view-system">@System</span>@(" ")}<span class="early-warning-score-view-score">@Score</span>@if (!string.IsNullOrEmpty(BandLabel)) {@(" ")<span class="early-warning-score-view-band">@BandLabel</span>}@if (!string.IsNullOrEmpty(Escalation)) {@(" ")<span class="early-warning-score-view-escalation">@Escalation</span>}</span>
+@code {
+    [Parameter] public string? Label { get; set; }
+    /// <summary>The score the consumer computed.</summary>
+    [Parameter, EditorRequired] public string Score { get; set; } = "";
+    /// <summary>The scoring system's name.</summary>
+    [Parameter] public string? System { get; set; }
+    /// <summary>The consumer's band key, as data-band.</summary>
+    [Parameter] public string? Band { get; set; }
+    /// <summary>The band in words; required with Band.</summary>
+    [Parameter] public string? BandLabel { get; set; }
+    [Parameter] public string? Escalation { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}
