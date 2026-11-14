@@ -17,12 +17,23 @@ public static class ClinicalFormat
     private const char NoBreakSpace = ' ';
 
     /// <summary>A quantity and its unit: no trailing zero, a leading zero, grouping, a no-break space before the unit.</summary>
-    public static string FormatQuantity(decimal value, string unit, CultureInfo culture)
+    public static string FormatQuantity(decimal value, string unit, CultureInfo culture, string? comparator = null)
     {
         ArgumentNullException.ThrowIfNull(culture);
         // "#,0.############################" keeps every significant digit and writes no trailing zero.
         var number = value.ToString("#,0.############################", culture);
-        return string.IsNullOrEmpty(unit) ? number : $"{number}{NoBreakSpace}{unit}";
+        // FHIR Quantity.comparator: a result of "<5" is not a result of "5", so it is never dropped.
+        var sign = comparator switch
+        {
+            null => "",
+            "<" => "<",
+            "<=" => "\u2264",
+            ">=" => "\u2265",
+            ">" => ">",
+            _ => throw new ArgumentOutOfRangeException(nameof(comparator), comparator, "not a FHIR comparator"),
+        };
+        var written = sign + number;
+        return string.IsNullOrEmpty(unit) ? written : $"{written}{NoBreakSpace}{unit}";
     }
 
     /// <summary>The age at <paramref name="at"/> of someone born at <paramref name="birth"/>, in the CUI unit bands.</summary>

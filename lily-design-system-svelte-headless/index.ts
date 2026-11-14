@@ -631,4 +631,4 @@ export { default as EarlyWarningScoreView } from "./components/EarlyWarningScore
 export { default as MedicationView } from "./components/MedicationView/MedicationView.svelte";
 export { default as ObservationView } from "./components/ObservationView/ObservationView.svelte";
 export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
-export type { AgePart, AgeUnit } from "./components/clinical-format";
+export type { AgePart, AgeUnit, QuantityComparator } from "./components/clinical-format";

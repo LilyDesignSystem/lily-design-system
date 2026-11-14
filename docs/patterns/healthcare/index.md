@@ -74,6 +74,8 @@ at `/patient-banner` in the SvelteKit example app:
 - Generic names in lower case, except tall man letters from the FDA and ISMP lists or your country's (Australia and Canada publish
   their own). Mark them in `nameSegments`; Lily never guesses them.
 - Write the strength with `formatQuantity`: no trailing zero, a leading zero, a no-break space before the unit.
+- Keep a result's comparator: `formatQuantity(5, "mmol/L", locale, "<")` writes "<5 mmol/L". FHIR's `Quantity.comparator`
+  (`<`, `<=`, `>=`, `>`) is written `<`, `≤`, `≥`, `>`; dropping it turns "less than 5" into "5".
 - Write mL, never cc, and avoid every abbreviation on ISMP's error-prone list.
 - Never truncate a medicine's name or dose.
 

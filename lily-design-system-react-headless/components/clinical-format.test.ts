@@ -36,6 +36,19 @@ describe("formatQuantity", () => {
         expect(formatQuantity(7, "", "en-GB")).toBe("7");
     });
 
+    test("writes a FHIR comparator before the number, never dropping it", () => {
+        expect(formatQuantity(5, "mmol/L", "en-GB", "<")).toBe(`<5${NBSP}mmol/L`);
+        expect(formatQuantity(5, "mmol/L", "en-GB", "<=")).toBe(`≤5${NBSP}mmol/L`);
+        expect(formatQuantity(0.5, "mg", "de-DE", ">=")).toBe(`≥0,5${NBSP}mg`);
+        expect(formatQuantity(90, "", "en-GB", ">")).toBe(">90");
+        expect(formatQuantity(5, "mmol/L", "en-GB")).toBe(`5${NBSP}mmol/L`);
+    });
+
+    test("refuses a comparator FHIR does not define", () => {
+        expect(() => formatQuantity(5, "mg", "en-GB", "~" as never)).toThrow(RangeError);
+        expect(() => formatQuantity(5, "mg", "en-GB", "toString" as never)).toThrow(RangeError);
+    });
+
     test("refuses a missing locale or a non-finite value", () => {
         expect(() => formatQuantity(5, "mg", "")).toThrow(RangeError);
         expect(() => formatQuantity(Number.NaN, "mg", "en-GB")).toThrow(RangeError);

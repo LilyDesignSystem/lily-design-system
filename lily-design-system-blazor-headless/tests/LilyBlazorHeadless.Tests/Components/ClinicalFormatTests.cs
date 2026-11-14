@@ -42,4 +42,20 @@ public class ClinicalFormatTests
         Assert.Equal("PT90M", ClinicalFormat.ToIsoDuration([new(90, AgeUnit.Minutes)]));
         Assert.Equal("PT0M", ClinicalFormat.ToIsoDuration([new(0, AgeUnit.Minutes)]));
     }
+
+    [Theory]
+    [InlineData("<", "<5\u00a0mmol/L")]
+    [InlineData("<=", "\u22645\u00a0mmol/L")]
+    [InlineData(">=", "\u22655\u00a0mmol/L")]
+    [InlineData(">", ">5\u00a0mmol/L")]
+    public void FormatQuantity_writes_the_comparator_before_the_number(string comparator, string expected)
+    {
+        Assert.Equal(expected, ClinicalFormat.FormatQuantity(5m, "mmol/L", CultureInfo.GetCultureInfo("en-GB"), comparator));
+    }
+
+    [Fact]
+    public void FormatQuantity_refuses_an_unknown_comparator()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatQuantity(5m, "mg", CultureInfo.GetCultureInfo("en-GB"), "~"));
+    }
 }

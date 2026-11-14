@@ -3586,9 +3586,9 @@ shown, never decided.
       device's status and dates). Catalog 617 to 629.
       Verify: tests in all nine catalogs that each list renders each of the five statuses' consumer text and each item its parts;
       the IPS demo page uses the medication, allergy and problem lists. _(2026-11-14: done. 14 components (12 new, the allergy pair renamed), catalog 629 (Web Components 594), generated from one data model into all nine catalogs with tests, stories and docs; tests checked to fail when a part, a status or the omitted state is removed. `/patient-summary` uses the medication, allergy and problem lists, with e2e assertions; axe-clean on all 14 component pages in the SvelteKit and Nunjucks apps.)_
-- [ ] **P28-T4 `formatQuantity` comparator.** FHIR `Quantity.comparator` (`<`, `<=`, `>=`, `>`) is dropped today, so "<5 mmol/L"
+- [x] **P28-T4 `formatQuantity` comparator.** FHIR `Quantity.comparator` (`<`, `<=`, `>=`, `>`) is dropped today, so "<5 mmol/L"
       is written "5 mmol/L". Add an optional comparator, written with the locale's number and the signs `<`, `≤`, `≥`, `>`.
-      Verify: tests for each comparator and for none, in the shared module and the C# port.
+      Verify: tests for each comparator and for none, in the shared module and the C# port. _(2026-11-14: done. `formatQuantity(value, unit, locale, comparator?)` in `shared/clinical-format.ts`, synced to every TypeScript catalog and Alpine, and `QuantityComparator` exported; an unknown comparator throws. The C# port `ClinicalFormat.FormatQuantity` takes the same optional comparator. Tests in both; dropping the sign makes them fail.)_
 - [ ] **P28-T5 `observation-view`: the rest of FHIR's statuses.** Add `amended`, `corrected`, `cancelled` and
       `entered-in-error`, each requiring `statusLabel`, and `masked` (withheld for privacy, from `dataAbsentReason`), which is not
       `unavailable`. A corrected or amended result shows its label beside the value.
