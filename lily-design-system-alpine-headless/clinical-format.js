@@ -50,7 +50,10 @@ export function formatQuantity(
     if (!Number.isFinite(value))
         throw new RangeError("formatQuantity: value must be a finite number");
     if (!locale) throw new RangeError("formatQuantity: a locale is required");
-    if (comparator !== undefined && !Object.hasOwn(COMPARATOR_SIGN, comparator))
+    if (
+        comparator !== undefined &&
+        !Object.prototype.hasOwnProperty.call(COMPARATOR_SIGN, comparator)
+    )
         throw new RangeError(`formatQuantity: not a FHIR comparator: ${String(comparator)}`);
     // maximumFractionDigits keeps every digit the caller gave; Intl never writes trailing zeros and always writes a leading one.
     const number = new Intl.NumberFormat(locale, {
