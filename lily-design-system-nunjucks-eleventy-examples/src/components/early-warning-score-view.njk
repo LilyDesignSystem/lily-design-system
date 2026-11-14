@@ -7,7 +7,7 @@ description: a read-only display of an early warning score, with its band and es
 {% from "components/early-warning-score-view/macro.njk" import earlyWarningScoreView %}
 
 <h2>Default</h2>
-<p>{{ earlyWarningScoreView({ text: "EarlyWarningScoreView example", label: "EarlyWarningScoreView example" }) }}</p>
+<p>{{ earlyWarningScoreView({ score: "6", system: "Example early warning score", band: "medium", bandLabel: "Medium", escalation: "Urgent review by the ward doctor" }) }}</p>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

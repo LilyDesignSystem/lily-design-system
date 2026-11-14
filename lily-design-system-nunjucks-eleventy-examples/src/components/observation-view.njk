@@ -7,7 +7,9 @@ description: a read-only display of a clinical observation or test result, with 
 {% from "components/observation-view/macro.njk" import observationView %}
 
 <h2>Default</h2>
-<p>{{ observationView({ text: "ObservationView example", label: "ObservationView example" }) }}</p>
+<p>Potassium: {{ observationView({ value: "5.9", unit: "mmol/L", range: "3.5–5.3", interpretation: "H", flagLabel: "High" }) }}</p>
+<p>Sodium: {{ observationView({ value: "139", unit: "mmol/L", range: "133–146", interpretation: "N" }) }}</p>
+<p>Creatinine: {{ observationView({ status: "not-recorded", statusLabel: "Not recorded" }) }}</p>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

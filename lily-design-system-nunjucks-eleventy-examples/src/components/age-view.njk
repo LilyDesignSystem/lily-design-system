@@ -7,7 +7,8 @@ description: a read-only display of a person's age, in the units suited to it
 {% from "components/age-view/macro.njk" import ageView %}
 
 <h2>Default</h2>
-<p>{{ ageView({ text: "AgeView example", label: "AgeView example" }) }}</p>
+<p>Age: {{ ageView({ value: "14 weeks 2 days", duration: "P100D" }) }}</p>
+<p>Age: {{ ageView({ value: "76 years", duration: "P76Y" }) }}</p>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

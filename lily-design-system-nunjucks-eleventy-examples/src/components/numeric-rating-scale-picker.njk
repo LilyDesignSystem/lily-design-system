@@ -7,7 +7,7 @@ description: a picker for a 0 to 10 rating, such as pain, with the consumer's wo
 {% from "components/numeric-rating-scale-picker/macro.njk" import numericRatingScalePicker %}
 
 <h2>Default</h2>
-<p>{{ numericRatingScalePicker({ text: "NumericRatingScalePicker example", label: "NumericRatingScalePicker example" }) }}</p>
+{{ numericRatingScalePicker({ label: "How bad is the pain right now?", minLabel: "0: no pain", maxLabel: "10: worst pain imaginable", name: "pain" }) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

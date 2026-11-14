@@ -7,7 +7,18 @@ description: a clinical decision support card with a summary, urgency indicator,
 {% from "components/decision-support-card/macro.njk" import decisionSupportCard %}
 
 <h2>Default</h2>
-<p>{{ decisionSupportCard({ text: "DecisionSupportCard example", label: "DecisionSupportCard example" }) }}</p>
+{{ decisionSupportCard({
+  summary: "Possible interaction: warfarin and aspirin",
+  indicator: "warning",
+  indicatorLabel: "Warning",
+  sourceLabel: "Example interaction rules",
+  suggestions: [{ id: "s1", label: "Remove aspirin", isRecommended: true }],
+  links: [{ label: "Read the guidance", href: "#guidance" }],
+  dismissLabel: "Dismiss",
+  overrideReasons: [{ code: "benefit", display: "Benefit outweighs risk" }, { code: "monitored", display: "Patient is monitored" }],
+  overrideReasonLabel: "Reason for dismissing",
+  overrideReasonPlaceholder: "Choose a reason"
+}) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>

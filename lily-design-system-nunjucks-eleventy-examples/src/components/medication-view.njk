@@ -7,7 +7,7 @@ description: a read-only display of a medicine, with its name, strength, form, r
 {% from "components/medication-view/macro.njk" import medicationView %}
 
 <h2>Default</h2>
-<p>{{ medicationView({ text: "MedicationView example", label: "MedicationView example" }) }}</p>
+<p>{{ medicationView({ nameSegments: [{ text: "hydr" }, { text: "OXY", tallMan: true }, { text: "zine" }], strength: "25 mg", form: "tablet", route: "oral", frequency: "three times a day" }) }}</p>
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
