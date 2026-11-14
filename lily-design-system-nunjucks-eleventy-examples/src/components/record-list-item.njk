@@ -1,0 +1,27 @@
+---
+layout: layouts/component-demo.njk
+title: RecordListItem
+description: one record in a record list, with its status and last update around the consumer's content
+---
+
+
+{% from "components/record-list/macro.njk" import recordList %}
+{% from "components/record-list-item/macro.njk" import recordListItem %}
+
+<h2>Default</h2>
+{% call recordList({ status: "known", statusLabel: "Vital signs" }) %}
+  {{ recordListItem({ status: "final", statusLabel: "Final", updated: "2026-11-03", updatedLabel: "Updated 3 Nov 2026", html: "Blood pressure 128/82 mmHg" }) }}
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;RecordListItem
+  status="final"
+  statusLabel="Final"
+  updated="2026-11-03"
+  updatedLabel="Updated 3 Nov 2026"
+&gt;
+  Blood pressure 128/82 mmHg
+&lt;/RecordListItem&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

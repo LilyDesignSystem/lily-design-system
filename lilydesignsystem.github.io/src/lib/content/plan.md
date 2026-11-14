@@ -444,7 +444,19 @@ calculation (that makes software a medical device, and it belongs in the adopter
 data, no tall man list, no Wong-Baker FACES and no NEWS2 chart replica. Limiting open records is declined on the evidence. T11
 (`body-map`) and T12 (a 0 to 10 scale) are maintainer decisions.
 
-Status (2026-11-14): T1 to T10 done (catalog 615); T11 and T12 approved by the maintainer, to build.
+Status (2026-11-14): T1 to T12 done (catalog 617); T11 and T12 on the maintainer's approval.
+
+## Phase 28 — Lessons from the International Patient Summary viewer (2026-11-14)
+
+A review of the `international-patient-summary-ui-with-svelte` specification, a read-only FHIR IPS viewer built on Lily's Svelte
+packages. Every Lily component it names exists, but its needs show where Phase 27 stops short of FHIR: allergy criticality and
+verification status, a never-blank status for medications and problems (and a section the document omits), the quantity
+comparator, the rest of FHIR's result statuses, a medicine's status and free-text dose, and a search picker that a client-side
+viewer can leave out. The healthcare components are also not yet published. Findings:
+[spec/healthcare-ui](spec/healthcare-ui/index.md#lessons-from-the-international-patient-summary-viewer-2026-11-14). Tasks:
+[tasks.md](tasks.md#phase-28--lessons-from-the-international-patient-summary-viewer-2026-11-14).
+
+Status (2026-11-14): planned; T3's name is a maintainer decision.
 
 ---
 

@@ -615,3 +615,15 @@ early-warning-score-view	span	content
 age-view	span	content
 numeric-rating-scale-picker	fieldset	pickers
 body-map	fieldset	forms
+record-list	ul	lists
+medication-record-list	ul	lists
+problem-record-list	ul	lists
+immunization-record-list	ul	lists
+procedure-record-list	ul	lists
+device-record-list	ul	lists
+record-list-item	li	lists
+medication-record-list-item	li	lists
+problem-record-list-item	li	lists
+immunization-record-list-item	li	lists
+procedure-record-list-item	li	lists
+device-record-list-item	li	lists

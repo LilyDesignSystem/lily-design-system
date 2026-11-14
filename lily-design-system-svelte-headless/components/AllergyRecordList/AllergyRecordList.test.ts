@@ -6,7 +6,7 @@ import { resetDevWarnings } from "../dev-warning";
 import Subject from "./AllergyRecordList.svelte";
 
 const items = createRawSnippet(() => ({
-    render: () => '<li class="allergy-record-list-item">Penicillin</li>',
+    render: () => '<li class="allergy-record-list-item">One record</li>',
 }));
 
 afterEach(() => {
@@ -24,13 +24,14 @@ describe("AllergyRecordList", () => {
         expect(list.getAttribute("class")).toContain("allergy-record-list");
         expect(list.getAttribute("data-status")).toBe("known");
         expect(list.querySelector(".allergy-record-list-status")).toBeNull();
-        expect(list.textContent).toContain("Penicillin");
+        expect(list.textContent).toContain("One record");
     });
 
     test.each([
-        ["none-known", "No known allergies"],
-        ["not-recorded", "Allergies not recorded"],
-        ["unavailable", "Allergies unavailable"],
+        ["none-known", "No known allergies (none-known)"],
+        ["not-recorded", "No known allergies (not-recorded)"],
+        ["unavailable", "No known allergies (unavailable)"],
+        ["omitted", "No known allergies (omitted)"],
     ] as const)("status %s is shown as the list's one item, never blank", (status, words) => {
         render(Subject, { props: { status, statusLabel: words } });
         const list = screen.getByRole("list", { name: words });
@@ -38,20 +39,23 @@ describe("AllergyRecordList", () => {
         expect(only).toHaveLength(1);
         expect(only[0].className).toBe("allergy-record-list-status");
         expect(only[0].textContent).toBe(words);
+        expect(list.getAttribute("data-status")).toBe(status);
     });
 
     test("label overrides the accessible name", () => {
         render(Subject, {
-            props: { status: "none-known", statusLabel: "No known allergies", label: "Allergies" },
+            props: { status: "none-known", statusLabel: "No known allergies", label: "Record" },
         });
-        expect(screen.getByRole("list", { name: "Allergies" })).toBeTruthy();
+        expect(screen.getByRole("list", { name: "Record" })).toBeTruthy();
     });
 
     test("warns when the status is missing", () => {
         const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
-        render(Subject, { props: { statusLabel: "Allergies" } as never });
+        render(Subject, { props: { statusLabel: "Known allergies" } as never });
         expect(
-            spy.mock.calls.some((call) => String(call[0]).includes("AllergyRecordList has no status")),
+            spy.mock.calls.some((call) =>
+                String(call[0]).includes("AllergyRecordList has no status"),
+            ),
         ).toBe(true);
     });
 });

@@ -1,0 +1,18 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    DeviceRecordListItem: one medical device in a device record list, with its status and when it was used (tasks.md P28-T3, spec/healthcare-ui). Props: DeviceRecordListItem.md.
+*@
+<li class="@($"device-record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes"><span class="device-record-list-item-device">@Device</span>@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="device-record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(TimingLabel)) {@(" ")<time class="device-record-list-item-timing" datetime="@Timing">@TimingLabel</time>}@ChildContent</li>
+@code {
+    /// <summary>the device; never truncated.</summary>
+    [Parameter, EditorRequired] public string Device { get; set; } = "";
+    /// <summary>FHIR DeviceUseStatement status.</summary>
+    [Parameter] public string? Status { get; set; }
+    [Parameter] public string? StatusLabel { get; set; }
+    /// <summary>when it was used, for <time datetime>.</summary>
+    [Parameter] public string? Timing { get; set; }
+    [Parameter] public string? TimingLabel { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

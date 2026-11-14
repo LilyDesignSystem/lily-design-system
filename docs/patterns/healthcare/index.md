@@ -12,16 +12,16 @@ translations into the site's 63 other languages; this file is the source, and th
 Lily gives you display contracts: semantic markup, ARIA, keyboard behaviour and class hooks for the things clinical screens repeat.
 It does not give you clinical logic, clinical content or a regulatory claim.
 
-| Lily provides                                                               | You provide                                                        |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| `observation-view`: a value, unit, flag in words, range, and missing states | The value, the flag decision, the reference range                  |
-| `allergy-record-list`, `allergy-record-list-item`: a status that is never blank           | The allergy record and its terminology                             |
-| `medication-view`: name, strength, form, route, frequency, none truncated   | The drug data, tall man segments, the formatted strength           |
-| `decision-support-card`: the CDS Hooks card shape                           | The rules, the suggestion actions, recording the outcome           |
-| `early-warning-score-view`: a score, band and escalation, displayed         | The scoring system and its validated calculation                   |
-| `age-view` and `ageParts()`: an age in units suited to it                   | The words for the units (`Intl.DurationFormat` or your own labels) |
-| `formatQuantity()`: 5 mg, never 5.0 mg; 0.5 mg, never .5 mg                 | The number, the unit and the locale                                |
-| The patient banner composition                                              | Every label and value, and who may see clinical information        |
+| Lily provides                                                                   | You provide                                                        |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `observation-view`: a value, unit, flag in words, range, and missing states     | The value, the flag decision, the reference range                  |
+| `allergy-record-list`, `allergy-record-list-item`: a status that is never blank | The allergy record and its terminology                             |
+| `medication-view`: name, strength, form, route, frequency, none truncated       | The drug data, tall man segments, the formatted strength           |
+| `decision-support-card`: the CDS Hooks card shape                               | The rules, the suggestion actions, recording the outcome           |
+| `early-warning-score-view`: a score, band and escalation, displayed             | The scoring system and its validated calculation                   |
+| `age-view` and `ageParts()`: an age in units suited to it                       | The words for the units (`Intl.DurationFormat` or your own labels) |
+| `formatQuantity()`: 5 mg, never 5.0 mg; 0.5 mg, never .5 mg                     | The number, the unit and the locale                                |
+| The patient banner composition                                                  | Every label and value, and who may see clinical information        |
 
 **Regulation.** Software that computes a score, a centile, a dose or a drug interaction is usually a medical device. Lily computes none
 of these, on purpose. If your product is regulated, you own its usability engineering file (IEC 62366-1, the FDA's human factors

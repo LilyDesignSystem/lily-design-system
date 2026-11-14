@@ -1,0 +1,26 @@
+{#
+  MedicationRecordListItem macro — one medicine in a medication record list, with its status and when it applies (tasks.md P28-T3, spec/healthcare-ui).
+
+  HTML tag: <li>
+  CSS class: medication-record-list-item (parts: -status, -effective)
+
+  Params:
+    status               FHIR MedicationStatement status
+    statusLabel          the status in words
+    effective            when the medicine applies, for <time datetime>
+    effectiveLabel       that date as the consumer writes it
+    html, id, classes, attributes
+
+  Usage:
+    {% from "components/medication-record-list-item/macro.njk" import medicationRecordListItem %}
+    {{ medicationRecordListItem({ status: "active", statusLabel: "Active", effective: "2025-03-03", effectiveLabel: "Since 3 Mar 2025" }) }}
+#}
+{%- macro medicationRecordListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="medication-record-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.status %} data-status="{{ p.status }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}{%- if p.statusLabel %} <span class="medication-record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.effectiveLabel %} <time class="medication-record-list-item-effective"{% if p.effective %} datetime="{{ p.effective }}"{% endif %}>{{ p.effectiveLabel }}</time>{% endif -%}</li>
+{%- endmacro -%}

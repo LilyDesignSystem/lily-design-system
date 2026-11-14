@@ -10,4 +10,8 @@ const meta: Meta<AllergyRecordList> = {
 export default meta;
 type Story = StoryObj<AllergyRecordList>;
 
-export const Default: Story = { args: { status: "none-known", statusLabel: "No known allergies" } };
+export const Default: Story = {
+    render: () => ({
+        template: `<lily-allergy-record-list status="none-known" statusLabel="No known allergies"></lily-allergy-record-list>`,
+    }),
+};

@@ -12,15 +12,15 @@
 
 ## Key Behaviors
 
-- Renders `<ul class="allergy-record-list">` with `data-status` and `aria-label`
-- `status` is required: `known`, `none-known`, `not-recorded` or `unavailable`
+- Renders `<ul class="allergy-record-list">` named by `aria-label` (`label`, else `statusLabel`)
+- `status` is required and renders as `data-status`: `known`, `none-known`, `not-recorded`, `unavailable`, `omitted`
 - For any status but `known`, `statusLabel` is the list's one item, `li.allergy-record-list-status`, so the list is never blank
-- Holds `allergy-record-list-item` children for status `known`
-- A missing `status` or `statusLabel` raises a development warning
+- Holds `allergy-record-list-item` items when the status is `known`
+- A missing `status` or `statusLabel` raises a development warning (Svelte, React, Vue, Angular)
 
 ## ARIA
 
-- A `<ul>` named by `aria-label` (the status words, or `label`). The status is text, never an icon or a colour alone
+- A `<ul>` named by `aria-label`; the status is text, never an icon or a colour alone
 
 ## Keyboard
 
@@ -28,7 +28,7 @@
 
 ## Props
 
-- `status`: "known" | "none-known" | "not-recorded" | "unavailable" (required) — rendered as `data-status`
+- `status`: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" (required) — rendered as `data-status`
 - `statusLabel`: string (required) — the status in words; names the list, and is its one item unless status is `known`
 - `label`: string (optional) — the accessible name, when it should differ from `statusLabel`
 - `children`: slot (optional) — `allergy-record-list-item` items
@@ -37,9 +37,8 @@
 ## Acceptance Criteria
 
 - [x] Renders <ul> with class="allergy-record-list"
-- [x] Each status renders its words; for statuses other than `known` they are the one item
-- [x] The list is named by its status
-- [x] A missing status raises a development warning
+- [x] Each status other than known is the list's one item, in the consumer's words
+- [x] A missing status warns in development
 - [ ] WCAG 2.2 AAA compliant
 - [x] Zero CSS — fully headless
 

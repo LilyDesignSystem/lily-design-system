@@ -8,9 +8,9 @@ See `components/allergy-record-list/index.md` for the canonical documentation, a
 
 ## Props
 
-- `Status`: "known" | "none-known" | "not-recorded" | "unavailable" (required) — rendered as `data-status`
-- `StatusLabel`: string (required) — the status in words; names the list, and is its one item unless status is `known`
-- `Label`: string (optional) — the accessible name, when it should differ from `statusLabel`
+- `status`: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" (required) — rendered as `data-status`
+- `statusLabel`: string (required) — the status in words; names the list, and is its one item unless status is `known`
+- `label`: string (optional) — the accessible name, when it should differ from `statusLabel`
 - `ChildContent`: slot (optional) — `allergy-record-list-item` items
 
 ---

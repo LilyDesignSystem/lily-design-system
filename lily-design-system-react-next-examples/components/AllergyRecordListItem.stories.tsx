@@ -16,5 +16,20 @@ export const Default: Story = {
         reaction: "Anaphylaxis",
         severity: "severe",
         severityLabel: "Severe",
+        criticality: "high",
+        criticalityLabel: "High risk",
+        clinicalStatus: "active",
+        clinicalStatusLabel: "Active",
+        verificationStatus: "confirmed",
+        verificationStatusLabel: "Confirmed",
+        typeLabel: "Allergy",
+        categoryLabel: "Medication",
+        updated: "2026-11-03",
+        updatedLabel: "Updated 3 Nov 2026",
     },
+    render: (args) => (
+        <ul>
+            <AllergyRecordListItem {...args}></AllergyRecordListItem>
+        </ul>
+    ),
 };

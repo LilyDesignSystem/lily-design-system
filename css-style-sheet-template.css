@@ -2724,6 +2724,26 @@
 .allergy-record-list-item-updated {
 }
 
+/* allergy-record-list-item-criticality: sub-element of allergy-record-list-item */
+.allergy-record-list-item-criticality {
+}
+
+/* allergy-record-list-item-clinical-status: sub-element of allergy-record-list-item */
+.allergy-record-list-item-clinical-status {
+}
+
+/* allergy-record-list-item-verification-status: sub-element of allergy-record-list-item */
+.allergy-record-list-item-verification-status {
+}
+
+/* allergy-record-list-item-type: sub-element of allergy-record-list-item */
+.allergy-record-list-item-type {
+}
+
+/* allergy-record-list-item-category: sub-element of allergy-record-list-item */
+.allergy-record-list-item-category {
+}
+
 /* medication-view: a read-only display of a medicine, with its name, strength, form, route and frequency */
 .medication-view {
 }
@@ -2870,4 +2890,160 @@
 
 /* body-map-region: sub-element of body-map */
 .body-map-region {
+}
+
+/* record-list: a list of records from one section of a patient's record, whose status is never blank */
+.record-list {
+}
+
+/* record-list-status: sub-element of record-list */
+.record-list-status {
+}
+
+/* medication-record-list: a list of a patient's medicines, whose status is never blank */
+.medication-record-list {
+}
+
+/* medication-record-list-status: sub-element of medication-record-list */
+.medication-record-list-status {
+}
+
+/* problem-record-list: a list of a patient's problems and conditions, whose status is never blank */
+.problem-record-list {
+}
+
+/* problem-record-list-status: sub-element of problem-record-list */
+.problem-record-list-status {
+}
+
+/* immunization-record-list: a list of a patient's immunizations, whose status is never blank */
+.immunization-record-list {
+}
+
+/* immunization-record-list-status: sub-element of immunization-record-list */
+.immunization-record-list-status {
+}
+
+/* procedure-record-list: a list of a patient's procedures, whose status is never blank */
+.procedure-record-list {
+}
+
+/* procedure-record-list-status: sub-element of procedure-record-list */
+.procedure-record-list-status {
+}
+
+/* device-record-list: a list of a patient's medical devices, whose status is never blank */
+.device-record-list {
+}
+
+/* device-record-list-status: sub-element of device-record-list */
+.device-record-list-status {
+}
+
+/* record-list-item: one record in a record list, with its status and last update around the consumer's content */
+.record-list-item {
+}
+
+/* record-list-item-status: sub-element of record-list-item */
+.record-list-item-status {
+}
+
+/* record-list-item-updated: sub-element of record-list-item */
+.record-list-item-updated {
+}
+
+/* medication-record-list-item: one medicine in a medication record list, with its status and when it applies */
+.medication-record-list-item {
+}
+
+/* medication-record-list-item-status: sub-element of medication-record-list-item */
+.medication-record-list-item-status {
+}
+
+/* medication-record-list-item-effective: sub-element of medication-record-list-item */
+.medication-record-list-item-effective {
+}
+
+/* problem-record-list-item: one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution */
+.problem-record-list-item {
+}
+
+/* problem-record-list-item-condition: sub-element of problem-record-list-item */
+.problem-record-list-item-condition {
+}
+
+/* problem-record-list-item-clinical-status: sub-element of problem-record-list-item */
+.problem-record-list-item-clinical-status {
+}
+
+/* problem-record-list-item-verification-status: sub-element of problem-record-list-item */
+.problem-record-list-item-verification-status {
+}
+
+/* problem-record-list-item-severity: sub-element of problem-record-list-item */
+.problem-record-list-item-severity {
+}
+
+/* problem-record-list-item-onset: sub-element of problem-record-list-item */
+.problem-record-list-item-onset {
+}
+
+/* problem-record-list-item-abatement: sub-element of problem-record-list-item */
+.problem-record-list-item-abatement {
+}
+
+/* immunization-record-list-item: one immunization in an immunization record list, with vaccine, date, dose and status */
+.immunization-record-list-item {
+}
+
+/* immunization-record-list-item-vaccine: sub-element of immunization-record-list-item */
+.immunization-record-list-item-vaccine {
+}
+
+/* immunization-record-list-item-occurrence: sub-element of immunization-record-list-item */
+.immunization-record-list-item-occurrence {
+}
+
+/* immunization-record-list-item-dose-number: sub-element of immunization-record-list-item */
+.immunization-record-list-item-dose-number {
+}
+
+/* immunization-record-list-item-status: sub-element of immunization-record-list-item */
+.immunization-record-list-item-status {
+}
+
+/* immunization-record-list-item-lot-number: sub-element of immunization-record-list-item */
+.immunization-record-list-item-lot-number {
+}
+
+/* procedure-record-list-item: one procedure in a procedure record list, with its status and when it was performed */
+.procedure-record-list-item {
+}
+
+/* procedure-record-list-item-procedure: sub-element of procedure-record-list-item */
+.procedure-record-list-item-procedure {
+}
+
+/* procedure-record-list-item-status: sub-element of procedure-record-list-item */
+.procedure-record-list-item-status {
+}
+
+/* procedure-record-list-item-performed: sub-element of procedure-record-list-item */
+.procedure-record-list-item-performed {
+}
+
+/* device-record-list-item: one medical device in a device record list, with its status and when it was used */
+.device-record-list-item {
+}
+
+/* device-record-list-item-device: sub-element of device-record-list-item */
+.device-record-list-item-device {
+}
+
+/* device-record-list-item-status: sub-element of device-record-list-item */
+.device-record-list-item-status {
+}
+
+/* device-record-list-item-timing: sub-element of device-record-list-item */
+.device-record-list-item-timing {
 }

@@ -10,4 +10,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = { args: { status: "none-known", statusLabel: "No known allergies" } };
+export const Default: Story = {
+    args: { status: "known", statusLabel: "Known allergies" },
+};
+
+export const NoneKnown: Story = {
+    args: { status: "none-known", statusLabel: "No known allergies" },
+};

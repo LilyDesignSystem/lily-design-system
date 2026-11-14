@@ -1,20 +1,20 @@
 # Allergy Record List
 
-AllergyRecordList is a headless list of a patient's allergies and intolerances. It renders as a `<ul>`. Its status is required, because "no known allergies", "allergies not recorded" and "allergies unavailable" are different facts, and an empty list could be read as any of them.
+AllergyRecordList is a list of a patient's allergies and intolerances, whose status is never blank. It renders as a `<ul>`. Every word is the consumer's.
 
 **Status:** experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
 ## Implementation Notes
 
-- Renders `<ul class="allergy-record-list">` with `data-status` and `aria-label`
-- `status` is required: `known`, `none-known`, `not-recorded` or `unavailable`
+- Renders `<ul class="allergy-record-list">` named by `aria-label` (`label`, else `statusLabel`)
+- `status` is required and renders as `data-status`: `known`, `none-known`, `not-recorded`, `unavailable`, `omitted`
 - For any status but `known`, `statusLabel` is the list's one item, `li.allergy-record-list-status`, so the list is never blank
-- Holds `allergy-record-list-item` children for status `known`
-- A missing `status` or `statusLabel` raises a development warning
+- Holds `allergy-record-list-item` items when the status is `known`
+- A missing `status` or `statusLabel` raises a development warning (Svelte, React, Vue, Angular)
 
 ## Props
 
-- `status`: "known" | "none-known" | "not-recorded" | "unavailable" (required) — rendered as `data-status`
+- `status`: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" (required) — rendered as `data-status`
 - `statusLabel`: string (required) — the status in words; names the list, and is its one item unless status is `known`
 - `label`: string (optional) — the accessible name, when it should differ from `statusLabel`
 - `children`: slot (optional) — `allergy-record-list-item` items
@@ -32,6 +32,16 @@ AllergyRecordList is a headless list of a patient's allergies and intolerances. 
     reaction="Anaphylaxis"
     severity="severe"
     severityLabel="Severe"
+    criticality="high"
+    criticalityLabel="High risk"
+    clinicalStatus="active"
+    clinicalStatusLabel="Active"
+    verificationStatus="confirmed"
+    verificationStatusLabel="Confirmed"
+    typeLabel="Allergy"
+    categoryLabel="Medication"
+    updated="2026-11-03"
+    updatedLabel="Updated 3 Nov 2026"
   />
 </AllergyRecordList>
 
@@ -47,18 +57,18 @@ None. This is not an interactive component.
 
 ## ARIA
 
-- A `<ul>` named by `aria-label` (the status words, or `label`). The status is text, never an icon or a colour alone
+- A `<ul>` named by `aria-label`; the status is text, never an icon or a colour alone
 
 ## When to Use
 
-- Use to show a patient's allergies in a patient banner, summary or prescribing screen.
-- Use whenever the absence of allergies must be distinguished from allergies not being recorded.
-- Use with `medical-banner-box-for-danger` to keep known allergies prominent.
+- Use for a patient's allergies, wherever a missing list could be misread.
+- Use with `none-known`, `not-recorded`, `unavailable` or `omitted` when there is nothing to list: each is a different fact.
 
 ## When Not to Use
 
-- Do not use for a general list — use `bullet-list` or `description-list`.
-- Do not use to edit allergies — use a `form` with `field` and `text-input`.
+- Do not leave the list empty for "none": set `status` instead.
+- Do not use for a list that is not part of a patient's record — use `list` or `summary-list`.
+- For another part of the record, use its own record list, or `record-list`.
 
 ## Headless
 
@@ -66,24 +76,24 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 ## Styles
 
-`.allergy-record-list`, `.allergy-record-list-status`, and the `[data-status]` attribute (for example, the strongest emphasis on `known`).
+`.allergy-record-list`, `.allergy-record-list-status` and `[data-status]`.
 
 ## Testing
 
-- Each status renders its words; for statuses other than `known` they are the one item
-- The list is named by its status
+- Each of the five statuses renders its consumer text; `known` renders only its items
+- `label` overrides the accessible name
 - A missing status raises a development warning
 
 ## Advice
 
-- Show when each allergy record was last updated, and link to the full record.
-- Do not show clinical information such as allergies to people who should not see it; that is the consumer's access control.
-- Never abbreviate the status words.
+- Take every word from your own translation, including the status words; Lily ships none.
+- Map FHIR codes to these values in your code; Lily does not read FHIR resources.
+- Format dates with `Intl.DateTimeFormat`, with the month as text so they cannot be read two ways.
 
 ## Related components
 
-- `allergy-record-list-item` — one allergy or intolerance in an allergy list
-- `medical-banner-box-for-danger` — a medical record banner box for danger information
+- `allergy-record-list-item` — one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status
+- `record-list` and the other record lists — the same status contract for each part of a record
 
 ## References
 

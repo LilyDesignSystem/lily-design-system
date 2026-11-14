@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, OnInit, input } from "@angular/core
 import { warnMissingProp } from "./dev-warning";
 
 /**
- * AllergyRecordList: a patient's allergies and intolerances, whose status is never blank (spec/healthcare-ui item 2). For any
- * status but "known", statusLabel is the list's one item. Project `<li lily-allergy-record-list-item>` items. Props: AllergyRecordList.md.
+ * AllergyRecordList: a list of a patient's allergies and intolerances, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui). For any status but "known", statusLabel is the list's
+ * one item. Project `<li lily-allergy-record-list-item>` items. Props: AllergyRecordList.md.
  */
 @Component({
     selector: "lily-allergy-record-list",
@@ -13,7 +13,9 @@ import { warnMissingProp } from "./dev-warning";
 })
 export class AllergyRecordList implements OnInit {
     readonly className = input<string>("");
-    readonly status = input<"known" | "none-known" | "not-recorded" | "unavailable" | "">("");
+    readonly status = input<
+        "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | ""
+    >("");
     /** The consumer's words for the status; names the list. */
     readonly statusLabel = input<string>("");
     /** The accessible name, when it should differ from statusLabel. */
@@ -24,7 +26,7 @@ export class AllergyRecordList implements OnInit {
             "AllergyRecordList",
             "status",
             this.status(),
-            "An allergy list must say whether allergies are known, none known, not recorded or unavailable.",
+            "A allergy record list must say whether allergies are known, none known, not recorded, unavailable or omitted.",
         );
         warnMissingProp(
             "AllergyRecordList",

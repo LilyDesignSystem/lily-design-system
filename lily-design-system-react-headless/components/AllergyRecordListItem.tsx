@@ -1,18 +1,31 @@
-// AllergyRecordListItem: one allergy or intolerance in an AllergyRecordList (spec/healthcare-ui item 2). Props: AllergyRecordListItem.md.
+// AllergyRecordListItem: one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status (tasks.md P28-T3, spec/healthcare-ui). Props: AllergyRecordListItem.md.
 import React from "react";
+import { warnMissingProp } from "./dev-warning";
 
 export interface AllergyRecordListItemProps {
     className?: string;
-    /** What the patient reacts to. Never truncated. */
+    /** what the patient reacts to; never truncated */
     substance: string;
+    /** the manifestation */
     reaction?: string;
-    /** FHIR AllergyIntolerance reaction severity, rendered as data-severity. */
+    /** the reaction's severity (FHIR reaction.severity) */
     severity?: "mild" | "moderate" | "severe";
-    /** The consumer's words for the severity. */
     severityLabel?: string;
-    /** When the record was last updated, for <time datetime>. */
+    /** the risk of a future reaction (FHIR criticality), not the severity of a past one */
+    criticality?: "low" | "high" | "unable-to-assess";
+    criticalityLabel?: string;
+    /** FHIR clinicalStatus */
+    clinicalStatus?: "active" | "inactive" | "resolved";
+    clinicalStatusLabel?: string;
+    /** FHIR verificationStatus; a refuted or entered-in-error record must never read as a confirmed one */
+    verificationStatus?: "unconfirmed" | "presumed" | "confirmed" | "refuted" | "entered-in-error";
+    verificationStatusLabel?: string;
+    /** allergy or intolerance, in words (FHIR type) */
+    typeLabel?: string;
+    /** food, medication, environment or biologic, in words (FHIR category) */
+    categoryLabel?: string;
+    /** when the record was last updated */
     updated?: string;
-    /** That date as the consumer writes it; the <time> is shown only when set. */
     updatedLabel?: string;
     children?: React.ReactNode;
     [key: string]: unknown;
@@ -24,15 +37,54 @@ export default function AllergyRecordListItem({
     reaction,
     severity,
     severityLabel,
+    criticality,
+    criticalityLabel,
+    clinicalStatus,
+    clinicalStatusLabel,
+    verificationStatus,
+    verificationStatusLabel,
+    typeLabel,
+    categoryLabel,
     updated,
     updatedLabel,
     children,
     ...restProps
 }: AllergyRecordListItemProps) {
+    if (severity)
+        warnMissingProp(
+            "AllergyRecordListItem",
+            "severityLabel",
+            severityLabel,
+            "a status needs words a person can read, never a code alone.",
+        );
+    if (criticality)
+        warnMissingProp(
+            "AllergyRecordListItem",
+            "criticalityLabel",
+            criticalityLabel,
+            "a status needs words a person can read, never a code alone.",
+        );
+    if (clinicalStatus)
+        warnMissingProp(
+            "AllergyRecordListItem",
+            "clinicalStatusLabel",
+            clinicalStatusLabel,
+            "a status needs words a person can read, never a code alone.",
+        );
+    if (verificationStatus)
+        warnMissingProp(
+            "AllergyRecordListItem",
+            "verificationStatusLabel",
+            verificationStatusLabel,
+            "a status needs words a person can read, never a code alone.",
+        );
     return (
         <li
             className={`allergy-record-list-item ${className}`}
             data-severity={severity}
+            data-criticality={criticality}
+            data-clinical-status={clinicalStatus}
+            data-verification-status={verificationStatus}
             {...restProps}
         >
             <span className="allergy-record-list-item-substance">{substance}</span>
@@ -46,6 +98,40 @@ export default function AllergyRecordListItem({
                 <>
                     {" "}
                     <span className="allergy-record-list-item-severity">{severityLabel}</span>
+                </>
+            ) : null}
+            {criticalityLabel ? (
+                <>
+                    {" "}
+                    <span className="allergy-record-list-item-criticality">{criticalityLabel}</span>
+                </>
+            ) : null}
+            {clinicalStatusLabel ? (
+                <>
+                    {" "}
+                    <span className="allergy-record-list-item-clinical-status">
+                        {clinicalStatusLabel}
+                    </span>
+                </>
+            ) : null}
+            {verificationStatusLabel ? (
+                <>
+                    {" "}
+                    <span className="allergy-record-list-item-verification-status">
+                        {verificationStatusLabel}
+                    </span>
+                </>
+            ) : null}
+            {typeLabel ? (
+                <>
+                    {" "}
+                    <span className="allergy-record-list-item-type">{typeLabel}</span>
+                </>
+            ) : null}
+            {categoryLabel ? (
+                <>
+                    {" "}
+                    <span className="allergy-record-list-item-category">{categoryLabel}</span>
                 </>
             ) : null}
             {updatedLabel ? (

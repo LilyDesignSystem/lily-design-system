@@ -1,6 +1,6 @@
 @namespace LilyBlazorHeadless.Components
 @*
-    AllergyRecordList: a patient's allergies and intolerances, whose status is never blank (spec/healthcare-ui item 2).
+    AllergyRecordList: a list of a patient's allergies and intolerances, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui).
     For any status but "known", StatusLabel is the list's one item. Props and rules: AllergyRecordList.md.
 *@
 <ul class="@($"allergy-record-list {CssClass}".Trim())" data-status="@Status" aria-label="@(Label ?? StatusLabel)" @attributes="AdditionalAttributes">
@@ -8,7 +8,7 @@
     @ChildContent
 </ul>
 @code {
-    /// <summary>known, none-known, not-recorded or unavailable. Required.</summary>
+    /// <summary>known, none-known, not-recorded, unavailable, omitted. Required.</summary>
     [Parameter, EditorRequired] public string Status { get; set; } = "";
     /// <summary>The consumer's words for the status; names the list. Required.</summary>
     [Parameter, EditorRequired] public string StatusLabel { get; set; } = "";

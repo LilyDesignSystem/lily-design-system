@@ -1,6 +1,6 @@
-// <lily-allergy-record-list>: a patient's allergies and intolerances, whose status is never blank (spec/healthcare-ui item 2).
+// <lily-allergy-record-list>: a list of a patient's allergies and intolerances, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui).
 // Renders a light-DOM <ul class="allergy-record-list">. For any status but "known", status-label is the list's one item.
-// Attributes: status (known | none-known | not-recorded | unavailable -> data-status), status-label, label.
+// Attributes: status (known | none-known | not-recorded | unavailable | omitted -> data-status), status-label, label.
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const HANDLED = new Set(["status", "status-label", "label"]);

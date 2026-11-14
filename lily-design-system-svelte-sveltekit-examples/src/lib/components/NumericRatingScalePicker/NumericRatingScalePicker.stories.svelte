@@ -14,7 +14,10 @@
     name="Default"
     tags={["autodocs", "!dev"]}
 >
-    <NumericRatingScalePicker label="NumericRatingScalePicker example">
-        <span>NumericRatingScalePicker example</span>
-    </NumericRatingScalePicker>
+    <NumericRatingScalePicker
+        label="How bad is the pain right now?"
+        minLabel="0: no pain"
+        maxLabel="10: worst pain imaginable"
+        name="pain"
+    />
 </Story>

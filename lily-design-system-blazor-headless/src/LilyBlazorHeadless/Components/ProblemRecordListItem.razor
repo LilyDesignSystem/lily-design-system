@@ -1,0 +1,26 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    ProblemRecordListItem: one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution (tasks.md P28-T3, spec/healthcare-ui). Props: ProblemRecordListItem.md.
+*@
+<li class="@($"problem-record-list-item {CssClass}".Trim())" data-clinical-status="@(string.IsNullOrEmpty(ClinicalStatus) ? null : ClinicalStatus)" data-verification-status="@(string.IsNullOrEmpty(VerificationStatus) ? null : VerificationStatus)" @attributes="AdditionalAttributes"><span class="problem-record-list-item-condition">@Condition</span>@if (!string.IsNullOrEmpty(ClinicalStatusLabel)) {@(" ")<span class="problem-record-list-item-clinical-status">@ClinicalStatusLabel</span>}@if (!string.IsNullOrEmpty(VerificationStatusLabel)) {@(" ")<span class="problem-record-list-item-verification-status">@VerificationStatusLabel</span>}@if (!string.IsNullOrEmpty(SeverityLabel)) {@(" ")<span class="problem-record-list-item-severity">@SeverityLabel</span>}@if (!string.IsNullOrEmpty(OnsetLabel)) {@(" ")<time class="problem-record-list-item-onset" datetime="@Onset">@OnsetLabel</time>}@if (!string.IsNullOrEmpty(AbatementLabel)) {@(" ")<time class="problem-record-list-item-abatement" datetime="@Abatement">@AbatementLabel</time>}@ChildContent</li>
+@code {
+    /// <summary>the problem or condition; never truncated.</summary>
+    [Parameter, EditorRequired] public string Condition { get; set; } = "";
+    /// <summary>FHIR Condition clinicalStatus.</summary>
+    [Parameter] public string? ClinicalStatus { get; set; }
+    [Parameter] public string? ClinicalStatusLabel { get; set; }
+    /// <summary>FHIR Condition verificationStatus; a refuted or entered-in-error record must never read as a confirmed one.</summary>
+    [Parameter] public string? VerificationStatus { get; set; }
+    [Parameter] public string? VerificationStatusLabel { get; set; }
+    /// <summary>the severity in words.</summary>
+    [Parameter] public string? SeverityLabel { get; set; }
+    /// <summary>when it began, for <time datetime>.</summary>
+    [Parameter] public string? Onset { get; set; }
+    [Parameter] public string? OnsetLabel { get; set; }
+    /// <summary>when it resolved, for <time datetime>.</summary>
+    [Parameter] public string? Abatement { get; set; }
+    [Parameter] public string? AbatementLabel { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

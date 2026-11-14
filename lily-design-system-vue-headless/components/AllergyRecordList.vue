@@ -1,10 +1,10 @@
 <script setup lang="ts">
-// AllergyRecordList: a patient's allergies and intolerances, whose status is never blank (spec/healthcare-ui item 2). For any
-// status but "known", statusLabel is the list's one item. Props and rules: AllergyRecordList.md.
+// AllergyRecordList: a list of a patient's allergies and intolerances, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui). For any status but "known", statusLabel is
+// the list's one item. Props and rules: AllergyRecordList.md.
 import { warnMissingProp } from "./dev-warning";
 
 const props = defineProps<{
-    status: "known" | "none-known" | "not-recorded" | "unavailable";
+    status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted";
     /** The consumer's words for the status; names the list. */
     statusLabel: string;
     /** The accessible name, when it should differ from statusLabel. */
@@ -15,7 +15,7 @@ warnMissingProp(
     "AllergyRecordList",
     "status",
     props.status,
-    "An allergy list must say whether allergies are known, none known, not recorded or unavailable.",
+    "A allergy record list must say whether allergies are known, none known, not recorded, unavailable or omitted.",
 );
 warnMissingProp(
     "AllergyRecordList",

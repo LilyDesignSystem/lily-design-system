@@ -6,7 +6,10 @@
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
     import AllergyRecordList from "#lib/components/AllergyRecordList/AllergyRecordList.svelte";
     import AllergyRecordListItem from "#lib/components/AllergyRecordListItem/AllergyRecordListItem.svelte";
+    import MedicationRecordList from "#lib/components/MedicationRecordList/MedicationRecordList.svelte";
+    import MedicationRecordListItem from "#lib/components/MedicationRecordListItem/MedicationRecordListItem.svelte";
     import MedicationView from "#lib/components/MedicationView/MedicationView.svelte";
+    import ProblemRecordList from "#lib/components/ProblemRecordList/ProblemRecordList.svelte";
     import { formatQuantity } from "#lib/components/clinical-format";
 
     const locale = "en-GB";
@@ -41,6 +44,10 @@
                 reaction="Anaphylaxis"
                 severity="severe"
                 severityLabel="Severe"
+                criticality="high"
+                criticalityLabel="High risk"
+                verificationStatus="confirmed"
+                verificationStatusLabel="Confirmed"
                 updated="2026-11-03"
                 updatedLabel="Updated 3 Nov 2026"
             />
@@ -49,8 +56,14 @@
 
     <section aria-labelledby="ips-medicines">
         <h2 id="ips-medicines">Medication summary</h2>
-        <ul class="patient-summary-medicines">
-            <li>
+        <MedicationRecordList
+            status="known"
+            statusLabel="Current medicines"
+        >
+            <MedicationRecordListItem
+                status="active"
+                statusLabel="Active"
+            >
                 <MedicationView
                     name="metformin"
                     strength={formatQuantity(500, "mg", locale)}
@@ -58,8 +71,11 @@
                     route="oral"
                     frequency="twice daily"
                 />
-            </li>
-            <li>
+            </MedicationRecordListItem>
+            <MedicationRecordListItem
+                status="active"
+                statusLabel="Active"
+            >
                 <MedicationView
                     nameSegments={[{ text: "hydr" }, { text: "ALAZINE", tallMan: true }]}
                     strength={formatQuantity(25, "mg", locale)}
@@ -67,8 +83,11 @@
                     route="oral"
                     frequency="twice daily"
                 />
-            </li>
-            <li>
+            </MedicationRecordListItem>
+            <MedicationRecordListItem
+                status="active"
+                statusLabel="Active"
+            >
                 <MedicationView
                     name="levothyroxine"
                     strength={formatQuantity(0.05, "mg", locale)}
@@ -76,14 +95,15 @@
                     route="oral"
                     frequency="once daily"
                 />
-            </li>
-        </ul>
+            </MedicationRecordListItem>
+        </MedicationRecordList>
     </section>
 
     <section aria-labelledby="ips-problems">
         <h2 id="ips-problems">Problems</h2>
-        <p class="patient-summary-empty-reason">
-            No information about current problems is available
-        </p>
+        <ProblemRecordList
+            status="not-recorded"
+            statusLabel="No information about current problems is available"
+        />
     </section>
 </main>

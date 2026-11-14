@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, test, vi } from "vitest";
 
@@ -17,20 +16,21 @@ describe("AllergyRecordList", () => {
                 status="known"
                 statusLabel="Known allergies"
             >
-                <li className="allergy-record-list-item">Penicillin</li>
+                <li className="allergy-record-list-item">One record</li>
             </Subject>,
         );
         const list = screen.getByRole("list", { name: "Known allergies" });
-        expect(list.tagName).toBe("UL");
+        expect(list.className).toContain("allergy-record-list");
         expect(list.getAttribute("data-status")).toBe("known");
         expect(list.querySelector(".allergy-record-list-status")).toBeNull();
-        expect(list.textContent).toContain("Penicillin");
+        expect(list.textContent).toContain("One record");
     });
 
     test.each([
-        ["none-known", "No known allergies"],
-        ["not-recorded", "Allergies not recorded"],
-        ["unavailable", "Allergies unavailable"],
+        ["none-known", "No known allergies (none-known)"],
+        ["not-recorded", "No known allergies (not-recorded)"],
+        ["unavailable", "No known allergies (unavailable)"],
+        ["omitted", "No known allergies (omitted)"],
     ] as const)("status %s is the list's one item, never blank", (status, words) => {
         render(
             <Subject
@@ -46,12 +46,14 @@ describe("AllergyRecordList", () => {
 
     test("warns when the status is missing", () => {
         const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
-        const props = { statusLabel: "Allergies" } as unknown as React.ComponentProps<
+        const props = { statusLabel: "Known allergies" } as unknown as Parameters<
             typeof Subject
-        >;
+        >[0];
         render(<Subject {...props} />);
         expect(
-            spy.mock.calls.some((call) => String(call[0]).includes("AllergyRecordList has no status")),
+            spy.mock.calls.some((call) =>
+                String(call[0]).includes("AllergyRecordList has no status"),
+            ),
         ).toBe(true);
     });
 });

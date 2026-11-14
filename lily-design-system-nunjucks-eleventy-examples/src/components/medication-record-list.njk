@@ -1,0 +1,40 @@
+---
+layout: layouts/component-demo.njk
+title: MedicationRecordList
+description: a list of a patient's medicines, whose status is never blank
+---
+
+
+{% from "components/medication-record-list/macro.njk" import medicationRecordList %}
+{% from "components/medication-record-list-item/macro.njk" import medicationRecordListItem %}
+
+<h2>Default</h2>
+{% call medicationRecordList({ status: "known", statusLabel: "Current medicines" }) %}
+  {{ medicationRecordListItem({ status: "active", statusLabel: "Active", effective: "2025-03-03", effectiveLabel: "Since 3 Mar 2025", html: "ramipril 5 mg capsule, oral, once a day" }) }}
+{% endcall %}
+<h2>No known medicines</h2>
+{{ medicationRecordList({ status: "none-known", statusLabel: "No known medicines" }) }}
+<h2>Omitted from the document</h2>
+{{ medicationRecordList({ status: "omitted", statusLabel: "Section missing from the document" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;MedicationRecordList
+  status="known"
+  statusLabel="Current medicines"
+&gt;
+  &lt;MedicationRecordListItem
+    status="active"
+    statusLabel="Active"
+    effective="2025-03-03"
+    effectiveLabel="Since 3 Mar 2025"
+    &gt;ramipril 5 mg capsule, oral, once a day&lt;/MedicationRecordListItem
+  &gt;
+&lt;/MedicationRecordList&gt;
+
+&lt;MedicationRecordList
+  status="none-known"
+  statusLabel="No known medicines"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -3567,14 +3567,14 @@ shown, never decided.
 - [ ] **P28-T1 Publish the healthcare components.** The published `@lilydesignsystem/svelte-headless` 0.8.0 has none of the
       Phase 27 components or `clinical-format`. Bump and publish the nine headless libraries (`bin/publish-headless`).
       Verify: `bin/verify-published` finds the new versions, and the packed Svelte tarball contains `AllergyList`.
-- [ ] **P28-T2 `allergy-record-list-item` (was `allergy-list-item`): criticality, verification and clinical status.** FHIR keeps `criticality` (`low`, `high`,
+- [x] **P28-T2 `allergy-record-list-item` (was `allergy-list-item`): criticality, verification and clinical status.** FHIR keeps `criticality` (`low`, `high`,
       `unable-to-assess`: the risk of a future reaction) apart from a reaction's `severity`; Lily has only the second. Add
       `criticality` (`data-criticality`) with `criticalityLabel`, `verificationStatus` (`unconfirmed`, `presumed`, `confirmed`,
       `refuted`, `entered-in-error`; `data-verification-status`) with its label, `clinicalStatus` (`active`, `inactive`,
       `resolved`; `data-clinical-status`) with its label, and `typeLabel` and `categoryLabel` parts.
       Verify: tests in all nine catalogs for each attribute and label; a `refuted` or `entered-in-error` item without its label
-      raises `warnMissingProp`, because it must never read as a confirmed allergy.
-- [ ] **P28-T3 Record lists, one per summary section (maintainer decision, 2026-11-14).** IPS requires medications, allergies
+      raises `warnMissingProp`, because it must never read as a confirmed allergy. _(2026-11-14: done with T3, in all nine catalogs: `criticality`, `clinicalStatus` and `verificationStatus` as `data-*` with consumer words, and `typeLabel` and `categoryLabel` parts. A status without its words raises `warnMissingProp` in Svelte, React, Vue and Angular, for every coded status, not only refuted ones.)_
+- [x] **P28-T3 Record lists, one per summary section (maintainer decision, 2026-11-14).** IPS requires medications, allergies
       and problems, each of which can be "none known" or "no information"; Phase 27 gave only allergies a never-blank status.
       The maintainer chose one list per clinical domain, all sharing one `status` contract (`known`, `none-known`,
       `not-recorded`, `unavailable`, and a new `omitted`, for a required section the document leaves out), each with its own
@@ -3585,7 +3585,7 @@ shown, never decided.
       words (a problem's clinical and verification status; an immunization's vaccine, date, dose and status; a procedure's and a
       device's status and dates). Catalog 617 to 629.
       Verify: tests in all nine catalogs that each list renders each of the five statuses' consumer text and each item its parts;
-      the IPS demo page uses the medication, allergy and problem lists.
+      the IPS demo page uses the medication, allergy and problem lists. _(2026-11-14: done. 14 components (12 new, the allergy pair renamed), catalog 629 (Web Components 594), generated from one data model into all nine catalogs with tests, stories and docs; tests checked to fail when a part, a status or the omitted state is removed. `/patient-summary` uses the medication, allergy and problem lists, with e2e assertions; axe-clean on all 14 component pages in the SvelteKit and Nunjucks apps.)_
 - [ ] **P28-T4 `formatQuantity` comparator.** FHIR `Quantity.comparator` (`<`, `<=`, `>=`, `>`) is dropped today, so "<5 mmol/L"
       is written "5 mmol/L". Add an optional comparator, written with the locale's number and the signs `<`, `≤`, `≥`, `>`.
       Verify: tests for each comparator and for none, in the shared module and the C# port.
@@ -3594,8 +3594,8 @@ shown, never decided.
       `unavailable`. A corrected or amended result shows its label beside the value.
       Verify: tests in all nine catalogs that each status renders its label and `data-status`, and that a value with
       `entered-in-error` is never shown without its label.
-- [ ] **P28-T6 `medication-view`: status and dose as text.** Add `status` (`active`, `on-hold`, `stopped`, `completed`,
-      `entered-in-error`; `data-status`) with `statusLabel`, and `dosageText` for FHIR's free-text `Dosage.text`, which IPS
+- [ ] **P28-T6 `medication-view`: dose as text.** A medicine's status moved to `medication-record-list-item` (T3), so
+      it lives in one place. Add `dosageText` for FHIR's free-text `Dosage.text`, which IPS
       documents often carry instead of structured parts.
       Verify: tests in all nine catalogs; the 320px sweep shows a long `dosageText` unclipped.
 - [ ] **P28-T7 `picker-bar`: search optional.** Search is always rendered, while the link and time-zone pickers are optional.

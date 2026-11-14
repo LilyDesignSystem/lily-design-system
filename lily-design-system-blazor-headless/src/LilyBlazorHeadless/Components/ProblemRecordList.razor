@@ -1,0 +1,20 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    ProblemRecordList: a list of a patient's problems and conditions, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui).
+    For any status but "known", StatusLabel is the list's one item. Props and rules: ProblemRecordList.md.
+*@
+<ul class="@($"problem-record-list {CssClass}".Trim())" data-status="@Status" aria-label="@(Label ?? StatusLabel)" @attributes="AdditionalAttributes">
+    @if (Status != "known") {<li class="problem-record-list-status">@StatusLabel</li>}
+    @ChildContent
+</ul>
+@code {
+    /// <summary>known, none-known, not-recorded, unavailable, omitted. Required.</summary>
+    [Parameter, EditorRequired] public string Status { get; set; } = "";
+    /// <summary>The consumer's words for the status; names the list. Required.</summary>
+    [Parameter, EditorRequired] public string StatusLabel { get; set; } = "";
+    /// <summary>The accessible name, when it should differ from StatusLabel.</summary>
+    [Parameter] public string? Label { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

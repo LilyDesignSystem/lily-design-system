@@ -1,0 +1,40 @@
+---
+layout: layouts/component-demo.njk
+title: ProcedureRecordList
+description: a list of a patient's procedures, whose status is never blank
+---
+
+
+{% from "components/procedure-record-list/macro.njk" import procedureRecordList %}
+{% from "components/procedure-record-list-item/macro.njk" import procedureRecordListItem %}
+
+<h2>Default</h2>
+{% call procedureRecordList({ status: "known", statusLabel: "Procedures" }) %}
+  {{ procedureRecordListItem({ procedure: "Appendectomy", status: "completed", statusLabel: "Completed", performed: "2018-04-22", performedLabel: "22 Apr 2018" }) }}
+{% endcall %}
+<h2>No known procedures</h2>
+{{ procedureRecordList({ status: "none-known", statusLabel: "No known procedures" }) }}
+<h2>Omitted from the document</h2>
+{{ procedureRecordList({ status: "omitted", statusLabel: "Section missing from the document" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;ProcedureRecordList
+  status="known"
+  statusLabel="Procedures"
+&gt;
+  &lt;ProcedureRecordListItem
+    procedure="Appendectomy"
+    status="completed"
+    statusLabel="Completed"
+    performed="2018-04-22"
+    performedLabel="22 Apr 2018"
+  /&gt;
+&lt;/ProcedureRecordList&gt;
+
+&lt;ProcedureRecordList
+  status="none-known"
+  statusLabel="No known procedures"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

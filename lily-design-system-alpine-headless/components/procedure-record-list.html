@@ -1,0 +1,29 @@
+<!-- procedure-record-list.html -->
+<!-- ProcedureRecordList component (Alpine.js) -->
+<!--
+  Description: a list of a patient's procedures, whose status is never blank
+  HTML tag: <ul>
+  CSS class: procedure-record-list
+  Keyboard: 
+  Accessibility: 
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<ul
+  class="procedure-record-list"
+  data-status="known"
+  aria-label="Procedures"
+>
+  <li
+    class="procedure-record-list-item"
+    data-status="completed"
+  >
+    <span class="procedure-record-list-item-procedure">Appendectomy</span>
+    <span class="procedure-record-list-item-status">Completed</span>
+    <time
+      class="procedure-record-list-item-performed"
+      datetime="2018-04-22"
+      >22 Apr 2018</time
+    >
+  </li>
+</ul>

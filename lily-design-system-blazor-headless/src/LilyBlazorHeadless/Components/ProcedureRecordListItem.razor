@@ -1,0 +1,18 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    ProcedureRecordListItem: one procedure in a procedure record list, with its status and when it was performed (tasks.md P28-T3, spec/healthcare-ui). Props: ProcedureRecordListItem.md.
+*@
+<li class="@($"procedure-record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes"><span class="procedure-record-list-item-procedure">@Procedure</span>@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="procedure-record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(PerformedLabel)) {@(" ")<time class="procedure-record-list-item-performed" datetime="@Performed">@PerformedLabel</time>}@ChildContent</li>
+@code {
+    /// <summary>the procedure; never truncated.</summary>
+    [Parameter, EditorRequired] public string Procedure { get; set; } = "";
+    /// <summary>FHIR Procedure status.</summary>
+    [Parameter] public string? Status { get; set; }
+    [Parameter] public string? StatusLabel { get; set; }
+    /// <summary>when it was performed, for <time datetime>.</summary>
+    [Parameter] public string? Performed { get; set; }
+    [Parameter] public string? PerformedLabel { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

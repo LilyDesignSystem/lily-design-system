@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "procedure-record-list-item",
+  "type": "registry:component",
+  "title": "ProcedureRecordListItem",
+  "description": "One procedure in a procedure record list, with its status and when it was performed.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/ProcedureRecordListItem.tsx",
+      "content": "import React from \"react\";\nimport { warnMissingProp } from \"./dev-warning\";\n\n// ProcedureRecordListItem: one procedure in a procedure record list, with its status and when it was performed (tasks.md P28-T3, spec/healthcare-ui). Props: ProcedureRecordListItem.md.\n\nexport interface ProcedureRecordListItemProps {\n    className?: string;\n    /** the procedure; never truncated */\n    procedure: string;\n    /** FHIR Procedure status */\n    status?:\n        | \"preparation\"\n        | \"in-progress\"\n        | \"not-done\"\n        | \"on-hold\"\n        | \"stopped\"\n        | \"completed\"\n        | \"entered-in-error\"\n        | \"unknown\";\n    statusLabel?: string;\n    /** when it was performed, for <time datetime> */\n    performed?: string;\n    performedLabel?: string;\n    children?: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function ProcedureRecordListItem({\n    className = \"\",\n    procedure,\n    status,\n    statusLabel,\n    performed,\n    performedLabel,\n    children,\n    ...restProps\n}: ProcedureRecordListItemProps) {\n    if (status)\n        warnMissingProp(\n            \"ProcedureRecordListItem\",\n            \"statusLabel\",\n            statusLabel,\n            \"a status needs words a person can read, never a code alone.\",\n        );\n    return (\n        <li\n            className={`procedure-record-list-item ${className}`}\n            data-status={status}\n            {...restProps}\n        >\n            <span className=\"procedure-record-list-item-procedure\">{procedure}</span>\n            {statusLabel ? (\n                <>\n                    {\" \"}\n                    <span className=\"procedure-record-list-item-status\">{statusLabel}</span>\n                </>\n            ) : null}\n            {performedLabel ? (\n                <>\n                    {\" \"}\n                    <time\n                        className=\"procedure-record-list-item-performed\"\n                        dateTime={performed}\n                    >\n                        {performedLabel}\n                    </time>\n                </>\n            ) : null}\n            {children}\n        </li>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/ProcedureRecordListItem.tsx"
+    }
+  ],
+  "categories": [
+    "lists"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/procedure-record-list-item/"
+}

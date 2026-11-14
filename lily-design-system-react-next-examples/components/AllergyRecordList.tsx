@@ -1,11 +1,11 @@
-// AllergyRecordList: a patient's allergies and intolerances, whose status is never blank (spec/healthcare-ui item 2).
+// AllergyRecordList: a list of a patient's allergies and intolerances, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui).
 // For any status but "known", statusLabel is the list's one item. Props and rules: AllergyRecordList.md.
 import React from "react";
 import { warnMissingProp } from "./dev-warning";
 
 export interface AllergyRecordListProps {
     className?: string;
-    status: "known" | "none-known" | "not-recorded" | "unavailable";
+    status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted";
     /** The consumer's words for the status; names the list, and is its one item unless status is "known". */
     statusLabel: string;
     /** The accessible name, when it should differ from statusLabel. */
@@ -26,7 +26,7 @@ export default function AllergyRecordList({
         "AllergyRecordList",
         "status",
         status,
-        "An allergy list must say whether allergies are known, none known, not recorded or unavailable.",
+        "A allergy record list must say whether allergies are known, none known, not recorded, unavailable or omitted.",
     );
     warnMissingProp(
         "AllergyRecordList",
@@ -41,7 +41,9 @@ export default function AllergyRecordList({
             aria-label={label ?? statusLabel}
             {...restProps}
         >
-            {status !== "known" ? <li className="allergy-record-list-status">{statusLabel}</li> : null}
+            {status !== "known" ? (
+                <li className="allergy-record-list-status">{statusLabel}</li>
+            ) : null}
             {children}
         </ul>
     );

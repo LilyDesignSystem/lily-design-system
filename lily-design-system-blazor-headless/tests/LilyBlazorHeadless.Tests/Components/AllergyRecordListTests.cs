@@ -11,18 +11,19 @@ public class AllergyRecordListTests : TestContext
     {
         var cut = RenderComponent<AllergyRecordList>(p => p
             .Add(x => x.Status, "known").Add(x => x.StatusLabel, "Known allergies")
-            .AddChildContent("<li class=\"allergy-record-list-item\">Penicillin</li>"));
+            .AddChildContent("<li class=\"allergy-record-list-item\">One record</li>"));
         var list = cut.Find("ul.allergy-record-list");
         Assert.Equal("Known allergies", list.GetAttribute("aria-label"));
         Assert.Equal("known", list.GetAttribute("data-status"));
         Assert.Empty(cut.FindAll(".allergy-record-list-status"));
-        Assert.Contains("Penicillin", list.TextContent);
+        Assert.Contains("One record", list.TextContent);
     }
 
     [Theory]
-    [InlineData("none-known", "No known allergies")]
-    [InlineData("not-recorded", "Allergies not recorded")]
-    [InlineData("unavailable", "Allergies unavailable")]
+    [InlineData("none-known", "No known allergies (none-known)")]
+    [InlineData("not-recorded", "No known allergies (not-recorded)")]
+    [InlineData("unavailable", "No known allergies (unavailable)")]
+    [InlineData("omitted", "No known allergies (omitted)")]
     public void Other_statuses_are_the_lists_one_item(string status, string words)
     {
         var cut = RenderComponent<AllergyRecordList>(p => p.Add(x => x.Status, status).Add(x => x.StatusLabel, words));

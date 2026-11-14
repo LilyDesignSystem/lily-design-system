@@ -1,0 +1,29 @@
+<!-- device-record-list-item.html -->
+<!-- DeviceRecordListItem component (Alpine.js) -->
+<!--
+  Description: one medical device in a device record list, with its status and when it was used
+  HTML tag: <li>
+  CSS class: device-record-list-item
+  Keyboard: 
+  Accessibility: 
+  Requires: Alpine.js with the Lily plugin (lily-alpine.js)
+-->
+
+<ul
+  class="device-record-list"
+  data-status="known"
+  aria-label="Medical devices"
+>
+  <li
+    class="device-record-list-item"
+    data-status="active"
+  >
+    <span class="device-record-list-item-device">Cardiac pacemaker</span>
+    <span class="device-record-list-item-status">In use</span>
+    <time
+      class="device-record-list-item-timing"
+      datetime="2021-02-08"
+      >Since 8 Feb 2021</time
+    >
+  </li>
+</ul>

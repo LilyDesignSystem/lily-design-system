@@ -9,6 +9,20 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Record lists, catalog 629 — 2026-11-14
+
+tasks.md P28-T2 and P28-T3, from the International Patient Summary review in [spec/healthcare-ui](spec/healthcare-ui/index.md).
+
+- **Added:** `record-list`, `medication-record-list`, `problem-record-list`, `immunization-record-list`, `procedure-record-list` and
+  `device-record-list`, each with its `-item`, in all nine catalogs (Web Components 594). Every list shares one status contract:
+  `known`, `none-known`, `not-recorded`, `unavailable` and the new `omitted`, a required section the document leaves out; for any but
+  `known`, the consumer's words are the list's one item, so it is never blank.
+- **Added:** each item carries its FHIR statuses as `data-*` with the consumer's words (a problem's clinical and verification status, a
+  medicine's statement status, an immunization's dose and lot), and dates as `<time datetime>`.
+- **Changed:** `allergy-record-list` gains `omitted`; `allergy-record-list-item` gains `criticality` (apart from a reaction's
+  `severity`), `clinicalStatus`, `verificationStatus`, `typeLabel` and `categoryLabel`.
+- **Changed:** `/patient-summary` in the SvelteKit app uses the medication, allergy and problem record lists.
+
 ## Allergy list renamed — 2026-11-14
 
 - **Changed:** `allergy-list` and `allergy-list-item` are now `allergy-record-list` and `allergy-record-list-item` (`AllergyRecordList`,

@@ -1,0 +1,40 @@
+---
+layout: layouts/component-demo.njk
+title: RecordList
+description: a list of records from one section of a patient's record, whose status is never blank
+---
+
+
+{% from "components/record-list/macro.njk" import recordList %}
+{% from "components/record-list-item/macro.njk" import recordListItem %}
+
+<h2>Default</h2>
+{% call recordList({ status: "known", statusLabel: "Vital signs" }) %}
+  {{ recordListItem({ status: "final", statusLabel: "Final", updated: "2026-11-03", updatedLabel: "Updated 3 Nov 2026", html: "Blood pressure 128/82 mmHg" }) }}
+{% endcall %}
+<h2>No vital signs recorded</h2>
+{{ recordList({ status: "none-known", statusLabel: "No vital signs recorded" }) }}
+<h2>Omitted from the document</h2>
+{{ recordList({ status: "omitted", statusLabel: "Section missing from the document" }) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;RecordList
+  status="known"
+  statusLabel="Vital signs"
+&gt;
+  &lt;RecordListItem
+    status="final"
+    statusLabel="Final"
+    updated="2026-11-03"
+    updatedLabel="Updated 3 Nov 2026"
+    &gt;Blood pressure 128/82 mmHg&lt;/RecordListItem
+  &gt;
+&lt;/RecordList&gt;
+
+&lt;RecordList
+  status="none-known"
+  statusLabel="No vital signs recorded"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

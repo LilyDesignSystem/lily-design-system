@@ -1,0 +1,27 @@
+{#
+  DeviceRecordListItem macro — one medical device in a device record list, with its status and when it was used (tasks.md P28-T3, spec/healthcare-ui).
+
+  HTML tag: <li>
+  CSS class: device-record-list-item (parts: -device, -status, -timing)
+
+  Params:
+    device               the device; never truncated; required
+    status               FHIR DeviceUseStatement status
+    statusLabel          the status in words
+    timing               when it was used, for <time datetime>
+    timingLabel          that date as the consumer writes it
+    html, id, classes, attributes
+
+  Usage:
+    {% from "components/device-record-list-item/macro.njk" import deviceRecordListItem %}
+    {{ deviceRecordListItem({ device: "Cardiac pacemaker", status: "active", statusLabel: "In use", timing: "2021-02-08", timingLabel: "Since 8 Feb 2021" }) }}
+#}
+{%- macro deviceRecordListItem(params) -%}
+{%- set p = params | default({}) -%}
+<li
+  class="device-record-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.status %} data-status="{{ p.status }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+><span class="device-record-list-item-device">{{ p.device }}</span>{%- if p.statusLabel %} <span class="device-record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.timingLabel %} <time class="device-record-list-item-timing"{% if p.timing %} datetime="{{ p.timing }}"{% endif %}>{{ p.timingLabel }}</time>{% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
+{%- endmacro -%}

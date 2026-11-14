@@ -1,31 +1,20 @@
 <script lang="ts">
     // AllergyRecordList component
     //
-    // A headless list of a patient's allergies and intolerances whose status is never blank (spec/healthcare-ui item 2).
-    // "No known allergies", "allergies not recorded" and "allergies unavailable" are different facts, and an empty list
-    // could be read as any of them, so the status is required and, when there are no items, shown as the only item.
+    // A list of a patient's allergies and intolerances, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui). "None known", "not recorded",
+    // "unavailable" and "omitted" are different facts, and an empty list could be read as any of them, so the status is
+    // required and, for any status but "known", shown as the list's one item.
     //
     // Props:
     //   className — string, optional. CSS class name.
-    //   status — "known" | "none-known" | "not-recorded" | "unavailable", required. Rendered as data-status.
-    //   statusLabel — string, required. The consumer's words for the status ("Known allergies", "No known allergies").
-    //     For any status but "known" it is the list's one visible item; it always names the list.
-    //   label — string, optional. The list's accessible name, when it should differ from statusLabel.
-    //   children — Snippet, optional. AllergyRecordListItem items, for status "known".
+    //   status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" (required) — rendered as data-status
+    //   statusLabel: string (required) — the status in words; names the list, and is its one item unless status is known
+    //   label: string (optional) — the accessible name, when it should differ from statusLabel
+    //   children: slot (optional) — allergy-record-list-item items
     //   ...restProps — additional HTML attributes spread onto the <ul>.
-    //
-    // Syntax:
-    //   <AllergyRecordList status="known" statusLabel="Known allergies">
-    //       <AllergyRecordListItem substance="Penicillin" reaction="Anaphylaxis" severity="severe" severityLabel="Severe" />
-    //   </AllergyRecordList>
-    //   <AllergyRecordList status="none-known" statusLabel="No known allergies" />
-    //
-    // Accessibility:
-    //   - A <ul> named by aria-label; the status is text, never an icon or a colour alone.
     //
     // References:
     //   - FHIR AllergyIntolerance: https://hl7.org/fhir/allergyintolerance.html
-    //   - NHS Common User Interface, patient banner allergies section (withdrawn 2019)
     import type { Snippet } from "svelte";
     import { warnMissingProp } from "../dev-warning";
 
@@ -37,7 +26,7 @@
         children,
         ...restProps
     }: {
-        status: "known" | "none-known" | "not-recorded" | "unavailable";
+        status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted";
         statusLabel: string;
         label?: string;
         children?: Snippet;
@@ -49,7 +38,7 @@
             "AllergyRecordList",
             "status",
             status,
-            "An allergy list must say whether allergies are known, none known, not recorded or unavailable.",
+            "A allergy record list must say whether allergies are known, none known, not recorded, unavailable or omitted.",
         );
         warnMissingProp(
             "AllergyRecordList",

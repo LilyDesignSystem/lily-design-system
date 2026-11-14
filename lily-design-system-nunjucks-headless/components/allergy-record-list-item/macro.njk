@@ -1,32 +1,39 @@
 {#
-  AllergyRecordListItem macro — one allergy or intolerance in an AllergyRecordList (spec/healthcare-ui item 2).
+  AllergyRecordListItem macro — one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status (tasks.md P28-T3, spec/healthcare-ui).
 
   HTML tag: <li>
-  CSS class: allergy-record-list-item (parts: -substance, -reaction, -severity, -updated)
+  CSS class: allergy-record-list-item (parts: -substance, -reaction, -severity, -criticality, -clinical-status, -verification-status, -type, -category, -updated)
 
   Params:
-    substance       what the patient reacts to (required); never truncated
-    reaction        the manifestation
-    severity        "mild" | "moderate" | "severe", rendered as data-severity
-    severityLabel   the consumer's words for the severity
-    updated         when the record was last updated, for <time datetime>
-    updatedLabel    that date as the consumer writes it
+    substance            what the patient reacts to; never truncated; required
+    reaction             the manifestation
+    severity             the reaction's severity (FHIR reaction.severity)
+    severityLabel        the severity in words
+    criticality          the risk of a future reaction (FHIR criticality), not the severity of a past one
+    criticalityLabel     the criticality in words
+    clinicalStatus       FHIR clinicalStatus
+    clinicalStatusLabel  the clinicalStatus in words
+    verificationStatus   FHIR verificationStatus; a refuted or entered-in-error record must never read as a confirmed one
+    verificationStatusLabel the verificationStatus in words
+    typeLabel            allergy or intolerance, in words (FHIR type)
+    categoryLabel        food, medication, environment or biologic, in words (FHIR category)
+    updated              when the record was last updated
+    updatedLabel         that date as the consumer writes it
     html, id, classes, attributes
 
   Usage:
     {% from "components/allergy-record-list-item/macro.njk" import allergyRecordListItem %}
-    {{ allergyRecordListItem({ substance: "Penicillin", reaction: "Anaphylaxis", severity: "severe", severityLabel: "Severe" }) }}
+    {{ allergyRecordListItem({ substance: "Penicillin", reaction: "Anaphylaxis", severity: "severe", severityLabel: "Severe", criticality: "high", criticalityLabel: "High risk", clinicalStatus: "active", clinicalStatusLabel: "Active", verificationStatus: "confirmed", verificationStatusLabel: "Confirmed", typeLabel: "Allergy", categoryLabel: "Medication", updated: "2026-11-03", updatedLabel: "Updated 3 Nov 2026" }) }}
 #}
 {%- macro allergyRecordListItem(params) -%}
 {%- set p = params | default({}) -%}
 <li
   class="allergy-record-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
   {%- if p.severity %} data-severity="{{ p.severity }}"{% endif %}
+  {%- if p.criticality %} data-criticality="{{ p.criticality }}"{% endif %}
+  {%- if p.clinicalStatus %} data-clinical-status="{{ p.clinicalStatus }}"{% endif %}
+  {%- if p.verificationStatus %} data-verification-status="{{ p.verificationStatus }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
-><span class="allergy-record-list-item-substance">{{ p.substance }}</span>
-{%- if p.reaction %} <span class="allergy-record-list-item-reaction">{{ p.reaction }}</span>{% endif -%}
-{%- if p.severityLabel %} <span class="allergy-record-list-item-severity">{{ p.severityLabel }}</span>{% endif -%}
-{%- if p.updatedLabel %} <time class="allergy-record-list-item-updated"{% if p.updated %} datetime="{{ p.updated }}"{% endif %}>{{ p.updatedLabel }}</time>{% endif -%}
-{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
+><span class="allergy-record-list-item-substance">{{ p.substance }}</span>{%- if p.reaction %} <span class="allergy-record-list-item-reaction">{{ p.reaction }}</span>{% endif -%}{%- if p.severityLabel %} <span class="allergy-record-list-item-severity">{{ p.severityLabel }}</span>{% endif -%}{%- if p.criticalityLabel %} <span class="allergy-record-list-item-criticality">{{ p.criticalityLabel }}</span>{% endif -%}{%- if p.clinicalStatusLabel %} <span class="allergy-record-list-item-clinical-status">{{ p.clinicalStatusLabel }}</span>{% endif -%}{%- if p.verificationStatusLabel %} <span class="allergy-record-list-item-verification-status">{{ p.verificationStatusLabel }}</span>{% endif -%}{%- if p.typeLabel %} <span class="allergy-record-list-item-type">{{ p.typeLabel }}</span>{% endif -%}{%- if p.categoryLabel %} <span class="allergy-record-list-item-category">{{ p.categoryLabel }}</span>{% endif -%}{%- if p.updatedLabel %} <time class="allergy-record-list-item-updated"{% if p.updated %} datetime="{{ p.updated }}"{% endif %}>{{ p.updatedLabel }}</time>{% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
 {%- endmacro -%}
