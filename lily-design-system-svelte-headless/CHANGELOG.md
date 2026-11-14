@@ -3,6 +3,12 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the package follows [Semantic Versioning](https://semver.org/).
 
+## 0.9.0 — 2026-11-14
+
+- Added: the record lists, one per section of a patient's record, sharing one never-blank status contract (`known`, `none-known`, `not-recorded`, `unavailable`, `omitted`): `record-list`, `allergy-record-list`, `medication-record-list`, `problem-record-list`, `immunization-record-list`, `procedure-record-list` and `device-record-list`, each with its `-item`.
+- Added: the healthcare display components `observation-view`, `medication-view`, `decision-support-card`, `early-warning-score-view`, `age-view`, `body-map` and `numeric-rating-scale-picker`, and the `clinical-format` module (`formatQuantity` with FHIR's comparator, `ageParts`, `toIsoDuration`) where the library is TypeScript.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
+
 ## 0.8.0 — 2026-11-06
 
 - Fixed: `horizontal-scroller` End in right-to-left now goes to the far edge, not the start.

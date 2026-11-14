@@ -4,7 +4,7 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.6.0 — 2026-11-14
 
 - Search is optional: without `labels.search` the bar renders no search picker (tasks.md P28-T7). A client-side app
   can leave it out, since a search navigates to `/?text` and drops the app's state. `search`, `searchInput` and
