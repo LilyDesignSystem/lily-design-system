@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ImmunizationRecordListItem — Lily Design System</title>
+  <title>Immunization Record List Item — Lily Design System</title>
   <meta name="description" content="ImmunizationRecordListItem is one immunization in an immunization record list, with vaccine, date, dose and status. It renders as a &lt;li&gt;. Every word is the consumer's." />
 </svelte:head>
 

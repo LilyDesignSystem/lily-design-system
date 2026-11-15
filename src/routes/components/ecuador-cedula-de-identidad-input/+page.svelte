@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>EcuadorCedulaDeIdentidadInput — Lily Design System</title>
+  <title>Ecuador Cedula De Identidad Input — Lily Design System</title>
   <meta name="description" content="EcuadorCedulaDeIdentidadInput is a headless input for entering Ecuador's Cedula de Identidad Number, Ecuador's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to EcuadorCedulaDeIdentida…" />
 </svelte:head>
 

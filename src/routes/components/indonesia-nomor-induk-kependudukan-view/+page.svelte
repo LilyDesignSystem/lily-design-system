@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>IndonesiaNomorIndukKependudukanView — Lily Design System</title>
+  <title>Indonesia Nomor Induk Kependudukan View — Lily Design System</title>
   <meta name="description" content="IndonesiaNomorIndukKependudukanView is a headless read-only display of Indonesia's Nomor Induk Kependudukan (NIK), Indonesia's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to IndonesiaNomorIndukKependudukanInput." />
 </svelte:head>
 

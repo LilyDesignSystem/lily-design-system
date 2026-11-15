@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>DecisionSupportCard — Lily Design System</title>
+  <title>Decision Support Card — Lily Design System</title>
   <meta name="description" content="DecisionSupportCard is a headless clinical decision support card in the shape of a CDS Hooks card: a one-line summary, an urgency indicator, the source of the guidance, optional detail, suggestions, links, and a way to dismiss it with a reason. CDS Hooks leaves rendering to the host system; this …" />
 </svelte:head>
 

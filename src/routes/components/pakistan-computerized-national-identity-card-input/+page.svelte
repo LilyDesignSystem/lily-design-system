@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>PakistanComputerizedNationalIdentityCardInput — Lily Design System</title>
+  <title>Pakistan Computerized National Identity Card Input — Lily Design System</title>
   <meta name="description" content="PakistanComputerizedNationalIdentityCardInput is a headless input for entering Pakistan's Computerized National Identity Card Number (CNIC), Pakistan's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the edit…" />
 </svelte:head>
 

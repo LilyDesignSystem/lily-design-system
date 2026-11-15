@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>HangukJuminDeungnokBeonhoView — Lily Design System</title>
+  <title>Hanguk Jumin Deungnok Beonho View — Lily Design System</title>
   <meta name="description" content="HangukJuminDeungnokBeonhoView is a headless read-only display of South Korea's Resident Registration Number (주민등록번호), South Korea's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to HangukJuminDeungnokBeonhoInput." />
 </svelte:head>
 

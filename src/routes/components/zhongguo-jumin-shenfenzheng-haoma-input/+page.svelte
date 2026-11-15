@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ZhongguoJuminShenfenzhengHaomaInput — Lily Design System</title>
+  <title>Zhongguo Jumin Shenfenzheng Haoma Input — Lily Design System</title>
   <meta name="description" content="ZhongguoJuminShenfenzhengHaomaInput is a headless input for entering China's 居民身份证号码 (Jūmín Shēnfènzhèng Hàomǎ), China's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to ZhongguoJumin…" />
 </svelte:head>
 

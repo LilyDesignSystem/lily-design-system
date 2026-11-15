@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>LuxembourgMatriculeInput — Lily Design System</title>
+  <title>Luxembourg Matricule Input — Lily Design System</title>
   <meta name="description" content="LuxembourgMatriculeInput is a headless input for entering Luxembourg's Numéro d'Identification Nationale (Matricule), Luxembourg's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to Lux…" />
 </svelte:head>
 

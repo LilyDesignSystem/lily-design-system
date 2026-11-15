@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ProcedureRecordList — Lily Design System</title>
+  <title>Procedure Record List — Lily Design System</title>
   <meta name="description" content="ProcedureRecordList is a list of a patient's procedures, whose status is never blank. It renders as a &lt;ul&gt;. Every word is the consumer's." />
 </svelte:head>
 

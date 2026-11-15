@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>IranKodEMelliView — Lily Design System</title>
+  <title>Iran Kod E Melli View — Lily Design System</title>
   <meta name="description" content="IranKodEMelliView is a headless read-only display of Iran's National Code (Kod-e Melli), Iran's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to IranKodEMelliInput." />
 </svelte:head>
 

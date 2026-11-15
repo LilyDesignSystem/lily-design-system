@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>PrathetThaiLekPrajamTuaPrachachonView — Lily Design System</title>
+  <title>Prathet Thai Lek Prajam Tua Prachachon View — Lily Design System</title>
   <meta name="description" content="PrathetThaiLekPrajamTuaPrachachonView is a headless read-only display of Thailand's เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon), Thailand's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to PrathetThaiLekPrajamTuaPrachachon…" />
 </svelte:head>
 

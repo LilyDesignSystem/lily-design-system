@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>MeasurementUnitView — Lily Design System</title>
+  <title>Measurement Unit View — Lily Design System</title>
   <meta name="description" content="A measurement unit view displays a measurement unit in a &lt;span&gt; element. A measurement unit is a standard quantity used to express a measurement, such as &quot;kg&quot;, &quot;lb&quot;, &quot;cm&quot;, or &quot;inch&quot;. This component is part of the Input/View pattern for measurement data, providing a read-only display of unit abbre…" />
 </svelte:head>
 

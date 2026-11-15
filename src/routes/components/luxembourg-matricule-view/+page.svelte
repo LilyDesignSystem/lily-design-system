@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>LuxembourgMatriculeView — Lily Design System</title>
+  <title>Luxembourg Matricule View — Lily Design System</title>
   <meta name="description" content="LuxembourgMatriculeView is a headless read-only display of Luxembourg's Numéro d'Identification Nationale (Matricule), Luxembourg's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to LuxembourgMatriculeInput." />
 </svelte:head>
 

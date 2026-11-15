@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>NihonKojinBangoInput — Lily Design System</title>
+  <title>Nihon Kojin Bango Input — Lily Design System</title>
   <meta name="description" content="NihonKojinBangoInput is a headless input for entering Japan's Individual Number / My Number (マイナンバー), Japan's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to NihonKojinBangoView." />
 </svelte:head>
 

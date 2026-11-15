@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>NumericRatingScalePicker — Lily Design System</title>
+  <title>Numeric Rating Scale Picker — Lily Design System</title>
   <meta name="description" content="NumericRatingScalePicker is a headless 0 to 10 rating, such as a numeric pain rating scale: a &lt;fieldset&gt; whose &lt;legend&gt; names the question, one native radio per whole number, and the consumer's words for each end. Lily ships no anchor words and is not a validated instrument; the wording and its v…" />
 </svelte:head>
 

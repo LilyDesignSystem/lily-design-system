@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ColombiaCedulaDeCiudadaniaInput — Lily Design System</title>
+  <title>Colombia Cedula De Ciudadania Input — Lily Design System</title>
   <meta name="description" content="ColombiaCedulaDeCiudadaniaInput is a headless input for entering Colombia's Cedula de Ciudadania Number, Colombia's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to ColombiaCedulaDeCi…" />
 </svelte:head>
 

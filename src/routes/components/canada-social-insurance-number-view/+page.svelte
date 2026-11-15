@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>CanadaSocialInsuranceNumberView — Lily Design System</title>
+  <title>Canada Social Insurance Number View — Lily Design System</title>
   <meta name="description" content="CanadaSocialInsuranceNumberView is a headless read-only display of Canada's Social Insurance Number (SIN), Canada's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to CanadaSocialInsuranceNumberInput." />
 </svelte:head>
 

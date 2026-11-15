@@ -1,4 +1,4 @@
-# accordion list
+# Accordion List
 
 An accordion list is an ordered list of accordion list items, rendered as a semantic `<ol>` element. It provides the structural grouping for collapsible sections within an AccordionNav container.
 

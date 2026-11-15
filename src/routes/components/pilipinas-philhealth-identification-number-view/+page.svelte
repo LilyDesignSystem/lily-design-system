@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>PilipinasPhilhealthIdentificationNumberView — Lily Design System</title>
+  <title>Pilipinas Philhealth Identification Number View — Lily Design System</title>
   <meta name="description" content="PilipinasPhilhealthIdentificationNumberView is a headless read-only display of the Philippines's PhilHealth Identification Number (PIN), the Philippines's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to PilipinasPhilhealthId…" />
 </svelte:head>
 

@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>UruguayCedulaDeIdentidadInput — Lily Design System</title>
+  <title>Uruguay Cedula De Identidad Input — Lily Design System</title>
   <meta name="description" content="UruguayCedulaDeIdentidadInput is a headless input for entering Uruguay's Cedula de Identidad Number, Uruguay's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to UruguayCedulaDeIdentida…" />
 </svelte:head>
 

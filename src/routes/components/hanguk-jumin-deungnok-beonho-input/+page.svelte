@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>HangukJuminDeungnokBeonhoInput — Lily Design System</title>
+  <title>Hanguk Jumin Deungnok Beonho Input — Lily Design System</title>
   <meta name="description" content="HangukJuminDeungnokBeonhoInput is a headless input for entering South Korea's Resident Registration Number (주민등록번호), South Korea's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to Han…" />
 </svelte:head>
 

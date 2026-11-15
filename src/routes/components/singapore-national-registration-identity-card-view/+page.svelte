@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>SingaporeNationalRegistrationIdentityCardView — Lily Design System</title>
+  <title>Singapore National Registration Identity Card View — Lily Design System</title>
   <meta name="description" content="SingaporeNationalRegistrationIdentityCardView is a headless read-only display of Singapore's National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN), Singapore's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-on…" />
 </svelte:head>
 

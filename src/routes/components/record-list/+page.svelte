@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>RecordList — Lily Design System</title>
+  <title>Record List — Lily Design System</title>
   <meta name="description" content="RecordList is a list of records from one section of a patient's record, whose status is never blank. It renders as a &lt;ul&gt;. Every word is the consumer's." />
 </svelte:head>
 

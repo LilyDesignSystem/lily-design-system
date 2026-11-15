@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ProcedureRecordListItem — Lily Design System</title>
+  <title>Procedure Record List Item — Lily Design System</title>
   <meta name="description" content="ProcedureRecordListItem is one procedure in a procedure record list, with its status and when it was performed. It renders as a &lt;li&gt;. Every word is the consumer's." />
 </svelte:head>
 

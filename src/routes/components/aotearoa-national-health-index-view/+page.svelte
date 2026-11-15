@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>AotearoaNationalHealthIndexView — Lily Design System</title>
+  <title>Aotearoa National Health Index View — Lily Design System</title>
   <meta name="description" content="AotearoaNationalHealthIndexView is a headless read-only display of New Zealand's National Health Index (NHI) Number, New Zealand's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to AotearoaNationalHealthIndexInput." />
 </svelte:head>
 

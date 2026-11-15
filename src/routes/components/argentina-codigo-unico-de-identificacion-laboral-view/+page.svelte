@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ArgentinaCodigoUnicoDeIdentificacionLaboralView — Lily Design System</title>
+  <title>Argentina Codigo Unico De Identificacion Laboral View — Lily Design System</title>
   <meta name="description" content="ArgentinaCodigoUnicoDeIdentificacionLaboralView is a headless read-only display of Argentina's Código Único de Identificación Laboral (CUIL), Argentina's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to ArgentinaCodigoUnicoDe…" />
 </svelte:head>
 

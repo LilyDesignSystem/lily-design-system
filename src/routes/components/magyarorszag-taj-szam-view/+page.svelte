@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>MagyarorszagTajSzamView — Lily Design System</title>
+  <title>Magyarorszag Taj Szam View — Lily Design System</title>
   <meta name="description" content="MagyarorszagTajSzamView is a headless read-only display of Hungary's Társadalombiztosítási Azonosító Jel (TAJ), Hungary's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to MagyarorszagTajSzamInput." />
 </svelte:head>
 

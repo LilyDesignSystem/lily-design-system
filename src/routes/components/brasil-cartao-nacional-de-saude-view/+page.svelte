@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>BrasilCartaoNacionalDeSaudeView — Lily Design System</title>
+  <title>Brasil Cartao Nacional De Saude View — Lily Design System</title>
   <meta name="description" content="BrasilCartaoNacionalDeSaudeView is a headless read-only display of Brazil's Cartão Nacional de Saúde (CNS), Brazil's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to BrasilCartaoNacionalDeSaudeInput." />
 </svelte:head>
 

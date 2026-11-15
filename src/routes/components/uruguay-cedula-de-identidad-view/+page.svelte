@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>UruguayCedulaDeIdentidadView — Lily Design System</title>
+  <title>Uruguay Cedula De Identidad View — Lily Design System</title>
   <meta name="description" content="UruguayCedulaDeIdentidadView is a headless read-only display of Uruguay's Cedula de Identidad Number, Uruguay's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to UruguayCedulaDeIdentidadInput." />
 </svelte:head>
 

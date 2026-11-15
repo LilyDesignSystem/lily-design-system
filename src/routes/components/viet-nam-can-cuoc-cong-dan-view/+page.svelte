@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>VietNamCanCuocCongDanView — Lily Design System</title>
+  <title>Viet Nam Can Cuoc Cong Dan View — Lily Design System</title>
   <meta name="description" content="VietNamCanCuocCongDanView is a headless read-only display of Viet Nam's Citizen Identification Number (CCCD), Viet Nam's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to VietNamCanCuocCongDanInput." />
 </svelte:head>
 

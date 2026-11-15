@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>YisraelTeudatZehutInput — Lily Design System</title>
+  <title>Yisrael Teudat Zehut Input — Lily Design System</title>
   <meta name="description" content="YisraelTeudatZehutInput is a headless input for entering Israel's Teudat Zehut (תעודת זהות), Israel's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to YisraelTeudatZehutView." />
 </svelte:head>
 

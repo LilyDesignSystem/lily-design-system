@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>MalaysiaKadPengenalanInput — Lily Design System</title>
+  <title>Malaysia Kad Pengenalan Input — Lily Design System</title>
   <meta name="description" content="MalaysiaKadPengenalanInput is a headless input for entering Malaysia's MyKad Number (NRIC), Malaysia's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to MalaysiaKadPengenalanView." />
 </svelte:head>
 

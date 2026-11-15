@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>CanadaSocialInsuranceNumberInput — Lily Design System</title>
+  <title>Canada Social Insurance Number Input — Lily Design System</title>
   <meta name="description" content="CanadaSocialInsuranceNumberInput is a headless input for entering Canada's Social Insurance Number (SIN), Canada's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to CanadaSocialInsuran…" />
 </svelte:head>
 

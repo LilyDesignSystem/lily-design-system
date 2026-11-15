@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const slug = 'accordion-list-item';
-const title = 'accordion list Item';
+const title = 'Accordion List Item';
 
 test.describe('component page: ' + slug, () => {
   test.beforeEach(async ({ page }) => {
@@ -15,7 +15,7 @@ test.describe('component page: ' + slug, () => {
   });
 
   test('document title contains the component name', async ({ page }) => {
-    await expect(page).toHaveTitle(/accordion list Item\s+\u2014\s+Lily Design System/);
+    await expect(page).toHaveTitle(/Accordion List Item\s+\u2014\s+Lily Design System/);
   });
 
   test('renders the H1 heading', async ({ page }) => {

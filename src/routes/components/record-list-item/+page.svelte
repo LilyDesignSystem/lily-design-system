@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>RecordListItem — Lily Design System</title>
+  <title>Record List Item — Lily Design System</title>
   <meta name="description" content="RecordListItem is one record in a record list, with its status and last update around the consumer's content. It renders as a &lt;li&gt;. Every word is the consumer's." />
 </svelte:head>
 

@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>VideoPlayer — Lily Design System</title>
+  <title>Video Player — Lily Design System</title>
   <meta name="description" content="A video player is a video player with play-in-view behavior, custom controls, and IntersectionObserver support. Use it for editorial video content that should play when scrolled into view and pause when scrolled out." />
 </svelte:head>
 

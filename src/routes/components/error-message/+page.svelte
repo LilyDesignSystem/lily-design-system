@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ErrorMessage — Lily Design System</title>
+  <title>Error Message — Lily Design System</title>
   <meta name="description" content="An error message component informs users when something has gone wrong, such as incorrect input, failed actions, or system issues. It uses role=&quot;alert&quot; to ensure screen readers announce the error immediately when it appears, without requiring user focus." />
 </svelte:head>
 
