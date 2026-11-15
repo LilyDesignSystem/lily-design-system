@@ -3564,9 +3564,9 @@ T2 to T6 change component contracts in all nine catalogs, Svelte first, and are 
 all eight catalogs; T8 and T9 are documentation. Lily still ships no clinical logic: every status here is the consumer's value,
 shown, never decided.
 
-- [ ] **P28-T1 Publish the healthcare components.** The published `@lilydesignsystem/svelte-headless` 0.8.0 has none of the
+- [x] **P28-T1 Publish the healthcare components.** The published `@lilydesignsystem/svelte-headless` 0.8.0 has none of the
       Phase 27 components or `clinical-format`. Bump and publish the nine headless libraries (`bin/publish-headless`).
-      Verify: `bin/verify-published` finds the new versions, and the packed Svelte tarball contains `AllergyList`.
+      Verify: `bin/verify-published` finds the new versions, and the packed Svelte tarball contains `AllergyList`. _(2026-11-14: done. npm: `svelte-`, `react-`, `vue-` and `nunjucks-headless` 0.9.0, `angular-headless` 0.10.0, `html-headless` 0.11.0, `web-components-headless` 0.10.0, `alpine-headless` 0.1.0 (its first release), the seven npm `picker-bar` 0.6.0 and `pattern-testers` 0.1.0; NuGet, by the publish workflow: `Blazor.Headless` 0.9.0, `Blazor.PickerBar` 0.6.0 and `Blazor.LocaleTranslations` 0.4.0. Published with `LILY_PUBLISH_WITHOUT_RECEIPT=1`, with the maintainer's approval, after GitHub CI passed on the release commit, because the local `bin/ci --full` cannot pass Firefox on this Mac (spec/local-ci, troubleshooting). Before publishing, the generated package indexes were found to drop `clinical-format`; fixed, and a test guards it.)_
 - [x] **P28-T2 `allergy-record-list-item` (was `allergy-list-item`): criticality, verification and clinical status.** FHIR keeps `criticality` (`low`, `high`,
       `unable-to-assess`: the risk of a future reaction) apart from a reaction's `severity`; Lily has only the second. Add
       `criticality` (`data-criticality`) with `criticalityLabel`, `verificationStatus` (`unconfirmed`, `presumed`, `confirmed`,

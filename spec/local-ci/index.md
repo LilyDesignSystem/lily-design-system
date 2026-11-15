@@ -165,6 +165,22 @@ Once `bin/ci` exists, CI's job is to prove the **clean-room** result for an outs
 for publishing. Everything else is the maintainer's gate. State this in [tooling](../tooling/index.md) and
 [releasing](../../docs/releasing.md).
 
+## Troubleshooting: Firefox exits at startup on macOS (2026-11-14)
+
+Symptom: every `[firefox]` Playwright test fails in 0 ms with `browserType.launch: Failed to launch the browser process`, the
+process exiting with code 1, so `bin/ci --full` cannot write a green receipt. Run the binary by hand and it prints
+`Could not find profile folder.`
+
+Cause: Playwright's Firefox builds from 1543 on (Firefox 150 and later) read the profile list in
+`~/Library/Application Support/Firefox` at startup, even when given a profile of their own. On macOS that folder belongs to an
+installed Firefox, and the privacy protection that keeps one app out of another's data refuses the process that runs the tests
+(`ls` on the folder says `Operation not permitted`). The older build 1538 does not read it and starts. Setting `HOME`, or
+`XRE_PROFILE_PATH` and `XRE_PROFILE_LOCAL_PATH`, does not help: Firefox finds the folder through the macOS API.
+
+Fix: System Settings, Privacy & Security, Full Disk Access: allow the app that runs `bin/ci` (the terminal, or the app hosting a
+coding assistant), then quit and reopen it. `ls ~/Library/Application\ Support/Firefox` then lists the folder, and Firefox launches.
+GitHub's runners are unaffected.
+
 ## What is not adopted
 
 - **A paid CI service or larger runners.** No problem measured needs them.

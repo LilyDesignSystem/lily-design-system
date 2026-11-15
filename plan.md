@@ -456,7 +456,7 @@ viewer can leave out. The healthcare components are also not yet published. Find
 [spec/healthcare-ui](spec/healthcare-ui/index.md#lessons-from-the-international-patient-summary-viewer-2026-11-14). Tasks:
 [tasks.md](tasks.md#phase-28--lessons-from-the-international-patient-summary-viewer-2026-11-14).
 
-Status (2026-11-14): T2 to T9 done (catalog 629: the record lists, with `allergy-list` renamed `allergy-record-list`); T1, the release, waits for the maintainer.
+Status (2026-11-14): T1 to T9 done (catalog 629: the record lists, with `allergy-list` renamed `allergy-record-list`); released to npm and NuGet the same day.
 
 ---
 
