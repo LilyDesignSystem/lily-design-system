@@ -29,6 +29,7 @@ required section is never silently missing.
 - `omittedLabel`: string (required) -- the words an added section shows
 - `contentsLabel`: string (optional) -- names the contents navigation; without it there is none
 - `headingLevel`: 2 to 6 (default: 2) -- the heading level of an added section
+- `idPrefix`: string (default: "international-patient-summary") -- section ids are `{idPrefix}-{key}`; give each summary on a page its own, and pass the same to its sections
 - `banner`: slot (optional) -- the patient banner
 - `details`: slot (optional) -- the document's details (title, date, authors, custodian, IPS version)
 - `children`: slot (optional) -- the `InternationalPatientSummarySection` elements
