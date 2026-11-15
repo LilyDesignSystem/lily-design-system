@@ -124,6 +124,7 @@ HELPER_PACKAGES = {
     "menu-picker": "menu-picker helper: a hamburger icon button that opens whatever the app provides",
     "settings-picker": "settings-picker helper: a cog icon button that opens whatever the app provides",
     "date-time-picker": "date-time-picker helper: a date/time field with an APG date-picker dialog",
+    "color-picker": "color-picker helper: recent colours, a palette of swatches with Transparent, and colour entry by hex, CSS name, HSL or RGB",
     "picker-bar": "picker-bar helper: the link, search, theme, locale, text-size and share pickers in one page-header row",
     "kanban-board": "kanban-board helper: an accessible kanban board over the headless KanbanTable family",
     "filter": "filter helper: a headless filter builder (text, number and date ranges, limits, choices; and / or / not) that outputs JSON, SQL, MongoDB, OData or a predicate",

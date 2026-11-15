@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Svelte colour picker — 2026-11-15
+
+- **Added:** `@lilydesignsystem/svelte-color-picker` 0.1.0, a new helper package (Svelte only so far): recent colours, a
+  separator, a palette of 8 rows of 10 swatches with a Transparent button, a separator, and entry by hex, CSS (X11) colour name,
+  HSL and, when labelled, RGB. Swatches are native radios (Up and Down move a palette row); every word is in `labels`; no CSS.
+  168 helper packages, 185 subprojects.
+
 ## Radio groups replace the pickers, catalog 630 — 2026-11-15
 
 - **Added:** fourteen components in all nine catalogs: `red-amber-green-`, `red-orange-yellow-green-blue-`, `five-face-rating-`,

@@ -31,7 +31,7 @@ coding agents.
 | Topic                                                                     | What it covers                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [overview](overview/index.md)                                             | Vision, scope, the headless vs. example layers, key facts.                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| [architecture](architecture/index.md)                                     | Monorepo layout, the 184 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 1 Alpine.js headless (all 630 components) + 8 examples + 167 top-level helper packages), `themes/`, source hosting, required files.                                                                                                                                                                                                                                                  |
+| [architecture](architecture/index.md)                                     | Monorepo layout, the 185 implementation subprojects (7 full-catalog headless + 1 at its full achievable scope + 1 Alpine.js headless (all 630 components) + 8 examples + 168 top-level helper packages), `themes/`, source hosting, required files.                                                                                                                                                                                                                                                  |
 | [headless](headless/index.md)                                             | Headless design rules: semantic markup, class hooks, rest-props, behaviour boundaries, zero CSS.                                                                                                                                                                                                                                                                                                                                                                                                     |
 | [accessibility](accessibility/index.md)                                   | WCAG 2.2 AAA target, WAI-ARIA APG patterns, ARIA reference table, axe-core baselines.                                                                                                                                                                                                                                                                                                                                                                                                                |
 | [internationalization](internationalization/index.md)                     | No hardcoded strings, stable text-prop names, locale-aware props, RTL/bidi, and the docs site's locale routes (`<language>-<region>` directories, browser-language redirect).                                                                                                                                                                                                                                                                                                                        |
@@ -151,11 +151,11 @@ committing.
 
 The repository root holds the canonical catalog and tools
 (`components.tsv`, `css-style-sheet-template.css`, `bin/`, `spec/`,
-`AGENTS/*.md`, `themes/`); 184 implementation subprojects hang off it —
+`AGENTS/*.md`, `themes/`); 185 implementation subprojects hang off it —
 7 full-catalog headless libraries, 1 headless library at its full
 achievable scope (Web Components, 595/630), 1 Alpine.js headless library
 (630/630 as markup snippets plus one plugin; added 2026-10-21), 8 example apps and
-167 helper packages, one top-level
+168 helper packages, one top-level
 subproject each (the per-framework catalogs were dissolved into them 2026-10-10;
 `bin/list-helper-packages <framework>`). Packages publish from this
 monorepo; the per-subproject subtree mirrors were deleted 2026-10-10, and
@@ -170,7 +170,7 @@ multi-forge source hosting: [spec/architecture/](architecture/index.md).
   (Web Components mirrors 595 of it): unstyled, accessible, zero CSS.
 - **Examples** (8 subprojects) — complete styled reference applications
   demonstrating every component with the NHS UK visual reference.
-- **Helpers** (167 top-level packages) — opinionated packages,
+- **Helpers** (168 top-level packages) — opinionated packages,
   each owning one complete interaction end to end: `theme-picker`,
   `locale-picker`, `text-size-picker`, `motion-picker` (icon button +
   APG listbox, own a user preference), `share-picker`, `search-picker`, `link-picker`, `menu-picker` and `settings-picker`

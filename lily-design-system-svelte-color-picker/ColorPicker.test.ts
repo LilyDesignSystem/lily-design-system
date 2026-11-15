@@ -1,0 +1,189 @@
+import { fireEvent, render, screen, within } from "@testing-library/svelte";
+import { userEvent } from "@testing-library/user-event";
+import { describe, expect, test, vi } from "vitest";
+
+import ColorPicker from "./ColorPicker.svelte";
+import type { Labels } from "./ColorPicker.svelte";
+
+const labels: Labels = {
+    picker: "Text colour",
+    recent: "Recent colours",
+    palette: "Colours",
+    transparent: "Transparent",
+    custom: "Custom colour",
+    hex: "Hex",
+    name: "Colour name",
+    hue: "Hue",
+    saturation: "Saturation",
+    lightness: "Lightness",
+    invalid: "Not a colour",
+};
+
+const palette = () => screen.getByRole("radiogroup", { name: "Colours" });
+const recentGroup = () => screen.getByRole("radiogroup", { name: "Recent colours" });
+
+describe("ColorPicker", () => {
+    test("is one named group of four areas: recent, palette with Transparent, and entry fields, split by two separators", () => {
+        const { container } = render(ColorPicker, { props: { labels } });
+        const root = container.querySelector(".color-picker")!;
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Text colour");
+        expect(recentGroup()).toBeTruthy();
+        expect(palette()).toBeTruthy();
+        expect(screen.getByRole("button", { name: "Transparent" })).toBeTruthy();
+        expect(screen.getByRole("group", { name: "Custom colour" })).toBeTruthy();
+        expect(root.querySelectorAll(":scope > hr.color-picker-separator")).toHaveLength(2);
+    });
+
+    test("the palette is 8 rows of 10 native radios, each painted by its custom property", () => {
+        const { container } = render(ColorPicker, { props: { labels } });
+        const rows = container.querySelectorAll(".color-picker-palette-row");
+        expect(rows).toHaveLength(8);
+        for (const row of rows) expect(row.querySelectorAll("input[type=radio]")).toHaveLength(10);
+        const first = within(palette()).getAllByRole("radio")[0] as HTMLInputElement;
+        expect(first.dataset.color).toBe("#000000");
+        expect(first.style.getPropertyValue("--color-picker-swatch")).toBe("#000000");
+        expect(first.getAttribute("aria-label")).toBe("black");
+    });
+
+    test("a swatch is named by colorLabel when given, else its CSS name, else its hex", () => {
+        render(ColorPicker, { props: { labels, palette: ["#ff0000", "#005eb8"], columns: 2 } });
+        const [red, blue] = within(palette()).getAllByRole("radio");
+        expect(red.getAttribute("aria-label")).toBe("red");
+        expect(blue.getAttribute("aria-label")).toBe("#005eb8");
+    });
+
+    test("choosing a swatch sets the value, adds it to recent and calls onchange once", async () => {
+        const onchange = vi.fn();
+        const { container } = render(ColorPicker, { props: { labels, onchange } });
+        const swatch = within(palette()).getAllByRole("radio")[12] as HTMLInputElement;
+        await userEvent.setup().click(swatch);
+        expect(onchange).toHaveBeenCalledOnce();
+        expect(onchange).toHaveBeenCalledWith(swatch.value);
+        expect(container.querySelector(".color-picker")!.getAttribute("data-value")).toBe(
+            swatch.value,
+        );
+        const recent = within(recentGroup()).getAllByRole("radio") as HTMLInputElement[];
+        expect(recent.map((r) => r.value)).toEqual([swatch.value]);
+        expect(recent[0].checked).toBe(true);
+    });
+
+    test("recent keeps the newest first and at most maxRecent", async () => {
+        render(ColorPicker, { props: { labels, maxRecent: 3 } });
+        const user = userEvent.setup();
+        const radios = within(palette()).getAllByRole("radio") as HTMLInputElement[];
+        for (const i of [10, 11, 12, 13]) await user.click(radios[i]);
+        await user.click(radios[11]);
+        const values = (within(recentGroup()).getAllByRole("radio") as HTMLInputElement[]).map(
+            (r) => r.value,
+        );
+        expect(values).toEqual([radios[11].value, radios[13].value, radios[12].value]);
+    });
+
+    test("ArrowDown and ArrowUp move a whole row; Left and Right stay the browser's", async () => {
+        render(ColorPicker, { props: { labels } });
+        const radios = within(palette()).getAllByRole("radio") as HTMLInputElement[];
+        radios[3].focus();
+        await fireEvent.keyDown(radios[3], { key: "ArrowDown" });
+        expect(document.activeElement).toBe(radios[13]);
+        expect(radios[13].checked).toBe(true);
+        await fireEvent.keyDown(radios[13], { key: "ArrowUp" });
+        expect(document.activeElement).toBe(radios[3]);
+        // From the top row, ArrowUp goes nowhere.
+        await fireEvent.keyDown(radios[3], { key: "ArrowUp" });
+        expect(document.activeElement).toBe(radios[3]);
+    });
+
+    test("Transparent chooses transparent and says so with aria-pressed", async () => {
+        const { container } = render(ColorPicker, { props: { labels } });
+        const button = screen.getByRole("button", { name: "Transparent" });
+        expect(button.getAttribute("aria-pressed")).toBe("false");
+        await userEvent.setup().click(button);
+        expect(button.getAttribute("aria-pressed")).toBe("true");
+        expect(container.querySelector(".color-picker")!.getAttribute("data-value")).toBe(
+            "transparent",
+        );
+        const icon = button.querySelector("svg")!;
+        expect(icon.getAttribute("aria-hidden")).toBe("true");
+    });
+
+    test("a hex value is entered on Enter; a wrong one is marked invalid and changes nothing", async () => {
+        const onchange = vi.fn();
+        render(ColorPicker, { props: { labels, onchange } });
+        const user = userEvent.setup();
+        const hex = screen.getByLabelText("Hex") as HTMLInputElement;
+        await user.type(hex, "#zz{Enter}");
+        expect(hex.getAttribute("aria-invalid")).toBe("true");
+        expect(screen.getByText("Not a colour")).toBeTruthy();
+        expect(onchange).not.toHaveBeenCalled();
+        await user.clear(hex);
+        await user.type(hex, "#005EB8{Enter}");
+        expect(onchange).toHaveBeenCalledWith("#005eb8");
+        expect(hex.getAttribute("aria-invalid")).toBeNull();
+        expect(hex.value).toBe("#005eb8");
+    });
+
+    test("a CSS colour name is entered, offered from a datalist of all 148", async () => {
+        const onchange = vi.fn();
+        render(ColorPicker, { props: { labels, onchange } });
+        const field = screen.getByLabelText("Colour name") as HTMLInputElement;
+        const list = document.getElementById(field.getAttribute("list")!)!;
+        expect(list.querySelectorAll("option")).toHaveLength(148);
+        await userEvent.setup().type(field, "Tomato{Enter}");
+        expect(onchange).toHaveBeenCalledWith("#ff6347");
+        expect((screen.getByLabelText("Hex") as HTMLInputElement).value).toBe("#ff6347");
+    });
+
+    test("the HSL fields show the value and change it", async () => {
+        const onchange = vi.fn();
+        render(ColorPicker, { props: { labels, value: "#ff0000", onchange } });
+        const hue = screen.getByLabelText("Hue") as HTMLInputElement;
+        expect(hue.value).toBe("0");
+        expect((screen.getByLabelText("Lightness") as HTMLInputElement).value).toBe("50");
+        await fireEvent.change(hue, { target: { value: "120" } });
+        expect(onchange).toHaveBeenCalledWith("#00ff00");
+    });
+
+    test("RGB fields appear only when all three labels are given", async () => {
+        const { unmount } = render(ColorPicker, { props: { labels } });
+        expect(screen.queryByLabelText("Red")).toBeNull();
+        unmount();
+        const onchange = vi.fn();
+        render(ColorPicker, {
+            props: {
+                labels: { ...labels, red: "Red", green: "Green", blue: "Blue" },
+                value: "#000000",
+                onchange,
+            },
+        });
+        await fireEvent.change(screen.getByLabelText("Blue"), { target: { value: "255" } });
+        expect(onchange).toHaveBeenCalledWith("#0000ff");
+    });
+
+    test("with a name, a hidden input carries the value for the form", async () => {
+        const { container } = render(ColorPicker, {
+            props: { labels, name: "colour", value: "#ff0000" },
+        });
+        const hidden = container.querySelector("input[type=hidden]") as HTMLInputElement;
+        expect(hidden.name).toBe("colour");
+        expect(hidden.value).toBe("#ff0000");
+    });
+
+    test("disabled disables every control", () => {
+        render(ColorPicker, { props: { labels, disabled: true } });
+        expect(
+            (screen.getByRole("button", { name: "Transparent" }) as HTMLButtonElement).disabled,
+        ).toBe(true);
+        expect((screen.getByLabelText("Hex") as HTMLInputElement).disabled).toBe(true);
+        expect((palette() as HTMLFieldSetElement).disabled).toBe(true);
+    });
+
+    test("passes other attributes to the root and adds the consumer's class", () => {
+        const { container } = render(ColorPicker, {
+            props: { labels, class: "mine", "data-testid": "cp" },
+        });
+        const root = container.querySelector(".color-picker")!;
+        expect(root.classList.contains("mine")).toBe(true);
+        expect(root.getAttribute("data-testid")).toBe("cp");
+    });
+});
