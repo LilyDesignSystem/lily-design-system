@@ -9,11 +9,17 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Light and dark must pass — 2026-11-15
+
+- **Changed:** the theme contrast gate in `bin/test` (`bin/check-theme --contrast --gate`) now holds only the `light` and `dark`
+  themes to AA text contrast and a 3:1 focus ring. Every other theme is one a person chooses for themselves, so its pairs below AA
+  are reported, never gated ([spec/theme](spec/theme/index.md)). Today all 63 themes pass.
+
 ## Svelte colour picker — 2026-11-15
 
 - **Added:** `@lilydesignsystem/svelte-color-picker` 0.1.0, a new helper package (Svelte only so far): recent colours, a
   separator, a palette of 8 rows of 10 swatches with a Transparent button, a separator, and entry by hex, CSS (X11) colour name,
-  HSL and, when labelled, RGB. Swatches are native radios (Up and Down move a palette row); every word is in `labels`; no CSS.
+  and HSL, HSB, RGB and CMYK groups. Swatches are native radios (Up and Down move a palette row); every word is in `labels`; no CSS.
   168 helper packages, 185 subprojects.
 
 ## Radio groups replace the pickers, catalog 630 — 2026-11-15

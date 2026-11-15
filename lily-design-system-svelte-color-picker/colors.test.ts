@@ -10,6 +10,10 @@ import {
     parseColor,
     pushRecent,
     rgbToHex,
+    hexToHsb,
+    hsbToHex,
+    hexToCmyk,
+    cmykToHex,
 } from "./colors";
 
 describe("colors", () => {
@@ -38,6 +42,21 @@ describe("colors", () => {
         expect(hslToHex({ h: 120, s: 100, l: 25 })).toBe("#008000");
         expect(hslToHex({ h: 0, s: 0, l: 100 })).toBe("#ffffff");
         expect(hslToHex({ h: 480, s: 100, l: 50 })).toBe(hslToHex({ h: 120, s: 100, l: 50 }));
+    });
+
+    test("converts between hex, HSB and CMYK", () => {
+        expect(hexToHsb("#ff0000")).toEqual({ h: 0, s: 100, b: 100 });
+        expect(hexToHsb("#008000")).toEqual({ h: 120, s: 100, b: 50 });
+        expect(hexToHsb("#000000")).toEqual({ h: 0, s: 0, b: 0 });
+        expect(hsbToHex({ h: 240, s: 100, b: 100 })).toBe("#0000ff");
+        expect(hsbToHex({ h: 0, s: 0, b: 100 })).toBe("#ffffff");
+        expect(hsbToHex({ h: 120, s: 100, b: 50 })).toBe("#008000");
+        expect(hsbToHex({ h: 30, s: 50, b: 40 })).toBe("#664d33");
+        expect(hexToCmyk("#ff0000")).toEqual({ c: 0, m: 100, y: 100, k: 0 });
+        expect(hexToCmyk("#000000")).toEqual({ c: 0, m: 0, y: 0, k: 100 });
+        expect(hexToCmyk("#005eb8")).toEqual({ c: 100, m: 49, y: 0, k: 28 });
+        expect(cmykToHex({ c: 0, m: 0, y: 0, k: 0 })).toBe("#ffffff");
+        expect(cmykToHex({ c: 100, m: 0, y: 100, k: 50 })).toBe("#008000");
     });
 
     test("names a colour that has a CSS name, and only then", () => {

@@ -25,14 +25,25 @@
         hex: string;
         /** The CSS (X11) colour-name field. */
         name: string;
-        /** The HSL fields: hue (0 to 360), saturation and lightness (0 to 100). */
+        /** The four colour models' group names, for example "HSL", "HSB", "RGB" and "CMYK". */
+        hsl: string;
+        hsb: string;
+        rgb: string;
+        cmyk: string;
+        /** Field names: hue (0 to 360, in HSL and HSB), saturation (both), lightness (HSL), brightness (HSB). */
         hue: string;
         saturation: string;
         lightness: string;
-        /** The RGB fields (0 to 255). All three, or none: without them there are no RGB fields. */
-        red?: string;
-        green?: string;
-        blue?: string;
+        brightness: string;
+        /** RGB fields, 0 to 255. */
+        red: string;
+        green: string;
+        blue: string;
+        /** CMYK fields, 0 to 100: cyan, magenta, yellow and key (black). */
+        cyan: string;
+        magenta: string;
+        yellow: string;
+        key: string;
         /** Shown beside a hex or name field that holds no colour. Without it the field is only marked aria-invalid. */
         invalid?: string;
     }
@@ -80,8 +91,12 @@
         CSS_NAMED_COLORS,
         TRANSPARENT,
         defaultPalette,
+        cmykToHex,
+        hexToCmyk,
+        hexToHsb,
         hexToHsl,
         hexToRgb,
+        hsbToHex,
         hslToHex,
         nameOfColor,
         normalizeHex,
@@ -118,15 +133,67 @@
             palette.slice(r * columns, r * columns + columns),
         ),
     );
-    const hasRgb = $derived(Boolean(labels.red && labels.green && labels.blue));
 
     // The entry fields show the current value; a field being typed in keeps its draft until it is committed.
     let hexDraft = $state(untrack(() => (value === TRANSPARENT ? "" : value)));
     let nameDraft = $state(untrack(() => nameOfColor(value) ?? ""));
     let hexInvalid = $state(false);
     let nameInvalid = $state(false);
-    const hsl = $derived(hexToHsl(value) ?? { h: 0, s: 0, l: 0 });
-    const rgb = $derived(hexToRgb(value) ?? { r: 0, g: 0, b: 0 });
+    // The four colour models: each a group of number fields that show the current value and change it.
+    type Model = {
+        id: "hsl" | "hsb" | "rgb" | "cmyk";
+        label: string;
+        fields: Array<[key: string, label: string, max: number]>;
+        values: Record<string, number>;
+        toHex: (values: never) => string;
+    };
+    const models: Model[] = $derived([
+        {
+            id: "hsl",
+            label: labels.hsl,
+            fields: [
+                ["h", labels.hue, 360],
+                ["s", labels.saturation, 100],
+                ["l", labels.lightness, 100],
+            ],
+            values: { ...(hexToHsl(value) ?? { h: 0, s: 0, l: 0 }) },
+            toHex: hslToHex,
+        },
+        {
+            id: "hsb",
+            label: labels.hsb,
+            fields: [
+                ["h", labels.hue, 360],
+                ["s", labels.saturation, 100],
+                ["b", labels.brightness, 100],
+            ],
+            values: { ...(hexToHsb(value) ?? { h: 0, s: 0, b: 0 }) },
+            toHex: hsbToHex,
+        },
+        {
+            id: "rgb",
+            label: labels.rgb,
+            fields: [
+                ["r", labels.red, 255],
+                ["g", labels.green, 255],
+                ["b", labels.blue, 255],
+            ],
+            values: { ...(hexToRgb(value) ?? { r: 0, g: 0, b: 0 }) },
+            toHex: rgbToHex,
+        },
+        {
+            id: "cmyk",
+            label: labels.cmyk,
+            fields: [
+                ["c", labels.cyan, 100],
+                ["m", labels.magenta, 100],
+                ["y", labels.yellow, 100],
+                ["k", labels.key, 100],
+            ],
+            values: { ...(hexToCmyk(value) ?? { c: 0, m: 0, y: 0, k: 100 }) },
+            toHex: cmykToHex,
+        },
+    ]);
 
     $effect(() => {
         const v = value;
@@ -158,14 +225,11 @@
         if (hex) choose(hex);
     }
 
-    function commitHsl(part: "h" | "s" | "l", raw: number) {
+    function commitModel(model: Model, key: string, raw: number) {
         if (!Number.isFinite(raw)) return;
-        choose(hslToHex({ ...hsl, [part]: raw }));
-    }
-
-    function commitRgb(part: "r" | "g" | "b", raw: number) {
-        if (!Number.isFinite(raw)) return;
-        choose(rgbToHex({ ...rgb, [part]: raw }));
+        choose(
+            (model.toHex as (v: Record<string, number>) => string)({ ...model.values, [key]: raw }),
+        );
     }
 
     // Native radios move one swatch with Left and Right; Up and Down move a whole row, as the grid looks.
@@ -357,42 +421,26 @@
             {/if}
         </div>
 
-        <div class="color-picker-field color-picker-field-hsl">
-            {#each [["h", labels.hue, 360], ["s", labels.saturation, 100], ["l", labels.lightness, 100]] as [part, text, max] (part)}
-                <label for={`${id}-${part}`}>{text}</label>
-                <input
-                    id={`${id}-${part}`}
-                    class={`color-picker-hsl color-picker-hsl-${part}`}
-                    type="number"
-                    min="0"
-                    max={max as number}
-                    step="1"
-                    {disabled}
-                    value={hsl[part as "h" | "s" | "l"]}
-                    onchange={(e) =>
-                        commitHsl(part as "h" | "s" | "l", e.currentTarget.valueAsNumber)}
-                />
-            {/each}
-        </div>
-
-        {#if hasRgb}
-            <div class="color-picker-field color-picker-field-rgb">
-                {#each [["r", labels.red], ["g", labels.green], ["b", labels.blue]] as [part, text] (part)}
-                    <label for={`${id}-${part}`}>{text}</label>
+        {#each models as model (model.id)}
+            <fieldset
+                class={`color-picker-field color-picker-field-${model.id}`}
+                {disabled}
+            >
+                <legend>{model.label}</legend>
+                {#each model.fields as [key, text, max] (key)}
+                    <label for={`${id}-${model.id}-${key}`}>{text}</label>
                     <input
-                        id={`${id}-${part}`}
-                        class={`color-picker-rgb color-picker-rgb-${part}`}
+                        id={`${id}-${model.id}-${key}`}
+                        class={`color-picker-${model.id} color-picker-${model.id}-${key}`}
                         type="number"
                         min="0"
-                        max="255"
+                        {max}
                         step="1"
-                        {disabled}
-                        value={rgb[part as "r" | "g" | "b"]}
-                        onchange={(e) =>
-                            commitRgb(part as "r" | "g" | "b", e.currentTarget.valueAsNumber)}
+                        value={model.values[key]}
+                        onchange={(e) => commitModel(model, key, e.currentTarget.valueAsNumber)}
                     />
                 {/each}
-            </div>
-        {/if}
+            </fieldset>
+        {/each}
     </div>
 </div>

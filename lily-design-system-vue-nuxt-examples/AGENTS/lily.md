@@ -53,7 +53,7 @@ Each framework ships eleven `*-picker` helpers — theme-picker, locale-picker, 
 The Svelte helpers (canonical reference) are one top-level subproject per package, since 2026-10-10 (the data grid since 2026-10-09); the `lily-design-system-svelte-helpers` catalog that held them is gone. `bin/list-helper-packages svelte` lists them in build order:
 
 - [`lily-design-system-svelte-data-grid`](../lily-design-system-svelte-data-grid) — `@lilydesignsystem/svelte-data-grid`
-- [`lily-design-system-svelte-color-picker`](../lily-design-system-svelte-color-picker) — `@lilydesignsystem/svelte-color-picker` — a colour picker: recent colours, a palette with Transparent, and entry by hex, CSS name, HSL or RGB (added 2026-11-15; Svelte only so far)
+- [`lily-design-system-svelte-color-picker`](../lily-design-system-svelte-color-picker) — `@lilydesignsystem/svelte-color-picker` — a colour picker: recent colours, a palette with Transparent, and entry by hex, CSS name, HSL, HSB, RGB or CMYK (added 2026-11-15; Svelte only so far)
 - [`lily-design-system-svelte-date-time-picker`](../lily-design-system-svelte-date-time-picker) — `@lilydesignsystem/svelte-date-time-picker`
 - [`lily-design-system-svelte-filter`](../lily-design-system-svelte-filter) — `@lilydesignsystem/svelte-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (added 2026-10-17; ported to all eight catalogs)
 - [`lily-design-system-svelte-kanban-board`](../lily-design-system-svelte-kanban-board) — `@lilydesignsystem/svelte-kanban-board`

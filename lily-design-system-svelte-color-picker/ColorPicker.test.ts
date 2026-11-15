@@ -16,6 +16,18 @@ const labels: Labels = {
     hue: "Hue",
     saturation: "Saturation",
     lightness: "Lightness",
+    brightness: "Brightness",
+    hsl: "HSL",
+    hsb: "HSB",
+    rgb: "RGB",
+    cmyk: "CMYK",
+    red: "Red",
+    green: "Green",
+    blue: "Blue",
+    cyan: "Cyan",
+    magenta: "Magenta",
+    yellow: "Yellow",
+    key: "Black",
     invalid: "Not a colour",
 };
 
@@ -134,30 +146,45 @@ describe("ColorPicker", () => {
         expect((screen.getByLabelText("Hex") as HTMLInputElement).value).toBe("#ff6347");
     });
 
-    test("the HSL fields show the value and change it", async () => {
-        const onchange = vi.fn();
-        render(ColorPicker, { props: { labels, value: "#ff0000", onchange } });
-        const hue = screen.getByLabelText("Hue") as HTMLInputElement;
-        expect(hue.value).toBe("0");
-        expect((screen.getByLabelText("Lightness") as HTMLInputElement).value).toBe("50");
-        await fireEvent.change(hue, { target: { value: "120" } });
-        expect(onchange).toHaveBeenCalledWith("#00ff00");
+    const field = (group: string, name: string) =>
+        within(screen.getByRole("group", { name: group })).getByLabelText(name) as HTMLInputElement;
+
+    test("the entry area has HSL, HSB, RGB and CMYK groups, each showing the current value", () => {
+        render(ColorPicker, { props: { labels, value: "#ff0000" } });
+        expect([
+            field("HSL", "Hue").value,
+            field("HSL", "Saturation").value,
+            field("HSL", "Lightness").value,
+        ]).toEqual(["0", "100", "50"]);
+        expect([
+            field("HSB", "Hue").value,
+            field("HSB", "Saturation").value,
+            field("HSB", "Brightness").value,
+        ]).toEqual(["0", "100", "100"]);
+        expect([
+            field("RGB", "Red").value,
+            field("RGB", "Green").value,
+            field("RGB", "Blue").value,
+        ]).toEqual(["255", "0", "0"]);
+        expect([
+            field("CMYK", "Cyan").value,
+            field("CMYK", "Magenta").value,
+            field("CMYK", "Yellow").value,
+            field("CMYK", "Black").value,
+        ]).toEqual(["0", "100", "100", "0"]);
     });
 
-    test("RGB fields appear only when all three labels are given", async () => {
-        const { unmount } = render(ColorPicker, { props: { labels } });
-        expect(screen.queryByLabelText("Red")).toBeNull();
-        unmount();
+    test("each colour model's fields change the value", async () => {
         const onchange = vi.fn();
-        render(ColorPicker, {
-            props: {
-                labels: { ...labels, red: "Red", green: "Green", blue: "Blue" },
-                value: "#000000",
-                onchange,
-            },
-        });
-        await fireEvent.change(screen.getByLabelText("Blue"), { target: { value: "255" } });
-        expect(onchange).toHaveBeenCalledWith("#0000ff");
+        render(ColorPicker, { props: { labels, value: "#ff0000", onchange } });
+        await fireEvent.change(field("HSL", "Hue"), { target: { value: "120" } });
+        expect(onchange).toHaveBeenLastCalledWith("#00ff00");
+        await fireEvent.change(field("HSB", "Brightness"), { target: { value: "50" } });
+        expect(onchange).toHaveBeenLastCalledWith("#008000");
+        await fireEvent.change(field("RGB", "Blue"), { target: { value: "255" } });
+        expect(onchange).toHaveBeenLastCalledWith("#0080ff");
+        await fireEvent.change(field("CMYK", "Black"), { target: { value: "100" } });
+        expect(onchange).toHaveBeenLastCalledWith("#000000");
     });
 
     test("with a name, a hidden input carries the value for the form", async () => {

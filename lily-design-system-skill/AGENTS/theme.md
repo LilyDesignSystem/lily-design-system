@@ -57,8 +57,9 @@ with a brand colour that fails 4.5:1 sets both in their own CSS. Details: [visua
 Always pair a fill with its own `-content` (`--color-primary` with `--color-primary-content`); body text is `--color-base-content`
 on the three base surfaces. Muted text is `base-content` mixed toward the surface (as `--lily-error-text` does for errors),
 never a free colour. Use `primary` for one main action per view. `bin/test` runs `bin/check-theme --contrast --gate`, which
-fails when any pair in any theme is below 4.5:1 (WCAG 1.4.3) or its colour cannot be parsed; `--suggest` prints the black or
-white text that would fix it. AAA (7:1) is reported, not gated.
+fails when a pair in the `light` or `dark` theme is below 4.5:1 (WCAG 1.4.3), its focus ring is below 3:1, or a colour cannot
+be parsed. Light and dark must pass; every other theme is the user's choice, so its failures are reported, never gated.
+`--suggest` prints the black or white text that would fix a pair. AAA (7:1) is reported, not gated.
 
 ### Invalid state
 
@@ -79,7 +80,7 @@ Every theme draws keyboard focus the same way: `outline: 2px solid var(--lily-fo
 `:focus-visible`, and `--lily-focus-ring` defaults to the primary colour. NHS Wales follows DHCW: 3px, no offset, and a
 yellow block with a dark bar for buttons and links. Under `forced-colors: active` the ring is `3px solid Highlight`. Never
 write the outline shorthand with a colour alone (`outline: var(--lily-focus-ring)`): it resets the style to `none` and
-draws nothing. The ring meets WCAG 2.4.7 and the 2px of 2.4.13, and 3:1 against the page (1.4.11), which `bin/test` gates with
+draws nothing. The ring meets WCAG 2.4.7 and the 2px of 2.4.13, and 3:1 against the page (1.4.11), which `bin/test` gates for the light and dark themes with
 `bin/check-theme --contrast --gate`. A theme whose primary is too pale mixes the ring toward `--color-base-content`;
 a theme bound to an upstream colour that cannot reach it draws a dark inner line, `--lily-focus-ring-inner` (NHS Wales).
 `bin/check-theme` rule 16 fails an `outline` given a colour alone. Details: [spec/theme](../spec/theme/index.md#focus-ring-contract-2026-11-07-tasksmd-p22-t10).

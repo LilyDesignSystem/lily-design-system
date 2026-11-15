@@ -17,9 +17,18 @@
         hue: "Hue",
         saturation: "Saturation",
         lightness: "Lightness",
+        brightness: "Brightness",
+        hsl: "HSL",
+        hsb: "HSB",
+        rgb: "RGB",
+        cmyk: "CMYK",
         red: "Red",
         green: "Green",
         blue: "Blue",
+        cyan: "Cyan",
+        magenta: "Magenta",
+        yellow: "Yellow",
+        key: "Black",
         invalid: "Not a colour",
     }}
     bind:value={colour}

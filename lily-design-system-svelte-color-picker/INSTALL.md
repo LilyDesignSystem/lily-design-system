@@ -1,6 +1,6 @@
 # Install
 
-This is the Svelte 5 color-picker helper: recent colours, a palette of swatches with Transparent, and colour entry by hex, CSS name, HSL or RGB.
+This is the Svelte 5 color-picker helper: recent colours, a palette of swatches with Transparent, and colour entry by hex, CSS name, HSL, HSB, RGB or CMYK.
 
 Its source is the `lily-design-system-svelte-color-picker/` directory of the canonical Lily Design System™
 monorepo at <https://github.com/LilyDesignSystem/lily-design-system>. Issues and pull requests are handled there.

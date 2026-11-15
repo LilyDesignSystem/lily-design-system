@@ -247,6 +247,96 @@ export const hexToHsl = (hex: string): Hsl | null => {
 
 export const hslToHex = (hsl: Hsl): string => rgbToHex(hslToRgb(hsl));
 
+export interface Hsb {
+    /** Hue in degrees, 0 to 360. */
+    h: number;
+    /** Saturation, 0 to 100. */
+    s: number;
+    /** Brightness (also called value), 0 to 100. */
+    b: number;
+}
+
+export interface Cmyk {
+    /** Cyan, magenta, yellow and key (black), each 0 to 100. */
+    c: number;
+    m: number;
+    y: number;
+    k: number;
+}
+
+export function rgbToHsb({ r, g, b }: Rgb): Hsb {
+    const rr = r / 255;
+    const gg = g / 255;
+    const bb = b / 255;
+    const max = Math.max(rr, gg, bb);
+    const d = max - Math.min(rr, gg, bb);
+    let h = 0;
+    if (d !== 0) {
+        if (max === rr) h = ((gg - bb) / d) % 6;
+        else if (max === gg) h = (bb - rr) / d + 2;
+        else h = (rr - gg) / d + 4;
+        h = (h * 60 + 360) % 360;
+    }
+    return {
+        h: Math.round(h),
+        s: Math.round(max === 0 ? 0 : (d / max) * 100),
+        b: Math.round(max * 100),
+    };
+}
+
+export function hsbToRgb({ h, s, b }: Hsb): Rgb {
+    const ss = clamp(s, 0, 100) / 100;
+    const v = clamp(b, 0, 100) / 100;
+    const hh = (((h % 360) + 360) % 360) / 60;
+    const c = v * ss;
+    const x = c * (1 - Math.abs((hh % 2) - 1));
+    const m = v - c;
+    const [r1, g1, b1] =
+        hh < 1
+            ? [c, x, 0]
+            : hh < 2
+              ? [x, c, 0]
+              : hh < 3
+                ? [0, c, x]
+                : hh < 4
+                  ? [0, x, c]
+                  : hh < 5
+                    ? [x, 0, c]
+                    : [c, 0, x];
+    return { r: (r1 + m) * 255, g: (g1 + m) * 255, b: (b1 + m) * 255 };
+}
+
+/** RGB to CMYK by the simple device-independent formula. Printing uses colour profiles; this is not a print conversion. */
+export function rgbToCmyk({ r, g, b }: Rgb): Cmyk {
+    const rr = r / 255;
+    const gg = g / 255;
+    const bb = b / 255;
+    const k = 1 - Math.max(rr, gg, bb);
+    if (k >= 1) return { c: 0, m: 0, y: 0, k: 100 };
+    const part = (n: number) => Math.round(((1 - n - k) / (1 - k)) * 100);
+    return { c: part(rr), m: part(gg), y: part(bb), k: Math.round(k * 100) };
+}
+
+export function cmykToRgb({ c, m, y, k }: Cmyk): Rgb {
+    const kk = 1 - clamp(k, 0, 100) / 100;
+    const ch = (n: number) => 255 * (1 - clamp(n, 0, 100) / 100) * kk;
+    return { r: ch(c), g: ch(m), b: ch(y) };
+}
+
+export const hexToHsb = (hex: string): Hsb | null => {
+    const rgb = hexToRgb(hex);
+    return rgb ? rgbToHsb(rgb) : null;
+};
+
+export const hsbToHex = (hsb: Hsb): string => rgbToHex(hsbToRgb(hsb));
+
+export const hexToCmyk = (hex: string): Cmyk | null => {
+    const rgb = hexToRgb(hex);
+    return rgb ? rgbToCmyk(rgb) : null;
+};
+
+export const cmykToHex = (cmyk: Cmyk): string => rgbToHex(cmykToRgb(cmyk));
+
 /** The CSS name for a colour, when one has exactly this value (the first in alphabetical order, so "aqua" before "cyan"). */
 export function nameOfColor(hex: string): string | null {
     const h = normalizeHex(hex);

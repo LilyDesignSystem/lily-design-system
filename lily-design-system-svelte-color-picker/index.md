@@ -6,8 +6,9 @@
 2. A separator.
 3. **Palette**: 8 rows of 10 swatches, and a large **Transparent** button.
 4. A separator.
-5. **Entry fields**: a colour by hex, by CSS colour name (the X11 names, offered from a list), by hue, saturation and lightness,
-   and, when you label them, by red, green and blue.
+5. **Entry fields**: a colour by hex, by CSS colour name (the X11 names, offered from a list), and by four colour models, each
+   a group of number fields: HSL (hue, saturation, lightness), HSB (hue, saturation, brightness), RGB (red, green, blue) and
+   CMYK (cyan, magenta, yellow, key).
 
 It is headless: no CSS. Every swatch is a native radio carrying `data-color` and a `--color-picker-swatch` custom property, so
 your CSS paints it. It holds a form value, as `date-time-picker` does: it applies nothing to the page and stores nothing. Bind
@@ -41,6 +42,18 @@ npm install @lilydesignsystem/svelte-color-picker
     hue: "Hue",
     saturation: "Saturation",
     lightness: "Lightness",
+    brightness: "Brightness",
+    hsl: "HSL",
+    hsb: "HSB",
+    rgb: "RGB",
+    cmyk: "CMYK",
+    red: "Red",
+    green: "Green",
+    blue: "Blue",
+    cyan: "Cyan",
+    magenta: "Magenta",
+    yellow: "Yellow",
+    key: "Black",
     invalid: "Not a colour",
   }}
   bind:value={colour}
@@ -64,8 +77,9 @@ npm install @lilydesignsystem/svelte-color-picker
 | `disabled`   | `boolean`                   | `false`            | Disables every control.                                                                 |
 | `onchange`   | `(value: string) => void`   | none               | Called once for each new choice.                                                        |
 
-`Labels` has `picker`, `recent`, `palette`, `transparent`, `custom`, `hex`, `name`, `hue`, `saturation` and `lightness`
-(required), `red`, `green` and `blue` (all three, or none, for the RGB fields), and `invalid` (the message beside a hex or name
+`Labels` has, all required, `picker`, `recent`, `palette`, `transparent`, `custom`, `hex` and `name`; the four group names
+`hsl`, `hsb`, `rgb` and `cmyk`; and the field names `hue`, `saturation`, `lightness`, `brightness`, `red`, `green`, `blue`,
+`cyan`, `magenta`, `yellow` and `key`. `invalid` (optional) is the message beside a hex or name
 field that holds no colour).
 
 ## Keyboard
@@ -99,13 +113,15 @@ field that holds no colour).
 
 Class hooks: `color-picker`, `color-picker-recent`, `color-picker-separator`, `color-picker-palette`,
 `color-picker-palette-row`, `color-picker-swatch`, `color-picker-transparent`, `color-picker-transparent-icon`,
-`color-picker-custom`, `color-picker-field` (with `-hex`, `-name`, `-hsl`, `-rgb`), `color-picker-hex`, `color-picker-name`,
-`color-picker-hsl`, `color-picker-rgb`, `color-picker-invalid`. The root carries `data-value`.
+`color-picker-custom`, `color-picker-field` (with `-hex`, `-name`, `-hsl`, `-hsb`, `-rgb`, `-cmyk`), `color-picker-hex`, `color-picker-name`,
+`color-picker-hsl`, `color-picker-hsb`, `color-picker-rgb`, `color-picker-cmyk` (each field also `-{key}`, such as
+`color-picker-cmyk-k`), `color-picker-invalid`. The root carries `data-value`.
 
 ## The colour functions
 
 The package also exports its colour model: `parseColor` (hex, CSS name, `rgb()`, `hsl()` or `transparent`), `normalizeHex`,
-`hexToRgb`, `rgbToHex`, `rgbToHsl`, `hslToRgb`, `hexToHsl`, `hslToHex`, `nameOfColor`, `pushRecent`, `defaultPalette` and
+`hexToRgb`, `rgbToHex`, `rgbToHsl`, `hslToRgb`, `hexToHsl`, `hslToHex`, `rgbToHsb`, `hsbToRgb`, `hexToHsb`, `hsbToHex`,
+`rgbToCmyk`, `cmykToRgb`, `hexToCmyk`, `cmykToHex`, `nameOfColor`, `pushRecent`, `defaultPalette` and
 `CSS_NAMED_COLORS` (the 148 CSS names).
 
 ## Accessibility
@@ -119,6 +135,7 @@ The package also exports its colour model: `parseColor` (hex, CSS name, `rgb()`,
 ## Not included
 
 - A two-dimensional hue and saturation board, an eyedropper, or alpha. Use the fields for an exact colour.
+- Print colour management. CMYK here is the simple formula from RGB, not a conversion through a printer's colour profile.
 - Storage: bind `recent` and keep it where your app keeps preferences.
 
 ---

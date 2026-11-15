@@ -4,7 +4,7 @@
   "engines": {
     "node": ">=26"
   },
-  "description": "Lily Design System Svelte 5 colour picker: recent colours, a palette of swatches with Transparent, and colour entry by hex, CSS name, HSL or RGB. Headless, SSR-safe, no CSS.",
+  "description": "Lily Design System Svelte 5 colour picker: recent colours, a palette of swatches with Transparent, and colour entry by hex, CSS name, HSL, HSB, RGB or CMYK. Headless, SSR-safe, no CSS.",
   "type": "module",
   "svelte": "./dist/index.js",
   "types": "./dist/index.d.ts",

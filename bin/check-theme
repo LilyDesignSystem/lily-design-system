@@ -76,7 +76,7 @@ Asserts the contracts a theme stylesheet must honour (plan P3-T5):
 
 Exits non-zero listing every violation. Wired into bin/test.
 
-`bin/check-theme --contrast` (plan P10-T4) is a separate pass, report-only unless `--gate` is added (P22-T20: exit 1 on any pair below AA or unparsed, and since P22-T10a on a focus ring below 3:1 against the page; `bin/test` runs it with `--gate`) (`--suggest` adds, for a pair below AA, the black or white text colour that would reach it):
+`bin/check-theme --contrast` (plan P10-T4) is a separate pass, report-only unless `--gate` is added (P22-T20: exit 1 on any pair below AA or unparsed, and since P22-T10a on a focus ring below 3:1 against the page; since 2026-11-15 only in the light and dark themes, the others being the user's choice; `bin/test` runs it with `--gate`) (`--suggest` adds, for a pair below AA, the black or white text colour that would reach it):
 for each theme it computes the WCAG 2 contrast ratio of every declared
 text/background token pair (base content on the three base surfaces, each
 `-content` colour on its fill, and `--lily-error-text` on the page) and
@@ -250,6 +250,8 @@ FOCUS_PAIRS = [
     ("--lily-focus-ring", "--color-base-200"),
 ]
 NON_TEXT = 3.0
+# The themes the contrast gate holds to AA text and a 3:1 focus ring; the rest are the user's choice.
+GATED_THEMES = {"light.css", "dark.css"}
 
 
 def _srgb_to_linear(c: float) -> float:
@@ -338,7 +340,11 @@ def luminance(oklch):
 def contrast_report() -> int:
     files = sorted(glob.glob(os.path.join(TOP, "themes", "*.css")))
     below_aaa = below_aa = unparsed = focus_below = 0
+    # Only the light and dark themes must pass (spec/theme, "Light and dark must pass"). Every other theme is one a
+    # person chooses, so it is reported and never gated.
+    gated_failures = []
     for f in files:
+        before = (below_aa, unparsed, focus_below)
         css = strip_comments(open(f).read())
         tokens = {}
         for name, value in re.findall(r"(--[a-z0-9-]+)\s*:\s*([^;]+);", css):
@@ -381,17 +387,23 @@ def contrast_report() -> int:
                 focus_below += 1
                 note = " (outside sRGB, clipped: approximate)" if k1 or k2 else ""
                 lines.append(f"  RING {ratio:5.2f}:1  {fg} on {bg}: below 3:1 for a non-text indicator{note}")
+        if os.path.basename(f) in GATED_THEMES and (below_aa, unparsed, focus_below) != before:
+            gated_failures.append(os.path.basename(f))
         if lines:
             print(os.path.basename(f))
             print("\n".join(lines))
     pairs = len(files) * len(CONTRAST_PAIRS)
     gate = "--gate" in sys.argv[1:]
-    gate_failed = gate and (below_aa > 0 or unparsed > 0 or focus_below > 0)
+    gate_failed = gate and bool(gated_failures)
     print(
         f"check-theme --contrast: {pairs} pairs in {len(files)} themes; "
         f"{below_aaa} below AAA (7:1), of which {below_aa} below AA (4.5:1); {unparsed} not parsed. "
         f"Focus ring: {focus_below} of {len(files) * len(FOCUS_PAIRS)} pairs below 3:1. "
-        + ("Gate: " + ("FAILED" if gate_failed else "OK") + "." if gate else "Report only: no colour was changed.")
+        + (
+            ("Gate (light and dark only): " + ("FAILED in " + ", ".join(gated_failures) if gate_failed else "OK") + ".")
+            if gate
+            else "Report only: no colour was changed."
+        )
     )
     return 1 if gate_failed else 0
 

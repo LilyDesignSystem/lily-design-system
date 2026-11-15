@@ -19,6 +19,13 @@ It explicitly does **not** cover: the example apps' full stylesheets (see [examp
 - **Preference sections (P12-T12, P12-T13).** Every theme also ends with two pinned sections after "Focus not obscured": "Text size and motion preferences" (the seven `data-text-size` steps as percentages of the root font size, 80% to 150%, `normal` 100%; `data-motion="reduce"` shortens animations and transitions to 0.01ms, never removes them, so no information is lost) and "Forced colours and contrast preference" (`@media (forced-colors: active)`: control borders, `Highlight` focus ring, `SelectedItem` for selected states; `@media (prefers-contrast: more)`: heavier borders and focus ring). `bin/check-theme` rule 13 and rule 5 pin them.
 - **Focus not obscured.** Every theme ends with the same pinned "Focus not obscured" section (WCAG 2.2 SC 2.4.11): `:where(html) { scroll-padding-block: var(--lily-fixed-bar-block-start, 0px) var(--lily-fixed-bar-block-end, 0px); }`. A fixed bar sets those two custom properties on the root to its height; `bin/check-theme` rule 12 requires the section in any theme that uses `position: fixed|sticky`, and rule 5 pins its text.
 - **Headless components only set ARIA, semantic structure, class hooks, and `data-*` attributes** — never literal visual values.
+- **Light and dark must pass; the other themes are the user's choice (2026-11-15).** The `light` and `dark` themes are the
+  defaults, so they must meet WCAG 2.2 AA: every text pair at least 4.5:1 (SC 1.4.3) and the focus ring at least 3:1 against
+  the page (SC 1.4.11, 2.4.13), with every colour parseable. `bin/check-theme --contrast --gate`, in `bin/test`, fails when
+  either does not. Every other theme (a public-sector look, a brand, a playful palette) is one a person chooses for
+  themselves, so it may have pairs below AA: the check reports them, and `docs/theme-contrast.md` lists them, so the
+  person can choose knowingly, but it never fails the build. A theme meant as an accessible default must pass as light
+  and dark do. AAA (7:1) is reported, never gated.
 
 ## Reference palette (default examples)
 
@@ -384,6 +391,7 @@ Editorial / scrollytelling primitives use CSS custom properties for column width
 - [x] An adopt-or-decline list of non-UK/US public-sector systems, with a licence per system.
 - [x] Themes for the six adopted systems (P17-T9a).
 - [x] Editorial column widths use the `--content-width-*` convention set by `article-layout` and read by `content-block`.
+- [x] `light` and `dark` pass AA text contrast and a 3:1 focus ring, gated in `bin/test`; other themes are reported, not gated.
 
 ## Related topics
 
