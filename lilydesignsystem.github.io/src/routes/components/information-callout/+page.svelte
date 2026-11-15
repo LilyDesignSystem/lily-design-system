@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>InformationCallout — Lily Design System</title>
+  <title>Information Callout — Lily Design System</title>
   <meta name="description" content="InformationCallout is a headless component that highlights important information in a semantically distinct container. It renders an &lt;aside&gt; element with role=&quot;note&quot; and an accessible label, making the callout content identifiable to assistive technologies as supplementary information." />
 </svelte:head>
 

@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>AotearoaNationalHealthIndexInput — Lily Design System</title>
+  <title>Aotearoa National Health Index Input — Lily Design System</title>
   <meta name="description" content="AotearoaNationalHealthIndexInput is a headless input for entering New Zealand's National Health Index (NHI) Number, New Zealand's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to Aote…" />
 </svelte:head>
 

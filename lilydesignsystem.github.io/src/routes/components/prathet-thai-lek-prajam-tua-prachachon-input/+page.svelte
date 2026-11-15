@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>PrathetThaiLekPrajamTuaPrachachonInput — Lily Design System</title>
+  <title>Prathet Thai Lek Prajam Tua Prachachon Input — Lily Design System</title>
   <meta name="description" content="PrathetThaiLekPrajamTuaPrachachonInput is a headless input for entering Thailand's เลขประจำตัวประชาชน (Lek Prajam Tua Prachachon), Thailand's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable compa…" />
 </svelte:head>
 

@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ProblemRecordListItem — Lily Design System</title>
+  <title>Problem Record List Item — Lily Design System</title>
   <meta name="description" content="ProblemRecordListItem is one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution. It renders as a &lt;li&gt;. Every word is the consumer's." />
 </svelte:head>
 

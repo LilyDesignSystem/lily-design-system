@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>SouthAfricaIdentityNumberInput — Lily Design System</title>
+  <title>South Africa Identity Number Input — Lily Design System</title>
   <meta name="description" content="SouthAfricaIdentityNumberInput is a headless input for entering South Africa's South African Identity Number, South Africa's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to SouthAfri…" />
 </svelte:head>
 

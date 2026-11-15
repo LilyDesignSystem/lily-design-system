@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>TurkiyeTcKimlikNumarasiInput — Lily Design System</title>
+  <title>Turkiye Tc Kimlik Numarasi Input — Lily Design System</title>
   <meta name="description" content="TurkiyeTcKimlikNumarasiInput is a headless input for entering Turkey's T.C. Kimlik Numarası, Turkey's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to TurkiyeTcKimlikNumarasiView." />
 </svelte:head>
 

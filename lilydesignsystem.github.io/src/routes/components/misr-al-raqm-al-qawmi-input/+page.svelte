@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>MisrAlRaqmAlQawmiInput — Lily Design System</title>
+  <title>Misr Al Raqm Al Qawmi Input — Lily Design System</title>
   <meta name="description" content="MisrAlRaqmAlQawmiInput is a headless input for entering Egypt's الرقم القومي (Al-Raqm Al-Qawmi), Egypt's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to MisrAlRaqmAlQawmiView." />
 </svelte:head>
 

@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>DateField — Lily Design System</title>
+  <title>Date Field — Lily Design System</title>
   <meta name="description" content="A date field asks for a date as three parts, day, month and year, in a &lt;fieldset&gt; named by its &lt;legend&gt;, with optional helper text and an error message, all linked by generated ids. It suits dates people know by heart, such as a date of birth, where a calendar picker is slower than typing." />
 </svelte:head>
 

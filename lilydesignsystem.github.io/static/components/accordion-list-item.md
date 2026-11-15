@@ -1,4 +1,4 @@
-# accordion list Item
+# Accordion List Item
 
 An accordion list item is a single expandable section: an `<li>` holding a native HTML `<details>` / `<summary>`, providing built-in keyboard accessibility and toggle behavior. It is designed to be used inside an AccordionList within an AccordionNav container.
 

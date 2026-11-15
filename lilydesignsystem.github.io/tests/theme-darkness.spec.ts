@@ -21,7 +21,7 @@ test('there are 63 themes and the picker offers all of them', async ({ page }) =
   expect(themes).toHaveLength(63);
   await page.goto('/');
   await page.locator('.theme-picker-button').click();
-  await expect(page.locator('.theme-picker-option')).toHaveCount(57);
+  await expect(page.locator('.theme-picker-option')).toHaveCount(themes.length);
 });
 
 themes.forEach(({ slug, scheme }, index) => {

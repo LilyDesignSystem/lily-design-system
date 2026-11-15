@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>AgeView — Lily Design System</title>
+  <title>Age View — Lily Design System</title>
   <meta name="description" content="AgeView is a headless read-only display of a person's age, in the consumer's words. It renders as a &lt;span&gt;. The TypeScript libraries export ageParts(), which gives the age in units suited to it (minutes for a newborn, weeks and days for an infant, years and months for a child, years for an adult)…" />
 </svelte:head>
 

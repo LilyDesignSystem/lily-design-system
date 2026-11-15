@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput — Lily Design System</title>
+  <title>Ukrayina Reyestratsiyniy Nomer Oblikovoyi Kartky Platnyka Podatkiv Input — Lily Design System</title>
   <meta name="description" content="UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput is a headless input for entering Ukraine's Реєстраційний номер облікової картки платника податків (РНОКПП), Ukraine's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensi…" />
 </svelte:head>
 

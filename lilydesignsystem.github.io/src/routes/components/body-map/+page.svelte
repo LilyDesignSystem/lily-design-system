@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>BodyMap — Lily Design System</title>
+  <title>Body Map — Lily Design System</title>
   <meta name="description" content="BodyMap is a headless picker for marking regions of the body, such as wound or pain sites: a &lt;fieldset&gt; named by its &lt;legend&gt;, holding the consumer's drawing and a list of real checkboxes, one per region. Lily ships no drawing." />
 </svelte:head>
 

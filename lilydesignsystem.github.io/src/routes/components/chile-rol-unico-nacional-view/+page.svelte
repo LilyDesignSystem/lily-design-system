@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ChileRolUnicoNacionalView — Lily Design System</title>
+  <title>Chile Rol Unico Nacional View — Lily Design System</title>
   <meta name="description" content="ChileRolUnicoNacionalView is a headless read-only display of Chile's Rol Único Nacional (RUN), Chile's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to ChileRolUnicoNacionalInput." />
 </svelte:head>
 

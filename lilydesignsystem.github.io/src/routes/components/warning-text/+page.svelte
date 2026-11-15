@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>WarningText — Lily Design System</title>
+  <title>Warning Text — Lily Design System</title>
   <meta name="description" content="Warning text is a short warning about something important, such as the legal consequence of an action or of not acting: an icon and one bold line of text. It is the GOV.UK and DHCW warning-text pattern, headless." />
 </svelte:head>
 

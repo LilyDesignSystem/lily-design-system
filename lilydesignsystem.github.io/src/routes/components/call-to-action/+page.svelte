@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>CallToAction — Lily Design System</title>
+  <title>Call To Action — Lily Design System</title>
   <meta name="description" content="A call to action (CTA) is a component designed to prompt users to take a specific action, such as navigating to a page or triggering an operation. CTAs are typically the most prominent interactive element on a page, driving user engagement toward key goals like &quot;Sign Up&quot;, &quot;Learn More&quot;, or &quot;Buy Now&quot;." />
 </svelte:head>
 

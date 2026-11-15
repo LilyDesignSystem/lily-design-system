@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>AllergyRecordListItem — Lily Design System</title>
+  <title>Allergy Record List Item — Lily Design System</title>
   <meta name="description" content="AllergyRecordListItem is one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status. It renders as a &lt;li&gt;. Every word is the consumer's." />
 </svelte:head>
 

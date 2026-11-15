@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>WarningCallout — Lily Design System</title>
+  <title>Warning Callout — Lily Design System</title>
   <meta name="description" content="A warning callout is a component used to draw attention to important alerts or potential issues that require user attention or caution. It highlights warnings, errors, or critical information that could affect the user's experience or actions, and may include additional text or links to help user…" />
 </svelte:head>
 

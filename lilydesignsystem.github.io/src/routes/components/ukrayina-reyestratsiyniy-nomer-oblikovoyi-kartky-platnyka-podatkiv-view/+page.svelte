@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView — Lily Design System</title>
+  <title>Ukrayina Reyestratsiyniy Nomer Oblikovoyi Kartky Platnyka Podatkiv View — Lily Design System</title>
   <meta name="description" content="UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView is a headless read-only display of Ukraine's Реєстраційний номер облікової картки платника податків (РНОКПП), Ukraine's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only comp…" />
 </svelte:head>
 

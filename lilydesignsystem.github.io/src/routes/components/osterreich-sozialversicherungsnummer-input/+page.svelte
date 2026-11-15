@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>OsterreichSozialversicherungsnummerInput — Lily Design System</title>
+  <title>Osterreich Sozialversicherungsnummer Input — Lily Design System</title>
   <meta name="description" content="OsterreichSozialversicherungsnummerInput is a headless input for entering Austria's Sozialversicherungsnummer (SVNR), Austria's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to Osterr…" />
 </svelte:head>
 

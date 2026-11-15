@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>PilipinasPhilhealthIdentificationNumberInput — Lily Design System</title>
+  <title>Pilipinas Philhealth Identification Number Input — Lily Design System</title>
   <meta name="description" content="PilipinasPhilhealthIdentificationNumberInput is a headless input for entering the Philippines's PhilHealth Identification Number (PIN), the Philippines's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the ed…" />
 </svelte:head>
 

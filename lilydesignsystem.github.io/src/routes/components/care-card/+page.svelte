@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>CareCard — Lily Design System</title>
+  <title>Care Card — Lily Design System</title>
   <meta name="description" content="A care card is a healthcare-oriented component for displaying medical guidance with varying levels of urgency. Inspired by the NHS England design system, care cards communicate health advice in three tiers: non-urgent (speak to a GP), urgent (visit A&amp;E or call 111), and immediate (call 999)." />
 </svelte:head>
 

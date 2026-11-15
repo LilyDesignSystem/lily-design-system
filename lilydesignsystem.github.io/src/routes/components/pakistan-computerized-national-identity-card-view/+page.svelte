@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>PakistanComputerizedNationalIdentityCardView — Lily Design System</title>
+  <title>Pakistan Computerized National Identity Card View — Lily Design System</title>
   <meta name="description" content="PakistanComputerizedNationalIdentityCardView is a headless read-only display of Pakistan's Computerized National Identity Card Number (CNIC), Pakistan's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to PakistanComputerizedNat…" />
 </svelte:head>
 

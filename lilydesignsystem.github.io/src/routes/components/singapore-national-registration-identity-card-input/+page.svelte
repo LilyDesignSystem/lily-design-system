@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>SingaporeNationalRegistrationIdentityCardInput — Lily Design System</title>
+  <title>Singapore National Registration Identity Card Input — Lily Design System</title>
   <meta name="description" content="SingaporeNationalRegistrationIdentityCardInput is a headless input for entering Singapore's National Registration Identity Card Number / Foreign Identification Number (NRIC/FIN), Singapore's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protec…" />
 </svelte:head>
 

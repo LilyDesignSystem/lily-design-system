@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>MedicationView — Lily Design System</title>
+  <title>Medication View — Lily Design System</title>
   <meta name="description" content="MedicationView is a headless read-only display of a medicine: its name, strength, form, route and frequency, each in its own part and none ever truncated. It renders as a &lt;span&gt;. Lily ships no drug data and no tall man list." />
 </svelte:head>
 

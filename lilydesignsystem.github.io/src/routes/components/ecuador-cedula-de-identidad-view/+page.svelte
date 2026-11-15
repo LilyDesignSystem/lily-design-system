@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>EcuadorCedulaDeIdentidadView — Lily Design System</title>
+  <title>Ecuador Cedula De Identidad View — Lily Design System</title>
   <meta name="description" content="EcuadorCedulaDeIdentidadView is a headless read-only display of Ecuador's Cedula de Identidad Number, Ecuador's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to EcuadorCedulaDeIdentidadInput." />
 </svelte:head>
 

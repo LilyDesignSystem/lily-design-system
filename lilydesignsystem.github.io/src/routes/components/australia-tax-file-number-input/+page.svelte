@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>AustraliaTaxFileNumberInput — Lily Design System</title>
+  <title>Australia Tax File Number Input — Lily Design System</title>
   <meta name="description" content="AustraliaTaxFileNumberInput is a headless input for entering Australia's Tax File Number (TFN), Australia's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to AustraliaTaxFileNumberView." />
 </svelte:head>
 

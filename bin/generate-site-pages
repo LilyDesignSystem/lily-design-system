@@ -176,6 +176,13 @@ const articleConsts = (html) => {
   return `  const intro: string = ${jsStr(intro)};\n  const usage: string = ${jsStr(usage)};\n  const rest: string = ${jsStr(rest)};`;
 };
 
+// The page's own H1 (the component doc's "# " heading), so the title and the heading never disagree; the PascalCase name
+// only when a doc has no heading.
+function pageHeading(md, fallback) {
+  const m = md.match(/^# (.+)$/m);
+  return m ? m[1].trim() : fallback;
+}
+
 function fullPage(c) {
   const mdPath = `components/${c.slug}/index.md`;
   const md = read(mdPath);
@@ -187,7 +194,7 @@ ${constsFor(c)}
 </script>
 
 <svelte:head>
-  <title>${c.name} — Lily Design System</title>
+  <title>${escAttr(pageHeading(md, c.name))} — Lily Design System</title>
   <meta name="description" content="${escAttr(descriptionFrom(md, c.description))}" />
 </svelte:head>
 

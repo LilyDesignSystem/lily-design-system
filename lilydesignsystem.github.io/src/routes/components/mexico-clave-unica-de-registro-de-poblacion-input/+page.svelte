@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>MexicoClaveUnicaDeRegistroDePoblacionInput — Lily Design System</title>
+  <title>Mexico Clave Unica De Registro De Poblacion Input — Lily Design System</title>
   <meta name="description" content="MexicoClaveUnicaDeRegistroDePoblacionInput is a headless input for entering Mexico's Clave Única de Registro de Población (CURP), Mexico's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companio…" />
 </svelte:head>
 

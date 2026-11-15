@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>NigeriaNationalIdentificationNumberView — Lily Design System</title>
+  <title>Nigeria National Identification Number View — Lily Design System</title>
   <meta name="description" content="NigeriaNationalIdentificationNumberView is a headless read-only display of Nigeria's National Identification Number (NIN), Nigeria's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to NigeriaNationalIdentificationNumberInput." />
 </svelte:head>
 

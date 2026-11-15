@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>BharatAadhaarView — Lily Design System</title>
+  <title>Bharat Aadhaar View — Lily Design System</title>
   <meta name="description" content="BharatAadhaarView is a headless read-only display of India's Aadhaar (आधार), India's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to BharatAadhaarInput." />
 </svelte:head>
 

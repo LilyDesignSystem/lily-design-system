@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>RossiyaSnilsView — Lily Design System</title>
+  <title>Rossiya Snils View — Lily Design System</title>
   <meta name="description" content="RossiyaSnilsView is a headless read-only display of Russia's СНИЛС (Strakhovoy Nomer Individualnogo Litsevogo Scheta), Russia's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to RossiyaSnilsInput." />
 </svelte:head>
 

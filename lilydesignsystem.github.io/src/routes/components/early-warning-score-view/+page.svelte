@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>EarlyWarningScoreView — Lily Design System</title>
+  <title>Early Warning Score View — Lily Design System</title>
   <meta name="description" content="EarlyWarningScoreView is a headless read-only display of an early warning score: the scoring system's name, the score, its band and the escalation it calls for. It renders as a &lt;span&gt;. It is display only and computes nothing." />
 </svelte:head>
 

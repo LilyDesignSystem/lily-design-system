@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>NihonKojinBangoView — Lily Design System</title>
+  <title>Nihon Kojin Bango View — Lily Design System</title>
   <meta name="description" content="NihonKojinBangoView is a headless read-only display of Japan's Individual Number / My Number (マイナンバー), Japan's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to NihonKojinBangoInput." />
 </svelte:head>
 

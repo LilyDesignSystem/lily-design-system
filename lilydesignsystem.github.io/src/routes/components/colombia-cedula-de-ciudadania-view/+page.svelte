@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ColombiaCedulaDeCiudadaniaView — Lily Design System</title>
+  <title>Colombia Cedula De Ciudadania View — Lily Design System</title>
   <meta name="description" content="ColombiaCedulaDeCiudadaniaView is a headless read-only display of Colombia's Cedula de Ciudadania Number, Colombia's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to ColombiaCedulaDeCiudadaniaInput." />
 </svelte:head>
 

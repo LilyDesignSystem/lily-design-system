@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ArgentinaCodigoUnicoDeIdentificacionLaboralInput — Lily Design System</title>
+  <title>Argentina Codigo Unico De Identificacion Laboral Input — Lily Design System</title>
   <meta name="description" content="ArgentinaCodigoUnicoDeIdentificacionLaboralInput is a headless input for entering Argentina's Código Único de Identificación Laboral (CUIL), Argentina's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the edi…" />
 </svelte:head>
 

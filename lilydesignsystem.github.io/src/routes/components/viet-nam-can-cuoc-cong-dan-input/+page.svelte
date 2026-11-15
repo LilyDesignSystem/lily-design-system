@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>VietNamCanCuocCongDanInput — Lily Design System</title>
+  <title>Viet Nam Can Cuoc Cong Dan Input — Lily Design System</title>
   <meta name="description" content="VietNamCanCuocCongDanInput is a headless input for entering Viet Nam's Citizen Identification Number (CCCD), Viet Nam's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to VietNamCanCuoc…" />
 </svelte:head>
 

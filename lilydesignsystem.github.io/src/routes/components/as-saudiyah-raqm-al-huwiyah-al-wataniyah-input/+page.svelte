@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>AsSaudiyahRaqmAlHuwiyahAlWataniyahInput — Lily Design System</title>
+  <title>As Saudiyah Raqm Al Huwiyah Al Wataniyah Input — Lily Design System</title>
   <meta name="description" content="AsSaudiyahRaqmAlHuwiyahAlWataniyahInput is a headless input for entering Saudi Arabia's National Identification Number, Saudi Arabia's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to…" />
 </svelte:head>
 

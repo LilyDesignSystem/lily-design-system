@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>IndonesiaNomorIndukKependudukanInput — Lily Design System</title>
+  <title>Indonesia Nomor Induk Kependudukan Input — Lily Design System</title>
   <meta name="description" content="IndonesiaNomorIndukKependudukanInput is a headless input for entering Indonesia's Nomor Induk Kependudukan (NIK), Indonesia's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to Indonesi…" />
 </svelte:head>
 

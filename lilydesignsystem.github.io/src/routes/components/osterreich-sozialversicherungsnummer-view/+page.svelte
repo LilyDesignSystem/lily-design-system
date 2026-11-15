@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>OsterreichSozialversicherungsnummerView — Lily Design System</title>
+  <title>Osterreich Sozialversicherungsnummer View — Lily Design System</title>
   <meta name="description" content="OsterreichSozialversicherungsnummerView is a headless read-only display of Austria's Sozialversicherungsnummer (SVNR), Austria's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to OsterreichSozialversicherungsnummerInput." />
 </svelte:head>
 

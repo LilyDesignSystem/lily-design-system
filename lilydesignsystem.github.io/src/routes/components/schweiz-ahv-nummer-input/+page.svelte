@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>SchweizAhvNummerInput — Lily Design System</title>
+  <title>Schweiz Ahv Nummer Input — Lily Design System</title>
   <meta name="description" content="SchweizAhvNummerInput is a headless input for entering Switzerland's AHV-Nummer / Numéro AVS, Switzerland's government-issued personal identifier. It renders as &lt;input type=&quot;text&quot;&gt; with autocomplete=&quot;off&quot; to protect sensitive identifiers. It is the editable companion to SchweizAhvNummerView." />
 </svelte:head>
 

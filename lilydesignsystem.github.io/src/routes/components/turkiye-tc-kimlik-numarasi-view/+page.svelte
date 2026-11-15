@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>TurkiyeTcKimlikNumarasiView — Lily Design System</title>
+  <title>Turkiye Tc Kimlik Numarasi View — Lily Design System</title>
   <meta name="description" content="TurkiyeTcKimlikNumarasiView is a headless read-only display of Turkey's T.C. Kimlik Numarası, Turkey's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to TurkiyeTcKimlikNumarasiInput." />
 </svelte:head>
 

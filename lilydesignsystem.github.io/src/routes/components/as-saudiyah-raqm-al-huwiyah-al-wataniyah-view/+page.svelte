@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>AsSaudiyahRaqmAlHuwiyahAlWataniyahView — Lily Design System</title>
+  <title>As Saudiyah Raqm Al Huwiyah Al Wataniyah View — Lily Design System</title>
   <meta name="description" content="AsSaudiyahRaqmAlHuwiyahAlWataniyahView is a headless read-only display of Saudi Arabia's National Identification Number, Saudi Arabia's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to AsSaudiyahRaqmAlHuwiyahAlWataniyahInput." />
 </svelte:head>
 

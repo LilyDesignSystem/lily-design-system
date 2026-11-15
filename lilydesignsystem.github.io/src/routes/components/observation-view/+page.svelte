@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>ObservationView — Lily Design System</title>
+  <title>Observation View — Lily Design System</title>
   <meta name="description" content="ObservationView is a headless read-only display of one clinical observation or test result: its value, unit, interpretation flag and reference range. It renders as a &lt;span&gt;. It shows what the consumer's code decided, and computes no flag and no range." />
 </svelte:head>
 

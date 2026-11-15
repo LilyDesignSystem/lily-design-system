@@ -12,7 +12,7 @@
 </script>
 
 <svelte:head>
-  <title>MisrAlRaqmAlQawmiView — Lily Design System</title>
+  <title>Misr Al Raqm Al Qawmi View — Lily Design System</title>
   <meta name="description" content="MisrAlRaqmAlQawmiView is a headless read-only display of Egypt's الرقم القومي (Al-Raqm Al-Qawmi), Egypt's government-issued personal identifier. It renders as a &lt;span&gt; with an accessible label. It is the read-only companion to MisrAlRaqmAlQawmiInput." />
 </svelte:head>
 
