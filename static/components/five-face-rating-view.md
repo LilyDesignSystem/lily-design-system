@@ -61,7 +61,7 @@ None -- this component is a passive, read-only display.
 
 ## When Not to Use
 
-- Do not use when the user needs to select or change a rating -- use FiveFaceRatingPicker instead.
+- Do not use when the user needs to select or change a rating -- use FiveFaceRatingRadioGroup instead.
 - Do not use for star-based display -- use FiveStarRatingView instead.
 
 ## Headless
@@ -82,11 +82,11 @@ The consumer provides all CSS styling. The component renders with a `.five-face-
 ## Advice
 
 - **Designers**: Ensure the visual treatment clearly communicates that this is a display-only element, not an interactive control. Use color or iconography that matches the rating sentiment.
-- **Developers**: Pair this component with FiveFaceRatingPicker for edit scenarios. Customize the `labels` prop when the default face labels do not match your application's rating scale.
+- **Developers**: Pair this component with FiveFaceRatingRadioGroup for edit scenarios. Customize the `labels` prop when the default face labels do not match your application's rating scale.
 
 ## Related components
 
-- `five-face-rating-picker` — a picker for selecting a 1-5 satisfaction rating using face labels
+- `five-face-rating-radio-group` — a picker for selecting a 1-5 satisfaction rating using face labels
 
 ## References
 

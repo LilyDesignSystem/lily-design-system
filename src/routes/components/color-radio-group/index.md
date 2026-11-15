@@ -1,6 +1,6 @@
 # Color Radio Group
 
-ColorRadioGroup is a headless `<fieldset role="radiogroup">` for choosing a colour swatch, holding the `ColorRadioInput` radios the consumer composes. It is the composable sibling of [ColorPicker](../color-picker/): the picker renders its own labelled radios, while this group takes whatever radios, labels and layout the consumer writes.
+ColorRadioGroup is a headless `<fieldset role="radiogroup">` for choosing a colour swatch, holding the `ColorRadioInput` radios the consumer composes, with whatever labels and layout the consumer writes. It replaces the earlier `color-picker` (removed 2026-11-15).
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -82,8 +82,8 @@ It renders:
 
 ## When Not to Use
 
-- Do not use when the group should render its own options -- use [ColorPicker](../color-picker/), which draws one labelled radio per colour itself.
-- Do not use for a free colour choice -- use [ColorInput](../color-input/) or [ColorPicker](../color-picker/) instead.
+- Do not use when more than one option may be chosen -- use [CheckboxGroup](../checkbox-group/) instead.
+- Do not use for a free colour choice -- use [ColorInput](../color-input/) instead.
 - Do not use for a plain set of choices with no colour meaning -- use [RadioGroup](../radio-group/) instead.
 
 ## Headless
@@ -109,7 +109,7 @@ The consumer provides all CSS styling. The component renders with a `.color-radi
 ## Related components
 
 - `color-radio-input` — a radio input for one choice of a color swatch <input type="radio">
-- `color-picker` — the picker that renders its own radios
+- `color-input` — a native colour field
 - `radio-group` — the general radio group
 
 ## References

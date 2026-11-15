@@ -1,0 +1,44 @@
+{
+  "slug": "emoji-character-radio-group",
+  "name": "EmojiCharacterRadioGroup",
+  "description": "a fieldset radio group for selecting an emoji character",
+  "htmlTag": "fieldset",
+  "category": "forms",
+  "baseClass": ".emoji-character-radio-group",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "`role=\"radiogroup\"` -- on the `<fieldset>`, identifies the group as a set of radio buttons",
+    "`aria-label={label}` -- the group's accessible name"
+  ],
+  "keyboard": [
+    "Tab: focus the checked radio, or the first if none is checked",
+    "ArrowDown / ArrowRight: move to and check the next radio",
+    "ArrowUp / ArrowLeft: move to and check the previous radio",
+    "Space: check the focused radio"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the group, applied via `aria-label`",
+    "`children`: slot (required) -- the `EmojiCharacterRadioInput` elements",
+    "`...restProps`: any additional HTML attributes spread onto the fieldset"
+  ],
+  "related": [
+    "emoji-character-radio-input",
+    "emoji",
+    "radio-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/emoji-character-radio-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/EmojiCharacterRadioGroup/EmojiCharacterRadioGroup.svelte",
+    "react": "lily-design-system-react-headless/components/EmojiCharacterRadioGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/EmojiCharacterRadioGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/EmojiCharacterRadioGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/emoji-character-radio-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/emoji-character-radio-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/emoji-character-radio-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EmojiCharacterRadioGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/emoji-character-radio-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/emoji-character-radio-group/AGENTS.md"
+}

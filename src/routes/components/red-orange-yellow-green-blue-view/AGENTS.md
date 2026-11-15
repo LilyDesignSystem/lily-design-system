@@ -11,7 +11,7 @@
 
 ## Companion
 
-- red-orange-yellow-green-blue-picker
+- red-orange-yellow-green-blue-radio-group
 
 ## Key Behaviors
 

@@ -11,7 +11,7 @@
 
 ## Companion
 
-- five-star-rating-picker
+- five-star-rating-radio-group
 
 ## Key Behaviors
 

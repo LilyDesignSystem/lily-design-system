@@ -44,8 +44,8 @@ None -- keyboard behavior is provided by the browser-native color input.
 
 ## When Not to Use
 
-- Do not use when you need a custom colour palette -- use ColorPicker for a two-dimensional saturation and brightness board.
-- Do not use for preset colour choices -- use RadioGroup or SegmentGroup with colour swatches, or a group of ColorPickerButton components.
+- Do not use when you need a custom colour palette -- use ColorRadioGroup for a two-dimensional saturation and brightness board.
+- Do not use for preset colour choices -- use RadioGroup or SegmentGroup with colour swatches, or a group of ColorRadioInput components.
 
 ## Headless
 
@@ -68,8 +68,8 @@ The consumer provides all CSS styling. The component renders with a `.color-inpu
 
 ## Related components
 
-- `color-picker` — a two-dimensional board for picking colors by hue and saturation
-- `color-picker-button` — a button showing a color swatch in a color picker
+- `color-radio-group` — a two-dimensional board for picking colors by hue and saturation
+- `color-radio-input` — a button showing a color swatch in a color picker
 
 ## References
 

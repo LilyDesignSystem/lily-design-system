@@ -3116,13 +3116,13 @@
 
     /* Picker baseline — inline row of selectable chips/buttons. */
     :where(
-        .color-picker,
-        .five-face-rating-picker,
-        .five-star-rating-picker,
-        .net-promoter-score-picker,
-        .red-amber-green-picker,
-        .red-orange-yellow-green-blue-picker,
-        .emoji-character-picker,
+        .color-radio-group,
+        .five-face-rating-radio-group,
+        .five-star-rating-radio-group,
+        .net-promoter-score-radio-group,
+        .red-amber-green-radio-group,
+        .red-orange-yellow-green-blue-radio-group,
+        .emoji-character-radio-group,
         .calendar-range-picker
     ) {
         display: inline-flex;
@@ -3133,55 +3133,36 @@
         border: var(--border) solid var(--lily-border);
         border-radius: var(--lily-radius-md);
     }
-    /* Picker buttons — small alt-surface chips. */
-    :where(
-        .color-picker-button,
-        .five-face-rating-picker-button,
-        .five-star-rating-picker-button,
-        .net-promoter-score-picker-button,
-        .red-amber-green-picker-button,
-        .red-orange-yellow-green-blue-picker-button
-    ) {
-        background-color: var(--lily-surface-alt);
-        color: var(--lily-text);
-        border: var(--border) solid var(--lily-border);
-        min-width: 1.5rem;
-        min-height: 1.5rem;
-        padding: 0.125rem 0.25rem;
-    }
-    /* Color picker — circular swatch. */
-    :where(.color-picker-button) {
+    /* Colour radio — a circular swatch painted from the input's own colour. */
+    :where(.color-radio-input) {
+        appearance: none;
+        background-color: var(--color-radio-input-color);
+        flex: none;
+        aspect-ratio: 1;
         width: 1.25rem;
         height: 1.25rem;
         padding: 0;
         border-radius: 50%;
     }
-    /* Filled stars — warning (gold) colour for both viewer and pressed state. */
-    :where(
-        .five-star-rating-view,
-        .five-star-rating-picker-button[aria-pressed="true"]
-    ) {
+    :where(.color-radio-input:checked) {
+        box-shadow:
+            0 0 0 2px var(--lily-surface),
+            0 0 0 4px var(--lily-text);
+    }
+    /* Filled stars — warning (gold) colour. */
+    :where(.five-star-rating-view) {
         color: var(--color-warning);
     }
     /* RAG (red/amber/green) — semantic colour per status. */
-    :where(
-        .red-amber-green-view[data-value="red"],
-        .red-amber-green-picker-button[data-value="red"]
-    ) {
+    :where(.red-amber-green-view[data-value="red"]) {
         background-color: var(--color-error);
         color: var(--color-error-content);
     }
-    :where(
-        .red-amber-green-view[data-value="amber"],
-        .red-amber-green-picker-button[data-value="amber"]
-    ) {
+    :where(.red-amber-green-view[data-value="amber"]) {
         background-color: var(--color-warning);
         color: var(--color-warning-content);
     }
-    :where(
-        .red-amber-green-view[data-value="green"],
-        .red-amber-green-picker-button[data-value="green"]
-    ) {
+    :where(.red-amber-green-view[data-value="green"]) {
         background-color: var(--color-success);
         color: var(--color-success-content);
     }

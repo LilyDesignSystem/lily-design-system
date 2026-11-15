@@ -13,7 +13,7 @@ Implement the Red Amber Green View component: a read-only display of a red/amber
 
 ## Companion Component
 
-- red-amber-green-picker (Input/View or Input/Link pair)
+- red-amber-green-radio-group (Input/View or Input/Link pair)
 
 ## Approach
 
@@ -51,7 +51,7 @@ Implement the Red Amber Green View component: a read-only display of a red/amber
 - [ ] Implement React headless component
 - [ ] Implement Vue headless component
 - [ ] Implement Blazor headless component
-- [ ] Verify companion component: red-amber-green-picker
+- [ ] Verify companion component: red-amber-green-radio-group
 - [ ] Add comprehensive keyboard interaction tests
 - [ ] Add screen reader announcement tests
 - [ ] Add integration tests with parent/child components

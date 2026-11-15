@@ -11,7 +11,7 @@
 
 ## Companion
 
-- net-promoter-score-picker
+- net-promoter-score-radio-group
 
 ## Key Behaviors
 

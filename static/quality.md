@@ -47,7 +47,7 @@ Why none has met them: the [screen-reader matrix](https://github.com/LilyDesignS
 | [checkbox-group](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#checkbox-group) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [radio-input](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#radio-input) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [radio-group](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#radio-group) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
-| [net-promoter-score-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#net-promoter-score-picker) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
+| [net-promoter-score-radio-group](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#net-promoter-score-radio-group) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [theme-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#theme-picker) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [locale-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#locale-picker) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |
 | [text-size-picker](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/core.md#text-size-picker) | 8 of 8 libraries | Chromium, Firefox, WebKit | 0 of 6 filled | no |

@@ -58,7 +58,7 @@ In an analytics dashboard:
 
 ## When Not to Use
 
-- Do not use when the user needs to select or change the score -- use NetPromoterScorePicker instead.
+- Do not use when the user needs to select or change the score -- use NetPromoterScoreRadioGroup instead.
 - Do not use for star-based display -- use FiveStarRatingView instead.
 
 ## Headless
@@ -83,7 +83,7 @@ The consumer provides all CSS styling. The component renders with a `.net-promot
 
 ## Related components
 
-- `net-promoter-score-picker` — a picker for selecting a 0-10 Net Promoter Score
+- `net-promoter-score-radio-group` — a picker for selecting a 0-10 Net Promoter Score
 
 ## References
 

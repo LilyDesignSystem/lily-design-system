@@ -1,6 +1,6 @@
 # Five Face Rating Radio Input
 
-FiveFaceRatingRadioInput is a headless native `<input type="radio">` for one choice of a 1-5 satisfaction rating with face labels, used inside a [FiveFaceRatingRadioGroup](five-face-rating-radio-group.md). It is the radio counterpart of [FiveFaceRatingPickerButton](five-face-rating-picker-button.md): where the picker button is a toggle `<button>` with `aria-pressed`, this is a real radio, so the group gets native arrow keys, form submission and form reset.
+FiveFaceRatingRadioInput is a headless native `<input type="radio">` for one choice of a 1-5 satisfaction rating with face labels, used inside a [FiveFaceRatingRadioGroup](five-face-rating-radio-group.md). Because it is a real radio, the group gets native arrow keys, form submission and form reset.
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -61,8 +61,8 @@ FiveFaceRatingRadioInput is a headless native `<input type="radio">` for one cho
 
 ## When Not to Use
 
-- Do not use as a toggle outside a radio group -- use [FiveFaceRatingPickerButton](five-face-rating-picker-button.md) instead.
-- Do not use when a ready-made group is enough -- use [FiveFaceRatingPicker](five-face-rating-picker.md), which renders its own radios.
+- Do not use alone for a yes/no choice -- a lone radio cannot be unchecked; use [CheckboxInput](checkbox-input.md) instead.
+- Do not use outside its group -- put every option in one [FiveFaceRatingRadioGroup](five-face-rating-radio-group.md) with a shared `name`.
 - Do not use for an option with no status or rating meaning -- use [RadioInput](radio-input.md) instead.
 
 ## Headless
@@ -88,7 +88,7 @@ The consumer provides all CSS styling. The component renders with a `.five-face-
 ## Related components
 
 - `five-face-rating-radio-group` — a fieldset radio group for selecting a 1-5 satisfaction rating using face labels
-- `five-face-rating-picker-button` — the toggle-button counterpart
+- `five-face-rating-view` — the read-only display
 - `radio-input` — the general radio input
 
 ## References

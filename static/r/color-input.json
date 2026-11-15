@@ -23,8 +23,8 @@
     "`...restProps`: unknown -- additional attributes spread onto the `<input>`"
   ],
   "related": [
-    "color-picker",
-    "color-picker-button"
+    "color-radio-group",
+    "color-radio-input"
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/color-input.html",

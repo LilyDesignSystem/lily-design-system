@@ -1,6 +1,6 @@
 # Color Radio Input
 
-ColorRadioInput is a headless native `<input type="radio">` for one choice of a colour swatch, used inside a [ColorRadioGroup](color-radio-group.md). It is the radio counterpart of [ColorPickerButton](color-picker-button.md): where the picker button is a toggle `<button>` with `aria-pressed`, this is a real radio, so the group gets native arrow keys, form submission and form reset.
+ColorRadioInput is a headless native `<input type="radio">` for one choice of a colour swatch, used inside a [ColorRadioGroup](color-radio-group.md). Because it is a real radio, the group gets native arrow keys, form submission and form reset.
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -64,8 +64,8 @@ ColorRadioInput is a headless native `<input type="radio">` for one choice of a 
 
 ## When Not to Use
 
-- Do not use as a toggle outside a radio group -- use [ColorPickerButton](color-picker-button.md) instead.
-- Do not use when a ready-made group is enough -- use [ColorPicker](color-picker.md), which renders its own radios.
+- Do not use alone for a yes/no choice -- a lone radio cannot be unchecked; use [CheckboxInput](checkbox-input.md) instead.
+- Do not use outside its group -- put every option in one [ColorRadioGroup](color-radio-group.md) with a shared `name`.
 - Do not use for an option with no colour meaning -- use [RadioInput](radio-input.md) instead.
 
 ## Headless
@@ -91,7 +91,7 @@ The consumer provides all CSS styling. The component renders with a `.color-radi
 ## Related components
 
 - `color-radio-group` — a fieldset radio group for selecting a color swatch
-- `color-picker-button` — the toggle-button counterpart
+- `color-input` — a native colour field
 - `radio-input` — the general radio input
 
 ## References

@@ -1,6 +1,6 @@
 # Net Promoter Score Radio Group
 
-NetPromoterScoreRadioGroup is a headless `<fieldset role="radiogroup">` for choosing a 0-10 Net Promoter Score, holding the `NetPromoterScoreRadioInput` radios the consumer composes. It is the composable sibling of [NetPromoterScorePicker](../net-promoter-score-picker/): the picker renders its own labelled radios, while this group takes whatever radios, labels and layout the consumer writes.
+NetPromoterScoreRadioGroup is a headless `<fieldset role="radiogroup">` for choosing a 0-10 Net Promoter Score, holding the `NetPromoterScoreRadioInput` radios the consumer composes, with whatever labels and layout the consumer writes. It replaces the earlier `net-promoter-score-picker` (removed 2026-11-15).
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -80,7 +80,7 @@ It renders:
 
 ## When Not to Use
 
-- Do not use when the group should render its own options -- use [NetPromoterScorePicker](../net-promoter-score-picker/), which draws one labelled radio per value itself.
+- Do not use when more than one option may be chosen -- use [CheckboxGroup](../checkbox-group/) instead.
 - Do not use for a read-only display -- use [NetPromoterScoreView](../net-promoter-score-view/) instead.
 - Do not use for a plain set of choices with no status or rating meaning -- use [RadioGroup](../radio-group/) instead.
 
@@ -107,7 +107,7 @@ The consumer provides all CSS styling. The component renders with a `.net-promot
 ## Related components
 
 - `net-promoter-score-radio-input` — a radio input for one choice of a 0-10 Net Promoter Score <input type="radio">
-- `net-promoter-score-picker` — the picker that renders its own radios
+- `net-promoter-score-view` — the read-only display
 - `radio-group` — the general radio group
 
 ## References

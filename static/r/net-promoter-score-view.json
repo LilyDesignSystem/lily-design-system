@@ -18,7 +18,7 @@
     "`...restProps`: any -- additional HTML attributes spread onto the `<span>` element"
   ],
   "related": [
-    "net-promoter-score-picker"
+    "net-promoter-score-radio-group"
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/net-promoter-score-view.html",
