@@ -251,6 +251,8 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "input-group", pascal: "InputGroup", description: "a group wrapping an input with prefix and suffix addons", status: "beta" },
   { name: "input-with-mask", pascal: "InputWithMask", description: "an input displaying a format mask placeholder for the user to fill in", status: "beta" },
   { name: "inset-text", pascal: "InsetText", description: "indented text to distinguish it from surrounding content", status: "stable" },
+  { name: "international-patient-summary", pascal: "InternationalPatientSummary", description: "an International Patient Summary (HL7 FHIR IPS) laid out for a clinician: patient banner, contents, sections and document details, never silently missing a required section", status: "experimental" },
+  { name: "international-patient-summary-section", pascal: "InternationalPatientSummarySection", description: "one section of an International Patient Summary, with its LOINC code and a status that is never blank", status: "experimental" },
   { name: "eire-individual-health-identifier-input", pascal: "EireIndividualHealthIdentifierInput", description: "an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier", status: "beta" },
   { name: "eire-individual-health-identifier-view", pascal: "EireIndividualHealthIdentifierView", description: "a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier", status: "beta" },
   { name: "island-kennitala-input", pascal: "IslandKennitalaInput", description: "an input for entering Iceland's Kennitala", status: "beta" },

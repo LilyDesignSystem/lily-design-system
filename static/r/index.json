@@ -1,5 +1,5 @@
 {
-  "count": 630,
+  "count": 632,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -1788,6 +1788,18 @@
       "name": "InsetText",
       "description": "indented text to distinguish it from surrounding content",
       "manifest": "https://lilydesignsystem.com/r/inset-text.json"
+    },
+    {
+      "slug": "international-patient-summary",
+      "name": "InternationalPatientSummary",
+      "description": "an International Patient Summary (HL7 FHIR IPS) laid out for a clinician: patient banner, contents, sections and document details, never silently missing a required section",
+      "manifest": "https://lilydesignsystem.com/r/international-patient-summary.json"
+    },
+    {
+      "slug": "international-patient-summary-section",
+      "name": "InternationalPatientSummarySection",
+      "description": "one section of an International Patient Summary, with its LOINC code and a status that is never blank",
+      "manifest": "https://lilydesignsystem.com/r/international-patient-summary-section.json"
     },
     {
       "slug": "iran-kod-e-melli-input",
