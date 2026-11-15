@@ -76,4 +76,16 @@ describe("international-patient-summary", () => {
         expect(links[1].getAttribute("href")).toBe("#international-patient-summary-results");
         expect(links[2].closest("li").getAttribute("data-status")).toBe("omitted");
     });
+
+    it("idPrefix gives the added sections and the contents links their own ids", () => {
+        const { document } = render("international-patient-summary", {
+            ...base,
+            contentsLabel: "Contents",
+            idPrefix: "second",
+        });
+        expect(document.getElementById("second-medications").getAttribute("data-status")).toBe(
+            "omitted",
+        );
+        expect(document.querySelector("nav a").getAttribute("href")).toBe("#second-medications");
+    });
 });

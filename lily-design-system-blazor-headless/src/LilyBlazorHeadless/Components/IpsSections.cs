@@ -40,7 +40,11 @@ public static class IpsSections
 
     public static bool IsRequired(string key) => Required.Contains(key);
 
-    public static string Id(string key, string? id = null) => string.IsNullOrEmpty(id) ? $"international-patient-summary-{key}" : id;
+    /// <summary>The default id prefix; give each summary on a page its own.</summary>
+    public const string IdPrefix = "international-patient-summary";
+
+    public static string Id(string key, string? id = null, string? idPrefix = null) =>
+        string.IsNullOrEmpty(id) ? $"{(string.IsNullOrEmpty(idPrefix) ? IdPrefix : idPrefix)}-{key}" : id;
 
     public static IReadOnlyList<string> MissingRequired(IEnumerable<IpsSectionEntry> sections)
     {
@@ -49,13 +53,13 @@ public static class IpsSections
     }
 
     public static IReadOnlyList<IpsContentsEntry> Contents(
-        IEnumerable<IpsSectionEntry> sections, IReadOnlyDictionary<string, string> requiredHeadings)
+        IEnumerable<IpsSectionEntry> sections, IReadOnlyDictionary<string, string> requiredHeadings, string? idPrefix = null)
     {
         var list = sections.ToList();
         var given = list.Select(s => new IpsContentsEntry(
-            s.Key, s.Heading, string.IsNullOrEmpty(s.Status) ? "known" : s.Status, Id(s.Key, s.Id), Code(s.Key), IsRequired(s.Key), false));
+            s.Key, s.Heading, string.IsNullOrEmpty(s.Status) ? "known" : s.Status, Id(s.Key, s.Id, idPrefix), Code(s.Key), IsRequired(s.Key), false));
         var added = MissingRequired(list).Select(k => new IpsContentsEntry(
-            k, requiredHeadings.TryGetValue(k, out var h) ? h : "", "omitted", Id(k), Code(k), true, true));
+            k, requiredHeadings.TryGetValue(k, out var h) ? h : "", "omitted", Id(k, null, idPrefix), Code(k), true, true));
         return given.Concat(added).ToList();
     }
 }

@@ -20,6 +20,7 @@ const props = withDefaults(
         code?: string;
         required?: boolean;
         id?: string;
+        idPrefix?: string;
         narrativeLabel?: string;
         narrativeOpen?: boolean;
     }>(),
@@ -30,13 +31,14 @@ const props = withDefaults(
         code: undefined,
         required: undefined,
         id: undefined,
+        idPrefix: undefined,
         narrativeLabel: undefined,
         narrativeOpen: false,
     },
 );
 
 const slots = useSlots();
-const sectionId = computed(() => ipsSectionId(props.section, props.id));
+const sectionId = computed(() => ipsSectionId(props.section, props.id, props.idPrefix));
 const isRequired = computed(() => props.required ?? ipsSectionIsRequired(props.section));
 
 warnMissingProp(

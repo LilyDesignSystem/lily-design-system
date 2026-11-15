@@ -17,7 +17,7 @@ import { InternationalPatientSummarySection } from "./InternationalPatientSummar
     selector: "lily-international-patient-summary",
     standalone: true,
     imports: [InternationalPatientSummarySection],
-    template: `<article class="international-patient-summary {{ className() }}" [attr.aria-label]="label() || null"><div class="international-patient-summary-banner"><ng-content select="[banner]" /></div>@if (contentsLabel()) {<nav class="international-patient-summary-contents" [attr.aria-label]="contentsLabel()"><ol>@for (entry of contents(); track entry.id) {<li [attr.data-section]="entry.key" [attr.data-status]="entry.status"><a [attr.href]="'#' + entry.id">{{ entry.heading }}</a></li>}</ol></nav>}<div class="international-patient-summary-sections"><ng-content />@for (entry of added(); track entry.id) {<lily-international-patient-summary-section [section]="entry.key" [heading]="entry.heading" [headingLevel]="headingLevel()" status="omitted" [statusLabel]="omittedLabel()" />}</div><div class="international-patient-summary-details"><ng-content select="[details]" /></div></article>`,
+    template: `<article class="international-patient-summary {{ className() }}" [attr.aria-label]="label() || null"><div class="international-patient-summary-banner"><ng-content select="[banner]" /></div>@if (contentsLabel()) {<nav class="international-patient-summary-contents" [attr.aria-label]="contentsLabel()"><ol>@for (entry of contents(); track entry.id) {<li [attr.data-section]="entry.key" [attr.data-status]="entry.status"><a [attr.href]="'#' + entry.id">{{ entry.heading }}</a></li>}</ol></nav>}<div class="international-patient-summary-sections"><ng-content />@for (entry of added(); track entry.id) {<lily-international-patient-summary-section [section]="entry.key" [id]="entry.id" [heading]="entry.heading" [headingLevel]="headingLevel()" status="omitted" [statusLabel]="omittedLabel()" />}</div><div class="international-patient-summary-details"><ng-content select="[details]" /></div></article>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InternationalPatientSummary implements OnInit {
@@ -34,9 +34,11 @@ export class InternationalPatientSummary implements OnInit {
     /** Names the contents navigation; without it there is none. */
     readonly contentsLabel = input<string>("");
     readonly headingLevel = input<2 | 3 | 4 | 5 | 6>(2);
+    /** Section ids are {idPrefix}-{key}; give each summary on a page its own. */
+    readonly idPrefix = input<string | undefined>(undefined);
 
     protected readonly contents = computed(() =>
-        ipsContents(this.sections(), this.requiredHeadings() ?? {}),
+        ipsContents(this.sections(), this.requiredHeadings() ?? {}, this.idPrefix()),
     );
     protected readonly added = computed(() => this.contents().filter((entry) => entry.added));
 

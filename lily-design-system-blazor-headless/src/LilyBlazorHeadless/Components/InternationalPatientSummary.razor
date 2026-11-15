@@ -26,7 +26,7 @@
         @ChildContent
         @foreach (var entry in ContentsEntries.Where(e => e.Added))
         {
-            <InternationalPatientSummarySection Section="@entry.Key" Heading="@entry.Heading" HeadingLevel="@HeadingLevel" Status="omitted" StatusLabel="@OmittedLabel" />
+            <InternationalPatientSummarySection Section="@entry.Key" Id="@entry.Id" Heading="@entry.Heading" HeadingLevel="@HeadingLevel" Status="omitted" StatusLabel="@OmittedLabel" />
         }
     </div>
     @if (Details is not null) {<div class="international-patient-summary-details">@Details</div>}
@@ -42,11 +42,13 @@
     /// <summary>Names the contents navigation; without it there is none.</summary>
     [Parameter] public string? ContentsLabel { get; set; }
     [Parameter] public int HeadingLevel { get; set; } = 2;
+    /// <summary>Section ids are {IdPrefix}-{key}; give each summary on a page its own.</summary>
+    [Parameter] public string? IdPrefix { get; set; }
     [Parameter] public RenderFragment? Banner { get; set; }
     [Parameter] public RenderFragment? Details { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private IReadOnlyList<IpsContentsEntry> ContentsEntries => IpsSections.Contents(Sections, RequiredHeadings);
+    private IReadOnlyList<IpsContentsEntry> ContentsEntries => IpsSections.Contents(Sections, RequiredHeadings, IdPrefix);
 }

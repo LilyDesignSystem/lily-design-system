@@ -21,6 +21,19 @@ class Host {
     };
 }
 
+@Component({
+    standalone: true,
+    imports: [InternationalPatientSummary],
+    template: `<lily-international-patient-summary label="Second" idPrefix="second" contentsLabel="Contents" [requiredHeadings]="headings" omittedLabel="Missing" />`,
+})
+class PrefixHost {
+    readonly headings = {
+        medications: "Medication summary",
+        allergies: "Allergies and intolerances",
+        problems: "Problem list",
+    };
+}
+
 afterEach(() => {
     vi.restoreAllMocks();
     resetDevWarnings();
@@ -89,5 +102,15 @@ describe("InternationalPatientSummary", () => {
         ]);
         expect(links[1].getAttribute("href")).toBe("#international-patient-summary-results");
         expect(links[2].closest("li")!.getAttribute("data-status")).toBe("omitted");
+    });
+
+    test("idPrefix gives the added sections and the contents links their own ids", () => {
+        const fixture = TestBed.createComponent(PrefixHost);
+        fixture.detectChanges();
+        const el = fixture.nativeElement as HTMLElement;
+        expect(el.querySelector("#second-medications")!.getAttribute("data-status")).toBe(
+            "omitted",
+        );
+        expect(el.querySelector("nav a")!.getAttribute("href")).toBe("#second-medications");
     });
 });

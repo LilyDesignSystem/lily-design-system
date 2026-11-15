@@ -20,11 +20,14 @@ const props = withDefaults(
         omittedLabel: string;
         contentsLabel?: string;
         headingLevel?: 2 | 3 | 4 | 5 | 6;
+        idPrefix?: string;
     }>(),
-    { sections: () => [], contentsLabel: undefined, headingLevel: 2 },
+    { sections: () => [], contentsLabel: undefined, headingLevel: 2, idPrefix: undefined },
 );
 
-const contents = computed(() => ipsContents(props.sections, props.requiredHeadings ?? {}));
+const contents = computed(() =>
+    ipsContents(props.sections, props.requiredHeadings ?? {}, props.idPrefix),
+);
 const added = computed(() => contents.value.filter((entry) => entry.added));
 
 warnMissingName("InternationalPatientSummary", props.label);
@@ -76,6 +79,7 @@ warnMissingProp(
                 v-for="entry in added"
                 :key="entry.id"
                 :section="entry.key"
+                :id="entry.id"
                 :heading="entry.heading"
                 :heading-level="headingLevel"
                 status="omitted"

@@ -16,6 +16,7 @@
     omittedLabel      the words an added section shows (required)
     contentsLabel     names the contents navigation; without it there is none
     headingLevel      2 to 6, default 2, for the added sections
+    idPrefix          section ids are {idPrefix}-{key}, default "international-patient-summary"; give each summary on a page its own
     banner, details   raw HTML for the patient banner and the document's details
     html, id, classes, attributes
 
@@ -32,6 +33,7 @@
 {%- set p = params | default({}) -%}
 {%- set sections = p.sections or [] -%}
 {%- set headings = p.requiredHeadings or {} -%}
+{%- set prefix = p.idPrefix or "international-patient-summary" -%}
 {%- set keys = "," + (sections | join(",", "key")) + "," -%}
 {%- set missing = [] -%}
 {%- for k in ["medications", "allergies", "problems"] -%}
@@ -50,10 +52,10 @@
   <nav class="international-patient-summary-contents" aria-label="{{ p.contentsLabel }}">
     <ol>
       {%- for s in sections %}
-      <li data-section="{{ s.key }}" data-status="{{ s.status or 'known' }}"><a href="#{{ s.id or ('international-patient-summary-' + s.key) }}">{{ s.heading }}</a></li>
+      <li data-section="{{ s.key }}" data-status="{{ s.status or 'known' }}"><a href="#{{ s.id or (prefix + '-' + s.key) }}">{{ s.heading }}</a></li>
       {%- endfor %}
       {%- for k in missing %}
-      <li data-section="{{ k }}" data-status="omitted"><a href="#international-patient-summary-{{ k }}">{{ headings[k] }}</a></li>
+      <li data-section="{{ k }}" data-status="omitted"><a href="#{{ prefix }}-{{ k }}">{{ headings[k] }}</a></li>
       {%- endfor %}
     </ol>
   </nav>
@@ -61,7 +63,7 @@
   <div class="international-patient-summary-sections">
     {%- if p.html %}{{ p.html | safe }}{% elif caller %}{{ caller() }}{% endif %}
     {%- for k in missing %}
-    {{ internationalPatientSummarySection({ section: k, heading: headings[k], headingLevel: p.headingLevel, status: "omitted", statusLabel: p.omittedLabel }) }}
+    {{ internationalPatientSummarySection({ section: k, idPrefix: prefix, heading: headings[k], headingLevel: p.headingLevel, status: "omitted", statusLabel: p.omittedLabel }) }}
     {%- endfor %}
   </div>
   {%- if p.details %}

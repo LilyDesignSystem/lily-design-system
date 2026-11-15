@@ -19,6 +19,8 @@ highlights.
 - Structure only: Lily parses no FHIR. The root takes its sections as plain data, and for each required section the list lacks
   (medication summary, allergies, problem list) adds that section with the consumer's heading and `omittedLabel`, after the given
   sections, with a contents link, so a missing required section is never silently absent.
+- `idPrefix` on both components (and `ipsSectionId`, `ipsContents`), default `international-patient-summary`: section ids are
+  `{idPrefix}-{key}`, so two summaries on one page do not share ids.
 - `shared/ips-sections.ts`: the sixteen IPS 2.0.1 sections with their LOINC codes and levels, and `ipsContents()`; exported by the
   TypeScript catalogs, ported to Blazor (`IpsSections`) and Nunjucks.
 

@@ -23,6 +23,8 @@ export interface InternationalPatientSummaryProps {
     /** Names the contents navigation; without it there is none. */
     contentsLabel?: string;
     headingLevel?: 2 | 3 | 4 | 5 | 6;
+    /** Section ids are {idPrefix}-{key}; give each summary on a page its own. */
+    idPrefix?: string;
     banner?: React.ReactNode;
     details?: React.ReactNode;
     children?: React.ReactNode;
@@ -37,6 +39,7 @@ export default function InternationalPatientSummary({
     omittedLabel,
     contentsLabel,
     headingLevel = 2,
+    idPrefix,
     banner,
     details,
     children,
@@ -60,7 +63,7 @@ export default function InternationalPatientSummary({
         requiredHeadings,
         "A missing required section needs a heading.",
     );
-    const contents = ipsContents(sections, requiredHeadings ?? {});
+    const contents = ipsContents(sections, requiredHeadings ?? {}, idPrefix);
     return (
         <article
             className={`international-patient-summary ${className}`}
@@ -94,6 +97,7 @@ export default function InternationalPatientSummary({
                         <InternationalPatientSummarySection
                             key={entry.id}
                             section={entry.key}
+                            id={entry.id}
                             heading={entry.heading}
                             headingLevel={headingLevel}
                             status="omitted"

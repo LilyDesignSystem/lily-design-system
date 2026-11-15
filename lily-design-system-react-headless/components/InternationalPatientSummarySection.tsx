@@ -23,6 +23,8 @@ export interface InternationalPatientSummarySectionProps {
     /** Default whether the IPS requires the section. */
     required?: boolean;
     id?: string;
+    /** The same as its summary's; ids are {idPrefix}-{section}. */
+    idPrefix?: string;
     /** The author's narrative (sanitised by the consumer), in a <details>. */
     narrative?: React.ReactNode;
     narrativeLabel?: string;
@@ -41,6 +43,7 @@ export default function InternationalPatientSummarySection({
     code,
     required,
     id,
+    idPrefix,
     narrative,
     narrativeLabel,
     narrativeOpen = false,
@@ -69,7 +72,7 @@ export default function InternationalPatientSummarySection({
             "The narrative's disclosure needs a summary.",
         );
     }
-    const sectionId = ipsSectionId(section, id);
+    const sectionId = ipsSectionId(section, id, idPrefix);
     const headingId = `${sectionId}-heading`;
     const isRequired = required ?? ipsSectionIsRequired(section);
     const Heading = `h${headingLevel}` as "h2";

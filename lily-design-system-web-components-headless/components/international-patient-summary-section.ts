@@ -16,6 +16,7 @@ const HANDLED = new Set([
     "id",
     "narrative-label",
     "narrative-open",
+    "id-prefix",
 ]);
 
 export interface SectionOptions {
@@ -27,12 +28,13 @@ export interface SectionOptions {
     code?: string;
     required?: boolean;
     id?: string;
+    idPrefix?: string;
     className?: string;
 }
 
 /** Build the section element; InternationalPatientSummary uses it for an added, missing required section. */
 export function buildIpsSection(o: SectionOptions): HTMLElement {
-    const id = ipsSectionId(o.section, o.id);
+    const id = ipsSectionId(o.section, o.id, o.idPrefix);
     const status = o.status || "known";
     const section = document.createElement("section");
     section.className = o.className ?? "international-patient-summary-section";
@@ -72,6 +74,7 @@ export class InternationalPatientSummarySection extends HTMLElement {
             code: this.getAttribute("code") ?? undefined,
             required: required === null ? undefined : required !== "false",
             id: this.getAttribute("id") ?? undefined,
+            idPrefix: this.getAttribute("id-prefix") ?? undefined,
             className: rootClassName(this, "international-patient-summary-section"),
         });
         this.removeAttribute("id");

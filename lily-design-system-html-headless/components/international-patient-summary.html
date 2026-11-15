@@ -8,7 +8,8 @@
   Spec: spec/healthcare-ui; components/international-patient-summary
   Structure only: no FHIR parsing. Static HTML cannot add sections, so the consumer writes each missing required section
     (medications, allergies, problems) itself, as below: data-status="omitted", data-required="true" and its words, after the
-    given sections, with a contents link to it. Section ids are international-patient-summary-{key}.
+    given sections, with a contents link to it. Section ids are international-patient-summary-{key}. Give a second summary on the page its own
+    prefix in place of "international-patient-summary".
 -->
 
 <article

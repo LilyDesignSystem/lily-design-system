@@ -29,6 +29,10 @@ describe("ips-sections", () => {
     test("a section's id defaults from its key, so contents links and sections agree", () => {
         expect(ipsSectionId("allergies")).toBe("international-patient-summary-allergies");
         expect(ipsSectionId("allergies", "mine")).toBe("mine");
+        expect(ipsSectionId("allergies", undefined, "second")).toBe("second-allergies");
+        expect(
+            ipsContents([], { medications: "M", allergies: "A", problems: "P" }, "second")[0].id,
+        ).toBe("second-medications");
     });
 
     test("finds the required sections the list lacks, in registry order", () => {

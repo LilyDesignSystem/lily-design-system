@@ -44,11 +44,15 @@ export class InternationalPatientSummarySection implements OnInit {
     /** Default whether the IPS requires the section. */
     readonly required = input<boolean | undefined>(undefined);
     readonly id = input<string | undefined>(undefined);
+    /** The same as its summary's; ids are {idPrefix}-{section}. */
+    readonly idPrefix = input<string | undefined>(undefined);
     /** The narrative's summary; the <details> renders only with it. */
     readonly narrativeLabel = input<string>("");
     readonly narrativeOpen = input<boolean>(false);
 
-    protected readonly sectionId = computed(() => ipsSectionId(this.section(), this.id()));
+    protected readonly sectionId = computed(() =>
+        ipsSectionId(this.section(), this.id(), this.idPrefix()),
+    );
     protected readonly headingId = computed(() => `${this.sectionId()}-heading`);
     protected readonly sectionCode = computed(() => this.code() ?? ipsSectionCode(this.section()));
     protected readonly isRequired = computed(

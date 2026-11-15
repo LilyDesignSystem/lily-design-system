@@ -11,4 +11,4 @@
 - [x] Stories where the catalog has Storybook
 - [x] Exercise in a composed example page: `/patient-summary` in the SvelteKit app, with axe and keyboard checks in Chromium, Firefox and WebKit (2026-11-15)
 - [ ] Screen-reader sessions in the matrix
-- [ ] An id prefix: two summaries on one page would share section ids (`international-patient-summary-{key}`), because an added section takes its id from its key alone
+- [x] An id prefix (2026-11-15): `idPrefix` on the root and its sections, so two summaries on one page have different section ids

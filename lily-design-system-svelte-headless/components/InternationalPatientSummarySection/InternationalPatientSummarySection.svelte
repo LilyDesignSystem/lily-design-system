@@ -15,7 +15,8 @@
     //   statusLabel — string. The status in words; required for any status but "known".
     //   code — string, optional. The LOINC code; default the IPS code for the key; data-code.
     //   required — boolean, optional. Default whether the IPS requires the section; data-required.
-    //   id — string, optional. Default ipsSectionId(section), which the contents links use.
+    //   id — string, optional. Default {idPrefix}-{section}, which the contents links use.
+    //   idPrefix — string, default "international-patient-summary"; the same as its summary's.
     //   narrative — Snippet, optional. The author's narrative (sanitised by the consumer), in a <details>.
     //   narrativeLabel — string. The <details> summary; required with narrative.
     //   narrativeOpen — boolean, default false. Open it when the section has no structured entries.
@@ -39,6 +40,7 @@
         code = undefined,
         required = undefined,
         id = undefined,
+        idPrefix = undefined,
         narrative = undefined,
         narrativeLabel = undefined,
         narrativeOpen = false,
@@ -53,6 +55,7 @@
         code?: string;
         required?: boolean;
         id?: string;
+        idPrefix?: string;
         narrative?: Snippet;
         narrativeLabel?: string;
         narrativeOpen?: boolean;
@@ -60,7 +63,7 @@
         [key: string]: unknown;
     } = $props();
 
-    const sectionId = $derived(ipsSectionId(section, id));
+    const sectionId = $derived(ipsSectionId(section, id, idPrefix));
     const headingId = $derived(`${sectionId}-heading`);
     const sectionCode = $derived(code ?? ipsSectionCode(section));
     const isRequired = $derived(required ?? ipsSectionIsRequired(section));

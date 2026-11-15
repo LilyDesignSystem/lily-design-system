@@ -16,6 +16,7 @@ See `components/international-patient-summary-section/index.md` for the canonica
 - `code`: string (optional) — the LOINC code; default the IPS code for the key; `data-code`
 - `required`: boolean (optional) — default whether the IPS requires the section; `data-required`
 - `id`: string (optional) — default `international-patient-summary-{section}`
+- `idPrefix`: string (default `"international-patient-summary"`) — the same as its summary's
 - content marked `narrative`, shown in a `<details>` when `narrativeLabel` is given; `narrativeOpen` — the author's narrative in a `<details>`
 - default content (optional) — the section's entries
 

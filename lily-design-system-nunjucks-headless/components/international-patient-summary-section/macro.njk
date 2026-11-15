@@ -13,7 +13,8 @@
     statusLabel     the status in words; shown under the heading for any status but "known"
     code            the LOINC code; default the IPS code for the key; data-code
     required        true / false; default whether the IPS requires the section; data-required
-    id              default "international-patient-summary-{section}"
+    id              default "{idPrefix}-{section}"
+    idPrefix        default "international-patient-summary"; the same as its summary's
     narrative       the author's narrative, raw HTML the consumer has sanitised, in a <details>
     narrativeLabel  the narrative's summary
     narrativeOpen   open the narrative
@@ -34,7 +35,7 @@
 {%- set IPS_REQUIRED = ["medications", "allergies", "problems"] -%}
 {%- macro internationalPatientSummarySection(params) -%}
 {%- set p = params | default({}) -%}
-{%- set sectionId = p.id or ("international-patient-summary-" + p.section) -%}
+{%- set sectionId = p.id or ((p.idPrefix or "international-patient-summary") + "-" + p.section) -%}
 {%- set status = p.status or "known" -%}
 {%- set code = p.code or IPS_CODES[p.section] -%}
 {%- set required = p.required if (p.required === true or p.required === false) else (p.section in IPS_REQUIRED) -%}

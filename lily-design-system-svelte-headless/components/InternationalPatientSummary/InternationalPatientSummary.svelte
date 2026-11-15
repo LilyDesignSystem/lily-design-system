@@ -18,6 +18,8 @@
     //   omittedLabel — string (required). The words an added section shows, such as "Section missing from document".
     //   contentsLabel — string, optional. Names the contents navigation; without it there is none.
     //   headingLevel — 2 to 6, default 2. For the added sections.
+    //   idPrefix — string, default "international-patient-summary". Section ids are {idPrefix}-{key}; give each summary on a
+    //     page its own, and pass the same idPrefix to its sections.
     //   banner — Snippet, optional. The patient banner composition (see the patient banner pattern).
     //   details — Snippet, optional. The document's details (title, date, authors, custodian, IPS version).
     //   children — Snippet, optional. The InternationalPatientSummarySection elements, in document order.
@@ -40,6 +42,7 @@
         omittedLabel,
         contentsLabel = undefined,
         headingLevel = 2,
+        idPrefix = undefined,
         banner = undefined,
         details = undefined,
         children,
@@ -51,13 +54,14 @@
         omittedLabel: string;
         contentsLabel?: string;
         headingLevel?: 2 | 3 | 4 | 5 | 6;
+        idPrefix?: string;
         banner?: Snippet;
         details?: Snippet;
         children?: Snippet;
         [key: string]: unknown;
     } = $props();
 
-    const contents = $derived(ipsContents(sections, requiredHeadings ?? {}));
+    const contents = $derived(ipsContents(sections, requiredHeadings ?? {}, idPrefix));
     const added = $derived(contents.filter((c) => c.added));
 
     $effect(() => {
@@ -113,6 +117,7 @@
         {#each added as entry (entry.id)}
             <InternationalPatientSummarySection
                 section={entry.key}
+                id={entry.id}
                 heading={entry.heading}
                 {headingLevel}
                 status="omitted"

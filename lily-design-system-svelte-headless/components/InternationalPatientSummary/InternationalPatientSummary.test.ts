@@ -133,4 +133,16 @@ describe("InternationalPatientSummary", () => {
         render(Subject, { props: { ...base, label: "", omittedLabel: "" } });
         expect(warn).toHaveBeenCalled();
     });
+
+    test("idPrefix gives the added sections and the contents links their own ids", () => {
+        render(Subject, { props: { ...base, contentsLabel: "Contents", idPrefix: "second" } });
+        expect(document.getElementById("second-medications")!.getAttribute("data-status")).toBe(
+            "omitted",
+        );
+        expect(document.getElementById("international-patient-summary-medications")).toBeNull();
+        const first = within(screen.getByRole("navigation", { name: "Contents" })).getAllByRole(
+            "link",
+        )[0];
+        expect(first.getAttribute("href")).toBe("#second-medications");
+    });
 });

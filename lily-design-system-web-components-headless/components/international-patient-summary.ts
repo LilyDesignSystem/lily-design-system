@@ -16,6 +16,7 @@ const HANDLED = new Set([
     "omitted-label",
     "contents-label",
     "heading-level",
+    "id-prefix",
 ]);
 
 function parseJson<T>(text: string | null, fallback: T): T {
@@ -35,7 +36,11 @@ export class InternationalPatientSummary extends HTMLElement {
             this.getAttribute("required-headings"),
             {},
         );
-        const contents = ipsContents(sections, headings);
+        const contents = ipsContents(
+            sections,
+            headings,
+            this.getAttribute("id-prefix") ?? undefined,
+        );
         const article = document.createElement("article");
         article.className = rootClassName(this, "international-patient-summary");
         const label = this.getAttribute("label");
@@ -85,6 +90,7 @@ export class InternationalPatientSummary extends HTMLElement {
             body.append(
                 buildIpsSection({
                     section: entry.key,
+                    id: entry.id,
                     heading: entry.heading,
                     headingLevel: level,
                     status: "omitted",

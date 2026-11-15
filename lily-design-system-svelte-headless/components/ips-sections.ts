@@ -75,9 +75,12 @@ export function ipsSectionIsRequired(key: string): boolean {
     return IPS_REQUIRED_SECTIONS.includes(key);
 }
 
+/** The default id prefix; give each summary on a page its own, so their section ids differ. */
+export const IPS_ID_PREFIX = "international-patient-summary";
+
 /** The element id a section uses, so a contents link and its section agree without the consumer wiring them. */
-export function ipsSectionId(key: string, id?: string): string {
-    return id || `international-patient-summary-${key}`;
+export function ipsSectionId(key: string, id?: string, idPrefix: string = IPS_ID_PREFIX): string {
+    return id || `${idPrefix || IPS_ID_PREFIX}-${key}`;
 }
 
 /** The required section keys the consumer's list lacks, in registry order. */
@@ -88,17 +91,19 @@ export function ipsMissingRequired(sections: readonly Pick<IpsSectionEntry, "key
 
 /**
  * The contents, in the consumer's order, followed by an "omitted" entry for each missing required section. A missing
- * required section is headed by requiredHeadings[key], the consumer's words.
+ * required section is headed by requiredHeadings[key], the consumer's words. Ids use idPrefix, so two summaries on one page
+ * can have different ones.
  */
 export function ipsContents(
     sections: readonly IpsSectionEntry[],
     requiredHeadings: Readonly<Record<string, string>>,
+    idPrefix: string = IPS_ID_PREFIX,
 ): IpsContentsEntry[] {
     const given = sections.map((s) => ({
         key: s.key,
         heading: s.heading,
         status: s.status ?? "known",
-        id: ipsSectionId(s.key, s.id),
+        id: ipsSectionId(s.key, s.id, idPrefix),
         code: ipsSectionCode(s.key),
         required: ipsSectionIsRequired(s.key),
         added: false,
@@ -107,7 +112,7 @@ export function ipsContents(
         key,
         heading: requiredHeadings[key] ?? "",
         status: "omitted" as const,
-        id: ipsSectionId(key),
+        id: ipsSectionId(key, undefined, idPrefix),
         code: ipsSectionCode(key),
         required: true,
         added: true,

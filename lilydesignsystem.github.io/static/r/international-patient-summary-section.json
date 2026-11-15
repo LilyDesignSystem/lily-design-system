@@ -28,6 +28,7 @@
     "`code`: string (optional) -- the LOINC code; default the IPS code for the key",
     "`required`: boolean (optional) -- default whether the IPS requires the section",
     "`id`: string (optional) -- default `international-patient-summary-{section}`",
+    "`idPrefix`: string (default: \"international-patient-summary\") -- the same as its summary's; the default `id` is `{idPrefix}-{section}`",
     "`narrative`: slot (optional) -- the author's narrative",
     "`narrativeLabel`: string -- the narrative's summary; required with `narrative`",
     "`narrativeOpen`: boolean (default: false) -- open the narrative, as when the section has no structured entries",

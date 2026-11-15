@@ -36,6 +36,8 @@
     /// <summary>Default whether the IPS requires the section.</summary>
     [Parameter] public bool? Required { get; set; }
     [Parameter] public string? Id { get; set; }
+    /// <summary>The same as its summary's; ids are {IdPrefix}-{Section}.</summary>
+    [Parameter] public string? IdPrefix { get; set; }
     /// <summary>The author's narrative (sanitised by the consumer).</summary>
     [Parameter] public RenderFragment? Narrative { get; set; }
     [Parameter] public string? NarrativeLabel { get; set; }
@@ -44,7 +46,7 @@
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
 
-    private string SectionId => IpsSections.Id(Section, Id);
+    private string SectionId => IpsSections.Id(Section, Id, IdPrefix);
     private string HeadingId => $"{SectionId}-heading";
     private bool IsRequired => Required ?? IpsSections.IsRequired(Section);
 }

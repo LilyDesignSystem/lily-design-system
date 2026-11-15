@@ -14,6 +14,7 @@ See `components/international-patient-summary/index.md` for the canonical docume
 - `OmittedLabel`: string (required) — the words an added, missing required section shows
 - `ContentsLabel`: string (optional) — names the contents navigation; without it there is none
 - `HeadingLevel`: 2 to 6 (default 2) — for the added sections
+- `IdPrefix`: string (default `"international-patient-summary"`) — section ids are `{prefix}-{key}`; give each summary on a page its own
 - `Banner`, `Details`: RenderFragments (optional) — the patient banner and the document's details
 - `ChildContent`: RenderFragment (optional) — `InternationalPatientSummarySection` elements
 

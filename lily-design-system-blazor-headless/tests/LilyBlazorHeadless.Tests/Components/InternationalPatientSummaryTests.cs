@@ -72,4 +72,15 @@ public class InternationalPatientSummaryTests : TestContext
         Assert.Equal("104605-1", IpsSections.Code("alerts"));
         Assert.Null(IpsSections.Code("not-a-section"));
     }
+
+    [Fact]
+    public void IdPrefix_gives_the_added_sections_and_the_contents_links_their_own_ids()
+    {
+        var cut = RenderComponent<InternationalPatientSummary>(p => p
+            .Add(x => x.Label, "Second").Add(x => x.IdPrefix, "second")
+            .Add(x => x.RequiredHeadings, Headings).Add(x => x.OmittedLabel, "Missing")
+            .Add(x => x.ContentsLabel, "Contents"));
+        Assert.Equal("omitted", cut.Find("#second-medications").GetAttribute("data-status"));
+        Assert.Equal("#second-medications", cut.Find("nav a").GetAttribute("href"));
+    }
 }
