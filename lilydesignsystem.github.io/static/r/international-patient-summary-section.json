@@ -1,0 +1,59 @@
+{
+  "slug": "international-patient-summary-section",
+  "name": "InternationalPatientSummarySection",
+  "description": "one section of an International Patient Summary, with its LOINC code and a status that is never blank",
+  "htmlTag": "section",
+  "category": "navigation",
+  "baseClass": ".international-patient-summary-section",
+  "subClasses": [
+    "international-patient-summary-section-heading",
+    "international-patient-summary-section-narrative",
+    "international-patient-summary-section-status"
+  ],
+  "interactive": false,
+  "status": "experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "`<section>` named by its heading through `aria-labelledby`: a region landmark",
+    "The status is text, never colour alone"
+  ],
+  "keyboard": [
+    "None of its own: the narrative's `<details>` is native"
+  ],
+  "props": [
+    "`section`: string (required) -- the IPS section key, such as `allergies`",
+    "`heading`: string (required) -- the heading, the consumer's words",
+    "`headingLevel`: 2 to 6 (default: 2)",
+    "`status`: \"known\" | \"none-known\" | \"not-recorded\" | \"unavailable\" | \"omitted\" (default: \"known\")",
+    "`statusLabel`: string -- the status in words; required for any status but `known`",
+    "`code`: string (optional) -- the LOINC code; default the IPS code for the key",
+    "`required`: boolean (optional) -- default whether the IPS requires the section",
+    "`id`: string (optional) -- default `international-patient-summary-{section}`",
+    "`narrative`: slot (optional) -- the author's narrative",
+    "`narrativeLabel`: string -- the narrative's summary; required with `narrative`",
+    "`narrativeOpen`: boolean (default: false) -- open the narrative, as when the section has no structured entries",
+    "`children`: slot (optional) -- the entries",
+    "`...restProps`: any additional HTML attributes spread onto the section"
+  ],
+  "related": [
+    "international-patient-summary",
+    "allergy-record-list"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/international-patient-summary-section.html",
+    "svelte": "lily-design-system-svelte-headless/components/InternationalPatientSummarySection/InternationalPatientSummarySection.svelte",
+    "react": "lily-design-system-react-headless/components/InternationalPatientSummarySection.tsx",
+    "vue": "lily-design-system-vue-headless/components/InternationalPatientSummarySection.vue",
+    "angular": "lily-design-system-angular-headless/components/InternationalPatientSummarySection.ts",
+    "web-components": "lily-design-system-web-components-headless/components/international-patient-summary-section.ts",
+    "alpine": "lily-design-system-alpine-headless/components/international-patient-summary-section.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/international-patient-summary-section/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InternationalPatientSummarySection.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/international-patient-summary-section/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/international-patient-summary-section/AGENTS.md",
+  "nativePlatform": {
+    "decision": "native",
+    "uses": "<details>/<summary> for the author's narrative",
+    "could_use": "name attribute"
+  }
+}

@@ -1,0 +1,52 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    InternationalPatientSummary component
+    an International Patient Summary (HL7 FHIR IPS) laid out for a clinician
+
+    An <article> holding the Banner, a contents navigation, the sections (ChildContent) and the Details. Structure only: Lily
+    parses no FHIR. The root takes the sections as plain data too, and adds each missing required section (medications,
+    allergies, problems) with the consumer's heading and OmittedLabel, after the given sections, with a contents link to it.
+    See components/international-patient-summary/index.md.
+*@
+<article class="@($"international-patient-summary {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">
+    @if (Banner is not null) {<div class="international-patient-summary-banner">@Banner</div>}
+    @if (!string.IsNullOrEmpty(ContentsLabel))
+    {
+        <nav class="international-patient-summary-contents" aria-label="@ContentsLabel">
+            <ol>
+                @foreach (var entry in ContentsEntries)
+                {
+                    <li data-section="@entry.Key" data-status="@entry.Status"><a href="@($"#{entry.Id}")">@entry.Heading</a></li>
+                }
+            </ol>
+        </nav>
+    }
+    <div class="international-patient-summary-sections">
+        @ChildContent
+        @foreach (var entry in ContentsEntries.Where(e => e.Added))
+        {
+            <InternationalPatientSummarySection Section="@entry.Key" Heading="@entry.Heading" HeadingLevel="@HeadingLevel" Status="omitted" StatusLabel="@OmittedLabel" />
+        }
+    </div>
+    @if (Details is not null) {<div class="international-patient-summary-details">@Details</div>}
+</article>
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>The sections the consumer renders, in document order.</summary>
+    [Parameter] public IReadOnlyList<IpsSectionEntry> Sections { get; set; } = [];
+    /// <summary>Headings for an added, missing required section, keyed medications, allergies, problems. Required.</summary>
+    [Parameter, EditorRequired] public IReadOnlyDictionary<string, string> RequiredHeadings { get; set; } = new Dictionary<string, string>();
+    /// <summary>The words an added section shows, such as "Section missing from document". Required.</summary>
+    [Parameter, EditorRequired] public string OmittedLabel { get; set; } = "";
+    /// <summary>Names the contents navigation; without it there is none.</summary>
+    [Parameter] public string? ContentsLabel { get; set; }
+    [Parameter] public int HeadingLevel { get; set; } = 2;
+    [Parameter] public RenderFragment? Banner { get; set; }
+    [Parameter] public RenderFragment? Details { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private IReadOnlyList<IpsContentsEntry> ContentsEntries => IpsSections.Contents(Sections, RequiredHeadings);
+}

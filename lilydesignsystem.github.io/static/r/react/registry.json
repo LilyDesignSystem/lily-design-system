@@ -5420,6 +5420,63 @@
       ]
     },
     {
+      "name": "international-patient-summary",
+      "type": "registry:component",
+      "title": "InternationalPatientSummary",
+      "description": "An International Patient Summary (HL7 FHIR IPS) laid out for a clinician: patient banner, contents, sections and document details, never silently missing a required section.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/international-patient-summary-section",
+        "@lily/ips-sections-utils"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/InternationalPatientSummary.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/InternationalPatientSummary.tsx"
+        }
+      ]
+    },
+    {
+      "name": "international-patient-summary-section",
+      "type": "registry:component",
+      "title": "InternationalPatientSummarySection",
+      "description": "One section of an International Patient Summary, with its LOINC code and a status that is never blank.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils",
+        "@lily/ips-sections-utils"
+      ],
+      "categories": [
+        "navigation"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/InternationalPatientSummarySection.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/InternationalPatientSummarySection.tsx"
+        }
+      ]
+    },
+    {
+      "name": "ips-sections-utils",
+      "type": "registry:lib",
+      "title": "ips-sections.ts",
+      "description": "Shared helper module ips-sections.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/ips-sections.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/ips-sections.ts"
+        }
+      ]
+    },
+    {
       "name": "iran-kod-e-melli-input",
       "type": "registry:component",
       "title": "IranKodEMelliInput",

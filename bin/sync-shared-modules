@@ -127,6 +127,26 @@ EXTRA_TARGETS = {
         "lily-design-system-angular-headless/components/clinical-format.spec.ts",  # Angular runs *.spec.ts
         "lily-design-system-web-components-headless/lib/clinical-format.test.ts",
     ],
+    # The International Patient Summary section registry (spec/healthcare-ui): the sixteen IPS sections and their LOINC codes,
+    # and the rule that adds an omitted entry for a missing required section. Read by international-patient-summary.
+    "ips-sections.ts": [
+        "lily-design-system-svelte-headless/components/ips-sections.ts",
+        "lily-design-system-svelte-sveltekit-examples/src/lib/components/ips-sections.ts",
+        "lily-design-system-react-headless/components/ips-sections.ts",
+        "lily-design-system-react-next-examples/components/ips-sections.ts",
+        "lily-design-system-vue-headless/components/ips-sections.ts",
+        "lily-design-system-vue-nuxt-examples/components/ips-sections.ts",
+        "lily-design-system-angular-headless/components/ips-sections.ts",
+        "lily-design-system-angular-examples/src/app/components/ips-sections.ts",
+        "lily-design-system-web-components-headless/lib/ips-sections.ts",
+    ],
+    "ips-sections.test.ts": [
+        "lily-design-system-svelte-headless/components/ips-sections.test.ts",
+        "lily-design-system-react-headless/components/ips-sections.test.ts",
+        "lily-design-system-vue-headless/components/ips-sections.test.ts",
+        "lily-design-system-angular-headless/components/ips-sections.spec.ts",  # Angular runs *.spec.ts
+        "lily-design-system-web-components-headless/lib/ips-sections.test.ts",
+    ],
     "middle-truncation.ts": [
         "lily-design-system-svelte-headless/components/MiddleTruncation/middle-truncation.ts",
         "lily-design-system-react-headless/components/middle-truncation.ts",

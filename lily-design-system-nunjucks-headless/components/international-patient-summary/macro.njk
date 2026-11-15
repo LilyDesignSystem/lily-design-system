@@ -1,0 +1,71 @@
+{#
+  InternationalPatientSummary macro — an International Patient Summary (HL7 FHIR IPS, ISO 27269) laid out for a clinician:
+  patient banner, contents, sections and document details, never silently missing a required section (spec/healthcare-ui).
+
+  Structure only: no FHIR parsing. The macro takes the sections as plain data too, and adds each missing required section
+  (medications, allergies, problems) with the consumer's heading and omittedLabel, after the given sections, with a contents
+  link to it.
+
+  HTML tag: <article>
+  CSS class: international-patient-summary (parts: -banner, -contents, -sections, -details)
+
+  Params:
+    label             the article's accessible name (required)
+    sections          [{ key, heading, status?, id? }] in document order (default [])
+    requiredHeadings  { medications, allergies, problems } (required): headings for an added, missing required section
+    omittedLabel      the words an added section shows (required)
+    contentsLabel     names the contents navigation; without it there is none
+    headingLevel      2 to 6, default 2, for the added sections
+    banner, details   raw HTML for the patient banner and the document's details
+    html, id, classes, attributes
+
+  Body content: internationalPatientSummarySection elements via caller() or params.html.
+
+  Usage:
+    {% from "components/international-patient-summary/macro.njk" import internationalPatientSummary %}
+    {% call internationalPatientSummary({ label: "Patient summary", omittedLabel: "Section missing from document",
+         requiredHeadings: { medications: "Medication summary", allergies: "Allergies and intolerances", problems: "Problem list" },
+         sections: [{ key: "allergies", heading: "Allergies and intolerances" }] }) %}…sections…{% endcall %}
+#}
+{%- from "components/international-patient-summary-section/macro.njk" import internationalPatientSummarySection -%}
+{%- macro internationalPatientSummary(params) -%}
+{%- set p = params | default({}) -%}
+{%- set sections = p.sections or [] -%}
+{%- set headings = p.requiredHeadings or {} -%}
+{%- set keys = "," + (sections | join(",", "key")) + "," -%}
+{%- set missing = [] -%}
+{%- for k in ["medications", "allergies", "problems"] -%}
+  {%- if not (("," + k + ",") in keys) %}{% set _ = missing.push(k) %}{% endif -%}
+{%- endfor -%}
+<article
+  class="international-patient-summary{% if p.classes %} {{ p.classes }}{% endif %}"
+  aria-label="{{ p.label }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.banner %}
+  <div class="international-patient-summary-banner">{{ p.banner | safe }}</div>
+  {%- endif %}
+  {%- if p.contentsLabel %}
+  <nav class="international-patient-summary-contents" aria-label="{{ p.contentsLabel }}">
+    <ol>
+      {%- for s in sections %}
+      <li data-section="{{ s.key }}" data-status="{{ s.status or 'known' }}"><a href="#{{ s.id or ('international-patient-summary-' + s.key) }}">{{ s.heading }}</a></li>
+      {%- endfor %}
+      {%- for k in missing %}
+      <li data-section="{{ k }}" data-status="omitted"><a href="#international-patient-summary-{{ k }}">{{ headings[k] }}</a></li>
+      {%- endfor %}
+    </ol>
+  </nav>
+  {%- endif %}
+  <div class="international-patient-summary-sections">
+    {%- if p.html %}{{ p.html | safe }}{% elif caller %}{{ caller() }}{% endif %}
+    {%- for k in missing %}
+    {{ internationalPatientSummarySection({ section: k, heading: headings[k], headingLevel: p.headingLevel, status: "omitted", statusLabel: p.omittedLabel }) }}
+    {%- endfor %}
+  </div>
+  {%- if p.details %}
+  <div class="international-patient-summary-details">{{ p.details | safe }}</div>
+  {%- endif %}
+</article>
+{%- endmacro -%}

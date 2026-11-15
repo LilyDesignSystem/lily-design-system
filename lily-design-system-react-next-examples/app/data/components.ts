@@ -1695,6 +1695,20 @@ export const components: Component[] = [
       category: "content",
   },
   {
+      slug: "international-patient-summary",
+      name: "InternationalPatientSummary",
+      description: "an International Patient Summary (HL7 FHIR IPS) laid out for a clinician: patient banner, contents, sections and document details, never silently missing a required section",
+      tag: "article",
+      category: "navigation",
+  },
+  {
+      slug: "international-patient-summary-section",
+      name: "InternationalPatientSummarySection",
+      description: "one section of an International Patient Summary, with its LOINC code and a status that is never blank",
+      tag: "section",
+      category: "navigation",
+  },
+  {
       slug: "eire-individual-health-identifier-input",
       name: "EireIndividualHealthIdentifierInput",
       description: "an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier",

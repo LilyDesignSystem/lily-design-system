@@ -298,6 +298,8 @@ export { default as InformationCallout } from "./components/InformationCallout/I
 export { default as Input } from "./components/Input/Input.svelte";
 export { default as InputGroup } from "./components/InputGroup/InputGroup.svelte";
 export { default as InputWithMask } from "./components/InputWithMask/InputWithMask.svelte";
+export { default as InternationalPatientSummary } from "./components/InternationalPatientSummary/InternationalPatientSummary.svelte";
+export { default as InternationalPatientSummarySection } from "./components/InternationalPatientSummarySection/InternationalPatientSummarySection.svelte";
 export { default as InsetText } from "./components/InsetText/InsetText.svelte";
 export { default as IranKodEMelliInput } from "./components/IranKodEMelliInput/IranKodEMelliInput.svelte";
 export { default as IranKodEMelliView } from "./components/IranKodEMelliView/IranKodEMelliView.svelte";
@@ -634,3 +636,19 @@ export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/Zhon
 
 export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
 export type { AgePart, AgeUnit, QuantityComparator } from "./components/clinical-format";
+export {
+    IPS_REQUIRED_SECTIONS,
+    IPS_SECTIONS,
+    ipsContents,
+    ipsMissingRequired,
+    ipsSectionCode,
+    ipsSectionId,
+    ipsSectionIsRequired,
+} from "./components/ips-sections";
+export type {
+    IpsContentsEntry,
+    IpsSectionDefinition,
+    IpsSectionEntry,
+    IpsSectionLevel,
+    IpsSectionStatus,
+} from "./components/ips-sections";

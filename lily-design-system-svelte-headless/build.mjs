@@ -48,6 +48,8 @@ if (names.length === 0) {
 const MODULE_EXPORTS = [
     'export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";',
     'export type { AgePart, AgeUnit, QuantityComparator } from "./components/clinical-format";',
+    'export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./components/ips-sections";',
+    'export type { IpsContentsEntry, IpsSectionDefinition, IpsSectionEntry, IpsSectionLevel, IpsSectionStatus } from "./components/ips-sections";',
 ];
 
 const barrel =

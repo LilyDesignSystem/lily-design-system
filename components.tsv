@@ -239,6 +239,8 @@ input	Input	a generic HTML input element
 input-group	InputGroup	a group wrapping an input with prefix and suffix addons
 input-with-mask	InputWithMask	an input displaying a format mask placeholder for the user to fill in
 inset-text	InsetText	indented text to distinguish it from surrounding content
+international-patient-summary	InternationalPatientSummary	an International Patient Summary (HL7 FHIR IPS) laid out for a clinician: patient banner, contents, sections and document details, never silently missing a required section
+international-patient-summary-section	InternationalPatientSummarySection	one section of an International Patient Summary, with its LOINC code and a status that is never blank
 eire-individual-health-identifier-input	EireIndividualHealthIdentifierInput	an input for entering Eire Individual Health Identifier (IHI) unique national healthcare identifier
 eire-individual-health-identifier-view	EireIndividualHealthIdentifierView	a read-only display of Eire Individual Health Identifier (IHI) unique national healthcare identifier
 island-kennitala-input	IslandKennitalaInput	an input for entering Iceland's Kennitala

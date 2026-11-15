@@ -1,0 +1,32 @@
+---
+layout: layouts/component-demo.njk
+title: International Patient Summary
+description: an International Patient Summary (HL7 FHIR IPS) laid out for a clinician
+---
+
+{% from "components/international-patient-summary/macro.njk" import internationalPatientSummary %}
+{% from "components/international-patient-summary-section/macro.njk" import internationalPatientSummarySection %}
+{% from "components/allergy-record-list/macro.njk" import allergyRecordList %}
+
+<h2>A document missing its medication summary</h2>
+{% call internationalPatientSummary({
+  label: "Patient summary",
+  contentsLabel: "Contents",
+  omittedLabel: "Section missing from document",
+  requiredHeadings: { medications: "Medication summary", allergies: "Allergies and intolerances", problems: "Problem list" },
+  sections: [
+    { key: "allergies", heading: "Allergies and intolerances", status: "none-known" },
+    { key: "problems", heading: "Problem list", status: "not-recorded" }
+  ]
+}) %}
+  {% call internationalPatientSummarySection({ section: "allergies", heading: "Allergies and intolerances", status: "none-known", statusLabel: "No known allergies" }) %}
+    {{ allergyRecordList({ status: "none-known", statusLabel: "No known allergies" }) }}
+  {% endcall %}
+  {{ internationalPatientSummarySection({ section: "problems", heading: "Problem list", status: "not-recorded", statusLabel: "Not recorded" }) }}
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;article class="international-patient-summary" aria-label="Patient summary"&gt;&lt;div class="international-patient-summary-banner"&gt;&lt;/div&gt;&lt;nav class="international-patient-summary-contents" aria-label="Contents"&gt;&lt;ol&gt;&lt;li data-section="allergies" data-status="known"&gt;&lt;a href="#international-patient-summary-allergies"&gt;Allergies and intolerances&lt;/a&gt;&lt;/li&gt;&lt;li data-section="problems" data-status="none-known"&gt;&lt;a href="#international-patient-summary-problems"&gt;Problem list&lt;/a&gt;&lt;/li&gt;&lt;li data-section="medications" data-status="omitted"&gt;&lt;a href="#international-patient-summary-medications"&gt;Medication summary&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/nav&gt;&lt;div class="international-patient-summary-sections"&gt;&lt;section class="international-patient-summary-section" id="international-patient-summary-allergies" aria-labelledby="international-patient-summary-allergies-heading" data-section="allergies" data-code="48765-2" data-status="known" data-required="true"&gt;&lt;h2 id="international-patient-summary-allergies-heading" class="international-patient-summary-section-heading"&gt; Allergies and intolerances &lt;/h2&gt;&lt;/section&gt;&lt;section class="international-patient-summary-section" id="international-patient-summary-problems" aria-labelledby="international-patient-summary-problems-heading" data-section="problems" data-code="11450-4" data-status="none-known" data-required="true"&gt;&lt;h2 id="international-patient-summary-problems-heading" class="international-patient-summary-section-heading"&gt; Problem list &lt;/h2&gt;&lt;p class="international-patient-summary-section-status"&gt;No known problems&lt;/p&gt;&lt;/section&gt;&lt;section class="international-patient-summary-section" id="international-patient-summary-medications" aria-labelledby="international-patient-summary-medications-heading" data-section="medications" data-code="10160-0" data-status="omitted" data-required="true"&gt;&lt;h2 id="international-patient-summary-medications-heading" class="international-patient-summary-section-heading"&gt; Medication summary &lt;/h2&gt;&lt;p class="international-patient-summary-section-status"&gt;Section missing from document&lt;/p&gt;&lt;/section&gt;&lt;/div&gt;&lt;div class="international-patient-summary-details"&gt;&lt;/div&gt;&lt;/article&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

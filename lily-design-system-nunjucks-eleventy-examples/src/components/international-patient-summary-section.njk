@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: International Patient Summary Section
+description: one section of an International Patient Summary, with its LOINC code and a status that is never blank
+---
+
+{% from "components/international-patient-summary-section/macro.njk" import internationalPatientSummarySection %}
+
+<h2>Not recorded, with the author's narrative</h2>
+{{ internationalPatientSummarySection({
+  section: "problems",
+  heading: "Problem list",
+  status: "not-recorded",
+  statusLabel: "Not recorded",
+  narrative: "<p>No problems were recorded at discharge.</p>",
+  narrativeLabel: "Narrative from the document",
+  narrativeOpen: true
+}) }}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;section class="international-patient-summary-section" id="international-patient-summary-problems" aria-labelledby="international-patient-summary-problems-heading" data-section="problems" data-code="11450-4" data-status="not-recorded" data-required="true"&gt;&lt;h2 id="international-patient-summary-problems-heading" class="international-patient-summary-section-heading"&gt; Problem list &lt;/h2&gt;&lt;p class="international-patient-summary-section-status"&gt;Not recorded&lt;/p&gt;&lt;details class="international-patient-summary-section-narrative"&gt;&lt;summary&gt;Narrative from the document&lt;/summary&gt;&lt;p&gt;No problems were recorded at discharge.&lt;/p&gt;&lt;/details&gt;&lt;/section&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

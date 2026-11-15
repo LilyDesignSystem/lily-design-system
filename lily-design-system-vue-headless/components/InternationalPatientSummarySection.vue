@@ -1,0 +1,99 @@
+<script setup lang="ts">
+// InternationalPatientSummarySection component
+//
+// One section of an International Patient Summary (HL7 FHIR IPS, ISO 27269): a <section> named by its heading, carrying the
+// section's key, LOINC code, status and whether the IPS requires it, as data. For any status but "known" the consumer's words
+// are shown under the heading. The "narrative" slot, when given, sits in a <details> after the entries.
+// See components/international-patient-summary-section/index.md.
+import { computed, useSlots } from "vue";
+import { warnMissingProp } from "./dev-warning";
+import { ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./ips-sections";
+import type { IpsSectionStatus } from "./ips-sections";
+
+const props = withDefaults(
+    defineProps<{
+        section: string;
+        heading: string;
+        headingLevel?: 2 | 3 | 4 | 5 | 6;
+        status?: IpsSectionStatus;
+        statusLabel?: string;
+        code?: string;
+        required?: boolean;
+        id?: string;
+        narrativeLabel?: string;
+        narrativeOpen?: boolean;
+    }>(),
+    {
+        headingLevel: 2,
+        status: "known",
+        statusLabel: undefined,
+        code: undefined,
+        required: undefined,
+        id: undefined,
+        narrativeLabel: undefined,
+        narrativeOpen: false,
+    },
+);
+
+const slots = useSlots();
+const sectionId = computed(() => ipsSectionId(props.section, props.id));
+const isRequired = computed(() => props.required ?? ipsSectionIsRequired(props.section));
+
+warnMissingProp(
+    "InternationalPatientSummarySection",
+    "heading",
+    props.heading,
+    "A section needs a heading.",
+);
+if (props.status !== "known") {
+    warnMissingProp(
+        "InternationalPatientSummarySection",
+        "statusLabel",
+        props.statusLabel,
+        "A section that is not known must say why, in words.",
+    );
+}
+if (slots.narrative) {
+    warnMissingProp(
+        "InternationalPatientSummarySection",
+        "narrativeLabel",
+        props.narrativeLabel,
+        "The narrative's disclosure needs a summary.",
+    );
+}
+</script>
+
+<template>
+    <!-- InternationalPatientSummarySection.vue -->
+    <section
+        class="international-patient-summary-section"
+        :id="sectionId"
+        :aria-labelledby="`${sectionId}-heading`"
+        :data-section="section"
+        :data-code="code ?? ipsSectionCode(section)"
+        :data-status="status"
+        :data-required="isRequired ? 'true' : undefined"
+    >
+        <component
+            :is="`h${headingLevel}`"
+            :id="`${sectionId}-heading`"
+            class="international-patient-summary-section-heading"
+            >{{ heading }}</component
+        >
+        <p
+            v-if="status !== 'known' && statusLabel"
+            class="international-patient-summary-section-status"
+        >
+            {{ statusLabel }}
+        </p>
+        <slot />
+        <details
+            v-if="$slots.narrative"
+            class="international-patient-summary-section-narrative"
+            :open="narrativeOpen"
+        >
+            <summary>{{ narrativeLabel }}</summary>
+            <slot name="narrative" />
+        </details>
+    </section>
+</template>

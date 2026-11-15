@@ -992,6 +992,28 @@
 .inset-text {
 }
 
+/* international-patient-summary: an International Patient Summary laid out for a clinician */
+.international-patient-summary {
+}
+.international-patient-summary-banner {
+}
+.international-patient-summary-contents {
+}
+.international-patient-summary-sections {
+}
+.international-patient-summary-details {
+}
+
+/* international-patient-summary-section: one section of an International Patient Summary */
+.international-patient-summary-section {
+}
+.international-patient-summary-section-heading {
+}
+.international-patient-summary-section-status {
+}
+.international-patient-summary-section-narrative {
+}
+
 /* eire-individual-health-identifier-input: an input for entering Eire IHI */
 .eire-individual-health-identifier-input {
 }

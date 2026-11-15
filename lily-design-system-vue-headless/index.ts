@@ -298,6 +298,8 @@ export { default as InformationCallout } from "./components/InformationCallout.v
 export { default as Input } from "./components/Input.vue";
 export { default as InputGroup } from "./components/InputGroup.vue";
 export { default as InputWithMask } from "./components/InputWithMask.vue";
+export { default as InternationalPatientSummary } from "./components/InternationalPatientSummary.vue";
+export { default as InternationalPatientSummarySection } from "./components/InternationalPatientSummarySection.vue";
 export { default as InsetText } from "./components/InsetText.vue";
 export { default as IranKodEMelliInput } from "./components/IranKodEMelliInput.vue";
 export { default as IranKodEMelliView } from "./components/IranKodEMelliView.vue";
@@ -634,3 +636,19 @@ export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/Zhon
 
 export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
 export type { AgePart, AgeUnit, QuantityComparator } from "./components/clinical-format";
+export {
+    IPS_REQUIRED_SECTIONS,
+    IPS_SECTIONS,
+    ipsContents,
+    ipsMissingRequired,
+    ipsSectionCode,
+    ipsSectionId,
+    ipsSectionIsRequired,
+} from "./components/ips-sections";
+export type {
+    IpsContentsEntry,
+    IpsSectionDefinition,
+    IpsSectionEntry,
+    IpsSectionLevel,
+    IpsSectionStatus,
+} from "./components/ips-sections";

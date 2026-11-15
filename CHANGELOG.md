@@ -9,6 +9,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## International Patient Summary, catalog 632 — 2026-11-15
+
+- **Added:** `international-patient-summary` and `international-patient-summary-section` in all nine catalogs (Web Components 597),
+  from research into the IPS viewer ([spec/healthcare-ui](spec/healthcare-ui/index.md), item 21). The root is an `<article>`
+  with a `banner` slot, a contents `<nav>`, the sections and a `details` slot; a section is a `<section>` named by its heading,
+  with `data-section`, `data-code` (LOINC), `data-status`, `data-required`, its status words and the author's narrative in a
+  `<details>`.
+- Structure only: Lily parses no FHIR. The root takes its sections as plain data, and for each required section the list lacks
+  (medication summary, allergies, problem list) adds that section with the consumer's heading and `omittedLabel`, after the given
+  sections, with a contents link, so a missing required section is never silently absent.
+- `shared/ips-sections.ts`: the sixteen IPS 2.0.1 sections with their LOINC codes and levels, and `ipsContents()`; exported by the
+  TypeScript catalogs, ported to Blazor (`IpsSections`) and Nunjucks.
+
 ## Light and dark must pass — 2026-11-15
 
 - **Changed:** the theme contrast gate in `bin/test` (`bin/check-theme --contrast --gate`) now holds only the `light` and `dark`

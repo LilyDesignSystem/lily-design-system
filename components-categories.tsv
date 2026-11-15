@@ -239,6 +239,8 @@ input	input	forms
 input-group	div	forms
 input-with-mask	div	content
 inset-text	div	content
+international-patient-summary	article	navigation
+international-patient-summary-section	section	navigation
 eire-individual-health-identifier-input	input	national
 eire-individual-health-identifier-view	span	national
 island-kennitala-input	input	national

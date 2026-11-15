@@ -240,6 +240,8 @@ input	ARIA evidence incomplete	no	no	no	yes	8	2	no	-
 input-group	ARIA evidence incomplete	no	no	no	yes	1	7	no	-
 input-with-mask	automated evidence complete	no	no	no	yes	1	8	no	-
 inset-text	ARIA evidence incomplete	no	no	no	yes	8	4	no	-
+international-patient-summary	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
+international-patient-summary-section	ARIA evidence incomplete	no	no	no	yes	1	5	no	-
 eire-individual-health-identifier-input	ARIA evidence incomplete	no	no	no	yes	1	2	no	-
 eire-individual-health-identifier-view	automated evidence complete	no	no	no	no	1	2	no	-
 island-kennitala-input	ARIA evidence incomplete	no	no	no	yes	1	3	no	-

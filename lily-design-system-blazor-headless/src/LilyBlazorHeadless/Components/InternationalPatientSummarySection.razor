@@ -1,0 +1,50 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    InternationalPatientSummarySection component
+    one section of an International Patient Summary, with its LOINC code and a status that is never blank
+
+    A <section> named by its heading, carrying the section's key, LOINC code, status and whether the IPS requires it, as
+    data. For any status but "known" the consumer's words are shown under the heading. Narrative, when given, sits in a
+    <details> after the entries. See components/international-patient-summary-section/index.md.
+*@
+<section class="@($"international-patient-summary-section {CssClass}".Trim())" id="@SectionId" aria-labelledby="@HeadingId" data-section="@Section" data-code="@(Code ?? IpsSections.Code(Section))" data-status="@Status" data-required="@(IsRequired ? "true" : null)" @attributes="AdditionalAttributes">
+    @switch (HeadingLevel)
+    {
+        case 3: <h3 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h3> break;
+        case 4: <h4 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h4> break;
+        case 5: <h5 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h5> break;
+        case 6: <h6 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h6> break;
+        default: <h2 id="@HeadingId" class="international-patient-summary-section-heading">@Heading</h2> break;
+    }
+    @if (Status != "known" && !string.IsNullOrEmpty(StatusLabel)) {<p class="international-patient-summary-section-status">@StatusLabel</p>}
+    @ChildContent
+    @if (Narrative is not null) {<details class="international-patient-summary-section-narrative" open="@NarrativeOpen"><summary>@NarrativeLabel</summary>@Narrative</details>}
+</section>
+@code {
+    /// <summary>The IPS section key, such as "allergies". Required.</summary>
+    [Parameter, EditorRequired] public string Section { get; set; } = "";
+    [Parameter, EditorRequired] public string Heading { get; set; } = "";
+    /// <summary>2 to 6. Default 2.</summary>
+    [Parameter] public int HeadingLevel { get; set; } = 2;
+    /// <summary>known, none-known, not-recorded, unavailable, omitted. Default known.</summary>
+    [Parameter] public string Status { get; set; } = "known";
+    /// <summary>The status in words; required for any status but known.</summary>
+    [Parameter] public string? StatusLabel { get; set; }
+    /// <summary>The LOINC code; default the IPS code for the key.</summary>
+    [Parameter] public string? Code { get; set; }
+    /// <summary>Default whether the IPS requires the section.</summary>
+    [Parameter] public bool? Required { get; set; }
+    [Parameter] public string? Id { get; set; }
+    /// <summary>The author's narrative (sanitised by the consumer).</summary>
+    [Parameter] public RenderFragment? Narrative { get; set; }
+    [Parameter] public string? NarrativeLabel { get; set; }
+    [Parameter] public bool NarrativeOpen { get; set; }
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private string SectionId => IpsSections.Id(Section, Id);
+    private string HeadingId => $"{SectionId}-heading";
+    private bool IsRequired => Required ?? IpsSections.IsRequired(Section);
+}

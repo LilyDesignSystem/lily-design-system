@@ -1,0 +1,58 @@
+{
+  "slug": "international-patient-summary",
+  "name": "InternationalPatientSummary",
+  "description": "an International Patient Summary (HL7 FHIR IPS) laid out for a clinician: patient banner, contents, sections and document details, never silently missing a required section",
+  "htmlTag": "article",
+  "category": "navigation",
+  "baseClass": ".international-patient-summary",
+  "subClasses": [
+    "international-patient-summary-banner",
+    "international-patient-summary-contents",
+    "international-patient-summary-details",
+    "international-patient-summary-section",
+    "international-patient-summary-section-heading",
+    "international-patient-summary-section-status",
+    "international-patient-summary-sections"
+  ],
+  "interactive": false,
+  "status": "experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "`<article>` named by `aria-label` — a self-contained document",
+    "`<nav aria-label={contentsLabel}>` — the contents",
+    "Each section is a `<section>` named by its heading (`aria-labelledby`), so it is a region landmark a screen reader can list"
+  ],
+  "keyboard": [
+    "None of its own: links and the narrative's `<details>` are native"
+  ],
+  "props": [
+    "`label`: string (required) -- the article's accessible name",
+    "`sections`: { key, heading, status?, id? }[] (default: []) -- the sections the consumer renders, in document order",
+    "`requiredHeadings`: { medications, allergies, problems } (required) -- headings for an added, missing required section",
+    "`omittedLabel`: string (required) -- the words an added section shows, such as \"Section missing from document\"",
+    "`contentsLabel`: string (optional) -- names the contents navigation; without it there is none",
+    "`headingLevel`: 2 to 6 (default: 2) -- the heading level of an added section",
+    "`banner`: slot (optional) -- the patient banner composition",
+    "`details`: slot (optional) -- the document's details",
+    "`children`: slot (optional) -- the `international-patient-summary-section` elements",
+    "`...restProps`: any additional HTML attributes spread onto the article"
+  ],
+  "related": [
+    "international-patient-summary-section",
+    "allergy-record-list",
+    "observation-view",
+    "medical-banner"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/international-patient-summary.html",
+    "svelte": "lily-design-system-svelte-headless/components/InternationalPatientSummary/InternationalPatientSummary.svelte",
+    "react": "lily-design-system-react-headless/components/InternationalPatientSummary.tsx",
+    "vue": "lily-design-system-vue-headless/components/InternationalPatientSummary.vue",
+    "angular": "lily-design-system-angular-headless/components/InternationalPatientSummary.ts",
+    "web-components": "lily-design-system-web-components-headless/components/international-patient-summary.ts",
+    "alpine": "lily-design-system-alpine-headless/components/international-patient-summary.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/international-patient-summary/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/InternationalPatientSummary.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/international-patient-summary/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/international-patient-summary/AGENTS.md"
+}

@@ -1106,6 +1106,14 @@ export { InsetText } from "./components/inset-text.js";
 import { InsetText as _InsetText } from "./components/inset-text.js";
 if (!customElements.get("lily-inset-text")) customElements.define("lily-inset-text", _InsetText);
 
+export { InternationalPatientSummarySection } from "./components/international-patient-summary-section.js";
+import { InternationalPatientSummarySection as _InternationalPatientSummarySection } from "./components/international-patient-summary-section.js";
+if (!customElements.get("lily-international-patient-summary-section")) customElements.define("lily-international-patient-summary-section", _InternationalPatientSummarySection);
+
+export { InternationalPatientSummary } from "./components/international-patient-summary.js";
+import { InternationalPatientSummary as _InternationalPatientSummary } from "./components/international-patient-summary.js";
+if (!customElements.get("lily-international-patient-summary")) customElements.define("lily-international-patient-summary", _InternationalPatientSummary);
+
 export { IranKodEMelliInput } from "./components/iran-kod-e-melli-input.js";
 import { IranKodEMelliInput as _IranKodEMelliInput } from "./components/iran-kod-e-melli-input.js";
 if (!customElements.get("lily-iran-kod-e-melli-input")) customElements.define("lily-iran-kod-e-melli-input", _IranKodEMelliInput);

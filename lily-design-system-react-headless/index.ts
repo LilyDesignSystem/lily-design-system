@@ -595,6 +595,10 @@ export { default as InputGroup } from "./components/InputGroup";
 export type { InputGroupProps } from "./components/InputGroup";
 export { default as InputWithMask } from "./components/InputWithMask";
 export type { InputWithMaskProps } from "./components/InputWithMask";
+export { default as InternationalPatientSummary } from "./components/InternationalPatientSummary";
+export type { InternationalPatientSummaryProps } from "./components/InternationalPatientSummary";
+export { default as InternationalPatientSummarySection } from "./components/InternationalPatientSummarySection";
+export type { InternationalPatientSummarySectionProps } from "./components/InternationalPatientSummarySection";
 export { default as InsetText } from "./components/InsetText";
 export type { InsetTextProps } from "./components/InsetText";
 export { default as IranKodEMelliInput } from "./components/IranKodEMelliInput";
@@ -1264,3 +1268,5 @@ export type { ZhongguoJuminShenfenzhengHaomaViewProps } from "./components/Zhong
 
 export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
 export type { AgePart, AgeUnit, QuantityComparator } from "./components/clinical-format";
+export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./components/ips-sections";
+export type { IpsContentsEntry, IpsSectionDefinition, IpsSectionEntry, IpsSectionLevel, IpsSectionStatus } from "./components/ips-sections";

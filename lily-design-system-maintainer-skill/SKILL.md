@@ -15,7 +15,7 @@ the canonical monorepo with `spec/index.md` as the living specification and
 ## Repository shape
 
 - **185 implementation subprojects**: 9 headless libraries (HTML, Svelte, React, Vue, Angular,
-  Blazor and Nunjucks at 630/630, Web Components at 595/630, Alpine.js at 630/630), 8 example apps
+  Blazor and Nunjucks at 632/632, Web Components at 597/632, Alpine.js at 632/632), 8 example apps
   (one per framework except Web Components) and 168 helper packages (20 per framework, 21 in
   Nunjucks, 6 in Alpine), one top-level subproject each (`bin/list-helper-packages <framework>` lists a framework's, in build order). Packages
   publish from this monorepo; the per-subproject subtree mirrors were deleted 2026-10-10 and only the docs
@@ -24,7 +24,7 @@ the canonical monorepo with `spec/index.md` as the living specification and
   `bin/sync-special-files` scope on. Beside them: 27 Claude Skills, `lily-design-system-themes`,
   `lily-design-system-locale-translations` and `lilydesignsystem.github.io`
   (`bin/list-implementations` prints the 213 `lily-design-system-*` directories).
-- **630 component directories** under `components/{slug}/`.
+- **632 component directories** under `components/{slug}/`.
 - **Root canon**: `components.tsv` (the catalog), `css-style-sheet-template.css`
   (one class hook per component), `AGENTS/*.md` (design-principle rules,
   loaded into every subproject's own `AGENTS.md` via `@AGENTS/{file}.md`),
