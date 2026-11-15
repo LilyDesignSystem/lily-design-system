@@ -9,6 +9,20 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Colour picker in all eight catalogs — 2026-11-15
+
+- **Added:** the colour-picker helper ported from Svelte to the other seven catalogs, version 0.1.0 each:
+  `@lilydesignsystem/{react,vue,angular,html,web-components,nunjucks}-color-picker` and `LilyDesignSystem.Blazor.ColorPicker`.
+  Same markup and rules as the Svelte package; each port's `spec/index.md` lists its idiom differences (React controlled or
+  uncontrolled, Vue `v-model` and `v-model:recent`, Angular `[(value)]` and `[(recent)]`, the `<color-picker>` and
+  `<lily-color-picker>` elements with `valuechange` and `recentchange`, a Nunjucks macro and client script, Blazor `@bind-Value`
+  and `@bind-Recent`).
+- The colour model moved to `shared/colors.ts`, copied into each TypeScript package and, types stripped, into Nunjucks by
+  `bin/sync-shared-modules`. Blazor has a C# port, `Colors`, checked against 220 colours the TypeScript module computes.
+- Blazor deviations: one small key listener installed through `IJSRuntime` `"eval"` (Blazor cannot prevent the browser's own
+  ArrowUp, ArrowDown and Enter per key), and no form-reset handling.
+- 175 helper packages, 192 subprojects.
+
 ## International Patient Summary, catalog 632 — 2026-11-15
 
 - **Added:** `international-patient-summary` and `international-patient-summary-section` in all nine catalogs (Web Components 597),

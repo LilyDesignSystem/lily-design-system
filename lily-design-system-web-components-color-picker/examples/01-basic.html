@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <title>lily-color-picker — basic</title>
+  </head>
+  <body>
+    <form>
+      <lily-color-picker
+        name="colour"
+        value="#005eb8"
+      ></lily-color-picker>
+      <p>Chosen: <output id="chosen">#005eb8</output></p>
+      <button type="submit">Save</button>
+    </form>
+    <script type="module">
+      import "../dist/index.js";
+      const picker = document.querySelector("lily-color-picker");
+      picker.labels = {
+        picker: "Text colour",
+        recent: "Recent colours",
+        palette: "Colours",
+        transparent: "Transparent",
+        custom: "Custom colour",
+        hex: "Hex",
+        name: "Colour name",
+        hue: "Hue",
+        saturation: "Saturation",
+        lightness: "Lightness",
+        brightness: "Brightness",
+        hsl: "HSL",
+        hsb: "HSB",
+        rgb: "RGB",
+        cmyk: "CMYK",
+        red: "Red",
+        green: "Green",
+        blue: "Blue",
+        cyan: "Cyan",
+        magenta: "Magenta",
+        yellow: "Yellow",
+        key: "Black",
+        invalid: "Not a colour",
+      };
+      picker.addEventListener("valuechange", (event) => {
+        document.getElementById("chosen").textContent = event.detail.value;
+      });
+    </script>
+  </body>
+</html>

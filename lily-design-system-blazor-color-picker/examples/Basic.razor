@@ -1,0 +1,39 @@
+@* A colour picker with every label, two-way value and recent list, and a form name. *@
+@using LilyDesignSystem.Blazor.Helpers
+
+<form>
+    <ColorPicker Labels="_labels" @bind-Value="_colour" @bind-Recent="_recent" Name="colour" />
+    <p>Chosen: @_colour</p>
+</form>
+
+@code {
+    private string _colour = "#005eb8";
+    private IReadOnlyList<string> _recent = Array.Empty<string>();
+
+    private readonly ColorPickerLabels _labels = new()
+    {
+        Picker = "Text colour",
+        Recent = "Recent colours",
+        Palette = "Colours",
+        Transparent = "Transparent",
+        Custom = "Custom colour",
+        Hex = "Hex",
+        Name = "Colour name",
+        Hue = "Hue",
+        Saturation = "Saturation",
+        Lightness = "Lightness",
+        Brightness = "Brightness",
+        Hsl = "HSL",
+        Hsb = "HSB",
+        Rgb = "RGB",
+        Cmyk = "CMYK",
+        Red = "Red",
+        Green = "Green",
+        Blue = "Blue",
+        Cyan = "Cyan",
+        Magenta = "Magenta",
+        Yellow = "Yellow",
+        Key = "Black",
+        Invalid = "Not a colour",
+    };
+}

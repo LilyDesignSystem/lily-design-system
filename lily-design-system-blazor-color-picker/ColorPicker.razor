@@ -1,0 +1,141 @@
+@*
+    ColorPicker — Blazor helper component, a port of the Svelte canonical package.
+
+    Four areas in one labelled group: the recent colours; a separator; a palette of swatches (8 rows of 10 by
+    default) with a Transparent button; a separator; and fields to enter a colour by hex, CSS name, HSL, HSB, RGB or
+    CMYK. It holds a form value: it applies nothing to the document and persists nothing (@bind-Recent keeps the
+    recent colours).
+
+    Blazor cannot decide preventDefault per key, so one small listener, installed through IJSRuntime "eval" after the
+    first render, stops the browser's own ArrowUp / ArrowDown on a palette radio (the component moves a whole row
+    instead) and Enter in the hex and name fields (which would submit the form). It ships no JS file.
+*@
+
+<div class="@RootClass" role="group" aria-label="@Labels.Picker" data-value="@(string.IsNullOrEmpty(Value) ? null : Value)" id="@_id" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(Name))
+    {
+        <input type="hidden" name="@Name" value="@Value" />
+    }
+
+    <fieldset class="color-picker-recent" role="radiogroup" aria-label="@Labels.Recent" disabled="@Disabled">
+        @foreach (var color in _recent)
+        {
+            <input @key="color"
+                   class="color-picker-swatch"
+                   type="radio"
+                   name="@($"{_id}-recent")"
+                   value="@color"
+                   checked="@(color == Value)"
+                   aria-label="@LabelOf(color)"
+                   data-color="@color"
+                   style="@($"--color-picker-swatch: {color}")"
+                   @onchange="() => ChooseAsync(color)" />
+        }
+    </fieldset>
+
+    <hr class="color-picker-separator" />
+
+    <fieldset class="color-picker-palette" role="radiogroup" aria-label="@Labels.Palette" disabled="@Disabled">
+        @for (var r = 0; r < Rows.Count; r++)
+        {
+            <div class="color-picker-palette-row">
+                @for (var c = 0; c < Rows[r].Count; c++)
+                {
+                    var index = r * ColumnCount + c;
+                    var color = Rows[r][c];
+                    <input class="color-picker-swatch"
+                           type="radio"
+                           name="@($"{_id}-palette")"
+                           value="@color"
+                           checked="@(color == Value)"
+                           aria-label="@LabelOf(color)"
+                           data-color="@color"
+                           style="@($"--color-picker-swatch: {color}")"
+                           @ref="_swatches[index]"
+                           @onchange="() => ChooseAsync(color)"
+                           @onkeydown="e => OnPaletteKeyDownAsync(e, index)" />
+                }
+            </div>
+        }
+    </fieldset>
+
+    <button class="color-picker-transparent" type="button" aria-pressed="@(Value == Colors.Transparent ? "true" : "false")" disabled="@Disabled" @onclick="() => ChooseAsync(Colors.Transparent)">
+        @* The icon is decorative: the button's text is its name. *@
+        <svg class="color-picker-transparent-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"
+             fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
+             width="1.05rem" height="1.05rem"><path d="M8 2.5 4.5 7.5a4 4 0 1 0 7 0Z" /><path d="M2.5 2.5l11 11" /></svg>
+        @Labels.Transparent
+    </button>
+
+    <hr class="color-picker-separator" />
+
+    <div class="color-picker-custom" role="group" aria-label="@Labels.Custom">
+        <div class="color-picker-field color-picker-field-hex">
+            <label for="@($"{_id}-hex")">@Labels.Hex</label>
+            <input id="@($"{_id}-hex")"
+                   class="color-picker-hex"
+                   type="text"
+                   inputmode="text"
+                   autocomplete="off"
+                   spellcheck="false"
+                   disabled="@Disabled"
+                   value="@_hexDraft"
+                   aria-invalid="@(_hexInvalid ? "true" : null)"
+                   aria-describedby="@(_hexInvalid && Labels.Invalid is not null ? $"{_id}-hex-invalid" : null)"
+                   @oninput="e => _hexDraft = e.Value?.ToString() ?? string.Empty"
+                   @onchange="e => CommitHexAsync(e.Value?.ToString())"
+                   @onkeydown="OnHexKeyDownAsync" />
+            @if (_hexInvalid && Labels.Invalid is not null)
+            {
+                <span id="@($"{_id}-hex-invalid")" class="color-picker-invalid">@Labels.Invalid</span>
+            }
+        </div>
+
+        <div class="color-picker-field color-picker-field-name">
+            <label for="@($"{_id}-name")">@Labels.Name</label>
+            <input id="@($"{_id}-name")"
+                   class="color-picker-name"
+                   type="text"
+                   list="@($"{_id}-names")"
+                   autocomplete="off"
+                   spellcheck="false"
+                   disabled="@Disabled"
+                   value="@_nameDraft"
+                   aria-invalid="@(_nameInvalid ? "true" : null)"
+                   aria-describedby="@(_nameInvalid && Labels.Invalid is not null ? $"{_id}-name-invalid" : null)"
+                   @oninput="e => _nameDraft = e.Value?.ToString() ?? string.Empty"
+                   @onchange="e => CommitNameAsync(e.Value?.ToString())"
+                   @onkeydown="OnNameKeyDownAsync" />
+            <datalist id="@($"{_id}-names")">
+                @foreach (var n in Colors.CssNames)
+                {
+                    <option value="@n"></option>
+                }
+            </datalist>
+            @if (_nameInvalid && Labels.Invalid is not null)
+            {
+                <span id="@($"{_id}-name-invalid")" class="color-picker-invalid">@Labels.Invalid</span>
+            }
+        </div>
+
+        @foreach (var model in Models)
+        {
+            <fieldset @key="model.Id" class="@($"color-picker-field color-picker-field-{model.Id}")" disabled="@Disabled">
+                <legend>@model.Label</legend>
+                @foreach (var field in model.Fields)
+                {
+                    var key = field.Key;
+                    <label for="@($"{_id}-{model.Id}-{key}")">@field.Label</label>
+                    <input id="@($"{_id}-{model.Id}-{key}")"
+                           class="@($"color-picker-{model.Id} color-picker-{model.Id}-{key}")"
+                           type="number"
+                           min="0"
+                           max="@field.Max"
+                           step="1"
+                           value="@model.Values[key]"
+                           @onchange="e => CommitModelAsync(model, key, e.Value?.ToString())" />
+                }
+            </fieldset>
+        }
+    </div>
+</div>

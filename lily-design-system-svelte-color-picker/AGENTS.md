@@ -11,16 +11,16 @@ with a popup: put it in a `popover` or `dialog` if you want one.
 
 ## Files
 
-| File                    | Purpose                                                     |
-| ----------------------- | ----------------------------------------------------------- |
-| `spec/index.md`         | Specification-driven contract (canonical).                  |
-| `ColorPicker.svelte`    | Implementation. Svelte 5 runes + TypeScript.                |
-| `colors.ts`             | The pure colour model: parsing, conversion, names, palette. |
-| `ColorPicker.test.ts`   | Component tests, one or more per spec rule.                 |
-| `colors.test.ts`        | Colour-model tests.                                         |
-| `index.ts`              | Barrel re-export.                                           |
-| `index.md`              | User guide.                                                 |
-| `docs/accessibility.md` | Tradeoffs, stated plainly.                                  |
+| File                    | Purpose                                                                                                   |
+| ----------------------- | --------------------------------------------------------------------------------------------------------- |
+| `spec/index.md`         | Specification-driven contract (canonical).                                                                |
+| `ColorPicker.svelte`    | Implementation. Svelte 5 runes + TypeScript.                                                              |
+| `colors.ts`             | The pure colour model. Copied from `shared/colors.ts` by `bin/sync-shared-modules`; never edit this copy. |
+| `ColorPicker.test.ts`   | Component tests, one or more per spec rule.                                                               |
+| `colors.test.ts`        | Colour-model tests.                                                                                       |
+| `index.ts`              | Barrel re-export.                                                                                         |
+| `index.md`              | User guide.                                                                                               |
+| `docs/accessibility.md` | Tradeoffs, stated plainly.                                                                                |
 
 ## Public surface
 
@@ -32,4 +32,4 @@ Default export `ColorPicker`; named `ColorPicker`, `nextColorPickerId` and the c
 - No English: every word is in `labels`; a swatch's default name is its CSS keyword or hex value, and `colorLabel` replaces it.
 - Swatches are native radios with `data-color` and `--color-picker-swatch`; Up and Down move a palette row.
 - `value` is lowercase `#rrggbb`, `transparent` or empty.
-- Svelte only for now; ports follow this package, not the other way round.
+- This package is canonical: the seven ports follow it, not the other way round. Edit the colour model in `shared/colors.ts`.

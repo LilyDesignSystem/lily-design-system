@@ -1,0 +1,38 @@
+{# Example 1 — Basic usage: the macro, then autoInit() in the browser. #}
+{% from "color-picker.njk" import colorPicker %}
+<form method="post">
+  {{ colorPicker({
+    name: "colour",
+    value: "#005eb8",
+    labels: {
+      picker: "Text colour",
+      recent: "Recent colours",
+      palette: "Colours",
+      transparent: "Transparent",
+      custom: "Custom colour",
+      hex: "Hex",
+      name: "Colour name",
+      hue: "Hue",
+      saturation: "Saturation",
+      lightness: "Lightness",
+      brightness: "Brightness",
+      hsl: "HSL",
+      hsb: "HSB",
+      rgb: "RGB",
+      cmyk: "CMYK",
+      red: "Red",
+      green: "Green",
+      blue: "Blue",
+      cyan: "Cyan",
+      magenta: "Magenta",
+      yellow: "Yellow",
+      key: "Black",
+      invalid: "Not a colour",
+    }
+  }) }}
+  <button type="submit">Save</button>
+</form>
+<script type="module">
+  import { autoInit } from "../dist/index.js";
+  autoInit();
+</script>

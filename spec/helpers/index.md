@@ -29,17 +29,17 @@ It does **not** cover: the headless 609-component catalog and its rules (see [he
 
 Every framework's helpers are one top-level subproject per package, `lily-design-system-{framework}-{package}/` (since 2026-10-10; until then one `*-helpers` catalog per framework). Lists below: [Svelte](#svelte-helper-packages), [React](#react-helper-packages), [Vue](#vue-helper-packages), [Angular](#angular-helper-packages), [HTML](#html-helper-packages), [Web Components](#web-components-helper-packages), [Nunjucks](#nunjucks-helper-packages), [Blazor](#blazor-helper-packages).
 
-| Framework                                                             | Manifest per package                  | Packages                                                                                                                                     |
-| --------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| Svelte (canonical reference) — `lily-design-system-svelte-{package}/` | npm `package.json`                    | 20: the eleven pickers, picker-bar, data-grid, kanban-board, calendar, gantt-chart, filter, markdown-editor, org-editor, locale-translations |
-| React — `lily-design-system-react-{package}/`                         | npm `package.json`                    | the same 20                                                                                                                                  |
-| Vue — `lily-design-system-vue-{package}/`                             | npm `package.json`                    | the same 20                                                                                                                                  |
-| Angular — `lily-design-system-angular-{package}/`                     | npm `package.json`                    | the same 20                                                                                                                                  |
-| HTML — `lily-design-system-html-{package}/`                           | npm `package.json`                    | the same 20                                                                                                                                  |
-| Web Components — `lily-design-system-web-components-{package}/`       | npm `package.json`                    | the same 20 (`lily-*` tags; a copy of the HTML packages)                                                                                     |
-| Nunjucks — `lily-design-system-nunjucks-{package}/`                   | npm `package.json`                    | the same 20, plus `nunjucks-listbox-behavior`                                                                                                |
-| Blazor — `lily-design-system-blazor-{package}/`                       | NuGet `.csproj` (Razor class library) | the same 20                                                                                                                                  |
-| Alpine.js — `lily-design-system-alpine-{package}/`                    | npm `package.json` (unpublished)      | 6: data-grid, kanban-board, calendar, gantt-chart, markdown-editor, org-editor                                                               |
+| Framework                                                             | Manifest per package                  | Packages                                                                                                                                                   |
+| --------------------------------------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Svelte (canonical reference) — `lily-design-system-svelte-{package}/` | npm `package.json`                    | 21: the eleven pickers, picker-bar, data-grid, kanban-board, calendar, gantt-chart, filter, markdown-editor, org-editor, color-picker, locale-translations |
+| React — `lily-design-system-react-{package}/`                         | npm `package.json`                    | the same 21                                                                                                                                                |
+| Vue — `lily-design-system-vue-{package}/`                             | npm `package.json`                    | the same 21                                                                                                                                                |
+| Angular — `lily-design-system-angular-{package}/`                     | npm `package.json`                    | the same 21                                                                                                                                                |
+| HTML — `lily-design-system-html-{package}/`                           | npm `package.json`                    | the same 21                                                                                                                                                |
+| Web Components — `lily-design-system-web-components-{package}/`       | npm `package.json`                    | the same 21 (`lily-*` tags; a copy of the HTML packages)                                                                                                   |
+| Nunjucks — `lily-design-system-nunjucks-{package}/`                   | npm `package.json`                    | the same 21, plus `nunjucks-listbox-behavior`                                                                                                              |
+| Blazor — `lily-design-system-blazor-{package}/`                       | NuGet `.csproj` (Razor class library) | the same 21                                                                                                                                                |
+| Alpine.js — `lily-design-system-alpine-{package}/`                    | npm `package.json` (unpublished)      | 6: data-grid, kanban-board, calendar, gantt-chart, markdown-editor, org-editor                                                                             |
 
 ### Svelte helper packages
 
@@ -52,6 +52,7 @@ A package that depends on a sibling resolves it in local dev/test from the sibli
 `dist/`; [`bin/list-helper-packages svelte`](../../bin/list-helper-packages) prints them in that
 build order, which CI and `bin/publish-helpers` follow.
 
+- [`lily-design-system-svelte-color-picker`](../../lily-design-system-svelte-color-picker/) — `@lilydesignsystem/svelte-color-picker` — a colour picker: recent colours, a palette with Transparent, and entry by hex, CSS name, HSL, HSB, RGB or CMYK (added 2026-11-15; ported to the other seven catalogs the same day)
 - [`lily-design-system-svelte-data-grid`](../../lily-design-system-svelte-data-grid/) — `@lilydesignsystem/svelte-data-grid`
 - [`lily-design-system-svelte-date-time-picker`](../../lily-design-system-svelte-date-time-picker/) — `@lilydesignsystem/svelte-date-time-picker`
 - [`lily-design-system-svelte-filter`](../../lily-design-system-svelte-filter/) — `@lilydesignsystem/svelte-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (added 2026-10-17; ported to all eight catalogs)
@@ -78,6 +79,7 @@ build order, which CI and `bin/publish-helpers` follow.
 Until 2026-10-10 in the `lily-design-system-react-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages react`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-react-color-picker`](../../lily-design-system-react-color-picker/) — `@lilydesignsystem/react-color-picker` — a colour picker: recent colours, a palette with Transparent, and entry by hex, CSS name, HSL, HSB, RGB or CMYK (added 2026-11-15)
 - [`lily-design-system-react-data-grid`](../../lily-design-system-react-data-grid/) — `@lilydesignsystem/react-data-grid`
 - [`lily-design-system-react-date-time-picker`](../../lily-design-system-react-date-time-picker/) — `@lilydesignsystem/react-date-time-picker`
 - [`lily-design-system-react-filter`](../../lily-design-system-react-filter/) — `@lilydesignsystem/react-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (added 2026-10-17)
@@ -104,6 +106,7 @@ packages above. [`bin/list-helper-packages react`](../../bin/list-helper-package
 Until 2026-10-10 in the `lily-design-system-vue-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages vue`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-vue-color-picker`](../../lily-design-system-vue-color-picker/) — `@lilydesignsystem/vue-color-picker` — a colour picker: recent colours, a palette with Transparent, and entry by hex, CSS name, HSL, HSB, RGB or CMYK (added 2026-11-15)
 - [`lily-design-system-vue-data-grid`](../../lily-design-system-vue-data-grid/) — `@lilydesignsystem/vue-data-grid`
 - [`lily-design-system-vue-date-time-picker`](../../lily-design-system-vue-date-time-picker/) — `@lilydesignsystem/vue-date-time-picker`
 - [`lily-design-system-vue-filter`](../../lily-design-system-vue-filter/) — `@lilydesignsystem/vue-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (added 2026-10-17)
@@ -130,6 +133,7 @@ packages above. [`bin/list-helper-packages vue`](../../bin/list-helper-packages)
 Until 2026-10-10 in the `lily-design-system-angular-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages angular`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-angular-color-picker`](../../lily-design-system-angular-color-picker/) — `@lilydesignsystem/angular-color-picker` — a colour picker: recent colours, a palette with Transparent, and entry by hex, CSS name, HSL, HSB, RGB or CMYK (added 2026-11-15)
 - [`lily-design-system-angular-data-grid`](../../lily-design-system-angular-data-grid/) — `@lilydesignsystem/angular-data-grid`
 - [`lily-design-system-angular-date-time-picker`](../../lily-design-system-angular-date-time-picker/) — `@lilydesignsystem/angular-date-time-picker`
 - [`lily-design-system-angular-filter`](../../lily-design-system-angular-filter/) — `@lilydesignsystem/angular-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (added 2026-10-17)
@@ -156,6 +160,7 @@ packages above. [`bin/list-helper-packages angular`](../../bin/list-helper-packa
 Until 2026-10-10 in the `lily-design-system-html-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages html`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-html-color-picker`](../../lily-design-system-html-color-picker/) — `@lilydesignsystem/html-color-picker` — a colour picker: recent colours, a palette with Transparent, and entry by hex, CSS name, HSL, HSB, RGB or CMYK (added 2026-11-15)
 - [`lily-design-system-html-data-grid`](../../lily-design-system-html-data-grid/) — `@lilydesignsystem/html-data-grid`
 - [`lily-design-system-html-date-time-picker`](../../lily-design-system-html-date-time-picker/) — `@lilydesignsystem/html-date-time-picker`
 - [`lily-design-system-html-filter`](../../lily-design-system-html-filter/) — `@lilydesignsystem/html-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (added 2026-10-17)
@@ -182,6 +187,7 @@ packages above. [`bin/list-helper-packages html`](../../bin/list-helper-packages
 Until 2026-10-10 in the `lily-design-system-web-components-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages web-components`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-web-components-color-picker`](../../lily-design-system-web-components-color-picker/) — `@lilydesignsystem/web-components-color-picker` — a colour picker: recent colours, a palette with Transparent, and entry by hex, CSS name, HSL, HSB, RGB or CMYK (added 2026-11-15)
 - [`lily-design-system-web-components-data-grid`](../../lily-design-system-web-components-data-grid/) — `@lilydesignsystem/web-components-data-grid`
 - [`lily-design-system-web-components-date-time-picker`](../../lily-design-system-web-components-date-time-picker/) — `@lilydesignsystem/web-components-date-time-picker`
 - [`lily-design-system-web-components-filter`](../../lily-design-system-web-components-filter/) — `@lilydesignsystem/web-components-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (added 2026-10-17)
@@ -208,6 +214,7 @@ packages above. [`bin/list-helper-packages web-components`](../../bin/list-helpe
 Until 2026-10-10 in the `lily-design-system-nunjucks-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages nunjucks`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-nunjucks-color-picker`](../../lily-design-system-nunjucks-color-picker/) — `@lilydesignsystem/nunjucks-color-picker` — a colour picker: recent colours, a palette with Transparent, and entry by hex, CSS name, HSL, HSB, RGB or CMYK (added 2026-11-15)
 - [`lily-design-system-nunjucks-data-grid`](../../lily-design-system-nunjucks-data-grid/) — `@lilydesignsystem/nunjucks-data-grid`
 - [`lily-design-system-nunjucks-date-time-picker`](../../lily-design-system-nunjucks-date-time-picker/) — `@lilydesignsystem/nunjucks-date-time-picker`
 - [`lily-design-system-nunjucks-filter`](../../lily-design-system-nunjucks-filter/) — `@lilydesignsystem/nunjucks-filter` — a filter builder that outputs JSON, SQL, MongoDB, OData or a predicate (added 2026-10-17)
@@ -235,6 +242,7 @@ packages above. [`bin/list-helper-packages nunjucks`](../../bin/list-helper-pack
 Until 2026-10-10 in the `lily-design-system-blazor-helpers` catalog, now deleted; the same standalone layout as the Svelte
 packages above. [`bin/list-helper-packages blazor`](../../bin/list-helper-packages) prints the build order.
 
+- [`lily-design-system-blazor-color-picker`](../../lily-design-system-blazor-color-picker/) — `LilyDesignSystem.Blazor.ColorPicker` — a colour picker: recent colours, a palette with Transparent, and entry by hex, CSS name, HSL, HSB, RGB or CMYK (added 2026-11-15)
 - [`lily-design-system-blazor-data-grid`](../../lily-design-system-blazor-data-grid/) — `LilyDesignSystem.Blazor.DataGrid`
 - [`lily-design-system-blazor-date-time-picker`](../../lily-design-system-blazor-date-time-picker/) — `LilyDesignSystem.Blazor.DateTimePicker`
 - [`lily-design-system-blazor-link-picker`](../../lily-design-system-blazor-link-picker/) — `LilyDesignSystem.Blazor.LinkPicker`
@@ -478,6 +486,19 @@ have hit. Fixed generically in each catalog's build script (derive
 rather than hardcoding `picker-bar`), verified by confirming the built
 `dist/` still imports each sibling by bare specifier rather than
 containing its compiled source.
+
+## color-picker contract
+
+Added 2026-11-15, Svelte first and ported to the other seven catalogs the same day. An inline panel in four areas inside one
+`<div class="color-picker" role="group" aria-label>`: a recent-colours radio group, a separator, a palette radio group (8 rows of
+10 by default) with a Transparent button (`aria-pressed`), a separator, and entry fields (hex, CSS name with a datalist of the 148
+names, and HSL, HSB, RGB and CMYK fieldsets). It holds a form value (a hidden input under `name`); it applies nothing and persists
+nothing. Swatches are native radios carrying `data-color` and `--color-picker-swatch`; ArrowUp and ArrowDown move a palette row.
+Every word is in a required `labels` object. The colour model is [`shared/colors.ts`](../../shared/colors.ts), copied by
+`bin/sync-shared-modules` (types stripped for Nunjucks) and ported to C# for Blazor, where `ColorsTests.cs` checks it against
+values the TypeScript module computes. Full contract: the Svelte package's
+[spec](../../lily-design-system-svelte-color-picker/spec/index.md); each port's `spec/index.md` lists its idiom differences
+(Blazor installs one `eval` key listener and does not handle form reset).
 
 ## data-grid contract
 
@@ -817,7 +838,7 @@ Each package's `spec/index.md` has the full clauses (kanban §8.95–§8.109, ga
 
 ## Acceptance criteria
 
-- [x] Each of the eight frameworks ships the same 20 helper packages (`bin/list-helper-packages <framework>`, 2026-10-30): the eleven pickers, `picker-bar`, `data-grid`, `kanban-board`, `calendar`, `gantt-chart`, `filter`, `markdown-editor`, `org-editor` and `locale-translations`; Nunjucks adds `nunjucks-listbox-behavior`; Alpine.js ships six.
+- [x] Each of the eight frameworks ships the same 21 helper packages (`bin/list-helper-packages <framework>`, 2026-10-30): the eleven pickers, `picker-bar`, `data-grid`, `kanban-board`, `calendar`, `gantt-chart`, `filter`, `markdown-editor`, `org-editor` and `locale-translations`; Nunjucks adds `nunjucks-listbox-behavior`; Alpine.js ships six.
 - [x] `motion-picker` renders the same icon-button + APG-listbox shape as its three preference siblings in all eight catalogs, defers its initial value to `(prefers-reduced-motion: reduce)` unconditionally (documented Nunjucks deviation: server marks `motions[0]`, client corrects on init), and applies idempotently — verified against a numbered spec with one test per acceptance clause per catalog.
 - [x] `date-time-picker` renders a text field + trigger opening a WAI-ARIA APG Date Picker Dialog in all eight catalogs, with civil-date arithmetic, locale-driven formatting, `min`/`max`/`isDateDisabled` constraints, and a real focus trap, verified against a numbered spec with one test per acceptance clause per catalog.
 - [x] Every helper has a numbered `spec/index.md` and a test file asserting each acceptance clause.

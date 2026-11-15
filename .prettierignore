@@ -38,6 +38,7 @@ lily-design-system-alpine-headless/wheel-picker.js
 lily-design-system-alpine-headless/overflow-navigation.js
 lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NavigationMenu.razor.js
 lily-design-system-nunjucks-markdown-editor/markdown-format.js
+lily-design-system-nunjucks-color-picker/colors.js
 lily-design-system-nunjucks-org-editor/org-format.js
 lily-design-system-nunjucks-time-zone-picker/zones.js
 # Prettier cannot parse these two snippets as HTML

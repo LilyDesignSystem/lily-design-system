@@ -153,6 +153,8 @@ prerender
 SIGPIPE
 srgb
 vuejs
+recentchange
+valuechange
 # Lily-specific naming
 # Reference theme names (themes/*.css)
 cmyk

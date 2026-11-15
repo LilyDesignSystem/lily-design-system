@@ -1,6 +1,7 @@
 # ColorPicker — Specification
 
-The Svelte colour-picker helper, `@lilydesignsystem/svelte-color-picker`. Svelte is the first and, so far, only catalog.
+The Svelte colour-picker helper, `@lilydesignsystem/svelte-color-picker`, the canonical package. Ported to React, Vue, Angular,
+HTML, Web Components, Nunjucks and Blazor (2026-11-15); each port's `spec/index.md` lists its idiom differences.
 
 ## 1. Summary
 
@@ -106,7 +107,7 @@ document and persists nothing.
 - [x] Hex and name entry, with invalid entries marked (rule 5).
 - [x] HSL, HSB, RGB and CMYK groups (rule 6).
 - [x] Hidden form input, disabled, rest props and class (rules 8 and 9).
-- [ ] Ports to the other seven catalogs.
+- [x] Ports to the other seven catalogs (`lily-design-system-{react,vue,angular,html,web-components,nunjucks,blazor}-color-picker`).
 - [ ] A composed example page and its e2e and axe checks.
 - [ ] Screen-reader sessions.
 

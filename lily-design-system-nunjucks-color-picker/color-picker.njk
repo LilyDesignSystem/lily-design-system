@@ -1,0 +1,103 @@
+{#
+  ColorPicker macro — Lily Design System Nunjucks helper, a port of the Svelte canonical package.
+
+  Four areas in one labelled group: the recent colours; a separator; a palette of swatches (8 rows of 10 by
+  default) with a Transparent button; a separator; and fields to enter a colour by hex, CSS name, HSL, HSB, RGB or
+  CMYK. It holds a form value: it applies nothing to the document and persists nothing. The macro renders the
+  whole control; color-picker.client.js makes it work (choosing, the recent row, the entry fields, the row keys,
+  form reset) and fills the colour-model fields from the value.
+
+  HTML tag: <div role="group"> (root)
+  CSS class: color-picker
+  Companion runtime: color-picker.client.js
+
+  Params (single `opts` object):
+    labels       — object, required. Every word: picker, recent, palette, transparent, custom, hex, name, hsl, hsb,
+                   rgb, cmyk, hue, saturation, lightness, brightness, red, green, blue, cyan, magenta, yellow, key,
+                   and optional invalid.
+    value        — string: "#rrggbb", "transparent" or "" (default).
+    recent       — array of colours, newest first.
+    maxRecent    — number, default 10 (read by the client).
+    palette      — array of colours, row by row. Default: Lily's 8 rows of 10.
+    columns      — swatches per row, default 10.
+    swatchLabels — object, colour → accessible name. Default: its CSS name, else its hex value.
+    name         — string: renders a hidden input carrying the value.
+    id           — string, the id prefix for radio names, the datalist and the fields. Default "color-picker";
+                   give each picker on a page its own.
+    disabled     — boolean.
+    classes      — string, appended to `color-picker`.
+    attributes   — object, extra attributes on the root.
+
+  Usage:
+    {% from "color-picker.njk" import colorPicker %}
+    {{ colorPicker({ labels: labels, value: "#005eb8", name: "colour" }) }}
+#}
+{#- The CSS names and the default palette, from colors.js; color-picker.test.ts checks they agree. -#}
+{%- set _cpNames = ["aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige", "bisque", "black", "blanchedalmond", "blue", "blueviolet", "brown", "burlywood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflowerblue", "cornsilk", "crimson", "cyan", "darkblue", "darkcyan", "darkgoldenrod", "darkgray", "darkgreen", "darkgrey", "darkkhaki", "darkmagenta", "darkolivegreen", "darkorange", "darkorchid", "darkred", "darksalmon", "darkseagreen", "darkslateblue", "darkslategray", "darkslategrey", "darkturquoise", "darkviolet", "deeppink", "deepskyblue", "dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite", "forestgreen", "fuchsia", "gainsboro", "ghostwhite", "gold", "goldenrod", "gray", "green", "greenyellow", "grey", "honeydew", "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender", "lavenderblush", "lawngreen", "lemonchiffon", "lightblue", "lightcoral", "lightcyan", "lightgoldenrodyellow", "lightgray", "lightgreen", "lightgrey", "lightpink", "lightsalmon", "lightseagreen", "lightskyblue", "lightslategray", "lightslategrey", "lightsteelblue", "lightyellow", "lime", "limegreen", "linen", "magenta", "maroon", "mediumaquamarine", "mediumblue", "mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue", "mintcream", "mistyrose", "moccasin", "navajowhite", "navy", "oldlace", "olive", "olivedrab", "orange", "orangered", "orchid", "palegoldenrod", "palegreen", "paleturquoise", "palevioletred", "papayawhip", "peachpuff", "peru", "pink", "plum", "powderblue", "purple", "rebeccapurple", "red", "rosybrown", "royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell", "sienna", "silver", "skyblue", "slateblue", "slategray", "slategrey", "snow", "springgreen", "steelblue", "tan", "teal", "thistle", "tomato", "turquoise", "violet", "wheat", "white", "whitesmoke", "yellow", "yellowgreen"] -%}
+{%- set _cpNameOf = { "#f0f8ff": "aliceblue", "#faebd7": "antiquewhite", "#00ffff": "aqua", "#7fffd4": "aquamarine", "#f0ffff": "azure", "#f5f5dc": "beige", "#ffe4c4": "bisque", "#000000": "black", "#ffebcd": "blanchedalmond", "#0000ff": "blue", "#8a2be2": "blueviolet", "#a52a2a": "brown", "#deb887": "burlywood", "#5f9ea0": "cadetblue", "#7fff00": "chartreuse", "#d2691e": "chocolate", "#ff7f50": "coral", "#6495ed": "cornflowerblue", "#fff8dc": "cornsilk", "#dc143c": "crimson", "#00008b": "darkblue", "#008b8b": "darkcyan", "#b8860b": "darkgoldenrod", "#a9a9a9": "darkgray", "#006400": "darkgreen", "#bdb76b": "darkkhaki", "#8b008b": "darkmagenta", "#556b2f": "darkolivegreen", "#ff8c00": "darkorange", "#9932cc": "darkorchid", "#8b0000": "darkred", "#e9967a": "darksalmon", "#8fbc8f": "darkseagreen", "#483d8b": "darkslateblue", "#2f4f4f": "darkslategray", "#00ced1": "darkturquoise", "#9400d3": "darkviolet", "#ff1493": "deeppink", "#00bfff": "deepskyblue", "#696969": "dimgray", "#1e90ff": "dodgerblue", "#b22222": "firebrick", "#fffaf0": "floralwhite", "#228b22": "forestgreen", "#ff00ff": "fuchsia", "#dcdcdc": "gainsboro", "#f8f8ff": "ghostwhite", "#ffd700": "gold", "#daa520": "goldenrod", "#808080": "gray", "#008000": "green", "#adff2f": "greenyellow", "#f0fff0": "honeydew", "#ff69b4": "hotpink", "#cd5c5c": "indianred", "#4b0082": "indigo", "#fffff0": "ivory", "#f0e68c": "khaki", "#e6e6fa": "lavender", "#fff0f5": "lavenderblush", "#7cfc00": "lawngreen", "#fffacd": "lemonchiffon", "#add8e6": "lightblue", "#f08080": "lightcoral", "#e0ffff": "lightcyan", "#fafad2": "lightgoldenrodyellow", "#d3d3d3": "lightgray", "#90ee90": "lightgreen", "#ffb6c1": "lightpink", "#ffa07a": "lightsalmon", "#20b2aa": "lightseagreen", "#87cefa": "lightskyblue", "#778899": "lightslategray", "#b0c4de": "lightsteelblue", "#ffffe0": "lightyellow", "#00ff00": "lime", "#32cd32": "limegreen", "#faf0e6": "linen", "#800000": "maroon", "#66cdaa": "mediumaquamarine", "#0000cd": "mediumblue", "#ba55d3": "mediumorchid", "#9370db": "mediumpurple", "#3cb371": "mediumseagreen", "#7b68ee": "mediumslateblue", "#00fa9a": "mediumspringgreen", "#48d1cc": "mediumturquoise", "#c71585": "mediumvioletred", "#191970": "midnightblue", "#f5fffa": "mintcream", "#ffe4e1": "mistyrose", "#ffe4b5": "moccasin", "#ffdead": "navajowhite", "#000080": "navy", "#fdf5e6": "oldlace", "#808000": "olive", "#6b8e23": "olivedrab", "#ffa500": "orange", "#ff4500": "orangered", "#da70d6": "orchid", "#eee8aa": "palegoldenrod", "#98fb98": "palegreen", "#afeeee": "paleturquoise", "#db7093": "palevioletred", "#ffefd5": "papayawhip", "#ffdab9": "peachpuff", "#cd853f": "peru", "#ffc0cb": "pink", "#dda0dd": "plum", "#b0e0e6": "powderblue", "#800080": "purple", "#663399": "rebeccapurple", "#ff0000": "red", "#bc8f8f": "rosybrown", "#4169e1": "royalblue", "#8b4513": "saddlebrown", "#fa8072": "salmon", "#f4a460": "sandybrown", "#2e8b57": "seagreen", "#fff5ee": "seashell", "#a0522d": "sienna", "#c0c0c0": "silver", "#87ceeb": "skyblue", "#6a5acd": "slateblue", "#708090": "slategray", "#fffafa": "snow", "#00ff7f": "springgreen", "#4682b4": "steelblue", "#d2b48c": "tan", "#008080": "teal", "#d8bfd8": "thistle", "#ff6347": "tomato", "#40e0d0": "turquoise", "#ee82ee": "violet", "#f5deb3": "wheat", "#ffffff": "white", "#f5f5f5": "whitesmoke", "#ffff00": "yellow", "#9acd32": "yellowgreen" } -%}
+{%- set _cpPalette = ["#000000", "#1c1c1c", "#393939", "#555555", "#717171", "#8e8e8e", "#aaaaaa", "#c6c6c6", "#e3e3e3", "#ffffff", "#f20d0d", "#f2460d", "#f2930d", "#f2df0d", "#59f20d", "#0df2df", "#0d7ff2", "#0d20f2", "#7f0df2", "#f20dcc", "#f7d4d4", "#f7ddd4", "#f7e8d4", "#f7f4d4", "#e0f7d4", "#d4f7f4", "#d4e5f7", "#d4d7f7", "#e5d4f7", "#f7d4f1", "#edabab", "#edbbab", "#edd2ab", "#ede8ab", "#c1edab", "#abede8", "#abcced", "#abb0ed", "#ccabed", "#edabe2", "#de7c7c", "#de957c", "#deb67c", "#ded67c", "#9dde7c", "#7cded6", "#7cadde", "#7c85de", "#ad7cde", "#de7cce", "#c84141", "#c86341", "#c89041", "#c8bd41", "#6ec841", "#41c8bd", "#4185c8", "#414cc8", "#8541c8", "#c841b1", "#9b2727", "#9b4427", "#9b6b27", "#9b9127", "#4e9b27", "#279b91", "#27619b", "#27309b", "#61279b", "#9b2788", "#651515", "#652915", "#654415", "#655e15", "#306515", "#15655e", "#153d65", "#151c65", "#3d1565", "#651558"] -%}
+{%- macro _cpSwatch(color, group, prefix, value, swatchLabels, transparentLabel) -%}
+<input class="color-picker-swatch" type="radio" name="{{ prefix }}-{{ group }}" value="{{ color }}"{% if color == value %} checked{% endif %} aria-label="{{ swatchLabels[color] or (transparentLabel if color == 'transparent' else (_cpNameOf[color | lower] or color)) }}" data-color="{{ color }}" style="--color-picker-swatch: {{ color }}">
+{%- endmacro -%}
+{%- macro colorPicker(opts) -%}
+{%- set o = opts | default({}) -%}
+{%- set l = o.labels | default({}) -%}
+{%- set value = o.value | default("") -%}
+{%- set prefix = o.id | default("color-picker") -%}
+{%- set palette = o.palette | default(_cpPalette) -%}
+{%- set columns = o.columns | default(10) -%}
+{%- set swatchLabels = o.swatchLabels | default({}) -%}
+<div class="color-picker{% if o.classes %} {{ o.classes }}{% endif %}" role="group" aria-label="{{ l.picker }}" data-lily-color-picker data-id="{{ prefix }}" data-columns="{{ columns }}" data-max-recent="{{ o.maxRecent | default(10) }}"{% if l.invalid %} data-invalid-label="{{ l.invalid }}"{% endif %}{% if value %} data-value="{{ value }}"{% endif %}
+  {%- if o.attributes %}{% for k, v in o.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}>
+  {%- if o.name %}
+  <input type="hidden" name="{{ o.name }}" value="{{ value }}">
+  {%- endif %}
+  <fieldset class="color-picker-recent" role="radiogroup" aria-label="{{ l.recent }}"{% if o.disabled %} disabled{% endif %}>
+    {%- for color in o.recent | default([]) %}
+    {{ _cpSwatch(color, "recent", prefix, value, swatchLabels, l.transparent) }}
+    {%- endfor %}
+  </fieldset>
+  <hr class="color-picker-separator">
+  <fieldset class="color-picker-palette" role="radiogroup" aria-label="{{ l.palette }}"{% if o.disabled %} disabled{% endif %}>
+    {%- for row in palette | batch(columns) %}
+    <div class="color-picker-palette-row">
+      {%- for color in row %}
+      {{ _cpSwatch(color, "palette", prefix, value, swatchLabels, l.transparent) }}
+      {%- endfor %}
+    </div>
+    {%- endfor %}
+  </fieldset>
+  <button class="color-picker-transparent" type="button" aria-pressed="{{ 'true' if value == 'transparent' else 'false' }}"{% if o.disabled %} disabled{% endif %}>
+    <svg class="color-picker-transparent-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="1.05rem" height="1.05rem"><path d="M8 2.5 4.5 7.5a4 4 0 1 0 7 0Z"></path><path d="M2.5 2.5l11 11"></path></svg>
+    {{ l.transparent }}
+  </button>
+  <hr class="color-picker-separator">
+  <div class="color-picker-custom" role="group" aria-label="{{ l.custom }}">
+    <div class="color-picker-field color-picker-field-hex">
+      <label for="{{ prefix }}-hex">{{ l.hex }}</label>
+      <input id="{{ prefix }}-hex" class="color-picker-hex" type="text" inputmode="text" autocomplete="off" spellcheck="false" value="{{ '' if value == 'transparent' else value }}"{% if o.disabled %} disabled{% endif %}>
+    </div>
+    <div class="color-picker-field color-picker-field-name">
+      <label for="{{ prefix }}-name">{{ l.name }}</label>
+      <input id="{{ prefix }}-name" class="color-picker-name" type="text" list="{{ prefix }}-names" autocomplete="off" spellcheck="false" value="{{ _cpNameOf[value | lower] or '' }}"{% if o.disabled %} disabled{% endif %}>
+      <datalist id="{{ prefix }}-names">
+        {%- for n in _cpNames %}<option value="{{ n }}"></option>{% endfor -%}
+      </datalist>
+    </div>
+    {%- for model in [
+      { id: "hsl", fields: [["h", l.hue, 360], ["s", l.saturation, 100], ["l", l.lightness, 100]] },
+      { id: "hsb", fields: [["h", l.hue, 360], ["s", l.saturation, 100], ["b", l.brightness, 100]] },
+      { id: "rgb", fields: [["r", l.red, 255], ["g", l.green, 255], ["b", l.blue, 255]] },
+      { id: "cmyk", fields: [["c", l.cyan, 100], ["m", l.magenta, 100], ["y", l.yellow, 100], ["k", l.key, 100]] }
+    ] %}
+    <fieldset class="color-picker-field color-picker-field-{{ model.id }}"{% if o.disabled %} disabled{% endif %}>
+      <legend>{{ l[model.id] }}</legend>
+      {%- for f in model.fields %}
+      <label for="{{ prefix }}-{{ model.id }}-{{ f[0] }}">{{ f[1] }}</label>
+      <input id="{{ prefix }}-{{ model.id }}-{{ f[0] }}" class="color-picker-{{ model.id }} color-picker-{{ model.id }}-{{ f[0] }}" type="number" min="0" max="{{ f[2] }}" step="1" data-model="{{ model.id }}" data-key="{{ f[0] }}">
+      {%- endfor %}
+    </fieldset>
+    {%- endfor %}
+  </div>
+</div>
+{%- endmacro -%}
