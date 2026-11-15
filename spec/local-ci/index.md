@@ -165,21 +165,30 @@ Once `bin/ci` exists, CI's job is to prove the **clean-room** result for an outs
 for publishing. Everything else is the maintainer's gate. State this in [tooling](../tooling/index.md) and
 [releasing](../../docs/releasing.md).
 
-## Troubleshooting: Firefox exits at startup on macOS (2026-11-14)
+## Troubleshooting: Firefox exits at startup on macOS (2026-11-14, fixed 2026-11-15)
 
 Symptom: every `[firefox]` Playwright test fails in 0 ms with `browserType.launch: Failed to launch the browser process`, the
 process exiting with code 1, so `bin/ci --full` cannot write a green receipt. Run the binary by hand and it prints
 `Could not find profile folder.`
 
-Cause: Playwright's Firefox builds from 1543 on (Firefox 150 and later) read the profile list in
-`~/Library/Application Support/Firefox` at startup, even when given a profile of their own. On macOS that folder belongs to an
-installed Firefox, and the privacy protection that keeps one app out of another's data refuses the process that runs the tests
-(`ls` on the folder says `Operation not permitted`). The older build 1538 does not read it and starts. Setting `HOME`, or
-`XRE_PROFILE_PATH` and `XRE_PROFILE_LOCAL_PATH`, does not help: Firefox finds the folder through the macOS API.
+Cause: [microsoft/playwright#42768](https://github.com/microsoft/playwright/issues/42768). Playwright's Firefox was branded plain
+"Firefox" by "Mozilla", so it shared the installed Firefox's `~/Library/Application Support/Firefox` and read it at startup, even
+when given a profile of its own. macOS 27 protects that folder from other apps, and judges the request by the app that started the
+tests (terminal or coding assistant), so it is refused (`Operation not permitted`). Setting `HOME`, `XRE_PROFILE_PATH` or
+`XRE_PROFILE_LOCAL_PATH` does not help.
 
-Fix: System Settings, Privacy & Security, Full Disk Access: allow the app that runs `bin/ci` (the terminal, or the app hosting a
-coding assistant), then quit and reopen it. `ls ~/Library/Application\ Support/Firefox` then lists the folder, and Firefox launches.
-GitHub's runners are unaffected.
+Fix: Playwright 1.65 or later, whose Firefox (159, build 1572) carries Mozilla's fix from Firefox 158. Every package that depends on
+`@playwright/test` is on `^1.65.1`; run `pnpm exec playwright install firefox` in an app after pulling. Not needed any more: Full
+Disk Access for the terminal (a broad grant that lets everything run from it read other apps' data), or `CFFIXED_USER_HOME` set to
+an empty folder per run (the stop-gap other projects used on 1.64). GitHub's runners were never affected.
+
+## Troubleshooting: a test reaches another project's server (2026-11-15)
+
+The example apps' Playwright configs use `http://localhost:<port>` with `reuseExistingServer` outside CI. If another project
+listens on the same port on `127.0.0.1` while the app's preview binds `::1`, Firefox (which resolves `localhost` to `127.0.0.1`)
+tests the other project's page and Chromium tests the right one, so only `[firefox]` fails, usually with layout errors from a
+missing theme. Check with `lsof -nP -iTCP:4173 -sTCP:LISTEN` (8081 for Eleventy, 8082 for Alpine) and stop the other server before
+`bin/ci --full`.
 
 ## What is not adopted
 
