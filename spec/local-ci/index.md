@@ -182,13 +182,18 @@ Fix: Playwright 1.65 or later, whose Firefox (159, build 1572) carries Mozilla's
 Disk Access for the terminal (a broad grant that lets everything run from it read other apps' data), or `CFFIXED_USER_HOME` set to
 an empty folder per run (the stop-gap other projects used on 1.64). GitHub's runners were never affected.
 
-## Troubleshooting: a test reaches another project's server (2026-11-15)
+## A free port for every Playwright run (2026-11-15)
 
-The example apps' Playwright configs use `http://localhost:<port>` with `reuseExistingServer` outside CI. If another project
-listens on the same port on `127.0.0.1` while the app's preview binds `::1`, Firefox (which resolves `localhost` to `127.0.0.1`)
-tests the other project's page and Chromium tests the right one, so only `[firefox]` fails, usually with layout errors from a
-missing theme. Check with `lsof -nP -iTCP:4173 -sTCP:LISTEN` (8081 for Eleventy, 8082 for Alpine) and stop the other server before
-`bin/ci --full`.
+The 12 Playwright configs used fixed ports (4173 for three of them, 3000 for both React and Nuxt) with `reuseExistingServer`
+outside CI. Playwright reuses whatever answers on the URL, so on 2026-11-15 a run tested another project's server: that project
+held `127.0.0.1:4173`, Vite's preview quietly took `[::1]:4173`, and Firefox, which reaches `localhost` at `127.0.0.1`, got the
+other page (only `[firefox]` failed, with layout errors from a missing theme).
+
+Each config now takes its port from `e2ePort()` in `e2e-port.ts`, a copy of `shared/e2e-port.ts` kept current by
+`bin/sync-shared-modules`. It asks the operating system for a free port on `127.0.0.1` once, in the first Playwright process,
+and hands it to the workers and the server in `LILY_E2E_PORT`; `baseURL` and the server both use `127.0.0.1`, never
+`localhost`. To test a server you started yourself, set `LILY_E2E_PORT` to its port. The manual `pnpm preview` and
+`pnpm serve` commands keep their usual ports.
 
 ## What is not adopted
 

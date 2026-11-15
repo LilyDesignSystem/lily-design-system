@@ -1,4 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
+import { E2E_HOST, e2ePort, e2eURL } from "./e2e-port";
+
+const port = e2ePort();
 
 // Specs that also run in Firefox and WebKit (P18-T1).
 const crossEngineSpecs =
@@ -11,7 +14,7 @@ export default defineConfig({
     retries: process.env.CI ? 2 : 0,
     reporter: process.env.CI ? "github" : "list",
     use: {
-        baseURL: "http://localhost:5050",
+        baseURL: e2eURL(port),
         ignoreHTTPSErrors: true,
         trace: "on-first-retry",
     },
@@ -25,9 +28,8 @@ export default defineConfig({
         { name: "webkit", use: { ...devices["Desktop Safari"] }, testMatch: crossEngineSpecs },
     ],
     webServer: {
-        command:
-            "cd src/LilyBlazorWebExamples && ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://localhost:5050 dotnet run --no-launch-profile -c Release",
-        url: "http://localhost:5050/",
+        command: `cd src/LilyBlazorWebExamples && ASPNETCORE_ENVIRONMENT=Development ASPNETCORE_URLS=http://${E2E_HOST}:${port} dotnet run --no-launch-profile -c Release`,
+        url: `${e2eURL(port)}/`,
         reuseExistingServer: !process.env.CI,
         timeout: 180_000,
     },
