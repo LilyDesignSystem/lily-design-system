@@ -392,6 +392,14 @@
 .color-picker-button {
 }
 
+/* color-radio-group: a fieldset radio group for selecting a color swatch */
+.color-radio-group {
+}
+
+/* color-radio-input: a radio input for one choice of a color swatch */
+.color-radio-input {
+}
+
 /* column-chart: a vertical column chart visualization for displaying data */
 .column-chart {
 }
@@ -752,6 +760,14 @@
 .five-face-rating-picker-button {
 }
 
+/* five-face-rating-radio-group: a fieldset radio group for selecting a 1-5 satisfaction rating using face labels */
+.five-face-rating-radio-group {
+}
+
+/* five-face-rating-radio-input: a radio input for one choice of a 1-5 satisfaction rating */
+.five-face-rating-radio-input {
+}
+
 /* five-face-rating-view: a read-only display of a five-face satisfaction rating */
 .five-face-rating-view {
 }
@@ -762,6 +778,14 @@
 
 /* five-star-rating-picker-button: a picker button for selecting a 1-5 star rating using radio buttons */
 .five-star-rating-picker-button {
+}
+
+/* five-star-rating-radio-group: a fieldset radio group for selecting a 1-5 star rating */
+.five-star-rating-radio-group {
+}
+
+/* five-star-rating-radio-input: a radio input for one choice of a 1-5 star rating */
+.five-star-rating-radio-input {
 }
 
 /* five-star-rating-view: a read-only display of a five-star rating */
@@ -1292,6 +1316,14 @@
 .net-promoter-score-picker-button {
 }
 
+/* net-promoter-score-radio-group: a fieldset radio group for selecting a 0-10 Net Promoter Score */
+.net-promoter-score-radio-group {
+}
+
+/* net-promoter-score-radio-input: a radio input for one choice of a 0-10 Net Promoter Score */
+.net-promoter-score-radio-input {
+}
+
 /* net-promoter-score-view: a read-only display of a Net Promoter Score */
 .net-promoter-score-view {
 }
@@ -1492,6 +1524,14 @@
 .red-amber-green-picker-button {
 }
 
+/* red-amber-green-radio-group: a fieldset radio group for selecting a red/amber/green status */
+.red-amber-green-radio-group {
+}
+
+/* red-amber-green-radio-input: a radio input for one choice of a red/amber/green status */
+.red-amber-green-radio-input {
+}
+
 /* red-amber-green-view: a read-only display of a red/amber/green status */
 .red-amber-green-view {
 }
@@ -1502,6 +1542,14 @@
 
 /* red-orange-yellow-green-blue-picker-button: a picker button for selecting a five-level color status */
 .red-orange-yellow-green-blue-picker-button {
+}
+
+/* red-orange-yellow-green-blue-radio-group: a fieldset radio group for selecting a five-level color status */
+.red-orange-yellow-green-blue-radio-group {
+}
+
+/* red-orange-yellow-green-blue-radio-input: a radio input for one choice of a five-level color status */
+.red-orange-yellow-green-blue-radio-input {
 }
 
 /* red-orange-yellow-green-blue-view: a read-only display of a five-level color status */

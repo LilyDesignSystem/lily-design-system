@@ -1,0 +1,31 @@
+---
+layout: layouts/component-demo.njk
+title: Red Amber Green Radio Group
+description: a fieldset radio group for selecting a red/amber/green status
+---
+
+{% from "components/red-amber-green-radio-group/macro.njk" import redAmberGreenRadioGroup %}
+{% from "components/red-amber-green-radio-input/macro.njk" import redAmberGreenRadioInput %}
+{% from "components/label/macro.njk" import label %}
+
+<h2>Default</h2>
+{% call redAmberGreenRadioGroup({ label: "Project status" }) %}
+  <div>
+    {{ redAmberGreenRadioInput({ id: "red-amber-green-g-0", name: "status", value: "red" }) }}
+    {{ label({ for: "red-amber-green-g-0", text: "Off track" }) }}
+  </div>
+  <div>
+    {{ redAmberGreenRadioInput({ id: "red-amber-green-g-1", name: "status", value: "amber", checked: true }) }}
+    {{ label({ for: "red-amber-green-g-1", text: "At risk" }) }}
+  </div>
+  <div>
+    {{ redAmberGreenRadioInput({ id: "red-amber-green-g-2", name: "status", value: "green" }) }}
+    {{ label({ for: "red-amber-green-g-2", text: "On track" }) }}
+  </div>
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;fieldset class="red-amber-green-radio-group" role="radiogroup" aria-label="Project status"&gt;&lt;label class="label" for="demo-red-amber-green-g-0"&gt;&lt;input class="red-amber-green-radio-input" type="radio" id="demo-red-amber-green-g-0" name="demo-status" aria-label="Off track" value="red" data-value="red" /&gt; Off track&lt;/label&gt;&lt;label class="label" for="demo-red-amber-green-g-1"&gt;&lt;input class="red-amber-green-radio-input" type="radio" id="demo-red-amber-green-g-1" name="demo-status" aria-label="At risk" value="amber" data-value="amber" checked /&gt; At risk&lt;/label&gt;&lt;label class="label" for="demo-red-amber-green-g-2"&gt;&lt;input class="red-amber-green-radio-input" type="radio" id="demo-red-amber-green-g-2" name="demo-status" aria-label="On track" value="green" data-value="green" /&gt; On track&lt;/label&gt;&lt;/fieldset&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

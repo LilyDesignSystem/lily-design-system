@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Five Face Rating Radio Input
+description: a radio input for one choice of a 1-5 satisfaction rating
+---
+
+{% from "components/five-face-rating-radio-group/macro.njk" import fiveFaceRatingRadioGroup %}
+{% from "components/five-face-rating-radio-input/macro.njk" import fiveFaceRatingRadioInput %}
+{% from "components/label/macro.njk" import label %}
+
+<h2>In its group</h2>
+{% call fiveFaceRatingRadioGroup({ label: "How satisfied are you?" }) %}
+  <div>
+    {{ fiveFaceRatingRadioInput({ id: "five-face-rating-i-0", name: "satisfaction", value: "1" }) }}
+    {{ label({ for: "five-face-rating-i-0", text: "Very dissatisfied" }) }}
+  </div>
+  <div>
+    {{ fiveFaceRatingRadioInput({ id: "five-face-rating-i-1", name: "satisfaction", value: "2" }) }}
+    {{ label({ for: "five-face-rating-i-1", text: "Dissatisfied" }) }}
+  </div>
+  <div>
+    {{ fiveFaceRatingRadioInput({ id: "five-face-rating-i-2", name: "satisfaction", value: "3" }) }}
+    {{ label({ for: "five-face-rating-i-2", text: "Neutral" }) }}
+  </div>
+  <div>
+    {{ fiveFaceRatingRadioInput({ id: "five-face-rating-i-3", name: "satisfaction", value: "4", checked: true }) }}
+    {{ label({ for: "five-face-rating-i-3", text: "Satisfied" }) }}
+  </div>
+  <div>
+    {{ fiveFaceRatingRadioInput({ id: "five-face-rating-i-4", name: "satisfaction", value: "5" }) }}
+    {{ label({ for: "five-face-rating-i-4", text: "Very satisfied" }) }}
+  </div>
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;label class="label" for="demo-five-face-rating-i-0"&gt;&lt;input class="five-face-rating-radio-input" type="radio" id="demo-five-face-rating-i-0" name="demo-satisfaction" aria-label="Satisfied" value="4" data-value="4" checked /&gt; Satisfied&lt;/label&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Five Star Rating Radio Group
+description: a fieldset radio group for selecting a 1-5 star rating
+---
+
+{% from "components/five-star-rating-radio-group/macro.njk" import fiveStarRatingRadioGroup %}
+{% from "components/five-star-rating-radio-input/macro.njk" import fiveStarRatingRadioInput %}
+{% from "components/label/macro.njk" import label %}
+
+<h2>Default</h2>
+{% call fiveStarRatingRadioGroup({ label: "Rate this service" }) %}
+  <div>
+    {{ fiveStarRatingRadioInput({ id: "five-star-rating-g-0", name: "rating", value: "1" }) }}
+    {{ label({ for: "five-star-rating-g-0", text: "1 star" }) }}
+  </div>
+  <div>
+    {{ fiveStarRatingRadioInput({ id: "five-star-rating-g-1", name: "rating", value: "2" }) }}
+    {{ label({ for: "five-star-rating-g-1", text: "2 stars" }) }}
+  </div>
+  <div>
+    {{ fiveStarRatingRadioInput({ id: "five-star-rating-g-2", name: "rating", value: "3" }) }}
+    {{ label({ for: "five-star-rating-g-2", text: "3 stars" }) }}
+  </div>
+  <div>
+    {{ fiveStarRatingRadioInput({ id: "five-star-rating-g-3", name: "rating", value: "4", checked: true }) }}
+    {{ label({ for: "five-star-rating-g-3", text: "4 stars" }) }}
+  </div>
+  <div>
+    {{ fiveStarRatingRadioInput({ id: "five-star-rating-g-4", name: "rating", value: "5" }) }}
+    {{ label({ for: "five-star-rating-g-4", text: "5 stars" }) }}
+  </div>
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;fieldset class="five-star-rating-radio-group" role="radiogroup" aria-label="Rate this service"&gt;&lt;label class="label" for="demo-five-star-rating-g-0"&gt;&lt;input class="five-star-rating-radio-input" type="radio" id="demo-five-star-rating-g-0" name="demo-rating" aria-label="1 star" value="1" data-value="1" /&gt; 1 star&lt;/label&gt;&lt;label class="label" for="demo-five-star-rating-g-1"&gt;&lt;input class="five-star-rating-radio-input" type="radio" id="demo-five-star-rating-g-1" name="demo-rating" aria-label="2 stars" value="2" data-value="2" /&gt; 2 stars&lt;/label&gt;&lt;label class="label" for="demo-five-star-rating-g-2"&gt;&lt;input class="five-star-rating-radio-input" type="radio" id="demo-five-star-rating-g-2" name="demo-rating" aria-label="3 stars" value="3" data-value="3" /&gt; 3 stars&lt;/label&gt;&lt;label class="label" for="demo-five-star-rating-g-3"&gt;&lt;input class="five-star-rating-radio-input" type="radio" id="demo-five-star-rating-g-3" name="demo-rating" aria-label="4 stars" value="4" data-value="4" checked /&gt; 4 stars&lt;/label&gt;&lt;label class="label" for="demo-five-star-rating-g-4"&gt;&lt;input class="five-star-rating-radio-input" type="radio" id="demo-five-star-rating-g-4" name="demo-rating" aria-label="5 stars" value="5" data-value="5" /&gt; 5 stars&lt;/label&gt;&lt;/fieldset&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

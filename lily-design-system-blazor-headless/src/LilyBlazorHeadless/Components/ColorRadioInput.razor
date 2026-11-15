@@ -1,0 +1,16 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    ColorRadioInput component
+    a radio input for one choice of a color swatch <input type="radio">
+*@
+
+<input class="@($"color-radio-input {CssClass}".Trim())" type="radio" aria-label="@Label" value="@(Value ?? Color)" data-color="@Color" style="@($"--color-radio-input-color: {Color}")" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter, EditorRequired] public string Color { get; set; } = "";
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

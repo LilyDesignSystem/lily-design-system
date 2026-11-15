@@ -1,0 +1,31 @@
+---
+layout: layouts/component-demo.njk
+title: Red Amber Green Radio Input
+description: a radio input for one choice of a red/amber/green status
+---
+
+{% from "components/red-amber-green-radio-group/macro.njk" import redAmberGreenRadioGroup %}
+{% from "components/red-amber-green-radio-input/macro.njk" import redAmberGreenRadioInput %}
+{% from "components/label/macro.njk" import label %}
+
+<h2>In its group</h2>
+{% call redAmberGreenRadioGroup({ label: "Project status" }) %}
+  <div>
+    {{ redAmberGreenRadioInput({ id: "red-amber-green-i-0", name: "status", value: "red" }) }}
+    {{ label({ for: "red-amber-green-i-0", text: "Off track" }) }}
+  </div>
+  <div>
+    {{ redAmberGreenRadioInput({ id: "red-amber-green-i-1", name: "status", value: "amber", checked: true }) }}
+    {{ label({ for: "red-amber-green-i-1", text: "At risk" }) }}
+  </div>
+  <div>
+    {{ redAmberGreenRadioInput({ id: "red-amber-green-i-2", name: "status", value: "green" }) }}
+    {{ label({ for: "red-amber-green-i-2", text: "On track" }) }}
+  </div>
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;label class="label" for="demo-red-amber-green-i-0"&gt;&lt;input class="red-amber-green-radio-input" type="radio" id="demo-red-amber-green-i-0" name="demo-status" aria-label="At risk" value="amber" data-value="amber" checked /&gt; At risk&lt;/label&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

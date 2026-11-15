@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "red-amber-green-radio-group",
+  "type": "registry:component",
+  "title": "RedAmberGreenRadioGroup",
+  "description": "A fieldset radio group for selecting a red/amber/green status.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/RedAmberGreenRadioGroup.tsx",
+      "content": "import React from \"react\";\nimport { warnMissingName } from \"./dev-warning\";\n\n// RedAmberGreenRadioGroup component\n//\n// A headless fieldset container that groups related radio buttons under the ARIA\n// radiogroup role. It renders a <fieldset> with role=\"radiogroup\" and an accessible\n// label, enabling screen readers to communicate the relationship between individual\n// radio options. Used when a set of mutually exclusive options is needed, such as\n// selecting a size, choosing a shipping method, or picking a preference.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for the radio group via aria-label.\n//   children — ReactNode, required. Radio button elements to render inside the fieldset.\n//   ...restProps — additional HTML attributes spread onto the <fieldset>.\n//\n// Syntax:\n//   <RedAmberGreenRadioGroup label=\"Size\">{children}</RedAmberGreenRadioGroup>\n//\n// Examples:\n//\n//   <RedAmberGreenRadioGroup label=\"Size\">\n//     <label><input type=\"radio\" name=\"size\" value=\"s\" /> Small</label>\n//     <label><input type=\"radio\" name=\"size\" value=\"m\" /> Medium</label>\n//     <label><input type=\"radio\" name=\"size\" value=\"l\" /> Large</label>\n//   </RedAmberGreenRadioGroup>\n//\n// Keyboard:\n//   - Tab: moves focus into the radio group (to selected or first option)\n//   - Arrow Up / Arrow Down: moves selection between radio buttons (native behavior)\n//   - Space: selects the focused radio button (native behavior)\n//\n// Accessibility:\n//   - role=\"radiogroup\" identifies the fieldset as a group of radio buttons\n//   - aria-label provides an accessible name so screen readers announce the group purpose\n//   - Native <fieldset> provides semantic grouping\n//\n// Internationalization:\n//   - The label prop is the only text; all option labels come through children\n//   - No hardcoded user-facing strings\n//\n// Claude rules:\n//   - Headless: no CSS, no styles — consumer provides all styling\n//   - No internal state management; radio selection handled by native radio behavior\n//   - Consumer provides radio inputs as children, typically wrapped in <label> elements\n//\n// References:\n//   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/\n//   - WAI-ARIA Authoring Practices - Radio Group: https://www.w3.org/WAI/ARIA/apg/patterns/radio/\n\nexport interface RedAmberGreenRadioGroupProps {\n    className?: string;\n    /** Accessible label for the group. */\n    label: string;\n    /** Radio button elements. */\n    children: React.ReactNode;\n    [key: string]: unknown;\n}\n\nexport default function RedAmberGreenRadioGroup({\n    className = \"\",\n    label,\n    children,\n    ...restProps\n}: RedAmberGreenRadioGroupProps) {\n    warnMissingName(\n        \"RedAmberGreenRadioGroup\",\n        label,\n        restProps[\"aria-label\"],\n        restProps[\"aria-labelledby\"],\n    );\n    return (\n        <fieldset\n            className={`red-amber-green-radio-group ${className}`}\n            role=\"radiogroup\"\n            aria-label={label}\n            {...restProps}\n        >\n            {children}\n        </fieldset>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/RedAmberGreenRadioGroup.tsx"
+    }
+  ],
+  "categories": [
+    "forms"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/red-amber-green-radio-group/"
+}

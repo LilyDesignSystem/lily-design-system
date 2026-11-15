@@ -1,0 +1,52 @@
+{#
+  FiveFaceRatingRadioGroup macro — a fieldset radio group for selecting a 1-5 satisfaction rating using face labels.
+
+  HTML tag: <fieldset role="radiogroup">
+  CSS class: five-face-rating-radio-group
+  Accessibility:
+    - role="radiogroup" groups the radios for assistive tech.
+    - params.label or params.labelledBy gives the group its
+      accessible name. Prefer labelledBy when a visible heading or
+      <legend> (via Fieldset) already names the group.
+    - describedBy links hints/error messages at group level.
+
+  Params:
+    label        string   Accessible name (aria-label).
+    labelledBy   string   Id(s) naming the group (preferred).
+    describedBy  string   aria-describedby id list.
+    required     boolean  Sets aria-required on the group.
+    id           string   Element id.
+    classes      string   Consumer-provided extra CSS classes.
+    attributes   object   Extra HTML attributes as key/value pairs.
+
+  Body content: radio/label pairs via caller().
+
+  Usage:
+    {% from "components/five-face-rating-radio-group/macro.njk" import fiveFaceRatingRadioGroup %}
+    {% from "components/five-face-rating-radio-input/macro.njk" import fiveFaceRatingRadioInput %}
+    {% from "components/label/macro.njk" import label %}
+
+    {% call fiveFaceRatingRadioGroup({ label: "Where do you live?" }) %}
+      {{ fiveFaceRatingRadioInput({ id: "w-eng", name: "where", value: "england" }) }}
+      {{ label({ for: "w-eng", text: "England" }) }}
+      {{ fiveFaceRatingRadioInput({ id: "w-sco", name: "where", value: "scotland" }) }}
+      {{ label({ for: "w-sco", text: "Scotland" }) }}
+    {% endcall %}
+#}
+{%- macro fiveFaceRatingRadioGroup(params) -%}
+{%- set p = params | default({}) -%}
+<fieldset
+  class="five-face-rating-radio-group{% if p.classes %} {{ p.classes }}{% endif %}"
+  role="radiogroup"
+  {%- if p.labelledBy %} aria-labelledby="{{ p.labelledBy }}"
+  {%- elif p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.describedBy %} aria-describedby="{{ p.describedBy }}"{% endif %}
+  {%- if p.required %} aria-required="true"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  {%- if p.html -%}{{ p.html | safe }}
+  {%- elif caller -%}{{ caller() }}
+  {%- endif -%}
+</fieldset>
+{%- endmacro -%}

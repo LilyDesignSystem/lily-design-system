@@ -1,0 +1,63 @@
+---
+layout: layouts/component-demo.njk
+title: Net Promoter Score Radio Group
+description: a fieldset radio group for selecting a 0-10 Net Promoter Score
+---
+
+{% from "components/net-promoter-score-radio-group/macro.njk" import netPromoterScoreRadioGroup %}
+{% from "components/net-promoter-score-radio-input/macro.njk" import netPromoterScoreRadioInput %}
+{% from "components/label/macro.njk" import label %}
+
+<h2>Default</h2>
+{% call netPromoterScoreRadioGroup({ label: "How likely are you to recommend us?" }) %}
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-0", name: "score", value: "0" }) }}
+    {{ label({ for: "net-promoter-score-g-0", text: "0" }) }}
+  </div>
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-1", name: "score", value: "1" }) }}
+    {{ label({ for: "net-promoter-score-g-1", text: "1" }) }}
+  </div>
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-2", name: "score", value: "2" }) }}
+    {{ label({ for: "net-promoter-score-g-2", text: "2" }) }}
+  </div>
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-3", name: "score", value: "3" }) }}
+    {{ label({ for: "net-promoter-score-g-3", text: "3" }) }}
+  </div>
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-4", name: "score", value: "4" }) }}
+    {{ label({ for: "net-promoter-score-g-4", text: "4" }) }}
+  </div>
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-5", name: "score", value: "5" }) }}
+    {{ label({ for: "net-promoter-score-g-5", text: "5" }) }}
+  </div>
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-6", name: "score", value: "6" }) }}
+    {{ label({ for: "net-promoter-score-g-6", text: "6" }) }}
+  </div>
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-7", name: "score", value: "7" }) }}
+    {{ label({ for: "net-promoter-score-g-7", text: "7" }) }}
+  </div>
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-8", name: "score", value: "8" }) }}
+    {{ label({ for: "net-promoter-score-g-8", text: "8" }) }}
+  </div>
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-9", name: "score", value: "9" }) }}
+    {{ label({ for: "net-promoter-score-g-9", text: "9" }) }}
+  </div>
+  <div>
+    {{ netPromoterScoreRadioInput({ id: "net-promoter-score-g-10", name: "score", value: "10" }) }}
+    {{ label({ for: "net-promoter-score-g-10", text: "10" }) }}
+  </div>
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;fieldset class="net-promoter-score-radio-group" role="radiogroup" aria-label="How likely are you to recommend us?"&gt;&lt;label class="label" for="demo-net-promoter-score-g-0"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-0" name="demo-score" aria-label="0" value="0" data-value="0" /&gt; 0&lt;/label&gt;&lt;label class="label" for="demo-net-promoter-score-g-1"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-1" name="demo-score" aria-label="1" value="1" data-value="1" /&gt; 1&lt;/label&gt;&lt;label class="label" for="demo-net-promoter-score-g-2"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-2" name="demo-score" aria-label="2" value="2" data-value="2" /&gt; 2&lt;/label&gt;&lt;label class="label" for="demo-net-promoter-score-g-3"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-3" name="demo-score" aria-label="3" value="3" data-value="3" /&gt; 3&lt;/label&gt;&lt;label class="label" for="demo-net-promoter-score-g-4"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-4" name="demo-score" aria-label="4" value="4" data-value="4" /&gt; 4&lt;/label&gt;&lt;label class="label" for="demo-net-promoter-score-g-5"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-5" name="demo-score" aria-label="5" value="5" data-value="5" /&gt; 5&lt;/label&gt;&lt;label class="label" for="demo-net-promoter-score-g-6"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-6" name="demo-score" aria-label="6" value="6" data-value="6" /&gt; 6&lt;/label&gt;&lt;label class="label" for="demo-net-promoter-score-g-7"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-7" name="demo-score" aria-label="7" value="7" data-value="7" /&gt; 7&lt;/label&gt;&lt;label class="label" for="demo-net-promoter-score-g-8"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-8" name="demo-score" aria-label="8" value="8" data-value="8" /&gt; 8&lt;/label&gt;&lt;label class="label" for="demo-net-promoter-score-g-9"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-9" name="demo-score" aria-label="9" value="9" data-value="9" /&gt; 9&lt;/label&gt;&lt;label class="label" for="demo-net-promoter-score-g-10"&gt;&lt;input class="net-promoter-score-radio-input" type="radio" id="demo-net-promoter-score-g-10" name="demo-score" aria-label="10" value="10" data-value="10" /&gt; 10&lt;/label&gt;&lt;/fieldset&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

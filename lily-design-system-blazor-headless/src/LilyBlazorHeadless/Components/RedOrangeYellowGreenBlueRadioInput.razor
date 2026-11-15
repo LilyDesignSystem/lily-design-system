@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    RedOrangeYellowGreenBlueRadioInput component
+    a radio input for one choice of a five-level color status <input type="radio">
+*@
+
+<input class="@($"red-orange-yellow-green-blue-radio-input {CssClass}".Trim())" type="radio" aria-label="@Label" value="@Value" data-value="@Value" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

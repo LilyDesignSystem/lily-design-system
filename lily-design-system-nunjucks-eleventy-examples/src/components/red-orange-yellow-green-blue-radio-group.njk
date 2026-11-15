@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Red Orange Yellow Green Blue Radio Group
+description: a fieldset radio group for selecting a five-level color status
+---
+
+{% from "components/red-orange-yellow-green-blue-radio-group/macro.njk" import redOrangeYellowGreenBlueRadioGroup %}
+{% from "components/red-orange-yellow-green-blue-radio-input/macro.njk" import redOrangeYellowGreenBlueRadioInput %}
+{% from "components/label/macro.njk" import label %}
+
+<h2>Default</h2>
+{% call redOrangeYellowGreenBlueRadioGroup({ label: "Risk level" }) %}
+  <div>
+    {{ redOrangeYellowGreenBlueRadioInput({ id: "red-orange-yellow-green-blue-g-0", name: "risk", value: "red" }) }}
+    {{ label({ for: "red-orange-yellow-green-blue-g-0", text: "Severe" }) }}
+  </div>
+  <div>
+    {{ redOrangeYellowGreenBlueRadioInput({ id: "red-orange-yellow-green-blue-g-1", name: "risk", value: "orange" }) }}
+    {{ label({ for: "red-orange-yellow-green-blue-g-1", text: "High" }) }}
+  </div>
+  <div>
+    {{ redOrangeYellowGreenBlueRadioInput({ id: "red-orange-yellow-green-blue-g-2", name: "risk", value: "yellow", checked: true }) }}
+    {{ label({ for: "red-orange-yellow-green-blue-g-2", text: "Moderate" }) }}
+  </div>
+  <div>
+    {{ redOrangeYellowGreenBlueRadioInput({ id: "red-orange-yellow-green-blue-g-3", name: "risk", value: "green" }) }}
+    {{ label({ for: "red-orange-yellow-green-blue-g-3", text: "Low" }) }}
+  </div>
+  <div>
+    {{ redOrangeYellowGreenBlueRadioInput({ id: "red-orange-yellow-green-blue-g-4", name: "risk", value: "blue" }) }}
+    {{ label({ for: "red-orange-yellow-green-blue-g-4", text: "Minimal" }) }}
+  </div>
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;fieldset class="red-orange-yellow-green-blue-radio-group" role="radiogroup" aria-label="Risk level"&gt;&lt;label class="label" for="demo-red-orange-yellow-green-blue-g-0"&gt;&lt;input class="red-orange-yellow-green-blue-radio-input" type="radio" id="demo-red-orange-yellow-green-blue-g-0" name="demo-risk" aria-label="Severe" value="red" data-value="red" /&gt; Severe&lt;/label&gt;&lt;label class="label" for="demo-red-orange-yellow-green-blue-g-1"&gt;&lt;input class="red-orange-yellow-green-blue-radio-input" type="radio" id="demo-red-orange-yellow-green-blue-g-1" name="demo-risk" aria-label="High" value="orange" data-value="orange" /&gt; High&lt;/label&gt;&lt;label class="label" for="demo-red-orange-yellow-green-blue-g-2"&gt;&lt;input class="red-orange-yellow-green-blue-radio-input" type="radio" id="demo-red-orange-yellow-green-blue-g-2" name="demo-risk" aria-label="Moderate" value="yellow" data-value="yellow" checked /&gt; Moderate&lt;/label&gt;&lt;label class="label" for="demo-red-orange-yellow-green-blue-g-3"&gt;&lt;input class="red-orange-yellow-green-blue-radio-input" type="radio" id="demo-red-orange-yellow-green-blue-g-3" name="demo-risk" aria-label="Low" value="green" data-value="green" /&gt; Low&lt;/label&gt;&lt;label class="label" for="demo-red-orange-yellow-green-blue-g-4"&gt;&lt;input class="red-orange-yellow-green-blue-radio-input" type="radio" id="demo-red-orange-yellow-green-blue-g-4" name="demo-risk" aria-label="Minimal" value="blue" data-value="blue" /&gt; Minimal&lt;/label&gt;&lt;/fieldset&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

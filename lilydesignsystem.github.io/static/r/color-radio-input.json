@@ -1,0 +1,47 @@
+{
+  "slug": "color-radio-input",
+  "name": "ColorRadioInput",
+  "description": "a radio input for one choice of a color swatch <input type=\"radio\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".color-radio-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label={label}` -- the radio's accessible name, the colour's name, so meaning is never colour alone"
+  ],
+  "keyboard": [
+    "**Tab**: Moves focus to the checked radio in the group (or the first if none is checked)",
+    "**Arrow Up / Arrow Left**: Moves to and checks the previous radio in the group",
+    "**Arrow Down / Arrow Right**: Moves to and checks the next radio in the group",
+    "**Space**: Checks the focused radio"
+  ],
+  "props": [
+    "`color`: string (required) -- the CSS colour this option stands for, exposed as `data-color` and the `--color-radio-input-color` custom property",
+    "`label`: string (required) -- accessible name via `aria-label`, the colour's name in words",
+    "`name`: string (default: `undefined`) -- radio group name",
+    "`value`: string (default: the colour) -- the submitted value",
+    "`checked`: boolean (default: `false`) -- whether this radio starts checked",
+    "`disabled`: boolean (default: `false`) -- whether this radio is disabled",
+    "`...restProps`: any additional HTML attributes spread onto the input"
+  ],
+  "related": [
+    "color-radio-group",
+    "color-picker-button",
+    "radio-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/color-radio-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/ColorRadioInput/ColorRadioInput.svelte",
+    "react": "lily-design-system-react-headless/components/ColorRadioInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/ColorRadioInput.vue",
+    "angular": "lily-design-system-angular-headless/components/ColorRadioInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/color-radio-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/color-radio-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/color-radio-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ColorRadioInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/color-radio-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/color-radio-input/AGENTS.md"
+}

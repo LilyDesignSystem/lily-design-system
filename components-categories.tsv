@@ -89,6 +89,8 @@ collection-list-item	li	lists
 color-input	input	forms
 color-picker	div	pickers
 color-picker-button	button	pickers
+color-radio-group	fieldset	forms
+color-radio-input	input	forms
 column-chart	figure	data-viz
 combobox	div	content
 command	div	content
@@ -177,9 +179,13 @@ file-manager	div	content
 file-upload	div	content
 five-face-rating-picker	fieldset	pickers
 five-face-rating-picker-button	button	pickers
+five-face-rating-radio-group	fieldset	forms
+five-face-rating-radio-input	input	forms
 five-face-rating-view	span	content
 five-star-rating-picker	fieldset	pickers
 five-star-rating-picker-button	button	pickers
+five-star-rating-radio-group	fieldset	forms
+five-star-rating-radio-input	input	forms
 five-star-rating-view	span	content
 flair	span	content
 flex-stack	div	content
@@ -307,6 +313,8 @@ nederland-paspoort-nummer-input	input	national
 nederland-paspoort-nummer-view	span	national
 net-promoter-score-picker	fieldset	pickers
 net-promoter-score-picker-button	button	pickers
+net-promoter-score-radio-group	fieldset	forms
+net-promoter-score-radio-input	input	forms
 net-promoter-score-view	span	content
 newsletter-signup	form	forms
 norge-fodselsnummer-input	input	national
@@ -357,9 +365,13 @@ radio-input	input	forms
 range-input	input	forms
 red-amber-green-picker	fieldset	pickers
 red-amber-green-picker-button	button	pickers
+red-amber-green-radio-group	fieldset	forms
+red-amber-green-radio-input	input	forms
 red-amber-green-view	span	content
 red-orange-yellow-green-blue-picker	fieldset	pickers
 red-orange-yellow-green-blue-picker-button	button	pickers
+red-orange-yellow-green-blue-radio-group	fieldset	forms
+red-orange-yellow-green-blue-radio-input	input	forms
 red-orange-yellow-green-blue-view	span	content
 related-content	aside	navigation
 reset-input	input	forms

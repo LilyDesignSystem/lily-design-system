@@ -9,6 +9,16 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Radio groups and inputs, catalog 641 — 2026-11-15
+
+- **Added:** twelve components in all nine catalogs (Web Components 606): `red-amber-green-`, `red-orange-yellow-green-blue-`,
+  `five-face-rating-`, `five-star-rating-`, `net-promoter-score-` and `color-radio-group`, each with its `-radio-input`. A group is a
+  `<fieldset role="radiogroup">` holding the consumer's radios; an input is a native `<input type="radio">` named by `aria-label`.
+  They are the composable siblings of the six pickers: the picker renders its own labelled radios, the group takes the consumer's,
+  and the input is the radio counterpart of the picker's toggle button.
+- Each value input exposes `data-value`; `color-radio-input` takes a required `color`, exposed as `data-color` and the
+  `--color-radio-input-color` custom property, and submits the colour unless given a `value`.
+
 ## Release — 2026-11-14
 
 tasks.md P28-T1. The healthcare components (Phase 27) and the record lists (Phase 28) on npm and NuGet.

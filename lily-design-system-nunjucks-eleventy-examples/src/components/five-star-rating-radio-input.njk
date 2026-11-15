@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Five Star Rating Radio Input
+description: a radio input for one choice of a 1-5 star rating
+---
+
+{% from "components/five-star-rating-radio-group/macro.njk" import fiveStarRatingRadioGroup %}
+{% from "components/five-star-rating-radio-input/macro.njk" import fiveStarRatingRadioInput %}
+{% from "components/label/macro.njk" import label %}
+
+<h2>In its group</h2>
+{% call fiveStarRatingRadioGroup({ label: "Rate this service" }) %}
+  <div>
+    {{ fiveStarRatingRadioInput({ id: "five-star-rating-i-0", name: "rating", value: "1" }) }}
+    {{ label({ for: "five-star-rating-i-0", text: "1 star" }) }}
+  </div>
+  <div>
+    {{ fiveStarRatingRadioInput({ id: "five-star-rating-i-1", name: "rating", value: "2" }) }}
+    {{ label({ for: "five-star-rating-i-1", text: "2 stars" }) }}
+  </div>
+  <div>
+    {{ fiveStarRatingRadioInput({ id: "five-star-rating-i-2", name: "rating", value: "3" }) }}
+    {{ label({ for: "five-star-rating-i-2", text: "3 stars" }) }}
+  </div>
+  <div>
+    {{ fiveStarRatingRadioInput({ id: "five-star-rating-i-3", name: "rating", value: "4", checked: true }) }}
+    {{ label({ for: "five-star-rating-i-3", text: "4 stars" }) }}
+  </div>
+  <div>
+    {{ fiveStarRatingRadioInput({ id: "five-star-rating-i-4", name: "rating", value: "5" }) }}
+    {{ label({ for: "five-star-rating-i-4", text: "5 stars" }) }}
+  </div>
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;label class="label" for="demo-five-star-rating-i-0"&gt;&lt;input class="five-star-rating-radio-input" type="radio" id="demo-five-star-rating-i-0" name="demo-rating" aria-label="4 stars" value="4" data-value="4" checked /&gt; 4 stars&lt;/label&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

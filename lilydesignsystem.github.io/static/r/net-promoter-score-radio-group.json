@@ -1,0 +1,44 @@
+{
+  "slug": "net-promoter-score-radio-group",
+  "name": "NetPromoterScoreRadioGroup",
+  "description": "a fieldset radio group for selecting a 0-10 Net Promoter Score",
+  "htmlTag": "fieldset",
+  "category": "forms",
+  "baseClass": ".net-promoter-score-radio-group",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "`role=\"radiogroup\"` -- on the `<fieldset>`, identifies the group as a set of radio buttons",
+    "`aria-label={label}` -- the group's accessible name"
+  ],
+  "keyboard": [
+    "Tab: focus the checked radio, or the first if none is checked",
+    "ArrowDown / ArrowRight: move to and check the next radio",
+    "ArrowUp / ArrowLeft: move to and check the previous radio",
+    "Space: check the focused radio"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the group, applied via `aria-label`",
+    "`children`: slot (required) -- the `NetPromoterScoreRadioInput` elements",
+    "`...restProps`: any additional HTML attributes spread onto the fieldset"
+  ],
+  "related": [
+    "net-promoter-score-radio-input",
+    "net-promoter-score-picker",
+    "radio-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/net-promoter-score-radio-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.svelte",
+    "react": "lily-design-system-react-headless/components/NetPromoterScoreRadioGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/NetPromoterScoreRadioGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/NetPromoterScoreRadioGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/net-promoter-score-radio-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/net-promoter-score-radio-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/net-promoter-score-radio-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NetPromoterScoreRadioGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/net-promoter-score-radio-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/net-promoter-score-radio-group/AGENTS.md"
+}

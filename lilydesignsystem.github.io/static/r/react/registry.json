@@ -2171,6 +2171,43 @@
       ]
     },
     {
+      "name": "color-radio-group",
+      "type": "registry:component",
+      "title": "ColorRadioGroup",
+      "description": "A fieldset radio group for selecting a color swatch.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/ColorRadioGroup.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/ColorRadioGroup.tsx"
+        }
+      ]
+    },
+    {
+      "name": "color-radio-input",
+      "type": "registry:component",
+      "title": "ColorRadioInput",
+      "description": "A radio input for one choice of a color swatch <input type=\"radio\">.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/ColorRadioInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/ColorRadioInput.tsx"
+        }
+      ]
+    },
+    {
       "name": "column-chart",
       "type": "registry:component",
       "title": "ColumnChart",
@@ -4090,6 +4127,43 @@
       ]
     },
     {
+      "name": "five-face-rating-radio-group",
+      "type": "registry:component",
+      "title": "FiveFaceRatingRadioGroup",
+      "description": "A fieldset radio group for selecting a 1-5 satisfaction rating using face labels.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/FiveFaceRatingRadioGroup.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/FiveFaceRatingRadioGroup.tsx"
+        }
+      ]
+    },
+    {
+      "name": "five-face-rating-radio-input",
+      "type": "registry:component",
+      "title": "FiveFaceRatingRadioInput",
+      "description": "A radio input for one choice of a 1-5 satisfaction rating <input type=\"radio\">.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/FiveFaceRatingRadioInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/FiveFaceRatingRadioInput.tsx"
+        }
+      ]
+    },
+    {
       "name": "five-face-rating-view",
       "type": "registry:component",
       "title": "FiveFaceRatingView",
@@ -4140,6 +4214,43 @@
           "path": "lily-design-system-react-headless/components/FiveStarRatingPickerButton.tsx",
           "type": "registry:component",
           "target": "@components/lily/FiveStarRatingPickerButton.tsx"
+        }
+      ]
+    },
+    {
+      "name": "five-star-rating-radio-group",
+      "type": "registry:component",
+      "title": "FiveStarRatingRadioGroup",
+      "description": "A fieldset radio group for selecting a 1-5 star rating.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/FiveStarRatingRadioGroup.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/FiveStarRatingRadioGroup.tsx"
+        }
+      ]
+    },
+    {
+      "name": "five-star-rating-radio-input",
+      "type": "registry:component",
+      "title": "FiveStarRatingRadioInput",
+      "description": "A radio input for one choice of a 1-5 star rating <input type=\"radio\">.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/FiveStarRatingRadioInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/FiveStarRatingRadioInput.tsx"
         }
       ]
     },
@@ -7067,6 +7178,43 @@
       ]
     },
     {
+      "name": "net-promoter-score-radio-group",
+      "type": "registry:component",
+      "title": "NetPromoterScoreRadioGroup",
+      "description": "A fieldset radio group for selecting a 0-10 Net Promoter Score.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/NetPromoterScoreRadioGroup.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/NetPromoterScoreRadioGroup.tsx"
+        }
+      ]
+    },
+    {
+      "name": "net-promoter-score-radio-input",
+      "type": "registry:component",
+      "title": "NetPromoterScoreRadioInput",
+      "description": "A radio input for one choice of a 0-10 Net Promoter Score <input type=\"radio\">.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/NetPromoterScoreRadioInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/NetPromoterScoreRadioInput.tsx"
+        }
+      ]
+    },
+    {
       "name": "net-promoter-score-view",
       "type": "registry:component",
       "title": "NetPromoterScoreView",
@@ -8399,6 +8547,43 @@
       ]
     },
     {
+      "name": "red-amber-green-radio-group",
+      "type": "registry:component",
+      "title": "RedAmberGreenRadioGroup",
+      "description": "A fieldset radio group for selecting a red/amber/green status.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/RedAmberGreenRadioGroup.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RedAmberGreenRadioGroup.tsx"
+        }
+      ]
+    },
+    {
+      "name": "red-amber-green-radio-input",
+      "type": "registry:component",
+      "title": "RedAmberGreenRadioInput",
+      "description": "A radio input for one choice of a red/amber/green status <input type=\"radio\">.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/RedAmberGreenRadioInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RedAmberGreenRadioInput.tsx"
+        }
+      ]
+    },
+    {
       "name": "red-amber-green-view",
       "type": "registry:component",
       "title": "RedAmberGreenView",
@@ -8452,6 +8637,43 @@
           "path": "lily-design-system-react-headless/components/RedOrangeYellowGreenBluePickerButton.tsx",
           "type": "registry:component",
           "target": "@components/lily/RedOrangeYellowGreenBluePickerButton.tsx"
+        }
+      ]
+    },
+    {
+      "name": "red-orange-yellow-green-blue-radio-group",
+      "type": "registry:component",
+      "title": "RedOrangeYellowGreenBlueRadioGroup",
+      "description": "A fieldset radio group for selecting a five-level color status.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/RedOrangeYellowGreenBlueRadioGroup.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RedOrangeYellowGreenBlueRadioGroup.tsx"
+        }
+      ]
+    },
+    {
+      "name": "red-orange-yellow-green-blue-radio-input",
+      "type": "registry:component",
+      "title": "RedOrangeYellowGreenBlueRadioInput",
+      "description": "A radio input for one choice of a five-level color status <input type=\"radio\">.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/RedOrangeYellowGreenBlueRadioInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RedOrangeYellowGreenBlueRadioInput.tsx"
         }
       ]
     },

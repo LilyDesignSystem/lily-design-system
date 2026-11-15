@@ -1,0 +1,39 @@
+---
+layout: layouts/component-demo.njk
+title: Red Orange Yellow Green Blue Radio Input
+description: a radio input for one choice of a five-level color status
+---
+
+{% from "components/red-orange-yellow-green-blue-radio-group/macro.njk" import redOrangeYellowGreenBlueRadioGroup %}
+{% from "components/red-orange-yellow-green-blue-radio-input/macro.njk" import redOrangeYellowGreenBlueRadioInput %}
+{% from "components/label/macro.njk" import label %}
+
+<h2>In its group</h2>
+{% call redOrangeYellowGreenBlueRadioGroup({ label: "Risk level" }) %}
+  <div>
+    {{ redOrangeYellowGreenBlueRadioInput({ id: "red-orange-yellow-green-blue-i-0", name: "risk", value: "red" }) }}
+    {{ label({ for: "red-orange-yellow-green-blue-i-0", text: "Severe" }) }}
+  </div>
+  <div>
+    {{ redOrangeYellowGreenBlueRadioInput({ id: "red-orange-yellow-green-blue-i-1", name: "risk", value: "orange" }) }}
+    {{ label({ for: "red-orange-yellow-green-blue-i-1", text: "High" }) }}
+  </div>
+  <div>
+    {{ redOrangeYellowGreenBlueRadioInput({ id: "red-orange-yellow-green-blue-i-2", name: "risk", value: "yellow", checked: true }) }}
+    {{ label({ for: "red-orange-yellow-green-blue-i-2", text: "Moderate" }) }}
+  </div>
+  <div>
+    {{ redOrangeYellowGreenBlueRadioInput({ id: "red-orange-yellow-green-blue-i-3", name: "risk", value: "green" }) }}
+    {{ label({ for: "red-orange-yellow-green-blue-i-3", text: "Low" }) }}
+  </div>
+  <div>
+    {{ redOrangeYellowGreenBlueRadioInput({ id: "red-orange-yellow-green-blue-i-4", name: "risk", value: "blue" }) }}
+    {{ label({ for: "red-orange-yellow-green-blue-i-4", text: "Minimal" }) }}
+  </div>
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;label class="label" for="demo-red-orange-yellow-green-blue-i-0"&gt;&lt;input class="red-orange-yellow-green-blue-radio-input" type="radio" id="demo-red-orange-yellow-green-blue-i-0" name="demo-risk" aria-label="Moderate" value="yellow" data-value="yellow" checked /&gt; Moderate&lt;/label&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

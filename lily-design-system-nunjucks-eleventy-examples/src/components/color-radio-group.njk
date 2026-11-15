@@ -1,0 +1,31 @@
+---
+layout: layouts/component-demo.njk
+title: Color Radio Group
+description: a fieldset radio group for selecting a color swatch
+---
+
+{% from "components/color-radio-group/macro.njk" import colorRadioGroup %}
+{% from "components/color-radio-input/macro.njk" import colorRadioInput %}
+{% from "components/label/macro.njk" import label %}
+
+<h2>Default</h2>
+{% call colorRadioGroup({ label: "Highlight colour" }) %}
+  <div>
+    {{ colorRadioInput({ id: "color-g-0", name: "colour", color: "#005eb8", checked: true }) }}
+    {{ label({ for: "color-g-0", text: "Blue" }) }}
+  </div>
+  <div>
+    {{ colorRadioInput({ id: "color-g-1", name: "colour", color: "#007f3b" }) }}
+    {{ label({ for: "color-g-1", text: "Green" }) }}
+  </div>
+  <div>
+    {{ colorRadioInput({ id: "color-g-2", name: "colour", color: "#d5281b" }) }}
+    {{ label({ for: "color-g-2", text: "Red" }) }}
+  </div>
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;fieldset class="color-radio-group" role="radiogroup" aria-label="Highlight colour"&gt;&lt;label class="label" for="demo-color-g-0"&gt;&lt;input class="color-radio-input" type="radio" id="demo-color-g-0" name="demo-colour" aria-label="Blue" value="#005eb8" data-color="#005eb8" style="--color-radio-input-color: #005eb8" checked /&gt; Blue&lt;/label&gt;&lt;label class="label" for="demo-color-g-1"&gt;&lt;input class="color-radio-input" type="radio" id="demo-color-g-1" name="demo-colour" aria-label="Green" value="#007f3b" data-color="#007f3b" style="--color-radio-input-color: #007f3b" /&gt; Green&lt;/label&gt;&lt;label class="label" for="demo-color-g-2"&gt;&lt;input class="color-radio-input" type="radio" id="demo-color-g-2" name="demo-colour" aria-label="Red" value="#d5281b" data-color="#d5281b" style="--color-radio-input-color: #d5281b" /&gt; Red&lt;/label&gt;&lt;/fieldset&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

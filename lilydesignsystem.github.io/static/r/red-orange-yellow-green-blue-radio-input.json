@@ -1,0 +1,46 @@
+{
+  "slug": "red-orange-yellow-green-blue-radio-input",
+  "name": "RedOrangeYellowGreenBlueRadioInput",
+  "description": "a radio input for one choice of a five-level color status <input type=\"radio\">",
+  "htmlTag": "input",
+  "category": "forms",
+  "baseClass": ".red-orange-yellow-green-blue-radio-input",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label={label}` -- the radio's accessible name, the option's words, so meaning is never colour alone"
+  ],
+  "keyboard": [
+    "**Tab**: Moves focus to the checked radio in the group (or the first if none is checked)",
+    "**Arrow Up / Arrow Left**: Moves to and checks the previous radio in the group",
+    "**Arrow Down / Arrow Right**: Moves to and checks the next radio in the group",
+    "**Space**: Checks the focused radio"
+  ],
+  "props": [
+    "`value`: string (required) -- the status or rating this radio stands for (`red`, `orange`, `yellow`, `green`, `blue`), also exposed as `data-value`",
+    "`label`: string (required) -- accessible name via `aria-label`",
+    "`name`: string (default: `undefined`) -- radio group name",
+    "`checked`: boolean (default: `false`) -- whether this radio starts checked",
+    "`disabled`: boolean (default: `false`) -- whether this radio is disabled",
+    "`...restProps`: any additional HTML attributes spread onto the input"
+  ],
+  "related": [
+    "red-orange-yellow-green-blue-radio-group",
+    "red-orange-yellow-green-blue-picker-button",
+    "radio-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/red-orange-yellow-green-blue-radio-input.html",
+    "svelte": "lily-design-system-svelte-headless/components/RedOrangeYellowGreenBlueRadioInput/RedOrangeYellowGreenBlueRadioInput.svelte",
+    "react": "lily-design-system-react-headless/components/RedOrangeYellowGreenBlueRadioInput.tsx",
+    "vue": "lily-design-system-vue-headless/components/RedOrangeYellowGreenBlueRadioInput.vue",
+    "angular": "lily-design-system-angular-headless/components/RedOrangeYellowGreenBlueRadioInput.ts",
+    "web-components": "lily-design-system-web-components-headless/components/red-orange-yellow-green-blue-radio-input.ts",
+    "alpine": "lily-design-system-alpine-headless/components/red-orange-yellow-green-blue-radio-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/red-orange-yellow-green-blue-radio-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RedOrangeYellowGreenBlueRadioInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/red-orange-yellow-green-blue-radio-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/red-orange-yellow-green-blue-radio-input/AGENTS.md"
+}
