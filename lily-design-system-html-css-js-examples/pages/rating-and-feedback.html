@@ -1,130 +1,496 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rating and Feedback — Lily Design System</title>
-  <link rel="stylesheet" href="/assets/css/app-shell.css">
-  <script src="/assets/js/theme-boot.js"></script>
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Rating and Feedback — Lily Design System</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/app-shell.css"
+    />
+    <script src="/assets/js/theme-boot.js"></script>
+  </head>
+  <body>
+    <a
+      class="skip-link"
+      href="#main-content"
+      >Skip to main content</a
+    >
 
-  <header class="header" aria-label="Site header">
-    <span class="site-header-pickers">
-    <theme-picker
-      label="Choose a theme"
-      themes-url="/themes/"
-      themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
-      theme-labels="{&quot;united-kingdom-national-health-service-england-for-patients&quot;: &quot;NHS England (patients)&quot;, &quot;united-kingdom-national-health-service-england-for-practitioners&quot;: &quot;NHS England (practitioners)&quot;, &quot;united-kingdom-national-health-service-scotland-for-patients&quot;: &quot;NHS Scotland (patients)&quot;, &quot;united-kingdom-national-health-service-wales-for-patients&quot;: &quot;NHS Wales (patients)&quot;, &quot;united-kingdom-government-digital-service&quot;: &quot;GOV.UK GDS&quot;, &quot;united-states-web-design-system&quot;: &quot;USWDS&quot;, &quot;adobe-spectrum&quot;: &quot;Adobe Spectrum&quot;, &quot;mozilla-protocol&quot;: &quot;Mozilla Protocol&quot;, &quot;light&quot;: &quot;Light&quot;, &quot;dark&quot;: &quot;Dark&quot;}"
-      default-value="united-kingdom-national-health-service-england-for-patients"
-      storage-key="lily-theme"
-    ></theme-picker>
-      <locale-picker
-        label="Choose a language"
-        locales="en-GB,cy-GB,fr-FR,ar"
-        locale-labels="{&quot;en-GB&quot;: &quot;English (UK)&quot;, &quot;cy-GB&quot;: &quot;Cymraeg&quot;, &quot;fr-FR&quot;: &quot;Français&quot;, &quot;ar&quot;: &quot;العربية&quot;}"
-        default-value="en-GB"
-        storage-key="lily-locale"
-      ></locale-picker>
-      <text-size-picker
-        label="Text size"
-        sizes="small,medium,large"
-        size-labels="{&quot;small&quot;: &quot;Small&quot;, &quot;medium&quot;: &quot;Medium&quot;, &quot;large&quot;: &quot;Large&quot;}"
-        default-value="medium"
-        storage-key="lily-text-size"
-      ></text-size-picker>
-    </span>
-    <h1>Feedback</h1>
-    <nav class="navigation-menu" aria-label="Main navigation">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="rating-and-feedback.html" aria-current="page">Feedback</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main id="main-content" class="page-wrapper">
-    <div id="success-section" hidden>
-      <div class="alert" role="alert" aria-label="Thank you" data-type="success">
-        <h2>Thank you!</h2>
-        <p>Your feedback has been recorded.</p>
-      </div>
-      <div>
-        <p>Your product rating:</p>
-        <p class="five-star-rating-view" role="img" aria-label="Your rating" id="rating-view"></p>
-      </div>
-    </div>
-
-    <div id="form-section">
+    <header
+      class="header"
+      aria-label="Site header"
+    >
+      <span class="site-header-pickers">
+        <theme-picker
+          label="Choose a theme"
+          themes-url="/themes/"
+          themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
+          theme-labels='{"united-kingdom-national-health-service-england-for-patients": "NHS England (patients)", "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)", "united-kingdom-national-health-service-scotland-for-patients": "NHS Scotland (patients)", "united-kingdom-national-health-service-wales-for-patients": "NHS Wales (patients)", "united-kingdom-government-digital-service": "GOV.UK GDS", "united-states-web-design-system": "USWDS", "adobe-spectrum": "Adobe Spectrum", "mozilla-protocol": "Mozilla Protocol", "light": "Light", "dark": "Dark"}'
+          default-value="united-kingdom-national-health-service-england-for-patients"
+          storage-key="lily-theme"
+        ></theme-picker>
+        <locale-picker
+          label="Choose a language"
+          locales="en-GB,cy-GB,fr-FR,ar"
+          locale-labels='{"en-GB": "English (UK)", "cy-GB": "Cymraeg", "fr-FR": "Français", "ar": "العربية"}'
+          default-value="en-GB"
+          storage-key="lily-locale"
+        ></locale-picker>
+        <text-size-picker
+          label="Text size"
+          sizes="small,medium,large"
+          size-labels='{"small": "Small", "medium": "Medium", "large": "Large"}'
+          default-value="medium"
+          storage-key="lily-text-size"
+        ></text-size-picker>
+      </span>
       <h1>Feedback</h1>
-      <form class="form" aria-label="Feedback form" id="feedback-form">
-        <h2>We value your feedback</h2>
+      <nav
+        class="navigation-menu"
+        aria-label="Main navigation"
+      >
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a
+              href="rating-and-feedback.html"
+              aria-current="page"
+              >Feedback</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-        <section class="section">
-          <h3>Rate this product</h3>
-          <fieldset class="five-star-rating-radio-group" role="radiogroup" aria-label="Product rating" id="star-rating">
-            <label class="label" for="stars-1"><input class="five-star-rating-radio-input" type="radio" id="stars-1" name="stars" aria-label="1 star" value="1" data-value="1"> 1 star</label>
-            <label class="label" for="stars-2"><input class="five-star-rating-radio-input" type="radio" id="stars-2" name="stars" aria-label="2 stars" value="2" data-value="2"> 2 stars</label>
-            <label class="label" for="stars-3"><input class="five-star-rating-radio-input" type="radio" id="stars-3" name="stars" aria-label="3 stars" value="3" data-value="3"> 3 stars</label>
-            <label class="label" for="stars-4"><input class="five-star-rating-radio-input" type="radio" id="stars-4" name="stars" aria-label="4 stars" value="4" data-value="4"> 4 stars</label>
-            <label class="label" for="stars-5"><input class="five-star-rating-radio-input" type="radio" id="stars-5" name="stars" aria-label="5 stars" value="5" data-value="5"> 5 stars</label>
-          </fieldset>
-        </section>
+    <main
+      id="main-content"
+      class="page-wrapper"
+    >
+      <div
+        id="success-section"
+        hidden
+      >
+        <div
+          class="alert"
+          role="alert"
+          aria-label="Thank you"
+          data-type="success"
+        >
+          <h2>Thank you!</h2>
+          <p>Your feedback has been recorded.</p>
+        </div>
+        <div>
+          <p>Your product rating:</p>
+          <p
+            class="five-star-rating-view"
+            role="img"
+            aria-label="Your rating"
+            id="rating-view"
+          ></p>
+        </div>
+      </div>
 
-        <hr class="separator" aria-label="Section divider">
+      <div id="form-section">
+        <h1>Feedback</h1>
+        <form
+          class="form"
+          aria-label="Feedback form"
+          id="feedback-form"
+        >
+          <h2>We value your feedback</h2>
 
-        <section class="section">
-          <h3>How satisfied are you with our service?</h3>
-          <fieldset class="five-face-rating-radio-group" role="radiogroup" aria-label="Service satisfaction" id="face-rating">
-            <label class="label" for="satisfaction-1"><input class="five-face-rating-radio-input" type="radio" id="satisfaction-1" name="satisfaction" aria-label="Very dissatisfied" value="1" data-value="1"> Very dissatisfied</label>
-            <label class="label" for="satisfaction-2"><input class="five-face-rating-radio-input" type="radio" id="satisfaction-2" name="satisfaction" aria-label="Dissatisfied" value="2" data-value="2"> Dissatisfied</label>
-            <label class="label" for="satisfaction-3"><input class="five-face-rating-radio-input" type="radio" id="satisfaction-3" name="satisfaction" aria-label="Neutral" value="3" data-value="3"> Neutral</label>
-            <label class="label" for="satisfaction-4"><input class="five-face-rating-radio-input" type="radio" id="satisfaction-4" name="satisfaction" aria-label="Satisfied" value="4" data-value="4"> Satisfied</label>
-            <label class="label" for="satisfaction-5"><input class="five-face-rating-radio-input" type="radio" id="satisfaction-5" name="satisfaction" aria-label="Very satisfied" value="5" data-value="5"> Very satisfied</label>
-          </fieldset>
-        </section>
+          <section class="section">
+            <h3>Rate this product</h3>
+            <fieldset
+              class="five-star-rating-radio-group"
+              role="radiogroup"
+              aria-label="Product rating"
+              id="star-rating"
+            >
+              <label
+                class="label"
+                for="stars-1"
+                ><input
+                  class="five-star-rating-radio-input"
+                  type="radio"
+                  id="stars-1"
+                  name="stars"
+                  aria-label="1 star"
+                  value="1"
+                  data-value="1"
+                />
+                1 star</label
+              >
+              <label
+                class="label"
+                for="stars-2"
+                ><input
+                  class="five-star-rating-radio-input"
+                  type="radio"
+                  id="stars-2"
+                  name="stars"
+                  aria-label="2 stars"
+                  value="2"
+                  data-value="2"
+                />
+                2 stars</label
+              >
+              <label
+                class="label"
+                for="stars-3"
+                ><input
+                  class="five-star-rating-radio-input"
+                  type="radio"
+                  id="stars-3"
+                  name="stars"
+                  aria-label="3 stars"
+                  value="3"
+                  data-value="3"
+                />
+                3 stars</label
+              >
+              <label
+                class="label"
+                for="stars-4"
+                ><input
+                  class="five-star-rating-radio-input"
+                  type="radio"
+                  id="stars-4"
+                  name="stars"
+                  aria-label="4 stars"
+                  value="4"
+                  data-value="4"
+                />
+                4 stars</label
+              >
+              <label
+                class="label"
+                for="stars-5"
+                ><input
+                  class="five-star-rating-radio-input"
+                  type="radio"
+                  id="stars-5"
+                  name="stars"
+                  aria-label="5 stars"
+                  value="5"
+                  data-value="5"
+                />
+                5 stars</label
+              >
+            </fieldset>
+          </section>
 
-        <hr class="separator" aria-label="Section divider">
+          <hr
+            class="separator"
+            aria-label="Section divider"
+          />
 
-        <section class="section">
-          <h3>How likely are you to recommend us?</h3>
-          <fieldset class="net-promoter-score-radio-group" role="radiogroup" aria-label="Recommendation likelihood" id="nps-rating">
-            <label class="label" for="nps-0"><input class="net-promoter-score-radio-input" type="radio" id="nps-0" name="nps" aria-label="0 - Not at all likely" value="0" data-value="0"> 0 - Not at all likely</label>
-            <label class="label" for="nps-1"><input class="net-promoter-score-radio-input" type="radio" id="nps-1" name="nps" aria-label="1" value="1" data-value="1"> 1</label>
-            <label class="label" for="nps-2"><input class="net-promoter-score-radio-input" type="radio" id="nps-2" name="nps" aria-label="2" value="2" data-value="2"> 2</label>
-            <label class="label" for="nps-3"><input class="net-promoter-score-radio-input" type="radio" id="nps-3" name="nps" aria-label="3" value="3" data-value="3"> 3</label>
-            <label class="label" for="nps-4"><input class="net-promoter-score-radio-input" type="radio" id="nps-4" name="nps" aria-label="4" value="4" data-value="4"> 4</label>
-            <label class="label" for="nps-5"><input class="net-promoter-score-radio-input" type="radio" id="nps-5" name="nps" aria-label="5" value="5" data-value="5"> 5</label>
-            <label class="label" for="nps-6"><input class="net-promoter-score-radio-input" type="radio" id="nps-6" name="nps" aria-label="6" value="6" data-value="6"> 6</label>
-            <label class="label" for="nps-7"><input class="net-promoter-score-radio-input" type="radio" id="nps-7" name="nps" aria-label="7" value="7" data-value="7"> 7</label>
-            <label class="label" for="nps-8"><input class="net-promoter-score-radio-input" type="radio" id="nps-8" name="nps" aria-label="8" value="8" data-value="8"> 8</label>
-            <label class="label" for="nps-9"><input class="net-promoter-score-radio-input" type="radio" id="nps-9" name="nps" aria-label="9" value="9" data-value="9"> 9</label>
-            <label class="label" for="nps-10"><input class="net-promoter-score-radio-input" type="radio" id="nps-10" name="nps" aria-label="10 - Extremely likely" value="10" data-value="10"> 10 - Extremely likely</label>
-          </fieldset>
-        </section>
+          <section class="section">
+            <h3>How satisfied are you with our service?</h3>
+            <fieldset
+              class="five-face-rating-radio-group"
+              role="radiogroup"
+              aria-label="Service satisfaction"
+              id="face-rating"
+            >
+              <label
+                class="label"
+                for="satisfaction-1"
+                ><input
+                  class="five-face-rating-radio-input"
+                  type="radio"
+                  id="satisfaction-1"
+                  name="satisfaction"
+                  aria-label="Very dissatisfied"
+                  value="1"
+                  data-value="1"
+                />
+                Very dissatisfied</label
+              >
+              <label
+                class="label"
+                for="satisfaction-2"
+                ><input
+                  class="five-face-rating-radio-input"
+                  type="radio"
+                  id="satisfaction-2"
+                  name="satisfaction"
+                  aria-label="Dissatisfied"
+                  value="2"
+                  data-value="2"
+                />
+                Dissatisfied</label
+              >
+              <label
+                class="label"
+                for="satisfaction-3"
+                ><input
+                  class="five-face-rating-radio-input"
+                  type="radio"
+                  id="satisfaction-3"
+                  name="satisfaction"
+                  aria-label="Neutral"
+                  value="3"
+                  data-value="3"
+                />
+                Neutral</label
+              >
+              <label
+                class="label"
+                for="satisfaction-4"
+                ><input
+                  class="five-face-rating-radio-input"
+                  type="radio"
+                  id="satisfaction-4"
+                  name="satisfaction"
+                  aria-label="Satisfied"
+                  value="4"
+                  data-value="4"
+                />
+                Satisfied</label
+              >
+              <label
+                class="label"
+                for="satisfaction-5"
+                ><input
+                  class="five-face-rating-radio-input"
+                  type="radio"
+                  id="satisfaction-5"
+                  name="satisfaction"
+                  aria-label="Very satisfied"
+                  value="5"
+                  data-value="5"
+                />
+                Very satisfied</label
+              >
+            </fieldset>
+          </section>
 
-        <hr class="separator" aria-label="Section divider">
+          <hr
+            class="separator"
+            aria-label="Section divider"
+          />
 
-        <section class="section">
-          <h3>Additional comments</h3>
-          <label class="label" for="comments">Comments</label>
-          <textarea class="text-area-input" id="comments" aria-label="Comments" rows="4"></textarea>
-        </section>
+          <section class="section">
+            <h3>How likely are you to recommend us?</h3>
+            <fieldset
+              class="net-promoter-score-radio-group"
+              role="radiogroup"
+              aria-label="Recommendation likelihood"
+              id="nps-rating"
+            >
+              <label
+                class="label"
+                for="nps-0"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-0"
+                  name="nps"
+                  aria-label="0 - Not at all likely"
+                  value="0"
+                  data-value="0"
+                />
+                0 - Not at all likely</label
+              >
+              <label
+                class="label"
+                for="nps-1"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-1"
+                  name="nps"
+                  aria-label="1"
+                  value="1"
+                  data-value="1"
+                />
+                1</label
+              >
+              <label
+                class="label"
+                for="nps-2"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-2"
+                  name="nps"
+                  aria-label="2"
+                  value="2"
+                  data-value="2"
+                />
+                2</label
+              >
+              <label
+                class="label"
+                for="nps-3"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-3"
+                  name="nps"
+                  aria-label="3"
+                  value="3"
+                  data-value="3"
+                />
+                3</label
+              >
+              <label
+                class="label"
+                for="nps-4"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-4"
+                  name="nps"
+                  aria-label="4"
+                  value="4"
+                  data-value="4"
+                />
+                4</label
+              >
+              <label
+                class="label"
+                for="nps-5"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-5"
+                  name="nps"
+                  aria-label="5"
+                  value="5"
+                  data-value="5"
+                />
+                5</label
+              >
+              <label
+                class="label"
+                for="nps-6"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-6"
+                  name="nps"
+                  aria-label="6"
+                  value="6"
+                  data-value="6"
+                />
+                6</label
+              >
+              <label
+                class="label"
+                for="nps-7"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-7"
+                  name="nps"
+                  aria-label="7"
+                  value="7"
+                  data-value="7"
+                />
+                7</label
+              >
+              <label
+                class="label"
+                for="nps-8"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-8"
+                  name="nps"
+                  aria-label="8"
+                  value="8"
+                  data-value="8"
+                />
+                8</label
+              >
+              <label
+                class="label"
+                for="nps-9"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-9"
+                  name="nps"
+                  aria-label="9"
+                  value="9"
+                  data-value="9"
+                />
+                9</label
+              >
+              <label
+                class="label"
+                for="nps-10"
+                ><input
+                  class="net-promoter-score-radio-input"
+                  type="radio"
+                  id="nps-10"
+                  name="nps"
+                  aria-label="10 - Extremely likely"
+                  value="10"
+                  data-value="10"
+                />
+                10 - Extremely likely</label
+              >
+            </fieldset>
+          </section>
 
-        <button class="button" type="submit" aria-label="Submit Feedback">Submit Feedback</button>
-      </form>
-    </div>
-  </main>
+          <hr
+            class="separator"
+            aria-label="Section divider"
+          />
 
-  <footer class="footer" aria-label="Site footer">
-    <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
-    <p>&copy; 2026 Lily Design System. All rights reserved.</p>
-  </footer>
+          <section class="section">
+            <h3>Additional comments</h3>
+            <label
+              class="label"
+              for="comments"
+              >Comments</label
+            >
+            <textarea
+              class="text-area-input"
+              id="comments"
+              aria-label="Comments"
+              rows="4"
+            ></textarea>
+          </section>
 
-  <script src="/assets/js/pages/rating-and-feedback.js"></script>
-  <script type="module" src="/assets/js/theme-picker.js"></script>
-  <script type="module" src="/assets/js/locale-picker.js"></script>
-  <script type="module" src="/assets/js/text-size-picker.js"></script>
-</body>
+          <button
+            class="button"
+            type="submit"
+            aria-label="Submit Feedback"
+          >
+            Submit Feedback
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <footer
+      class="footer"
+      aria-label="Site footer"
+    >
+      <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
+      <p>&copy; 2026 Lily Design System. All rights reserved.</p>
+    </footer>
+
+    <script src="assets/js/pages/rating-and-feedback.js"></script>
+    <script
+      type="module"
+      src="/assets/js/theme-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/locale-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/text-size-picker.js"
+    ></script>
+  </body>
 </html>

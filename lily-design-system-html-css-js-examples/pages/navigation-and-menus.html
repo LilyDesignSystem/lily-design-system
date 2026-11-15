@@ -1,125 +1,324 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navigation and Menus — Lily Design System</title>
-  <link rel="stylesheet" href="/assets/css/app-shell.css">
-  <script src="/assets/js/theme-boot.js"></script>
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Navigation and Menus — Lily Design System</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/app-shell.css"
+    />
+    <script src="/assets/js/theme-boot.js"></script>
+  </head>
+  <body>
+    <a
+      class="skip-link"
+      href="#main-content"
+      >Skip to main content</a
+    >
 
-  <header class="header" aria-label="Site header">
-    <span class="site-header-pickers">
-    <theme-picker
-      label="Choose a theme"
-      themes-url="/themes/"
-      themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
-      theme-labels="{&quot;united-kingdom-national-health-service-england-for-patients&quot;: &quot;NHS England (patients)&quot;, &quot;united-kingdom-national-health-service-england-for-practitioners&quot;: &quot;NHS England (practitioners)&quot;, &quot;united-kingdom-national-health-service-scotland-for-patients&quot;: &quot;NHS Scotland (patients)&quot;, &quot;united-kingdom-national-health-service-wales-for-patients&quot;: &quot;NHS Wales (patients)&quot;, &quot;united-kingdom-government-digital-service&quot;: &quot;GOV.UK GDS&quot;, &quot;united-states-web-design-system&quot;: &quot;USWDS&quot;, &quot;adobe-spectrum&quot;: &quot;Adobe Spectrum&quot;, &quot;mozilla-protocol&quot;: &quot;Mozilla Protocol&quot;, &quot;light&quot;: &quot;Light&quot;, &quot;dark&quot;: &quot;Dark&quot;}"
-      default-value="united-kingdom-national-health-service-england-for-patients"
-      storage-key="lily-theme"
-    ></theme-picker>
-      <locale-picker
-        label="Choose a language"
-        locales="en-GB,cy-GB,fr-FR,ar"
-        locale-labels="{&quot;en-GB&quot;: &quot;English (UK)&quot;, &quot;cy-GB&quot;: &quot;Cymraeg&quot;, &quot;fr-FR&quot;: &quot;Français&quot;, &quot;ar&quot;: &quot;العربية&quot;}"
-        default-value="en-GB"
-        storage-key="lily-locale"
-      ></locale-picker>
-      <text-size-picker
-        label="Text size"
-        sizes="small,medium,large"
-        size-labels="{&quot;small&quot;: &quot;Small&quot;, &quot;medium&quot;: &quot;Medium&quot;, &quot;large&quot;: &quot;Large&quot;}"
-        default-value="medium"
-        storage-key="lily-text-size"
-      ></text-size-picker>
-    </span>
-    <h1>Navigation and Menus</h1>
-    <nav class="navigation-menu" aria-label="Main navigation">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="navigation-and-menus.html" aria-current="page">Navigation</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header
+      class="header"
+      aria-label="Site header"
+    >
+      <span class="site-header-pickers">
+        <theme-picker
+          label="Choose a theme"
+          themes-url="/themes/"
+          themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
+          theme-labels='{"united-kingdom-national-health-service-england-for-patients": "NHS England (patients)", "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)", "united-kingdom-national-health-service-scotland-for-patients": "NHS Scotland (patients)", "united-kingdom-national-health-service-wales-for-patients": "NHS Wales (patients)", "united-kingdom-government-digital-service": "GOV.UK GDS", "united-states-web-design-system": "USWDS", "adobe-spectrum": "Adobe Spectrum", "mozilla-protocol": "Mozilla Protocol", "light": "Light", "dark": "Dark"}'
+          default-value="united-kingdom-national-health-service-england-for-patients"
+          storage-key="lily-theme"
+        ></theme-picker>
+        <locale-picker
+          label="Choose a language"
+          locales="en-GB,cy-GB,fr-FR,ar"
+          locale-labels='{"en-GB": "English (UK)", "cy-GB": "Cymraeg", "fr-FR": "Français", "ar": "العربية"}'
+          default-value="en-GB"
+          storage-key="lily-locale"
+        ></locale-picker>
+        <text-size-picker
+          label="Text size"
+          sizes="small,medium,large"
+          size-labels='{"small": "Small", "medium": "Medium", "large": "Large"}'
+          default-value="medium"
+          storage-key="lily-text-size"
+        ></text-size-picker>
+      </span>
+      <h1>Navigation and Menus</h1>
+      <nav
+        class="navigation-menu"
+        aria-label="Main navigation"
+      >
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a
+              href="navigation-and-menus.html"
+              aria-current="page"
+              >Navigation</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-  <main id="main-content" class="page-wrapper">
-    <h1>Navigation and Menu Patterns</h1>
+    <main
+      id="main-content"
+      class="page-wrapper"
+    >
+      <h1>Navigation and Menu Patterns</h1>
 
-    <nav class="navigation-menu" aria-label="Demo navigation">
-      <a href="#home">Home</a>
-      <a href="#projects">Projects</a>
-      <a href="#team">Team</a>
-      <a href="#reports">Reports</a>
-      <a href="#settings">Settings</a>
-    </nav>
+      <nav
+        class="navigation-menu"
+        aria-label="Demo navigation"
+      >
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#team">Team</a>
+        <a href="#reports">Reports</a>
+        <a href="#settings">Settings</a>
+      </nav>
 
-    <hr class="separator" aria-label="Section divider">
+      <hr
+        class="separator"
+        aria-label="Section divider"
+      />
 
-    <h2>Application Menu Bar</h2>
-    <div class="menu-bar" role="menubar" aria-label="Application menu">
-      <button class="menu-bar-button" role="menuitem" aria-label="File" id="file-menu-btn" aria-expanded="false" aria-haspopup="true">File</button>
-      <button class="menu-bar-button" role="menuitem" aria-label="Edit" id="edit-menu-btn" aria-expanded="false" aria-haspopup="true">Edit</button>
-      <button class="menu-bar-button" role="menuitem" aria-label="View">View</button>
-      <button class="menu-bar-button" role="menuitem" aria-label="Help">Help</button>
-    </div>
+      <h2>Application Menu Bar</h2>
+      <div
+        class="menu-bar"
+        role="menubar"
+        aria-label="Application menu"
+      >
+        <button
+          class="menu-bar-button"
+          role="menuitem"
+          aria-label="File"
+          id="file-menu-btn"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          File
+        </button>
+        <button
+          class="menu-bar-button"
+          role="menuitem"
+          aria-label="Edit"
+          id="edit-menu-btn"
+          aria-expanded="false"
+          aria-haspopup="true"
+        >
+          Edit
+        </button>
+        <button
+          class="menu-bar-button"
+          role="menuitem"
+          aria-label="View"
+        >
+          View
+        </button>
+        <button
+          class="menu-bar-button"
+          role="menuitem"
+          aria-label="Help"
+        >
+          Help
+        </button>
+      </div>
 
-    <div class="dropdown-menu" role="menu" aria-label="File" id="file-menu" hidden>
-      <div class="menu-item" role="menuitem" tabindex="-1">New Document</div>
-      <div class="menu-item" role="menuitem" tabindex="-1">Open...</div>
-      <div class="menu-item" role="menuitem" tabindex="-1">Save</div>
-      <div class="menu-item" role="menuitem" tabindex="-1">Export as PDF</div>
-    </div>
+      <div
+        class="dropdown-menu"
+        role="menu"
+        aria-label="File"
+        id="file-menu"
+        hidden
+      >
+        <div
+          class="menu-item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          New Document
+        </div>
+        <div
+          class="menu-item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Open...
+        </div>
+        <div
+          class="menu-item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Save
+        </div>
+        <div
+          class="menu-item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Export as PDF
+        </div>
+      </div>
 
-    <div class="dropdown-menu" role="menu" aria-label="Edit" id="edit-menu" hidden>
-      <div class="menu-item" role="menuitem" tabindex="-1">Undo</div>
-      <div class="menu-item" role="menuitem" tabindex="-1">Redo</div>
-      <div class="menu-item" role="menuitem" tabindex="-1">Cut</div>
-      <div class="menu-item" role="menuitem" tabindex="-1">Copy</div>
-      <div class="menu-item" role="menuitem" tabindex="-1">Paste</div>
-    </div>
+      <div
+        class="dropdown-menu"
+        role="menu"
+        aria-label="Edit"
+        id="edit-menu"
+        hidden
+      >
+        <div
+          class="menu-item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Undo
+        </div>
+        <div
+          class="menu-item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Redo
+        </div>
+        <div
+          class="menu-item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Cut
+        </div>
+        <div
+          class="menu-item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Copy
+        </div>
+        <div
+          class="menu-item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Paste
+        </div>
+      </div>
 
-    <hr class="separator" aria-label="Section divider">
+      <hr
+        class="separator"
+        aria-label="Section divider"
+      />
 
-    <h2>Document Toolbar</h2>
-    <div class="tool-bar" role="toolbar" aria-label="Document formatting">
-      <button class="tool-bar-button" aria-label="Bold">Bold</button>
-      <button class="tool-bar-button" aria-label="Italic">Italic</button>
-      <button class="tool-bar-button" aria-label="Underline">Underline</button>
-      <button class="tool-bar-button" aria-label="Strikethrough" disabled>Strikethrough</button>
-      <button class="tool-bar-button" aria-label="Align Left">Align Left</button>
-      <button class="tool-bar-button" aria-label="Align Center">Align Center</button>
-      <button class="tool-bar-button" aria-label="Align Right">Align Right</button>
-    </div>
+      <h2>Document Toolbar</h2>
+      <div
+        class="tool-bar"
+        role="toolbar"
+        aria-label="Document formatting"
+      >
+        <button
+          class="tool-bar-button"
+          aria-label="Bold"
+        >
+          Bold
+        </button>
+        <button
+          class="tool-bar-button"
+          aria-label="Italic"
+        >
+          Italic
+        </button>
+        <button
+          class="tool-bar-button"
+          aria-label="Underline"
+        >
+          Underline
+        </button>
+        <button
+          class="tool-bar-button"
+          aria-label="Strikethrough"
+          disabled
+        >
+          Strikethrough
+        </button>
+        <button
+          class="tool-bar-button"
+          aria-label="Align Left"
+        >
+          Align Left
+        </button>
+        <button
+          class="tool-bar-button"
+          aria-label="Align Center"
+        >
+          Align Center
+        </button>
+        <button
+          class="tool-bar-button"
+          aria-label="Align Right"
+        >
+          Align Right
+        </button>
+      </div>
 
-    <hr class="separator" aria-label="Section divider">
+      <hr
+        class="separator"
+        aria-label="Section divider"
+      />
 
-    <h2>Mobile Navigation</h2>
-    <button class="button" aria-label="Mobile menu" aria-expanded="false" id="hamburger-btn">
-      Menu
-    </button>
-    <nav class="navigation-menu" aria-label="Mobile navigation" id="mobile-nav" hidden>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#team">Team</a></li>
-        <li><a href="#reports">Reports</a></li>
-        <li><a href="#settings">Settings</a></li>
-        <li><a href="#profile">Profile</a></li>
-        <li><a href="#logout">Log Out</a></li>
-      </ul>
-    </nav>
-  </main>
+      <h2>Mobile Navigation</h2>
+      <button
+        class="button"
+        aria-label="Mobile menu"
+        aria-expanded="false"
+        id="hamburger-btn"
+      >
+        Menu
+      </button>
+      <nav
+        class="navigation-menu"
+        aria-label="Mobile navigation"
+        id="mobile-nav"
+        hidden
+      >
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#reports">Reports</a></li>
+          <li><a href="#settings">Settings</a></li>
+          <li><a href="#profile">Profile</a></li>
+          <li><a href="#logout">Log Out</a></li>
+        </ul>
+      </nav>
+    </main>
 
-  <footer class="footer" aria-label="Site footer">
-    <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
-    <p>&copy; 2026 Lily Design System. All rights reserved.</p>
-  </footer>
+    <footer
+      class="footer"
+      aria-label="Site footer"
+    >
+      <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
+      <p>&copy; 2026 Lily Design System. All rights reserved.</p>
+    </footer>
 
-  <script src="/assets/js/pages/navigation-and-menus.js"></script>
-  <script type="module" src="/assets/js/theme-picker.js"></script>
-  <script type="module" src="/assets/js/locale-picker.js"></script>
-  <script type="module" src="/assets/js/text-size-picker.js"></script>
-</body>
+    <script src="assets/js/pages/navigation-and-menus.js"></script>
+    <script
+      type="module"
+      src="/assets/js/theme-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/locale-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/text-size-picker.js"
+    ></script>
+  </body>
 </html>

@@ -25,9 +25,20 @@ describe("Index Page", function () {
         await expect(el).toExist();
     });
 
-    it("should have links to all example pages", async function () {
+    it("should link only to example pages that exist", async function () {
+        const fs = require("fs");
         const links = await $$("main ul li a");
-        expect(links.length).toBe(12);
+        expect(links.length).toBeGreaterThan(0);
+        for (const link of links) {
+            const href = (await link.getAttribute("href")).replace(/^\//, "").split("#")[0];
+            const file = path.resolve(
+                __dirname,
+                "..",
+                "pages",
+                href.endsWith(".html") ? href : href + ".html",
+            );
+            expect(fs.existsSync(file)).toBe(true);
+        }
     });
 
     it("should render the footer with correct class", async function () {

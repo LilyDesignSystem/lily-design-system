@@ -1,107 +1,240 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Form — Lily Design System</title>
-  <link rel="stylesheet" href="/assets/css/app-shell.css">
-  <script src="/assets/js/theme-boot.js"></script>
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Contact Form — Lily Design System</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/app-shell.css"
+    />
+    <script src="/assets/js/theme-boot.js"></script>
+  </head>
+  <body>
+    <a
+      class="skip-link"
+      href="#main-content"
+      >Skip to main content</a
+    >
 
-  <header class="header" aria-label="Site header">
-    <span class="site-header-pickers">
-    <theme-picker
-      label="Choose a theme"
-      themes-url="/themes/"
-      themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
-      theme-labels="{&quot;united-kingdom-national-health-service-england-for-patients&quot;: &quot;NHS England (patients)&quot;, &quot;united-kingdom-national-health-service-england-for-practitioners&quot;: &quot;NHS England (practitioners)&quot;, &quot;united-kingdom-national-health-service-scotland-for-patients&quot;: &quot;NHS Scotland (patients)&quot;, &quot;united-kingdom-national-health-service-wales-for-patients&quot;: &quot;NHS Wales (patients)&quot;, &quot;united-kingdom-government-digital-service&quot;: &quot;GOV.UK GDS&quot;, &quot;united-states-web-design-system&quot;: &quot;USWDS&quot;, &quot;adobe-spectrum&quot;: &quot;Adobe Spectrum&quot;, &quot;mozilla-protocol&quot;: &quot;Mozilla Protocol&quot;, &quot;light&quot;: &quot;Light&quot;, &quot;dark&quot;: &quot;Dark&quot;}"
-      default-value="united-kingdom-national-health-service-england-for-patients"
-      storage-key="lily-theme"
-    ></theme-picker>
-      <locale-picker
-        label="Choose a language"
-        locales="en-GB,cy-GB,fr-FR,ar"
-        locale-labels="{&quot;en-GB&quot;: &quot;English (UK)&quot;, &quot;cy-GB&quot;: &quot;Cymraeg&quot;, &quot;fr-FR&quot;: &quot;Français&quot;, &quot;ar&quot;: &quot;العربية&quot;}"
-        default-value="en-GB"
-        storage-key="lily-locale"
-      ></locale-picker>
-      <text-size-picker
-        label="Text size"
-        sizes="small,medium,large"
-        size-labels="{&quot;small&quot;: &quot;Small&quot;, &quot;medium&quot;: &quot;Medium&quot;, &quot;large&quot;: &quot;Large&quot;}"
-        default-value="medium"
-        storage-key="lily-text-size"
-      ></text-size-picker>
-    </span>
-    <h1>Contact Form</h1>
-    <nav class="navigation-menu" aria-label="Main navigation">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="contact-form.html" aria-current="page">Contact Form</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header
+      class="header"
+      aria-label="Site header"
+    >
+      <span class="site-header-pickers">
+        <theme-picker
+          label="Choose a theme"
+          themes-url="/themes/"
+          themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
+          theme-labels='{"united-kingdom-national-health-service-england-for-patients": "NHS England (patients)", "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)", "united-kingdom-national-health-service-scotland-for-patients": "NHS Scotland (patients)", "united-kingdom-national-health-service-wales-for-patients": "NHS Wales (patients)", "united-kingdom-government-digital-service": "GOV.UK GDS", "united-states-web-design-system": "USWDS", "adobe-spectrum": "Adobe Spectrum", "mozilla-protocol": "Mozilla Protocol", "light": "Light", "dark": "Dark"}'
+          default-value="united-kingdom-national-health-service-england-for-patients"
+          storage-key="lily-theme"
+        ></theme-picker>
+        <locale-picker
+          label="Choose a language"
+          locales="en-GB,cy-GB,fr-FR,ar"
+          locale-labels='{"en-GB": "English (UK)", "cy-GB": "Cymraeg", "fr-FR": "Français", "ar": "العربية"}'
+          default-value="en-GB"
+          storage-key="lily-locale"
+        ></locale-picker>
+        <text-size-picker
+          label="Text size"
+          sizes="small,medium,large"
+          size-labels='{"small": "Small", "medium": "Medium", "large": "Large"}'
+          default-value="medium"
+          storage-key="lily-text-size"
+        ></text-size-picker>
+      </span>
+      <h1>Contact Form</h1>
+      <nav
+        class="navigation-menu"
+        aria-label="Main navigation"
+      >
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a
+              href="contact-form.html"
+              aria-current="page"
+              >Contact Form</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-  <main id="main-content" class="page-wrapper">
-    <div id="success-message" role="status" hidden>
-      <p>Thank you, <span id="success-name"></span>! Your message has been sent.</p>
-    </div>
-
-    <div id="form-container">
-      <h1>Contact Us</h1>
-
-      <div id="error-summary" class="error-summary" aria-label="Form errors" hidden>
-        <h2>Please fix the following errors</h2>
-        <ul id="error-list"></ul>
+    <main
+      id="main-content"
+      class="page-wrapper"
+    >
+      <div
+        id="success-message"
+        role="status"
+        hidden
+      >
+        <p>Thank you, <span id="success-name"></span>! Your message has been sent.</p>
       </div>
 
-      <form class="form" aria-label="Contact us" novalidate>
-        <div class="field" aria-label="Full name field">
-          <label class="label" for="name">Full name</label>
-          <span class="hint" id="name-hint">Enter your full name</span>
-          <span class="error-message" id="name-error" hidden></span>
-          <input class="text-input" type="text" id="name" aria-label="Full name" aria-describedby="name-hint" required>
+      <div id="form-container">
+        <h1>Contact Us</h1>
+
+        <div
+          id="error-summary"
+          class="error-summary"
+          aria-label="Form errors"
+          hidden
+        >
+          <h2>Please fix the following errors</h2>
+          <ul id="error-list"></ul>
         </div>
 
-        <div class="field" aria-label="Email address field">
-          <label class="label" for="email">Email address</label>
-          <span class="hint" id="email-hint">Enter your email address</span>
-          <span class="error-message" id="email-error" hidden></span>
-          <input class="email-input" type="email" id="email" aria-label="Email address" aria-describedby="email-hint" required>
-        </div>
+        <form
+          class="form"
+          aria-label="Contact us"
+          novalidate
+        >
+          <div
+            class="field"
+            aria-label="Full name field"
+          >
+            <label
+              class="label"
+              for="name"
+              >Full name</label
+            >
+            <span
+              class="hint"
+              id="name-hint"
+              >Enter your full name</span
+            >
+            <span
+              class="error-message"
+              id="name-error"
+              hidden
+            ></span>
+            <input
+              class="text-input"
+              type="text"
+              id="name"
+              aria-label="Full name"
+              aria-describedby="name-hint"
+              required
+            />
+          </div>
 
-        <div class="field" aria-label="Subject field">
-          <label class="label" for="subject">Subject</label>
-          <select class="select" id="subject" aria-label="Subject">
-            <option value="general">General inquiry</option>
-            <option value="support">Technical support</option>
-            <option value="billing">Billing question</option>
-            <option value="feedback">Feedback</option>
-          </select>
-        </div>
+          <div
+            class="field"
+            aria-label="Email address field"
+          >
+            <label
+              class="label"
+              for="email"
+              >Email address</label
+            >
+            <span
+              class="hint"
+              id="email-hint"
+              >Enter your email address</span
+            >
+            <span
+              class="error-message"
+              id="email-error"
+              hidden
+            ></span>
+            <input
+              class="email-input"
+              type="email"
+              id="email"
+              aria-label="Email address"
+              aria-describedby="email-hint"
+              required
+            />
+          </div>
 
-        <div class="field" aria-label="Message field">
-          <label class="label" for="message">Message</label>
-          <span class="hint" id="message-hint">Enter your message</span>
-          <span class="error-message" id="message-error" hidden></span>
-          <textarea class="text-area-input" id="message" aria-label="Message" aria-describedby="message-hint" rows="5" required></textarea>
-        </div>
+          <div
+            class="field"
+            aria-label="Subject field"
+          >
+            <label
+              class="label"
+              for="subject"
+              >Subject</label
+            >
+            <select
+              class="select"
+              id="subject"
+              aria-label="Subject"
+            >
+              <option value="general">General inquiry</option>
+              <option value="support">Technical support</option>
+              <option value="billing">Billing question</option>
+              <option value="feedback">Feedback</option>
+            </select>
+          </div>
 
-        <button class="button" type="submit" aria-label="Send Message">Send Message</button>
-      </form>
-    </div>
-  </main>
+          <div
+            class="field"
+            aria-label="Message field"
+          >
+            <label
+              class="label"
+              for="message"
+              >Message</label
+            >
+            <span
+              class="hint"
+              id="message-hint"
+              >Enter your message</span
+            >
+            <span
+              class="error-message"
+              id="message-error"
+              hidden
+            ></span>
+            <textarea
+              class="text-area-input"
+              id="message"
+              aria-label="Message"
+              aria-describedby="message-hint"
+              rows="5"
+              required
+            ></textarea>
+          </div>
 
-  <footer class="footer" aria-label="Site footer">
-    <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
-    <p>&copy; 2026 Lily Design System. All rights reserved.</p>
-  </footer>
+          <button
+            class="button"
+            type="submit"
+            aria-label="Send Message"
+          >
+            Send Message
+          </button>
+        </form>
+      </div>
+    </main>
 
-  <script src="/assets/js/pages/contact-form.js"></script>
-  <script type="module" src="/assets/js/theme-picker.js"></script>
-  <script type="module" src="/assets/js/locale-picker.js"></script>
-  <script type="module" src="/assets/js/text-size-picker.js"></script>
-</body>
+    <footer
+      class="footer"
+      aria-label="Site footer"
+    >
+      <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
+      <p>&copy; 2026 Lily Design System. All rights reserved.</p>
+    </footer>
+
+    <script src="assets/js/pages/contact-form.js"></script>
+    <script
+      type="module"
+      src="/assets/js/theme-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/locale-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/text-size-picker.js"
+    ></script>
+  </body>
 </html>

@@ -53,7 +53,7 @@ describe("Tabbed Interface", function () {
     });
 
     it("should render accordion nav", async function () {
-        const el = await $("nav.accordion-nav");
+        const el = await $('nav.accordion-nav[aria-label="Notification details"]');
         await expect(el).toExist();
     });
 

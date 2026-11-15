@@ -52,7 +52,8 @@ export default function DialogFlowPage() {
 
                 <AlertDialog
                     open={alertOpen}
-                    label="Session expiring"
+                    title="Session expiring"
+                    onChange={setAlertOpen}
                 >
                     <p>
                         Your session will expire in 5 minutes. Save your work to avoid losing

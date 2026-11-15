@@ -1,296 +1,776 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book an Appointment — Lily Design System</title>
-  <link rel="stylesheet" href="/assets/css/app-shell.css">
-  <script src="/assets/js/theme-boot.js"></script>
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Book an Appointment — Lily Design System</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/app-shell.css"
+    />
+    <script src="/assets/js/theme-boot.js"></script>
+  </head>
+  <body>
+    <a
+      class="skip-link"
+      href="#main-content"
+      >Skip to main content</a
+    >
 
-  <header class="header" aria-label="Site header">
-    <span class="site-header-pickers">
-    <theme-picker
-      label="Choose a theme"
-      themes-url="/themes/"
-      themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
-      theme-labels="{&quot;united-kingdom-national-health-service-england-for-patients&quot;: &quot;NHS England (patients)&quot;, &quot;united-kingdom-national-health-service-england-for-practitioners&quot;: &quot;NHS England (practitioners)&quot;, &quot;united-kingdom-national-health-service-scotland-for-patients&quot;: &quot;NHS Scotland (patients)&quot;, &quot;united-kingdom-national-health-service-wales-for-patients&quot;: &quot;NHS Wales (patients)&quot;, &quot;united-kingdom-government-digital-service&quot;: &quot;GOV.UK GDS&quot;, &quot;united-states-web-design-system&quot;: &quot;USWDS&quot;, &quot;adobe-spectrum&quot;: &quot;Adobe Spectrum&quot;, &quot;mozilla-protocol&quot;: &quot;Mozilla Protocol&quot;, &quot;light&quot;: &quot;Light&quot;, &quot;dark&quot;: &quot;Dark&quot;}"
-      default-value="united-kingdom-national-health-service-england-for-patients"
-      storage-key="lily-theme"
-    ></theme-picker>
-      <locale-picker
-        label="Choose a language"
-        locales="en-GB,cy-GB,fr-FR,ar"
-        locale-labels="{&quot;en-GB&quot;: &quot;English (UK)&quot;, &quot;cy-GB&quot;: &quot;Cymraeg&quot;, &quot;fr-FR&quot;: &quot;Français&quot;, &quot;ar&quot;: &quot;العربية&quot;}"
-        default-value="en-GB"
-        storage-key="lily-locale"
-      ></locale-picker>
-      <text-size-picker
-        label="Text size"
-        sizes="small,medium,large"
-        size-labels="{&quot;small&quot;: &quot;Small&quot;, &quot;medium&quot;: &quot;Medium&quot;, &quot;large&quot;: &quot;Large&quot;}"
-        default-value="medium"
-        storage-key="lily-text-size"
-      ></text-size-picker>
-    </span>
-    <h1>Book an appointment</h1>
-  </header>
+    <header
+      class="header"
+      aria-label="Site header"
+    >
+      <span class="site-header-pickers">
+        <theme-picker
+          label="Choose a theme"
+          themes-url="/themes/"
+          themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
+          theme-labels='{"united-kingdom-national-health-service-england-for-patients": "NHS England (patients)", "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)", "united-kingdom-national-health-service-scotland-for-patients": "NHS Scotland (patients)", "united-kingdom-national-health-service-wales-for-patients": "NHS Wales (patients)", "united-kingdom-government-digital-service": "GOV.UK GDS", "united-states-web-design-system": "USWDS", "adobe-spectrum": "Adobe Spectrum", "mozilla-protocol": "Mozilla Protocol", "light": "Light", "dark": "Dark"}'
+          default-value="united-kingdom-national-health-service-england-for-patients"
+          storage-key="lily-theme"
+        ></theme-picker>
+        <locale-picker
+          label="Choose a language"
+          locales="en-GB,cy-GB,fr-FR,ar"
+          locale-labels='{"en-GB": "English (UK)", "cy-GB": "Cymraeg", "fr-FR": "Français", "ar": "العربية"}'
+          default-value="en-GB"
+          storage-key="lily-locale"
+        ></locale-picker>
+        <text-size-picker
+          label="Text size"
+          sizes="small,medium,large"
+          size-labels='{"small": "Small", "medium": "Medium", "large": "Large"}'
+          default-value="medium"
+          storage-key="lily-text-size"
+        ></text-size-picker>
+      </span>
+      <h1>Book an appointment</h1>
+    </header>
 
-  <main id="main-content" class="page-wrapper">
-    <a class="back-link" href="index.html">Back to examples</a>
+    <main
+      id="main-content"
+      class="page-wrapper"
+    >
+      <a
+        class="back-link"
+        href="index.html"
+        >Back to examples</a
+      >
 
-    <ol class="step-list" aria-label="Booking progress" id="booking-step-list" hidden>
-      <li class="step-list-item" data-status="in-progress" aria-current="step" id="step-list-item-1">Reason</li>
-      <li class="step-list-item" data-status="waiting" id="step-list-item-2">Date and time</li>
-      <li class="step-list-item" data-status="waiting" id="step-list-item-3">Your details</li>
-      <li class="step-list-item" data-status="waiting" id="step-list-item-4">Check your answers</li>
-    </ol>
-
-    <div class="error-summary" role="alert" aria-labelledby="booking-error-summary-heading" tabindex="-1" id="booking-error-summary" hidden>
-      <h2 id="booking-error-summary-heading">There is a problem</h2>
-      <ul id="booking-error-list"></ul>
-    </div>
-
-    <section data-step="0" id="step-panel-0">
-      <h2 id="step-0-heading" tabindex="-1">Before you start</h2>
-
-      <aside class="warning-callout" role="alert" aria-label="Emergency notice">
-        <p>If you have a medical emergency, call 999 or go to your nearest A&amp;E.</p>
-      </aside>
-
-      <p>Use this service to book a routine appointment with your GP surgery online. It takes about 5 minutes.</p>
-
-      <div class="inset-text" role="note">
-        <p>Appointments are available Monday to Friday, 8am to 6pm. Most requests are confirmed within 2 working days.</p>
-      </div>
-
-      <details class="details">
-        <summary>What happens at your appointment</summary>
-        <p>A clinician will review the reason you gave for the appointment and may ask follow-up questions. Bring a list of any medicines you are currently taking.</p>
-      </details>
-
-      <p><button class="button" type="button" id="start-now-btn">Start now</button></p>
-    </section>
-
-    <section data-step="1" id="step-panel-1" hidden>
-      <h2 id="step-1-heading" tabindex="-1">Reason for your appointment</h2>
-
-      <form class="form" aria-label="Reason for your appointment" novalidate id="reason-form">
-        <fieldset class="radio-group" role="radiogroup" aria-label="Why do you need an appointment?">
-          <label class="label">
-            <input class="radio-input" type="radio" id="reason-routine" name="reason" value="routine" aria-label="Routine check-up">
-            Routine check-up
-          </label>
-          <label class="label">
-            <input class="radio-input" type="radio" id="reason-follow-up" name="reason" value="follow-up" aria-label="Follow-up appointment">
-            Follow-up appointment
-          </label>
-          <label class="label">
-            <input class="radio-input" type="radio" id="reason-vaccination" name="reason" value="vaccination" aria-label="Vaccination">
-            Vaccination
-          </label>
-          <label class="label">
-            <input class="radio-input" type="radio" id="reason-other" name="reason" value="other" aria-label="Something else">
-            Something else
-          </label>
-        </fieldset>
-        <p class="error-message" role="alert" id="reason-error" hidden></p>
-
-        <div id="reason-other-block" hidden>
-          <div class="field" data-required aria-label="Tell us more field">
-            <label class="label" for="reason-other-detail">Tell us more<span aria-hidden="true"> *</span></label>
-            <p class="error-message" role="alert" id="reason-other-error" hidden></p>
-            <textarea class="text-area-input" id="reason-other-detail" aria-label="Tell us more about the reason for your appointment" rows="4" required maxlength="250"></textarea>
-          </div>
-          <span class="character-counter" role="status" aria-live="polite" aria-label="Characters used" id="reason-other-counter" data-count="0" data-max="250">0 / 250</span>
-        </div>
-
-        <p><button class="button" type="submit">Continue</button></p>
-      </form>
-    </section>
-
-    <section data-step="2" id="step-panel-2" hidden>
-      <h2 id="step-2-heading" tabindex="-1">Choose a date and time</h2>
-
-      <div class="inset-text" role="note">
-        <p>Appointments are available Monday to Friday, 8am to 6pm.</p>
-      </div>
-
-      <form class="form" aria-label="Choose a date and time" novalidate id="date-time-form">
-        <fieldset class="fieldset" aria-label="Preferred date and time">
-          <legend>Preferred date and time</legend>
-
-          <div class="field" data-required aria-label="Preferred date field">
-            <label class="label" for="appointment-date">Preferred date<span aria-hidden="true"> *</span></label>
-            <p class="hint" id="appointment-date-hint">We will try to match your preference, but availability may vary.</p>
-            <p class="error-message" role="alert" id="appointment-date-error" hidden></p>
-            <input class="date-input" type="date" id="appointment-date" aria-label="Preferred date" required aria-describedby="appointment-date-hint">
-          </div>
-
-          <div class="field" data-required aria-label="Preferred time of day field">
-            <label class="label" for="appointment-time">Preferred time of day<span aria-hidden="true"> *</span></label>
-            <p class="error-message" role="alert" id="appointment-time-error" hidden></p>
-            <select class="select" id="appointment-time" aria-label="Preferred time of day" required>
-              <option value="">Select a time of day</option>
-              <option value="morning">Morning (8am to 12pm)</option>
-              <option value="afternoon">Afternoon (12pm to 4pm)</option>
-              <option value="evening">Evening (4pm to 6pm)</option>
-            </select>
-          </div>
-        </fieldset>
-
-        <p class="button-row">
-          <button class="button" type="button" id="date-time-back-btn">Back</button>
-          <button class="button" type="submit">Continue</button>
-        </p>
-      </form>
-    </section>
-
-    <section data-step="3" id="step-panel-3" hidden>
-      <h2 id="step-3-heading" tabindex="-1">Your details</h2>
-
-      <form class="form" aria-label="Your details" novalidate id="details-form">
-        <div class="field" data-required aria-label="Full name field">
-          <label class="label" for="full-name">Full name<span aria-hidden="true"> *</span></label>
-          <p class="error-message" role="alert" id="full-name-error" hidden></p>
-          <input class="text-input" type="text" id="full-name" aria-label="Full name" required>
-        </div>
-
-        <div class="field" data-required aria-label="Email address field">
-          <label class="label" for="email">Email address<span aria-hidden="true"> *</span></label>
-          <p class="hint" id="email-hint">We will use this to send your confirmation.</p>
-          <p class="error-message" role="alert" id="email-error" hidden></p>
-          <input class="email-input" type="email" id="email" aria-label="Email address" required aria-describedby="email-hint">
-        </div>
-
-        <div class="field" aria-label="Phone number field">
-          <label class="label" for="phone">Phone number</label>
-          <p class="hint" id="phone-hint">Optional — only needed if we must contact you about a change.</p>
-          <input class="tel-input" type="tel" id="phone" aria-label="Phone number" aria-describedby="phone-hint">
-        </div>
-
-        <p>
-          <label class="label">
-            <input class="checkbox-input" type="checkbox" id="needs-support" aria-label="I need an interpreter or additional support">
-            I need an interpreter or additional support
-          </label>
-        </p>
-
-        <p class="button-row">
-          <button class="button" type="button" id="details-back-btn">Back</button>
-          <button class="button" type="submit">Continue</button>
-        </p>
-      </form>
-    </section>
-
-    <section data-step="4" id="step-panel-4" hidden>
-      <h2 id="step-4-heading" tabindex="-1">Check your answers</h2>
-
-      <dl class="summary-list" aria-label="Your appointment details">
-        <div class="summary-list-item">
-          <dt>Reason</dt>
-          <dd>
-            <span id="summary-reason-value">Not answered</span>
-            <span id="summary-reason-other-detail" hidden></span>
-            <a class="summary-change-link" href="#reason" data-goto-step="1">Change<span class="screen-reader-span"> reason</span></a>
-          </dd>
-        </div>
-        <div class="summary-list-item">
-          <dt>Date</dt>
-          <dd>
-            <span id="summary-date-value">Not answered</span>
-            <a class="summary-change-link" href="#date" data-goto-step="2">Change<span class="screen-reader-span"> date</span></a>
-          </dd>
-        </div>
-        <div class="summary-list-item">
-          <dt>Time of day</dt>
-          <dd>
-            <span id="summary-time-value">Not answered</span>
-            <a class="summary-change-link" href="#time" data-goto-step="2">Change<span class="screen-reader-span"> time of day</span></a>
-          </dd>
-        </div>
-        <div class="summary-list-item">
-          <dt>Full name</dt>
-          <dd>
-            <span id="summary-name-value">Not answered</span>
-            <a class="summary-change-link" href="#name" data-goto-step="3">Change<span class="screen-reader-span"> full name</span></a>
-          </dd>
-        </div>
-        <div class="summary-list-item">
-          <dt>Email address</dt>
-          <dd>
-            <span id="summary-email-value">Not answered</span>
-            <a class="summary-change-link" href="#email-review" data-goto-step="3">Change<span class="screen-reader-span"> email address</span></a>
-          </dd>
-        </div>
-        <div class="summary-list-item">
-          <dt>Phone number</dt>
-          <dd>
-            <span id="summary-phone-value"></span>
-            <a class="summary-change-link" href="#phone-review" data-goto-step="3">Change<span class="screen-reader-span"> phone number</span></a>
-          </dd>
-        </div>
-        <div class="summary-list-item">
-          <dt>Interpreter or additional support</dt>
-          <dd>
-            <span id="summary-support-value">No</span>
-            <a class="summary-change-link" href="#support-review" data-goto-step="3">Change<span class="screen-reader-span"> interpreter or additional support</span></a>
-          </dd>
-        </div>
-      </dl>
-
-      <form class="form" aria-label="Confirm and book your appointment" novalidate id="confirm-form">
-        <p>
-          <label class="label">
-            <input class="checkbox-input" type="checkbox" id="confirmed-accurate" aria-label="I confirm the information above is correct">
-            I confirm the information above is correct
-          </label>
-        </p>
-        <p class="error-message" role="alert" id="confirmed-accurate-error" hidden></p>
-
-        <p class="button-row">
-          <button class="button" type="button" id="check-answers-back-btn">Back</button>
-          <button class="button" type="submit">Confirm and book</button>
-        </p>
-      </form>
-    </section>
-
-    <section data-step="5" id="step-panel-5" hidden>
-      <h2 id="step-5-heading" tabindex="-1">Booking confirmed</h2>
-
-      <div class="success-panel" role="status" aria-label="Booking confirmed">
-        <p>
-          Your appointment reference number is
-          <strong id="reference-number"></strong>. We have sent a
-          confirmation to <span id="confirmation-email"></span>.
-        </p>
-      </div>
-
-      <ol class="step-list" aria-label="Booking progress">
-        <li class="step-list-item" data-status="finished">Reason</li>
-        <li class="step-list-item" data-status="finished">Date and time</li>
-        <li class="step-list-item" data-status="finished">Your details</li>
-        <li class="step-list-item" data-status="finished">Check your answers</li>
+      <ol
+        class="step-list"
+        aria-label="Booking progress"
+        id="booking-step-list"
+        hidden
+      >
+        <li
+          class="step-list-item"
+          data-status="in-progress"
+          aria-current="step"
+          id="step-list-item-1"
+        >
+          Reason
+        </li>
+        <li
+          class="step-list-item"
+          data-status="waiting"
+          id="step-list-item-2"
+        >
+          Date and time
+        </li>
+        <li
+          class="step-list-item"
+          data-status="waiting"
+          id="step-list-item-3"
+        >
+          Your details
+        </li>
+        <li
+          class="step-list-item"
+          data-status="waiting"
+          id="step-list-item-4"
+        >
+          Check your answers
+        </li>
       </ol>
 
-      <section class="panel" aria-label="What happens next">
-        <p id="what-happens-next-text"></p>
+      <div
+        class="error-summary"
+        role="alert"
+        aria-labelledby="booking-error-summary-heading"
+        tabindex="-1"
+        id="booking-error-summary"
+        hidden
+      >
+        <h2 id="booking-error-summary-heading">There is a problem</h2>
+        <ul id="booking-error-list"></ul>
+      </div>
+
+      <section
+        data-step="0"
+        id="step-panel-0"
+      >
+        <h2
+          id="step-0-heading"
+          tabindex="-1"
+        >
+          Before you start
+        </h2>
+
+        <aside
+          class="warning-callout"
+          role="alert"
+          aria-label="Emergency notice"
+        >
+          <p>If you have a medical emergency, call 999 or go to your nearest A&amp;E.</p>
+        </aside>
+
+        <p>
+          Use this service to book a routine appointment with your GP surgery online. It takes about
+          5 minutes.
+        </p>
+
+        <div
+          class="inset-text"
+          role="note"
+        >
+          <p>
+            Appointments are available Monday to Friday, 8am to 6pm. Most requests are confirmed
+            within 2 working days.
+          </p>
+        </div>
+
+        <details class="details">
+          <summary>What happens at your appointment</summary>
+          <p>
+            A clinician will review the reason you gave for the appointment and may ask follow-up
+            questions. Bring a list of any medicines you are currently taking.
+          </p>
+        </details>
+
+        <p>
+          <button
+            class="button"
+            type="button"
+            id="start-now-btn"
+          >
+            Start now
+          </button>
+        </p>
       </section>
 
-      <p><button class="button" type="button" id="start-over-btn">Book another appointment</button></p>
-    </section>
-  </main>
+      <section
+        data-step="1"
+        id="step-panel-1"
+        hidden
+      >
+        <h2
+          id="step-1-heading"
+          tabindex="-1"
+        >
+          Reason for your appointment
+        </h2>
 
-  <footer class="footer" aria-label="Site footer">
-    <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
-    <p>&copy; 2026 Lily Design System. All rights reserved.</p>
-  </footer>
+        <form
+          class="form"
+          aria-label="Reason for your appointment"
+          novalidate
+          id="reason-form"
+        >
+          <fieldset
+            class="radio-group"
+            role="radiogroup"
+            aria-label="Why do you need an appointment?"
+          >
+            <label class="label">
+              <input
+                class="radio-input"
+                type="radio"
+                id="reason-routine"
+                name="reason"
+                value="routine"
+                aria-label="Routine check-up"
+              />
+              Routine check-up
+            </label>
+            <label class="label">
+              <input
+                class="radio-input"
+                type="radio"
+                id="reason-follow-up"
+                name="reason"
+                value="follow-up"
+                aria-label="Follow-up appointment"
+              />
+              Follow-up appointment
+            </label>
+            <label class="label">
+              <input
+                class="radio-input"
+                type="radio"
+                id="reason-vaccination"
+                name="reason"
+                value="vaccination"
+                aria-label="Vaccination"
+              />
+              Vaccination
+            </label>
+            <label class="label">
+              <input
+                class="radio-input"
+                type="radio"
+                id="reason-other"
+                name="reason"
+                value="other"
+                aria-label="Something else"
+              />
+              Something else
+            </label>
+          </fieldset>
+          <p
+            class="error-message"
+            role="alert"
+            id="reason-error"
+            hidden
+          ></p>
 
-  <script src="/assets/js/pages/book-an-appointment.js"></script>
-  <script type="module" src="/assets/js/theme-picker.js"></script>
-  <script type="module" src="/assets/js/locale-picker.js"></script>
-  <script type="module" src="/assets/js/text-size-picker.js"></script>
-</body>
+          <div
+            id="reason-other-block"
+            hidden
+          >
+            <div
+              class="field"
+              data-required
+              aria-label="Tell us more field"
+            >
+              <label
+                class="label"
+                for="reason-other-detail"
+                >Tell us more<span aria-hidden="true"> *</span></label
+              >
+              <p
+                class="error-message"
+                role="alert"
+                id="reason-other-error"
+                hidden
+              ></p>
+              <textarea
+                class="text-area-input"
+                id="reason-other-detail"
+                aria-label="Tell us more about the reason for your appointment"
+                rows="4"
+                required
+                maxlength="250"
+              ></textarea>
+            </div>
+            <span
+              class="character-counter"
+              role="status"
+              aria-live="polite"
+              aria-label="Characters used"
+              id="reason-other-counter"
+              data-count="0"
+              data-max="250"
+              >0 / 250</span
+            >
+          </div>
+
+          <p>
+            <button
+              class="button"
+              type="submit"
+            >
+              Continue
+            </button>
+          </p>
+        </form>
+      </section>
+
+      <section
+        data-step="2"
+        id="step-panel-2"
+        hidden
+      >
+        <h2
+          id="step-2-heading"
+          tabindex="-1"
+        >
+          Choose a date and time
+        </h2>
+
+        <div
+          class="inset-text"
+          role="note"
+        >
+          <p>Appointments are available Monday to Friday, 8am to 6pm.</p>
+        </div>
+
+        <form
+          class="form"
+          aria-label="Choose a date and time"
+          novalidate
+          id="date-time-form"
+        >
+          <fieldset
+            class="fieldset"
+            aria-label="Preferred date and time"
+          >
+            <legend>Preferred date and time</legend>
+
+            <div
+              class="field"
+              data-required
+              aria-label="Preferred date field"
+            >
+              <label
+                class="label"
+                for="appointment-date"
+                >Preferred date<span aria-hidden="true"> *</span></label
+              >
+              <p
+                class="hint"
+                id="appointment-date-hint"
+              >
+                We will try to match your preference, but availability may vary.
+              </p>
+              <p
+                class="error-message"
+                role="alert"
+                id="appointment-date-error"
+                hidden
+              ></p>
+              <input
+                class="date-input"
+                type="date"
+                id="appointment-date"
+                aria-label="Preferred date"
+                required
+                aria-describedby="appointment-date-hint"
+              />
+            </div>
+
+            <div
+              class="field"
+              data-required
+              aria-label="Preferred time of day field"
+            >
+              <label
+                class="label"
+                for="appointment-time"
+                >Preferred time of day<span aria-hidden="true"> *</span></label
+              >
+              <p
+                class="error-message"
+                role="alert"
+                id="appointment-time-error"
+                hidden
+              ></p>
+              <select
+                class="select"
+                id="appointment-time"
+                aria-label="Preferred time of day"
+                required
+              >
+                <option value="">Select a time of day</option>
+                <option value="morning">Morning (8am to 12pm)</option>
+                <option value="afternoon">Afternoon (12pm to 4pm)</option>
+                <option value="evening">Evening (4pm to 6pm)</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <p class="button-row">
+            <button
+              class="button"
+              type="button"
+              id="date-time-back-btn"
+            >
+              Back
+            </button>
+            <button
+              class="button"
+              type="submit"
+            >
+              Continue
+            </button>
+          </p>
+        </form>
+      </section>
+
+      <section
+        data-step="3"
+        id="step-panel-3"
+        hidden
+      >
+        <h2
+          id="step-3-heading"
+          tabindex="-1"
+        >
+          Your details
+        </h2>
+
+        <form
+          class="form"
+          aria-label="Your details"
+          novalidate
+          id="details-form"
+        >
+          <div
+            class="field"
+            data-required
+            aria-label="Full name field"
+          >
+            <label
+              class="label"
+              for="full-name"
+              >Full name<span aria-hidden="true"> *</span></label
+            >
+            <p
+              class="error-message"
+              role="alert"
+              id="full-name-error"
+              hidden
+            ></p>
+            <input
+              class="text-input"
+              type="text"
+              id="full-name"
+              aria-label="Full name"
+              required
+            />
+          </div>
+
+          <div
+            class="field"
+            data-required
+            aria-label="Email address field"
+          >
+            <label
+              class="label"
+              for="email"
+              >Email address<span aria-hidden="true"> *</span></label
+            >
+            <p
+              class="hint"
+              id="email-hint"
+            >
+              We will use this to send your confirmation.
+            </p>
+            <p
+              class="error-message"
+              role="alert"
+              id="email-error"
+              hidden
+            ></p>
+            <input
+              class="email-input"
+              type="email"
+              id="email"
+              aria-label="Email address"
+              required
+              aria-describedby="email-hint"
+            />
+          </div>
+
+          <div
+            class="field"
+            aria-label="Phone number field"
+          >
+            <label
+              class="label"
+              for="phone"
+              >Phone number</label
+            >
+            <p
+              class="hint"
+              id="phone-hint"
+            >
+              Optional — only needed if we must contact you about a change.
+            </p>
+            <input
+              class="tel-input"
+              type="tel"
+              id="phone"
+              aria-label="Phone number"
+              aria-describedby="phone-hint"
+            />
+          </div>
+
+          <p>
+            <label class="label">
+              <input
+                class="checkbox-input"
+                type="checkbox"
+                id="needs-support"
+                aria-label="I need an interpreter or additional support"
+              />
+              I need an interpreter or additional support
+            </label>
+          </p>
+
+          <p class="button-row">
+            <button
+              class="button"
+              type="button"
+              id="details-back-btn"
+            >
+              Back
+            </button>
+            <button
+              class="button"
+              type="submit"
+            >
+              Continue
+            </button>
+          </p>
+        </form>
+      </section>
+
+      <section
+        data-step="4"
+        id="step-panel-4"
+        hidden
+      >
+        <h2
+          id="step-4-heading"
+          tabindex="-1"
+        >
+          Check your answers
+        </h2>
+
+        <dl
+          class="summary-list"
+          aria-label="Your appointment details"
+        >
+          <div class="summary-list-item">
+            <dt>Reason</dt>
+            <dd>
+              <span id="summary-reason-value">Not answered</span>
+              <span
+                id="summary-reason-other-detail"
+                hidden
+              ></span>
+              <a
+                class="summary-change-link"
+                href="#reason"
+                data-goto-step="1"
+                >Change<span class="screen-reader-span"> reason</span></a
+              >
+            </dd>
+          </div>
+          <div class="summary-list-item">
+            <dt>Date</dt>
+            <dd>
+              <span id="summary-date-value">Not answered</span>
+              <a
+                class="summary-change-link"
+                href="#date"
+                data-goto-step="2"
+                >Change<span class="screen-reader-span"> date</span></a
+              >
+            </dd>
+          </div>
+          <div class="summary-list-item">
+            <dt>Time of day</dt>
+            <dd>
+              <span id="summary-time-value">Not answered</span>
+              <a
+                class="summary-change-link"
+                href="#time"
+                data-goto-step="2"
+                >Change<span class="screen-reader-span"> time of day</span></a
+              >
+            </dd>
+          </div>
+          <div class="summary-list-item">
+            <dt>Full name</dt>
+            <dd>
+              <span id="summary-name-value">Not answered</span>
+              <a
+                class="summary-change-link"
+                href="#name"
+                data-goto-step="3"
+                >Change<span class="screen-reader-span"> full name</span></a
+              >
+            </dd>
+          </div>
+          <div class="summary-list-item">
+            <dt>Email address</dt>
+            <dd>
+              <span id="summary-email-value">Not answered</span>
+              <a
+                class="summary-change-link"
+                href="#email-review"
+                data-goto-step="3"
+                >Change<span class="screen-reader-span"> email address</span></a
+              >
+            </dd>
+          </div>
+          <div class="summary-list-item">
+            <dt>Phone number</dt>
+            <dd>
+              <span id="summary-phone-value"></span>
+              <a
+                class="summary-change-link"
+                href="#phone-review"
+                data-goto-step="3"
+                >Change<span class="screen-reader-span"> phone number</span></a
+              >
+            </dd>
+          </div>
+          <div class="summary-list-item">
+            <dt>Interpreter or additional support</dt>
+            <dd>
+              <span id="summary-support-value">No</span>
+              <a
+                class="summary-change-link"
+                href="#support-review"
+                data-goto-step="3"
+                >Change<span class="screen-reader-span"> interpreter or additional support</span></a
+              >
+            </dd>
+          </div>
+        </dl>
+
+        <form
+          class="form"
+          aria-label="Confirm and book your appointment"
+          novalidate
+          id="confirm-form"
+        >
+          <p>
+            <label class="label">
+              <input
+                class="checkbox-input"
+                type="checkbox"
+                id="confirmed-accurate"
+                aria-label="I confirm the information above is correct"
+              />
+              I confirm the information above is correct
+            </label>
+          </p>
+          <p
+            class="error-message"
+            role="alert"
+            id="confirmed-accurate-error"
+            hidden
+          ></p>
+
+          <p class="button-row">
+            <button
+              class="button"
+              type="button"
+              id="check-answers-back-btn"
+            >
+              Back
+            </button>
+            <button
+              class="button"
+              type="submit"
+            >
+              Confirm and book
+            </button>
+          </p>
+        </form>
+      </section>
+
+      <section
+        data-step="5"
+        id="step-panel-5"
+        hidden
+      >
+        <h2
+          id="step-5-heading"
+          tabindex="-1"
+        >
+          Booking confirmed
+        </h2>
+
+        <div
+          class="success-panel"
+          role="status"
+          aria-label="Booking confirmed"
+        >
+          <p>
+            Your appointment reference number is
+            <strong id="reference-number"></strong>. We have sent a confirmation to
+            <span id="confirmation-email"></span>.
+          </p>
+        </div>
+
+        <ol
+          class="step-list"
+          aria-label="Booking progress"
+        >
+          <li
+            class="step-list-item"
+            data-status="finished"
+          >
+            Reason
+          </li>
+          <li
+            class="step-list-item"
+            data-status="finished"
+          >
+            Date and time
+          </li>
+          <li
+            class="step-list-item"
+            data-status="finished"
+          >
+            Your details
+          </li>
+          <li
+            class="step-list-item"
+            data-status="finished"
+          >
+            Check your answers
+          </li>
+        </ol>
+
+        <section
+          class="panel"
+          aria-label="What happens next"
+        >
+          <p id="what-happens-next-text"></p>
+        </section>
+
+        <p>
+          <button
+            class="button"
+            type="button"
+            id="start-over-btn"
+          >
+            Book another appointment
+          </button>
+        </p>
+      </section>
+    </main>
+
+    <footer
+      class="footer"
+      aria-label="Site footer"
+    >
+      <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
+      <p>&copy; 2026 Lily Design System. All rights reserved.</p>
+    </footer>
+
+    <script src="assets/js/pages/book-an-appointment.js"></script>
+    <script
+      type="module"
+      src="/assets/js/theme-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/locale-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/text-size-picker.js"
+    ></script>
+  </body>
 </html>

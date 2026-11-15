@@ -1,132 +1,244 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard — Lily Design System</title>
-  <link rel="stylesheet" href="/assets/css/app-shell.css">
-  <script src="/assets/js/theme-boot.js"></script>
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Dashboard — Lily Design System</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/app-shell.css"
+    />
+    <script src="/assets/js/theme-boot.js"></script>
+  </head>
+  <body>
+    <a
+      class="skip-link"
+      href="#main-content"
+      >Skip to main content</a
+    >
 
-  <header class="header" aria-label="Site header">
-    <span class="site-header-pickers">
-    <theme-picker
-      label="Choose a theme"
-      themes-url="/themes/"
-      themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
-      theme-labels="{&quot;united-kingdom-national-health-service-england-for-patients&quot;: &quot;NHS England (patients)&quot;, &quot;united-kingdom-national-health-service-england-for-practitioners&quot;: &quot;NHS England (practitioners)&quot;, &quot;united-kingdom-national-health-service-scotland-for-patients&quot;: &quot;NHS Scotland (patients)&quot;, &quot;united-kingdom-national-health-service-wales-for-patients&quot;: &quot;NHS Wales (patients)&quot;, &quot;united-kingdom-government-digital-service&quot;: &quot;GOV.UK GDS&quot;, &quot;united-states-web-design-system&quot;: &quot;USWDS&quot;, &quot;adobe-spectrum&quot;: &quot;Adobe Spectrum&quot;, &quot;mozilla-protocol&quot;: &quot;Mozilla Protocol&quot;, &quot;light&quot;: &quot;Light&quot;, &quot;dark&quot;: &quot;Dark&quot;}"
-      default-value="united-kingdom-national-health-service-england-for-patients"
-      storage-key="lily-theme"
-    ></theme-picker>
-      <locale-picker
-        label="Choose a language"
-        locales="en-GB,cy-GB,fr-FR,ar"
-        locale-labels="{&quot;en-GB&quot;: &quot;English (UK)&quot;, &quot;cy-GB&quot;: &quot;Cymraeg&quot;, &quot;fr-FR&quot;: &quot;Français&quot;, &quot;ar&quot;: &quot;العربية&quot;}"
-        default-value="en-GB"
-        storage-key="lily-locale"
-      ></locale-picker>
-      <text-size-picker
-        label="Text size"
-        sizes="small,medium,large"
-        size-labels="{&quot;small&quot;: &quot;Small&quot;, &quot;medium&quot;: &quot;Medium&quot;, &quot;large&quot;: &quot;Large&quot;}"
-        default-value="medium"
-        storage-key="lily-text-size"
-      ></text-size-picker>
-    </span>
-    <h1>Dashboard</h1>
-    <nav class="navigation-menu" aria-label="Main navigation">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="dashboard.html" aria-current="page">Dashboard</a></li>
-      </ul>
-    </nav>
-  </header>
+    <header
+      class="header"
+      aria-label="Site header"
+    >
+      <span class="site-header-pickers">
+        <theme-picker
+          label="Choose a theme"
+          themes-url="/themes/"
+          themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
+          theme-labels='{"united-kingdom-national-health-service-england-for-patients": "NHS England (patients)", "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)", "united-kingdom-national-health-service-scotland-for-patients": "NHS Scotland (patients)", "united-kingdom-national-health-service-wales-for-patients": "NHS Wales (patients)", "united-kingdom-government-digital-service": "GOV.UK GDS", "united-states-web-design-system": "USWDS", "adobe-spectrum": "Adobe Spectrum", "mozilla-protocol": "Mozilla Protocol", "light": "Light", "dark": "Dark"}'
+          default-value="united-kingdom-national-health-service-england-for-patients"
+          storage-key="lily-theme"
+        ></theme-picker>
+        <locale-picker
+          label="Choose a language"
+          locales="en-GB,cy-GB,fr-FR,ar"
+          locale-labels='{"en-GB": "English (UK)", "cy-GB": "Cymraeg", "fr-FR": "Français", "ar": "العربية"}'
+          default-value="en-GB"
+          storage-key="lily-locale"
+        ></locale-picker>
+        <text-size-picker
+          label="Text size"
+          sizes="small,medium,large"
+          size-labels='{"small": "Small", "medium": "Medium", "large": "Large"}'
+          default-value="medium"
+          storage-key="lily-text-size"
+        ></text-size-picker>
+      </span>
+      <h1>Dashboard</h1>
+      <nav
+        class="navigation-menu"
+        aria-label="Main navigation"
+      >
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a
+              href="dashboard.html"
+              aria-current="page"
+              >Dashboard</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
 
-  <main id="main-content" class="page-wrapper">
-    <h1>Project Dashboard</h1>
+    <main
+      id="main-content"
+      class="page-wrapper"
+    >
+      <h1>Project Dashboard</h1>
 
-    <div class="banner" role="banner" aria-label="Sprint status">
-      Sprint 12 ends in 5 days. <span id="remaining-count">3</span> tasks remaining.
-    </div>
+      <div
+        class="banner"
+        role="banner"
+        aria-label="Sprint status"
+      >
+        Sprint 12 ends in 5 days. <span id="remaining-count">3</span> tasks remaining.
+      </div>
 
-    <div class="card-grid">
-      <div class="card" role="region" aria-label="Sprint Progress">
-        <h2>Sprint Progress</h2>
-        <div class="progress-circle" role="progressbar" aria-label="Sprint completion" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-          <span id="progress-percent">40</span>%
+      <div class="card-grid">
+        <div
+          class="card"
+          role="region"
+          aria-label="Sprint Progress"
+        >
+          <h2>Sprint Progress</h2>
+          <div
+            class="progress-circle"
+            role="progressbar"
+            aria-label="Sprint completion"
+            aria-valuenow="40"
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <span id="progress-percent">40</span>%
+          </div>
+          <p>
+            <span id="completed-count">2</span> of <span id="total-count">5</span> tasks complete
+          </p>
         </div>
-        <p><span id="completed-count">2</span> of <span id="total-count">5</span> tasks complete</p>
+
+        <div
+          class="card"
+          role="region"
+          aria-label="Build Status"
+        >
+          <h2>Build Status</h2>
+          <span
+            class="badge"
+            aria-label="Build passing"
+            data-type="success"
+            >Passing</span
+          >
+          <progress
+            class="progress"
+            aria-label="Test coverage"
+            max="100"
+            value="87"
+          >
+            87%
+          </progress>
+          <p>87% test coverage</p>
+        </div>
+
+        <div
+          class="card"
+          role="region"
+          aria-label="Team Velocity"
+        >
+          <h2>Team Velocity</h2>
+          <p>12 story points completed this week</p>
+          <span
+            class="badge"
+            aria-label="Status on track"
+            data-type="info"
+            >On track</span
+          >
+        </div>
       </div>
 
-      <div class="card" role="region" aria-label="Build Status">
-        <h2>Build Status</h2>
-        <span class="badge" aria-label="Build passing" data-type="success">Passing</span>
-        <progress class="progress" aria-label="Test coverage" max="100" value="87">87%</progress>
-        <p>87% test coverage</p>
-      </div>
+      <h2>Task List</h2>
+      <table
+        class="data-table"
+        aria-label="Sprint tasks"
+      >
+        <thead>
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Assignee</th>
+            <th scope="col">Status</th>
+            <th scope="col">Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Design landing page</td>
+            <td>Alice</td>
+            <td>
+              <span
+                class="badge"
+                data-type="success"
+                >done</span
+              >
+            </td>
+            <td>high</td>
+          </tr>
+          <tr>
+            <td>Implement auth flow</td>
+            <td>Bob</td>
+            <td>
+              <span
+                class="badge"
+                data-type="warning"
+                >in-progress</span
+              >
+            </td>
+            <td>high</td>
+          </tr>
+          <tr>
+            <td>Write unit tests</td>
+            <td>Carol</td>
+            <td>
+              <span
+                class="badge"
+                data-type="warning"
+                >in-progress</span
+              >
+            </td>
+            <td>medium</td>
+          </tr>
+          <tr>
+            <td>Update documentation</td>
+            <td>Dave</td>
+            <td>
+              <span
+                class="badge"
+                data-type="default"
+                >todo</span
+              >
+            </td>
+            <td>low</td>
+          </tr>
+          <tr>
+            <td>Code review</td>
+            <td>Alice</td>
+            <td>
+              <span
+                class="badge"
+                data-type="default"
+                >todo</span
+              >
+            </td>
+            <td>medium</td>
+          </tr>
+        </tbody>
+      </table>
+    </main>
 
-      <div class="card" role="region" aria-label="Team Velocity">
-        <h2>Team Velocity</h2>
-        <p>12 story points completed this week</p>
-        <span class="badge" aria-label="Status on track" data-type="info">On track</span>
-      </div>
-    </div>
+    <footer
+      class="footer"
+      aria-label="Site footer"
+    >
+      <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
+      <p>&copy; 2026 Lily Design System. All rights reserved.</p>
+    </footer>
 
-    <h2>Task List</h2>
-    <table class="data-table" aria-label="Sprint tasks">
-      <thead>
-        <tr>
-          <th scope="col">Title</th>
-          <th scope="col">Assignee</th>
-          <th scope="col">Status</th>
-          <th scope="col">Priority</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Design landing page</td>
-          <td>Alice</td>
-          <td><span class="badge" data-type="success">done</span></td>
-          <td>high</td>
-        </tr>
-        <tr>
-          <td>Implement auth flow</td>
-          <td>Bob</td>
-          <td><span class="badge" data-type="warning">in-progress</span></td>
-          <td>high</td>
-        </tr>
-        <tr>
-          <td>Write unit tests</td>
-          <td>Carol</td>
-          <td><span class="badge" data-type="warning">in-progress</span></td>
-          <td>medium</td>
-        </tr>
-        <tr>
-          <td>Update documentation</td>
-          <td>Dave</td>
-          <td><span class="badge" data-type="default">todo</span></td>
-          <td>low</td>
-        </tr>
-        <tr>
-          <td>Code review</td>
-          <td>Alice</td>
-          <td><span class="badge" data-type="default">todo</span></td>
-          <td>medium</td>
-        </tr>
-      </tbody>
-    </table>
-  </main>
-
-  <footer class="footer" aria-label="Site footer">
-    <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
-    <p>&copy; 2026 Lily Design System. All rights reserved.</p>
-  </footer>
-
-  <script src="/assets/js/pages/dashboard.js"></script>
-  <script type="module" src="/assets/js/theme-picker.js"></script>
-  <script type="module" src="/assets/js/locale-picker.js"></script>
-  <script type="module" src="/assets/js/text-size-picker.js"></script>
-</body>
+    <script src="assets/js/pages/dashboard.js"></script>
+    <script
+      type="module"
+      src="/assets/js/theme-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/locale-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/text-size-picker.js"
+    ></script>
+  </body>
 </html>

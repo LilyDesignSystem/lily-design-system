@@ -42,9 +42,9 @@ test("text area: the count follows typing and stops at the limit", async ({ page
     const notes = page.getByTestId("notes");
     await notes.locator("textarea").focus();
     await page.keyboard.type("hello");
-    await expect(notes.locator("span")).toHaveText("5 of 10");
+    await expect(notes.locator('span[aria-hidden="true"]')).toHaveText("5 of 10");
     await page.keyboard.type(" world and more");
-    await expect(notes.locator("span")).toHaveText("10 of 10");
+    await expect(notes.locator('span[aria-hidden="true"]')).toHaveText("10 of 10");
 });
 
 test("input with mask: shows the mask", async ({ page }) => {

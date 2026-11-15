@@ -1,112 +1,158 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lily Design System — HTML CSS JS Examples</title>
-  <link rel="stylesheet" href="/assets/css/app-shell.css">
-  <script src="/assets/js/theme-boot.js"></script>
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Lily Design System — HTML CSS JS Examples</title>
+    <link
+      rel="stylesheet"
+      href="/assets/css/app-shell.css"
+    />
+    <script src="/assets/js/theme-boot.js"></script>
+  </head>
+  <body>
+    <a
+      class="skip-link"
+      href="#main-content"
+      >Skip to main content</a
+    >
 
-  <header class="header" aria-label="Site header">
-    <span class="site-header-pickers">
-    <theme-picker
-      label="Choose a theme"
-      themes-url="/themes/"
-      themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
-      theme-labels="{&quot;united-kingdom-national-health-service-england-for-patients&quot;: &quot;NHS England (patients)&quot;, &quot;united-kingdom-national-health-service-england-for-practitioners&quot;: &quot;NHS England (practitioners)&quot;, &quot;united-kingdom-national-health-service-scotland-for-patients&quot;: &quot;NHS Scotland (patients)&quot;, &quot;united-kingdom-national-health-service-wales-for-patients&quot;: &quot;NHS Wales (patients)&quot;, &quot;united-kingdom-government-digital-service&quot;: &quot;GOV.UK GDS&quot;, &quot;united-states-web-design-system&quot;: &quot;USWDS&quot;, &quot;adobe-spectrum&quot;: &quot;Adobe Spectrum&quot;, &quot;mozilla-protocol&quot;: &quot;Mozilla Protocol&quot;, &quot;light&quot;: &quot;Light&quot;, &quot;dark&quot;: &quot;Dark&quot;}"
-      default-value="united-kingdom-national-health-service-england-for-patients"
-      storage-key="lily-theme"
-    ></theme-picker>
-      <locale-picker
-        label="Choose a language"
-        locales="en-GB,cy-GB,fr-FR,ar"
-        locale-labels="{&quot;en-GB&quot;: &quot;English (UK)&quot;, &quot;cy-GB&quot;: &quot;Cymraeg&quot;, &quot;fr-FR&quot;: &quot;Français&quot;, &quot;ar&quot;: &quot;العربية&quot;}"
-        default-value="en-GB"
-        storage-key="lily-locale"
-      ></locale-picker>
-      <text-size-picker
-        label="Text size"
-        sizes="small,medium,large"
-        size-labels="{&quot;small&quot;: &quot;Small&quot;, &quot;medium&quot;: &quot;Medium&quot;, &quot;large&quot;: &quot;Large&quot;}"
-        default-value="medium"
-        storage-key="lily-text-size"
-      ></text-size-picker>
-    </span>
-    <h1>Lily Design System</h1>
-  </header>
+    <header
+      class="header"
+      aria-label="Site header"
+    >
+      <span class="site-header-pickers">
+        <theme-picker
+          label="Choose a theme"
+          themes-url="/themes/"
+          themes="united-kingdom-national-health-service-england-for-patients,united-kingdom-national-health-service-england-for-practitioners,united-kingdom-national-health-service-scotland-for-patients,united-kingdom-national-health-service-wales-for-patients,united-kingdom-government-digital-service,united-states-web-design-system,adobe-spectrum,mozilla-protocol,light,dark"
+          theme-labels='{"united-kingdom-national-health-service-england-for-patients": "NHS England (patients)", "united-kingdom-national-health-service-england-for-practitioners": "NHS England (practitioners)", "united-kingdom-national-health-service-scotland-for-patients": "NHS Scotland (patients)", "united-kingdom-national-health-service-wales-for-patients": "NHS Wales (patients)", "united-kingdom-government-digital-service": "GOV.UK GDS", "united-states-web-design-system": "USWDS", "adobe-spectrum": "Adobe Spectrum", "mozilla-protocol": "Mozilla Protocol", "light": "Light", "dark": "Dark"}'
+          default-value="united-kingdom-national-health-service-england-for-patients"
+          storage-key="lily-theme"
+        ></theme-picker>
+        <locale-picker
+          label="Choose a language"
+          locales="en-GB,cy-GB,fr-FR,ar"
+          locale-labels='{"en-GB": "English (UK)", "cy-GB": "Cymraeg", "fr-FR": "Français", "ar": "العربية"}'
+          default-value="en-GB"
+          storage-key="lily-locale"
+        ></locale-picker>
+        <text-size-picker
+          label="Text size"
+          sizes="small,medium,large"
+          size-labels='{"small": "Small", "medium": "Medium", "large": "Large"}'
+          default-value="medium"
+          storage-key="lily-text-size"
+        ></text-size-picker>
+      </span>
+      <h1>Lily Design System</h1>
+    </header>
 
-  <main id="main-content" class="page-wrapper">
-    <p>HTML CSS JS examples with NHS UK design system styles.</p>
-    <h2>Examples</h2>
-    <ul>
-      <li>
-        <a href="book-an-appointment.html"><strong>Book an Appointment</strong></a><br>
-        <span>StepList, RadioGroup, DateInput, Select, SummaryList, ErrorSummary, SuccessPanel</span>
-      </li>
-      <li>
-        <a href="contact-form.html"><strong>Contact Form</strong></a><br>
-        <span>Form, Field, TextInput, EmailInput, TextAreaInput, Select, ErrorSummary</span>
-      </li>
-      <li>
-        <a href="dashboard.html"><strong>Dashboard</strong></a><br>
-        <span>Card, Progress, ProgressCircle, Badge, Banner, DataTable</span>
-      </li>
-      <li>
-        <a href="dialog-flow.html"><strong>Dialog Flow</strong></a><br>
-        <span>Dialog, AlertDialog, Drawer, Tooltip, Toast</span>
-      </li>
-      <li>
-        <a href="file-upload-form.html"><strong>File Upload Form</strong></a><br>
-        <span>FileUpload, Progress, Badge, Form, Field</span>
-      </li>
-      <li>
-        <a href="navigation-and-menus.html"><strong>Navigation and Menus</strong></a><br>
-        <span>NavigationMenu, MenuBar, ToolBar, HamburgerMenu</span>
-      </li>
-      <li>
-        <a href="page-layout.html"><strong>Page Layout</strong></a><br>
-        <span>SkipLink, Header, Footer, BreadcrumbNav, Sidebar</span>
-      </li>
-      <li>
-        <a href="rating-and-feedback.html"><strong>Rating and Feedback</strong></a><br>
-        <span>FiveStarRatingRadioGroup, FiveFaceRatingRadioGroup, NetPromoterScoreRadioGroup</span>
-      </li>
-      <li>
-        <a href="search-and-filter.html"><strong>Search and Filter</strong></a><br>
-        <span>Combobox, SearchInput, TagInputDiv, DataTable</span>
-      </li>
-      <li>
-        <a href="settings-page.html"><strong>Settings Page</strong></a><br>
-        <span>SwitchButton, RadioGroup, Select, Fieldset</span>
-      </li>
-      <li>
-        <a href="tabbed-interface.html"><strong>Tabbed Interface</strong></a><br>
-        <span>TabBar, AccordionNav, Badge</span>
-      </li>
-      <li>
-        <a href="task-management.html"><strong>Task Management</strong></a><br>
-        <span>TaskList, TextInput, CheckboxInput, Badge, Progress</span>
-      </li>
-      <li>
-        <a href="timeline-and-cards.html"><strong>Timeline and Cards</strong></a><br>
-        <span>TimelineList, Card, DateRange, ReviewDate, SummaryList</span>
-      </li>
-      <li>
-        <a href="rtl-demo.html"><strong>RTL Demo</strong></a><br>
-        <span>BreadcrumbNav, DataTable, PaginationNav, Form, RadioGroup, CheckboxInput</span>
-      </li>
-    </ul>
-  </main>
+    <main
+      id="main-content"
+      class="page-wrapper"
+    >
+      <p>HTML CSS JS examples with NHS UK design system styles.</p>
+      <h2>Examples</h2>
+      <ul>
+        <li>
+          <a href="book-an-appointment.html"><strong>Book an Appointment</strong></a
+          ><br />
+          <span
+            >StepList, RadioGroup, DateInput, Select, SummaryList, ErrorSummary, SuccessPanel</span
+          >
+        </li>
+        <li>
+          <a href="contact-form.html"><strong>Contact Form</strong></a
+          ><br />
+          <span>Form, Field, TextInput, EmailInput, TextAreaInput, Select, ErrorSummary</span>
+        </li>
+        <li>
+          <a href="dashboard.html"><strong>Dashboard</strong></a
+          ><br />
+          <span>Card, Progress, ProgressCircle, Badge, Banner, DataTable</span>
+        </li>
+        <li>
+          <a href="dialog-flow.html"><strong>Dialog Flow</strong></a
+          ><br />
+          <span>Dialog, AlertDialog, Drawer, Tooltip, Toast</span>
+        </li>
+        <li>
+          <a href="file-upload-form.html"><strong>File Upload Form</strong></a
+          ><br />
+          <span>FileUpload, Progress, Badge, Form, Field</span>
+        </li>
+        <li>
+          <a href="navigation-and-menus.html"><strong>Navigation and Menus</strong></a
+          ><br />
+          <span>NavigationMenu, MenuBar, ToolBar, HamburgerMenu</span>
+        </li>
+        <li>
+          <a href="page-layout.html"><strong>Page Layout</strong></a
+          ><br />
+          <span>SkipLink, Header, Footer, BreadcrumbNav, Sidebar</span>
+        </li>
+        <li>
+          <a href="rating-and-feedback.html"><strong>Rating and Feedback</strong></a
+          ><br />
+          <span
+            >FiveStarRatingRadioGroup, FiveFaceRatingRadioGroup, NetPromoterScoreRadioGroup</span
+          >
+        </li>
+        <li>
+          <a href="search-and-filter.html"><strong>Search and Filter</strong></a
+          ><br />
+          <span>Combobox, SearchInput, TagInputDiv, DataTable</span>
+        </li>
+        <li>
+          <a href="settings-page.html"><strong>Settings Page</strong></a
+          ><br />
+          <span>SwitchButton, RadioGroup, Select, Fieldset</span>
+        </li>
+        <li>
+          <a href="tabbed-interface.html"><strong>Tabbed Interface</strong></a
+          ><br />
+          <span>TabBar, AccordionNav, Badge</span>
+        </li>
+        <li>
+          <a href="task-management.html"><strong>Task Management</strong></a
+          ><br />
+          <span>TaskList, TextInput, CheckboxInput, Badge, Progress</span>
+        </li>
+        <li>
+          <a href="timeline-and-cards.html"><strong>Timeline and Cards</strong></a
+          ><br />
+          <span>TimelineList, Card, DateRange, ReviewDate, SummaryList</span>
+        </li>
+        <li>
+          <a href="rtl-demo.html"><strong>RTL Demo</strong></a
+          ><br />
+          <span>BreadcrumbNav, DataTable, PaginationNav, Form, RadioGroup, CheckboxInput</span>
+        </li>
+      </ul>
+    </main>
 
-  <footer class="footer" aria-label="Site footer">
-    <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
-    <p>&copy; 2026 Lily Design System. All rights reserved.</p>
-  </footer>
-  <script type="module" src="/assets/js/theme-picker.js"></script>
-  <script type="module" src="/assets/js/locale-picker.js"></script>
-  <script type="module" src="/assets/js/text-size-picker.js"></script>
-</body>
+    <footer
+      class="footer"
+      aria-label="Site footer"
+    >
+      <p class="footer-trademark">Lily™ and Lily Design System™ are trademarks.</p>
+      <p>&copy; 2026 Lily Design System. All rights reserved.</p>
+    </footer>
+    <script
+      type="module"
+      src="/assets/js/theme-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/locale-picker.js"
+    ></script>
+    <script
+      type="module"
+      src="/assets/js/text-size-picker.js"
+    ></script>
+  </body>
 </html>

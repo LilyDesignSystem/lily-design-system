@@ -43,18 +43,18 @@ describe("Timeline and Cards", function () {
     });
 
     it("should render summary lists within timeline cards", async function () {
-        const lists = await $$("li.timeline-list-item ol.summary-list");
+        const lists = await $$("li.timeline-list-item dl.summary-list");
         expect(lists.length).toBe(4);
     });
 
     it("should render the project summary list", async function () {
-        const el = await $('ol.summary-list[aria-label="Overall project summary"]');
+        const el = await $('dl.summary-list[aria-label="Overall project summary"]');
         await expect(el).toExist();
     });
 
     it("should render summary list items", async function () {
         const items = await $$(
-            'ol.summary-list[aria-label="Overall project summary"] li.summary-list-item',
+            'dl.summary-list[aria-label="Overall project summary"] div.summary-list-item',
         );
         expect(items.length).toBe(4);
     });
