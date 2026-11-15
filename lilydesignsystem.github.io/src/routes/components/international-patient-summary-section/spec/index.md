@@ -9,5 +9,5 @@
 - [x] Implement in all nine headless catalogs
 - [x] Unit tests in every catalog
 - [x] Stories where the catalog has Storybook
-- [ ] Exercise in a composed example page (the IPS patient summary page, P27-T9)
+- [x] Exercise in a composed example page: `/patient-summary` in the SvelteKit app, with axe and keyboard checks in Chromium, Firefox and WebKit (2026-11-15)
 - [ ] Screen-reader sessions in the matrix

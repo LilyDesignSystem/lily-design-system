@@ -1,8 +1,8 @@
 <script lang="ts">
-    // International Patient Summary (spec/healthcare-ui item 9, P27-T9): the three sections the IPS (HL7 FHIR IPS, ISO 27269)
-    // requires (allergies, medication summary, problems), each with its own heading and record list (P28-T3). A required
-    // section with no data shows the consumer's words for why (the IPS emptyReason) as its list's status, never an empty
-    // space. Coded values (P28-T9): the display first; "Show codes" reveals each code, and the clinical content carries the
+    // International Patient Summary (spec/healthcare-ui items 9 and 21, P27-T9): the three sections the IPS (HL7 FHIR IPS,
+    // ISO 27269) requires (allergies, medication summary, problems) in an InternationalPatientSummary, each section with its own
+    // record list (P28-T3). A required section with no data shows the consumer's words for why (the IPS emptyReason), never an
+    // empty space; a required section missing from `sections` would be added by the component, in words. Coded values (P28-T9): the display first; "Show codes" reveals each code, and the clinical content carries the
     // document's language. e2e/healthcare-pages.spec.ts checks it.
     import Header from "#lib/components/Header/Header.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
@@ -13,12 +13,20 @@
     import MedicationView from "#lib/components/MedicationView/MedicationView.svelte";
     import ProblemRecordList from "#lib/components/ProblemRecordList/ProblemRecordList.svelte";
     import ToggleButton from "#lib/components/ToggleButton/ToggleButton.svelte";
+    import InternationalPatientSummary from "#lib/components/InternationalPatientSummary/InternationalPatientSummary.svelte";
+    import InternationalPatientSummarySection from "#lib/components/InternationalPatientSummarySection/InternationalPatientSummarySection.svelte";
     import { formatQuantity } from "#lib/components/clinical-format.ts";
 
     const locale = "en-GB";
     // The document's own language, from Composition.language; it can differ from the interface's.
     const documentLanguage = "en";
     let showCodes = $state(false);
+
+    const sections = [
+        { key: "allergies", heading: "Allergies and intolerances" },
+        { key: "medications", heading: "Medication summary" },
+        { key: "problems", heading: "Problems", status: "not-recorded" as const },
+    ];
 </script>
 
 <svelte:head>
@@ -44,9 +52,22 @@
         bind:pressed={showCodes}>Show codes</ToggleButton
     >
 
-    <div lang={documentLanguage}>
-        <section aria-labelledby="ips-allergies">
-            <h2 id="ips-allergies">Allergies and intolerances</h2>
+    <InternationalPatientSummary
+        label="Patient summary"
+        contentsLabel="Contents"
+        omittedLabel="Section missing from document"
+        requiredHeadings={{
+            medications: "Medication summary",
+            allergies: "Allergies and intolerances",
+            problems: "Problems",
+        }}
+        {sections}
+        lang={documentLanguage}
+    >
+        <InternationalPatientSummarySection
+            section="allergies"
+            heading="Allergies and intolerances"
+        >
             <AllergyRecordList
                 status="known"
                 statusLabel="Known allergies"
@@ -69,10 +90,12 @@
                     >
                 </AllergyRecordListItem>
             </AllergyRecordList>
-        </section>
+        </InternationalPatientSummarySection>
 
-        <section aria-labelledby="ips-medicines">
-            <h2 id="ips-medicines">Medication summary</h2>
+        <InternationalPatientSummarySection
+            section="medications"
+            heading="Medication summary"
+        >
             <MedicationRecordList
                 status="known"
                 statusLabel="Current medicines"
@@ -126,14 +149,35 @@
                     >
                 </MedicationRecordListItem>
             </MedicationRecordList>
-        </section>
+        </InternationalPatientSummarySection>
 
-        <section aria-labelledby="ips-problems">
-            <h2 id="ips-problems">Problems</h2>
+        <InternationalPatientSummarySection
+            section="problems"
+            heading="Problems"
+            status="not-recorded"
+            statusLabel="Not recorded"
+            narrativeLabel="Narrative from the document"
+            narrativeOpen
+        >
             <ProblemRecordList
                 status="not-recorded"
                 statusLabel="No information about current problems is available"
             />
-        </section>
-    </div>
+            {#snippet narrative()}
+                <p>No problems were recorded at the last review.</p>
+            {/snippet}
+        </InternationalPatientSummarySection>
+
+        {#snippet details()}
+            <h2>About this document</h2>
+            <dl>
+                <dt>Date</dt>
+                <dd><time datetime="2026-11-03">3 November 2026</time></dd>
+                <dt>Author</dt>
+                <dd>Example General Practice</dd>
+                <dt>IPS version</dt>
+                <dd>2.0.1</dd>
+            </dl>
+        {/snippet}
+    </InternationalPatientSummary>
 </main>

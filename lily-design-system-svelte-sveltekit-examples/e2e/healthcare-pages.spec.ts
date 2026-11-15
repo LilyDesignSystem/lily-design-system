@@ -28,8 +28,22 @@ test("the patient summary has the three IPS sections, and an empty one says why"
     page,
 }) => {
     await page.goto("/patient-summary");
+    await expect(page.getByRole("article", { name: "Patient summary" })).toBeVisible();
     for (const name of ["Allergies and intolerances", "Medication summary", "Problems"])
         await expect(page.getByRole("region", { name })).toBeVisible();
+    // The contents link to each section, in order; nothing is missing, so nothing is added.
+    const contents = page.getByRole("navigation", { name: "Contents" }).getByRole("link");
+    await expect(contents).toHaveText([
+        "Allergies and intolerances",
+        "Medication summary",
+        "Problems",
+    ]);
+    await expect(page.locator('section[data-status="omitted"]')).toHaveCount(0);
+    await expect(page.getByRole("region", { name: "Problems" })).toHaveAttribute(
+        "data-code",
+        "11450-4",
+    );
+    await expect(page.getByText("No problems were recorded at the last review.")).toBeVisible();
     await expect(page.getByRole("region", { name: "Problems" })).toContainText(
         "No information about current problems is available",
     );
