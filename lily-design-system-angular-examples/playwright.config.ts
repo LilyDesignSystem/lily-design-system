@@ -1,4 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
+import { E2E_HOST, e2ePort, e2eURL } from "./e2e-port";
+
+const port = e2ePort();
 
 // Specs that also run in Firefox and WebKit (P18-T1).
 const crossEngineSpecs =
@@ -11,7 +14,7 @@ export default defineConfig({
     retries: process.env.CI ? 2 : 0,
     reporter: process.env.CI ? "github" : "list",
     use: {
-        baseURL: "http://localhost:4173",
+        baseURL: e2eURL(port),
         trace: "on-first-retry",
     },
     // Chromium runs every spec. Firefox and WebKit run the cross-engine
@@ -26,8 +29,8 @@ export default defineConfig({
     webServer: {
         // Run the built static site for stable a11y / responsive tests.
         // Build first, then http-server the SSG output.
-        command: "pnpm run build && pnpm run start",
-        url: "http://localhost:4173/",
+        command: `pnpm run build && pnpm exec http-server dist/analog/public -a ${E2E_HOST} -p ${port} -c-1 --silent`,
+        url: `${e2eURL(port)}/`,
         reuseExistingServer: !process.env.CI,
         timeout: 300_000,
     },

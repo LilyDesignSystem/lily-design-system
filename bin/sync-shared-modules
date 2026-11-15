@@ -160,6 +160,10 @@ EXTRA_TARGETS = {
         "lily-design-system-web-components-theme-picker/theme-color.test.ts",
         "lily-design-system-html-theme-picker/theme-color.test.ts",
     ],
+    # The free-port helper for each Playwright config; the docs site is outside the lily-design-system-* glob.
+    "e2e-port.ts": [
+        "lilydesignsystem.github.io/e2e-port.ts",
+    ],
     "zones.ts": [
         "lily-design-system-svelte-time-zone-picker/zones.ts",
         "lily-design-system-react-time-zone-picker/zones.ts",

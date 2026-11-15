@@ -1,4 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
+import { E2E_HOST, e2ePort, e2eURL } from "./e2e-port";
+
+const port = e2ePort();
 
 // Specs that also run in Firefox and WebKit (P18-T1).
 const crossEngineSpecs =
@@ -11,7 +14,7 @@ export default defineConfig({
     retries: process.env.CI ? 2 : 0,
     reporter: process.env.CI ? "github" : "list",
     use: {
-        baseURL: "http://localhost:8081",
+        baseURL: e2eURL(port),
         trace: "on-first-retry",
     },
     // Chromium runs every spec. Firefox and WebKit run the cross-engine
@@ -24,8 +27,8 @@ export default defineConfig({
         { name: "webkit", use: { ...devices["Desktop Safari"] }, testMatch: crossEngineSpecs },
     ],
     webServer: {
-        command: "npx http-server _site -p 8081 -c-1 --silent",
-        url: "http://localhost:8081/",
+        command: `npx http-server _site -a ${E2E_HOST} -p ${port} -c-1 --silent`,
+        url: `${e2eURL(port)}/`,
         reuseExistingServer: !process.env.CI,
         timeout: 180_000,
     },

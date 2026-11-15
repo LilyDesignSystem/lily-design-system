@@ -1,4 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
+import { E2E_HOST, e2ePort, e2eURL } from "./e2e-port";
+
+const port = e2ePort();
 
 // Specs that also run in Firefox and WebKit (P18-T1).
 const crossEngineSpecs = /(responsive|focus-obscured|accessibility|theme-select)\.spec\.ts$/;
@@ -10,7 +13,7 @@ export default defineConfig({
     retries: process.env.CI ? 2 : 0,
     reporter: process.env.CI ? "github" : "list",
     use: {
-        baseURL: "http://localhost:8080",
+        baseURL: e2eURL(port),
         trace: "on-first-retry",
     },
     // Chromium runs every spec. Firefox and WebKit run the cross-engine
@@ -26,8 +29,8 @@ export default defineConfig({
         // The `pages/*.html` files reference `../assets/css/nhs.css` (one
         // level above `pages/`). `pages/assets` is a symlink to `../assets`
         // so that path resolves when http-server is rooted at `pages/`.
-        command: "npx http-server pages -p 8080 -c-1 --silent",
-        url: "http://localhost:8080/",
+        command: `npx http-server pages -a ${E2E_HOST} -p ${port} -c-1 --silent`,
+        url: `${e2eURL(port)}/`,
         reuseExistingServer: !process.env.CI,
         timeout: 60_000,
     },
