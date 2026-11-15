@@ -1,6 +1,6 @@
 # Red Orange Yellow Green Blue Radio Input
 
-RedOrangeYellowGreenBlueRadioInput is a headless native `<input type="radio">` for one choice of a five-level colour status, used inside a [RedOrangeYellowGreenBlueRadioGroup](../red-orange-yellow-green-blue-radio-group/). It is the radio counterpart of [RedOrangeYellowGreenBluePickerButton](../red-orange-yellow-green-blue-picker-button/): where the picker button is a toggle `<button>` with `aria-pressed`, this is a real radio, so the group gets native arrow keys, form submission and form reset.
+RedOrangeYellowGreenBlueRadioInput is a headless native `<input type="radio">` for one choice of a five-level colour status, used inside a [RedOrangeYellowGreenBlueRadioGroup](../red-orange-yellow-green-blue-radio-group/). Because it is a real radio, the group gets native arrow keys, form submission and form reset.
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -62,8 +62,8 @@ RedOrangeYellowGreenBlueRadioInput is a headless native `<input type="radio">` f
 
 ## When Not to Use
 
-- Do not use as a toggle outside a radio group -- use [RedOrangeYellowGreenBluePickerButton](../red-orange-yellow-green-blue-picker-button/) instead.
-- Do not use when a ready-made group is enough -- use [RedOrangeYellowGreenBluePicker](../red-orange-yellow-green-blue-picker/), which renders its own radios.
+- Do not use alone for a yes/no choice -- a lone radio cannot be unchecked; use [CheckboxInput](../checkbox-input/) instead.
+- Do not use outside its group -- put every option in one [RedOrangeYellowGreenBlueRadioGroup](../red-orange-yellow-green-blue-radio-group/) with a shared `name`.
 - Do not use for an option with no status or rating meaning -- use [RadioInput](../radio-input/) instead.
 
 ## Headless
@@ -89,7 +89,7 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 ## Related components
 
 - `red-orange-yellow-green-blue-radio-group` — a fieldset radio group for selecting a five-level color status
-- `red-orange-yellow-green-blue-picker-button` — the toggle-button counterpart
+- `red-orange-yellow-green-blue-view` — the read-only display
 - `radio-input` — the general radio input
 
 ## References

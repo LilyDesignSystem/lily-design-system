@@ -1,6 +1,6 @@
 # Net Promoter Score Radio Input
 
-NetPromoterScoreRadioInput is a headless native `<input type="radio">` for one choice of a 0-10 Net Promoter Score, used inside a [NetPromoterScoreRadioGroup](../net-promoter-score-radio-group/). It is the radio counterpart of [NetPromoterScorePickerButton](../net-promoter-score-picker-button/): where the picker button is a toggle `<button>` with `aria-pressed`, this is a real radio, so the group gets native arrow keys, form submission and form reset.
+NetPromoterScoreRadioInput is a headless native `<input type="radio">` for one choice of a 0-10 Net Promoter Score, used inside a [NetPromoterScoreRadioGroup](../net-promoter-score-radio-group/). Because it is a real radio, the group gets native arrow keys, form submission and form reset.
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -61,8 +61,8 @@ NetPromoterScoreRadioInput is a headless native `<input type="radio">` for one c
 
 ## When Not to Use
 
-- Do not use as a toggle outside a radio group -- use [NetPromoterScorePickerButton](../net-promoter-score-picker-button/) instead.
-- Do not use when a ready-made group is enough -- use [NetPromoterScorePicker](../net-promoter-score-picker/), which renders its own radios.
+- Do not use alone for a yes/no choice -- a lone radio cannot be unchecked; use [CheckboxInput](../checkbox-input/) instead.
+- Do not use outside its group -- put every option in one [NetPromoterScoreRadioGroup](../net-promoter-score-radio-group/) with a shared `name`.
 - Do not use for an option with no status or rating meaning -- use [RadioInput](../radio-input/) instead.
 
 ## Headless
@@ -88,7 +88,7 @@ The consumer provides all CSS styling. The component renders with a `.net-promot
 ## Related components
 
 - `net-promoter-score-radio-group` — a fieldset radio group for selecting a 0-10 Net Promoter Score
-- `net-promoter-score-picker-button` — the toggle-button counterpart
+- `net-promoter-score-view` — the read-only display
 - `radio-input` — the general radio input
 
 ## References

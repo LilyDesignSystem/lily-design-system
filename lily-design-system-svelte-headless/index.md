@@ -62,8 +62,8 @@ A headless Svelte 5 component library with 608 components. All components are he
 - **code**: an inline code span for displaying short code snippets within surrounding text
 - **code-block**: a block of formatted code with optional line numbers and line highlighting
 - **color-input**: an input for selecting a color value
-- **color-picker**: a two-dimensional board for picking colors by hue and saturation
-- **color-picker-button**: a button showing a color swatch in a color picker
+- **color-radio-group**: a two-dimensional board for picking colors by hue and saturation
+- **color-radio-input**: a button showing a color swatch in a color picker
 - **comment**: a comment displays user discussions and user feedback
 - **combobox**: a text input combined with a dropdown list for filtering options
 - **command**: a command palette for searching and executing actions
@@ -104,7 +104,7 @@ A headless Svelte 5 component library with 608 components. All components are he
 - **editable**: an inline-editable text element that toggles between view and edit modes
 - **email-link**: a mailto hyperlink for an email address
 - **email-input**: an input for entering an email address
-- **emoji-character-picker**: a picker for browsing and selecting emoji characters
+- **emoji-character-radio-group**: a picker for browsing and selecting emoji characters
 - **emoji**: a single emoji character with accessible name
 - **error-message**: an error message associated with a form field
 - **event**: an event component that contains other event-related information
@@ -119,12 +119,12 @@ A headless Svelte 5 component library with 608 components. All components are he
 - **file-upload**: a drag-and-drop area for uploading files
 - **five-face-rating**:
   - **five-face-rating-view**: a read-only display of a five-face satisfaction rating
-  - **five-face-rating-picker**: a picker for selecting a 1-5 satisfaction rating using face labels
-  - **five-face-rating-picker-button**: a picker button for selecting a 1-5 satisfaction rating using face labels
+  - **five-face-rating-radio-group**: a picker for selecting a 1-5 satisfaction rating using face labels
+  - **five-face-rating-radio-input**: a picker button for selecting a 1-5 satisfaction rating using face labels
 - **five-star-rating**:
   - **five-star-rating-view**: a read-only display of a five-star rating
-  - **five-star-rating-picker**: a picker for selecting a 1-5 star rating using radio buttons
-  - **five-star-rating-picker-button**: a picker button for selecting a 1-5 star rating using radio buttons
+  - **five-star-rating-radio-group**: a picker for selecting a 1-5 star rating using radio buttons
+  - **five-star-rating-radio-input**: a picker button for selecting a 1-5 star rating using radio buttons
 - **flair**: a decorative highlight or emphasis element
 - **floating-panel**: a panel that floats above page content
 - **footer**: a page or section footer area
@@ -198,8 +198,8 @@ A headless Svelte 5 component library with 608 components. All components are he
 - **navigation-menu**: a site-wide navigation menu with links
 - **net-promoter-score**:
   - **net-promoter-score-view**: a read-only display of a Net Promoter Score
-  - **net-promoter-score-picker**: a picker for selecting a 0-10 Net Promoter Score
-  - **net-promoter-score-picker-button**: a picker button for selecting a 0-10 Net Promoter Score
+  - **net-promoter-score-radio-group**: a picker for selecting a 0-10 Net Promoter Score
+  - **net-promoter-score-radio-input**: a picker button for selecting a 0-10 Net Promoter Score
 - **notification**: a brief message about an event or update
 - **number-input**: an input for entering a numeric value with validation
 - **option**: an option element within a select dropdown
@@ -229,12 +229,12 @@ A headless Svelte 5 component library with 608 components. All components are he
 - **range-input**: a slider input for selecting a value within a range
 - **red-amber-green**:
   - **red-amber-green-view**: a read-only display of a red/amber/green status
-  - **red-amber-green-picker**: a picker for selecting a red/amber/green status
-  - **red-amber-green-picker-button**: a picker button for selecting a red/amber/green status
+  - **red-amber-green-radio-group**: a picker for selecting a red/amber/green status
+  - **red-amber-green-radio-input**: a picker button for selecting a red/amber/green status
 - **red-orange-yellow-green-blue**:
   - **red-orange-yellow-green-blue-view**: a read-only display of a five-level color status
-  - **red-orange-yellow-green-blue-picker**: a picker for selecting a five-level color status
-  - **red-orange-yellow-green-blue-picker-button**: a picker button for selecting a five-level color status
+  - **red-orange-yellow-green-blue-radio-group**: a picker for selecting a five-level color status
+  - **red-orange-yellow-green-blue-radio-input**: a picker button for selecting a five-level color status
 - **reset-input**: a button input that resets a form to default values
 - **resizable**: a container that the user can resize by dragging
 - **review-date**: a display of a content review date
@@ -353,12 +353,12 @@ A headless Svelte 5 component library with 608 components. All components are he
   - TelInput TelLink
   - EmailInput EmailLink
 - \*Picker \*PickerButton
-  - ColorPicker ColorPickerButton
-  - FiveFaceRatingPicker FiveFaceRatingPickerButton
-  - FiveStarRatingPicker FiveStarRatingPickerButton
-  - NetPromoterScorePicker NetPromoterScorePickerButton
-  - RedAmberGreenPicker RedAmberGreenPickerButton
-  - RedOrangeYellowGreenBluePicker RedOrangeYellowGreenBluePickerButton
+  - ColorRadioGroup ColorRadioInput
+  - FiveFaceRatingRadioGroup FiveFaceRatingRadioInput
+  - FiveStarRatingRadioGroup FiveStarRatingRadioInput
+  - NetPromoterScoreRadioGroup NetPromoterScoreRadioInput
+  - RedAmberGreenRadioGroup RedAmberGreenRadioInput
+  - RedOrangeYellowGreenBlueRadioGroup RedOrangeYellowGreenBlueRadioInput
 - \*Table \*TableHead \*TableBody \*TableFoot \*TableTD \*TableRow \*TableTD
   - Table TableHead TableBody TableFoot TableTD TableRow TableTD
   - CalendarTable CalendarTableHead CalendarTableBody CalendarTableFoot CalendarTableTD CalendarTableRow CalendarTableTD

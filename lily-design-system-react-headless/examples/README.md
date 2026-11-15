@@ -12,7 +12,7 @@ Comprehensive standalone examples showing how to compose components from the Lil
 | [PageLayout](PageLayout.tsx)                 | Accessible page layout with skip link and nav  | SkipLink, Header, Footer, NavigationMenu, BreadcrumbNav, Sidebar                                       |
 | [TabbedInterface](TabbedInterface.tsx)       | Tabs with accordion content                    | TabBar, TabBarButton, AccordionNav, Badge                                                              |
 | [DialogFlow](DialogFlow.tsx)                 | Dialogs, alerts, drawers, and overlays         | Dialog, AlertDialog, Drawer, Popover, Tooltip                                                          |
-| [RatingAndFeedback](RatingAndFeedback.tsx)   | Star, face, and NPS rating collection          | FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker                                     |
+| [RatingAndFeedback](RatingAndFeedback.tsx)   | Star, face, and NPS rating collection          | FiveStarRatingRadioGroup, FiveFaceRatingRadioGroup, NetPromoterScoreRadioGroup                         |
 | [FileUploadForm](FileUploadForm.tsx)         | File upload with progress feedback             | FileUpload, Progress, Badge, Form, Field                                                               |
 | [TaskManagement](TaskManagement.tsx)         | Task/todo list with progress tracking          | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                              |
 | [NavigationAndMenus](NavigationAndMenus.tsx) | Navigation, menus, and toolbars                | NavigationMenu, MenuBar, MenuBarButton, ToolBar, ToolBarButton, HamburgerMenu, DropdownMenu, Separator |

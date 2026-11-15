@@ -18,7 +18,7 @@
 // implementation exposes direction/gap/align/justify only via data-*
 // attributes, matching this catalog's existing data-attribute
 // convention for consumer-CSS-driven state (see e.g.
-// color-picker-button's data-color). A consumer supplies
+// color-radio-input's data-color). A consumer supplies
 // `[data-direction="row"] { display: flex; flex-direction: row; gap:
 // var(--gap, 1rem); }`-style CSS (or reads `data-gap`/`data-align`/
 // `data-justify` directly). Flagged for a maintainer decision on

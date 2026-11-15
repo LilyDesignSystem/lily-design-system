@@ -49,7 +49,7 @@ See `AGENTS.md` for the full architecture, component pattern, testing convention
 ## Keyboard
 
 Native elements are keyboard-operable by default. The Arrow, Home/End, Escape and similar patterns (WAI-ARIA APG) are
-implemented, ported from the Svelte reference, in the 23 components whose `AGENTS.md` names them: `ColorPicker`,
+implemented, ported from the Svelte reference, in the 23 components whose `AGENTS.md` names them: `ColorRadioGroup`,
 `ContextMenu`, `Dial`, `Dialog`, `Drawer`, `DropdownMenu`, `Editable`, `EditableForm`, `HorizontalScroller`, `Menu`,
 `MenuBar`, `PinInputDiv`, `Sheet`, `SlideOutDrawer`, `SwitchButton`, `TabBar`, `TaskBar`, `TileMap`, `ToggleButton`,
 `ToolBar`, `Tour`, `TourList`, `TreeList`, each with key tests; and `Listbox` (the shared listbox machine). The

@@ -22,7 +22,7 @@
     "`...restProps`: unknown -- additional attributes spread onto the `<span>`"
   ],
   "related": [
-    "five-face-rating-picker"
+    "five-face-rating-radio-group"
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/five-face-rating-view.html",

@@ -2131,46 +2131,6 @@
       ]
     },
     {
-      "name": "color-picker",
-      "type": "registry:component",
-      "title": "ColorPicker",
-      "description": "A two-dimensional board for picking colors by hue and saturation.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/ColorPicker.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/ColorPicker.tsx"
-        }
-      ]
-    },
-    {
-      "name": "color-picker-button",
-      "type": "registry:component",
-      "title": "ColorPickerButton",
-      "description": "A button showing a color swatch in a color picker.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/ColorPickerButton.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/ColorPickerButton.tsx"
-        }
-      ]
-    },
-    {
       "name": "color-radio-group",
       "type": "registry:component",
       "title": "ColorRadioGroup",
@@ -3677,19 +3637,39 @@
       ]
     },
     {
-      "name": "emoji-character-picker",
+      "name": "emoji-character-radio-group",
       "type": "registry:component",
-      "title": "EmojiCharacterPicker",
-      "description": "A picker for browsing and selecting emoji characters.",
+      "title": "EmojiCharacterRadioGroup",
+      "description": "A fieldset radio group for selecting an emoji character.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
-        "pickers"
+        "forms"
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EmojiCharacterPicker.tsx",
+          "path": "lily-design-system-react-headless/components/EmojiCharacterRadioGroup.tsx",
           "type": "registry:component",
-          "target": "@components/lily/EmojiCharacterPicker.tsx"
+          "target": "@components/lily/EmojiCharacterRadioGroup.tsx"
+        }
+      ]
+    },
+    {
+      "name": "emoji-character-radio-input",
+      "type": "registry:component",
+      "title": "EmojiCharacterRadioInput",
+      "description": "A radio input for one choice of an emoji character <input type=\"radio\">.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/EmojiCharacterRadioInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/EmojiCharacterRadioInput.tsx"
         }
       ]
     },
@@ -4090,43 +4070,6 @@
       ]
     },
     {
-      "name": "five-face-rating-picker",
-      "type": "registry:component",
-      "title": "FiveFaceRatingPicker",
-      "description": "A picker for selecting a 1-5 satisfaction rating using face labels.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/FiveFaceRatingPicker.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/FiveFaceRatingPicker.tsx"
-        }
-      ]
-    },
-    {
-      "name": "five-face-rating-picker-button",
-      "type": "registry:component",
-      "title": "FiveFaceRatingPickerButton",
-      "description": "A picker button for selecting a 1-5 satisfaction rating using face labels.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/FiveFaceRatingPickerButton.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/FiveFaceRatingPickerButton.tsx"
-        }
-      ]
-    },
-    {
       "name": "five-face-rating-radio-group",
       "type": "registry:component",
       "title": "FiveFaceRatingRadioGroup",
@@ -4177,43 +4120,6 @@
           "path": "lily-design-system-react-headless/components/FiveFaceRatingView.tsx",
           "type": "registry:component",
           "target": "@components/lily/FiveFaceRatingView.tsx"
-        }
-      ]
-    },
-    {
-      "name": "five-star-rating-picker",
-      "type": "registry:component",
-      "title": "FiveStarRatingPicker",
-      "description": "A picker for selecting a 1-5 star rating using radio buttons.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/FiveStarRatingPicker.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/FiveStarRatingPicker.tsx"
-        }
-      ]
-    },
-    {
-      "name": "five-star-rating-picker-button",
-      "type": "registry:component",
-      "title": "FiveStarRatingPickerButton",
-      "description": "A picker button for selecting a 1-5 star rating using radio buttons.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/FiveStarRatingPickerButton.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/FiveStarRatingPickerButton.tsx"
         }
       ]
     },
@@ -7138,46 +7044,6 @@
       ]
     },
     {
-      "name": "net-promoter-score-picker",
-      "type": "registry:component",
-      "title": "NetPromoterScorePicker",
-      "description": "A picker for selecting a 0-10 Net Promoter Score.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/NetPromoterScorePicker.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/NetPromoterScorePicker.tsx"
-        }
-      ]
-    },
-    {
-      "name": "net-promoter-score-picker-button",
-      "type": "registry:component",
-      "title": "NetPromoterScorePickerButton",
-      "description": "A picker button for selecting a 0-10 Net Promoter Score.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/NetPromoterScorePickerButton.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/NetPromoterScorePickerButton.tsx"
-        }
-      ]
-    },
-    {
       "name": "net-promoter-score-radio-group",
       "type": "registry:component",
       "title": "NetPromoterScoreRadioGroup",
@@ -8507,46 +8373,6 @@
       ]
     },
     {
-      "name": "red-amber-green-picker",
-      "type": "registry:component",
-      "title": "RedAmberGreenPicker",
-      "description": "A picker for selecting a red/amber/green status.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/RedAmberGreenPicker.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/RedAmberGreenPicker.tsx"
-        }
-      ]
-    },
-    {
-      "name": "red-amber-green-picker-button",
-      "type": "registry:component",
-      "title": "RedAmberGreenPickerButton",
-      "description": "A picker button for selecting a red/amber/green status.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/RedAmberGreenPickerButton.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/RedAmberGreenPickerButton.tsx"
-        }
-      ]
-    },
-    {
       "name": "red-amber-green-radio-group",
       "type": "registry:component",
       "title": "RedAmberGreenRadioGroup",
@@ -8597,46 +8423,6 @@
           "path": "lily-design-system-react-headless/components/RedAmberGreenView.tsx",
           "type": "registry:component",
           "target": "@components/lily/RedAmberGreenView.tsx"
-        }
-      ]
-    },
-    {
-      "name": "red-orange-yellow-green-blue-picker",
-      "type": "registry:component",
-      "title": "RedOrangeYellowGreenBluePicker",
-      "description": "A picker for selecting a five-level color status.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/RedOrangeYellowGreenBluePicker.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/RedOrangeYellowGreenBluePicker.tsx"
-        }
-      ]
-    },
-    {
-      "name": "red-orange-yellow-green-blue-picker-button",
-      "type": "registry:component",
-      "title": "RedOrangeYellowGreenBluePickerButton",
-      "description": "A picker button for selecting a five-level color status.",
-      "author": "Lily Design System <https://lilydesignsystem.com>",
-      "registryDependencies": [
-        "@lily/dev-warning-utils"
-      ],
-      "categories": [
-        "pickers"
-      ],
-      "files": [
-        {
-          "path": "lily-design-system-react-headless/components/RedOrangeYellowGreenBluePickerButton.tsx",
-          "type": "registry:component",
-          "target": "@components/lily/RedOrangeYellowGreenBluePickerButton.tsx"
         }
       ]
     },

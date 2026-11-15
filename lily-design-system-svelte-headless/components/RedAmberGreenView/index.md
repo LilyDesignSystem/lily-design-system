@@ -7,7 +7,7 @@ A headless read-only display of a Red/Amber/Green (RAG) status. Renders the valu
 - Component: `RedAmberGreenView`
 - HTML element: `<span>`
 - Role: inline text; accessible name via `aria-label`
-- Category: view (read-only display sibling of `RedAmberGreenPicker`)
+- Category: view (read-only display sibling of `RedAmberGreenRadioGroup`)
 
 ## What it does
 
@@ -24,7 +24,7 @@ A headless read-only display of a Red/Amber/Green (RAG) status. Renders the valu
 
 ## When not to use it
 
-- To capture a RAG value — use `RedAmberGreenPicker` or compose `RedAmberGreenPickerButton`s.
+- To capture a RAG value — use `RedAmberGreenRadioGroup` or compose `RedAmberGreenRadioInput`s.
 - For a five-level scale — use `RedOrangeYellowGreenBlueView`.
 - For rating or satisfaction displays — use `FiveStarRatingView`, `FiveFaceRatingView`, `NetPromoterScoreView`.
 
@@ -77,7 +77,7 @@ import RedAmberGreenView from './RedAmberGreenView.svelte';
 
 ```svelte
 <script lang="ts">
-  import RedAmberGreenPicker from "../RedAmberGreenPicker/RedAmberGreenPicker.svelte";
+  import RedAmberGreenRadioGroup from "../RedAmberGreenRadioGroup/RedAmberGreenRadioGroup.svelte";
   import RedAmberGreenView from "./RedAmberGreenView.svelte";
 
   let status = $state("");
@@ -90,7 +90,7 @@ import RedAmberGreenView from './RedAmberGreenView.svelte';
     value={status}
   />
 {:else}
-  <RedAmberGreenPicker
+  <RedAmberGreenRadioGroup
     label="Status"
     bind:value={status}
   />
@@ -128,8 +128,8 @@ import RedAmberGreenView from './RedAmberGreenView.svelte';
 
 ## Related components
 
-- `RedAmberGreenPicker` — dropdown-style picker sibling.
-- `RedAmberGreenPickerButton` — button-style picker sibling.
+- `RedAmberGreenRadioGroup` — dropdown-style picker sibling.
+- `RedAmberGreenRadioInput` — button-style picker sibling.
 - `RedOrangeYellowGreenBlueView` — five-level status view.
 - Other read-only status views: `FiveStarRatingView`, `FiveFaceRatingView`, `NetPromoterScoreView`.
 

@@ -17,46 +17,45 @@ describe("Rating and Feedback", function () {
         expect(label).toBe("Feedback form");
     });
 
-    it("should render the five star rating picker", async function () {
-        const el = await $("div.five-star-rating-picker#star-picker");
+    it("should render the five star rating radio group", async function () {
+        const el = await $("fieldset.five-star-rating-radio-group#star-rating");
         await expect(el).toExist();
         const role = await el.getAttribute("role");
         expect(role).toBe("radiogroup");
     });
 
-    it("should render five star picker buttons", async function () {
-        const buttons = await $$("button.five-star-rating-picker-button");
+    it("should render five star radios", async function () {
+        const buttons = await $$("input.five-star-rating-radio-input");
         expect(buttons.length).toBe(5);
     });
 
     it("should select a star on click", async function () {
-        const stars = await $$("button.five-star-rating-picker-button");
+        const stars = await $$("input.five-star-rating-radio-input");
         await stars[2].click();
-        const checked = await stars[2].getAttribute("aria-checked");
-        expect(checked).toBe("true");
+        expect(await stars[2].isSelected()).toBe(true);
     });
 
-    it("should render the five face rating picker", async function () {
-        const el = await $("div.five-face-rating-picker");
+    it("should render the five face rating radio group", async function () {
+        const el = await $("fieldset.five-face-rating-radio-group");
         await expect(el).toExist();
         const role = await el.getAttribute("role");
         expect(role).toBe("radiogroup");
     });
 
-    it("should render five face picker buttons", async function () {
-        const buttons = await $$("button.five-face-rating-picker-button");
+    it("should render five face radios", async function () {
+        const buttons = await $$("input.five-face-rating-radio-input");
         expect(buttons.length).toBe(5);
     });
 
-    it("should render the net promoter score picker", async function () {
-        const el = await $("div.net-promoter-score-picker");
+    it("should render the net promoter score radio group", async function () {
+        const el = await $("fieldset.net-promoter-score-radio-group");
         await expect(el).toExist();
         const role = await el.getAttribute("role");
         expect(role).toBe("radiogroup");
     });
 
-    it("should render eleven NPS picker buttons", async function () {
-        const buttons = await $$("button.net-promoter-score-picker-button");
+    it("should render eleven NPS radios", async function () {
+        const buttons = await $$("input.net-promoter-score-radio-input");
         expect(buttons.length).toBe(11);
     });
 
@@ -66,7 +65,7 @@ describe("Rating and Feedback", function () {
     });
 
     it("should show success after form submission", async function () {
-        const stars = await $$("button.five-star-rating-picker-button");
+        const stars = await $$("input.five-star-rating-radio-input");
         await stars[3].click();
         await $('button[type="submit"]').click();
         const success = await $("div#success-section");

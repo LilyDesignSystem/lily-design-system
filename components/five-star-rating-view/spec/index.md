@@ -13,7 +13,7 @@ Implement the Five Star Rating View component: a read-only display of a five-sta
 
 ## Companion Component
 
-- five-star-rating-picker (Input/View or Input/Link pair)
+- five-star-rating-radio-group (Input/View or Input/Link pair)
 
 ## Approach
 
@@ -53,7 +53,7 @@ Implement the Five Star Rating View component: a read-only display of a five-sta
 - [ ] Implement React headless component
 - [ ] Implement Vue headless component
 - [ ] Implement Blazor headless component
-- [ ] Verify companion component: five-star-rating-picker
+- [ ] Verify companion component: five-star-rating-radio-group
 - [ ] Add comprehensive keyboard interaction tests
 - [ ] Add screen reader announcement tests
 - [ ] Add integration tests with parent/child components

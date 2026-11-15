@@ -22,7 +22,7 @@ Character renders a `<span>` wrapper around a single glyph. It determines access
 
 - For multi-character text — use plain markup or `BodyText`.
 - For actual icons with SVG content — use `Icon`.
-- For an emoji picker — use `EmojiCharacterPicker`.
+- For an emoji picker — use `EmojiCharacterRadioGroup`.
 
 ## How to use it
 

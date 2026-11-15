@@ -96,7 +96,7 @@ None are baked in -- this component is a passive container. Pointer- and keyboar
 - Do not use for simply selecting and previewing a file -- use ImageFileInput.
 - Do not use for capturing a handwritten signature -- use SignaturePad.
 - Do not use for displaying an image without editing -- use Image.
-- Do not use for picking a colour from an image -- use ColorPicker.
+- Do not use for picking a colour from an image -- use ColorRadioGroup.
 
 ## Headless
 

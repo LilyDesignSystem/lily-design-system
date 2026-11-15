@@ -1,6 +1,6 @@
 # Five Star Rating Radio Input
 
-FiveStarRatingRadioInput is a headless native `<input type="radio">` for one choice of a 1-5 star rating, used inside a [FiveStarRatingRadioGroup](five-star-rating-radio-group.md). It is the radio counterpart of [FiveStarRatingPickerButton](five-star-rating-picker-button.md): where the picker button is a toggle `<button>` with `aria-pressed`, this is a real radio, so the group gets native arrow keys, form submission and form reset.
+FiveStarRatingRadioInput is a headless native `<input type="radio">` for one choice of a 1-5 star rating, used inside a [FiveStarRatingRadioGroup](five-star-rating-radio-group.md). Because it is a real radio, the group gets native arrow keys, form submission and form reset.
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -61,8 +61,8 @@ FiveStarRatingRadioInput is a headless native `<input type="radio">` for one cho
 
 ## When Not to Use
 
-- Do not use as a toggle outside a radio group -- use [FiveStarRatingPickerButton](five-star-rating-picker-button.md) instead.
-- Do not use when a ready-made group is enough -- use [FiveStarRatingPicker](five-star-rating-picker.md), which renders its own radios.
+- Do not use alone for a yes/no choice -- a lone radio cannot be unchecked; use [CheckboxInput](checkbox-input.md) instead.
+- Do not use outside its group -- put every option in one [FiveStarRatingRadioGroup](five-star-rating-radio-group.md) with a shared `name`.
 - Do not use for an option with no status or rating meaning -- use [RadioInput](radio-input.md) instead.
 
 ## Headless
@@ -88,7 +88,7 @@ The consumer provides all CSS styling. The component renders with a `.five-star-
 ## Related components
 
 - `five-star-rating-radio-group` — a fieldset radio group for selecting a 1-5 star rating
-- `five-star-rating-picker-button` — the toggle-button counterpart
+- `five-star-rating-view` — the read-only display
 - `radio-input` — the general radio input
 
 ## References

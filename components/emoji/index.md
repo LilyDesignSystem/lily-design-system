@@ -69,7 +69,7 @@ None -- this component is a passive inline display element.
 
 ## When Not to Use
 
-- Do not use for selecting emojis -- use EmojiCharacterPicker instead.
+- Do not use for selecting emojis -- use EmojiCharacterRadioGroup instead.
 - Do not use for decorative icons -- use Icon instead.
 - Do not use for purely decorative emoji that add no informational value; hide those with `aria-hidden="true"` instead.
 
@@ -95,7 +95,7 @@ The consumer provides all CSS styling. The component renders with a `.emoji` cla
 
 ## Related components
 
-- `emoji-character-picker` — a picker for browsing and selecting emoji characters
+- `emoji-character-radio-group` — a picker for browsing and selecting emoji characters
 - `character` — a single character display element
 - `icon` — a container for displaying an icon
 

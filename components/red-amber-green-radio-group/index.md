@@ -1,6 +1,6 @@
 # Red Amber Green Radio Group
 
-RedAmberGreenRadioGroup is a headless `<fieldset role="radiogroup">` for choosing a red/amber/green (RAG) status, holding the `RedAmberGreenRadioInput` radios the consumer composes. It is the composable sibling of [RedAmberGreenPicker](../red-amber-green-picker/): the picker renders its own labelled radios, while this group takes whatever radios, labels and layout the consumer writes.
+RedAmberGreenRadioGroup is a headless `<fieldset role="radiogroup">` for choosing a red/amber/green (RAG) status, holding the `RedAmberGreenRadioInput` radios the consumer composes, with whatever labels and layout the consumer writes. It replaces the earlier `red-amber-green-picker` (removed 2026-11-15).
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -81,7 +81,7 @@ It renders:
 
 ## When Not to Use
 
-- Do not use when the group should render its own options -- use [RedAmberGreenPicker](../red-amber-green-picker/), which draws one labelled radio per value itself.
+- Do not use when more than one option may be chosen -- use [CheckboxGroup](../checkbox-group/) instead.
 - Do not use for a read-only display -- use [RedAmberGreenView](../red-amber-green-view/) instead.
 - Do not use for a plain set of choices with no status or rating meaning -- use [RadioGroup](../radio-group/) instead.
 
@@ -108,7 +108,7 @@ The consumer provides all CSS styling. The component renders with a `.red-amber-
 ## Related components
 
 - `red-amber-green-radio-input` — a radio input for one choice of a red/amber/green status <input type="radio">
-- `red-amber-green-picker` — the picker that renders its own radios
+- `red-amber-green-view` — the read-only display
 - `radio-group` — the general radio group
 
 ## References

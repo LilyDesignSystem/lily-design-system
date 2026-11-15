@@ -100,11 +100,7 @@
 @import url("components/fieldset.css");
 @import url("components/figure.css");
 @import url("components/file-input.css");
-@import url("components/five-face-rating-picker.css");
-@import url("components/five-face-rating-picker-button.css");
 @import url("components/five-face-rating-view.css");
-@import url("components/five-star-rating-picker.css");
-@import url("components/five-star-rating-picker-button.css");
 @import url("components/five-star-rating-view.css");
 @import url("components/flair.css");
 @import url("components/footer.css");
@@ -170,8 +166,6 @@
 @import url("components/mockup-window.css");
 @import url("components/month-input.css");
 @import url("components/meter.css");
-@import url("components/net-promoter-score-picker.css");
-@import url("components/net-promoter-score-picker-button.css");
 @import url("components/net-promoter-score-view.css");
 @import url("components/tuaisceart-eireann-health-and-care-number-input.css");
 @import url("components/tuaisceart-eireann-health-and-care-number-view.css");
@@ -197,11 +191,7 @@
 @import url("components/radio-group.css");
 @import url("components/radio-input.css");
 @import url("components/range-input.css");
-@import url("components/red-amber-green-picker.css");
-@import url("components/red-amber-green-picker-button.css");
 @import url("components/red-amber-green-view.css");
-@import url("components/red-orange-yellow-green-blue-picker.css");
-@import url("components/red-orange-yellow-green-blue-picker-button.css");
 @import url("components/red-orange-yellow-green-blue-view.css");
 @import url("components/reset-input.css");
 @import url("components/review-date.css");
@@ -281,8 +271,6 @@
 @import url("components/carousel.css");
 @import url("components/character-counter.css");
 @import url("components/collapsible.css");
-@import url("components/color-picker.css");
-@import url("components/color-picker-button.css");
 @import url("components/combobox.css");
 @import url("components/command.css");
 @import url("components/comment.css");
@@ -294,7 +282,6 @@
 @import url("components/dropdown-menu.css");
 @import url("components/editable.css");
 @import url("components/editable-form.css");
-@import url("components/emoji-character-picker.css");
 @import url("components/expander.css");
 @import url("components/file-dialog.css");
 @import url("components/file-manager.css");

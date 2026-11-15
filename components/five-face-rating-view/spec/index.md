@@ -13,7 +13,7 @@ Implement the Five Face Rating View component: a read-only display of a five-fac
 
 ## Companion Component
 
-- five-face-rating-picker (Input/View or Input/Link pair)
+- five-face-rating-radio-group (Input/View or Input/Link pair)
 
 ## Approach
 
@@ -52,7 +52,7 @@ Implement the Five Face Rating View component: a read-only display of a five-fac
 - [ ] Implement React headless component
 - [ ] Implement Vue headless component
 - [ ] Implement Blazor headless component
-- [ ] Verify companion component: five-face-rating-picker
+- [ ] Verify companion component: five-face-rating-radio-group
 - [ ] Add comprehensive keyboard interaction tests
 - [ ] Add screen reader announcement tests
 - [ ] Add integration tests with parent/child components

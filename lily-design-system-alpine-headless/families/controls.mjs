@@ -1,5 +1,5 @@
 // Family: value controls. slider (native range + x-model), dial and
-// color-picker (role="slider" divs), splitter (role="separator" with keys and
+// color-radio-group (role="slider" divs), splitter (role="separator" with keys and
 // drag), scroll-bar (role="scrollbar" with keys), slider-button (slide to confirm), tool-bar (an APG toolbar), tile-map (focusable tiles), resizable and scroll-area
 // (named regions the consumer's CSS sizes).
 
@@ -143,56 +143,6 @@ export default {
     expect(el().getAttribute("aria-disabled")).toBe("true");
     await press(el(), "ArrowRight");
     expect(el().getAttribute("aria-valuenow")).toBe("50");
-  });`,
-    },
-
-    "color-picker": {
-        tag: "div",
-        keyboard:
-            "Right/Left change x, Up/Down change y, Shift moves ten, Home/End set x to 0 / 100",
-        aria: 'role="slider" with aria-label and aria-valuenow (x) between 0 and 100; data-x and data-y position the cursor',
-        markup: `<div class="color-picker" aria-label="" x-data="lilyColorPicker(0, 0)" x-bind="area">
-  <!-- Consumer provides the colour area and cursor -->
-</div>`,
-        sel: "div.color-picker",
-        extra: `import { snippet } from "../test/mount.js";\n${press}`,
-        test: `
-  it('is role="slider" on a 0 to 100 range, focusable', async () => {
-    await mount("color-picker");
-    expect(el().getAttribute("role")).toBe("slider");
-    expect(["aria-valuenow", "aria-valuemin", "aria-valuemax"].map((a) => el().getAttribute(a))).toEqual(["0", "0", "100"]);
-    expect(el().getAttribute("tabindex")).toBe("0");
-    expect([el().dataset.x, el().dataset.y]).toEqual(["0", "0"]);
-  });
-  it("Right/Left move x and Down/Up move y, Shift by ten", async () => {
-    await mount("color-picker");
-    await press(el(), "ArrowRight");
-    await press(el(), "ArrowDown");
-    await press(el(), "ArrowDown", { shiftKey: true });
-    expect([el().dataset.x, el().dataset.y]).toEqual(["1", "11"]);
-    expect(el().getAttribute("aria-valuenow")).toBe("1");
-    await press(el(), "ArrowUp");
-    await press(el(), "ArrowLeft", { shiftKey: true });
-    expect([el().dataset.x, el().dataset.y]).toEqual(["0", "10"]);
-  });
-  it("stays inside 0 to 100; Home and End set x", async () => {
-    await mount("color-picker");
-    await press(el(), "ArrowUp");
-    await press(el(), "ArrowLeft");
-    expect([el().dataset.x, el().dataset.y]).toEqual(["0", "0"]);
-    await press(el(), "End");
-    expect(el().dataset.x).toBe("100");
-    await press(el(), "ArrowRight");
-    expect(el().dataset.x).toBe("100");
-    await press(el(), "Home");
-    expect(el().dataset.x).toBe("0");
-  });
-  it("when disabled it is not tabbable and ignores keys", async () => {
-    await mount("color-picker", snippet("color-picker").replace("lilyColorPicker(0, 0)", "lilyColorPicker(0, 0, true)"));
-    expect(el().getAttribute("tabindex")).toBe("-1");
-    expect(el().getAttribute("aria-disabled")).toBe("true");
-    await press(el(), "ArrowRight");
-    expect(el().dataset.x).toBe("0");
   });`,
     },
 

@@ -2,7 +2,7 @@
 //
 // A read-only <span role="img"> display of a five-face satisfaction
 // rating (1-5), showing the face label text derived from `value` and an
-// optional `labels` array. Companion: five-face-rating-picker.
+// optional `labels` array. Companion: five-face-rating-radio-group.
 //
 // Attributes:
 //   value — REQUIRED. Rating value (1-5) to display, exposed via

@@ -21,7 +21,7 @@ ColorInput renders a bare `<input type="color">` with `aria-label` for accessibi
 
 ## When not to use it
 
-- When you need a custom UI (palette swatches, HSL sliders) — use `ColorPicker` and `ColorPickerButton`.
+- When you need a custom UI (palette swatches, HSL sliders) — use `ColorRadioGroup` and `ColorRadioInput`.
 - For non-hex formats — the native control returns hex only.
 - For multi-stop or gradient selection — build a custom component.
 
@@ -114,8 +114,8 @@ Bind `value` to a `$state` variable. Provide `label` for accessibility since the
 
 ## Related components
 
-- `ColorPicker` — 2D saturation/brightness picker.
-- `ColorPickerButton` — single swatch button for predefined colors.
+- `ColorRadioGroup` — 2D saturation/brightness picker.
+- `ColorRadioInput` — single swatch button for predefined colors.
 
 ---
 

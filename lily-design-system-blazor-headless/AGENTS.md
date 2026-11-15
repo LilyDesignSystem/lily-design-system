@@ -98,8 +98,8 @@ Where a component genuinely owns a callback parameter (see the short list above)
 
 Paired components for data entry vs. read-only display:
 
-- `FiveStarRatingPicker` (interactive) / `FiveStarRatingView` (read-only)
-- `NetPromoterScorePicker` / `NetPromoterScoreView`
+- `FiveStarRatingRadioGroup` (interactive) / `FiveStarRatingView` (read-only)
+- `NetPromoterScoreRadioGroup` / `NetPromoterScoreView`
 - `MeasurementInstanceInput` / `MeasurementInstanceView`
 - `PostalCodeInput` / `PostalCodeView`
 

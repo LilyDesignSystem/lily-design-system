@@ -58,8 +58,8 @@ const SLUGS = [
     // links
     "back-link",
     // pickers
-    "five-star-rating-picker",
-    "color-picker",
+    "five-star-rating-radio-group",
+    "color-radio-group",
     // overlays
     "dialog",
     "alert-dialog",

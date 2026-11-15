@@ -1,6 +1,6 @@
 # FiveFaceRatingView
 
-A read-only five-face rating display that shows a text label corresponding to a rating value from 1 to 5. This is the display-only companion to FiveFaceRatingPicker, used for showing previously submitted ratings in summaries, review lists, or dashboard displays.
+A read-only five-face rating display that shows a text label corresponding to a rating value from 1 to 5. This is the display-only companion to FiveFaceRatingRadioGroup, used for showing previously submitted ratings in summaries, review lists, or dashboard displays.
 
 ## Implementation Notes
 

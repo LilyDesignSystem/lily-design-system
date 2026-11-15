@@ -50,10 +50,7 @@ const WRAPS = {
     option: ['<select aria-label="Option">', "</select>"],
     "theme-select-option": ['<select aria-label="Theme">', "</select>"],
 };
-const INNER = {
-    "emoji-character-picker":
-        '<button type="button" aria-label="Grinning face">😀</button><button type="button" aria-label="Slightly smiling face">🙂</button>',
-};
+const INNER = {};
 
 /** The markup as a demo needs it: an orphan list item inside a list, a menu item inside a menu, and so on. */
 function fitDemo(slug, markup) {

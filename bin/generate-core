@@ -83,7 +83,7 @@ const CANDIDATES = [
   ["checkbox-group", "form family", 30],
   ["radio-input", "form family", 14],
   ["radio-group", "form family", 31],
-  ["net-promoter-score-picker", "form family", 20],
+  ["net-promoter-score-radio-group", "form family", 20],
   ["theme-picker", "helper packages", 1, true],
   ["locale-picker", "helper packages", 2, true],
   ["text-size-picker", "helper packages", 32, true],

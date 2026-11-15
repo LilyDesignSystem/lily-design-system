@@ -7,7 +7,7 @@
 // Builds on the same IntersectionObserver-based step-tracking primitive
 // as ScrollerBase, duplicated locally here rather than instantiating a
 // second custom element from within this class — this catalog's
-// established composition convention (see five-star-rating-picker.ts)
+// established composition convention (see five-star-rating-radio-group.ts)
 // is that a sibling custom element is composed by the CONSUMER writing
 // its tag directly in markup, not by one component class instantiating
 // another's class internally.

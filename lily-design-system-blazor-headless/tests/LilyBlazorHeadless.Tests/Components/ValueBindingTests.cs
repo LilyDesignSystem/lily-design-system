@@ -21,6 +21,13 @@ public class ValueBindingTests : TestContext
         ["FileInput"] = "the browser keeps the files",
         ["ImageFileInput"] = "the browser keeps the files",
         ["RadioInput"] = "its value is fixed, and a group chooses",
+        ["ColorRadioInput"] = "its value is fixed, and a group chooses",
+        ["EmojiCharacterRadioInput"] = "its value is fixed, and a group chooses",
+        ["FiveFaceRatingRadioInput"] = "its value is fixed, and a group chooses",
+        ["FiveStarRatingRadioInput"] = "its value is fixed, and a group chooses",
+        ["NetPromoterScoreRadioInput"] = "its value is fixed, and a group chooses",
+        ["RedAmberGreenRadioInput"] = "its value is fixed, and a group chooses",
+        ["RedOrangeYellowGreenBlueRadioInput"] = "its value is fixed, and a group chooses",
         ["ToolCallInput"] = "displays a tool's input",
         ["CheckboxInput"] = "binds Checked",
         ["DateTimeNowInput"] = "binds DateValue and TimeValue",
@@ -33,7 +40,7 @@ public class ValueBindingTests : TestContext
 
     public static IEnumerable<object[]> TextInputs() => typeof(ValueInputBase).Assembly.GetTypes()
         .Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(ValueInputBase)))
-        .Where(t => !new[] { "ColorInput", "DateField", "DateInput", "DateTimeLocalInput", "MonthInput", "NetPromoterScorePicker", "RedAmberGreenPicker", "RedOrangeYellowGreenBluePicker", "Select", "SelectWithExtras", "TextAreaInput", "TextAreaInputWithCharacterCounter", "ThemeSelect", "TimeInput", "WeekInput" }.Contains(t.Name))
+        .Where(t => !new[] { "ColorInput", "DateField", "DateInput", "DateTimeLocalInput", "MonthInput", "Select", "SelectWithExtras", "TextAreaInput", "TextAreaInputWithCharacterCounter", "ThemeSelect", "TimeInput", "WeekInput" }.Contains(t.Name))
         .Select(t => new object[] { t });
 
     [Theory]

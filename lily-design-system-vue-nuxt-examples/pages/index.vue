@@ -39,7 +39,8 @@ const examples = [
     {
         href: "/rating-and-feedback",
         title: "Rating and Feedback",
-        description: "FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker",
+        description:
+            "FiveStarRatingRadioGroup, FiveFaceRatingRadioGroup, NetPromoterScoreRadioGroup",
     },
     {
         href: "/rtl-demo",

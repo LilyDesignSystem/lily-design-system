@@ -13,7 +13,7 @@ Implement the Net Promoter Score View component: a read-only display of a Net Pr
 
 ## Companion Component
 
-- net-promoter-score-picker (Input/View or Input/Link pair)
+- net-promoter-score-radio-group (Input/View or Input/Link pair)
 
 ## Approach
 
@@ -53,7 +53,7 @@ Implement the Net Promoter Score View component: a read-only display of a Net Pr
 - [ ] Implement React headless component
 - [ ] Implement Vue headless component
 - [ ] Implement Blazor headless component
-- [ ] Verify companion component: net-promoter-score-picker
+- [ ] Verify companion component: net-promoter-score-radio-group
 - [ ] Add comprehensive keyboard interaction tests
 - [ ] Add screen reader announcement tests
 - [ ] Add integration tests with parent/child components

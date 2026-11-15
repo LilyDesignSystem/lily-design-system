@@ -600,22 +600,6 @@
       "aria-label"
     ]
   },
-  "color-picker": {
-    "role": "slider",
-    "aria": [
-      "aria-label",
-      "aria-valuemax",
-      "aria-valuemin",
-      "aria-valuenow"
-    ]
-  },
-  "color-picker-button": {
-    "role": null,
-    "aria": [
-      "aria-label",
-      "aria-pressed"
-    ]
-  },
   "column-chart": {
     "role": null,
     "aria": []
@@ -971,12 +955,6 @@
       "aria-label"
     ]
   },
-  "emoji-character-picker": {
-    "role": "group",
-    "aria": [
-      "aria-label"
-    ]
-  },
   "empty-state": {
     "role": "group",
     "aria": [
@@ -1079,36 +1057,10 @@
     "role": null,
     "aria": []
   },
-  "five-face-rating-picker": {
-    "role": "radiogroup",
-    "aria": [
-      "aria-label"
-    ]
-  },
-  "five-face-rating-picker-button": {
-    "role": null,
-    "aria": [
-      "aria-label",
-      "aria-pressed"
-    ]
-  },
   "five-face-rating-view": {
     "role": "img",
     "aria": [
       "aria-label"
-    ]
-  },
-  "five-star-rating-picker": {
-    "role": "radiogroup",
-    "aria": [
-      "aria-label"
-    ]
-  },
-  "five-star-rating-picker-button": {
-    "role": null,
-    "aria": [
-      "aria-label",
-      "aria-pressed"
     ]
   },
   "five-star-rating-view": {
@@ -1875,19 +1827,6 @@
     "role": null,
     "aria": []
   },
-  "net-promoter-score-picker": {
-    "role": "radiogroup",
-    "aria": [
-      "aria-label"
-    ]
-  },
-  "net-promoter-score-picker-button": {
-    "role": null,
-    "aria": [
-      "aria-label",
-      "aria-pressed"
-    ]
-  },
   "net-promoter-score-view": {
     "role": null,
     "aria": []
@@ -2224,35 +2163,9 @@
       "aria-label"
     ]
   },
-  "red-amber-green-picker": {
-    "role": "radiogroup",
-    "aria": [
-      "aria-label"
-    ]
-  },
-  "red-amber-green-picker-button": {
-    "role": null,
-    "aria": [
-      "aria-label",
-      "aria-pressed"
-    ]
-  },
   "red-amber-green-view": {
     "role": null,
     "aria": []
-  },
-  "red-orange-yellow-green-blue-picker": {
-    "role": "radiogroup",
-    "aria": [
-      "aria-label"
-    ]
-  },
-  "red-orange-yellow-green-blue-picker-button": {
-    "role": null,
-    "aria": [
-      "aria-label",
-      "aria-pressed"
-    ]
   },
   "red-orange-yellow-green-blue-view": {
     "role": null,

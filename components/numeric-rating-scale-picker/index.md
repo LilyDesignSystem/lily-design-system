@@ -52,8 +52,8 @@ NumericRatingScalePicker is a headless 0 to 10 rating, such as a numeric pain ra
 
 ## When Not to Use
 
-- Do not use for a Net Promoter Score — use `net-promoter-score-picker`.
-- Do not use for a face scale — faces need a licensed instrument; `five-face-rating-picker` is a satisfaction scale, not a pain scale.
+- Do not use for a Net Promoter Score — use `net-promoter-score-radio-group`.
+- Do not use for a face scale — faces need a licensed instrument; `five-face-rating-radio-group` is a satisfaction scale, not a pain scale.
 - Do not use for a free number — use `number-input`.
 
 ## Headless
@@ -77,7 +77,7 @@ This headless component ships zero CSS and decides nothing visual. The consumer 
 
 ## Related components
 
-- `net-promoter-score-picker` — a picker for selecting a 0-10 Net Promoter Score
+- `net-promoter-score-radio-group` — a picker for selecting a 0-10 Net Promoter Score
 - `radio-group` — a group of radio inputs
 
 ## References

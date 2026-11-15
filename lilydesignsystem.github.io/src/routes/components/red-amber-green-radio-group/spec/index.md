@@ -1,6 +1,6 @@
 # RedAmberGreenRadioGroup plan
 
-- The radio-group counterpart of the `red-amber-green-picker` family (2026-11-15): `red-amber-green-radio-group` holds the consumer's `red-amber-green-radio-input` radios.
+- Added 2026-11-15, replacing the `red-amber-green-picker` family: `red-amber-green-radio-group` holds the consumer's `red-amber-green-radio-input` radios.
 - Implemented in all nine headless catalogs, Svelte first, from `radio-group` and `radio-input`; the HTML, Nunjucks and Alpine catalogs render the same markup statically.
 
 # RedAmberGreenRadioGroup tasks

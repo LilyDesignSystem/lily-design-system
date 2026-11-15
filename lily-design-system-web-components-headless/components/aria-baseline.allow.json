@@ -1,8 +1,4 @@
 {
-  "five-face-rating-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",
-  "five-face-rating-picker-button role": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",
-  "five-star-rating-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",
-  "five-star-rating-picker-button role": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",
   "floating-panel aria-label": "Set only while open, in the sweep's closed state. Svelte keeps it on when closed.",
   "floating-panel role": "Set only while open, in the sweep's closed state. Svelte keeps it on when closed.",
   "go-to-next-section aria-label": "Here `label` is the link's visible text, so its name comes from content; a duplicate aria-label would add nothing.",
@@ -10,12 +6,6 @@
   "go-to-top aria-label": "Here `label` is the link's visible text, so its name comes from content; a duplicate aria-label would add nothing.",
   "hover-card aria-label": "Set only while open, in the sweep's closed state. Svelte keeps it on when closed.",
   "hover-card role": "Set only while open, in the sweep's closed state. Svelte keeps it on when closed.",
-  "net-promoter-score-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",
-  "net-promoter-score-picker-button role": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T19), and Svelte's aria-pressed would leave such a group with no radios.",
-  "red-amber-green-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T18), and Svelte's aria-pressed would leave such a group with no radios.",
-  "red-amber-green-picker-button role": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T18), and Svelte's aria-pressed would leave such a group with no radios.",
-  "red-orange-yellow-green-blue-picker-button aria-pressed": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T18), and Svelte's aria-pressed would leave such a group with no radios.",
-  "red-orange-yellow-green-blue-picker-button role": "A deliberate structural difference: these buttons are role=\"radio\" with aria-checked, for a radiogroup the consumer builds; the picker itself renders native radios (tasks.md P25-T18), and Svelte's aria-pressed would leave such a group with no radios.",
   "slider role": "The custom element is itself the slider, so it carries the role an <input type=\"range\"> has natively.",
   "timeout-dialog aria-label": "Named by its visible title through aria-labelledby, which is stronger than a duplicate aria-label."
 }

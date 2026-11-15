@@ -1,13 +1,18 @@
 <script lang="ts">
-    import FiveStarRatingPicker from "#lib/components/FiveStarRatingPicker/FiveStarRatingPicker.svelte";
+    import FiveStarRatingRadioGroup from "#lib/components/FiveStarRatingRadioGroup/FiveStarRatingRadioGroup.svelte";
+    import FiveStarRatingRadioInput from "#lib/components/FiveStarRatingRadioInput/FiveStarRatingRadioInput.svelte";
     import FiveStarRatingView from "#lib/components/FiveStarRatingView/FiveStarRatingView.svelte";
-    import FiveFaceRatingPicker from "#lib/components/FiveFaceRatingPicker/FiveFaceRatingPicker.svelte";
+    import FiveFaceRatingRadioGroup from "#lib/components/FiveFaceRatingRadioGroup/FiveFaceRatingRadioGroup.svelte";
+    import FiveFaceRatingRadioInput from "#lib/components/FiveFaceRatingRadioInput/FiveFaceRatingRadioInput.svelte";
     import FiveFaceRatingView from "#lib/components/FiveFaceRatingView/FiveFaceRatingView.svelte";
-    import NetPromoterScorePicker from "#lib/components/NetPromoterScorePicker/NetPromoterScorePicker.svelte";
+    import NetPromoterScoreRadioGroup from "#lib/components/NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.svelte";
+    import NetPromoterScoreRadioInput from "#lib/components/NetPromoterScoreRadioInput/NetPromoterScoreRadioInput.svelte";
     import NetPromoterScoreView from "#lib/components/NetPromoterScoreView/NetPromoterScoreView.svelte";
-    import RedAmberGreenPicker from "#lib/components/RedAmberGreenPicker/RedAmberGreenPicker.svelte";
+    import RedAmberGreenRadioGroup from "#lib/components/RedAmberGreenRadioGroup/RedAmberGreenRadioGroup.svelte";
+    import RedAmberGreenRadioInput from "#lib/components/RedAmberGreenRadioInput/RedAmberGreenRadioInput.svelte";
     import RedAmberGreenView from "#lib/components/RedAmberGreenView/RedAmberGreenView.svelte";
-    import RedOrangeYellowGreenBluePicker from "#lib/components/RedOrangeYellowGreenBluePicker/RedOrangeYellowGreenBluePicker.svelte";
+    import RedOrangeYellowGreenBlueRadioGroup from "#lib/components/RedOrangeYellowGreenBlueRadioGroup/RedOrangeYellowGreenBlueRadioGroup.svelte";
+    import RedOrangeYellowGreenBlueRadioInput from "#lib/components/RedOrangeYellowGreenBlueRadioInput/RedOrangeYellowGreenBlueRadioInput.svelte";
     import RedOrangeYellowGreenBlueView from "#lib/components/RedOrangeYellowGreenBlueView/RedOrangeYellowGreenBlueView.svelte";
     import Form from "#lib/components/Form/Form.svelte";
     import Field from "#lib/components/Field/Field.svelte";
@@ -99,10 +104,20 @@
                 headingLevel={3}
             >
                 <p>How would you rate the service overall?</p>
-                <FiveStarRatingPicker
-                    label="Service rating"
-                    bind:value={starRating}
-                />
+                <FiveStarRatingRadioGroup label="Service rating">
+                    {#each [["1", "1 star"], ["2", "2 stars"], ["3", "3 stars"], ["4", "4 stars"], ["5", "5 stars"]] as [value, text]}
+                        <label>
+                            <FiveStarRatingRadioInput
+                                label={text}
+                                name="star-rating"
+                                {value}
+                                checked={String(starRating) === value}
+                                onchange={() => (starRating = Number(value))}
+                            />
+                            {text}
+                        </label>
+                    {/each}
+                </FiveStarRatingRadioGroup>
                 {#if starRating > 0}
                     <p style="margin-top: var(--nhs-space-2);">
                         You selected: <FiveStarRatingView
@@ -121,10 +136,20 @@
                 headingLevel={3}
             >
                 <p>Select the face that best represents your experience.</p>
-                <FiveFaceRatingPicker
-                    label="Experience rating"
-                    bind:value={faceRating}
-                />
+                <FiveFaceRatingRadioGroup label="Experience rating">
+                    {#each [["1", "Very dissatisfied"], ["2", "Dissatisfied"], ["3", "Neutral"], ["4", "Satisfied"], ["5", "Very satisfied"]] as [value, text]}
+                        <label>
+                            <FiveFaceRatingRadioInput
+                                label={text}
+                                name="face-rating"
+                                {value}
+                                checked={String(faceRating) === value}
+                                onchange={() => (faceRating = Number(value))}
+                            />
+                            {text}
+                        </label>
+                    {/each}
+                </FiveFaceRatingRadioGroup>
                 {#if faceRating > 0}
                     <p style="margin-top: var(--nhs-space-2);">
                         You selected: <FiveFaceRatingView
@@ -143,10 +168,20 @@
                 headingLevel={3}
             >
                 <p>On a scale of 0 to 10, how likely are you to recommend this service?</p>
-                <NetPromoterScorePicker
-                    label="NPS rating"
-                    bind:value={npsScore}
-                />
+                <NetPromoterScoreRadioGroup label="NPS rating">
+                    {#each [["0", "0"], ["1", "1"], ["2", "2"], ["3", "3"], ["4", "4"], ["5", "5"], ["6", "6"], ["7", "7"], ["8", "8"], ["9", "9"], ["10", "10"]] as [value, text]}
+                        <label>
+                            <NetPromoterScoreRadioInput
+                                label={text}
+                                name="nps"
+                                {value}
+                                checked={String(npsScore) === value}
+                                onchange={() => (npsScore = value)}
+                            />
+                            {text}
+                        </label>
+                    {/each}
+                </NetPromoterScoreRadioGroup>
                 {#if npsScore}
                     <p style="margin-top: var(--nhs-space-2);">
                         Score: <NetPromoterScoreView
@@ -165,17 +200,20 @@
                 headingLevel={3}
             >
                 <p>Select the current status of this project.</p>
-                <RedAmberGreenPicker
-                    label="Project RAG status"
-                    statusLabel={(status: string) =>
-                        (
-                            ({ red: "Off track", amber: "At risk", green: "On track" }) as Record<
-                                string,
-                                string
-                            >
-                        )[status]}
-                    bind:value={ragStatus}
-                />
+                <RedAmberGreenRadioGroup label="Project RAG status">
+                    {#each [["red", "Off track"], ["amber", "At risk"], ["green", "On track"]] as [value, text]}
+                        <label>
+                            <RedAmberGreenRadioInput
+                                label={text}
+                                name="rag"
+                                {value}
+                                checked={String(ragStatus) === value}
+                                onchange={() => (ragStatus = value)}
+                            />
+                            {text}
+                        </label>
+                    {/each}
+                </RedAmberGreenRadioGroup>
                 {#if ragStatus}
                     <p style="margin-top: var(--nhs-space-2);">
                         Status: <RedAmberGreenView
@@ -194,20 +232,20 @@
                 headingLevel={3}
             >
                 <p>Select the risk level.</p>
-                <RedOrangeYellowGreenBluePicker
-                    label="Risk level"
-                    statusLabel={(status: string) =>
-                        (
-                            ({
-                                red: "Severe",
-                                orange: "High",
-                                yellow: "Medium",
-                                green: "Low",
-                                blue: "Informational",
-                            }) as Record<string, string>
-                        )[status]}
-                    bind:value={roygbStatus}
-                />
+                <RedOrangeYellowGreenBlueRadioGroup label="Risk level">
+                    {#each [["red", "Severe"], ["orange", "High"], ["yellow", "Moderate"], ["green", "Low"], ["blue", "Minimal"]] as [value, text]}
+                        <label>
+                            <RedOrangeYellowGreenBlueRadioInput
+                                label={text}
+                                name="roygb"
+                                {value}
+                                checked={String(roygbStatus) === value}
+                                onchange={() => (roygbStatus = value)}
+                            />
+                            {text}
+                        </label>
+                    {/each}
+                </RedOrangeYellowGreenBlueRadioGroup>
                 {#if roygbStatus}
                     <p style="margin-top: var(--nhs-space-2);">
                         Level: <RedOrangeYellowGreenBlueView

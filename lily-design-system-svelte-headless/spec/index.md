@@ -263,7 +263,7 @@ pnpm run storybook                   # run Storybook
 - [x] Navigation patterns (accordion-nav, breadcrumb-nav, tree-nav, etc.).
 - [x] List patterns (check-list, summary-list, task-list, etc.).
 - [x] Bar patterns (tab-bar, menu-bar, tool-bar, action-bar, task-bar).
-- [x] Picker patterns (color-picker, five-star-rating-picker, etc.).
+- [x] Picker patterns (color-radio-group, five-star-rating-radio-group, etc.).
 - [x] Form composition (form, field, fieldset, error-summary).
 - [x] Overlays and menus (dialog, popover, tooltip, dropdown-menu).
 - [x] Layout components (grail-layout, sidebar, floating-panel, scroll-area).

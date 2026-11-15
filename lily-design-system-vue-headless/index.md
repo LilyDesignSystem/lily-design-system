@@ -109,33 +109,33 @@ Every component's root element includes a semantic CSS class matching its kebab-
 
 Component names follow a suffix-based pattern that indicates the root HTML element:
 
-| Suffix    | HTML Element | Example                                      |
-| --------- | ------------ | -------------------------------------------- |
-| Button    | `<button>`   | `Button`, `ToggleButton`                     |
-| Input     | `<input>`    | `TextInput`, `DateInput`                     |
-| Select    | `<select>`   | `Select`, `ThemeSelect`                      |
-| Dialog    | `<dialog>`   | `Dialog`, `AlertDialog`                      |
-| Nav       | `<nav>`      | `BreadcrumbNav`, `TreeNav`                   |
-| List      | `<ol>`       | `CheckList`, `TaskList`                      |
-| ListItem  | `<li>`       | `CheckListItem`, `TaskListItem`              |
-| Table     | `<table>`    | `DataTable`, `CalendarTable`                 |
-| TableHead | `<thead>`    | `DataTableHead`                              |
-| TableBody | `<tbody>`    | `DataTableBody`                              |
-| TableFoot | `<tfoot>`    | `DataTableFoot`                              |
-| TableTD   | `<col>`      | `DataTableTD`, `CalendarTableTD`             |
-| TableRow  | `<tr>`       | `DataTableRow`                               |
-| TableTD   | `<td>`       | `DataTableTD`                                |
-| Div       | `<div>`      | `PinInputDiv`, `PasswordInputOrTextInputDiv` |
-| Fieldset  | `<fieldset>` | `Fieldset`                                   |
-| Figure    | `<figure>`   | `Figure`                                     |
-| Footer    | `<footer>`   | `Footer`                                     |
-| Header    | `<header>`   | `Header`                                     |
-| Kbd       | `<kbd>`      | `Kbd`                                        |
-| Meter     | `<meter>`    | `Meter`                                      |
-| Option    | `<option>`   | `Option`, `ThemeSelectOption`                |
-| Picker    | `<div>`      | `ColorPicker`, `FiveStarRatingPicker`        |
-| Progress  | `<progress>` | `Progress`                                   |
-| Span      | `<span>`     | `Flair`, `Character`                         |
+| Suffix    | HTML Element | Example                                       |
+| --------- | ------------ | --------------------------------------------- |
+| Button    | `<button>`   | `Button`, `ToggleButton`                      |
+| Input     | `<input>`    | `TextInput`, `DateInput`                      |
+| Select    | `<select>`   | `Select`, `ThemeSelect`                       |
+| Dialog    | `<dialog>`   | `Dialog`, `AlertDialog`                       |
+| Nav       | `<nav>`      | `BreadcrumbNav`, `TreeNav`                    |
+| List      | `<ol>`       | `CheckList`, `TaskList`                       |
+| ListItem  | `<li>`       | `CheckListItem`, `TaskListItem`               |
+| Table     | `<table>`    | `DataTable`, `CalendarTable`                  |
+| TableHead | `<thead>`    | `DataTableHead`                               |
+| TableBody | `<tbody>`    | `DataTableBody`                               |
+| TableFoot | `<tfoot>`    | `DataTableFoot`                               |
+| TableTD   | `<col>`      | `DataTableTD`, `CalendarTableTD`              |
+| TableRow  | `<tr>`       | `DataTableRow`                                |
+| TableTD   | `<td>`       | `DataTableTD`                                 |
+| Div       | `<div>`      | `PinInputDiv`, `PasswordInputOrTextInputDiv`  |
+| Fieldset  | `<fieldset>` | `Fieldset`                                    |
+| Figure    | `<figure>`   | `Figure`                                      |
+| Footer    | `<footer>`   | `Footer`                                      |
+| Header    | `<header>`   | `Header`                                      |
+| Kbd       | `<kbd>`      | `Kbd`                                         |
+| Meter     | `<meter>`    | `Meter`                                       |
+| Option    | `<option>`   | `Option`, `ThemeSelectOption`                 |
+| Picker    | `<div>`      | `ColorRadioGroup`, `FiveStarRatingRadioGroup` |
+| Progress  | `<progress>` | `Progress`                                    |
+| Span      | `<span>`     | `Flair`, `Character`                          |
 
 ## Components
 
@@ -187,7 +187,7 @@ See the [parent project](https://github.com/LilyDesignSystem/lily-design-system)
 - \*List \*ListItem: CheckList, ContentsList, DoList, DontList, PaginationList, SummaryList, TaskList, TimelineList
 - \*Menu \*MenuItem: ContextMenu ContextMenuItem, Menu MenuItem
 - \*Nav \*List \*ListItem: AccordionNav, BreadcrumbNav, ContentsNav, PaginationNav, TreeNav TreeList TreeListItem
-- \*Picker \*PickerButton: ColorPicker, FiveFaceRatingPicker, FiveStarRatingPicker, NetPromoterScorePicker, RedAmberGreenPicker, RedOrangeYellowGreenBluePicker
+- \*Picker \*PickerButton: ColorRadioGroup, FiveFaceRatingRadioGroup, FiveStarRatingRadioGroup, NetPromoterScoreRadioGroup, RedAmberGreenRadioGroup, RedOrangeYellowGreenBlueRadioGroup
 - \*Select \*SelectOption: ThemeSelect ThemeSelectOption
 - \*Table \*TableHead \*TableBody \*TableFoot \*TableTD \*TableRow \*TableTD: CalendarTable, DataTable, GanttTable, KanbanTable, Table
 

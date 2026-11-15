@@ -21,7 +21,7 @@
 - Sets `data-color` and the `--color-radio-input-color` custom property to its colour, so consumer CSS can paint the swatch (`background: var(--color-radio-input-color)`); the component sets no other style
 - Submits its colour unless a `value` is given
 - Supports `name`, `checked` and `disabled`; a form reset restores `checked` natively
-- The radio counterpart of `color-picker-button`: a radio in a radio group, not a toggle button
+- One radio in a radio group; it replaces the earlier `color-picker-button` toggle button where there was one (removed 2026-11-15)
 - Spreads `restProps` onto the input (e.g. `onchange`, `id`)
 
 ## ARIA

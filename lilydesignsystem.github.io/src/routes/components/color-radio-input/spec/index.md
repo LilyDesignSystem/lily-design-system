@@ -1,6 +1,6 @@
 # ColorRadioInput plan
 
-- The radio-group counterpart of the `color-picker` family (2026-11-15): `color-radio-group` holds the consumer's `color-radio-input` radios.
+- Added 2026-11-15, replacing the `color-picker` family: `color-radio-group` holds the consumer's `color-radio-input` radios.
 - Implemented in all nine headless catalogs, Svelte first, from `radio-group` and `radio-input`; the HTML, Nunjucks and Alpine catalogs render the same markup statically.
 
 # ColorRadioInput tasks

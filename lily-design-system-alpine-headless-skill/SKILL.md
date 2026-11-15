@@ -66,11 +66,11 @@ behaviour:
 | `lilyListbox`, `lilySegmentGroup`, `lilyCombobox`, `lilyCommand`                                             | listbox, segment-group, combobox, command                                                                                              | arrows, Enter; `aria-activedescendant`; `lily:select`                                   |
 | `lilyTree`, `lilyTreeSelect`, `lilyCascader`                                                                 | tree-nav, tree-menu, file-tree, tree-select, cascader                                                                                  | APG tree keys, `*`, typeahead; `lily:select`                                            |
 | inputs                                                                                                       | pin-input-div, tag-input-div, mentions-input, editable, editable-form, password toggle, character counter, search, newsletter-signup … | `lily:add`, `lily:remove`, `lily:search`, `lily:submit`, `lily:change`, `lily:complete` |
-| `lilyDial`, `lilyColorPicker`, `lilySplitter`, `lilyCarousel`, `lilyTour`, `lilyCoachmark`, `lilyFileUpload` | dial, color-picker, splitter, carousel, tour, coachmark, file-upload                                                                   | arrows, Shift = ten steps, Home/End; drag for the splitter                              |
+| `lilyDial`, `lilyColorPicker`, `lilySplitter`, `lilyCarousel`, `lilyTour`, `lilyCoachmark`, `lilyFileUpload` | dial, color-radio-group, splitter, carousel, tour, coachmark, file-upload                                                              | arrows, Shift = ten steps, Home/End; drag for the splitter                              |
 
-The five rating and status pickers (`five-star-rating-picker`,
-`five-face-rating-picker`, `net-promoter-score-picker`,
-`red-amber-green-picker`, `red-orange-yellow-green-blue-picker`) and
+The five rating and status pickers (`five-star-rating-radio-group`,
+`five-face-rating-radio-group`, `net-promoter-score-radio-group`,
+`red-amber-green-radio-group`, `red-orange-yellow-green-blue-radio-group`) and
 `slider` / `time-picker-input` are native radios, `<select>` and `<input>`
 bound with `x-model` — no plugin behaviour.
 

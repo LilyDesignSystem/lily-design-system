@@ -20,7 +20,7 @@
     "`label`: string (required) -- accessible name describing the emoji for screen readers"
   ],
   "related": [
-    "emoji-character-picker",
+    "emoji-character-radio-group",
     "character",
     "icon"
   ],

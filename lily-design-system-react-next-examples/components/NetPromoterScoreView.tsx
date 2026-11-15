@@ -37,7 +37,7 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - No score validation or classification logic; consumer handles categorization
-//   - Part of the Input/View pattern; pairs with NetPromoterScorePicker
+//   - Part of the Input/View pattern; pairs with NetPromoterScoreRadioGroup
 //
 // References:
 //   - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score

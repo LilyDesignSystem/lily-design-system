@@ -1,6 +1,6 @@
 # Red Orange Yellow Green Blue Radio Group
 
-RedOrangeYellowGreenBlueRadioGroup is a headless `<fieldset role="radiogroup">` for choosing a five-level colour status, holding the `RedOrangeYellowGreenBlueRadioInput` radios the consumer composes. It is the composable sibling of [RedOrangeYellowGreenBluePicker](red-orange-yellow-green-blue-picker.md): the picker renders its own labelled radios, while this group takes whatever radios, labels and layout the consumer writes.
+RedOrangeYellowGreenBlueRadioGroup is a headless `<fieldset role="radiogroup">` for choosing a five-level colour status, holding the `RedOrangeYellowGreenBlueRadioInput` radios the consumer composes, with whatever labels and layout the consumer writes. It replaces the earlier `red-orange-yellow-green-blue-picker` (removed 2026-11-15).
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -81,7 +81,7 @@ It renders:
 
 ## When Not to Use
 
-- Do not use when the group should render its own options -- use [RedOrangeYellowGreenBluePicker](red-orange-yellow-green-blue-picker.md), which draws one labelled radio per value itself.
+- Do not use when more than one option may be chosen -- use [CheckboxGroup](checkbox-group.md) instead.
 - Do not use for a read-only display -- use [RedOrangeYellowGreenBlueView](red-orange-yellow-green-blue-view.md) instead.
 - Do not use for a plain set of choices with no status or rating meaning -- use [RadioGroup](radio-group.md) instead.
 
@@ -108,7 +108,7 @@ The consumer provides all CSS styling. The component renders with a `.red-orange
 ## Related components
 
 - `red-orange-yellow-green-blue-radio-input` — a radio input for one choice of a five-level color status <input type="radio">
-- `red-orange-yellow-green-blue-picker` — the picker that renders its own radios
+- `red-orange-yellow-green-blue-view` — the read-only display
 - `radio-group` — the general radio group
 
 ## References

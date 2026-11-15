@@ -27,7 +27,7 @@ see the modular specification docs under [spec/](spec/index.md).
 
 ## How the pieces fit
 
-Lily is a stack of layers, each owning one job: the **catalog** (641 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (63 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
+Lily is a stack of layers, each owning one job: the **catalog** (630 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (63 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
 
 ## AI agent support
 
@@ -85,8 +85,8 @@ Headless versions if you want to use components with all your own styles:
 - [Angular headless](lily-design-system-angular-headless)
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
-- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (606 of 641; the remaining 35 are permanently excluded, not backlog)
-- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 641 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and six helpers: the data grid, kanban board, calendar, Gantt chart, Markdown editor and Org editor
+- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (595 of 630; the remaining 35 are permanently excluded, not backlog)
+- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 630 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and six helpers: the data grid, kanban board, calendar, Gantt chart, Markdown editor and Org editor
 
 ## Helpers
 
@@ -304,7 +304,7 @@ The theme-picker helper loads them at runtime.
 
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 641 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 630 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -384,8 +384,6 @@ slug below links to the per-component documentation.
 - [collection-list](components/collection-list): a compact list of multiple related items such as articles or events
 - [collection-list-item](components/collection-list-item): one item in a collection list with optional image, heading, meta, and description
 - [color-input](components/color-input): an input for selecting a color value <input type="color">
-- [color-picker](components/color-picker): a two-dimensional board for picking colors by hue and saturation
-- [color-picker-button](components/color-picker-button): a button showing a color swatch in a color picker
 - [color-radio-group](components/color-radio-group): a fieldset radio group for selecting a color swatch
 - [color-radio-input](components/color-radio-input): a radio input for one choice of a color swatch <input type="radio">
 - [column-chart](components/column-chart): a vertical column chart visualization for displaying data
@@ -441,7 +439,8 @@ slug below links to the per-component documentation.
 - [email-input](components/email-input): an input for entering an email address <input type="email">
 - [email-link](components/email-link): a mailto hyperlink for an email address
 - [emoji](components/emoji): a single emoji character with accessible name
-- [emoji-character-picker](components/emoji-character-picker): a picker for browsing and selecting emoji characters
+- [emoji-character-radio-group](components/emoji-character-radio-group): a fieldset radio group for selecting an emoji character
+- [emoji-character-radio-input](components/emoji-character-radio-input): a radio input for one choice of an emoji character <input type="radio">
 - [end-notes](components/end-notes): a section of titled endnote items at the end of an article
 - [error-message](components/error-message): an error message associated with a form field
 - [error-summary](components/error-summary): a summary of all validation errors on a form
@@ -456,13 +455,9 @@ slug below links to the per-component documentation.
 - [file-input](components/file-input): an input for selecting files from the file system <input type="file">
 - [file-manager](components/file-manager): a file browser for navigating and managing files
 - [file-upload](components/file-upload): a drag-and-drop area for uploading files
-- [five-face-rating-picker](components/five-face-rating-picker): a picker for selecting a 1-5 satisfaction rating using face labels
-- [five-face-rating-picker-button](components/five-face-rating-picker-button): a picker button for selecting a 1-5 satisfaction rating using face labels
 - [five-face-rating-radio-group](components/five-face-rating-radio-group): a fieldset radio group for selecting a 1-5 satisfaction rating using face labels
 - [five-face-rating-radio-input](components/five-face-rating-radio-input): a radio input for one choice of a 1-5 satisfaction rating <input type="radio">
 - [five-face-rating-view](components/five-face-rating-view): a read-only display of a five-face satisfaction rating
-- [five-star-rating-picker](components/five-star-rating-picker): a picker for selecting a 1-5 star rating using radio buttons
-- [five-star-rating-picker-button](components/five-star-rating-picker-button): a picker button for selecting a 1-5 star rating using radio buttons
 - [five-star-rating-radio-group](components/five-star-rating-radio-group): a fieldset radio group for selecting a 1-5 star rating
 - [five-star-rating-radio-input](components/five-star-rating-radio-input): a radio input for one choice of a 1-5 star rating <input type="radio">
 - [five-star-rating-view](components/five-star-rating-view): a read-only display of a five-star rating
@@ -560,8 +555,6 @@ slug below links to the per-component documentation.
 - [mockup-window](components/mockup-window): a box area that looks like a desktop window
 - [month-input](components/month-input): an input for selecting a month and year <input type="month">
 - [navigation-menu](components/navigation-menu): a site-wide navigation menu with links
-- [net-promoter-score-picker](components/net-promoter-score-picker): a picker for selecting a 0-10 Net Promoter Score
-- [net-promoter-score-picker-button](components/net-promoter-score-picker-button): a picker button for selecting a 0-10 Net Promoter Score
 - [net-promoter-score-radio-group](components/net-promoter-score-radio-group): a fieldset radio group for selecting a 0-10 Net Promoter Score
 - [net-promoter-score-radio-input](components/net-promoter-score-radio-input): a radio input for one choice of a 0-10 Net Promoter Score <input type="radio">
 - [net-promoter-score-view](components/net-promoter-score-view): a read-only display of a Net Promoter Score
@@ -600,13 +593,9 @@ slug below links to the per-component documentation.
 - [radio-group](components/radio-group): a group of radio buttons for selecting one option
 - [radio-input](components/radio-input): a single radio button input <input type="radio">
 - [range-input](components/range-input): a slider input for selecting a value within a range <input type="range">
-- [red-amber-green-picker](components/red-amber-green-picker): a picker for selecting a red/amber/green status
-- [red-amber-green-picker-button](components/red-amber-green-picker-button): a picker button for selecting a red/amber/green status
 - [red-amber-green-radio-group](components/red-amber-green-radio-group): a fieldset radio group for selecting a red/amber/green status
 - [red-amber-green-radio-input](components/red-amber-green-radio-input): a radio input for one choice of a red/amber/green status <input type="radio">
 - [red-amber-green-view](components/red-amber-green-view): a read-only display of a red/amber/green status
-- [red-orange-yellow-green-blue-picker](components/red-orange-yellow-green-blue-picker): a picker for selecting a five-level color status
-- [red-orange-yellow-green-blue-picker-button](components/red-orange-yellow-green-blue-picker-button): a picker button for selecting a five-level color status
 - [red-orange-yellow-green-blue-radio-group](components/red-orange-yellow-green-blue-radio-group): a fieldset radio group for selecting a five-level color status
 - [red-orange-yellow-green-blue-radio-input](components/red-orange-yellow-green-blue-radio-input): a radio input for one choice of a five-level color status <input type="radio">
 - [red-orange-yellow-green-blue-view](components/red-orange-yellow-green-blue-view): a read-only display of a five-level color status
@@ -1006,13 +995,13 @@ full contract.
 - \*Input \*Link
   - EmailInput EmailLink
   - TelInput TelLink
-- \*Picker \*PickerButton
-  - ColorPicker ColorPickerButton
-  - FiveFaceRatingPicker FiveFaceRatingPickerButton
-  - FiveStarRatingPicker FiveStarRatingPickerButton
-  - NetPromoterScorePicker NetPromoterScorePickerButton
-  - RedAmberGreenPicker RedAmberGreenPickerButton
-  - RedOrangeYellowGreenBluePicker RedOrangeYellowGreenBluePickerButton
+- \*RadioGroup \*RadioInput
+  - ColorRadioGroup ColorRadioInput
+  - FiveFaceRatingRadioGroup FiveFaceRatingRadioInput
+  - FiveStarRatingRadioGroup FiveStarRatingRadioInput
+  - NetPromoterScoreRadioGroup NetPromoterScoreRadioInput
+  - RedAmberGreenRadioGroup RedAmberGreenRadioInput
+  - RedOrangeYellowGreenBlueRadioGroup RedOrangeYellowGreenBlueRadioInput
 - \*Input \*View
   - PostalCodeInput PostalCodeView
   - MeasurementInstanceInput MeasurementInstanceView

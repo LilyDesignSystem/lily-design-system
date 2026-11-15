@@ -1,6 +1,6 @@
 ## Components
 
-The canonical catalog of 641 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
+The canonical catalog of 630 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
 
 Use the bin tools to query the catalog programmatically:
 
@@ -31,7 +31,7 @@ Use the bin tools to query the catalog programmatically:
 | meter       | `<meter>`    | Meter                                                        |
 | nav         | `<nav>`      | BreadcrumbNav, TreeNav                                       |
 | option      | `<option>`   | Option, ThemeSelectOption                                    |
-| picker      | `<div>`      | ColorPicker, FiveStarRatingPicker                            |
+| picker      | `<div>`      | WheelPicker, CalendarRangePicker                             |
 | picture     | `<picture>`  | Picture                                                      |
 | progress    | `<progress>` | Progress                                                     |
 | select      | `<select>`   | Select, ThemeSelect                                          |
@@ -90,13 +90,14 @@ Use the bin tools to query the catalog programmatically:
 - `*Input` `*Link`
   - TelInput TelLink
   - EmailInput EmailLink
-- `*Picker` `*PickerButton`
-  - ColorPicker ColorPickerButton
-  - FiveFaceRatingPicker FiveFaceRatingPickerButton
-  - FiveStarRatingPicker FiveStarRatingPickerButton
-  - NetPromoterScorePicker NetPromoterScorePickerButton
-  - RedAmberGreenPicker RedAmberGreenPickerButton
-  - RedOrangeYellowGreenBluePicker RedOrangeYellowGreenBluePickerButton
+- `*RadioGroup` `*RadioInput` (a `<fieldset role="radiogroup">` holding native radios)
+  - ColorRadioGroup ColorRadioInput
+  - FiveFaceRatingRadioGroup FiveFaceRatingRadioInput
+  - FiveStarRatingRadioGroup FiveStarRatingRadioInput
+  - NetPromoterScoreRadioGroup NetPromoterScoreRadioInput
+  - RedAmberGreenRadioGroup RedAmberGreenRadioInput
+  - RedOrangeYellowGreenBlueRadioGroup RedOrangeYellowGreenBlueRadioInput
+  - EmojiCharacterRadioGroup EmojiCharacterRadioInput
 - `*Input` `*View`
   - PostalCodeInput PostalCodeView
   - MeasurementInstanceInput MeasurementInstanceView

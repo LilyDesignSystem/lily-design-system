@@ -12,7 +12,7 @@
 
 ## Companion
 
-- red-amber-green-picker
+- red-amber-green-radio-group
 
 ## Key Behaviors
 

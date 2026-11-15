@@ -2808,7 +2808,7 @@
       "core": false
     },
     {
-      "slug": "net-promoter-score-picker",
+      "slug": "net-promoter-score-radio-group",
       "group": "form family",
       "helper": false,
       "keyboard": {
@@ -2820,79 +2820,80 @@
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-svelte-headless/components/NetPromoterScorePicker/NetPromoterScorePicker.keyboard.test.ts",
-              "lily-design-system-svelte-headless/components/NetPromoterScorePicker/NetPromoterScorePicker.test.ts"
+              "lily-design-system-svelte-headless/components/NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.keyboard.test.ts",
+              "lily-design-system-svelte-headless/components/NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.test.ts"
             ],
-            "keyEvent": "lily-design-system-svelte-headless/components/NetPromoterScorePicker/NetPromoterScorePicker.keyboard.test.ts",
-            "ariaAssertion": "lily-design-system-svelte-headless/components/NetPromoterScorePicker/NetPromoterScorePicker.keyboard.test.ts"
+            "keyEvent": "lily-design-system-svelte-headless/components/NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.keyboard.test.ts",
+            "ariaAssertion": "lily-design-system-svelte-headless/components/NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.keyboard.test.ts"
           },
           "react": {
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-react-headless/components/NetPromoterScorePicker.keyboard.test.tsx",
-              "lily-design-system-react-headless/components/NetPromoterScorePicker.test.tsx"
+              "lily-design-system-react-headless/components/NetPromoterScoreRadioGroup.keyboard.test.tsx",
+              "lily-design-system-react-headless/components/NetPromoterScoreRadioGroup.test.tsx"
             ],
-            "keyEvent": "lily-design-system-react-headless/components/NetPromoterScorePicker.keyboard.test.tsx",
-            "ariaAssertion": "lily-design-system-react-headless/components/NetPromoterScorePicker.keyboard.test.tsx"
+            "keyEvent": "lily-design-system-react-headless/components/NetPromoterScoreRadioGroup.keyboard.test.tsx",
+            "ariaAssertion": "lily-design-system-react-headless/components/NetPromoterScoreRadioGroup.keyboard.test.tsx"
           },
           "vue": {
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-vue-headless/components/NetPromoterScorePicker.keyboard.test.ts",
-              "lily-design-system-vue-headless/components/NetPromoterScorePicker.test.ts"
+              "lily-design-system-vue-headless/components/NetPromoterScoreRadioGroup.keyboard.test.ts",
+              "lily-design-system-vue-headless/components/NetPromoterScoreRadioGroup.test.ts"
             ],
-            "keyEvent": "lily-design-system-vue-headless/components/NetPromoterScorePicker.keyboard.test.ts",
-            "ariaAssertion": "lily-design-system-vue-headless/components/NetPromoterScorePicker.keyboard.test.ts"
+            "keyEvent": "lily-design-system-vue-headless/components/NetPromoterScoreRadioGroup.keyboard.test.ts",
+            "ariaAssertion": "lily-design-system-vue-headless/components/NetPromoterScoreRadioGroup.keyboard.test.ts"
           },
           "angular": {
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-angular-headless/components/NetPromoterScorePicker.keyboard.spec.ts",
-              "lily-design-system-angular-headless/components/NetPromoterScorePicker.spec.ts"
+              "lily-design-system-angular-headless/components/NetPromoterScoreRadioGroup.keyboard.spec.ts",
+              "lily-design-system-angular-headless/components/NetPromoterScoreRadioGroup.spec.ts"
             ],
-            "keyEvent": "lily-design-system-angular-headless/components/NetPromoterScorePicker.keyboard.spec.ts",
-            "ariaAssertion": "lily-design-system-angular-headless/components/NetPromoterScorePicker.keyboard.spec.ts"
+            "keyEvent": "lily-design-system-angular-headless/components/NetPromoterScoreRadioGroup.keyboard.spec.ts",
+            "ariaAssertion": "lily-design-system-angular-headless/components/NetPromoterScoreRadioGroup.keyboard.spec.ts"
           },
           "html": {
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-html-headless/components/net-promoter-score-picker.keyboard.test.js",
-              "lily-design-system-html-headless/components/net-promoter-score-picker.test.js"
+              "lily-design-system-html-headless/components/net-promoter-score-radio-group.keyboard.test.js",
+              "lily-design-system-html-headless/components/net-promoter-score-radio-group.test.js"
             ],
-            "keyEvent": "lily-design-system-html-headless/components/net-promoter-score-picker.keyboard.test.js",
-            "ariaAssertion": "lily-design-system-html-headless/components/net-promoter-score-picker.keyboard.test.js"
+            "keyEvent": "lily-design-system-html-headless/components/net-promoter-score-radio-group.keyboard.test.js",
+            "ariaAssertion": "lily-design-system-html-headless/components/net-promoter-score-radio-group.keyboard.test.js"
           },
           "web-components": {
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts"
+              "lily-design-system-web-components-headless/components/net-promoter-score-radio-group.keyboard.test.ts",
+              "lily-design-system-web-components-headless/components/net-promoter-score-radio-group.test.ts"
             ],
-            "keyEvent": "lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts",
-            "ariaAssertion": "lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts"
+            "keyEvent": "lily-design-system-web-components-headless/components/net-promoter-score-radio-group.keyboard.test.ts",
+            "ariaAssertion": "lily-design-system-web-components-headless/components/net-promoter-score-radio-group.keyboard.test.ts"
           },
           "nunjucks": {
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js",
-              "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/net-promoter-score-picker.keys.test.js"
+              "lily-design-system-nunjucks-headless/components/net-promoter-score-radio-group/keyboard.test.js",
+              "lily-design-system-nunjucks-headless/components/net-promoter-score-radio-group/macro.test.js"
             ],
-            "keyEvent": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/net-promoter-score-picker.keys.test.js",
-            "ariaAssertion": "lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js"
+            "keyEvent": "lily-design-system-nunjucks-headless/components/net-promoter-score-radio-group/keyboard.test.js",
+            "ariaAssertion": "lily-design-system-nunjucks-headless/components/net-promoter-score-radio-group/keyboard.test.js"
           },
           "blazor": {
             "status": "met",
             "met": true,
             "testFiles": [
-              "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScorePickerTests.cs"
+              "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScoreRadioGroupTests.cs"
             ],
             "keyEvent": "not sendable (no key handler in the component, and the test runner runs no browser)",
-            "ariaAssertion": "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScorePickerTests.cs"
+            "ariaAssertion": "lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScoreRadioGroupTests.cs"
           }
         }
       },
@@ -2904,14 +2905,8 @@
           "webkit"
         ],
         "specs": [
-          "lily-design-system-svelte-sveltekit-examples/e2e/components/net-promoter-score-picker.spec.ts",
-          "lily-design-system-react-next-examples/e2e/components/net-promoter-score-picker.spec.ts",
-          "lily-design-system-vue-nuxt-examples/e2e/components/net-promoter-score-picker.spec.ts",
-          "lily-design-system-angular-examples/e2e/components/net-promoter-score-picker.spec.ts",
-          "lily-design-system-html-css-js-examples/e2e/components/net-promoter-score-picker.spec.ts",
           "lily-design-system-nunjucks-eleventy-examples/e2e/core-candidates.spec.ts",
-          "lily-design-system-blazor-web-examples/e2e/components/net-promoter-score-picker.spec.ts",
-          "lilydesignsystem.github.io/tests/components/net-promoter-score-picker.spec.ts"
+          "lilydesignsystem.github.io/tests/components/net-promoter-score-radio-group.spec.ts"
         ]
       },
       "screenReader": {

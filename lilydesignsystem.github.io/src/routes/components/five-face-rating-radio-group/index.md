@@ -1,6 +1,6 @@
 # Five Face Rating Radio Group
 
-FiveFaceRatingRadioGroup is a headless `<fieldset role="radiogroup">` for choosing a 1-5 satisfaction rating with face labels, holding the `FiveFaceRatingRadioInput` radios the consumer composes. It is the composable sibling of [FiveFaceRatingPicker](../five-face-rating-picker/): the picker renders its own labelled radios, while this group takes whatever radios, labels and layout the consumer writes.
+FiveFaceRatingRadioGroup is a headless `<fieldset role="radiogroup">` for choosing a 1-5 satisfaction rating with face labels, holding the `FiveFaceRatingRadioInput` radios the consumer composes, with whatever labels and layout the consumer writes. It replaces the earlier `five-face-rating-picker` (removed 2026-11-15).
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -80,7 +80,7 @@ It renders:
 
 ## When Not to Use
 
-- Do not use when the group should render its own options -- use [FiveFaceRatingPicker](../five-face-rating-picker/), which draws one labelled radio per value itself.
+- Do not use when more than one option may be chosen -- use [CheckboxGroup](../checkbox-group/) instead.
 - Do not use for a read-only display -- use [FiveFaceRatingView](../five-face-rating-view/) instead.
 - Do not use for a plain set of choices with no status or rating meaning -- use [RadioGroup](../radio-group/) instead.
 
@@ -107,7 +107,7 @@ The consumer provides all CSS styling. The component renders with a `.five-face-
 ## Related components
 
 - `five-face-rating-radio-input` — a radio input for one choice of a 1-5 satisfaction rating <input type="radio">
-- `five-face-rating-picker` — the picker that renders its own radios
+- `five-face-rating-view` — the read-only display
 - `radio-group` — the general radio group
 
 ## References

@@ -49,7 +49,7 @@ Composed-page demos:
 - `/file-upload-form` — FileInput + Button
 - `/navigation-and-menus` — NavigationMenu + MenuBar + HamburgerMenu
 - `/page-layout` — Header, Footer, BreadcrumbNav, Sidebar, Panel
-- `/rating-and-feedback` — FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker
+- `/rating-and-feedback` — FiveStarRatingRadioGroup, FiveFaceRatingRadioGroup, NetPromoterScoreRadioGroup
 - `/search-and-filter` — SearchInput + Combobox + TagGroup + Badge
 - `/settings-page` — Fieldset, SwitchButton, RadioGroup, Select
 - `/tabbed-interface` — TabBar + TabBarButton + TabPanel

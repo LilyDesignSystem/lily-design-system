@@ -17,7 +17,7 @@
 
 ## Companion
 
-- net-promoter-score-picker (renders its own radios; this group takes the consumer's)
+- net-promoter-score-view
 
 ## Key Behaviors
 

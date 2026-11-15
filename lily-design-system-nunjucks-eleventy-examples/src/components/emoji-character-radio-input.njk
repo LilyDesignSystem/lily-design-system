@@ -1,0 +1,30 @@
+---
+layout: layouts/component-demo.njk
+title: Emoji Character Radio Input
+description: a radio input for one choice of an emoji character
+---
+
+{% from "components/emoji-character-radio-group/macro.njk" import emojiCharacterRadioGroup %}
+{% from "components/emoji-character-radio-input/macro.njk" import emojiCharacterRadioInput %}
+
+<h2>In its group</h2>
+{% call emojiCharacterRadioGroup({ label: "Your reaction" }) %}
+  <div>
+    {{ emojiCharacterRadioInput({ id: "emoji-i-0", name: "reaction", value: "😀", label: "Grinning face" }) }}
+    <label class="label" for="emoji-i-0"><span aria-hidden="true">😀</span> Grinning face</label>
+  </div>
+  <div>
+    {{ emojiCharacterRadioInput({ id: "emoji-i-1", name: "reaction", value: "🙂", checked: true, label: "Slightly smiling face" }) }}
+    <label class="label" for="emoji-i-1"><span aria-hidden="true">🙂</span> Slightly smiling face</label>
+  </div>
+  <div>
+    {{ emojiCharacterRadioInput({ id: "emoji-i-2", name: "reaction", value: "😐", label: "Neutral face" }) }}
+    <label class="label" for="emoji-i-2"><span aria-hidden="true">😐</span> Neutral face</label>
+  </div>
+{% endcall %}
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;label class="label" for="demo-emoji-i-0"&gt;&lt;input class="emoji-character-radio-input" type="radio" id="demo-emoji-i-0" name="demo-reaction" aria-label="Slightly smiling face" value="🙂" data-value="🙂" checked /&gt; &lt;span aria-hidden="true"&gt;🙂&lt;/span&gt; Slightly smiling face&lt;/label&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

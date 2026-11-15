@@ -1,7 +1,7 @@
 // RedOrangeYellowGreenBlueView component
 //
 // A headless read-only display of a five-level (red/orange/yellow/
-// green/blue) status. Companion: red-orange-yellow-green-blue-picker.
+// green/blue) status. Companion: red-orange-yellow-green-blue-radio-group.
 //   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
 //
 // Attributes:

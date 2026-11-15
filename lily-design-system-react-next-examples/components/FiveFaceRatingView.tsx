@@ -1,7 +1,7 @@
 // FiveFaceRatingView component
 //
 // A read-only five-face rating display that shows a text label corresponding to a
-// rating value from 1 to 5. This is the display-only companion to FiveFaceRatingPicker,
+// rating value from 1 to 5. This is the display-only companion to FiveFaceRatingRadioGroup,
 // used for showing previously submitted ratings in summaries, review lists, or
 // dashboard displays. Renders a span with role="img" and the face label text.
 //
@@ -36,7 +36,7 @@
 // Claude rules:
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - Uses computed to look up the face label from the labels array based on value
-//   - Companion to FiveFaceRatingPicker for the Input/View pattern
+//   - Companion to FiveFaceRatingRadioGroup for the Input/View pattern
 //
 // References:
 //   - WAI-ARIA img role: https://www.w3.org/WAI/ARIA/apd/roles/img/

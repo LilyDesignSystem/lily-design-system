@@ -32,7 +32,7 @@
     "`...restProps`: any — additional HTML attributes spread onto the root"
   ],
   "related": [
-    "net-promoter-score-picker",
+    "net-promoter-score-radio-group",
     "radio-group"
   ],
   "files": {

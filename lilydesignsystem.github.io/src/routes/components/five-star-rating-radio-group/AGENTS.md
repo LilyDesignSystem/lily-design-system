@@ -17,7 +17,7 @@
 
 ## Companion
 
-- five-star-rating-picker (renders its own radios; this group takes the consumer's)
+- five-star-rating-view
 
 ## Key Behaviors
 

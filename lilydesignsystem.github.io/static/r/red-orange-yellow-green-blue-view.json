@@ -18,7 +18,7 @@
     "`...restProps`: any additional HTML attributes spread onto the `<span>` element"
   ],
   "related": [
-    "red-orange-yellow-green-blue-picker"
+    "red-orange-yellow-green-blue-radio-group"
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/red-orange-yellow-green-blue-view.html",

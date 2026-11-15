@@ -2,7 +2,7 @@
 //
 // A read-only <span role="img"> display of a five-star rating (0-5),
 // containing 5 inner <span aria-hidden="true"> star characters (filled
-// or empty). Companion: five-star-rating-picker.
+// or empty). Companion: five-star-rating-radio-group.
 //
 // Attributes:
 //   value — REQUIRED. Rating value (0-5), exposed via data-value on the

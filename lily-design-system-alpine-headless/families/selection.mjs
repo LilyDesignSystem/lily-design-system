@@ -1,58 +1,11 @@
 // Family: selection. lilyListbox (listbox), lilySegmentGroup (segment-group),
 // lilyAutosuggest (autosuggest),
-// lilyCombobox (combobox), lilyCommand (command), and the five rating and
-// status pickers, which are native radios bound with x-model.
+// lilyCombobox (combobox), lilyCommand (command).
 
 const press = `const press = async (target, key, init = {}) => {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
   await tick();
 };`;
-
-// A native radio picker: a fieldset of label + radio pairs, two-way bound.
-const radioPicker = (slug, values, name, keyboard, tag = "fieldset") => ({
-    tag,
-    keyboard,
-    aria: 'fieldset with role="radiogroup" and aria-label; native radios share a name; x-model keeps the chosen value in data-value',
-    markup: `<fieldset class="${slug}" role="radiogroup" aria-label="" x-data="{ value: '' }" :data-value="value">
-${values.map((v) => `  <label class="${slug}-button"><input type="radio" name="${name}" value="${v}" aria-label="${v}" x-model="value"> ${v}</label>`).join("\n")}
-</fieldset>`,
-    sel: `fieldset.${slug}`,
-    extra: `import { userEvent } from "@testing-library/user-event";`,
-    test: `
-  const radios = () => [...document.querySelectorAll("input[type=radio]")];
-  it("ArrowRight and ArrowLeft move the selection through the native radio group", async () => {
-    // The arrows are the browser's (user-event plays them in jsdom); what this guards is the shared name.
-    const user = userEvent.setup();
-    await mount("${slug}");
-    const r = radios();
-    await user.click(r[1]);
-    await user.keyboard("{ArrowRight}");
-    expect(r[2].checked).toBe(true);
-    expect(document.activeElement).toBe(r[2]);
-    await user.keyboard("{ArrowLeft}{ArrowLeft}");
-    expect(r[0].checked).toBe(true);
-  });
-  it("renders ${values.length} native radios that share one name", async () => {
-    await mount("${slug}");
-    expect(el().getAttribute("role")).toBe("radiogroup");
-    expect(radios()).toHaveLength(${values.length});
-    expect(new Set(radios().map((r) => r.name))).toEqual(new Set(["${name}"]));
-    expect(radios().every((r) => !r.checked)).toBe(true);
-  });
-  it("choosing a radio unchecks the others and updates data-value", async () => {
-    await mount("${slug}");
-    radios()[2].click(); await tick();
-    expect(radios().map((r) => r.checked)).toEqual(radios().map((_, i) => i === 2));
-    expect(el().getAttribute("data-value")).toBe("${values[2]}");
-    radios()[0].click(); await tick();
-    expect(el().getAttribute("data-value")).toBe("${values[0]}");
-  });
-  it("a disabled fieldset disables every radio", async () => {
-    await mount("${slug}");
-    el().disabled = true;
-    expect(radios().every((r) => r.matches(":disabled"))).toBe(true);
-  });`,
-});
 
 const options = (slug, n, attrs) =>
     Array.from(
@@ -371,35 +324,4 @@ ${press}`,
     expect(clicked).toHaveBeenCalledTimes(1);
   });`,
     },
-
-    "five-star-rating-picker": radioPicker(
-        "five-star-rating-picker",
-        [1, 2, 3, 4, 5],
-        "rating",
-        "Tab focuses the selected radio; arrows move between radios; Space selects",
-    ),
-    "five-face-rating-picker": radioPicker(
-        "five-face-rating-picker",
-        [1, 2, 3, 4, 5],
-        "satisfaction",
-        "Tab focuses the selected radio; arrows move between radios; Space selects",
-    ),
-    "net-promoter-score-picker": radioPicker(
-        "net-promoter-score-picker",
-        [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        "nps",
-        "arrows move between radios (native radio group); Space selects; Tab leaves the group",
-    ),
-    "red-amber-green-picker": radioPicker(
-        "red-amber-green-picker",
-        ["red", "amber", "green"],
-        "status",
-        "Tab focuses the selected radio; arrows move between radios; Space selects",
-    ),
-    "red-orange-yellow-green-blue-picker": radioPicker(
-        "red-orange-yellow-green-blue-picker",
-        ["red", "orange", "yellow", "green", "blue"],
-        "status",
-        "Tab focuses the selected radio; arrows move between radios; Space selects",
-    ),
 };

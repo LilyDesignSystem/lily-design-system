@@ -17,7 +17,7 @@
 
 ## Companion
 
-- color-picker (renders its own radios; this group takes the consumer's)
+- color-input
 
 ## Key Behaviors
 

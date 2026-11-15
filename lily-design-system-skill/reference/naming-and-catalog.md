@@ -25,7 +25,7 @@ the compound name-family patterns, rather than the short list in SKILL.md.
 | `-meter`                                           | `<meter>`                                          | Meter                                            |
 | `-nav`                                             | `<nav>`                                            | BreadcrumbNav, TreeNav                           |
 | `-option`                                          | `<option>`                                         | Option, ThemeSelectOption                        |
-| `-picker`                                          | `<div>`                                            | ColorPicker, FiveStarRatingPicker                |
+| `-picker`                                          | `<div>`                                            | ColorRadioGroup, FiveStarRatingRadioGroup        |
 | `-progress`                                        | `<progress>`                                       | Progress                                         |
 | `-select`                                          | `<select>`                                         | Select, ThemeSelect                              |
 | `-span`                                            | `<span>`                                           | Flair, Character                                 |
@@ -43,27 +43,27 @@ the compound name-family patterns, rather than the short list in SKILL.md.
 - `*Select` `*SelectOption` — ThemeSelect/ThemeSelectOption
 - `*Menu` `*MenuItem` — ContextMenu/ContextMenuItem, Menu/MenuItem
 - `*Input` `*Link` — TelInput/TelLink, EmailInput/EmailLink
-- `*Picker` `*PickerButton` — ColorPicker, FiveFaceRatingPicker, FiveStarRatingPicker, NetPromoterScorePicker, RedAmberGreenPicker, RedOrangeYellowGreenBluePicker
+- `*Picker` `*PickerButton` — ColorRadioGroup, FiveFaceRatingRadioGroup, FiveStarRatingRadioGroup, NetPromoterScoreRadioGroup, RedAmberGreenRadioGroup, RedOrangeYellowGreenBlueRadioGroup
 - `*Input` `*View` — PostalCodeInput/PostalCodeView, MeasurementInstanceInput/MeasurementInstanceView
 - `ContainerWith*` — ContainerWithFixedWidth, ContainerWithFluidWidth
 - Table sub-elements — `*TableHead`/`*TableBody`/`*TableFoot`/`*TableRow`/`*TableTH`/`*TableTD` on Table, CalendarTable, DataTable, KanbanTable; GanttTable spells its own sub-elements with plain HTML names (`*TableThead`, `*TableTbody`, …)
 
 ## Catalog by category (608 components)
 
-| Category                      | Count | Examples                                                    |
-| ----------------------------- | ----- | ----------------------------------------------------------- |
-| Content                       | 165   | Byline, Headline, ContentBlock, FeaturePhoto, Scroller*     |
-| National personal identifiers | 164   | 82 identifier types × `-input`/`-view` across 50+ countries |
-| Forms                         | 61    | TextInput, Field, ErrorSummary, Fieldset, RadioGroup        |
-| Navigation                    | 55    | BreadcrumbNav, TabBar, AccordionNav, PaginationNav          |
-| Lists                         | 40    | CheckList, SummaryList, TaskList, TreeList                  |
-| Tables                        | 40    | DataTable, CalendarTable, GanttTable, KanbanTable           |
-| Links                         | 16    | TelLink, EmailLink, AccordionLink                           |
-| Pickers                       | 15    | ColorPicker, FiveStarRatingPicker, NetPromoterScorePicker   |
-| Overlays                      | 17    | Dialog, AlertDialog, Drawer, Tooltip                        |
-| Media                         | 7     | VideoPlayer, Figure, TileMap                                |
-| Buttons                       | 8     | Button, ToggleButton, SwitchButton                          |
-| Data visualisation            | 19    | Meter, Progress, ProgressCircle                             |
+| Category                      | Count | Examples                                                              |
+| ----------------------------- | ----- | --------------------------------------------------------------------- |
+| Content                       | 165   | Byline, Headline, ContentBlock, FeaturePhoto, Scroller*               |
+| National personal identifiers | 164   | 82 identifier types × `-input`/`-view` across 50+ countries           |
+| Forms                         | 61    | TextInput, Field, ErrorSummary, Fieldset, RadioGroup                  |
+| Navigation                    | 55    | BreadcrumbNav, TabBar, AccordionNav, PaginationNav                    |
+| Lists                         | 40    | CheckList, SummaryList, TaskList, TreeList                            |
+| Tables                        | 40    | DataTable, CalendarTable, GanttTable, KanbanTable                     |
+| Links                         | 16    | TelLink, EmailLink, AccordionLink                                     |
+| Pickers                       | 15    | ColorRadioGroup, FiveStarRatingRadioGroup, NetPromoterScoreRadioGroup |
+| Overlays                      | 17    | Dialog, AlertDialog, Drawer, Tooltip                                  |
+| Media                         | 7     | VideoPlayer, Figure, TileMap                                          |
+| Buttons                       | 8     | Button, ToggleButton, SwitchButton                                    |
+| Data visualisation            | 19    | Meter, Progress, ProgressCircle                                       |
 
 The authoritative source is `components.tsv` in the canonical repo (one row
 per component: slug, PascalCase name, description) — this table is a

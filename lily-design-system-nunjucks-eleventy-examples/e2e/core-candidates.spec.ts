@@ -362,19 +362,18 @@ test.describe("composite widgets", () => {
         await expect(first).toHaveAttribute("aria-expanded", "true");
     });
 
-    test(".net-promoter-score-picker: a named radio group that a keyboard can reach", async ({
+    test(".net-promoter-score-radio-group: a named radio group that a keyboard can reach", async ({
         page,
     }) => {
-        await open(page, "/components/net-promoter-score-picker/");
-        const group = page.locator(".net-promoter-score-picker").first();
+        await open(page, "/components/net-promoter-score-radio-group/");
+        const group = page.locator(".net-promoter-score-radio-group").first();
         await expect(group).toHaveRole("radiogroup");
         await expect(group).toHaveAccessibleName(/How likely are you to recommend us/);
         const radios = group.getByRole("radio");
         await expect(radios).toHaveCount(11);
-        // Native radios: the browser's keys, from the checked one (8).
-        const checked = group.getByRole("radio", { checked: true });
-        await expect(checked).toHaveCount(1);
-        await checked.focus();
+        // Native radios: the browser's keys.
+        await radios.nth(8).check();
+        await radios.nth(8).focus();
         await page.keyboard.press("ArrowRight");
         await expect(radios.nth(9)).toBeChecked();
     });

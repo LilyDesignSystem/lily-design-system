@@ -66,20 +66,20 @@ lily-design-system-vue-nuxt-examples/
 
 ## Example Pages
 
-| Page         | Route                   | Components Demonstrated                                                                                      |
-| ------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------ |
-| Contact Form | `/contact-form`         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary                      |
-| Dashboard    | `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                                                     |
-| Dialog Flow  | `/dialog-flow`          | Dialog, AlertDialog, Drawer, Button, Tooltip                                                                 |
-| File Upload  | `/file-upload-form`     | FileUpload, FileInput, Progress, Button, Alert, Badge, Form, Field                                           |
-| Navigation   | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu, Separator                                     |
-| Page Layout  | `/page-layout`          | SkipLink, Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu                                             |
-| Rating       | `/rating-and-feedback`  | FiveStarRatingPicker, FiveStarRatingView, FiveFaceRatingPicker, NetPromoterScorePicker, TextAreaInput, Alert |
-| Search       | `/search-and-filter`    | Combobox, SearchInput, TagInputDiv, TagGroup, Tag, DataTable, Badge                                          |
-| Settings     | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Separator, Button, Banner                            |
-| Tabs         | `/tabbed-interface`     | TabBar, TabBarButton, AccordionNav, Badge                                                                    |
-| Tasks        | `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                                    |
-| Timeline     | `/timeline-and-cards`   | TimelineList, Card, DateRange, DateInput, ReviewDate, SummaryList, Field                                     |
+| Page         | Route                   | Components Demonstrated                                                                                                  |
+| ------------ | ----------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Contact Form | `/contact-form`         | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary                                  |
+| Dashboard    | `/dashboard`            | Card, Progress, ProgressCircle, Badge, Banner, DataTable                                                                 |
+| Dialog Flow  | `/dialog-flow`          | Dialog, AlertDialog, Drawer, Button, Tooltip                                                                             |
+| File Upload  | `/file-upload-form`     | FileUpload, FileInput, Progress, Button, Alert, Badge, Form, Field                                                       |
+| Navigation   | `/navigation-and-menus` | NavigationMenu, MenuBar, ToolBar, HamburgerMenu, DropdownMenu, Separator                                                 |
+| Page Layout  | `/page-layout`          | SkipLink, Header, Footer, BreadcrumbNav, Sidebar, NavigationMenu                                                         |
+| Rating       | `/rating-and-feedback`  | FiveStarRatingRadioGroup, FiveStarRatingView, FiveFaceRatingRadioGroup, NetPromoterScoreRadioGroup, TextAreaInput, Alert |
+| Search       | `/search-and-filter`    | Combobox, SearchInput, TagInputDiv, TagGroup, Tag, DataTable, Badge                                                      |
+| Settings     | `/settings-page`        | SwitchButton, RadioGroup, RadioInput, Select, Fieldset, Separator, Button, Banner                                        |
+| Tabs         | `/tabbed-interface`     | TabBar, TabBarButton, AccordionNav, Badge                                                                                |
+| Tasks        | `/task-management`      | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                                                |
+| Timeline     | `/timeline-and-cards`   | TimelineList, Card, DateRange, DateInput, ReviewDate, SummaryList, Field                                                 |
 
 ## Routes
 

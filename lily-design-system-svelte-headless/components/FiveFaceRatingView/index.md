@@ -4,7 +4,7 @@ A read-only display of a 1–5 face rating. Renders a `<span role="img">` whose 
 
 ## What it is
 
-`FiveFaceRatingView` is the display-only companion to `FiveFaceRatingPicker`. Given a numeric `value` (1–5) it derives the matching face label from the `labels` array and renders it inside a `<span role="img">` with an `aria-label` for accessibility. The `data-value` attribute exposes the numeric value for consumer CSS.
+`FiveFaceRatingView` is the display-only companion to `FiveFaceRatingRadioGroup`. Given a numeric `value` (1–5) it derives the matching face label from the `labels` array and renders it inside a `<span role="img">` with an `aria-label` for accessibility. The `data-value` attribute exposes the numeric value for consumer CSS.
 
 ## What it does
 
@@ -21,7 +21,7 @@ A read-only display of a 1–5 face rating. Renders a `<span role="img">` whose 
 
 ## When not to use it
 
-- For capturing a new rating. Use `FiveFaceRatingPicker`.
+- For capturing a new rating. Use `FiveFaceRatingRadioGroup`.
 - For star ratings. Use `FiveStarRatingView`.
 - For Net Promoter Score values. Use `NetPromoterScoreView`.
 - For free-form text display. Use a plain `<span>`.
@@ -85,7 +85,7 @@ Provide the numeric value and a label describing the rating.
 ### 4. Paired with the picker
 
 ```svelte
-<FiveFaceRatingPicker
+<FiveFaceRatingRadioGroup
   label="Rate"
   bind:value={rating}
 />
@@ -117,8 +117,8 @@ Provide the numeric value and a label describing the rating.
 
 ## Related components
 
-- `FiveFaceRatingPicker` — picker counterpart (radio-based).
-- `FiveFaceRatingPickerButton` — individual face button primitive.
+- `FiveFaceRatingRadioGroup` — picker counterpart (radio-based).
+- `FiveFaceRatingRadioInput` — individual face button primitive.
 - `FiveStarRatingView`, `NetPromoterScoreView`, `RedAmberGreenView`, `RedOrangeYellowGreenBlueView` — analogous read-only rating views.
 
 ---

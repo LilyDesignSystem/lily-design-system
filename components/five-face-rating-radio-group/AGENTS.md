@@ -17,7 +17,7 @@
 
 ## Companion
 
-- five-face-rating-picker (renders its own radios; this group takes the consumer's)
+- five-face-rating-view
 
 ## Key Behaviors
 

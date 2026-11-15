@@ -1,5 +1,5 @@
 {
-  "count": 641,
+  "count": 630,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -710,18 +710,6 @@
       "manifest": "https://lilydesignsystem.com/r/color-input.json"
     },
     {
-      "slug": "color-picker",
-      "name": "ColorPicker",
-      "description": "a two-dimensional board for picking colors by hue and saturation",
-      "manifest": "https://lilydesignsystem.com/r/color-picker.json"
-    },
-    {
-      "slug": "color-picker-button",
-      "name": "ColorPickerButton",
-      "description": "a button showing a color swatch in a color picker",
-      "manifest": "https://lilydesignsystem.com/r/color-picker-button.json"
-    },
-    {
       "slug": "color-radio-group",
       "name": "ColorRadioGroup",
       "description": "a fieldset radio group for selecting a color swatch",
@@ -1208,10 +1196,16 @@
       "manifest": "https://lilydesignsystem.com/r/emoji.json"
     },
     {
-      "slug": "emoji-character-picker",
-      "name": "EmojiCharacterPicker",
-      "description": "a picker for browsing and selecting emoji characters",
-      "manifest": "https://lilydesignsystem.com/r/emoji-character-picker.json"
+      "slug": "emoji-character-radio-group",
+      "name": "EmojiCharacterRadioGroup",
+      "description": "a fieldset radio group for selecting an emoji character",
+      "manifest": "https://lilydesignsystem.com/r/emoji-character-radio-group.json"
+    },
+    {
+      "slug": "emoji-character-radio-input",
+      "name": "EmojiCharacterRadioInput",
+      "description": "a radio input for one choice of an emoji character <input type=\"radio\">",
+      "manifest": "https://lilydesignsystem.com/r/emoji-character-radio-input.json"
     },
     {
       "slug": "empty-state",
@@ -1346,18 +1340,6 @@
       "manifest": "https://lilydesignsystem.com/r/file-upload.json"
     },
     {
-      "slug": "five-face-rating-picker",
-      "name": "FiveFaceRatingPicker",
-      "description": "a picker for selecting a 1-5 satisfaction rating using face labels",
-      "manifest": "https://lilydesignsystem.com/r/five-face-rating-picker.json"
-    },
-    {
-      "slug": "five-face-rating-picker-button",
-      "name": "FiveFaceRatingPickerButton",
-      "description": "a picker button for selecting a 1-5 satisfaction rating using face labels",
-      "manifest": "https://lilydesignsystem.com/r/five-face-rating-picker-button.json"
-    },
-    {
       "slug": "five-face-rating-radio-group",
       "name": "FiveFaceRatingRadioGroup",
       "description": "a fieldset radio group for selecting a 1-5 satisfaction rating using face labels",
@@ -1374,18 +1356,6 @@
       "name": "FiveFaceRatingView",
       "description": "a read-only display of a five-face satisfaction rating",
       "manifest": "https://lilydesignsystem.com/r/five-face-rating-view.json"
-    },
-    {
-      "slug": "five-star-rating-picker",
-      "name": "FiveStarRatingPicker",
-      "description": "a picker for selecting a 1-5 star rating using radio buttons",
-      "manifest": "https://lilydesignsystem.com/r/five-star-rating-picker.json"
-    },
-    {
-      "slug": "five-star-rating-picker-button",
-      "name": "FiveStarRatingPickerButton",
-      "description": "a picker button for selecting a 1-5 star rating using radio buttons",
-      "manifest": "https://lilydesignsystem.com/r/five-star-rating-picker-button.json"
     },
     {
       "slug": "five-star-rating-radio-group",
@@ -2342,18 +2312,6 @@
       "manifest": "https://lilydesignsystem.com/r/nederland-paspoort-nummer-view.json"
     },
     {
-      "slug": "net-promoter-score-picker",
-      "name": "NetPromoterScorePicker",
-      "description": "a picker for selecting a 0-10 Net Promoter Score",
-      "manifest": "https://lilydesignsystem.com/r/net-promoter-score-picker.json"
-    },
-    {
-      "slug": "net-promoter-score-picker-button",
-      "name": "NetPromoterScorePickerButton",
-      "description": "a picker button for selecting a 0-10 Net Promoter Score",
-      "manifest": "https://lilydesignsystem.com/r/net-promoter-score-picker-button.json"
-    },
-    {
       "slug": "net-promoter-score-radio-group",
       "name": "NetPromoterScoreRadioGroup",
       "description": "a fieldset radio group for selecting a 0-10 Net Promoter Score",
@@ -2786,18 +2744,6 @@
       "manifest": "https://lilydesignsystem.com/r/record-list-item.json"
     },
     {
-      "slug": "red-amber-green-picker",
-      "name": "RedAmberGreenPicker",
-      "description": "a picker for selecting a red/amber/green status",
-      "manifest": "https://lilydesignsystem.com/r/red-amber-green-picker.json"
-    },
-    {
-      "slug": "red-amber-green-picker-button",
-      "name": "RedAmberGreenPickerButton",
-      "description": "a picker button for selecting a red/amber/green status",
-      "manifest": "https://lilydesignsystem.com/r/red-amber-green-picker-button.json"
-    },
-    {
       "slug": "red-amber-green-radio-group",
       "name": "RedAmberGreenRadioGroup",
       "description": "a fieldset radio group for selecting a red/amber/green status",
@@ -2814,18 +2760,6 @@
       "name": "RedAmberGreenView",
       "description": "a read-only display of a red/amber/green status",
       "manifest": "https://lilydesignsystem.com/r/red-amber-green-view.json"
-    },
-    {
-      "slug": "red-orange-yellow-green-blue-picker",
-      "name": "RedOrangeYellowGreenBluePicker",
-      "description": "a picker for selecting a five-level color status",
-      "manifest": "https://lilydesignsystem.com/r/red-orange-yellow-green-blue-picker.json"
-    },
-    {
-      "slug": "red-orange-yellow-green-blue-picker-button",
-      "name": "RedOrangeYellowGreenBluePickerButton",
-      "description": "a picker button for selecting a five-level color status",
-      "manifest": "https://lilydesignsystem.com/r/red-orange-yellow-green-blue-picker-button.json"
     },
     {
       "slug": "red-orange-yellow-green-blue-radio-group",

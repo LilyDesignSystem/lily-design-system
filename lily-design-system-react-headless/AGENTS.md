@@ -119,8 +119,8 @@ React requires camelCase for DOM properties:
 
 Paired components for data entry vs. read-only display:
 
-- `FiveStarRatingPicker` (interactive) / `FiveStarRatingView` (read-only)
-- `NetPromoterScorePicker` / `NetPromoterScoreView`
+- `FiveStarRatingRadioGroup` (interactive) / `FiveStarRatingView` (read-only)
+- `NetPromoterScoreRadioGroup` / `NetPromoterScoreView`
 - `MeasurementInstanceInput` / `MeasurementInstanceView`
 - `PostalCodeInput` / `PostalCodeView`
 

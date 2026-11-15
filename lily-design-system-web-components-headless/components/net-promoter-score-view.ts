@@ -2,7 +2,7 @@
 //
 // A headless read-only display of a Net Promoter Score (NPS) in a native
 // <span>. Part of the Input/View pattern — pairs with
-// NetPromoterScorePicker. No score validation or classification logic;
+// NetPromoterScoreRadioGroup. No score validation or classification logic;
 // consumers handle categorization and styling.
 //
 // Attributes:

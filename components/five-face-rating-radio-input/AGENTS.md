@@ -20,7 +20,7 @@
 - Renders a native `<input type="radio">`, named by `aria-label`
 - Sets `data-value` to its value, so consumer CSS can colour or draw each option (`.five-face-rating-radio-input[data-value="1"]`)
 - Supports `name`, `checked` and `disabled`; a form reset restores `checked` natively
-- The radio counterpart of `five-face-rating-picker-button`: a radio in a radio group, not a toggle button
+- One radio in a radio group; it replaces the earlier `five-face-rating-picker-button` toggle button where there was one (removed 2026-11-15)
 - Spreads `restProps` onto the input (e.g. `onchange`, `id`)
 
 ## ARIA

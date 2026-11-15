@@ -1,6 +1,6 @@
 # NetPromoterScoreRadioGroup plan
 
-- The radio-group counterpart of the `net-promoter-score-picker` family (2026-11-15): `net-promoter-score-radio-group` holds the consumer's `net-promoter-score-radio-input` radios.
+- Added 2026-11-15, replacing the `net-promoter-score-picker` family: `net-promoter-score-radio-group` holds the consumer's `net-promoter-score-radio-input` radios.
 - Implemented in all nine headless catalogs, Svelte first, from `radio-group` and `radio-input`; the HTML, Nunjucks and Alpine catalogs render the same markup statically.
 
 # NetPromoterScoreRadioGroup tasks

@@ -24,7 +24,7 @@ A headless Svelte 5 input wrapping `<input type="range">`. Category: range input
 ## When not to use it
 
 - For general numeric values — use `NumberInput` or `RangeInput`.
-- For two-dimensional hue/saturation picking — use `ColorPicker`.
+- For two-dimensional hue/saturation picking — use `ColorRadioGroup`.
 - For a rotary knob UI — use `Dial`.
 - For selecting a slider confirmation gesture — use `SliderButton`.
 
@@ -143,7 +143,7 @@ Import `AngleSliderRangeInput` from `./AngleSliderRangeInput.svelte`. Provide `l
 - `Slider` — draggable slider UI.
 - `Dial` — rotary value picker.
 - `NumberInput` — plain number input.
-- `ColorPicker` — hue/saturation 2D picker.
+- `ColorRadioGroup` — hue/saturation 2D picker.
 
 ---
 

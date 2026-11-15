@@ -1,6 +1,6 @@
 // Family: guided and composite widgets. carousel, tour, tour-list, coachmark, file-upload,
 // and four containers whose contract is a role plus a name and nothing more
-// (calendar-range-picker, emoji-character-picker, image-cropper, signature-pad).
+// (calendar-range-picker, emoji-character-radio-group, image-cropper, signature-pad).
 
 const press = `const press = async (target, key, init = {}) => {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
@@ -270,13 +270,6 @@ const choose = async (files) => {
         "application",
         "the calendar range picker",
         "Consumer provides the calendar grid, date selection and range highlighting",
-    ),
-    "emoji-character-picker": passive(
-        "emoji-character-picker",
-        "div",
-        "group",
-        "the emoji picker",
-        "Consumer provides the emoji buttons, one per character, and any category filtering",
     ),
     "image-cropper": {
         tag: "div",

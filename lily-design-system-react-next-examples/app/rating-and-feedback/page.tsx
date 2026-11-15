@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import FiveStarRatingPicker from "@lily/FiveStarRatingPicker";
+import FiveStarRatingRadioGroup from "@lily/FiveStarRatingRadioGroup";
+import FiveStarRatingRadioInput from "@lily/FiveStarRatingRadioInput";
 import FiveStarRatingView from "@lily/FiveStarRatingView";
-import FiveFaceRatingPicker from "@lily/FiveFaceRatingPicker";
-import NetPromoterScorePicker from "@lily/NetPromoterScorePicker";
+import FiveFaceRatingRadioGroup from "@lily/FiveFaceRatingRadioGroup";
+import FiveFaceRatingRadioInput from "@lily/FiveFaceRatingRadioInput";
+import NetPromoterScoreRadioGroup from "@lily/NetPromoterScoreRadioGroup";
+import NetPromoterScoreRadioInput from "@lily/NetPromoterScoreRadioInput";
 import TextAreaInput from "@lily/TextAreaInput";
 import Button from "@lily/Button";
 import Alert from "@lily/Alert";
@@ -54,33 +57,84 @@ export default function RatingAndFeedbackPage() {
 
                 <div>
                     <h3>Rate this product</h3>
-                    <FiveStarRatingPicker
-                        label="Product rating"
-                        value={stars}
-                        onChange={setStars}
-                    />
+                    <FiveStarRatingRadioGroup label="Product rating">
+                        {[
+                            ["1", "1 star"],
+                            ["2", "2 stars"],
+                            ["3", "3 stars"],
+                            ["4", "4 stars"],
+                            ["5", "5 stars"],
+                        ].map(([value, text]) => (
+                            <label key={value}>
+                                <FiveStarRatingRadioInput
+                                    label={text}
+                                    name="stars"
+                                    value={value}
+                                    checked={stars === Number(value)}
+                                    onChange={() => setStars(Number(value))}
+                                />{" "}
+                                {text}
+                            </label>
+                        ))}
+                    </FiveStarRatingRadioGroup>
                 </div>
 
                 <Separator />
 
                 <div>
                     <h3>How satisfied are you with our service?</h3>
-                    <FiveFaceRatingPicker
-                        label="Service satisfaction"
-                        value={satisfaction}
-                        onChange={setSatisfaction}
-                    />
+                    <FiveFaceRatingRadioGroup label="Service satisfaction">
+                        {[
+                            ["1", "Very dissatisfied"],
+                            ["2", "Dissatisfied"],
+                            ["3", "Neutral"],
+                            ["4", "Satisfied"],
+                            ["5", "Very satisfied"],
+                        ].map(([value, text]) => (
+                            <label key={value}>
+                                <FiveFaceRatingRadioInput
+                                    label={text}
+                                    name="satisfaction"
+                                    value={value}
+                                    checked={satisfaction === Number(value)}
+                                    onChange={() => setSatisfaction(Number(value))}
+                                />{" "}
+                                {text}
+                            </label>
+                        ))}
+                    </FiveFaceRatingRadioGroup>
                 </div>
 
                 <Separator />
 
                 <div>
                     <h3>How likely are you to recommend us?</h3>
-                    <NetPromoterScorePicker
-                        label="Recommendation likelihood"
-                        value={nps}
-                        onChange={setNps}
-                    />
+                    <NetPromoterScoreRadioGroup label="Recommendation likelihood">
+                        {[
+                            ["0", "0"],
+                            ["1", "1"],
+                            ["2", "2"],
+                            ["3", "3"],
+                            ["4", "4"],
+                            ["5", "5"],
+                            ["6", "6"],
+                            ["7", "7"],
+                            ["8", "8"],
+                            ["9", "9"],
+                            ["10", "10"],
+                        ].map(([value, text]) => (
+                            <label key={value}>
+                                <NetPromoterScoreRadioInput
+                                    label={text}
+                                    name="nps"
+                                    value={value}
+                                    checked={nps === Number(value)}
+                                    onChange={() => setNps(Number(value))}
+                                />{" "}
+                                {text}
+                            </label>
+                        ))}
+                    </NetPromoterScoreRadioGroup>
                 </div>
 
                 <Separator />

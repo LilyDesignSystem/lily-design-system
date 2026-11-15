@@ -3,10 +3,13 @@ import { DateField } from "../components/DateField";
 import { Field } from "../components/Field";
 import { FileUpload } from "../components/FileUpload";
 import { InputWithMask } from "../components/InputWithMask";
-import { NetPromoterScorePicker } from "../components/NetPromoterScorePicker";
+import { NetPromoterScoreRadioGroup } from "../components/NetPromoterScoreRadioGroup";
+import { NetPromoterScoreRadioInput } from "../components/NetPromoterScoreRadioInput";
 import { PasswordInputOrTextInputDiv } from "../components/PasswordInputOrTextInputDiv";
-import { RedAmberGreenPicker } from "../components/RedAmberGreenPicker";
-import { RedOrangeYellowGreenBluePicker } from "../components/RedOrangeYellowGreenBluePicker";
+import { RedAmberGreenRadioGroup } from "../components/RedAmberGreenRadioGroup";
+import { RedAmberGreenRadioInput } from "../components/RedAmberGreenRadioInput";
+import { RedOrangeYellowGreenBlueRadioGroup } from "../components/RedOrangeYellowGreenBlueRadioGroup";
+import { RedOrangeYellowGreenBlueRadioInput } from "../components/RedOrangeYellowGreenBlueRadioInput";
 import { SelectWithExtras } from "../components/SelectWithExtras";
 import { TagInputDiv } from "../components/TagInputDiv";
 import { TaskListItem } from "../components/TaskListItem";
@@ -23,10 +26,13 @@ import { TourListItem } from "../components/TourListItem";
         Field,
         FileUpload,
         InputWithMask,
-        NetPromoterScorePicker,
+        NetPromoterScoreRadioGroup,
+        NetPromoterScoreRadioInput,
         PasswordInputOrTextInputDiv,
-        RedAmberGreenPicker,
-        RedOrangeYellowGreenBluePicker,
+        RedAmberGreenRadioGroup,
+        RedAmberGreenRadioInput,
+        RedOrangeYellowGreenBlueRadioGroup,
+        RedOrangeYellowGreenBlueRadioInput,
         SelectWithExtras,
         TagInputDiv,
         TaskListItem,
@@ -69,13 +75,25 @@ import { TourListItem } from "../components/TourListItem";
 
       <lily-file-upload label="Choose files" [multiple]="true" [selectedLabel]="chosen" data-testid="upload" />
 
-      <lily-net-promoter-score-picker label="Score" [(value)]="score" data-testid="nps" />
+      <lily-net-promoter-score-radio-group label="Score" data-testid="nps">
+        @for (v of npsValues; track v) {
+          <label><lily-net-promoter-score-radio-input [label]="v" name="nps" [value]="v" (change)="score.set(v)" /> {{ v }}</label>
+        }
+      </lily-net-promoter-score-radio-group>
       <p data-testid="nps-state">Score: {{ score() }}</p>
 
-      <lily-red-amber-green-picker label="Status" [statusLabel]="statusText" [(value)]="rag" data-testid="rag" />
+      <lily-red-amber-green-radio-group label="Status" data-testid="rag">
+        @for (v of ragValues; track v) {
+          <label><lily-red-amber-green-radio-input [label]="statusText(v)" name="rag" [value]="v" (change)="rag.set(v)" /> {{ statusText(v) }}</label>
+        }
+      </lily-red-amber-green-radio-group>
       <p data-testid="rag-state">Status: {{ rag() }}</p>
 
-      <lily-red-orange-yellow-green-blue-picker label="Rating" [statusLabel]="statusText" [(value)]="roygb" data-testid="roygb" />
+      <lily-red-orange-yellow-green-blue-radio-group label="Rating" data-testid="roygb">
+        @for (v of roygbValues; track v) {
+          <label><lily-red-orange-yellow-green-blue-radio-input [label]="statusText(v)" name="roygb" [value]="v" (change)="roygb.set(v)" /> {{ statusText(v) }}</label>
+        }
+      </lily-red-orange-yellow-green-blue-radio-group>
       <p data-testid="roygb-state">Rating: {{ roygb() }}</p>
 
       <ol>
@@ -112,6 +130,9 @@ export default class ComposedInputsPage {
     protected readonly score = signal("");
     protected readonly rag = signal("");
     protected readonly roygb = signal("");
+    protected readonly npsValues = Array.from({ length: 11 }, (_, i) => String(i));
+    protected readonly ragValues = ["red", "amber", "green"];
+    protected readonly roygbValues = ["red", "orange", "yellow", "green", "blue"];
     private readonly statusWords: Record<string, string> = {
         red: "Red",
         amber: "Amber",

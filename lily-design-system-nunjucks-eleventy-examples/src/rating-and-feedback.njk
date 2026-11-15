@@ -10,8 +10,7 @@ title: Rating and Feedback
       </div>
       <div>
         <p>Your product rating:</p>
-        <div class="five-star-rating-picker" role="radiogroup" aria-label="Your rating" id="rating-view">
-        </div>
+        <p class="five-star-rating-view" role="img" aria-label="Your rating" id="rating-view"></p>
       </div>
     </div>
 
@@ -22,45 +21,45 @@ title: Rating and Feedback
 
         <section class="section">
           <h3>Rate this product</h3>
-          <div class="five-star-rating-picker" role="radiogroup" aria-label="Product rating" id="star-picker">
-            <button class="five-star-rating-picker-button" role="radio" aria-label="1 star" aria-checked="false" data-value="1">&#9733;</button>
-            <button class="five-star-rating-picker-button" role="radio" aria-label="2 stars" aria-checked="false" data-value="2">&#9733;</button>
-            <button class="five-star-rating-picker-button" role="radio" aria-label="3 stars" aria-checked="false" data-value="3">&#9733;</button>
-            <button class="five-star-rating-picker-button" role="radio" aria-label="4 stars" aria-checked="false" data-value="4">&#9733;</button>
-            <button class="five-star-rating-picker-button" role="radio" aria-label="5 stars" aria-checked="false" data-value="5">&#9733;</button>
-          </div>
+          <fieldset class="five-star-rating-radio-group" role="radiogroup" aria-label="Product rating" id="star-rating">
+            <label class="label" for="stars-1"><input class="five-star-rating-radio-input" type="radio" id="stars-1" name="stars" aria-label="1 star" value="1" data-value="1"> 1 star</label>
+            <label class="label" for="stars-2"><input class="five-star-rating-radio-input" type="radio" id="stars-2" name="stars" aria-label="2 stars" value="2" data-value="2"> 2 stars</label>
+            <label class="label" for="stars-3"><input class="five-star-rating-radio-input" type="radio" id="stars-3" name="stars" aria-label="3 stars" value="3" data-value="3"> 3 stars</label>
+            <label class="label" for="stars-4"><input class="five-star-rating-radio-input" type="radio" id="stars-4" name="stars" aria-label="4 stars" value="4" data-value="4"> 4 stars</label>
+            <label class="label" for="stars-5"><input class="five-star-rating-radio-input" type="radio" id="stars-5" name="stars" aria-label="5 stars" value="5" data-value="5"> 5 stars</label>
+          </fieldset>
         </section>
 
         <hr class="separator" aria-label="Section divider">
 
         <section class="section">
           <h3>How satisfied are you with our service?</h3>
-          <div class="five-face-rating-picker" role="radiogroup" aria-label="Service satisfaction" id="face-picker">
-            <button class="five-face-rating-picker-button" role="radio" aria-label="Very dissatisfied" aria-checked="false" data-value="1">&#128542;</button>
-            <button class="five-face-rating-picker-button" role="radio" aria-label="Dissatisfied" aria-checked="false" data-value="2">&#128577;</button>
-            <button class="five-face-rating-picker-button" role="radio" aria-label="Neutral" aria-checked="false" data-value="3">&#128528;</button>
-            <button class="five-face-rating-picker-button" role="radio" aria-label="Satisfied" aria-checked="false" data-value="4">&#128578;</button>
-            <button class="five-face-rating-picker-button" role="radio" aria-label="Very satisfied" aria-checked="false" data-value="5">&#128515;</button>
-          </div>
+          <fieldset class="five-face-rating-radio-group" role="radiogroup" aria-label="Service satisfaction" id="face-rating">
+            <label class="label" for="satisfaction-1"><input class="five-face-rating-radio-input" type="radio" id="satisfaction-1" name="satisfaction" aria-label="Very dissatisfied" value="1" data-value="1"> Very dissatisfied</label>
+            <label class="label" for="satisfaction-2"><input class="five-face-rating-radio-input" type="radio" id="satisfaction-2" name="satisfaction" aria-label="Dissatisfied" value="2" data-value="2"> Dissatisfied</label>
+            <label class="label" for="satisfaction-3"><input class="five-face-rating-radio-input" type="radio" id="satisfaction-3" name="satisfaction" aria-label="Neutral" value="3" data-value="3"> Neutral</label>
+            <label class="label" for="satisfaction-4"><input class="five-face-rating-radio-input" type="radio" id="satisfaction-4" name="satisfaction" aria-label="Satisfied" value="4" data-value="4"> Satisfied</label>
+            <label class="label" for="satisfaction-5"><input class="five-face-rating-radio-input" type="radio" id="satisfaction-5" name="satisfaction" aria-label="Very satisfied" value="5" data-value="5"> Very satisfied</label>
+          </fieldset>
         </section>
 
         <hr class="separator" aria-label="Section divider">
 
         <section class="section">
           <h3>How likely are you to recommend us?</h3>
-          <div class="net-promoter-score-picker" role="radiogroup" aria-label="Recommendation likelihood" id="nps-picker">
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="0 - Not at all likely" aria-checked="false" data-value="0">0</button>
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="1" aria-checked="false" data-value="1">1</button>
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="2" aria-checked="false" data-value="2">2</button>
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="3" aria-checked="false" data-value="3">3</button>
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="4" aria-checked="false" data-value="4">4</button>
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="5" aria-checked="false" data-value="5">5</button>
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="6" aria-checked="false" data-value="6">6</button>
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="7" aria-checked="false" data-value="7">7</button>
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="8" aria-checked="false" data-value="8">8</button>
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="9" aria-checked="false" data-value="9">9</button>
-            <button class="net-promoter-score-picker-button" role="radio" aria-label="10 - Extremely likely" aria-checked="false" data-value="10">10</button>
-          </div>
+          <fieldset class="net-promoter-score-radio-group" role="radiogroup" aria-label="Recommendation likelihood" id="nps-rating">
+            <label class="label" for="nps-0"><input class="net-promoter-score-radio-input" type="radio" id="nps-0" name="nps" aria-label="0 - Not at all likely" value="0" data-value="0"> 0 - Not at all likely</label>
+            <label class="label" for="nps-1"><input class="net-promoter-score-radio-input" type="radio" id="nps-1" name="nps" aria-label="1" value="1" data-value="1"> 1</label>
+            <label class="label" for="nps-2"><input class="net-promoter-score-radio-input" type="radio" id="nps-2" name="nps" aria-label="2" value="2" data-value="2"> 2</label>
+            <label class="label" for="nps-3"><input class="net-promoter-score-radio-input" type="radio" id="nps-3" name="nps" aria-label="3" value="3" data-value="3"> 3</label>
+            <label class="label" for="nps-4"><input class="net-promoter-score-radio-input" type="radio" id="nps-4" name="nps" aria-label="4" value="4" data-value="4"> 4</label>
+            <label class="label" for="nps-5"><input class="net-promoter-score-radio-input" type="radio" id="nps-5" name="nps" aria-label="5" value="5" data-value="5"> 5</label>
+            <label class="label" for="nps-6"><input class="net-promoter-score-radio-input" type="radio" id="nps-6" name="nps" aria-label="6" value="6" data-value="6"> 6</label>
+            <label class="label" for="nps-7"><input class="net-promoter-score-radio-input" type="radio" id="nps-7" name="nps" aria-label="7" value="7" data-value="7"> 7</label>
+            <label class="label" for="nps-8"><input class="net-promoter-score-radio-input" type="radio" id="nps-8" name="nps" aria-label="8" value="8" data-value="8"> 8</label>
+            <label class="label" for="nps-9"><input class="net-promoter-score-radio-input" type="radio" id="nps-9" name="nps" aria-label="9" value="9" data-value="9"> 9</label>
+            <label class="label" for="nps-10"><input class="net-promoter-score-radio-input" type="radio" id="nps-10" name="nps" aria-label="10 - Extremely likely" value="10" data-value="10"> 10 - Extremely likely</label>
+          </fieldset>
         </section>
 
         <hr class="separator" aria-label="Section divider">
@@ -79,38 +78,16 @@ title: Rating and Feedback
 (function() {
       'use strict';
 
-      // Radio group picker behavior
-      function setupPicker(containerId) {
-        var container = document.getElementById(containerId);
-        if (!container) return;
-        var buttons = container.querySelectorAll('[role="radio"]');
-        buttons.forEach(function(btn) {
-          btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            buttons.forEach(function(b) { b.setAttribute('aria-checked', 'false'); });
-            btn.setAttribute('aria-checked', 'true');
-          });
-        });
-      }
-
-      setupPicker('star-picker');
-      setupPicker('face-picker');
-      setupPicker('nps-picker');
-
-      // Form submission
-      document.getElementById('feedback-form').addEventListener('submit', function(e) {
+      // The ratings are native radios: the browser owns selection and keys.
+      document.getElementById("feedback-form").addEventListener("submit", function(e) {
         e.preventDefault();
-        var starButtons = document.querySelectorAll('#star-picker [role="radio"]');
-        var selectedStar = 0;
-        starButtons.forEach(function(b) {
-          if (b.getAttribute('aria-checked') === 'true') {
-            selectedStar = parseInt(b.getAttribute('data-value'), 10);
-          }
-        });
+        var checked = document.querySelector("input[name=\"stars\"]:checked");
+        var selectedStar = checked ? parseInt(checked.value, 10) : 0;
 
         // Show success section with rating view
         var ratingView = document.getElementById('rating-view');
-        ratingView.innerHTML = '';
+        ratingView.textContent = '';
+        ratingView.setAttribute('aria-label', 'Your rating: ' + selectedStar + ' of 5 stars');
         for (var i = 1; i <= 5; i++) {
           var span = document.createElement('span');
           span.textContent = i <= selectedStar ? '\u2605' : '\u2606';

@@ -253,37 +253,37 @@ Every component's root element includes a semantic CSS class matching its kebab-
 
 ### Feedback & Status
 
-| Component                    | Description                                         |
-| ---------------------------- | --------------------------------------------------- |
-| Alert                        | Status message for feedback                         |
-| AlertDialog                  | Modal for critical messages                         |
-| Banner                       | Prominent message bar                               |
-| CharacterCounter             | Character count for text fields                     |
-| ErrorMessage                 | Form field error message                            |
-| Event                        | Event container for event-related information       |
-| ErrorSummary                 | Summary of validation errors                        |
-| FiveFaceRatingView           | Read-only face rating display                       |
-| FiveFaceRatingPicker         | 1-5 face rating selector                            |
-| FiveFaceRatingPickerButton   | Face rating button                                  |
-| FiveStarRatingView           | Read-only star rating display                       |
-| FiveStarRatingPicker         | 1-5 star rating selector                            |
-| FiveStarRatingPickerButton   | Star rating button                                  |
-| Meter                        | Scalar value gauge                                  |
-| MockupBrowser                | Box area that looks like a web browser              |
-| MockupLaptop                 | Box area that looks like a laptop computer          |
-| MockupPhonePortrait          | Box area that looks like a mobile phone             |
-| MockupTabletLandscape        | Box area that looks like a tablet in landscape mode |
-| MockupTabletPortrait         | Box area that looks like a tablet in portrait mode  |
-| MockupShell                  | Box area that looks like a terminal shell           |
-| MockupWatch                  | Box area that looks like a smart watch              |
-| MockupWindow                 | Box area that looks like a desktop window           |
-| NetPromoterScoreView         | Read-only NPS display                               |
-| NetPromoterScorePicker       | 0-10 NPS selector                                   |
-| NetPromoterScorePickerButton | NPS button                                          |
-| Progress                     | Horizontal progress bar                             |
-| ProgressCircle               | Circular progress indicator                         |
-| ProgressSpinner              | Indeterminate spinner                               |
-| Toast                        | Auto-dismissing notification                        |
+| Component                  | Description                                         |
+| -------------------------- | --------------------------------------------------- |
+| Alert                      | Status message for feedback                         |
+| AlertDialog                | Modal for critical messages                         |
+| Banner                     | Prominent message bar                               |
+| CharacterCounter           | Character count for text fields                     |
+| ErrorMessage               | Form field error message                            |
+| Event                      | Event container for event-related information       |
+| ErrorSummary               | Summary of validation errors                        |
+| FiveFaceRatingView         | Read-only face rating display                       |
+| FiveFaceRatingRadioGroup   | 1-5 face rating selector                            |
+| FiveFaceRatingRadioInput   | Face rating button                                  |
+| FiveStarRatingView         | Read-only star rating display                       |
+| FiveStarRatingRadioGroup   | 1-5 star rating selector                            |
+| FiveStarRatingRadioInput   | Star rating button                                  |
+| Meter                      | Scalar value gauge                                  |
+| MockupBrowser              | Box area that looks like a web browser              |
+| MockupLaptop               | Box area that looks like a laptop computer          |
+| MockupPhonePortrait        | Box area that looks like a mobile phone             |
+| MockupTabletLandscape      | Box area that looks like a tablet in landscape mode |
+| MockupTabletPortrait       | Box area that looks like a tablet in portrait mode  |
+| MockupShell                | Box area that looks like a terminal shell           |
+| MockupWatch                | Box area that looks like a smart watch              |
+| MockupWindow               | Box area that looks like a desktop window           |
+| NetPromoterScoreView       | Read-only NPS display                               |
+| NetPromoterScoreRadioGroup | 0-10 NPS selector                                   |
+| NetPromoterScoreRadioInput | NPS button                                          |
+| Progress                   | Horizontal progress bar                             |
+| ProgressCircle             | Circular progress indicator                         |
+| ProgressSpinner            | Indeterminate spinner                               |
+| Toast                      | Auto-dismissing notification                        |
 
 ### Overlays & Panels
 
@@ -326,31 +326,31 @@ Every component's root element includes a semantic CSS class matching its kebab-
 
 ### Content
 
-| Component            | Description                                               |
-| -------------------- | --------------------------------------------------------- |
-| AiLabel              | Indicator of AI instances for AI explainability           |
-| BeachBall            | Decorative animated element                               |
-| Carousel             | Content slideshow                                         |
-| Character            | Single character display                                  |
-| ChatNav              | Navigation container for chat information                 |
-| ChatList             | Ordered list of chat list item components                 |
-| ChatListItem         | One chat list item, typically containing one chat message |
-| ChatMessage          | Chat conversation message entry with author, time, etc.   |
-| ClipboardCopyButton  | Copy-to-clipboard button                                  |
-| Emoji                | Accessible emoji character                                |
-| EmojiCharacterPicker | Emoji browser/picker                                      |
-| Figure               | Self-contained figure with caption                        |
-| Flair                | Decorative highlight element                              |
-| Footnote             | Footnote reference and content                            |
-| Icon                 | Icon container                                            |
-| Image                | Accessible image element                                  |
-| InsetText            | Indented distinguishing text                              |
-| Kbd                  | Keyboard shortcuts and key combinations display           |
-| QrCodeImage          | QR code generator                                         |
-| Skeleton             | Loading placeholder animation                             |
-| Sparkline            | Inline data trend chart                                   |
-| Notification         | Event notification message                                |
-| SignaturePad         | Handwritten signature capture                             |
+| Component                | Description                                               |
+| ------------------------ | --------------------------------------------------------- |
+| AiLabel                  | Indicator of AI instances for AI explainability           |
+| BeachBall                | Decorative animated element                               |
+| Carousel                 | Content slideshow                                         |
+| Character                | Single character display                                  |
+| ChatNav                  | Navigation container for chat information                 |
+| ChatList                 | Ordered list of chat list item components                 |
+| ChatListItem             | One chat list item, typically containing one chat message |
+| ChatMessage              | Chat conversation message entry with author, time, etc.   |
+| ClipboardCopyButton      | Copy-to-clipboard button                                  |
+| Emoji                    | Accessible emoji character                                |
+| EmojiCharacterRadioGroup | Emoji browser/picker                                      |
+| Figure                   | Self-contained figure with caption                        |
+| Flair                    | Decorative highlight element                              |
+| Footnote                 | Footnote reference and content                            |
+| Icon                     | Icon container                                            |
+| Image                    | Accessible image element                                  |
+| InsetText                | Indented distinguishing text                              |
+| Kbd                      | Keyboard shortcuts and key combinations display           |
+| QrCodeImage              | QR code generator                                         |
+| Skeleton                 | Loading placeholder animation                             |
+| Sparkline                | Inline data trend chart                                   |
+| Notification             | Event notification message                                |
+| SignaturePad             | Handwritten signature capture                             |
 
 ### Lists & Groups
 
@@ -393,8 +393,8 @@ Every component's root element includes a semantic CSS class matching its kebab-
 | ToolBar             | Tool actions bar                   |
 | ToolBarButton       | One tool bar action                |
 | CalendarRangePicker | Date range picker                  |
-| ColorPicker         | 2D color picker board              |
-| ColorPickerButton   | Color swatch button                |
+| ColorRadioGroup     | 2D color picker board              |
+| ColorRadioInput     | Color swatch button                |
 
 ### Specialty
 
@@ -432,37 +432,37 @@ Every component's root element includes a semantic CSS class matching its kebab-
 
 ### Regional & Specialized
 
-| Component                                        | Description                      |
-| ------------------------------------------------ | -------------------------------- |
-| PostalCodeView                                   | Postal/ZIP code display          |
-| RedAmberGreenView/Picker/PickerButton            | RAG status display and selection |
-| RedOrangeYellowGreenBlueView/Picker/PickerButton | Five-level color status          |
-| UnitedKingdomNationalHealthServiceNumberInput    | UK NHS number input              |
-| UnitedKingdomNationalHealthServiceNumberView     | UK NHS number display            |
-| UnitedStatesSocialSecurityNumberInput            | US SSN input                     |
-| UnitedStatesSocialSecurityNumberView             | US SSN display                   |
-| MeasurementInstanceInput/View                    | Measurement value input/display  |
-| MeasurementSystemInput/View                      | Measurement system input/display |
-| MeasurementUnitInput/View                        | Measurement unit input/display   |
+| Component                                          | Description                      |
+| -------------------------------------------------- | -------------------------------- |
+| PostalCodeView                                     | Postal/ZIP code display          |
+| RedAmberGreenView/RadioGroup/RadioInput            | RAG status display and selection |
+| RedOrangeYellowGreenBlueView/RadioGroup/RadioInput | Five-level color status          |
+| UnitedKingdomNationalHealthServiceNumberInput      | UK NHS number input              |
+| UnitedKingdomNationalHealthServiceNumberView       | UK NHS number display            |
+| UnitedStatesSocialSecurityNumberInput              | US SSN input                     |
+| UnitedStatesSocialSecurityNumberView               | US SSN display                   |
+| MeasurementInstanceInput/View                      | Measurement value input/display  |
+| MeasurementSystemInput/View                        | Measurement system input/display |
+| MeasurementUnitInput/View                          | Measurement unit input/display   |
 
 ## Usage Examples
 
 See the `examples/` directory for comprehensive standalone examples:
 
-| Example                                               | Components Used                                                                                        |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| [ContactForm](examples/ContactForm.tsx)               | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary                |
-| [SettingsPage](examples/SettingsPage.tsx)             | SwitchButton, RadioGroup, RadioInput, Select, Separator, Fieldset, Button, Banner                      |
-| [Dashboard](examples/Dashboard.tsx)                   | Card, Progress, ProgressCircle, Badge, Banner, DataTable, DataTableHead/Body/Row/Data                  |
-| [PageLayout](examples/PageLayout.tsx)                 | SkipLink, Header, Footer, NavigationMenu, BreadcrumbNav/List/ListItem, Sidebar                         |
-| [TabbedInterface](examples/TabbedInterface.tsx)       | TabBar, TabBarButton, AccordionNav/List/ListItem, Badge                                                |
-| [DialogFlow](examples/DialogFlow.tsx)                 | Dialog, AlertDialog, Drawer, Button, Popover, Tooltip                                                  |
-| [RatingAndFeedback](examples/RatingAndFeedback.tsx)   | FiveStarRatingPicker/View, FiveFaceRatingPicker, NetPromoterScorePicker, TextAreaInput, Alert          |
-| [FileUploadForm](examples/FileUploadForm.tsx)         | FileUpload, Progress, Button, Alert, Badge, Form, Field                                                |
-| [TaskManagement](examples/TaskManagement.tsx)         | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                              |
-| [NavigationAndMenus](examples/NavigationAndMenus.tsx) | NavigationMenu, MenuBar, MenuBarButton, ToolBar, ToolBarButton, HamburgerMenu, DropdownMenu, Separator |
-| [TimelineAndCards](examples/TimelineAndCards.tsx)     | TimelineList, TimelineListItem, Card, Badge, DateRange, ReviewDate, SummaryList, SummaryListItem       |
-| [SearchAndFilter](examples/SearchAndFilter.tsx)       | Combobox, SearchInput, TagInputDiv, TagGroup, Tag, DataTable, DataTableHead/Body/Row/Data, Badge       |
+| Example                                               | Components Used                                                                                           |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [ContactForm](examples/ContactForm.tsx)               | Form, Field, TextInput, EmailInput, TextAreaInput, Select, Option, Button, ErrorSummary                   |
+| [SettingsPage](examples/SettingsPage.tsx)             | SwitchButton, RadioGroup, RadioInput, Select, Separator, Fieldset, Button, Banner                         |
+| [Dashboard](examples/Dashboard.tsx)                   | Card, Progress, ProgressCircle, Badge, Banner, DataTable, DataTableHead/Body/Row/Data                     |
+| [PageLayout](examples/PageLayout.tsx)                 | SkipLink, Header, Footer, NavigationMenu, BreadcrumbNav/List/ListItem, Sidebar                            |
+| [TabbedInterface](examples/TabbedInterface.tsx)       | TabBar, TabBarButton, AccordionNav/List/ListItem, Badge                                                   |
+| [DialogFlow](examples/DialogFlow.tsx)                 | Dialog, AlertDialog, Drawer, Button, Popover, Tooltip                                                     |
+| [RatingAndFeedback](examples/RatingAndFeedback.tsx)   | FiveStarRatingRadioGroup/View, FiveFaceRatingRadioGroup, NetPromoterScoreRadioGroup, TextAreaInput, Alert |
+| [FileUploadForm](examples/FileUploadForm.tsx)         | FileUpload, Progress, Button, Alert, Badge, Form, Field                                                   |
+| [TaskManagement](examples/TaskManagement.tsx)         | TaskList, TaskListItem, TextInput, CheckboxInput, Button, Badge, Progress                                 |
+| [NavigationAndMenus](examples/NavigationAndMenus.tsx) | NavigationMenu, MenuBar, MenuBarButton, ToolBar, ToolBarButton, HamburgerMenu, DropdownMenu, Separator    |
+| [TimelineAndCards](examples/TimelineAndCards.tsx)     | TimelineList, TimelineListItem, Card, Badge, DateRange, ReviewDate, SummaryList, SummaryListItem          |
+| [SearchAndFilter](examples/SearchAndFilter.tsx)       | Combobox, SearchInput, TagInputDiv, TagGroup, Tag, DataTable, DataTableHead/Body/Row/Data, Badge          |
 
 ### Form with Validation
 
@@ -664,7 +664,7 @@ function UserTable({ users }) {
 
 ```tsx
 import { useState } from "react";
-import FiveStarRatingPicker from "./components/FiveStarRatingPicker";
+import FiveStarRatingRadioGroup from "./components/FiveStarRatingRadioGroup";
 import FiveStarRatingView from "./components/FiveStarRatingView";
 
 function RatingExample() {
@@ -672,7 +672,7 @@ function RatingExample() {
 
   return (
     <div>
-      <FiveStarRatingPicker
+      <FiveStarRatingRadioGroup
         label="Rate this product"
         value={rating}
         onChange={setRating}
@@ -931,14 +931,14 @@ Overlays and expandable components use `open` + `onChange`:
 
 Several components come in interactive + read-only pairs:
 
-| Interactive (Input/Picker) | Read-Only (View)          |
-| -------------------------- | ------------------------- |
-| `FiveStarRatingPicker`     | `FiveStarRatingView`      |
-| `FiveFaceRatingPicker`     | `FiveFaceRatingView`      |
-| `NetPromoterScorePicker`   | `NetPromoterScoreView`    |
-| `RedAmberGreenPicker`      | `RedAmberGreenView`       |
-| `PostalCodeInput`          | `PostalCodeView`          |
-| `MeasurementInstanceInput` | `MeasurementInstanceView` |
+| Interactive (Input/Picker)   | Read-Only (View)          |
+| ---------------------------- | ------------------------- |
+| `FiveStarRatingRadioGroup`   | `FiveStarRatingView`      |
+| `FiveFaceRatingRadioGroup`   | `FiveFaceRatingView`      |
+| `NetPromoterScoreRadioGroup` | `NetPromoterScoreView`    |
+| `RedAmberGreenRadioGroup`    | `RedAmberGreenView`       |
+| `PostalCodeInput`            | `PostalCodeView`          |
+| `MeasurementInstanceInput`   | `MeasurementInstanceView` |
 
 ### Composable Component Families
 

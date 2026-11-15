@@ -73,7 +73,7 @@ None -- this is a passive informational display, not an interactive element.
 
 ## When Not to Use
 
-- Do not use when users need to select or change the status -- use [RedAmberGreenPicker](../red-amber-green-picker/) instead.
+- Do not use when users need to select or change the status -- use [RedAmberGreenRadioGroup](../red-amber-green-radio-group/) instead.
 - Do not use for five-level status display -- use [RedOrangeYellowGreenBlueView](../red-orange-yellow-green-blue-view/) instead.
 - Do not use for general-purpose text display -- use a `<span>` or [Badge](../badge/) instead.
 
@@ -98,7 +98,7 @@ The consumer provides all CSS styling. The component renders with a `.red-amber-
 
 ## Related components
 
-- `red-amber-green-picker` — a picker for selecting a red/amber/green status
+- `red-amber-green-radio-group` — a picker for selecting a red/amber/green status
 
 ## References
 

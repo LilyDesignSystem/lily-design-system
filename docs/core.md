@@ -48,7 +48,7 @@ Browsers any e2e app runs: Chromium, Firefox, WebKit. Screen-reader matrix cells
 | [checkbox-group](#checkbox-group) | form family | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 30) | no |
 | [radio-input](#radio-input) | form family | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 14) | no |
 | [radio-group](#radio-group) | form family | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 31) | no |
-| [net-promoter-score-picker](#net-promoter-score-picker) | form family | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 20) | no |
+| [net-promoter-score-radio-group](#net-promoter-score-radio-group) | form family | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 20) | no |
 | [theme-picker](#theme-picker) | helper packages | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 1) | no |
 | [locale-picker](#locale-picker) | helper packages | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 2) | no |
 | [text-size-picker](#text-size-picker) | helper packages | 8 of 8 | Chromium, Firefox, WebKit | 0 of 6 (row 32) | no |
@@ -537,28 +537,22 @@ Catalog component; keyboard contract: keys named.
   - [lilydesignsystem.github.io/tests/components/radio-group.spec.ts](../lilydesignsystem.github.io/tests/components/radio-group.spec.ts) (Chromium)
 - (c) not met: [row 31](screen-reader-matrix.md#the-candidates) (`radio-group`), 0 of 6 cells with pass or minor.
 
-### net-promoter-score-picker
+### net-promoter-score-radio-group
 
 Catalog component; keyboard contract: keys named.
 
 - (a) met, 8 of 8 libraries:
-  - Svelte: met. [lily-design-system-svelte-headless/components/NetPromoterScorePicker/NetPromoterScorePicker.keyboard.test.ts](../lily-design-system-svelte-headless/components/NetPromoterScorePicker/NetPromoterScorePicker.keyboard.test.ts), [lily-design-system-svelte-headless/components/NetPromoterScorePicker/NetPromoterScorePicker.test.ts](../lily-design-system-svelte-headless/components/NetPromoterScorePicker/NetPromoterScorePicker.test.ts)
-  - React: met. [lily-design-system-react-headless/components/NetPromoterScorePicker.keyboard.test.tsx](../lily-design-system-react-headless/components/NetPromoterScorePicker.keyboard.test.tsx), [lily-design-system-react-headless/components/NetPromoterScorePicker.test.tsx](../lily-design-system-react-headless/components/NetPromoterScorePicker.test.tsx)
-  - Vue: met. [lily-design-system-vue-headless/components/NetPromoterScorePicker.keyboard.test.ts](../lily-design-system-vue-headless/components/NetPromoterScorePicker.keyboard.test.ts), [lily-design-system-vue-headless/components/NetPromoterScorePicker.test.ts](../lily-design-system-vue-headless/components/NetPromoterScorePicker.test.ts)
-  - Angular: met. [lily-design-system-angular-headless/components/NetPromoterScorePicker.keyboard.spec.ts](../lily-design-system-angular-headless/components/NetPromoterScorePicker.keyboard.spec.ts), [lily-design-system-angular-headless/components/NetPromoterScorePicker.spec.ts](../lily-design-system-angular-headless/components/NetPromoterScorePicker.spec.ts)
-  - HTML: met. [lily-design-system-html-headless/components/net-promoter-score-picker.keyboard.test.js](../lily-design-system-html-headless/components/net-promoter-score-picker.keyboard.test.js), [lily-design-system-html-headless/components/net-promoter-score-picker.test.js](../lily-design-system-html-headless/components/net-promoter-score-picker.test.js)
-  - Web Components: met. [lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts](../lily-design-system-web-components-headless/components/net-promoter-score-picker.test.ts)
-  - Nunjucks: met. [lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js](../lily-design-system-nunjucks-headless/components/net-promoter-score-picker/macro.test.js), [lily-design-system-nunjucks-headless/components/net-promoter-score-picker/net-promoter-score-picker.keys.test.js](../lily-design-system-nunjucks-headless/components/net-promoter-score-picker/net-promoter-score-picker.keys.test.js)
-  - Blazor: met. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScorePickerTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScorePickerTests.cs)
-- (b) met; browsers: Chromium, Firefox, WebKit; 8 covering spec(s):
-  - [lily-design-system-svelte-sveltekit-examples/e2e/components/net-promoter-score-picker.spec.ts](../lily-design-system-svelte-sveltekit-examples/e2e/components/net-promoter-score-picker.spec.ts) (Chromium)
-  - [lily-design-system-react-next-examples/e2e/components/net-promoter-score-picker.spec.ts](../lily-design-system-react-next-examples/e2e/components/net-promoter-score-picker.spec.ts) (Chromium)
-  - [lily-design-system-vue-nuxt-examples/e2e/components/net-promoter-score-picker.spec.ts](../lily-design-system-vue-nuxt-examples/e2e/components/net-promoter-score-picker.spec.ts) (Chromium)
-  - [lily-design-system-angular-examples/e2e/components/net-promoter-score-picker.spec.ts](../lily-design-system-angular-examples/e2e/components/net-promoter-score-picker.spec.ts) (Chromium)
-  - [lily-design-system-html-css-js-examples/e2e/components/net-promoter-score-picker.spec.ts](../lily-design-system-html-css-js-examples/e2e/components/net-promoter-score-picker.spec.ts) (Chromium)
+  - Svelte: met. [lily-design-system-svelte-headless/components/NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.keyboard.test.ts](../lily-design-system-svelte-headless/components/NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.keyboard.test.ts), [lily-design-system-svelte-headless/components/NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.test.ts](../lily-design-system-svelte-headless/components/NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.test.ts)
+  - React: met. [lily-design-system-react-headless/components/NetPromoterScoreRadioGroup.keyboard.test.tsx](../lily-design-system-react-headless/components/NetPromoterScoreRadioGroup.keyboard.test.tsx), [lily-design-system-react-headless/components/NetPromoterScoreRadioGroup.test.tsx](../lily-design-system-react-headless/components/NetPromoterScoreRadioGroup.test.tsx)
+  - Vue: met. [lily-design-system-vue-headless/components/NetPromoterScoreRadioGroup.keyboard.test.ts](../lily-design-system-vue-headless/components/NetPromoterScoreRadioGroup.keyboard.test.ts), [lily-design-system-vue-headless/components/NetPromoterScoreRadioGroup.test.ts](../lily-design-system-vue-headless/components/NetPromoterScoreRadioGroup.test.ts)
+  - Angular: met. [lily-design-system-angular-headless/components/NetPromoterScoreRadioGroup.keyboard.spec.ts](../lily-design-system-angular-headless/components/NetPromoterScoreRadioGroup.keyboard.spec.ts), [lily-design-system-angular-headless/components/NetPromoterScoreRadioGroup.spec.ts](../lily-design-system-angular-headless/components/NetPromoterScoreRadioGroup.spec.ts)
+  - HTML: met. [lily-design-system-html-headless/components/net-promoter-score-radio-group.keyboard.test.js](../lily-design-system-html-headless/components/net-promoter-score-radio-group.keyboard.test.js), [lily-design-system-html-headless/components/net-promoter-score-radio-group.test.js](../lily-design-system-html-headless/components/net-promoter-score-radio-group.test.js)
+  - Web Components: met. [lily-design-system-web-components-headless/components/net-promoter-score-radio-group.keyboard.test.ts](../lily-design-system-web-components-headless/components/net-promoter-score-radio-group.keyboard.test.ts), [lily-design-system-web-components-headless/components/net-promoter-score-radio-group.test.ts](../lily-design-system-web-components-headless/components/net-promoter-score-radio-group.test.ts)
+  - Nunjucks: met. [lily-design-system-nunjucks-headless/components/net-promoter-score-radio-group/keyboard.test.js](../lily-design-system-nunjucks-headless/components/net-promoter-score-radio-group/keyboard.test.js), [lily-design-system-nunjucks-headless/components/net-promoter-score-radio-group/macro.test.js](../lily-design-system-nunjucks-headless/components/net-promoter-score-radio-group/macro.test.js)
+  - Blazor: met. [lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScoreRadioGroupTests.cs](../lily-design-system-blazor-headless/tests/LilyBlazorHeadless.Tests/Components/NetPromoterScoreRadioGroupTests.cs)
+- (b) met; browsers: Chromium, Firefox, WebKit; 2 covering spec(s):
   - [lily-design-system-nunjucks-eleventy-examples/e2e/core-candidates.spec.ts](../lily-design-system-nunjucks-eleventy-examples/e2e/core-candidates.spec.ts) (Chromium, Firefox, WebKit)
-  - [lily-design-system-blazor-web-examples/e2e/components/net-promoter-score-picker.spec.ts](../lily-design-system-blazor-web-examples/e2e/components/net-promoter-score-picker.spec.ts) (Chromium)
-  - [lilydesignsystem.github.io/tests/components/net-promoter-score-picker.spec.ts](../lilydesignsystem.github.io/tests/components/net-promoter-score-picker.spec.ts) (Chromium)
+  - [lilydesignsystem.github.io/tests/components/net-promoter-score-radio-group.spec.ts](../lilydesignsystem.github.io/tests/components/net-promoter-score-radio-group.spec.ts) (Chromium)
 - (c) not met: [row 20](screen-reader-matrix.md#the-candidates) (`net-promoter-score-picker`), 0 of 6 cells with pass or minor.
 
 ### theme-picker

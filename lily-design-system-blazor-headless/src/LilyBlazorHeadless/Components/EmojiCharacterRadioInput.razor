@@ -1,0 +1,15 @@
+@namespace LilyBlazorHeadless.Components
+
+@*
+    EmojiCharacterRadioInput component
+    a radio input for one choice of an emoji character <input type="radio">
+*@
+
+<input class="@($"emoji-character-radio-input {CssClass}".Trim())" type="radio" aria-label="@Label" value="@Value" data-value="@Value" @attributes="AdditionalAttributes" />
+
+@code {
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string? Value { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+}

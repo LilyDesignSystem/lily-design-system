@@ -19,7 +19,7 @@ An emoji character wrapped in `<span role="img">` with a required `aria-label` s
 ## When not to use it
 
 - For purely decorative emoji — use an inline emoji and hide it from assistive technology with `aria-hidden="true"`.
-- For emoji pickers. Use `EmojiCharacterPicker` for a grid of selectable emoji.
+- For emoji pickers. Use `EmojiCharacterRadioGroup` for a grid of selectable emoji.
 - For font-icon icons. Use `Icon` instead.
 
 ## How to use it
@@ -115,7 +115,7 @@ Pass the emoji and a descriptive label.
 
 ## Related components
 
-- `EmojiCharacterPicker` — grid of selectable emoji for pickers.
+- `EmojiCharacterRadioGroup` — grid of selectable emoji for pickers.
 - `Icon` — generic icon container.
 - `Character` — single character display primitive.
 - `ScreenReaderSpan` — visually hidden descriptive text.

@@ -3,11 +3,9 @@
 
 @*
     See BookAnAppointment.razor's header comment for the native-attribute
-    idiom this page uses. The three rating pickers here
-    (FiveStarRatingPicker, FiveFaceRatingPicker, NetPromoterScorePicker) are
-    thin `<div role="radiogroup">` wrappers with no Value of their own —
-    same shape as RadioGroup — so, like RadioGroup, the page supplies the
-    actual native RadioInput children.
+    idiom this page uses. Each rating is a radio group (FiveStarRatingRadioGroup,
+    FiveFaceRatingRadioGroup, NetPromoterScoreRadioGroup) holding one native
+    radio input per value, which the page supplies.
 *@
 
 <h1>Rating and Feedback</h1>
@@ -25,23 +23,36 @@ else
     <Form Label="Feedback form" novalidate @onsubmit="HandleSubmit">
         <section class="section">
             <h2>Product Rating</h2>
-            <FiveStarRatingPicker Label="Product rating" Name="stars" @bind-Value="stars"
-                                  StarLabel="@(n => $"{n} star{(n == 1 ? "" : "s")}")" />
+            <FiveStarRatingRadioGroup Label="Product rating">
+                @foreach (var (value, text) in StarOptions)
+                {
+                    <label><FiveStarRatingRadioInput Label="@text" name="stars" Value="@value" checked="@(stars.ToString() == value)" onchange="@(EventCallback.Factory.Create<ChangeEventArgs>(this, () => stars = int.Parse(value)))" /> @text</label>
+                }
+            </FiveStarRatingRadioGroup>
         </section>
 
         <Separator />
 
         <section class="section">
             <h2>Service Satisfaction</h2>
-            <FiveFaceRatingPicker Label="Service satisfaction" Name="satisfaction" @bind-Value="satisfaction"
-                                  Labels="FaceLabels" />
+            <FiveFaceRatingRadioGroup Label="Service satisfaction">
+                @foreach (var (value, text) in FaceOptions)
+                {
+                    <label><FiveFaceRatingRadioInput Label="@text" name="satisfaction" Value="@value" checked="@(satisfaction.ToString() == value)" onchange="@(EventCallback.Factory.Create<ChangeEventArgs>(this, () => satisfaction = int.Parse(value)))" /> @text</label>
+                }
+            </FiveFaceRatingRadioGroup>
         </section>
 
         <Separator />
 
         <section class="section">
             <h2>Recommendation</h2>
-            <NetPromoterScorePicker Label="Recommendation likelihood" @bind-Value="nps" />
+            <NetPromoterScoreRadioGroup Label="Recommendation likelihood">
+                @foreach (var (value, text) in NpsOptions)
+                {
+                    <label><NetPromoterScoreRadioInput Label="@text" name="nps" Value="@value" checked="@(nps.ToString() == value)" onchange="@(EventCallback.Factory.Create<ChangeEventArgs>(this, () => nps = value))" /> @text</label>
+                }
+            </NetPromoterScoreRadioGroup>
         </section>
 
         <Separator />
@@ -60,8 +71,12 @@ else
 }
 
 @code {
-    private static readonly string[] FaceLabels =
-        { "Very unsatisfied", "Unsatisfied", "Neutral", "Satisfied", "Very satisfied" };
+    private static readonly (string, string)[] StarOptions =
+        Enumerable.Range(1, 5).Select(n => (n.ToString(), n == 1 ? "1 star" : $"{n} stars")).ToArray();
+    private static readonly (string, string)[] FaceOptions =
+        [("1", "Very unsatisfied"), ("2", "Unsatisfied"), ("3", "Neutral"), ("4", "Satisfied"), ("5", "Very satisfied")];
+    private static readonly (string, string)[] NpsOptions =
+        Enumerable.Range(0, 11).Select(n => (n.ToString(), n.ToString())).ToArray();
 
     private int stars;
     private int satisfaction;

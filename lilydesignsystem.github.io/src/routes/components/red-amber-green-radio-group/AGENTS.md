@@ -17,7 +17,7 @@
 
 ## Companion
 
-- red-amber-green-picker (renders its own radios; this group takes the consumer's)
+- red-amber-green-view
 
 ## Key Behaviors
 

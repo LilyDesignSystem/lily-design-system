@@ -46,13 +46,28 @@
 
 <FileUpload Label="Choose files" Multiple="true" SelectedLabel="@(count => $"Chosen: {count}")" data-testid="upload" />
 
-<NetPromoterScorePicker Label="Score" @bind-Value="_score" data-testid="nps" />
+<NetPromoterScoreRadioGroup Label="Score" data-testid="nps">
+    @foreach (var v in NpsValues)
+    {
+        <label><NetPromoterScoreRadioInput Label="@v" name="nps" Value="@v" onchange="@(EventCallback.Factory.Create<ChangeEventArgs>(this, () => _score = v))" /> @v</label>
+    }
+</NetPromoterScoreRadioGroup>
 <p data-testid="nps-state">Score: @_score</p>
 
-<RedAmberGreenPicker Label="Status" StatusLabel="@StatusText" @bind-Value="_rag" data-testid="rag" />
+<RedAmberGreenRadioGroup Label="Status" data-testid="rag">
+    @foreach (var v in RagValues)
+    {
+        <label><RedAmberGreenRadioInput Label="@StatusText(v)" name="rag" Value="@v" onchange="@(EventCallback.Factory.Create<ChangeEventArgs>(this, () => _rag = v))" /> @StatusText(v)</label>
+    }
+</RedAmberGreenRadioGroup>
 <p data-testid="rag-state">Status: @_rag</p>
 
-<RedOrangeYellowGreenBluePicker Label="Rating" StatusLabel="@StatusText" @bind-Value="_roygb" data-testid="roygb" />
+<RedOrangeYellowGreenBlueRadioGroup Label="Rating" data-testid="roygb">
+    @foreach (var v in RoygbValues)
+    {
+        <label><RedOrangeYellowGreenBlueRadioInput Label="@StatusText(v)" name="roygb" Value="@v" onchange="@(EventCallback.Factory.Create<ChangeEventArgs>(this, () => _roygb = v))" /> @StatusText(v)</label>
+    }
+</RedOrangeYellowGreenBlueRadioGroup>
 <p data-testid="roygb-state">Rating: @_roygb</p>
 
 <TaskList Label="Tasks">
@@ -73,6 +88,10 @@
     private static readonly WheelPickerOption[] _hours =
         Enumerable.Range(0, 24).Select(h => new WheelPickerOption(h.ToString("00"), h.ToString("00"))).ToArray();
     private bool _task;
+
+    private static readonly string[] NpsValues = Enumerable.Range(0, 11).Select(i => i.ToString()).ToArray();
+    private static readonly string[] RagValues = ["red", "amber", "green"];
+    private static readonly string[] RoygbValues = ["red", "orange", "yellow", "green", "blue"];
 
     private static string StatusText(string status) => status switch
     {

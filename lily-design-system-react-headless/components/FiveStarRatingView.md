@@ -1,6 +1,6 @@
 # FiveStarRatingView
 
-A read-only five-star rating display that renders filled and empty star characters to visually represent a rating value from 0 to 5. This is the display-only companion to FiveStarRatingPicker, used for showing ratings in product listings, review summaries, and user profiles. Screen readers receive the full rating description via `aria-label` rather than reading individual star characters.
+A read-only five-star rating display that renders filled and empty star characters to visually represent a rating value from 0 to 5. This is the display-only companion to FiveStarRatingRadioGroup, used for showing ratings in product listings, review summaries, and user profiles. Screen readers receive the full rating description via `aria-label` rather than reading individual star characters.
 
 ## Implementation Notes
 

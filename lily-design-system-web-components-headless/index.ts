@@ -438,14 +438,6 @@ export { ColorInput } from "./components/color-input.js";
 import { ColorInput as _ColorInput } from "./components/color-input.js";
 if (!customElements.get("lily-color-input")) customElements.define("lily-color-input", _ColorInput);
 
-export { ColorPickerButton } from "./components/color-picker-button.js";
-import { ColorPickerButton as _ColorPickerButton } from "./components/color-picker-button.js";
-if (!customElements.get("lily-color-picker-button")) customElements.define("lily-color-picker-button", _ColorPickerButton);
-
-export { ColorPicker } from "./components/color-picker.js";
-import { ColorPicker as _ColorPicker } from "./components/color-picker.js";
-if (!customElements.get("lily-color-picker")) customElements.define("lily-color-picker", _ColorPicker);
-
 export { ColorRadioGroup } from "./components/color-radio-group.js";
 import { ColorRadioGroup as _ColorRadioGroup } from "./components/color-radio-group.js";
 if (!customElements.get("lily-color-radio-group")) customElements.define("lily-color-radio-group", _ColorRadioGroup);
@@ -738,9 +730,13 @@ export { EmailLink } from "./components/email-link.js";
 import { EmailLink as _EmailLink } from "./components/email-link.js";
 if (!customElements.get("lily-email-link")) customElements.define("lily-email-link", _EmailLink);
 
-export { EmojiCharacterPicker } from "./components/emoji-character-picker.js";
-import { EmojiCharacterPicker as _EmojiCharacterPicker } from "./components/emoji-character-picker.js";
-if (!customElements.get("lily-emoji-character-picker")) customElements.define("lily-emoji-character-picker", _EmojiCharacterPicker);
+export { EmojiCharacterRadioGroup } from "./components/emoji-character-radio-group.js";
+import { EmojiCharacterRadioGroup as _EmojiCharacterRadioGroup } from "./components/emoji-character-radio-group.js";
+if (!customElements.get("lily-emoji-character-radio-group")) customElements.define("lily-emoji-character-radio-group", _EmojiCharacterRadioGroup);
+
+export { EmojiCharacterRadioInput } from "./components/emoji-character-radio-input.js";
+import { EmojiCharacterRadioInput as _EmojiCharacterRadioInput } from "./components/emoji-character-radio-input.js";
+if (!customElements.get("lily-emoji-character-radio-input")) customElements.define("lily-emoji-character-radio-input", _EmojiCharacterRadioInput);
 
 export { Emoji } from "./components/emoji.js";
 import { Emoji as _Emoji } from "./components/emoji.js";
@@ -834,14 +830,6 @@ export { FileUpload } from "./components/file-upload.js";
 import { FileUpload as _FileUpload } from "./components/file-upload.js";
 if (!customElements.get("lily-file-upload")) customElements.define("lily-file-upload", _FileUpload);
 
-export { FiveFaceRatingPickerButton } from "./components/five-face-rating-picker-button.js";
-import { FiveFaceRatingPickerButton as _FiveFaceRatingPickerButton } from "./components/five-face-rating-picker-button.js";
-if (!customElements.get("lily-five-face-rating-picker-button")) customElements.define("lily-five-face-rating-picker-button", _FiveFaceRatingPickerButton);
-
-export { FiveFaceRatingPicker } from "./components/five-face-rating-picker.js";
-import { FiveFaceRatingPicker as _FiveFaceRatingPicker } from "./components/five-face-rating-picker.js";
-if (!customElements.get("lily-five-face-rating-picker")) customElements.define("lily-five-face-rating-picker", _FiveFaceRatingPicker);
-
 export { FiveFaceRatingRadioGroup } from "./components/five-face-rating-radio-group.js";
 import { FiveFaceRatingRadioGroup as _FiveFaceRatingRadioGroup } from "./components/five-face-rating-radio-group.js";
 if (!customElements.get("lily-five-face-rating-radio-group")) customElements.define("lily-five-face-rating-radio-group", _FiveFaceRatingRadioGroup);
@@ -853,14 +841,6 @@ if (!customElements.get("lily-five-face-rating-radio-input")) customElements.def
 export { FiveFaceRatingView } from "./components/five-face-rating-view.js";
 import { FiveFaceRatingView as _FiveFaceRatingView } from "./components/five-face-rating-view.js";
 if (!customElements.get("lily-five-face-rating-view")) customElements.define("lily-five-face-rating-view", _FiveFaceRatingView);
-
-export { FiveStarRatingPickerButton } from "./components/five-star-rating-picker-button.js";
-import { FiveStarRatingPickerButton as _FiveStarRatingPickerButton } from "./components/five-star-rating-picker-button.js";
-if (!customElements.get("lily-five-star-rating-picker-button")) customElements.define("lily-five-star-rating-picker-button", _FiveStarRatingPickerButton);
-
-export { FiveStarRatingPicker } from "./components/five-star-rating-picker.js";
-import { FiveStarRatingPicker as _FiveStarRatingPicker } from "./components/five-star-rating-picker.js";
-if (!customElements.get("lily-five-star-rating-picker")) customElements.define("lily-five-star-rating-picker", _FiveStarRatingPicker);
 
 export { FiveStarRatingRadioGroup } from "./components/five-star-rating-radio-group.js";
 import { FiveStarRatingRadioGroup as _FiveStarRatingRadioGroup } from "./components/five-star-rating-radio-group.js";
@@ -1450,14 +1430,6 @@ export { NederlandPaspoortNummerView } from "./components/nederland-paspoort-num
 import { NederlandPaspoortNummerView as _NederlandPaspoortNummerView } from "./components/nederland-paspoort-nummer-view.js";
 if (!customElements.get("lily-nederland-paspoort-nummer-view")) customElements.define("lily-nederland-paspoort-nummer-view", _NederlandPaspoortNummerView);
 
-export { NetPromoterScorePickerButton } from "./components/net-promoter-score-picker-button.js";
-import { NetPromoterScorePickerButton as _NetPromoterScorePickerButton } from "./components/net-promoter-score-picker-button.js";
-if (!customElements.get("lily-net-promoter-score-picker-button")) customElements.define("lily-net-promoter-score-picker-button", _NetPromoterScorePickerButton);
-
-export { NetPromoterScorePicker } from "./components/net-promoter-score-picker.js";
-import { NetPromoterScorePicker as _NetPromoterScorePicker } from "./components/net-promoter-score-picker.js";
-if (!customElements.get("lily-net-promoter-score-picker")) customElements.define("lily-net-promoter-score-picker", _NetPromoterScorePicker);
-
 export { NetPromoterScoreRadioGroup } from "./components/net-promoter-score-radio-group.js";
 import { NetPromoterScoreRadioGroup as _NetPromoterScoreRadioGroup } from "./components/net-promoter-score-radio-group.js";
 if (!customElements.get("lily-net-promoter-score-radio-group")) customElements.define("lily-net-promoter-score-radio-group", _NetPromoterScoreRadioGroup);
@@ -1746,14 +1718,6 @@ export { RecordList } from "./components/record-list.js";
 import { RecordList as _RecordList } from "./components/record-list.js";
 if (!customElements.get("lily-record-list")) customElements.define("lily-record-list", _RecordList);
 
-export { RedAmberGreenPickerButton } from "./components/red-amber-green-picker-button.js";
-import { RedAmberGreenPickerButton as _RedAmberGreenPickerButton } from "./components/red-amber-green-picker-button.js";
-if (!customElements.get("lily-red-amber-green-picker-button")) customElements.define("lily-red-amber-green-picker-button", _RedAmberGreenPickerButton);
-
-export { RedAmberGreenPicker } from "./components/red-amber-green-picker.js";
-import { RedAmberGreenPicker as _RedAmberGreenPicker } from "./components/red-amber-green-picker.js";
-if (!customElements.get("lily-red-amber-green-picker")) customElements.define("lily-red-amber-green-picker", _RedAmberGreenPicker);
-
 export { RedAmberGreenRadioGroup } from "./components/red-amber-green-radio-group.js";
 import { RedAmberGreenRadioGroup as _RedAmberGreenRadioGroup } from "./components/red-amber-green-radio-group.js";
 if (!customElements.get("lily-red-amber-green-radio-group")) customElements.define("lily-red-amber-green-radio-group", _RedAmberGreenRadioGroup);
@@ -1765,14 +1729,6 @@ if (!customElements.get("lily-red-amber-green-radio-input")) customElements.defi
 export { RedAmberGreenView } from "./components/red-amber-green-view.js";
 import { RedAmberGreenView as _RedAmberGreenView } from "./components/red-amber-green-view.js";
 if (!customElements.get("lily-red-amber-green-view")) customElements.define("lily-red-amber-green-view", _RedAmberGreenView);
-
-export { RedOrangeYellowGreenBluePickerButton } from "./components/red-orange-yellow-green-blue-picker-button.js";
-import { RedOrangeYellowGreenBluePickerButton as _RedOrangeYellowGreenBluePickerButton } from "./components/red-orange-yellow-green-blue-picker-button.js";
-if (!customElements.get("lily-red-orange-yellow-green-blue-picker-button")) customElements.define("lily-red-orange-yellow-green-blue-picker-button", _RedOrangeYellowGreenBluePickerButton);
-
-export { RedOrangeYellowGreenBluePicker } from "./components/red-orange-yellow-green-blue-picker.js";
-import { RedOrangeYellowGreenBluePicker as _RedOrangeYellowGreenBluePicker } from "./components/red-orange-yellow-green-blue-picker.js";
-if (!customElements.get("lily-red-orange-yellow-green-blue-picker")) customElements.define("lily-red-orange-yellow-green-blue-picker", _RedOrangeYellowGreenBluePicker);
 
 export { RedOrangeYellowGreenBlueRadioGroup } from "./components/red-orange-yellow-green-blue-radio-group.js";
 import { RedOrangeYellowGreenBlueRadioGroup as _RedOrangeYellowGreenBlueRadioGroup } from "./components/red-orange-yellow-green-blue-radio-group.js";

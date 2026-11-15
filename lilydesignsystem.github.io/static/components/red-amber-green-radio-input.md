@@ -1,6 +1,6 @@
 # Red Amber Green Radio Input
 
-RedAmberGreenRadioInput is a headless native `<input type="radio">` for one choice of a red/amber/green (RAG) status, used inside a [RedAmberGreenRadioGroup](red-amber-green-radio-group.md). It is the radio counterpart of [RedAmberGreenPickerButton](red-amber-green-picker-button.md): where the picker button is a toggle `<button>` with `aria-pressed`, this is a real radio, so the group gets native arrow keys, form submission and form reset.
+RedAmberGreenRadioInput is a headless native `<input type="radio">` for one choice of a red/amber/green (RAG) status, used inside a [RedAmberGreenRadioGroup](red-amber-green-radio-group.md). Because it is a real radio, the group gets native arrow keys, form submission and form reset.
 
 **Status:** experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow.
 
@@ -62,8 +62,8 @@ RedAmberGreenRadioInput is a headless native `<input type="radio">` for one choi
 
 ## When Not to Use
 
-- Do not use as a toggle outside a radio group -- use [RedAmberGreenPickerButton](red-amber-green-picker-button.md) instead.
-- Do not use when a ready-made group is enough -- use [RedAmberGreenPicker](red-amber-green-picker.md), which renders its own radios.
+- Do not use alone for a yes/no choice -- a lone radio cannot be unchecked; use [CheckboxInput](checkbox-input.md) instead.
+- Do not use outside its group -- put every option in one [RedAmberGreenRadioGroup](red-amber-green-radio-group.md) with a shared `name`.
 - Do not use for an option with no status or rating meaning -- use [RadioInput](radio-input.md) instead.
 
 ## Headless
@@ -89,7 +89,7 @@ The consumer provides all CSS styling. The component renders with a `.red-amber-
 ## Related components
 
 - `red-amber-green-radio-group` — a fieldset radio group for selecting a red/amber/green status
-- `red-amber-green-picker-button` — the toggle-button counterpart
+- `red-amber-green-view` — the read-only display
 - `radio-input` — the general radio input
 
 ## References

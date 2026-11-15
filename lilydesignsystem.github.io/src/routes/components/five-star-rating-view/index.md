@@ -56,7 +56,7 @@ None -- this component is a passive, read-only display.
 
 ## When Not to Use
 
-- Do not use when the user needs to select or change a rating -- use FiveStarRatingPicker instead.
+- Do not use when the user needs to select or change a rating -- use FiveStarRatingRadioGroup instead.
 - Do not use for satisfaction survey results with face labels -- use FiveFaceRatingView instead.
 
 ## Headless
@@ -81,7 +81,7 @@ The consumer provides all CSS styling. The component renders with a `.five-star-
 
 ## Related components
 
-- `five-star-rating-picker` — a picker for selecting a 1-5 star rating using radio buttons
+- `five-star-rating-radio-group` — a picker for selecting a 1-5 star rating using radio buttons
 
 ## References
 

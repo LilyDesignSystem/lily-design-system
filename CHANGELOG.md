@@ -9,15 +9,19 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
-## Radio groups and inputs, catalog 641 — 2026-11-15
+## Radio groups replace the pickers, catalog 630 — 2026-11-15
 
-- **Added:** twelve components in all nine catalogs (Web Components 606): `red-amber-green-`, `red-orange-yellow-green-blue-`,
-  `five-face-rating-`, `five-star-rating-`, `net-promoter-score-` and `color-radio-group`, each with its `-radio-input`. A group is a
+- **Added:** fourteen components in all nine catalogs: `red-amber-green-`, `red-orange-yellow-green-blue-`, `five-face-rating-`,
+  `five-star-rating-`, `net-promoter-score-`, `color-` and `emoji-character-radio-group`, each with its `-radio-input`. A group is a
   `<fieldset role="radiogroup">` holding the consumer's radios; an input is a native `<input type="radio">` named by `aria-label`.
-  They are the composable siblings of the six pickers: the picker renders its own labelled radios, the group takes the consumer's,
-  and the input is the radio counterpart of the picker's toggle button.
 - Each value input exposes `data-value`; `color-radio-input` takes a required `color`, exposed as `data-color` and the
   `--color-radio-input-color` custom property, and submits the colour unless given a `value`.
+- **Removed (breaking):** the thirteen components the radio groups replace: `color-picker`, `color-picker-button`,
+  `emoji-character-picker`, and `five-face-rating-`, `five-star-rating-`, `net-promoter-score-`, `red-amber-green-` and
+  `red-orange-yellow-green-blue-picker`, each with its `-button`. Use the matching `-radio-group` and `-radio-input`. Catalog 630
+  (Web Components 595).
+- **Changed:** the 63 themes style the new groups where they styled the pickers, and draw `color-radio-input` as a swatch from its
+  custom property, with a ring when checked. The composed rating pages in every example app use the radio groups.
 
 ## Release — 2026-11-14
 

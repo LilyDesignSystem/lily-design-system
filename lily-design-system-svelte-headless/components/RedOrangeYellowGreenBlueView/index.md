@@ -7,7 +7,7 @@ A headless read-only display of a five-level Red/Orange/Yellow/Green/Blue (ROYGB
 - Component: `RedOrangeYellowGreenBlueView`
 - HTML element: `<span>`
 - Role: inline text; accessible name via `aria-label`
-- Category: view (read-only display sibling of `RedOrangeYellowGreenBluePicker`)
+- Category: view (read-only display sibling of `RedOrangeYellowGreenBlueRadioGroup`)
 
 ## What it does
 
@@ -24,7 +24,7 @@ A headless read-only display of a five-level Red/Orange/Yellow/Green/Blue (ROYGB
 
 ## When not to use it
 
-- To capture a ROYGB value — use `RedOrangeYellowGreenBluePicker` or compose `RedOrangeYellowGreenBluePickerButton`s.
+- To capture a ROYGB value — use `RedOrangeYellowGreenBlueRadioGroup` or compose `RedOrangeYellowGreenBlueRadioInput`s.
 - For three-level status — use `RedAmberGreenView`.
 - For rating / satisfaction displays — use `FiveStarRatingView`, `FiveFaceRatingView`, `NetPromoterScoreView`.
 
@@ -77,7 +77,7 @@ import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView.svelte'
 
 ```svelte
 <script lang="ts">
-  import RedOrangeYellowGreenBluePicker from "../RedOrangeYellowGreenBluePicker/RedOrangeYellowGreenBluePicker.svelte";
+  import RedOrangeYellowGreenBlueRadioGroup from "../RedOrangeYellowGreenBlueRadioGroup/RedOrangeYellowGreenBlueRadioGroup.svelte";
   import RedOrangeYellowGreenBlueView from "./RedOrangeYellowGreenBlueView.svelte";
 
   let level = $state("");
@@ -90,7 +90,7 @@ import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView.svelte'
     value={level}
   />
 {:else}
-  <RedOrangeYellowGreenBluePicker
+  <RedOrangeYellowGreenBlueRadioGroup
     label="Level"
     bind:value={level}
   />
@@ -128,8 +128,8 @@ import RedOrangeYellowGreenBlueView from './RedOrangeYellowGreenBlueView.svelte'
 
 ## Related components
 
-- `RedOrangeYellowGreenBluePicker` — dropdown-style picker sibling.
-- `RedOrangeYellowGreenBluePickerButton` — button-style picker sibling.
+- `RedOrangeYellowGreenBlueRadioGroup` — dropdown-style picker sibling.
+- `RedOrangeYellowGreenBlueRadioInput` — button-style picker sibling.
 - `RedAmberGreenView` — three-level status view.
 - Other read-only status views: `FiveStarRatingView`, `FiveFaceRatingView`, `NetPromoterScoreView`.
 

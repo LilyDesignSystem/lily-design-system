@@ -45,7 +45,7 @@ Examples of composition patterns:
 - `*List` `*ListItem` (e.g., CheckList, ContentsList, SummaryList)
 - `*Table` `*TableHead` `*TableBody` `*TableFoot` `*TableTD` `*TableRow` `*TableTD`
 - `*Bar` `*BarButton` (e.g., MenuBar, TabBar, TaskBar, ToolBar)
-- `*Picker` `*PickerButton` (e.g., ColorPicker, FiveStarRatingPicker)
+- `*RadioGroup` `*RadioInput` (e.g., ColorRadioGroup, FiveStarRatingRadioGroup)
 - `*Menu` `*MenuItem` (e.g., ContextMenu, Menu, TreeMenu)
 - `*Input` `*View` (e.g., PostalCode, Measurement)
 

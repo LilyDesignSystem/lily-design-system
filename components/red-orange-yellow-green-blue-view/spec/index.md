@@ -13,7 +13,7 @@ Implement the Red Orange Yellow Green Blue View component: a read-only display o
 
 ## Companion Component
 
-- red-orange-yellow-green-blue-picker (Input/View or Input/Link pair)
+- red-orange-yellow-green-blue-radio-group (Input/View or Input/Link pair)
 
 ## Approach
 
@@ -51,7 +51,7 @@ Implement the Red Orange Yellow Green Blue View component: a read-only display o
 - [ ] Implement React headless component
 - [ ] Implement Vue headless component
 - [ ] Implement Blazor headless component
-- [ ] Verify companion component: red-orange-yellow-green-blue-picker
+- [ ] Verify companion component: red-orange-yellow-green-blue-radio-group
 - [ ] Add comprehensive keyboard interaction tests
 - [ ] Add screen reader announcement tests
 - [ ] Add integration tests with parent/child components

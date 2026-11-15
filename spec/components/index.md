@@ -82,7 +82,7 @@ The slug suffix fixes the root HTML element. This is the canonical mapping:
 | `meter`       | `<meter>`    | Meter                                                        |
 | `nav`         | `<nav>`      | BreadcrumbNav, TreeNav                                       |
 | `option`      | `<option>`   | Option, ThemeSelectOption                                    |
-| `picker`      | `<div>`      | ColorPicker, FiveStarRatingPicker                            |
+| `picker`      | `<div>`      | ColorRadioGroup, FiveStarRatingRadioGroup                    |
 | `picture`     | `<picture>`  | Picture                                                      |
 | `progress`    | `<progress>` | Progress                                                     |
 | `select`      | `<select>`   | Select, ThemeSelect                                          |
@@ -114,7 +114,7 @@ Compound components follow stable name patterns. The PascalCase prefix is shared
 - **`*Menu` + `*MenuItem`** — Menu/MenuItem, ContextMenu/ContextMenuItem.
 - **`*Input` + `*Link`** — TelInput/TelLink, EmailInput/EmailLink.
 - **`*Input` + `*View`** — PostalCodeInput/PostalCodeView, MeasurementInstanceInput/MeasurementInstanceView, and the national-identifier `*-input`/`*-view` pairs.
-- **`*Picker` + `*PickerButton`** — ColorPicker, FiveFaceRatingPicker, FiveStarRatingPicker, NetPromoterScorePicker, RedAmberGreenPicker, RedOrangeYellowGreenBluePicker, ThemeSelect (each with its `*PickerButton`).
+- **`*Picker` + `*PickerButton`** — ColorRadioGroup, FiveFaceRatingRadioGroup, FiveStarRatingRadioGroup, NetPromoterScoreRadioGroup, RedAmberGreenRadioGroup, RedOrangeYellowGreenBlueRadioGroup, ThemeSelect (each with its `*PickerButton`).
 - **`ContainerWith*`** — ContainerWithFixedWidth, ContainerWithFluidWidth.
 - **Table sub-elements** (`*TableHead`/`*TableBody`/`*TableFoot`/`*TableRow`/`*TableTH`/`*TableTD`) — Table, CalendarTable, DataTable, KanbanTable.
 - **Gantt sub-elements** (HTML names directly: `*TableThead`/`*TableTbody`/`*TableTfoot`/`*TableTr`/`*TableTH`/`*TableTD`) — GanttTable.

@@ -24,7 +24,7 @@ A headless read-only display of a Net Promoter Score value. Renders a `<span>` w
 
 ## When not to use it
 
-- To capture an NPS score: use `NetPromoterScorePicker` with `NetPromoterScorePickerButton`.
+- To capture an NPS score: use `NetPromoterScoreRadioGroup` with `NetPromoterScoreRadioInput`.
 - To show star or face ratings: use `FiveStarRatingView` or `FiveFaceRatingView`.
 - To show status levels (RAG, ROYGB): use `RedAmberGreenView` or `RedOrangeYellowGreenBlueView`.
 
@@ -77,8 +77,8 @@ import NetPromoterScoreView from './NetPromoterScoreView.svelte';
 
 ```svelte
 <script lang="ts">
-  import NetPromoterScorePicker from "../NetPromoterScorePicker/NetPromoterScorePicker.svelte";
-  import NetPromoterScorePickerButton from "../NetPromoterScorePickerButton/NetPromoterScorePickerButton.svelte";
+  import NetPromoterScoreRadioGroup from "../NetPromoterScoreRadioGroup/NetPromoterScoreRadioGroup.svelte";
+  import NetPromoterScoreRadioInput from "../NetPromoterScoreRadioInput/NetPromoterScoreRadioInput.svelte";
   import NetPromoterScoreView from "./NetPromoterScoreView.svelte";
 
   let nps = $state<number | undefined>(undefined);
@@ -91,16 +91,16 @@ import NetPromoterScoreView from './NetPromoterScoreView.svelte';
     value={String(nps ?? "")}
   />
 {:else}
-  <NetPromoterScorePicker label="Rate us">
+  <NetPromoterScoreRadioGroup label="Rate us">
     {#each Array.from({ length: 11 }, (_, i) => i) as score}
-      <NetPromoterScorePickerButton
+      <NetPromoterScoreRadioInput
         value={score}
         label={String(score)}
         selected={nps === score}
         onclick={() => (nps = score)}
       />
     {/each}
-  </NetPromoterScorePicker>
+  </NetPromoterScoreRadioGroup>
 {/if}
 ```
 
@@ -122,7 +122,7 @@ import NetPromoterScoreView from './NetPromoterScoreView.svelte';
 
 ## Related components
 
-- `NetPromoterScorePicker`, `NetPromoterScorePickerButton` — capture an NPS score.
+- `NetPromoterScoreRadioGroup`, `NetPromoterScoreRadioInput` — capture an NPS score.
 - `FiveStarRatingView`, `FiveFaceRatingView` — sibling rating view components.
 - `RedAmberGreenView`, `RedOrangeYellowGreenBlueView` — sibling read-only status displays.
 

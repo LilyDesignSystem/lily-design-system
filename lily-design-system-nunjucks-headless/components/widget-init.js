@@ -55,7 +55,6 @@ export function autoInit(doc = document) {
         ...all(".task-bar", (el) => attachToolbar(el)),
         ...all(".tool-bar", (el) => attachToolbar(el)),
         ...all(".segment-group", attachRadioGroup),
-        ...all(".color-picker", attachRadioGroup),
         ...all(".splitter", (el) => attachSplitter(el)),
         ...all(".split-view", (el) => attachSplitView(el)),
         ...all(".cascader", (el) => attachTreePopup(el, { exclusive: true })),

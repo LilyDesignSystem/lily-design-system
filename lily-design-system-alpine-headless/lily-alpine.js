@@ -2459,63 +2459,6 @@ export default function lily(Alpine) {
         },
     }));
 
-    // ColorPicker: a two-axis role="slider" over a 0–100 square. aria-valuenow
-    // is x; data-x and data-y position the cursor. Up lowers y, Down raises it.
-    Alpine.data("lilyColorPicker", (x = 0, y = 0, disabled = false) => ({
-        x,
-        y,
-        disabled,
-        area: {
-            role: "slider",
-            ":tabindex"() {
-                return this.disabled ? "-1" : "0";
-            },
-            "aria-valuemin": "0",
-            "aria-valuemax": "100",
-            ":aria-valuenow"() {
-                return String(this.x);
-            },
-            ":aria-disabled"() {
-                return this.disabled ? "true" : null;
-            },
-            ":data-x"() {
-                return String(this.x);
-            },
-            ":data-y"() {
-                return String(this.y);
-            },
-            "@keydown"(event) {
-                if (this.disabled) return;
-                const big = event.shiftKey ? 10 : 1;
-                const clamp = (n) => Math.min(100, Math.max(0, n));
-                const move = {
-                    ArrowRight: () => {
-                        this.x = clamp(this.x + big);
-                    },
-                    ArrowLeft: () => {
-                        this.x = clamp(this.x - big);
-                    },
-                    ArrowUp: () => {
-                        this.y = clamp(this.y - big);
-                    },
-                    ArrowDown: () => {
-                        this.y = clamp(this.y + big);
-                    },
-                    Home: () => {
-                        this.x = 0;
-                    },
-                    End: () => {
-                        this.x = 100;
-                    },
-                }[event.key];
-                if (!move) return;
-                event.preventDefault();
-                move();
-                this.$dispatch("lily:change", { x: this.x, y: this.y });
-            },
-        },
-    }));
-
     // Splitter: a focusable role="separator" with a 0–100 position. The keys
     // that move it follow the orientation (Left/Right when the panes sit side by
     // side, Up/Down when stacked); Shift moves ten steps; Home/End jump to the
