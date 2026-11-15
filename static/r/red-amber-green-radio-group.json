@@ -1,0 +1,44 @@
+{
+  "slug": "red-amber-green-radio-group",
+  "name": "RedAmberGreenRadioGroup",
+  "description": "a fieldset radio group for selecting a red/amber/green status",
+  "htmlTag": "fieldset",
+  "category": "forms",
+  "baseClass": ".red-amber-green-radio-group",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — new (2026-11-15), implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "`role=\"radiogroup\"` -- on the `<fieldset>`, identifies the group as a set of radio buttons",
+    "`aria-label={label}` -- the group's accessible name"
+  ],
+  "keyboard": [
+    "Tab: focus the checked radio, or the first if none is checked",
+    "ArrowDown / ArrowRight: move to and check the next radio",
+    "ArrowUp / ArrowLeft: move to and check the previous radio",
+    "Space: check the focused radio"
+  ],
+  "props": [
+    "`label`: string (required) -- accessible name for the group, applied via `aria-label`",
+    "`children`: slot (required) -- the `RedAmberGreenRadioInput` elements",
+    "`...restProps`: any additional HTML attributes spread onto the fieldset"
+  ],
+  "related": [
+    "red-amber-green-radio-input",
+    "red-amber-green-picker",
+    "radio-group"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/red-amber-green-radio-group.html",
+    "svelte": "lily-design-system-svelte-headless/components/RedAmberGreenRadioGroup/RedAmberGreenRadioGroup.svelte",
+    "react": "lily-design-system-react-headless/components/RedAmberGreenRadioGroup.tsx",
+    "vue": "lily-design-system-vue-headless/components/RedAmberGreenRadioGroup.vue",
+    "angular": "lily-design-system-angular-headless/components/RedAmberGreenRadioGroup.ts",
+    "web-components": "lily-design-system-web-components-headless/components/red-amber-green-radio-group.ts",
+    "alpine": "lily-design-system-alpine-headless/components/red-amber-green-radio-group.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/red-amber-green-radio-group/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RedAmberGreenRadioGroup.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/red-amber-green-radio-group/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/red-amber-green-radio-group/AGENTS.md"
+}
