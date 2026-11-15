@@ -2133,7 +2133,7 @@
      * Pickers, ratings, theme
      * ====================================================================== */
 
-    /* Picker baseline — inline row of selectable chips/buttons. */
+    /* Picker and radio-group baseline — an inline row of choices that wraps on a narrow screen. */
     :where(
         .color-radio-group,
         .five-face-rating-radio-group,
@@ -2145,6 +2145,7 @@
         .calendar-range-picker
     ) {
         display: inline-flex;
+        flex-wrap: wrap;
         align-items: center;
         gap: 0.25rem;
         padding: 0.25rem;

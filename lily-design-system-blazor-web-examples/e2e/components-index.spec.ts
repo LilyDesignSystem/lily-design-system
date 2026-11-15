@@ -12,12 +12,12 @@ import { test, expect, type Page } from "@playwright/test";
 //     ground truth (it's rendered by the same server-side data the page
 //     filters against), and every assertion below checks the *rendered
 //     list* is self-consistent with that count;
-//   - the suffix-pattern check ("every result ends in -picker-button")
+//   - the suffix-pattern check ("every result ends in -list-item")
 //     is re-derived from the slug string itself, which needs no
 //     side-channel data at all, since suffixPatternOf is a pure
 //     function of the slug;
 //   - the intersection test checks membership properties (contains
-//     "star", ends in "-picker-button") directly on the rendered hrefs
+//     "task", ends in "-list-item") directly on the rendered hrefs
 //     rather than against a precomputed set.
 //
 // Blazor Interactive Server renders the initial markup before the
@@ -100,11 +100,11 @@ test.describe("/components search filters", () => {
     }) => {
         await gotoReady(page);
         const select = page.getByLabel("Suffix pattern");
-        const option = select.locator('option[value="picker-button"]');
+        const option = select.locator('option[value="list-item"]');
         const expectedCount = optionCount(await option.textContent());
         expect(expectedCount).toBeGreaterThan(0);
 
-        await select.selectOption("picker-button");
+        await select.selectOption("list-item");
 
         const items = page.locator(".component-index-list-item a");
         await expect(items).toHaveCount(expectedCount, { timeout: 10_000 });
@@ -113,8 +113,8 @@ test.describe("/components search filters", () => {
         for (const href of hrefs) {
             const slug = slugFromHref(href);
             expect(
-                slug === "picker-button" || slug.endsWith("-picker-button"),
-                `expected "${slug}" to end in "-picker-button"`,
+                slug === "list-item" || slug.endsWith("-list-item"),
+                `expected "${slug}" to end in "-list-item"`,
             ).toBe(true);
         }
     });
@@ -122,27 +122,27 @@ test.describe("/components search filters", () => {
     test("category, suffix-pattern, and search combine as an intersection", async ({ page }) => {
         await gotoReady(page);
         const select = page.getByLabel("Category");
-        const option = select.locator('option[value="pickers"]');
-        const pickersCount = optionCount(await option.textContent());
+        const option = select.locator('option[value="lists"]');
+        const listsCount = optionCount(await option.textContent());
 
-        await select.selectOption("pickers");
-        await expect(page.locator(".component-index-list-item a")).toHaveCount(pickersCount, {
+        await select.selectOption("lists");
+        await expect(page.locator(".component-index-list-item a")).toHaveCount(listsCount, {
             timeout: 10_000,
         });
 
-        await page.getByLabel("Suffix pattern").selectOption("picker-button");
+        await page.getByLabel("Suffix pattern").selectOption("list-item");
         const afterTwoFilters = page.locator(".component-index-list-item a");
         await expect(async () => {
             const count = await afterTwoFilters.count();
-            expect(count).toBeLessThanOrEqual(pickersCount);
+            expect(count).toBeLessThanOrEqual(listsCount);
         }).toPass({ timeout: 10_000 });
         const countAfterTwoFilters = await afterTwoFilters.count();
         test.skip(
             countAfterTwoFilters === 0,
-            'no picker-button component in the "pickers" category currently',
+            'no list-item component in the "lists" category currently',
         );
 
-        await page.getByLabel("Filter components").fill("star");
+        await page.getByLabel("Filter components").fill("task");
         // Wait for the search to take effect: "count <= before" is already true before
         // Blazor re-renders, so poll until every remaining link matches the query.
         await expect(async () => {
@@ -150,7 +150,7 @@ test.describe("/components search filters", () => {
                 .locator(".component-index-list-item a")
                 .evaluateAll((as) => as.map((a) => a.getAttribute("href") ?? ""));
             expect(found.length).toBeLessThanOrEqual(countAfterTwoFilters);
-            expect(found.every((h) => h.includes("star"))).toBe(true);
+            expect(found.every((h) => h.includes("task"))).toBe(true);
         }).toPass({ timeout: 10_000 });
 
         const items = page.locator(".component-index-list-item a");
@@ -158,10 +158,10 @@ test.describe("/components search filters", () => {
         expect(hrefs.length).toBeGreaterThan(0);
         for (const href of hrefs) {
             const slug = slugFromHref(href);
-            expect(slug).toContain("star");
+            expect(slug).toContain("task");
             expect(
-                slug === "picker-button" || slug.endsWith("-picker-button"),
-                `expected "${slug}" to end in "-picker-button"`,
+                slug === "list-item" || slug.endsWith("-list-item"),
+                `expected "${slug}" to end in "-list-item"`,
             ).toBe(true);
         }
 

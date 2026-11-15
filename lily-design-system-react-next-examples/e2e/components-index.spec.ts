@@ -11,14 +11,13 @@ import { suffixPatternOf } from "../app/data/suffix-pattern";
 
 const TOTAL = components.length;
 const tableSlugs = new Set(components.filter((c) => c.category === "tables").map((c) => c.slug));
-const pickerButtonSlugs = new Set(
-    components.filter((c) => suffixPatternOf(c.slug) === "picker-button").map((c) => c.slug),
+const listItemSlugs = new Set(
+    components.filter((c) => suffixPatternOf(c.slug) === "list-item").map((c) => c.slug),
 );
-const starPickerButtonSlugs = new Set(
-    [...pickerButtonSlugs].filter(
+const taskListItemSlugs = new Set(
+    [...listItemSlugs].filter(
         (slug) =>
-            slug.includes("star") &&
-            components.find((c) => c.slug === slug)?.category === "pickers",
+            slug.includes("task") && components.find((c) => c.slug === slug)?.category === "lists",
     ),
 );
 
@@ -66,31 +65,28 @@ test.describe("/components search filters", () => {
         page,
     }) => {
         await page.goto("/components");
-        await page.getByLabel("Suffix pattern").selectOption("picker-button");
+        await page.getByLabel("Suffix pattern").selectOption("list-item");
 
         const items = page.locator('a[href^="/components/"]');
-        expect(await items.count()).toBe(pickerButtonSlugs.size);
+        expect(await items.count()).toBe(listItemSlugs.size);
 
         const hrefs = await items.evaluateAll((as) => as.map((a) => a.getAttribute("href")));
         for (const href of hrefs) {
-            expect(pickerButtonSlugs.has(slugFromHref(href))).toBe(true);
+            expect(listItemSlugs.has(slugFromHref(href))).toBe(true);
         }
     });
 
     test("category, suffix-pattern, and search combine as an intersection", async ({ page }) => {
-        test.skip(
-            starPickerButtonSlugs.size === 0,
-            "no star + picker-button component in the current catalog",
-        );
+        test.skip(taskListItemSlugs.size === 0, "no task list item in the current catalog");
 
         await page.goto("/components");
-        await page.getByLabel("Category").selectOption("pickers");
-        await page.getByLabel("Suffix pattern").selectOption("picker-button");
-        await page.getByLabel("Filter components").fill("star");
+        await page.getByLabel("Category").selectOption("lists");
+        await page.getByLabel("Suffix pattern").selectOption("list-item");
+        await page.getByLabel("Filter components").fill("task");
 
         const items = page.locator('a[href^="/components/"]');
         const hrefs = await items.evaluateAll((as) => as.map((a) => a.getAttribute("href")));
-        expect(hrefs.map(slugFromHref).sort()).toEqual([...starPickerButtonSlugs].sort());
+        expect(hrefs.map(slugFromHref).sort()).toEqual([...taskListItemSlugs].sort());
 
         await page.getByRole("button", { name: "Clear filters" }).click();
         await expect(page.getByLabel("Category")).toHaveValue("");
