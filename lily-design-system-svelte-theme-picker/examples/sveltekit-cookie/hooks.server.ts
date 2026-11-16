@@ -18,7 +18,7 @@ function themeLinks(choice: string): string {
 
 export const handle: Handle = async ({ event, resolve }) => {
     const choice =
-        readThemeCookie(event.request.headers.get("cookie"), "theme", CHOICES) || SYSTEM_THEME;
+        readThemeCookie(event.request.headers.get("cookie"), "lily-theme", CHOICES) || SYSTEM_THEME;
     event.locals.theme = choice;
     return resolve(event, {
         transformPageChunk: ({ html }) =>

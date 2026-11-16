@@ -374,11 +374,11 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highli
 | `themes`           | `string[]`               | yes      | Available slugs.                                                                                    |
 | `value`            | `string` (bindable)      | no       | Two-way bind for the current slug.                                                                  |
 | `defaultValue`     | `string`                 | no       | Initial when nothing else applies.                                                                  |
-| `storageKey`       | `string`                 | no       | `localStorage` persistence.                                                                         |
+| `storageKey`       | `string`                 | no       | `localStorage` key that keeps the choice; default `lily-{name}`, `""` for none.                     |
 | `detectFromSystem` | `boolean`                | no       | Resolve `prefers-color-scheme` on first visit.                                                      |
 | `systemLabel`      | `string`                 | no       | Adds a first "follow this device" option, value `"system"`; no English default.                     |
 | `systemThemes`     | `{ light, dark }`        | no       | The themes `"system"` applies; defaults to `light` and `dark`.                                      |
-| `cookieName`       | `string`                 | no       | Keep the choice in a first-party cookie a server can read.                                          |
+| `cookieName`       | `string`                 | no       | Cookie that keeps the choice, for a server to read; default `lily-{name}`, `""` for none.           |
 | `themeColor`       | `boolean`                | no       | Also set `<meta name="theme-color">` from `--lily-brand` once the stylesheet loads; off by default. |
 | `name`             | `string`                 | no       | Hidden input `name`, and the managed `<link>` discriminator; defaults to `"theme"`.                 |
 | `extension`        | `string`                 | no       | Defaults to `".css"`.                                                                               |
@@ -427,22 +427,22 @@ Topic guide: [`docs/custom-rendering.md`](./docs/custom-rendering.md).
 
 ## Persistence
 
-Pass a `storageKey` to persist the active slug to `localStorage`. On a
-fresh mount the select reads back the stored slug as part of the
-initial-value resolution (§ Default theme).
+The choice is kept in **both** `localStorage` and a first-party cookie by default, under `lily-{name}` (`lily-theme`),
+and read back on the next mount (§ Default theme). Each covers what the other cannot:
 
-Errors writing to or reading from `localStorage` (private mode, quota,
-disabled storage) are silently swallowed — the select continues to
-work in-memory.
+- The cookie reaches the server, so a server-rendered page can arrive in the right theme with no flash:
+  `readThemeCookie(request.headers.get("cookie"), "lily-theme", allowed)`. See [`docs/ssr.md`](./docs/ssr.md) and the
+  [`examples/sveltekit-cookie/`](./examples/sveltekit-cookie/) recipe. It is written as
+  `lily-theme={choice}; Path=/; Max-Age=34560000; SameSite=Lax`, with `Secure` on https (400 days, the browser maximum).
+- `localStorage` survives where cookies are blocked or cleared on close, and is never sent with a request.
 
-Pass a `cookieName` to keep the choice in a cookie instead (or as well):
-`{name}={choice}; Path=/; Max-Age=34560000; SameSite=Lax`, with `Secure`
-on https. 400 days is the longest a browser keeps a cookie; each visit
-renews it. A server can read it with `readThemeCookie` and send the
-page in the right theme, with no flash: see [`docs/ssr.md`](./docs/ssr.md)
-and the [`examples/sveltekit-cookie/`](./examples/sveltekit-cookie/)
-recipe. The cookie is read before `localStorage`, and a value that is
-not one of the choices is ignored.
+On start the cookie is read first, then storage; a value that is not one of the choices is ignored. The choice is kept,
+not the theme it applied, so "Follow this device" stays `"system"`.
+
+Nothing is written on the first load, only when the choice changes: a visitor who never chooses gets no cookie and no
+storage entry. Pass `storageKey=""` or `cookieName=""` to turn a store off, or another name to use it. Errors reading or
+writing either store (private mode, quota, a sandboxed document) are silently swallowed; the picker keeps working in
+memory.
 
 ## Accessibility
 

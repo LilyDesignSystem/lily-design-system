@@ -105,10 +105,10 @@ End-to-end code lives in
 [`../examples/sveltekit-cookie/`](../examples/sveltekit-cookie/).
 The shape is:
 
-1. The picker is given `cookieName="theme"`, so every choice is written
-   to a first-party `theme` cookie by the picker itself. No endpoint is
+1. The picker writes every change of choice to its first-party
+   `lily-theme` cookie itself (the default `cookieName`). No endpoint is
    needed.
-2. `hooks.server.ts` reads it with `readThemeCookie(cookie, "theme", allowed)`
+2. `hooks.server.ts` reads it with `readThemeCookie(cookie, "lily-theme", allowed)`
    into `event.locals.theme` and uses `transformPageChunk` to substitute
    `data-theme` and the theme's `<link>` into `app.html`.
 3. The picker is mounted with `value={data.theme}` (forwarded from a
@@ -161,14 +161,18 @@ mount it at the top of `<body>`. Avoid styles depending on
 
 `localStorage` is invisible to a server, so a page kept there is always
 sent in the default theme and corrected after the script runs. A cookie
-travels with every request. With `cookieName`, the picker keeps each
-choice in one (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days),
+travels with every request. By default the picker keeps each change of
+choice in one as well as in `localStorage`, named `lily-{name}` (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days),
 and the module exports what a server needs:
 
 ```ts
 import { readThemeCookie, themeCookie, SYSTEM_THEME } from "@lilydesignsystem/svelte-theme-picker";
 
-const choice = readThemeCookie(request.headers.get("cookie"), "theme", ["system", "light", "dark"]);
+const choice = readThemeCookie(request.headers.get("cookie"), "lily-theme", [
+  "system",
+  "light",
+  "dark",
+]);
 ```
 
 `readThemeCookie` returns `""` when the cookie is absent, cannot be
@@ -197,8 +201,8 @@ Leave `data-theme` off `<html>` for `"system"`, or set it from a small
 inline script that reads `matchMedia` before the body renders.
 
 Other transports (a header, a server-side preference store, a URL
-parameter) still work as before: pass the resolved `value` and leave
-`cookieName` unset.
+parameter) still work as before: pass the resolved `value`, and
+`cookieName=""` if you want no cookie at all.
 
 ---
 

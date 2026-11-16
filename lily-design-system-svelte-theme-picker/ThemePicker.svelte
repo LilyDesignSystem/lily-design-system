@@ -41,7 +41,10 @@
         value?: string;
         /** Initial theme when nothing else is supplied. */
         defaultValue?: string;
-        /** If set, persist the selection to localStorage under this key. */
+        /**
+         * The localStorage key that keeps the choice. Default `lily-{name}` (`lily-theme`); `""` keeps nothing there.
+         * Written only when the choice changes, never on first load.
+         */
         storageKey?: string;
         /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
         detectFromSystem?: boolean;
@@ -54,8 +57,9 @@
         /** The themes the `"system"` option applies. Default `{ light: "light", dark: "dark" }`. */
         systemThemes?: { light: string; dark: string };
         /**
-         * If set, keep the choice in a first-party cookie of this name (`Path=/`, `SameSite=Lax`, `Secure` on https,
-         * 400 days), so a server can read it and send the page in the right theme. See `readThemeCookie`.
+         * The first-party cookie that keeps the choice (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days), so a
+         * server can read it and send the page in the right theme (`readThemeCookie`). Default `lily-{name}`
+         * (`lily-theme`); `""` sets no cookie. Written only when the choice changes, never on first load.
          */
         cookieName?: string;
         /**
@@ -167,11 +171,11 @@
         themes,
         value = $bindable(""),
         defaultValue,
-        storageKey,
+        storageKey: storageKeyProp,
         detectFromSystem = false,
         systemLabel,
         systemThemes = { light: "light", dark: "dark" },
-        cookieName,
+        cookieName: cookieNameProp,
         themeColor = false,
         name = "theme",
         extension = ".css",
@@ -185,6 +189,10 @@
         variant = "listbox",
         ...restProps
     }: Props = $props();
+
+    // Both stores are on by default, under `lily-{name}`; an empty string turns one off.
+    const storageKey = $derived(storageKeyProp ?? `lily-${name}`);
+    const cookieName = $derived(cookieNameProp ?? `lily-${name}`);
 
     const baseId = nextThemePickerId();
     const listId = `${baseId}-list`;
@@ -283,7 +291,8 @@
 
     // The choice is kept, not the theme it applies: "system" stays "system", so the next visit follows the device
     // again. Kept once per change of choice, which is not always a change of applied theme ("dark" to "system" on
-    // a dark device applies nothing new).
+    // a dark device applies nothing new). The starting choice is not written: nothing is stored until the choice
+    // changes, so a first visit sets no cookie.
     let keptValue = "";
 
     function keepChoice(choice: string): void {
@@ -445,6 +454,7 @@
                     (systemLabel ? SYSTEM_THEME : themes.includes("light") ? "light" : themes[0]) ??
                     "";
             }
+            keptValue = initial;
             if (initial && initial !== current) {
                 value = initial;
                 return;

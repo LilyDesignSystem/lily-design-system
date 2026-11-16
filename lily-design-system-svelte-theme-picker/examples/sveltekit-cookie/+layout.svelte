@@ -1,5 +1,5 @@
 <!--
-  The picker keeps the user's choice in the "theme" cookie itself (cookieName), so the next request reaches the
+  The picker keeps the user's choice in the "lily-theme" cookie itself (its default), so the next request reaches the
   server already carrying it. "Follow this device" is the first option, then Light, Dark and Abyss.
 -->
 <script lang="ts">
@@ -23,7 +23,6 @@
         themesUrl="/assets/themes/"
         themes={["light", "dark", "abyss"]}
         systemLabel="Follow this device"
-        cookieName="theme"
         bind:value={theme}
     />
 </header>

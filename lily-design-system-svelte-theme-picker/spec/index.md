@@ -99,11 +99,11 @@ Give a Svelte 5 application a drop-in, headless theme select that:
 | `themes`           | `string[]`                | yes      | —                                                 | Available theme slugs (e.g. `["light", "dark", "abyss"]`).                                      |
 | `value`            | `string` (bindable)       | no       | `""`                                              | Currently selected theme slug.                                                                  |
 | `defaultValue`     | `string`                  | no       | `"light"` if present in `themes`, else first item | Initial theme when nothing else is supplied.                                                    |
-| `storageKey`       | `string`                  | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                 |
+| `storageKey`       | `string`                  | no       | `lily-{name}`                                     | The `localStorage` key that keeps the choice (§5.8); `""` keeps nothing there.                  |
 | `detectFromSystem` | `boolean`                 | no       | `false`                                           | If true and no value/storage entry exists, resolve `prefers-color-scheme` to a supported theme. |
 | `systemLabel`      | `string`                  | no       | `undefined`                                       | Adds a first option, value `"system"`, that follows the device (§5.6). No English default.      |
 | `systemThemes`     | `{ light; dark }`         | no       | `{ light: "light", dark: "dark" }`                | The themes the `"system"` option applies for a light and a dark device.                         |
-| `cookieName`       | `string`                  | no       | `undefined`                                       | If set, keep the choice in a first-party cookie of this name (§5.7).                            |
+| `cookieName`       | `string`                  | no       | `lily-{name}`                                     | The first-party cookie that keeps the choice (§5.7, §5.8); `""` sets no cookie.                 |
 | `name`             | `string`                  | no       | `"theme"`                                         | `name` of the hidden input; also discriminates the managed `<link>`.                            |
 | `extension`        | `string`                  | no       | `".css"`                                          | File extension appended to each slug when constructing the URL.                                 |
 | `target`           | `HTMLElement \| null`     | no       | `document.documentElement`                        | Element that receives `data-theme`.                                                             |
@@ -290,9 +290,9 @@ On first effect run in the browser, the initial theme is the first
 non-empty value of:
 
 1. `value` (if a consumer supplied a non-empty string)
-2. the `cookieName` cookie (only if `cookieName` is set, and only when it
+2. the `cookieName` cookie (unless turned off, and only when it
    holds one of the choices — §5.7)
-3. `localStorage.getItem(storageKey)` (only if `storageKey` is set and
+3. `localStorage.getItem(storageKey)` (unless turned off, and only if
    the read does not throw)
 4. `matchSystemTheme(themes)` (only if `detectFromSystem` is true) —
    see §5.2.1
@@ -353,11 +353,13 @@ of the four steps repeat and `onChange` does not re-fire.
 
 Keeping the choice is a separate step, once per change of **choice**
 (not of applied theme: `"dark"` to `"system"` on a dark device applies
-nothing new but is a new choice). If `storageKey` is set the choice is
-written to `localStorage`, and if `cookieName` is set to the cookie,
+nothing new but is a new choice). Unless turned off (§5.8) the choice is
+written to `localStorage` under `storageKey` and to the `cookieName` cookie,
 each inside a try/catch (private-mode, quota and sandbox errors are
 silently swallowed). The choice is kept, not the theme it applied, so
-`"system"` stays `"system"` and the next visit follows the device again. The effect in
+`"system"` stays `"system"` and the next visit follows the device again.
+The starting choice (§5.2) is never written: nothing is stored until the
+choice changes. The effect in
 §5.4 can run for reasons other than a theme change, and a consumer
 whose `onChange` writes reactive state would otherwise re-enter it until
 Svelte abandons updating the component
@@ -434,7 +436,28 @@ picker takes over on hydration. Recipe:
 A cookie set only when the user chooses, and holding only that
 interface preference, is the kind EU and UK regulators describe as
 "user interface customisation" and generally exempt from consent; the
-decision for a given service is the adopter's, not Lily's.
+decision for a given service is the adopter's, not Lily's. The same rules
+cover `localStorage`.
+
+### 5.8 Kept in both by default (2026-11-16)
+
+With neither prop given, the choice is kept in both stores, under the
+same name, `lily-{name}`: `lily-theme` for the default `name`. Two pickers
+with different names keep separate choices. An empty string turns a
+store off (`storageKey=""`, `cookieName=""`); `undefined` means the
+default.
+
+- Both, because each covers what the other cannot. The cookie reaches
+  the server, so a server-rendered page can arrive in the right theme
+  (§5.7). `localStorage` survives where cookies are blocked or cleared on
+  close, and costs nothing on each request. On start the cookie wins
+  (§5.2).
+- Nothing is written on the first load (§5.3), only when the choice
+  changes: a visitor who never chooses gets no cookie and no storage
+  entry, which keeps the default inside the user-requested exemption above.
+- A server-rendered app that wants no cookie passes `cookieName=""`; a
+  static app that wants nothing stored passes both empty and relies on
+  "Follow this device".
 
 ## 6. Accessibility
 
@@ -638,17 +661,20 @@ builds the href from both forms.
 
 `ThemePicker.system.test.ts`.
 
-| Clause | Assertion                                                                                                                       |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------- |
-| §7.35  | `systemLabel` adds a first option, value `"system"`, with the `theme-picker-option-system` hook; without it there is none.      |
-| §7.36  | With `systemLabel` and nothing chosen or kept, the picker starts on `"system"` and applies the device's theme.                  |
-| §7.37  | While following, a device switch applies the other theme and fires `onChange` once; choosing a theme removes the listener.      |
-| §7.38  | `systemThemes` chooses the light and dark themes.                                                                               |
-| §7.39  | The native select variant offers `"system"` first, followed by `<hr class="theme-picker-separator">`.                           |
-| §7.40  | With `cookieName`, each choice is written to the cookie, the choice and not its theme, including a choice that applies nothing. |
-| §7.41  | The cookie sets the starting choice, above `localStorage`.                                                                      |
-| §7.42  | A cookie that is not one of the choices is ignored, and never reaches the stylesheet URL.                                       |
-| §7.43  | `themeCookie` writes `Path=/`, 400 days, `SameSite=Lax` and `Secure` when asked; `readThemeCookie` finds, decodes and checks.   |
+| Clause | Assertion                                                                                                                                                                |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| §7.35  | `systemLabel` adds a first option, value `"system"`, with the `theme-picker-option-system` hook; without it there is none.                                               |
+| §7.36  | With `systemLabel` and nothing chosen or kept, the picker starts on `"system"` and applies the device's theme.                                                           |
+| §7.37  | While following, a device switch applies the other theme and fires `onChange` once; choosing a theme removes the listener.                                               |
+| §7.38  | `systemThemes` chooses the light and dark themes.                                                                                                                        |
+| §7.39  | The native select variant offers `"system"` first, followed by `<hr class="theme-picker-separator">`.                                                                    |
+| §7.40  | With `cookieName`, each change of choice is written to the cookie, the choice and not its theme, including a choice that applies nothing; the first load writes nothing. |
+| §7.41  | The cookie sets the starting choice, above `localStorage`.                                                                                                               |
+| §7.42  | A cookie that is not one of the choices is ignored, and never reaches the stylesheet URL.                                                                                |
+| §7.43  | `themeCookie` writes `Path=/`, 400 days, `SameSite=Lax` and `Secure` when asked; `readThemeCookie` finds, decodes and checks.                                            |
+| §7.44  | With neither prop, a choice is kept in both stores under `lily-{name}` (§5.8).                                                                                           |
+| §7.45  | The first load stores nothing until the choice changes.                                                                                                                  |
+| §7.46  | An empty `storageKey` or `cookieName` turns that store off.                                                                                                              |
 
 ## 8. Out-of-scope (future, not implemented here)
 

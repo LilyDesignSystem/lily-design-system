@@ -159,7 +159,8 @@ describe("ThemePicker — kept in a cookie (§5.7, §7.40–§7.43)", () => {
         const scheme = stubScheme(true);
         render(ThemePicker, { props: { ...withSystem, cookieName: "theme" } });
         await flush();
-        expect(readThemeCookie(document.cookie, "theme")).toBe(SYSTEM_THEME);
+        // The starting choice is not written: a first visit sets no cookie.
+        expect(readThemeCookie(document.cookie, "theme")).toBe("");
         await fireEvent.click(screen.getByRole("button"));
         await fireEvent.click(screen.getByRole("option", { name: "Dark", hidden: true }));
         await flush();
@@ -204,5 +205,48 @@ describe("ThemePicker — kept in a cookie (§5.7, §7.40–§7.43)", () => {
         expect(readThemeCookie("mytheme=dark", "theme")).toBe("");
         expect(readThemeCookie("theme=%E0%A4%A", "theme")).toBe("");
         expect(readThemeCookie(undefined, "theme")).toBe("");
+    });
+});
+
+describe("ThemePicker — kept by default (§5.8, §7.44–§7.46)", () => {
+    const pick = async (name: string) => {
+        await fireEvent.click(screen.getByRole("button"));
+        await fireEvent.click(screen.getByRole("option", { name, hidden: true }));
+        await flush();
+    };
+
+    test("§7.44 with no storageKey or cookieName, a choice is kept in both, under lily-{name}", async () => {
+        render(ThemePicker, { props: base });
+        await flush();
+        await pick("Abyss");
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+        expect(readThemeCookie(document.cookie, "lily-theme")).toBe("abyss");
+        document.body.innerHTML = "";
+        render(ThemePicker, { props: { ...base, name: "brand" } });
+        await flush();
+        await pick("Dark");
+        expect(localStorage.getItem("lily-brand")).toBe("dark");
+        expect(readThemeCookie(document.cookie, "lily-brand")).toBe("dark");
+    });
+
+    test("§7.45 the first load stores nothing until the choice changes", async () => {
+        render(ThemePicker, { props: withSystem });
+        await flush();
+        expect(localStorage.length).toBe(0);
+        expect(document.cookie).toBe("");
+    });
+
+    test("§7.46 an empty string turns either store off", async () => {
+        render(ThemePicker, { props: { ...base, storageKey: "", cookieName: "" } });
+        await flush();
+        await pick("Abyss");
+        expect(localStorage.length).toBe(0);
+        expect(document.cookie).toBe("");
+        document.body.innerHTML = "";
+        render(ThemePicker, { props: { ...base, cookieName: "" } });
+        await flush();
+        await pick("Dark");
+        expect(localStorage.getItem("lily-theme")).toBe("dark");
+        expect(document.cookie).toBe("");
     });
 });

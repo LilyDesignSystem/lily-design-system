@@ -63,15 +63,15 @@ nothing was stored. If `defaultValue` is itself empty, the resolver
 falls back to `"light"` (when present in `themes`) and then to
 `themes[0]`.
 
-## `storageKey` — optional, string
+## `storageKey` — optional, string — defaults to `lily-{name}`
 
-`localStorage` key for persistence. When set, the select:
+`localStorage` key that keeps the choice. The picker:
 
-- Reads the stored slug during initial-value resolution.
-- Writes the slug to storage after every successful apply.
+- Reads the stored choice during initial-value resolution (after the cookie).
+- Writes the choice whenever it changes; never on the first load.
 
-Errors (private mode, quota, disabled storage) are silently swallowed
-— the select continues to work in-memory.
+`""` keeps nothing in `localStorage`. Errors (private mode, quota, disabled storage) are silently swallowed — the
+picker continues to work in memory.
 
 ## `detectFromSystem` — optional, boolean — defaults to `false`
 
@@ -110,13 +110,12 @@ With it and nothing chosen or kept, the picker starts on `"system"`.
 
 The themes `"system"` applies. Defaults to `{ light: "light", dark: "dark" }`.
 
-## `cookieName` — optional, string
+## `cookieName` — optional, string — defaults to `lily-{name}`
 
-Keep the choice in a first-party cookie of this name: `Path=/`,
-`SameSite=Lax`, `Secure` on https, 400 days. The choice is kept, not the
-theme it applied (`"system"` stays `"system"`). Read before
-`localStorage` on start; a value that is not one of the choices is
-ignored. A server reads it with `readThemeCookie`; see [ssr.md](./ssr.md).
+The first-party cookie that keeps the choice: `Path=/`, `SameSite=Lax`, `Secure` on https, 400 days. The choice is
+kept, not the theme it applied (`"system"` stays `"system"`), and only when it changes, never on the first load. Read
+before `localStorage` on start; a value that is not one of the choices is ignored. A server reads it with
+`readThemeCookie`; see [ssr.md](./ssr.md). `""` sets no cookie.
 
 ## `name` — optional, string — defaults to `"theme"`
 

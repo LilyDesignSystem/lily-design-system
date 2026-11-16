@@ -16,6 +16,9 @@ and the project follows [Semantic Versioning](https://semver.org/).
   also receives the choice: `onChange(theme, choice)`.
 - The helpers live in `theme-choice.ts`, copied from `shared/theme-choice.ts`, so every TypeScript port shares them.
 - `examples/sveltekit-cookie/` uses `cookieName` and needs no endpoint.
+- **Behaviour change:** the choice is now kept in both `localStorage` and the cookie by default, under `lily-{name}`
+  (`lily-theme`). Pass `storageKey=""` or `cookieName=""` to turn one off. Neither is written on the first load, only
+  when the choice changes (before, `storageKey` also wrote the starting value).
 
 ## 0.3.2 — 2026-11-06
 
