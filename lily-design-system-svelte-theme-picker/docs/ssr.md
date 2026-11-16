@@ -105,15 +105,14 @@ End-to-end code lives in
 [`../examples/sveltekit-cookie/`](../examples/sveltekit-cookie/).
 The shape is:
 
-1. `hooks.server.ts` reads a `theme` cookie into `event.locals.theme`
-   and uses `transformPageChunk` to substitute it into
-   `app.html`.
-2. `src/app.html` has `<html lang="en" data-theme="%theme%">` so the
-   attribute is in place before parsing.
-3. The select is mounted with `value={data.theme}` (forwarded from a
-   layout `load` function).
-4. When the user picks a new theme, the select's `onChange` posts to a
-   small endpoint that writes the cookie.
+1. The picker is given `cookieName="theme"`, so every choice is written
+   to a first-party `theme` cookie by the picker itself. No endpoint is
+   needed.
+2. `hooks.server.ts` reads it with `readThemeCookie(cookie, "theme", allowed)`
+   into `event.locals.theme` and uses `transformPageChunk` to substitute
+   `data-theme` and the theme's `<link>` into `app.html`.
+3. The picker is mounted with `value={data.theme}` (forwarded from a
+   layout `load` function), so the server and the client agree.
 
 ### Astro recipe
 
@@ -158,13 +157,48 @@ mount it at the top of `<body>`. Avoid styles depending on
 `data-theme` for the first paint, or hard-code the default theme's
 `<link>` in `index.html`.
 
-## Why we don't auto-resolve from the cookie
+## A cookie the server can read
 
-The select has no opinion about transport (cookie? header? IndexedDB?
-URL parameter?). Cookies are the right answer for SvelteKit, but not
-for Cloudflare-Workers-based hosts, embedded contexts, or apps that
-already have a server-side preference store. The select stays
-transport-agnostic and lets the consumer wire the integration.
+`localStorage` is invisible to a server, so a page kept there is always
+sent in the default theme and corrected after the script runs. A cookie
+travels with every request. With `cookieName`, the picker keeps each
+choice in one (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days),
+and the module exports what a server needs:
+
+```ts
+import { readThemeCookie, themeCookie, SYSTEM_THEME } from "@lilydesignsystem/svelte-theme-picker";
+
+const choice = readThemeCookie(request.headers.get("cookie"), "theme", ["system", "light", "dark"]);
+```
+
+`readThemeCookie` returns `""` when the cookie is absent, cannot be
+decoded, or is not in the list you allow: never put a cookie into a
+stylesheet URL unchecked. `themeCookie(name, value, secure)` builds the
+same string for a `Set-Cookie` header, if the server sets it instead.
+
+The choice can be `"system"` ("Follow this device", `systemLabel`). The
+server cannot know the device's colour scheme, so link both themes and
+let the browser choose until the picker hydrates:
+
+```html
+<link
+  rel="stylesheet"
+  href="/assets/themes/light.css"
+  media="(prefers-color-scheme: light)"
+/>
+<link
+  rel="stylesheet"
+  href="/assets/themes/dark.css"
+  media="(prefers-color-scheme: dark)"
+/>
+```
+
+Leave `data-theme` off `<html>` for `"system"`, or set it from a small
+inline script that reads `matchMedia` before the body renders.
+
+Other transports (a header, a server-side preference store, a URL
+parameter) still work as before: pass the resolved `value` and leave
+`cookieName` unset.
 
 ---
 

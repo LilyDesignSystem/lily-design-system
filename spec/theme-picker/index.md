@@ -133,6 +133,20 @@ address bar on a phone) follows the applied theme.
 - The value is whatever CSS colour the browser accepts for `theme-color`; it is not converted. Adopters who need a hex or
   `rgb()` value set `--lily-brand` to one.
 
+## Follow this device, kept in a cookie (added 2026-11-16)
+
+The listbox reads **Follow this device**, a line, then **Light** and **Dark** (and any other themes). Svelte first; the other seven
+catalogs follow. Contract: the Svelte package's [spec §5.6 and §5.7](../../lily-design-system-svelte-theme-picker/spec/index.md#56-follow-this-device-2026-11-16).
+
+- `systemLabel` adds a first option, value `"system"` (`SYSTEM_THEME`), with no English default. While chosen it applies
+  `systemThemes.light` or `.dark` (default `light`, `dark`) from `prefers-color-scheme`, and follows the device when it switches.
+- The line is a border the theme draws on `.theme-picker-option-system` (all 63 `themes/`), because a listbox may hold only
+  options and groups; the native select variant uses `<hr class="theme-picker-separator">`.
+- `cookieName` keeps the choice, not the theme it applied, in a first-party cookie: `Path=/`, `SameSite=Lax`, `Secure` on https,
+  400 days (the browser maximum). It is read before `localStorage`; a value that is not one of the choices is ignored.
+- A server reads it with `readThemeCookie(header, name, allowed)` and sends `data-theme` and the `<link>` with the page; for
+  `"system"` it links both themes by `media`. Recipe: the Svelte package's `examples/sveltekit-cookie/`.
+
 ## Acceptance criteria
 
 - [x] Shipped as its own package in all eight frameworks: `bin/list-helper-packages <framework>` lists `<framework>-theme-picker` for
@@ -145,6 +159,9 @@ address bar on a phone) follows the applied theme.
       example apps' own e2e where they use this picker).
 - [x] `variant="select"` (a native `<select>`) in all eight frameworks, opt-in; checked in a browser by the HTML example's
       `e2e/theme-select.spec.ts` in Chromium and WebKit, with and without `appearance: base-select`.
+- [x] Svelte: "Follow this device" (`systemLabel`, `systemThemes`) and the theme cookie (`cookieName`, `readThemeCookie`,
+      `themeCookie`), with `ThemePicker.system.test.ts` (2026-11-16).
+- [ ] The same in React, Vue, Angular, HTML, Web Components, Nunjucks and Blazor.
 
 ## Related topics
 

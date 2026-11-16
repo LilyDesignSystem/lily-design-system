@@ -101,6 +101,9 @@ Give a Svelte 5 application a drop-in, headless theme select that:
 | `defaultValue`     | `string`                  | no       | `"light"` if present in `themes`, else first item | Initial theme when nothing else is supplied.                                                    |
 | `storageKey`       | `string`                  | no       | `undefined`                                       | If set, persist the selection to `localStorage` under this key.                                 |
 | `detectFromSystem` | `boolean`                 | no       | `false`                                           | If true and no value/storage entry exists, resolve `prefers-color-scheme` to a supported theme. |
+| `systemLabel`      | `string`                  | no       | `undefined`                                       | Adds a first option, value `"system"`, that follows the device (§5.6). No English default.      |
+| `systemThemes`     | `{ light; dark }`         | no       | `{ light: "light", dark: "dark" }`                | The themes the `"system"` option applies for a light and a dark device.                         |
+| `cookieName`       | `string`                  | no       | `undefined`                                       | If set, keep the choice in a first-party cookie of this name (§5.7).                            |
 | `name`             | `string`                  | no       | `"theme"`                                         | `name` of the hidden input; also discriminates the managed `<link>`.                            |
 | `extension`        | `string`                  | no       | `".css"`                                          | File extension appended to each slug when constructing the URL.                                 |
 | `target`           | `HTMLElement \| null`     | no       | `document.documentElement`                        | Element that receives `data-theme`.                                                             |
@@ -250,21 +253,15 @@ the name twice). Position and appearance are consumer/theme CSS, via the
 - `default` (the component)
 - `normaliseThemesUrl`, `themeHref`, `themeName`, `matchSystemTheme`,
   `nextThemePickerId` (pure helpers)
+- `SYSTEM_THEME` (`"system"`), `prefersDarkScheme`, `resolveTheme` (§5.6)
+- `THEME_COOKIE_MAX_AGE`, `readThemeCookie`, `themeCookie` (§5.7)
 - `type Props`, `type ChildArgs`
 
 No glyph constant — the default icon is inline SVG markup in the
 component, not a separately-exported swappable character value.
 
-`index.ts` currently re-exports a subset:
-
-- `default`, `ThemePicker` (named alias of the default export)
-- `normaliseThemesUrl`, `themeHref`
-- `type Props`, `type ChildArgs`
-
-`themeName` and `matchSystemTheme` are importable from
-`./ThemePicker.svelte` directly but are **not yet** in the barrel.
-Widening the barrel to match `locale-picker`'s (which re-exports all
-of its pure helpers) is a pending follow-up.
+`index.ts` re-exports all of them except `nextThemePickerId`, with
+`ThemePicker` as a named alias of the default export.
 
 ## 5. Behaviour
 
@@ -287,14 +284,17 @@ On first effect run in the browser, the initial theme is the first
 non-empty value of:
 
 1. `value` (if a consumer supplied a non-empty string)
-2. `localStorage.getItem(storageKey)` (only if `storageKey` is set and
+2. the `cookieName` cookie (only if `cookieName` is set, and only when it
+   holds one of the choices — §5.7)
+3. `localStorage.getItem(storageKey)` (only if `storageKey` is set and
    the read does not throw)
-3. `matchSystemTheme(themes)` (only if `detectFromSystem` is true) —
+4. `matchSystemTheme(themes)` (only if `detectFromSystem` is true) —
    see §5.2.1
-4. `defaultValue`
-5. `"light"` (if `"light"` is in `themes`)
-6. `themes[0]`
-7. `""` (no apply happens — the select waits for user interaction)
+5. `defaultValue`
+6. `"system"` (if `systemLabel` is set — §5.6)
+7. `"light"` (if `"light"` is in `themes`)
+8. `themes[0]`
+9. `""` (no apply happens — the select waits for user interaction)
 
 This is the same shape `locale-picker` uses, with system detection
 sitting in the slot navigator detection occupies there:
@@ -336,12 +336,21 @@ Applying a theme `slug` performs, in order:
 3. Set `data-theme="{slug}"` on the resolved target element. If
    `target` is `null` or `undefined`, use
    `document.documentElement`.
-4. If `storageKey` is set, write the slug to `localStorage` inside a
-   try/catch (so private-mode / quota errors are silently swallowed).
-5. Call `onChange(slug)` if supplied.
+4. Call `onChange(slug)` if supplied.
+
+The slug applied is `resolveTheme(value, prefersDark, systemThemes)`:
+the value itself, or for `"system"` the device's theme (§5.6).
 
 Applying is **idempotent**: a slug already applied is a no-op, so none
-of the five steps repeat and `onChange` does not re-fire. The effect in
+of the four steps repeat and `onChange` does not re-fire.
+
+Keeping the choice is a separate step, once per change of **choice**
+(not of applied theme: `"dark"` to `"system"` on a dark device applies
+nothing new but is a new choice). If `storageKey` is set the choice is
+written to `localStorage`, and if `cookieName` is set to the cookie,
+each inside a try/catch (private-mode, quota and sandbox errors are
+silently swallowed). The choice is kept, not the theme it applied, so
+`"system"` stays `"system"` and the next visit follows the device again. The effect in
 §5.4 can run for reasons other than a theme change, and a consumer
 whose `onChange` writes reactive state would otherwise re-enter it until
 Svelte abandons updating the component
@@ -362,7 +371,63 @@ when the consumer mutates labels.
 During server rendering, no effects run and no DOM is touched. The
 markup renders with the value supplied by the consumer (if any).
 Consumers wanting flicker-free first paint pass a server-resolved
-`value` (from a cookie, header, etc.).
+`value` (from a cookie, header, etc.); with `cookieName` the server reads
+the picker's own cookie with `readThemeCookie` (§5.7).
+
+### 5.6 Follow this device (2026-11-16)
+
+With `systemLabel`, the options are `"system"` first, labelled
+`systemLabel` (for example "Follow this device"), then `themes`. The
+`"system"` option carries a second class hook,
+`theme-picker-option-system`, on the same element as
+`theme-picker-option`. A listbox may hold only options and groups, so
+the line between it and the themes is a border the theme draws on that
+option (all 63 `themes/` do), never a separator element. The native
+select variant puts `<hr class="theme-picker-separator">` after it, which
+a `<select>` allows.
+
+While `"system"` is chosen, the picker applies `systemThemes.dark` when
+`matchMedia("(prefers-color-scheme: dark)")` matches and
+`systemThemes.light` otherwise, and listens for that query's `change`
+event: when the device switches, the page switches with it, and
+`onChange` fires once with the new theme. Choosing any other option
+removes the listener. The device's scheme is read when the component
+is created, so a dark device never sees the light theme first. Without
+`systemLabel` nothing changes from before: no option is added and
+`"system"` is not a choice.
+
+With `systemLabel` and nothing chosen or kept, the picker starts on
+`"system"` (§5.2), since following the device is what most people want
+before they choose. `detectFromSystem` still works and is the older,
+one-time form of the same idea.
+
+### 5.7 Kept in a cookie (2026-11-16)
+
+With `cookieName`, each choice (§5.3) is written as
+`themeCookie(cookieName, choice, secure)`:
+`{name}={choice}; Path=/; Max-Age=34560000; SameSite=Lax`, plus
+`; Secure` on an `https:` page. 34,560,000 seconds is 400 days, the
+longest a browser keeps a cookie (RFC 6265bis); each visit renews it.
+The cookie is first-party, readable by script (not `HttpOnly`, since the
+picker writes it) and holds only the choice: a theme slug or `"system"`.
+
+On start the cookie is read before `localStorage` (§5.2). A value that
+is not one of the choices (`systemLabel`'s `"system"` and `themes`) is
+ignored, so a forged cookie never reaches the stylesheet URL.
+
+The cookie is what lets a server send the page in the right theme:
+`readThemeCookie(request.headers.get("cookie"), name, allowed)` returns
+the choice, or `""` when it is absent, cannot be decoded, or is not in
+`allowed`. A server puts `data-theme` on `<html>` and the theme's
+`<link>` in the page; for `"system"` it cannot know the device's scheme,
+so it links both themes with `media="(prefers-color-scheme: …)"` and the
+picker takes over on hydration. Recipe:
+[docs/ssr.md](../docs/ssr.md#a-cookie-the-server-can-read).
+
+A cookie set only when the user chooses, and holding only that
+interface preference, is the kind EU and UK regulators describe as
+"user interface customisation" and generally exempt from consent; the
+decision for a given service is the adopter's, not Lily's.
 
 ## 6. Accessibility
 
@@ -561,6 +626,22 @@ builds the href from both forms.
 | §7.32  | It is never shown while the listbox is open.                                                                                                                                                                 |
 | §7.33  | While the tooltip is visible, `Escape` pressed anywhere (e.g. on `document.body` or another element, with the pointer hovering and focus elsewhere) dismisses it without moving focus or preventing default. |
 | §7.34  | The document `keydown` listener exists only while the tooltip is visible: added once on show, never doubled, removed on hide and on unmount.                                                                 |
+
+### Follow this device (mirrors §5.6) and kept in a cookie (mirrors §5.7)
+
+`ThemePicker.system.test.ts`.
+
+| Clause | Assertion                                                                                                                       |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| §7.35  | `systemLabel` adds a first option, value `"system"`, with the `theme-picker-option-system` hook; without it there is none.      |
+| §7.36  | With `systemLabel` and nothing chosen or kept, the picker starts on `"system"` and applies the device's theme.                  |
+| §7.37  | While following, a device switch applies the other theme and fires `onChange` once; choosing a theme removes the listener.      |
+| §7.38  | `systemThemes` chooses the light and dark themes.                                                                               |
+| §7.39  | The native select variant offers `"system"` first, followed by `<hr class="theme-picker-separator">`.                           |
+| §7.40  | With `cookieName`, each choice is written to the cookie, the choice and not its theme, including a choice that applies nothing. |
+| §7.41  | The cookie sets the starting choice, above `localStorage`.                                                                      |
+| §7.42  | A cookie that is not one of the choices is ignored, and never reaches the stylesheet URL.                                       |
+| §7.43  | `themeCookie` writes `Path=/`, 400 days, `SameSite=Lax` and `Secure` when asked; `readThemeCookie` finds, decodes and checks.   |
 
 ## 8. Out-of-scope (future, not implemented here)
 

@@ -9,6 +9,15 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Theme picker: follow this device, kept in a cookie — 2026-11-16
+
+- `@lilydesignsystem/svelte-theme-picker` 0.4.0: `systemLabel` adds a "Follow this device" option first, then Light and Dark;
+  it follows `prefers-color-scheme` live. `cookieName` keeps the choice in a first-party cookie a server can read
+  (`readThemeCookie`), for a first paint in the right theme. See [spec/theme-picker](spec/theme-picker/index.md). The other seven
+  catalogs follow.
+- All 63 themes draw the line under `.theme-picker-option-system`.
+- The SvelteKit examples app has a `/color-picker` page, with `e2e/color-picker.spec.ts` and an axe check.
+
 ## Colour picker in all eight catalogs — 2026-11-15
 
 - **Added:** the colour-picker helper ported from Svelte to the other seven catalogs, version 0.1.0 each:

@@ -4,6 +4,17 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.4.0 — 2026-11-16
+
+- Added `systemLabel` and `systemThemes`: a first option, value `"system"` (`SYSTEM_THEME`), that follows the device's
+  `prefers-color-scheme` and switches with it, with the `theme-picker-option-system` class hook for the line below it
+  (`<hr class="theme-picker-separator">` in the select variant). With `systemLabel` and nothing kept, the picker starts there.
+- Added `cookieName`: the choice is kept in a first-party cookie (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days),
+  read before `localStorage`, so a server can send the page in the right theme. New exports `readThemeCookie`, `themeCookie`,
+  `THEME_COOKIE_MAX_AGE`, `resolveTheme`, `prefersDarkScheme`; the barrel now exports `themeName` and `matchSystemTheme` too.
+- Storage and the cookie keep the choice, once per change of choice; `onChange` still fires once per applied theme.
+- `examples/sveltekit-cookie/` uses `cookieName` and needs no endpoint.
+
 ## 0.3.2 — 2026-11-06
 
 - Depends on `svelte-headless` ^0.8.0.

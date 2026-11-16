@@ -46,6 +46,19 @@
         /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
         detectFromSystem?: boolean;
         /**
+         * The visible name of a first option, value `"system"` (`SYSTEM_THEME`), that follows the device: it applies
+         * `systemThemes.light` or `systemThemes.dark` from `prefers-color-scheme`, and changes when the device does,
+         * for example "Follow this device". Without it there is no such option. No English default.
+         */
+        systemLabel?: string;
+        /** The themes the `"system"` option applies. Default `{ light: "light", dark: "dark" }`. */
+        systemThemes?: { light: string; dark: string };
+        /**
+         * If set, keep the choice in a first-party cookie of this name (`Path=/`, `SameSite=Lax`, `Secure` on https,
+         * 400 days), so a server can read it and send the page in the right theme. See `readThemeCookie`.
+         */
+        cookieName?: string;
+        /**
          * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
          * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
          */
@@ -114,6 +127,62 @@
         return themes.includes(wanted) ? wanted : "";
     }
 
+    /** The value of the option that follows the device's colour scheme. */
+    export const SYSTEM_THEME = "system";
+
+    /** Does the device ask for a dark colour scheme? False under SSR or without matchMedia. */
+    export function prefersDarkScheme(): boolean {
+        if (typeof window === "undefined" || typeof window.matchMedia !== "function") return false;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+
+    /**
+     * The theme a choice applies: `"system"` becomes `systemThemes.dark` or `.light` by `prefersDark`; any other
+     * slug is itself.
+     */
+    export function resolveTheme(
+        choice: string,
+        prefersDark: boolean,
+        systemThemes: { light: string; dark: string } = { light: "light", dark: "dark" },
+    ): string {
+        if (choice !== SYSTEM_THEME) return choice;
+        return prefersDark ? systemThemes.dark : systemThemes.light;
+    }
+
+    /** 400 days, the longest a browser keeps a cookie (RFC 6265bis). */
+    export const THEME_COOKIE_MAX_AGE = 400 * 24 * 60 * 60;
+
+    /**
+     * Read the theme cookie from a `Cookie` header or `document.cookie`. Returns "" when it is absent, or when
+     * `allowed` is given and does not hold it: never trust a cookie into a stylesheet URL unchecked.
+     */
+    export function readThemeCookie(
+        cookies: string | null | undefined,
+        name: string,
+        allowed?: readonly string[],
+    ): string {
+        for (const part of (cookies ?? "").split(";")) {
+            const eq = part.indexOf("=");
+            if (eq < 0 || part.slice(0, eq).trim() !== name) continue;
+            let value = part.slice(eq + 1).trim();
+            try {
+                value = decodeURIComponent(value);
+            } catch {
+                return "";
+            }
+            return !allowed || allowed.includes(value) ? value : "";
+        }
+        return "";
+    }
+
+    /** The `document.cookie` (or `Set-Cookie`) string that keeps a theme choice. */
+    export function themeCookie(name: string, value: string, secure = false): string {
+        return (
+            `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${THEME_COOKIE_MAX_AGE}; SameSite=Lax` +
+            (secure ? "; Secure" : "")
+        );
+    }
+
     /** Normalise the themes directory URL to end with exactly one "/". */
     export function normaliseThemesUrl(themesUrl: string): string {
         return themesUrl.endsWith("/") ? themesUrl : themesUrl + "/";
@@ -144,6 +213,9 @@
         defaultValue,
         storageKey,
         detectFromSystem = false,
+        systemLabel,
+        systemThemes = { light: "light", dark: "dark" },
+        cookieName,
         themeColor = false,
         name = "theme",
         extension = ".css",
@@ -201,7 +273,26 @@
     let listEl: HTMLElement | undefined = $state();
     let rootEl: HTMLDivElement | undefined = $state();
 
+    // The choices offered: "system" first when it has a label, then the themes.
+    const options = $derived(systemLabel ? [SYSTEM_THEME, ...themes] : themes);
+
+    // The device's colour scheme, read at once (no light flash before a dark device is seen) and kept current
+    // while "system" is chosen, so the page follows the device when it switches.
+    let prefersDark = $state(prefersDarkScheme());
+    $effect(() => {
+        if (value !== SYSTEM_THEME) return;
+        if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
+        const query = window.matchMedia("(prefers-color-scheme: dark)");
+        prefersDark = query.matches;
+        const onSchemeChange = (event: MediaQueryListEvent): void => {
+            prefersDark = event.matches;
+        };
+        query.addEventListener?.("change", onSchemeChange);
+        return () => query.removeEventListener?.("change", onSchemeChange);
+    });
+
     function labelFor(theme: string): string {
+        if (theme === SYSTEM_THEME && systemLabel) return systemLabel;
         if (theme in themeLabels) return themeLabels[theme];
         return themeName(theme);
     }
@@ -235,14 +326,35 @@
         link.href = themeHref(themesUrl, slug, extension);
         if (themeColor) applyThemeColorWhenLoaded(link);
         (target ?? document.documentElement).setAttribute("data-theme", slug);
+        onChange?.(slug);
+    }
+
+    // The choice is kept, not the theme it applies: "system" stays "system", so the next visit follows the device
+    // again. Kept once per change of choice, which is not always a change of applied theme ("dark" to "system" on
+    // a dark device applies nothing new).
+    let keptValue = "";
+
+    function keepChoice(choice: string): void {
+        if (choice === keptValue) return;
+        keptValue = choice;
         if (storageKey) {
             try {
-                localStorage.setItem(storageKey, slug);
+                localStorage.setItem(storageKey, choice);
             } catch {
                 // ignore quota / privacy errors
             }
         }
-        onChange?.(slug);
+        if (cookieName) {
+            try {
+                document.cookie = themeCookie(
+                    cookieName,
+                    choice,
+                    window.location?.protocol === "https:",
+                );
+            } catch {
+                // ignore: a sandboxed document may refuse cookies
+            }
+        }
     }
 
     function setTheme(slug: string): void {
@@ -254,11 +366,11 @@
     // ---------------------------------------------------------------
 
     function openList(startIndex?: number): void {
-        const selected = themes.indexOf(value);
+        const selected = options.indexOf(value);
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
-        activeIndex = themes.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
+        activeIndex = options.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
         open = true;
         // Focus moves to the listbox; the active option is conveyed via
         // aria-activedescendant, per the APG listbox pattern. preventScroll
@@ -282,7 +394,7 @@
     }
 
     function choose(index: number): void {
-        const slug = themes[index];
+        const slug = options[index];
         if (slug) setTheme(slug);
         closeList();
     }
@@ -349,7 +461,7 @@
                 break;
             case "ArrowUp":
                 event.preventDefault();
-                openList(themes.length - 1);
+                openList(options.length - 1);
                 break;
         }
     }
@@ -372,6 +484,13 @@
         if (!initialised) {
             initialised = true;
             let initial = current;
+            if (!initial && cookieName) {
+                try {
+                    initial = readThemeCookie(document.cookie, cookieName, options);
+                } catch {
+                    // ignore: a sandboxed document may refuse cookies
+                }
+            }
             if (!initial && storageKey) {
                 try {
                     initial = localStorage.getItem(storageKey) ?? "";
@@ -383,8 +502,12 @@
                 initial = matchSystemTheme(themes);
             }
 
+            // With a "system" option, following the device is the natural start.
             if (!initial) {
-                initial = defaultValue ?? (themes.includes("light") ? "light" : themes[0]) ?? "";
+                initial =
+                    defaultValue ??
+                    (systemLabel ? SYSTEM_THEME : themes.includes("light") ? "light" : themes[0]) ??
+                    "";
             }
             if (initial && initial !== current) {
                 value = initial;
@@ -392,7 +515,10 @@
             }
         }
 
-        if (current) applyTheme(current);
+        if (current) {
+            applyTheme(resolveTheme(current, prefersDark, systemThemes));
+            keepChoice(current);
+        }
     });
 </script>
 
@@ -422,14 +548,19 @@
             {disabled}
             onchange={(event) => setTheme(event.currentTarget.value)}
         >
-            {#each themes as theme (theme)}
+            {#each options as theme (theme)}
                 <option
-                    class="theme-picker-option"
+                    class={theme === SYSTEM_THEME
+                        ? "theme-picker-option theme-picker-option-system"
+                        : "theme-picker-option"}
                     value={theme}
                     selected={theme === value}
                 >
                     {labelFor(theme)}
                 </option>
+                {#if theme === SYSTEM_THEME}
+                    <hr class="theme-picker-separator" />
+                {/if}
             {/each}
         </select>
     </div>
@@ -537,14 +668,18 @@
             onEscape={() => closeList()}
             onTabOut={handleTabOut}
         >
-            {#each themes as theme, i (theme)}
+            {#each options as theme, i (theme)}
                 <!-- The option's keyboard interaction lives on the listbox
                  (aria-activedescendant pattern): the list is the focused
                  element and its keydown handler operates the options, so a
                  per-option key handler would be wrong, not missing. -->
                 <!-- svelte-ignore a11y_click_events_have_key_events -->
+                <!-- The "system" option carries its own class hook: a listbox may hold only options and groups, so
+                 the line between it and the themes is the theme's CSS (a border on this option), not an element. -->
                 <li
-                    class="theme-picker-option"
+                    class={theme === SYSTEM_THEME
+                        ? "theme-picker-option theme-picker-option-system"
+                        : "theme-picker-option"}
                     id={optionId(i)}
                     role="option"
                     aria-selected={theme === value}

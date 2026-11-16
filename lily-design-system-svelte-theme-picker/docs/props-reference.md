@@ -84,7 +84,7 @@ It sits below storage in the resolution order, so a user who explicitly
 picked a theme keeps it when they later flip their OS setting:
 
 ```
-value > storage > detectFromSystem > defaultValue > "light" > themes[0]
+value > cookie > storage > detectFromSystem > defaultValue > "system" > "light" > themes[0]
 ```
 
 Returns nothing useful during SSR (and under jsdom), where `matchMedia`
@@ -96,6 +96,27 @@ This mirrors `detectFromNavigator` in `locale-picker`. The underlying
 
 To _track_ the OS preference for the whole session rather than only
 resolving it once, see [recipes.md](./recipes.md).
+
+## `systemLabel` — optional, string
+
+The visible name of a first option, value `"system"` (`SYSTEM_THEME`),
+that follows the device: for example "Follow this device". While it is
+chosen the picker applies `systemThemes.dark` or `systemThemes.light`
+from `prefers-color-scheme`, and switches when the device does. Without
+it there is no such option. No English default: the words are yours.
+With it and nothing chosen or kept, the picker starts on `"system"`.
+
+## `systemThemes` — optional, { light: string; dark: string }
+
+The themes `"system"` applies. Defaults to `{ light: "light", dark: "dark" }`.
+
+## `cookieName` — optional, string
+
+Keep the choice in a first-party cookie of this name: `Path=/`,
+`SameSite=Lax`, `Secure` on https, 400 days. The choice is kept, not the
+theme it applied (`"system"` stays `"system"`). Read before
+`localStorage` on start; a value that is not one of the choices is
+ignored. A server reads it with `readThemeCookie`; see [ssr.md](./ssr.md).
 
 ## `name` — optional, string — defaults to `"theme"`
 

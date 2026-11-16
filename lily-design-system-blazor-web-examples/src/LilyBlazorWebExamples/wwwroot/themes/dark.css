@@ -2905,6 +2905,16 @@
         cursor: pointer;
     }
 
+    /* theme-picker's "Follow this device" option (systemLabel) is set apart from the
+       themes below it by a line: a listbox may hold only options, so the line is
+       this border, not an element. */
+    :where(.theme-picker-list) > :where(.theme-picker-option-system) {
+        border-block-end: 1px solid var(--lily-border);
+        border-end-start-radius: 0;
+        border-end-end-radius: 0;
+        margin-block-end: var(--lily-space-xs);
+    }
+
     /* data-active is the keyboard cursor (aria-activedescendant); focus
        stays on the listbox, so this is the only visible cue for it. */
     :where(.theme-picker-list, .locale-picker-list, .text-size-picker-list, .time-zone-picker-list, .motion-picker-list)

@@ -304,12 +304,14 @@ The default theme is `"light"` whenever `"light"` appears in your
 `themes` list. The full resolution order on first mount is:
 
 1. `value` prop (if non-empty)
-2. `localStorage[storageKey]` (if `storageKey` is set and readable)
-3. `matchSystemTheme(themes)` (only if `detectFromSystem` is set)
-4. `defaultValue` prop
-5. `"light"` (if present in `themes`)
-6. `themes[0]`
-7. `""` — nothing is applied; the select waits for user interaction
+2. the `cookieName` cookie (if `cookieName` is set and the cookie holds one of the choices)
+3. `localStorage[storageKey]` (if `storageKey` is set and readable)
+4. `matchSystemTheme(themes)` (only if `detectFromSystem` is set)
+5. `defaultValue` prop
+6. `"system"` (if `systemLabel` is set)
+7. `"light"` (if present in `themes`)
+8. `themes[0]`
+9. `""` — nothing is applied; the select waits for user interaction
 
 The select never displays the word `"default"`. Option labels come from
 `themeName(slug)`, which title-cases each hyphen-separated word
@@ -337,6 +339,30 @@ the whole session, add a `matchMedia` listener — see
 [docs/recipes.md](./docs/recipes.md). This mirrors `locale-picker`'s
 `detectFromNavigator`.
 
+### Follow this device
+
+Pass `systemLabel` to add a first option that follows the device, then
+the themes:
+
+```svelte
+<ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark"]}
+  systemLabel="Follow this device"
+  cookieName="theme"
+/>
+```
+
+The listbox reads **Follow this device**, a line, **Light**, **Dark**.
+While it is chosen the picker applies `light` or `dark` from
+`prefers-color-scheme` and switches when the device does; `systemThemes`
+names other themes for the two schemes. Its value is `"system"`
+(`SYSTEM_THEME`), and that, not the theme it applied, is what is kept,
+so the next visit follows the device again. With `systemLabel` and
+nothing kept, the picker starts there. The line is drawn by the theme
+on `.theme-picker-option-system`; all 63 `themes/` draw it.
+
 ## Props
 
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highlights:
@@ -350,6 +376,9 @@ The complete table is in [spec/index.md §4.1](./spec/index.md#41-props). Highli
 | `defaultValue`     | `string`                 | no       | Initial when nothing else applies.                                                                  |
 | `storageKey`       | `string`                 | no       | `localStorage` persistence.                                                                         |
 | `detectFromSystem` | `boolean`                | no       | Resolve `prefers-color-scheme` on first visit.                                                      |
+| `systemLabel`      | `string`                 | no       | Adds a first "follow this device" option, value `"system"`; no English default.                     |
+| `systemThemes`     | `{ light, dark }`        | no       | The themes `"system"` applies; defaults to `light` and `dark`.                                      |
+| `cookieName`       | `string`                 | no       | Keep the choice in a first-party cookie a server can read.                                          |
 | `themeColor`       | `boolean`                | no       | Also set `<meta name="theme-color">` from `--lily-brand` once the stylesheet loads; off by default. |
 | `name`             | `string`                 | no       | Hidden input `name`, and the managed `<link>` discriminator; defaults to `"theme"`.                 |
 | `extension`        | `string`                 | no       | Defaults to `".css"`.                                                                               |
@@ -406,9 +435,14 @@ Errors writing to or reading from `localStorage` (private mode, quota,
 disabled storage) are silently swallowed — the select continues to
 work in-memory.
 
-If you need cookie-based persistence (so SSR can read the theme before
-first paint), see [`docs/ssr.md`](./docs/ssr.md) and the
-[`examples/sveltekit-cookie/`](./examples/sveltekit-cookie/) recipe.
+Pass a `cookieName` to keep the choice in a cookie instead (or as well):
+`{name}={choice}; Path=/; Max-Age=34560000; SameSite=Lax`, with `Secure`
+on https. 400 days is the longest a browser keeps a cookie; each visit
+renews it. A server can read it with `readThemeCookie` and send the
+page in the right theme, with no flash: see [`docs/ssr.md`](./docs/ssr.md)
+and the [`examples/sveltekit-cookie/`](./examples/sveltekit-cookie/)
+recipe. The cookie is read before `localStorage`, and a value that is
+not one of the choices is ignored.
 
 ## Accessibility
 
