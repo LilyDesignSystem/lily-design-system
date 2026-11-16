@@ -108,7 +108,7 @@ document and persists nothing.
 - [x] HSL, HSB, RGB and CMYK groups (rule 6).
 - [x] Hidden form input, disabled, rest props and class (rules 8 and 9).
 - [x] Ports to the other seven catalogs (`lily-design-system-{react,vue,angular,html,web-components,nunjucks,blazor}-color-picker`).
-- [ ] A composed example page and its e2e and axe checks.
+- [x] A composed example page and its e2e and axe checks: `/color-picker` in the SvelteKit examples app, `e2e/color-picker.spec.ts`, and `/color-picker` in `e2e/accessibility.spec.ts` (2026-11-16).
 - [ ] Screen-reader sessions.
 
 ## 6. Tests

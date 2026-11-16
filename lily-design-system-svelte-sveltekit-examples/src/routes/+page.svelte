@@ -11,6 +11,12 @@
                 "Flagship multi-step wizard: reason, date and time, details, review, confirmation",
         },
         {
+            href: "/color-picker",
+            title: "Colour Picker",
+            description:
+                "Recent colours, a palette of named swatches, and exact entry by hex, name, HSL, HSB, RGB or CMYK",
+        },
+        {
             href: "/contact-form",
             title: "Contact Form",
             description: "Form inputs, validation, and error handling",

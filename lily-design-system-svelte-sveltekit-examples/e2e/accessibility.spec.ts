@@ -100,6 +100,7 @@ const composedPages = [
     "/book-an-appointment",
     "/rtl-demo",
     "/time-wheels",
+    "/color-picker",
 ];
 
 test.describe("accessibility: composed-page demos", () => {
