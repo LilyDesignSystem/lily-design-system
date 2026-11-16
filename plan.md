@@ -458,6 +458,29 @@ viewer can leave out. The healthcare components are also not yet published. Find
 
 Status (2026-11-14): T1 to T9 done (catalog 629: the record lists, with `allergy-list` renamed `allergy-record-list`); released to npm and NuGet the same day.
 
+## Phase 29 — Lessons from openEHR (2026-11-16)
+
+A review of openEHR, the open standard for health records: its Reference Model data types and absence codes, its record model
+(entries, the Instruction State Machine, versions, attestation, feeder audit) and the forms built on its templates (Medblocks
+UI). openEHR is a data standard, so the lessons are display and input contracts: partial dates, "not applicable", approximate
+quantities, proportions, durations, named reference ranges, whose record an entry is about, a quantity with its unit, and a
+mapping table for adopters. A form generator, archetypes, terminology and clinical logic are declined. Findings:
+[spec/lessons/openehr](spec/lessons/openehr/index.md). Tasks: [tasks.md](tasks.md#phase-29--lessons-from-openehr-2026-11-16).
+
+Status (2026-11-16): researched; nothing built. T1 to T4 first (small changes to existing contracts that stop a screen adding
+precision or attribution the record lacks); T9 and T10 are maintainer decisions.
+
+## Phase 30 — Lessons from OpenEMR (2026-11-16)
+
+A review of OpenEMR, the open-source EHR and practice management application. It adds no components: Phases 27 and 28 cover what
+its clinical screens need. It shows how those screens go wrong (status by colour alone, a blinking overdue entry, a board that
+refreshes itself, several patients open in tabs, a review of systems where "not asked" reads as "denied"), so the work is three
+example pages, safety rules and patterns for the healthcare guide, and an audit of the `calendar` helper. Billing, US code sets,
+e-prescribing and integrations are declined. Findings: [spec/lessons/openemr](spec/lessons/openemr/index.md). Tasks:
+[tasks.md](tasks.md#phase-30--lessons-from-openemr-2026-11-16).
+
+Status (2026-11-16): researched; nothing built. T1 and T2 (guide rules) first; T5 after Phase 29's T4 and T9.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

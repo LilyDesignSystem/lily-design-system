@@ -3611,6 +3611,81 @@ shown, never decided.
       guide, not a component, since Lily ships no terminology.
       Verify: the pattern is in the guide, with a working example on the SvelteKit `/patient-summary` page. _(2026-11-14: done. "Coded values" in the guide and on the site page; `/patient-summary` has a "Show codes" toggle button that reveals ATC and SNOMED CT codes (`hidden` until pressed) and marks the clinical content with the document's `lang`. Its e2e test checks the codes are hidden, then shown by Enter, in Chromium and WebKit. The same commit fixes the three Phase 27 pages' `clinical-format` imports, which svelte-check could not resolve.)_
 
+## Phase 29 — Lessons from openEHR (2026-11-16)
+
+From [spec/lessons/openehr](spec/lessons/openehr/index.md). Order: T1 to T4 (contract changes to existing components and
+`shared/clinical-format.ts`), then T5 to T8, then T9 and T10 (maintainer decisions). New components go through
+`bin/new-component` into all nine catalogs, Svelte first; changes to shared modules include the C# port. Lily ships no clinical
+logic: no constraint validation, no score sums, no unit conversion.
+
+- [ ] **P29-T1 Partial dates.** `formatPartialDate(iso, locale)` in `shared/clinical-format.ts` (and `ClinicalFormat` in C#)
+      formats a year, a year and month, or a full date with only the fields given; `date-time-view` accepts a partial `datetime`;
+      `date-field` takes `precision` (`day`, `month`, `year`) and omits the parts it does not ask for.
+      Verify: tests for `2019`, `2019-03` and `2019-03-14` in two locales, and that no day or month is invented; `date-field`
+      tests in all nine catalogs for each precision; `bin/sync-shared-modules --check` passes.
+- [ ] **P29-T2 `not-applicable`.** A sixth status for the record lists and a status for `observation-view`, each requiring
+      consumer words.
+      Verify: tests in all nine catalogs that it renders its words and `data-status`; a missing label raises `warnMissingProp`.
+- [ ] **P29-T3 Approximate quantities.** `~` as a comparator in `formatQuantity` and the C# port, written `≈` before the number.
+      Verify: tests in both; dropping the sign makes them fail.
+- [ ] **P29-T4 `subjectLabel` on record items.** `record-list-item` and the six domain items render the consumer's words for
+      whose record it is ("Mother", "Fetus 1") before the item's text, as a `-subject` part.
+      Verify: tests in all nine catalogs; the guide states the rule that an entry about someone else always says so.
+- [ ] **P29-T5 `formatProportion`.** `formatProportion(numerator, denominator, kind, locale)` for ratio, unitary, percent, fraction
+      and integer fraction, in the shared module and C#.
+      Verify: tests for `1:128`, `1/2`, `1 1/2`, a percent and a unitary value, in two locales.
+- [ ] **P29-T6 `duration-view`.** A `<time datetime>` holding an ISO 8601 duration, words from `Intl.DurationFormat` or the
+      consumer, sharing its parser with `age-view`.
+      Verify: built in all nine catalogs with tests, including a negative duration; `bin/check-built-english` passes.
+- [ ] **P29-T7 Named ranges on `observation-view`.** A `ranges` list of `{ label, text }`, each a `-range` part, beside the
+      existing single range.
+      Verify: tests in all nine catalogs with two ranges; the single-range tests still pass.
+- [ ] **P29-T8 `quantity-input-div`.** A number input and a unit `<select>` (or fixed unit text), labelled together, with
+      per-unit `min`, `max` and `step` that change with the unit; value `{ magnitude, unit }`; no conversion.
+      Verify: built in all nine catalogs; a test that changing the unit changes the input's limits; form reset restores both.
+- [ ] **P29-T9 `record-provenance-view` (maintainer decision).** Author, committer, time, source system, version and a signature
+      state as `data-attestation`, each in consumer words; or a documented `summary-list` composition.
+      Verify: the decision is recorded in the topic; if built, tests in all nine catalogs and an unsigned state that never
+      renders as signed.
+- [ ] **P29-T10 `repeatable-fieldset` (maintainer decision).** The "add another" pattern: identical fieldsets, add and remove
+      buttons, focus to the new item and back after removal, legends renumbered from a consumer template.
+      Verify: the decision is recorded in the topic; if built, key and focus tests in all nine catalogs.
+- [ ] **P29-T11 openEHR in the healthcare guide.** The data-type, null-flavour, `normal_status` and Instruction State Machine
+      mapping table, and the interval-event, ordinal-score and instruction-step patterns, in
+      `docs/patterns/healthcare/index.md` and its site page.
+      Verify: each Lily value the table names is in a component's `AGENTS.md`; `bin/check-links` passes.
+
+## Phase 30 — Lessons from OpenEMR (2026-11-16)
+
+From [spec/lessons/openemr](spec/lessons/openemr/index.md). Order: T1 and T2 (guide rules), then T3 and T4 (example pages), then
+T5 to T7. Pages go in the SvelteKit app first, linked from its home page. No billing, code sets or integrations.
+
+- [ ] **P30-T1 Several patients open.** A guide rule: each tab or window names the patient and a second identifier, the active
+      panel repeats the banner, and no action applies to a patient other than its panel's.
+      Verify: the rule is in `docs/patterns/healthcare/index.md` and its site page; `bin/check-links` passes.
+- [ ] **P30-T2 Tri-state answers.** The review-of-systems pattern: a `radio-group` of present, absent and not asked per symptom,
+      none chosen by default, one `fieldset` per body system, and an "all others absent" button that sets only unanswered ones.
+      Verify: the pattern is in the guide with a working example page that an e2e test completes by keyboard alone, and checks
+      that the button leaves answered symptoms unchanged.
+- [ ] **P30-T3 `/flow-board`.** Today's appointments in a `data-table`: time, patient with two identifiers, status as text, room,
+      and time in status as a `<time>` duration; overdue entries in words and `data-overdue`; updates only on Refresh or with a
+      pause control, summarised in one polite region.
+      Verify: an e2e spec, axe-clean, and a test that no element on the page animates or blinks and that focus stays put on update.
+- [ ] **P30-T4 `/find-patient`.** A multi-field search, results with two identifiers per row, a no-results state in words, no
+      automatic opening of a single match, and possible duplicates side by side.
+      Verify: an e2e spec, axe-clean, and a test that a single result is not opened without a choice.
+- [ ] **P30-T5 `/patient-dashboard`.** Summary cards for problems, allergies, medications, immunizations, reminders and
+      appointments on the record lists, with actions named for what they change and a last-reviewed date, under the patient
+      banner. After P29-T4 and P29-T9.
+      Verify: an e2e spec at 320px with every card's status visible; axe-clean.
+- [ ] **P30-T6 Calendar audit.** In the `calendar` helper: an event's category as text, a free slot marked and reachable by
+      keyboard, a repeating series said in words.
+      Verify: each finding is a task in this phase or a non-goal in the helper's `spec/index.md`; `bin/check-helper-docs` passes.
+- [ ] **P30-T7 Vitals, growth and reminder patterns.** In the guide: a value with the other unit system's value as consumer text,
+      a growth chart on `line-chart` with consumer centile series and its data table, and a reminder list as a `record-list` with
+      a due date and `data-due` in words.
+      Verify: the three patterns are in the guide and its site page; `bin/check-links` passes.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
