@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.4.0 — 2026-11-16
+
+- "Follow this device" and the theme cookie, ported from the Svelte reference. Inputs: `systemLabel`, `systemThemes` and `cookieName`; the `[(value)]` model holds the choice and `themeChange` emits the theme applied.
+- `themeChange` emits the theme applied; `[(value)]` holds the choice, `"system"` or the slug.
+- New exports from `theme-choice.ts` (copied from `shared/`): `SYSTEM_THEME`, `resolveTheme`, `readThemeCookie`,
+  `themeCookie`, `THEME_COOKIE_MAX_AGE` and the rest.
+
 ## 0.3.2 — 2026-11-06
 
 - Depends on `angular-headless` ^0.9.0.

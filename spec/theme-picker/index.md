@@ -166,7 +166,8 @@ catalogs follow. Contract: the Svelte package's [spec §5.6 and §5.7](../../lil
       `themeCookie`), with `ThemePicker.system.test.ts` (2026-11-16).
 - [x] React (0.4.0, `ThemePicker.system.test.tsx`), on the shared `shared/theme-choice.ts` (2026-11-16).
 - [x] Vue (0.4.0, `ThemePicker.system.test.ts`) (2026-11-16).
-- [ ] The same in Angular, HTML, Web Components, Nunjucks and Blazor.
+- [x] Angular (0.4.0, `theme-picker.system.spec.ts`) (2026-11-16).
+- [ ] The same in HTML, Web Components, Nunjucks and Blazor.
 
 ## Related topics
 

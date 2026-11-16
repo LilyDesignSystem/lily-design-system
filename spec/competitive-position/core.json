@@ -2998,7 +2998,8 @@
               "lily-design-system-angular-theme-picker/theme-choice.spec.ts",
               "lily-design-system-angular-theme-picker/theme-color.spec.ts",
               "lily-design-system-angular-theme-picker/theme-picker.component.spec.ts",
-              "lily-design-system-angular-theme-picker/theme-picker.pattern.spec.ts"
+              "lily-design-system-angular-theme-picker/theme-picker.pattern.spec.ts",
+              "lily-design-system-angular-theme-picker/theme-picker.system.spec.ts"
             ],
             "keyEvent": "lily-design-system-angular-theme-picker/theme-picker.component.spec.ts",
             "ariaAssertion": "lily-design-system-angular-theme-picker/theme-picker.component.spec.ts"

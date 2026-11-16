@@ -18,6 +18,17 @@ import {
 } from "@angular/core";
 import { IconButton, Listbox } from "@lilydesignsystem/angular-headless";
 import { applyThemeColorWhenLoaded } from "./theme-color";
+import {
+    DEFAULT_SYSTEM_THEMES,
+    SYSTEM_THEME,
+    prefersDarkScheme,
+    readDocumentThemeCookie,
+    resolveTheme,
+    themeChoices,
+    watchColorScheme,
+    writeDocumentThemeCookie,
+    type SystemThemes,
+} from "./theme-choice";
 
 /**
  * Default button icon: a bundled SVG (contrast/half-circle), not a
@@ -141,8 +152,11 @@ export class ThemePickerIcon {
         [disabled]="disabled()"
         (change)="value.set($any($event.target).value)"
       >
-        @for (theme of themes(); track theme) {
-          <option class="theme-picker-option" [value]="theme" [selected]="theme === value()">{{ labelFor(theme) }}</option>
+        @for (theme of options(); track theme) {
+          <option [class]="optionClass(theme)" [value]="theme" [selected]="theme === value()">{{ labelFor(theme) }}</option>
+          @if (theme === systemTheme) {
+            <hr class="theme-picker-separator" />
+          }
         }
       </select>
     </div>
@@ -220,9 +234,11 @@ export class ThemePickerIcon {
         (escape)="closeList()"
         (tabOut)="onListTabOut()"
       >
-        @for (theme of themes(); track theme; let i = $index) {
+        <!-- The "system" option carries its own class hook: a listbox may hold only options and groups, so the
+             line between it and the themes is the theme's CSS (a border on this option), not an element. -->
+        @for (theme of options(); track theme; let i = $index) {
           <li
-            class="theme-picker-option"
+            [class]="optionClass(theme)"
             [id]="optionId(i)"
             role="option"
             [attr.aria-selected]="theme === value()"
@@ -247,6 +263,19 @@ export class ThemePicker {
     /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
     readonly detectFromSystem = input<boolean>(false);
     /**
+     * The visible name of a first option, value `"system"` (`SYSTEM_THEME`), that follows the device: it applies
+     * `systemThemes.light` or `systemThemes.dark` from `prefers-color-scheme`, and changes when the device does,
+     * for example "Follow this device". Without it there is no such option. No English default.
+     */
+    readonly systemLabel = input<string>("");
+    /** The themes the `"system"` option applies. Default `{ light: "light", dark: "dark" }`. */
+    readonly systemThemes = input<SystemThemes>(DEFAULT_SYSTEM_THEMES);
+    /**
+     * If set, keep the choice in a first-party cookie of this name (`Path=/`, `SameSite=Lax`, `Secure` on https,
+     * 400 days), so a server can read it and send the page in the right theme. See `readThemeCookie`.
+     */
+    readonly cookieName = input<string>("");
+    /**
      * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
      * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
      */
@@ -256,7 +285,28 @@ export class ThemePicker {
     readonly target = input<HTMLElement | null>(null);
     readonly themeLabels = input<Record<string, string>>({});
     readonly className = input<string>("");
+    /** The theme applied. With "Follow this device" the choice is `value` (`"system"`), and this is the theme. */
     readonly themeChange = output<string>();
+
+    /** The choices offered: "system" first when it has a label, then the themes. */
+    protected readonly options = computed(() => themeChoices(this.themes(), this.systemLabel()));
+    protected readonly systemTheme = SYSTEM_THEME;
+
+    /** The class list of one option: the "system" option also carries `theme-picker-option-system`. */
+    protected optionClass(theme: string): string {
+        return theme === SYSTEM_THEME
+            ? "theme-picker-option theme-picker-option-system"
+            : "theme-picker-option";
+    }
+
+    // The device's colour scheme: read at once (no light flash on a dark device), kept current while "system" is
+    // chosen so the page follows the device when it switches.
+    private readonly prefersDark = signal(prefersDarkScheme());
+    private readonly followDevice = effect((onCleanup) => {
+        if (this.value() !== SYSTEM_THEME) return;
+        this.prefersDark.set(prefersDarkScheme());
+        onCleanup(watchColorScheme((dark) => this.prefersDark.set(dark)));
+    });
 
     /** Projected icon template; replaces the default icon when supplied. */
     protected readonly iconTemplate = contentChild(TemplateRef);
@@ -360,6 +410,9 @@ export class ThemePicker {
                 this.initialised = true;
                 let initial = current;
 
+                const cookie = this.cookieName();
+                if (!initial && cookie) initial = readDocumentThemeCookie(cookie, this.options());
+
                 const sk = this.storageKey();
                 if (!initial && sk) {
                     try {
@@ -379,7 +432,15 @@ export class ThemePicker {
                 if (!initial) {
                     const themes = this.themes();
                     const dv = this.defaultValue();
-                    initial = dv || (themes.includes("light") ? "light" : themes[0]) || "";
+                    // With a "system" option, following the device is the natural start.
+                    initial =
+                        dv ||
+                        (this.systemLabel()
+                            ? SYSTEM_THEME
+                            : themes.includes("light")
+                              ? "light"
+                              : themes[0]) ||
+                        "";
                 }
 
                 if (initial && initial !== current) {
@@ -388,7 +449,10 @@ export class ThemePicker {
                 }
             }
 
-            if (current) this.applyTheme(current);
+            if (current) {
+                this.applyTheme(resolveTheme(current, this.prefersDark(), this.systemThemes()));
+                this.keepChoice(current);
+            }
         });
     }
 
@@ -397,6 +461,7 @@ export class ThemePicker {
     }
 
     labelFor(theme: string): string {
+        if (theme === SYSTEM_THEME && this.systemLabel()) return this.systemLabel();
         const labels = this.themeLabels();
         if (theme in labels) return labels[theme];
         return themeName(theme);
@@ -420,12 +485,12 @@ export class ThemePicker {
 
     /** Open the listbox, activating `startIndex` (default: the selection). */
     openList(startIndex?: number): void {
-        const selected = this.themes().indexOf(this.value());
+        const selected = this.options().indexOf(this.value());
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
         this.activeIndex.set(
-            this.themes().length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)),
+            this.options().length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)),
         );
         this.open.set(true);
         // Focus moves to the listbox; the active option is conveyed via
@@ -446,7 +511,7 @@ export class ThemePicker {
     }
 
     protected choose(index: number): void {
-        const slug = this.themes()[index];
+        const slug = this.options()[index];
         if (slug) this.value.set(slug);
         this.closeList();
     }
@@ -489,7 +554,7 @@ export class ThemePicker {
                 break;
             case "ArrowUp":
                 event.preventDefault();
-                this.openList(this.themes().length - 1);
+                this.openList(this.options().length - 1);
                 break;
         }
     }
@@ -534,23 +599,38 @@ export class ThemePicker {
         return link;
     }
 
+    // The theme the DOM carries: applying is idempotent, so "dark" to "system" on a dark device applies nothing new.
+    private appliedValue = "";
+
     private applyTheme(slug: string): void {
         if (typeof document === "undefined" || !slug) return;
+        if (slug === this.appliedValue) return;
+        this.appliedValue = slug;
         const link = this.getManagedLink();
         if (link) {
             link.href = themeHref(this.themesUrl(), slug, this.extension());
             if (this.themeColor()) applyThemeColorWhenLoaded(link);
         }
         (this.target() ?? document.documentElement).setAttribute("data-theme", slug);
+        this.themeChange.emit(slug);
+    }
 
+    // The choice is kept, not the theme it applies: "system" stays "system", so the next visit follows the device
+    // again. Kept once per change of choice.
+    private keptValue = "";
+
+    private keepChoice(choice: string): void {
+        if (typeof document === "undefined" || choice === this.keptValue) return;
+        this.keptValue = choice;
         const sk = this.storageKey();
         if (sk) {
             try {
-                localStorage.setItem(sk, slug);
+                localStorage.setItem(sk, choice);
             } catch {
                 // ignore quota / privacy errors
             }
         }
-        this.themeChange.emit(slug);
+        const cookie = this.cookieName();
+        if (cookie) writeDocumentThemeCookie(cookie, choice);
     }
 }
