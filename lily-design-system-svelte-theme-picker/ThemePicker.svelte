@@ -73,8 +73,11 @@
         themeLabels?: Record<string, string>;
         /** Replaces the default half-circle icon inside the button. */
         children?: Snippet<[ChildArgs]>;
-        /** Called after the control applies a new theme. */
-        onChange?: (theme: string) => void;
+        /**
+         * Called after the control applies a new theme, with the choice that applied it: the same slug, or
+         * `"system"` when it follows the device.
+         */
+        onChange?: (theme: string, choice: string) => void;
         /** Is the popup open? Bindable. */
         open?: boolean;
         /** Fires whenever the open state changes, by the user or from outside. */
@@ -127,62 +130,6 @@
         return themes.includes(wanted) ? wanted : "";
     }
 
-    /** The value of the option that follows the device's colour scheme. */
-    export const SYSTEM_THEME = "system";
-
-    /** Does the device ask for a dark colour scheme? False under SSR or without matchMedia. */
-    export function prefersDarkScheme(): boolean {
-        if (typeof window === "undefined" || typeof window.matchMedia !== "function") return false;
-        return window.matchMedia("(prefers-color-scheme: dark)").matches;
-    }
-
-    /**
-     * The theme a choice applies: `"system"` becomes `systemThemes.dark` or `.light` by `prefersDark`; any other
-     * slug is itself.
-     */
-    export function resolveTheme(
-        choice: string,
-        prefersDark: boolean,
-        systemThemes: { light: string; dark: string } = { light: "light", dark: "dark" },
-    ): string {
-        if (choice !== SYSTEM_THEME) return choice;
-        return prefersDark ? systemThemes.dark : systemThemes.light;
-    }
-
-    /** 400 days, the longest a browser keeps a cookie (RFC 6265bis). */
-    export const THEME_COOKIE_MAX_AGE = 400 * 24 * 60 * 60;
-
-    /**
-     * Read the theme cookie from a `Cookie` header or `document.cookie`. Returns "" when it is absent, or when
-     * `allowed` is given and does not hold it: never trust a cookie into a stylesheet URL unchecked.
-     */
-    export function readThemeCookie(
-        cookies: string | null | undefined,
-        name: string,
-        allowed?: readonly string[],
-    ): string {
-        for (const part of (cookies ?? "").split(";")) {
-            const eq = part.indexOf("=");
-            if (eq < 0 || part.slice(0, eq).trim() !== name) continue;
-            let value = part.slice(eq + 1).trim();
-            try {
-                value = decodeURIComponent(value);
-            } catch {
-                return "";
-            }
-            return !allowed || allowed.includes(value) ? value : "";
-        }
-        return "";
-    }
-
-    /** The `document.cookie` (or `Set-Cookie`) string that keeps a theme choice. */
-    export function themeCookie(name: string, value: string, secure = false): string {
-        return (
-            `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${THEME_COOKIE_MAX_AGE}; SameSite=Lax` +
-            (secure ? "; Secure" : "")
-        );
-    }
-
     /** Normalise the themes directory URL to end with exactly one "/". */
     export function normaliseThemesUrl(themesUrl: string): string {
         return themesUrl.endsWith("/") ? themesUrl : themesUrl + "/";
@@ -204,6 +151,15 @@
 <script lang="ts">
     import { untrack } from "svelte";
     import { applyThemeColorWhenLoaded } from "./theme-color.js";
+    import {
+        SYSTEM_THEME,
+        prefersDarkScheme,
+        readDocumentThemeCookie,
+        resolveTheme,
+        themeChoices,
+        watchColorScheme,
+        writeDocumentThemeCookie,
+    } from "./theme-choice.js";
     let {
         class: className = "",
         label,
@@ -274,21 +230,17 @@
     let rootEl: HTMLDivElement | undefined = $state();
 
     // The choices offered: "system" first when it has a label, then the themes.
-    const options = $derived(systemLabel ? [SYSTEM_THEME, ...themes] : themes);
+    const options = $derived(themeChoices(themes, systemLabel));
 
     // The device's colour scheme, read at once (no light flash before a dark device is seen) and kept current
     // while "system" is chosen, so the page follows the device when it switches.
     let prefersDark = $state(prefersDarkScheme());
     $effect(() => {
         if (value !== SYSTEM_THEME) return;
-        if (typeof window === "undefined" || typeof window.matchMedia !== "function") return;
-        const query = window.matchMedia("(prefers-color-scheme: dark)");
-        prefersDark = query.matches;
-        const onSchemeChange = (event: MediaQueryListEvent): void => {
-            prefersDark = event.matches;
-        };
-        query.addEventListener?.("change", onSchemeChange);
-        return () => query.removeEventListener?.("change", onSchemeChange);
+        prefersDark = prefersDarkScheme();
+        return watchColorScheme((dark) => {
+            prefersDark = dark;
+        });
     });
 
     function labelFor(theme: string): string {
@@ -318,7 +270,7 @@
     // here also matches §5.4: other prop changes are not retroactive.
     let appliedValue = "";
 
-    function applyTheme(slug: string): void {
+    function applyTheme(slug: string, choice: string = slug): void {
         if (typeof document === "undefined" || !slug) return;
         if (slug === appliedValue) return;
         appliedValue = slug;
@@ -326,7 +278,7 @@
         link.href = themeHref(themesUrl, slug, extension);
         if (themeColor) applyThemeColorWhenLoaded(link);
         (target ?? document.documentElement).setAttribute("data-theme", slug);
-        onChange?.(slug);
+        onChange?.(slug, choice);
     }
 
     // The choice is kept, not the theme it applies: "system" stays "system", so the next visit follows the device
@@ -344,17 +296,7 @@
                 // ignore quota / privacy errors
             }
         }
-        if (cookieName) {
-            try {
-                document.cookie = themeCookie(
-                    cookieName,
-                    choice,
-                    window.location?.protocol === "https:",
-                );
-            } catch {
-                // ignore: a sandboxed document may refuse cookies
-            }
-        }
+        if (cookieName) writeDocumentThemeCookie(cookieName, choice);
     }
 
     function setTheme(slug: string): void {
@@ -484,13 +426,7 @@
         if (!initialised) {
             initialised = true;
             let initial = current;
-            if (!initial && cookieName) {
-                try {
-                    initial = readThemeCookie(document.cookie, cookieName, options);
-                } catch {
-                    // ignore: a sandboxed document may refuse cookies
-                }
-            }
+            if (!initial && cookieName) initial = readDocumentThemeCookie(cookieName, options);
             if (!initial && storageKey) {
                 try {
                     initial = localStorage.getItem(storageKey) ?? "";
@@ -516,7 +452,7 @@
         }
 
         if (current) {
-            applyTheme(resolveTheme(current, prefersDark, systemThemes));
+            applyTheme(resolveTheme(current, prefersDark, systemThemes), current);
             keepChoice(current);
         }
     });

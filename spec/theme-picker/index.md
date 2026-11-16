@@ -144,6 +144,9 @@ catalogs follow. Contract: the Svelte package's [spec §5.6 and §5.7](../../lil
   options and groups; the native select variant uses `<hr class="theme-picker-separator">`.
 - `cookieName` keeps the choice, not the theme it applied, in a first-party cookie: `Path=/`, `SameSite=Lax`, `Secure` on https,
   400 days (the browser maximum). It is read before `localStorage`; a value that is not one of the choices is ignored.
+- The change callback also receives the choice (`onChange(theme, choice)`), so a controlled picker keeps `"system"`.
+- The pure helpers are one shared module, `shared/theme-choice.ts`, copied into the TypeScript catalogs by
+  `bin/sync-shared-modules` (Nunjucks gets the `.js`); Blazor will repeat them in C#.
 - A server reads it with `readThemeCookie(header, name, allowed)` and sends `data-theme` and the `<link>` with the page; for
   `"system"` it links both themes by `media`. Recipe: the Svelte package's `examples/sveltekit-cookie/`.
 
@@ -161,7 +164,8 @@ catalogs follow. Contract: the Svelte package's [spec §5.6 and §5.7](../../lil
       `e2e/theme-select.spec.ts` in Chromium and WebKit, with and without `appearance: base-select`.
 - [x] Svelte: "Follow this device" (`systemLabel`, `systemThemes`) and the theme cookie (`cookieName`, `readThemeCookie`,
       `themeCookie`), with `ThemePicker.system.test.ts` (2026-11-16).
-- [ ] The same in React, Vue, Angular, HTML, Web Components, Nunjucks and Blazor.
+- [x] React (0.4.0, `ThemePicker.system.test.tsx`), on the shared `shared/theme-choice.ts` (2026-11-16).
+- [ ] The same in Vue, Angular, HTML, Web Components, Nunjucks and Blazor.
 
 ## Related topics
 

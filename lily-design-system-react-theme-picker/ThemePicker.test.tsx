@@ -649,7 +649,7 @@ describe("ThemePicker — dynamic loading (§5, §7.6–§7.11)", () => {
         await flush();
         expect(document.documentElement.dataset.theme).toBe("abyss");
         expect(getManagedLink()!.href.endsWith("/assets/themes/abyss.css")).toBe(true);
-        expect(onChange).toHaveBeenCalledWith("abyss");
+        expect(onChange).toHaveBeenCalledWith("abyss", "abyss");
     });
 
     test("§7.9 persists to localStorage and reads back on a fresh mount", async () => {
@@ -1173,7 +1173,7 @@ describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported fr
         expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/abyss.css");
         expect(localStorage.getItem("lily-theme")).toBe("abyss");
         expect(onChange).toHaveBeenCalledTimes(1);
-        expect(onChange).toHaveBeenCalledWith("abyss");
+        expect(onChange).toHaveBeenCalledWith("abyss", "abyss");
     });
 
     test("keyboard is the platform's: the select is one Tab stop, and the component adds no key handling", async () => {

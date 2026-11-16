@@ -1,6 +1,17 @@
 import * as React from "react";
 import { IconButton, Listbox } from "@lilydesignsystem/react-headless";
 import { applyThemeColorWhenLoaded } from "./theme-color.js";
+import {
+    DEFAULT_SYSTEM_THEMES,
+    SYSTEM_THEME,
+    prefersDarkScheme,
+    readDocumentThemeCookie,
+    resolveTheme,
+    themeChoices,
+    watchColorScheme,
+    writeDocumentThemeCookie,
+    type SystemThemes,
+} from "./theme-choice.js";
 
 /**
  * Default button icon: a bundled SVG (contrast/half-circle), not a
@@ -46,6 +57,19 @@ export type Props = Omit<
     /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
     detectFromSystem?: boolean;
     /**
+     * The visible name of a first option, value `"system"` (`SYSTEM_THEME`), that follows the device: it applies
+     * `systemThemes.light` or `systemThemes.dark` from `prefers-color-scheme`, and changes when the device does,
+     * for example "Follow this device". Without it there is no such option. No English default.
+     */
+    systemLabel?: string;
+    /** The themes the `"system"` option applies. Default `{ light: "light", dark: "dark" }`. */
+    systemThemes?: SystemThemes;
+    /**
+     * If set, keep the choice in a first-party cookie of this name (`Path=/`, `SameSite=Lax`, `Secure` on https,
+     * 400 days), so a server can read it and send the page in the right theme. See `readThemeCookie`.
+     */
+    cookieName?: string;
+    /**
      * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
      * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
      */
@@ -60,8 +84,11 @@ export type Props = Omit<
     themeLabels?: Record<string, string>;
     /** Replaces the default half-circle icon inside the button. */
     children?: (args: ChildArgs) => React.ReactNode;
-    /** Called after the control applies a new theme. */
-    onChange?: (theme: string) => void;
+    /**
+     * Called after the control applies a new theme, with the choice that applied it: the same slug, or `"system"`
+     * when it follows the device. A controlled consumer stores `choice`, not `theme`.
+     */
+    onChange?: (theme: string, choice: string) => void;
     /** Is the popup open? Controlled when given; the popup starts as `defaultOpen` otherwise. */
     open?: boolean;
     /** Initial open state of an uncontrolled picker. */
@@ -148,6 +175,12 @@ function usePickerTooltip(buttonRef: React.RefObject<HTMLButtonElement | null>, 
     };
 }
 
+function optionClass(theme: string): string {
+    return theme === SYSTEM_THEME
+        ? "theme-picker-option theme-picker-option-system"
+        : "theme-picker-option";
+}
+
 export function themeName(theme: string): string {
     return theme
         .split("-")
@@ -185,8 +218,14 @@ function resolveInitialTheme(
     detectFromSystem: boolean,
     defaultValue: string | undefined,
     themes: string[],
+    cookieName: string | undefined,
+    systemLabel: string | undefined,
 ): string {
     if (value) return value;
+    if (cookieName) {
+        const kept = readDocumentThemeCookie(cookieName, themeChoices(themes, systemLabel));
+        if (kept) return kept;
+    }
     if (storageKey) {
         try {
             const stored = localStorage.getItem(storageKey);
@@ -200,6 +239,8 @@ function resolveInitialTheme(
         if (match) return match;
     }
     if (defaultValue) return defaultValue;
+    // With a "system" option, following the device is the natural start.
+    if (systemLabel) return SYSTEM_THEME;
     if (themes.includes("light")) return "light";
     return themes[0] ?? "";
 }
@@ -212,6 +253,9 @@ export function ThemePicker({
     defaultValue,
     storageKey,
     detectFromSystem = false,
+    systemLabel,
+    systemThemes = DEFAULT_SYSTEM_THEMES,
+    cookieName,
     themeColor = false,
     name = "theme",
     extension = ".css",
@@ -274,7 +318,20 @@ export function ThemePicker({
     // Set when a close should hand focus back to the button.
     const refocusRef = React.useRef(false);
 
+    // The choices offered: "system" first when it has a label, then the themes.
+    const options = themeChoices(themes, systemLabel);
+
+    // The device's colour scheme: read at once on the client (no light flash on a dark device), kept current while
+    // "system" is chosen so the page follows the device when it switches.
+    const [prefersDark, setPrefersDark] = React.useState(prefersDarkScheme);
+    React.useEffect(() => {
+        if (currentValue !== SYSTEM_THEME) return;
+        setPrefersDark(prefersDarkScheme());
+        return watchColorScheme(setPrefersDark);
+    }, [currentValue]);
+
     function labelFor(theme: string): string {
+        if (theme === SYSTEM_THEME && systemLabel) return systemLabel;
         if (theme in themeLabels) return themeLabels[theme];
         return themeName(theme);
     }
@@ -298,7 +355,7 @@ export function ThemePicker({
     // twice.
     const appliedRef = React.useRef("");
 
-    function applyTheme(slug: string): void {
+    function applyTheme(slug: string, choice: string): void {
         if (typeof document === "undefined" || !slug) return;
         if (slug === appliedRef.current) return;
         appliedRef.current = slug;
@@ -306,21 +363,38 @@ export function ThemePicker({
         link.href = themeHref(themesUrl, slug, extension);
         if (themeColor) applyThemeColorWhenLoaded(link);
         (target ?? document.documentElement).setAttribute("data-theme", slug);
+        onChange?.(slug, choice);
+    }
+
+    // The choice is kept, not the theme it applies: "system" stays "system", so the next visit follows the device
+    // again. Kept once per change of choice, which is not always a change of applied theme ("dark" to "system" on
+    // a dark device applies nothing new).
+    const keptRef = React.useRef("");
+    function keepChoice(choice: string): void {
+        if (choice === keptRef.current) return;
+        keptRef.current = choice;
         if (storageKey) {
             try {
-                localStorage.setItem(storageKey, slug);
+                localStorage.setItem(storageKey, choice);
             } catch {
                 // ignore quota / privacy errors
             }
         }
-        onChange?.(slug);
+        if (cookieName) writeDocumentThemeCookie(cookieName, choice);
+    }
+
+    /** Apply a choice and keep it. */
+    function applyChoice(choice: string, dark = prefersDark): void {
+        if (!choice) return;
+        applyTheme(resolveTheme(choice, dark, systemThemes), choice);
+        keepChoice(choice);
     }
 
     function setTheme(slug: string): void {
         if (isControlled) {
             // The consumer owns `value`; apply straight away so the DOM
             // stays in step even if they never write the value back.
-            applyTheme(slug);
+            applyChoice(slug);
         } else {
             // The value-change effect below runs applyTheme, so the
             // theme is applied exactly once per change.
@@ -333,11 +407,11 @@ export function ThemePicker({
     // ---------------------------------------------------------------
 
     function openList(startIndex?: number): void {
-        const selected = themes.indexOf(currentValue ?? "");
+        const selected = options.indexOf(currentValue ?? "");
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
-        setActiveIndex(themes.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)));
+        setActiveIndex(options.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0)));
         setOpen(true);
     }
 
@@ -350,7 +424,7 @@ export function ThemePicker({
     }
 
     function choose(index: number): void {
-        const slug = themes[index];
+        const slug = options[index];
         if (slug) setTheme(slug);
         closeList();
     }
@@ -384,7 +458,7 @@ export function ThemePicker({
                 break;
             case "ArrowUp":
                 event.preventDefault();
-                openList(themes.length - 1);
+                openList(options.length - 1);
                 break;
         }
     }
@@ -445,18 +519,20 @@ export function ThemePicker({
             detectFromSystem,
             defaultValue,
             themes,
+            cookieName,
+            systemLabel,
         );
         if (!initial) return;
 
         if (isControlled) {
-            applyTheme(initial);
+            applyChoice(initial);
         } else {
             // setInternalValue triggers another render; the value-change
-            // effect below will run applyTheme.
+            // effect below will apply it.
             if (initial !== internalValue) {
                 setInternalValue(initial);
             } else {
-                applyTheme(initial);
+                applyChoice(initial);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -466,9 +542,9 @@ export function ThemePicker({
     React.useEffect(() => {
         if (!initialisedRef.current) return;
         if (!currentValue) return;
-        applyTheme(currentValue);
+        applyChoice(currentValue, prefersDark);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentValue]);
+    }, [currentValue, prefersDark]);
 
     const tip = usePickerTooltip(buttonRef, open);
 
@@ -490,14 +566,16 @@ export function ThemePicker({
                     value={currentValue ?? ""}
                     onChange={(event) => setTheme(event.currentTarget.value)}
                 >
-                    {themes.map((theme) => (
-                        <option
-                            key={theme}
-                            className="theme-picker-option"
-                            value={theme}
-                        >
-                            {labelFor(theme)}
-                        </option>
+                    {options.map((theme) => (
+                        <React.Fragment key={theme}>
+                            <option
+                                className={optionClass(theme)}
+                                value={theme}
+                            >
+                                {labelFor(theme)}
+                            </option>
+                            {theme === SYSTEM_THEME && <hr className="theme-picker-separator" />}
+                        </React.Fragment>
                     ))}
                 </select>
             </div>
@@ -593,10 +671,12 @@ export function ThemePicker({
                 onEscape={() => closeList()}
                 onTabOut={handleTabOut}
             >
-                {themes.map((theme, i) => (
+                {/* The "system" option carries its own class hook: a listbox may hold only options and groups, so
+                    the line between it and the themes is the theme's CSS (a border on this option), not an element. */}
+                {options.map((theme, i) => (
                     <li
                         key={theme}
-                        className="theme-picker-option"
+                        className={optionClass(theme)}
                         id={optionId(i)}
                         role="option"
                         aria-selected={theme === currentValue}

@@ -253,15 +253,21 @@ the name twice). Position and appearance are consumer/theme CSS, via the
 - `default` (the component)
 - `normaliseThemesUrl`, `themeHref`, `themeName`, `matchSystemTheme`,
   `nextThemePickerId` (pure helpers)
-- `SYSTEM_THEME` (`"system"`), `prefersDarkScheme`, `resolveTheme` (§5.6)
-- `THEME_COOKIE_MAX_AGE`, `readThemeCookie`, `themeCookie` (§5.7)
 - `type Props`, `type ChildArgs`
 
 No glyph constant — the default icon is inline SVG markup in the
 component, not a separately-exported swappable character value.
 
-`index.ts` re-exports all of them except `nextThemePickerId`, with
-`ThemePicker` as a named alias of the default export.
+`theme-choice.ts` (copied from `shared/theme-choice.ts` by
+`bin/sync-shared-modules`; never edit this copy) holds the §5.6 and §5.7
+helpers: `SYSTEM_THEME` (`"system"`), `DEFAULT_SYSTEM_THEMES`,
+`prefersDarkScheme`, `watchColorScheme`, `resolveTheme`, `themeChoices`,
+`THEME_COOKIE_MAX_AGE`, `readThemeCookie`, `themeCookie`,
+`readDocumentThemeCookie`, `writeDocumentThemeCookie` and `type SystemThemes`.
+
+`index.ts` re-exports all of them, and the module-script helpers except
+`nextThemePickerId`, with `ThemePicker` as a named alias of the default
+export.
 
 ## 5. Behaviour
 
@@ -336,7 +342,8 @@ Applying a theme `slug` performs, in order:
 3. Set `data-theme="{slug}"` on the resolved target element. If
    `target` is `null` or `undefined`, use
    `document.documentElement`.
-4. Call `onChange(slug)` if supplied.
+4. Call `onChange(slug, choice)` if supplied: the theme applied, and the
+   choice that applied it (the same slug, or `"system"`).
 
 The slug applied is `resolveTheme(value, prefersDark, systemThemes)`:
 the value itself, or for `"system"` the device's theme (§5.6).

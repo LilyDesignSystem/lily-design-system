@@ -184,6 +184,24 @@ EXTRA_TARGETS = {
         "lily-design-system-web-components-theme-picker/theme-color.test.ts",
         "lily-design-system-html-theme-picker/theme-color.test.ts",
     ],
+    # The theme-picker's "Follow this device" choice and its cookie (spec/theme-picker, 2026-11-16); Blazor has its own C#.
+    "theme-choice.ts": [
+        "lily-design-system-svelte-theme-picker/theme-choice.ts",
+        "lily-design-system-react-theme-picker/theme-choice.ts",
+        "lily-design-system-vue-theme-picker/theme-choice.ts",
+        "lily-design-system-angular-theme-picker/theme-choice.ts",
+        "lily-design-system-web-components-theme-picker/theme-choice.ts",
+        "lily-design-system-html-theme-picker/theme-choice.ts",
+        "lily-design-system-nunjucks-theme-picker/theme-choice.js",
+    ],
+    "theme-choice.test.ts": [
+        "lily-design-system-svelte-theme-picker/theme-choice.test.ts",
+        "lily-design-system-react-theme-picker/theme-choice.test.ts",
+        "lily-design-system-vue-theme-picker/theme-choice.test.ts",
+        "lily-design-system-angular-theme-picker/theme-choice.spec.ts",
+        "lily-design-system-web-components-theme-picker/theme-choice.test.ts",
+        "lily-design-system-html-theme-picker/theme-choice.test.ts",
+    ],
     # The free-port helper for each Playwright config; the docs site is outside the lily-design-system-* glob.
     "e2e-port.ts": [
         "lilydesignsystem.github.io/e2e-port.ts",

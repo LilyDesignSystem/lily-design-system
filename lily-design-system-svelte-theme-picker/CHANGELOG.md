@@ -11,8 +11,10 @@ and the project follows [Semantic Versioning](https://semver.org/).
   (`<hr class="theme-picker-separator">` in the select variant). With `systemLabel` and nothing kept, the picker starts there.
 - Added `cookieName`: the choice is kept in a first-party cookie (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days),
   read before `localStorage`, so a server can send the page in the right theme. New exports `readThemeCookie`, `themeCookie`,
-  `THEME_COOKIE_MAX_AGE`, `resolveTheme`, `prefersDarkScheme`; the barrel now exports `themeName` and `matchSystemTheme` too.
-- Storage and the cookie keep the choice, once per change of choice; `onChange` still fires once per applied theme.
+  `THEME_COOKIE_MAX_AGE`, `resolveTheme`, `prefersDarkScheme`, `watchColorScheme`, `themeChoices`; the barrel now exports `themeName` and `matchSystemTheme` too.
+- Storage and the cookie keep the choice, once per change of choice; `onChange` still fires once per applied theme, and now
+  also receives the choice: `onChange(theme, choice)`.
+- The helpers live in `theme-choice.ts`, copied from `shared/theme-choice.ts`, so every TypeScript port shares them.
 - `examples/sveltekit-cookie/` uses `cookieName` and needs no endpoint.
 
 ## 0.3.2 — 2026-11-06

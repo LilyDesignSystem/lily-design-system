@@ -280,7 +280,7 @@ describe("ThemePicker — dynamic loading (§5, §7.6–§7.11)", () => {
         await flush();
         expect(document.documentElement.dataset.theme).toBe("abyss");
         expect(getManagedLink()!.href.endsWith("/assets/themes/abyss.css")).toBe(true);
-        expect(onChange).toHaveBeenCalledWith("abyss");
+        expect(onChange).toHaveBeenCalledWith("abyss", "abyss");
         // A pointer selection closes, exactly as Enter does (§7.16). The
         // asymmetry would be invisible to a consumer reading the DOM: a
         // stale aria-expanded over a hidden list makes every later click
@@ -570,12 +570,12 @@ describe("ThemePicker — idempotent apply (§7.25)", () => {
         });
         await flush();
         expect(onChange).toHaveBeenCalledTimes(1);
-        expect(onChange).toHaveBeenLastCalledWith("light");
+        expect(onChange).toHaveBeenLastCalledWith("light", "light");
 
         await pick("abyss");
         await flush();
         expect(onChange).toHaveBeenCalledTimes(2);
-        expect(onChange).toHaveBeenLastCalledWith("abyss");
+        expect(onChange).toHaveBeenLastCalledWith("abyss", "abyss");
 
         // A prop change re-runs the apply effect. Re-applying the same theme
         // must not re-fire onChange: a consumer callback that writes reactive
@@ -866,7 +866,7 @@ describe('ThemePicker — variant="select" (§select, RFC 3 prototype)', () => {
         expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/abyss.css");
         expect(localStorage.getItem("lily-theme")).toBe("abyss");
         expect(onChange).toHaveBeenCalledTimes(1);
-        expect(onChange).toHaveBeenCalledWith("abyss");
+        expect(onChange).toHaveBeenCalledWith("abyss", "abyss");
     });
 
     test("keyboard is the platform's: the select is one Tab stop, and the component adds no key handling", async () => {

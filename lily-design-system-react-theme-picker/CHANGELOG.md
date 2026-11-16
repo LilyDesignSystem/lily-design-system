@@ -1,5 +1,12 @@
 # CHANGELOG — @lilydesignsystem/react-theme-picker
 
+## 0.4.0 — 2026-11-16
+
+- "Follow this device" and the theme cookie, ported from the Svelte reference. Props: `systemLabel`, `systemThemes` and `cookieName`; `onChange(theme, choice)`.
+- The change callback also receives the choice, `"system"` or the slug.
+- New exports from `theme-choice.ts` (copied from `shared/`): `SYSTEM_THEME`, `resolveTheme`, `readThemeCookie`,
+  `themeCookie`, `THEME_COOKIE_MAX_AGE` and the rest.
+
 ## 0.3.2 — 2026-11-06
 
 - Depends on `react-headless` ^0.8.0.

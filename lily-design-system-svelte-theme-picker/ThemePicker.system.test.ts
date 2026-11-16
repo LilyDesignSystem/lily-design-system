@@ -1,13 +1,14 @@
 import { render, screen, fireEvent } from "@testing-library/svelte";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-import ThemePicker, {
+import ThemePicker from "./ThemePicker.svelte";
+import {
     SYSTEM_THEME,
     THEME_COOKIE_MAX_AGE,
     readThemeCookie,
     resolveTheme,
     themeCookie,
-} from "./ThemePicker.svelte";
+} from "./theme-choice.js";
 
 // §5.6 "Follow this device" and §5.7 the theme cookie.
 
@@ -93,7 +94,7 @@ describe("ThemePicker — follow this device (§5.6, §7.35–§7.39)", () => {
                 .getByRole("option", { name: "Follow this device", hidden: true })
                 .getAttribute("aria-selected"),
         ).toBe("true");
-        expect(onChange).toHaveBeenLastCalledWith("dark");
+        expect(onChange).toHaveBeenLastCalledWith("dark", SYSTEM_THEME);
         scheme.restore();
     });
 
@@ -108,7 +109,7 @@ describe("ThemePicker — follow this device (§5.6, §7.35–§7.39)", () => {
         await flush();
         expect(dataTheme()).toBe("dark");
         expect(onChange).toHaveBeenCalledOnce();
-        expect(onChange).toHaveBeenCalledWith("dark");
+        expect(onChange).toHaveBeenCalledWith("dark", SYSTEM_THEME);
         scheme.restore();
     });
 
