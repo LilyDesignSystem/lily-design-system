@@ -3686,6 +3686,37 @@ T5 to T7. Pages go in the SvelteKit app first, linked from its home page. No bil
       a due date and `data-due` in words.
       Verify: the three patterns are in the guide and its site page; `bin/check-links` passes.
 
+## Phase 31 — Lessons from ZoBlocks (2026-11-16)
+
+From [spec/lessons/zoblocks](spec/lessons/zoblocks/index.md). Order: T1 (a defect), then T2 to T4, then T5 to T8. Contract changes
+go to all nine catalogs (helpers: all eight), Svelte first.
+
+- [ ] **P31-T1 Data grid focus follows the row.** Key the focused cell by `rowId` and column id in the `data-grid` helper, so a
+      sort, a filter or new rows keep focus on the same record; when it is filtered out, focus moves to the nearest row and the
+      consumer's announcement says so. `aria-rowcount="-1"` when the consumer says the total is unknown.
+      Verify: a test in all eight catalogs that focuses a row, sorts, and finds focus on the same `rowId`; it fails on the
+      index-based code.
+- [ ] **P31-T2 Coverage statements.** `coverageLabel` on the `data-grid` helper, rendered above the rows; a `-coverage` part on
+      `timeline-list` and `record-list` for what the view shows, its order, what is hidden and which sources did not answer.
+      Verify: tests in every catalog; the guide states the rule, including that an empty list from an unavailable source says so.
+- [ ] **P31-T3 Superseded values.** `previousValue` and `previousLabel` on `observation-view`, in a `<del>` with the consumer's words.
+      Verify: tests in all nine catalogs that a corrected result shows both values.
+- [ ] **P31-T4 Withheld and in-error entries.** `entryState` (`withheld`, `entered-in-error`) on `timeline-list-item` and
+      `record-list-item`, as `data-entry-state`, each requiring consumer words; in error keeps the content in a `<del>`.
+      Verify: tests in all nine catalogs; a missing label raises `warnMissingProp`.
+- [ ] **P31-T5 `signature-pad` outcomes and a typed method.** Required attestation text as the accessible description; `outcome`
+      (signed, declined, unable, verbal, on-paper, pending, revoked) with consumer words; a typed-name method beside drawing;
+      `role="application"` removed.
+      Verify: tests in all nine catalogs, including one that completes a signature by keyboard alone; axe-clean demo.
+- [ ] **P31-T6 Menus name their subject.** `subjectLabel` on `context-menu` and `dropdown-menu`, a non-interactive first part
+      that names the menu; the consequence-tier pattern in the guide.
+      Verify: tests in all nine catalogs that the menu's accessible name is the subject.
+- [ ] **P31-T7 Trends that refuse.** `breaks` and `minimumPoints` (with consumer words) on `sparkline`.
+      Verify: tests in all nine catalogs for a split line and for no line below the minimum.
+- [ ] **P31-T8 Guide rules.** Passage sources in clinical notes, denominators on dashboards, a failed write announcing the
+      value the record holds, and why Lily declines the `mixed` switch.
+      Verify: the rules are in `docs/patterns/healthcare/index.md` and its site page; `bin/check-links` passes.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

@@ -481,6 +481,18 @@ e-prescribing and integrations are declined. Findings: [spec/lessons/openemr](sp
 
 Status (2026-11-16): researched; nothing built. T1 and T2 (guide rules) first; T5 after Phase 29's T4 and T9.
 
+## Phase 31 — Lessons from ZoBlocks (2026-11-16)
+
+A review of ZoBlocks, an MIT healthcare component library for React typed to FHIR R4, Lily's closest peer. Both refuse a blank
+for a missing value. ZoBlocks adds what Lily lacks: coverage statements (what a list is a view of), withheld and in-error entries
+kept visible, a corrected result that keeps the superseded value, signature outcomes other than "signed" with a typed
+alternative, menus that name their subject first, and grid focus that follows the row. The last is a defect in Lily's data grid:
+focus is kept by row index, so a sort moves it to another patient. Declined: a `mixed` switch (not valid ARIA), English sentences
+built inside components, themed loaders. Findings: [spec/lessons/zoblocks](spec/lessons/zoblocks/index.md). Tasks:
+[tasks.md](tasks.md#phase-31--lessons-from-zoblocks-2026-11-16).
+
+Status (2026-11-16): researched; nothing built. T1 (the data grid fix) first.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
