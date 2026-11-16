@@ -836,7 +836,7 @@ describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported fr
         expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/abyss.css");
         expect(localStorage.getItem("lily-theme")).toBe("abyss");
         const changes = (w.emitted("change") ?? []).slice(before);
-        expect(changes).toEqual([["abyss"]]);
+        expect(changes).toEqual([["abyss", "abyss"]]);
         expect(w.emitted("update:value")?.at(-1)).toEqual(["abyss"]);
     });
 

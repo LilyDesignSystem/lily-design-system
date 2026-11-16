@@ -165,7 +165,8 @@ catalogs follow. Contract: the Svelte package's [spec §5.6 and §5.7](../../lil
 - [x] Svelte: "Follow this device" (`systemLabel`, `systemThemes`) and the theme cookie (`cookieName`, `readThemeCookie`,
       `themeCookie`), with `ThemePicker.system.test.ts` (2026-11-16).
 - [x] React (0.4.0, `ThemePicker.system.test.tsx`), on the shared `shared/theme-choice.ts` (2026-11-16).
-- [ ] The same in Vue, Angular, HTML, Web Components, Nunjucks and Blazor.
+- [x] Vue (0.4.0, `ThemePicker.system.test.ts`) (2026-11-16).
+- [ ] The same in Angular, HTML, Web Components, Nunjucks and Blazor.
 
 ## Related topics
 

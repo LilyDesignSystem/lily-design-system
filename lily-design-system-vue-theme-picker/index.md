@@ -530,6 +530,13 @@ exercises every numbered acceptance criterion in
 MIT or Apache-2.0 or GPL-2.0 or GPL-3.0 or BSD-3-Clause. Contact
 joel@joelparkerhenderson.com for other terms.
 
+## Follow this device, kept in a cookie
+
+Props: `systemLabel`, `systemThemes` and `cookieName`; the `change` event carries `(theme, choice)` and `v-model:value` holds the choice. The list then reads **Follow this device**, a line, **Light**, **Dark**: while the first is chosen the page follows the
+device's light or dark setting, and switches when the device does. With a cookie name the choice is kept in a first-party
+cookie a server can read (`readThemeCookie`), so the page can be sent in the right theme with no flash. Contract:
+[spec/index.md](./spec/index.md).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

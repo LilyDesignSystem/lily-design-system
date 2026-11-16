@@ -41,6 +41,19 @@ export type Props = {
     /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
     detectFromSystem?: boolean;
     /**
+     * The visible name of a first option, value `"system"` (`SYSTEM_THEME`), that follows the device: it applies
+     * `systemThemes.light` or `systemThemes.dark` from `prefers-color-scheme`, and changes when the device does,
+     * for example "Follow this device". Without it there is no such option. No English default.
+     */
+    systemLabel?: string;
+    /** The themes the `"system"` option applies. Default `{ light: "light", dark: "dark" }`. */
+    systemThemes?: { light: string; dark: string };
+    /**
+     * If set, keep the choice in a first-party cookie of this name (`Path=/`, `SameSite=Lax`, `Secure` on https,
+     * 400 days), so a server can read it and send the page in the right theme. See `readThemeCookie`.
+     */
+    cookieName?: string;
+    /**
      * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
      * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
      */
@@ -93,6 +106,13 @@ export function matchSystemTheme(themes: readonly string[]): string {
     return themes.includes(wanted) ? wanted : "";
 }
 
+/** The class list of one option: the "system" option also carries `theme-picker-option-system`. */
+export function optionClass(theme: string): string {
+    return theme === "system"
+        ? "theme-picker-option theme-picker-option-system"
+        : "theme-picker-option";
+}
+
 /** Normalise the themes directory URL to end with exactly one "/". */
 export function normaliseThemesUrl(themesUrl: string): string {
     return themesUrl.endsWith("/") ? themesUrl : themesUrl + "/";
@@ -115,6 +135,16 @@ export function nextThemePickerId(): string {
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { IconButton, Listbox } from "@lilydesignsystem/vue-headless";
 import { applyThemeColorWhenLoaded } from "./theme-color";
+import {
+    DEFAULT_SYSTEM_THEMES,
+    SYSTEM_THEME,
+    prefersDarkScheme,
+    readDocumentThemeCookie,
+    resolveTheme,
+    themeChoices,
+    watchColorScheme,
+    writeDocumentThemeCookie,
+} from "./theme-choice";
 
 const props = withDefaults(defineProps<Props>(), {
     disabled: false,
@@ -123,6 +153,9 @@ const props = withDefaults(defineProps<Props>(), {
     defaultValue: undefined,
     storageKey: undefined,
     detectFromSystem: false,
+    systemLabel: undefined,
+    systemThemes: () => DEFAULT_SYSTEM_THEMES,
+    cookieName: undefined,
     themeColor: false,
     name: "theme",
     extension: ".css",
@@ -133,7 +166,8 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
     (event: "update:value", value: string): void;
-    (event: "change", value: string): void;
+    /** The theme applied, and the choice that applied it: the same slug, or `"system"`. */
+    (event: "change", value: string, choice: string): void;
 }>();
 
 const baseId = nextThemePickerId();
@@ -220,7 +254,11 @@ const buttonEl = ref<{ el?: HTMLButtonElement } | null>(null);
 const listEl = ref<{ el?: HTMLElement } | null>(null);
 const rootEl = ref<HTMLDivElement | null>(null);
 
+// The choices offered: "system" first when it has a label, then the themes.
+const options = computed(() => themeChoices(props.themes, props.systemLabel));
+
 function labelFor(theme: string): string {
+    if (theme === SYSTEM_THEME && props.systemLabel) return props.systemLabel;
     const labels = props.themeLabels ?? {};
     if (theme in labels) return labels[theme];
     return themeName(theme);
@@ -238,20 +276,45 @@ function getManagedLink(): HTMLLinkElement {
     return link;
 }
 
-function applyTheme(slug: string): void {
+// The theme the DOM carries: applying is idempotent, so "dark" to "system" on a dark device applies nothing new.
+let appliedValue = "";
+
+function applyTheme(slug: string, choice: string): void {
     if (typeof document === "undefined" || !slug) return;
+    if (slug === appliedValue) return;
+    appliedValue = slug;
     const link = getManagedLink();
     link.href = themeHref(props.themesUrl, slug, props.extension);
     if (props.themeColor) applyThemeColorWhenLoaded(link);
     (props.target ?? document.documentElement).setAttribute("data-theme", slug);
+    emit("change", slug, choice);
+}
+
+// The choice is kept, not the theme it applies: "system" stays "system", so the next visit follows the device
+// again. Kept once per change of choice.
+let keptValue = "";
+
+function keepChoice(choice: string): void {
+    if (choice === keptValue) return;
+    keptValue = choice;
     if (props.storageKey) {
         try {
-            localStorage.setItem(props.storageKey, slug);
+            localStorage.setItem(props.storageKey, choice);
         } catch {
             // ignore quota / privacy errors
         }
     }
-    emit("change", slug);
+    if (props.cookieName) writeDocumentThemeCookie(props.cookieName, choice);
+}
+
+// The device's colour scheme: read at once on the client (no light flash on a dark device), kept current while
+// "system" is chosen so the page follows the device when it switches.
+const prefersDark = ref(false);
+
+function applyChoice(choice: string): void {
+    if (!choice) return;
+    applyTheme(resolveTheme(choice, prefersDark.value, props.systemThemes), choice);
+    keepChoice(choice);
 }
 
 // Internal source of truth so the select works both controlled
@@ -272,9 +335,18 @@ watch(
     },
 );
 
-// Apply whenever the resolved value changes.
-watch(current, (next, prev) => {
-    if (next && next !== prev) applyTheme(next);
+// Apply whenever the choice, or the device's scheme while following it, changes.
+watch([current, prefersDark], () => applyChoice(current.value));
+
+let stopWatchingScheme = (): void => {};
+watch(current, (choice) => {
+    stopWatchingScheme();
+    stopWatchingScheme = () => {};
+    if (choice !== SYSTEM_THEME) return;
+    prefersDark.value = prefersDarkScheme();
+    stopWatchingScheme = watchColorScheme((dark) => {
+        prefersDark.value = dark;
+    });
 });
 
 // ---------------------------------------------------------------
@@ -282,12 +354,12 @@ watch(current, (next, prev) => {
 // ---------------------------------------------------------------
 
 async function openList(startIndex?: number): Promise<void> {
-    const selected = props.themes.indexOf(current.value);
+    const selected = options.value.indexOf(current.value);
     // An empty list has no option to activate; -1 keeps
     // aria-activedescendant off rather than pointing at an id that
     // does not exist.
     activeIndex.value =
-        props.themes.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
+        options.value.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
     open.value = true;
     // Focus moves to the listbox; the active option is conveyed via
     // aria-activedescendant, per the APG listbox pattern. Wait for the
@@ -307,7 +379,7 @@ async function closeList(refocus = true): Promise<void> {
 }
 
 function choose(index: number): void {
-    const slug = props.themes[index];
+    const slug = options.value[index];
     if (slug) setTheme(slug);
     void closeList();
 }
@@ -356,7 +428,7 @@ function onButtonKeydown(event: KeyboardEvent): void {
             break;
         case "ArrowUp":
             event.preventDefault();
-            void openList(props.themes.length - 1);
+            void openList(options.value.length - 1);
             break;
     }
 }
@@ -379,8 +451,12 @@ function onDocumentClick(event: MouseEvent): void {
 
 onMounted(() => {
     document.addEventListener("click", onDocumentClick);
+    prefersDark.value = prefersDarkScheme();
 
     let initial = current.value;
+    if (!initial && props.cookieName) {
+        initial = readDocumentThemeCookie(props.cookieName, options.value);
+    }
     if (!initial && props.storageKey) {
         try {
             initial = localStorage.getItem(props.storageKey) ?? "";
@@ -391,10 +467,15 @@ onMounted(() => {
     if (!initial && props.detectFromSystem) {
         initial = matchSystemTheme(props.themes);
     }
+    // With a "system" option, following the device is the natural start.
     if (!initial) {
         initial =
             props.defaultValue ??
-            (props.themes.includes("light") ? "light" : props.themes[0]) ??
+            (props.systemLabel
+                ? SYSTEM_THEME
+                : props.themes.includes("light")
+                  ? "light"
+                  : props.themes[0]) ??
             "";
     }
     if (initial && initial !== current.value) {
@@ -402,11 +483,17 @@ onMounted(() => {
         emit("update:value", initial);
         return;
     }
-    if (initial) applyTheme(initial);
+    if (initial === SYSTEM_THEME) {
+        stopWatchingScheme = watchColorScheme((dark) => {
+            prefersDark.value = dark;
+        });
+    }
+    applyChoice(initial);
 });
 
 onBeforeUnmount(() => {
     document.removeEventListener("click", onDocumentClick);
+    stopWatchingScheme();
 });
 </script>
 
@@ -426,15 +513,22 @@ onBeforeUnmount(() => {
             :disabled="disabled"
             @change="setTheme(($event.target as HTMLSelectElement).value)"
         >
-            <option
-                v-for="theme in themes"
+            <template
+                v-for="theme in options"
                 :key="theme"
-                class="theme-picker-option"
-                :value="theme"
-                :selected="theme === current"
             >
-                {{ labelFor(theme) }}
-            </option>
+                <option
+                    :class="optionClass(theme)"
+                    :value="theme"
+                    :selected="theme === current"
+                >
+                    {{ labelFor(theme) }}
+                </option>
+                <hr
+                    v-if="theme === SYSTEM_THEME"
+                    class="theme-picker-separator"
+                />
+            </template>
         </select>
     </div>
     <div
@@ -521,10 +615,12 @@ onBeforeUnmount(() => {
             @escape="() => closeList()"
             @tab-out="handleTabOut"
         >
+            <!-- The "system" option carries its own class hook: a listbox may hold only options and groups, so the
+                 line between it and the themes is the theme's CSS (a border on this option), not an element. -->
             <li
-                v-for="(theme, i) in themes"
+                v-for="(theme, i) in options"
                 :key="theme"
-                class="theme-picker-option"
+                :class="optionClass(theme)"
                 :id="optionId(i)"
                 role="option"
                 :aria-selected="theme === current ? 'true' : 'false'"
