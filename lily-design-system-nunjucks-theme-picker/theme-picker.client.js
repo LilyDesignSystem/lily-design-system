@@ -88,7 +88,8 @@ function createChoiceApplier(root, opts, onChoice) {
         if (typeof opts.onChange === "function") opts.onChange(slug, from);
     }
 
-    function apply(next) {
+    /** `keep` is false for the starting choice: nothing is stored until the choice changes. */
+    function apply(next, keep = true) {
         if (!next) return;
         if (next !== choice) {
             choice = next;
@@ -99,8 +100,8 @@ function createChoiceApplier(root, opts, onChoice) {
                     applyResolved(resolveTheme(SYSTEM_THEME, dark, systemThemes), SYSTEM_THEME),
                 );
             }
-            if (storageKey) safeStorageSet(storageKey, next);
-            if (cookieName) writeDocumentThemeCookie(cookieName, next);
+            if (keep && storageKey) safeStorageSet(storageKey, next);
+            if (keep && cookieName) writeDocumentThemeCookie(cookieName, next);
             onChoice(next);
         }
         applyResolved(resolveTheme(next, prefersDarkScheme(), systemThemes), next);
@@ -517,7 +518,7 @@ export function initThemePicker(root, opts = {}) {
         defaultValue,
         values,
     });
-    if (initial) applyTheme(initial);
+    if (initial) chooser.apply(initial, false);
 
     const tooltipDestroy = wireTooltip(root, button, ".theme-picker-tooltip", list);
 
@@ -632,7 +633,7 @@ function initSelectVariant(root, select, opts) {
         defaultValue: root.getAttribute("data-lily-theme-picker-default-value") || "",
         values,
     });
-    if (initial) applyTheme(initial);
+    if (initial) chooser.apply(initial, false);
 
     return {
         isOpen: () => false,

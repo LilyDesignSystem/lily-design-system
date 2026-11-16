@@ -52,7 +52,10 @@ export type Props = Omit<
     value?: string;
     /** Initial theme when nothing else is supplied. */
     defaultValue?: string;
-    /** If set, persist the selection to localStorage under this key. */
+    /**
+     * The localStorage key that keeps the choice. Default `lily-{name}` (`lily-theme`); `""` keeps nothing there.
+     * Written only when the choice changes, never on first load.
+     */
     storageKey?: string;
     /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
     detectFromSystem?: boolean;
@@ -65,8 +68,9 @@ export type Props = Omit<
     /** The themes the `"system"` option applies. Default `{ light: "light", dark: "dark" }`. */
     systemThemes?: SystemThemes;
     /**
-     * If set, keep the choice in a first-party cookie of this name (`Path=/`, `SameSite=Lax`, `Secure` on https,
-     * 400 days), so a server can read it and send the page in the right theme. See `readThemeCookie`.
+     * The first-party cookie that keeps the choice (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days), so a server
+     * can read it and send the page in the right theme (`readThemeCookie`). Default `lily-{name}` (`lily-theme`); `""`
+     * sets no cookie. Written only when the choice changes, never on first load.
      */
     cookieName?: string;
     /**
@@ -251,11 +255,11 @@ export function ThemePicker({
     themes,
     value,
     defaultValue,
-    storageKey,
+    storageKey: storageKeyProp,
     detectFromSystem = false,
     systemLabel,
     systemThemes = DEFAULT_SYSTEM_THEMES,
-    cookieName,
+    cookieName: cookieNameProp,
     themeColor = false,
     name = "theme",
     extension = ".css",
@@ -272,6 +276,10 @@ export function ThemePicker({
     ...restProps
 }: Props): React.ReactElement {
     const isControlled = value !== undefined;
+
+    // Both stores are on by default, under `lily-{name}`; an empty string turns one off.
+    const storageKey = storageKeyProp ?? `lily-${name}`;
+    const cookieName = cookieNameProp ?? `lily-${name}`;
 
     // Internal state for uncontrolled mode. Starts empty; resolved
     // in the first effect after mount (SSR-safe).
@@ -368,7 +376,7 @@ export function ThemePicker({
 
     // The choice is kept, not the theme it applies: "system" stays "system", so the next visit follows the device
     // again. Kept once per change of choice, which is not always a change of applied theme ("dark" to "system" on
-    // a dark device applies nothing new).
+    // a dark device applies nothing new). The starting choice is not written (see the initial resolution below).
     const keptRef = React.useRef("");
     function keepChoice(choice: string): void {
         if (choice === keptRef.current) return;
@@ -523,6 +531,8 @@ export function ThemePicker({
             systemLabel,
         );
         if (!initial) return;
+        // The starting choice is not written: nothing is stored until the choice changes.
+        keptRef.current = initial;
 
         if (isControlled) {
             applyChoice(initial);

@@ -182,7 +182,8 @@ describe("ThemePicker — kept in a cookie (§5.7, §7.40–§7.42)", () => {
         const scheme = stubScheme(true);
         build({ ...withSystem, cookieName: "theme" });
         await flush();
-        expect(readThemeCookie(document.cookie, "theme")).toBe(SYSTEM_THEME);
+        // The starting choice is not written: a first visit sets no cookie.
+        expect(readThemeCookie(document.cookie, "theme")).toBe("");
         await choose("Dark");
         expect(readThemeCookie(document.cookie, "theme")).toBe("dark");
         await choose("Follow this device");
@@ -207,5 +208,42 @@ describe("ThemePicker — kept in a cookie (§5.7, §7.40–§7.42)", () => {
         expect(
             document.head.querySelector("link[data-lily-theme-picker]")!.getAttribute("href"),
         ).toBe("/assets/themes/light.css");
+    });
+});
+
+describe("ThemePicker — kept by default (§5.8, §7.44–§7.46)", () => {
+    test("§7.44 with no storageKey or cookieName, a choice is kept in both, under lily-{name}", async () => {
+        build(base);
+        await flush();
+        await choose("Abyss");
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+        expect(readThemeCookie(document.cookie, "lily-theme")).toBe("abyss");
+        wrappers.pop()!.unmount();
+        build({ ...base, name: "brand" });
+        await flush();
+        await choose("Dark");
+        expect(localStorage.getItem("lily-brand")).toBe("dark");
+        expect(readThemeCookie(document.cookie, "lily-brand")).toBe("dark");
+    });
+
+    test("§7.45 the first load stores nothing until the choice changes", async () => {
+        build(withSystem);
+        await flush();
+        expect(localStorage.length).toBe(0);
+        expect(document.cookie).toBe("");
+    });
+
+    test("§7.46 an empty string turns either store off", async () => {
+        build({ ...base, storageKey: "", cookieName: "" });
+        await flush();
+        await choose("Abyss");
+        expect(localStorage.length).toBe(0);
+        expect(document.cookie).toBe("");
+        wrappers.pop()!.unmount();
+        build({ ...base, cookieName: "" });
+        await flush();
+        await choose("Dark");
+        expect(localStorage.getItem("lily-theme")).toBe("dark");
+        expect(document.cookie).toBe("");
     });
 });

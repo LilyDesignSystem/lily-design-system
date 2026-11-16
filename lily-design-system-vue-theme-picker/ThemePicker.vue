@@ -36,7 +36,10 @@ export type Props = {
     value?: string;
     /** Initial theme when nothing else is supplied. */
     defaultValue?: string;
-    /** If set, persist the selection to localStorage under this key. */
+    /**
+     * The localStorage key that keeps the choice. Default `lily-{name}` (`lily-theme`); `""` keeps nothing there.
+     * Written only when the choice changes, never on first load.
+     */
     storageKey?: string;
     /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
     detectFromSystem?: boolean;
@@ -49,8 +52,9 @@ export type Props = {
     /** The themes the `"system"` option applies. Default `{ light: "light", dark: "dark" }`. */
     systemThemes?: { light: string; dark: string };
     /**
-     * If set, keep the choice in a first-party cookie of this name (`Path=/`, `SameSite=Lax`, `Secure` on https,
-     * 400 days), so a server can read it and send the page in the right theme. See `readThemeCookie`.
+     * The first-party cookie that keeps the choice (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days), so a server
+     * can read it and send the page in the right theme (`readThemeCookie`). Default `lily-{name}` (`lily-theme`); `""`
+     * sets no cookie. Written only when the choice changes, never on first load.
      */
     cookieName?: string;
     /**
@@ -294,17 +298,21 @@ function applyTheme(slug: string, choice: string): void {
 // again. Kept once per change of choice.
 let keptValue = "";
 
+// Both stores are on by default, under `lily-{name}`; an empty string turns one off.
+const storageKey = computed(() => props.storageKey ?? `lily-${props.name}`);
+const cookieName = computed(() => props.cookieName ?? `lily-${props.name}`);
+
 function keepChoice(choice: string): void {
     if (choice === keptValue) return;
     keptValue = choice;
-    if (props.storageKey) {
+    if (storageKey.value) {
         try {
-            localStorage.setItem(props.storageKey, choice);
+            localStorage.setItem(storageKey.value, choice);
         } catch {
             // ignore quota / privacy errors
         }
     }
-    if (props.cookieName) writeDocumentThemeCookie(props.cookieName, choice);
+    if (cookieName.value) writeDocumentThemeCookie(cookieName.value, choice);
 }
 
 // The device's colour scheme: read at once on the client (no light flash on a dark device), kept current while
@@ -454,12 +462,12 @@ onMounted(() => {
     prefersDark.value = prefersDarkScheme();
 
     let initial = current.value;
-    if (!initial && props.cookieName) {
-        initial = readDocumentThemeCookie(props.cookieName, options.value);
+    if (!initial && cookieName.value) {
+        initial = readDocumentThemeCookie(cookieName.value, options.value);
     }
-    if (!initial && props.storageKey) {
+    if (!initial && storageKey.value) {
         try {
-            initial = localStorage.getItem(props.storageKey) ?? "";
+            initial = localStorage.getItem(storageKey.value) ?? "";
         } catch {
             // ignore privacy errors
         }
@@ -478,6 +486,8 @@ onMounted(() => {
                   : props.themes[0]) ??
             "";
     }
+    // The starting choice is not written: nothing is stored until the choice changes.
+    keptValue = initial;
     if (initial && initial !== current.value) {
         current.value = initial;
         emit("update:value", initial);

@@ -309,12 +309,16 @@ export class ThemePicker extends HTMLElement {
         else this.removeAttribute("default-value");
     }
 
+    /**
+     * The localStorage key that keeps the choice. Default `lily-{name}` (`lily-theme`); `storage-key=""` keeps nothing
+     * there. Written only when the choice changes, never on first load. Setting `null` restores the default.
+     */
     get storageKey(): string {
-        return this.getAttribute("storage-key") ?? "";
+        return this.getAttribute("storage-key") ?? `lily-${this.name}`;
     }
-    set storageKey(v: string) {
-        if (v) this.setAttribute("storage-key", v);
-        else this.removeAttribute("storage-key");
+    set storageKey(v: string | null) {
+        if (v === null || v === undefined) this.removeAttribute("storage-key");
+        else this.setAttribute("storage-key", v);
     }
 
     /**
@@ -355,15 +359,17 @@ export class ThemePicker extends HTMLElement {
     }
 
     /**
-     * If set, keep the choice in a first-party cookie of this name (`Path=/`, `SameSite=Lax`, `Secure` on https,
-     * 400 days), so a server can read it and send the page in the right theme. Attribute `cookie-name`.
+     * The first-party cookie that keeps the choice (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days), so a
+     * server can read it and send the page in the right theme. Attribute `cookie-name`; default `lily-{name}`
+     * (`lily-theme`), `cookie-name=""` sets no cookie. Written only when the choice changes, never on first load.
+     * Setting `null` restores the default.
      */
     get cookieName(): string {
-        return this.getAttribute("cookie-name") ?? "";
+        return this.getAttribute("cookie-name") ?? `lily-${this.name}`;
     }
-    set cookieName(v: string) {
-        if (v) this.setAttribute("cookie-name", v);
-        else this.removeAttribute("cookie-name");
+    set cookieName(v: string | null) {
+        if (v === null || v === undefined) this.removeAttribute("cookie-name");
+        else this.setAttribute("cookie-name", v);
     }
 
     /** The choices offered: "system" first when it has a label, then the themes. */
@@ -616,7 +622,6 @@ export class ThemePicker extends HTMLElement {
         document.removeEventListener("click", this.#onDocumentClick);
         clearTimeout(this.#typeaheadTimer);
         this.#stopWatchingScheme();
-        this.#keptValue = "";
         // Disconnecting can remove the managed <link> below, so forget what
         // was applied: a re-connected element must apply again.
         this.#appliedValue = "";
@@ -662,6 +667,8 @@ export class ThemePicker extends HTMLElement {
                 "";
         }
 
+        // The starting choice is not written: nothing is stored until the choice changes.
+        this.#keptValue = initial;
         if (initial && initial !== this.value) {
             // Set without triggering re-entry through the change callback.
             this.setAttribute("value", initial);

@@ -2,6 +2,8 @@
 
 ## 0.4.0 — 2026-11-16
 
+- **Behaviour change:** the choice is kept in both `localStorage` and the cookie by default, under `lily-{name}`
+  (`lily-theme`); an empty prop turns one off. Neither is written on the first load, only when the choice changes.
 - "Follow this device" and the theme cookie, ported from the Svelte reference. Props: `systemLabel`, `systemThemes` and `cookieName`; `onChange(theme, choice)`.
 - The change callback also receives the choice, `"system"` or the slug.
 - New exports from `theme-choice.ts` (copied from `shared/`): `SYSTEM_THEME`, `resolveTheme`, `readThemeCookie`,

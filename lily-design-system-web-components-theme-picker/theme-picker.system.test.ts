@@ -152,7 +152,8 @@ describe("<lily-theme-picker> — kept in a cookie (§5.7, §7.40–§7.42)", ()
     test("§7.40 a choice is written to the cookie: the choice, not the theme it applies", () => {
         const scheme = stubScheme(true);
         mount({ ...SYSTEM, "cookie-name": "theme" });
-        expect(readThemeCookie(document.cookie, "theme")).toBe(SYSTEM_THEME);
+        // The starting choice is not written: a first visit sets no cookie.
+        expect(readThemeCookie(document.cookie, "theme")).toBe("");
         choose("Dark");
         expect(readThemeCookie(document.cookie, "theme")).toBe("dark");
         choose("Follow this device");
@@ -187,4 +188,40 @@ test("§6.2 End reaches the last theme and Home the follow-this-device option", 
     expect(optionNamed("Abyss").hasAttribute("data-active")).toBe(true);
     list.dispatchEvent(new KeyboardEvent("keydown", { key: "Home", bubbles: true }));
     expect(optionNamed("Follow this device").hasAttribute("data-active")).toBe(true);
+});
+
+describe("theme picker — kept by default (§5.8, §7.44–§7.46)", () => {
+    test("§7.44 with no storage-key or cookie-name, a choice is kept in both, under lily-{name}", () => {
+        mount(BASE);
+        choose("Abyss");
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+        expect(readThemeCookie(document.cookie, "lily-theme")).toBe("abyss");
+        document.body.innerHTML = "";
+        mount({ ...BASE, name: "brand" });
+        choose("Dark");
+        expect(localStorage.getItem("lily-brand")).toBe("dark");
+        expect(readThemeCookie(document.cookie, "lily-brand")).toBe("dark");
+    });
+
+    test("§7.45 the first load stores nothing until the choice changes, nor does reconnecting", () => {
+        const el = mount(SYSTEM);
+        expect(localStorage.length).toBe(0);
+        expect(document.cookie).toBe("");
+        el.remove();
+        document.body.appendChild(el);
+        expect(localStorage.length).toBe(0);
+        expect(document.cookie).toBe("");
+    });
+
+    test("§7.46 an empty attribute turns either store off", () => {
+        mount({ ...BASE, "storage-key": "", "cookie-name": "" });
+        choose("Abyss");
+        expect(localStorage.length).toBe(0);
+        expect(document.cookie).toBe("");
+        document.body.innerHTML = "";
+        mount({ ...BASE, "cookie-name": "" });
+        choose("Dark");
+        expect(localStorage.getItem("lily-theme")).toBe("dark");
+        expect(document.cookie).toBe("");
+    });
 });

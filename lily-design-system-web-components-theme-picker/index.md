@@ -707,6 +707,12 @@ device's light or dark setting, and switches when the device does. With a cookie
 cookie a server can read (`readThemeCookie`), so the page can be sent in the right theme with no flash. Contract:
 [spec/index.md](./spec/index.md).
 
+## Kept in both stores by default (2026-11-16)
+
+Ported from the Svelte reference ([spec §5.8](../lily-design-system-svelte-theme-picker/spec/index.md#58-kept-in-both-by-default-2026-11-16)).
+With the `storage-key` / `cookie-name` attributes not given, the choice is kept in both `localStorage` and a first-party cookie, under `lily-{name}`
+(`lily-theme`); an empty string turns a store off. Nothing is written on the first load, only when the choice changes.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

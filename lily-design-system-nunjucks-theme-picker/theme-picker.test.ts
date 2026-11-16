@@ -676,8 +676,8 @@ describe("ThemePicker — initial-value precedence (§7.28)", () => {
         localStorage.setItem("lily-theme", "abyss");
         setup({ value: "dark", storageKey: "lily-theme" });
         expect(document.documentElement.dataset.theme).toBe("dark");
-        // ...and the applied value is written back, so storage converges.
-        expect(localStorage.getItem("lily-theme")).toBe("dark");
+        // ...and nothing is written on load (§5.8): storage changes only when the choice does.
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
     });
 
     test("§7.29 warns once when value and storage disagree", () => {

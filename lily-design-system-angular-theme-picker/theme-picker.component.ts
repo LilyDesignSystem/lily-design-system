@@ -259,7 +259,11 @@ export class ThemePicker {
     readonly themes = input.required<string[]>();
     readonly value = model<string>("");
     readonly defaultValue = input<string>("");
-    readonly storageKey = input<string>("");
+    /**
+     * The localStorage key that keeps the choice. Default `lily-{name}` (`lily-theme`); `""` keeps nothing there.
+     * Written only when the choice changes, never on first load.
+     */
+    readonly storageKey = input<string | undefined>(undefined);
     /** Resolve `prefers-color-scheme` to a supported theme on first visit. */
     readonly detectFromSystem = input<boolean>(false);
     /**
@@ -271,10 +275,19 @@ export class ThemePicker {
     /** The themes the `"system"` option applies. Default `{ light: "light", dark: "dark" }`. */
     readonly systemThemes = input<SystemThemes>(DEFAULT_SYSTEM_THEMES);
     /**
-     * If set, keep the choice in a first-party cookie of this name (`Path=/`, `SameSite=Lax`, `Secure` on https,
-     * 400 days), so a server can read it and send the page in the right theme. See `readThemeCookie`.
+     * The first-party cookie that keeps the choice (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days), so a server
+     * can read it and send the page in the right theme (`readThemeCookie`). Default `lily-{name}` (`lily-theme`); `""`
+     * sets no cookie. Written only when the choice changes, never on first load.
      */
-    readonly cookieName = input<string>("");
+    readonly cookieName = input<string | undefined>(undefined);
+
+    // Both stores are on by default, under `lily-{name}`; an empty string turns one off.
+    private readonly storageKeyOrDefault = computed(
+        () => this.storageKey() ?? `lily-${this.name()}`,
+    );
+    private readonly cookieNameOrDefault = computed(
+        () => this.cookieName() ?? `lily-${this.name()}`,
+    );
     /**
      * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
      * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
@@ -410,10 +423,10 @@ export class ThemePicker {
                 this.initialised = true;
                 let initial = current;
 
-                const cookie = this.cookieName();
+                const cookie = this.cookieNameOrDefault();
                 if (!initial && cookie) initial = readDocumentThemeCookie(cookie, this.options());
 
-                const sk = this.storageKey();
+                const sk = this.storageKeyOrDefault();
                 if (!initial && sk) {
                     try {
                         initial =
@@ -443,6 +456,8 @@ export class ThemePicker {
                         "";
                 }
 
+                // The starting choice is not written: nothing is stored until the choice changes.
+                this.keptValue = initial;
                 if (initial && initial !== current) {
                     this.value.set(initial);
                     return;
@@ -622,7 +637,7 @@ export class ThemePicker {
     private keepChoice(choice: string): void {
         if (typeof document === "undefined" || choice === this.keptValue) return;
         this.keptValue = choice;
-        const sk = this.storageKey();
+        const sk = this.storageKeyOrDefault();
         if (sk) {
             try {
                 localStorage.setItem(sk, choice);
@@ -630,7 +645,7 @@ export class ThemePicker {
                 // ignore quota / privacy errors
             }
         }
-        const cookie = this.cookieName();
+        const cookie = this.cookieNameOrDefault();
         if (cookie) writeDocumentThemeCookie(cookie, choice);
     }
 }

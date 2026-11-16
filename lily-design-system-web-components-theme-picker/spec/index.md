@@ -776,3 +776,9 @@ Ported from the Svelte reference ([spec §5.6 and §5.7](../../lily-design-syste
   `Secure` on https, 400 days. It is read before `localStorage`; a value that is not one of the choices is ignored.
 - The pure helpers are `theme-choice.ts`, copied from `shared/theme-choice.ts` by `bin/sync-shared-modules`: never edit
   this copy. Tests: `theme-picker.system.test.ts`.
+
+## Kept in both stores by default (2026-11-16)
+
+Ported from the Svelte reference ([spec §5.8](../../lily-design-system-svelte-theme-picker/spec/index.md#58-kept-in-both-by-default-2026-11-16)).
+With the `storage-key` / `cookie-name` attributes not given, the choice is kept in both `localStorage` and a first-party cookie, under `lily-{name}`
+(`lily-theme`); an empty string turns a store off. Nothing is written on the first load, only when the choice changes.

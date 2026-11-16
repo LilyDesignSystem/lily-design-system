@@ -164,7 +164,8 @@ describe("ThemePicker — kept in a cookie (§5.7, §7.40–§7.42)", () => {
     test("§7.40 a choice is written to the cookie: the choice, not the theme it applies", async () => {
         const scheme = stubScheme(true);
         const fixture = await mount({ ...SYSTEM_LABEL, cookieName: "theme" });
-        expect(readThemeCookie(document.cookie, "theme")).toBe(SYSTEM_THEME);
+        // The starting choice is not written: a first visit sets no cookie.
+        expect(readThemeCookie(document.cookie, "theme")).toBe("");
         await choose(fixture, "Dark");
         expect(readThemeCookie(document.cookie, "theme")).toBe("dark");
         await choose(fixture, "Follow this device");
@@ -187,5 +188,43 @@ describe("ThemePicker — kept in a cookie (§5.7, §7.40–§7.42)", () => {
         expect(
             document.head.querySelector("link[data-lily-theme-picker]")!.getAttribute("href"),
         ).toBe("/assets/themes/light.css");
+    });
+});
+
+describe("ThemePicker — kept by default (§5.8, §7.44–§7.46)", () => {
+    const reset = () => {
+        for (const f of fixtures) f.destroy();
+        fixtures = [];
+        document.body.innerHTML = "";
+    };
+
+    test("§7.44 with no storageKey or cookieName, a choice is kept in both, under lily-{name}", async () => {
+        let fixture = await mount();
+        await choose(fixture, "Abyss");
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+        expect(readThemeCookie(document.cookie, "lily-theme")).toBe("abyss");
+        reset();
+        fixture = await mount({ name: "brand" });
+        await choose(fixture, "Dark");
+        expect(localStorage.getItem("lily-brand")).toBe("dark");
+        expect(readThemeCookie(document.cookie, "lily-brand")).toBe("dark");
+    });
+
+    test("§7.45 the first load stores nothing until the choice changes", async () => {
+        await mount(SYSTEM_LABEL);
+        expect(localStorage.length).toBe(0);
+        expect(document.cookie).toBe("");
+    });
+
+    test("§7.46 an empty string turns either store off", async () => {
+        let fixture = await mount({ storageKey: "", cookieName: "" });
+        await choose(fixture, "Abyss");
+        expect(localStorage.length).toBe(0);
+        expect(document.cookie).toBe("");
+        reset();
+        fixture = await mount({ cookieName: "" });
+        await choose(fixture, "Dark");
+        expect(localStorage.getItem("lily-theme")).toBe("dark");
+        expect(document.cookie).toBe("");
     });
 });
