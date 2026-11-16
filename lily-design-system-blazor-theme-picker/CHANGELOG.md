@@ -4,8 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
-## Unreleased
+## 0.5.0 — 2026-11-16
 
+- "Follow this device" and the theme cookie, ported from the Svelte reference. Parameters: `SystemLabel`, `SystemThemes`
+  (`ThemePickerSystemThemes(Light, Dark)`) and `CookieName`. `Value` holds the choice (`"system"` or the slug) and
+  `OnChange` the theme applied. While following, a `matchMedia` listener calls `OnColorSchemeChanged` (`[JSInvokable]`);
+  the component is now `IAsyncDisposable` and removes it. New statics `ResolveTheme`, `ThemeCookie`, `ReadThemeCookie`
+  (a server reads the cookie with it) and the constants `SystemTheme`, `ThemeCookieMaxAge`.
 - `variant="select"` renders a native `<select>` instead of the icon button and listbox (RFC 3 prototype, ported from
   the Svelte reference 2026-10-30). Opt-in; the default is unchanged. See `spec/index.md`, "Native select variant".
 

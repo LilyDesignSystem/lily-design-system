@@ -135,8 +135,7 @@ address bar on a phone) follows the applied theme.
 
 ## Follow this device, kept in a cookie (added 2026-11-16)
 
-The listbox reads **Follow this device**, a line, then **Light** and **Dark** (and any other themes). Svelte first; the other seven
-catalogs follow. Contract: the Svelte package's [spec §5.6 and §5.7](../../lily-design-system-svelte-theme-picker/spec/index.md#56-follow-this-device-2026-11-16).
+The listbox reads **Follow this device**, a line, then **Light** and **Dark** (and any other themes). In all eight catalogs, Svelte first. Contract: the Svelte package's [spec §5.6 and §5.7](../../lily-design-system-svelte-theme-picker/spec/index.md#56-follow-this-device-2026-11-16).
 
 - `systemLabel` adds a first option, value `"system"` (`SYSTEM_THEME`), with no English default. While chosen it applies
   `systemThemes.light` or `.dark` (default `light`, `dark`) from `prefers-color-scheme`, and follows the device when it switches.
@@ -146,7 +145,7 @@ catalogs follow. Contract: the Svelte package's [spec §5.6 and §5.7](../../lil
   400 days (the browser maximum). It is read before `localStorage`; a value that is not one of the choices is ignored.
 - The change callback also receives the choice (`onChange(theme, choice)`), so a controlled picker keeps `"system"`.
 - The pure helpers are one shared module, `shared/theme-choice.ts`, copied into the TypeScript catalogs by
-  `bin/sync-shared-modules` (Nunjucks gets the `.js`); Blazor will repeat them in C#.
+  `bin/sync-shared-modules` (Nunjucks gets the `.js`); Blazor repeats them in C#.
 - A server reads it with `readThemeCookie(header, name, allowed)` and sends `data-theme` and the `<link>` with the page; for
   `"system"` it links both themes by `media`. Recipe: the Svelte package's `examples/sveltekit-cookie/`.
 
@@ -169,7 +168,7 @@ catalogs follow. Contract: the Svelte package's [spec §5.6 and §5.7](../../lil
 - [x] Angular (0.4.0, `theme-picker.system.spec.ts`) (2026-11-16).
 - [x] HTML and Web Components (0.4.0, `theme-picker.system.test.ts`) (2026-11-16).
 - [x] Nunjucks (0.4.0, `theme-picker.system.test.ts`) (2026-11-16).
-- [ ] The same in Blazor.
+- [x] Blazor (0.5.0, `ThemePickerSystemTests.cs`, with C# versions of the helpers) (2026-11-16): all eight catalogs.
 
 ## Related topics
 

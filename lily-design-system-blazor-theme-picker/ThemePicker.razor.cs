@@ -29,8 +29,17 @@ public sealed class ThemePickerContext
     public required Func<string, string> LabelFor { get; init; }
 }
 
-public partial class ThemePicker : ComponentBase
+/// <summary>The light and dark themes the <c>"system"</c> choice applies.</summary>
+public sealed record ThemePickerSystemThemes(string Light, string Dark);
+
+public partial class ThemePicker : ComponentBase, IAsyncDisposable
 {
+    /// <summary>The value of the option that follows the device's colour scheme.</summary>
+    public const string SystemTheme = "system";
+
+    /// <summary>400 days, the longest a browser keeps a cookie (RFC 6265bis).</summary>
+    public const int ThemeCookieMaxAge = 400 * 24 * 60 * 60;
+
     // Default button icon: a bundled SVG (contrast/half-circle), not a
     // Unicode character. Reversed 2026-09-16 from the font-dependent-glyph
     // convention (was U+25D1 CIRCLE WITH RIGHT HALF BLACK, exposed as the
@@ -69,6 +78,19 @@ public partial class ThemePicker : ComponentBase
     /// first visit. Mirrors <c>DetectFromNavigator</c> on LocalePicker.</summary>
     [Parameter] public bool DetectFromSystem { get; set; }
 
+    /// <summary>The visible name of a first option, value <c>"system"</c> (<see cref="SystemTheme"/>), that follows
+    /// the device: it applies <see cref="SystemThemes"/> from <c>prefers-color-scheme</c>, and changes when the device
+    /// does, for example "Follow this device". Without it there is no such option. No English default.</summary>
+    [Parameter] public string? SystemLabel { get; set; }
+
+    /// <summary>The themes the <c>"system"</c> option applies. Default light and dark.</summary>
+    [Parameter] public ThemePickerSystemThemes SystemThemes { get; set; } = new("light", "dark");
+
+    /// <summary>If set, keep the choice in a first-party cookie of this name (<c>Path=/</c>, <c>SameSite=Lax</c>,
+    /// <c>Secure</c> on https, 400 days), so a server can read it (<see cref="ReadThemeCookie"/>) and send the page in
+    /// the right theme.</summary>
+    [Parameter] public string? CookieName { get; set; }
+
     /// <summary>Also set <c>&lt;meta name="theme-color"&gt;</c> from the theme's
     /// <c>--lily-brand</c> once its stylesheet has loaded, so the browser chrome
     /// follows the theme. Off by default; a theme without <c>--lily-brand</c>
@@ -89,7 +111,8 @@ public partial class ThemePicker : ComponentBase
     /// <summary>Replaces the default half-circle icon inside the button.</summary>
     [Parameter] public RenderFragment<ThemePickerContext>? ChildContent { get; set; }
 
-    /// <summary>Called after the control applies a new theme.</summary>
+    /// <summary>Called after the control applies a new theme, with the theme applied. With "Follow this device" the
+    /// choice (<c>"system"</c>) is <see cref="Value"/>, and this is the theme.</summary>
     [Parameter] public EventCallback<string> OnChange { get; set; }
 
     /// <summary>Extra CSS class merged into the root &lt;div&gt;.</summary>
@@ -175,6 +198,17 @@ public partial class ThemePicker : ComponentBase
 
     private string RootClass => $"theme-picker {CssClass}".Trim();
 
+    /// <summary>The choices offered: <c>"system"</c> first when it has a label, then the themes.</summary>
+    private IReadOnlyList<string> Choices => string.IsNullOrEmpty(SystemLabel)
+        ? Themes
+        : new[] { SystemTheme }.Concat(Themes).ToList();
+
+    /// <summary>The class list of one option: the <c>"system"</c> option also carries
+    /// <c>theme-picker-option-system</c>, the hook the themes draw the line under.</summary>
+    private static string OptionClass(string theme) => theme == SystemTheme
+        ? "theme-picker-option theme-picker-option-system"
+        : "theme-picker-option";
+
     // -------------------------------------------------------------------
     // Helpers — exposed for tests and consumers.
     // -------------------------------------------------------------------
@@ -211,6 +245,35 @@ public partial class ThemePicker : ComponentBase
         return "";
     }
 
+    /// <summary>The theme a choice applies: <c>"system"</c> becomes the dark or light theme by
+    /// <paramref name="prefersDark"/>; any other slug is itself. Mirrors <c>shared/theme-choice.ts</c>.</summary>
+    public static string ResolveTheme(string choice, bool prefersDark, ThemePickerSystemThemes systemThemes)
+        => choice != SystemTheme ? choice : prefersDark ? systemThemes.Dark : systemThemes.Light;
+
+    /// <summary>The <c>document.cookie</c> (or <c>Set-Cookie</c>) string that keeps a theme choice.</summary>
+    public static string ThemeCookie(string name, string value, bool secure = false)
+        => $"{name}={Uri.EscapeDataString(value)}; Path=/; Max-Age={ThemeCookieMaxAge}; SameSite=Lax"
+            + (secure ? "; Secure" : "");
+
+    /// <summary>
+    /// Read the theme cookie from a <c>Cookie</c> header or <c>document.cookie</c>. Returns "" when it is absent, or
+    /// when <paramref name="allowed"/> is given and does not hold it: never trust a cookie into a stylesheet URL
+    /// unchecked. A server reads it with this and passes it as <see cref="Value"/>.
+    /// </summary>
+    public static string ReadThemeCookie(string? cookies, string name, IReadOnlyList<string>? allowed = null)
+    {
+        foreach (var part in (cookies ?? "").Split(';'))
+        {
+            var eq = part.IndexOf('=');
+            if (eq < 0 || part[..eq].Trim() != name) continue;
+            string value;
+            try { value = Uri.UnescapeDataString(part[(eq + 1)..].Trim()); }
+            catch (UriFormatException) { return ""; }
+            return allowed is null || allowed.Contains(value) ? value : "";
+        }
+        return "";
+    }
+
     /// <summary>
     /// Resolve a theme slug to its display label: each hyphen-separated
     /// word title-cased, so a slug like
@@ -233,6 +296,7 @@ public partial class ThemePicker : ComponentBase
     /// the shared <see cref="ThemeName"/> rule.</summary>
     private string LabelFor(string theme)
     {
+        if (theme == SystemTheme && !string.IsNullOrEmpty(SystemLabel)) return SystemLabel!;
         if (ThemeLabels.TryGetValue(theme, out var pretty)) return pretty;
         return ThemeName(theme);
     }
@@ -303,6 +367,22 @@ public partial class ThemePicker : ComponentBase
     {
         if (!string.IsNullOrEmpty(Value)) return Value;
 
+        // The cookie, above storage; only a value that is one of the choices.
+        if (!string.IsNullOrEmpty(CookieName))
+        {
+            try
+            {
+                var cookies = await JS.InvokeAsync<string?>(
+                    "eval", "(function(){try{return document.cookie;}catch(e){return null;}})()");
+                var kept = ReadThemeCookie(cookies, CookieName!, Choices);
+                if (!string.IsNullOrEmpty(kept)) return kept;
+            }
+            catch
+            {
+                // ignore prerender / interop failure
+            }
+        }
+
         if (!string.IsNullOrEmpty(StorageKey))
         {
             try
@@ -339,6 +419,8 @@ public partial class ThemePicker : ComponentBase
         }
 
         if (!string.IsNullOrEmpty(DefaultValue)) return DefaultValue!;
+        // With a "system" option, following the device is the natural start.
+        if (!string.IsNullOrEmpty(SystemLabel)) return SystemTheme;
         if (Themes.Count == 0) return "";
 
         foreach (var t in Themes)
@@ -361,7 +443,7 @@ public partial class ThemePicker : ComponentBase
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
-        _activeIndex = Themes.Count == 0
+        _activeIndex = Choices.Count == 0
             ? -1
             : startIndex ?? (selected >= 0 ? selected : 0);
         _open = true;
@@ -388,9 +470,10 @@ public partial class ThemePicker : ComponentBase
 
     private int IndexOfValue()
     {
-        for (var i = 0; i < Themes.Count; i++)
+        var choices = Choices;
+        for (var i = 0; i < choices.Count; i++)
         {
-            if (Themes[i] == Value) return i;
+            if (choices[i] == Value) return i;
         }
         return -1;
     }
@@ -399,9 +482,10 @@ public partial class ThemePicker : ComponentBase
 
     private async Task ChooseAsync(int index)
     {
-        if (index >= 0 && index < Themes.Count)
+        var choices = Choices;
+        if (index >= 0 && index < choices.Count)
         {
-            var slug = Themes[index];
+            var slug = choices[index];
             CloseList();
             if (!string.IsNullOrEmpty(slug)) await SetThemeAsync(slug);
             return;
@@ -447,7 +531,7 @@ public partial class ThemePicker : ComponentBase
                 break;
             case "ArrowUp":
                 _suppressNextClick = true;
-                OpenList(Themes.Count - 1);
+                OpenList(Choices.Count - 1);
                 break;
         }
         return Task.CompletedTask;
@@ -502,10 +586,29 @@ public partial class ThemePicker : ComponentBase
         StateHasChanged();
     }
 
-    private async Task ApplyThemeAsync(string slug)
+    // The device's colour scheme, once read, and whether its change listener is installed.
+    private bool? _prefersDark;
+    private bool _watching;
+    private DotNetObjectReference<ThemePicker>? _selfRef;
+
+    /// <summary>Applies a choice: the theme it resolves to goes on the managed link and <c>data-theme</c>; the
+    /// choice itself (not the theme) is kept in storage and the cookie, so <c>"system"</c> follows the device again
+    /// next visit. While the choice is <c>"system"</c> the device's colour scheme is watched.</summary>
+    private async Task ApplyThemeAsync(string choice)
     {
-        var href = ThemeHref(ThemesUrl, slug, Extension);
-        var script = BuildApplyScript(Name, href, slug, StorageKey, ThemeColor);
+        var theme = choice;
+        if (choice == SystemTheme)
+        {
+            _prefersDark ??= await ProbePrefersDarkAsync();
+            await WatchColorSchemeAsync();
+            theme = ResolveTheme(choice, _prefersDark == true, SystemThemes);
+        }
+        else
+        {
+            await UnwatchColorSchemeAsync();
+        }
+        var href = ThemeHref(ThemesUrl, theme, Extension);
+        var script = BuildApplyScript(Name, href, theme, StorageKey, ThemeColor, choice, CookieName);
         try
         {
             await JS.InvokeVoidAsync("eval", script);
@@ -514,18 +617,96 @@ public partial class ThemePicker : ComponentBase
         {
             // ignore prerender / interop failure
         }
-        await OnChange.InvokeAsync(slug);
+        await OnChange.InvokeAsync(theme);
     }
 
-    /// <summary>Build the JS snippet that mutates the DOM. Exposed for tests.</summary>
-    internal static string BuildApplyScript(string name, string href, string slug, string? storageKey, bool themeColor = false)
+    private async Task<bool?> ProbePrefersDarkAsync()
+    {
+        try
+        {
+            return await JS.InvokeAsync<bool?>(
+                "eval",
+                "(function(){try{if(typeof matchMedia!=='function')return null;"
+                + "return matchMedia('(prefers-color-scheme: dark)').matches;}catch(e){return null;}})()");
+        }
+        catch
+        {
+            return null; // prerender / interop failure
+        }
+    }
+
+    /// <summary>The device switched between light and dark: called from the <c>matchMedia</c> listener.</summary>
+    [JSInvokable]
+    public async Task OnColorSchemeChanged(bool dark)
+    {
+        _prefersDark = dark;
+        if (Value == SystemTheme) await InvokeAsync(() => ApplyThemeAsync(SystemTheme));
+    }
+
+    /// <summary>Defines, once per page, the two functions that install and remove one picker's listener.</summary>
+    internal const string WatchSetupScript =
+        "(function(){if(window.__lilyThemePickerWatch)return;var w={};"
+        + "window.__lilyThemePickerWatch=function(id,ref){if(typeof matchMedia!=='function'||w[id])return;"
+        + "var q=matchMedia('(prefers-color-scheme: dark)');"
+        + "var f=function(e){ref.invokeMethodAsync('OnColorSchemeChanged',e.matches);};"
+        + "q.addEventListener('change',f);w[id]=function(){q.removeEventListener('change',f);};};"
+        + "window.__lilyThemePickerUnwatch=function(id){if(w[id]){w[id]();delete w[id];}};})()";
+
+    private async Task WatchColorSchemeAsync()
+    {
+        if (_watching) return;
+        _watching = true;
+        _selfRef ??= DotNetObjectReference.Create(this);
+        try
+        {
+            await JS.InvokeVoidAsync("eval", WatchSetupScript);
+            await JS.InvokeVoidAsync("__lilyThemePickerWatch", _baseId, _selfRef);
+        }
+        catch
+        {
+            // ignore prerender / interop failure
+        }
+    }
+
+    private async Task UnwatchColorSchemeAsync()
+    {
+        if (!_watching) return;
+        _watching = false;
+        try
+        {
+            await JS.InvokeVoidAsync("__lilyThemePickerUnwatch", _baseId);
+        }
+        catch
+        {
+            // ignore: the circuit may already be gone
+        }
+    }
+
+    /// <summary>Removes the colour-scheme listener.</summary>
+    public async ValueTask DisposeAsync()
+    {
+        await UnwatchColorSchemeAsync();
+        _selfRef?.Dispose();
+        _selfRef = null;
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>Build the JS snippet that mutates the DOM. Exposed for tests. <paramref name="choice"/> (default the
+    /// slug) is what storage and the cookie keep.</summary>
+    internal static string BuildApplyScript(string name, string href, string slug, string? storageKey, bool themeColor = false,
+        string? choice = null, string? cookieName = null)
     {
         var nameLit = JsonString(name);
         var hrefLit = JsonString(href);
         var slugLit = JsonString(slug);
+        var choiceLit = JsonString(choice ?? slug);
         var storageLine = string.IsNullOrEmpty(storageKey)
             ? ""
-            : $"try{{localStorage.setItem({JsonString(storageKey!)},{slugLit});}}catch(e){{}}";
+            : $"try{{localStorage.setItem({JsonString(storageKey!)},{choiceLit});}}catch(e){{}}";
+        var cookieLine = string.IsNullOrEmpty(cookieName)
+            ? ""
+            : $"try{{var c={JsonString(ThemeCookie(cookieName!, choice ?? slug))};"
+                + "if(location.protocol==='https:')c+='; Secure';document.cookie=c;}catch(e){}";
 
         // The same steps as shared/theme-color.ts: wait for the stylesheet, read --lily-brand, set the tag if it changed.
         var themeColorLine = themeColor
@@ -544,6 +725,7 @@ public partial class ThemePicker : ComponentBase
             + $"l.href={hrefLit};"
             + $"document.documentElement.setAttribute('data-theme',{slugLit});"
             + storageLine
+            + cookieLine
             + "})();";
     }
 

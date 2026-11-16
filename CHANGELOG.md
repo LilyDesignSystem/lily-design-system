@@ -13,8 +13,9 @@ highlights.
 
 - `@lilydesignsystem/svelte-theme-picker` 0.4.0: `systemLabel` adds a "Follow this device" option first, then Light and Dark;
   it follows `prefers-color-scheme` live. `cookieName` keeps the choice in a first-party cookie a server can read
-  (`readThemeCookie`), for a first paint in the right theme. See [spec/theme-picker](spec/theme-picker/index.md). The other seven
-  catalogs follow.
+  (`readThemeCookie`), for a first paint in the right theme. See [spec/theme-picker](spec/theme-picker/index.md).
+- The same in React, Vue, Angular, HTML, Web Components and Nunjucks (0.4.0) and Blazor (0.5.0), on one shared module,
+  `shared/theme-choice.ts` (Blazor in C#). The change callback also receives the choice where the framework allows it.
 - All 63 themes draw the line under `.theme-picker-option-system`.
 - The SvelteKit examples app has a `/color-picker` page, with `e2e/color-picker.spec.ts` and an axe check.
 

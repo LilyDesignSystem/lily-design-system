@@ -22,9 +22,13 @@
        the server-rendered markup correct before the circuit starts. *@
     <div class="@RootClass" data-variant="select" @attributes="AdditionalAttributes">
         <select class="theme-picker-select" name="@Name" aria-label="@Label" disabled="@Disabled" @onchange="OnSelectChangeAsync">
-            @foreach (var theme in Themes)
+            @foreach (var theme in Choices)
             {
-                <option class="theme-picker-option" value="@theme" selected="@(theme == Value)">@LabelFor(theme)</option>
+                <option class="@OptionClass(theme)" value="@theme" selected="@(theme == Value)">@LabelFor(theme)</option>
+                @if (theme == SystemTheme)
+                {
+                    <hr class="theme-picker-separator" />
+                }
             }
         </select>
     </div>
@@ -84,19 +88,21 @@ else
              Clamp="true"
              Typeahead="true"
              PageSize="10"
-             OptionCount="@Themes.Count"
+             OptionCount="@Choices.Count"
              OptionId="@OptionId"
-             OptionLabel="@(i => LabelFor(Themes[i]))"
+             OptionLabel="@(i => LabelFor(Choices[i]))"
              @bind-ActiveIndex="_activeIndex"
              hidden="@(!_open)"
              OnActivate="ChooseAsync"
              OnEscape="@(() => CloseList())"
              OnTabOut="@(() => CloseList(false))">
-        @for (var i = 0; i < Themes.Count; i++)
+        @* The "system" option carries its own class hook: a listbox may hold only options and groups, so the line
+           between it and the themes is the theme's CSS (a border on this option), not an element. *@
+        @for (var i = 0; i < Choices.Count; i++)
         {
             var index = i;
-            var theme = Themes[index];
-            <li class="theme-picker-option"
+            var theme = Choices[index];
+            <li class="@OptionClass(theme)"
                 id="@OptionId(index)"
                 role="option"
                 aria-selected="@(theme == Value ? "true" : "false")"
