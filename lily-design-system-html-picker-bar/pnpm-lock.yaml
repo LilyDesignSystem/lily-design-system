@@ -27,8 +27,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0
       '@lilydesignsystem/html-theme-picker':
-        specifier: ^0.3.0
-        version: 0.3.0
+        specifier: ^0.4.0
+        version: 0.4.0
       '@lilydesignsystem/html-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0
@@ -274,6 +274,10 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
+  '@lilydesignsystem/html-headless@0.10.0':
+    resolution: {integrity: sha512-Yi2fg9rMO4/zbrL7rY69yLXkeP7MsYFxht1Lf0ggSRpUUhf/3D09mZMbvdHIQexP7tneiaTb2vQPqcACPjXBTw==}
+    engines: {node: '>=26'}
+
   '@lilydesignsystem/html-headless@0.6.0':
     resolution: {integrity: sha512-LJumPCelgvYkmfM0o/FEpuK+g6m+ixmCbppU0l9o2A/jttL5OZY713qFk6aC63xWTTN3tAtpsl+383Umof4btw==}
     engines: {node: '=26'}
@@ -302,9 +306,9 @@ packages:
     resolution: {integrity: sha512-nPG4RLQoHJqY3+wirXwENd7wgV1XjvimMADOYv72Fib2YEb5Xn0jXL4o+2HDcafRWlg0luBgxUnBCFHxewkErQ==}
     engines: {node: '=26'}
 
-  '@lilydesignsystem/html-theme-picker@0.3.0':
-    resolution: {integrity: sha512-XBXL/b3KmR3sHfI+rsDpFOuu9oYr9oDrAUG9xHPF/kSC56vuic9dr5j9u1bXom6gr47gNotenEmMsNot2fo0Cw==}
-    engines: {node: '=26'}
+  '@lilydesignsystem/html-theme-picker@0.4.0':
+    resolution: {integrity: sha512-Le41PmhUSJTCEbBbDGNuYAUuTtoVg7kB0yF3uyoBLhSUGxar7ndCqu/OiK4dyc1JRb2osp/kJrBOCFoETHU2QA==}
+    engines: {node: '>=26'}
 
   '@lilydesignsystem/html-time-zone-picker@0.1.0':
     resolution: {integrity: sha512-nrw5VnpTIiPYM5na41dy8iApEehTblItUt58hiBysIkYiKxqxyhbYtk7ouEMd4dbe4Qc5d+yiwfkjz9KzoKhhw==}
@@ -1224,6 +1228,8 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
+  '@lilydesignsystem/html-headless@0.10.0': {}
+
   '@lilydesignsystem/html-headless@0.6.0': {}
 
   '@lilydesignsystem/html-headless@0.7.0': {}
@@ -1242,9 +1248,9 @@ snapshots:
     dependencies:
       '@lilydesignsystem/html-headless': 0.6.0
 
-  '@lilydesignsystem/html-theme-picker@0.3.0':
+  '@lilydesignsystem/html-theme-picker@0.4.0':
     dependencies:
-      '@lilydesignsystem/html-headless': 0.6.0
+      '@lilydesignsystem/html-headless': 0.10.0
 
   '@lilydesignsystem/html-time-zone-picker@0.1.0':
     dependencies:

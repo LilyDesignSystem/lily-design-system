@@ -1,6 +1,6 @@
 {
   "name": "@lilydesignsystem/svelte-picker-bar",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "engines": {
     "node": ">=26"
   },
@@ -33,7 +33,7 @@
     "@lilydesignsystem/svelte-search-picker": "^0.2.0",
     "@lilydesignsystem/svelte-share-picker": "^0.3.0",
     "@lilydesignsystem/svelte-text-size-picker": "^0.3.0",
-    "@lilydesignsystem/svelte-theme-picker": "^0.3.0",
+    "@lilydesignsystem/svelte-theme-picker": "^0.4.0",
     "@lilydesignsystem/svelte-time-zone-picker": "^0.2.0"
   },
   "peerDependencies": {

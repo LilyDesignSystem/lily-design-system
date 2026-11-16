@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.7.0 — 2026-11-16
+
+- Depends on theme-picker ^0.4.0: the theme picker in the bar now offers "Follow this device" (pass `systemLabel` through
+  the theme picker's props) and keeps the choice in both `localStorage` and a first-party cookie, under `lily-theme`,
+  written only when the choice changes. Pass an empty `storageKey` / `cookieName` through the theme picker's props to
+  turn a store off.
+
 ## 0.6.0 — 2026-11-14
 
 - Search is optional: without `labels.search` the bar renders no search picker (tasks.md P28-T7). A client-side app

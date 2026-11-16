@@ -27,8 +27,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@lilydesignsystem/react-theme-picker':
-        specifier: ^0.3.0
-        version: 0.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: ^0.4.0
+        version: 0.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       '@lilydesignsystem/react-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -321,6 +321,13 @@ packages:
       react: ^18.0.0 || ^19.0.0
       react-dom: ^18.0.0 || ^19.0.0
 
+  '@lilydesignsystem/react-headless@0.8.0':
+    resolution: {integrity: sha512-HvVdxa+e5z3c7LfO7rmlgfAcUImYHB7cHRXsJ+kr/OnuB1oHUNKKFR7+rgIn/BHTL2atXH4inpAN3o4sAnK82Q==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      react: ^18.0.0 || ^19.0.0
+      react-dom: ^18.0.0 || ^19.0.0
+
   '@lilydesignsystem/react-link-picker@0.2.0':
     resolution: {integrity: sha512-EuzIBqRgsTXVXHI3P0pahpwLYjznlbsnISEFgho9tThYYJa9OClfI9LBFB3GZJxIKCDA5RU0Z9EV6HDFuCTfrg==}
     engines: {node: '=26'}
@@ -356,9 +363,9 @@ packages:
       react: '>=18'
       react-dom: '>=18'
 
-  '@lilydesignsystem/react-theme-picker@0.3.0':
-    resolution: {integrity: sha512-G/5tQ786JSbQoFrro6NmJtXfTETw2XSp/Lh5ROTHYY+XQNA7HESQ9+JJwiCCqD1G7yyRahwepOTO/D6oTU3ycw==}
-    engines: {node: '=26'}
+  '@lilydesignsystem/react-theme-picker@0.4.0':
+    resolution: {integrity: sha512-aJ0fraKz0m3AOn0H9RBsklSowP+gxDwC9kfmXW3vUffZhanWqbpmeW5AFGEUZfeRYBC4uwKfHK0HnF99p7aoPw==}
+    engines: {node: '>=26'}
     peerDependencies:
       react: '>=18'
       react-dom: '>=18'
@@ -1403,6 +1410,11 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
+  '@lilydesignsystem/react-headless@0.8.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+    dependencies:
+      react: 19.3.1
+      react-dom: 19.3.1(react@19.3.1)
+
   '@lilydesignsystem/react-link-picker@0.2.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
       '@lilydesignsystem/react-headless': 0.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -1433,9 +1445,9 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@lilydesignsystem/react-theme-picker@0.3.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
+  '@lilydesignsystem/react-theme-picker@0.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)':
     dependencies:
-      '@lilydesignsystem/react-headless': 0.4.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+      '@lilydesignsystem/react-headless': 0.8.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 

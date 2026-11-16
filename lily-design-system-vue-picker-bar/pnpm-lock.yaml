@@ -27,8 +27,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-theme-picker':
-        specifier: ^0.3.0
-        version: 0.3.0(vue@3.5.44(typescript@5.9.3))
+        specifier: ^0.4.0
+        version: 0.4.0(vue@3.5.44(typescript@5.9.3))
       '@lilydesignsystem/vue-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0(vue@3.5.44(typescript@5.9.3))
@@ -159,6 +159,12 @@ packages:
     peerDependencies:
       vue: ^3.4.0
 
+  '@lilydesignsystem/vue-headless@0.8.0':
+    resolution: {integrity: sha512-JQhQkUtvuEuk0zKg9q9dK0MijzuRmOENMBUJxPRkQQTIFiMN2O2fNw5bDeYQn2bnhApgvCZV9JZjZmu+wdixDA==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      vue: ^3.4.0
+
   '@lilydesignsystem/vue-link-picker@0.2.0':
     resolution: {integrity: sha512-hL9dVU8q8QnNwFBjvTZoRkWNSUpO2WMjcwrkF4a+VCCRFL4hJkbaty37rOzekROt5NToN3PWERxz8uGVomaeeQ==}
     engines: {node: '=26'}
@@ -189,9 +195,9 @@ packages:
     peerDependencies:
       vue: ^3.0.0
 
-  '@lilydesignsystem/vue-theme-picker@0.3.0':
-    resolution: {integrity: sha512-dqi9UhhhE/o9A/hFmVyEahl3szLK7Fo5qsMA0q55v2ukLgiHOU3HfIlr/ryhSaXs3cFXd6upLxhyw9dg7hoz4Q==}
-    engines: {node: '=26'}
+  '@lilydesignsystem/vue-theme-picker@0.4.0':
+    resolution: {integrity: sha512-UO0RCUognDgjQVT5wdyk5EMb5JQ2L+0KL3tX0DzRC3istXb2X2JxfZgT1Kui18KaLgfObL4A2cXOTNFeRzDCDw==}
+    engines: {node: '>=26'}
     peerDependencies:
       vue: ^3.0.0
 
@@ -951,6 +957,11 @@ snapshots:
       aria-query: 5.3.2
       vue: 3.5.44(typescript@5.9.3)
 
+  '@lilydesignsystem/vue-headless@0.8.0(vue@3.5.44(typescript@5.9.3))':
+    dependencies:
+      aria-query: 5.3.2
+      vue: 3.5.44(typescript@5.9.3)
+
   '@lilydesignsystem/vue-link-picker@0.2.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
       '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
@@ -976,9 +987,9 @@ snapshots:
       '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
-  '@lilydesignsystem/vue-theme-picker@0.3.0(vue@3.5.44(typescript@5.9.3))':
+  '@lilydesignsystem/vue-theme-picker@0.4.0(vue@3.5.44(typescript@5.9.3))':
     dependencies:
-      '@lilydesignsystem/vue-headless': 0.4.0(vue@3.5.44(typescript@5.9.3))
+      '@lilydesignsystem/vue-headless': 0.8.0(vue@3.5.44(typescript@5.9.3))
       vue: 3.5.44(typescript@5.9.3)
 
   '@lilydesignsystem/vue-time-zone-picker@0.1.0(vue@3.5.44(typescript@5.9.3))':

@@ -27,8 +27,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@lilydesignsystem/angular-theme-picker':
-        specifier: ^0.3.0
-        version: 0.3.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
+        specifier: ^0.4.0
+        version: 0.4.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@lilydesignsystem/angular-time-zone-picker':
         specifier: ^0.1.0
         version: 0.1.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
@@ -617,6 +617,14 @@ packages:
       '@angular/core': '>=20.0.0 <23.0.0'
       rxjs: '>=7.0.0'
 
+  '@lilydesignsystem/angular-headless@0.9.0':
+    resolution: {integrity: sha512-F7ueqeqstzRbYnrBUOqw/Yd42/NsfP0GMQJiAzUQP7ztFhqAMs1G8nYnVw5StRv3L3ESJcdcQIkJ1gpKObRv2Q==}
+    engines: {node: '>=26'}
+    peerDependencies:
+      '@angular/common': '>=20.0.0 <23.0.0'
+      '@angular/core': '>=20.0.0 <23.0.0'
+      rxjs: '>=7.0.0'
+
   '@lilydesignsystem/angular-link-picker@0.2.0':
     resolution: {integrity: sha512-/uarf9p5eCJKsPeiC3MJ7DjvxBRBZ+Wcx9gYY7rOVh5w5oW45G++U/iE8RZGJ/QBtHQxi0EKr5PcxwGgLGH5bg==}
     engines: {node: '=26'}
@@ -652,9 +660,9 @@ packages:
       '@angular/common': '>=20.0.0 <23.0.0'
       '@angular/core': '>=20.0.0 <23.0.0'
 
-  '@lilydesignsystem/angular-theme-picker@0.3.0':
-    resolution: {integrity: sha512-5FiPEOzrkM/L+DyswLhA3xTc/DoYwvTaxZh/bzVjCe+5qaoMpAHmQVvKDgQVyciau1f7YAlsojlPUE6+UPnGjA==}
-    engines: {node: '=26'}
+  '@lilydesignsystem/angular-theme-picker@0.4.0':
+    resolution: {integrity: sha512-10if1lozZWALbCMVC18AjSsSXu5S1mS1UsYZaD8Y9oDDHZ3lZGKpNWa2MkO4TQj2UMK72cHDdBirPEoNsLUi5A==}
+    engines: {node: '>=26'}
     peerDependencies:
       '@angular/common': '>=20.0.0 <23.0.0'
       '@angular/core': '>=20.0.0 <23.0.0'
@@ -3220,6 +3228,13 @@ snapshots:
       rxjs: 7.8.2
       tslib: 2.9.1
 
+  '@lilydesignsystem/angular-headless@0.9.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/common': 22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
+      '@angular/core': 22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3)
+      rxjs: 7.8.2
+      tslib: 2.9.1
+
   '@lilydesignsystem/angular-link-picker@0.2.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)':
     dependencies:
       '@angular/common': 22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
@@ -3265,11 +3280,11 @@ snapshots:
     transitivePeerDependencies:
       - rxjs
 
-  '@lilydesignsystem/angular-theme-picker@0.3.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)':
+  '@lilydesignsystem/angular-theme-picker@0.4.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)':
     dependencies:
       '@angular/common': 22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/core': 22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3)
-      '@lilydesignsystem/angular-headless': 0.5.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
+      '@lilydesignsystem/angular-headless': 0.9.0(@angular/common@22.2.4(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@22.2.4(@angular/compiler@22.2.4)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       tslib: 2.9.1
     transitivePeerDependencies:
       - rxjs
