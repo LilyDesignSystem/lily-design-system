@@ -5,6 +5,18 @@ and the package follows [Semantic Versioning](https://semver.org/).
 The canonical monorepo history is in the root
 [CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).
 
+## 0.10.0 — 2026-11-16 (breaking)
+
+- Removed (breaking): the thirteen pickers and picker buttons the radio groups supersede — `color-picker` and
+  `emoji-character-picker` and the five rating and status pickers, each with its `-button`. Use the matching
+  `*-radio-group` with its `*-radio-input`.
+- Added: fourteen radio groups and inputs, each a `<fieldset role="radiogroup">` of native radios: `red-amber-green-`,
+  `red-orange-yellow-green-blue-`, `five-face-rating-`, `five-star-rating-`, `net-promoter-score-`, `color-` and
+  `emoji-character-radio-group`, each with its `-radio-input`.
+- Added: `international-patient-summary` and `international-patient-summary-section` (structure only: the root adds any
+  missing required section, in words; `idPrefix`).
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
+
 ## 0.9.0 — 2026-11-14
 
 - Added: the record lists, one per section of a patient's record, sharing one never-blank status contract (`known`, `none-known`, `not-recorded`, `unavailable`, `omitted`): `record-list`, `allergy-record-list`, `medication-record-list`, `problem-record-list`, `immunization-record-list`, `procedure-record-list` and `device-record-list`, each with its `-item`.

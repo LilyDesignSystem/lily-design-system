@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Release: headless with the radio groups and the patient summary — 2026-11-16
+
+- svelte, react, vue, nunjucks and Blazor headless 0.10.0, angular 0.11.0, html 0.12.0, web-components 0.11.0, alpine
+  0.2.0 (breaking): the radio groups that replace the pickers (catalog 630, then 632 with `international-patient-summary`
+  and its `-section`). The colour pickers 0.1.0 in all eight catalogs; Blazor theme-picker 0.5.0.
+
 ## Theme picker: follow this device, kept in a cookie — 2026-11-16
 
 - **Published 2026-11-16:** `@lilydesignsystem/{svelte,react,vue,angular,html,web-components,nunjucks}-theme-picker@0.4.0`
