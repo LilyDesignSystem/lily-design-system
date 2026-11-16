@@ -11,6 +11,8 @@ highlights.
 
 ## Theme picker: follow this device, kept in a cookie — 2026-11-16
 
+- **Published 2026-11-16:** `@lilydesignsystem/{svelte,react,vue,angular,html,web-components,nunjucks}-theme-picker@0.4.0`
+  on npm, from `f69de8d7b` (a clean `bin/ci --full` receipt). Blazor 0.5.0 (NuGet) is not published.
 - `@lilydesignsystem/svelte-theme-picker` 0.4.0: `systemLabel` adds a "Follow this device" option first, then Light and Dark;
   it follows `prefers-color-scheme` live. `cookieName` keeps the choice in a first-party cookie a server can read
   (`readThemeCookie`), for a first paint in the right theme. See [spec/theme-picker](spec/theme-picker/index.md).
