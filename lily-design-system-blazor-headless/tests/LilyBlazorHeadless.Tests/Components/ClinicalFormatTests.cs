@@ -54,8 +54,66 @@ public class ClinicalFormatTests
     }
 
     [Fact]
+    public void FormatQuantity_writes_the_approximate_comparator_as_almost_equal()
+    {
+        Assert.Equal("\u22483\u00a0kg", ClinicalFormat.FormatQuantity(3m, "kg", En, "~"));
+    }
+
+    [Fact]
     public void FormatQuantity_refuses_an_unknown_comparator()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatQuantity(5m, "mg", CultureInfo.GetCultureInfo("en-GB"), "~"));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatQuantity(5m, "mg", CultureInfo.GetCultureInfo("en-GB"), "=~"));
+    }
+
+    [Theory]
+    [InlineData("2019", "en-GB", "2019")]
+    [InlineData("2019-03", "en-GB", "March 2019")]
+    [InlineData("2019-03", "de-DE", "März 2019")]
+    [InlineData("2019-03-04", "en-GB", "4 March 2019")]
+    [InlineData("2019-03-14", "en-US", "March 14, 2019")]
+    [InlineData("2019-03-14", "de-DE", "14. März 2019")]
+    public void FormatPartialDate_writes_only_the_fields_the_record_has(string iso, string culture, string expected)
+    {
+        Assert.Equal(expected, ClinicalFormat.FormatPartialDate(iso, CultureInfo.GetCultureInfo(culture)));
+    }
+
+    [Theory]
+    [InlineData("19")]
+    [InlineData("2019-3")]
+    [InlineData("2019-13")]
+    [InlineData("2019-02-30")]
+    [InlineData("2019-03-14T10:00")]
+    public void FormatPartialDate_refuses_what_is_not_a_partial_date(string iso)
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatPartialDate(iso, En));
+    }
+
+    [Fact]
+    public void PartialDatePrecision_names_how_much_of_the_date_there_is()
+    {
+        Assert.Equal(DatePrecision.Year, ClinicalFormat.PartialDatePrecision("2019"));
+        Assert.Equal(DatePrecision.Month, ClinicalFormat.PartialDatePrecision("2019-03"));
+        Assert.Equal(DatePrecision.Day, ClinicalFormat.PartialDatePrecision("2019-03-14"));
+    }
+
+    [Fact]
+    public void FormatProportion_writes_each_kind()
+    {
+        Assert.Equal("1:128", ClinicalFormat.FormatProportion(1, 128, ProportionKind.Ratio, En));
+        Assert.Equal("0.5", ClinicalFormat.FormatProportion(0.5m, 1, ProportionKind.Unitary, En));
+        Assert.Equal("0,5", ClinicalFormat.FormatProportion(0.5m, 1, ProportionKind.Unitary, De));
+        Assert.Equal("45%", ClinicalFormat.FormatProportion(45, 100, ProportionKind.Percent, En));
+        Assert.Equal("1/2", ClinicalFormat.FormatProportion(1, 2, ProportionKind.Fraction, En));
+        Assert.Equal("2/4", ClinicalFormat.FormatProportion(2, 4, ProportionKind.Fraction, En));
+        Assert.Equal("1\u00a01/2", ClinicalFormat.FormatProportion(3, 2, ProportionKind.IntegerFraction, En));
+        Assert.Equal("2", ClinicalFormat.FormatProportion(4, 2, ProportionKind.IntegerFraction, En));
+    }
+
+    [Fact]
+    public void FormatProportion_refuses_a_denominator_the_kind_does_not_allow()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatProportion(1, 0, ProportionKind.Ratio, En));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatProportion(45, 10, ProportionKind.Percent, En));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatProportion(1.5m, 2, ProportionKind.Fraction, En));
     }
 }

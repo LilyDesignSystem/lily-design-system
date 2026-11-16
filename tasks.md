@@ -3622,18 +3622,18 @@ logic: no constraint validation, no score sums, no unit conversion.
       formats a year, a year and month, or a full date with only the fields given; `date-time-view` accepts a partial `datetime`;
       `date-field` takes `precision` (`day`, `month`, `year`) and omits the parts it does not ask for.
       Verify: tests for `2019`, `2019-03` and `2019-03-14` in two locales, and that no day or month is invented; `date-field`
-      tests in all nine catalogs for each precision; `bin/sync-shared-modules --check` passes.
+      tests in all nine catalogs for each precision; `bin/sync-shared-modules --check` passes. _(2026-11-16: `formatPartialDate` and `partialDatePrecision` done in the shared module and C#, month always a word, tests in two locales and against invented fields; the components remain.)_
 - [ ] **P29-T2 `not-applicable`.** A sixth status for the record lists and a status for `observation-view`, each requiring
       consumer words.
       Verify: tests in all nine catalogs that it renders its words and `data-status`; a missing label raises `warnMissingProp`.
-- [ ] **P29-T3 Approximate quantities.** `~` as a comparator in `formatQuantity` and the C# port, written `≈` before the number.
-      Verify: tests in both; dropping the sign makes them fail.
+- [x] **P29-T3 Approximate quantities.** `~` as a comparator in `formatQuantity` and the C# port, written `≈` before the number.
+      Verify: tests in both; dropping the sign makes them fail. _(2026-11-16: done. `QuantityComparator` gains `"~"`, written `≈`; tests in the shared module and C#; blanking the sign makes the test fail.)_
 - [ ] **P29-T4 `subjectLabel` on record items.** `record-list-item` and the six domain items render the consumer's words for
       whose record it is ("Mother", "Fetus 1") before the item's text, as a `-subject` part.
       Verify: tests in all nine catalogs; the guide states the rule that an entry about someone else always says so.
-- [ ] **P29-T5 `formatProportion`.** `formatProportion(numerator, denominator, kind, locale)` for ratio, unitary, percent, fraction
+- [x] **P29-T5 `formatProportion`.** `formatProportion(numerator, denominator, kind, locale)` for ratio, unitary, percent, fraction
       and integer fraction, in the shared module and C#.
-      Verify: tests for `1:128`, `1/2`, `1 1/2`, a percent and a unitary value, in two locales.
+      Verify: tests for `1:128`, `1/2`, `1 1/2`, a percent and a unitary value, in two locales. _(2026-11-16: done, with `ProportionKind`; nothing is reduced (2/4 stays 2/4); each kind refuses a denominator it does not allow. Exported from the Svelte, React, Vue and Angular indexes; `ClinicalFormat.FormatProportion` in C#.)_
 - [ ] **P29-T6 `duration-view`.** A `<time datetime>` holding an ISO 8601 duration, words from `Intl.DurationFormat` or the
       consumer, sharing its parser with `age-view`.
       Verify: built in all nine catalogs with tests, including a negative duration; `bin/check-built-english` passes.

@@ -8,6 +8,12 @@ public enum AgeUnit { Minutes, Hours, Days, Weeks, Months, Years }
 /// <summary>One part of an age.</summary>
 public record AgePart(int Value, AgeUnit Unit);
 
+/// <summary>How much of a date a partial ISO 8601 date holds.</summary>
+public enum DatePrecision { Year, Month, Day }
+
+/// <summary>openEHR PROPORTION_KIND: how a numerator and denominator are written.</summary>
+public enum ProportionKind { Ratio, Unitary, Percent, Fraction, IntegerFraction }
+
 /// <summary>
 /// Clinical display formatting (spec/healthcare-ui, P27-T1), the C# port of shared/clinical-format.ts. It decides how a
 /// value is written, never what it is: no unit conversion, rounding, scoring or default culture.
@@ -22,7 +28,7 @@ public static class ClinicalFormat
         ArgumentNullException.ThrowIfNull(culture);
         // "#,0.############################" keeps every significant digit and writes no trailing zero.
         var number = value.ToString("#,0.############################", culture);
-        // FHIR Quantity.comparator: a result of "<5" is not a result of "5", so it is never dropped.
+        // FHIR Quantity.comparator, plus openEHR's "~": "<5" is not "5", and "about 3 kg" is not "3 kg", so it is never dropped.
         var sign = comparator switch
         {
             null => "",
@@ -30,7 +36,8 @@ public static class ClinicalFormat
             "<=" => "\u2264",
             ">=" => "\u2265",
             ">" => ">",
-            _ => throw new ArgumentOutOfRangeException(nameof(comparator), comparator, "not a FHIR comparator"),
+            "~" => "\u2248",
+            _ => throw new ArgumentOutOfRangeException(nameof(comparator), comparator, "not a comparator"),
         };
         var written = sign + number;
         return string.IsNullOrEmpty(unit) ? written : $"{written}{NoBreakSpace}{unit}";
@@ -72,6 +79,92 @@ public static class ClinicalFormat
         var time = $"{(hours > 0 ? $"{hours}H" : "")}{(minutes > 0 ? $"{minutes}M" : "")}";
         if (date.Length == 0 && time.Length == 0) return "PT0M";
         return $"P{date}{(time.Length > 0 ? $"T{time}" : "")}";
+    }
+
+    private static (int Year, int? Month, int? Day) ParsePartialDate(string iso)
+    {
+        ArgumentNullException.ThrowIfNull(iso);
+        var match = System.Text.RegularExpressions.Regex.Match(iso, @"^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$");
+        if (!match.Success) throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a partial date (YYYY, YYYY-MM or YYYY-MM-DD)");
+        var year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
+        int? month = match.Groups[2].Success ? int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture) : null;
+        int? day = match.Groups[3].Success ? int.Parse(match.Groups[3].Value, CultureInfo.InvariantCulture) : null;
+        if (year < 1) throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a year");
+        if (month is < 1 or > 12) throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a month");
+        if (day is not null && (day < 1 || day > DateTime.DaysInMonth(year, month!.Value)))
+            throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a day of that month");
+        return (year, month, day);
+    }
+
+    /// <summary>How precise a partial date (YYYY, YYYY-MM or YYYY-MM-DD) is.</summary>
+    public static DatePrecision PartialDatePrecision(string iso)
+    {
+        var (_, month, day) = ParsePartialDate(iso);
+        return day is not null ? DatePrecision.Day : month is not null ? DatePrecision.Month : DatePrecision.Year;
+    }
+
+    /// <summary>
+    /// A partial date written with only the fields it has (openEHR DV_DATE partial forms, FHIR partial dates): a year, a month
+    /// and year, or a full date without the weekday. The month is always a word, never a number, and nothing is invented.
+    /// </summary>
+    public static string FormatPartialDate(string iso, CultureInfo culture, bool shortMonth = false)
+    {
+        ArgumentNullException.ThrowIfNull(culture);
+        var (year, month, day) = ParsePartialDate(iso);
+        var date = new DateTime(year, month ?? 1, day ?? 1, 0, 0, 0, DateTimeKind.Unspecified);
+        string pattern;
+        if (month is null) pattern = "yyyy";
+        else if (day is null) pattern = culture.DateTimeFormat.YearMonthPattern;
+        else
+        {
+            // The culture's long date, without the weekday the record does not state, and without a leading zero on the day.
+            pattern = System.Text.RegularExpressions.Regex.Replace(culture.DateTimeFormat.LongDatePattern, @"dddd[,.]?\s*", "");
+            pattern = System.Text.RegularExpressions.Regex.Replace(pattern, @"(?<!d)dd(?!d)", "d");
+        }
+        if (shortMonth) pattern = pattern.Replace("MMMM", "MMM");
+        return date.ToString(pattern, culture).Trim();
+    }
+
+    /// <summary>
+    /// A proportion written as its kind says: "1:128", a unitary value, a percent in the culture's form, "1/2" or "1 1/2".
+    /// Nothing is reduced: 2/4 stays 2/4.
+    /// </summary>
+    public static string FormatProportion(decimal numerator, decimal denominator, ProportionKind kind, CultureInfo culture)
+    {
+        ArgumentNullException.ThrowIfNull(culture);
+        string Number(decimal value) => value.ToString("#,0.############################", culture);
+        switch (kind)
+        {
+            case ProportionKind.Ratio:
+                if (denominator == 0) throw new ArgumentOutOfRangeException(nameof(denominator), "a ratio needs a denominator");
+                return $"{Number(numerator)}:{Number(denominator)}";
+            case ProportionKind.Unitary:
+                if (denominator != 1) throw new ArgumentOutOfRangeException(nameof(denominator), "a unitary proportion has denominator 1");
+                return Number(numerator);
+            case ProportionKind.Percent:
+            {
+                if (denominator != 100) throw new ArgumentOutOfRangeException(nameof(denominator), "a percent has denominator 100");
+                var format = (NumberFormatInfo)culture.NumberFormat.Clone();
+                var text = numerator.ToString(CultureInfo.InvariantCulture);
+                format.PercentDecimalDigits = text.Contains('.') ? text.Length - text.IndexOf('.') - 1 : 0;
+                return (numerator / 100m).ToString("P", format);
+            }
+            case ProportionKind.Fraction:
+            case ProportionKind.IntegerFraction:
+            {
+                if (decimal.Truncate(numerator) != numerator || decimal.Truncate(denominator) != denominator || denominator <= 0)
+                    throw new ArgumentOutOfRangeException(nameof(denominator), "a fraction needs a whole numerator and a positive whole denominator");
+                if (kind == ProportionKind.Fraction) return $"{Number(numerator)}/{Number(denominator)}";
+                var sign = numerator < 0 ? "-" : "";
+                var whole = decimal.Floor(Math.Abs(numerator) / denominator);
+                var rest = Math.Abs(numerator) % denominator;
+                if (rest == 0) return sign + Number(whole);
+                if (whole == 0) return $"{sign}{Number(rest)}/{Number(denominator)}";
+                return $"{sign}{Number(whole)}{NoBreakSpace}{Number(rest)}/{Number(denominator)}";
+            }
+            default:
+                throw new ArgumentOutOfRangeException(nameof(kind), kind, "not a proportion kind");
+        }
     }
 
     private static (int Years, int Months, int Days) CalendarDifference(DateTime birth, DateTime at)
