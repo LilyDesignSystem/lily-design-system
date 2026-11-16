@@ -14,6 +14,9 @@ highlights.
 - svelte, react, vue, nunjucks and Blazor headless 0.10.0, angular 0.11.0, html 0.12.0, web-components 0.11.0, alpine
   0.2.0 (breaking): the radio groups that replace the pickers (catalog 630, then 632 with `international-patient-summary`
   and its `-section`). The colour pickers 0.1.0 in all eight catalogs; Blazor theme-picker 0.5.0.
+- **Published 2026-11-16** from `7fb29d48b` (a clean `bin/ci --full` receipt): the eight npm headless libraries and the
+  seven npm colour pickers; Blazor headless 0.10.0, colour picker 0.1.0 and theme-picker 0.5.0 on NuGet, through the
+  publish workflow. `bin/verify-published`: all 171 helper versions are on their registries. The docs site is deployed.
 
 ## Theme picker: follow this device, kept in a cookie — 2026-11-16
 
