@@ -13,6 +13,9 @@ highlights.
 
 - **Published 2026-11-16:** `@lilydesignsystem/{svelte,react,vue,angular,html,web-components,nunjucks}-theme-picker@0.4.0`
   on npm, from `f69de8d7b` (a clean `bin/ci --full` receipt). Blazor 0.5.0 (NuGet) is not published.
+- **Published 2026-11-16:** `@lilydesignsystem/{svelte,react,vue,angular,html,web-components,nunjucks}-picker-bar@0.7.0`, on
+  theme-picker ^0.4.0, from `a6cb8fe87`. The example apps and the docs site now use theme-picker 0.4.0; the docs site's
+  Lily packages are on their latest releases (svelte-headless 0.9.0).
 - `@lilydesignsystem/svelte-theme-picker` 0.4.0: `systemLabel` adds a "Follow this device" option first, then Light and Dark;
   it follows `prefers-color-scheme` live. `cookieName` keeps the choice in a first-party cookie a server can read
   (`readThemeCookie`), for a first paint in the right theme. See [spec/theme-picker](spec/theme-picker/index.md).
