@@ -239,15 +239,23 @@ job_consumer_smoke() {
 
 shadcn_registry() {
     node bin/generate-registries --check
-    # Serve the registry from this checkout, so the job never reads the live site.
+    # Serve the registry from this checkout, so the job never reads the live site. A server already on the port (a
+    # run that died before its cleanup) would be read instead, so refuse to start rather than test a stale registry.
+    # SO_REUSEADDR, as http.server sets: a port left in TIME_WAIT is free, one with a listener is not.
+    if ! python3 -c 'import socket; s = socket.socket(); s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1); s.bind(("127.0.0.1", 8787))' 2>/dev/null; then
+        echo "port 8787 is already in use; stop that server first (lsof -nP -iTCP:8787)" >&2
+        return 1
+    fi
     (cd lilydesignsystem.github.io/static/r/react && exec python3 -m http.server 8787 --bind 127.0.0.1 >/dev/null 2>&1) &
     local server=$! i
-    trap 'kill "$server" 2>/dev/null' RETURN
+    # Stop the server however the step ends: on return, and on the exit `bash -e` takes when a command fails. Never let
+    # the cleanup itself fail the step.
+    trap 'kill "$server" 2>/dev/null || true' RETURN EXIT
     for i in $(seq 1 20); do curl -sf http://127.0.0.1:8787/registry.json >/dev/null && break; sleep 0.5; done
     curl -sf http://127.0.0.1:8787/scroller.json >/dev/null
     local app="$SCRATCH/lily-shadcn-app"
     rm -rf "$app"
-    (cd "$SCRATCH" && npx --yes create-next-app@16.4.3 lily-shadcn-app --ts --app --eslint --tailwind --src-dir \
+    (cd "$SCRATCH" && npx --yes create-next-app@16.4.6 lily-shadcn-app --ts --app --eslint --tailwind --src-dir \
         --import-alias "@/*" --use-npm --skip-install --yes)
     # create-next-app's own install trips newer npm's install-script policy (EALLOWSCRIPTS) and still exits 0.
     (cd "$app" && npm install --no-audit --no-fund)
