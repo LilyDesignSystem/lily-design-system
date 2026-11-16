@@ -809,7 +809,7 @@ describe("<lily-theme-picker> — custom rendering by subclass (§7.19)", () => 
             detail = (e as CustomEvent<{ theme: string }>).detail;
         });
         el.value = "dark";
-        expect(detail).toEqual({ theme: "dark" });
+        expect(detail).toEqual({ theme: "dark", choice: "dark" });
     });
 });
 

@@ -20,12 +20,26 @@
  */
 import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
 import { applyThemeColorWhenLoaded } from "./theme-color.js";
+import {
+    DEFAULT_SYSTEM_THEMES,
+    SYSTEM_THEME,
+    prefersDarkScheme,
+    readDocumentThemeCookie,
+    resolveTheme,
+    themeChoices,
+    watchColorScheme,
+    writeDocumentThemeCookie,
+    type SystemThemes,
+} from "./theme-choice.js";
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 /** Change-event detail dispatched on every applied theme. */
 export type ThemePickerChangeDetail = {
+    /** The theme applied. */
     theme: string;
+    /** The choice that applied it: the same slug, or `"system"` when it follows the device. */
+    choice: string;
 };
 
 /** Mirrors the observed attributes / properties for typing convenience. */
@@ -37,6 +51,12 @@ export type ThemePickerProps = {
     defaultValue?: string;
     storageKey?: string;
     detectFromSystem?: boolean;
+    /** A first option, value "system", that follows the device; its visible name, e.g. "Follow this device". */
+    systemLabel?: string;
+    /** The themes "system" applies. Attribute `system-themes="light,dark"`. */
+    systemThemes?: SystemThemes;
+    /** Keep the choice in a first-party cookie of this name. */
+    cookieName?: string;
     /** Also set <meta name="theme-color"> from the theme's --lily-brand once its stylesheet has loaded (off by default). */
     themeColor?: boolean;
     name?: string;
@@ -109,6 +129,9 @@ export class ThemePicker extends HTMLElement {
             "default-value",
             "storage-key",
             "detect-from-system",
+            "system-label",
+            "system-themes",
+            "cookie-name",
             "name",
             "extension",
             "theme-labels",
@@ -237,6 +260,45 @@ export class ThemePicker extends HTMLElement {
     set detectFromSystem(v: boolean) {
         if (v) this.setAttribute("detect-from-system", "");
         else this.removeAttribute("detect-from-system");
+    }
+
+    /**
+     * The visible name of a first option, value `"system"` (`SYSTEM_THEME`), that follows the device: it applies the
+     * light or dark theme of `system-themes` from `prefers-color-scheme`, and changes when the device does, for example
+     * "Follow this device". Without it there is no such option. No English default. Attribute `system-label`.
+     */
+    get systemLabel(): string {
+        return this.getAttribute("system-label") ?? "";
+    }
+    set systemLabel(v: string) {
+        if (v) this.setAttribute("system-label", v);
+        else this.removeAttribute("system-label");
+    }
+
+    /** The themes `"system"` applies. Attribute `system-themes="light,dark"`; default light and dark. */
+    get systemThemes(): SystemThemes {
+        const [light, dark] = parseCsv(this.getAttribute("system-themes") ?? "");
+        return light && dark ? { light, dark } : DEFAULT_SYSTEM_THEMES;
+    }
+    set systemThemes(v: SystemThemes) {
+        this.setAttribute("system-themes", `${v.light},${v.dark}`);
+    }
+
+    /**
+     * If set, keep the choice in a first-party cookie of this name (`Path=/`, `SameSite=Lax`, `Secure` on https,
+     * 400 days), so a server can read it and send the page in the right theme. Attribute `cookie-name`.
+     */
+    get cookieName(): string {
+        return this.getAttribute("cookie-name") ?? "";
+    }
+    set cookieName(v: string) {
+        if (v) this.setAttribute("cookie-name", v);
+        else this.removeAttribute("cookie-name");
+    }
+
+    /** The choices offered: "system" first when it has a label, then the themes. */
+    get #options(): string[] {
+        return themeChoices(this.#themes, this.systemLabel || undefined);
     }
 
     /**
@@ -407,6 +469,7 @@ export class ThemePicker extends HTMLElement {
 
     /** Resolve a slug to its display label. Public for subclasses. */
     labelFor(theme: string): string {
+        if (theme === SYSTEM_THEME && this.systemLabel) return this.systemLabel;
         if (theme in this.#themeLabels) return this.#themeLabels[theme];
         return themeName(theme);
     }
@@ -431,7 +494,7 @@ export class ThemePicker extends HTMLElement {
         }
         this.#render();
         document.addEventListener("click", this.#onDocumentClick);
-        if (this.value) this.#applyTheme(this.value);
+        if (this.value) this.#applyChoice(this.value);
     }
 
     attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
@@ -453,7 +516,13 @@ export class ThemePicker extends HTMLElement {
                 // the listbox is open would destroy focus and the active
                 // descendant. Only the state-carrying attributes change.
                 this.#syncState();
-                if (this.isConnected && value) this.#applyTheme(value);
+                if (this.isConnected && value) this.#applyChoice(value);
+                break;
+            case "system-label":
+                this.#render();
+                break;
+            case "system-themes":
+                if (this.isConnected && this.value === SYSTEM_THEME) this.#applyChoice(this.value);
                 break;
             case "label":
             case "name":
@@ -472,6 +541,8 @@ export class ThemePicker extends HTMLElement {
         this.#tooltip?.destroy();
         document.removeEventListener("click", this.#onDocumentClick);
         this.#listboxController?.destroy();
+        this.#stopWatchingScheme();
+        this.#keptValue = "";
         // Disconnecting can remove the managed <link> below, so forget what
         // was applied: a re-connected element must apply again.
         this.#appliedValue = "";
@@ -489,6 +560,10 @@ export class ThemePicker extends HTMLElement {
     #resolveInitialValue(): void {
         let initial = this.value;
 
+        if (!initial && this.cookieName) {
+            initial = readDocumentThemeCookie(this.cookieName, this.#options);
+        }
+
         if (!initial && this.storageKey) {
             try {
                 initial = localStorage.getItem(this.storageKey) ?? "";
@@ -502,9 +577,14 @@ export class ThemePicker extends HTMLElement {
         }
 
         if (!initial) {
+            // With a "system" option, following the device is the natural start.
             initial =
                 this.defaultValue ||
-                (this.#themes.includes("light") ? "light" : this.#themes[0]) ||
+                (this.systemLabel
+                    ? SYSTEM_THEME
+                    : this.#themes.includes("light")
+                      ? "light"
+                      : this.#themes[0]) ||
                 "";
         }
 
@@ -533,7 +613,44 @@ export class ThemePicker extends HTMLElement {
     // back onto the element re-enters apply forever.
     #appliedValue = "";
 
-    #applyTheme(slug: string): void {
+    // The device's colour scheme while "system" is chosen, and the function that stops watching it.
+    #prefersDark = false;
+    #stopWatchingScheme: () => void = () => {};
+
+    /** Apply a choice, follow the device while it is "system", and keep it. */
+    #applyChoice(choice: string): void {
+        if (typeof document === "undefined" || !choice) return;
+        this.#stopWatchingScheme();
+        this.#stopWatchingScheme = () => {};
+        if (choice === SYSTEM_THEME) {
+            this.#prefersDark = prefersDarkScheme();
+            this.#stopWatchingScheme = watchColorScheme((dark) => {
+                this.#prefersDark = dark;
+                this.#applyTheme(resolveTheme(SYSTEM_THEME, dark, this.systemThemes), SYSTEM_THEME);
+            });
+        }
+        this.#applyTheme(resolveTheme(choice, this.#prefersDark, this.systemThemes), choice);
+        this.#keepChoice(choice);
+    }
+
+    // The choice is kept, not the theme it applies: "system" stays "system", so the next visit follows the device
+    // again. Kept once per change of choice ("dark" to "system" on a dark device applies nothing new).
+    #keptValue = "";
+
+    #keepChoice(choice: string): void {
+        if (choice === this.#keptValue) return;
+        this.#keptValue = choice;
+        if (this.storageKey) {
+            try {
+                localStorage.setItem(this.storageKey, choice);
+            } catch {
+                /* ignore */
+            }
+        }
+        if (this.cookieName) writeDocumentThemeCookie(this.cookieName, choice);
+    }
+
+    #applyTheme(slug: string, choice: string): void {
         if (typeof document === "undefined" || !slug) return;
         if (slug === this.#appliedValue) return;
         this.#appliedValue = slug;
@@ -541,16 +658,9 @@ export class ThemePicker extends HTMLElement {
         link.href = themeHref(this.themesUrl, slug, this.extension);
         if (this.themeColor) applyThemeColorWhenLoaded(link);
         (this.#target ?? document.documentElement).setAttribute("data-theme", slug);
-        if (this.storageKey) {
-            try {
-                localStorage.setItem(this.storageKey, slug);
-            } catch {
-                /* ignore */
-            }
-        }
         this.dispatchEvent(
             new CustomEvent<ThemePickerChangeDetail>("themechange", {
-                detail: { theme: slug },
+                detail: { theme: slug, choice },
                 bubbles: true,
                 composed: true,
             }),
@@ -562,12 +672,12 @@ export class ThemePicker extends HTMLElement {
     /** Open the listbox. `startIndex` overrides the active option. */
     openList(startIndex?: number): void {
         if (this.disabled || !this.#listEl) return; // the select variant has no listbox
-        const selected = this.#themes.indexOf(this.value);
+        const selected = this.#options.indexOf(this.value);
         // An empty list has no option to activate; -1 keeps
         // aria-activedescendant off rather than pointing at an id that
         // does not exist.
         this.#activeIndex =
-            this.#themes.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
+            this.#options.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
         // Keep the controller's own cursor in sync so the next arrow key
         // moves from the right place. May no-op (same value already) —
         // harmless, since #syncState below is unconditional either way.
@@ -593,7 +703,7 @@ export class ThemePicker extends HTMLElement {
     }
 
     #choose(index: number): void {
-        const slug = this.#themes[index];
+        const slug = this.#options[index];
         if (slug) this.value = slug;
         this.closeList();
     }
@@ -614,7 +724,7 @@ export class ThemePicker extends HTMLElement {
                 break;
             case "ArrowUp":
                 event.preventDefault();
-                this.openList(this.#themes.length - 1);
+                this.openList(this.#options.length - 1);
                 break;
         }
     };
@@ -670,8 +780,9 @@ export class ThemePicker extends HTMLElement {
             }
         }
 
+        const options = this.#options;
         this.#optionEls.forEach((option, i) => {
-            option.setAttribute("aria-selected", String(this.#themes[i] === value));
+            option.setAttribute("aria-selected", String(options[i] === value));
             if (i === this.#activeIndex) option.setAttribute("data-active", "");
             else option.removeAttribute("data-active");
         });
@@ -765,10 +876,12 @@ export class ThemePicker extends HTMLElement {
             },
         });
 
+        // The "system" option carries its own class hook: a listbox may hold only options and groups, so the line
+        // between it and the themes is the theme's CSS (a border on this option), not an element.
         const optionEls: HTMLLIElement[] = [];
-        this.#themes.forEach((theme, i) => {
+        this.#options.forEach((theme, i) => {
             const option = document.createElement("li");
-            option.className = "theme-picker-option";
+            option.className = optionClass(theme);
             option.id = this.optionId(i);
             option.setAttribute("role", "option");
             option.setAttribute("aria-selected", String(theme === this.value));
@@ -804,14 +917,19 @@ export class ThemePicker extends HTMLElement {
         select.name = this.name;
         select.setAttribute("aria-label", this.label);
         select.disabled = this.disabled;
-        for (const theme of this.#themes) {
+        for (const theme of this.#options) {
             const option = document.createElement("option");
-            option.className = "theme-picker-option";
+            option.className = optionClass(theme);
             option.value = theme;
             option.selected = theme === this.value;
             if (option.selected) option.setAttribute("selected", "");
             option.textContent = this.labelFor(theme);
             select.appendChild(option);
+            if (theme === SYSTEM_THEME) {
+                const hr = document.createElement("hr");
+                hr.className = "theme-picker-separator";
+                select.appendChild(hr);
+            }
         }
         select.addEventListener("change", () => {
             this.value = select.value;
@@ -829,6 +947,13 @@ export class ThemePicker extends HTMLElement {
 }
 
 // ---- Pure helpers (module-local) ----
+
+/** The class list of one option: the "system" option also carries `theme-picker-option-system`. */
+function optionClass(theme: string): string {
+    return theme === SYSTEM_THEME
+        ? "theme-picker-option theme-picker-option-system"
+        : "theme-picker-option";
+}
 
 function parseCsv(s: string): string[] {
     return s

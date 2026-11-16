@@ -32,6 +32,20 @@ export {
     nextThemePickerId,
 };
 export type { ThemePickerProps, ThemePickerChangeDetail } from "./theme-picker.js";
+export {
+    SYSTEM_THEME,
+    DEFAULT_SYSTEM_THEMES,
+    THEME_COOKIE_MAX_AGE,
+    prefersDarkScheme,
+    watchColorScheme,
+    resolveTheme,
+    themeChoices,
+    readThemeCookie,
+    themeCookie,
+    readDocumentThemeCookie,
+    writeDocumentThemeCookie,
+} from "./theme-choice.js";
+export type { SystemThemes } from "./theme-choice.js";
 
 if (typeof customElements !== "undefined" && !customElements.get("lily-theme-picker")) {
     customElements.define("lily-theme-picker", ThemePicker);

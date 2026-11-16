@@ -761,3 +761,18 @@ listbox, tooltip or hidden input. Initial value resolution (§5.2) and applying 
 typeahead and the mobile picker are the platform's: the component adds no key handlers. Styling with
 `appearance: base-select` belongs in theme CSS behind `@supports (appearance: base-select)` (see the Svelte package's
 `docs/styling.md`). Tests: `theme-picker.test.ts`, 'variant="select"'.
+
+## Follow this device, kept in a cookie (2026-11-16)
+
+Ported from the Svelte reference ([spec §5.6 and §5.7](../../lily-design-system-svelte-theme-picker/spec/index.md#56-follow-this-device-2026-11-16)). Attributes: `system-label`, `system-themes="light,dark"` and `cookie-name` (properties `systemLabel`, `systemThemes`, `cookieName`); the `themechange` detail is `{ theme, choice }`.
+
+- With the system label set, the options are `"system"` (`SYSTEM_THEME`) first, then the themes; that option also carries
+  `theme-picker-option-system`, the hook the themes draw the line under. The select variant puts
+  `<hr class="theme-picker-separator">` after it.
+- While `"system"` is chosen the picker applies the light or dark theme from `prefers-color-scheme`, and follows the device
+  when it switches. With the label set and nothing kept, the picker starts there.
+- The change callback also receives the choice (`"system"` or the slug), so a controlled consumer keeps following the device.
+- With a cookie name, the choice (not the theme it applied) is kept in a first-party cookie: `Path=/`, `SameSite=Lax`,
+  `Secure` on https, 400 days. It is read before `localStorage`; a value that is not one of the choices is ignored.
+- The pure helpers are `theme-choice.ts`, copied from `shared/theme-choice.ts` by `bin/sync-shared-modules`: never edit
+  this copy. Tests: `theme-picker.system.test.ts`.

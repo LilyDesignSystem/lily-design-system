@@ -3011,6 +3011,7 @@
               "lily-design-system-html-theme-picker/theme-choice.test.ts",
               "lily-design-system-html-theme-picker/theme-color.test.ts",
               "lily-design-system-html-theme-picker/theme-picker.pattern.test.ts",
+              "lily-design-system-html-theme-picker/theme-picker.system.test.ts",
               "lily-design-system-html-theme-picker/theme-picker.test.ts"
             ],
             "keyEvent": "lily-design-system-html-theme-picker/theme-picker.pattern.test.ts",
@@ -3023,6 +3024,7 @@
               "lily-design-system-web-components-theme-picker/theme-choice.test.ts",
               "lily-design-system-web-components-theme-picker/theme-color.test.ts",
               "lily-design-system-web-components-theme-picker/theme-picker.pattern.test.ts",
+              "lily-design-system-web-components-theme-picker/theme-picker.system.test.ts",
               "lily-design-system-web-components-theme-picker/theme-picker.test.ts"
             ],
             "keyEvent": "lily-design-system-web-components-theme-picker/theme-picker.pattern.test.ts",

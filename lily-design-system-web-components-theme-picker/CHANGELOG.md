@@ -3,6 +3,13 @@
 The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.4.0 — 2026-11-16
+
+- "Follow this device" and the theme cookie, ported from the Svelte reference. Attributes: `system-label`, `system-themes="light,dark"` and `cookie-name` (properties `systemLabel`, `systemThemes`, `cookieName`); the `themechange` detail is `{ theme, choice }`.
+- The change callback also receives the choice, `"system"` or the slug.
+- New exports from `theme-choice.ts` (copied from `shared/`): `SYSTEM_THEME`, `resolveTheme`, `readThemeCookie`,
+  `themeCookie`, `THEME_COOKIE_MAX_AGE` and the rest.
+
 ## 0.3.3 — 2026-11-06
 
 - Depends on `web-components-headless` ^0.9.0.
