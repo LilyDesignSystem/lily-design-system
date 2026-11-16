@@ -19,7 +19,7 @@ highlights.
 - The same in React, Vue, Angular, HTML, Web Components and Nunjucks (0.4.0) and Blazor (0.5.0), on one shared module,
   `shared/theme-choice.ts` (Blazor in C#). The change callback also receives the choice where the framework allows it.
 - The choice is kept in both `localStorage` and the cookie by default, under `lily-{name}`, written only when it changes
-  (the seven npm catalogs; Blazor to follow).
+  (all eight catalogs; Blazor in 0.5.0).
 - All 63 themes draw the line under `.theme-picker-option-system`.
 - The SvelteKit examples app has a `/color-picker` page, with `e2e/color-picker.spec.ts` and an axe check.
 

@@ -71,7 +71,8 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
     /// <summary>Initial theme when nothing else is supplied.</summary>
     [Parameter] public string? DefaultValue { get; set; }
 
-    /// <summary>If set, persist the selection to <c>localStorage</c> under this key.</summary>
+    /// <summary>The <c>localStorage</c> key that keeps the choice. Default <c>lily-{Name}</c> (<c>lily-theme</c>);
+    /// <c>""</c> keeps nothing there. Written only when the choice changes, never on first load.</summary>
     [Parameter] public string? StorageKey { get; set; }
 
     /// <summary>Resolve <c>prefers-color-scheme</c> to a supported theme on
@@ -86,10 +87,15 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
     /// <summary>The themes the <c>"system"</c> option applies. Default light and dark.</summary>
     [Parameter] public ThemePickerSystemThemes SystemThemes { get; set; } = new("light", "dark");
 
-    /// <summary>If set, keep the choice in a first-party cookie of this name (<c>Path=/</c>, <c>SameSite=Lax</c>,
-    /// <c>Secure</c> on https, 400 days), so a server can read it (<see cref="ReadThemeCookie"/>) and send the page in
-    /// the right theme.</summary>
+    /// <summary>The first-party cookie that keeps the choice (<c>Path=/</c>, <c>SameSite=Lax</c>, <c>Secure</c> on
+    /// https, 400 days), so a server can read it (<see cref="ReadThemeCookie"/>) and send the page in the right theme.
+    /// Default <c>lily-{Name}</c> (<c>lily-theme</c>); <c>""</c> sets no cookie. Written only when the choice changes,
+    /// never on first load.</summary>
     [Parameter] public string? CookieName { get; set; }
+
+    // Both stores are on by default, under lily-{Name}; an empty string turns one off (null means the default).
+    private string StorageKeyOrDefault => StorageKey ?? $"lily-{Name}";
+    private string CookieNameOrDefault => CookieName ?? $"lily-{Name}";
 
     /// <summary>Also set <c>&lt;meta name="theme-color"&gt;</c> from the theme's
     /// <c>--lily-brand</c> once its stylesheet has loaded, so the browser chrome
@@ -327,6 +333,8 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
                     await ValueChanged.InvokeAsync(Value);
                     StateHasChanged();
                 }
+                // The starting choice is not written: nothing is stored until the choice changes.
+                _keptChoice = initial;
                 await ApplyThemeAsync(initial);
             }
         }
@@ -368,13 +376,13 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
         if (!string.IsNullOrEmpty(Value)) return Value;
 
         // The cookie, above storage; only a value that is one of the choices.
-        if (!string.IsNullOrEmpty(CookieName))
+        if (!string.IsNullOrEmpty(CookieNameOrDefault))
         {
             try
             {
                 var cookies = await JS.InvokeAsync<string?>(
                     "eval", "(function(){try{return document.cookie;}catch(e){return null;}})()");
-                var kept = ReadThemeCookie(cookies, CookieName!, Choices);
+                var kept = ReadThemeCookie(cookies, CookieNameOrDefault, Choices);
                 if (!string.IsNullOrEmpty(kept)) return kept;
             }
             catch
@@ -383,13 +391,13 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
             }
         }
 
-        if (!string.IsNullOrEmpty(StorageKey))
+        if (!string.IsNullOrEmpty(StorageKeyOrDefault))
         {
             try
             {
                 var stored = await JS.InvokeAsync<string?>(
                     "eval",
-                    $"(function(){{try{{return localStorage.getItem({JsonString(StorageKey!)});}}catch(e){{return null;}}}})()"
+                    $"(function(){{try{{return localStorage.getItem({JsonString(StorageKeyOrDefault)});}}catch(e){{return null;}}}})()"
                 );
                 if (!string.IsNullOrEmpty(stored)) return stored!;
             }
@@ -586,6 +594,9 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
         StateHasChanged();
     }
 
+    // The choice last kept in storage and the cookie (or the starting one, which is not written).
+    private string _keptChoice = "";
+
     // The device's colour scheme, once read, and whether its change listener is installed.
     private bool? _prefersDark;
     private bool _watching;
@@ -608,7 +619,11 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
             await UnwatchColorSchemeAsync();
         }
         var href = ThemeHref(ThemesUrl, theme, Extension);
-        var script = BuildApplyScript(Name, href, theme, StorageKey, ThemeColor, choice, CookieName);
+        // The choice is kept once per change of choice, never for the starting one.
+        var keep = choice != _keptChoice;
+        _keptChoice = choice;
+        var script = BuildApplyScript(Name, href, theme, keep ? StorageKeyOrDefault : null, ThemeColor, choice,
+            keep ? CookieNameOrDefault : null);
         try
         {
             await JS.InvokeVoidAsync("eval", script);

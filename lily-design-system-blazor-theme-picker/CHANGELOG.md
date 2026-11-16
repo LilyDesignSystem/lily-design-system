@@ -6,6 +6,9 @@ and the project follows [Semantic Versioning](https://semver.org/).
 
 ## 0.5.0 — 2026-11-16
 
+- **Behaviour change:** the choice is kept in both `localStorage` and the cookie by default, under `lily-{Name}`
+  (`lily-theme`); an empty `StorageKey` or `CookieName` turns one off. Neither is written on the first load, only when
+  the choice changes (before, `StorageKey` also wrote on every apply).
 - "Follow this device" and the theme cookie, ported from the Svelte reference. Parameters: `SystemLabel`, `SystemThemes`
   (`ThemePickerSystemThemes(Light, Dark)`) and `CookieName`. `Value` holds the choice (`"system"` or the slug) and
   `OnChange` the theme applied. While following, a `matchMedia` listener calls `OnColorSchemeChanged` (`[JSInvokable]`);

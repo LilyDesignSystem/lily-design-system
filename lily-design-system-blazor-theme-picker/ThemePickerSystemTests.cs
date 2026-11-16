@@ -150,11 +150,54 @@ public class ThemePickerSystemTests : TestContext
     {
         Device(true);
         var cut = Render(WithSystem(p => p.Add(x => x.CookieName, "theme")));
-        cut.WaitForAssertion(() => Assert.Contains("theme=system; Path=/; Max-Age=34560000; SameSite=Lax", Applied().Last()));
-        Assert.True(Sets(Applied().Last(), "dark"));
+        cut.WaitForAssertion(() => Assert.True(Sets(Applied().Last(), "dark")));
+        // The starting choice is not written: a first visit sets no cookie.
+        Assert.DoesNotContain("document.cookie", Applied().Last());
         Choose(cut, "Dark");
-        cut.WaitForAssertion(() => Assert.Contains("theme=dark; Path=/", Applied().Last()));
+        cut.WaitForAssertion(() => Assert.Contains("theme=dark; Path=/; Max-Age=34560000; SameSite=Lax", Applied().Last()));
         Assert.Contains("location.protocol==='https:'", Applied().Last());
+        Choose(cut, "Follow this device");
+        cut.WaitForAssertion(() => Assert.Contains("theme=system; Path=/", Applied().Last()));
+    }
+
+    [Fact(DisplayName = "§7.44 with no StorageKey or CookieName, a choice is kept in both, under lily-{Name}")]
+    public void KeptInBothByDefault()
+    {
+        var cut = Render();
+        cut.WaitForAssertion(() => Assert.True(Sets(Applied().Last(), "light")));
+        Choose(cut, "Abyss");
+        cut.WaitForAssertion(() => Assert.True(Sets(Applied().Last(), "abyss")));
+        Assert.Contains("localStorage.setItem(\"lily-theme\",\"abyss\")", Applied().Last());
+        Assert.Contains("lily-theme=abyss; Path=/", Applied().Last());
+
+        var brand = Render(p => p.Add(x => x.Name, "brand"));
+        Choose(brand, "Dark");
+        brand.WaitForAssertion(() => Assert.Contains("lily-brand=dark; Path=/", Applied().Last()));
+    }
+
+    [Fact(DisplayName = "§7.45 the first load stores nothing until the choice changes")]
+    public void FirstLoadStoresNothing()
+    {
+        Device(true);
+        var cut = Render(WithSystem());
+        cut.WaitForAssertion(() => Assert.True(Sets(Applied().Last(), "dark")));
+        Assert.All(Applied(), s => Assert.DoesNotContain("localStorage.setItem", s));
+        Assert.All(Applied(), s => Assert.DoesNotContain("document.cookie=", s));
+        // A device switch while following is not a new choice either.
+        cut.InvokeAsync(() => cut.Instance.OnColorSchemeChanged(false)).Wait();
+        Assert.True(Sets(Applied().Last(), "light"));
+        Assert.DoesNotContain("localStorage.setItem", Applied().Last());
+    }
+
+    [Fact(DisplayName = "§7.46 an empty string turns either store off")]
+    public void EmptyStringTurnsAStoreOff()
+    {
+        var cut = Render(p => p.Add(x => x.StorageKey, "").Add(x => x.CookieName, ""));
+        cut.WaitForAssertion(() => Assert.True(Sets(Applied().Last(), "light")));
+        Choose(cut, "Abyss");
+        cut.WaitForAssertion(() => Assert.True(Sets(Applied().Last(), "abyss")));
+        Assert.DoesNotContain("localStorage.setItem", Applied().Last());
+        Assert.DoesNotContain("document.cookie=", Applied().Last());
     }
 
     [Fact(DisplayName = "§7.41 the cookie sets the starting choice, above localStorage")]

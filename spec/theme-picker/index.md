@@ -147,8 +147,7 @@ The listbox reads **Follow this device**, a line, then **Light** and **Dark** (a
 - The pure helpers are one shared module, `shared/theme-choice.ts`, copied into the TypeScript catalogs by
   `bin/sync-shared-modules` (Nunjucks gets the `.js`); Blazor repeats them in C#.
 - Both stores are on by default (2026-11-16), under `lily-{name}` (`lily-theme`); an empty `storageKey` / `cookieName` turns
-  one off, and nothing is written on the first load, only when the choice changes. Done in the seven npm catalogs; Blazor
-  still defaults both off.
+  one off, and nothing is written on the first load, only when the choice changes. In all eight catalogs.
 - A server reads it with `readThemeCookie(header, name, allowed)` and sends `data-theme` and the `<link>` with the page; for
   `"system"` it links both themes by `media`. Recipe: the Svelte package's `examples/sveltekit-cookie/`.
 
