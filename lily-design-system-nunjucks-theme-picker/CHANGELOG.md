@@ -4,6 +4,13 @@ All notable changes to this helper are documented in this file. The
 format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
 and the project follows [Semantic Versioning](https://semver.org/).
 
+## 0.4.0 — 2026-11-16
+
+- "Follow this device" and the theme cookie, ported from the Svelte reference. Macro options: `systemLabel`, `systemThemes` and `cookieName`; the macro renders the `"system"` option and marks it selected when nothing else is given, and a server passes the cookie back as `value`. `onChange(theme, choice)`.
+- The change callback also receives the choice, `"system"` or the slug.
+- New exports from `theme-choice.ts` (copied from `shared/`): `SYSTEM_THEME`, `resolveTheme`, `readThemeCookie`,
+  `themeCookie`, `THEME_COOKIE_MAX_AGE` and the rest.
+
 ## 0.3.0 — 2026-10-16
 
 - Added macro params `open` and `disabled`, client option `onOpenChange`, a bubbling `openchange` event and the client methods `isOpen()`, `setOpen(next)` and `setDisabled(next)`, ported from the Svelte package's `open`, `onOpenChange` and `disabled` (spec "Open state and disabled"). A popup rendered open starts open (and is not reported); `setOpen` changes it from outside without moving focus; `disabled` disables the button and closes an open popup.

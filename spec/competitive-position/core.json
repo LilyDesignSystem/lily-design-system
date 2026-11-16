@@ -3035,6 +3035,7 @@
             "met": true,
             "testFiles": [
               "lily-design-system-nunjucks-theme-picker/theme-picker.pattern.test.ts",
+              "lily-design-system-nunjucks-theme-picker/theme-picker.system.test.ts",
               "lily-design-system-nunjucks-theme-picker/theme-picker.test.ts"
             ],
             "keyEvent": "lily-design-system-nunjucks-theme-picker/theme-picker.pattern.test.ts",

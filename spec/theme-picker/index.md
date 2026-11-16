@@ -168,7 +168,8 @@ catalogs follow. Contract: the Svelte package's [spec §5.6 and §5.7](../../lil
 - [x] Vue (0.4.0, `ThemePicker.system.test.ts`) (2026-11-16).
 - [x] Angular (0.4.0, `theme-picker.system.spec.ts`) (2026-11-16).
 - [x] HTML and Web Components (0.4.0, `theme-picker.system.test.ts`) (2026-11-16).
-- [ ] The same in Nunjucks and Blazor.
+- [x] Nunjucks (0.4.0, `theme-picker.system.test.ts`) (2026-11-16).
+- [ ] The same in Blazor.
 
 ## Related topics
 

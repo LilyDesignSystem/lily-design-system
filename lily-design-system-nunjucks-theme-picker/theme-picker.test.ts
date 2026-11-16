@@ -406,7 +406,7 @@ describe("ThemePicker — keyboard contract (APG listbox, §7.20–§7.24)", () 
         expect(button.getAttribute("aria-expanded")).toBe("false");
         expect(document.documentElement.dataset.theme).toBe("dark");
         expect(input.value).toBe("dark");
-        expect(onChange).toHaveBeenLastCalledWith("dark");
+        expect(onChange).toHaveBeenLastCalledWith("dark", "dark");
         expect(document.activeElement).toBe(button);
     });
 
@@ -757,7 +757,7 @@ describe("ThemePicker — client.js lifecycle (§7.7–§7.11, §7.13)", () => {
         expect(document.documentElement.dataset.theme).toBe("abyss");
         expect(getManagedLink()!.getAttribute("href")).toBe("/assets/themes/abyss.css");
         expect(input.value).toBe("abyss");
-        expect(onChange).toHaveBeenLastCalledWith("abyss");
+        expect(onChange).toHaveBeenLastCalledWith("abyss", "abyss");
     });
 
     test("§7.10 persists to localStorage and reads back on a fresh init", () => {
@@ -1274,7 +1274,7 @@ describe('themePicker — variant="select" (§select, RFC 3 prototype; ported fr
         expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
         expect(managed()?.getAttribute("href")).toBe("/assets/themes/abyss.css");
         expect(localStorage.getItem("lily-theme")).toBe("abyss");
-        expect(onChange.mock.calls).toEqual([["abyss"]]);
+        expect(onChange.mock.calls).toEqual([["abyss", "abyss"]]);
     });
 
     test("keyboard is the platform's; there is no popup; setTheme and setDisabled work", () => {

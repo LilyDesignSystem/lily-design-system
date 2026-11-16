@@ -29,6 +29,89 @@
 
 import { createListboxKeyboard } from "@lilydesignsystem/nunjucks-listbox-behavior";
 import { applyThemeColorWhenLoaded } from "./theme-color.js";
+import {
+    DEFAULT_SYSTEM_THEMES,
+    SYSTEM_THEME,
+    prefersDarkScheme,
+    readDocumentThemeCookie,
+    resolveTheme,
+    watchColorScheme,
+    writeDocumentThemeCookie,
+} from "./theme-choice.js";
+
+export {
+    SYSTEM_THEME,
+    DEFAULT_SYSTEM_THEMES,
+    THEME_COOKIE_MAX_AGE,
+    prefersDarkScheme,
+    watchColorScheme,
+    resolveTheme,
+    themeChoices,
+    readThemeCookie,
+    themeCookie,
+    readDocumentThemeCookie,
+    writeDocumentThemeCookie,
+} from "./theme-choice.js";
+
+/** The light and dark themes `"system"` applies, from `data-lily-theme-picker-system-themes="light,dark"`. */
+function systemThemesOf(root) {
+    const [light, dark] = (root.getAttribute("data-lily-theme-picker-system-themes") || "")
+        .split(",")
+        .map((s) => s.trim());
+    return light && dark ? { light, dark } : DEFAULT_SYSTEM_THEMES;
+}
+
+/**
+ * Applies a choice (§5.3, §5.6, §5.7), shared by both variants: the theme it resolves to goes on the managed
+ * <link> and `data-theme` once per change; the choice is kept in storage and the cookie once per change; while the
+ * choice is "system" the device's colour scheme is watched. `onChoice(choice)` updates the variant's own markup.
+ */
+function createChoiceApplier(root, opts, onChoice) {
+    const name = root.getAttribute("data-lily-theme-picker-name") || "theme";
+    const themesUrl = root.getAttribute("data-lily-theme-picker-themes-url") || "";
+    const extension = root.getAttribute("data-lily-theme-picker-extension") || ".css";
+    const storageKey = root.getAttribute("data-lily-theme-picker-storage-key") || "";
+    const cookieName = root.getAttribute("data-lily-theme-picker-cookie-name") || "";
+    const themeColor = root.getAttribute("data-lily-theme-picker-theme-color") === "true";
+    const systemThemes = systemThemesOf(root);
+    let appliedValue = "";
+    let choice = "";
+    let stopWatching = () => {};
+
+    function applyResolved(slug, from) {
+        if (!slug || slug === appliedValue) return;
+        appliedValue = slug;
+        const link = getManagedLink(name);
+        link.href = themeHref(themesUrl, slug, extension);
+        if (themeColor) applyThemeColorWhenLoaded(link);
+        (opts.target || document.documentElement).setAttribute("data-theme", slug);
+        if (typeof opts.onChange === "function") opts.onChange(slug, from);
+    }
+
+    function apply(next) {
+        if (!next) return;
+        if (next !== choice) {
+            choice = next;
+            stopWatching();
+            stopWatching = () => {};
+            if (next === SYSTEM_THEME) {
+                stopWatching = watchColorScheme((dark) =>
+                    applyResolved(resolveTheme(SYSTEM_THEME, dark, systemThemes), SYSTEM_THEME),
+                );
+            }
+            if (storageKey) safeStorageSet(storageKey, next);
+            if (cookieName) writeDocumentThemeCookie(cookieName, next);
+            onChoice(next);
+        }
+        applyResolved(resolveTheme(next, prefersDarkScheme(), systemThemes), next);
+    }
+
+    return {
+        apply,
+        cookieName,
+        destroy: () => stopWatching(),
+    };
+}
 
 /**
  * Resolve a theme slug to its display label: each hyphen-separated word
@@ -234,7 +317,7 @@ function wireTooltip(root, button, selector, popup) {
  * Wire one rendered ThemePicker root.
  *
  * @param {HTMLElement} root - The <div data-lily-theme-picker-root>.
- * @param {{onChange?: (slug:string)=>void, target?: HTMLElement|null}=} opts
+ * @param {{onChange?: (slug:string, choice:string)=>void, target?: HTMLElement|null}=} opts
  * @returns {{setTheme: (slug: string) => void, destroy: () => void}}
  */
 export function initThemePicker(root, opts = {}) {
@@ -252,14 +335,10 @@ export function initThemePicker(root, opts = {}) {
     const options = Array.from(list.querySelectorAll('[role="option"]'));
     const values = options.map((o) => o.getAttribute("data-value") || "");
 
-    const name = root.getAttribute("data-lily-theme-picker-name") || "theme";
-    const themesUrl = root.getAttribute("data-lily-theme-picker-themes-url") || "";
-    const extension = root.getAttribute("data-lily-theme-picker-extension") || ".css";
     const storageKey = root.getAttribute("data-lily-theme-picker-storage-key") || "";
     const defaultValue = root.getAttribute("data-lily-theme-picker-default-value") || "";
     const detectFromSystem =
         root.getAttribute("data-lily-theme-picker-detect-from-system") === "true";
-    const themeColor = root.getAttribute("data-lily-theme-picker-theme-color") === "true";
     // The consumer's `value` prop. The macro emits it as a data
     // attribute rather than baking it into a control the browser would
     // paint before hydration.
@@ -269,35 +348,23 @@ export function initThemePicker(root, opts = {}) {
     let open = !list.hidden && !button.disabled;
 
     // -----------------------------------------------------------------
-    // Applying a theme
+    // Applying a choice
     // -----------------------------------------------------------------
 
-    // The theme the DOM currently carries. Applying is idempotent: a
-    // theme already applied is a no-op, so `onChange` fires once per
-    // changed value. `setTheme` on the returned api is this same
-    // function, so without the guard a consumer that mirrors the value
-    // back from `onChange` re-enters it forever.
-    let appliedValue = "";
-
-    function applyTheme(slug) {
-        if (!slug) return;
-        if (slug === appliedValue) return;
-        appliedValue = slug;
-        current = slug;
-        const link = getManagedLink(name);
-        link.href = themeHref(themesUrl, slug, extension);
-        if (themeColor) applyThemeColorWhenLoaded(link);
-        const target = opts.target || document.documentElement;
-        target.setAttribute("data-theme", slug);
-        if (storageKey) safeStorageSet(storageKey, slug);
-        // The hidden input carries the value into any enclosing form.
-        if (input) input.value = slug;
-        // Keep the listbox's selected state in sync with the applied theme.
+    // Applying is idempotent: a theme already applied is a no-op, so
+    // `onChange` fires once per changed theme. `setTheme` on the returned
+    // api is this same function, so without the guard a consumer that
+    // mirrors the value back from `onChange` would re-enter it forever.
+    const chooser = createChoiceApplier(root, opts, (choice) => {
+        current = choice;
+        // The hidden input carries the choice into any enclosing form.
+        if (input) input.value = choice;
+        // Keep the listbox's selected state in sync with the choice.
         options.forEach((o, i) => {
-            o.setAttribute("aria-selected", values[i] === slug ? "true" : "false");
+            o.setAttribute("aria-selected", values[i] === choice ? "true" : "false");
         });
-        if (typeof opts.onChange === "function") opts.onChange(slug);
-    }
+    });
+    const applyTheme = (slug) => chooser.apply(slug);
 
     // -----------------------------------------------------------------
     // Open / close / active-option movement
@@ -445,6 +512,7 @@ export function initThemePicker(root, opts = {}) {
     const initial = resolveInitialTheme(root, {
         valueAttr,
         storageKey,
+        cookieName: chooser.cookieName,
         detectFromSystem,
         defaultValue,
         values,
@@ -473,6 +541,7 @@ export function initThemePicker(root, opts = {}) {
         },
         setTheme: applyTheme,
         destroy: () => {
+            chooser.destroy();
             tooltipDestroy();
             keyboard.destroy();
             button.removeEventListener("click", onButtonClick);
@@ -492,7 +561,7 @@ export function initThemePicker(root, opts = {}) {
  */
 function resolveInitialTheme(
     root,
-    { valueAttr, storageKey, detectFromSystem, defaultValue, values },
+    { valueAttr, storageKey, cookieName, detectFromSystem, defaultValue, values },
 ) {
     let initial = "";
 
@@ -511,6 +580,9 @@ function resolveInitialTheme(
         warnResolutionOrderChanged(root, valueAttr, storedValue);
     }
 
+    // 2a. the cookie, above storage; only a value that is one of the choices
+    if (!initial && cookieName) initial = readDocumentThemeCookie(cookieName, values);
+
     if (!initial) initial = storedValue;
 
     // 3. system colour-scheme preference
@@ -519,10 +591,13 @@ function resolveInitialTheme(
     // 4. default-value
     if (!initial && defaultValue) initial = defaultValue;
 
-    // 5. "light" if present
+    // 5. "system" when the picker offers it: following the device is the natural start
+    if (!initial && values.includes(SYSTEM_THEME)) initial = SYSTEM_THEME;
+
+    // 6. "light" if present
     if (!initial && values.includes("light")) initial = "light";
 
-    // 6. first option
+    // 7. first option
     if (!initial && values.length > 0) initial = values[0];
 
     return initial;
@@ -536,28 +611,15 @@ function resolveInitialTheme(
  *
  * @param {HTMLElement} root
  * @param {HTMLSelectElement} select
- * @param {{onChange?: (slug:string)=>void, target?: HTMLElement|null}} opts
+ * @param {{onChange?: (slug:string, choice:string)=>void, target?: HTMLElement|null}} opts
  */
 function initSelectVariant(root, select, opts) {
     const values = Array.from(select.options).map((o) => o.value);
-    const name = root.getAttribute("data-lily-theme-picker-name") || "theme";
-    const themesUrl = root.getAttribute("data-lily-theme-picker-themes-url") || "";
-    const extension = root.getAttribute("data-lily-theme-picker-extension") || ".css";
     const storageKey = root.getAttribute("data-lily-theme-picker-storage-key") || "";
-    const themeColor = root.getAttribute("data-lily-theme-picker-theme-color") === "true";
-    let appliedValue = "";
-
-    function applyTheme(slug) {
-        if (!slug || slug === appliedValue) return;
-        appliedValue = slug;
-        const link = getManagedLink(name);
-        link.href = themeHref(themesUrl, slug, extension);
-        if (themeColor) applyThemeColorWhenLoaded(link);
-        (opts.target || document.documentElement).setAttribute("data-theme", slug);
-        if (storageKey) safeStorageSet(storageKey, slug);
-        if (select.value !== slug) select.value = slug;
-        if (typeof opts.onChange === "function") opts.onChange(slug);
-    }
+    const chooser = createChoiceApplier(root, opts, (choice) => {
+        if (select.value !== choice) select.value = choice;
+    });
+    const applyTheme = (slug) => chooser.apply(slug);
 
     const onSelectChange = () => applyTheme(select.value);
     select.addEventListener("change", onSelectChange);
@@ -565,6 +627,7 @@ function initSelectVariant(root, select, opts) {
     const initial = resolveInitialTheme(root, {
         valueAttr: root.getAttribute("data-lily-theme-picker-value") || "",
         storageKey,
+        cookieName: chooser.cookieName,
         detectFromSystem: root.getAttribute("data-lily-theme-picker-detect-from-system") === "true",
         defaultValue: root.getAttribute("data-lily-theme-picker-default-value") || "",
         values,
@@ -578,7 +641,10 @@ function initSelectVariant(root, select, opts) {
             select.disabled = !!next;
         },
         setTheme: applyTheme,
-        destroy: () => select.removeEventListener("change", onSelectChange),
+        destroy: () => {
+            chooser.destroy();
+            select.removeEventListener("change", onSelectChange);
+        },
     };
 }
 
@@ -614,7 +680,7 @@ function warnResolutionOrderChanged(root, value, stored) {
 /**
  * Find every [data-lily-theme-picker-root] and wire it.
  *
- * @param {{onChange?: (slug:string)=>void, target?: HTMLElement|null}=} opts
+ * @param {{onChange?: (slug:string, choice:string)=>void, target?: HTMLElement|null}=} opts
  * @returns {Array<{setTheme: (slug:string)=>void, destroy: ()=>void}>}
  */
 export function autoInit(opts = {}) {

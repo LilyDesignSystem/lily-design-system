@@ -626,6 +626,13 @@ joel@joelparkerhenderson.com for other terms.
 
 `.theme-picker-tooltip` (`<div role="tooltip" id="{id}-tooltip" hidden>`) is rendered right after the icon button, holding the button's `label`. `theme-picker.client.js` shows it on pointer hover (button or tooltip) or keyboard focus (`:focus-visible`), hides it on `Escape` (focus stays) and never shows it while the popup is open. Not linked with `aria-describedby`. See `spec/index.md` (Tooltip).
 
+## Follow this device, kept in a cookie
+
+Macro options: `systemLabel`, `systemThemes` and `cookieName`; the macro renders the `"system"` option and marks it selected when nothing else is given, and a server passes the cookie back as `value`. `onChange(theme, choice)`. The list then reads **Follow this device**, a line, **Light**, **Dark**: while the first is chosen the page follows the
+device's light or dark setting, and switches when the device does. With a cookie name the choice is kept in a first-party
+cookie a server can read (`readThemeCookie`), so the page can be sent in the right theme with no flash. Contract:
+[spec/index.md](./spec/index.md).
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
