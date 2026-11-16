@@ -299,9 +299,9 @@ export { InformationCallout } from "./components/InformationCallout";
 export { Input } from "./components/Input";
 export { InputGroup } from "./components/InputGroup";
 export { InputWithMask } from "./components/InputWithMask";
+export { InsetText } from "./components/InsetText";
 export { InternationalPatientSummary } from "./components/InternationalPatientSummary";
 export { InternationalPatientSummarySection } from "./components/InternationalPatientSummarySection";
-export { InsetText } from "./components/InsetText";
 export { IranKodEMelliInput } from "./components/IranKodEMelliInput";
 export { IranKodEMelliView } from "./components/IranKodEMelliView";
 export { IslandKennitalaInput } from "./components/IslandKennitalaInput";
@@ -634,9 +634,6 @@ export { YisraelTeudatZehutInput } from "./components/YisraelTeudatZehutInput";
 export { YisraelTeudatZehutView } from "./components/YisraelTeudatZehutView";
 export { ZhongguoJuminShenfenzhengHaomaInput } from "./components/ZhongguoJuminShenfenzhengHaomaInput";
 export { ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView";
-export { QuantityComparator, AgeUnit, AgePart } from "./components/clinical-format";
-export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./components/ips-sections";
-export type { IpsContentsEntry, IpsSectionDefinition, IpsSectionEntry, IpsSectionLevel, IpsSectionStatus } from "./components/ips-sections";
 export { TruncationStrategy, TruncateMiddleOptions } from "./components/middle-truncation";
 export { OverflowNavigation } from "./components/overflow-navigation";
 export { SearchSegment } from "./components/search-text";
@@ -645,3 +642,6 @@ export { WheelOption, WheelMoveKey, WheelOrientation, WheelScrollWatch, WheelMov
 export { ToolbarOptions, SplitterOptions, TreeSelection, TreePopupOptions, MentionsOptions, CropRect, CropperOptions, GridOptions } from "./components/widget-keys";
 
 export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";
+export type { AgePart, AgeUnit, QuantityComparator } from "./components/clinical-format";
+export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./components/ips-sections";
+export type { IpsContentsEntry, IpsSectionDefinition, IpsSectionEntry, IpsSectionLevel, IpsSectionStatus } from "./components/ips-sections";
