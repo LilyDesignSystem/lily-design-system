@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./FileUpload";
 
@@ -83,5 +83,27 @@ describe("FileUpload", () => {
         const status = container.querySelector("[aria-live]")!;
         expect(status.getAttribute("data-file-count")).toBe("1");
         expect(status.textContent!.trim()).toBe("");
+    });
+
+    test("a drop zone takes dropped files into the same callback and count", () => {
+        const onInputChange = vi.fn();
+        const { container } = render(
+            <Subject
+                label="Upload"
+                dropZone
+                multiple
+                onInputChange={onInputChange}
+                selectedLabel={(n: number) => `${n} files`}
+            />,
+        );
+        const root = container.querySelector(".file-upload") as HTMLElement;
+        const file = new File(["x"], "scan.pdf", { type: "application/pdf" });
+        const dataTransfer = { types: ["Files"], files: [file] as unknown as FileList };
+        fireEvent.dragOver(root, { dataTransfer });
+        expect(root.hasAttribute("data-drag-over")).toBe(true);
+        fireEvent.drop(root, { dataTransfer });
+        expect(root.hasAttribute("data-drag-over")).toBe(false);
+        expect(onInputChange).toHaveBeenCalledWith(dataTransfer.files);
+        expect(root.querySelector("[data-file-count]")?.textContent).toBe("1 files");
     });
 });

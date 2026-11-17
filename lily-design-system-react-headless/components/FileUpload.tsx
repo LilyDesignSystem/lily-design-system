@@ -65,7 +65,17 @@ export interface FileUploadProps {
     onInputChange?: (files: FileList | null) => void;
     /** The status for a count of files; plural forms are the consumer's. */
     selectedLabel?: (count: number) => string;
+    /** The root also accepts dropped files, into the same callback and count; the button stays the keyboard path. */
+    dropZone?: boolean;
     [key: string]: unknown;
+}
+
+/** The files a drop carries: all of them with `multiple`, else the first. */
+function droppedFiles(files: FileList, multiple: boolean): FileList {
+    if (multiple || files.length <= 1 || typeof DataTransfer === "undefined") return files;
+    const one = new DataTransfer();
+    one.items.add(files[0]);
+    return one.files;
 }
 
 export default function FileUpload({
@@ -76,8 +86,10 @@ export default function FileUpload({
     disabled = false,
     onInputChange = undefined,
     selectedLabel = undefined,
+    dropZone = false,
     ...restProps
 }: FileUploadProps) {
+    const [dragOver, setDragOver] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const [fileCount, setFileCount] = useState(0);
 
@@ -100,6 +112,24 @@ export default function FileUpload({
     return (
         <div
             className={`file-upload ${className}`}
+            data-drop-zone={dropZone ? "" : undefined}
+            data-drag-over={dragOver ? "" : undefined}
+            onDragOver={(event) => {
+                if (!dropZone || disabled || !event.dataTransfer?.types.includes("Files")) return;
+                event.preventDefault();
+                setDragOver(true);
+            }}
+            onDragLeave={() => setDragOver(false)}
+            onDrop={(event) => {
+                if (!dropZone || disabled) return;
+                event.preventDefault();
+                setDragOver(false);
+                const files = event.dataTransfer?.files;
+                if (!files || files.length === 0) return;
+                const chosen = droppedFiles(files, multiple);
+                setFileCount(chosen.length);
+                onInputChange?.(chosen);
+            }}
             {...restProps}
         >
             <button

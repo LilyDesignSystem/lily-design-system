@@ -23,6 +23,16 @@
 
 import { applySelfClassName } from "../lib/dom-utils.js";
 
+/** The files a drop carries: all of them with `multiple`, else the first. */
+function droppedFiles(files: FileList, multiple: boolean): FileList {
+    if (multiple || files.length <= 1 || typeof DataTransfer === "undefined") return files;
+    const one = new DataTransfer();
+    one.items.add(files[0]);
+    return one.files;
+}
+
+// drop-zone: the element also accepts dropped files, into the same lily-change event and count, with data-drag-over while
+// a file is held over it; the button stays the keyboard path.
 export class FileUpload extends HTMLElement {
     #built = false;
     #input: HTMLInputElement | null = null;
@@ -61,6 +71,24 @@ export class FileUpload extends HTMLElement {
         this.appendChild(button);
         this.appendChild(input);
         this.appendChild(status);
+
+        if (this.hasAttribute("drop-zone")) {
+            this.addEventListener("dragover", (event) => {
+                if (this.hasAttribute("disabled") || !event.dataTransfer?.types.includes("Files"))
+                    return;
+                event.preventDefault();
+                this.setAttribute("data-drag-over", "");
+            });
+            this.addEventListener("dragleave", () => this.removeAttribute("data-drag-over"));
+            this.addEventListener("drop", (event) => {
+                if (this.hasAttribute("disabled")) return;
+                event.preventDefault();
+                this.removeAttribute("data-drag-over");
+                const files = event.dataTransfer?.files;
+                if (!files || files.length === 0) return;
+                this.#report(droppedFiles(files, this.hasAttribute("multiple")));
+            });
+        }
     }
 
     // The status for a count of files, in the consumer's words; plural forms are theirs. No English default.
@@ -71,8 +99,10 @@ export class FileUpload extends HTMLElement {
     };
 
     #onChange = (event: Event): void => {
-        const input = event.target as HTMLInputElement;
-        const files = input.files;
+        this.#report((event.target as HTMLInputElement).files);
+    };
+
+    #report(files: FileList | null): void {
         const count = files?.length ?? 0;
         this.#status!.setAttribute("data-file-count", String(count));
         this.#status!.textContent =
@@ -80,5 +110,5 @@ export class FileUpload extends HTMLElement {
         this.dispatchEvent(
             new CustomEvent("lily-change", { detail: { files }, bubbles: true, composed: true }),
         );
-    };
+    }
 }

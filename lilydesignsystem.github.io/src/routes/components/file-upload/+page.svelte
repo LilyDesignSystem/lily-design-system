@@ -97,6 +97,7 @@
       <li><code>disabled</code>: boolean (default: <code>false</code>) -- whether the button is disabled</li>
       <li><code>onchange</code>: function (default: <code>undefined</code>) -- callback receiving <code>FileList | null</code> when files are selected</li>
       <li><code>selectedLabel</code>: <code>(count: number) =&gt; string</code> (default: <code>undefined</code>) -- the live region's status for a count of files, in the consumer's words; plural forms are theirs. Without it the region stays empty: no English default</li>
+      <li><code>dropZone</code>: boolean (default false) -- the root also accepts dropped files, into the same callback and count, with <code>data-drop-zone</code> and, while a file is held over it, <code>data-drag-over</code>; dragging is never the only way, since the button still chooses files and the drop zone adds no tab stop (WCAG 2.5.7). Without <code>multiple</code> only the first dropped file is kept. Not in Blazor, which reads files only through <code>InputFile</code></li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the outer <code>&lt;div&gt;</code></li>
     </ul>
 </section>

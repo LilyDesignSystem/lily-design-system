@@ -35,7 +35,9 @@ highlights.
   draft and focus (P30-T5, P33-T4).
 - Fixed in the `data-grid` helper, all eight catalogs: the roving focus followed a row's position, so a sort, a filter or new
   rows left it on another record; it now follows the row's `rowId`. New `rowCountUnknown` sets `aria-rowcount="-1"`
-  (P31-T1). The healthcare guide takes the rules from the five reviews (P29-T11 and others).
+  (P31-T1).
+- `avatar-group` `overflowLabel` (P32-T1); `combobox` `resultCount` with `resultsLabel` and `noResultsLabel` (P34-T2); `file-upload`
+  `dropZone` (P34-T3); a `/patient-summary` section that cannot load, with a retry (P33-T3). The healthcare guide takes the rules from the five reviews (P29-T11 and others).
 
 ## Release: headless with the radio groups and the patient summary — 2026-11-16
 

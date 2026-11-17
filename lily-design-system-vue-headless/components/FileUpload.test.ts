@@ -1,5 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/vue";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./FileUpload.vue";
 
@@ -60,5 +60,26 @@ describe("FileUpload", () => {
         const status = container.querySelector("[aria-live]")!;
         expect(status.getAttribute("data-file-count")).toBe("1");
         expect(status.textContent!.trim()).toBe("");
+    });
+
+    test("a drop zone takes dropped files into the same callback and count", async () => {
+        const onchange = vi.fn();
+        const { container } = render(Subject, {
+            props: {
+                label: "Upload",
+                dropZone: true,
+                multiple: true,
+                onchange,
+                selectedLabel: (n: number) => `${n} files`,
+            },
+        });
+        const root = container.querySelector(".file-upload") as HTMLElement;
+        const file = new File(["x"], "scan.pdf", { type: "application/pdf" });
+        const dataTransfer = { types: ["Files"], files: [file] as unknown as FileList };
+        await fireEvent.dragOver(root, { dataTransfer });
+        expect(root.hasAttribute("data-drag-over")).toBe(true);
+        await fireEvent.drop(root, { dataTransfer });
+        expect(onchange).toHaveBeenCalledWith(dataTransfer.files);
+        expect(root.querySelector("[data-file-count]")?.textContent?.trim()).toBe("1 files");
     });
 });

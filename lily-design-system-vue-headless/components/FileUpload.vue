@@ -63,8 +63,11 @@ const props = withDefaults(
         onchange?: (files: FileList | null) => void;
         /** The status for a count of files, in the consumer's words; plural forms are theirs. No English default. */
         selectedLabel?: (count: number) => string;
+        /** The root also accepts dropped files, into the same callback and count; the button stays the keyboard path. */
+        dropZone?: boolean;
     }>(),
     {
+        dropZone: false,
         accept: undefined,
         multiple: false,
         disabled: false,
@@ -79,6 +82,33 @@ function handleClick() {
     inputRef.value?.click();
 }
 
+/** The files a drop carries: all of them with `multiple`, else the first. */
+function droppedFiles(files: FileList, multiple: boolean): FileList {
+    if (multiple || files.length <= 1 || typeof DataTransfer === "undefined") return files;
+    const one = new DataTransfer();
+    one.items.add(files[0]);
+    return one.files;
+}
+
+const dragOver = ref(false);
+
+function handleDragOver(event: DragEvent) {
+    if (!props.dropZone || props.disabled || !event.dataTransfer?.types.includes("Files")) return;
+    event.preventDefault();
+    dragOver.value = true;
+}
+
+function handleDrop(event: DragEvent) {
+    if (!props.dropZone || props.disabled) return;
+    event.preventDefault();
+    dragOver.value = false;
+    const files = event.dataTransfer?.files;
+    if (!files || files.length === 0) return;
+    const chosen = droppedFiles(files, props.multiple);
+    fileCount.value = chosen.length;
+    props.onchange?.(chosen);
+}
+
 function handleChange(event: Event) {
     const input = event.target as HTMLInputElement;
     fileCount.value = input.files?.length ?? 0;
@@ -88,7 +118,14 @@ function handleChange(event: Event) {
 
 <template>
     <!-- FileUpload.vue -->
-    <div class="file-upload">
+    <div
+        class="file-upload"
+        :data-drop-zone="dropZone ? '' : undefined"
+        :data-drag-over="dragOver ? '' : undefined"
+        @dragover="handleDragOver"
+        @dragleave="dragOver = false"
+        @drop="handleDrop"
+    >
         <button
             type="button"
             :aria-label="label"

@@ -3781,9 +3781,9 @@ From [spec/lessons/retool](spec/lessons/retool/index.md). Order: T2, then T1 and
 - [x] **P34-T2 Combobox empty state and count.** `noResultsLabel` (a non-selectable item when the list is empty) and
       `resultsLabel(count)` (a polite status) on `combobox`.
       Verify: tests in all nine catalogs; `bin/check-built-english` passes. _(2026-11-17: done in all nine catalogs: the consumer gives `resultCount` with `resultsLabel(count)` and `noResultsLabel`, shown in a polite `combobox-status` region after the listbox (never inside it, which holds only options) when typing pauses (`statusDelay`, default 500 ms; Blazor updates at once). Web Components takes `results-label="{n} matches"`; HTML, Nunjucks and Alpine document the pattern. Tests in Svelte, React, Vue, Angular, Web Components and Blazor; `bin/check-built-english` passes.)_
-- [ ] **P34-T3 `file-upload` drop zone.** `dropZone`: the root accepts dropped files into the same `onchange` and live count, with
+- [x] **P34-T3 `file-upload` drop zone.** `dropZone`: the root accepts dropped files into the same `onchange` and live count, with
       `data-drag-over`; no new tab stop.
-      Verify: tests in all nine catalogs with a dropped file, and that the button still selects files by keyboard.
+      Verify: tests in all nine catalogs with a dropped file, and that the button still selects files by keyboard. _(2026-11-17: done in Svelte, React, Vue, Angular and Web Components (`drop-zone`): dropped files reach the same callback and live count, `data-drag-over` while held, the first file only without `multiple`, and no new tab stop. HTML, Nunjucks and Alpine document it for the consumer's script; Blazor has none, since it reads files only through `InputFile` and uses no JS interop. Tests in the five.)_
 - [ ] **P34-T4 Multi-select listbox (maintainer decision).** `aria-multiselectable` on `listbox` with the APG keys.
       Verify: the decision is recorded in the topic; if built, key tests in all nine catalogs.
 - [x] **P34-T5 Guide patterns.** Formatted numbers while editing (and the decimal-comma caveat), units in `input-group` as part of

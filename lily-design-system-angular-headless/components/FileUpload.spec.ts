@@ -58,4 +58,33 @@ describe("FileUpload", () => {
         await fixture.whenStable();
         expect(fixture.nativeElement.querySelector("span").textContent).toBe("");
     });
+
+    test("a drop zone takes dropped files into the same output and count", () => {
+        const fixture = make({
+            label: "Upload",
+            dropZone: true,
+            multiple: true,
+            selectedLabel: (n: number) => `${n} files`,
+        });
+        const seen: unknown[] = [];
+        fixture.componentInstance.filesChange.subscribe((files) => seen.push(files));
+        const root = (fixture.nativeElement as HTMLElement).querySelector(
+            ".file-upload",
+        ) as HTMLElement;
+        const file = new File(["x"], "scan.pdf", { type: "application/pdf" });
+        const dataTransfer = { types: ["Files"], files: [file] };
+        const over = new Event("dragover", { cancelable: true }) as Event & {
+            dataTransfer: unknown;
+        };
+        over.dataTransfer = dataTransfer;
+        root.dispatchEvent(over);
+        fixture.detectChanges();
+        expect(root.hasAttribute("data-drag-over")).toBe(true);
+        const drop = new Event("drop", { cancelable: true }) as Event & { dataTransfer: unknown };
+        drop.dataTransfer = dataTransfer;
+        root.dispatchEvent(drop);
+        fixture.detectChanges();
+        expect(seen).toEqual([dataTransfer.files]);
+        expect(root.querySelector("[data-file-count]")?.textContent).toBe("1 files");
+    });
 });

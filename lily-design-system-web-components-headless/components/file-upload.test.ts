@@ -92,4 +92,29 @@ describe("FileUpload", () => {
 
         expect((host.querySelector("button") as HTMLButtonElement).disabled).toBe(true);
     });
+
+    test("a drop zone takes dropped files into the same event and count", () => {
+        document.body.innerHTML = `<lily-file-upload label="Upload" drop-zone multiple></lily-file-upload>`;
+        const host = document.querySelector("lily-file-upload") as HTMLElement & {
+            selectedLabel: (n: number) => string;
+        };
+        host.selectedLabel = (n) => `${n} files`;
+        const seen: unknown[] = [];
+        host.addEventListener("lily-change", (e) => seen.push((e as CustomEvent).detail.files));
+        const file = new File(["x"], "scan.pdf", { type: "application/pdf" });
+        const dataTransfer = { types: ["Files"], files: [file] };
+        const over = new Event("dragover", { bubbles: true, cancelable: true }) as Event & {
+            dataTransfer: unknown;
+        };
+        over.dataTransfer = dataTransfer;
+        host.dispatchEvent(over);
+        expect(host.hasAttribute("data-drag-over")).toBe(true);
+        const drop = new Event("drop", { bubbles: true, cancelable: true }) as Event & {
+            dataTransfer: unknown;
+        };
+        drop.dataTransfer = dataTransfer;
+        host.dispatchEvent(drop);
+        expect(seen).toEqual([dataTransfer.files]);
+        expect(host.querySelector("[data-file-count]")?.textContent).toBe("1 files");
+    });
 });
