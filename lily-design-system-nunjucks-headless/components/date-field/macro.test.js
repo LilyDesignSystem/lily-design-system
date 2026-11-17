@@ -92,4 +92,35 @@ describe("date-field", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("precision month asks for month and year only, filled from YYYY-MM", () => {
+        const { document } = render("date-field", {
+            label: "Onset",
+            monthLabel: "Month",
+            yearLabel: "Year",
+            precision: "month",
+            value: "2019-03",
+        });
+        expect(order(document)).toEqual(["date-field-year", "date-field-month"]);
+        expect(document.querySelector("fieldset").getAttribute("data-precision")).toBe("month");
+        expect(document.querySelector(".date-field-month").getAttribute("value")).toBe("03");
+    });
+
+    it("precision year asks for the year alone, and a full date does not fill it", () => {
+        let { document } = render("date-field", {
+            label: "Onset",
+            yearLabel: "Year",
+            precision: "year",
+            value: "2018",
+        });
+        expect(order(document)).toEqual(["date-field-year"]);
+        expect(document.querySelector(".date-field-year").getAttribute("value")).toBe("2018");
+        ({ document } = render("date-field", {
+            label: "Onset",
+            yearLabel: "Year",
+            precision: "year",
+            value: "2018-01-02",
+        }));
+        expect(document.querySelector(".date-field-year").getAttribute("value")).toBe("");
+    });
 });

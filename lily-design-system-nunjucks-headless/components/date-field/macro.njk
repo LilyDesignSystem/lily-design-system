@@ -11,10 +11,14 @@
   Params:
     label        string   The legend (required). `legend` is accepted too.
     dayLabel, monthLabel, yearLabel
-                 string   The three parts' labels (required; no default, the
-                          words are yours).
+                 string   The parts' labels (each required when its part is
+                          shown; no default, the words are yours).
     order        string   "ymd" (ISO 8601, default) | "dmy" | "mdy".
-    value        string   YYYY-MM-DD; fills the parts. Or give day, month, year.
+    precision    string   "day" (default) | "month" | "year". A month asks for
+                          month and year, a year for the year alone; nothing is
+                          invented (openEHR DV_DATE, FHIR partial dates).
+    value        string   YYYY-MM-DD, YYYY-MM or YYYY, by precision; fills the
+                          parts. Or give day, month, year.
     name         string   Base name: the parts are {name}-day, -month, -year,
                           so the form submits without script.
     autocomplete string   "bday" for a date of birth (bday-day, -month, -year).
@@ -36,16 +40,21 @@
 {%- set baseId = p.id | default('date-field') -%}
 {%- set legend = p.label | default(p.legend) -%}
 {%- set sequences = { ymd: ['year', 'month', 'day'], dmy: ['day', 'month', 'year'], mdy: ['month', 'day', 'year'] } -%}
-{%- set sequence = sequences[p.order] or sequences.ymd -%}
+{%- set precision = p.precision if p.precision in ['month', 'year'] else 'day' -%}
+{%- set shownParts = { day: ['year', 'month', 'day'], month: ['year', 'month'], year: ['year'] }[precision] -%}
+{%- set sequence = [] -%}
+{%- for part in (sequences[p.order] or sequences.ymd) %}{% if part in shownParts %}{% set sequence = sequence.concat([part]) %}{% endif %}{% endfor -%}
 {%- set m = (p.value | default('')) | string -%}
 {%- set pieces = m.split('-') if m else [] -%}
-{%- set values = { year: pieces[0] if pieces | length == 3 else p.year, month: pieces[1] if pieces | length == 3 else p.month, day: pieces[2] if pieces | length == 3 else p.day } -%}
+{%- set whole = pieces | length == shownParts | length -%}
+{%- set values = { year: pieces[0] if whole else p.year, month: pieces[1] if whole else p.month, day: pieces[2] if whole else p.day } -%}
 {%- set labels = { day: p.dayLabel, month: p.monthLabel, year: p.yearLabel } -%}
 {%- set describedBy = [] -%}
 {%- if p.description %}{% set describedBy = describedBy.concat([baseId ~ '-desc']) %}{% endif -%}
 {%- if p.error %}{% set describedBy = describedBy.concat([baseId ~ '-error']) %}{% endif -%}
 <fieldset
   class="date-field{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if precision != 'day' %} data-precision="{{ precision }}"{% endif %}
   {%- if describedBy | length %} aria-describedby="{{ describedBy | join(' ') }}"{% endif %}
   {%- if p.disabled %} disabled{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}

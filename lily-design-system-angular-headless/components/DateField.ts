@@ -13,7 +13,7 @@ import {
     signal,
     untracked,
 } from "@angular/core";
-import { warnMissingName } from "./dev-warning";
+import { warnMissingName, warnMissingProp } from "./dev-warning";
 
 let nextId = 0;
 
@@ -26,16 +26,28 @@ const SEQUENCES: Record<"ymd" | "dmy" | "mdy", Part[]> = {
     mdy: ["month", "day", "year"],
 };
 
-/** The parts of a YYYY-MM-DD value, or empty parts for anything else. */
-function split(v: string): Parts {
-    const m = /^(\d{1,4})-(\d{1,2})-(\d{1,2})$/.exec(v ?? "");
-    return m ? { year: m[1], month: m[2], day: m[3] } : { year: "", month: "", day: "" };
+type Precision = "day" | "month" | "year";
+
+/** The parts shown at each precision, in ISO order. */
+const PARTS: Record<Precision, Part[]> = {
+    day: ["year", "month", "day"],
+    month: ["year", "month"],
+    year: ["year"],
+};
+
+/** The parts of a value of this precision (YYYY-MM-DD, YYYY-MM or YYYY), or empty parts for anything else. */
+function split(v: string | null | undefined, shown: Part[]): Parts {
+    const m = /^(\d{1,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$/.exec(v ?? "");
+    const filled = m ? [m[1], m[2], m[3]].filter((x) => x !== undefined).length : 0;
+    if (!m || filled !== shown.length) return { year: "", month: "", day: "" };
+    return { year: m[1], month: m[2] ?? "", day: m[3] ?? "" };
 }
 
-/** YYYY-MM-DD when every part is a number, else "". The calendar check is the consumer's. */
-function join(p: Parts): string {
-    if (![p.year, p.month, p.day].every((x) => /^\d+$/.test(x))) return "";
-    return `${p.year.padStart(4, "0")}-${p.month.padStart(2, "0")}-${p.day.padStart(2, "0")}`;
+/** The value when every shown part is a number, else "". The calendar check is the consumer's. */
+function join(p: Parts, shown: Part[]): string {
+    if (!shown.every((part) => /^\d+$/.test(p[part]))) return "";
+    const iso = [p.year.padStart(4, "0"), p.month.padStart(2, "0"), p.day.padStart(2, "0")];
+    return iso.slice(0, shown.length).join("-");
 }
 
 /**
@@ -44,7 +56,9 @@ function join(p: Parts): string {
  * Headless Angular component: a date asked for as three parts, day, month and year, in a
  * `<fieldset>` named by its `<legend>`, in the consumer's `order` ("ymd", the ISO 8601 order,
  * by default), with a description and an error linked from the fieldset. `value` is
- * `YYYY-MM-DD` once all three parts are filled, else "". Every label is the consumer's.
+ * `YYYY-MM-DD` once all three parts are filled, else "". `precision` "month" or "year" asks for
+ * fewer parts, and the value is `YYYY-MM` or `YYYY`, never padded with an invented day or month.
+ * Every label is the consumer's.
  * Ships zero CSS.
  */
 @Component({
@@ -52,6 +66,7 @@ function join(p: Parts): string {
     standalone: true,
     template: `<fieldset
         class="date-field {{ className() }}"
+        [attr.data-precision]="precision() === 'day' ? null : precision()"
         [attr.aria-describedby]="describedBy()"
         [disabled]="disabled()"
     >
@@ -86,14 +101,16 @@ export class DateField implements OnInit {
 
     /** The legend, naming the whole date. */
     readonly label = input.required<string>();
-    /** The day part's label. */
-    readonly dayLabel = input.required<string>();
-    /** The month part's label. */
-    readonly monthLabel = input.required<string>();
+    /** The day part's label; required when precision is "day". */
+    readonly dayLabel = input<string>("");
+    /** The month part's label; required unless precision is "year". */
+    readonly monthLabel = input<string>("");
     /** The year part's label. */
     readonly yearLabel = input.required<string>();
     /** The order of the parts. Default "ymd" (ISO 8601). */
     readonly order = input<"ymd" | "dmy" | "mdy">("ymd");
+    /** How much of the date is asked for. Default "day". */
+    readonly precision = input<Precision>("day");
     /** YYYY-MM-DD once all three parts are filled, else "". Two-way. */
     readonly value = model<string>("");
     /** Base name: the parts are {name}-day, {name}-month, {name}-year. */
@@ -119,7 +136,10 @@ export class DateField implements OnInit {
                 .filter(Boolean)
                 .join(" ") || null,
     );
-    protected readonly sequence = computed(() => SEQUENCES[this.order()] ?? SEQUENCES.ymd);
+    protected readonly shown = computed(() => PARTS[this.precision()] ?? PARTS.day);
+    protected readonly sequence = computed(() =>
+        (SEQUENCES[this.order()] ?? SEQUENCES.ymd).filter((part) => this.shown().includes(part)),
+    );
     protected readonly labels = computed<Parts>(() => ({
         day: this.dayLabel(),
         month: this.monthLabel(),
@@ -132,7 +152,8 @@ export class DateField implements OnInit {
             // A value set from outside fills the parts; one the parts produced leaves them as typed.
             const value = this.value();
             untracked(() => {
-                if (value !== join(this.parts())) this.parts.set(split(value));
+                if (value !== join(this.parts(), this.shown()))
+                    this.parts.set(split(value, this.shown()));
             });
         });
         // A form reset blanks the parts in the DOM; put the model and the parts back to the first value.
@@ -147,7 +168,7 @@ export class DateField implements OnInit {
                 timer = setTimeout(() => {
                     if (event.defaultPrevented) return;
                     this.value.set(initial);
-                    this.parts.set(split(initial));
+                    this.parts.set(split(initial, this.shown()));
                 }, 0);
             };
             form.addEventListener("reset", onReset);
@@ -166,11 +187,25 @@ export class DateField implements OnInit {
             host.getAttribute("aria-label"),
             host.getAttribute("aria-labelledby"),
         );
+        if (this.shown().includes("day"))
+            warnMissingProp(
+                "DateField",
+                "dayLabel",
+                this.dayLabel(),
+                "the day part needs a label.",
+            );
+        if (this.shown().includes("month"))
+            warnMissingProp(
+                "DateField",
+                "monthLabel",
+                this.monthLabel(),
+                "the month part needs a label.",
+            );
     }
 
     protected update(part: Part, text: string): void {
         const next = { ...this.parts(), [part]: text };
         this.parts.set(next);
-        this.value.set(join(next));
+        this.value.set(join(next, this.shown()));
     }
 }

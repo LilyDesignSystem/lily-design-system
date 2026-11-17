@@ -88,4 +88,27 @@ public class DateFieldTests : TestContext
     [Fact]
     public void Autocomplete_bday_marks_the_parts() =>
         Assert.Equal("bday-month", Make(p => p.Add(x => x.Autocomplete, "bday")).Find(".date-field-month").GetAttribute("autocomplete"));
+
+    [Fact]
+    public void Precision_month_asks_for_month_and_year_only_with_no_invented_day()
+    {
+        string? value = null;
+        var cut = Make(p => p.Add(x => x.Precision, "month").Add(x => x.ValueChanged, v => value = v));
+        Assert.Equal(new[] { "date-field-year", "date-field-month" }, Parts(cut));
+        Assert.Equal("month", cut.Find("fieldset").GetAttribute("data-precision"));
+        cut.Find(".date-field-month").Input("3");
+        cut.Find(".date-field-year").Input("2019");
+        Assert.Equal("2019-03", value);
+    }
+
+    [Fact]
+    public void Precision_year_asks_for_the_year_alone_and_fills_from_a_year_value()
+    {
+        string? value = null;
+        var cut = Make(p => p.Add(x => x.Precision, "year").Add(x => x.Value, "2018").Add(x => x.ValueChanged, v => value = v));
+        Assert.Equal(new[] { "date-field-year" }, Parts(cut));
+        Assert.Equal("2018", cut.Find(".date-field-year").GetAttribute("value"));
+        cut.Find(".date-field-year").Input("2019");
+        Assert.Equal("2019", value);
+    }
 }

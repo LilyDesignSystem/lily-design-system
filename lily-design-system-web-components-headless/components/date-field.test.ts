@@ -90,4 +90,25 @@ describe("DateField", () => {
         expect((host.querySelector(".date-field-year") as HTMLInputElement).required).toBe(true);
         expect((host.querySelector("fieldset") as HTMLFieldSetElement).disabled).toBe(true);
     });
+
+    test("precision month asks for month and year only, with no invented day", () => {
+        const host = render(
+            `<lily-date-field label="Onset" month-label="Month" year-label="Year" precision="month"></lily-date-field>`,
+        ) as DateField;
+        expect(order(host)).toEqual(["date-field-year", "date-field-month"]);
+        expect(host.querySelector("fieldset")!.getAttribute("data-precision")).toBe("month");
+        type(host.querySelector(".date-field-month")!, "3");
+        type(host.querySelector(".date-field-year")!, "2019");
+        expect(host.value).toBe("2019-03");
+    });
+
+    test("precision year asks for the year alone, and fills from a year value", () => {
+        const host = render(
+            `<lily-date-field label="Onset" year-label="Year" precision="year" value="2018"></lily-date-field>`,
+        ) as DateField;
+        expect(order(host)).toEqual(["date-field-year"]);
+        expect((host.querySelector(".date-field-year") as HTMLInputElement).value).toBe("2018");
+        type(host.querySelector(".date-field-year")!, "2019");
+        expect(host.value).toBe("2019");
+    });
 });

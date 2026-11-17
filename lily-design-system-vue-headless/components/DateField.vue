@@ -8,8 +8,10 @@
 //
 // Props:
 //   label — string, required. The legend, naming the whole date.
-//   dayLabel, monthLabel, yearLabel — string, required. The three parts' labels.
+//   dayLabel, monthLabel, yearLabel — string. The parts' labels; each is required when its part is shown.
 //   order — "ymd" | "dmy" | "mdy", default "ymd" (ISO 8601). The order of the parts.
+//   precision — "day" | "month" | "year", default "day". A month asks for month and year, a year for the year alone;
+//     the value is YYYY-MM or YYYY, never padded with an invented day or month (openEHR DV_DATE, FHIR partial dates).
 //   v-model — string, default "". YYYY-MM-DD once all three parts are filled, else "".
 //     A new value fills the parts.
 //   name — string, optional. Base name: the parts are {name}-day, -month, -year.
@@ -40,7 +42,7 @@
 //   - WAI Forms Tutorial, grouping controls: https://www.w3.org/WAI/tutorials/forms/grouping/
 
 import { computed, onBeforeUnmount, onMounted, ref, useAttrs, useId, watch } from "vue";
-import { warnMissingName } from "./dev-warning";
+import { warnMissingName, warnMissingProp } from "./dev-warning";
 
 type Part = "day" | "month" | "year";
 type Parts = Record<Part, string>;
@@ -49,14 +51,16 @@ const props = withDefaults(
     defineProps<{
         /** The legend, naming the whole date. */
         label: string;
-        /** The day part's label. */
-        dayLabel: string;
-        /** The month part's label. */
-        monthLabel: string;
+        /** The day part's label; required when precision is "day". */
+        dayLabel?: string;
+        /** The month part's label; required unless precision is "year". */
+        monthLabel?: string;
         /** The year part's label. */
         yearLabel: string;
         /** The order of the parts. Default "ymd" (ISO 8601). */
         order?: "ymd" | "dmy" | "mdy";
+        /** How much of the date is asked for. Default "day". */
+        precision?: "day" | "month" | "year";
         /** Base name: the parts are {name}-day, {name}-month, {name}-year. */
         name?: string;
         /** "bday" for a date of birth. */
@@ -73,7 +77,10 @@ const props = withDefaults(
         id?: string;
     }>(),
     {
+        dayLabel: undefined,
+        monthLabel: undefined,
         order: "ymd",
+        precision: "day",
         name: undefined,
         autocomplete: undefined,
         description: undefined,
@@ -93,17 +100,35 @@ const SEQUENCES: Record<"ymd" | "dmy" | "mdy", Part[]> = {
     mdy: ["month", "day", "year"],
 };
 
-/** The parts of a YYYY-MM-DD value, or empty parts for anything else. */
-function split(v: string): Parts {
-    const m = /^(\d{1,4})-(\d{1,2})-(\d{1,2})$/.exec(v ?? "");
-    return m ? { year: m[1], month: m[2], day: m[3] } : { year: "", month: "", day: "" };
+type Precision = "day" | "month" | "year";
+
+/** The parts shown at each precision, in ISO order. */
+const PARTS: Record<Precision, Part[]> = {
+    day: ["year", "month", "day"],
+    month: ["year", "month"],
+    year: ["year"],
+};
+
+/** The parts of a value of this precision (YYYY-MM-DD, YYYY-MM or YYYY), or empty parts for anything else. */
+function split(v: string | null | undefined, shown: Part[]): Parts {
+    const m = /^(\d{1,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$/.exec(v ?? "");
+    const filled = m ? [m[1], m[2], m[3]].filter((x) => x !== undefined).length : 0;
+    if (!m || filled !== shown.length) return { year: "", month: "", day: "" };
+    return { year: m[1], month: m[2] ?? "", day: m[3] ?? "" };
 }
 
-/** YYYY-MM-DD when every part is a number, else "". The calendar check is the consumer's. */
-function join(p: Parts): string {
-    if (![p.year, p.month, p.day].every((x) => /^\d+$/.test(x))) return "";
-    return `${p.year.padStart(4, "0")}-${p.month.padStart(2, "0")}-${p.day.padStart(2, "0")}`;
+/** The value when every shown part is a number, else "". The calendar check is the consumer's. */
+function join(p: Parts, shown: Part[]): string {
+    if (!shown.every((part) => /^\d+$/.test(p[part]))) return "";
+    const iso = [p.year.padStart(4, "0"), p.month.padStart(2, "0"), p.day.padStart(2, "0")];
+    return iso.slice(0, shown.length).join("-");
 }
+
+const shownParts = computed(() => PARTS[props.precision] ?? PARTS.day);
+if (shownParts.value.includes("day"))
+    warnMissingProp("DateField", "dayLabel", props.dayLabel, "the day part needs a label.");
+if (shownParts.value.includes("month"))
+    warnMissingProp("DateField", "monthLabel", props.monthLabel, "the month part needs a label.");
 
 const generatedId = `date-field-${useId()}`;
 const baseId = computed(() => props.id ?? generatedId);
@@ -116,21 +141,23 @@ const describedBy = computed(
             .join(" ") || undefined,
 );
 const labels = computed<Parts>(() => ({
-    day: props.dayLabel,
-    month: props.monthLabel,
+    day: props.dayLabel ?? "",
+    month: props.monthLabel ?? "",
     year: props.yearLabel,
 }));
-const sequence = computed(() => SEQUENCES[props.order] ?? SEQUENCES.ymd);
+const sequence = computed(() =>
+    (SEQUENCES[props.order] ?? SEQUENCES.ymd).filter((part) => shownParts.value.includes(part)),
+);
 
-const parts = ref<Parts>(split(modelValue.value));
+const parts = ref<Parts>(split(modelValue.value, shownParts.value));
 watch(modelValue, (value) => {
     // A value set from outside fills the parts; one the parts produced leaves them as typed.
-    if (value !== join(parts.value)) parts.value = split(value);
+    if (value !== join(parts.value, shownParts.value)) parts.value = split(value, shownParts.value);
 });
 
 function update(part: Part, text: string) {
     parts.value = { ...parts.value, [part]: text };
-    modelValue.value = join(parts.value);
+    modelValue.value = join(parts.value, shownParts.value);
 }
 
 // A form reset blanks the parts in the DOM; put the model and the parts back to the first value.
@@ -143,7 +170,7 @@ function onReset(event: Event) {
     timer = setTimeout(() => {
         if (event.defaultPrevented) return;
         modelValue.value = initial;
-        parts.value = split(initial);
+        parts.value = split(initial, shownParts.value);
     }, 0);
 }
 onMounted(() => {
@@ -161,6 +188,7 @@ onBeforeUnmount(() => {
     <fieldset
         ref="root"
         class="date-field"
+        :data-precision="precision === 'day' ? undefined : precision"
         :aria-describedby="describedBy"
         :disabled="disabled"
     >

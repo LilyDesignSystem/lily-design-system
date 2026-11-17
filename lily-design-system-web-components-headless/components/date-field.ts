@@ -7,8 +7,10 @@
 //
 // Attributes:
 //   label — REQUIRED. The legend, naming the whole date.
-//   day-label, month-label, year-label — REQUIRED. The three parts' labels.
+//   day-label, month-label, year-label — each REQUIRED when its part is shown. The parts' labels.
 //   order — "ymd" (ISO 8601, default) | "dmy" | "mdy". The order of the parts.
+//   precision — "day" (default) | "month" | "year". A month asks for month and year, a year for the year alone;
+//     the value is YYYY-MM or YYYY, never padded with an invented day or month (openEHR DV_DATE, FHIR partial dates).
 //   value — YYYY-MM-DD once all three parts are filled, else ""; also a live `value`
 //     property. A new value fills the parts; "input" and "change" bubble from the parts.
 //   name — optional base name: the parts are {name}-day, -month, -year.
@@ -32,16 +34,28 @@ const SEQUENCES: Record<string, Part[]> = {
     mdy: ["month", "day", "year"],
 };
 
-/** The parts of a YYYY-MM-DD value, or empty parts for anything else. */
-function split(v: string | null): Parts {
-    const m = /^(\d{1,4})-(\d{1,2})-(\d{1,2})$/.exec(v ?? "");
-    return m ? { year: m[1], month: m[2], day: m[3] } : { year: "", month: "", day: "" };
+type Precision = "day" | "month" | "year";
+
+/** The parts shown at each precision, in ISO order. */
+const PARTS: Record<Precision, Part[]> = {
+    day: ["year", "month", "day"],
+    month: ["year", "month"],
+    year: ["year"],
+};
+
+/** The parts of a value of this precision (YYYY-MM-DD, YYYY-MM or YYYY), or empty parts for anything else. */
+function split(v: string | null | undefined, shown: Part[]): Parts {
+    const m = /^(\d{1,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$/.exec(v ?? "");
+    const filled = m ? [m[1], m[2], m[3]].filter((x) => x !== undefined).length : 0;
+    if (!m || filled !== shown.length) return { year: "", month: "", day: "" };
+    return { year: m[1], month: m[2] ?? "", day: m[3] ?? "" };
 }
 
-/** YYYY-MM-DD when every part is a number, else "". The calendar check is the consumer's. */
-function join(p: Parts): string {
-    if (![p.year, p.month, p.day].every((x) => /^\d+$/.test(x))) return "";
-    return `${p.year.padStart(4, "0")}-${p.month.padStart(2, "0")}-${p.day.padStart(2, "0")}`;
+/** The value when every shown part is a number, else "". The calendar check is the consumer's. */
+function join(p: Parts, shown: Part[]): string {
+    if (!shown.every((part) => /^\d+$/.test(p[part]))) return "";
+    const iso = [p.year.padStart(4, "0"), p.month.padStart(2, "0"), p.day.padStart(2, "0")];
+    return iso.slice(0, shown.length).join("-");
 }
 
 const HANDLED = new Set([
@@ -50,6 +64,7 @@ const HANDLED = new Set([
     "month-label",
     "year-label",
     "order",
+    "precision",
     "value",
     "name",
     "autocomplete",
@@ -109,7 +124,7 @@ export class DateField extends HTMLElement {
         this.#inputs = inputs;
         this.appendChild(fieldset);
 
-        const parts = split(this.getAttribute("value"));
+        const parts = split(this.getAttribute("value"), this.#shown());
         for (const part of ["year", "month", "day"] as Part[]) {
             // defaultValue too: a form reset restores an input to its default.
             inputs[part].defaultValue = parts[part];
@@ -123,11 +138,17 @@ export class DateField extends HTMLElement {
     }
 
     get value(): string {
-        return this.#inputs ? join(this.#parts()) : (this.getAttribute("value") ?? "");
+        return this.#inputs
+            ? join(this.#parts(), this.#shown())
+            : (this.getAttribute("value") ?? "");
     }
 
     set value(v: string) {
         this.setAttribute("value", v);
+    }
+
+    #shown(): Part[] {
+        return PARTS[(this.getAttribute("precision") ?? "day") as Precision] ?? PARTS.day;
     }
 
     #parts(): Parts {
@@ -146,15 +167,29 @@ export class DateField extends HTMLElement {
         labels.month.textContent = this.getAttribute("month-label") ?? "";
         labels.year.textContent = this.getAttribute("year-label") ?? "";
 
-        const sequence = SEQUENCES[this.getAttribute("order") ?? "ymd"] ?? SEQUENCES.ymd;
+        const shown = this.#shown();
+        const sequence = (SEQUENCES[this.getAttribute("order") ?? "ymd"] ?? SEQUENCES.ymd).filter(
+            (part) => shown.includes(part),
+        );
+        for (const part of ["year", "month", "day"] as Part[]) {
+            if (shown.includes(part)) continue;
+            // A part this precision does not ask for leaves the fieldset, and the form, entirely.
+            labels[part].remove();
+            inputs[part].remove();
+            inputs[part].value = "";
+            inputs[part].defaultValue = "";
+        }
+        const precision = this.getAttribute("precision");
+        if (precision === "month" || precision === "year") fieldset.dataset.precision = precision;
+        else delete fieldset.dataset.precision;
         for (const part of sequence)
             fieldset.insertBefore(labels[part], this.#descriptionEl ?? this.#errorEl);
         for (const part of sequence) fieldset.insertBefore(inputs[part], labels[part].nextSibling);
 
         // A value set from outside fills the parts; one the parts produced leaves them as typed.
         const value = this.getAttribute("value");
-        if (value !== null && value !== join(this.#parts())) {
-            const parts = split(value);
+        if (value !== null && value !== join(this.#parts(), shown)) {
+            const parts = split(value, shown);
             for (const part of sequence) inputs[part].value = parts[part];
         }
 
@@ -208,7 +243,7 @@ export class DateField extends HTMLElement {
     }
 
     #onInput = (): void => {
-        const value = join(this.#parts());
+        const value = join(this.#parts(), this.#shown());
         if (this.getAttribute("value") !== value) this.setAttribute("value", value);
     };
 }

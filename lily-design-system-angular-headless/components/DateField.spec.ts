@@ -113,4 +113,23 @@ describe("DateField", () => {
         ).toBe("03");
         host.remove();
     });
+
+    test("precision month asks for month and year only, with no invented day", () => {
+        const fixture = make({ precision: "month" });
+        const root: HTMLElement = fixture.nativeElement;
+        expect(parts(root)).toEqual(["date-field-year", "date-field-month"]);
+        expect(root.querySelector("fieldset")!.getAttribute("data-precision")).toBe("month");
+        type(root.querySelector(".date-field-month")!, "3");
+        type(root.querySelector(".date-field-year")!, "2019");
+        expect(fixture.componentInstance.value()).toBe("2019-03");
+    });
+
+    test("precision year asks for the year alone, and fills from a year value", () => {
+        const fixture = make({ precision: "year", value: "2018" });
+        const root: HTMLElement = fixture.nativeElement;
+        expect(parts(root)).toEqual(["date-field-year"]);
+        expect((root.querySelector(".date-field-year") as HTMLInputElement).value).toBe("2018");
+        type(root.querySelector(".date-field-year")!, "2019");
+        expect(fixture.componentInstance.value()).toBe("2019");
+    });
 });

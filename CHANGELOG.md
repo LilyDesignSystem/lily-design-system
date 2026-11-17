@@ -14,6 +14,8 @@ highlights.
 - `shared/clinical-format.ts` and the C# `ClinicalFormat`: `formatPartialDate` and `partialDatePrecision` (a year, a month
   and year, or a full date, with nothing invented and the month always a word), `formatProportion` (openEHR's five
   proportion kinds), and `~` as a quantity comparator, written `≈` (P29-T1, T3, T5).
+- `date-field` `precision` (`day`, `month`, `year`) in all nine catalogs: "onset: March 2019" is entered and stored as
+  `2019-03`, never padded with an invented day; `date-time-view` documents partial `datetime` values (P29-T1).
 
 ## Release: headless with the radio groups and the patient summary — 2026-11-16
 

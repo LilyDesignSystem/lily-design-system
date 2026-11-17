@@ -3618,11 +3618,11 @@ From [spec/lessons/openehr](spec/lessons/openehr/index.md). Order: T1 to T4 (con
 `bin/new-component` into all nine catalogs, Svelte first; changes to shared modules include the C# port. Lily ships no clinical
 logic: no constraint validation, no score sums, no unit conversion.
 
-- [ ] **P29-T1 Partial dates.** `formatPartialDate(iso, locale)` in `shared/clinical-format.ts` (and `ClinicalFormat` in C#)
+- [x] **P29-T1 Partial dates.** `formatPartialDate(iso, locale)` in `shared/clinical-format.ts` (and `ClinicalFormat` in C#)
       formats a year, a year and month, or a full date with only the fields given; `date-time-view` accepts a partial `datetime`;
       `date-field` takes `precision` (`day`, `month`, `year`) and omits the parts it does not ask for.
       Verify: tests for `2019`, `2019-03` and `2019-03-14` in two locales, and that no day or month is invented; `date-field`
-      tests in all nine catalogs for each precision; `bin/sync-shared-modules --check` passes. _(2026-11-16: `formatPartialDate` and `partialDatePrecision` done in the shared module and C#, month always a word, tests in two locales and against invented fields; the components remain.)_
+      tests in all nine catalogs for each precision; `bin/sync-shared-modules --check` passes. _(2026-11-16: `formatPartialDate` and `partialDatePrecision` done in the shared module and C#, month always a word, tests in two locales and against invented fields; `date-field` `precision` (`day`, `month`, `year`) in all nine catalogs, with `data-precision` and a value of `YYYY-MM` or `YYYY`; tests in the six behaviour catalogs and Nunjucks (HTML and Alpine are static markup, documented), and a Svelte test that `date-time-view` takes `2019-03`. Padding the value back to three parts makes the Svelte tests fail.)_
 - [ ] **P29-T2 `not-applicable`.** A sixth status for the record lists and a status for `observation-view`, each requiring
       consumer words.
       Verify: tests in all nine catalogs that it renders its words and `data-status`; a missing label raises `warnMissingProp`.

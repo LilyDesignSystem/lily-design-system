@@ -88,4 +88,27 @@ describe("DateField", () => {
         render(Subject, { props: { label: "D", ...labels }, attrs: { "data-testid": "df" } });
         expect(screen.getByTestId("df").tagName).toBe("FIELDSET");
     });
+
+    test("precision month asks for month and year only, with no invented day", async () => {
+        const { container, emitted } = render(Subject, {
+            props: { label: "Onset", monthLabel: "Month", yearLabel: "Year", precision: "month" },
+        });
+        expect(screen.queryByLabelText("Day")).toBeNull();
+        expect(container.querySelector("fieldset")!.getAttribute("data-precision")).toBe("month");
+        await fireEvent.update(screen.getByLabelText("Month"), "3");
+        await fireEvent.update(screen.getByLabelText("Year"), "2019");
+        const values = emitted()["update:modelValue"] as string[][];
+        expect(values.at(-1)).toEqual(["2019-03"]);
+    });
+
+    test("precision year asks for the year alone, and fills from a year value", async () => {
+        const { emitted } = render(Subject, {
+            props: { label: "Onset", yearLabel: "Year", precision: "year", modelValue: "2018" },
+        });
+        expect(screen.queryByLabelText("Month")).toBeNull();
+        expect((screen.getByLabelText("Year") as HTMLInputElement).value).toBe("2018");
+        await fireEvent.update(screen.getByLabelText("Year"), "2019");
+        const values = emitted()["update:modelValue"] as string[][];
+        expect(values.at(-1)).toEqual(["2019"]);
+    });
 });

@@ -8,8 +8,10 @@
 // Props:
 //   className — string, optional. CSS class name.
 //   label — string, required. The legend, naming the whole date.
-//   dayLabel, monthLabel, yearLabel — string, required. The three parts' labels.
+//   dayLabel, monthLabel, yearLabel — string. The parts' labels; each is required when its part is shown.
 //   order — "ymd" | "dmy" | "mdy", default "ymd" (ISO 8601). The order of the parts.
+//   precision — "day" | "month" | "year", default "day". A month asks for month and year, a year for the year alone;
+//     the value is YYYY-MM or YYYY, never padded with an invented day or month (openEHR DV_DATE, FHIR partial dates).
 //   value — string, default "". YYYY-MM-DD once all three parts are filled, else "".
 //     A new value fills the parts; onChange reports each change.
 //   onChange — (value: string) => void, optional.
@@ -42,7 +44,7 @@
 //   - WAI Forms Tutorial, grouping controls: https://www.w3.org/WAI/tutorials/forms/grouping/
 
 import React, { useEffect, useId, useState } from "react";
-import { warnMissingName } from "./dev-warning";
+import { warnMissingName, warnMissingProp } from "./dev-warning";
 
 type Part = "day" | "month" | "year";
 type Parts = Record<Part, string>;
@@ -53,25 +55,41 @@ const SEQUENCES: Record<"ymd" | "dmy" | "mdy", Part[]> = {
     mdy: ["month", "day", "year"],
 };
 
-/** The parts of a YYYY-MM-DD value, or empty parts for anything else. */
-function split(v: string): Parts {
-    const m = /^(\d{1,4})-(\d{1,2})-(\d{1,2})$/.exec(v ?? "");
-    return m ? { year: m[1], month: m[2], day: m[3] } : { year: "", month: "", day: "" };
+type Precision = "day" | "month" | "year";
+
+/** The parts shown at each precision, in ISO order. */
+const PARTS: Record<Precision, Part[]> = {
+    day: ["year", "month", "day"],
+    month: ["year", "month"],
+    year: ["year"],
+};
+
+/** The parts of a value of this precision (YYYY-MM-DD, YYYY-MM or YYYY), or empty parts for anything else. */
+function split(v: string | null | undefined, shown: Part[]): Parts {
+    const m = /^(\d{1,4})(?:-(\d{1,2})(?:-(\d{1,2}))?)?$/.exec(v ?? "");
+    const filled = m ? [m[1], m[2], m[3]].filter((x) => x !== undefined).length : 0;
+    if (!m || filled !== shown.length) return { year: "", month: "", day: "" };
+    return { year: m[1], month: m[2] ?? "", day: m[3] ?? "" };
 }
 
-/** YYYY-MM-DD when every part is a number, else "". The calendar check is the consumer's. */
-function join(p: Parts): string {
-    if (![p.year, p.month, p.day].every((x) => /^\d+$/.test(x))) return "";
-    return `${p.year.padStart(4, "0")}-${p.month.padStart(2, "0")}-${p.day.padStart(2, "0")}`;
+/** The value when every shown part is a number, else "". The calendar check is the consumer's. */
+function join(p: Parts, shown: Part[]): string {
+    if (!shown.every((part) => /^\d+$/.test(p[part]))) return "";
+    const iso = [p.year.padStart(4, "0"), p.month.padStart(2, "0"), p.day.padStart(2, "0")];
+    return iso.slice(0, shown.length).join("-");
 }
 
 export interface DateFieldProps {
     className?: string;
     label: string;
-    dayLabel: string;
-    monthLabel: string;
+    /** Required when precision is "day". */
+    dayLabel?: string;
+    /** Required unless precision is "year". */
+    monthLabel?: string;
     yearLabel: string;
     order?: "ymd" | "dmy" | "mdy";
+    /** How much of the date is asked for. Default "day". */
+    precision?: Precision;
     value?: string;
     onChange?: (value: string) => void;
     name?: string;
@@ -91,6 +109,7 @@ export default function DateField({
     monthLabel,
     yearLabel,
     order = "ymd",
+    precision = "day",
     value = "",
     onChange,
     name = undefined,
@@ -103,6 +122,11 @@ export default function DateField({
     ...restProps
 }: DateFieldProps) {
     warnMissingName("DateField", label, restProps["aria-label"], restProps["aria-labelledby"]);
+    const shown = PARTS[precision] ?? PARTS.day;
+    if (shown.includes("day"))
+        warnMissingProp("DateField", "dayLabel", dayLabel, "the day part needs a label.");
+    if (shown.includes("month"))
+        warnMissingProp("DateField", "monthLabel", monthLabel, "the month part needs a label.");
     const generatedId = `date-field-${useId()}`;
     const baseId = id ?? generatedId;
     const descriptionId = `${baseId}-desc`;
@@ -110,47 +134,51 @@ export default function DateField({
     const describedBy =
         [description ? descriptionId : "", error ? errorId : ""].filter(Boolean).join(" ") ||
         undefined;
-    const [parts, setParts] = useState<Parts>(() => split(value));
+    const [parts, setParts] = useState<Parts>(() => split(value, shown));
 
     useEffect(() => {
         // A value set from outside fills the parts; one the parts produced leaves them as typed.
-        setParts((current) => (join(current) === value ? current : split(value)));
-    }, [value]);
+        setParts((current) => (join(current, shown) === value ? current : split(value, shown)));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value, precision]);
 
-    const labels: Parts = { day: dayLabel, month: monthLabel, year: yearLabel };
+    const labels: Parts = { day: dayLabel ?? "", month: monthLabel ?? "", year: yearLabel };
 
     function update(part: Part, text: string) {
         const next = { ...parts, [part]: text };
         setParts(next);
-        onChange?.(join(next));
+        onChange?.(join(next, shown));
     }
 
     return (
         <fieldset
             className={`date-field ${className}`}
+            data-precision={precision === "day" ? undefined : precision}
             aria-describedby={describedBy}
             disabled={disabled}
             {...restProps}
         >
             <legend>{label}</legend>
-            {(SEQUENCES[order] ?? SEQUENCES.ymd).map((part) => (
-                <React.Fragment key={part}>
-                    <label htmlFor={`${baseId}-${part}`}>{labels[part]}</label>
-                    <input
-                        className={`date-field-${part}`}
-                        id={`${baseId}-${part}`}
-                        name={name ? `${name}-${part}` : undefined}
-                        type="text"
-                        inputMode="numeric"
-                        autoComplete={autocomplete === "bday" ? `bday-${part}` : undefined}
-                        maxLength={part === "year" ? 4 : 2}
-                        value={parts[part]}
-                        onChange={(event) => update(part, event.target.value)}
-                        required={required}
-                        aria-invalid={error ? true : undefined}
-                    />
-                </React.Fragment>
-            ))}
+            {(SEQUENCES[order] ?? SEQUENCES.ymd)
+                .filter((part) => shown.includes(part))
+                .map((part) => (
+                    <React.Fragment key={part}>
+                        <label htmlFor={`${baseId}-${part}`}>{labels[part]}</label>
+                        <input
+                            className={`date-field-${part}`}
+                            id={`${baseId}-${part}`}
+                            name={name ? `${name}-${part}` : undefined}
+                            type="text"
+                            inputMode="numeric"
+                            autoComplete={autocomplete === "bday" ? `bday-${part}` : undefined}
+                            maxLength={part === "year" ? 4 : 2}
+                            value={parts[part]}
+                            onChange={(event) => update(part, event.target.value)}
+                            required={required}
+                            aria-invalid={error ? true : undefined}
+                        />
+                    </React.Fragment>
+                ))}
             {description && <p id={descriptionId}>{description}</p>}
             {error && (
                 <p

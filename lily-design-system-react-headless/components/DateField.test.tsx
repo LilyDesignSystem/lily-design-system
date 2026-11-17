@@ -134,4 +134,39 @@ describe("DateField", () => {
         );
         expect(screen.getByTestId("df").tagName).toBe("FIELDSET");
     });
+
+    test("precision month asks for month and year only, with no invented day", () => {
+        const onChange = vi.fn();
+        const { container } = render(
+            <Subject
+                label="Onset"
+                monthLabel="Month"
+                yearLabel="Year"
+                precision="month"
+                onChange={onChange}
+            />,
+        );
+        expect(screen.queryByLabelText("Day")).toBeNull();
+        expect(container.querySelector("fieldset")!.getAttribute("data-precision")).toBe("month");
+        fireEvent.change(screen.getByLabelText("Month"), { target: { value: "3" } });
+        fireEvent.change(screen.getByLabelText("Year"), { target: { value: "2019" } });
+        expect(onChange).toHaveBeenLastCalledWith("2019-03");
+    });
+
+    test("precision year asks for the year alone, and fills from a year value", () => {
+        const onChange = vi.fn();
+        render(
+            <Subject
+                label="Onset"
+                yearLabel="Year"
+                precision="year"
+                value="2018"
+                onChange={onChange}
+            />,
+        );
+        expect(screen.queryByLabelText("Month")).toBeNull();
+        expect((screen.getByLabelText("Year") as HTMLInputElement).value).toBe("2018");
+        fireEvent.change(screen.getByLabelText("Year"), { target: { value: "2019" } });
+        expect(onChange).toHaveBeenLastCalledWith("2019");
+    });
 });
