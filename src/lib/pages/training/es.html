@@ -1,0 +1,150 @@
+<!-- title: Formación — Lily Design System -->
+<!-- description: Un curso a tu ritmo en ocho módulos: componentes headless, teclado, nombres, formularios, temas, formularios para todo el mundo, movimiento y cómo comprobar tu trabajo, cada uno con un ejercicio y una autoevaluación. -->
+<section class="page-intro">
+  <h1>Formación</h1>
+  <p class="page-intro-tagline">
+    Un curso a tu ritmo para un equipo que adopta Lily: ocho módulos, cada uno con un objetivo, algo que leer, un ejercicio en un navegador real y una autoevaluación con respuestas. Alrededor de un día en total; un módulo por sesión funciona bien.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Antes de empezar</h2>
+  <p>
+    Elige un <a href="/tutorials/">tutorial</a> de framework y termínalo primero. Ejecuta una de las aplicaciones de ejemplo en local, o usa las
+    <a href="/components/">páginas de componentes</a> de este sitio, para los ejercicios. Necesitas un teclado y, para el módulo 8, un lector de pantalla: VoiceOver en macOS e iOS, NVDA en Windows o TalkBack en Android, todos gratuitos.
+  </p>
+
+  <h2>Módulo 1 — Qué significa headless</h2>
+  <p><strong>Objetivo:</strong> saber qué decide Lily y qué decides tú.</p>
+  <p>
+    <strong>Lee:</strong> la <a href="/about/">página Acerca de</a>, y una página de componente, como <a href="/components/button/">Button</a>, de principio a fin.
+  </p>
+  <p>
+    <strong>Haz:</strong> muestra un <code>Button</code> y un <code>TextInput</code>
+    sin hoja de estilos. Luego enlaza un tema, y después otro. Anota qué cambió y qué no.
+  </p>
+  <details>
+    <summary>Autoevaluación: ¿qué no incluye nunca un componente de Lily? ¿Qué incluye siempre?</summary>
+    <p>
+      Nunca: CSS, fuentes, iconos ni imágenes (salvo los iconos de los selectores), texto en inglés, obtención de datos, idioma o moneda por defecto. Siempre: el elemento HTML más específico, su clase en kebab-case primero, ARIA donde el HTML no basta, comportamiento de teclado y tus otros atributos transmitidos.
+    </p>
+  </details>
+  <details>
+    <summary>Autoevaluación: quieres un borde rojo en un botón. ¿Dónde va?</summary>
+    <p>En tu CSS, sobre la clase (<code>.button</code>) o sobre una clase que añadas. Nunca en el componente.</p>
+  </details>
+
+  <h2>Módulo 2 — Teclado y foco</h2>
+  <p><strong>Objetivo:</strong> usar y probar cada componente sin ratón.</p>
+  <p>
+    <strong>Lee:</strong> la tabla de interacciones de teclado de
+    <a href="/components/tab-bar/">TabBar</a>, <a href="/components/listbox/">Listbox</a>
+    y <a href="/components/dialog/">Dialog</a>.
+  </p>
+  <p>
+    <strong>Haz:</strong> desconecta el ratón. En cada una de esas tres páginas, llega a la demo con <kbd>Tab</kbd> y haz todo lo que indica la tabla. Abre el diálogo, pulsa <kbd>Escape</kbd>y fíjate dónde queda el foco.
+  </p>
+  <details>
+    <summary>Autoevaluación: ¿por qué una barra de pestañas ocupa una sola parada de <kbd>Tab</kbd> y no una por pestaña?</summary>
+    <p>
+      El patrón compuesto de la APG: <kbd>Tab</kbd> se mueve entre widgets y las flechas se mueven dentro de uno (un índice de tabulación itinerante). Una barra con diez paradas obliga a quien usa el teclado a pulsar <kbd>Tab</kbd> diez veces para pasarla.
+    </p>
+  </details>
+  <details>
+    <summary>Autoevaluación: al cerrarse un diálogo modal, ¿dónde debe estar el foco?</summary>
+    <p>En el control que lo abrió. Los diálogos modales de Lily usan <code>showModal()</code>, que además mantiene <kbd>Tab</kbd> dentro del diálogo mientras está abierto.</p>
+  </details>
+
+  <h2>Módulo 3 — Nombres, roles y estados</h2>
+  <p><strong>Objetivo:</strong> dar a cada control un nombre que un lector de pantalla pueda decir, con tus palabras.</p>
+  <p><strong>Lee:</strong> la sección ARIA de <a href="/components/icon-button/">IconButton</a> y <a href="/components/switch-button/">SwitchButton</a>.</p>
+  <p>
+    <strong>Haz:</strong> en tu propia aplicación, con su servidor de desarrollo, muestra un <code>IconButton</code> sin su <code>label</code>. Abre la consola del navegador: Lily avisa de que el control no tiene nombre accesible. Añade la etiqueta y comprueba que el aviso desaparece. (Los avisos solo existen en una compilación de desarrollo, así que una página de producción, como este sitio, no muestra nada.)
+  </p>
+  <details>
+    <summary>Autoevaluación: ¿cuándo usar <code>aria-label</code>y cuándo texto visible?</summary>
+    <p>
+      Texto visible siempre que puedas: todos lo ven y quienes usan entrada por voz pueden decirlo. <code>aria-label</code> solo donde no hay texto visible, como en un icono. Si existen ambos, el nombre debe contener las palabras visibles (WCAG 2.5.3).
+    </p>
+  </details>
+  <details>
+    <summary>Autoevaluación: un estado mostrado solo en rojo. ¿Qué falta?</summary>
+    <p>Texto. El color puede repetir un significado pero nunca transmitirlo solo (WCAG 1.4.1); el estado necesita palabras.</p>
+  </details>
+
+  <h2>Módulo 4 — Formularios</h2>
+  <p><strong>Objetivo:</strong> construir un formulario cuyos errores cualquiera pueda encontrar y corregir.</p>
+  <p><strong>Lee y haz:</strong> el <a href="/tutorials/forms/">tutorial de formularios accesibles</a>, los cinco pasos.</p>
+  <details>
+    <summary>Autoevaluación: el formulario no supera la validación. ¿Adónde va el foco y qué se lee?</summary>
+    <p>Al resumen de errores, que se anuncia con su encabezado y su lista de enlaces, uno por error, cada uno hacia su campo.</p>
+  </details>
+  <details>
+    <summary>Autoevaluación: ¿por qué no desactivar el botón de envío hasta que el formulario sea válido?</summary>
+    <p>Un botón desactivado no puede decir qué está mal, y mucha gente no entiende por qué no hace nada.</p>
+  </details>
+
+  <h2>Módulo 5 — Temas y contraste</h2>
+  <p><strong>Objetivo:</strong> cambiar el estilo de Lily sin romper el contraste ni el foco.</p>
+  <p>
+    <strong>Lee:</strong> el <a href="/tutorials/theming/">tutorial de temas</a> y la tabla de <a href="/theme-contrast/">contraste de los temas</a> .
+  </p>
+  <p>
+    <strong>Haz:</strong> sustituye <code>--color-primary</code> por el color de tu marca. Comprueba que su pareja, <code>--color-primary-content</code>, alcanza 4,5:1, y que el anillo de foco sigue viéndose sobre la página.
+  </p>
+  <details>
+    <summary>Autoevaluación: el color de tu marca es demasiado claro para texto blanco. ¿Puedes seguir usándolo?</summary>
+    <p>
+      Sí, como decoración (<code>--lily-brand</code>: una franja de cabecera, una línea, el fondo de un logotipo), nunca para texto ni para el borde de un control. El texto y los bordes usan las parejas de contenido del tema.
+    </p>
+  </details>
+
+  <h2>Módulo 6 — Todo el mundo</h2>
+  <p><strong>Objetivo:</strong> que ningún país sea el predeterminado.</p>
+  <p><strong>Lee y haz:</strong> <a href="/tutorials/worldwide/">un formulario que funciona en todo el mundo</a>.</p>
+  <details>
+    <summary>Autoevaluación: ¿por qué <code>CurrencyInput</code> no tiene moneda por defecto?</summary>
+    <p>Cualquier valor por defecto sería el dinero de un solo país, erróneo en silencio en todos los demás. Un <code>currencyCode</code> que falta es un defecto de quien llama.</p>
+  </details>
+  <details>
+    <summary>Autoevaluación: una página en árabe. ¿Qué estableces y qué debe hacer tu CSS?</summary>
+    <p><code>lang="ar"</code> y <code>dir="rtl"</code> (el selector de idioma establece ambos); tu CSS usa propiedades lógicas para que el diseño se refleje solo.</p>
+  </details>
+
+  <h2>Módulo 7 — Movimiento</h2>
+  <p><strong>Objetivo:</strong> animar sin perjudicar a nadie.</p>
+  <p><strong>Lee:</strong> las <a href="/patterns/motion/">recetas de movimiento</a>.</p>
+  <p>
+    <strong>Haz:</strong> activa «reducir movimiento» en tu sistema operativo y recarga una página con la receta de la marquesina. Debe quedarse quieta y ajustarse en líneas. Luego llega a su botón de pausa con el teclado.
+  </p>
+  <details>
+    <summary>Autoevaluación: algo se mueve solo durante más de cinco segundos. ¿Qué debe tener?</summary>
+    <p>Una forma de pausarlo, detenerlo u ocultarlo (WCAG 2.2.2), accesible con el teclado, no solo al pasar el puntero.</p>
+  </details>
+
+  <h2>Módulo 8 — Comprueba tu trabajo</h2>
+  <p><strong>Objetivo:</strong> probar una página como Lily prueba las suyas.</p>
+  <p>
+    <strong>Haz:</strong> toma una página que hayas construido en este curso y haz cuatro comprobaciones:
+  </p>
+  <ol>
+    <li>axe (la extensión del navegador, o <code>@axe-core/playwright</code> en una prueba): ninguna infracción.</li>
+    <li>Solo teclado: cada tarea completada, foco siempre visible, nunca atrapado.</li>
+    <li>Zoom al 400 % y ventana reducida a 320 píxeles: sin desplazamiento horizontal, nada cortado.</li>
+    <li>Un lector de pantalla: cada control tiene nombre, rol y estado, y los errores se anuncian.</li>
+  </ol>
+  <details>
+    <summary>Autoevaluación: axe no informa de infracciones. ¿La página es accesible?</summary>
+    <p>
+      Aún no está demostrado. Las pruebas automáticas encuentran quizá un tercio de los problemas; las comprobaciones de teclado, zoom y lector de pantalla encuentran buena parte del resto. Consulta la
+      <a href="/quality/">página de calidad</a> para ver qué ha verificado Lily y qué no.
+    </p>
+  </details>
+
+  <h2>Después del curso</h2>
+  <ul>
+    <li><a href="/patterns/healthcare/">La guía sanitaria</a>, para software clínico.</li>
+    <li><a href="/tutorials/helpers/">Los ayudantes</a>: selectores, la cuadrícula de datos, el calendario.</li>
+    <li><a href="/help/">Ayuda</a>, y <a href="https://github.com/LilyDesignSystem">el proyecto</a> para tus preguntas.</li>
+  </ul>
+</section>

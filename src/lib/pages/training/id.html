@@ -1,0 +1,150 @@
+<!-- title: Pelatihan — Lily Design System -->
+<!-- description: Kursus mandiri dalam delapan modul: komponen headless, papan ketik, nama, formulir, tema, formulir untuk seluruh dunia, gerak, dan memeriksa hasil kerja, masing-masing dengan latihan dan uji mandiri. -->
+<section class="page-intro">
+  <h1>Pelatihan</h1>
+  <p class="page-intro-tagline">
+    Kursus mandiri bagi tim yang mengadopsi Lily: delapan modul, masing-masing dengan tujuan, bacaan, latihan yang Anda kerjakan di peramban sungguhan, dan uji mandiri beserta jawabannya. Sekitar satu hari secara keseluruhan; satu modul per sesi sudah pas.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Sebelum memulai</h2>
+  <p>
+    Pilih satu <a href="/tutorials/">tutorial</a> kerangka kerja dan selesaikan dulu. Jalankan salah satu aplikasi contoh secara lokal, atau gunakan
+    <a href="/components/">halaman komponen</a> di sini, untuk latihannya. Anda memerlukan papan ketik, dan untuk modul 8 pembaca layar: VoiceOver di macOS dan iOS, NVDA di Windows, atau TalkBack di Android, semuanya gratis.
+  </p>
+
+  <h2>Modul 1 — Arti headless</h2>
+  <p><strong>Tujuan:</strong> tahu apa yang diputuskan Lily dan apa yang Anda putuskan.</p>
+  <p>
+    <strong>Baca:</strong>  <a href="/about/">halaman Tentang</a>, dan satu halaman komponen, misalnya <a href="/components/button/">Button</a>, dari awal sampai akhir.
+  </p>
+  <p>
+    <strong>Kerjakan:</strong> tampilkan sebuah <code>Button</code> dan sebuah <code>TextInput</code>
+    tanpa lembar gaya. Lalu tautkan satu tema, kemudian tema lain. Catat apa yang berubah dan apa yang tidak.
+  </p>
+  <details>
+    <summary>Uji mandiri: apa yang tidak pernah dibawa komponen Lily? Apa yang selalu dibawanya?</summary>
+    <p>
+      Tidak pernah: CSS, fon, ikon atau gambar (kecuali ikon pemilih), teks bahasa Inggris, pengambilan data, lokal atau mata uang bawaan. Selalu: elemen HTML yang paling tepat, kelas kebab-case-nya di depan, ARIA di tempat HTML tidak cukup, perilaku papan ketik, dan atribut Anda yang lain diteruskan.
+    </p>
+  </details>
+  <details>
+    <summary>Uji mandiri: Anda ingin garis tepi merah pada satu tombol. Di mana tempatnya?</summary>
+    <p>Di CSS Anda, pada kelasnya (<code>.button</code>) atau kelas yang Anda tambahkan. Tidak pernah di komponen.</p>
+  </details>
+
+  <h2>Modul 2 — Papan ketik dan fokus</h2>
+  <p><strong>Tujuan:</strong> memakai dan menguji setiap komponen tanpa tetikus.</p>
+  <p>
+    <strong>Baca:</strong> tabel Interaksi Papan Ketik pada
+    <a href="/components/tab-bar/">TabBar</a>, <a href="/components/listbox/">Listbox</a>
+    dan <a href="/components/dialog/">Dialog</a>.
+  </p>
+  <p>
+    <strong>Kerjakan:</strong> cabut tetikus. Di masing-masing dari tiga halaman itu, capai demonya dengan <kbd>Tab</kbd> dan lakukan semua yang tercantum di tabel. Buka dialognya, tekan <kbd>Escape</kbd>, lalu catat ke mana fokus mendarat.
+  </p>
+  <details>
+    <summary>Uji mandiri: mengapa bilah tab hanya mengambil satu perhentian <kbd>Tab</kbd> dan bukan satu per tab?</summary>
+    <p>
+      Pola komposit APG: <kbd>Tab</kbd> berpindah antarwidget, dan tombol panah berpindah di dalam satu widget (indeks tab berpindah). Bilah tab dengan sepuluh perhentian membuat pengguna papan ketik menekan <kbd>Tab</kbd> sepuluh kali untuk melewatinya.
+    </p>
+  </details>
+  <details>
+    <summary>Uji mandiri: setelah dialog modal ditutup, di mana fokus seharusnya?</summary>
+    <p>Pada kontrol yang membukanya. Dialog modal Lily memakai <code>showModal()</code>, yang juga menjaga <kbd>Tab</kbd> tetap di dalam dialog selama terbuka.</p>
+  </details>
+
+  <h2>Modul 3 — Nama, peran, dan keadaan</h2>
+  <p><strong>Tujuan:</strong> memberi setiap kontrol nama yang dapat diucapkan pembaca layar, dengan kata-kata Anda.</p>
+  <p><strong>Baca:</strong> bagian ARIA dari <a href="/components/icon-button/">IconButton</a> dan <a href="/components/switch-button/">SwitchButton</a>.</p>
+  <p>
+    <strong>Kerjakan:</strong> di aplikasi Anda sendiri, dengan server pengembangannya berjalan, tampilkan <code>IconButton</code> tanpa <code>label</code>. Buka konsol peramban: Lily memperingatkan bahwa kontrol tidak punya nama yang dapat diakses. Tambahkan labelnya dan periksa bahwa peringatan hilang. (Peringatan hanya ada di build pengembangan, jadi halaman produksi, seperti situs ini, tetap diam.)
+  </p>
+  <details>
+    <summary>Uji mandiri: kapan memakai <code>aria-label</code>, dan kapan teks yang terlihat?</summary>
+    <p>
+      Teks yang terlihat kapan pun bisa: semua orang melihatnya, dan pengguna input suara dapat mengucapkannya. <code>aria-label</code> hanya bila tidak ada teks yang terlihat, seperti ikon. Bila keduanya ada, nama harus memuat kata-kata yang terlihat (WCAG 2.5.3).
+    </p>
+  </details>
+  <details>
+    <summary>Uji mandiri: status ditampilkan hanya dengan warna merah. Apa yang kurang?</summary>
+    <p>Teks. Warna boleh mengulang makna tetapi tidak pernah membawanya sendirian (WCAG 1.4.1); status memerlukan kata-kata.</p>
+  </details>
+
+  <h2>Modul 4 — Formulir</h2>
+  <p><strong>Tujuan:</strong> membuat formulir yang galatnya dapat ditemukan dan diperbaiki siapa pun.</p>
+  <p><strong>Baca dan kerjakan:</strong>  <a href="/tutorials/forms/">tutorial formulir aksesibel</a>, kelima langkahnya.</p>
+  <details>
+    <summary>Uji mandiri: formulir gagal validasi. Ke mana fokus pergi, dan apa yang dibacakan?</summary>
+    <p>Ke ringkasan galat, yang diumumkan dengan judul dan daftar tautannya, satu per galat, masing-masing menuju isiannya.</p>
+  </details>
+  <details>
+    <summary>Uji mandiri: mengapa tidak menonaktifkan tombol kirim sampai formulir valid?</summary>
+    <p>Tombol nonaktif tidak bisa mengatakan apa yang salah, dan banyak orang tidak tahu mengapa tombol itu tidak berbuat apa-apa.</p>
+  </details>
+
+  <h2>Modul 5 — Tema dan kontras</h2>
+  <p><strong>Tujuan:</strong> mengubah gaya Lily tanpa merusak kontras atau fokus.</p>
+  <p>
+    <strong>Baca:</strong>  <a href="/tutorials/theming/">tutorial tema</a> dan tabel <a href="/theme-contrast/">kontras tema</a> .
+  </p>
+  <p>
+    <strong>Kerjakan:</strong> timpa <code>--color-primary</code> dengan warna merek Anda sendiri. Periksa bahwa pasangannya, <code>--color-primary-content</code>, mencapai 4,5:1, dan bahwa cincin fokus tetap terlihat di atas halaman.
+  </p>
+  <details>
+    <summary>Uji mandiri: warna merek Anda terlalu pucat untuk teks putih. Masih bisakah dipakai?</summary>
+    <p>
+      Bisa, sebagai hiasan (<code>--lily-brand</code>: pita kepala, garis, latar logo), tidak pernah untuk teks atau batas kontrol. Teks dan batas memakai pasangan konten tema.
+    </p>
+  </details>
+
+  <h2>Modul 6 — Seluruh dunia</h2>
+  <p><strong>Tujuan:</strong> tidak menjadikan negara mana pun sebagai bawaan.</p>
+  <p><strong>Baca dan kerjakan:</strong> <a href="/tutorials/worldwide/">formulir yang bekerja di seluruh dunia</a>.</p>
+  <details>
+    <summary>Uji mandiri: mengapa <code>CurrencyInput</code> tidak punya mata uang bawaan?</summary>
+    <p>Bawaan apa pun akan menjadi uang satu negara, diam-diam salah di tempat lain. Bila <code>currencyCode</code> tidak ada, itu cacat pada pemanggil.</p>
+  </details>
+  <details>
+    <summary>Uji mandiri: halaman berbahasa Arab. Apa yang Anda tetapkan, dan apa yang harus dilakukan CSS Anda?</summary>
+    <p><code>lang="ar"</code> dan <code>dir="rtl"</code> (pemilih bahasa menetapkan keduanya); CSS Anda memakai properti logis sehingga tata letak tercermin dengan sendirinya.</p>
+  </details>
+
+  <h2>Modul 7 — Gerak</h2>
+  <p><strong>Tujuan:</strong> menganimasikan tanpa merugikan siapa pun.</p>
+  <p><strong>Baca:</strong>  <a href="/patterns/motion/">resep gerak</a>.</p>
+  <p>
+    <strong>Kerjakan:</strong> aktifkan "kurangi gerak" di sistem operasi Anda dan muat ulang halaman dengan resep marquee. Ia harus diam dan membungkus baris. Lalu capai tombol jedanya dengan papan ketik.
+  </p>
+  <details>
+    <summary>Uji mandiri: sesuatu bergerak sendiri lebih dari lima detik. Apa yang harus dimilikinya?</summary>
+    <p>Cara untuk menjeda, menghentikan, atau menyembunyikannya (WCAG 2.2.2), yang dapat dicapai dengan papan ketik, bukan hanya dengan mengarahkan penunjuk.</p>
+  </details>
+
+  <h2>Modul 8 — Periksa hasil kerja Anda</h2>
+  <p><strong>Tujuan:</strong> menguji halaman seperti Lily menguji halamannya sendiri.</p>
+  <p>
+    <strong>Kerjakan:</strong> ambil satu halaman yang Anda buat dalam kursus ini dan jalankan empat pemeriksaan:
+  </p>
+  <ol>
+    <li>axe (ekstensi peramban, atau <code>@axe-core/playwright</code> dalam tes): tidak ada pelanggaran.</li>
+    <li>Hanya papan ketik: setiap tugas selesai, fokus selalu terlihat, tidak pernah terjebak.</li>
+    <li>Perbesar ke 400% dan sempitkan jendela ke 320 piksel: tidak ada gulir ke samping, tidak ada yang terpotong.</li>
+    <li>Pembaca layar: setiap kontrol punya nama, peran, dan keadaannya, dan galat diumumkan.</li>
+  </ol>
+  <details>
+    <summary>Uji mandiri: axe tidak melaporkan pelanggaran. Apakah halamannya aksesibel?</summary>
+    <p>
+      Belum terbukti. Pemeriksaan otomatis menemukan mungkin sepertiga masalah; pemeriksaan papan ketik, zoom, dan pembaca layar menemukan sebagian besar sisanya. Lihat
+      <a href="/quality/">halaman kualitas</a> untuk apa yang sudah dan belum diverifikasi Lily sendiri.
+    </p>
+  </details>
+
+  <h2>Setelah kursus</h2>
+  <ul>
+    <li><a href="/patterns/healthcare/">Panduan layanan kesehatan</a>, untuk perangkat lunak klinis.</li>
+    <li><a href="/tutorials/helpers/">Para pembantu</a>: pemilih, kisi data, kalender.</li>
+    <li><a href="/help/">Bantuan</a>, dan <a href="https://github.com/LilyDesignSystem">proyeknya</a> untuk pertanyaan.</li>
+  </ul>
+</section>

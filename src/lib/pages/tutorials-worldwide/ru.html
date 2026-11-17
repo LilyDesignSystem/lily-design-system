@@ -1,0 +1,103 @@
+<!-- title: Форма, которая работает по всему миру — Lily Design System -->
+<!-- description: Имена, адреса, даты, деньги, направление письма и переведённые помощники: форма Lily для каждой страны, а не для одной. -->
+<section class="page-intro">
+  <h1>Форма, которая работает по всему миру</h1>
+  <p class="page-intro-tagline">
+    Lily рассчитан на все страны, а не на одну. В нём нет английского текста и нет страны по умолчанию, поэтому выбор, делающий форму местной, остаётся за вами и делается осознанно. Это руководство проходит по каждому такому выбору.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Что вы создадите</h2>
+  <p>
+    Форму регистрации для клиники, которая принимает людей из многих стран: имя, дата рождения, адрес, телефон, оплата и страница, которая при необходимости читается справа налево. Примеры на Svelte; все каталоги принимают те же свойства. Около 20 минут, после
+    <a href="/tutorials/forms/">руководства по доступным формам</a>.
+  </p>
+
+  <h2>Шаг 1 — Имена: одно поле, а не два</h2>
+  
+  <pre tabindex="0"><code>&lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+&lt;TextInput id="name" name="name" autocomplete="name" label="Full name" /&gt;</code></pre>
+  <p>
+    «Имя» и «фамилия» не подходят многим: единственное имя, фамилия первой, две фамилии, отчество. Спрашивайте полное имя в одном поле, а если нужно знать, как обращаться к человеку, спросите об этом отдельно.
+  </p>
+
+  <h2>Шаг 2 — Даты: части в привычном читателю порядке</h2>
+  
+  <pre tabindex="0"><code>&lt;DateField
+  label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  autocomplete="bday"
+  name="dob"
+  bind:value={dob}
+/&gt;</code></pre>
+  <p>
+    <code>order</code> может быть <code>"dmy"</code>, <code>"mdy"</code> или
+    <code>"ymd"</code>: выберите тот, которого ждут ваши читатели, ведь 03/04 — это март в одной стране и апрель в соседней. Значение всегда в ISO (<code>YYYY-MM-DD</code>), при любом порядке. Для даты, которую человек знает лишь частично, например когда началась болезнь, <code>precision="month"</code>
+    сохраняет <code>2019-03</code> и никогда не выдумывает день.
+  </p>
+  <p>
+    Чтобы показать дату, форматируйте её через <code>Intl.DateTimeFormat</code> на языке читателя; Lily никогда не делает этого за вас.
+  </p>
+
+  <h2>Шаг 3 — Адреса: без формы какой-либо страны по умолчанию</h2>
+  
+  <pre tabindex="0"><code>&lt;AddressInput label="Home address"&gt;
+  &lt;label class="label" for="address"&gt;Address&lt;/label&gt;
+  &lt;textarea class="text-area-input" id="address" name="address" autocomplete="street-address" rows="4"&gt;&lt;/textarea&gt;
+  &lt;label class="label" for="country"&gt;Country or territory&lt;/label&gt;
+  &lt;select class="select" id="country" name="country" autocomplete="country"&gt; … &lt;/select&gt;
+&lt;/AddressInput&gt;</code></pre>
+  <p>
+    <code>AddressInput</code> — это именованная группа; поля внутри задаёте вы. Адрес свободным текстом плюс страна работает везде. Если делите адрес на части, делайте это по странам (во многих индекс необязателен или отсутствует) и никогда не делайте обязательным поле «штат».
+  </p>
+
+  <h2>Шаг 4 — Телефоны и деньги</h2>
+  
+  <pre tabindex="0"><code>&lt;TelInput label="Phone number" name="phone" autocomplete="tel" /&gt;
+&lt;CurrencyInput label="Fee" currencyCode="KES" bind:value={fee} /&gt;</code></pre>
+  <p>
+    Принимайте телефон так, как его ввели, с пробелами и знаком <code>+</code>; не навязывайте формат одной страны. <code>CurrencyInput</code> не имеет валюты по умолчанию: <code>currencyCode</code> (ISO 4217) обязателен, ведь валюта по умолчанию была бы деньгами одной страны.
+  </p>
+
+  <h2>Шаг 5 — Направление письма и язык</h2>
+  
+  <pre tabindex="0"><code>&lt;LocalePicker label="Language" locales={["en", "fr", "ar", "sw"]} bind:value={locale} /&gt;</code></pre>
+  <p>
+    Выбор языка задаёт <code>lang</code> и <code>dir</code> на странице, поэтому арабский или иврит читаются справа налево. Каждый компонент Lily наследует
+    <code>dir</code>; темы используют логические свойства (<code>margin-inline-start</code>, а не <code>margin-left</code>), и ваш CSS должен тоже. Выбор языка ничего не переводит: текст берётся из ваших собственных переводов.
+  </p>
+
+  <h2>Шаг 6 — Подписи помощников на языке читателя</h2>
+  
+  <pre tabindex="0"><code>&lt;script lang="ts"&gt;
+  import { labelsFor } from "@lilydesignsystem/svelte-locale-translations";
+  import sw from "@lilydesignsystem/svelte-locale-translations/sw-001";
+  import DataGrid from "@lilydesignsystem/svelte-data-grid";
+&lt;/script&gt;
+
+&lt;DataGrid label="Wagonjwa" labels={labelsFor("data-grid", sw)} … /&gt;</code></pre>
+  <p>
+    У таблицы данных, канбан-доски, календаря, диаграммы Ганта и фильтра много подписей для программ экранного доступа. Lily поставляет их на 64 языках в виде пакетов подписей. Проверен только английский; остальные 63 — машинные черновики, поэтому попросите носителя языка проверить формулировки, прежде чем полагаться на пакет. Пакет никогда не подставляет другой язык.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверьте работу:</strong> переключите страницу на арабский и убедитесь, что вёрстка отражается без обрезанного текста; введите дату в своём порядке и проверьте, что отправлено значение в ISO; дайте человеку имя из одного слова и адрес без индекса и убедитесь, что форма принимает и то и другое.
+    </p>
+  </div>
+
+  <h2>Что дальше</h2>
+  <ul>
+    <li><a href="/training/">Обучение</a> — восемь модулей, в каждом упражнение и самопроверка.</li>
+    <li>
+      <a href="/components/">Национальные идентификаторы</a>: 164 компонента для 82 типов идентификаторов более чем в 50 странах, у каждого есть <code>-input</code>
+      и <code>-view</code>.
+    </li>
+    <li><a href="/tutorials/helpers/">Помощники настроек</a>: язык, размер текста, анимация и часовой пояс.</li>
+    <li><a href="/locales/">Языки</a>: языки, которые охватывают сайт и пакеты подписей.</li>
+  </ul>
+</section>

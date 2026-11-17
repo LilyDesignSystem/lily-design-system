@@ -1,0 +1,150 @@
+<!-- title: 培训 — Lily Design System -->
+<!-- description: 八个单元的自学课程：无头组件、键盘、名称、表单、主题、全球化表单、动效和成果检查，每个单元都有练习和自测。 -->
+<section class="page-intro">
+  <h1>培训</h1>
+  <p class="page-intro-tagline">
+    面向采用 Lily 的团队的自学课程：八个单元，每个都有目标、阅读材料、在真实浏览器中完成的练习，以及附答案的自测。总共约一天；每次学习一个单元效果最好。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>开始之前</h2>
+  <p>
+    先选一个框架 <a href="/tutorials/">教程</a> 并完成它。练习时可在本地运行一个示例应用，或使用本站的
+    <a href="/components/">组件页面</a> 。你需要一个键盘；第 8 单元还需要读屏软件：macOS 和 iOS 上的 VoiceOver、Windows 上的 NVDA 或 Android 上的 TalkBack，全部免费。
+  </p>
+
+  <h2>第 1 单元 — 无头是什么意思</h2>
+  <p><strong>目标：</strong> 了解哪些由 Lily 决定，哪些由你决定。</p>
+  <p>
+    <strong>阅读：</strong>  <a href="/about/">关于页面</a>，以及一个组件页面，例如 <a href="/components/button/">Button</a>，从头读到尾。
+  </p>
+  <p>
+    <strong>动手：</strong> 在没有样式表的情况下渲染一个 <code>Button</code> 和一个 <code>TextInput</code>
+    。然后链接一个主题，再换另一个。记下哪些变了，哪些没变。
+  </p>
+  <details>
+    <summary>自测：Lily 组件从不附带什么？总是附带什么？</summary>
+    <p>
+      从不附带：CSS、字体、图标或图片（选择器图标除外）、英文文字、数据获取、默认语言区域或货币。总是附带：最贴切的 HTML 元素、排在第一位的 kebab-case 类名、HTML 不足之处的 ARIA、键盘行为，以及透传你的其他属性。
+    </p>
+  </details>
+  <details>
+    <summary>自测：你想给一个按钮加红色边框。应该写在哪里？</summary>
+    <p>写在你的 CSS 里，针对类名（<code>.button</code>）或你添加的类。绝不写在组件里。</p>
+  </details>
+
+  <h2>第 2 单元 — 键盘与焦点</h2>
+  <p><strong>目标：</strong> 不用鼠标使用和测试每个组件。</p>
+  <p>
+    <strong>阅读：</strong> 以下组件的键盘交互表：
+    <a href="/components/tab-bar/">TabBar</a>、 <a href="/components/listbox/">Listbox</a>
+    和 <a href="/components/dialog/">Dialog</a>。
+  </p>
+  <p>
+    <strong>动手：</strong> 拔掉鼠标。在这三个页面上，用 <kbd>Tab</kbd> 到达演示，并完成表中列出的所有操作。打开对话框，按 <kbd>Escape</kbd>，记下焦点落在哪里。
+  </p>
+  <details>
+    <summary>自测：为什么标签栏只占一个 <kbd>Tab</kbd> 停靠点，而不是每个标签一个？</summary>
+    <p>
+      APG 组合模式： <kbd>Tab</kbd> 在控件之间移动，方向键在控件内部移动（漫游 tabindex）。有十个停靠点的标签栏会让键盘用户按十次 <kbd>Tab</kbd> 才能越过它。
+    </p>
+  </details>
+  <details>
+    <summary>自测：模态对话框关闭后，焦点应在哪里？</summary>
+    <p>在打开它的控件上。Lily 的模态对话框使用 <code>showModal()</code>，它还会在对话框打开时把 <kbd>Tab</kbd> 限制在对话框内。</p>
+  </details>
+
+  <h2>第 3 单元 — 名称、角色和状态</h2>
+  <p><strong>目标：</strong> 用你自己的措辞，为每个控件提供读屏软件可以朗读的名称。</p>
+  <p><strong>阅读：</strong> 以下组件的 ARIA 部分： <a href="/components/icon-button/">IconButton</a> 和 <a href="/components/switch-button/">SwitchButton</a>。</p>
+  <p>
+    <strong>动手：</strong> 在你自己的应用中运行开发服务器，渲染一个 <code>IconButton</code> ，但不提供它的 <code>label</code>。打开浏览器控制台：Lily 会警告该控件没有无障碍名称。加上标签，确认警告消失。（警告只存在于开发构建中，所以生产页面，例如本站，不会显示。）
+  </p>
+  <details>
+    <summary>自测：什么时候用 <code>aria-label</code>，什么时候用可见文字？</summary>
+    <p>
+      尽可能使用可见文字：每个人都能看到，语音输入用户也能说出来。 <code>aria-label</code> 只用于没有可见文字的地方，例如图标。如果两者都有，名称必须包含可见的文字（WCAG 2.5.3）。
+    </p>
+  </details>
+  <details>
+    <summary>自测：一个只用红色显示的状态。缺少什么？</summary>
+    <p>文字。颜色可以重复含义，但绝不能单独承载含义（WCAG 1.4.1）；状态需要文字。</p>
+  </details>
+
+  <h2>第 4 单元 — 表单</h2>
+  <p><strong>目标：</strong> 构建一个任何人都能找到并改正错误的表单。</p>
+  <p><strong>阅读并动手：</strong>  <a href="/tutorials/forms/">无障碍表单教程</a>，全部五步。</p>
+  <details>
+    <summary>自测：表单验证失败。焦点去哪里，朗读什么？</summary>
+    <p>去错误摘要，朗读其标题和链接列表，每个错误一个链接，各自通向对应字段。</p>
+  </details>
+  <details>
+    <summary>自测：为什么不在表单有效前禁用提交按钮？</summary>
+    <p>禁用的按钮无法说明哪里有误，很多人也不明白它为什么没有反应。</p>
+  </details>
+
+  <h2>第 5 单元 — 主题与对比度</h2>
+  <p><strong>目标：</strong> 在不破坏对比度和焦点的前提下重新设计 Lily 的样式。</p>
+  <p>
+    <strong>阅读：</strong>  <a href="/tutorials/theming/">主题教程</a> 和 <a href="/theme-contrast/">主题对比度</a> 表。
+  </p>
+  <p>
+    <strong>动手：</strong> 用你的品牌色覆盖 <code>--color-primary</code> 。检查它的配对色 <code>--color-primary-content</code>是否达到 4.5:1，以及焦点环在页面上是否仍然清晰。
+  </p>
+  <details>
+    <summary>自测：你的品牌色太浅，不适合放白色文字。还能用吗？</summary>
+    <p>
+      可以，用作装饰（<code>--lily-brand</code>：页眉色带、分隔线、标志背景），但绝不用于文字或控件边框。文字和边框使用主题的内容配色。
+    </p>
+  </details>
+
+  <h2>第 6 单元 — 全球化</h2>
+  <p><strong>目标：</strong> 不把任何国家设为默认。</p>
+  <p><strong>阅读并动手：</strong> <a href="/tutorials/worldwide/">在全世界都能用的表单</a>。</p>
+  <details>
+    <summary>自测：为什么 <code>CurrencyInput</code> 没有默认货币？</summary>
+    <p>任何默认值都只会是某一国的货币，在其他地方默默出错。缺少 <code>currencyCode</code> 是调用方的缺陷。</p>
+  </details>
+  <details>
+    <summary>自测：一个阿拉伯语页面。你要设置什么，你的 CSS 又必须做什么？</summary>
+    <p><code>lang="ar"</code> 和 <code>dir="rtl"</code> （语言选择器会同时设置两者）；你的 CSS 使用逻辑属性，让布局自动镜像。</p>
+  </details>
+
+  <h2>第 7 单元 — 动效</h2>
+  <p><strong>目标：</strong> 制作动画而不伤害任何人。</p>
+  <p><strong>阅读：</strong>  <a href="/patterns/motion/">动效方案</a>。</p>
+  <p>
+    <strong>动手：</strong> 在操作系统中开启“减少动态效果”，然后重新加载带跑马灯方案的页面。它应当静止并换行。然后用键盘到达它的暂停按钮。
+  </p>
+  <details>
+    <summary>自测：某个东西自动移动超过五秒。它必须具备什么？</summary>
+    <p>可以暂停、停止或隐藏它的方式（WCAG 2.2.2），并且能用键盘操作，而不只是悬停。</p>
+  </details>
+
+  <h2>第 8 单元 — 检查你的成果</h2>
+  <p><strong>目标：</strong> 像 Lily 测试自己的页面那样测试一个页面。</p>
+  <p>
+    <strong>动手：</strong> 选一个你在本课程中构建的页面，做四项检查：
+  </p>
+  <ol>
+    <li>axe（浏览器扩展，或在测试中使用 <code>@axe-core/playwright</code> ）：没有违规。</li>
+    <li>仅用键盘：完成每项任务，焦点始终可见，从不被困住。</li>
+    <li>缩放到 400%，并把窗口缩窄到 320 像素：没有横向滚动，没有内容被截断。</li>
+    <li>读屏软件：每个控件都有名称、角色和状态，错误会被朗读。</li>
+  </ol>
+  <details>
+    <summary>自测：axe 没有报告违规。页面就无障碍了吗？</summary>
+    <p>
+      尚未证明。自动检查也许能发现三分之一的问题；键盘、缩放和读屏检查能发现其余的大部分。请参阅
+      <a href="/quality/">质量页面</a> ，了解 Lily 自身已验证和未验证的内容。
+    </p>
+  </details>
+
+  <h2>课程之后</h2>
+  <ul>
+    <li><a href="/patterns/healthcare/">医疗健康指南</a>，用于临床软件。</li>
+    <li><a href="/tutorials/helpers/">辅助组件</a>：选择器、数据网格、日历。</li>
+    <li><a href="/help/">帮助</a>，以及 <a href="https://github.com/LilyDesignSystem">本项目</a> ，可以提问。</li>
+  </ul>
+</section>

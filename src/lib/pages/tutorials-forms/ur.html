@@ -1,0 +1,157 @@
+<!-- title: قابلِ رسائی فارم ٹیوٹوریل — Lily Design System -->
+<!-- description: لیبل، اشارے، ہر خانے کے ساتھ غلطیاں، اور فوکس پانے والا غلطیوں کا خلاصہ: کسی بھی فریم ورک میں Lily کے ساتھ ایک قابلِ رسائی فارم۔ -->
+<section class="page-intro">
+  <h1>قابلِ رسائی فارم ٹیوٹوریل</h1>
+  <p class="page-intro-tagline">
+    فریم ورک کوئی بھی ہو، ہر Lily فارم یہی طریقہ اپناتا ہے: ہر کنٹرول کو لیبل دیں، جمع کرانے پر جانچیں، ہر غلطی اس کے خانے کے ساتھ رکھیں، اور جہاں فوکس پہنچے وہاں غلطیوں کا خلاصہ دیں۔
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>آپ کیا بنائیں گے</h2>
+  <p>
+    دو خانوں والا ایک فارم، جو غلطیوں کے ساتھ جمع ہونے پر بتاتا ہے کہ کیا غلط ہے، ہر خانے کے ساتھ اور اوپر ایک خلاصے میں، اور فوکس وہیں لے جاتا ہے، تاکہ کی بورڈ یا اسکرین ریڈر استعمال کرنے والا فوراً غلطیاں ڈھونڈ لے۔ اسے Lily کلاس ہکس کے ساتھ سادہ HTML میں دکھایا گیا ہے؛ ہر فریم ورک کیٹلاگ اپنے <code>Field</code>، <code>Hint</code>،
+    <code>ErrorMessage</code> اور <code>ErrorSummary</code> اجزاء سے یہی مارک اپ بناتا ہے۔ تقریباً 20 منٹ؛ پہلے <a href="/tutorials/html/">HTML ٹیوٹوریل</a> کر لینا مددگار ہے۔
+  </p>
+
+  <h2>مرحلہ 1 — ہر کنٹرول کو لیبل دیں، اور بتائیں کہ آپ کیا چاہتے ہیں</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" novalidate&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+    &lt;input class="email-input" type="email" id="email" name="email"
+      autocomplete="email" aria-describedby="email-hint" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Continue&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <ul>
+    <li>ہر کنٹرول پر ایک نظر آنے والا <code>&lt;label for&gt;</code> ، اس کی جگہ کبھی پلیس ہولڈر نہیں: پلیس ہولڈر ٹائپ کرتے ہی غائب ہو جاتا ہے۔</li>
+    <li>اشارہ خانے کے نام سے <code>aria-describedby</code>کے ذریعے جڑتا ہے، اس لیے اسکرین ریڈر اسے خانے کے ساتھ پڑھتا ہے۔</li>
+    <li><code>autocomplete</code> براؤزر کو وہ بھرنے دیتا ہے جو وہ جانتا ہے (WCAG 1.3.5)۔</li>
+    <li>
+      <code>novalidate</code> براؤزر کے اپنے بلبلے بند کر دیتا ہے، کیونکہ غلطیاں آپ خود، اپنے الفاظ اور اپنی زبان میں دکھائیں گے۔
+      <code>required</code> اور <code>type</code> برقرار رہتے ہیں: آپ کا اسکرپٹ انہیں پڑھتا ہے۔
+    </li>
+  </ul>
+
+  <h2>مرحلہ 2 — جمع کرانے پر جانچیں، ٹائپ کرتے وقت نہیں</h2>
+  <p>
+    ایک حرف کے بعد ہی کسی کو بتانا کہ اس کی ای میل غلط ہے، محض شور ہے۔ جمع کرانے پر جانچیں۔ تمام 63 تھیمز کسی خانے کو تبھی غلط دکھاتی ہیں جب اسے بدل کر چھوڑا گیا ہو (<code>:user-invalid</code>)، یا جب آپ
+    <code>aria-invalid="true"</code>سیٹ کریں، اس لیے صفحہ کھلنے پر کچھ بھی سرخ نہیں ہوتا۔
+  </p>
+  <p>فارم درست ہونے تک جمع کرانے کا بٹن کبھی غیر فعال نہ کریں: غیر فعال بٹن وجہ نہیں بتا سکتا۔</p>
+
+  <h2>مرحلہ 3 — ہر غلطی اس کے خانے کے ساتھ رکھیں</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="field"&gt;
+  &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+  &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+  &lt;p class="error-message" id="email-error"&gt;Enter an email address in the right format, like name@example.com&lt;/p&gt;
+  &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email"
+    aria-invalid="true" aria-describedby="email-hint email-error" required /&gt;
+&lt;/div&gt;</code></pre>
+  <ul>
+    <li><code>aria-invalid="true"</code> بتاتا ہے کہ خانہ غلط ہے؛ پیغام بتاتا ہے کیوں اور کیسے درست کریں۔</li>
+    <li>پیغام <code>aria-describedby</code>میں ہے، اشارے کے بعد، اس لیے خانے پر فوکس آنے پر پڑھا جاتا ہے۔</li>
+    <li>بتائیں کہ کیا کرنا ہے، صرف یہ نہیں کہ کیا غلط ہے: "درست شکل میں ای میل پتہ درج کریں"، نہ کہ "غلط"۔</li>
+    <li>کبھی صرف رنگ نہیں: متن ہی غلطی ہے؛ سرخ کنارہ بس اسے دہراتا ہے (WCAG 1.4.1)۔</li>
+  </ul>
+
+  <h2>مرحلہ 4 — جہاں فوکس پہنچے وہاں غلطیوں کا خلاصہ دیں</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="error-summary" role="alert" tabindex="-1" aria-labelledby="error-summary-title"&gt;
+  &lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#name"&gt;Enter your full name&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#email"&gt;Enter an email address in the right format, like name@example.com&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    اسے فارم کے اوپر رکھیں اور جمع کرانے پر فوکس اس پر لے جائیں۔ ہر لنک سیدھا اپنے خانے پر جاتا ہے۔ <code>tabindex="-1"</code> خلاصے کو نیا ٹیب پڑاؤ شامل کیے بغیر فوکس لینے دیتا ہے۔
+  </p>
+
+  <h2>مرحلہ 5 — سب کچھ جوڑنے والا اسکرپٹ</h2>
+  
+  <pre tabindex="0"><code>const messages = {
+  name: { valueMissing: "Enter your full name" },
+  email: {
+    valueMissing: "Enter your email address",
+    typeMismatch: "Enter an email address in the right format, like name@example.com",
+  },
+};
+
+const form = document.querySelector("form");
+form.addEventListener("submit", (event) =&gt; {
+  form.querySelector(".error-summary")?.remove();
+  const errors = [];
+  for (const field of form.querySelectorAll("input")) {
+    const old = document.getElementById(field.id + "-error");
+    old?.remove();
+    const describedBy = (field.getAttribute("aria-describedby") ?? "")
+      .split(" ").filter((id) =&gt; id &amp;&amp; id !== field.id + "-error");
+    const problem = Object.keys(messages[field.name] ?? {}).find((key) =&gt; field.validity[key]);
+    if (!problem) {
+      field.removeAttribute("aria-invalid");
+      field.setAttribute("aria-describedby", describedBy.join(" "));
+      continue;
+    }
+    const text = messages[field.name][problem];
+    const message = document.createElement("p");
+    message.className = "error-message";
+    message.id = field.id + "-error";
+    message.textContent = text;
+    field.before(message);
+    field.setAttribute("aria-invalid", "true");
+    field.setAttribute("aria-describedby", [...describedBy, message.id].join(" "));
+    errors.push({ id: field.id, text });
+  }
+  if (errors.length === 0) return; // valid: let it submit
+  event.preventDefault();
+  const summary = document.createElement("div");
+  summary.className = "error-summary";
+  summary.setAttribute("role", "alert");
+  summary.tabIndex = -1;
+  summary.setAttribute("aria-labelledby", "error-summary-title");
+  summary.innerHTML = '&lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;&lt;ul&gt;&lt;/ul&gt;';
+  for (const { id, text } of errors) {
+    const link = document.createElement("a");
+    link.href = "#" + id;
+    link.textContent = text;
+    const item = document.createElement("li");
+    item.append(link);
+    summary.querySelector("ul").append(item);
+  }
+  form.prepend(summary);
+  summary.focus();
+});</code></pre>
+  <p>
+    پیغامات آپ کے ہیں، آپ کی زبان میں: براؤزر کا
+    <code>validity</code> بتاتا ہے کہ کون سا اصول ناکام ہوا، اور آپ کی جدول بتاتی ہے کہ فرد سے کیا کہنا ہے۔ Lily ترجمے کے لیے کوئی انگریزی متن نہیں دیتا۔
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>اپنا کام جانچیں:</strong> خالی فارم کی بورڈ سے جمع کرائیں۔ فوکس خلاصے پر جاتا ہے اور اسکرین ریڈر "There is a problem" اور دونوں غلطیاں پڑھتا ہے۔ کسی لنک پر جائیں: فوکس خانے میں پہنچتا ہے، جو اپنے اشارے اور غلطی کے ساتھ پڑھا جاتا ہے۔ دونوں درست کر کے جمع کرائیں: فارم چلا جاتا ہے، کوئی غلطی باقی نہیں رہتی۔
+    </p>
+  </div>
+
+  <h2>کن باتوں سے بچیں</h2>
+  <ul>
+    <li>کسی کے لکھے کو بتائے بغیر محدود یا درست کرنا؛ اس کے بجائے انہیں بتائیں۔</li>
+    <li>غلطی پر فارم خالی کر دینا: جو کچھ درج کیا گیا سب رکھیں۔</li>
+    <li>ایسی غلطی جو صرف ہوور پر یا صرف ٹول ٹپ میں دکھائی دے۔</li>
+    <li>بغیر خبردار کیے فارم کا وقت ختم ہونا؛ خبردار کرنے اور وقت بڑھانے کے لیے <code>timeout-dialog</code> استعمال کریں۔</li>
+  </ul>
+
+  <h2>اگلے اقدامات</h2>
+  <ul>
+    <li><a href="/training/">تربیت</a> — آٹھ ماڈیول، ہر ایک میں ایک مشق اور خود جانچ۔</li>
+    <li><a href="/components/error-summary/">ErrorSummary</a>، <a href="/components/field/">Field</a> اور <a href="/components/error-message/">ErrorMessage</a> کیٹلاگ میں۔</li>
+    <li><a href="/tutorials/worldwide/">دنیا بھر میں کام کرنے والا فارم</a> — نام، پتے، تاریخیں اور لکھائی کی سمت۔</li>
+    <li><a href="/tutorials/theming/">تھیمنگ</a> — ہر تھیم جو غلط حالت دکھاتی ہے۔</li>
+  </ul>
+</section>

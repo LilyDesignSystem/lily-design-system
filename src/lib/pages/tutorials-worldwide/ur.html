@@ -1,0 +1,103 @@
+<!-- title: دنیا بھر میں کام کرنے والا فارم — Lily Design System -->
+<!-- description: نام، پتے، تاریخیں، رقم، لکھائی کی سمت اور ترجمہ شدہ معاون: کسی ایک نہیں، ہر ملک کے لیے Lily فارم بنانا۔ -->
+<section class="page-intro">
+  <h1>دنیا بھر میں کام کرنے والا فارم</h1>
+  <p class="page-intro-tagline">
+    Lily ہر ملک کو ہدف بناتا ہے، کسی ایک کو نہیں۔ اس میں کوئی انگریزی نہیں اور یہ کوئی ملک فرض نہیں کرتا، اس لیے فارم کو مقامی بنانے والے فیصلے آپ کے ہیں، سوچ سمجھ کر کیے گئے۔ یہ ٹیوٹوریل انہیں ایک ایک کر کے دکھاتا ہے۔
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>آپ کیا بنائیں گے</h2>
+  <p>
+    کئی ملکوں کے لوگوں کی خدمت کرنے والے کلینک کا اندراج فارم: نام، تاریخِ پیدائش، پتہ، فون نمبر، فیس، اور ضرورت ہو تو دائیں سے بائیں پڑھا جانے والا صفحہ۔ مثالیں Svelte میں ہیں؛ ہر کیٹلاگ وہی پراپس لیتا ہے۔ تقریباً 20 منٹ،
+    <a href="/tutorials/forms/">قابلِ رسائی فارم ٹیوٹوریل</a>کے بعد۔
+  </p>
+
+  <h2>مرحلہ 1 — نام: ایک خانہ، دو نہیں</h2>
+  
+  <pre tabindex="0"><code>&lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+&lt;TextInput id="name" name="name" autocomplete="name" label="Full name" /&gt;</code></pre>
+  <p>
+    "پہلا نام" اور "خاندانی نام" بہت سے لوگوں پر پورے نہیں اترتے: صرف ایک نام، خاندانی نام پہلے، دو خاندانی نام، ولدیت۔ پورا نام ایک خانے میں پوچھیں، اور اگر جاننا ہو کہ کسی کو کیسے مخاطب کریں تو وہ الگ سے پوچھیں۔
+  </p>
+
+  <h2>مرحلہ 2 — تاریخیں: حصے قاری کی ترتیب میں</h2>
+  
+  <pre tabindex="0"><code>&lt;DateField
+  label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  autocomplete="bday"
+  name="dob"
+  bind:value={dob}
+/&gt;</code></pre>
+  <p>
+    <code>order</code> کی قدر <code>"dmy"</code>، <code>"mdy"</code> یا
+    <code>"ymd"</code>ہو سکتی ہے: وہی چنیں جس کی آپ کے قارئین توقع کرتے ہیں، کیونکہ 03/04 ایک ملک میں مارچ ہے اور اگلے میں اپریل۔ ترتیب جو بھی ہو، قدر ہمیشہ ISO میں ہوتی ہے (<code>YYYY-MM-DD</code>‏)۔ ایسی تاریخ کے لیے جو کسی کو آدھی ہی معلوم ہو، جیسے کوئی بیماری کب شروع ہوئی، <code>precision="month"</code>
+    محفوظ کرتا ہے <code>2019-03</code> اور کبھی کوئی دن نہیں گھڑتا۔
+  </p>
+  <p>
+    تاریخ دکھانے کے لیے اسے قاری کی لوکیل میں <code>Intl.DateTimeFormat</code> سے فارمیٹ کریں؛ Lily کبھی آپ کے لیے فارمیٹ نہیں کرتا۔
+  </p>
+
+  <h2>مرحلہ 3 — پتے: کسی ملک کا ڈھانچہ بطور طے شدہ نہیں</h2>
+  
+  <pre tabindex="0"><code>&lt;AddressInput label="Home address"&gt;
+  &lt;label class="label" for="address"&gt;Address&lt;/label&gt;
+  &lt;textarea class="text-area-input" id="address" name="address" autocomplete="street-address" rows="4"&gt;&lt;/textarea&gt;
+  &lt;label class="label" for="country"&gt;Country or territory&lt;/label&gt;
+  &lt;select class="select" id="country" name="country" autocomplete="country"&gt; … &lt;/select&gt;
+&lt;/AddressInput&gt;</code></pre>
+  <p>
+    <code>AddressInput</code> ایک نام والا گروپ ہے؛ اندر کے خانے آپ کے ہیں۔ ایک آزاد متن والا پتہ اور ملک ہر جگہ کام کرتا ہے۔ اگر اسے بانٹیں تو ملک کے حساب سے بانٹیں (کئی ملکوں میں پوسٹ کوڈ اختیاری یا موجود ہی نہیں) اور کبھی "ریاست" کا خانہ لازمی نہ کریں۔
+  </p>
+
+  <h2>مرحلہ 4 — فون نمبر اور رقم</h2>
+  
+  <pre tabindex="0"><code>&lt;TelInput label="Phone number" name="phone" autocomplete="tel" /&gt;
+&lt;CurrencyInput label="Fee" currencyCode="KES" bind:value={fee} /&gt;</code></pre>
+  <p>
+    فون نمبر جیسا لکھا گیا ویسا ہی قبول کریں، خالی جگہوں اور <code>+</code>کے ساتھ؛ کسی ایک ملک کی شکل مسلط نہ کریں۔ <code>CurrencyInput</code> کی کوئی طے شدہ کرنسی نہیں: <code>currencyCode</code> (ISO 4217) لازمی ہے، کیونکہ کوئی بھی طے شدہ قدر کسی ایک ملک کی رقم ہوگی۔
+  </p>
+
+  <h2>مرحلہ 5 — سمت اور زبان</h2>
+  
+  <pre tabindex="0"><code>&lt;LocalePicker label="Language" locales={["en", "fr", "ar", "sw"]} bind:value={locale} /&gt;</code></pre>
+  <p>
+    لوکیل پکر صفحے پر <code>lang</code> اور <code>dir</code> سیٹ کرتا ہے، تاکہ عربی یا عبرانی دائیں سے بائیں پڑھی جائے۔ ہر Lily جزو
+    <code>dir</code>وراثت میں لیتا ہے؛ تھیمز منطقی خصوصیات استعمال کرتی ہیں (<code>margin-inline-start</code>، نہ کہ <code>margin-left</code>‏)، اور آپ کا CSS بھی ایسا ہی کرے۔ پکر کچھ ترجمہ نہیں کرتا: آپ کا متن آپ کے اپنے ترجموں سے آتا ہے۔
+  </p>
+
+  <h2>مرحلہ 6 — معاونین کے لیبل، قاری کی زبان میں</h2>
+  
+  <pre tabindex="0"><code>&lt;script lang="ts"&gt;
+  import { labelsFor } from "@lilydesignsystem/svelte-locale-translations";
+  import sw from "@lilydesignsystem/svelte-locale-translations/sw-001";
+  import DataGrid from "@lilydesignsystem/svelte-data-grid";
+&lt;/script&gt;
+
+&lt;DataGrid label="Wagonjwa" labels={labelsFor("data-grid", sw)} … /&gt;</code></pre>
+  <p>
+    ڈیٹا گرڈ، کانبان بورڈ، کیلنڈر، گینٹ چارٹ اور فلٹر میں اسکرین ریڈر کے بہت سے لیبل ہیں۔ Lily انہیں 64 زبانوں میں لیبل پیک کی صورت دیتا ہے۔ صرف انگریزی کا جائزہ ہوا ہے؛ باقی 63 مشینی مسودے ہیں، اس لیے بھروسہ کرنے سے پہلے کسی اہلِ زبان سے الفاظ جانچ لیں۔ کوئی پیک کبھی دوسری زبان پر نہیں لوٹتا۔
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>اپنا کام جانچیں:</strong> صفحہ عربی میں بدلیں اور جانچیں کہ ترتیب بغیر کٹے متن کے الٹ جاتی ہے؛ اپنی ترتیب میں تاریخ درج کریں اور تصدیق کریں کہ بھیجی گئی قدر ISO ہے؛ کسی کو ایک لفظی نام اور بغیر پوسٹ کوڈ کا پتہ دیں، اور یقینی بنائیں کہ فارم دونوں قبول کرتا ہے۔
+    </p>
+  </div>
+
+  <h2>اگلے اقدامات</h2>
+  <ul>
+    <li><a href="/training/">تربیت</a> — آٹھ ماڈیول، ہر ایک میں ایک مشق اور خود جانچ۔</li>
+    <li>
+      <a href="/components/">قومی شناخت کنندگان</a>‏: 50 سے زیادہ ملکوں کی 82 اقسام کے شناخت کنندگان کے لیے 164 اجزاء، ہر ایک کا ایک <code>-input</code>
+      اور ایک <code>-view</code>۔
+    </li>
+    <li><a href="/tutorials/helpers/">ترجیحی معاونین</a>‏: زبان، متن کا سائز، حرکت اور ٹائم زون۔</li>
+    <li><a href="/locales/">لوکیلز</a>‏: وہ زبانیں جن کا احاطہ سائٹ اور لیبل پیک کرتے ہیں۔</li>
+  </ul>
+</section>

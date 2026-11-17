@@ -1,0 +1,114 @@
+<!-- title: Alpine.js 教程 — Lily Design System -->
+<!-- description: 用 Lily 的 Alpine.js 无头代码片段和一个插件，构建一个无障碍且带样式的表单。 -->
+<section class="page-intro">
+  <h1>Alpine.js 教程</h1>
+  <p class="page-intro-tagline">
+    Alpine 版 Lily 是你粘贴进页面的 HTML 代码片段，再加一个插件，为交互组件提供键盘操作和状态。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你将构建什么</h2>
+  <p>
+    一个小型设置表单：两个带标签的字段、一个开关和一个保存按钮，具备真实的键盘和读屏行为，先是无样式，再加样式，大约 10 分钟。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    你需要 Node.js，以及一个已加载 Alpine.js 3 的页面。Alpine 没有组件模型，所以这里的 Lily 组件是你复制的标记，而不是导入。
+  </p>
+
+  <h2>第 1 步 — 安装并注册插件</h2>
+  
+  <pre tabindex="0"><code>npm install alpinejs @lilydesignsystem/alpine-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import Alpine from "alpinejs";
+  import lily from "@lilydesignsystem/alpine-headless/plugin";
+  Alpine.plugin(lily);
+  Alpine.start();
+&lt;/script&gt;</code></pre>
+  <p>
+    插件为每个交互组件注册一个 <code>Alpine.data()</code> 行为，名称为 <code>lily</code> 加组件名：
+    <code>lilySwitchButton</code>、 <code>lilyTabs</code>、
+    <code>lilyCombobox</code>。每个组件的代码片段都在包的 <code>components/</code> 文件夹中，每个都有一段头部注释，说明其元素、类名、按键和 ARIA。
+  </p>
+
+  <h2>第 2 步 — 你的第一个组件</h2>
+  <p>大多数组件只是普通标记，不需要插件：</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code></pre>
+  <p>交互组件用 <code>x-data</code> 添加行为，并用 <code>x-bind</code>绑定：</p>
+  
+  <pre tabindex="0"><code>&lt;button
+  class="switch-button"
+  x-data="lilySwitchButton(false)"
+  x-bind="button"
+  aria-label="Email me about appointments"
+&gt;
+  Email me about appointments
+&lt;/button&gt;</code></pre>
+  <p>
+    行为为它加上 <code>role="switch"</code> ，并在 Enter、空格或点击切换时保持
+    <code>aria-checked</code> 同步。文字由你提供：Lily 从不提供标签。
+  </p>
+
+  <h2>第 3 步 — 组合一个小表单</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" aria-label="Settings"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button
+    class="switch-button"
+    type="button"
+    x-data="lilySwitchButton(true)"
+    x-bind="button"
+    aria-label="Email me about appointments"
+  &gt;
+    Email me about appointments
+  &lt;/button&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查成果：</strong> 打开页面并按
+      <kbd>Tab</kbd>。焦点依次经过两个字段、开关和按钮。在开关上按 <kbd>Space</kbd> 可切换它，读屏软件会说“开关，开”或“关”。看起来很朴素，这是对的：样式在下一步。
+    </p>
+  </div>
+
+  <h2>第 4 步 — 添加样式</h2>
+  <p>链接 63 个现成主题之一，它们针对同样的类名：</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;</code></pre>
+  <p>或者针对类名和行为设置的状态编写你自己的 CSS：</p>
+  
+  <pre tabindex="0"><code>.switch-button[aria-checked="true"] { background: var(--color-primary); }
+.switch-button:focus-visible { outline: 2px solid var(--lily-focus-ring); outline-offset: 2px; }</code></pre>
+  <p>
+    为 ARIA 状态设置样式，而不是自定义类：这样外观永远不会与读屏软件听到的内容不一致。
+  </p>
+
+  <h2>第 5 步 — 查看完整效果</h2>
+  <ul>
+    <li>
+      Alpine.js 示例应用 <code>lily-design-system-alpine-examples</code>展示了所有带样式的组件： <code>pnpm install &amp;&amp; pnpm run build</code>。
+    </li>
+    <li>
+      Alpine 有六个辅助组件：数据网格、看板、日历、甘特图，以及 Markdown 和 Org 编辑器（<code>@lilydesignsystem/alpine-*</code>）。
+    </li>
+  </ul>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/training/">培训</a> — 八个单元，每个都有练习和自测。</li>
+    <li><a href="/tutorials/forms/">无障碍表单</a> — 错误、错误摘要和焦点。</li>
+    <li><a href="/tutorials/theming/">主题</a> — 运行时切换主题。</li>
+    <li><a href="/components/">组件目录</a> — 完整参考。</li>
+  </ul>
+</section>

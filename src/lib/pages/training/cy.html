@@ -1,0 +1,150 @@
+<!-- title: Hyfforddiant — Lily Design System -->
+<!-- description: Cwrs hunanarweiniol mewn wyth modiwl: cydrannau headless, bysellfwrdd, enwau, ffurflenni, themâu, ffurflenni byd-eang, symud a gwirio eich gwaith, pob un gydag ymarfer a hunanwiriad. -->
+<section class="page-intro">
+  <h1>Hyfforddiant</h1>
+  <p class="page-intro-tagline">
+    Cwrs hunanarweiniol i dîm sy'n mabwysiadu Lily: wyth modiwl, pob un â nod, rhywbeth i'w ddarllen, ymarfer rydych chi'n ei wneud mewn porwr go iawn, a hunanwiriad gydag atebion. Tua diwrnod i gyd; mae un modiwl bob sesiwn yn gweithio'n dda.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Dewiswch un <a href="/tutorials/">tiwtorial</a> fframwaith a'i orffen yn gyntaf. Rhedwch un o'r apiau enghreifftiol yn lleol, neu defnyddiwch y
+    <a href="/components/">tudalennau cydrannau</a> yma, ar gyfer yr ymarferion. Mae angen bysellfwrdd arnoch, ac ar gyfer modiwl 8 ddarllenydd sgrin: VoiceOver ar macOS ac iOS, NVDA ar Windows neu TalkBack ar Android, i gyd am ddim.
+  </p>
+
+  <h2>Modiwl 1 — Ystyr headless</h2>
+  <p><strong>Nod:</strong> gwybod beth mae Lily yn ei benderfynu a beth rydych chi'n ei benderfynu.</p>
+  <p>
+    <strong>Darllen:</strong> y <a href="/about/">dudalen Amdanom</a>, ac un dudalen gydran, fel <a href="/components/button/">Button</a>, o'r dechrau i'r diwedd.
+  </p>
+  <p>
+    <strong>Gwneud:</strong> dangoswch <code>Button</code> a <code>TextInput</code>
+    heb ddalen arddull. Yna cysylltwch un thema, yna un arall. Nodwch beth newidiodd a beth na newidiodd.
+  </p>
+  <details>
+    <summary>Hunanwiriad: beth nad yw cydran Lily byth yn ei gynnwys? Beth mae bob amser yn ei gynnwys?</summary>
+    <p>
+      Byth: CSS, ffontiau, eiconau na delweddau (ac eithrio eiconau'r dewiswyr), testun Saesneg, nôl data, locale nac arian cyfred rhagosodedig. Bob amser: yr elfen HTML fwyaf penodol, ei bachyn dosbarth kebab-case yn gyntaf, ARIA lle mae HTML yn brin, ymddygiad bysellfwrdd, a'ch priodoleddau eraill wedi'u trosglwyddo.
+    </p>
+  </details>
+  <details>
+    <summary>Hunanwiriad: rydych chi eisiau ffin goch ar un botwm. Ble mae'n mynd?</summary>
+    <p>Yn eich CSS, ar y bachyn dosbarth (<code>.button</code>) neu ddosbarth rydych chi'n ei ychwanegu. Byth yn y gydran.</p>
+  </details>
+
+  <h2>Modiwl 2 — Bysellfwrdd a ffocws</h2>
+  <p><strong>Nod:</strong> defnyddio a phrofi pob cydran heb lygoden.</p>
+  <p>
+    <strong>Darllen:</strong> y tabl Rhyngweithiadau Bysellfwrdd ar
+    <a href="/components/tab-bar/">TabBar</a>, <a href="/components/listbox/">Listbox</a>
+    a <a href="/components/dialog/">Dialog</a>.
+  </p>
+  <p>
+    <strong>Gwneud:</strong> datgysylltwch y llygoden. Ar bob un o'r tair tudalen, cyrhaeddwch y demo gyda <kbd>Tab</kbd> a gwnewch bopeth mae'r tabl yn ei restru. Agorwch y deialog, pwyswch <kbd>Escape</kbd>, a nodwch ble mae'r ffocws yn glanio.
+  </p>
+  <details>
+    <summary>Hunanwiriad: pam mai un arhosfan <kbd>Tab</kbd> sydd gan far tabiau, nid un i bob tab?</summary>
+    <p>
+      Patrwm cyfansawdd yr APG: <kbd>Tab</kbd> yn symud rhwng teclynnau, ac mae'r bysellau saeth yn symud o fewn un (mynegai tab crwydrol). Mae bar tabiau â deg arhosfan yn gwneud i ddefnyddiwr bysellfwrdd bwyso <kbd>Tab</kbd> ddeg gwaith i fynd heibio iddo.
+    </p>
+  </details>
+  <details>
+    <summary>Hunanwiriad: ar ôl i ddeialog moddol gau, ble dylai'r ffocws fod?</summary>
+    <p>Ar y rheolydd a'i hagorodd. Mae deialogau moddol Lily yn defnyddio <code>showModal()</code>, sydd hefyd yn cadw <kbd>Tab</kbd> y tu mewn i'r deialog tra bydd ar agor.</p>
+  </details>
+
+  <h2>Modiwl 3 — Enwau, rolau a chyflyrau</h2>
+  <p><strong>Nod:</strong> rhoi enw i bob rheolydd y gall darllenydd sgrin ei ddweud, yn eich geiriau chi.</p>
+  <p><strong>Darllen:</strong> adran ARIA <a href="/components/icon-button/">IconButton</a> a <a href="/components/switch-button/">SwitchButton</a>.</p>
+  <p>
+    <strong>Gwneud:</strong> yn eich ap eich hun, gyda'i weinydd datblygu, dangoswch <code>IconButton</code> heb ei <code>label</code>. Agorwch gonsol y porwr: mae Lily yn rhybuddio nad oes enw hygyrch gan y rheolydd. Ychwanegwch y label a gwiriwch fod y rhybudd wedi mynd. (Dim ond mewn adeiladwaith datblygu y mae'r rhybuddion yn bodoli, felly mae tudalen gynhyrchu, fel y wefan hon, yn aros yn dawel.)
+  </p>
+  <details>
+    <summary>Hunanwiriad: pryd ydych chi'n defnyddio <code>aria-label</code>, a phryd testun gweladwy?</summary>
+    <p>
+      Testun gweladwy pryd bynnag y gallwch: mae pawb yn ei weld, a gall defnyddwyr mewnbwn llais ei ddweud. <code>aria-label</code> dim ond lle nad oes testun gweladwy, fel eicon. Os yw'r ddau'n bodoli, rhaid i'r enw gynnwys y geiriau gweladwy (WCAG 2.5.3).
+    </p>
+  </details>
+  <details>
+    <summary>Hunanwiriad: statws wedi'i ddangos mewn coch yn unig. Beth sydd ar goll?</summary>
+    <p>Testun. Gall lliw ailadrodd ystyr ond byth ei gario ar ei ben ei hun (WCAG 1.4.1); mae angen geiriau ar y statws.</p>
+  </details>
+
+  <h2>Modiwl 4 — Ffurflenni</h2>
+  <p><strong>Nod:</strong> adeiladu ffurflen y gall unrhyw un ddod o hyd i'w gwallau a'u cywiro.</p>
+  <p><strong>Darllen a gwneud:</strong> y <a href="/tutorials/forms/">tiwtorial ffurflenni hygyrch</a>, y pum cam i gyd.</p>
+  <details>
+    <summary>Hunanwiriad: mae'r ffurflen yn methu'r dilysu. Ble mae'r ffocws yn mynd, a beth sy'n cael ei ddarllen?</summary>
+    <p>I'r crynodeb gwallau, a gyhoeddir gyda'i bennawd a'i restr o ddolenni, un i bob gwall, pob un yn arwain at ei faes.</p>
+  </details>
+  <details>
+    <summary>Hunanwiriad: pam peidio ag analluogi'r botwm cyflwyno nes bod y ffurflen yn ddilys?</summary>
+    <p>Ni all botwm wedi'i analluogi ddweud beth sydd o'i le, ac ni all llawer o bobl ddweud pam nad yw'n gwneud dim.</p>
+  </details>
+
+  <h2>Modiwl 5 — Themâu a chyferbyniad</h2>
+  <p><strong>Nod:</strong> ail-steilio Lily heb dorri cyferbyniad na ffocws.</p>
+  <p>
+    <strong>Darllen:</strong> y <a href="/tutorials/theming/">tiwtorial themâu</a> a'r tabl <a href="/theme-contrast/">cyferbyniad themâu</a> .
+  </p>
+  <p>
+    <strong>Gwneud:</strong> diystyrwch <code>--color-primary</code> gyda lliw eich brand eich hun. Gwiriwch fod ei bâr, <code>--color-primary-content</code>, yn cyrraedd 4.5:1, a bod y cylch ffocws yn dal i ddangos yn erbyn y dudalen.
+  </p>
+  <details>
+    <summary>Hunanwiriad: mae lliw eich brand yn rhy olau ar gyfer testun gwyn. Allwch chi ei ddefnyddio o hyd?</summary>
+    <p>
+      Gallwch, fel addurn (<code>--lily-brand</code>: band pennyn, llinell, cefndir logo), byth ar gyfer testun na ffin rheolydd. Mae testun a ffiniau'n defnyddio parau cynnwys y thema.
+    </p>
+  </details>
+
+  <h2>Modiwl 6 — Ledled y byd</h2>
+  <p><strong>Nod:</strong> peidio â gwneud unrhyw wlad yn rhagosodiad.</p>
+  <p><strong>Darllen a gwneud:</strong> <a href="/tutorials/worldwide/">ffurflen sy'n gweithio ledled y byd</a>.</p>
+  <details>
+    <summary>Hunanwiriad: pam nad oes gan <code>CurrencyInput</code> arian cyfred rhagosodedig?</summary>
+    <p>Byddai unrhyw ragosodiad yn arian un wlad, yn anghywir yn dawel ym mhob man arall. Mae <code>currencyCode</code> coll yn ddiffyg yn y galwr.</p>
+  </details>
+  <details>
+    <summary>Hunanwiriad: tudalen mewn Arabeg. Beth ydych chi'n ei osod, a beth rhaid i'ch CSS ei wneud?</summary>
+    <p><code>lang="ar"</code> a <code>dir="rtl"</code> (mae'r dewisydd iaith yn gosod y ddau); mae eich CSS yn defnyddio priodweddau rhesymegol fel bod y gosodiad yn adlewyrchu ar ei ben ei hun.</p>
+  </details>
+
+  <h2>Modiwl 7 — Symud</h2>
+  <p><strong>Nod:</strong> animeiddio heb niweidio neb.</p>
+  <p><strong>Darllen:</strong> y <a href="/patterns/motion/">ryseitiau symud</a>.</p>
+  <p>
+    <strong>Gwneud:</strong> trowch "lleihau symudiad" ymlaen yn eich system weithredu ac ail-lwythwch dudalen gyda rysáit y marquee. Dylai sefyll yn llonydd a lapio. Yna cyrhaeddwch ei botwm saib gyda'r bysellfwrdd.
+  </p>
+  <details>
+    <summary>Hunanwiriad: mae rhywbeth yn symud ar ei ben ei hun am fwy na phum eiliad. Beth rhaid iddo ei gael?</summary>
+    <p>Ffordd o'i oedi, ei atal neu ei guddio (WCAG 2.2.2), y gellir ei chyrraedd gyda'r bysellfwrdd, nid dim ond drwy hofran.</p>
+  </details>
+
+  <h2>Modiwl 8 — Gwirio eich gwaith</h2>
+  <p><strong>Nod:</strong> profi tudalen yn y ffordd y mae Lily yn profi ei rhai ei hun.</p>
+  <p>
+    <strong>Gwneud:</strong> cymerwch un dudalen a adeiladwyd gennych yn y cwrs hwn a rhedwch bedwar gwiriad:
+  </p>
+  <ol>
+    <li>axe (estyniad y porwr, neu <code>@axe-core/playwright</code> mewn prawf): dim torri rheolau.</li>
+    <li>Bysellfwrdd yn unig: pob tasg wedi'i gwneud, ffocws bob amser yn weladwy, byth wedi'i ddal.</li>
+    <li>Chwyddwch i 400% a culhewch y ffenestr i 320 picsel: dim sgrolio i'r ochr, dim wedi'i dorri.</li>
+    <li>Darllenydd sgrin: mae gan bob rheolydd enw, rôl a'i gyflwr, a chyhoeddir gwallau.</li>
+  </ol>
+  <details>
+    <summary>Hunanwiriad: nid yw axe yn adrodd unrhyw doriadau. Ydy'r dudalen yn hygyrch?</summary>
+    <p>
+      Heb ei brofi eto. Mae gwiriadau awtomatig yn canfod efallai draean o'r problemau; mae'r gwiriadau bysellfwrdd, chwyddo a darllenydd sgrin yn canfod llawer o'r gweddill. Gweler y
+      <a href="/quality/">dudalen ansawdd</a> am yr hyn y mae Lily ei hun wedi'i wirio a heb ei wirio.
+    </p>
+  </details>
+
+  <h2>Ar ôl y cwrs</h2>
+  <ul>
+    <li><a href="/patterns/healthcare/">Y canllaw gofal iechyd</a>, ar gyfer meddalwedd glinigol.</li>
+    <li><a href="/tutorials/helpers/">Y cynorthwywyr</a>: dewiswyr, y grid data, y calendr.</li>
+    <li><a href="/help/">Help</a>, a'r <a href="https://github.com/LilyDesignSystem">prosiect</a> ar gyfer cwestiynau.</li>
+  </ul>
+</section>

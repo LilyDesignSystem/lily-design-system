@@ -1,0 +1,103 @@
+<!-- title: সারা বিশ্বে কাজ করে এমন ফর্ম — Lily Design System -->
+<!-- description: নাম, ঠিকানা, তারিখ, অর্থ, লেখার দিক আর অনূদিত সহায়ক: শুধু একটি নয়, প্রতিটি দেশের জন্য Lily ফর্ম তৈরি। -->
+<section class="page-intro">
+  <h1>সারা বিশ্বে কাজ করে এমন ফর্ম</h1>
+  <p class="page-intro-tagline">
+    Lily একটি নয়, প্রতিটি দেশকে লক্ষ্য করে। এতে কোনো ইংরেজি নেই আর কোনো দেশ ধরে নেওয়া হয় না, তাই ফর্মকে স্থানীয় করার সিদ্ধান্তগুলো আপনার, ভেবেচিন্তে নেওয়া। এই টিউটোরিয়াল সেগুলো একে একে দেখায়।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>আপনি কী বানাবেন</h2>
+  <p>
+    বহু দেশের মানুষকে সেবা দেয় এমন একটি ক্লিনিকের নিবন্ধন ফর্ম: নাম, জন্মতারিখ, ঠিকানা, ফোন নম্বর, ফি, আর প্রয়োজনে ডান থেকে বামে পড়া একটি পাতা। উদাহরণগুলো Svelte-এ; প্রতিটি ক্যাটালগ একই প্রপ নেয়। প্রায় ২০ মিনিট,
+    <a href="/tutorials/forms/">প্রবেশযোগ্য ফর্ম টিউটোরিয়াল</a>-এর পরে।
+  </p>
+
+  <h2>ধাপ ১ — নাম: একটি ঘর, দুটি নয়</h2>
+  
+  <pre tabindex="0"><code>&lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+&lt;TextInput id="name" name="name" autocomplete="name" label="Full name" /&gt;</code></pre>
+  <p>
+    "প্রথম নাম" আর "পদবি" অনেকের ক্ষেত্রে খাটে না: একটিমাত্র নাম, পারিবারিক নাম আগে, দুটি পারিবারিক নাম, পিতৃনাম। পুরো নাম একটি ঘরে চান, আর কাউকে কীভাবে সম্বোধন করবেন জানতে চাইলে তা আলাদাভাবে জিজ্ঞাসা করুন।
+  </p>
+
+  <h2>ধাপ ২ — তারিখ: পাঠকের ক্রমে অংশগুলো</h2>
+  
+  <pre tabindex="0"><code>&lt;DateField
+  label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  autocomplete="bday"
+  name="dob"
+  bind:value={dob}
+/&gt;</code></pre>
+  <p>
+    <code>order</code> -এর মান <code>"dmy"</code>, <code>"mdy"</code> বা
+    <code>"ymd"</code>হতে পারে: যেটি আপনার পাঠকেরা আশা করেন সেটি বেছে নিন, কারণ 03/04 এক দেশে মার্চ আর পরের দেশে এপ্রিল। ক্রম যা-ই হোক, মান সবসময় ISO (<code>YYYY-MM-DD</code>)। কেউ যে তারিখ আধাআধি জানেন, যেমন অসুখ কবে শুরু হয়েছিল, তার জন্য <code>precision="month"</code>
+    সংরক্ষণ করে <code>2019-03</code> এবং কখনো দিন বানিয়ে নেয় না।
+  </p>
+  <p>
+    তারিখ দেখাতে পাঠকের লোকেলে <code>Intl.DateTimeFormat</code> দিয়ে বিন্যাস করুন; Lily কখনো আপনার হয়ে বিন্যাস করে না।
+  </p>
+
+  <h2>ধাপ ৩ — ঠিকানা: কোনো দেশের ছাঁচ ডিফল্ট নয়</h2>
+  
+  <pre tabindex="0"><code>&lt;AddressInput label="Home address"&gt;
+  &lt;label class="label" for="address"&gt;Address&lt;/label&gt;
+  &lt;textarea class="text-area-input" id="address" name="address" autocomplete="street-address" rows="4"&gt;&lt;/textarea&gt;
+  &lt;label class="label" for="country"&gt;Country or territory&lt;/label&gt;
+  &lt;select class="select" id="country" name="country" autocomplete="country"&gt; … &lt;/select&gt;
+&lt;/AddressInput&gt;</code></pre>
+  <p>
+    <code>AddressInput</code> একটি নামযুক্ত গোষ্ঠী; ভেতরের ঘরগুলো আপনার। একটি মুক্ত-লেখা ঠিকানা আর দেশ সব জায়গায় চলে। ভাগ করলে দেশ অনুযায়ী করুন (অনেক দেশে পোস্টকোড ঐচ্ছিক বা নেই) এবং কখনো "রাজ্য" ঘর বাধ্যতামূলক করবেন না।
+  </p>
+
+  <h2>ধাপ ৪ — ফোন নম্বর ও অর্থ</h2>
+  
+  <pre tabindex="0"><code>&lt;TelInput label="Phone number" name="phone" autocomplete="tel" /&gt;
+&lt;CurrencyInput label="Fee" currencyCode="KES" bind:value={fee} /&gt;</code></pre>
+  <p>
+    ফোন নম্বর যেমন টাইপ করা হয়েছে তেমনই নিন, ফাঁকা জায়গা আর <code>+</code>সহ; কোনো এক দেশের বিন্যাস চাপিয়ে দেবেন না। <code>CurrencyInput</code> -এর কোনো ডিফল্ট মুদ্রা নেই: <code>currencyCode</code> (ISO 4217) বাধ্যতামূলক, কারণ যেকোনো ডিফল্ট হবে একটি দেশের অর্থ।
+  </p>
+
+  <h2>ধাপ ৫ — দিক ও ভাষা</h2>
+  
+  <pre tabindex="0"><code>&lt;LocalePicker label="Language" locales={["en", "fr", "ar", "sw"]} bind:value={locale} /&gt;</code></pre>
+  <p>
+    লোকেল পিকার পাতায় <code>lang</code> এবং <code>dir</code> সেট করে, তাই আরবি বা হিব্রু ডান থেকে বামে পড়া হয়। প্রতিটি Lily কম্পোনেন্ট
+    <code>dir</code>উত্তরাধিকার সূত্রে পায়; থিমগুলো যৌক্তিক প্রপার্টি ব্যবহার করে (<code>margin-inline-start</code>,  <code>margin-left</code>নয়), আর আপনার CSS-ও তা-ই করা উচিত। পিকার কিছুই অনুবাদ করে না: আপনার লেখা আসে আপনার নিজের অনুবাদ থেকে।
+  </p>
+
+  <h2>ধাপ ৬ — সহায়কের লেবেল, পাঠকের ভাষায়</h2>
+  
+  <pre tabindex="0"><code>&lt;script lang="ts"&gt;
+  import { labelsFor } from "@lilydesignsystem/svelte-locale-translations";
+  import sw from "@lilydesignsystem/svelte-locale-translations/sw-001";
+  import DataGrid from "@lilydesignsystem/svelte-data-grid";
+&lt;/script&gt;
+
+&lt;DataGrid label="Wagonjwa" labels={labelsFor("data-grid", sw)} … /&gt;</code></pre>
+  <p>
+    ডেটা গ্রিড, কানবান বোর্ড, ক্যালেন্ডার, গ্যান্ট চার্ট আর ফিল্টারে স্ক্রিন রিডারের অনেক লেবেল আছে। Lily সেগুলো ৬৪টি ভাষায় লেবেল প্যাক হিসেবে দেয়। শুধু ইংরেজি পর্যালোচিত; বাকি ৬৩টি যন্ত্র-খসড়া, তাই নির্ভর করার আগে একজন মাতৃভাষীকে দিয়ে শব্দচয়ন যাচাই করান। কোনো প্যাক কখনো অন্য ভাষায় ফিরে যায় না।
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>আপনার কাজ যাচাই করুন:</strong> পাতাটি আরবিতে বদলান এবং দেখুন বিন্যাস কাটা লেখা ছাড়াই উল্টে যায় কি না; নিজের ক্রমে একটি তারিখ দিন এবং নিশ্চিত হোন যে পাঠানো মান ISO; কাউকে এক শব্দের নাম আর পোস্টকোডহীন ঠিকানা দিন, এবং নিশ্চিত করুন ফর্ম দুটোই নেয়।
+    </p>
+  </div>
+
+  <h2>পরবর্তী ধাপ</h2>
+  <ul>
+    <li><a href="/training/">প্রশিক্ষণ</a> — আটটি মডিউল, প্রতিটিতে একটি অনুশীলন ও আত্মমূল্যায়ন।</li>
+    <li>
+      <a href="/components/">জাতীয় শনাক্তকারী</a>: ৫০টিরও বেশি দেশের ৮২ ধরনের শনাক্তকারীর জন্য ১৬৪টি কম্পোনেন্ট, প্রতিটির একটি <code>-input</code>
+      এবং একটি <code>-view</code>।
+    </li>
+    <li><a href="/tutorials/helpers/">পছন্দের সহায়ক</a>: ভাষা, লেখার আকার, গতি ও সময় অঞ্চল।</li>
+    <li><a href="/locales/">লোকেল</a>: সাইট ও লেবেল প্যাক যে ভাষাগুলো কভার করে।</li>
+  </ul>
+</section>

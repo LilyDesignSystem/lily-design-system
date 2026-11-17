@@ -1,0 +1,157 @@
+<!-- title: Tutorial formulir yang aksesibel — Lily Design System -->
+<!-- description: Label, petunjuk, galat di samping setiap isian, dan ringkasan galat yang menerima fokus: formulir aksesibel dengan Lily, di kerangka kerja apa pun. -->
+<section class="page-intro">
+  <h1>Tutorial formulir yang aksesibel</h1>
+  <p class="page-intro-tagline">
+    Pola yang diikuti setiap formulir Lily, apa pun kerangka kerjanya: beri label setiap kontrol, periksa saat dikirim, taruh setiap galat di samping isiannya, dan ringkas galat di tempat fokus mendarat.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Yang akan Anda buat</h2>
+  <p>
+    Formulir dua isian yang, bila dikirim dengan kesalahan, mengatakan apa yang salah, di samping setiap isian dan dalam ringkasan di atas, lalu memindahkan fokus ke sana, sehingga pengguna papan ketik atau pembaca layar langsung menemukan galatnya. Ditampilkan dalam HTML biasa dengan kelas Lily; setiap katalog kerangka kerja menghasilkan markah yang sama dari komponennya sendiri, <code>Field</code>, <code>Hint</code>,
+    <code>ErrorMessage</code> dan <code>ErrorSummary</code> . Sekitar 20 menit; <a href="/tutorials/html/">tutorial HTML</a> membantu bila dikerjakan lebih dulu.
+  </p>
+
+  <h2>Langkah 1 — Beri label setiap kontrol, dan katakan apa yang Anda harapkan</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" novalidate&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+    &lt;input class="email-input" type="email" id="email" name="email"
+      autocomplete="email" aria-describedby="email-hint" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Continue&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <ul>
+    <li>Sebuah <code>&lt;label for&gt;</code> yang terlihat pada setiap kontrol, jangan pernah teks contoh sebagai gantinya: teks contoh hilang saat mengetik.</li>
+    <li>Petunjuk bergabung dengan nama isian melalui <code>aria-describedby</code>, sehingga pembaca layar membacanya bersama isian.</li>
+    <li><code>autocomplete</code> membiarkan peramban mengisi apa yang diketahuinya (WCAG 1.3.5).</li>
+    <li>
+      <code>novalidate</code> mematikan gelembung bawaan peramban, karena Anda akan menampilkan galat sendiri, dengan kata-kata dan bahasa Anda. Atribut
+      <code>required</code> dan <code>type</code> tetap ada: skrip Anda membacanya.
+    </li>
+  </ul>
+
+  <h2>Langkah 2 — Periksa saat dikirim, bukan saat orang mengetik</h2>
+  <p>
+    Memberi tahu seseorang bahwa surelnya salah setelah satu huruf hanyalah gangguan. Periksa saat dikirim. Ke-63 tema sudah menandai isian tidak valid hanya setelah diubah dan ditinggalkan (<code>:user-invalid</code>), atau saat Anda menetapkan
+    <code>aria-invalid="true"</code>, sehingga tidak ada yang memerah saat halaman dimuat.
+  </p>
+  <p>Jangan pernah menonaktifkan tombol kirim sampai formulir valid: tombol nonaktif tidak bisa menjelaskan alasannya.</p>
+
+  <h2>Langkah 3 — Taruh setiap galat di samping isiannya</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="field"&gt;
+  &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+  &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+  &lt;p class="error-message" id="email-error"&gt;Enter an email address in the right format, like name@example.com&lt;/p&gt;
+  &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email"
+    aria-invalid="true" aria-describedby="email-hint email-error" required /&gt;
+&lt;/div&gt;</code></pre>
+  <ul>
+    <li><code>aria-invalid="true"</code> mengatakan isian itu salah; pesannya mengatakan mengapa dan cara memperbaikinya.</li>
+    <li>Pesan ada di <code>aria-describedby</code>, setelah petunjuk, sehingga dibaca saat isian menerima fokus.</li>
+    <li>Katakan apa yang harus dilakukan, bukan hanya apa yang salah: "Masukkan alamat surel dengan format yang benar", bukan "Tidak valid".</li>
+    <li>Jangan pernah hanya warna: teksnya adalah galat; garis merah hanya mengulanginya (WCAG 1.4.1).</li>
+  </ul>
+
+  <h2>Langkah 4 — Ringkas galat di tempat fokus mendarat</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="error-summary" role="alert" tabindex="-1" aria-labelledby="error-summary-title"&gt;
+  &lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#name"&gt;Enter your full name&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#email"&gt;Enter an email address in the right format, like name@example.com&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    Taruh di atas formulir dan pindahkan fokus ke sana saat dikirim. Setiap tautan langsung menuju isiannya. <code>tabindex="-1"</code> membuat ringkasan bisa menerima fokus tanpa menambah perhentian tab.
+  </p>
+
+  <h2>Langkah 5 — Skrip yang menyatukan semuanya</h2>
+  
+  <pre tabindex="0"><code>const messages = {
+  name: { valueMissing: "Enter your full name" },
+  email: {
+    valueMissing: "Enter your email address",
+    typeMismatch: "Enter an email address in the right format, like name@example.com",
+  },
+};
+
+const form = document.querySelector("form");
+form.addEventListener("submit", (event) =&gt; {
+  form.querySelector(".error-summary")?.remove();
+  const errors = [];
+  for (const field of form.querySelectorAll("input")) {
+    const old = document.getElementById(field.id + "-error");
+    old?.remove();
+    const describedBy = (field.getAttribute("aria-describedby") ?? "")
+      .split(" ").filter((id) =&gt; id &amp;&amp; id !== field.id + "-error");
+    const problem = Object.keys(messages[field.name] ?? {}).find((key) =&gt; field.validity[key]);
+    if (!problem) {
+      field.removeAttribute("aria-invalid");
+      field.setAttribute("aria-describedby", describedBy.join(" "));
+      continue;
+    }
+    const text = messages[field.name][problem];
+    const message = document.createElement("p");
+    message.className = "error-message";
+    message.id = field.id + "-error";
+    message.textContent = text;
+    field.before(message);
+    field.setAttribute("aria-invalid", "true");
+    field.setAttribute("aria-describedby", [...describedBy, message.id].join(" "));
+    errors.push({ id: field.id, text });
+  }
+  if (errors.length === 0) return; // valid: let it submit
+  event.preventDefault();
+  const summary = document.createElement("div");
+  summary.className = "error-summary";
+  summary.setAttribute("role", "alert");
+  summary.tabIndex = -1;
+  summary.setAttribute("aria-labelledby", "error-summary-title");
+  summary.innerHTML = '&lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;&lt;ul&gt;&lt;/ul&gt;';
+  for (const { id, text } of errors) {
+    const link = document.createElement("a");
+    link.href = "#" + id;
+    link.textContent = text;
+    const item = document.createElement("li");
+    item.append(link);
+    summary.querySelector("ul").append(item);
+  }
+  form.prepend(summary);
+  summary.focus();
+});</code></pre>
+  <p>
+    Pesannya milik Anda, dalam bahasa Anda: properti
+    <code>validity</code> milik peramban mengatakan aturan mana yang gagal, dan tabel Anda mengatakan apa yang disampaikan kepada orangnya. Lily tidak membawa teks bahasa Inggris untuk diterjemahkan.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Periksa hasil kerja Anda:</strong> kirim formulir kosong dengan papan ketik. Fokus pindah ke ringkasan dan pembaca layar membaca "There is a problem" serta kedua galat. Ikuti tautan: fokus mendarat di isian, yang dibaca bersama petunjuk dan galatnya. Perbaiki keduanya lalu kirim: formulir terkirim, tanpa galat yang tersisa.
+    </p>
+  </div>
+
+  <h2>Yang perlu dihindari</h2>
+  <ul>
+    <li>Membatasi atau mengoreksi ketikan seseorang tanpa memberi tahu; beri tahu mereka.</li>
+    <li>Mengosongkan formulir saat ada galat: simpan semua yang dimasukkan.</li>
+    <li>Galat yang hanya muncul saat penunjuk diarahkan, atau hanya di tooltip.</li>
+    <li>Formulir yang kedaluwarsa tanpa peringatan; gunakan <code>timeout-dialog</code> untuk memperingatkan dan memperpanjang.</li>
+  </ul>
+
+  <h2>Langkah berikutnya</h2>
+  <ul>
+    <li><a href="/training/">Pelatihan</a> — delapan modul, masing-masing dengan latihan dan uji mandiri.</li>
+    <li><a href="/components/error-summary/">ErrorSummary</a>, <a href="/components/field/">Field</a> dan <a href="/components/error-message/">ErrorMessage</a> di katalog.</li>
+    <li><a href="/tutorials/worldwide/">Formulir yang bekerja di seluruh dunia</a> — nama, alamat, tanggal, dan arah tulisan.</li>
+    <li><a href="/tutorials/theming/">Tema</a> — keadaan tidak valid yang digambar setiap tema.</li>
+  </ul>
+</section>

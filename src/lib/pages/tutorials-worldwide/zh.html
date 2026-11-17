@@ -1,0 +1,103 @@
+<!-- title: 在全世界都能用的表单 — Lily Design System -->
+<!-- description: 姓名、地址、日期、货币、书写方向和已翻译的辅助组件：为每个国家而不是某一个国家构建 Lily 表单。 -->
+<section class="page-intro">
+  <h1>在全世界都能用的表单</h1>
+  <p class="page-intro-tagline">
+    Lily 面向所有国家，而非某一个。它不附带英文，也不预设任何国家，所以让表单本地化的选择由你有意识地做出。本教程逐一讲解。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你将构建什么</h2>
+  <p>
+    一个为接待多国患者的诊所设计的登记表：姓名、出生日期、地址、电话、费用，以及在需要时从右向左阅读的页面。示例使用 Svelte；每个组件库都接受相同的属性。约 20 分钟，建议先完成
+    <a href="/tutorials/forms/">无障碍表单教程</a>。
+  </p>
+
+  <h2>第 1 步 — 姓名：一个字段，而不是两个</h2>
+  
+  <pre tabindex="0"><code>&lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+&lt;TextInput id="name" name="name" autocomplete="name" label="Full name" /&gt;</code></pre>
+  <p>
+    “名”和“姓”对很多人并不适用：只有一个名字、姓在前、两个姓、父名。请用一个字段询问全名；如果需要知道如何称呼对方，另行询问。
+  </p>
+
+  <h2>第 2 步 — 日期：按读者习惯的顺序排列各部分</h2>
+  
+  <pre tabindex="0"><code>&lt;DateField
+  label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  autocomplete="bday"
+  name="dob"
+  bind:value={dob}
+/&gt;</code></pre>
+  <p>
+    <code>order</code> 可以是 <code>"dmy"</code>、 <code>"mdy"</code> 或
+    <code>"ymd"</code>：选择读者期望的顺序，因为 03/04 在一个国家是三月，在另一个国家是四月。无论顺序如何，值始终是 ISO 格式（<code>YYYY-MM-DD</code>）。对于只知道一部分的日期，例如疾病开始的时间， <code>precision="month"</code>
+    会保存为 <code>2019-03</code> ，绝不编造日期。
+  </p>
+  <p>
+    要显示日期，请用 <code>Intl.DateTimeFormat</code> 按读者的语言区域格式化；Lily 从不替你格式化。
+  </p>
+
+  <h2>第 3 步 — 地址：不以任何国家的格式为默认</h2>
+  
+  <pre tabindex="0"><code>&lt;AddressInput label="Home address"&gt;
+  &lt;label class="label" for="address"&gt;Address&lt;/label&gt;
+  &lt;textarea class="text-area-input" id="address" name="address" autocomplete="street-address" rows="4"&gt;&lt;/textarea&gt;
+  &lt;label class="label" for="country"&gt;Country or territory&lt;/label&gt;
+  &lt;select class="select" id="country" name="country" autocomplete="country"&gt; … &lt;/select&gt;
+&lt;/AddressInput&gt;</code></pre>
+  <p>
+    <code>AddressInput</code> 是一个具名分组；里面的字段由你决定。一个自由文本地址加一个国家在任何地方都适用。如果要拆分，请按国家拆分（很多国家的邮编是可选的或不存在），并且绝不要把“州”字段设为必填。
+  </p>
+
+  <h2>第 4 步 — 电话号码与货币</h2>
+  
+  <pre tabindex="0"><code>&lt;TelInput label="Phone number" name="phone" autocomplete="tel" /&gt;
+&lt;CurrencyInput label="Fee" currencyCode="KES" bind:value={fee} /&gt;</code></pre>
+  <p>
+    按输入原样接受电话号码，包括空格和 <code>+</code>；不要强制某个国家的格式。 <code>CurrencyInput</code> 没有默认货币： <code>currencyCode</code> （ISO 4217）是必填项，因为任何默认值都只会是某一个国家的货币。
+  </p>
+
+  <h2>第 5 步 — 书写方向与语言</h2>
+  
+  <pre tabindex="0"><code>&lt;LocalePicker label="Language" locales={["en", "fr", "ar", "sw"]} bind:value={locale} /&gt;</code></pre>
+  <p>
+    语言选择器会在页面上设置 <code>lang</code> 和 <code>dir</code> ，让阿拉伯语或希伯来语从右向左阅读。每个 Lily 组件都继承
+    <code>dir</code>；主题使用逻辑属性（<code>margin-inline-start</code>，而不是 <code>margin-left</code>），你的 CSS 也应如此。选择器不翻译任何内容：文本来自你自己的翻译。
+  </p>
+
+  <h2>第 6 步 — 辅助组件的标签，使用读者的语言</h2>
+  
+  <pre tabindex="0"><code>&lt;script lang="ts"&gt;
+  import { labelsFor } from "@lilydesignsystem/svelte-locale-translations";
+  import sw from "@lilydesignsystem/svelte-locale-translations/sw-001";
+  import DataGrid from "@lilydesignsystem/svelte-data-grid";
+&lt;/script&gt;
+
+&lt;DataGrid label="Wagonjwa" labels={labelsFor("data-grid", sw)} … /&gt;</code></pre>
+  <p>
+    数据网格、看板、日历、甘特图和筛选器有许多读屏标签。Lily 以标签包形式提供 64 种语言。只有英文经过审校；其余 63 种是机器初稿，所以在依赖之前请让母语者检查读屏措辞。标签包从不回退到其他语言。
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查成果：</strong> 把页面切换为阿拉伯语，检查布局是否镜像且没有文字被截断；按你的顺序输入日期，确认提交的值为 ISO 格式；给某人一个单字姓名和一个没有邮编的地址，确保表单两者都接受。
+    </p>
+  </div>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/training/">培训</a> — 八个单元，每个都有练习和自测。</li>
+    <li>
+      <a href="/components/">国家身份标识</a>：164 个组件，覆盖 50 多个国家的 82 种标识类型，每种都有 <code>-input</code>
+      和 <code>-view</code>。
+    </li>
+    <li><a href="/tutorials/helpers/">偏好辅助组件</a>：语言、文字大小、动效和时区。</li>
+    <li><a href="/locales/">语言区域</a>：网站和标签包覆盖的语言。</li>
+  </ul>
+</section>

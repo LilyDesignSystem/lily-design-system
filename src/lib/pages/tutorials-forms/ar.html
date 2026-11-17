@@ -1,0 +1,157 @@
+<!-- title: درس النماذج الميسّرة — Lily Design System -->
+<!-- description: تسميات وتلميحات وأخطاء بجانب كل حقل وملخص أخطاء ينتقل إليه التركيز: نموذج ميسّر باستخدام Lily في أي إطار عمل. -->
+<section class="page-intro">
+  <h1>درس النماذج الميسّرة</h1>
+  <p class="page-intro-tagline">
+    النمط الذي يتبعه كل نموذج في Lily مهما كان إطار العمل: سمِّ كل عنصر تحكم، وتحقّق عند الإرسال، وضع كل خطأ بجانب حقله، ولخّص الأخطاء حيث يصل التركيز.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    نموذج من حقلين، إذا أُرسل وفيه أخطاء، يقول ما الخطأ بجانب كل حقل وفي ملخص أعلاه، وينقل التركيز إليه، كي يجد مستخدم لوحة المفاتيح أو قارئ الشاشة الأخطاء فورًا. يُعرض بلغة HTML بسيطة مع أصناف Lily؛ وكل كتالوج لإطار عمل يُخرج الترميز نفسه من مكوّناته <code>Field</code>، <code>Hint</code>،
+    <code>ErrorMessage</code> و <code>ErrorSummary</code> . نحو 20 دقيقة؛ ويفيد أن تبدأ بـ <a href="/tutorials/html/">درس HTML</a> أولًا.
+  </p>
+
+  <h2>الخطوة 1 — سمِّ كل عنصر تحكم، وقل ما تتوقعه</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" novalidate&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+    &lt;input class="email-input" type="email" id="email" name="email"
+      autocomplete="email" aria-describedby="email-hint" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Continue&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <ul>
+    <li>عنصر <code>&lt;label for&gt;</code> مرئي على كل عنصر تحكم، وليس نصًا نائبًا بدلًا منه أبدًا: فالنص النائب يختفي عند الكتابة.</li>
+    <li>يرتبط التلميح باسم الحقل عبر <code>aria-describedby</code>، فيقرؤه قارئ الشاشة مع الحقل.</li>
+    <li><code>autocomplete</code> يتيح للمتصفح ملء ما يعرفه (WCAG 1.3.5).</li>
+    <li>
+      <code>novalidate</code> يوقف فقاعات المتصفح الخاصة، لأنك ستعرض الأخطاء بنفسك، بكلماتك وبلغتك. وتبقى
+      <code>required</code> و <code>type</code> : فالبرنامج النصي يقرؤها.
+    </li>
+  </ul>
+
+  <h2>الخطوة 2 — تحقّق عند الإرسال، لا أثناء الكتابة</h2>
+  <p>
+    إخبار أحدهم بأن بريده خاطئ بعد حرف واحد مجرد إزعاج. تحقّق عند الإرسال. السمات الـ63 لا تُظهر الحقل غير صالح إلا بعد تعديله ومغادرته (<code>:user-invalid</code>)، أو عندما تضبط
+    <code>aria-invalid="true"</code>، فلا يصبح شيء أحمر عند تحميل الصفحة.
+  </p>
+  <p>لا تعطّل زر الإرسال حتى يصبح النموذج صالحًا: فالزر المعطّل لا يستطيع أن يقول السبب.</p>
+
+  <h2>الخطوة 3 — ضع كل خطأ بجانب حقله</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="field"&gt;
+  &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+  &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+  &lt;p class="error-message" id="email-error"&gt;Enter an email address in the right format, like name@example.com&lt;/p&gt;
+  &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email"
+    aria-invalid="true" aria-describedby="email-hint email-error" required /&gt;
+&lt;/div&gt;</code></pre>
+  <ul>
+    <li><code>aria-invalid="true"</code> يقول إن الحقل خاطئ؛ وتقول الرسالة السبب وكيفية الإصلاح.</li>
+    <li>الرسالة موجودة في <code>aria-describedby</code>، بعد التلميح، فتُقرأ عندما يصل التركيز إلى الحقل.</li>
+    <li>قل ما يجب فعله، لا ما الخطأ فقط: «أدخل عنوان بريد إلكتروني بالصيغة الصحيحة»، لا «غير صالح».</li>
+    <li>لا تعتمد على اللون وحده أبدًا: النص هو الخطأ؛ والإطار الأحمر يكرره فقط (WCAG 1.4.1).</li>
+  </ul>
+
+  <h2>الخطوة 4 — لخّص الأخطاء حيث يصل التركيز</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="error-summary" role="alert" tabindex="-1" aria-labelledby="error-summary-title"&gt;
+  &lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#name"&gt;Enter your full name&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#email"&gt;Enter an email address in the right format, like name@example.com&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    ضعه في أعلى النموذج وانقل التركيز إليه عند الإرسال. كل رابط يقود مباشرة إلى حقله. <code>tabindex="-1"</code> يتيح للملخص تلقي التركيز دون إضافة محطة تنقّل.
+  </p>
+
+  <h2>الخطوة 5 — البرنامج النصي الذي يربط كل شيء</h2>
+  
+  <pre tabindex="0"><code>const messages = {
+  name: { valueMissing: "Enter your full name" },
+  email: {
+    valueMissing: "Enter your email address",
+    typeMismatch: "Enter an email address in the right format, like name@example.com",
+  },
+};
+
+const form = document.querySelector("form");
+form.addEventListener("submit", (event) =&gt; {
+  form.querySelector(".error-summary")?.remove();
+  const errors = [];
+  for (const field of form.querySelectorAll("input")) {
+    const old = document.getElementById(field.id + "-error");
+    old?.remove();
+    const describedBy = (field.getAttribute("aria-describedby") ?? "")
+      .split(" ").filter((id) =&gt; id &amp;&amp; id !== field.id + "-error");
+    const problem = Object.keys(messages[field.name] ?? {}).find((key) =&gt; field.validity[key]);
+    if (!problem) {
+      field.removeAttribute("aria-invalid");
+      field.setAttribute("aria-describedby", describedBy.join(" "));
+      continue;
+    }
+    const text = messages[field.name][problem];
+    const message = document.createElement("p");
+    message.className = "error-message";
+    message.id = field.id + "-error";
+    message.textContent = text;
+    field.before(message);
+    field.setAttribute("aria-invalid", "true");
+    field.setAttribute("aria-describedby", [...describedBy, message.id].join(" "));
+    errors.push({ id: field.id, text });
+  }
+  if (errors.length === 0) return; // valid: let it submit
+  event.preventDefault();
+  const summary = document.createElement("div");
+  summary.className = "error-summary";
+  summary.setAttribute("role", "alert");
+  summary.tabIndex = -1;
+  summary.setAttribute("aria-labelledby", "error-summary-title");
+  summary.innerHTML = '&lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;&lt;ul&gt;&lt;/ul&gt;';
+  for (const { id, text } of errors) {
+    const link = document.createElement("a");
+    link.href = "#" + id;
+    link.textContent = text;
+    const item = document.createElement("li");
+    item.append(link);
+    summary.querySelector("ul").append(item);
+  }
+  form.prepend(summary);
+  summary.focus();
+});</code></pre>
+  <p>
+    الرسائل رسائلك، وبلغتك: خاصية
+    <code>validity</code> في المتصفح تقول أي قاعدة فشلت، وجدولك يقول ما يُقال للشخص. لا يحمل Lily أي نص إنجليزي لتترجمه.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تحقّق من عملك:</strong> أرسل النموذج فارغًا بلوحة المفاتيح. ينتقل التركيز إلى الملخص ويقرأ قارئ الشاشة «There is a problem» والخطأين. اتبع رابطًا: يصل التركيز إلى الحقل، فيُقرأ مع تلميحه وخطئه. صحّح الاثنين وأرسل: يمر النموذج ولا يبقى أي خطأ.
+    </p>
+  </div>
+
+  <h2>ما يجب تجنبه</h2>
+  <ul>
+    <li>تقييد ما كتبه أحدهم أو تصحيحه دون إخباره؛ أخبره بدلًا من ذلك.</li>
+    <li>مسح النموذج عند الخطأ: احتفظ بكل ما أُدخل.</li>
+    <li>خطأ لا يظهر إلا عند التمرير، أو في تلميح منبثق فقط.</li>
+    <li>انتهاء مهلة النموذج دون تحذير؛ استخدم <code>timeout-dialog</code> للتحذير والتمديد.</li>
+  </ul>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/training/">التدريب</a> — ثماني وحدات، لكل منها تمرين واختبار ذاتي.</li>
+    <li><a href="/components/error-summary/">ErrorSummary</a>، <a href="/components/field/">Field</a> و <a href="/components/error-message/">ErrorMessage</a> في الكتالوج.</li>
+    <li><a href="/tutorials/worldwide/">نموذج يعمل في كل أنحاء العالم</a> — الأسماء والعناوين والتواريخ واتجاه الكتابة.</li>
+    <li><a href="/tutorials/theming/">السمات</a> — الحالة غير الصالحة التي ترسمها كل سمة.</li>
+  </ul>
+</section>

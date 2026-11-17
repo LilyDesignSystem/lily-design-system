@@ -1,0 +1,157 @@
+<!-- title: Tiwtorial ffurflenni hygyrch — Lily Design System -->
+<!-- description: Labeli, awgrymiadau, gwallau wrth ymyl pob maes, a chrynodeb gwallau sy'n cael y ffocws: ffurflen hygyrch gyda Lily, mewn unrhyw fframwaith. -->
+<section class="page-intro">
+  <h1>Tiwtorial ffurflenni hygyrch</h1>
+  <p class="page-intro-tagline">
+    Y patrwm y mae pob ffurflen Lily yn ei ddilyn, beth bynnag fo'r fframwaith: labelu pob rheolydd, gwirio wrth gyflwyno, rhoi pob gwall wrth ymyl ei faes, a chrynhoi'r gwallau lle mae'r ffocws yn glanio.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Ffurflen dau faes sydd, o'i chyflwyno gyda chamgymeriadau, yn dweud beth sydd o'i le, wrth ymyl pob maes ac mewn crynodeb ar y brig, ac yn symud y ffocws yno, fel bod defnyddiwr bysellfwrdd neu ddarllenydd sgrin yn dod o hyd i'r gwallau ar unwaith. Fe'i dangosir mewn HTML plaen gyda bachau dosbarth Lily; mae pob catalog fframwaith yn creu'r un marcio o'i gydrannau ei hun, <code>Field</code>, <code>Hint</code>,
+    <code>ErrorMessage</code> a <code>ErrorSummary</code> . Tua 20 munud; mae'r <a href="/tutorials/html/">tiwtorial HTML</a> yn help yn gyntaf.
+  </p>
+
+  <h2>Cam 1 — Labelu pob rheolydd, a dweud beth rydych chi'n ei ddisgwyl</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" novalidate&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+    &lt;input class="email-input" type="email" id="email" name="email"
+      autocomplete="email" aria-describedby="email-hint" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Continue&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <ul>
+    <li>Elfen <code>&lt;label for&gt;</code> weladwy ar bob rheolydd, byth testun dalfan yn ei lle: mae dalfan yn diflannu wrth i chi deipio.</li>
+    <li>Mae awgrym yn ymuno ag enw'r maes drwy <code>aria-describedby</code>, felly mae darllenydd sgrin yn ei ddarllen gyda'r maes.</li>
+    <li><code>autocomplete</code> yn gadael i'r porwr lenwi'r hyn y mae'n ei wybod (WCAG 1.3.5).</li>
+    <li>
+      <code>novalidate</code> yn diffodd swigod y porwr ei hun, oherwydd byddwch chi'n dangos y gwallau eich hun, yn eich geiriau ac yn eich iaith. Mae
+      <code>required</code> a <code>type</code> yn aros: mae eich sgript yn eu darllen.
+    </li>
+  </ul>
+
+  <h2>Cam 2 — Gwirio wrth gyflwyno, nid tra bo rhywun yn teipio</h2>
+  <p>
+    Sŵn yw dweud wrth rywun fod eu cyfeiriad e-bost yn anghywir ar ôl un llythyren. Gwiriwch pan fyddan nhw'n cyflwyno. Mae'r 63 thema eisoes yn dangos maes yn annilys dim ond ar ôl iddo gael ei olygu a'i adael (<code>:user-invalid</code>), neu pan fyddwch chi'n gosod
+    <code>aria-invalid="true"</code>, felly does dim byd yn troi'n goch wrth lwytho'r dudalen.
+  </p>
+  <p>Peidiwch byth ag analluogi'r botwm cyflwyno nes bod y ffurflen yn ddilys: ni all botwm wedi'i analluogi ddweud pam.</p>
+
+  <h2>Cam 3 — Rhoi pob gwall wrth ymyl ei faes</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="field"&gt;
+  &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+  &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+  &lt;p class="error-message" id="email-error"&gt;Enter an email address in the right format, like name@example.com&lt;/p&gt;
+  &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email"
+    aria-invalid="true" aria-describedby="email-hint email-error" required /&gt;
+&lt;/div&gt;</code></pre>
+  <ul>
+    <li><code>aria-invalid="true"</code> yn dweud bod y maes yn anghywir; mae'r neges yn dweud pam a sut i'w gywiro.</li>
+    <li>Mae'r neges yn <code>aria-describedby</code>, ar ôl yr awgrym, felly caiff ei darllen pan fydd y ffocws ar y maes.</li>
+    <li>Dywedwch beth i'w wneud, nid dim ond beth sydd o'i le: "Rhowch gyfeiriad e-bost yn y fformat cywir", nid "Annilys".</li>
+    <li>Byth lliw ar ei ben ei hun: y testun yw'r gwall; mae'r ffin goch yn ei ailadrodd yn unig (WCAG 1.4.1).</li>
+  </ul>
+
+  <h2>Cam 4 — Crynhoi'r gwallau lle mae'r ffocws yn glanio</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="error-summary" role="alert" tabindex="-1" aria-labelledby="error-summary-title"&gt;
+  &lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#name"&gt;Enter your full name&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#email"&gt;Enter an email address in the right format, like name@example.com&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    Rhowch ef ar frig y ffurflen a symudwch y ffocws ato wrth gyflwyno. Mae pob dolen yn mynd yn syth i'w maes. <code>tabindex="-1"</code> yn gadael i'r crynodeb gael y ffocws heb ychwanegu arhosfan tab.
+  </p>
+
+  <h2>Cam 5 — Y sgript sy'n clymu'r cyfan</h2>
+  
+  <pre tabindex="0"><code>const messages = {
+  name: { valueMissing: "Enter your full name" },
+  email: {
+    valueMissing: "Enter your email address",
+    typeMismatch: "Enter an email address in the right format, like name@example.com",
+  },
+};
+
+const form = document.querySelector("form");
+form.addEventListener("submit", (event) =&gt; {
+  form.querySelector(".error-summary")?.remove();
+  const errors = [];
+  for (const field of form.querySelectorAll("input")) {
+    const old = document.getElementById(field.id + "-error");
+    old?.remove();
+    const describedBy = (field.getAttribute("aria-describedby") ?? "")
+      .split(" ").filter((id) =&gt; id &amp;&amp; id !== field.id + "-error");
+    const problem = Object.keys(messages[field.name] ?? {}).find((key) =&gt; field.validity[key]);
+    if (!problem) {
+      field.removeAttribute("aria-invalid");
+      field.setAttribute("aria-describedby", describedBy.join(" "));
+      continue;
+    }
+    const text = messages[field.name][problem];
+    const message = document.createElement("p");
+    message.className = "error-message";
+    message.id = field.id + "-error";
+    message.textContent = text;
+    field.before(message);
+    field.setAttribute("aria-invalid", "true");
+    field.setAttribute("aria-describedby", [...describedBy, message.id].join(" "));
+    errors.push({ id: field.id, text });
+  }
+  if (errors.length === 0) return; // valid: let it submit
+  event.preventDefault();
+  const summary = document.createElement("div");
+  summary.className = "error-summary";
+  summary.setAttribute("role", "alert");
+  summary.tabIndex = -1;
+  summary.setAttribute("aria-labelledby", "error-summary-title");
+  summary.innerHTML = '&lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;&lt;ul&gt;&lt;/ul&gt;';
+  for (const { id, text } of errors) {
+    const link = document.createElement("a");
+    link.href = "#" + id;
+    link.textContent = text;
+    const item = document.createElement("li");
+    item.append(link);
+    summary.querySelector("ul").append(item);
+  }
+  form.prepend(summary);
+  summary.focus();
+});</code></pre>
+  <p>
+    Eich negeseuon chi ydyn nhw, yn eich iaith chi: mae
+    <code>validity</code> y porwr yn dweud pa reol a fethodd, ac mae eich tabl yn dweud beth i'w ddweud wrth y person. Nid yw Lily yn cynnwys unrhyw Saesneg i chi ei gyfieithu.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> cyflwynwch y ffurflen wag gyda'r bysellfwrdd. Mae'r ffocws yn symud i'r crynodeb ac mae darllenydd sgrin yn darllen "There is a problem" a'r ddau wall. Dilynwch ddolen: mae'r ffocws yn glanio yn y maes, sy'n cael ei ddarllen gyda'i awgrym a'i wall. Cywirwch y ddau a chyflwynwch: mae'r ffurflen yn mynd drwodd, heb unrhyw wall ar ôl.
+    </p>
+  </div>
+
+  <h2>Beth i'w osgoi</h2>
+  <ul>
+    <li>Cyfyngu neu gywiro'r hyn a deipiodd rhywun heb ddweud; dywedwch wrthyn nhw yn lle hynny.</li>
+    <li>Clirio ffurflen pan fydd gwall: cadwch bopeth a roesant.</li>
+    <li>Gwall sy'n ymddangos dim ond wrth hofran, neu dim ond mewn cyngor offer.</li>
+    <li>Gadael i ffurflen ddod i ben heb rybudd; defnyddiwch <code>timeout-dialog</code> i rybuddio ac ymestyn.</li>
+  </ul>
+
+  <h2>Camau nesaf</h2>
+  <ul>
+    <li><a href="/training/">Hyfforddiant</a> — wyth modiwl, pob un gydag ymarfer a hunanwiriad.</li>
+    <li><a href="/components/error-summary/">ErrorSummary</a>, <a href="/components/field/">Field</a> a <a href="/components/error-message/">ErrorMessage</a> yn y catalog.</li>
+    <li><a href="/tutorials/worldwide/">Ffurflen sy'n gweithio ledled y byd</a> — enwau, cyfeiriadau, dyddiadau a chyfeiriad testun.</li>
+    <li><a href="/tutorials/theming/">Themâu</a> — y cyflwr annilys y mae pob thema'n ei dynnu.</li>
+  </ul>
+</section>

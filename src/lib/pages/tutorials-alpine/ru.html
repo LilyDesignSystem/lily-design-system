@@ -1,0 +1,114 @@
+<!-- title: Руководство по Alpine.js — Lily Design System -->
+<!-- description: Соберите доступную оформленную форму на headless-фрагментах Lily для Alpine.js и одном плагине. -->
+<section class="page-intro">
+  <h1>Руководство по Alpine.js</h1>
+  <p class="page-intro-tagline">
+    Lily для Alpine — это HTML-фрагменты, которые вы вставляете на страницу, и один плагин, дающий интерактивным компонентам клавиатуру и состояние.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Что вы создадите</h2>
+  <p>
+    Небольшую форму настроек: два подписанных поля, переключатель и кнопку сохранения, с настоящей работой с клавиатуры и программы экранного доступа, сначала без оформления, потом с ним, примерно за 10 минут.
+  </p>
+
+  <h2>Прежде чем начать</h2>
+  <p>
+    Нужны Node.js и страница, на которой уже подключён Alpine.js 3. В Alpine нет модели компонентов, поэтому компонент Lily здесь — это разметка, которую копируют, а не импорт.
+  </p>
+
+  <h2>Шаг 1 — Установите и зарегистрируйте плагин</h2>
+  
+  <pre tabindex="0"><code>npm install alpinejs @lilydesignsystem/alpine-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import Alpine from "alpinejs";
+  import lily from "@lilydesignsystem/alpine-headless/plugin";
+  Alpine.plugin(lily);
+  Alpine.start();
+&lt;/script&gt;</code></pre>
+  <p>
+    Плагин регистрирует одно поведение <code>Alpine.data()</code> для каждого интерактивного компонента, с именем <code>lily</code> и названием компонента:
+    <code>lilySwitchButton</code>, <code>lilyTabs</code>,
+    <code>lilyCombobox</code>. Фрагменты всех компонентов лежат в папке <code>components/</code> пакета, у каждого есть комментарий-заголовок с элементом, классом, клавишами и ARIA.
+  </p>
+
+  <h2>Шаг 2 — Ваш первый компонент</h2>
+  <p>Большинство компонентов — простая разметка, и плагин им не нужен:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code></pre>
+  <p>Интерактивный компонент добавляет поведение через <code>x-data</code> и связывает его через <code>x-bind</code>:</p>
+  
+  <pre tabindex="0"><code>&lt;button
+  class="switch-button"
+  x-data="lilySwitchButton(false)"
+  x-bind="button"
+  aria-label="Email me about appointments"
+&gt;
+  Email me about appointments
+&lt;/button&gt;</code></pre>
+  <p>
+    Поведение даёт ему <code>role="switch"</code> и поддерживает
+    <code>aria-checked</code> в актуальном виде, когда Enter, Пробел или щелчок переключают его. Слова ваши: Lily никогда не задаёт подпись.
+  </p>
+
+  <h2>Шаг 3 — Соберите небольшую форму</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" aria-label="Settings"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button
+    class="switch-button"
+    type="button"
+    x-data="lilySwitchButton(true)"
+    x-bind="button"
+    aria-label="Email me about appointments"
+  &gt;
+    Email me about appointments
+  &lt;/button&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверьте работу:</strong> откройте страницу и нажмите
+      <kbd>Tab</kbd>. Фокус проходит по обоим полям, переключателю и кнопке. На переключателе <kbd>Space</kbd> переключает его, и программа экранного доступа говорит «переключатель, включено» или «выключено». Выглядит просто, и это правильно: оформление дальше.
+    </p>
+  </div>
+
+  <h2>Шаг 4 — Оформите</h2>
+  <p>Подключите одну из 63 готовых тем, которые используют те же классы:</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;</code></pre>
+  <p>Или напишите свой CSS для классов и состояния, которое задаёт поведение:</p>
+  
+  <pre tabindex="0"><code>.switch-button[aria-checked="true"] { background: var(--color-primary); }
+.switch-button:focus-visible { outline: 2px solid var(--lily-focus-ring); outline-offset: 2px; }</code></pre>
+  <p>
+    Оформляйте состояние ARIA, а не собственный класс: тогда вид никогда не разойдётся с тем, что слышит программа экранного доступа.
+  </p>
+
+  <h2>Шаг 5 — Посмотрите, как всё работает</h2>
+  <ul>
+    <li>
+      Пример приложения на Alpine.js, <code>lily-design-system-alpine-examples</code>, показывает все компоненты с оформлением: <code>pnpm install &amp;&amp; pnpm run build</code>.
+    </li>
+    <li>
+      Для Alpine есть шесть помощников: таблица данных, канбан-доска, календарь, диаграмма Ганта и редакторы Markdown и Org (<code>@lilydesignsystem/alpine-*</code>).
+    </li>
+  </ul>
+
+  <h2>Что дальше</h2>
+  <ul>
+    <li><a href="/training/">Обучение</a> — восемь модулей, в каждом упражнение и самопроверка.</li>
+    <li><a href="/tutorials/forms/">Доступные формы</a> — ошибки, сводка ошибок и фокус.</li>
+    <li><a href="/tutorials/theming/">Темы</a> — смена темы во время работы.</li>
+    <li><a href="/components/">Каталог компонентов</a> — полный справочник.</li>
+  </ul>
+</section>

@@ -1,0 +1,107 @@
+<!-- title: درس Web Components — Lily Design System -->
+<!-- description: ابنِ نموذجًا ميسّرًا ومنسّقًا باستخدام عناصر Lily المخصصة الأصلية، دون إطار عمل. -->
+<section class="page-intro">
+  <h1>درس Web Components</h1>
+  <p class="page-intro-tagline">
+    عناصر مخصصة أصلية بلا بيئة تشغيل لإطار عمل. كل منها يعرض
+    <code>&lt;button&gt;</code> أو <code>&lt;input&gt;</code> حقيقيًا في DOM الخفيف، فتعمل النماذج وCSS و <code>querySelector</code> كما في HTML المكتوب يدويًا.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    نموذج تواصل صغير بحقول مسمّاة وزر إرسال، موصول ببضعة أسطر من البرنامج النصي، دون تنسيق أولًا ثم منسّقًا، في نحو 10 دقائق.
+  </p>
+
+  <h2>قبل أن تبدأ</h2>
+  <p>
+    تحتاج إلى Node.js وإلى أداة حزم أو أي إعداد يحلّ استيراد الوحدات المجرّدة. يغطي الكتالوج 602 من 637 مكوّنًا؛ وتُستبعد العناصر الفرعية للجداول وبضع عائلات من عناصر القوائم، لأن العنصر المخصص المستقل لا يمكن أن يحلّ محل <code>&lt;tr&gt;</code>
+    أو <code>&lt;li&gt;</code>.
+  </p>
+
+  <h2>الخطوة 1 — ثبّت وسجّل</h2>
+  
+  <pre tabindex="0"><code>npm install @lilydesignsystem/web-components-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import "@lilydesignsystem/web-components-headless";
+&lt;/script&gt;</code></pre>
+  <p>
+    استيراد الحزمة يعرّف كل عنصر، وكل منها باسم
+    <code>lily-</code> متبوعًا بمعرّف المكوّن:
+    <code>&lt;lily-button&gt;</code>، <code>&lt;lily-text-input&gt;</code>،
+    <code>&lt;lily-range-fieldset&gt;</code>.
+  </p>
+
+  <h2>الخطوة 2 — مكوّنك الأول</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;</code></pre>
+  <p>
+    يعرض العنصر داخله <code>&lt;button class="button"&gt;</code>
+    حقيقيًا، فتكون Enter والمسافة ودور الزر أصلية. والسمات التي تضيفها تنتقل إلى ذلك العنصر الداخلي.
+  </p>
+
+  <h2>الخطوة 3 — اجمع نموذجًا صغيرًا</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-form label="Contact us"&gt;
+  &lt;lily-field label="Full name" required&gt;
+    &lt;lily-text-input label="Full name" name="name" autocomplete="name" required&gt;&lt;/lily-text-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-field label="Email" required&gt;
+    &lt;lily-email-input label="Email" name="email" required&gt;&lt;/lily-email-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;
+&lt;/lily-form&gt;
+
+&lt;script type="module"&gt;
+  const form = document.querySelector("lily-form form");
+  form.addEventListener("submit", () =&gt; {
+    const data = new FormData(form);
+    console.log(Object.fromEntries(data));
+  });
+&lt;/script&gt;</code></pre>
+  <p>
+    <code>&lt;lily-form&gt;</code> يمنع انتقال الصفحة ويترك حدث
+    <code>submit</code> يتصاعد، فيقرّر برنامجك النصي ما يحدث. الحقول عناصر نموذج حقيقية، لذا يقرؤها <code>FormData</code> .
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تحقّق من عملك:</strong> اضغط <kbd>Tab</kbd> عبر النموذج، ثم أرسله: تُظهر وحدة التحكم <code>name</code> و
+      <code>email</code>. اترك حقلًا فارغًا فيوقف تحقّق
+      <code>required</code> الخاص بالمتصفح الإرسال.
+    </p>
+  </div>
+
+  <h2>الخطوة 4 — نسّقه</h2>
+  <p>
+    تقع الأصناف على العناصر الداخلية، فتستهدفها السمات الـ63 وCSS الخاص بك كما في HTML العادي:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;
+
+&lt;style&gt;
+  .button { padding: 0.75rem 1.5rem; }
+  lily-field { display: block; margin-block-end: 1rem; }
+&lt;/style&gt;</code></pre>
+  <p>
+    لا يوجد Shadow DOM يجب اختراقه: لا شيء مخفي عن ورقة الأنماط ولا عن التقنيات المساعدة.
+  </p>
+
+  <h2>الخطوة 5 — شاهد كل شيء يعمل</h2>
+  <ul>
+    <li>لكل عنصر story: <code>pnpm run storybook</code> في <code>lily-design-system-web-components-headless</code>.</li>
+    <li>
+      تأتي الأدوات المساعدة أيضًا عناصر مخصصة:
+      <code>&lt;lily-theme-picker&gt;</code>، وشبكة البيانات والتقويم وغيرها (<code>@lilydesignsystem/web-components-*</code>).
+    </li>
+  </ul>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/training/">التدريب</a> — ثماني وحدات، لكل منها تمرين واختبار ذاتي.</li>
+    <li><a href="/tutorials/forms/">النماذج الميسّرة</a> — الأخطاء وملخص الأخطاء والتركيز.</li>
+    <li><a href="/tutorials/theming/">السمات</a> — تبديل السمة أثناء التشغيل.</li>
+    <li><a href="/components/">كتالوج المكوّنات</a> — المرجع الكامل.</li>
+  </ul>
+</section>

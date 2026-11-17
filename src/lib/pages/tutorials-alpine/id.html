@@ -1,0 +1,114 @@
+<!-- title: Tutorial Alpine.js — Lily Design System -->
+<!-- description: Buat formulir yang aksesibel dan bergaya dengan cuplikan headless Alpine.js milik Lily dan satu plugin. -->
+<section class="page-intro">
+  <h1>Tutorial Alpine.js</h1>
+  <p class="page-intro-tagline">
+    Lily untuk Alpine adalah cuplikan HTML yang Anda tempel ke halaman, ditambah satu plugin yang memberi komponen interaktif papan ketik dan keadaannya.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Yang akan Anda buat</h2>
+  <p>
+    Formulir pengaturan kecil: dua isian berlabel, sakelar, dan tombol simpan, dengan perilaku papan ketik dan pembaca layar yang sungguhan, polos dulu lalu bergaya, dalam sekitar 10 menit.
+  </p>
+
+  <h2>Sebelum memulai</h2>
+  <p>
+    Anda memerlukan Node.js dan halaman yang sudah memuat Alpine.js 3. Alpine tidak punya model komponen, jadi di sini komponen Lily adalah markah yang Anda salin, bukan impor.
+  </p>
+
+  <h2>Langkah 1 — Pasang dan daftarkan plugin</h2>
+  
+  <pre tabindex="0"><code>npm install alpinejs @lilydesignsystem/alpine-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import Alpine from "alpinejs";
+  import lily from "@lilydesignsystem/alpine-headless/plugin";
+  Alpine.plugin(lily);
+  Alpine.start();
+&lt;/script&gt;</code></pre>
+  <p>
+    Plugin mendaftarkan satu perilaku <code>Alpine.data()</code> untuk setiap komponen interaktif, bernama <code>lily</code> ditambah nama komponennya:
+    <code>lilySwitchButton</code>, <code>lilyTabs</code>,
+    <code>lilyCombobox</code>. Cuplikan setiap komponen ada di folder <code>components/</code> paket, masing-masing dengan komentar kepala yang menyebut elemen, kelas, tombol, dan ARIA-nya.
+  </p>
+
+  <h2>Langkah 2 — Komponen pertama Anda</h2>
+  <p>Sebagian besar komponen adalah markah biasa dan tidak memerlukan apa pun dari plugin:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code></pre>
+  <p>Komponen interaktif menambahkan perilakunya dengan <code>x-data</code> dan mengikatnya dengan <code>x-bind</code>:</p>
+  
+  <pre tabindex="0"><code>&lt;button
+  class="switch-button"
+  x-data="lilySwitchButton(false)"
+  x-bind="button"
+  aria-label="Email me about appointments"
+&gt;
+  Email me about appointments
+&lt;/button&gt;</code></pre>
+  <p>
+    Perilaku itu memberinya <code>role="switch"</code> dan menjaga
+    <code>aria-checked</code> tetap sesuai saat Enter, Spasi, atau klik mengubahnya. Kata-katanya milik Anda: Lily tidak pernah memberikan label.
+  </p>
+
+  <h2>Langkah 3 — Susun formulir kecil</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" aria-label="Settings"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button
+    class="switch-button"
+    type="button"
+    x-data="lilySwitchButton(true)"
+    x-bind="button"
+    aria-label="Email me about appointments"
+  &gt;
+    Email me about appointments
+  &lt;/button&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Periksa hasil kerja Anda:</strong> buka halaman dan tekan
+      <kbd>Tab</kbd>. Fokus berpindah melalui kedua isian, sakelar, dan tombol. Pada sakelar, <kbd>Space</kbd> mengubahnya, dan pembaca layar mengucapkan "sakelar, aktif" atau "nonaktif". Tampilannya polos, dan memang begitu: gayanya berikutnya.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Beri gaya</h2>
+  <p>Tautkan salah satu dari 63 tema siap pakai, yang menyasar kelas yang sama:</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;</code></pre>
+  <p>Atau tulis CSS sendiri pada kelas dan keadaan yang ditetapkan perilaku:</p>
+  
+  <pre tabindex="0"><code>.switch-button[aria-checked="true"] { background: var(--color-primary); }
+.switch-button:focus-visible { outline: 2px solid var(--lily-focus-ring); outline-offset: 2px; }</code></pre>
+  <p>
+    Beri gaya pada keadaan ARIA, bukan kelas buatan sendiri: dengan begitu tampilan tidak akan pernah berbeda dengan yang didengar pembaca layar.
+  </p>
+
+  <h2>Langkah 5 — Lihat semuanya bekerja</h2>
+  <ul>
+    <li>
+      Aplikasi contoh Alpine.js, <code>lily-design-system-alpine-examples</code>, menampilkan setiap komponen bergaya: <code>pnpm install &amp;&amp; pnpm run build</code>.
+    </li>
+    <li>
+      Ada enam pembantu untuk Alpine: kisi data, papan kanban, kalender, bagan Gantt, serta penyunting Markdown dan Org (<code>@lilydesignsystem/alpine-*</code>).
+    </li>
+  </ul>
+
+  <h2>Langkah berikutnya</h2>
+  <ul>
+    <li><a href="/training/">Pelatihan</a> — delapan modul, masing-masing dengan latihan dan uji mandiri.</li>
+    <li><a href="/tutorials/forms/">Formulir aksesibel</a> — galat, ringkasan galat, dan fokus.</li>
+    <li><a href="/tutorials/theming/">Tema</a> — mengganti tema saat berjalan.</li>
+    <li><a href="/components/">Katalog komponen</a> — referensi lengkap.</li>
+  </ul>
+</section>

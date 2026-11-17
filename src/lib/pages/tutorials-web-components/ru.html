@@ -1,0 +1,107 @@
+<!-- title: Руководство по Web Components — Lily Design System -->
+<!-- description: Соберите доступную оформленную форму на нативных пользовательских элементах Lily, без фреймворка. -->
+<section class="page-intro">
+  <h1>Руководство по Web Components</h1>
+  <p class="page-intro-tagline">
+    Нативные пользовательские элементы без среды выполнения фреймворка. Каждый выводит настоящий
+    <code>&lt;button&gt;</code> или <code>&lt;input&gt;</code> в светлом DOM, поэтому формы, CSS и <code>querySelector</code> работают как на написанном вручную HTML.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Что вы создадите</h2>
+  <p>
+    Небольшую форму обратной связи с подписанными полями и кнопкой отправки, связанную несколькими строками скрипта, сначала без оформления, потом с ним, примерно за 10 минут.
+  </p>
+
+  <h2>Прежде чем начать</h2>
+  <p>
+    Нужны Node.js и сборщик или любая настройка, которая разрешает импорт модулей по имени пакета. Каталог охватывает 602 из 637 компонентов; вложенные элементы таблиц и несколько семейств элементов списков опущены, потому что автономный пользовательский элемент не может заменить <code>&lt;tr&gt;</code>
+    или <code>&lt;li&gt;</code>.
+  </p>
+
+  <h2>Шаг 1 — Установите и зарегистрируйте</h2>
+  
+  <pre tabindex="0"><code>npm install @lilydesignsystem/web-components-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import "@lilydesignsystem/web-components-headless";
+&lt;/script&gt;</code></pre>
+  <p>
+    Импорт пакета определяет все элементы, каждый с именем
+    <code>lily-</code> и идентификатором компонента:
+    <code>&lt;lily-button&gt;</code>, <code>&lt;lily-text-input&gt;</code>,
+    <code>&lt;lily-range-fieldset&gt;</code>.
+  </p>
+
+  <h2>Шаг 2 — Ваш первый компонент</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;</code></pre>
+  <p>
+    Элемент выводит внутри себя настоящий <code>&lt;button class="button"&gt;</code>
+    поэтому Enter, Пробел и роль кнопки работают нативно. Добавленные атрибуты передаются этому внутреннему элементу.
+  </p>
+
+  <h2>Шаг 3 — Соберите небольшую форму</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-form label="Contact us"&gt;
+  &lt;lily-field label="Full name" required&gt;
+    &lt;lily-text-input label="Full name" name="name" autocomplete="name" required&gt;&lt;/lily-text-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-field label="Email" required&gt;
+    &lt;lily-email-input label="Email" name="email" required&gt;&lt;/lily-email-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;
+&lt;/lily-form&gt;
+
+&lt;script type="module"&gt;
+  const form = document.querySelector("lily-form form");
+  form.addEventListener("submit", () =&gt; {
+    const data = new FormData(form);
+    console.log(Object.fromEntries(data));
+  });
+&lt;/script&gt;</code></pre>
+  <p>
+    <code>&lt;lily-form&gt;</code> отменяет переход по странице и даёт событию
+    <code>submit</code> всплыть, так что дальнейшее решает ваш скрипт. Поля — настоящие элементы формы, поэтому <code>FormData</code> их читает.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверьте работу:</strong> нажимайте <kbd>Tab</kbd> по форме, затем отправьте её: в консоли появятся <code>name</code> и
+      <code>email</code>. Оставьте поле пустым, и собственная проверка
+      <code>required</code> браузера остановит отправку.
+    </p>
+  </div>
+
+  <h2>Шаг 4 — Оформите</h2>
+  <p>
+    Классы стоят на внутренних элементах, поэтому 63 темы и ваш CSS обращаются к ним как к обычному HTML:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;
+
+&lt;style&gt;
+  .button { padding: 0.75rem 1.5rem; }
+  lily-field { display: block; margin-block-end: 1rem; }
+&lt;/style&gt;</code></pre>
+  <p>
+    Нет теневого DOM, через который нужно пробиваться: ничего не скрыто ни от вашей таблицы стилей, ни от вспомогательных технологий.
+  </p>
+
+  <h2>Шаг 5 — Посмотрите, как всё работает</h2>
+  <ul>
+    <li>У каждого элемента есть story: <code>pnpm run storybook</code> в <code>lily-design-system-web-components-headless</code>.</li>
+    <li>
+      Помощники тоже выпускаются как пользовательские элементы:
+      <code>&lt;lily-theme-picker&gt;</code>, таблица данных, календарь и другие (<code>@lilydesignsystem/web-components-*</code>).
+    </li>
+  </ul>
+
+  <h2>Что дальше</h2>
+  <ul>
+    <li><a href="/training/">Обучение</a> — восемь модулей, в каждом упражнение и самопроверка.</li>
+    <li><a href="/tutorials/forms/">Доступные формы</a> — ошибки, сводка ошибок и фокус.</li>
+    <li><a href="/tutorials/theming/">Темы</a> — смена темы во время работы.</li>
+    <li><a href="/components/">Каталог компонентов</a> — полный справочник.</li>
+  </ul>
+</section>
