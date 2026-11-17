@@ -1,0 +1,71 @@
+// SkipLink component
+//
+// A headless skip navigation link that allows keyboard users to bypass
+// repetitive content (navigation menus, headers) and jump directly to the main
+// content area. Should be the very first focusable element on a page. Typically
+// styled to be visually hidden until focused, then positioned prominently.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   href — string, default "#content". The anchor target that the link navigates to.
+//   label — string, required. No default: the words are yours. The visible link text.
+//   ...restProps — additional HTML attributes spread onto the <a>.
+//
+// Syntax:
+//   <SkipLink label="Skip to content" />
+//
+// Examples:
+//
+//   <SkipLink href="#main" label="Skip to main content" />
+//
+//
+//   <SkipLink href="#content" label="Skip navigation" class="sr-only-focusable" />
+//
+// Keyboard:
+//   - Tab: moves focus to the skip link (should be the first focusable element)
+//   - Enter: activates the link, moving focus to the target anchor element
+//
+// Accessibility:
+//   - Native <a> element with href is natively accessible as a link
+//   - The link text content (label prop) serves as the accessible name
+//   - No additional ARIA attributes needed
+//   - WCAG 2.1 Success Criterion 2.4.1: Bypass Blocks
+//
+// Internationalization:
+//   - The label prop externalizes the link text for localization
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Consumer must ensure the target element exists with a matching id attribute
+//   - Typically styled as visually hidden until :focus
+//
+// References:
+//   - WCAG 2.1 Bypass Blocks: https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html
+//   - WebAIM Skip Navigation Links: https://webaim.org/techniques/skipnav/
+
+import { merge, omit } from "solid-js";
+import { warnMissingName } from "./dev-warning";
+
+export interface SkipLinkProps {
+    class?: string;
+    /** Target anchor. */
+    href?: string;
+    /** Link text. */
+    label: string;
+    [key: string]: unknown;
+}
+
+export default function SkipLink(props: SkipLinkProps) {
+    const p = merge({ class: "" as const, href: "#content" as const }, props);
+    const restProps = omit(p, "class", "href", "label");
+    warnMissingName("SkipLink", p.label, p["aria-labelledby"]);
+    return (
+        <a
+            class={`skip-link ${p.class}`}
+            href={p.href}
+            {...restProps}
+        >
+            {p.label}
+        </a>
+    );
+}

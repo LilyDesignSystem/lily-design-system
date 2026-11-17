@@ -1,0 +1,65 @@
+// MeasurementUnitView component
+//
+// A headless display component that shows a measurement unit in a <span>
+// element. A measurement unit is a standard quantity used to express a
+// physical measurement, such as "kg", "lb", "cm", or "inch". This is a
+// read-only display component, part of the Input/View pattern for measurement
+// data.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   value — string, required. The measurement unit to display.
+//   label — string, optional. Accessible name via aria-label for additional context.
+//   ...restProps — additional HTML attributes spread onto the <span>.
+//
+// Syntax:
+//   <MeasurementUnitView value="kg" />
+//
+// Examples:
+//
+//   <MeasurementUnitView value="kg" />
+//
+//
+//   <MeasurementUnitView value="lb" label="Pounds" />
+//
+// Keyboard:
+//   - None — this is a display-only component with no interactive behavior.
+//
+// Accessibility:
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
+//   - Text content is inherently accessible to screen readers
+//
+// Internationalization:
+//   - All text comes through the value and label props
+//   - No hardcoded user-facing strings
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Part of the Input/View pattern; pairs with MeasurementUnitInput
+//
+// References:
+//   - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
+
+import { merge, omit } from "solid-js";
+export interface MeasurementUnitViewProps {
+    class?: string;
+    /** The measurement unit to display */
+    value: string;
+    /** Optional accessible name */
+    label?: string;
+    [key: string]: unknown;
+}
+
+export default function MeasurementUnitView(props: MeasurementUnitViewProps) {
+    const p = merge({ class: "" as const }, props);
+    const restProps = omit(p, "class", "value", "label");
+    return (
+        <span
+            class={`measurement-unit-view ${p.class}`}
+            {...restProps}
+        >
+            {p.label ? <span class="screen-reader-span">{`${p.label} `}</span> : null}
+            {p.value}
+        </span>
+    );
+}

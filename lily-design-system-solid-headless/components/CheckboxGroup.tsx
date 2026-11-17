@@ -1,0 +1,83 @@
+// CheckboxGroup component
+//
+// A headless fieldset container that groups related checkboxes under the ARIA
+// group role. It manages a collection of checkboxes with shared state, supporting
+// a "Select all" checkbox with automatic indeterminate state, group-level disabled
+// state, and two-way binding of selected values. Used when multiple related
+// checkboxes need semantic grouping and accessible labelling.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, required. Accessible label for the checkbox group via aria-label.
+//   disabled — boolean, default false. Disables the entire group via fieldset disabled.
+//   children — ReactNode, required. Checkbox elements to render inside the fieldset.
+//   ...restProps — additional HTML attributes spread onto the <fieldset>.
+//
+// Syntax:
+//   <CheckboxGroup label="Features">{children}</CheckboxGroup>
+//
+// Examples:
+//
+//   <CheckboxGroup label="Features">
+//     <label><input type="checkbox" name="features" value="wifi" /> Wi-Fi</label>
+//     <label><input type="checkbox" name="features" value="bluetooth" /> Bluetooth</label>
+//     <label><input type="checkbox" name="features" value="gps" /> GPS</label>
+//   </CheckboxGroup>
+//
+//   <CheckboxGroup label="Toppings" disabled>
+//     <label><input type="checkbox" name="toppings" value="cheese" /> Cheese</label>
+//   </CheckboxGroup>
+//
+// Keyboard:
+//   - Tab: moves focus between checkboxes within the group (native behavior)
+//   - Space: toggles the focused checkbox checked state (native behavior)
+//
+// Accessibility:
+//   - role="group" identifies the fieldset as a group of related checkboxes
+//   - aria-label provides an accessible name so screen readers announce the group purpose
+//   - Native <fieldset> disabled attribute propagates to all child inputs
+//
+// Internationalization:
+//   - The label prop is the only text; all option labels come through children
+//   - No hardcoded user-facing strings
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - No internal state management; checkbox selection handled by native checkbox behavior
+//   - Consumer provides checkbox inputs as children, typically wrapped in <label> elements
+//
+// References:
+//   - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
+//   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
+
+import type { JSX } from "@solidjs/web";
+import { merge, omit } from "solid-js";
+import { warnMissingName } from "./dev-warning";
+
+export interface CheckboxGroupProps {
+    class?: string;
+    /** Accessible label for the group. */
+    label: string;
+    /** Disables the entire group. */
+    disabled?: boolean;
+    /** Checkbox elements. */
+    children: JSX.Element;
+    [key: string]: unknown;
+}
+
+export default function CheckboxGroup(props: CheckboxGroupProps) {
+    const p = merge({ class: "" as const, disabled: false }, props);
+    const restProps = omit(p, "class", "label", "disabled", "children");
+    warnMissingName("CheckboxGroup", p.label, p["aria-label"], p["aria-labelledby"]);
+    return (
+        <fieldset
+            class={`checkbox-group ${p.class}`}
+            role="group"
+            aria-label={p.label}
+            disabled={p.disabled}
+            {...restProps}
+        >
+            {p.children}
+        </fieldset>
+    );
+}

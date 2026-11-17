@@ -1,0 +1,75 @@
+// Progress component
+//
+// A headless progress indicator using the native HTML <progress> element with
+// built-in semantic meaning and accessibility. It supports both determinate
+// progress (with a known value and maximum) and indeterminate progress (when
+// value is undefined, indicating an ongoing process of unknown duration).
+// Commonly used for file uploads, form submissions, loading sequences, and
+// installation wizards.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, required. Accessible name via aria-label describing what process is tracked.
+//   value — number, default undefined. Current progress value; undefined means indeterminate.
+//   max — number, default 100. Maximum value representing 100% completion.
+//   ...restProps — additional HTML attributes spread onto the <progress>.
+//
+// Syntax:
+//   <Progress label="Upload progress" value={50} />
+//
+// Examples:
+//
+//   <Progress label="Upload progress" value={50} max={100} />
+//
+//
+//   <Progress label="Loading" />
+//
+//
+//   <Progress label="Installation" value={3} max={5} />
+//
+// Keyboard:
+//   None — this is a passive display element that does not accept user input.
+//
+// Accessibility:
+//   - aria-label describes what process the progress bar represents
+//   - The <progress> element implicitly has role="progressbar" with aria-valuenow,
+//     aria-valuemin, and aria-valuemax managed by the browser
+//
+// Internationalization:
+//   - The label prop is the only user-facing text; no hardcoded strings
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Uses native <progress> element, not a <div> with role="progressbar"
+//   - When value is undefined, the progress bar is indeterminate
+//   - Do not wrap in a container — renders a bare <progress> element
+//
+// References:
+//   - MDN progress element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress
+//   - WAI-ARIA progressbar role: https://www.w3.org/WAI/ARIA/apg/patterns/meter/
+
+import { merge, omit } from "solid-js";
+export interface ProgressProps {
+    class?: string;
+    /** Accessible label. */
+    label: string;
+    /** Current value. Undefined means indeterminate. */
+    value?: number;
+    /** Maximum value. */
+    max?: number;
+    [key: string]: unknown;
+}
+
+export default function Progress(props: ProgressProps) {
+    const p = merge({ class: "" as const, max: 100 }, props);
+    const restProps = omit(p, "class", "label", "value", "max");
+    return (
+        <progress
+            class={`progress ${p.class}`}
+            aria-label={p.label}
+            value={p.value}
+            max={p.max}
+            {...restProps}
+        ></progress>
+    );
+}

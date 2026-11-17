@@ -1,0 +1,45 @@
+import { render, screen } from "@solidjs/testing-library";
+import { describe, expect, test } from "vitest";
+
+import Subject from "./MeasurementSystemView";
+
+describe("MeasurementSystemView", () => {
+    test("renders the measurement system name", () => {
+        render(() => <Subject value="metric" />);
+        expect(screen.getByText("metric")).toBeTruthy();
+    });
+
+    test("renders as a span element", () => {
+        render(() => (
+            <Subject
+                value="imperial"
+                data-testid="ms"
+            />
+        ));
+        expect(screen.getByTestId("ms").tagName).toBe("SPAN");
+    });
+
+    test("supports aria-label", () => {
+        render(() => (
+            <Subject
+                value="SI"
+                label="International System"
+            />
+        ));
+        expect(
+            (document.querySelector(".measurement-system-view") as HTMLElement).querySelector(
+                ".screen-reader-span",
+            )?.textContent,
+        ).toBe(`${"International System"} `);
+    });
+
+    test("passes through attributes", () => {
+        render(() => (
+            <Subject
+                value="metric"
+                data-testid="msv"
+            />
+        ));
+        expect(screen.getByTestId("msv")).toBeTruthy();
+    });
+});

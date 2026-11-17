@@ -1,0 +1,64 @@
+// MalaysiaKadPengenalanInput component
+//
+// A headless input for entering Malaysia's MyKad Number (NRIC).
+// Format: Twelve digits, usually written YYMMDD-PB-NNNG: the date of birth (year, month, day), a two-digit code for the place of birth (a state or a country), and a four-digit serial whose last digit is odd for a male and even for a female. There is no check digit.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, required. Accessible label for screen readers via aria-label.
+//   value — string, default "". Bindable input value; supports value + onChange.
+//   required — boolean, default false. Whether the input is required for form submission.
+//   disabled — boolean, default false. Whether the input is disabled.
+//   ...restProps — additional HTML attributes spread onto the <input>.
+//
+// Syntax:
+//   <MalaysiaKadPengenalanInput label="MyKad Number (NRIC)" value={value} onChange={setValue} />
+//
+// Accessibility:
+//   - aria-label provides the accessible name for screen readers
+//   - autoComplete="off" protects sensitive identifiers
+//   - required and disabled states are conveyed to assistive technology
+//
+// References:
+//   - https://en.wikipedia.org/wiki/MyKad
+
+import { merge, omit } from "solid-js";
+import { warnMissingName } from "./dev-warning";
+
+export interface MalaysiaKadPengenalanInputProps {
+    class?: string;
+    /** Accessible label for screen readers */
+    label: string;
+    /** The current value of the input, bindable */
+    value?: string;
+    /** Whether the input is required for form submission */
+    required?: boolean;
+    /** Whether the input is disabled */
+    disabled?: boolean;
+    /** Callback when value changes. */
+    onChange?: (value: string) => void;
+    [key: string]: unknown;
+}
+
+export default function MalaysiaKadPengenalanInput(props: MalaysiaKadPengenalanInputProps) {
+    const p = merge(
+        { class: "" as const, value: "" as const, required: false, disabled: false },
+        props,
+    );
+    const restProps = omit(p, "class", "label", "value", "required", "disabled", "onChange");
+    warnMissingName("MalaysiaKadPengenalanInput", p.label, p["aria-label"], p["aria-labelledby"]);
+    return (
+        <input
+            class={`malaysia-kad-pengenalan-input ${p.class}`}
+            type="text"
+            aria-label={p.label}
+            autocomplete="off"
+            spellcheck="false"
+            value={p.value}
+            onInput={(e) => p.onChange?.(e.currentTarget.value)}
+            required={p.required}
+            disabled={p.disabled}
+            {...restProps}
+        />
+    );
+}

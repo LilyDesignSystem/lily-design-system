@@ -1,0 +1,70 @@
+// GanttTableTr component
+//
+// A single row within a GanttTable grid. Renders as a <tr> containing
+// GanttTableTD cells for each time period and task header cells.
+// Used inside GanttTableHead, GanttTableBody, or GanttTableTfoot.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   children — ReactNode, required. GanttTableTD cells and header cells for this row.
+//   ...restProps — additional HTML attributes spread onto the <tr>.
+//
+// Syntax:
+//   <GanttTableTr>
+//     <th>Design</th>
+//     <GanttTableTD active>---</GanttTableTD>
+//     <GanttTableTD />
+//   </GanttTableTr>
+//
+// Examples:
+//
+//   <GanttTableTr>
+//     <th>Development</th>
+//     <GanttTableTD />
+//     <GanttTableTD active>---</GanttTableTD>
+//     <GanttTableTD active>---</GanttTableTD>
+//   </GanttTableTr>
+//
+//
+//   <GanttTableTr>
+//     <th>Task</th><th>Week 1</th><th>Week 2</th><th>Week 3</th>
+//   </GanttTableTr>
+//
+// Keyboard:
+//   None built-in — keyboard navigation is handled at the GanttTable grid level.
+//
+// Accessibility:
+//   - <tr> has implicit role="row" within the grid (no explicit role needed)
+//
+// Internationalization:
+//   - All cell content comes through children prop; no hardcoded strings
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Must be used inside a GanttTable component (which provides the <table>)
+//   - No internal state — purely a structural wrapper
+//
+// References:
+//   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
+
+import type { JSX } from "@solidjs/web";
+import { merge, omit } from "solid-js";
+export interface GanttTableTrProps {
+    class?: string;
+    /** GanttTableTD cells and header cells for this row. */
+    children: JSX.Element;
+    [key: string]: unknown;
+}
+
+export default function GanttTableTr(props: GanttTableTrProps) {
+    const p = merge({ class: "" as const }, props);
+    const restProps = omit(p, "class", "children");
+    return (
+        <tr
+            class={`gantt-table-tr ${p.class}`}
+            {...restProps}
+        >
+            {p.children}
+        </tr>
+    );
+}

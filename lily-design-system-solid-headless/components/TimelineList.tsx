@@ -1,0 +1,79 @@
+// TimelineList component
+//
+// A headless timeline list that renders a semantic ordered list (<ol>) with
+// an accessible label for displaying events, milestones, or activities in
+// chronological order. Commonly used for project tracking, activity feeds,
+// historical overviews, order history, or user journey visualization. The
+// consumer provides TimelineListItem children through the children prop.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, required. Accessible label for the timeline via aria-label.
+//   children — ReactNode, required. TimelineListItem elements.
+//   ...restProps — additional HTML attributes spread onto the <ol>.
+//
+// Syntax:
+//   <TimelineList label="Project milestones">...</TimelineList>
+//
+// Examples:
+//
+//   <TimelineList label="Order history">
+//     <TimelineListItem datetime="2024-01-15" heading="January 15, 2024">
+//       Order placed
+//     </TimelineListItem>
+//     <TimelineListItem datetime="2024-01-16" heading="January 16, 2024">
+//       Order shipped
+//     </TimelineListItem>
+//   </TimelineList>
+//
+// Keyboard:
+//   - None directly -- standard list navigation by screen readers
+//   - Tab moves focus between any interactive elements within items
+//
+// Accessibility:
+//   - Semantic <ol> element conveys chronological ordering to screen readers
+//   - aria-label provides the accessible name for the timeline
+//   - Screen readers announce the list with its label and item count
+//   - Consumers should use <time> elements with datetime attributes
+//
+// Internationalization:
+//   - The label prop externalizes user-facing text for translation
+//   - All timeline content is provided through the children prop
+//   - No hardcoded strings in the component
+//
+// Claude rules:
+//   - Headless: no CSS, no styles -- consumer provides all styling
+//   - Consumers add <time> elements for machine-readable dates
+//
+// References:
+//   - HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
+//   - WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list
+
+import type { JSX } from "@solidjs/web";
+import { merge, omit } from "solid-js";
+export interface TimelineListProps {
+    class?: string;
+    /** Accessible label for the timeline */
+    label: string;
+    /** What this list is a view of, in the consumer's words: its window and order, what it leaves out and why, and which sources did not answer. Rendered first, as an item of its own (spec/lessons/zoblocks). */
+    coverageLabel?: string;
+    /** TimelineListItem elements */
+    children: JSX.Element;
+    /** Additional HTML attributes */
+    [key: string]: unknown;
+}
+
+export default function TimelineList(props: TimelineListProps) {
+    const p = merge({ class: "" as const }, props);
+    const restProps = omit(p, "class", "label", "coverageLabel", "children");
+    return (
+        <ol
+            class={`timeline-list ${p.class}`}
+            aria-label={p.label}
+            {...restProps}
+        >
+            {p.coverageLabel ? <li class="timeline-list-coverage">{p.coverageLabel}</li> : null}
+            {p.children}
+        </ol>
+    );
+}

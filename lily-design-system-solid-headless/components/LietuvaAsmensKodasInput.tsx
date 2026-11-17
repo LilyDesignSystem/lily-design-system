@@ -1,0 +1,64 @@
+// LietuvaAsmensKodasInput component
+//
+// A headless input for entering Lithuania's Asmens kodas.
+// Format: 11 digits in the format GYYMMDDNNNC: G encodes sex and century (4 or 6 women, 3 or 5 men), YYMMDD is the date of birth, NNN is a serial, C is the check digit.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, required. Accessible label for screen readers via aria-label.
+//   value — string, default "". Bindable input value; supports value + onChange.
+//   required — boolean, default false. Whether the input is required for form submission.
+//   disabled — boolean, default false. Whether the input is disabled.
+//   ...restProps — additional HTML attributes spread onto the <input>.
+//
+// Syntax:
+//   <LietuvaAsmensKodasInput label="Personal Code" value={value} onChange={setValue} />
+//
+// Accessibility:
+//   - aria-label provides the accessible name for screen readers
+//   - autoComplete="off" protects sensitive identifiers
+//   - required and disabled states are conveyed to assistive technology
+//
+// References:
+//   - https://en.wikipedia.org/wiki/National_identification_number#Lithuania
+
+import { merge, omit } from "solid-js";
+import { warnMissingName } from "./dev-warning";
+
+export interface LietuvaAsmensKodasInputProps {
+    class?: string;
+    /** Accessible label for screen readers */
+    label: string;
+    /** The current value of the input, bindable */
+    value?: string;
+    /** Whether the input is required for form submission */
+    required?: boolean;
+    /** Whether the input is disabled */
+    disabled?: boolean;
+    /** Callback when value changes. */
+    onChange?: (value: string) => void;
+    [key: string]: unknown;
+}
+
+export default function LietuvaAsmensKodasInput(props: LietuvaAsmensKodasInputProps) {
+    const p = merge(
+        { class: "" as const, value: "" as const, required: false, disabled: false },
+        props,
+    );
+    const restProps = omit(p, "class", "label", "value", "required", "disabled", "onChange");
+    warnMissingName("LietuvaAsmensKodasInput", p.label, p["aria-label"], p["aria-labelledby"]);
+    return (
+        <input
+            class={`lietuva-asmens-kodas-input ${p.class}`}
+            type="text"
+            aria-label={p.label}
+            autocomplete="off"
+            spellcheck="false"
+            value={p.value}
+            onInput={(e) => p.onChange?.(e.currentTarget.value)}
+            required={p.required}
+            disabled={p.disabled}
+            {...restProps}
+        />
+    );
+}

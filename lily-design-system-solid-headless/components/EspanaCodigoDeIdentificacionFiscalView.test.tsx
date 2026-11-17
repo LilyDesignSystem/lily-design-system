@@ -1,0 +1,49 @@
+import { render, screen } from "@solidjs/testing-library";
+import { describe, expect, test } from "vitest";
+
+import Subject from "./EspanaCodigoDeIdentificacionFiscalView";
+
+describe("EspanaCodigoDeIdentificacionFiscalView", () => {
+    test("renders with the correct class", () => {
+        render(() => (
+            <Subject
+                label="Tax Identification Code"
+                value="test-value"
+            />
+        ));
+
+        const el = document.querySelector(
+            ".espana-codigo-de-identificacion-fiscal-view",
+        ) as HTMLElement;
+        expect(el).toBeTruthy();
+        expect(el.getAttribute("class")).toContain("espana-codigo-de-identificacion-fiscal-view");
+    });
+
+    test("renders the value as text content", () => {
+        render(() => (
+            <Subject
+                label="Tax Identification Code"
+                value="test-value"
+            />
+        ));
+
+        const el = document.querySelector(
+            ".espana-codigo-de-identificacion-fiscal-view",
+        ) as HTMLElement;
+        expect(
+            el.textContent?.replace(el.querySelector(".screen-reader-span")?.textContent ?? "", ""),
+        ).toBe("test-value");
+    });
+
+    test("has aria-label from the label prop", () => {
+        render(() => <Subject label="Tax Identification Code" />);
+
+        const el = document.querySelector(
+            ".espana-codigo-de-identificacion-fiscal-view",
+        ) as HTMLElement;
+        expect(el.querySelector(".screen-reader-span")?.textContent).toBe(
+            `${"Tax Identification Code"} `,
+        );
+        expect(el.hasAttribute("aria-label")).toBe(false);
+    });
+});

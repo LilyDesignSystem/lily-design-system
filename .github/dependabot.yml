@@ -323,6 +323,18 @@ updates:
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
+    directory: "/lily-design-system-solid-headless"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+
+  - package-ecosystem: "npm"
     # One top-level subproject per React helper package (2026-10-10).
     directories:
       - "/lily-design-system-react-data-grid"

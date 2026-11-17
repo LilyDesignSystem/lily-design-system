@@ -1,0 +1,73 @@
+// AccordionNav component
+//
+// A headless navigation container for an accordion, rendered as a <nav>
+// element with an accessible label. Serves as the outermost wrapper for
+// collapsible accordion content. Contains an AccordionList which holds
+// AccordionListItem children. Commonly used for FAQs, settings panels,
+// filter groups, and mobile navigation menus.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, required. Accessible name via aria-label.
+//   children — ReactNode, required. AccordionList element.
+//   ...restProps — additional HTML attributes spread onto the <nav>.
+//
+// Syntax:
+//   <AccordionNav label="FAQ">
+//     <AccordionList>...</AccordionList>
+//   </AccordionNav>
+//
+// Examples:
+//
+//   <AccordionNav label="Frequently Asked Questions">
+//     <AccordionList>
+//       <AccordionListItem>
+//         <summary>What is this?</summary>
+//         <p>A design system.</p>
+//       </AccordionListItem>
+//     </AccordionList>
+//   </AccordionNav>
+//
+// Keyboard: None — this is a passive container. Keyboard interactions
+// are handled by AccordionListItem children (Enter/Space to toggle).
+//
+// Accessibility:
+//   - <nav> element provides navigation landmark semantics
+//   - aria-label provides the accessible name for screen readers
+//
+// Internationalization:
+//   - The label prop is the only user-facing string
+//   - No hardcoded text; all content comes through props and children
+//
+// Claude rules:
+//   - Compound component — use with AccordionList and AccordionListItem
+//   - Headless: no CSS, no styles — consumer provides all styling
+//
+// References:
+//   - WAI-ARIA Accordion Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/accordion/
+//   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
+
+import type { JSX } from "@solidjs/web";
+import { merge, omit } from "solid-js";
+export interface AccordionNavProps {
+    class?: string;
+    /** Accessible label. */
+    label: string;
+    /** AccordionList element. */
+    children: JSX.Element;
+    [key: string]: unknown;
+}
+
+export default function AccordionNav(props: AccordionNavProps) {
+    const p = merge({ class: "" as const }, props);
+    const restProps = omit(p, "class", "label", "children");
+    return (
+        <nav
+            class={`accordion-nav ${p.class}`}
+            aria-label={p.label}
+            {...restProps}
+        >
+            {p.children}
+        </nav>
+    );
+}

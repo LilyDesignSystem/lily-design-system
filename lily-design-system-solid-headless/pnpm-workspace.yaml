@@ -1,0 +1,26 @@
+allowBuilds:
+  esbuild: true
+  sharp: true
+  "@parcel/watcher": true
+  unrs-resolver: true
+# vite's optional esbuild peer resolves to 0.27.7 (below the
+# 0.28.1 GHSA fix) alongside a separately-patched 0.28.2 pulled in
+# elsewhere in the tree -- two copies. vite's own peer range
+# (^0.27.0 || ^0.28.0) already accepts 0.28.x, so pinning everyone
+# to one patched version is safe.
+minimumReleaseAgeExclude:
+  - "@solidjs/babel-plugin@2.0.0"
+  - "@solidjs/compiler-darwin-arm64@2.0.0"
+  - "@solidjs/compiler-darwin-x64@2.0.0"
+  - "@solidjs/compiler-linux-arm64-gnu@2.0.0"
+  - "@solidjs/compiler-linux-x64-gnu@2.0.0"
+  - "@solidjs/compiler-wasm32-wasi@2.0.0"
+  - "@solidjs/compiler-win32-x64-msvc@2.0.0"
+  - "@solidjs/compiler@2.0.0"
+  - "@solidjs/signals@2.0.0"
+  - "@solidjs/vite-plugin@3.0.0"
+  - "@solidjs/web@2.0.0"
+  - solid-js@2.0.0
+overrides:
+  "minimatch@10": "^11.0.1"
+  esbuild: "0.28.2"

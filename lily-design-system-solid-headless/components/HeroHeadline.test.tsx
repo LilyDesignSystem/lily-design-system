@@ -1,0 +1,72 @@
+import { render } from "@solidjs/testing-library";
+import { describe, expect, test } from "vitest";
+
+import Subject from "./HeroHeadline";
+
+describe("HeroHeadline", () => {
+    test("renders a div with class hero-headline", () => {
+        const { container } = render(() => (
+            <Subject
+                label="x"
+                media={null}
+            >
+                content
+            </Subject>
+        ));
+        const root = container.querySelector(".hero-headline");
+        expect(root).toBeTruthy();
+        expect(root?.tagName).toBe("DIV");
+    });
+
+    test("renders children content", () => {
+        const { container } = render(() => (
+            <Subject
+                label="x"
+                media={<div />}
+            >
+                content
+            </Subject>
+        ));
+        expect(container.textContent).toContain("content");
+    });
+
+    test("applies aria-label from label prop", () => {
+        const { container } = render(() => (
+            <Subject
+                label="Hello"
+                media={null}
+            >
+                content
+            </Subject>
+        ));
+        const root = container.querySelector(".hero-headline");
+        expect(root?.getAttribute("aria-label")).toBe("Hello");
+    });
+
+    test("renders the media prop", () => {
+        const { container } = render(() => (
+            <Subject
+                label="x"
+                media={<div>MEDIA</div>}
+            >
+                HEADLINE
+            </Subject>
+        ));
+        expect(container.textContent).toContain("MEDIA");
+        expect(container.textContent).toContain("HEADLINE");
+    });
+
+    test("is a named group when labelled", () => {
+        const { container } = render(() => (
+            <Subject
+                label="Story"
+                media={<div />}
+            >
+                content
+            </Subject>
+        ));
+        const root = container.querySelector(".hero-headline");
+        expect(root?.getAttribute("role")).toBe("group");
+        expect(root?.getAttribute("aria-label")).toBe("Story");
+    });
+});

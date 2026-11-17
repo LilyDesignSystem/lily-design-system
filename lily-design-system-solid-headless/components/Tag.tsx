@@ -1,0 +1,90 @@
+// Tag component
+//
+// A headless tag for displaying labels, categories, keywords, or status
+// indicators. Renders as an inline <span> with role="status" and an accessible
+// label, creating an implicit live region so screen readers announce content
+// changes. Commonly used in content management, product listings, article
+// metadata, and filtering interfaces to visually group or classify content.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, required. Accessible label for screen readers via aria-label.
+//   children — ReactNode, required. The tag's visible content (text, etc.).
+//   ...restProps — additional HTML attributes spread onto the <span>.
+//
+// Syntax:
+//   <Tag label="Category">Design</Tag>
+//
+// Examples:
+//
+//   <Tag label="Status">Active</Tag>
+//
+//
+//   <Tag label="Priority: High">High</Tag>
+//
+// Keyboard:
+//   - None -- tags are informational, not interactive
+//
+// Accessibility:
+//   - role="status" enables live region announcements for screen readers
+//   - aria-label provides expanded context beyond the visible tag text
+//
+// Internationalization:
+//   - The label prop externalizes user-facing text for translation
+//   - All visible content is provided through the children prop
+//   - No hardcoded strings in the component
+//
+// Claude rules:
+//   - Headless: no CSS, no styles -- consumer provides all styling
+//   - role="status" creates an implicit live region
+//
+// References:
+//   - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
+
+import type { JSX } from "@solidjs/web";
+import { merge, omit } from "solid-js";
+export interface TagProps {
+    class?: string;
+    /** Accessible label for screen readers */
+    label: string;
+    /** The tag content (text, icon, etc.) */
+    children: JSX.Element;
+    /**
+     * Announce changes: a `role="status"` live region, for a tag whose text
+     * changes in place (a job's status). Off by default — a page of static
+     * tags should not be a page of live regions.
+     */
+    live?: boolean;
+    /** Additional HTML attributes */
+    [key: string]: unknown;
+}
+
+export default function Tag(props: TagProps) {
+    const p = merge({ class: "" as const, live: false }, props);
+    const restProps = omit(p, "class", "label", "live", "children");
+    if (p.live) {
+        return (
+            <span
+                class={`tag ${p.class}`}
+                role="status"
+                aria-label={p.label}
+                {...restProps}
+            >
+                {p.children}
+            </span>
+        );
+    }
+    // Not a p.live region: aria-label is not allowed on a plain <span>, so the
+    // p.label is screen-reader text appended after the content (the themes hide
+    // .screen-reader-span). The content stays exposed: it may hold a focusable
+    // control, such as a remove button.
+    return (
+        <span
+            class={`tag ${p.class}`}
+            {...restProps}
+        >
+            {p.children}
+            {p.label ? <span class="screen-reader-span">{p.label}</span> : null}
+        </span>
+    );
+}

@@ -1,0 +1,107 @@
+// RangeInput component
+//
+// A headless slider control using the native <input type="range"> element for
+// selecting a numeric value within a defined range. It renders a draggable track
+// and handle with configurable minimum, maximum, and step values, and provides a
+// bindable value prop for two-way data binding. Commonly used for volume controls,
+// brightness settings, price filters, and continuous numeric spectrum selections.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, required. Accessible name via aria-label.
+//   value — number, default 50. Current numeric value; bindable with value + onChange.
+//   min — number, default 0. Minimum allowed value.
+//   max — number, default 100. Maximum allowed value.
+//   step — number, default 1. Increment between selectable values.
+//   disabled — boolean, default false. Whether the input is disabled.
+//   ...restProps — additional HTML attributes spread onto the <input>.
+//
+// Syntax:
+//   <RangeInput label="Volume" value={value} onChange={setValue} />
+//
+// Examples:
+//
+//   <RangeInput label="Volume" value={value} onChange={setValue} min={0} max={100} />
+//
+//
+//   <RangeInput label="Price range" value={price} onChange={setPrice} min={10} max={500} step={10} />
+//
+// Keyboard:
+//   - Left Arrow / Down Arrow: decrease value by one step
+//   - Right Arrow / Up Arrow: increase value by one step
+//   - Home: set to minimum value
+//   - End: set to maximum value
+//   - Page Down: decrease by a larger step (browser-defined)
+//   - Page Up: increase by a larger step (browser-defined)
+//
+// Accessibility:
+//   - aria-label provides the accessible name since no visible <label> is associated
+//   - Native <input type="range"> provides implicit slider role and value announcements
+//
+// Internationalization:
+//   - The label prop is the only user-facing text; no hardcoded strings
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Default value is 50, centered in the default 0-100 range
+//   - Do not wrap in a <div> — renders a bare <input> element
+//   - Keyboard interactions are provided natively by <input type="range">
+//
+// References:
+//   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
+//   - MDN input type="range": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range
+
+import { merge, omit } from "solid-js";
+import { warnMissingName } from "./dev-warning";
+
+export interface RangeInputProps {
+    class?: string;
+    /** Accessible label. */
+    label: string;
+    /** Current value. Bindable. */
+    value?: number;
+    /** Minimum value. */
+    min?: number;
+    /** Maximum value. */
+    max?: number;
+    /** Step increment. */
+    step?: number;
+    /** Whether disabled. */
+    disabled?: boolean;
+    /** Callback when value changes. */
+    onChange?: (value: number) => void;
+    [key: string]: unknown;
+}
+
+export default function RangeInput(props: RangeInputProps) {
+    const p = merge(
+        { class: "" as const, value: 50, min: 0, max: 100, step: 1, disabled: false },
+        props,
+    );
+    const restProps = omit(
+        p,
+        "class",
+        "label",
+        "value",
+        "min",
+        "max",
+        "step",
+        "disabled",
+        "onChange",
+    );
+    warnMissingName("RangeInput", p.label, p["aria-label"], p["aria-labelledby"]);
+    return (
+        <input
+            class={`range-input ${p.class}`}
+            type="range"
+            aria-label={p.label}
+            value={p.value}
+            onInput={(e) => p.onChange?.(Number(e.currentTarget.value))}
+            min={p.min}
+            max={p.max}
+            step={p.step}
+            disabled={p.disabled}
+            {...restProps}
+        />
+    );
+}

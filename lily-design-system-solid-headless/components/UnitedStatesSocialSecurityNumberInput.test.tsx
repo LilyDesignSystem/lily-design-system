@@ -1,0 +1,96 @@
+import { render, screen } from "@solidjs/testing-library";
+import { describe, expect, test } from "vitest";
+
+import Subject from "./UnitedStatesSocialSecurityNumberInput";
+
+describe("UnitedStatesSocialSecurityNumberInput", () => {
+    test("renders a text input", () => {
+        render(() => <Subject label="SSN" />);
+
+        const input = screen.getByLabelText("SSN") as HTMLInputElement;
+        expect(input.type).toBe("text");
+    });
+
+    test("has numeric inputmode", () => {
+        render(() => <Subject label="SSN" />);
+
+        const input = screen.getByLabelText("SSN");
+        expect(input.getAttribute("inputmode")).toBe("numeric");
+    });
+
+    test("has the correct pattern for SSN format", () => {
+        render(() => <Subject label="SSN" />);
+
+        const input = screen.getByLabelText("SSN");
+        expect(input.getAttribute("pattern")).toBe("[0-9]{3}-[0-9]{2}-[0-9]{4}");
+    });
+
+    test("has autocomplete off", () => {
+        render(() => <Subject label="SSN" />);
+
+        const input = screen.getByLabelText("SSN");
+        expect(input.getAttribute("autocomplete")).toBe("off");
+    });
+
+    test("is not required by default", () => {
+        render(() => <Subject label="SSN" />);
+
+        const input = screen.getByLabelText("SSN") as HTMLInputElement;
+        expect(input.required).toBe(false);
+    });
+
+    test("can be set to required", () => {
+        render(() => (
+            <Subject
+                label="SSN"
+                required
+            />
+        ));
+
+        const input = screen.getByLabelText("SSN") as HTMLInputElement;
+        expect(input.required).toBe(true);
+    });
+
+    test("is not disabled by default", () => {
+        render(() => <Subject label="SSN" />);
+
+        const input = screen.getByLabelText("SSN") as HTMLInputElement;
+        expect(input.disabled).toBe(false);
+    });
+
+    test("can be set to disabled", () => {
+        render(() => (
+            <Subject
+                label="SSN"
+                disabled
+            />
+        ));
+
+        const input = screen.getByLabelText("SSN") as HTMLInputElement;
+        expect(input.disabled).toBe(true);
+    });
+
+    test("passes through additional HTML attributes", () => {
+        render(() => (
+            <Subject
+                label="SSN"
+                data-testid="ssn-input"
+            />
+        ));
+
+        const input = screen.getByTestId("ssn-input");
+        expect(input).toBeTruthy();
+    });
+
+    test("passes through id attribute", () => {
+        render(() => (
+            <Subject
+                label="SSN"
+                id="ssn-field"
+            />
+        ));
+
+        const input = screen.getByLabelText("SSN");
+        expect(input.getAttribute("id")).toBe("ssn-field");
+    });
+});

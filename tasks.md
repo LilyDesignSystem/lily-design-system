@@ -3861,6 +3861,27 @@ Maintainer-directed, in this order.
       its 63 languages, or English cards accepted in the translations, as the maintainer decides.
       Verify: `bin/check-site-page-translations` passes with the cards in.
 
+## Phase 36 — Lily for Solid 2.0 (2026-11-17)
+
+Requested by the maintainer the day Solid 2.0 shipped: a Solid catalog like the React, Vue and Svelte ones. The headless
+library comes first; its plan, decisions and the list of components still to port are in
+[lily-design-system-solid-headless/spec/index.md](lily-design-system-solid-headless/spec/index.md).
+
+- [ ] **P36-T1 Solid headless catalog.** 488 of 637 components ported from the React catalog with their tests (2,901
+      passing) on 2026-11-17; 149 stateful ones to port by hand, then the build and barrel (S1, S2 there).
+      Verify: 637 components and their tests pass; a scratch consumer imports the built package.
+- [ ] **P36-T2 Solid in the root checks and CI.** `bin/check-class-names`, `check-html-tags`, `check-coverage`,
+      `check-dev-warnings`, `check-built-english`, `check-identifier-inputs`, `check-port-data-attributes`, and CI's headless
+      matrix. Verify: `bin/test` and CI cover `lily-design-system-solid-headless`.
+- [ ] **P36-T3 Solid helper packages.** The 21 helper packages, `lily-design-system-solid-*`, ported from React.
+      Verify: `bin/list-helper-packages solid` lists them and each has passing tests.
+- [ ] **P36-T4 Solid example app** with the three required routes (`/`, `/components`, `/components/{slug}`), on Solid 2's
+      Vite plugin (SolidStart is retired). Verify: its e2e and axe sweeps pass.
+- [ ] **P36-T5 Solid skills:** `lily-design-system-solid-headless-skill`, `-helpers-skill` and `-skill`.
+      Verify: each has the required files and is listed in `spec/agent-skills`.
+- [ ] **P36-T6 Publish** `@lilydesignsystem/solid-headless` and the helpers (maintainer approval).
+      Verify: `bin/verify-published` finds each version.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

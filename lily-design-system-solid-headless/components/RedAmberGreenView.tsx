@@ -1,0 +1,69 @@
+// RedAmberGreenView component
+//
+// A headless RAG (Red/Amber/Green) status view that displays a traffic-light
+// status value as read-only text inside a <span> element. Used to present
+// previously captured RAG status data in dashboards, reports, and detail views
+// where the status is informational rather than editable.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.
+//   value — string, default "". The RAG status value to display (e.g. "red", "amber", "green").
+//   ...restProps — additional HTML attributes spread onto the <span>.
+//
+// Syntax:
+//   <RedAmberGreenView label="Project status" value="green" />
+//
+// Examples:
+//
+//   <RedAmberGreenView label="Health check" value={status} />
+//
+//
+//   <RedAmberGreenView label="Risk level" value="amber" data-testid="risk" />
+//
+// Keyboard:
+//   - None — this is a passive informational display, not an interactive element.
+//
+// Accessibility:
+//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.
+//   - Screen readers announce the label and displayed status value
+//   - WCAG 2.2 AAA: properly labeled for assistive technology
+//
+// Internationalization:
+//   - The label prop externalizes the accessible label string
+//   - The value is displayed as-is, allowing localized status names
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Read-only display component — not interactive, no controlled
+//   - Consumer can apply color-coded backgrounds or text colors via restProps
+//
+// References:
+//   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
+//   - Traffic Light Rating System: https://en.wikipedia.org/wiki/Traffic_light_rating_system
+
+import { merge, omit } from "solid-js";
+import { attr } from "./attr";
+export interface RedAmberGreenViewProps {
+    class?: string;
+    /** Accessible label for screen readers */
+    label?: string;
+    /** The RAG status value to display (e.g. "red", "amber", "green") */
+    value?: string;
+    [key: string]: unknown;
+}
+
+export default function RedAmberGreenView(props: RedAmberGreenViewProps) {
+    const p = merge({ class: "" as const, value: "" as const }, props);
+    const restProps = omit(p, "class", "label", "value");
+    return (
+        <span
+            class={`red-amber-green-view ${p.class}`}
+            data-value={attr(p.value || undefined)}
+            {...restProps}
+        >
+            {p.label ? <span class="screen-reader-span">{`${p.label} `}</span> : null}
+            {p.value}
+        </span>
+    );
+}
