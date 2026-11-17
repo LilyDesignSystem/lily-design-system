@@ -44,4 +44,21 @@ describe("context-menu", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("subjectLabel is a non-interactive first part that names the menu", () => {
+        const { document } = render("context-menu", {
+            id: "row-menu",
+            label: "Actions",
+            subjectLabel: "Ada Lovelace, blood pressure 3 Nov",
+            html: '<div role="menuitem" tabindex="-1">Edit</div>',
+        });
+        const menu = document.querySelector("[role='menu']");
+        const subject = menu.firstElementChild;
+        expect(subject.className).toBe("context-menu-subject");
+        expect(subject.getAttribute("role")).toBe("none");
+        expect(subject.textContent).toBe("Ada Lovelace, blood pressure 3 Nov");
+        expect(menu.hasAttribute("aria-label")).toBe(false);
+        expect(menu.getAttribute("aria-labelledby")).toBe("row-menu-subject");
+        expect(subject.id).toBe("row-menu-subject");
+    });
 });

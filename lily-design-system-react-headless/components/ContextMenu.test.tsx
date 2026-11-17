@@ -168,4 +168,28 @@ describe("ContextMenu", () => {
         await user.keyboard("{End}");
         expect(document.activeElement).toBe(items[2]);
     });
+
+    test("subjectLabel is a non-interactive first part that names the menu", () => {
+        const { container } = render(
+            <Subject
+                label="Actions"
+                open
+                subjectLabel="Ada Lovelace, blood pressure 3 Nov"
+            >
+                <div
+                    role="menuitem"
+                    tabIndex={-1}
+                >
+                    Edit
+                </div>
+            </Subject>,
+        );
+        const menu = container.querySelector("[role='menu']") as HTMLElement;
+        const subject = menu.firstElementChild as HTMLElement;
+        expect(subject.className).toBe("context-menu-subject");
+        expect(subject.getAttribute("role")).toBe("none");
+        expect(menu.hasAttribute("aria-label")).toBe(false);
+        expect(menu.getAttribute("aria-labelledby")).toBe(subject.id);
+        expect(subject.textContent).toBe("Ada Lovelace, blood pressure 3 Nov");
+    });
 });

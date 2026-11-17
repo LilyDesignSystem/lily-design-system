@@ -30,16 +30,43 @@
 //   - components/context-menu/index.md (canonical contract)
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
-import { applySelfClassName } from "../lib/dom-utils.js";
+import { applySelfClassName, nextId } from "../lib/dom-utils.js";
 import { syncPopover, toggleOpened } from "./popover.js";
+
+/** Keep one non-interactive first part, .context-menu-subject, holding `subject-label`, and name the menu by it. */
+function syncSubject(
+    menu: HTMLElement,
+    text: string | null,
+    id: string,
+    label: string | null,
+): void {
+    let subject = menu.querySelector<HTMLElement>(":scope > .context-menu-subject");
+    if (!text) {
+        subject?.remove();
+        menu.removeAttribute("aria-labelledby");
+        if (label !== null) menu.setAttribute("aria-label", label);
+        return;
+    }
+    if (!subject) {
+        subject = document.createElement("div");
+        subject.className = "context-menu-subject";
+        subject.id = id;
+        subject.setAttribute("role", "none");
+        menu.prepend(subject);
+    }
+    subject.textContent = text;
+    menu.removeAttribute("aria-label");
+    menu.setAttribute("aria-labelledby", subject.id);
+}
 
 export class ContextMenu extends HTMLElement {
     static get observedAttributes(): string[] {
-        return ["label", "open"];
+        return ["label", "subject-label", "open"];
     }
 
     #built = false;
     #wasOpen = false;
+    #subjectId = nextId("lily-context-menu-subject");
 
     connectedCallback(): void {
         if (!this.#built) {
@@ -64,6 +91,8 @@ export class ContextMenu extends HTMLElement {
         if (!this.#built) return;
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
+        // subject-label: whose record or what the menu acts on; a non-interactive first part that names the menu.
+        syncSubject(this, this.getAttribute("subject-label"), this.#subjectId, label);
         const open = this.hasAttribute("open");
         syncPopover(this, open);
         if (open && !this.#wasOpen) {

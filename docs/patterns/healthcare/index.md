@@ -52,6 +52,12 @@ severity and make only the severe ones interruptive.
   `FamilyMemberHistory`).
 - Do not limit how many records a clinician may open: a randomised trial of 3,356 clinicians (JAMA, 2019) found that it did not
   reduce wrong-patient orders, and people work around it.
+- A menu of actions on one record names that record first, with `subjectLabel` on `context-menu` or `dropdown-menu` ("Ada
+  Lovelace, blood pressure 3 Nov"): a non-interactive first part that is also the menu's accessible name.
+- Tier each action by what it does, and make the tier visible before it runs. **Routine** (view, print) runs at once.
+  **Documented** says what it will write to the record ("Adds a note to the encounter"). **Clinical** (discontinue, cancel an
+  order) asks a second time, in an `alert-dialog` whose confirming button is the verb ("Discontinue"), never "OK" or "Yes".
+  **Disclosive** (break the glass, share outside the care team) asks for a reason first and records it.
 - When several records are open (tabs, windows, split panes), every tab's visible text and accessible name include the patient's
   name and a second identifier, the active panel repeats the banner, and no action applies to a patient other than its panel's.
 - Show the location records will be attributed to (the ward, clinic or facility chosen at sign-in) as text in the page header, and
@@ -148,6 +154,9 @@ at `/patient-banner` in the SvelteKit example app:
 - Say where a record came from and whether it is final with `record-provenance-view`: signed, awaiting a signature, amended,
   saved on this device and not yet sent. An unsigned draft must never look signed.
 - An entry about someone else (a parent, a fetus, a donor) says whose it is first, with the record items' `subjectLabel`.
+- A withheld entry stays in the list with your words ("Restricted: not available to you"), and an entry made in error stays struck
+  through with "Entered in error": give `record-list-item` or `timeline-list-item` an `entryState` and an `entryStateLabel`. Never
+  remove either silently, since a gap is read as "nothing happened".
 - In a clinical note, mark each passage's source (typed, dictated, template, copied forward, generated) with `data-source` and
   visible words, so copied or generated text is never taken for today's examination.
 - A section that cannot load is `unavailable` in your words, with a retry button; a technical code, if shown at all, sits behind a

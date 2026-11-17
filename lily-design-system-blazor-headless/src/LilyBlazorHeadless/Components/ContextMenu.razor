@@ -29,10 +29,13 @@
     API is missing it toggles the hidden attribute on click, and Escape closes.
 *@
 
-<div class="@($"context-menu {CssClass}".Trim())" role="menu" aria-label="@Label" popover="auto" @ref="_menu" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"context-menu {CssClass}".Trim())" role="menu" aria-label="@(string.IsNullOrEmpty(SubjectLabel) ? Label : null)" aria-labelledby="@(string.IsNullOrEmpty(SubjectLabel) ? null : _subjectId)" popover="auto" @ref="_menu" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(SubjectLabel)) {<div class="context-menu-subject" id="@_subjectId" role="none">@SubjectLabel</div>}@ChildContent</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>Whose record or what the menu acts on, in the consumer's words: a non-interactive first part that names the menu (aria-labelledby).</summary>
+    [Parameter] public string? SubjectLabel { get; set; }
+    private readonly string _subjectId = $"context-menu-subject-{Guid.NewGuid():N}";
     [Parameter] public bool Open { get; set; }
     [Parameter] public EventCallback<bool> OpenChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }

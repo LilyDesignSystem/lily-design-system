@@ -98,4 +98,15 @@ describe("ContextMenu", () => {
         expect(host.hidden).toBe(true);
         expect(handler).toHaveBeenCalledOnce();
     });
+
+    test("subject-label is a non-interactive first part that names the menu", () => {
+        document.body.innerHTML = `<lily-context-menu label="Actions" subject-label="Ada Lovelace, blood pressure 3 Nov"><div role="menuitem" tabindex="-1">Edit</div></lily-context-menu>`;
+        const menu = document.querySelector("[role='menu']") as HTMLElement;
+        const subject = menu.firstElementChild as HTMLElement;
+        expect(subject.className).toBe("context-menu-subject");
+        expect(subject.getAttribute("role")).toBe("none");
+        expect(subject.textContent).toBe("Ada Lovelace, blood pressure 3 Nov");
+        expect(menu.hasAttribute("aria-label")).toBe(false);
+        expect(menu.getAttribute("aria-labelledby")).toBe(subject.id);
+    });
 });

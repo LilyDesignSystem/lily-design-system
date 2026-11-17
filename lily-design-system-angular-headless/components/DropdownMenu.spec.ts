@@ -123,4 +123,20 @@ describe("DropdownMenu — button and open state", () => {
         fixture.detectChanges();
         expect(fixture.componentInstance.open()).toBe(false);
     });
+
+    test("subjectLabel is a non-interactive first part that names the menu", () => {
+        const fixture = TestBed.createComponent(DropdownMenu);
+        fixture.componentRef.setInput("label", "Actions");
+        fixture.componentRef.setInput("subjectLabel", "Ada Lovelace, blood pressure 3 Nov");
+        fixture.detectChanges();
+        const menu = (fixture.nativeElement as HTMLElement).querySelector(
+            "[role='menu']",
+        ) as HTMLElement;
+        const subject = menu.firstElementChild as HTMLElement;
+        expect(subject.className).toBe("dropdown-menu-subject");
+        expect(subject.getAttribute("role")).toBe("none");
+        expect(menu.hasAttribute("aria-label")).toBe(false);
+        expect(menu.getAttribute("aria-labelledby")).toBe(subject.id);
+        expect(subject.textContent).toBe("Ada Lovelace, blood pressure 3 Nov");
+    });
 });

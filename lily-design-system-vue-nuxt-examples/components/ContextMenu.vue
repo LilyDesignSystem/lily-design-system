@@ -51,18 +51,22 @@
 // References:
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
-import { ref, watchEffect, useAttrs } from "vue";
+import { ref, useId, watchEffect, useAttrs } from "vue";
 import { toggleOpened, usePopoverState } from "./popover";
 import { warnMissingName } from "./dev-warning";
 
 const props = defineProps<{
     /** Accessible name for the context menu. */
     label: string;
+    /** Whose record or what the menu acts on, in the consumer's words: a non-interactive first part, .context-menu-subject, that names the menu (aria-labelledby). */
+    subjectLabel?: string;
 }>();
+
+const subjectId = `context-menu-subject-${useId()}`;
 
 warnMissingName(
     "ContextMenu",
-    props.label,
+    props.label || props.subjectLabel,
     useAttrs()["aria-label"],
     useAttrs()["aria-labelledby"],
 );
@@ -125,12 +129,21 @@ watchEffect(() => {
     <div
         class="context-menu"
         role="menu"
-        :aria-label="label"
+        :aria-label="subjectLabel ? undefined : label"
+        :aria-labelledby="subjectLabel ? subjectId : undefined"
         popover="auto"
         ref="menuRef"
         @toggle="open = toggleOpened($event)"
         @keydown="onkeydown"
     >
+        <div
+            v-if="subjectLabel"
+            class="context-menu-subject"
+            :id="subjectId"
+            role="none"
+        >
+            {{ subjectLabel }}
+        </div>
         <slot />
     </div>
 </template>

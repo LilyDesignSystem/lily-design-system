@@ -22,6 +22,7 @@ The component manages its own focus lifecycle: when the menu opens, focus moves 
 ## Props
 
 - `label`: string (required) -- accessible name for the menu button, also displayed as button text
+- `subjectLabel`: string (optional) -- whose record or what the menu acts on, in the consumer's words ("Ada Lovelace, blood pressure 3 Nov"). Rendered as a non-interactive first part, `<div class="dropdown-menu-subject" role="none">`, which names the menu through `aria-labelledby` in place of `label` (spec/lessons/zoblocks; the consequence tiers are in docs/patterns/healthcare)
 - `open`: boolean (default: false) -- whether the menu is visible; bindable
 - `children`: slot (required) -- menu items, each should have `role="menuitem"` and `tabindex="-1"`
 

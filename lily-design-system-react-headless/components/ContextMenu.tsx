@@ -50,7 +50,7 @@
 // References:
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
-import React, { useRef } from "react";
+import React, { useId, useRef } from "react";
 
 import { usePopoverState } from "./Popover";
 import { warnMissingName } from "./dev-warning";
@@ -59,6 +59,8 @@ export interface ContextMenuProps {
     className?: string;
     /** Accessible name for the context menu. */
     label: string;
+    /** Whose record or what the menu acts on, in the consumer's words: a non-interactive first part, .context-menu-subject, that names the menu (aria-labelledby). */
+    subjectLabel?: string;
     /** Whether the menu is visible. Bindable for two-way control. */
     open?: boolean;
     /** Menu item content rendered inside the menu list. */
@@ -71,12 +73,19 @@ export interface ContextMenuProps {
 export default function ContextMenu({
     className = "",
     label,
+    subjectLabel,
     open = false,
     onChange,
     children,
     ...restProps
 }: ContextMenuProps) {
-    warnMissingName("ContextMenu", label, restProps["aria-label"], restProps["aria-labelledby"]);
+    const subjectId = `context-menu-subject-${useId()}`;
+    warnMissingName(
+        "ContextMenu",
+        label || subjectLabel,
+        restProps["aria-label"],
+        restProps["aria-labelledby"],
+    );
     const menuRef = useRef<HTMLDivElement>(null);
     // popover="auto" with no declarative trigger (a right-click or long-press opens it): `open` shows it with
     // showPopover() in the top layer; Escape and light dismiss come from the browser and are reported through
@@ -126,12 +135,22 @@ export default function ContextMenu({
         <div
             className={`context-menu ${className}`}
             role="menu"
-            aria-label={label}
+            aria-label={subjectLabel ? undefined : label}
+            aria-labelledby={subjectLabel ? subjectId : undefined}
             popover="auto"
             ref={menuRef}
             onKeyDown={handleKeyDown}
             {...restProps}
         >
+            {subjectLabel ? (
+                <div
+                    className="context-menu-subject"
+                    id={subjectId}
+                    role="none"
+                >
+                    {subjectLabel}
+                </div>
+            ) : null}
             {children}
         </div>
     );

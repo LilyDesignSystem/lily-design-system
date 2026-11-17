@@ -61,4 +61,20 @@ public class ContextMenuTests : TestContext
         await cut.InvokeAsync(() => cut.Instance.OnPopoverToggle(false));
         Assert.Equal(false, changed);
     }
+
+    [Fact]
+    public void SubjectLabel_is_a_non_interactive_first_part_that_names_the_menu()
+    {
+        var cut = RenderComponent<ContextMenu>(p => p
+            .Add(x => x.Label, "Actions")
+            .Add(x => x.SubjectLabel, "Ada Lovelace, blood pressure 3 Nov")
+            .AddChildContent("<div role=\"menuitem\" tabindex=\"-1\">Edit</div>"));
+        var menu = cut.Find("[role=menu]");
+        var subject = menu.FirstElementChild!;
+        Assert.Equal("context-menu-subject", subject.ClassName);
+        Assert.Equal("none", subject.GetAttribute("role"));
+        Assert.Equal("Ada Lovelace, blood pressure 3 Nov", subject.TextContent);
+        Assert.Null(menu.GetAttribute("aria-label"));
+        Assert.Equal(subject.Id, menu.GetAttribute("aria-labelledby"));
+    }
 }

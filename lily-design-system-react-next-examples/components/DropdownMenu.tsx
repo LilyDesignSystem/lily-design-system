@@ -70,6 +70,8 @@ export interface DropdownMenuProps {
     className?: string;
     /** Accessible name for the menu button. */
     label: string;
+    /** Whose record or what the menu acts on, in the consumer's words: a non-interactive first part, .dropdown-menu-subject, that names the menu (aria-labelledby). */
+    subjectLabel?: string;
     /** Whether the menu is open. Bindable. */
     open?: boolean;
     /** Menu items. */
@@ -82,6 +84,7 @@ export interface DropdownMenuProps {
 export default function DropdownMenu({
     className = "",
     label,
+    subjectLabel,
     open: openProp = false,
     onChange,
     children,
@@ -90,6 +93,7 @@ export default function DropdownMenu({
     warnMissingName("DropdownMenu", label, restProps["aria-label"], restProps["aria-labelledby"]);
     const reactId = useId();
     const menuId = `dropdown-menu-${reactId}`;
+    const subjectId = `dropdown-menu-subject-${reactId}`;
     const [open, setOpen] = useState(openProp);
     useEffect(() => setOpen(openProp), [openProp]);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -166,12 +170,22 @@ export default function DropdownMenu({
             <div
                 id={menuId}
                 role="menu"
-                aria-label={label}
+                aria-label={subjectLabel ? undefined : label}
+                aria-labelledby={subjectLabel ? subjectId : undefined}
                 tabIndex={-1}
                 popover="auto"
                 ref={menuRef}
                 onKeyDown={onMenuKeydown}
             >
+                {subjectLabel ? (
+                    <div
+                        className="dropdown-menu-subject"
+                        id={subjectId}
+                        role="none"
+                    >
+                        {subjectLabel}
+                    </div>
+                ) : null}
                 {children}
             </div>
         </div>

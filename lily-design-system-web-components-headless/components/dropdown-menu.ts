@@ -33,11 +33,38 @@
 //   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
 
 import { applySelfClassName, moveChildrenInto, nextId } from "../lib/dom-utils.js";
+
+/** Keep one non-interactive first part, .dropdown-menu-subject, holding `subject-label`, and name the menu by it. */
+function syncSubject(
+    menu: HTMLElement,
+    text: string | null,
+    id: string,
+    label: string | null,
+): void {
+    let subject = menu.querySelector<HTMLElement>(":scope > .dropdown-menu-subject");
+    if (!text) {
+        subject?.remove();
+        menu.removeAttribute("aria-labelledby");
+        if (label !== null) menu.setAttribute("aria-label", label);
+        return;
+    }
+    if (!subject) {
+        subject = document.createElement("div");
+        subject.className = "dropdown-menu-subject";
+        subject.id = id;
+        subject.setAttribute("role", "none");
+        menu.prepend(subject);
+    }
+    subject.textContent = text;
+    menu.removeAttribute("aria-label");
+    menu.setAttribute("aria-labelledby", subject.id);
+}
+
 import { popoverSupported, syncPopover, toggleOpened } from "./popover.js";
 
 export class DropdownMenu extends HTMLElement {
     static get observedAttributes(): string[] {
-        return ["label", "open"];
+        return ["label", "subject-label", "open"];
     }
 
     #built = false;
@@ -92,6 +119,8 @@ export class DropdownMenu extends HTMLElement {
         button.setAttribute("aria-label", label);
         button.textContent = label;
         menu.setAttribute("aria-label", label);
+        // subject-label: whose record or what the menu acts on; a non-interactive first part that names the menu.
+        syncSubject(menu, this.getAttribute("subject-label"), `${this.#menuId}-subject`, label);
 
         const open = this.hasAttribute("open");
         button.setAttribute("aria-expanded", open ? "true" : "false");

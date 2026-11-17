@@ -23,6 +23,8 @@ import { syncPopover, toggleOpened } from "./Popover";
  * kebab-case class hook `context-menu` and the consumer-provided `className`.
  * Ships zero CSS; the consumer styles via the class hook.
  */
+let nextSubjectId = 0;
+
 @Component({
     selector: "lily-context-menu",
     standalone: true,
@@ -30,17 +32,21 @@ import { syncPopover, toggleOpened } from "./Popover";
     #menu
     class="context-menu {{ className() }}"
     role="menu"
-    [attr.aria-label]="label() || null"
+    [attr.aria-label]="subjectLabel() ? null : label() || null"
+    [attr.aria-labelledby]="subjectLabel() ? subjectId : null"
     popover="auto"
     (toggle)="open.set(toggled($event))"
     (keydown)="onKeydown($event)"
-  ><ng-content /></div>`,
+  >@if (subjectLabel()) {<div class="context-menu-subject" [id]="subjectId" role="none">{{ subjectLabel() }}</div>}<ng-content /></div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContextMenu implements OnInit {
     private readonly lilyHost = inject(ElementRef);
 
     readonly label = input<string>("");
+    /** Whose record or what the menu acts on, in the consumer's words: a non-interactive first part, .context-menu-subject, that names the menu (aria-labelledby). */
+    readonly subjectLabel = input<string>("");
+    protected readonly subjectId = `context-menu-subject-${++nextSubjectId}`;
     /** Whether the menu is visible. Two-way bindable; Escape sets it to false. */
     readonly open = model<boolean>(false);
     readonly className = input<string>("");
@@ -103,7 +109,7 @@ export class ContextMenu implements OnInit {
         const host: HTMLElement = this.lilyHost.nativeElement;
         warnMissingName(
             "ContextMenu",
-            this.label(),
+            this.label() || this.subjectLabel(),
             host.getAttribute("aria-label"),
             host.getAttribute("aria-labelledby"),
         );

@@ -4,7 +4,8 @@
   HTML tag: <div role="menu">
   CSS class: dropdown-menu
 
-  Params: label (required; no default), open (default false), id (default "dropdown-menu"), classes, attributes.
+  Params: label (required; no default), subjectLabel (whose record or what the menu acts on: a non-interactive first part,
+    .dropdown-menu-subject, that names the menu by aria-labelledby), open (default false), id (default "dropdown-menu"), classes, attributes.
   Caller provides content.
 
   No script (tasks.md P18-T11): the menu is popover="auto", so the consumer's trigger button opens it with
@@ -22,11 +23,12 @@
 <div
   class="dropdown-menu{% if p.classes %} {{ p.classes }}{% endif %}"
   role="menu"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.subjectLabel %} aria-labelledby="{{ p.id | default('dropdown-menu') }}-subject"{% elif p.label %} aria-label="{{ p.label }}"{% endif %}
   id="{{ p.id | default('dropdown-menu') }}"
   {%- if not p.open %} popover="auto"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
+  {%- if p.subjectLabel %}<div class="dropdown-menu-subject" id="{{ p.id | default('dropdown-menu') }}-subject" role="none">{{ p.subjectLabel }}</div>{% endif -%}
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}

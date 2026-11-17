@@ -3717,9 +3717,9 @@ go to all nine catalogs (helpers: all eight), Svelte first.
       (signed, declined, unable, verbal, on-paper, pending, revoked) with consumer words; a typed-name method beside drawing;
       `role="application"` removed.
       Verify: tests in all nine catalogs, including one that completes a signature by keyboard alone; axe-clean demo.
-- [ ] **P31-T6 Menus name their subject.** `subjectLabel` on `context-menu` and `dropdown-menu`, a non-interactive first part
+- [x] **P31-T6 Menus name their subject.** `subjectLabel` on `context-menu` and `dropdown-menu`, a non-interactive first part
       that names the menu; the consequence-tier pattern in the guide.
-      Verify: tests in all nine catalogs that the menu's accessible name is the subject.
+      Verify: tests in all nine catalogs that the menu's accessible name is the subject. _(2026-11-17: done in all nine catalogs: `subjectLabel` (Web Components `subject-label`) renders `.{context,dropdown}-menu-subject` with `role="none"` as the menu's first child, and the menu takes `aria-labelledby` to it in place of `aria-label`. Tests in the seven rendering catalogs (Svelte computes the accessible name of the open menu); the HTML snippets, and so Alpine's, document it. The guide has the four consequence tiers, the menu-subject rule and the withheld and in-error rule.)_
 - [ ] **P31-T7 Trends that refuse.** `breaks` and `minimumPoints` (with consumer words) on `sparkline`.
       Verify: tests in all nine catalogs for a split line and for no line below the minimum.
 - [x] **P31-T8 Guide rules.** Passage sources in clinical notes, denominators on dashboards, a failed write announcing the

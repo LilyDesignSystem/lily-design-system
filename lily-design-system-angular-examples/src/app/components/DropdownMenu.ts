@@ -44,11 +44,12 @@ let nextId = 0;
       #menu
       [id]="menuId"
       role="menu"
-      [attr.aria-label]="label() || null"
+      [attr.aria-label]="subjectLabel() ? null : label() || null"
+      [attr.aria-labelledby]="subjectLabel() ? subjectId : null"
       popover="auto"
       (toggle)="open.set(toggled($event))"
       (keydown)="onKeydown($event)"
-    ><ng-content /></div>
+    >@if (subjectLabel()) {<div class="dropdown-menu-subject" [id]="subjectId" role="none">{{ subjectLabel() }}</div>}<ng-content /></div>
   </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -56,11 +57,14 @@ export class DropdownMenu implements OnInit {
     private readonly lilyHost = inject(ElementRef);
 
     readonly label = input<string>("");
+    /** Whose record or what the menu acts on, in the consumer's words: a non-interactive first part, .dropdown-menu-subject, that names the menu (aria-labelledby). */
+    readonly subjectLabel = input<string>("");
     /** Whether the menu is open. Two-way bindable; Escape sets it to false. */
     readonly open = model<boolean>(false);
     readonly className = input<string>("");
 
     protected readonly menuId = `dropdown-menu-${++nextId}`;
+    protected readonly subjectId = `${this.menuId}-subject`;
     protected readonly toggled = toggleOpened;
     private readonly menu = viewChild<ElementRef<HTMLElement>>("menu");
 

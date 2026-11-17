@@ -69,6 +69,8 @@ import { warnMissingName } from "./dev-warning";
 const props = defineProps<{
     /** Accessible name for the menu button. */
     label: string;
+    /** Whose record or what the menu acts on, in the consumer's words: a non-interactive first part, .dropdown-menu-subject, that names the menu (aria-labelledby). */
+    subjectLabel?: string;
 }>();
 
 warnMissingName(
@@ -80,7 +82,9 @@ warnMissingName(
 
 const open = defineModel<boolean>("open", { default: false });
 
-const menuId = `dropdown-menu-${useId()}`;
+const uid = useId();
+const menuId = `dropdown-menu-${uid}`;
+const subjectId = `dropdown-menu-subject-${uid}`;
 const menuRef = ref<HTMLElement | undefined>(undefined);
 
 // popover="auto": the trigger's command="toggle-popover" opens and closes the menu, Escape and light dismiss come
@@ -155,12 +159,21 @@ watchEffect(() => {
         <div
             :id="menuId"
             role="menu"
-            :aria-label="label"
+            :aria-label="subjectLabel ? undefined : label"
+            :aria-labelledby="subjectLabel ? subjectId : undefined"
             popover="auto"
             ref="menuRef"
             @toggle="open = toggleOpened($event)"
             @keydown="onMenuKeydown"
         >
+            <div
+                v-if="subjectLabel"
+                class="dropdown-menu-subject"
+                :id="subjectId"
+                role="none"
+            >
+                {{ subjectLabel }}
+            </div>
             <slot />
         </div>
     </div>

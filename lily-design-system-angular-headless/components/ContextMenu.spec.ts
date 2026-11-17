@@ -103,4 +103,20 @@ describe("ContextMenu — open state", () => {
         expect(fixture.componentInstance.open()).toBe(false);
         expect(fixture.nativeElement.querySelector("[role='menu']").hidden).toBe(true);
     });
+
+    test("subjectLabel is a non-interactive first part that names the menu", () => {
+        const fixture = TestBed.createComponent(ContextMenu);
+        fixture.componentRef.setInput("label", "Actions");
+        fixture.componentRef.setInput("subjectLabel", "Ada Lovelace, blood pressure 3 Nov");
+        fixture.detectChanges();
+        const menu = (fixture.nativeElement as HTMLElement).querySelector(
+            "[role='menu']",
+        ) as HTMLElement;
+        const subject = menu.firstElementChild as HTMLElement;
+        expect(subject.className).toBe("context-menu-subject");
+        expect(subject.getAttribute("role")).toBe("none");
+        expect(menu.hasAttribute("aria-label")).toBe(false);
+        expect(menu.getAttribute("aria-labelledby")).toBe(subject.id);
+        expect(subject.textContent).toBe("Ada Lovelace, blood pressure 3 Nov");
+    });
 });

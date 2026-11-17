@@ -39,11 +39,13 @@
             commandfor="@_menuId"
             popovertarget="@_menuId"
             @ref="_trigger">@Label</button>
-    <div id="@_menuId" role="menu" aria-label="@Label" popover="auto" @ref="_menu">@ChildContent</div>
+    <div id="@_menuId" role="menu" aria-label="@(string.IsNullOrEmpty(SubjectLabel) ? Label : null)" aria-labelledby="@(string.IsNullOrEmpty(SubjectLabel) ? null : $"{_menuId}-subject")" popover="auto" @ref="_menu">@if (!string.IsNullOrEmpty(SubjectLabel)) {<div class="dropdown-menu-subject" id="@($"{_menuId}-subject")" role="none">@SubjectLabel</div>}@ChildContent</div>
 </div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>Whose record or what the menu acts on, in the consumer's words: a non-interactive first part that names the menu (aria-labelledby).</summary>
+    [Parameter] public string? SubjectLabel { get; set; }
     [Parameter] public bool Open { get; set; }
     [Parameter] public EventCallback<bool> OpenChanged { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
