@@ -907,6 +907,8 @@ export { default as ProgressSpinner } from "./components/ProgressSpinner";
 export type { ProgressSpinnerProps } from "./components/ProgressSpinner";
 export { default as QrCodeImage } from "./components/QrCodeImage";
 export type { QrCodeImageProps } from "./components/QrCodeImage";
+export { default as QuantityInputDiv } from "./components/QuantityInputDiv";
+export type { QuantityUnit, QuantityInputDivProps } from "./components/QuantityInputDiv";
 export { default as Question } from "./components/Question";
 export type { QuestionProps } from "./components/Question";
 export { default as RadarChart } from "./components/RadarChart";

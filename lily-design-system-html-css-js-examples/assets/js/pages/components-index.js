@@ -4433,6 +4433,13 @@
                         tag: "time",
                         category: "content",
                     },
+                    {
+                        slug: "quantity-input-div",
+                        name: "QuantityInputDiv",
+                        description: "a quantity entered as a number and a unit, each unit with its own limits",
+                        tag: "div",
+                        category: "content",
+                    },
                 ];
 
                 // Plan P6-T5: category + suffix-pattern filters alongside

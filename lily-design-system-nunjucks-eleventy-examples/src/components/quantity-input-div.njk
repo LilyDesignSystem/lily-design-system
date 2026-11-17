@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: QuantityInputDiv
+description: a quantity entered as a number and a unit, each unit with its own limits
+---
+
+{% from "components/quantity-input-div/macro.njk" import quantityInputDiv %}
+
+<h2>Default</h2>
+<p>{{ quantityInputDiv({ id: "weight", label: "Weight", magnitudeLabel: "Amount", unitLabel: "Unit", name: "weight", units: [{ value: "kg", label: "kilograms", min: 0, max: 300, step: 0.1 }, { value: "[lb_av]", label: "pounds", min: 0, max: 660, step: 0.1 }] }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{{ quantityInputDiv({ label: "Weight", magnitudeLabel: "Amount", unitLabel: "Unit", name: "weight", units: units }) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

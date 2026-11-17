@@ -454,6 +454,7 @@ export { default as ProgressBar } from "./components/ProgressBar.vue";
 export { default as ProgressCircle } from "./components/ProgressCircle.vue";
 export { default as ProgressSpinner } from "./components/ProgressSpinner.vue";
 export { default as QrCodeImage } from "./components/QrCodeImage.vue";
+export { default as QuantityInputDiv } from "./components/QuantityInputDiv.vue";
 export { default as Question } from "./components/Question.vue";
 export { default as RadarChart } from "./components/RadarChart.vue";
 export { default as RadioGroup } from "./components/RadioGroup.vue";

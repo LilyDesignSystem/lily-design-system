@@ -1,5 +1,5 @@
 {
-  "count": 633,
+  "count": 634,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -2718,6 +2718,12 @@
       "name": "QrCodeImage",
       "description": "a QR code image generated from text or URL data",
       "manifest": "https://lilydesignsystem.com/r/qr-code-image.json"
+    },
+    {
+      "slug": "quantity-input-div",
+      "name": "QuantityInputDiv",
+      "description": "a quantity entered as a number and a unit, each unit with its own limits",
+      "manifest": "https://lilydesignsystem.com/r/quantity-input-div.json"
     },
     {
       "slug": "question",

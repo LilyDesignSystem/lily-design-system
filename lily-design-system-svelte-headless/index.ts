@@ -454,6 +454,7 @@ export { default as ProgressBar } from "./components/ProgressBar/ProgressBar.sve
 export { default as ProgressCircle } from "./components/ProgressCircle/ProgressCircle.svelte";
 export { default as ProgressSpinner } from "./components/ProgressSpinner/ProgressSpinner.svelte";
 export { default as QrCodeImage } from "./components/QrCodeImage/QrCodeImage.svelte";
+export { default as QuantityInputDiv } from "./components/QuantityInputDiv/QuantityInputDiv.svelte";
 export { default as Question } from "./components/Question/Question.svelte";
 export { default as RadarChart } from "./components/RadarChart/RadarChart.svelte";
 export { default as RadioGroup } from "./components/RadioGroup/RadioGroup.svelte";

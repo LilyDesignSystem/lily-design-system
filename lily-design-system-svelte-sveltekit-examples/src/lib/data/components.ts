@@ -4430,6 +4430,13 @@ export const components = [
       tag: "time",
       category: "content",
   },
+  {
+      slug: "quantity-input-div",
+      name: "QuantityInputDiv",
+      description: "a quantity entered as a number and a unit, each unit with its own limits",
+      tag: "div",
+      category: "content",
+  },
 ];
 
 /** Category id → display label (plan P6-T5's category filter). */

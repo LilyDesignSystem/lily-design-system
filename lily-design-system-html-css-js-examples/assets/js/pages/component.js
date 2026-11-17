@@ -4433,6 +4433,13 @@
                         tag: "time",
                         category: "content",
                     },
+                    {
+                        slug: "quantity-input-div",
+                        name: "QuantityInputDiv",
+                        description: "a quantity entered as a number and a unit, each unit with its own limits",
+                        tag: "div",
+                        category: "content",
+                    },
                 ];
 
                 function escapeHtml(text) {
@@ -5079,6 +5086,7 @@
                 'procedure-record-list-item': '<ul class="procedure-record-list" data-status="known" aria-label="Procedures"><li class="procedure-record-list-item" data-status="completed"><span class="procedure-record-list-item-procedure">Appendectomy</span> <span class="procedure-record-list-item-status">Completed</span> <time class="procedure-record-list-item-performed" datetime="2018-04-22">22 Apr 2018</time></li></ul>',
                 'device-record-list-item': '<ul class="device-record-list" data-status="known" aria-label="Medical devices"><li class="device-record-list-item" data-status="active"><span class="device-record-list-item-device">Cardiac pacemaker</span> <span class="device-record-list-item-status">In use</span> <time class="device-record-list-item-timing" datetime="2021-02-08">Since 8 Feb 2021</time></li></ul>',
                 'duration-view': '<time class="duration-view" datetime="P3DT4H"><span class="screen-reader-span">Length of stay </span>3 days 4 hours</time>',
+                'quantity-input-div': '<div class="quantity-input-div" role="group" aria-label="Weight"><label for="demo-weight-magnitude">Amount</label> <input class="quantity-input-div-magnitude" id="demo-weight-magnitude" name="weight-magnitude" type="number" inputmode="decimal" min="0" max="300" step="0.1"> <label for="demo-weight-unit">Unit</label> <select class="quantity-input-div-unit" id="demo-weight-unit" name="weight-unit"><option value="kg" selected>kilograms</option><option value="[lb_av]">pounds</option></select></div>',
             };
 
             var componentExamples = {
@@ -5715,6 +5723,7 @@
                 "procedure-record-list-item": {"usage":{"lang":"html","code":"<ProcedureRecordListItem\n  procedure=\"Appendectomy\"\n  status=\"completed\"\n  statusLabel=\"Completed\"\n  performed=\"2018-04-22\"\n  performedLabel=\"22 Apr 2018\"\n/>\n"}},
                 "device-record-list-item": {"usage":{"lang":"html","code":"<DeviceRecordListItem\n  device=\"Cardiac pacemaker\"\n  status=\"active\"\n  statusLabel=\"In use\"\n  timing=\"2021-02-08\"\n  timingLabel=\"Since 8 Feb 2021\"\n/>\n"}},
                 "duration-view": {"usage":{"lang":"html","code":"<DurationView\n  label=\"Length of stay\"\n  value=\"3 days 4 hours\"\n  duration=\"P3DT4H\"\n/>\n"}},
+                "quantity-input-div": {"usage":{"lang":"html","code":"<QuantityInputDiv\n  label=\"Weight\"\n  magnitudeLabel=\"Amount\"\n  unitLabel=\"Unit\"\n  name=\"weight\"\n  units={[\n    { value: \"kg\", label: \"kilograms\", min: 0, max: 300, step: 0.1 },\n    { value: \"[lb_av]\", label: \"pounds\", min: 0, max: 660, step: 0.1 },\n  ]}\n/>\n"}},
 /* END componentExamples */};
 
                 // Demo markup may hold style attributes, which a strict Content Security Policy blocks when parsed. Rename

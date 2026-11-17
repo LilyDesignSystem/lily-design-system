@@ -6,7 +6,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<time class=\"duration-view\" datetime=\"P3DT4H\"><span class=\"screen-reader-span\">Length of stay </span>3 days 4 hours</time>";
   const svelteSource: string = "// In your Svelte component:\nimport DurationView from \"lily-design-system-svelte-headless/components/DurationView/DurationView.svelte\";\n\n<DurationView>\n  <!-- content -->\n</DurationView>\n";
-  const usageCode: string = "<DurationView label=\"Length of stay\" value=\"3 days 4 hours\" duration=\"P3DT4H\" />\n";
+  const usageCode: string = "<DurationView\n  label=\"Length of stay\"\n  value=\"3 days 4 hours\"\n  duration=\"P3DT4H\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

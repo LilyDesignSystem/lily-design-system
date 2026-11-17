@@ -3121,3 +3121,7 @@
 /* duration-view: a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words */
 .duration-view {
 }
+
+/* quantity-input-div: a quantity entered as a number and a unit, each unit with its own limits */
+.quantity-input-div {
+}

@@ -15,7 +15,7 @@ the canonical monorepo with `spec/index.md` as the living specification and
 ## Repository shape
 
 - **192 implementation subprojects**: 9 headless libraries (HTML, Svelte, React, Vue, Angular,
-  Blazor and Nunjucks at 633/633, Web Components at 598/633, Alpine.js at 633/633), 8 example apps
+  Blazor and Nunjucks at 634/634, Web Components at 599/634, Alpine.js at 634/634), 8 example apps
   (one per framework except Web Components) and 175 helper packages (21 per framework, 22 in
   Nunjucks, 6 in Alpine), one top-level subproject each (`bin/list-helper-packages <framework>` lists a framework's, in build order). Packages
   publish from this monorepo; the per-subproject subtree mirrors were deleted 2026-10-10 and only the docs

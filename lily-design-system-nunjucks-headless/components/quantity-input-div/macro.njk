@@ -1,0 +1,52 @@
+{#
+  QuantityInputDiv macro — a quantity entered as a number and a unit, each unit with its own min, max and step
+    (tasks.md P29-T8). Nothing is converted.
+
+  HTML tag: <div role="group">
+  CSS class: quantity-input-div (parts: -magnitude, -unit)
+
+  Params:
+    label            the group's name (required)
+    magnitudeLabel   the number input's label (required)
+    unitLabel        the unit select's label (required when there is more than one unit)
+    units            [{ value, label, min, max, step }]: the first is the default. One unit renders as text, linked
+                     by aria-describedby, with a hidden field when name is given
+    magnitude, unit  the starting values
+    name             base name: {name}-magnitude and {name}-unit
+    required, disabled, id, classes, attributes
+
+  The limits rendered are the starting unit's; the client script (or the consumer) updates them when the unit changes.
+
+  Usage:
+    {% from "components/quantity-input-div/macro.njk" import quantityInputDiv %}
+    {{ quantityInputDiv({ label: "Weight", magnitudeLabel: "Amount", unitLabel: "Unit", name: "weight",
+                          units: [{ value: "kg", label: "kilograms", min: 0, max: 300 }, { value: "[lb_av]", label: "pounds", min: 0, max: 660 }] }) }}
+#}
+{%- macro quantityInputDiv(params) -%}
+{%- set p = params | default({}) -%}
+{%- set baseId = p.id | default("quantity-input-div") -%}
+{%- set units = p.units | default([]) -%}
+{%- set current = p.unit or (units[0].value if units | length else "") -%}
+{%- set chosen = units[0] if units | length else {} -%}
+{%- for u in units %}{% if u.value == current %}{% set chosen = u %}{% endif %}{% endfor -%}
+<div
+  class="quantity-input-div{% if p.classes %} {{ p.classes }}{% endif %}" role="group" aria-label="{{ p.label }}"
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <label for="{{ baseId }}-magnitude">{{ p.magnitudeLabel }}</label>
+  <input class="quantity-input-div-magnitude" id="{{ baseId }}-magnitude"{% if p.name %} name="{{ p.name }}-magnitude"{% endif %} type="number" inputmode="decimal"
+    {%- if chosen.min is defined %} min="{{ chosen.min }}"{% endif %}{% if chosen.max is defined %} max="{{ chosen.max }}"{% endif %}{% if chosen.step is defined %} step="{{ chosen.step }}"{% endif %}
+    {%- if p.magnitude %} value="{{ p.magnitude }}"{% endif %}{% if units | length == 1 %} aria-describedby="{{ baseId }}-unit"{% endif %}{% if p.required %} required{% endif %}{% if p.disabled %} disabled{% endif %}>
+  {%- if units | length > 1 %}
+  <label for="{{ baseId }}-unit">{{ p.unitLabel }}</label>
+  <select class="quantity-input-div-unit" id="{{ baseId }}-unit"{% if p.name %} name="{{ p.name }}-unit"{% endif %}{% if p.required %} required{% endif %}{% if p.disabled %} disabled{% endif %}>
+    {%- for u in units %}
+    <option value="{{ u.value }}"{% if u.value == current %} selected{% endif %}{% if u.min is defined %} data-min="{{ u.min }}"{% endif %}{% if u.max is defined %} data-max="{{ u.max }}"{% endif %}{% if u.step is defined %} data-step="{{ u.step }}"{% endif %}>{{ u.label }}</option>
+    {%- endfor %}
+  </select>
+  {%- elif units | length == 1 %}
+  <span class="quantity-input-div-unit" id="{{ baseId }}-unit">{{ units[0].label }}</span>
+  {%- if p.name %}<input type="hidden" name="{{ p.name }}-unit" value="{{ units[0].value }}">{% endif %}
+  {%- endif %}
+</div>
+{%- endmacro -%}

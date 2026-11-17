@@ -3640,9 +3640,9 @@ logic: no constraint validation, no score sums, no unit conversion.
 - [x] **P29-T7 Named ranges on `observation-view`.** A `ranges` list of `{ label, text }`, each a `-range` part, beside the
       existing single range.
       Verify: tests in all nine catalogs with two ranges; the single-range tests still pass. _(2026-11-17: done in all nine catalogs: `ranges` of `{ label, text }`, each a `-range` part with a `-range-label`, after `range` (a JSON attribute in Web Components, `ObservationRange` records in Blazor). Tests in seven catalogs; HTML and Alpine show one.)_
-- [ ] **P29-T8 `quantity-input-div`.** A number input and a unit `<select>` (or fixed unit text), labelled together, with
+- [x] **P29-T8 `quantity-input-div`.** A number input and a unit `<select>` (or fixed unit text), labelled together, with
       per-unit `min`, `max` and `step` that change with the unit; value `{ magnitude, unit }`; no conversion.
-      Verify: built in all nine catalogs; a test that changing the unit changes the input's limits; form reset restores both.
+      Verify: built in all nine catalogs; a test that changing the unit changes the input's limits; form reset restores both. _(2026-11-17: done in all nine catalogs (catalog 634, Web Components 599): a `role="group"` with a labelled number and, for several units, a labelled `<select>`; the number takes the chosen unit's `min`, `max` and `step` and keeps its value; one unit is text linked by `aria-describedby`, with a hidden field. Tests in every behaviour catalog and Nunjucks; the form reset test is Svelte's, and every port restores both values on reset (HTML and Nunjucks natively, with the limits from each option's `data-*`). `QuantityUnit` records in Blazor.)_
 - [ ] **P29-T9 `record-provenance-view` (approved by the maintainer, 2026-11-16).** Author, committer, time, source system, version and a signature
       state as `data-attestation`, each in consumer words. Also, from ZoBlocks (P31) and OpenMRS (P33): a compact affix form for
       beside a value, observed-at apart from recorded-at, a source kind as `data-source` (including machine-extracted and

@@ -1702,6 +1702,10 @@ export { QrCodeImage } from "./components/qr-code-image.js";
 import { QrCodeImage as _QrCodeImage } from "./components/qr-code-image.js";
 if (!customElements.get("lily-qr-code-image")) customElements.define("lily-qr-code-image", _QrCodeImage);
 
+export { QuantityInputDiv } from "./components/quantity-input-div.js";
+import { QuantityInputDiv as _QuantityInputDiv } from "./components/quantity-input-div.js";
+if (!customElements.get("lily-quantity-input-div")) customElements.define("lily-quantity-input-div", _QuantityInputDiv);
+
 export { Question } from "./components/question.js";
 import { Question as _Question } from "./components/question.js";
 if (!customElements.get("lily-question")) customElements.define("lily-question", _Question);

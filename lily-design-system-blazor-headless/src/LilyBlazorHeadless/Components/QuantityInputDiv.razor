@@ -1,0 +1,73 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    QuantityInputDiv: a quantity entered as a number and a unit, each unit with its own min, max and step (tasks.md P29-T8).
+    A group with a labelled number input and, for more than one unit, a labelled unit select; one unit is text linked by
+    aria-describedby. Nothing is converted. Props: QuantityInputDiv.md.
+*@
+@{
+    var chosen = Units.FirstOrDefault(u => u.Value == CurrentUnit) ?? Units.FirstOrDefault();
+}
+<div class="@($"quantity-input-div {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">
+    <label for="@($"{BaseId}-magnitude")">@MagnitudeLabel</label>
+    <input class="quantity-input-div-magnitude" id="@($"{BaseId}-magnitude")" name="@(string.IsNullOrEmpty(Name) ? null : $"{Name}-magnitude")"
+           type="number" inputmode="decimal" min="@chosen?.Min" max="@chosen?.Max" step="@chosen?.Step"
+           value="@Magnitude" @oninput="@(e => SetMagnitudeAsync(e.Value?.ToString() ?? ""))"
+           aria-describedby="@(Units.Count == 1 ? $"{BaseId}-unit" : null)" required="@Required" disabled="@Disabled" />
+    @if (Units.Count > 1)
+    {
+        <label for="@($"{BaseId}-unit")">@UnitLabel</label>
+        <select class="quantity-input-div-unit" id="@($"{BaseId}-unit")" name="@(string.IsNullOrEmpty(Name) ? null : $"{Name}-unit")"
+                value="@CurrentUnit" @onchange="@(e => SetUnitAsync(e.Value?.ToString() ?? ""))" required="@Required" disabled="@Disabled">
+            @foreach (var option in Units)
+            {
+                <option value="@option.Value" selected="@(option.Value == CurrentUnit)">@option.Label</option>
+            }
+        </select>
+    }
+    else if (Units.Count == 1)
+    {
+        <span class="quantity-input-div-unit" id="@($"{BaseId}-unit")">@Units[0].Label</span>
+        @if (!string.IsNullOrEmpty(Name))
+        {
+            <input type="hidden" name="@($"{Name}-unit")" value="@Units[0].Value" />
+        }
+    }
+</div>
+@code {
+    /// <summary>The group's name.</summary>
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>The number input's label.</summary>
+    [Parameter, EditorRequired] public string MagnitudeLabel { get; set; } = "";
+    /// <summary>The unit select's label; required when there is more than one unit.</summary>
+    [Parameter] public string? UnitLabel { get; set; }
+    /// <summary>The units offered, each with its own limits; the first is the default.</summary>
+    [Parameter, EditorRequired] public IReadOnlyList<QuantityUnit> Units { get; set; } = [];
+    /// <summary>The number as typed. Two-way (@bind-Magnitude).</summary>
+    [Parameter] public string Magnitude { get; set; } = "";
+    [Parameter] public EventCallback<string> MagnitudeChanged { get; set; }
+    /// <summary>The unit chosen. Two-way (@bind-Unit); empty means the first unit.</summary>
+    [Parameter] public string Unit { get; set; } = "";
+    [Parameter] public EventCallback<string> UnitChanged { get; set; }
+    [Parameter] public string? Name { get; set; }
+    [Parameter] public bool Required { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public string? Id { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly string _generatedId = $"quantity-input-div-{Guid.NewGuid():N}";
+    private string BaseId => Id ?? _generatedId;
+    private string CurrentUnit => string.IsNullOrEmpty(Unit) ? Units.FirstOrDefault()?.Value ?? "" : Unit;
+
+    private async Task SetMagnitudeAsync(string value)
+    {
+        Magnitude = value;
+        await MagnitudeChanged.InvokeAsync(value);
+    }
+
+    private async Task SetUnitAsync(string value)
+    {
+        Unit = value;
+        await UnitChanged.InvokeAsync(value);
+    }
+}

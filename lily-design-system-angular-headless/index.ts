@@ -455,6 +455,7 @@ export { ProgressBar } from "./components/ProgressBar";
 export { ProgressCircle } from "./components/ProgressCircle";
 export { ProgressSpinner } from "./components/ProgressSpinner";
 export { QrCodeImage } from "./components/QrCodeImage";
+export { QuantityUnit, QuantityInputDiv } from "./components/QuantityInputDiv";
 export { Question } from "./components/Question";
 export { RadarChart } from "./components/RadarChart";
 export { RadioGroup } from "./components/RadioGroup";
