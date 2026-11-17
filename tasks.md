@@ -3734,13 +3734,13 @@ decisions). No animation enters the headless layer.
 
 - [x] **P32-T1 `avatar-group` overflow count.** `overflowLabel` (consumer words) rendered as a last `-overflow` part.
       Verify: tests in all nine catalogs; nothing renders without the label. _(2026-11-17: done in all nine catalogs: `overflowLabel` (`overflow-label` in Web Components) renders last as `avatar-group-overflow`; HTML and Alpine document it. Tests in seven catalogs.)_
-- [ ] **P32-T2 Hover and focus parity.** A sentence in `AGENTS/accessibility.md` and the motion recipes: an effect shown on hover
+- [x] **P32-T2 Hover and focus parity.** A sentence in `AGENTS/accessibility.md` and the motion recipes: an effect shown on hover
       is shown on focus, or is decoration only.
-      Verify: the sentence is in both; `bin/check-links` passes.
-- [ ] **P32-T3 Motion recipes.** `docs/patterns/motion/index.md` and a site page: a marquee, a number change on `statistic`, a
+      Verify: the sentence is in both; `bin/check-links` passes. _(2026-11-17: the hover and focus parity rule is in `AGENTS/accessibility.md` and in the rules of `docs/patterns/motion`.)_
+- [x] **P32-T3 Motion recipes.** `docs/patterns/motion/index.md` and a site page: a marquee, a number change on `statistic`, a
       fade-in that never hides content, the theme transition, and a terminal transcript (`kbd` input, `samp` output, the prompt
       as CSS text). Each with a `prefers-reduced-motion` fallback and the WCAG criterion it keeps.
-      Verify: each recipe works in the SvelteKit app with an e2e test under emulated reduced motion; `bin/check-links` passes.
+      Verify: each recipe works in the SvelteKit app with an e2e test under emulated reduced motion; `bin/check-links` passes. _(2026-11-17: `docs/patterns/motion/index.md` with five recipes, each with its reduced-motion fallback and WCAG criteria; the site page `/patterns/motion` is rendered from it, English only; the SvelteKit app's `/motion-recipes` runs all five, and `e2e/motion-recipes.spec.ts` (Chromium, Firefox, WebKit) checks them with reduced motion emulated, plus a still marquee at 320px. Two findings changed the recipes: a fade-in fails contrast while faint, so the recipe moves content and never fades text, and a still or paused marquee wraps instead of clipping. The responsive sweep's clip check now skips an element only while an animation inside it runs. The theme transition recipe wraps the apply by hand until P32-T4.)_
 - [ ] **P32-T4 `theme-picker` `viewTransition`.** Opt-in, in all eight catalogs: wrap the apply in `document.startViewTransition()`
       when it exists and reduced motion is not requested.
       Verify: tests that it is called only then, and that the theme applies the same either way.

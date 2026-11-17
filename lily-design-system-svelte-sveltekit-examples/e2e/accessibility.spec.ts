@@ -99,6 +99,7 @@ const composedPages = [
     "/timeline-and-cards",
     "/book-an-appointment",
     "/rtl-demo",
+    "/motion-recipes",
     "/time-wheels",
     "/color-picker",
 ];

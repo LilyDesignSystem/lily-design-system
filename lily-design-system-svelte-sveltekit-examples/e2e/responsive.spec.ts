@@ -32,6 +32,7 @@ const routes = [
     "/timeline-and-cards",
     "/book-an-appointment",
     "/rtl-demo",
+    "/motion-recipes",
     "/time-wheels",
 ];
 
@@ -274,6 +275,10 @@ test.describe('responsive: 30% text expansion with lang="cy" at 320px', () => {
                 const offenders: string[] = [];
                 for (const el of Array.from(document.body.querySelectorAll("*"))) {
                     if (el.closest("[class*='middle-truncation']")) continue;
+                    // Content in motion (a running marquee) clips by design; at rest, paused or under reduced motion it must
+                    // not, which e2e/motion-recipes.spec.ts checks.
+                    if (el.getAnimations({ subtree: true }).some((a) => a.playState === "running"))
+                        continue;
                     if (el.closest("script, style, svg")) continue;
                     if (!el.textContent?.trim()) continue;
                     const style = getComputedStyle(el);

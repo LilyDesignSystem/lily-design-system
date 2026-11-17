@@ -58,6 +58,12 @@
             description: "A medicines administration chart where every dose is written in words",
         },
         {
+            href: "/motion-recipes",
+            title: "Motion Recipes",
+            description:
+                "A marquee, a changing number, an ease-in on scroll, a theme transition and a terminal, still under reduced motion",
+        },
+        {
             href: "/navigation-and-menus",
             title: "Navigation & Menus",
             description: "Navigation menus, toolbars, and pagination",
