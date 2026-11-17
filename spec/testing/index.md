@@ -225,6 +225,24 @@ Firefox could not start ("Could not find profile folder") because macOS blocked 
 `~/Library/Application Support/Firefox`; the runs used a wrapper outside the repo that starts the same Firefox build
 with `-app` and its own profile name. CI on Linux does not need it.
 
+## Visual regression
+
+`e2e/visual-regression.spec.ts` in the SvelteKit examples app screenshots the demo region (`main .card`) of
+`/components/{slug}`, never the whole page, so a change to the header or footer is not a diff. 210 screenshots
+(P7-T5, widened by P35-T1 on 2026-11-17):
+
+| Set            | What                                                                  | Themes                      | Shots |
+| -------------- | --------------------------------------------------------------------- | --------------------------- | ----- |
+| Components     | 60 slugs across every category, the healthcare views and record lists | NHS England, GOV.UK, `dark` | 180   |
+| Keyboard focus | the focus ring on the first control of six demos, after a key press   | NHS England                 | 6     |
+| 320px          | six demos at 320 CSS pixels wide (WCAG 1.4.10)                        | NHS England                 | 6     |
+| Right to left  | six demos with `dir="rtl"` on the demo region                         | NHS England                 | 6     |
+| Composed pages | the `main` of six pages, such as `/patient-banner` and `/ward-board`  | NHS England                 | 6     |
+
+Baselines are per platform (font rendering), with `process.platform` in the name, and only the macOS ones are committed.
+CI does not run the spec. Run it with `pnpm exec playwright test e2e/visual-regression.spec.ts --project chromium`; after an
+intended change, look at each diff in `test-results/` before `--update-snapshots=changed`.
+
 ## Pattern testers
 
 (2026-11-03, P23-T1.) One interaction contract, run against every catalog, in place of hand-ported keyboard tests. The steps are data in

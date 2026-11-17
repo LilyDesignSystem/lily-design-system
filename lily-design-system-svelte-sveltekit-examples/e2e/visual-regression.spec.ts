@@ -72,7 +72,93 @@ const SLUGS = [
     // data-viz
     "bar-chart",
     "meter",
+    // P35-T1: healthcare display components and the parts changed since the baseline
+    "observation-view",
+    "allergy-record-list",
+    "medication-view",
+    "decision-support-card",
+    "early-warning-score-view",
+    "age-view",
+    "duration-view",
+    "record-list",
+    "international-patient-summary",
+    "body-map",
+    "numeric-rating-scale-picker",
+    "red-amber-green-radio-group",
+    "signature-pad",
+    "sparkline",
+    "file-upload",
+    // P35-T1: forms, overlays, navigation, content and charts not covered above
+    "combobox",
+    "date-field",
+    "text-area-input",
+    "radio-group",
+    "switch-button",
+    "wheel-picker",
+    "error-summary",
+    "warning-text",
+    "tag",
+    "badge",
+    "card",
+    "progress",
+    "dropdown-menu",
+    "tree-nav",
+    "step-list",
+    "pie-chart",
+    "line-chart",
 ] as const;
+
+// P35-T1: states and layouts the per-component baseline cannot see, in the
+// app's default theme only. Each is one screenshot.
+const DEFAULT_THEME = THEMES[0];
+
+// Keyboard focus: the focus-ring contract (AGENTS/theme.md), on the first
+// focusable element in each demo.
+const FOCUS_SLUGS = [
+    "button",
+    "text-input",
+    "checkbox-group",
+    "back-link",
+    "select",
+    "tab-bar",
+] as const;
+
+// Narrow width: reflow at 320 CSS pixels (WCAG 1.4.10).
+const NARROW_SLUGS = [
+    "summary-list",
+    "data-table",
+    "breadcrumb-nav",
+    "pagination-nav",
+    "international-patient-summary",
+    "allergy-record-list",
+] as const;
+
+// Right to left: the same demo under dir="rtl", so a physical property in a
+// theme shows as a mirrored-layout diff.
+const RTL_SLUGS = [
+    "breadcrumb-nav",
+    "pagination-nav",
+    "summary-list",
+    "text-input",
+    "alert",
+    "step-list",
+] as const;
+
+// Composed pages, the main landmark only.
+const PAGES = [
+    "patient-banner",
+    "patient-summary",
+    "ward-board",
+    "flow-board",
+    "find-patient",
+    "settings-page",
+] as const;
+
+async function useTheme(page: import("@playwright/test").Page, theme: string) {
+    await page.addInitScript((t) => {
+        window.localStorage.setItem("lily-theme", t);
+    }, theme);
+}
 
 async function waitForTheme(page: import("@playwright/test").Page) {
     await page.waitForFunction(() => {
@@ -96,9 +182,7 @@ test.describe("visual regression baseline (P7-T5)", () => {
         test.describe(`theme: ${theme}`, () => {
             for (const slug of SLUGS) {
                 test(`${slug}`, async ({ page }) => {
-                    await page.addInitScript((t) => {
-                        window.localStorage.setItem("lily-theme", t);
-                    }, theme);
+                    await useTheme(page, theme);
                     await page.goto(`/components/${slug}`);
                     await waitForTheme(page);
                     const demo = page.locator("main .card").first();
@@ -111,6 +195,65 @@ test.describe("visual regression baseline (P7-T5)", () => {
                     );
                 });
             }
+        });
+    }
+});
+
+test.describe("visual regression: states and layouts (P35-T1)", () => {
+    for (const slug of FOCUS_SLUGS) {
+        test(`focus: ${slug}`, async ({ page }) => {
+            await useTheme(page, DEFAULT_THEME);
+            await page.goto(`/components/${slug}`);
+            await waitForTheme(page);
+            const demo = page.locator("main .card").first();
+            const target = demo
+                .locator("a[href], button, input, select, textarea, [tabindex='0']")
+                .first();
+            // A key press first, so the programmatic focus that follows matches
+            // :focus-visible as keyboard focus would.
+            await page.keyboard.press("Shift");
+            await target.focus();
+            await expect(target).toBeFocused();
+            await expect(demo).toHaveScreenshot(`focus-${slug}-${process.platform}.png`);
+        });
+    }
+
+    test.describe("320px", () => {
+        test.use({ viewport: { width: 320, height: 800 } });
+        for (const slug of NARROW_SLUGS) {
+            test(`narrow: ${slug}`, async ({ page }) => {
+                await useTheme(page, DEFAULT_THEME);
+                await page.goto(`/components/${slug}`);
+                await waitForTheme(page);
+                await expect(page.locator("main .card").first()).toHaveScreenshot(
+                    `narrow-${slug}-${process.platform}.png`,
+                );
+            });
+        }
+    });
+
+    for (const slug of RTL_SLUGS) {
+        test(`rtl: ${slug}`, async ({ page }) => {
+            await useTheme(page, DEFAULT_THEME);
+            await page.goto(`/components/${slug}`);
+            await waitForTheme(page);
+            const demo = page.locator("main .card").first();
+            await demo.evaluate((el) => el.setAttribute("dir", "rtl"));
+            await page.evaluate(
+                () => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))),
+            );
+            await expect(demo).toHaveScreenshot(`rtl-${slug}-${process.platform}.png`);
+        });
+    }
+
+    for (const route of PAGES) {
+        test(`page: ${route}`, async ({ page }) => {
+            await useTheme(page, DEFAULT_THEME);
+            await page.goto(`/${route}`);
+            await waitForTheme(page);
+            await expect(page.locator("main")).toHaveScreenshot(
+                `page-${route}-${process.platform}.png`,
+            );
         });
     }
 });

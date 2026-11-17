@@ -3788,8 +3788,24 @@ From [spec/lessons/retool](spec/lessons/retool/index.md). Order: T2, then T1 and
       Verify: the decision is recorded in the topic; if built, key tests in all nine catalogs.
 - [x] **P34-T5 Guide patterns.** Formatted numbers while editing (and the decimal-comma caveat), units in `input-group` as part of
       the name, `aria-setsize` and `aria-posinset` for partly rendered lists, and the two declines (relative dates, clamping).
-      Verify: the patterns are in the docs; `bin/check-links` passes.
+      Verify: the patterns are in the docs; `bin/check-links` passes. _(2026-11-17: done in the healthcare guide's Forms section: formatted numbers and the decimal comma, never clamping, and `aria-setsize` for partly rendered lists. Relative dates are declined in its last section.)_
+
+## Phase 35 — Quality and learning (2026-11-17)
+
+Maintainer-directed, in this order.
+
+- [x] **P35-T1 More visual regression tests.** Widen `e2e/visual-regression.spec.ts` in the SvelteKit app beyond the P7-T5 baseline.
+      Verify: a re-run without `--update-snapshots` passes twice in a row. _(2026-11-17: 30 more slugs in the three themes (the
+      healthcare views and record lists, `signature-pad`, `sparkline`, `file-upload`, `combobox`, `date-field`, `wheel-picker`,
+      `dropdown-menu`, `tree-nav`, two charts and others: 90 shots), and in the default theme the keyboard focus ring on six
+      controls, six demos at 320px, six under `dir="rtl"` and six composed pages: 210 in all, up from 90. Nine P7-T5 baselines were
+      re-recorded after checking each diff: the dark theme's lighter link colour (the 2026-11-02 contrast fix) and auto-sized
+      columns in `summary-list` and `information-callout`. 210 passed on two consecutive runs. Local and macOS only; CI does not run it.)_
+- [ ] **P35-T2 A formal security policy.**
+- [ ] **P35-T3 Better mutation testing.**
+- [ ] **P35-T4 Performance benchmarks.**
+- [ ] **P35-T5 More and better tutorials, training and examples.**
 
 ---
 
-Lily™ and Lily Design System™ are trademarks. _(2026-11-17: done in the healthcare guide's Forms section: formatted numbers and the decimal comma, never clamping, and `aria-setsize` for partly rendered lists. Relative dates are declined in its last section.)_
+Lily™ and Lily Design System™ are trademarks.

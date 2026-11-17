@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Unreleased: wider visual regression (P35-T1)
+
+- The SvelteKit app's visual regression suite grows from 90 to 210 screenshots: 30 more components in three themes, and in
+  the default theme the keyboard focus ring, 320px reflow, right to left and six composed pages. Nine baselines were
+  re-recorded for intended changes (the dark theme's link colour, auto-sized summary columns). See
+  [spec/testing](spec/testing/index.md#visual-regression).
+
 ## Unreleased: lessons from openEHR (Phase 29)
 
 - `shared/clinical-format.ts` and the C# `ClinicalFormat`: `formatPartialDate` and `partialDatePrecision` (a year, a month
