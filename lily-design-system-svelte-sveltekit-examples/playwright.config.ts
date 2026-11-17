@@ -5,7 +5,7 @@ const port = e2ePort();
 
 // Specs that also run in Firefox and WebKit (P18-T1).
 const crossEngineSpecs =
-    /(responsive|focus-obscured|accessibility|axe-catalog|overflow-navigation|wheel-picker-theme|time-wheels|patient-banner|healthcare-pages)\.spec\.ts$/;
+    /(responsive|focus-obscured|accessibility|axe-catalog|overflow-navigation|wheel-picker-theme|time-wheels|patient-banner|healthcare-pages|clinic-pages|patient-dashboard)\.spec\.ts$/;
 
 export default defineConfig({
     testDir: "./e2e",

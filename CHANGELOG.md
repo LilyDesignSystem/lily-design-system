@@ -30,7 +30,9 @@ highlights.
 - `repeatable-fieldset` (catalog 636): the "add another" pattern, with focus moved on add and remove, in all nine
   catalogs; HTML and Nunjucks as a server round trip (P29-T10).
 - The SvelteKit app gains `/flow-board`, `/find-patient` and `/review-of-systems`, from the OpenEMR review, with e2e and axe
-  tests (P30-T2, P30-T3, P30-T4). The healthcare guide takes the rules from the five reviews (P29-T11 and others).
+  tests (P30-T2, P30-T3, P30-T4).
+- The SvelteKit app gains `/patient-dashboard`: never-blank cards with provenance and a workspace panel that keeps the
+  draft and focus (P30-T5, P33-T4). The healthcare guide takes the rules from the five reviews (P29-T11 and others).
 
 ## Release: headless with the radio groups and the patient summary — 2026-11-16
 

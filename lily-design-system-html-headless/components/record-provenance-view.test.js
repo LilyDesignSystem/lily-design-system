@@ -15,6 +15,8 @@ describe("RecordProvenanceView", function () {
         expect(await root.getAttribute("data-source")).toBe("device");
         const parts = await root.$$(":scope > *");
         expect(await parts[0].getAttribute("class")).toBe("record-provenance-view-attestation");
-        expect(await $(".record-provenance-view-recorded").getAttribute("datetime")).toBe("2026-11-03T09:00");
+        expect(await $(".record-provenance-view-recorded").getAttribute("datetime")).toBe(
+            "2026-11-03T09:00",
+        );
     });
 });

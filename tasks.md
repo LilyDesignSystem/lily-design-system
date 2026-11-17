@@ -3682,10 +3682,10 @@ T5 to T7. Pages go in the SvelteKit app first, linked from its home page. No bil
 - [x] **P30-T4 `/find-patient`.** A multi-field search, results with two identifiers per row, a no-results state in words, no
       automatic opening of a single match, and possible duplicates side by side.
       Verify: an e2e spec, axe-clean, and a test that a single result is not opened without a choice. _(2026-11-17: `/find-patient` in the SvelteKit app: a search form, results with two identifiers, a no-results heading in words, focus to the results heading and never into a record, and possible duplicates marked side by side. `e2e/clinic-pages.spec.ts` checks axe, a single match left unopened, duplicates and no results.)_
-- [ ] **P30-T5 `/patient-dashboard`.** Summary cards for problems, allergies, medications, immunizations, reminders and
+- [x] **P30-T5 `/patient-dashboard`.** Summary cards for problems, allergies, medications, immunizations, reminders and
       appointments on the record lists, with actions named for what they change and a last-reviewed date, under the patient
       banner. After P29-T4 and P29-T9.
-      Verify: an e2e spec at 320px with every card's status visible; axe-clean.
+      Verify: an e2e spec at 320px with every card's status visible; axe-clean. _(2026-11-17: `/patient-dashboard` in the SvelteKit app: the banner with flags in a labelled `tag-group`, the active visit and the session location; cards for problems (one a relative's, with `subjectLabel`), allergies, medicines, immunizations (`not-recorded`), reminders (`data-due`) and appointments, each a never-blank record list with a `record-provenance-view`. `e2e/patient-dashboard.spec.ts` passes axe, finds every field at 320px with no horizontal scroll, and runs in Chromium and WebKit.)_
 - [ ] **P30-T6 Calendar audit.** In the `calendar` helper: an event's category as text, a free slot marked and reachable by
       keyboard, a repeating series said in words.
       Verify: each finding is a task in this phase or a non-goal in the helper's `spec/index.md`; `bin/check-helper-docs` passes.
@@ -3765,9 +3765,10 @@ carried by P29-T9 and P30-T3.
       Verify: each rule is in the guide; `bin/check-links` passes. _(2026-11-17: done: unknown is not normal, off-scale results, load failures, the session location, the active visit and banner flags are in the guide.)_
 - [ ] **P33-T3 A failed section on `/patient-summary`.** One section `unavailable`, with the consumer's sentence and a retry button.
       Verify: an e2e test finds the words and the button, and that nothing is announced on load.
-- [ ] **P33-T4 Workspace panel.** A non-modal `<aside aria-labelledby>` on `/patient-dashboard` (P30-T5): close returns focus to
+- [x] **P33-T4 Workspace panel.** A non-modal `<aside aria-labelledby>` on `/patient-dashboard` (P30-T5): close returns focus to
       the opener, minimise keeps the form's state, and closing with unsaved changes asks first in an `alert-dialog`.
       Verify: an e2e test of each, by keyboard alone; axe-clean.
+      _(2026-11-17: done on `/patient-dashboard`: a non-modal `<aside aria-labelledby>` for adding an allergy; Save and Close return focus to the opener, Minimise keeps the draft behind a "Return to" button, and Close with unsaved changes asks in an `alert-dialog` (Keep editing keeps the draft). Tested by keyboard and pointer in Chromium and WebKit.)_
 
 ## Phase 34 — Lessons from Retool's input components (2026-11-17)
 

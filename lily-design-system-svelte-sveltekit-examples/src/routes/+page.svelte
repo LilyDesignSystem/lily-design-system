@@ -80,6 +80,12 @@
                 "Two identifiers, age, allergies that are never blank, and a deceased patient, at every width",
         },
         {
+            href: "/patient-dashboard",
+            title: "Patient Dashboard",
+            description:
+                "Never-blank cards with provenance, and a workspace panel that keeps the draft",
+        },
+        {
             href: "/patient-summary",
             title: "Patient Summary",
             description:
