@@ -5,7 +5,9 @@
   "htmlTag": "ol",
   "category": "lists",
   "baseClass": ".timeline-list",
-  "subClasses": [],
+  "subClasses": [
+    "timeline-list-coverage"
+  ],
   "interactive": false,
   "status": "stable — exercised in composed page flows under e2e and axe, beyond the per-component checks",
   "aria": [
