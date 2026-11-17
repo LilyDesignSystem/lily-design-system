@@ -4,8 +4,14 @@
     (spec/healthcare-ui item 1). Shows what the consumer decided; computes no flag and no range.
     Props and rules: ObservationView.md.
 *@
-<span class="@($"observation-view {CssClass}".Trim())" data-interpretation="@(string.IsNullOrEmpty(Interpretation) ? null : Interpretation)" data-status="@Status" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@if (Status is "cancelled" or "masked" or "not-recorded" or "unavailable" or "not-applicable") {<span class="observation-view-status">@StatusLabel</span>} else {<span class="observation-view-value">@Value</span>@if (!string.IsNullOrEmpty(Unit)) {@(" ")<span class="observation-view-unit">@Unit</span>}@if (!string.IsNullOrEmpty(FlagLabel)) {@(" ")<span class="observation-view-flag">@FlagLabel</span>}@if (!string.IsNullOrEmpty(Range)) {@(" ")<span class="observation-view-range">@Range</span>}@if (Status != "final" && !string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="observation-view-status">@StatusLabel</span>}}</span>
+<span class="@($"observation-view {CssClass}".Trim())" data-interpretation="@(string.IsNullOrEmpty(Interpretation) ? null : Interpretation)" data-status="@Status" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@if (Status is "cancelled" or "masked" or "not-recorded" or "unavailable" or "not-applicable") {<span class="observation-view-status">@StatusLabel</span>} else {<span class="observation-view-value">@Value</span>@if (!string.IsNullOrEmpty(Unit)) {@(" ")<span class="observation-view-unit">@Unit</span>}@if (!string.IsNullOrEmpty(FlagLabel)) {@(" ")<span class="observation-view-flag">@FlagLabel</span>}@if (!string.IsNullOrEmpty(Range)) {@(" ")<span class="observation-view-range">@Range</span>}@foreach (var named in Ranges ?? []) {@(" ")<span class="observation-view-range"><span class="observation-view-range-label">@named.Label</span>@(" ")@named.Text</span>}@if (!string.IsNullOrEmpty(PreviousValue)) {@(" ")<del class="observation-view-previous-value">@PreviousValue</del>@if (!string.IsNullOrEmpty(PreviousLabel)) {@(" ")<span class="observation-view-previous-label">@PreviousLabel</span>}}@if (Status != "final" && !string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="observation-view-status">@StatusLabel</span>}}</span>
 @code {
+    /// <summary>Further named ranges, each its own -range part with a -range-label.</summary>
+    [Parameter] public IReadOnlyList<ObservationRange>? Ranges { get; set; }
+    /// <summary>A superseded value, shown in a del.</summary>
+    [Parameter] public string? PreviousValue { get; set; }
+    /// <summary>The consumer's words for it; give it with PreviousValue.</summary>
+    [Parameter] public string? PreviousLabel { get; set; }
     /// <summary>Hidden text naming the observation.</summary>
     [Parameter] public string? Label { get; set; }
     /// <summary>The value, formatted by the consumer.</summary>

@@ -2718,6 +2718,18 @@
 .observation-view-range {
 }
 
+/* observation-view-range-label: sub-element of observation-view */
+.observation-view-range-label {
+}
+
+/* observation-view-previous-value: sub-element of observation-view */
+.observation-view-previous-value {
+}
+
+/* observation-view-previous-label: sub-element of observation-view */
+.observation-view-previous-label {
+}
+
 /* observation-view-status: sub-element of observation-view */
 .observation-view-status {
 }

@@ -14,6 +14,12 @@
     //   flagLabel — string, optional. The consumer's words for the flag ("High"). Required whenever the flag is not normal,
     //     so the meaning is never colour alone (WCAG 1.4.1); a development warning says so.
     //   range — string, optional. The reference range as text ("3.5–5.3").
+    //   ranges — { label, text }[], optional. Further named ranges ("Critical", "below 2.5"), each its own -range part with a
+    //     -range-label, after range (openEHR other_reference_ranges).
+    //   previousValue — string, optional. A superseded value, shown in a <del> so a reader who saw it knows it changed.
+    //   previousLabel — string, optional. The consumer's words for it ("was 5.1 until 3 Nov"); required with previousValue.
+    //   It never infers an interpretation: with no interpretation there is no flag and no data-interpretation, even when
+    //     a range is given, so a result whose range is missing or still loading is never shown as normal.
     //   status — "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable", default "final". Rendered as data-status.
     //   statusLabel — string, optional. The consumer's words for a status that is not final ("Not recorded"). For
     //     cancelled, masked, not-recorded, unavailable and not-applicable it replaces the value, so a missing result is never a blank or a
@@ -53,6 +59,9 @@
         interpretation,
         flagLabel,
         range,
+        ranges = [],
+        previousValue,
+        previousLabel,
         status = "final",
         statusLabel,
         ...restProps
@@ -63,6 +72,9 @@
         interpretation?: string;
         flagLabel?: string;
         range?: string;
+        ranges?: { label: string; text: string }[];
+        previousValue?: string;
+        previousLabel?: string;
         status?:
             | "final"
             | "preliminary"
@@ -88,6 +100,13 @@
                 statusLabel,
                 "A result that is not final must say so in words.",
             );
+        if (previousValue)
+            warnMissingProp(
+                "ObservationView",
+                "previousLabel",
+                previousLabel,
+                "a superseded value needs words saying it changed, since a screen reader may not announce <del>.",
+            );
         if (interpretation && interpretation !== "N")
             warnMissingProp(
                 "ObservationView",
@@ -110,7 +129,14 @@
                 class="observation-view-unit">{unit}</span
             >{/if}{#if flagLabel}{" "}<span class="observation-view-flag">{flagLabel}</span
             >{/if}{#if range}{" "}<span class="observation-view-range">{range}</span
-            >{/if}{#if status !== "final" && statusLabel}{" "}<span class="observation-view-status"
-                >{statusLabel}</span
+            >{/if}{#each ranges as named (named.label)}{" "}<span class="observation-view-range"
+                ><span class="observation-view-range-label">{named.label}</span
+                >{" "}{named.text}</span
+            >{/each}{#if previousValue}{" "}<del class="observation-view-previous-value"
+                >{previousValue}</del
+            >{#if previousLabel}{" "}<span class="observation-view-previous-label"
+                    >{previousLabel}</span
+                >{/if}{/if}{#if status !== "final" && statusLabel}{" "}<span
+                class="observation-view-status">{statusLabel}</span
             >{/if}{/if}</span
 >

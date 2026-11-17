@@ -12,6 +12,8 @@ ObservationView is a headless read-only display of one clinical observation or t
 - `status` is a FHIR Observation status (`final`, `preliminary`, `amended`, `corrected`, `entered-in-error`, `cancelled`), or `masked`, `not-recorded`, `unavailable` or `not-applicable`, rendered as `data-status`. `cancelled`, `masked`, `not-recorded` and `unavailable` show `statusLabel` instead of the value, so a missing result is never blank or a dash; every other status but `final` shows the value with `statusLabel` beside it, so an amended, corrected or entered-in-error result never reads as a plain one
 - The value and unit are joined by a no-break space, so they never wrap apart
 
+- It never infers an interpretation: with no `interpretation` there is no flag and no `data-interpretation`, even when a range is given, so a result whose range is missing or still loading is never shown as normal.
+
 ## Props
 
 - `value`: string (optional) — the value, formatted by the consumer
@@ -19,6 +21,9 @@ ObservationView is a headless read-only display of one clinical observation or t
 - `interpretation`: string (optional) — a FHIR v3 ObservationInterpretation code, rendered as `data-interpretation`
 - `flagLabel`: string (optional) — the flag in words ("High"); required when the flag is not normal
 - `range`: string (optional) — the reference range as text
+- `ranges`: { label, text }[] (optional) — further named reference ranges ("Critical", "below 2.5"), each its own `-range` part with a `-range-label` (openEHR `other_reference_ranges`)
+- `previousValue`: string (optional) — a superseded value, shown in a `<del class="observation-view-previous-value">` so a reader who saw it knows it changed
+- `previousLabel`: string (optional; required with `previousValue`) — the consumer's words for it ("was 5.1 until 3 Nov"), since a screen reader may not announce `<del>`
 - `status`: "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable" (optional) — default `final`, rendered as `data-status`
 - `statusLabel`: string (optional) — the words for a status that is not final; replaces the value when it is missing
 - `label`: string (optional) — hidden text naming the observation, when no visible caption does

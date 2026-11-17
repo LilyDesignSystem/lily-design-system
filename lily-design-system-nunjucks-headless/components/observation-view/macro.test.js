@@ -80,4 +80,26 @@ describe("observation-view", () => {
         expect(root.querySelector(".observation-view-status").textContent).toBe("Not applicable");
         expect(root.querySelector(".observation-view-value")).toBeNull();
     });
+
+    it("never infers an interpretation, renders named ranges, and keeps a superseded value", () => {
+        const { document } = render("observation-view", {
+            value: "4.8",
+            range: "3.5–5.3",
+            ranges: [{ label: "Critical", text: "below 2.5" }],
+            status: "corrected",
+            statusLabel: "Corrected",
+            previousValue: "5.1",
+            previousLabel: "was 5.1 until 3 Nov",
+        });
+        const root = document.querySelector(".observation-view");
+        expect(root.hasAttribute("data-interpretation")).toBe(false);
+        expect(root.querySelector(".observation-view-flag")).toBeNull();
+        const ranges = root.querySelectorAll(".observation-view-range");
+        expect(ranges).toHaveLength(2);
+        expect(ranges[1].textContent).toBe("Critical below 2.5");
+        expect(root.querySelector("del.observation-view-previous-value").textContent).toBe("5.1");
+        expect(root.querySelector(".observation-view-previous-label").textContent).toBe(
+            "was 5.1 until 3 Nov",
+        );
+    });
 });

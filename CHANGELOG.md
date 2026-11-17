@@ -20,6 +20,9 @@ highlights.
   shown first), in all nine catalogs (P29-T2, P29-T4).
 - `duration-view` (catalog 633): a length of time in a `<time datetime>`, in the consumer's words, in all nine catalogs;
   `durationParts()` and `htmlDuration()` in `clinical-format` (P29-T6).
+- `observation-view` in all nine catalogs: named reference ranges (`ranges`), a superseded value kept in a `<del>` with
+  the consumer's words (`previousValue`, `previousLabel`), and a test that no interpretation is ever inferred (P29-T7,
+  P31-T3, P33-T1).
 
 ## Release: headless with the radio groups and the patient summary — 2026-11-16
 

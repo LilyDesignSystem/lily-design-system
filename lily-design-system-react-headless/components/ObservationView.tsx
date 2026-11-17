@@ -26,6 +26,12 @@ export interface ObservationViewProps {
     flagLabel?: string;
     /** The reference range as text. */
     range?: string;
+    /** Further named ranges, each its own -range part with a -range-label. */
+    ranges?: { label: string; text: string }[];
+    /** A superseded value, shown in a <del>. */
+    previousValue?: string;
+    /** The consumer's words for it; required with previousValue. */
+    previousLabel?: string;
     status?:
         | "final"
         | "preliminary"
@@ -50,6 +56,9 @@ export default function ObservationView({
     interpretation,
     flagLabel,
     range,
+    ranges = [],
+    previousValue,
+    previousLabel,
     status = "final",
     statusLabel,
     ...restProps
@@ -98,6 +107,29 @@ export default function ObservationView({
                         <>
                             {" "}
                             <span className="observation-view-range">{range}</span>
+                        </>
+                    ) : null}
+                    {ranges.map((named) => (
+                        <React.Fragment key={named.label}>
+                            {" "}
+                            <span className="observation-view-range">
+                                <span className="observation-view-range-label">{named.label}</span>{" "}
+                                {named.text}
+                            </span>
+                        </React.Fragment>
+                    ))}
+                    {previousValue ? (
+                        <>
+                            {" "}
+                            <del className="observation-view-previous-value">{previousValue}</del>
+                            {previousLabel ? (
+                                <>
+                                    {" "}
+                                    <span className="observation-view-previous-label">
+                                        {previousLabel}
+                                    </span>
+                                </>
+                            ) : null}
                         </>
                     ) : null}
                     {status !== "final" && statusLabel ? (

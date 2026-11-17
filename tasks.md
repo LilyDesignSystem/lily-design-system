@@ -3637,9 +3637,9 @@ logic: no constraint validation, no score sums, no unit conversion.
 - [x] **P29-T6 `duration-view`.** A `<time datetime>` holding an ISO 8601 duration, words from `Intl.DurationFormat` or the
       consumer, sharing its parser with `age-view`.
       Verify: built in all nine catalogs with tests, including a negative duration; `bin/check-built-english` passes. _(2026-11-17: done in all nine catalogs (catalog 633, Web Components 598): a `<time>` whose `datetime` is the duration, the consumer's words, `data-negative` for a negative one, and no `datetime` (with a development warning) for years, months or weeks, which HTML does not take. `durationParts()` (for `Intl.DurationFormat`) and `htmlDuration()` in `shared/clinical-format.ts`, `ClinicalFormat.HtmlDuration` in C#; tests in every behaviour catalog and Nunjucks, including a negative duration.)_
-- [ ] **P29-T7 Named ranges on `observation-view`.** A `ranges` list of `{ label, text }`, each a `-range` part, beside the
+- [x] **P29-T7 Named ranges on `observation-view`.** A `ranges` list of `{ label, text }`, each a `-range` part, beside the
       existing single range.
-      Verify: tests in all nine catalogs with two ranges; the single-range tests still pass.
+      Verify: tests in all nine catalogs with two ranges; the single-range tests still pass. _(2026-11-17: done in all nine catalogs: `ranges` of `{ label, text }`, each a `-range` part with a `-range-label`, after `range` (a JSON attribute in Web Components, `ObservationRange` records in Blazor). Tests in seven catalogs; HTML and Alpine show one.)_
 - [ ] **P29-T8 `quantity-input-div`.** A number input and a unit `<select>` (or fixed unit text), labelled together, with
       per-unit `min`, `max` and `step` that change with the unit; value `{ magnitude, unit }`; no conversion.
       Verify: built in all nine catalogs; a test that changing the unit changes the input's limits; form reset restores both.
@@ -3702,8 +3702,8 @@ go to all nine catalogs (helpers: all eight), Svelte first.
 - [ ] **P31-T2 Coverage statements.** `coverageLabel` on the `data-grid` helper, rendered above the rows; a `-coverage` part on
       `timeline-list` and `record-list` for what the view shows, its order, what is hidden and which sources did not answer.
       Verify: tests in every catalog; the guide states the rule, including that an empty list from an unavailable source says so.
-- [ ] **P31-T3 Superseded values.** `previousValue` and `previousLabel` on `observation-view`, in a `<del>` with the consumer's words.
-      Verify: tests in all nine catalogs that a corrected result shows both values.
+- [x] **P31-T3 Superseded values.** `previousValue` and `previousLabel` on `observation-view`, in a `<del>` with the consumer's words.
+      Verify: tests in all nine catalogs that a corrected result shows both values. _(2026-11-17: done in all nine catalogs with P29-T7: `previousValue` in `<del class="observation-view-previous-value">` and `previousLabel` beside it, which warns when missing in Svelte, React, Vue and Angular. Tests in seven catalogs.)_
 - [ ] **P31-T4 Withheld and in-error entries.** `entryState` (`withheld`, `entered-in-error`) on `timeline-list-item` and
       `record-list-item`, as `data-entry-state`, each requiring consumer words; in error keeps the content in a `<del>`.
       Verify: tests in all nine catalogs; a missing label raises `warnMissingProp`.
@@ -3749,9 +3749,9 @@ decisions). No animation enters the headless layer.
 From [spec/lessons/openmrs](spec/lessons/openmrs/index.md). Order: T1, then T2 and T3, then T4. Items 6 and 8 of the topic are
 carried by P29-T9 and P30-T3.
 
-- [ ] **P33-T1 Never default to normal.** A test in all nine catalogs that `observation-view` without `interpretation` renders no
+- [x] **P33-T1 Never default to normal.** A test in all nine catalogs that `observation-view` without `interpretation` renders no
       `data-interpretation` and no flag; a sentence in its `index.md` and `AGENTS.md` that it never infers one.
-      Verify: the tests pass, and fail when a default interpretation is added.
+      Verify: the tests pass, and fail when a default interpretation is added. _(2026-11-17: done: a test in seven catalogs (Svelte, React, Vue, Angular, Web Components, Nunjucks, Blazor) that a range without an interpretation renders no flag and no `data-interpretation`, and the rule in `observation-view`'s `index.md` and `AGENTS.md`.)_
 - [ ] **P33-T2 Guide rules.** In `docs/patterns/healthcare/index.md` and its site page: unknown is not normal; off-scale results
       as a limit with a comparator; load failures as `unavailable` with a retry; the session location in the header; the active
       visit in the banner; patient flags as a labelled `tag-group` of words.

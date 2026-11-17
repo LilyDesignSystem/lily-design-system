@@ -24,6 +24,12 @@ const props = withDefaults(
         /** The consumer's words for the flag; required when it is not normal. */
         flagLabel?: string;
         range?: string;
+        /** Further named ranges, each its own -range part with a -range-label. */
+        ranges?: { label: string; text: string }[];
+        /** A superseded value, shown in a <del>. */
+        previousValue?: string;
+        /** The consumer's words for it; required with previousValue. */
+        previousLabel?: string;
         status?:
             | "final"
             | "preliminary"
@@ -46,6 +52,13 @@ if (props.status !== "final")
         "statusLabel",
         props.statusLabel,
         "A result that is not final must say so in words.",
+    );
+if (props.previousValue)
+    warnMissingProp(
+        "ObservationView",
+        "previousLabel",
+        props.previousLabel,
+        "a superseded value needs words saying it changed, since a screen reader may not announce <del>.",
     );
 if (props.interpretation && props.interpretation !== "N")
     warnMissingProp(
@@ -80,6 +93,22 @@ const missing = computed(() => MISSING.includes(props.status ?? "final"));
                 >{{ " " }}<span class="observation-view-flag">{{ flagLabel }}</span></template
             ><template v-if="range"
                 >{{ " " }}<span class="observation-view-range">{{ range }}</span></template
+            ><template
+                v-for="named in ranges ?? []"
+                :key="named.label"
+                >{{ " "
+                }}<span class="observation-view-range"
+                    ><span class="observation-view-range-label">{{ named.label }}</span
+                    >{{ " " }}{{ named.text }}</span
+                ></template
+            ><template v-if="previousValue"
+                >{{ " " }}<del class="observation-view-previous-value">{{ previousValue }}</del
+                ><template v-if="previousLabel"
+                    >{{ " "
+                    }}<span class="observation-view-previous-label">{{
+                        previousLabel
+                    }}</span></template
+                ></template
             ><template v-if="(status ?? 'final') !== 'final' && statusLabel"
                 >{{ " " }}<span class="observation-view-status">{{ statusLabel }}</span></template
             ></template

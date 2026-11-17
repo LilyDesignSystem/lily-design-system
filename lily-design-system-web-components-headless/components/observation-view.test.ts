@@ -74,4 +74,18 @@ describe("ObservationView", () => {
         expect(body.querySelector(".screen-reader-span")?.textContent).toBe("Potassium ");
         expect(body.querySelector(".observation-view")?.hasAttribute("aria-label")).toBe(false);
     });
+
+    test("never infers an interpretation, renders named ranges, and keeps a superseded value", () => {
+        document.body.innerHTML = `<lily-observation-view value="4.8" range="3.5–5.3" ranges='[{"label":"Critical","text":"below 2.5"}]' status="corrected" status-label="Corrected" previous-value="5.1" previous-label="was 5.1 until 3 Nov"></lily-observation-view>`;
+        const root = document.querySelector("span.observation-view") as HTMLElement;
+        expect(root.hasAttribute("data-interpretation")).toBe(false);
+        expect(root.querySelector(".observation-view-flag")).toBeNull();
+        const ranges = root.querySelectorAll(".observation-view-range");
+        expect(ranges).toHaveLength(2);
+        expect(ranges[1].textContent).toBe("Critical below 2.5");
+        expect(root.querySelector("del.observation-view-previous-value")?.textContent).toBe("5.1");
+        expect(root.querySelector(".observation-view-previous-label")?.textContent).toBe(
+            "was 5.1 until 3 Nov",
+        );
+    });
 });

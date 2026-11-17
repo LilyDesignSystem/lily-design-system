@@ -2,6 +2,7 @@
 // (spec/healthcare-ui item 1). Renders a light-DOM <span class="observation-view">. Shows what the consumer decided;
 // computes no flag and no range.
 // Attributes: label, value, unit, interpretation (FHIR v3 code -> data-interpretation), flag-label, range,
+//   ranges (a JSON array of { label, text }), previous-value (in a <del>) and previous-label,
 //   status (final | preliminary | amended | corrected | entered-in-error | cancelled | masked | not-recorded | unavailable | not-applicable
 //   -> data-status), status-label.
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
@@ -22,6 +23,9 @@ const HANDLED = new Set([
     "interpretation",
     "flag-label",
     "range",
+    "ranges",
+    "previous-value",
+    "previous-label",
     "status",
     "status-label",
 ]);
@@ -56,6 +60,26 @@ export class ObservationView extends HTMLElement {
             if (attr("unit")) span.append(" ", part("unit", attr("unit")));
             if (attr("flag-label")) span.append(" ", part("flag", attr("flag-label")));
             if (attr("range")) span.append(" ", part("range", attr("range")));
+            // ranges: a JSON array of { label, text }, each its own -range part with a -range-label.
+            let ranges: { label: string; text: string }[] = [];
+            try {
+                ranges = JSON.parse(attr("ranges") || "[]");
+            } catch {
+                ranges = [];
+            }
+            for (const named of ranges) {
+                const range = part("range", "");
+                range.append(part("range-label", named.label), " ", named.text);
+                span.append(" ", range);
+            }
+            if (attr("previous-value")) {
+                const del = document.createElement("del");
+                del.className = "observation-view-previous-value";
+                del.textContent = attr("previous-value");
+                span.append(" ", del);
+                if (attr("previous-label"))
+                    span.append(" ", part("previous-label", attr("previous-label")));
+            }
             if (status !== "final" && attr("status-label"))
                 span.append(" ", part("status", attr("status-label")));
         }

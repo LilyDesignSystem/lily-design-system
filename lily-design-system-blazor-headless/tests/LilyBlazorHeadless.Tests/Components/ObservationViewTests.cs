@@ -69,4 +69,21 @@ public class ObservationViewTests : TestContext
         Assert.Equal("Not applicable", cut.Find(".observation-view-status").TextContent);
         Assert.Empty(cut.FindAll(".observation-view-value"));
     }
+
+    [Fact]
+    public void Never_infers_an_interpretation_renders_named_ranges_and_keeps_a_superseded_value()
+    {
+        var cut = RenderComponent<ObservationView>(p => p.Add(x => x.Value, "4.8").Add(x => x.Range, "3.5–5.3")
+            .Add(x => x.Ranges, new[] { new ObservationRange("Critical", "below 2.5") })
+            .Add(x => x.Status, "corrected").Add(x => x.StatusLabel, "Corrected")
+            .Add(x => x.PreviousValue, "5.1").Add(x => x.PreviousLabel, "was 5.1 until 3 Nov"));
+        var root = cut.Find(".observation-view");
+        Assert.False(root.HasAttribute("data-interpretation"));
+        Assert.Empty(cut.FindAll(".observation-view-flag"));
+        var ranges = cut.FindAll(".observation-view-range");
+        Assert.Equal(2, ranges.Count);
+        Assert.Equal("Critical below 2.5", ranges[1].TextContent);
+        Assert.Equal("5.1", cut.Find("del.observation-view-previous-value").TextContent);
+        Assert.Equal("was 5.1 until 3 Nov", cut.Find(".observation-view-previous-label").TextContent);
+    }
 }

@@ -17,7 +17,7 @@ const MISSING: readonly string[] = [
 @Component({
     selector: "lily-observation-view",
     standalone: true,
-    template: `<span class="observation-view {{ className() }}" [attr.data-interpretation]="interpretation() || null" [attr.data-status]="status()">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}@if (missing()) {<span class="observation-view-status">{{ statusLabel() }}</span>} @else {<span class="observation-view-value">{{ value() }}</span>@if (unit()) {{{ " " }}<span class="observation-view-unit">{{ unit() }}</span>}@if (flagLabel()) {{{ " " }}<span class="observation-view-flag">{{ flagLabel() }}</span>}@if (range()) {{{ " " }}<span class="observation-view-range">{{ range() }}</span>}@if (status() !== "final" && statusLabel()) {{{ " " }}<span class="observation-view-status">{{ statusLabel() }}</span>}}</span>`,
+    template: `<span class="observation-view {{ className() }}" [attr.data-interpretation]="interpretation() || null" [attr.data-status]="status()">@if (label()) {<span class="screen-reader-span">{{ label() + " " }}</span>}@if (missing()) {<span class="observation-view-status">{{ statusLabel() }}</span>} @else {<span class="observation-view-value">{{ value() }}</span>@if (unit()) {{{ " " }}<span class="observation-view-unit">{{ unit() }}</span>}@if (flagLabel()) {{{ " " }}<span class="observation-view-flag">{{ flagLabel() }}</span>}@if (range()) {{{ " " }}<span class="observation-view-range">{{ range() }}</span>}@for (named of ranges(); track named.label) {{{ " " }}<span class="observation-view-range"><span class="observation-view-range-label">{{ named.label }}</span>{{ " " }}{{ named.text }}</span>}@if (previousValue()) {{{ " " }}<del class="observation-view-previous-value">{{ previousValue() }}</del>@if (previousLabel()) {{{ " " }}<span class="observation-view-previous-label">{{ previousLabel() }}</span>}}@if (status() !== "final" && statusLabel()) {{{ " " }}<span class="observation-view-status">{{ statusLabel() }}</span>}}</span>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ObservationView implements OnInit {
@@ -33,6 +33,12 @@ export class ObservationView implements OnInit {
     /** The consumer's words for the flag; required when it is not normal. */
     readonly flagLabel = input<string>("");
     readonly range = input<string>("");
+    /** Further named ranges, each its own -range part with a -range-label. */
+    readonly ranges = input<{ label: string; text: string }[]>([]);
+    /** A superseded value, shown in a <del>. */
+    readonly previousValue = input<string>("");
+    /** The consumer's words for it; required with previousValue. */
+    readonly previousLabel = input<string>("");
     readonly status = input<
         | "final"
         | "preliminary"
@@ -55,6 +61,13 @@ export class ObservationView implements OnInit {
                 "statusLabel",
                 this.statusLabel(),
                 "A result that is not final must say so in words.",
+            );
+        if (this.previousValue())
+            warnMissingProp(
+                "ObservationView",
+                "previousLabel",
+                this.previousLabel(),
+                "a superseded value needs words saying it changed, since a screen reader may not announce <del>.",
             );
         if (this.interpretation() && this.interpretation() !== "N")
             warnMissingProp(

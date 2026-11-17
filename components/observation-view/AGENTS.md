@@ -22,6 +22,8 @@
 
 - No role and no `aria-label`: a `<span>` cannot be named, so `label` renders as hidden text in a `screen-reader-span`. The flag is text, so a screen reader hears it
 
+- It never infers an interpretation: with no `interpretation` there is no flag and no `data-interpretation`, even when a range is given, so a result whose range is missing or still loading is never shown as normal (spec/lessons/openmrs item 1)
+
 ## Keyboard
 
 - Not interactive
@@ -33,6 +35,9 @@
 - `interpretation`: string (optional) — a FHIR v3 ObservationInterpretation code, rendered as `data-interpretation`
 - `flagLabel`: string (optional) — the flag in words ("High"); required when the flag is not normal
 - `range`: string (optional) — the reference range as text
+- `ranges`: { label, text }[] (optional) — further named reference ranges ("Critical", "below 2.5"), each its own `-range` part with a `-range-label` (openEHR `other_reference_ranges`)
+- `previousValue`: string (optional) — a superseded value, shown in a `<del class="observation-view-previous-value">` so a reader who saw it knows it changed
+- `previousLabel`: string (optional; required with `previousValue`) — the consumer's words for it ("was 5.1 until 3 Nov"), since a screen reader may not announce `<del>`
 - `status`: "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable" (optional) — default `final`, rendered as `data-status`
 - `statusLabel`: string (optional) — the words for a status that is not final; replaces the value when it is missing
 - `label`: string (optional) — hidden text naming the observation, when no visible caption does
