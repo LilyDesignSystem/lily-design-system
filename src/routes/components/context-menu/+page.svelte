@@ -96,6 +96,7 @@
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name for the context menu via <code>aria-label</code></li>
+      <li><code>subjectLabel</code>: string (optional) -- whose record or what the menu acts on, in the consumer's words ("Ada Lovelace, blood pressure 3 Nov"). Rendered as a non-interactive first part, <code>&lt;div class="context-menu-subject" role="none"&gt;</code>, which names the menu through <code>aria-labelledby</code> in place of <code>label</code> (spec/lessons/zoblocks; the consequence tiers are in docs/patterns/healthcare)</li>
       <li><code>open</code>: boolean (default: false) -- whether the menu is visible; bindable for two-way control</li>
       <li><code>children</code>: slot (required) -- menu item content (should include <code>role="menuitem"</code> elements)</li>
     </ul>

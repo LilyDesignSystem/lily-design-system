@@ -18,6 +18,7 @@ This component manages menu visibility, keyboard navigation, and focus. When ope
 ## Props
 
 - `label`: string (required) -- accessible name for the context menu via `aria-label`
+- `subjectLabel`: string (optional) -- whose record or what the menu acts on, in the consumer's words ("Ada Lovelace, blood pressure 3 Nov"). Rendered as a non-interactive first part, `<div class="context-menu-subject" role="none">`, which names the menu through `aria-labelledby` in place of `label` (spec/lessons/zoblocks; the consequence tiers are in docs/patterns/healthcare)
 - `open`: boolean (default: false) -- whether the menu is visible; bindable for two-way control
 - `children`: slot (required) -- menu item content (should include `role="menuitem"` elements)
 

@@ -100,6 +100,7 @@
     <h3>Props</h3>
     <ul>
       <li><code>label</code>: string (required) -- accessible name for the menu button, also displayed as button text</li>
+      <li><code>subjectLabel</code>: string (optional) -- whose record or what the menu acts on, in the consumer's words ("Ada Lovelace, blood pressure 3 Nov"). Rendered as a non-interactive first part, <code>&lt;div class="dropdown-menu-subject" role="none"&gt;</code>, which names the menu through <code>aria-labelledby</code> in place of <code>label</code> (spec/lessons/zoblocks; the consequence tiers are in docs/patterns/healthcare)</li>
       <li><code>open</code>: boolean (default: false) -- whether the menu is visible; bindable</li>
       <li><code>children</code>: slot (required) -- menu items, each should have <code>role="menuitem"</code> and <code>tabindex="-1"</code></li>
     </ul>
