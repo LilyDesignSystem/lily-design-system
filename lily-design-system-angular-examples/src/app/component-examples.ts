@@ -647,4 +647,6 @@ export const componentExamples: Record<string, ComponentExample> = {
   "device-record-list-item": {"usage":{"lang":"html","code":"<DeviceRecordListItem\n  device=\"Cardiac pacemaker\"\n  status=\"active\"\n  statusLabel=\"In use\"\n  timing=\"2021-02-08\"\n  timingLabel=\"Since 8 Feb 2021\"\n/>\n"}},
   "duration-view": {"usage":{"lang":"html","code":"<lily-duration-view\n  label=\"Length of stay\"\n  value=\"3 days 4 hours\"\n  duration=\"P3DT4H\"\n/>\n"}},
   "quantity-input-div": {"usage":{"lang":"html","code":"<lily-quantity-input-div\n  label=\"Weight\"\n  magnitudeLabel=\"Amount\"\n  unitLabel=\"Unit\"\n  [units]=\"units\"\n  [(magnitude)]=\"magnitude\"\n  [(unit)]=\"unit\"\n/>\n"}},
+  "record-provenance-view": {"usage":{"lang":"html","code":"<lily-record-provenance-view\n  attestation=\"pending\"\n  attestationLabel=\"Awaiting signature\"\n  authorLabel=\"Dr A Patel\"\n/>\n"}},
+  "repeatable-fieldset": {"usage":{"lang":"html","code":"<lily-repeatable-fieldset\n  legend=\"Medicines\"\n  [(items)]=\"items\"\n  [newItem]=\"newItem\"\n  [itemLegend]=\"itemLegend\"\n  addLabel=\"Add another medicine\"\n  [removeLabel]=\"removeLabel\"\n  ><ng-template\n    let-item\n    let-index=\"index\"\n    >…</ng-template\n  ></lily-repeatable-fieldset\n>\n"}},
 };

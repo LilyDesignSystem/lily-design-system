@@ -1,0 +1,45 @@
+{#
+  RepeatableFieldset macro — the "add another" pattern (tasks.md P29-T10), as a server round trip: a <fieldset> holding one
+    <fieldset> per item, each with a legend and a remove button, and an add button. Both buttons submit the form
+    (name="{name}-add", and name="{name}-remove" with the item's index as value), and the server answers with the page one
+    item longer or shorter, so it works without script. The legends and labels are the consumer's words, one per item.
+
+  HTML tag: <fieldset>
+  CSS class: repeatable-fieldset (parts: -item, -item-legend, -remove, -add)
+
+  Params:
+    legend        names the whole group (required)
+    name          the base name of the add and remove buttons (required)
+    items         [{ legend, removeLabel, html }]: each item's legend, its remove button's words and its fields (HTML)
+    addLabel      the add button's words (required)
+    min           the fewest items; remove buttons are left out at the minimum (default 0)
+    max           the most items; the add button is disabled at the maximum
+    id, classes, attributes
+
+  Usage:
+    {% from "components/repeatable-fieldset/macro.njk" import repeatableFieldset %}
+    {{ repeatableFieldset({ legend: "Medicines", name: "medicines", addLabel: "Add another medicine",
+                            items: [{ legend: "Medicine 1", removeLabel: "Remove medicine 1", html: fields }] }) }}
+#}
+{%- macro repeatableFieldset(params) -%}
+{%- set p = params | default({}) -%}
+{%- set items = p.items | default([]) -%}
+{%- set canRemove = items | length > (p.min | default(0)) -%}
+<fieldset
+  class="repeatable-fieldset{% if p.classes %} {{ p.classes }}{% endif %}" data-count="{{ items | length }}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <legend>{{ p.legend }}</legend>
+  {%- for item in items %}
+  <fieldset class="repeatable-fieldset-item" data-index="{{ loop.index0 }}">
+    <legend class="repeatable-fieldset-item-legend">{{ item.legend }}</legend>
+    {{ item.html | safe }}
+    {%- if canRemove %}
+    <button type="submit" class="repeatable-fieldset-remove" name="{{ p.name }}-remove" value="{{ loop.index0 }}" formnovalidate>{{ item.removeLabel }}</button>
+    {%- endif %}
+  </fieldset>
+  {%- endfor %}
+  <button type="submit" class="repeatable-fieldset-add" name="{{ p.name }}-add" value="1" formnovalidate{% if p.max is defined and items | length >= p.max %} disabled{% endif %}>{{ p.addLabel }}</button>
+</fieldset>
+{%- endmacro -%}

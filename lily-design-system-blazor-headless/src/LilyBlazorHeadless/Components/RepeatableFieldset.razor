@@ -1,0 +1,89 @@
+@namespace LilyBlazorHeadless.Components
+@typeparam TItem
+@*
+    RepeatableFieldset: the "add another" pattern (tasks.md P29-T10): a fieldset holding one fieldset per item, each with a
+    legend and a remove button, and an add button. The items are the consumer's; legends and labels come from functions of
+    the item's number. Focus moves to the add button on remove and, on add, to the new item's fieldset (tabindex="-1"), which a screen reader
+    announces by its legend; the other catalogs focus the new item's first field, which Blazor cannot find without JS interop. Props: RepeatableFieldset.md.
+*@
+<fieldset class="@($"repeatable-fieldset {CssClass}".Trim())" data-count="@Items.Count" @attributes="AdditionalAttributes">
+    <legend>@Legend</legend>
+    @for (var i = 0; i < Items.Count; i++)
+    {
+        var index = i;
+        <fieldset class="repeatable-fieldset-item" data-index="@index" @key="Items[index]" tabindex="-1" @ref="_items[index]">
+            <legend class="repeatable-fieldset-item-legend">@ItemLegend(index + 1)</legend>
+            @ItemTemplate((Items[index], index))
+            @if (Items.Count > Min)
+            {
+                <button type="button" class="repeatable-fieldset-remove" @onclick="@(() => RemoveAsync(index))">@RemoveLabel(index + 1)</button>
+            }
+        </fieldset>
+    }
+    <button @ref="_add" type="button" class="repeatable-fieldset-add" disabled="@(Max is int max && Items.Count >= max)" @onclick="AddAsync">@AddLabel</button>
+    @if (AddedLabel is not null || RemovedLabel is not null)
+    {
+        <p class="repeatable-fieldset-status" role="status">@_status</p>
+    }
+</fieldset>
+@code {
+    /// <summary>Names the whole group.</summary>
+    [Parameter, EditorRequired] public string Legend { get; set; } = "";
+    /// <summary>The consumer's items. Two-way (@bind-Items).</summary>
+    [Parameter] public IReadOnlyList<TItem> Items { get; set; } = [];
+    [Parameter] public EventCallback<IReadOnlyList<TItem>> ItemsChanged { get; set; }
+    /// <summary>Makes a new item when the add button is pressed.</summary>
+    [Parameter, EditorRequired] public Func<TItem> NewItem { get; set; } = default!;
+    /// <summary>Each item's legend; numbers start at 1.</summary>
+    [Parameter, EditorRequired] public Func<int, string> ItemLegend { get; set; } = default!;
+    [Parameter, EditorRequired] public string AddLabel { get; set; } = "";
+    [Parameter, EditorRequired] public Func<int, string> RemoveLabel { get; set; } = default!;
+    [Parameter] public int Min { get; set; }
+    [Parameter] public int? Max { get; set; }
+    [Parameter] public Func<int, string>? AddedLabel { get; set; }
+    [Parameter] public Func<int, string>? RemovedLabel { get; set; }
+    /// <summary>One item's fields, given the item and its index.</summary>
+    [Parameter, EditorRequired] public RenderFragment<(TItem Item, int Index)> ItemTemplate { get; set; } = default!;
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private readonly Dictionary<int, ElementReference> _items = new();
+    private ElementReference _add;
+    private string _status = "";
+    private int? _focusItem;
+    private bool _focusAdd;
+
+    private async Task AddAsync()
+    {
+        if (Max is int max && Items.Count >= max) return;
+        var next = Items.Append(NewItem()).ToList();
+        _focusItem = next.Count - 1;
+        _status = AddedLabel?.Invoke(next.Count) ?? "";
+        Items = next;
+        await ItemsChanged.InvokeAsync(next);
+    }
+
+    private async Task RemoveAsync(int index)
+    {
+        if (Items.Count <= Min) return;
+        var next = Items.Where((_, i) => i != index).ToList();
+        _status = RemovedLabel?.Invoke(index + 1) ?? "";
+        _focusAdd = true;
+        Items = next;
+        await ItemsChanged.InvokeAsync(next);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_focusAdd)
+        {
+            _focusAdd = false;
+            await _add.FocusAsync();
+        }
+        if (_focusItem is int item)
+        {
+            _focusItem = null;
+            if (_items.TryGetValue(item, out var reference)) await reference.FocusAsync();
+        }
+    }
+}

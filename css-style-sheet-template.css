@@ -3125,3 +3125,67 @@
 /* quantity-input-div: a quantity entered as a number and a unit, each unit with its own limits */
 .quantity-input-div {
 }
+
+/* quantity-input-div-magnitude: sub-element of quantity-input-div */
+.quantity-input-div-magnitude {
+}
+
+/* quantity-input-div-unit: sub-element of quantity-input-div */
+.quantity-input-div-unit {
+}
+
+/* record-provenance-view: who recorded a record, where it came from and whether it is signed, in the consumer's words */
+.record-provenance-view {
+}
+
+/* record-provenance-view-attestation: sub-element of record-provenance-view */
+.record-provenance-view-attestation {
+}
+
+/* record-provenance-view-sync: sub-element of record-provenance-view */
+.record-provenance-view-sync {
+}
+
+/* record-provenance-view-source: sub-element of record-provenance-view */
+.record-provenance-view-source {
+}
+
+/* record-provenance-view-author: sub-element of record-provenance-view */
+.record-provenance-view-author {
+}
+
+/* record-provenance-view-observed: sub-element of record-provenance-view */
+.record-provenance-view-observed {
+}
+
+/* record-provenance-view-recorded: sub-element of record-provenance-view */
+.record-provenance-view-recorded {
+}
+
+/* record-provenance-view-version: sub-element of record-provenance-view */
+.record-provenance-view-version {
+}
+
+/* repeatable-fieldset: a group of identical fieldsets that a person adds to and removes from ("add another") */
+.repeatable-fieldset {
+}
+
+/* repeatable-fieldset-item: sub-element of repeatable-fieldset */
+.repeatable-fieldset-item {
+}
+
+/* repeatable-fieldset-item-legend: sub-element of repeatable-fieldset */
+.repeatable-fieldset-item-legend {
+}
+
+/* repeatable-fieldset-remove: sub-element of repeatable-fieldset */
+.repeatable-fieldset-remove {
+}
+
+/* repeatable-fieldset-add: sub-element of repeatable-fieldset */
+.repeatable-fieldset-add {
+}
+
+/* repeatable-fieldset-status: sub-element of repeatable-fieldset */
+.repeatable-fieldset-status {
+}

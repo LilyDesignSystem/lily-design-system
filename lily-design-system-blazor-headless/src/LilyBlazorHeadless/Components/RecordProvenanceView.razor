@@ -1,0 +1,38 @@
+@namespace LilyBlazorHeadless.Components
+@*
+    RecordProvenanceView: who recorded a record, where it came from, when, and whether it is signed or sent, in the consumer's
+    words (tasks.md P29-T9). States are data-* and words. Props: RecordProvenanceView.md.
+*@
+<span class="@($"record-provenance-view {CssClass}".Trim())" data-attestation="@Nullable(Attestation)" data-sync="@Nullable(Sync)" data-source="@Nullable(Source)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Label)) {<span class="screen-reader-span">@($"{Label} ")</span>}@if (!string.IsNullOrEmpty(AttestationLabel)) {<span class="record-provenance-view-attestation">@AttestationLabel</span>@(" ")}@if (!string.IsNullOrEmpty(SyncLabel)) {<span class="record-provenance-view-sync">@SyncLabel</span>@(" ")}@if (!string.IsNullOrEmpty(SourceLabel)) {<span class="record-provenance-view-source">@SourceLabel</span>@(" ")}@if (!string.IsNullOrEmpty(AuthorLabel)) {<span class="record-provenance-view-author">@AuthorLabel</span>@(" ")}@if (!string.IsNullOrEmpty(ObservedLabel)) {<time class="record-provenance-view-observed" datetime="@Observed">@ObservedLabel</time>@(" ")}@if (!string.IsNullOrEmpty(RecordedLabel)) {<time class="record-provenance-view-recorded" datetime="@Recorded">@RecordedLabel</time>@(" ")}@if (!string.IsNullOrEmpty(VersionLabel)) {<span class="record-provenance-view-version">@VersionLabel</span>@(" ")}</span>
+@code {
+    /// <summary>hidden text naming the provenance (&quot;Provenance&quot;), when no visible caption does.</summary>
+    [Parameter] public string? Label { get; set; }
+    /// <summary>whether the record is signed: &quot;signed&quot;, &quot;pending&quot; (awaiting a signature), &quot;unsigned&quot;, &quot;amended&quot; or &quot;deleted&quot;; rendered as data-attestation.</summary>
+    [Parameter] public string? Attestation { get; set; }
+    /// <summary>that state in words; required with attestation.</summary>
+    [Parameter] public string? AttestationLabel { get; set; }
+    /// <summary>&quot;pending&quot; (saved on this device, not yet sent) or &quot;failed&quot; (could not be sent); rendered as data-sync.</summary>
+    [Parameter] public string? Sync { get; set; }
+    /// <summary>that state in words; required with sync.</summary>
+    [Parameter] public string? SyncLabel { get; set; }
+    /// <summary>where the record came from, as the consumer's code (&quot;clinic&quot;, &quot;device&quot;, &quot;patient-reported&quot;, &quot;external&quot;, &quot;extracted&quot;); rendered as data-source.</summary>
+    [Parameter] public string? Source { get; set; }
+    /// <summary>that source in words (&quot;From the patient's blood pressure monitor&quot;).</summary>
+    [Parameter] public string? SourceLabel { get; set; }
+    /// <summary>who wrote or recorded it, in the consumer's words (&quot;Dr A Patel&quot;).</summary>
+    [Parameter] public string? AuthorLabel { get; set; }
+    /// <summary>when the thing recorded happened, as an ISO 8601 date or date and time.</summary>
+    [Parameter] public string? Observed { get; set; }
+    /// <summary>that time as the consumer writes it; the &lt;time&gt; shows only when set.</summary>
+    [Parameter] public string? ObservedLabel { get; set; }
+    /// <summary>when it was recorded, as an ISO 8601 date or date and time.</summary>
+    [Parameter] public string? Recorded { get; set; }
+    /// <summary>that time as the consumer writes it; the &lt;time&gt; shows only when set.</summary>
+    [Parameter] public string? RecordedLabel { get; set; }
+    /// <summary>the version in words (&quot;Version 3&quot;).</summary>
+    [Parameter] public string? VersionLabel { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private static string? Nullable(string? value) => string.IsNullOrEmpty(value) ? null : value;
+}

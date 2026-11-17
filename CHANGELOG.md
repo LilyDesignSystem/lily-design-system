@@ -25,6 +25,10 @@ highlights.
   P31-T3, P33-T1).
 - `quantity-input-div` (catalog 634): a number and its unit, each unit with its own limits, converting nothing, in all
   nine catalogs (P29-T8).
+- `record-provenance-view` (catalog 635): who recorded a record, its source and times, and whether it is signed or sent,
+  states first, in all nine catalogs (P29-T9).
+- `repeatable-fieldset` (catalog 636): the "add another" pattern, with focus moved on add and remove, in all nine
+  catalogs; HTML and Nunjucks as a server round trip (P29-T10).
 
 ## Release: headless with the radio groups and the patient summary — 2026-11-16
 

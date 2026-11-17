@@ -1,0 +1,46 @@
+{#
+  RecordProvenanceView macro — who recorded a record, where it came from, when, and whether it is signed or sent, in the
+    consumer's words (tasks.md P29-T9). The signature and sync states come first.
+
+  HTML tag: <span>
+  CSS class: record-provenance-view (parts: -attestation, -sync, -source, -author, -observed, -recorded, -version)
+
+  Params:
+    label             hidden text naming the provenance ("Provenance"), when no visible caption does
+    attestation       whether the record is signed: "signed", "pending" (awaiting a signature), "unsigned", "amended" or "deleted"; rendered as data-attestation
+    attestationLabel  that state in words; required with attestation
+    sync              "pending" (saved on this device, not yet sent) or "failed" (could not be sent); rendered as data-sync
+    syncLabel         that state in words; required with sync
+    source            where the record came from, as the consumer's code ("clinic", "device", "patient-reported", "external", "extracted"); rendered as data-source
+    sourceLabel       that source in words ("From the patient's blood pressure monitor")
+    authorLabel       who wrote or recorded it, in the consumer's words ("Dr A Patel")
+    observed          when the thing recorded happened, as an ISO 8601 date or date and time
+    observedLabel     that time as the consumer writes it; the <time> shows only when set
+    recorded          when it was recorded, as an ISO 8601 date or date and time
+    recordedLabel     that time as the consumer writes it; the <time> shows only when set
+    versionLabel      the version in words ("Version 3")
+    id, classes, attributes
+
+  Usage:
+    {% from "components/record-provenance-view/macro.njk" import recordProvenanceView %}
+    {{ recordProvenanceView({ attestation: "pending", attestationLabel: "Awaiting signature", authorLabel: "Dr A Patel" }) }}
+#}
+{%- macro recordProvenanceView(params) -%}
+{%- set p = params | default({}) -%}
+<span
+  class="record-provenance-view{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.attestation %} data-attestation="{{ p.attestation }}"{% endif %}
+  {%- if p.sync %} data-sync="{{ p.sync }}"{% endif %}
+  {%- if p.source %} data-source="{{ p.source }}"{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{% if p.label %}<span class="screen-reader-span">{{ p.label }} </span>{% endif -%}
+{%- if p.attestationLabel %}<span class="record-provenance-view-attestation">{{ p.attestationLabel }}</span> {% endif -%}
+{%- if p.syncLabel %}<span class="record-provenance-view-sync">{{ p.syncLabel }}</span> {% endif -%}
+{%- if p.sourceLabel %}<span class="record-provenance-view-source">{{ p.sourceLabel }}</span> {% endif -%}
+{%- if p.authorLabel %}<span class="record-provenance-view-author">{{ p.authorLabel }}</span> {% endif -%}
+{%- if p.observedLabel %}<time class="record-provenance-view-observed"{% if p.observed %} datetime="{{ p.observed }}"{% endif %}>{{ p.observedLabel }}</time> {% endif -%}
+{%- if p.recordedLabel %}<time class="record-provenance-view-recorded"{% if p.recorded %} datetime="{{ p.recorded }}"{% endif %}>{{ p.recordedLabel }}</time> {% endif -%}
+{%- if p.versionLabel %}<span class="record-provenance-view-version">{{ p.versionLabel }}</span> {% endif -%}
+</span>
+{%- endmacro -%}

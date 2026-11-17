@@ -1,5 +1,5 @@
 {
-  "count": 634,
+  "count": 636,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -2768,6 +2768,12 @@
       "manifest": "https://lilydesignsystem.com/r/record-list-item.json"
     },
     {
+      "slug": "record-provenance-view",
+      "name": "RecordProvenanceView",
+      "description": "who recorded a record, where it came from and whether it is signed, in the consumer's words",
+      "manifest": "https://lilydesignsystem.com/r/record-provenance-view.json"
+    },
+    {
       "slug": "red-amber-green-radio-group",
       "name": "RedAmberGreenRadioGroup",
       "description": "a fieldset radio group for selecting a red/amber/green status",
@@ -2808,6 +2814,12 @@
       "name": "RelatedContent",
       "description": "a section providing links to related or supporting information",
       "manifest": "https://lilydesignsystem.com/r/related-content.json"
+    },
+    {
+      "slug": "repeatable-fieldset",
+      "name": "RepeatableFieldset",
+      "description": "a group of identical fieldsets that a person adds to and removes from (\"add another\")",
+      "manifest": "https://lilydesignsystem.com/r/repeatable-fieldset.json"
     },
     {
       "slug": "reset-input",

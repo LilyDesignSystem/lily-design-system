@@ -6,6 +6,7 @@
   "alpine:duration-view:data-negative": "A state the static snippet does not show: Svelte renders data-negative only for a negative duration, and the consumer sets it there",
   "alpine:five-star-rating-view:data-filled": "A state the static snippet does not show: Svelte renders data-filled only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
   "alpine:middle-truncation:data-truncated": "A state the static snippet does not show: Svelte renders data-truncated only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
+  "alpine:record-provenance-view:data-sync": "A state the static snippet does not show: Svelte renders data-sync only for a record saved on the device and not yet sent, and the consumer sets it there",
   "alpine:section-list-item:data-current": "A state the static snippet does not show: Svelte renders data-current only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
   "alpine:step-list-item:data-current": "A state the static snippet does not show: Svelte renders data-current only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",
   "alpine:task-list-item:data-disabled": "A state the static snippet does not show: Svelte renders data-disabled only in that state (an item that is current, disabled, over its limit or the like), and the consumer sets it there",

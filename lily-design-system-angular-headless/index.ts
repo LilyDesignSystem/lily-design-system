@@ -463,6 +463,7 @@ export { RadioInput } from "./components/RadioInput";
 export { RangeInput } from "./components/RangeInput";
 export { RecordList } from "./components/RecordList";
 export { RecordListItem } from "./components/RecordListItem";
+export { RecordProvenanceView } from "./components/RecordProvenanceView";
 export { RedAmberGreenRadioGroup } from "./components/RedAmberGreenRadioGroup";
 export { RedAmberGreenRadioInput } from "./components/RedAmberGreenRadioInput";
 export { RedAmberGreenView } from "./components/RedAmberGreenView";
@@ -470,6 +471,7 @@ export { RedOrangeYellowGreenBlueRadioGroup } from "./components/RedOrangeYellow
 export { RedOrangeYellowGreenBlueRadioInput } from "./components/RedOrangeYellowGreenBlueRadioInput";
 export { RedOrangeYellowGreenBlueView } from "./components/RedOrangeYellowGreenBlueView";
 export { RelatedContent } from "./components/RelatedContent";
+export { RepeatableFieldset } from "./components/RepeatableFieldset";
 export { ResetInput } from "./components/ResetInput";
 export { Resizable } from "./components/Resizable";
 export { ReviewDate } from "./components/ReviewDate";

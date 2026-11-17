@@ -1,0 +1,54 @@
+{
+  "slug": "record-provenance-view",
+  "name": "RecordProvenanceView",
+  "description": "who recorded a record, where it came from and whether it is signed, in the consumer's words",
+  "htmlTag": "span",
+  "category": "content",
+  "baseClass": ".record-provenance-view",
+  "subClasses": [
+    "record-provenance-view-attestation",
+    "record-provenance-view-author",
+    "record-provenance-view-recorded",
+    "record-provenance-view-source"
+  ],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "No role and no `aria-label`; `label` renders as hidden text"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`attestation`: \"signed\" | \"pending\" | \"unsigned\" | \"amended\" | \"deleted\" (optional) — whether the record is signed; rendered as `data-attestation`",
+    "`attestationLabel`: string (required with `attestation`) — that state in words (\"Awaiting signature\")",
+    "`sync`: \"pending\" | \"failed\" (optional) — \"pending\" is saved on this device and not yet sent, \"failed\" could not be sent; rendered as `data-sync`",
+    "`syncLabel`: string (required with `sync`) — that state in words",
+    "`source`: string (optional) — where the record came from, as the consumer's code (\"clinic\", \"device\", \"patient-reported\", \"external\", \"extracted\"); rendered as `data-source`",
+    "`sourceLabel`: string (optional) — that source in words (\"From a blood pressure monitor\")",
+    "`authorLabel`: string (optional) — who wrote or recorded it (\"Dr A Patel\")",
+    "`observed`, `observedLabel`: string (optional) — when the thing recorded happened (ISO 8601, as `datetime`) and the consumer's words for it",
+    "`recorded`, `recordedLabel`: string (optional) — when it was recorded, the same way",
+    "`versionLabel`: string (optional) — the version in words (\"Version 3\")",
+    "`label`: string (optional) — hidden text naming the provenance",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "review-date",
+    "timeline-list",
+    "record-list-item"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/record-provenance-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/RecordProvenanceView/RecordProvenanceView.svelte",
+    "react": "lily-design-system-react-headless/components/RecordProvenanceView.tsx",
+    "vue": "lily-design-system-vue-headless/components/RecordProvenanceView.vue",
+    "angular": "lily-design-system-angular-headless/components/RecordProvenanceView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/record-provenance-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/record-provenance-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/record-provenance-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RecordProvenanceView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/record-provenance-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/record-provenance-view/AGENTS.md"
+}

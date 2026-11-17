@@ -462,6 +462,7 @@ export { default as RadioInput } from "./components/RadioInput/RadioInput.svelte
 export { default as RangeInput } from "./components/RangeInput/RangeInput.svelte";
 export { default as RecordList } from "./components/RecordList/RecordList.svelte";
 export { default as RecordListItem } from "./components/RecordListItem/RecordListItem.svelte";
+export { default as RecordProvenanceView } from "./components/RecordProvenanceView/RecordProvenanceView.svelte";
 export { default as RedAmberGreenRadioGroup } from "./components/RedAmberGreenRadioGroup/RedAmberGreenRadioGroup.svelte";
 export { default as RedAmberGreenRadioInput } from "./components/RedAmberGreenRadioInput/RedAmberGreenRadioInput.svelte";
 export { default as RedAmberGreenView } from "./components/RedAmberGreenView/RedAmberGreenView.svelte";
@@ -469,6 +470,7 @@ export { default as RedOrangeYellowGreenBlueRadioGroup } from "./components/RedO
 export { default as RedOrangeYellowGreenBlueRadioInput } from "./components/RedOrangeYellowGreenBlueRadioInput/RedOrangeYellowGreenBlueRadioInput.svelte";
 export { default as RedOrangeYellowGreenBlueView } from "./components/RedOrangeYellowGreenBlueView/RedOrangeYellowGreenBlueView.svelte";
 export { default as RelatedContent } from "./components/RelatedContent/RelatedContent.svelte";
+export { default as RepeatableFieldset } from "./components/RepeatableFieldset/RepeatableFieldset.svelte";
 export { default as ResetInput } from "./components/ResetInput/ResetInput.svelte";
 export { default as Resizable } from "./components/Resizable/Resizable.svelte";
 export { default as ReviewDate } from "./components/ReviewDate/ReviewDate.svelte";

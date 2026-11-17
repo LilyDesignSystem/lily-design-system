@@ -647,4 +647,6 @@ export const componentExamples: Record<string, ComponentExample> = {
   "device-record-list-item": {"usage":{"lang":"html","code":"<DeviceRecordListItem\n  device=\"Cardiac pacemaker\"\n  status=\"active\"\n  statusLabel=\"In use\"\n  timing=\"2021-02-08\"\n  timingLabel=\"Since 8 Feb 2021\"\n/>\n"}},
   "duration-view": {"usage":{"lang":"svelte","code":"<DurationView\n  label=\"Length of stay\"\n  value=\"3 days 4 hours\"\n  duration=\"P3DT4H\"\n/>\n"}},
   "quantity-input-div": {"usage":{"lang":"svelte","code":"<QuantityInputDiv\n  label=\"Weight\"\n  magnitudeLabel=\"Amount\"\n  unitLabel=\"Unit\"\n  {units}\n  bind:magnitude\n  bind:unit\n/>\n"}},
+  "record-provenance-view": {"usage":{"lang":"svelte","code":"<RecordProvenanceView\n  attestation=\"pending\"\n  attestationLabel=\"Awaiting signature\"\n  authorLabel=\"Dr A Patel\"\n/>\n"}},
+  "repeatable-fieldset": {"usage":{"lang":"svelte","code":"<RepeatableFieldset\n  legend=\"Medicines\"\n  bind:items\n  newItem={() => ({ name: \"\" })}\n  itemLegend={(n) => `Medicine ${n}`}\n  addLabel=\"Add another medicine\"\n  removeLabel={(n) => `Remove medicine ${n}`}\n  >{#snippet item(medicine, index)}…{/snippet}</RepeatableFieldset\n>\n"}},
 };

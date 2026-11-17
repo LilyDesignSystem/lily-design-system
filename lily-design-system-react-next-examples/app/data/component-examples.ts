@@ -647,4 +647,6 @@ export const componentExamples: Record<string, ComponentExample> = {
   "device-record-list-item": {"usage":{"lang":"html","code":"<DeviceRecordListItem\n  device=\"Cardiac pacemaker\"\n  status=\"active\"\n  statusLabel=\"In use\"\n  timing=\"2021-02-08\"\n  timingLabel=\"Since 8 Feb 2021\"\n/>\n"}},
   "duration-view": {"usage":{"lang":"tsx","code":"<DurationView\n  label=\"Length of stay\"\n  value=\"3 days 4 hours\"\n  duration=\"P3DT4H\"\n/>\n"}},
   "quantity-input-div": {"usage":{"lang":"tsx","code":"<QuantityInputDiv\n  label=\"Weight\"\n  magnitudeLabel=\"Amount\"\n  unitLabel=\"Unit\"\n  units={units}\n  onMagnitudeChange={setMagnitude}\n  onUnitChange={setUnit}\n/>\n"}},
+  "record-provenance-view": {"usage":{"lang":"tsx","code":"<RecordProvenanceView\n  attestation=\"pending\"\n  attestationLabel=\"Awaiting signature\"\n  authorLabel=\"Dr A Patel\"\n/>\n"}},
+  "repeatable-fieldset": {"usage":{"lang":"tsx","code":"<RepeatableFieldset\n  legend=\"Medicines\"\n  items={items}\n  onItemsChange={setItems}\n  newItem={() => ({ name: \"\" })}\n  itemLegend={(n) => `Medicine ${n}`}\n  addLabel=\"Add another medicine\"\n  removeLabel={(n) => `Remove medicine ${n}`}\n  renderItem={(item, index) => (\n    <MedicineFields\n      item={item}\n      index={index}\n    />\n  )}\n/>\n"}},
 };

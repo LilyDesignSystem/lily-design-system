@@ -462,6 +462,7 @@ export { default as RadioInput } from "./components/RadioInput.vue";
 export { default as RangeInput } from "./components/RangeInput.vue";
 export { default as RecordList } from "./components/RecordList.vue";
 export { default as RecordListItem } from "./components/RecordListItem.vue";
+export { default as RecordProvenanceView } from "./components/RecordProvenanceView.vue";
 export { default as RedAmberGreenRadioGroup } from "./components/RedAmberGreenRadioGroup.vue";
 export { default as RedAmberGreenRadioInput } from "./components/RedAmberGreenRadioInput.vue";
 export { default as RedAmberGreenView } from "./components/RedAmberGreenView.vue";
@@ -469,6 +470,7 @@ export { default as RedOrangeYellowGreenBlueRadioGroup } from "./components/RedO
 export { default as RedOrangeYellowGreenBlueRadioInput } from "./components/RedOrangeYellowGreenBlueRadioInput.vue";
 export { default as RedOrangeYellowGreenBlueView } from "./components/RedOrangeYellowGreenBlueView.vue";
 export { default as RelatedContent } from "./components/RelatedContent.vue";
+export { default as RepeatableFieldset } from "./components/RepeatableFieldset.vue";
 export { default as ResetInput } from "./components/ResetInput.vue";
 export { default as Resizable } from "./components/Resizable.vue";
 export { default as ReviewDate } from "./components/ReviewDate.vue";

@@ -4440,6 +4440,20 @@
                         tag: "div",
                         category: "content",
                     },
+                    {
+                        slug: "record-provenance-view",
+                        name: "RecordProvenanceView",
+                        description: "who recorded a record, where it came from and whether it is signed, in the consumer's words",
+                        tag: "span",
+                        category: "content",
+                    },
+                    {
+                        slug: "repeatable-fieldset",
+                        name: "RepeatableFieldset",
+                        description: "a group of identical fieldsets that a person adds to and removes from (\"add another\")",
+                        tag: "fieldset",
+                        category: "forms",
+                    },
                 ];
 
                 // Plan P6-T5: category + suffix-pattern filters alongside

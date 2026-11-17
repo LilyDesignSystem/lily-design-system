@@ -923,6 +923,8 @@ export { default as RecordList } from "./components/RecordList";
 export type { RecordListProps } from "./components/RecordList";
 export { default as RecordListItem } from "./components/RecordListItem";
 export type { RecordListItemProps } from "./components/RecordListItem";
+export { default as RecordProvenanceView } from "./components/RecordProvenanceView";
+export type { RecordProvenanceViewProps } from "./components/RecordProvenanceView";
 export { default as RedAmberGreenRadioGroup } from "./components/RedAmberGreenRadioGroup";
 export type { RedAmberGreenRadioGroupProps } from "./components/RedAmberGreenRadioGroup";
 export { default as RedAmberGreenRadioInput } from "./components/RedAmberGreenRadioInput";
@@ -937,6 +939,8 @@ export { default as RedOrangeYellowGreenBlueView } from "./components/RedOrangeY
 export type { RedOrangeYellowGreenBlueViewProps } from "./components/RedOrangeYellowGreenBlueView";
 export { default as RelatedContent } from "./components/RelatedContent";
 export type { RelatedContentProps } from "./components/RelatedContent";
+export { default as RepeatableFieldset } from "./components/RepeatableFieldset";
+export type { RepeatableFieldsetProps } from "./components/RepeatableFieldset";
 export { default as ResetInput } from "./components/ResetInput";
 export type { ResetInputProps } from "./components/ResetInput";
 export { default as Resizable } from "./components/Resizable";

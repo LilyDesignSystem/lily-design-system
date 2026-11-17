@@ -64,7 +64,7 @@ several frameworks: [reference/composition-patterns.md](reference/composition-pa
 
 ## The catalog at a glance
 
-634 components across content (166), national personal identifiers (164,
+636 components across content (166), national personal identifiers (164,
 82 identifier types × input/view across 50+ countries), forms (78),
 navigation (60), lists (53), tables (39), data visualisation (19), overlays (17),
 links (17), pickers (3), media (8), and buttons (8) — the categories in
@@ -77,9 +77,9 @@ listing: `components.tsv` in the canonical repo, or browse it at
 Seven frameworks ship a matched headless + example pair, each implementing
 the full 609-component catalog: HTML, Svelte 5, React 19, Vue 3, Angular
 (20–22), Blazor (.NET 10), Nunjucks. Two more catalogs: Web Components
-(native custom elements, 599 of 634 — table sub-elements and interactive
+(native custom elements, 601 of 636 — table sub-elements and interactive
 list items cannot be autonomous custom elements; no example app) and
-Alpine.js (all 634 as annotated snippets plus one plugin, with an example
+Alpine.js (all 636 as annotated snippets plus one plugin, with an example
 app). Slugs, props and ARIA/keyboard contracts are the same everywhere —
 pick whichever matches your stack.
 

@@ -27,7 +27,7 @@ see the modular specification docs under [spec/](spec/index.md).
 
 ## How the pieces fit
 
-Lily is a stack of layers, each owning one job: the **catalog** (634 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (63 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
+Lily is a stack of layers, each owning one job: the **catalog** (636 named components, `components.tsv`), **headless** libraries (the catalog as unstyled, accessible components in nine frameworks), **helpers** (packages that own a whole interaction: pickers, data grid, kanban board, calendar, Gantt chart, filter), **themes** (63 stylesheets), **examples** (styled apps, one per framework) and **skills** (instructions for AI agents). Which one to reach for: the site page [How the pieces fit](https://lilydesignsystem.com/how-the-pieces-fit/).
 
 ## AI agent support
 
@@ -85,8 +85,8 @@ Headless versions if you want to use components with all your own styles:
 - [Angular headless](lily-design-system-angular-headless)
 - [Blazor headless](lily-design-system-blazor-headless)
 - [Nunjucks headless](lily-design-system-nunjucks-headless)
-- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (599 of 634; the remaining 35 are permanently excluded, not backlog)
-- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 634 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and six helpers: the data grid, kanban board, calendar, Gantt chart, Markdown editor and Org editor
+- [Web Components headless](lily-design-system-web-components-headless) — an 8th catalog at its full achievable scope (601 of 636; the remaining 35 are permanently excluded, not backlog)
+- [Alpine.js headless](lily-design-system-alpine-headless) — a 9th catalog, added 2026-10-21: all 636 components as annotated HTML snippets plus one Alpine plugin (`@lilydesignsystem/alpine-headless`, not yet published), with its own [example app](lily-design-system-alpine-examples) and six helpers: the data grid, kanban board, calendar, Gantt chart, Markdown editor and Org editor
 
 ## Helpers
 
@@ -304,7 +304,7 @@ The theme-picker helper loads them at runtime.
 
 ## Components
 
-The canonical catalog is [components.tsv](components.tsv) — 634 components. Each
+The canonical catalog is [components.tsv](components.tsv) — 636 components. Each
 slug below links to the per-component documentation.
 
 - [accordion-checkbox](components/accordion-checkbox): a checkbox option that reveals an accordion panel when checked
@@ -777,6 +777,8 @@ slug below links to the per-component documentation.
 - [device-record-list-item](components/device-record-list-item): one medical device in a device record list, with its status and when it was used
 - [duration-view](components/duration-view): a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words
 - [quantity-input-div](components/quantity-input-div): a quantity entered as a number and a unit, each unit with its own limits
+- [record-provenance-view](components/record-provenance-view): who recorded a record, where it came from and whether it is signed, in the consumer's words
+- [repeatable-fieldset](components/repeatable-fieldset): a group of identical fieldsets that a person adds to and removes from ("add another")
 
 ## Special-Purpose Identifiers
 

@@ -632,3 +632,5 @@ procedure-record-list-item	li	lists
 device-record-list-item	li	lists
 duration-view	time	content
 quantity-input-div	div	content
+record-provenance-view	span	content
+repeatable-fieldset	fieldset	forms

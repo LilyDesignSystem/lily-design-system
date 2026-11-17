@@ -1,0 +1,16 @@
+---
+layout: layouts/component-demo.njk
+title: RepeatableFieldset
+description: a group of identical fieldsets that a person adds to and removes from ("add another")
+---
+
+{% from "components/repeatable-fieldset/macro.njk" import repeatableFieldset %}
+
+<h2>Default</h2>
+<form method="get">{{ repeatableFieldset({ id: "medicines", legend: "Medicines", name: "medicines", addLabel: "Add another medicine", items: [{ legend: "Medicine 1", removeLabel: "Remove medicine 1", html: '<label for="medicine-0">Name</label> <input id="medicine-0" name="medicine-0" value="Aspirin">' }, { legend: "Medicine 2", removeLabel: "Remove medicine 2", html: '<label for="medicine-1">Name</label> <input id="medicine-1" name="medicine-1">' }] }) }}</form>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{{ repeatableFieldset({ legend: "Medicines", name: "medicines", addLabel: "Add another medicine", items: [{ legend: "Medicine 1", removeLabel: "Remove medicine 1", html: fields }] }) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

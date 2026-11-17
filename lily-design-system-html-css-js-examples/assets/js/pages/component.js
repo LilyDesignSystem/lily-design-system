@@ -4440,6 +4440,20 @@
                         tag: "div",
                         category: "content",
                     },
+                    {
+                        slug: "record-provenance-view",
+                        name: "RecordProvenanceView",
+                        description: "who recorded a record, where it came from and whether it is signed, in the consumer's words",
+                        tag: "span",
+                        category: "content",
+                    },
+                    {
+                        slug: "repeatable-fieldset",
+                        name: "RepeatableFieldset",
+                        description: "a group of identical fieldsets that a person adds to and removes from (\"add another\")",
+                        tag: "fieldset",
+                        category: "forms",
+                    },
                 ];
 
                 function escapeHtml(text) {
@@ -5087,6 +5101,8 @@
                 'device-record-list-item': '<ul class="device-record-list" data-status="known" aria-label="Medical devices"><li class="device-record-list-item" data-status="active"><span class="device-record-list-item-device">Cardiac pacemaker</span> <span class="device-record-list-item-status">In use</span> <time class="device-record-list-item-timing" datetime="2021-02-08">Since 8 Feb 2021</time></li></ul>',
                 'duration-view': '<time class="duration-view" datetime="P3DT4H"><span class="screen-reader-span">Length of stay </span>3 days 4 hours</time>',
                 'quantity-input-div': '<div class="quantity-input-div" role="group" aria-label="Weight"><label for="demo-weight-magnitude">Amount</label> <input class="quantity-input-div-magnitude" id="demo-weight-magnitude" name="weight-magnitude" type="number" inputmode="decimal" min="0" max="300" step="0.1"> <label for="demo-weight-unit">Unit</label> <select class="quantity-input-div-unit" id="demo-weight-unit" name="weight-unit"><option value="kg" selected>kilograms</option><option value="[lb_av]">pounds</option></select></div>',
+                'record-provenance-view': '<span class="record-provenance-view" data-attestation="pending" data-source="device"><span class="record-provenance-view-attestation">Awaiting signature</span> <span class="record-provenance-view-source">From a blood pressure monitor</span> <span class="record-provenance-view-author">Dr A Patel</span> <time class="record-provenance-view-recorded" datetime="2026-11-03T09:00">Recorded 09:00</time></span>',
+                'repeatable-fieldset': '<fieldset class="repeatable-fieldset" data-count="1"><legend>Medicines</legend><fieldset class="repeatable-fieldset-item" data-index="0"><legend class="repeatable-fieldset-item-legend">Medicine 1</legend><label for="demo-medicine-0">Name</label> <input id="demo-medicine-0" name="medicine-0" value="Aspirin"> <button type="button" class="repeatable-fieldset-remove">Remove medicine 1</button></fieldset><button type="button" class="repeatable-fieldset-add">Add another medicine</button></fieldset>',
             };
 
             var componentExamples = {
@@ -5724,6 +5740,8 @@
                 "device-record-list-item": {"usage":{"lang":"html","code":"<DeviceRecordListItem\n  device=\"Cardiac pacemaker\"\n  status=\"active\"\n  statusLabel=\"In use\"\n  timing=\"2021-02-08\"\n  timingLabel=\"Since 8 Feb 2021\"\n/>\n"}},
                 "duration-view": {"usage":{"lang":"html","code":"<DurationView\n  label=\"Length of stay\"\n  value=\"3 days 4 hours\"\n  duration=\"P3DT4H\"\n/>\n"}},
                 "quantity-input-div": {"usage":{"lang":"html","code":"<QuantityInputDiv\n  label=\"Weight\"\n  magnitudeLabel=\"Amount\"\n  unitLabel=\"Unit\"\n  name=\"weight\"\n  units={[\n    { value: \"kg\", label: \"kilograms\", min: 0, max: 300, step: 0.1 },\n    { value: \"[lb_av]\", label: \"pounds\", min: 0, max: 660, step: 0.1 },\n  ]}\n/>\n"}},
+                "record-provenance-view": {"usage":{"lang":"html","code":"<RecordProvenanceView\n  attestation=\"pending\"\n  attestationLabel=\"Awaiting signature\"\n  source=\"device\"\n  sourceLabel=\"From a blood pressure monitor\"\n  authorLabel=\"Dr A Patel\"\n  recorded=\"2026-11-03T09:00\"\n  recordedLabel=\"Recorded 09:00\"\n/>\n"}},
+                "repeatable-fieldset": {"usage":{"lang":"html","code":"<RepeatableFieldset\n  legend=\"Medicines\"\n  bind:items=\"{medicines}\"\n  newItem=\"{()\"\n  =\"\"\n>\n  ({ name: \"\" })} itemLegend={(n) => `Medicine ${n}`} addLabel=\"Add another medicine\"\n  removeLabel={(n) => `Remove medicine ${n}`} min={1} > {#snippet item(medicine, index)}\n  <label for=\"{`medicine-${index}`}\">Name</label>\n  <input\n    id=\"{`medicine-${index}`}\"\n    bind:value=\"{medicine.name}\"\n  />\n  {/snippet}\n</RepeatableFieldset>\n"}},
 /* END componentExamples */};
 
                 // Demo markup may hold style attributes, which a strict Content Security Policy blocks when parsed. Rename

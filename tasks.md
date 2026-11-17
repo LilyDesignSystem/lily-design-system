@@ -3643,15 +3643,15 @@ logic: no constraint validation, no score sums, no unit conversion.
 - [x] **P29-T8 `quantity-input-div`.** A number input and a unit `<select>` (or fixed unit text), labelled together, with
       per-unit `min`, `max` and `step` that change with the unit; value `{ magnitude, unit }`; no conversion.
       Verify: built in all nine catalogs; a test that changing the unit changes the input's limits; form reset restores both. _(2026-11-17: done in all nine catalogs (catalog 634, Web Components 599): a `role="group"` with a labelled number and, for several units, a labelled `<select>`; the number takes the chosen unit's `min`, `max` and `step` and keeps its value; one unit is text linked by `aria-describedby`, with a hidden field. Tests in every behaviour catalog and Nunjucks; the form reset test is Svelte's, and every port restores both values on reset (HTML and Nunjucks natively, with the limits from each option's `data-*`). `QuantityUnit` records in Blazor.)_
-- [ ] **P29-T9 `record-provenance-view` (approved by the maintainer, 2026-11-16).** Author, committer, time, source system, version and a signature
+- [x] **P29-T9 `record-provenance-view` (approved by the maintainer, 2026-11-16).** Author, committer, time, source system, version and a signature
       state as `data-attestation`, each in consumer words. Also, from ZoBlocks (P31) and OpenMRS (P33): a compact affix form for
       beside a value, observed-at apart from recorded-at, a source kind as `data-source` (including machine-extracted and
       "unreviewed"), and a sync state as `data-sync` (`pending`: saved on this device, not yet sent; `failed`).
       Verify: the decision is recorded in the topic; if built, tests in all nine catalogs and an unsigned state that never
-      renders as signed.
-- [ ] **P29-T10 `repeatable-fieldset` (approved by the maintainer, 2026-11-16).** The "add another" pattern: identical fieldsets, add and remove
+      renders as signed. _(2026-11-17: built in all nine catalogs (catalog 635): a `<span>` of parts in order, states first (`-attestation`, `-sync`, `-source`, `-author`, `-observed`, `-recorded`, `-version`), with `data-attestation`, `data-sync` and `data-source`; a state without words warns in Svelte, React, Vue and Angular. Tests in every behaviour catalog and Nunjucks, including an unsigned record; removing `data-attestation` makes the Svelte tests fail.)_
+- [x] **P29-T10 `repeatable-fieldset` (approved by the maintainer, 2026-11-16).** The "add another" pattern: identical fieldsets, add and remove
       buttons, focus to the new item and back after removal, legends renumbered from a consumer template.
-      Verify: the decision is recorded in the topic; if built, key and focus tests in all nine catalogs.
+      Verify: the decision is recorded in the topic; if built, key and focus tests in all nine catalogs. _(2026-11-17: built in all nine catalogs (catalog 636, Web Components 601): add, remove, renumbered legends from the consumer's functions, focus to the new item's first field on add and to the add button on remove (Blazor focuses the new item's fieldset, without JS interop), `min`, `max` and a polite status. HTML and Nunjucks render the server round trip with submit buttons. Tests in every behaviour catalog and Nunjucks.)_
 - [ ] **P29-T11 openEHR in the healthcare guide.** The data-type, null-flavour, `normal_status` and Instruction State Machine
       mapping table, and the interval-event, ordinal-score and instruction-step patterns, in
       `docs/patterns/healthcare/index.md` and its site page.

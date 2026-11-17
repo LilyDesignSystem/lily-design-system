@@ -1734,6 +1734,10 @@ export { RecordList } from "./components/record-list.js";
 import { RecordList as _RecordList } from "./components/record-list.js";
 if (!customElements.get("lily-record-list")) customElements.define("lily-record-list", _RecordList);
 
+export { RecordProvenanceView } from "./components/record-provenance-view.js";
+import { RecordProvenanceView as _RecordProvenanceView } from "./components/record-provenance-view.js";
+if (!customElements.get("lily-record-provenance-view")) customElements.define("lily-record-provenance-view", _RecordProvenanceView);
+
 export { RedAmberGreenRadioGroup } from "./components/red-amber-green-radio-group.js";
 import { RedAmberGreenRadioGroup as _RedAmberGreenRadioGroup } from "./components/red-amber-green-radio-group.js";
 if (!customElements.get("lily-red-amber-green-radio-group")) customElements.define("lily-red-amber-green-radio-group", _RedAmberGreenRadioGroup);
@@ -1761,6 +1765,10 @@ if (!customElements.get("lily-red-orange-yellow-green-blue-view")) customElement
 export { RelatedContent } from "./components/related-content.js";
 import { RelatedContent as _RelatedContent } from "./components/related-content.js";
 if (!customElements.get("lily-related-content")) customElements.define("lily-related-content", _RelatedContent);
+
+export { RepeatableFieldset } from "./components/repeatable-fieldset.js";
+import { RepeatableFieldset as _RepeatableFieldset } from "./components/repeatable-fieldset.js";
+if (!customElements.get("lily-repeatable-fieldset")) customElements.define("lily-repeatable-fieldset", _RepeatableFieldset);
 
 export { ResetInput } from "./components/reset-input.js";
 import { ResetInput as _ResetInput } from "./components/reset-input.js";

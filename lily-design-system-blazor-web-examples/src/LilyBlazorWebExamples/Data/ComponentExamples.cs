@@ -642,5 +642,7 @@ public static class ComponentExamples
         ["device-record-list-item"] = new("html", "<DeviceRecordListItem\n  device=\"Cardiac pacemaker\"\n  status=\"active\"\n  statusLabel=\"In use\"\n  timing=\"2021-02-08\"\n  timingLabel=\"Since 8 Feb 2021\"\n/>\n", new List<ExampleVariant> {  }),
         ["duration-view"] = new("razor", "<DurationView Label=\"Length of stay\" Value=\"3 days 4 hours\" Duration=\"P3DT4H\" />\n", new List<ExampleVariant> {  }),
         ["quantity-input-div"] = new("razor", "<QuantityInputDiv Label=\"Weight\" MagnitudeLabel=\"Amount\" UnitLabel=\"Unit\" Units=\"units\" @bind-Magnitude=\"magnitude\" @bind-Unit=\"unit\" />\n", new List<ExampleVariant> {  }),
+        ["record-provenance-view"] = new("razor", "<RecordProvenanceView Attestation=\"pending\" AttestationLabel=\"Awaiting signature\" AuthorLabel=\"Dr A Patel\" />\n", new List<ExampleVariant> {  }),
+        ["repeatable-fieldset"] = new("razor", "<RepeatableFieldset TItem=\"Medicine\" Legend=\"Medicines\" @bind-Items=\"items\" NewItem=\"() => new Medicine()\" ItemLegend=\"n => $\\\"Medicine {n}\\\"\" AddLabel=\"Add another medicine\" RemoveLabel=\"n => $\\\"Remove medicine {n}\\\"\"><ItemTemplate>…</ItemTemplate></RepeatableFieldset>\n", new List<ExampleVariant> {  }),
     };
 }
