@@ -337,6 +337,7 @@ updates:
   - package-ecosystem: "npm"
     # One top-level subproject per Solid helper package (2026-11-17).
     directories:
+      - "/lily-design-system-solid-link-picker"
       - "/lily-design-system-solid-menu-picker"
       - "/lily-design-system-solid-settings-picker"
     schedule:
