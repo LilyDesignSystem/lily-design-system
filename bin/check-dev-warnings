@@ -11,6 +11,12 @@ import re
 import sys
 
 TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def moved(path):
+    """A national identifier lives in the catalog's -headless-identifiers package once it has moved there."""
+    alt = path.replace("-headless/", "-headless-identifiers/", 1)
+    return alt if alt != path and os.path.exists(alt if os.path.isabs(alt) else os.path.join(TOP, alt)) else path
 PATHS = {
     "svelte": "lily-design-system-svelte-headless/components/{name}/{name}.svelte",
     "react": "lily-design-system-react-headless/components/{name}.tsx",
@@ -38,7 +44,7 @@ def main():
             continue
         total += 1
         for catalog, pattern in PATHS.items():
-            calls = "warnMissingName(" in read(pattern.format(name=name))
+            calls = "warnMissingName(" in read(moved(pattern.format(name=name)))
             listed = slug in allow.get(catalog, {})
             if not calls and not listed:
                 errors.append(f"{catalog}: {name} never calls warnMissingName")

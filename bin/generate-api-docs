@@ -29,6 +29,12 @@ import sys
 
 # LILY_ROOT points the generator at another tree (the golden-test fixture, test/generators).
 TOP = os.environ.get("LILY_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def moved(path):
+    """A national identifier lives in the catalog's -headless-identifiers package once it has moved there."""
+    alt = path.replace("-headless/", "-headless-identifiers/", 1)
+    return alt if alt != path and os.path.exists(alt if os.path.isabs(alt) else os.path.join(TOP, alt)) else path
 SITE = os.path.join(TOP, "lilydesignsystem.github.io", "src", "routes", "components")
 BEGIN = "<!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->"
 END = "<!-- END generated: canonical contract -->"
@@ -131,7 +137,9 @@ def manifest(slug, name, description, categories):
     files = {}
     for fw, (sub, tpl) in FRAMEWORKS.items():
         rel = tpl.format(slug=slug, Name=name)
-        if os.path.exists(os.path.join(TOP, sub, rel)):
+        if os.path.exists(os.path.join(TOP, sub + "-identifiers", rel)):
+            files[fw] = f"{sub}-identifiers/{rel}"
+        elif os.path.exists(os.path.join(TOP, sub, rel)):
             files[fw] = f"{sub}/{rel}"
     classes = []
     snippet = os.path.join(TOP, "lily-design-system-html-headless", "components", f"{slug}.html")

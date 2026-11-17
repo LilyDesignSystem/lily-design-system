@@ -34,6 +34,12 @@ import re
 import sys
 
 TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def moved(path):
+    """A national identifier lives in the catalog's -headless-identifiers package once it has moved there."""
+    alt = path.replace("-headless/", "-headless-identifiers/", 1)
+    return alt if alt != path and os.path.exists(alt if os.path.isabs(alt) else os.path.join(TOP, alt)) else path
 ALLOW = os.path.join(TOP, "bin", "check-built-english.allow.json")
 
 CATALOGS = {
@@ -82,7 +88,7 @@ def name_of(path):
 def findings():
     found = {}
     for catalog, pattern in CATALOGS.items():
-        for path in sorted(glob.glob(os.path.join(TOP, pattern))):
+        for path in sorted(glob.glob(os.path.join(TOP, pattern)) + glob.glob(os.path.join(TOP, pattern.replace("-headless/", "-headless-identifiers/", 1)))):
             if SKIP.search(path):
                 continue
             code = strip_comments(open(path, encoding="utf-8").read())

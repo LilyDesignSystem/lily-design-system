@@ -3881,8 +3881,27 @@ library comes first; its plan, decisions and the list of components still to por
       Vite plugin (SolidStart is retired). Verify: its e2e and axe sweeps pass.
 - [ ] **P36-T5 Solid skills:** `lily-design-system-solid-headless-skill`, `-helpers-skill` and `-skill`.
       Verify: each has the required files and is listed in `spec/agent-skills`.
-- [ ] **P36-T6 Publish** `@lilydesignsystem/solid-headless` and the helpers (maintainer approval).
+- [ ] **P36-T6 Publish** `@lilydesignsystem/solid-headless` and the helpers (maintainer approval). _(2026-11-17:
+      `@lilydesignsystem/solid-headless` 0.1.0 published from 07b6885d1, after a clean `bin/ci --full`; the helpers wait on
+      P36-T3.)_
       Verify: `bin/verify-published` finds each version.
+
+## Phase 37 — Headless identifiers packages (2026-11-17)
+
+The maintainer's decision: the 164 national identifier components leave the ten headless libraries for one
+`lily-design-system-{framework}-headless-identifiers` package per catalog, removed (not re-exported) in a breaking minor
+release; the canonical catalog keeps all 637. Plan: [spec/headless-identifiers](spec/headless-identifiers/index.md).
+
+- [x] **P37-T1 Root checks resolve identifiers to their package.** Verify: each check finds an identifier in the
+      identifiers package once it is there, and `bin/test` passes throughout.
+- [ ] **P37-T2 One identifiers package per catalog** (React, Solid, Vue, Svelte, Angular, Web Components, HTML,
+      Nunjucks, Alpine, Blazor), each with its components, tests, build and required files; the headless package drops
+      them with a CHANGELOG entry and migration note; the example app renders them from the new package.
+      Verify: per catalog, the new package's tests pass and the example app's component pages render.
+- [ ] **P37-T3 Docs and counts** ("473 core + 164 identifiers"), `AGENTS/lily.md`, `spec/architecture`, the skills,
+      `bin/publish-headless`. Verify: `bin/check-links` and `bin/test`.
+- [ ] **P37-T4 Publish** the ten identifiers packages and the breaking headless releases (maintainer approval).
+      Verify: `bin/verify-published`.
 
 ---
 

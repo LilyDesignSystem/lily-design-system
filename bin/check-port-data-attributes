@@ -17,6 +17,12 @@ import re
 import sys
 
 TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+
+def moved(path):
+    """A national identifier lives in the catalog's -headless-identifiers package once it has moved there."""
+    alt = path.replace("-headless/", "-headless-identifiers/", 1)
+    return alt if alt != path and os.path.exists(alt if os.path.isabs(alt) else os.path.join(TOP, alt)) else path
 ALLOW = os.path.join(TOP, "bin", "check-port-data-attributes.allow.json")
 
 
@@ -49,7 +55,7 @@ def gaps():
         markup = open(svelte).read().split("</script>")[-1]
         attrs = set(re.findall(r"\b(data-[a-z][a-z0-9-]*)=", markup)) - IGNORED
         for port, pattern in PORTS.items():
-            path = os.path.join(TOP, pattern.format(N=name, s=slug))
+            path = moved(os.path.join(TOP, pattern.format(N=name, s=slug)))
             if not os.path.exists(path):
                 continue
             text = open(path).read()

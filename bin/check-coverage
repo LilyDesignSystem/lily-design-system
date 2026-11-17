@@ -138,6 +138,24 @@ const FRAMEWORKS = [
     },
 ];
 
+// A national identifier lives in the catalog's -headless-identifiers package once it has moved there (spec/headless-identifiers):
+// look in that package first, at the same relative path.
+for (const f of FRAMEWORKS) {
+    for (const key of ["impl", "test", "story", "keyTests"]) {
+        const original = f[key];
+        if (typeof original !== "function") continue;
+        const moved = (p) => {
+            const alt =
+                typeof p === "string" ? p.replace(/-headless\//, "-headless-identifiers/") : p;
+            return alt !== p && fs.existsSync(path.join(top, alt)) ? alt : p;
+        };
+        f[key] = (c) => {
+            const p = original(c);
+            return Array.isArray(p) ? p.map(moved) : moved(p);
+        };
+    }
+}
+
 // ---------- catalog consistency (duplicate check bin/test also does;
 // kept here too so this one tool shows the whole picture on its own) ----------
 
