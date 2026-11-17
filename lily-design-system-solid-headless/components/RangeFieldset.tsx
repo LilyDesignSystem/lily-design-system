@@ -11,7 +11,8 @@
 // Keyboard: native range keys on each thumb; Tab moves from the lower to the upper.
 // References: https://www.w3.org/WAI/ARIA/apg/patterns/slider-multithumb/
 
-import { merge, omit, createEffect, untrack } from "solid-js";
+import { omit, createEffect, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName, warnMissingProp } from "./dev-warning";
 
 export interface RangeFieldsetProps {
@@ -44,7 +45,7 @@ export interface RangeFieldsetProps {
 }
 
 export default function RangeFieldset(props: RangeFieldsetProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             min: 0,

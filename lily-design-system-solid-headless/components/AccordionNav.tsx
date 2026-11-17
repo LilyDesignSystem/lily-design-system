@@ -48,7 +48,8 @@
 //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface AccordionNavProps {
     class?: string;
     /** Accessible label. */
@@ -59,7 +60,7 @@ export interface AccordionNavProps {
 }
 
 export default function AccordionNav(props: AccordionNavProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <nav

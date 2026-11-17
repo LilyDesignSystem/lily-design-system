@@ -19,7 +19,8 @@
 //   - HTML li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface TreeListItemProps {
     class?: string;
@@ -35,7 +36,7 @@ export interface TreeListItemProps {
 }
 
 export default function TreeListItem(props: TreeListItemProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "expanded", "onExpandedChange", "children");
     // ArrowRight/ArrowLeft (WAI-ARIA tree pattern). Only for the focused item itself, not a
     // nested one the event bubbled up from. Swapped in right-to-left layouts.

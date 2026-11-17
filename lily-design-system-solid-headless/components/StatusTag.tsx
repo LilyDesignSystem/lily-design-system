@@ -32,7 +32,8 @@
 //   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface StatusTagProps {
     class?: string;
@@ -44,7 +45,7 @@ export interface StatusTagProps {
 }
 
 export default function StatusTag(props: StatusTagProps) {
-    const p = merge({ class: "" as const, type: "default" as const }, props);
+    const p = withDefaults({ class: "" as const, type: "default" as const }, props);
     const restProps = omit(p, "class", "label", "type", "children");
     return (
         <span

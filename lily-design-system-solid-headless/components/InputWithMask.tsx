@@ -41,7 +41,8 @@
 // References:
 //   - USWDS Input mask: https://designsystem.digital.gov/components/input-mask/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface InputWithMaskProps {
     class?: string;
@@ -61,7 +62,7 @@ export interface InputWithMaskProps {
 }
 
 export default function InputWithMask(props: InputWithMaskProps) {
-    const p = merge({ class: "" as const, value: "" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const, disabled: false }, props);
     const restProps = omit(
         p,
         "class",

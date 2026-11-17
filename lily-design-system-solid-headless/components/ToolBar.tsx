@@ -48,7 +48,8 @@
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface ToolBarProps {
@@ -61,7 +62,7 @@ export interface ToolBarProps {
 }
 
 export default function ToolBar(props: ToolBarProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     warnMissingName("ToolBar", p.label, p["aria-label"], p["aria-labelledby"]);
     const toolbarRef: { current: HTMLDivElement | null } = { current: null };

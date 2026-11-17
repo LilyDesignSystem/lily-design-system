@@ -43,7 +43,8 @@
 //   - WCAG 2.1 Bypass Blocks: https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html
 //   - WebAIM Skip Navigation Links: https://webaim.org/techniques/skipnav/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface SkipLinkProps {
@@ -56,7 +57,7 @@ export interface SkipLinkProps {
 }
 
 export default function SkipLink(props: SkipLinkProps) {
-    const p = merge({ class: "" as const, href: "#content" as const }, props);
+    const p = withDefaults({ class: "" as const, href: "#content" as const }, props);
     const restProps = omit(p, "class", "href", "label");
     warnMissingName("SkipLink", p.label, p["aria-labelledby"]);
     return (

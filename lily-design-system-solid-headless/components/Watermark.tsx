@@ -35,7 +35,8 @@
 //   - Ant Design Watermark: https://ant.design/components/watermark
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface WatermarkProps {
     class?: string;
@@ -53,7 +54,7 @@ export interface WatermarkProps {
 }
 
 export default function Watermark(props: WatermarkProps) {
-    const p = merge({ class: "" as const, gap: "100px" as const, rotate: -22 }, props);
+    const p = withDefaults({ class: "" as const, gap: "100px" as const, rotate: -22 }, props);
     const restProps = omit(p, "class", "text", "imageUrl", "gap", "rotate", "children");
     return (
         <div

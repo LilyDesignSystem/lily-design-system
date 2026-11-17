@@ -1,6 +1,7 @@
 // ImmunizationRecordListItem: one immunization in an immunization record list, with vaccine, date, dose and status (tasks.md P28-T3, spec/healthcare-ui). Props: ImmunizationRecordListItem.md.
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
 
@@ -25,7 +26,7 @@ export interface ImmunizationRecordListItemProps {
 }
 
 export default function ImmunizationRecordListItem(props: ImmunizationRecordListItemProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(
         p,
         "class",

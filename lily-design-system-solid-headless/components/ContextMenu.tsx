@@ -51,7 +51,8 @@
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createUniqueId } from "solid-js";
+import { omit, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { usePopoverState } from "./Popover";
 import { warnMissingName } from "./dev-warning";
 
@@ -71,7 +72,7 @@ export interface ContextMenuProps {
 }
 
 export default function ContextMenu(props: ContextMenuProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "label", "subjectLabel", "open", "onChange", "children");
     const subjectId = `context-menu-subject-${createUniqueId()}`;
     warnMissingName(

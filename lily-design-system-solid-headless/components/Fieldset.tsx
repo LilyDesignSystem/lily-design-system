@@ -50,7 +50,8 @@
 //   - HTML Specification fieldset: https://html.spec.whatwg.org/multipage/form-elements.html#the-fieldset-element
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface FieldsetProps {
     class?: string;
     /** Legend text for the group. */
@@ -63,7 +64,7 @@ export interface FieldsetProps {
 }
 
 export default function Fieldset(props: FieldsetProps) {
-    const p = merge({ class: "" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, disabled: false }, props);
     const restProps = omit(p, "class", "legend", "disabled", "children");
     return (
         <fieldset

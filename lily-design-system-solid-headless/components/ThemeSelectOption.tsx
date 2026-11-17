@@ -47,7 +47,8 @@
 //   - HTML option element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ThemeSelectOptionProps {
     class?: string;
     /** The theme value for this option. */
@@ -62,7 +63,7 @@ export interface ThemeSelectOptionProps {
 }
 
 export default function ThemeSelectOption(props: ThemeSelectOptionProps) {
-    const p = merge({ class: "" as const, selected: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, selected: false, disabled: false }, props);
     const restProps = omit(p, "class", "value", "selected", "disabled", "children");
     return (
         <option

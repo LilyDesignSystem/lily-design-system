@@ -36,7 +36,8 @@
 //   - Ant Design TreeSelect: https://ant.design/components/tree-select
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { attachTreePopup, type TreeSelection } from "./widget-keys";
 import { usePopoverState } from "./Popover";
@@ -67,7 +68,7 @@ export interface TreeSelectProps {
 }
 
 export default function TreeSelect(props: TreeSelectProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, expanded: false, disabled: false, multiple: false },
         props,
     );

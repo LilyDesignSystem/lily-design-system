@@ -18,7 +18,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Unique_citizenship_number
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface BulgariaEdinenGrazhdanskiNomerViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -31,7 +32,7 @@ export interface BulgariaEdinenGrazhdanskiNomerViewProps {
 export default function BulgariaEdinenGrazhdanskiNomerView(
     props: BulgariaEdinenGrazhdanskiNomerViewProps,
 ) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

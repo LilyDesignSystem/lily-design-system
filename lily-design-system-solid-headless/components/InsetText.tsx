@@ -44,7 +44,8 @@
 //   - NHS England Inset Text: https://service-manual.nhs.uk/design-system/components/inset-text
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface InsetTextProps {
     class?: string;
     children: JSX.Element;
@@ -52,7 +53,7 @@ export interface InsetTextProps {
 }
 
 export default function InsetText(props: InsetTextProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <div

@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/National_identification_number#Romania
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface RomaniaCodNumericPersonalInputProps {
@@ -41,7 +42,7 @@ export interface RomaniaCodNumericPersonalInputProps {
 }
 
 export default function RomaniaCodNumericPersonalInput(props: RomaniaCodNumericPersonalInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

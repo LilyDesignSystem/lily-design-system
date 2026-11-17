@@ -44,7 +44,8 @@
 // References:
 //   - MDN datetime-local input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/datetime-local
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface DateTimeLocalInputProps {
@@ -67,7 +68,7 @@ export interface DateTimeLocalInputProps {
 }
 
 export default function DateTimeLocalInput(props: DateTimeLocalInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

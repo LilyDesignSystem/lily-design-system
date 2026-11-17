@@ -32,7 +32,8 @@
 //   - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ToolCallErrorProps {
     class?: string;
 
@@ -42,7 +43,7 @@ export interface ToolCallErrorProps {
 }
 
 export default function ToolCallError(props: ToolCallErrorProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <div

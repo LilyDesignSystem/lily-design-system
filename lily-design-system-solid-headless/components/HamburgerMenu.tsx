@@ -61,7 +61,8 @@
 //   - WAI-ARIA Navigation Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, createUniqueId, untrack } from "solid-js";
+import { omit, createSignal, createUniqueId, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -76,7 +77,7 @@ export interface HamburgerMenuProps {
 }
 
 export default function HamburgerMenu(props: HamburgerMenuProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "label", "open", "onChange", "children");
     const [open, setOpen] = createSignal(untrack(() => p.open));
     warnMissingName("HamburgerMenu", p.label, p["aria-labelledby"]);

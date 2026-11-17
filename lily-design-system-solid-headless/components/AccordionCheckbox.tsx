@@ -54,7 +54,8 @@
 //   - MDN input type=checkbox: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, createUniqueId, untrack } from "solid-js";
+import { omit, createSignal, createUniqueId, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { useFormReset } from "./form-reset";
 import { warnMissingName } from "./dev-warning";
@@ -75,7 +76,7 @@ export interface AccordionCheckboxProps {
 }
 
 export default function AccordionCheckbox(props: AccordionCheckboxProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "checked", "id", "onChange", "children");
     warnMissingName("AccordionCheckbox", p.label, p["aria-label"], p["aria-labelledby"]);
     const generatedId = createUniqueId();

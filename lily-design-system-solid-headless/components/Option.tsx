@@ -45,7 +45,8 @@
 //   - HTML option element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/option
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface OptionProps {
     class?: string;
     /** The value of this option */
@@ -60,7 +61,7 @@ export interface OptionProps {
 }
 
 export default function Option(props: OptionProps) {
-    const p = merge({ class: "" as const, selected: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, selected: false, disabled: false }, props);
     const restProps = omit(p, "class", "value", "selected", "disabled", "children");
     return (
         <option

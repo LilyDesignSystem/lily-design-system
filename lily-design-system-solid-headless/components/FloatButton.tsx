@@ -36,7 +36,8 @@
 //   - Ant Design FloatButton: https://ant.design/components/float-button
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export type FloatButtonPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
@@ -76,7 +77,7 @@ function cornerStyle(position: FloatButtonPosition): JSX.CSSProperties {
 }
 
 export default function FloatButton(props: FloatButtonProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             position: "bottom-right" as const,

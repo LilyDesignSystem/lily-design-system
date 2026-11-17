@@ -44,7 +44,8 @@
 //   - WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ToggleGroupProps {
     class?: string;
     /** Accessible label. */
@@ -55,7 +56,7 @@ export interface ToggleGroupProps {
 }
 
 export default function ToggleGroup(props: ToggleGroupProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

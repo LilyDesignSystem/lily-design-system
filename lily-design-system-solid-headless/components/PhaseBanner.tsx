@@ -32,7 +32,8 @@
 //   - NHS UK design system: https://service-manual.nhs.uk/design-system
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface PhaseBannerProps {
     class?: string;
     label?: string;
@@ -41,7 +42,7 @@ export interface PhaseBannerProps {
 }
 
 export default function PhaseBanner(props: PhaseBannerProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

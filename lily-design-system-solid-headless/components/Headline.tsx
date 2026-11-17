@@ -21,7 +21,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 
 import { dynamic, type JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface HeadlineProps {
     class?: string;
     /** Heading level 1-6. */
@@ -36,7 +37,7 @@ export interface HeadlineProps {
 }
 
 export default function Headline(props: HeadlineProps) {
-    const p = merge({ class: "" as const, level: 1 }, props);
+    const p = withDefaults({ class: "" as const, level: 1 }, props);
     const restProps = omit(p, "class", "level", "children", "subtitle", "byline");
     const Heading = dynamic(() => `h${p.level}` as "h1" | "h2" | "h3" | "h4" | "h5" | "h6");
     return (

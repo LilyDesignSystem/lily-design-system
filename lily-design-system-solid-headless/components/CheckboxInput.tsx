@@ -48,7 +48,8 @@
 //   - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 //   - WAI-ARIA Checkbox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 
-import { merge, omit, createSignal } from "solid-js";
+import { omit, createSignal } from "solid-js";
+import { withDefaults } from "./defaults";
 import { useFormReset } from "./form-reset";
 import { warnMissingName } from "./dev-warning";
 
@@ -67,7 +68,7 @@ export interface CheckboxInputProps {
 }
 
 export default function CheckboxInput(props: CheckboxInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, checked: false, disabled: false, required: false },
         props,
     );

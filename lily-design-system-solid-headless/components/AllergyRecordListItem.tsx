@@ -1,6 +1,7 @@
 // AllergyRecordListItem: one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status (tasks.md P28-T3, spec/healthcare-ui). Props: AllergyRecordListItem.md.
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
 
@@ -36,7 +37,7 @@ export interface AllergyRecordListItemProps {
 }
 
 export default function AllergyRecordListItem(props: AllergyRecordListItemProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(
         p,
         "class",

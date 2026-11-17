@@ -33,7 +33,8 @@
 //   - MDN <picture>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface PictureProps {
     class?: string;
 
@@ -43,7 +44,7 @@ export interface PictureProps {
 }
 
 export default function Picture(props: PictureProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <picture

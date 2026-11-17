@@ -51,7 +51,8 @@
 //   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface CheckboxGroupProps {
@@ -66,7 +67,7 @@ export interface CheckboxGroupProps {
 }
 
 export default function CheckboxGroup(props: CheckboxGroupProps) {
-    const p = merge({ class: "" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, disabled: false }, props);
     const restProps = omit(p, "class", "label", "disabled", "children");
     warnMissingName("CheckboxGroup", p.label, p["aria-label"], p["aria-labelledby"]);
     return (

@@ -40,7 +40,8 @@
 //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ErrorMessageProps {
     class?: string;
     /** Error message content. */
@@ -49,7 +50,7 @@ export interface ErrorMessageProps {
 }
 
 export default function ErrorMessage(props: ErrorMessageProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <p

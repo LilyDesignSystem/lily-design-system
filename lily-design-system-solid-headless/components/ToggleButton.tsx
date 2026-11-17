@@ -47,7 +47,8 @@
 //   - aria-pressed: https://www.w3.org/TR/wai-aria-1.2/#aria-pressed
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, untrack } from "solid-js";
+import { omit, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ToggleButtonProps {
     class?: string;
@@ -65,7 +66,7 @@ export interface ToggleButtonProps {
 }
 
 export default function ToggleButton(props: ToggleButtonProps) {
-    const p = merge({ class: "" as const, pressed: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, pressed: false, disabled: false }, props);
     const restProps = omit(p, "class", "label", "pressed", "disabled", "onChange", "children");
     const [pressed, setPressed] = createSignal(untrack(() => p.pressed));
 

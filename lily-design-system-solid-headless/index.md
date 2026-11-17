@@ -8,9 +8,8 @@ structure, semantics, accessibility and behaviour.
 
 ## Status
 
-In progress, not yet published. 623 of the 637 catalog components are ported, each with the React catalog's tests
-(3,869 tests, all passing). The remaining 14 use React-only constructs (`forwardRef`, effects with no dependency list)
-and are being ported by hand. The plan and the list are in
+All 637 catalog components, each with the React catalog's tests in their Solid form (3,998 tests, all passing). Not
+yet published: the build, the barrel and the root checks come next ([spec/index.md](spec/index.md)). The plan and the list are in
 [spec/index.md](spec/index.md).
 
 ## Requirements
@@ -43,7 +42,8 @@ function Example() {
 ## How it differs from the React catalog
 
 - `class`, not `className`, on every component (Solid's own attribute name, as in Svelte, Vue and HTML).
-- Props are read through Solid's `merge` and `omit`, never destructured, so every prop stays reactive.
+- Props are read through `withDefaults` and Solid's `omit`, never destructured, so every prop stays reactive and a
+  default applies when a prop is `undefined`, as in the other catalogs.
 - Text fields report each keystroke: the component listens to `input`, while its public prop is still `onChange`.
 - An `aria-*` or `data-*` value that can be a boolean goes through `attr()`, so it renders `"true"` or `"false"`
   as ARIA requires. Solid alone would remove the attribute for `false`.

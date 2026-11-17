@@ -50,7 +50,8 @@
 //   - GOV.UK back link pattern: https://design-system.service.gov.uk/components/back-link/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface BackLinkProps {
     class?: string;
     /** The URL to navigate back to */
@@ -63,7 +64,7 @@ export interface BackLinkProps {
 }
 
 export default function BackLink(props: BackLinkProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "href", "label", "children");
     return (
         <a

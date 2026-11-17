@@ -1,6 +1,7 @@
 // TuaisceartEireannHealthAndCareNumberView component
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TuaisceartEireannHealthAndCareNumberViewProps {
     class?: string;
     label?: string;
@@ -11,7 +12,7 @@ export interface TuaisceartEireannHealthAndCareNumberViewProps {
 export default function TuaisceartEireannHealthAndCareNumberView(
     props: TuaisceartEireannHealthAndCareNumberViewProps,
 ) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

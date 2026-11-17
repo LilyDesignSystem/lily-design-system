@@ -41,7 +41,8 @@
 //   - MDN checkbox: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CheckListItemProps {
     class?: string;
     /** Whether the checkbox is checked. */
@@ -54,7 +55,7 @@ export interface CheckListItemProps {
 }
 
 export default function CheckListItem(props: CheckListItemProps) {
-    const p = merge({ class: "" as const, checked: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, checked: false, disabled: false }, props);
     const restProps = omit(p, "class", "checked", "disabled", "children");
     return (
         <li

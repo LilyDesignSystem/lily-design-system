@@ -55,7 +55,8 @@
 //   - Material Design Do/Don't guidelines: https://m3.material.io/foundations/content-design/style-guide/overview
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface DontListItemProps {
     class?: string;
     /** The discouraged-practice content. */
@@ -64,7 +65,7 @@ export interface DontListItemProps {
 }
 
 export default function DontListItem(props: DontListItemProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <li

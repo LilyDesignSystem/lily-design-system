@@ -54,7 +54,8 @@
 //   - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 //   - MDN time input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface DateTimeNowInputProps {
@@ -78,7 +79,7 @@ export interface DateTimeNowInputProps {
 }
 
 export default function DateTimeNowInput(props: DateTimeNowInputProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             dateValue: "" as const,

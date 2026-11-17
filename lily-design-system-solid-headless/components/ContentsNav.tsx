@@ -58,7 +58,8 @@
 //   - MDN nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createEffect, untrack } from "solid-js";
+import { omit, createEffect, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ContentsNavProps {
     class?: string;
     /** Accessible label */
@@ -266,7 +267,7 @@ export function startScrollspy(nav: HTMLElement, options: ScrollspyOptions = {})
 }
 
 export default function ContentsNav(props: ContentsNavProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, spy: false, offset: 0, root: null, current: "true" as const },
         props,
     );

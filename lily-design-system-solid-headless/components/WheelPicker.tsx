@@ -35,7 +35,8 @@
 // labels. Disabled options are skipped. Scrolling: when the user turns the wheel and it settles, the enabled option nearest the
 // middle is chosen; the component's own centring chooses nothing.
 
-import { merge, omit, createEffect, createUniqueId, onSettled, untrack } from "solid-js";
+import { omit, createEffect, createUniqueId, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import {
     isWheelRtl,
@@ -79,7 +80,7 @@ export interface WheelPickerProps {
 }
 
 export default function WheelPicker(props: WheelPickerProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: "" as const,

@@ -27,7 +27,8 @@
 //   - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TabPanelProps {
     class?: string;
     /** aria-label for the panel (used when labelledBy is not provided) */
@@ -42,7 +43,7 @@ export interface TabPanelProps {
 }
 
 export default function TabPanel(props: TabPanelProps) {
-    const p = merge({ class: "" as const, selected: false }, props);
+    const p = withDefaults({ class: "" as const, selected: false }, props);
     const restProps = omit(p, "class", "label", "labelledBy", "selected", "children");
     return (
         <div

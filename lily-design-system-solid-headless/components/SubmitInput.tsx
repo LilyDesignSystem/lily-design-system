@@ -41,7 +41,8 @@
 // References:
 //   - MDN input type="submit": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/submit
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SubmitInputProps {
     class?: string;
     /** Button text. */
@@ -52,7 +53,10 @@ export interface SubmitInputProps {
 }
 
 export default function SubmitInput(props: SubmitInputProps) {
-    const p = merge({ class: "" as const, value: "Submit" as const, disabled: false }, props);
+    const p = withDefaults(
+        { class: "" as const, value: "Submit" as const, disabled: false },
+        props,
+    );
     const restProps = omit(p, "class", "value", "disabled");
     return (
         <input

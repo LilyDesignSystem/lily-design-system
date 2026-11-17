@@ -51,7 +51,8 @@
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 //   - MDN input type="range": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface RangeInputProps {
@@ -74,7 +75,7 @@ export interface RangeInputProps {
 }
 
 export default function RangeInput(props: RangeInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: 50, min: 0, max: 100, step: 1, disabled: false },
         props,
     );

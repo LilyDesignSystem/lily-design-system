@@ -45,7 +45,8 @@
 //   - MDN note role: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/note_role
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface FootnoteProps {
     class?: string;
     /** Unique footnote identifier. */
@@ -56,7 +57,7 @@ export interface FootnoteProps {
 }
 
 export default function Footnote(props: FootnoteProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "id", "children");
     return (
         <span

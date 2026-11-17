@@ -1,6 +1,7 @@
 // EarlyWarningScoreView: an early warning score with its band and escalation (spec/healthcare-ui item 5). Display only:
 // it computes nothing. Props: EarlyWarningScoreView.md.
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
 
@@ -20,7 +21,7 @@ export interface EarlyWarningScoreViewProps {
 }
 
 export default function EarlyWarningScoreView(props: EarlyWarningScoreViewProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(
         p,
         "class",

@@ -44,7 +44,8 @@
 //   - WAI-ARIA Modal Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface OverlayContainerProps {
     class?: string;
@@ -60,7 +61,7 @@ export interface OverlayContainerProps {
 }
 
 export default function OverlayContainer(props: OverlayContainerProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "open", "label", "onClick", "children");
     return (
         <div

@@ -42,7 +42,8 @@
 // References:
 //   - MDN Input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ImageFileInputProps {
     class?: string;
     label: string;
@@ -53,7 +54,7 @@ export interface ImageFileInputProps {
 }
 
 export default function ImageFileInput(props: ImageFileInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, accept: "image/*" as const, required: false, disabled: false },
         props,
     );

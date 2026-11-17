@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Unique_citizenship_number
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface BulgariaEdinenGrazhdanskiNomerInputProps {
@@ -43,7 +44,7 @@ export interface BulgariaEdinenGrazhdanskiNomerInputProps {
 export default function BulgariaEdinenGrazhdanskiNomerInput(
     props: BulgariaEdinenGrazhdanskiNomerInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

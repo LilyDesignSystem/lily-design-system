@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Portuguese_passport
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface PortugalPassaporteInputProps {
@@ -41,7 +42,7 @@ export interface PortugalPassaporteInputProps {
 }
 
 export default function PortugalPassaporteInput(props: PortugalPassaporteInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

@@ -24,7 +24,8 @@
 // Markup: <figure class="gauge-chart"><div class="gauge-chart-graphic" role="img" aria-label>…svg…</div>[<div class="gauge-chart-data-table">…</div>]</figure>
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface GaugeChartProps {
     class?: string;
     /** Accessible name for the chart. */
@@ -37,7 +38,7 @@ export interface GaugeChartProps {
 }
 
 export default function GaugeChart(props: GaugeChartProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children", "dataTable");
     return (
         <figure

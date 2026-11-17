@@ -56,7 +56,8 @@
 //   - WAI-ARIA aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface TourListItemProps {
     class?: string;
@@ -76,7 +77,10 @@ export interface TourListItemProps {
 }
 
 export default function TourListItem(props: TourListItemProps) {
-    const p = merge({ class: "" as const, current: false, stepTemplate: "" as const }, props);
+    const p = withDefaults(
+        { class: "" as const, current: false, stepTemplate: "" as const },
+        props,
+    );
     const restProps = omit(
         p,
         "class",

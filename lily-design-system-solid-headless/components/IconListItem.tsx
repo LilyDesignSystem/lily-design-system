@@ -31,7 +31,8 @@
 //   - USWDS Icon list: https://designsystem.digital.gov/components/icon-list/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface IconListItemProps {
     class?: string;
     /** Leading icon content (decorative, aria-hidden) */
@@ -42,7 +43,7 @@ export interface IconListItemProps {
 }
 
 export default function IconListItem(props: IconListItemProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "icon", "children");
     return (
         <li

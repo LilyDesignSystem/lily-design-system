@@ -8,7 +8,8 @@
 // Keyboard: Enter sends; Shift+Enter inserts a line break; Enter during IME composition is ignored.
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ChatComposerProps {
     class?: string;
@@ -35,7 +36,7 @@ export interface ChatComposerProps {
 }
 
 export default function ChatComposer(props: ChatComposerProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: "" as const,

@@ -51,7 +51,8 @@
 //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TourListProps {
     class?: string;
     /** Accessible label for the tour. */
@@ -64,7 +65,7 @@ export interface TourListProps {
 }
 
 export default function TourList(props: TourListProps) {
-    const p = merge({ class: "" as const, active: false }, props);
+    const p = withDefaults({ class: "" as const, active: false }, props);
     const restProps = omit(p, "class", "label", "active", "onChange", "children");
     function handleKeyDown(event: KeyboardEvent) {
         if (event.key === "Escape") {

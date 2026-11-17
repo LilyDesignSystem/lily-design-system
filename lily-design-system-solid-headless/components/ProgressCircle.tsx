@@ -51,7 +51,8 @@
 //   - MDN role="progressbar": https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/progressbar_role
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ProgressCircleProps {
     class?: string;
@@ -69,7 +70,7 @@ export interface ProgressCircleProps {
 }
 
 export default function ProgressCircle(props: ProgressCircleProps) {
-    const p = merge({ class: "" as const, value: 0, min: 0, max: 100 }, props);
+    const p = withDefaults({ class: "" as const, value: 0, min: 0, max: 100 }, props);
     const restProps = omit(p, "class", "label", "value", "min", "max", "children");
     return (
         <div

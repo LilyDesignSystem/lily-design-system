@@ -25,7 +25,8 @@
 //   - HTML tr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/tr
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TableRowProps {
     class?: string;
     /** TableTH or TableTD cells. */
@@ -34,7 +35,7 @@ export interface TableRowProps {
 }
 
 export default function TableRow(props: TableRowProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <tr

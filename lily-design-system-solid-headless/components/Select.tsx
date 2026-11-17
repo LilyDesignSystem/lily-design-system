@@ -58,7 +58,8 @@
 //   - MDN select element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface SelectProps {
@@ -79,7 +80,7 @@ export interface SelectProps {
 }
 
 export default function Select(props: SelectProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

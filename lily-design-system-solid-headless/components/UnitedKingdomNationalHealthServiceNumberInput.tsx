@@ -48,7 +48,8 @@
 // References:
 //   - NHS Number format: https://www.nhs.uk/nhs-services/online-services/find-nhs-number/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface UnitedKingdomNationalHealthServiceNumberInputProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -68,7 +69,7 @@ export interface UnitedKingdomNationalHealthServiceNumberInputProps {
 export default function UnitedKingdomNationalHealthServiceNumberInput(
     props: UnitedKingdomNationalHealthServiceNumberInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

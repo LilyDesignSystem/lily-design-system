@@ -30,7 +30,8 @@
 //   - MDN <div>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ContainerProps {
     class?: string;
     children?: JSX.Element;
@@ -38,7 +39,7 @@ export interface ContainerProps {
 }
 
 export default function Container(props: ContainerProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <div

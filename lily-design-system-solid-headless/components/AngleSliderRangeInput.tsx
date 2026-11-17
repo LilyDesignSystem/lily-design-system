@@ -63,7 +63,8 @@
 // References:
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -93,7 +94,7 @@ export interface AngleSliderRangeInputProps {
 }
 
 export default function AngleSliderRangeInput(props: AngleSliderRangeInputProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: 0,

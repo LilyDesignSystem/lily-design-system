@@ -2,7 +2,8 @@
 // region: whether a critical card interrupts is the consumer's choice. Props and rules: DecisionSupportCard.md.
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal } from "solid-js";
+import { omit, createSignal } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface DecisionSupportSuggestion {
     id: string;
@@ -37,7 +38,7 @@ export interface DecisionSupportCardProps {
 }
 
 export default function DecisionSupportCard(props: DecisionSupportCardProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             suggestions: [] as NonNullable<DecisionSupportCardProps["suggestions"]>,

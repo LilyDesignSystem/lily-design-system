@@ -63,7 +63,8 @@
 //   - WAI-ARIA Alert and Message Dialogs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createUniqueId } from "solid-js";
+import { omit, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { useModalDialog } from "./Dialog";
 
 export interface AlertDialogProps {
@@ -82,7 +83,7 @@ export interface AlertDialogProps {
 }
 
 export default function AlertDialog(props: AlertDialogProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "open", "title", "description", "onChange", "children");
     const uid = createUniqueId();
     const titleId = () => `alert-dialog-title-${uid}`;

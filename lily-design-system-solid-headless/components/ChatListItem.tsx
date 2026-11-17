@@ -19,7 +19,8 @@
 //   - HTML li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ChatListItemProps {
     class?: string;
@@ -33,7 +34,7 @@ export interface ChatListItemProps {
 }
 
 export default function ChatListItem(props: ChatListItemProps) {
-    const p = merge({ class: "" as const, current: false }, props);
+    const p = withDefaults({ class: "" as const, current: false }, props);
     const restProps = omit(p, "class", "label", "current", "children");
     return (
         <li

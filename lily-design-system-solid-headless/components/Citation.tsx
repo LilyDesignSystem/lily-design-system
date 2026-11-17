@@ -19,7 +19,8 @@
 //   - HTML cite element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/cite
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CitationProps {
     class?: string;
     /** Hidden text read before the citation. */
@@ -30,7 +31,7 @@ export interface CitationProps {
 }
 
 export default function Citation(props: CitationProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <cite

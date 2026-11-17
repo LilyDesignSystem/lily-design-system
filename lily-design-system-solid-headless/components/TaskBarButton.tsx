@@ -41,7 +41,8 @@
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TaskBarButtonProps {
     class?: string;
     /** Whether disabled. */
@@ -52,7 +53,7 @@ export interface TaskBarButtonProps {
 }
 
 export default function TaskBarButton(props: TaskBarButtonProps) {
-    const p = merge({ class: "" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, disabled: false }, props);
     const restProps = omit(p, "class", "disabled", "children");
     return (
         <button

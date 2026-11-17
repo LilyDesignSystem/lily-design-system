@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/PESEL
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface PolskaPeselInputProps {
@@ -41,7 +42,7 @@ export interface PolskaPeselInputProps {
 }
 
 export default function PolskaPeselInput(props: PolskaPeselInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

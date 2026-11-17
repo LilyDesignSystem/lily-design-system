@@ -60,7 +60,8 @@
 //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createEffect, createSignal, untrack } from "solid-js";
+import { omit, createEffect, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -78,7 +79,7 @@ export interface SlideOutDrawerProps {
 }
 
 export default function SlideOutDrawer(props: SlideOutDrawerProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "label", "open", "onOpenChange", "children");
     warnMissingName("SlideOutDrawer", p.label, p["aria-label"], p["aria-labelledby"]);
     const [open, setOpen] = createSignal(() => p.open);

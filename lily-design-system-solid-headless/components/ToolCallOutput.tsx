@@ -33,7 +33,8 @@
 //   - MDN <div>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ToolCallOutputProps {
     class?: string;
     /** Accessible name of the group. */
@@ -44,7 +45,7 @@ export interface ToolCallOutputProps {
 }
 
 export default function ToolCallOutput(props: ToolCallOutputProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

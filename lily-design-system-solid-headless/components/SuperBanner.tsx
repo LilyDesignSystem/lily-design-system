@@ -30,7 +30,8 @@
 //   - WAI-ARIA alert role: https://www.w3.org/TR/wai-aria-1.2/#alert
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SuperBannerProps {
     class?: string;
     /** Optional accessible label override. */
@@ -47,7 +48,7 @@ export interface SuperBannerProps {
 }
 
 export default function SuperBanner(props: SuperBannerProps) {
-    const p = merge({ class: "" as const, dismissable: false }, props);
+    const p = withDefaults({ class: "" as const, dismissable: false }, props);
     const restProps = omit(
         p,
         "class",

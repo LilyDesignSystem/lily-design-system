@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Egyptian_National_Identity_Card
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface MisrAlRaqmAlQawmiInputProps {
@@ -41,7 +42,7 @@ export interface MisrAlRaqmAlQawmiInputProps {
 }
 
 export default function MisrAlRaqmAlQawmiInput(props: MisrAlRaqmAlQawmiInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

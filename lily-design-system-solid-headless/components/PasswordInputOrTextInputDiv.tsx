@@ -51,7 +51,8 @@
 //   - HTML password input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password
 //   - WAI-ARIA Button Pattern (toggle): https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
-import { merge, omit, createSignal } from "solid-js";
+import { omit, createSignal } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -69,7 +70,7 @@ export interface PasswordInputOrTextInputDivProps {
 }
 
 export default function PasswordInputOrTextInputDiv(props: PasswordInputOrTextInputDivProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: "" as const,

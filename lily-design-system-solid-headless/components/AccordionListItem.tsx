@@ -53,7 +53,8 @@
 //   - HTML details element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, untrack } from "solid-js";
+import { omit, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface AccordionListItemProps {
     class?: string;
     /** Whether expanded. Bindable. */
@@ -66,7 +67,7 @@ export interface AccordionListItemProps {
 }
 
 export default function AccordionListItem(props: AccordionListItemProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "open", "onChange", "children");
     const [open, setOpen] = createSignal(untrack(() => p.open));
 

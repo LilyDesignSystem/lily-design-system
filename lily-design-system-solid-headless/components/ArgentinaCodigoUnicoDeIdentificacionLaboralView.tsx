@@ -18,7 +18,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/C%C3%B3digo_%C3%9Anico_de_Identificaci%C3%B3n_Laboral
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ArgentinaCodigoUnicoDeIdentificacionLaboralViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -31,7 +32,7 @@ export interface ArgentinaCodigoUnicoDeIdentificacionLaboralViewProps {
 export default function ArgentinaCodigoUnicoDeIdentificacionLaboralView(
     props: ArgentinaCodigoUnicoDeIdentificacionLaboralViewProps,
 ) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

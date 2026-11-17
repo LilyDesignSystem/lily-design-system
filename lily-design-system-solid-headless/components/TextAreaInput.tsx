@@ -45,7 +45,8 @@
 // References:
 //   - MDN text-area-input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface TextAreaInputProps {
@@ -66,7 +67,7 @@ export interface TextAreaInputProps {
 }
 
 export default function TextAreaInput(props: TextAreaInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

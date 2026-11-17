@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Dutch_identity_card
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface NederlandIdentiteitskaartNummerInputProps {
@@ -43,7 +44,7 @@ export interface NederlandIdentiteitskaartNummerInputProps {
 export default function NederlandIdentiteitskaartNummerInput(
     props: NederlandIdentiteitskaartNummerInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

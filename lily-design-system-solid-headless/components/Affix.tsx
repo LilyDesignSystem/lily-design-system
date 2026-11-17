@@ -43,7 +43,8 @@
 //   - MDN position: sticky: https://developer.mozilla.org/en-US/docs/Web/CSS/position#sticky_positioning
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface AffixProps {
     class?: string;
@@ -57,7 +58,7 @@ export interface AffixProps {
 }
 
 export default function Affix(props: AffixProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "offsetTop", "offsetBottom", "children");
     const hasTop = (): boolean => typeof p.offsetTop === "number";
     const hasBottom = (): boolean => typeof p.offsetBottom === "number";

@@ -61,7 +61,8 @@
 //   - WAI-ARIA region role: https://www.w3.org/TR/wai-aria-1.2/#region
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal } from "solid-js";
+import { omit, createSignal } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface BannerProps {
     class?: string;
@@ -79,7 +80,10 @@ export interface BannerProps {
 }
 
 export default function Banner(props: BannerProps) {
-    const p = merge({ class: "" as const, type: "info" as const, dismissible: false }, props);
+    const p = withDefaults(
+        { class: "" as const, type: "info" as const, dismissible: false },
+        props,
+    );
     const restProps = omit(p, "class", "type", "dismissible", "onClose", "closeLabel", "children");
     const [visible, setVisible] = createSignal(true);
 

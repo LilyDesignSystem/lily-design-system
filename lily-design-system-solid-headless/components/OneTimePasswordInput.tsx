@@ -19,7 +19,8 @@
 // Internationalization: label is consumer-supplied; no hardcoded strings.
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -47,7 +48,7 @@ export interface OneTimePasswordInputProps {
 }
 
 export default function OneTimePasswordInput(props: OneTimePasswordInputProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: "" as const,

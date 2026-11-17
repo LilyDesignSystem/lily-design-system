@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/National_Identity_Management_Commission
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface NigeriaNationalIdentificationNumberInputProps {
@@ -43,7 +44,7 @@ export interface NigeriaNationalIdentificationNumberInputProps {
 export default function NigeriaNationalIdentificationNumberInput(
     props: NigeriaNationalIdentificationNumberInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

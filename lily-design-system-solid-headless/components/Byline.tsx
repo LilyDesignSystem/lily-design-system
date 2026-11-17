@@ -18,7 +18,8 @@
 //     extract the author
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface BylineProps {
     class?: string;
     /** Author names/links. */
@@ -31,7 +32,7 @@ export interface BylineProps {
 }
 
 export default function Byline(props: BylineProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children", "published", "updated");
     return (
         <div

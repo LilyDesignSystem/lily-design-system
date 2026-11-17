@@ -42,7 +42,8 @@
 // References:
 //   - WAI-ARIA img role: https://www.w3.org/WAI/ARIA/apd/roles/img/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface FiveStarRatingViewProps {
     class?: string;
@@ -54,7 +55,7 @@ export interface FiveStarRatingViewProps {
 }
 
 export default function FiveStarRatingView(props: FiveStarRatingViewProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "value", "label");
     return (
         <span

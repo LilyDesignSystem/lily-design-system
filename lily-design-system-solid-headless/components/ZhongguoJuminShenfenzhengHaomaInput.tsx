@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Resident_Identity_Card
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface ZhongguoJuminShenfenzhengHaomaInputProps {
@@ -43,7 +44,7 @@ export interface ZhongguoJuminShenfenzhengHaomaInputProps {
 export default function ZhongguoJuminShenfenzhengHaomaInput(
     props: ZhongguoJuminShenfenzhengHaomaInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

@@ -51,7 +51,8 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createUniqueId, onSettled, untrack } from "solid-js";
+import { omit, createUniqueId, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attachCommand } from "./command-keys";
 import { warnMissingName } from "./dev-warning";
 
@@ -67,7 +68,7 @@ export interface CommandProps {
 }
 
 export default function Command(props: CommandProps) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "placeholder", "value", "onChange", "children");
     warnMissingName("Command", p.label, p["aria-label"], p["aria-labelledby"]);
     const listId = `command-list-${createUniqueId()}`;

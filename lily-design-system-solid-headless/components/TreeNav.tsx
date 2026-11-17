@@ -47,7 +47,8 @@
 //   - HTML nav element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface TreeNavProps {
@@ -60,7 +61,7 @@ export interface TreeNavProps {
 }
 
 export default function TreeNav(props: TreeNavProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     warnMissingName("TreeNav", p.label, p["aria-label"], p["aria-labelledby"]);
     return (

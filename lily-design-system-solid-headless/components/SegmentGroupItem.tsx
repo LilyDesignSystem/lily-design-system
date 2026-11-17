@@ -46,7 +46,8 @@
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface SegmentGroupItemProps {
     class?: string;
@@ -62,7 +63,7 @@ export interface SegmentGroupItemProps {
 }
 
 export default function SegmentGroupItem(props: SegmentGroupItemProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, checked: false, value: "" as const, disabled: false },
         props,
     );

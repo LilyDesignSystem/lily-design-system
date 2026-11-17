@@ -47,7 +47,8 @@
 //   - MDN Input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
 //   - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface InputProps {
     class?: string;
     label: string;
@@ -61,7 +62,7 @@ export interface InputProps {
 }
 
 export default function Input(props: InputProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: "" as const,

@@ -48,7 +48,8 @@
 //   - ISO 8601 Duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TimerProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -59,7 +60,7 @@ export interface TimerProps {
 }
 
 export default function Timer(props: TimerProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <time

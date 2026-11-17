@@ -26,7 +26,8 @@
 //   - Steps are the direct child elements; each gets observed
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createEffect, untrack } from "solid-js";
+import { omit, createEffect, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ScrollerBaseProps {
     class?: string;
     /** Accessible label for the scroll region. */
@@ -43,7 +44,7 @@ export interface ScrollerBaseProps {
 }
 
 export default function ScrollerBase(props: ScrollerBaseProps) {
-    const p = merge({ class: "" as const, offset: 0.5 }, props);
+    const p = withDefaults({ class: "" as const, offset: 0.5 }, props);
     const restProps = omit(
         p,
         "class",

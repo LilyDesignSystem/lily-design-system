@@ -49,7 +49,8 @@
 //   - USWDS Identifier: https://designsystem.digital.gov/components/identifier/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface GovernmentIdentifierProps {
     class?: string;
     /** aria-label for the section (required) */
@@ -70,7 +71,7 @@ export interface GovernmentIdentifierProps {
 }
 
 export default function GovernmentIdentifier(props: GovernmentIdentifierProps) {
-    const p = merge({ class: "" as const, logoAlt: "" as const }, props);
+    const p = withDefaults({ class: "" as const, logoAlt: "" as const }, props);
     const restProps = omit(
         p,
         "class",

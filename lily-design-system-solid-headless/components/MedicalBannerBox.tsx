@@ -25,7 +25,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MedicalBannerBoxProps {
     class?: string;
     /** Optional accessible name */
@@ -36,7 +37,7 @@ export interface MedicalBannerBoxProps {
 }
 
 export default function MedicalBannerBox(props: MedicalBannerBoxProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

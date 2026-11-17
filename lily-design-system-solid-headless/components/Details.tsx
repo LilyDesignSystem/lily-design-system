@@ -49,7 +49,8 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, untrack } from "solid-js";
+import { omit, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface DetailsProps {
     class?: string;
     /** Text for the summary toggle. */
@@ -64,7 +65,7 @@ export interface DetailsProps {
 }
 
 export default function Details(props: DetailsProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "summary", "open", "onChange", "children");
     const [open, setOpen] = createSignal(untrack(() => p.open));
 

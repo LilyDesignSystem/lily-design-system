@@ -35,7 +35,8 @@
 //   - MDN <a>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SectionLinkProps {
     class?: string;
     label?: string;
@@ -44,7 +45,7 @@ export interface SectionLinkProps {
 }
 
 export default function SectionLink(props: SectionLinkProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <a

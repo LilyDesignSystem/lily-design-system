@@ -49,7 +49,8 @@
 // References:
 //   - WAI-ARIA Group Role: https://www.w3.org/TR/wai-aria-1.2/#group
 
-import { merge, omit, createEffect, createSignal, onSettled, untrack } from "solid-js";
+import { omit, createEffect, createSignal, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface PinInputDivProps {
@@ -73,7 +74,10 @@ export interface PinInputDivProps {
 }
 
 export default function PinInputDiv(props: PinInputDivProps) {
-    const p = merge({ class: "" as const, length: 4, value: "" as const, disabled: false }, props);
+    const p = withDefaults(
+        { class: "" as const, length: 4, value: "" as const, disabled: false },
+        props,
+    );
     const restProps = omit(
         p,
         "class",

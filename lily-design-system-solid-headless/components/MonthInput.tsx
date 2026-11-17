@@ -42,7 +42,8 @@
 // References:
 //   - HTML month input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/month
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MonthInputProps {
     class?: string;
     label: string;
@@ -55,7 +56,7 @@ export interface MonthInputProps {
 }
 
 export default function MonthInput(props: MonthInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

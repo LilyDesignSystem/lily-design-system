@@ -33,7 +33,8 @@
 //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CalendarTableRowProps {
     class?: string;
     /** CalendarTableTD cells for this row. */
@@ -42,7 +43,7 @@ export interface CalendarTableRowProps {
 }
 
 export default function CalendarTableRow(props: CalendarTableRowProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <tr

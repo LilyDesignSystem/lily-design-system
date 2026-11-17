@@ -40,7 +40,8 @@
 //   - HTML li element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface PaginationListItemProps {
     class?: string;
     /** Item content. */
@@ -49,7 +50,7 @@ export interface PaginationListItemProps {
 }
 
 export default function PaginationListItem(props: PaginationListItemProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <li

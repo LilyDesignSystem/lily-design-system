@@ -51,7 +51,8 @@
 //   - WAI-ARIA Slider Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/slider/
 //   - WAI-ARIA slider role: https://www.w3.org/TR/wai-aria-1.2/#slider
 
-import { merge, omit, createSignal, untrack } from "solid-js";
+import { omit, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -75,7 +76,7 @@ export interface DialProps {
 }
 
 export default function Dial(props: DialProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: 0, min: 0, max: 100, step: 1, disabled: false },
         props,
     );

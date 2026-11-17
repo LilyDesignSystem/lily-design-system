@@ -42,7 +42,8 @@
 // References:
 //   - MDN text-area-input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/text-area-input
 
-import { merge, omit, createEffect, createSignal, createUniqueId, untrack } from "solid-js";
+import { omit, createEffect, createSignal, createUniqueId, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface TextAreaInputWithCharacterCounterProps {
@@ -73,7 +74,7 @@ export interface TextAreaInputWithCharacterCounterProps {
 export default function TextAreaInputWithCharacterCounter(
     props: TextAreaInputWithCharacterCounterProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: "" as const,

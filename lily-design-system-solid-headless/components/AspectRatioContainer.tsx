@@ -51,7 +51,8 @@
 //   - CSS aspect-ratio-container: https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio-container
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface AspectRatioContainerProps {
     class?: string;
@@ -63,7 +64,7 @@ export interface AspectRatioContainerProps {
 }
 
 export default function AspectRatioContainer(props: AspectRatioContainerProps) {
-    const p = merge({ class: "" as const, ratio: 1 }, props);
+    const p = withDefaults({ class: "" as const, ratio: 1 }, props);
     const restProps = omit(p, "class", "ratio", "children");
     return (
         <div

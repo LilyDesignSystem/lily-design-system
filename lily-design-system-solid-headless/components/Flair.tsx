@@ -37,7 +37,8 @@
 //   - When label is provided, aria-hidden is removed and the flair becomes meaningful
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface FlairProps {
     class?: string;
@@ -49,7 +50,7 @@ export interface FlairProps {
 }
 
 export default function Flair(props: FlairProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <span

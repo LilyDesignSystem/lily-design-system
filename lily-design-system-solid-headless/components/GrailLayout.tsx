@@ -40,7 +40,8 @@
 //   - CSS Grid Layout: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface GrailLayoutProps {
     class?: string;
     /** Layout section elements. */
@@ -49,7 +50,7 @@ export interface GrailLayoutProps {
 }
 
 export default function GrailLayout(props: GrailLayoutProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <div

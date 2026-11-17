@@ -50,7 +50,8 @@
 //   - NHS England Care Cards: https://service-manual.nhs.uk/design-system/components/care-cards
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface CareCardProps {
     class?: string;
@@ -62,7 +63,7 @@ export interface CareCardProps {
 }
 
 export default function CareCard(props: CareCardProps) {
-    const p = merge({ class: "" as const, type: "non-urgent" as const }, props);
+    const p = withDefaults({ class: "" as const, type: "non-urgent" as const }, props);
     const restProps = omit(p, "class", "type", "heading", "label", "children");
     return (
         <div

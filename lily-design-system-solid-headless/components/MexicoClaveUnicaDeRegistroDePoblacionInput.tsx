@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Unique_Population_Registry_Code
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface MexicoClaveUnicaDeRegistroDePoblacionInputProps {
@@ -43,7 +44,7 @@ export interface MexicoClaveUnicaDeRegistroDePoblacionInputProps {
 export default function MexicoClaveUnicaDeRegistroDePoblacionInput(
     props: MexicoClaveUnicaDeRegistroDePoblacionInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

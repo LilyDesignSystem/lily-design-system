@@ -53,7 +53,8 @@
 //   - WAI-ARIA role="status": https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface InfoStateProps {
     class?: string;
@@ -75,7 +76,7 @@ export interface InfoStateProps {
 }
 
 export default function InfoState(props: InfoStateProps) {
-    const p = merge({ class: "" as const, level: "info" as const }, props);
+    const p = withDefaults({ class: "" as const, level: "info" as const }, props);
     const restProps = omit(
         p,
         "class",

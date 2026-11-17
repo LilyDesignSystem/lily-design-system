@@ -43,7 +43,8 @@
 // References:
 //   - HSC NI: https://online.hscni.net/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface TuaisceartEireannHealthAndCareNumberInputProps {
@@ -65,7 +66,7 @@ export interface TuaisceartEireannHealthAndCareNumberInputProps {
 export default function TuaisceartEireannHealthAndCareNumberInput(
     props: TuaisceartEireannHealthAndCareNumberInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

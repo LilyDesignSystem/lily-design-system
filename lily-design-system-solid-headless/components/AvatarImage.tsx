@@ -37,7 +37,8 @@
 // References:
 //   - HTML img element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface AvatarImageProps {
     class?: string;
     /** URL of the avatar image. */
@@ -48,7 +49,7 @@ export interface AvatarImageProps {
 }
 
 export default function AvatarImage(props: AvatarImageProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "src", "alt");
     return (
         <img

@@ -31,7 +31,8 @@
 //   - MDN <aside>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface RelatedContentProps {
     class?: string;
     label?: string;
@@ -40,7 +41,7 @@ export interface RelatedContentProps {
 }
 
 export default function RelatedContent(props: RelatedContentProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <aside

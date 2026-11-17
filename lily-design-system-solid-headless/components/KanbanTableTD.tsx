@@ -43,7 +43,8 @@
 //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface KanbanTableTDProps {
     class?: string;
     /** Marks the cell as the roving tab stop (tabindex="0"). Never sets aria-selected. */
@@ -56,7 +57,7 @@ export interface KanbanTableTDProps {
 }
 
 export default function KanbanTableTD(props: KanbanTableTDProps) {
-    const p = merge({ class: "" as const, active: false }, props);
+    const p = withDefaults({ class: "" as const, active: false }, props);
     const restProps = omit(p, "class", "active", "label", "children");
     return (
         <td

@@ -46,7 +46,8 @@
 //   - Clipboard API: https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal } from "solid-js";
+import { omit, createSignal } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -66,7 +67,7 @@ export interface ClipboardCopyButtonProps {
 }
 
 export default function ClipboardCopyButton(props: ClipboardCopyButtonProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "text", "label", "onSuccess", "onError", "children");
     warnMissingName("ClipboardCopyButton", p.label, p["aria-label"], p["aria-labelledby"]);
     const [copied, setCopied] = createSignal(false);

@@ -47,7 +47,8 @@
 //   - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
 
@@ -67,7 +68,7 @@ export interface SparklineProps {
 }
 
 export default function Sparkline(props: SparklineProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(
         p,
         "class",

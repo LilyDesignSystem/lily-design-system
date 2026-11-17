@@ -41,7 +41,8 @@
 //   - MDN figcaption: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figcaption
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CaptionProps {
     class?: string;
     children: JSX.Element;
@@ -49,7 +50,7 @@ export interface CaptionProps {
 }
 
 export default function Caption(props: CaptionProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <figcaption

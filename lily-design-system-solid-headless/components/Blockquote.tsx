@@ -36,7 +36,8 @@
 //   - MDN <blockquote>: https://developer.mozilla.org/docs/Web/HTML/Element/blockquote
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface BlockquoteProps {
     class?: string;
     /** URL of the source (rendered as the cite attribute on the blockquote) */
@@ -51,7 +52,7 @@ export interface BlockquoteProps {
 }
 
 export default function Blockquote(props: BlockquoteProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "cite", "citationText", "label", "children");
     return (
         <blockquote

@@ -17,7 +17,8 @@
 // Internationalization: label is consumer-supplied.
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createEffect, createSignal, untrack } from "solid-js";
+import { omit, createEffect, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { useFormReset } from "./form-reset";
 import { warnMissingName } from "./dev-warning";
 
@@ -41,7 +42,7 @@ export interface MultiSelectProps {
 }
 
 export default function MultiSelect(props: MultiSelectProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: [] as NonNullable<MultiSelectProps["value"]>,

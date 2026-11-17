@@ -26,7 +26,8 @@
 //   - Adobe Spectrum ActionGroup: https://spectrum.adobe.com/page/action-group/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, createUniqueId, onSettled, untrack } from "solid-js";
+import { omit, createSignal, createUniqueId, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { attachToolbar } from "./widget-keys";
 
@@ -52,7 +53,7 @@ export interface ActionGroupProps {
 }
 
 export default function ActionGroup(props: ActionGroupProps) {
-    const p = merge({ class: "" as const, overflowOpen: false }, props);
+    const p = withDefaults({ class: "" as const, overflowOpen: false }, props);
     const restProps = omit(
         p,
         "class",

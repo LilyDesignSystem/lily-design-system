@@ -18,7 +18,8 @@
 // References:
 //   - https://hu.wikipedia.org/wiki/T%C3%A1rsadalombiztos%C3%ADt%C3%A1si_azonos%C3%ADt%C3%B3_jel
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MagyarorszagTajSzamViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -29,7 +30,7 @@ export interface MagyarorszagTajSzamViewProps {
 }
 
 export default function MagyarorszagTajSzamView(props: MagyarorszagTajSzamViewProps) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

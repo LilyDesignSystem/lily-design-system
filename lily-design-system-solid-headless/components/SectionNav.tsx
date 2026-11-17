@@ -32,7 +32,8 @@
 //   - MDN <nav>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SectionNavProps {
     class?: string;
     label?: string;
@@ -41,7 +42,7 @@ export interface SectionNavProps {
 }
 
 export default function SectionNav(props: SectionNavProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <nav

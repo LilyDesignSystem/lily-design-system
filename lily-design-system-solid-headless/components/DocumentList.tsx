@@ -30,7 +30,8 @@
 //   - MDN <ul>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface DocumentListProps {
     class?: string;
     label?: string;
@@ -39,7 +40,7 @@ export interface DocumentListProps {
 }
 
 export default function DocumentList(props: DocumentListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <ul

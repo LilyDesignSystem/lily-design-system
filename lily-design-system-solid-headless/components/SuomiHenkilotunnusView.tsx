@@ -18,7 +18,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Personal_identity_code_(Finland)
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SuomiHenkilotunnusViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -29,7 +30,7 @@ export interface SuomiHenkilotunnusViewProps {
 }
 
 export default function SuomiHenkilotunnusView(props: SuomiHenkilotunnusViewProps) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

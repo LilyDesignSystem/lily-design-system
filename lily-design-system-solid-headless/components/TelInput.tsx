@@ -40,7 +40,8 @@
 // References:
 //   - HTML tel input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/tel
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TelInputProps {
     class?: string;
     /** Accessible name for the telephone input */
@@ -57,7 +58,7 @@ export interface TelInputProps {
 }
 
 export default function TelInput(props: TelInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

@@ -26,7 +26,8 @@
 //   - HTML a element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ContentsLinkProps {
     class?: string;
@@ -44,7 +45,7 @@ export interface ContentsLinkProps {
 }
 
 export default function ContentsLink(props: ContentsLinkProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "href", "label", "count", "countLabel", "children");
     return (
         <a

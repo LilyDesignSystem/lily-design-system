@@ -40,7 +40,8 @@
 //   - USWDS Button group: https://designsystem.digital.gov/components/button-group/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ButtonGroupProps {
     class?: string;
     /** aria-label for the group (required for accessibility) */
@@ -51,7 +52,7 @@ export interface ButtonGroupProps {
 }
 
 export default function ButtonGroup(props: ButtonGroupProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

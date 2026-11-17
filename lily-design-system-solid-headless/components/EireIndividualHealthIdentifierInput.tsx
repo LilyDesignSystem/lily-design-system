@@ -43,7 +43,8 @@
 // References:
 //   - HSE: https://www.hse.ie/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface EireIndividualHealthIdentifierInputProps {
@@ -65,7 +66,7 @@ export interface EireIndividualHealthIdentifierInputProps {
 export default function EireIndividualHealthIdentifierInput(
     props: EireIndividualHealthIdentifierInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

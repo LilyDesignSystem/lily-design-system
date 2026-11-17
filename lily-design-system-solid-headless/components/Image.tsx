@@ -40,7 +40,8 @@
 //   - WAI Images Tutorial: https://www.w3.org/WAI/tutorials/images/
 //   - HTML figure element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/figure
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ImageProps {
     class?: string;
     src: string;
@@ -50,7 +51,7 @@ export interface ImageProps {
 }
 
 export default function Image(props: ImageProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "src", "alt", "loading");
     return (
         <img

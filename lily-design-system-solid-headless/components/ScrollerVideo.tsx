@@ -32,7 +32,8 @@
 //   - Position: sticky on the video region is the consumer's CSS responsibility
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import ScrollerBase from "./ScrollerBase";
 import { warnMissingName } from "./dev-warning";
 
@@ -56,7 +57,7 @@ export interface ScrollerVideoProps {
 }
 
 export default function ScrollerVideo(props: ScrollerVideoProps) {
-    const p = merge({ class: "" as const, offset: 0.5 }, props);
+    const p = withDefaults({ class: "" as const, offset: 0.5 }, props);
     const restProps = omit(
         p,
         "class",

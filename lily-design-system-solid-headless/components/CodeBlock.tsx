@@ -19,7 +19,8 @@
 //   - HTML pre element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/pre
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CodeBlockProps {
     class?: string;
     /** Names the block, which becomes role="region". */
@@ -30,7 +31,7 @@ export interface CodeBlockProps {
 }
 
 export default function CodeBlock(props: CodeBlockProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <pre

@@ -20,7 +20,8 @@
 //   - HTML th element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/th
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TableTHProps {
     class?: string;
     /** Number of columns this header cell spans. */
@@ -35,7 +36,7 @@ export interface TableTHProps {
 }
 
 export default function TableTH(props: TableTHProps) {
-    const p = merge({ class: "" as const, scope: "col" as const }, props);
+    const p = withDefaults({ class: "" as const, scope: "col" as const }, props);
     const restProps = omit(p, "class", "colSpan", "rowSpan", "scope", "children");
     return (
         <th

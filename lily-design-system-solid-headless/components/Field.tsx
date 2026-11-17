@@ -52,7 +52,8 @@
 //   - WAI-ARIA Error Handling: https://www.w3.org/WAI/WCAG22/Techniques/aria/ARIA21
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createUniqueId } from "solid-js";
+import { omit, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface FieldProps {
     class?: string;
@@ -72,7 +73,7 @@ export interface FieldProps {
 }
 
 export default function Field(props: FieldProps) {
-    const p = merge({ class: "" as const, required: false }, props);
+    const p = withDefaults({ class: "" as const, required: false }, props);
     const restProps = omit(
         p,
         "class",

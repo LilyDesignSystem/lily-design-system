@@ -9,7 +9,8 @@
 //   - Sets the hero-headline class as the styling hook
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface HeroHeadlineProps {
     class?: string;
     /** Accessible label set on aria-label. */
@@ -22,7 +23,7 @@ export interface HeroHeadlineProps {
 }
 
 export default function HeroHeadline(props: HeroHeadlineProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "media", "children");
     return (
         <div

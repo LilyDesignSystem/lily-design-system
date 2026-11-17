@@ -46,7 +46,8 @@
 // References:
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
-import { merge, omit, createEffect, createSignal, untrack } from "solid-js";
+import { omit, createEffect, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface EditableProps {
@@ -67,7 +68,7 @@ export interface EditableProps {
 }
 
 export default function Editable(props: EditableProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, editing: false, disabled: false },
         props,
     );

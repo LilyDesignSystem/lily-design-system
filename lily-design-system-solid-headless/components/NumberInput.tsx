@@ -48,7 +48,8 @@
 //   - HTML number input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/number
 //   - WAI-ARIA spinbutton role: https://www.w3.org/TR/wai-aria-1.2/#spinbutton
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface NumberInputProps {
     class?: string;
     label: string;
@@ -64,7 +65,7 @@ export interface NumberInputProps {
 }
 
 export default function NumberInput(props: NumberInputProps) {
-    const p = merge({ class: "" as const, required: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, required: false, disabled: false }, props);
     const restProps = omit(
         p,
         "class",

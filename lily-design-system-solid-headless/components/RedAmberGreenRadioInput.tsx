@@ -49,7 +49,8 @@
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radiobutton/
 //   - MDN input type="radio": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface RedAmberGreenRadioInputProps {
     class?: string;
@@ -69,7 +70,7 @@ export interface RedAmberGreenRadioInputProps {
 }
 
 export default function RedAmberGreenRadioInput(props: RedAmberGreenRadioInputProps) {
-    const p = merge({ class: "" as const, checked: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, checked: false, disabled: false }, props);
     const restProps = omit(p, "class", "label", "name", "value", "checked", "disabled", "onChange");
     // Uncontrolled: the browser owns the group's selection, so arrow keys, the
     // one-of-a-group rule and form reset (back to the initial `checked`) all

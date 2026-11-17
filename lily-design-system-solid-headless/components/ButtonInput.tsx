@@ -46,7 +46,8 @@
 //   - MDN input type="button": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/button
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ButtonInputProps {
     class?: string;
     /** The button label text */
@@ -63,7 +64,7 @@ export interface ButtonInputProps {
 }
 
 export default function ButtonInput(props: ButtonInputProps) {
-    const p = merge({ class: "" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, disabled: false }, props);
     const restProps = omit(p, "class", "value", "disabled", "name", "label", "onClick");
     return (
         <input

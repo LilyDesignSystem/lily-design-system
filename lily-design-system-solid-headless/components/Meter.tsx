@@ -47,7 +47,8 @@
 //   - HTML meter element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meter
 //   - WAI-ARIA meter role: https://www.w3.org/TR/wai-aria-1.2/#meter
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MeterProps {
     class?: string;
     value: number;
@@ -61,7 +62,7 @@ export interface MeterProps {
 }
 
 export default function Meter(props: MeterProps) {
-    const p = merge({ class: "" as const, min: 0, max: 100 }, props);
+    const p = withDefaults({ class: "" as const, min: 0, max: 100 }, props);
     const restProps = omit(p, "class", "value", "min", "max", "low", "high", "optimum", "label");
     return (
         <meter

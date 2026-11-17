@@ -32,16 +32,17 @@ maintainer on 2026-11-17; tracked in the root [tasks.md](../../tasks.md) as Phas
 
 ## Status (2026-11-17)
 
-- 623 of 637 components ported; 3,869 tests passing; `tsc --noEmit` clean; ESLint 0 errors; Prettier clean.
+- 637 of 637 components ported; 3,998 tests passing; `tsc --noEmit` clean; ESLint 0 errors; Prettier clean.
 - Not published (`"private": true`); no build or barrel yet.
 
-## Remaining components (14)
+## Porting notes
 
-`BodyMap`, `ContainerWithFluidWidth`, `DateField`, `FileTree`, `FiveFaceRatingView`, `FlexStack`, `Grid`, `IconButton`, `KbdShortcut`, `Listbox`, `MedicationView`, `ObservationView`, `RepeatableFieldset`, `SectionHeading`: each uses React's `forwardRef`, an effect with no dependency list, or another React-only construct, and is
-ported by hand.
-
-## Porting notes (learned on the stateful components)
-
+- `withDefaults`, not Solid's `merge`, for defaults: `merge` lets an explicit `undefined` win, so a consumer that
+  forwards an optional prop would lose the default (RepeatableFieldset's `min`, Button's `type`). React, Svelte and Vue
+  apply the default for `undefined`.
+- `forwardRef` has no counterpart: a ref is an ordinary prop, spread onto the root, or a ref array (`Listbox`).
+- A list whose items are replaced on each edit is a keyed `<For>` (`keyed={itemKey}`), so a row keeps focus while
+  typing (`RepeatableFieldset`).
 - React's "latest ref" (`latest.current = { … }` in the body, read later in a listener) is a live getter in Solid,
   `const latest = { get current() { return { … }; } }`: the body runs once, so an assignment there would keep the
   first props forever. Seven components used it; only one test noticed.
@@ -54,7 +55,7 @@ ported by hand.
 
 ## Tasks
 
-- [ ] **S1** Port the remaining components by hand, with their tests (623 of 637 done; `form-reset.ts` ported).
+- [x] **S1** Port every component with its tests (637 of 637, 2026-11-17).
       Verify: every row of `components.tsv` has `components/{Name}.tsx` and a passing test.
 - [ ] **S2** `build.mjs`: generate the `index.ts` barrel and build `dist/` (Solid's compiled output plus types and the
       `solid` export condition). Verify: a scratch consumer imports and renders a component.
@@ -65,8 +66,8 @@ ported by hand.
 
 ## Acceptance criteria
 
-- [ ] 637 components, each root element the contract's HTML tag, base class first.
-- [ ] Every component's React tests pass in their Solid form.
+- [x] 637 components (the root-element and class checks come with S3).
+- [x] Every component's React tests pass in their Solid form (3,998).
 - [ ] No hardcoded English; no CSS; rest props spread on the root.
 - [ ] The package builds, and a consumer can import it.
 

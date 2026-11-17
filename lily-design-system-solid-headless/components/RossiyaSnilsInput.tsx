@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/SNILS_(Russia)
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface RossiyaSnilsInputProps {
@@ -41,7 +42,7 @@ export interface RossiyaSnilsInputProps {
 }
 
 export default function RossiyaSnilsInput(props: RossiyaSnilsInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

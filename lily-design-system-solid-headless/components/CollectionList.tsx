@@ -32,7 +32,8 @@
 //   - USWDS Collection: https://designsystem.digital.gov/components/collection/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CollectionListProps {
     class?: string;
     /** Optional aria-label for the list */
@@ -43,7 +44,7 @@ export interface CollectionListProps {
 }
 
 export default function CollectionList(props: CollectionListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <ul

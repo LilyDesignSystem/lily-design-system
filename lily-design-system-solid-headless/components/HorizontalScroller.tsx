@@ -23,7 +23,8 @@
 //     (overflow-x: auto + a flex/inline-flex track inside)
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface HorizontalScrollerProps {
@@ -38,7 +39,7 @@ export interface HorizontalScrollerProps {
 }
 
 export default function HorizontalScroller(props: HorizontalScrollerProps) {
-    const p = merge({ class: "" as const, step: 100 }, props);
+    const p = withDefaults({ class: "" as const, step: 100 }, props);
     const restProps = omit(p, "class", "label", "step", "children");
     warnMissingName("HorizontalScroller", p.label, p["aria-label"], p["aria-labelledby"]);
     const ref: { current: HTMLDivElement | null } = { current: null };

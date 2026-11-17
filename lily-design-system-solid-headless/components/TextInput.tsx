@@ -41,7 +41,8 @@
 // References:
 //   - MDN input type="text": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TextInputProps {
     class?: string;
     /** Accessible label. */
@@ -58,7 +59,7 @@ export interface TextInputProps {
 }
 
 export default function TextInput(props: TextInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

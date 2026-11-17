@@ -23,7 +23,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface GraphicBlockProps {
     class?: string;
     /** Accessible label describing the graphic for screen readers. */
@@ -40,7 +41,7 @@ export interface GraphicBlockProps {
 }
 
 export default function GraphicBlock(props: GraphicBlockProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "title", "description", "notes", "children");
     const hasCaption = () =>
         p.title !== undefined || p.description !== undefined || p.notes !== undefined;

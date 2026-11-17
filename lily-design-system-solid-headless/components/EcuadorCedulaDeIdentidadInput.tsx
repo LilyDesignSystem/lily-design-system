@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/C%C3%A9dula_de_identidad
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface EcuadorCedulaDeIdentidadInputProps {
@@ -41,7 +42,7 @@ export interface EcuadorCedulaDeIdentidadInputProps {
 }
 
 export default function EcuadorCedulaDeIdentidadInput(props: EcuadorCedulaDeIdentidadInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

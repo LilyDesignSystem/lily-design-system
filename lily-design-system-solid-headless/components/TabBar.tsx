@@ -51,7 +51,8 @@
 //   - WAI-ARIA Tabs Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tabs/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface TabBarProps {
@@ -64,7 +65,7 @@ export interface TabBarProps {
 }
 
 export default function TabBar(props: TabBarProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     warnMissingName("TabBar", p.label, p["aria-label"], p["aria-labelledby"]);
     const barRef: { current: HTMLDivElement | null } = { current: null };

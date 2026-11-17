@@ -9,7 +9,8 @@
 //   - Sets the body-text class as the styling hook
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface BodyTextProps {
     class?: string;
     /** Component content. */
@@ -18,7 +19,7 @@ export interface BodyTextProps {
 }
 
 export default function BodyText(props: BodyTextProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <div

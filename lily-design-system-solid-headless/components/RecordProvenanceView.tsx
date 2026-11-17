@@ -1,6 +1,7 @@
 // RecordProvenanceView: who recorded a record, where it came from, when, and whether it is signed or sent, in the consumer's
 // words (tasks.md P29-T9). States are data-* and words; a state without words warns. Props: RecordProvenanceView.md.
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
 
@@ -36,7 +37,7 @@ export interface RecordProvenanceViewProps {
 }
 
 export default function RecordProvenanceView(props: RecordProvenanceViewProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(
         p,
         "class",

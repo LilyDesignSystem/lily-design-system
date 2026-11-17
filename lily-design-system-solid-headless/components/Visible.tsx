@@ -22,7 +22,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createEffect, createSignal, untrack } from "solid-js";
+import { omit, createEffect, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface VisibleProps {
     class?: string;
@@ -38,7 +39,7 @@ export interface VisibleProps {
 }
 
 export default function Visible(props: VisibleProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, once: false, threshold: 0, rootMargin: "0px" as const },
         props,
     );

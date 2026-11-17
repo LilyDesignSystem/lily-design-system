@@ -31,7 +31,8 @@
 //   - MDN <li>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/li
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SectionListItemProps {
     class?: string;
     children: JSX.Element;
@@ -39,7 +40,7 @@ export interface SectionListItemProps {
 }
 
 export default function SectionListItem(props: SectionListItemProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <li

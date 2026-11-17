@@ -49,7 +49,8 @@
 //   - WAI-ARIA Link Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/link/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CallToActionProps {
     class?: string;
     /** If provided, renders as a link */
@@ -66,7 +67,7 @@ export interface CallToActionProps {
 }
 
 export default function CallToAction(props: CallToActionProps) {
-    const p = merge({ class: "" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, disabled: false }, props);
     const restProps = omit(p, "class", "href", "label", "disabled", "onClick", "children");
     return (
         <>

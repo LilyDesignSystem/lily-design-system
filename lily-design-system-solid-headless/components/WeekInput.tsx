@@ -41,7 +41,8 @@
 // References:
 //   - MDN input type="week": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/week
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface WeekInputProps {
@@ -60,7 +61,7 @@ export interface WeekInputProps {
 }
 
 export default function WeekInput(props: WeekInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

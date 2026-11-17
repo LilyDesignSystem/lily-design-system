@@ -48,7 +48,8 @@
 // References:
 //   - MDN input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
 
-import { merge, omit, createSignal } from "solid-js";
+import { omit, createSignal } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { useFormReset } from "./form-reset";
 
@@ -80,7 +81,7 @@ function droppedFiles(files: FileList, multiple: boolean): FileList {
 }
 
 export default function FileUpload(props: FileUploadProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, multiple: false, disabled: false, dropZone: false },
         props,
     );

@@ -37,7 +37,8 @@
 // References:
 //   - MDN <input type="color">: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/color
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ColorInputProps {
     class?: string;
     value?: string;
@@ -51,7 +52,10 @@ export interface ColorInputProps {
 }
 
 export default function ColorInput(props: ColorInputProps) {
-    const p = merge({ class: "" as const, value: "#000000" as const, disabled: false }, props);
+    const p = withDefaults(
+        { class: "" as const, value: "#000000" as const, disabled: false },
+        props,
+    );
     const restProps = omit(p, "class", "value", "label", "disabled", "name", "id", "onChange");
     return (
         <input

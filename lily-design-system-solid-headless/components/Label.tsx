@@ -49,7 +49,8 @@
 //   - HTML label element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface LabelProps {
     class?: string;
     for?: string;
@@ -58,7 +59,7 @@ export interface LabelProps {
 }
 
 export default function Label(props: LabelProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "for", "children");
     return (
         <label

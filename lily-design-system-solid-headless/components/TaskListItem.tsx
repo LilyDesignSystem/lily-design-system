@@ -52,7 +52,8 @@
 //   - MDN checkbox input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
 //   - WAI checkbox pattern: https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/
 
-import { merge, omit, createSignal, untrack } from "solid-js";
+import { omit, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { useFormReset } from "./form-reset";
 
@@ -70,7 +71,7 @@ export interface TaskListItemProps {
 }
 
 export default function TaskListItem(props: TaskListItemProps) {
-    const p = merge({ class: "" as const, checked: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, checked: false, disabled: false }, props);
     const restProps = omit(p, "class", "label", "checked", "disabled", "onChange");
     const [checked, setChecked] = createSignal(untrack(() => p.checked));
     const itemRef: { current: HTMLLIElement | null } = { current: null };

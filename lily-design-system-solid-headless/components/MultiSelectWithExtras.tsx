@@ -16,7 +16,8 @@
 // Keyboard: native <select multiple>.
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createEffect, createSignal, untrack } from "solid-js";
+import { omit, createEffect, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { useFormReset } from "./form-reset";
 import { warnMissingName } from "./dev-warning";
 
@@ -44,7 +45,7 @@ export interface MultiSelectWithExtrasProps {
 }
 
 export default function MultiSelectWithExtras(props: MultiSelectWithExtrasProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: [] as NonNullable<MultiSelectWithExtrasProps["value"]>,

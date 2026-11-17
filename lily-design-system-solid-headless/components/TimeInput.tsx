@@ -39,7 +39,8 @@
 // References:
 //   - MDN input type="time": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TimeInputProps {
     class?: string;
     /** Accessible label. */
@@ -56,7 +57,7 @@ export interface TimeInputProps {
 }
 
 export default function TimeInput(props: TimeInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

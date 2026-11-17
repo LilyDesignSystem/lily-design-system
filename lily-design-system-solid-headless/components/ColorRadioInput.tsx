@@ -51,7 +51,8 @@
 //   - MDN input type="radio": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ColorRadioInputProps {
     class?: string;
@@ -72,7 +73,7 @@ export interface ColorRadioInputProps {
 }
 
 export default function ColorRadioInput(props: ColorRadioInputProps) {
-    const p = merge({ class: "" as const, checked: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, checked: false, disabled: false }, props);
     const restProps = omit(
         p,
         "class",

@@ -45,7 +45,8 @@
 // References:
 //   - WAI-ARIA APG combobox pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
-import { merge, omit, createSignal, createUniqueId, untrack } from "solid-js";
+import { omit, createSignal, createUniqueId, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { useFormReset } from "./form-reset";
 import { warnMissingName } from "./dev-warning";
@@ -77,7 +78,7 @@ export interface AutosuggestProps {
 }
 
 export default function Autosuggest(props: AutosuggestProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             defaultValue: "" as const,

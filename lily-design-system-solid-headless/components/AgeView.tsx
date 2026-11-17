@@ -1,6 +1,7 @@
 // AgeView: a person's age in the consumer's words, usually from ageParts() (spec/healthcare-ui item 6). Props: AgeView.md.
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface AgeViewProps {
     class?: string;
@@ -13,7 +14,7 @@ export interface AgeViewProps {
 }
 
 export default function AgeView(props: AgeViewProps) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value", "duration");
     return (
         <span

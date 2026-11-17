@@ -31,7 +31,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal } from "solid-js";
+import { omit, createSignal } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -53,7 +54,10 @@ export interface MedicalBannerProps {
 }
 
 export default function MedicalBanner(props: MedicalBannerProps) {
-    const p = merge({ class: "" as const, type: "info" as const, dismissible: false }, props);
+    const p = withDefaults(
+        { class: "" as const, type: "info" as const, dismissible: false },
+        props,
+    );
     const restProps = omit(
         p,
         "class",

@@ -48,7 +48,8 @@
 //   - MDN footer element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface FooterProps {
     class?: string;
     /** Optional accessible name. */
@@ -59,7 +60,7 @@ export interface FooterProps {
 }
 
 export default function Footer(props: FooterProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <footer

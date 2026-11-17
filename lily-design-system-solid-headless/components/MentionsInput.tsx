@@ -36,7 +36,8 @@
 //   - Ant Design Mentions: https://ant.design/components/mentions
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createUniqueId, onSettled, untrack } from "solid-js";
+import { omit, createUniqueId, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { attachMentions } from "./widget-keys";
 import { usePopoverState } from "./Popover";
@@ -69,7 +70,7 @@ export interface MentionsInputProps {
 }
 
 export default function MentionsInput(props: MentionsInputProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: "" as const,

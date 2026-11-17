@@ -23,7 +23,8 @@
 //
 // Keyboard: none.
 
-import { merge, omit, createEffect, createSignal, untrack } from "solid-js";
+import { omit, createEffect, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { truncateMiddle, type TruncationStrategy } from "./middle-truncation";
 
@@ -41,7 +42,7 @@ export interface MiddleTruncationProps {
 }
 
 export default function MiddleTruncation(props: MiddleTruncationProps) {
-    const p = merge({ class: "" as const, strategy: "even" as const }, props);
+    const p = withDefaults({ class: "" as const, strategy: "even" as const }, props);
     const restProps = omit(p, "class", "text", "ellipsis", "strategy", "end");
     const root: { current: HTMLSpanElement | null } = { current: null };
     const [shown, setShown] = createSignal<string | null>(null);

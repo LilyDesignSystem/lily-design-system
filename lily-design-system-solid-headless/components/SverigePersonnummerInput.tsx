@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Personal_identity_number_(Sweden)
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface SverigePersonnummerInputProps {
@@ -41,7 +42,7 @@ export interface SverigePersonnummerInputProps {
 }
 
 export default function SverigePersonnummerInput(props: SverigePersonnummerInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

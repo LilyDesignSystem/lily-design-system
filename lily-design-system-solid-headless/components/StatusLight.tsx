@@ -23,7 +23,8 @@
 // References:
 //   - Adobe Spectrum StatusLight: https://spectrum.adobe.com/page/status-light/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export type StatusLightVariant =
     "neutral" | "informative" | "positive" | "notice" | "negative" | "active" | "inactive";
@@ -38,7 +39,7 @@ export interface StatusLightProps {
 }
 
 export default function StatusLight(props: StatusLightProps) {
-    const p = merge({ class: "" as const, variant: "neutral" as const }, props);
+    const p = withDefaults({ class: "" as const, variant: "neutral" as const }, props);
     const restProps = omit(p, "class", "variant", "label");
     return (
         <span

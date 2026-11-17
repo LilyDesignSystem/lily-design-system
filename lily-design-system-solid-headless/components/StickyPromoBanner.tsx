@@ -44,7 +44,8 @@
 //   - Dismiss button is rendered only when onDismiss is provided
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface StickyPromoBannerProps {
     class?: string;
@@ -64,7 +65,7 @@ export interface StickyPromoBannerProps {
 }
 
 export default function StickyPromoBanner(props: StickyPromoBannerProps) {
-    const p = merge({ class: "" as const, open: true, position: "bottom" as const }, props);
+    const p = withDefaults({ class: "" as const, open: true, position: "bottom" as const }, props);
     const restProps = omit(
         p,
         "class",

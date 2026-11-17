@@ -51,7 +51,8 @@
 //   - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attachMenu } from "./menu-keys";
 import { warnMissingName } from "./dev-warning";
 
@@ -65,7 +66,7 @@ export interface MenuBarProps {
 }
 
 export default function MenuBar(props: MenuBarProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     warnMissingName("MenuBar", p.label, p["aria-label"], p["aria-labelledby"]);
     const barRef: { current: HTMLDivElement | null } = { current: null };

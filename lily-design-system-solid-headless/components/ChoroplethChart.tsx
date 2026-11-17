@@ -20,7 +20,8 @@
 //   None on the graphic; the data table follows native table behaviour.
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ChoroplethChartProps {
     class?: string;
     /** Accessible name for the chart. */
@@ -33,7 +34,7 @@ export interface ChoroplethChartProps {
 }
 
 export default function ChoroplethChart(props: ChoroplethChartProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children", "dataTable");
     return (
         <figure

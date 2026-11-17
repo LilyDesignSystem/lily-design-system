@@ -45,7 +45,8 @@
 //   - WAI-ARIA Tooltip Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/
 //   - MDN aria-describedby: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-describedby
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { usePopoverState } from "./Popover";
 import { warnMissingName } from "./dev-warning";
 
@@ -61,7 +62,7 @@ export interface TooltipProps {
 }
 
 export default function Tooltip(props: TooltipProps) {
-    const p = merge({ class: "" as const, visible: false }, props);
+    const p = withDefaults({ class: "" as const, visible: false }, props);
     const restProps = omit(p, "class", "label", "visible", "id");
     warnMissingName("Tooltip", p.label, p["aria-label"], p["aria-labelledby"]);
     const panelRef: { current: HTMLDivElement | null } = { current: null };

@@ -46,7 +46,8 @@
 //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CalendarRangePickerProps {
     class?: string;
     label: string;
@@ -55,7 +56,7 @@ export interface CalendarRangePickerProps {
 }
 
 export default function CalendarRangePicker(props: CalendarRangePickerProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

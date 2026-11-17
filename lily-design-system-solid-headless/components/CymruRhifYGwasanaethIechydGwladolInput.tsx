@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/NHS_number
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface CymruRhifYGwasanaethIechydGwladolInputProps {
@@ -43,7 +44,7 @@ export interface CymruRhifYGwasanaethIechydGwladolInputProps {
 export default function CymruRhifYGwasanaethIechydGwladolInput(
     props: CymruRhifYGwasanaethIechydGwladolInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

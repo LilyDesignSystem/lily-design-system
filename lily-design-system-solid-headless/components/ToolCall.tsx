@@ -7,7 +7,8 @@
 // Keyboard: Enter / Space on the native <summary> toggles.
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal } from "solid-js";
+import { omit, createSignal } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ToolCallProps {
     class?: string;
@@ -25,7 +26,7 @@ export interface ToolCallProps {
 }
 
 export default function ToolCall(props: ToolCallProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "status", "open", "summary", "onChange", "children");
     const [open, setOpen] = createSignal(() => p.open);
 

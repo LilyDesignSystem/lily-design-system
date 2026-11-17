@@ -5,7 +5,8 @@
 // never blank, and for any status but "known" the consumer's words are shown under the heading. The author's narrative, when
 // given, sits in a <details> after the entries. See components/international-patient-summary-section/index.md.
 import { dynamic, type JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
 import { ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./ips-sections";
@@ -38,7 +39,7 @@ export interface InternationalPatientSummarySectionProps {
 export default function InternationalPatientSummarySection(
     props: InternationalPatientSummarySectionProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, headingLevel: 2, status: "known" as const, narrativeOpen: false },
         props,
     );

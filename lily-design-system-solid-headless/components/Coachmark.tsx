@@ -25,7 +25,8 @@
 //   - Adobe Spectrum Coachmark: https://spectrum.adobe.com/page/coach-mark/
 //   - WAI-ARIA Dialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
-import { merge, omit, createUniqueId } from "solid-js";
+import { omit, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { usePopoverState } from "./Popover";
 
 export interface CoachmarkProps {
@@ -44,7 +45,7 @@ export interface CoachmarkProps {
 }
 
 export default function Coachmark(props: CoachmarkProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "open", "title", "description", "dismissLabel", "onDismiss");
     const panelRef: { current: HTMLDivElement | null } = { current: null };
     usePopoverState(panelRef, () => p.open);

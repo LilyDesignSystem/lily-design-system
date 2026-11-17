@@ -32,7 +32,8 @@
 //   - USWDS Summary box: https://designsystem.digital.gov/components/summary-box/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SummaryBoxProps {
     class?: string;
     /** Box heading (required) */
@@ -45,7 +46,7 @@ export interface SummaryBoxProps {
 }
 
 export default function SummaryBox(props: SummaryBoxProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "heading", "label", "children");
     return (
         <aside

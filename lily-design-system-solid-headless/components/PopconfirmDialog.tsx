@@ -45,7 +45,8 @@
 //   - Ant Design Popconfirm: https://ant.design/components/popconfirm
 //   - WAI-ARIA Alertdialog Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alertdialog/
 
-import { merge, omit, createUniqueId } from "solid-js";
+import { omit, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { usePopoverState } from "./Popover";
 
 export interface PopconfirmDialogProps {
@@ -68,7 +69,7 @@ export interface PopconfirmDialogProps {
 }
 
 export default function PopconfirmDialog(props: PopconfirmDialogProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(
         p,
         "class",

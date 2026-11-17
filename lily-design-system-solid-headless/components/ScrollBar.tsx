@@ -64,7 +64,8 @@
 //   - WAI-ARIA scrollbar role: https://www.w3.org/TR/wai-aria-1.2/#scrollbar
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, untrack } from "solid-js";
+import { omit, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -96,7 +97,7 @@ export interface ScrollBarProps {
 }
 
 export default function ScrollBar(props: ScrollBarProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             orientation: "vertical" as const,

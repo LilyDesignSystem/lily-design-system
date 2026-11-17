@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Czech_passport
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface CeskoCestovniPasInputProps {
@@ -41,7 +42,7 @@ export interface CeskoCestovniPasInputProps {
 }
 
 export default function CeskoCestovniPasInput(props: CeskoCestovniPasInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

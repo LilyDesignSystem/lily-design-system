@@ -42,7 +42,8 @@
 // References:
 //   - HTML input element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MeasurementInstanceInputProps {
     class?: string;
     /** Accessible name for the measurement instance input */
@@ -59,7 +60,7 @@ export interface MeasurementInstanceInputProps {
 }
 
 export default function MeasurementInstanceInput(props: MeasurementInstanceInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

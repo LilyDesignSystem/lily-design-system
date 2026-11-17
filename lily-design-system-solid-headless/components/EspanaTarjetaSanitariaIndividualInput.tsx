@@ -42,7 +42,8 @@
 // References:
 //   - Ministerio de Sanidad: https://www.sanidad.gob.es/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface EspanaTarjetaSanitariaIndividualInputProps {
@@ -64,7 +65,7 @@ export interface EspanaTarjetaSanitariaIndividualInputProps {
 export default function EspanaTarjetaSanitariaIndividualInput(
     props: EspanaTarjetaSanitariaIndividualInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

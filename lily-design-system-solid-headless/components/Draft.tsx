@@ -20,7 +20,8 @@
 //   - status is exposed via data-status, not ARIA — it's for the consumer
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface DraftProps {
     class?: string;
@@ -34,7 +35,7 @@ export interface DraftProps {
 }
 
 export default function Draft(props: DraftProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "status", "children");
     return (
         <div

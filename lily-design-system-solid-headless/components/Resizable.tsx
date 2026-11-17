@@ -51,7 +51,8 @@
 //   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ResizableProps {
     class?: string;
@@ -65,7 +66,7 @@ export interface ResizableProps {
 }
 
 export default function Resizable(props: ResizableProps) {
-    const p = merge({ class: "" as const, direction: "both" as const }, props);
+    const p = withDefaults({ class: "" as const, direction: "both" as const }, props);
     const restProps = omit(p, "class", "label", "direction", "children");
     return (
         <div

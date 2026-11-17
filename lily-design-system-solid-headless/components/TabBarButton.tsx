@@ -51,7 +51,8 @@
 //   - WAI-ARIA Tab Role: https://www.w3.org/TR/wai-aria-1.2/#tab
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface TabBarButtonProps {
     class?: string;
@@ -66,7 +67,7 @@ export interface TabBarButtonProps {
 }
 
 export default function TabBarButton(props: TabBarButtonProps) {
-    const p = merge({ class: "" as const, selected: false }, props);
+    const p = withDefaults({ class: "" as const, selected: false }, props);
     const restProps = omit(p, "class", "selected", "controls", "children");
     return (
         <button

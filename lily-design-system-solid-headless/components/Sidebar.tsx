@@ -51,7 +51,8 @@
 //   - HTML <aside> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SidebarProps {
     class?: string;
     /** Accessible label. */
@@ -62,7 +63,7 @@ export interface SidebarProps {
 }
 
 export default function Sidebar(props: SidebarProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <aside

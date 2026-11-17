@@ -33,7 +33,8 @@
 //   - aria-current: https://www.w3.org/TR/wai-aria-1.2/#aria-current
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export type StepListItemStatus = "waiting" | "in-progress" | "finished" | "error";
 
@@ -51,7 +52,10 @@ export interface StepListItemProps {
 }
 
 export default function StepListItem(props: StepListItemProps) {
-    const p = merge({ class: "" as const, status: "waiting" as const, current: false }, props);
+    const p = withDefaults(
+        { class: "" as const, status: "waiting" as const, current: false },
+        props,
+    );
     const restProps = omit(p, "class", "status", "current", "label", "children");
     return (
         <li

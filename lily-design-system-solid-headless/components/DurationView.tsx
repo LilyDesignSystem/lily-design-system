@@ -1,6 +1,7 @@
 // DurationView: a length of time in the consumer's words, in a <time> whose datetime is the ISO 8601 duration (tasks.md P29-T6). A negative
 // duration renders its length as datetime and data-negative; years and months are no datetime. Props: DurationView.md.
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { htmlDuration } from "./clinical-format";
 import { warnMissingProp } from "./dev-warning";
@@ -17,7 +18,10 @@ export interface DurationViewProps {
 }
 
 export default function DurationView(props: DurationViewProps) {
-    const p = merge({ class: "" as const, value: "" as const, duration: "" as const }, props);
+    const p = withDefaults(
+        { class: "" as const, value: "" as const, duration: "" as const },
+        props,
+    );
     const restProps = omit(p, "class", "value", "duration", "label");
     const parsed = () => htmlDuration(p.duration);
     warnMissingProp(

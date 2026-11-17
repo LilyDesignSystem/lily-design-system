@@ -62,7 +62,8 @@
 //   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, createUniqueId } from "solid-js";
+import { omit, createSignal, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { popoverSupported, usePopoverState } from "./Popover";
 import { warnMissingName } from "./dev-warning";
@@ -83,7 +84,7 @@ export interface DropdownMenuProps {
 }
 
 export default function DropdownMenu(props: DropdownMenuProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "label", "subjectLabel", "open", "onChange", "children");
     warnMissingName("DropdownMenu", p.label, p["aria-label"], p["aria-labelledby"]);
     const reactId = createUniqueId();

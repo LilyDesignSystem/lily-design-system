@@ -29,7 +29,8 @@
 //   - Required label and src — the component cannot be silently inaccessible
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createEffect, untrack } from "solid-js";
+import { omit, createEffect, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface VideoPlayerProps {
@@ -56,7 +57,7 @@ export interface VideoPlayerProps {
 }
 
 export default function VideoPlayer(props: VideoPlayerProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, autoplay: false, muted: false, loop: false, controls: true },
         props,
     );

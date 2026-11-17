@@ -29,7 +29,8 @@
 //   - Position: sticky on the background is the consumer's CSS responsibility
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import ScrollerBase from "./ScrollerBase";
 
 export interface ScrollerProps {
@@ -50,7 +51,7 @@ export interface ScrollerProps {
 }
 
 export default function Scroller(props: ScrollerProps) {
-    const p = merge({ class: "" as const, offset: 0.5 }, props);
+    const p = withDefaults({ class: "" as const, offset: 0.5 }, props);
     const restProps = omit(
         p,
         "class",

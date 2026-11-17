@@ -15,7 +15,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface AnswerProps {
     class?: string;
     /** Optional accessible label set on aria-label. */
@@ -26,7 +27,7 @@ export interface AnswerProps {
 }
 
 export default function Answer(props: AnswerProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

@@ -1,5 +1,6 @@
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 // SharePage component
 //
@@ -41,7 +42,7 @@ export interface SharePageProps {
 }
 
 export default function SharePage(props: SharePageProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     warnMissingName("SharePage", p.label, p["aria-label"], p["aria-labelledby"]);
     return (

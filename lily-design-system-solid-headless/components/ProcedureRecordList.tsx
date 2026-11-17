@@ -1,7 +1,8 @@
 // ProcedureRecordList: a list of a patient's procedures, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui).
 // For any status but "known", statusLabel is the list's one item. Props and rules: ProcedureRecordList.md.
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
 
@@ -17,7 +18,7 @@ export interface ProcedureRecordListProps {
 }
 
 export default function ProcedureRecordList(props: ProcedureRecordListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "status", "statusLabel", "label", "children");
     warnMissingProp(
         "ProcedureRecordList",

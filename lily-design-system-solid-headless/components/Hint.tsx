@@ -42,7 +42,8 @@
 //   - WAI Forms Tutorial - Instructions: https://www.w3.org/WAI/tutorials/forms/instructions/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface HintProps {
     class?: string;
     id?: string;
@@ -51,7 +52,7 @@ export interface HintProps {
 }
 
 export default function Hint(props: HintProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "id", "children");
     return (
         <p

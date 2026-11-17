@@ -28,7 +28,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface GrailLayoutRightAsideProps {
     class?: string;
     /** Content to render inside the right aside. */
@@ -37,7 +38,7 @@ export interface GrailLayoutRightAsideProps {
 }
 
 export default function GrailLayoutRightAside(props: GrailLayoutRightAsideProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <aside

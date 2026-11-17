@@ -26,7 +26,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 //   - alt prop is required to enforce accessibility
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface BarcodeImageProps {
     class?: string;
     src: string;
@@ -36,7 +37,7 @@ export interface BarcodeImageProps {
 }
 
 export default function BarcodeImage(props: BarcodeImageProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "src", "alt", "loading");
     return (
         <img

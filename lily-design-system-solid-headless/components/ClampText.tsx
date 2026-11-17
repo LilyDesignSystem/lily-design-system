@@ -45,7 +45,8 @@
 //   - CSS line-clamp: https://developer.mozilla.org/en-US/docs/Web/CSS/line-clamp
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ClampTextProps {
     class?: string;
@@ -59,7 +60,7 @@ export interface ClampTextProps {
 }
 
 export default function ClampText(props: ClampTextProps) {
-    const p = merge({ class: "" as const, lines: 2 }, props);
+    const p = withDefaults({ class: "" as const, lines: 2 }, props);
     const restProps = omit(p, "class", "lines", "label", "children");
     return (
         <div

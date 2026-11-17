@@ -18,7 +18,8 @@
 //   - HTML td element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TableTDProps {
     class?: string;
     /** Number of columns this cell spans. */
@@ -31,7 +32,7 @@ export interface TableTDProps {
 }
 
 export default function TableTD(props: TableTDProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "colSpan", "rowSpan", "children");
     return (
         <td

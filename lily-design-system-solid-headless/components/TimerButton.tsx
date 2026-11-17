@@ -28,7 +28,8 @@
 //   - The component owns the timer; clears it on unmount and on activation
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createEffect, createSignal, untrack } from "solid-js";
+import { omit, createEffect, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -48,7 +49,7 @@ export interface TimerButtonProps {
 }
 
 export default function TimerButton(props: TimerButtonProps) {
-    const p = merge({ class: "" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, disabled: false }, props);
     const restProps = omit(p, "class", "label", "duration", "onClick", "disabled", "children");
     warnMissingName("TimerButton", p.label, p["aria-label"], p["aria-labelledby"]);
     const [remainingSeconds, setRemainingSeconds] = createSignal(untrack(() => p.duration));

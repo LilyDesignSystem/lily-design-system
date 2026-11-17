@@ -39,7 +39,8 @@
 // References:
 //   - MDN input type="email": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface EmailInputProps {
     class?: string;
     /** Accessible label. */
@@ -56,7 +57,7 @@ export interface EmailInputProps {
 }
 
 export default function EmailInput(props: EmailInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

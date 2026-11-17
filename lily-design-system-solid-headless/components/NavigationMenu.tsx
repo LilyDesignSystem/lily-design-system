@@ -65,7 +65,8 @@
 //   - WAI-ARIA Landmarks: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createEffect, untrack } from "solid-js";
+import { omit, createEffect, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { setupOverflowNavigation } from "./overflow-navigation";
 
@@ -83,7 +84,7 @@ export interface NavigationMenuProps {
 }
 
 export default function NavigationMenu(props: NavigationMenuProps) {
-    const p = merge({ class: "" as const, overflow: false, moreLabel: "" as const }, props);
+    const p = withDefaults({ class: "" as const, overflow: false, moreLabel: "" as const }, props);
     const restProps = omit(p, "class", "label", "overflow", "moreLabel", "children");
     const root: { current: HTMLElement | null } = { current: null };
 

@@ -9,7 +9,8 @@
 //   - Sets the content-block class as the styling hook
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ContentBlockProps {
     class?: string;
@@ -21,7 +22,7 @@ export interface ContentBlockProps {
 }
 
 export default function ContentBlock(props: ContentBlockProps) {
-    const p = merge({ class: "" as const, width: "normal" as const }, props);
+    const p = withDefaults({ class: "" as const, width: "normal" as const }, props);
     const restProps = omit(p, "class", "width", "children");
     return (
         <div

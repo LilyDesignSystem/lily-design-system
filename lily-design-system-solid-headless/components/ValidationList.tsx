@@ -36,7 +36,8 @@
 //   - WAI-ARIA aria-live: https://www.w3.org/TR/wai-aria-1.2/#aria-live
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ValidationListProps {
     class?: string;
     /** aria-label for the list (required) */
@@ -47,7 +48,7 @@ export interface ValidationListProps {
 }
 
 export default function ValidationList(props: ValidationListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <ul

@@ -48,7 +48,8 @@
 //   - WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attachCropper, type CropRect } from "./widget-keys";
 
 export interface ImageCropperProps {
@@ -65,7 +66,7 @@ export interface ImageCropperProps {
 }
 
 export default function ImageCropper(props: ImageCropperProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "crop", "onCropChange", "children");
     const rootRef: { current: HTMLDivElement | null } = { current: null };
     // The latest props, read live: a Solid component body runs once.

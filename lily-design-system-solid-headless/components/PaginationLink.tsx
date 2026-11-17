@@ -26,7 +26,8 @@
 //   - HTML a element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface PaginationLinkProps {
     class?: string;
     /** The URL to navigate to. */
@@ -39,7 +40,7 @@ export interface PaginationLinkProps {
 }
 
 export default function PaginationLink(props: PaginationLinkProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "href", "label", "children");
     return (
         <a

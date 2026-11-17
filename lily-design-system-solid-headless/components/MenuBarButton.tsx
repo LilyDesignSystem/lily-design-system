@@ -44,7 +44,8 @@
 //   - WAI-ARIA Menu Bar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubar/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MenuBarButtonProps {
     class?: string;
     /** Content of the menu bar item. */
@@ -53,7 +54,7 @@ export interface MenuBarButtonProps {
 }
 
 export default function MenuBarButton(props: MenuBarButtonProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <button

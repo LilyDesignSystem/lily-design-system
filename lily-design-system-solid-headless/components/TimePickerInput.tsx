@@ -40,7 +40,8 @@
 // References:
 //   - MDN input type="time": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/time
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface TimePickerInputProps {
@@ -55,7 +56,7 @@ export interface TimePickerInputProps {
 }
 
 export default function TimePickerInput(props: TimePickerInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Central_Securities_Depository
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface ElladaDematerialisedSecuritiesSystemInputProps {
@@ -43,7 +44,7 @@ export interface ElladaDematerialisedSecuritiesSystemInputProps {
 export default function ElladaDematerialisedSecuritiesSystemInput(
     props: ElladaDematerialisedSecuritiesSystemInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

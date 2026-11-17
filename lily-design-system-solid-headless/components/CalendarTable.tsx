@@ -43,7 +43,8 @@
 //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 import { attachGrid } from "./widget-keys";
 
@@ -59,7 +60,7 @@ export interface CalendarTableProps {
 }
 
 export default function CalendarTable(props: CalendarTableProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "caption", "children");
     warnMissingName("CalendarTable", p.label, p["aria-labelledby"]);
     const rootRef: { current: HTMLTableElement | null } = { current: null };

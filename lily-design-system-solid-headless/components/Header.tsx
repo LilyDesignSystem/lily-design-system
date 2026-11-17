@@ -51,7 +51,8 @@
 //   - WAI-ARIA Banner Landmark: https://www.w3.org/WAI/ARIA/apd/practices/landmark-regions/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface HeaderProps {
     class?: string;
     label?: string;
@@ -60,7 +61,7 @@ export interface HeaderProps {
 }
 
 export default function Header(props: HeaderProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <header

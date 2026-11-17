@@ -37,7 +37,8 @@
 //   - CSS columns: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_columns
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface MasonryProps {
     class?: string;
@@ -51,7 +52,7 @@ export interface MasonryProps {
 }
 
 export default function Masonry(props: MasonryProps) {
-    const p = merge({ class: "" as const, columns: 3, gap: "1rem" as const }, props);
+    const p = withDefaults({ class: "" as const, columns: 3, gap: "1rem" as const }, props);
     const restProps = omit(p, "class", "columns", "gap", "children");
     return (
         <div

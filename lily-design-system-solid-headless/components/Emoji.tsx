@@ -39,7 +39,8 @@
 // References:
 //   - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface EmojiProps {
     class?: string;
     /** The emoji character(s). */
@@ -50,7 +51,7 @@ export interface EmojiProps {
 }
 
 export default function Emoji(props: EmojiProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "emoji", "label");
     return (
         <span

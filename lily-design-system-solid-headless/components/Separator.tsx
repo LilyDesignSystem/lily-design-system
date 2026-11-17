@@ -39,7 +39,8 @@
 //   - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator
 //   - MDN hr element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hr
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SeparatorProps {
     class?: string;
     /** Optional accessible label. */
@@ -48,7 +49,7 @@ export interface SeparatorProps {
 }
 
 export default function Separator(props: SeparatorProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label");
     return (
         <hr

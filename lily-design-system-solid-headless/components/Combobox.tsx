@@ -56,15 +56,8 @@
 //   - WAI-ARIA Combobox Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/combobox/
 
 import type { JSX } from "@solidjs/web";
-import {
-    merge,
-    omit,
-    createEffect,
-    createSignal,
-    createUniqueId,
-    onSettled,
-    untrack,
-} from "solid-js";
+import { omit, createEffect, createSignal, createUniqueId, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { usePopoverState } from "./Popover";
 import { warnMissingName } from "./dev-warning";
@@ -98,7 +91,7 @@ export interface ComboboxProps {
 }
 
 export default function Combobox(props: ComboboxProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, open: false, statusDelay: 500 },
         props,
     );

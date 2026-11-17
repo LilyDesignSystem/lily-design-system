@@ -41,7 +41,8 @@
 // References:
 //   - MDN span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface PostalCodeViewProps {
     class?: string;
     /** The postal code text to display. */
@@ -50,7 +51,7 @@ export interface PostalCodeViewProps {
 }
 
 export default function PostalCodeView(props: PostalCodeViewProps) {
-    const p = merge({ class: "" as const, text: "" as const }, props);
+    const p = withDefaults({ class: "" as const, text: "" as const }, props);
     const restProps = omit(p, "class", "text");
     return (
         <span

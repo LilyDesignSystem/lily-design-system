@@ -45,7 +45,8 @@
 //   - WAI-ARIA textbox role: https://www.w3.org/TR/wai-aria-1.2/#textbox
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface TagInputDivProps {
@@ -72,7 +73,7 @@ export interface TagInputDivProps {
 }
 
 export default function TagInputDiv(props: TagInputDivProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, disabled: false, required: false },
         props,
     );

@@ -59,7 +59,8 @@
 //   - WAI-ARIA Menu Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menu/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attachMenu } from "./menu-keys";
 import { warnMissingName } from "./dev-warning";
 
@@ -73,7 +74,7 @@ export interface MenuProps {
 }
 
 export default function Menu(props: MenuProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     warnMissingName("Menu", p.label, p["aria-label"], p["aria-labelledby"]);
     const menuRef: { current: HTMLDivElement | null } = { current: null };

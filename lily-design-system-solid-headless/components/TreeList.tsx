@@ -47,7 +47,8 @@
 //   - WAI-ARIA tree role: https://www.w3.org/TR/wai-aria-1.2/#tree
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { treeItemKey } from "./menu-keys";
 
 export interface TreeListProps {
@@ -60,7 +61,7 @@ export interface TreeListProps {
 }
 
 export default function TreeList(props: TreeListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     const treeRef: { current: HTMLOListElement | null } = { current: null };
 

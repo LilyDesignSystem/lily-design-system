@@ -26,7 +26,8 @@
 //   - Adobe Spectrum SplitView: https://spectrum.adobe.com/page/split-view/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { attachSplitView } from "./widget-keys";
 
@@ -50,7 +51,7 @@ export interface SplitViewProps {
 }
 
 export default function SplitView(props: SplitViewProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, orientation: "horizontal" as const, splitPercent: 50 },
         props,
     );

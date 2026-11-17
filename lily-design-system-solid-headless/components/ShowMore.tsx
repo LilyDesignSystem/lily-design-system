@@ -15,7 +15,8 @@
 // Accessibility: aria-expanded + aria-controls on the button.
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, createUniqueId } from "solid-js";
+import { omit, createSignal, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ShowMoreProps {
     class?: string;
@@ -33,7 +34,7 @@ export interface ShowMoreProps {
 }
 
 export default function ShowMore(props: ShowMoreProps) {
-    const p = merge({ class: "" as const, expanded: false }, props);
+    const p = withDefaults({ class: "" as const, expanded: false }, props);
     const restProps = omit(
         p,
         "class",

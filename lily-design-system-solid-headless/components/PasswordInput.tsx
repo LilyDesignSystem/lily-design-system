@@ -50,7 +50,8 @@
 // References:
 //   - MDN input type="password": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/password
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface PasswordInputProps {
     class?: string;
     /** Accessible label. */
@@ -69,7 +70,7 @@ export interface PasswordInputProps {
 }
 
 export default function PasswordInput(props: PasswordInputProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             value: "" as const,

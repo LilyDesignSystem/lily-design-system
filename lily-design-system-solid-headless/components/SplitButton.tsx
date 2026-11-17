@@ -51,7 +51,8 @@
 //   - WAI-ARIA Menu Button: https://www.w3.org/WAI/ARIA/apg/patterns/menu-button/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, createUniqueId } from "solid-js";
+import { omit, createSignal, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { popoverSupported, usePopoverState } from "./Popover";
 import { warnMissingName } from "./dev-warning";
@@ -80,7 +81,7 @@ export interface SplitButtonProps {
 }
 
 export default function SplitButton(props: SplitButtonProps) {
-    const p = merge({ class: "" as const, menuOpen: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, menuOpen: false, disabled: false }, props);
     const restProps = omit(
         p,
         "class",

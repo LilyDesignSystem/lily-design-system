@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/C%C3%B3digo_%C3%9Anico_de_Identificaci%C3%B3n_Laboral
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface ArgentinaCodigoUnicoDeIdentificacionLaboralInputProps {
@@ -43,7 +44,7 @@ export interface ArgentinaCodigoUnicoDeIdentificacionLaboralInputProps {
 export default function ArgentinaCodigoUnicoDeIdentificacionLaboralInput(
     props: ArgentinaCodigoUnicoDeIdentificacionLaboralInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

@@ -42,7 +42,8 @@
 //   - WAI-ARIA Switch Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/switch/
 //   - WAI-ARIA Switch Role: https://www.w3.org/TR/wai-aria-1.2/#switch
 
-import { merge, omit, createSignal } from "solid-js";
+import { omit, createSignal } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -60,7 +61,7 @@ export interface SwitchButtonProps {
 }
 
 export default function SwitchButton(props: SwitchButtonProps) {
-    const p = merge({ class: "" as const, checked: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, checked: false, disabled: false }, props);
     const restProps = omit(p, "class", "label", "checked", "disabled", "onChange");
     warnMissingName("SwitchButton", p.label, p["aria-label"], p["aria-labelledby"]);
     const [checked, setChecked] = createSignal(() => p.checked);

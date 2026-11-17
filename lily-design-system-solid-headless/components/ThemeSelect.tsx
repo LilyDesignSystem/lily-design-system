@@ -48,7 +48,8 @@
 //   - WCAG 1.4.12 Text Spacing: https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ThemeSelectProps {
     class?: string;
     /** Accessible label. */
@@ -63,7 +64,7 @@ export interface ThemeSelectProps {
 }
 
 export default function ThemeSelect(props: ThemeSelectProps) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value", "onChange", "children");
     return (
         <select

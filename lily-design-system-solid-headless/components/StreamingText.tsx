@@ -12,7 +12,8 @@
 // Keyboard: none.
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface StreamingTextProps {
     class?: string;
@@ -26,7 +27,7 @@ export interface StreamingTextProps {
 }
 
 export default function StreamingText(props: StreamingTextProps) {
-    const p = merge({ class: "" as const, streaming: false }, props);
+    const p = withDefaults({ class: "" as const, streaming: false }, props);
     const restProps = omit(p, "class", "label", "streaming", "children");
     return (
         <div

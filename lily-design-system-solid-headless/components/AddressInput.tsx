@@ -1,5 +1,6 @@
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 // AddressInput component
 //
@@ -43,7 +44,7 @@ export interface AddressInputProps {
 }
 
 export default function AddressInput(props: AddressInputProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     warnMissingName("AddressInput", p.label, p["aria-label"], p["aria-labelledby"]);
     return (

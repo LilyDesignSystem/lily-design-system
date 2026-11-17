@@ -21,7 +21,8 @@
 //   - Adobe Spectrum MenuGroup: https://spectrum.adobe.com/page/menu/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MenuGroupProps {
     class?: string;
     /** Section heading text (also used as aria-label) (required) */
@@ -32,7 +33,7 @@ export interface MenuGroupProps {
 }
 
 export default function MenuGroup(props: MenuGroupProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

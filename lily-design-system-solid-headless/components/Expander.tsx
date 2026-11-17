@@ -50,7 +50,8 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, createUniqueId, untrack } from "solid-js";
+import { omit, createSignal, createUniqueId, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -68,7 +69,7 @@ export interface ExpanderProps {
 }
 
 export default function Expander(props: ExpanderProps) {
-    const p = merge({ class: "" as const, expanded: false }, props);
+    const p = withDefaults({ class: "" as const, expanded: false }, props);
     const restProps = omit(p, "class", "label", "expanded", "onChange", "children");
     warnMissingName("Expander", p.label, p["aria-label"], p["aria-labelledby"]);
     const [expanded, setExpanded] = createSignal(untrack(() => p.expanded));

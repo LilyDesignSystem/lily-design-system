@@ -43,7 +43,8 @@
 // References:
 //   - MDN input type="file": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface FileInputProps {
     class?: string;
     /** Accessible label. */
@@ -60,7 +61,7 @@ export interface FileInputProps {
 }
 
 export default function FileInput(props: FileInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, multiple: false, required: false, disabled: false },
         props,
     );

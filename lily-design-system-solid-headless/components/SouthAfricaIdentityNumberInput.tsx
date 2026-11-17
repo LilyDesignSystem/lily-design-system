@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/South_African_identity_card
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface SouthAfricaIdentityNumberInputProps {
@@ -41,7 +42,7 @@ export interface SouthAfricaIdentityNumberInputProps {
 }
 
 export default function SouthAfricaIdentityNumberInput(props: SouthAfricaIdentityNumberInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

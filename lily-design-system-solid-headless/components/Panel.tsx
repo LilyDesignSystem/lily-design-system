@@ -49,7 +49,8 @@
 //   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface PanelProps {
     class?: string;
     label: string;
@@ -58,7 +59,7 @@ export interface PanelProps {
 }
 
 export default function Panel(props: PanelProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

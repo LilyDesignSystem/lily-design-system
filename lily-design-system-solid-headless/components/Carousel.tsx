@@ -49,7 +49,8 @@
 //   - WAI-ARIA Authoring Practices Carousel: https://www.w3.org/WAI/tutorials/carousels/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CarouselProps {
     class?: string;
     /** Accessible label. */
@@ -60,7 +61,7 @@ export interface CarouselProps {
 }
 
 export default function Carousel(props: CarouselProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

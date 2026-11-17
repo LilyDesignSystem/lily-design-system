@@ -56,7 +56,8 @@
 //   - WAI-ARIA Form Role: https://www.w3.org/WAI/ARIA/apd/roles/form/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface EditableFormProps {
@@ -77,7 +78,7 @@ export interface EditableFormProps {
 }
 
 export default function EditableForm(props: EditableFormProps) {
-    const p = merge({ class: "" as const, editing: false }, props);
+    const p = withDefaults({ class: "" as const, editing: false }, props);
     const restProps = omit(
         p,
         "class",

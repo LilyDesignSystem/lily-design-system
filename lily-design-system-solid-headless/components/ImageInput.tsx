@@ -48,7 +48,8 @@
 // References:
 //   - MDN input type="image": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/image
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ImageInputProps {
     class?: string;
     /** URL of the image. */
@@ -65,7 +66,7 @@ export interface ImageInputProps {
 }
 
 export default function ImageInput(props: ImageInputProps) {
-    const p = merge({ class: "" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, disabled: false }, props);
     const restProps = omit(p, "class", "src", "alt", "width", "height", "disabled");
     return (
         <input

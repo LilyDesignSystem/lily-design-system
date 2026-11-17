@@ -49,7 +49,8 @@
 //   - WAI-ARIA img Role: https://www.w3.org/TR/wai-aria-1.2/#img
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface QrCodeImageProps {
     class?: string;
     /** Accessible label */
@@ -60,7 +61,7 @@ export interface QrCodeImageProps {
 }
 
 export default function QrCodeImage(props: QrCodeImageProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

@@ -41,7 +41,8 @@
 //   - CSS max-width: https://developer.mozilla.org/en-US/docs/Web/CSS/max-width
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ContainerWithFixedWidthProps {
     class?: string;
@@ -53,7 +54,7 @@ export interface ContainerWithFixedWidthProps {
 }
 
 export default function ContainerWithFixedWidth(props: ContainerWithFixedWidthProps) {
-    const p = merge({ class: "" as const, maxWidth: "1200px" as const }, props);
+    const p = withDefaults({ class: "" as const, maxWidth: "1200px" as const }, props);
     const restProps = omit(p, "class", "maxWidth", "children");
     return (
         <div

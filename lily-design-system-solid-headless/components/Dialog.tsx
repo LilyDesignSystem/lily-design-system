@@ -55,7 +55,8 @@
 //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
 import type { JSX } from "@solidjs/web";
-import { createEffect, createSignal, merge, omit } from "solid-js";
+import { createEffect, createSignal, omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -114,7 +115,7 @@ export interface DialogProps {
 }
 
 export default function Dialog(props: DialogProps) {
-    const p = merge({ class: "" as const, open: false, modal: true }, props);
+    const p = withDefaults({ class: "" as const, open: false, modal: true }, props);
     const restProps = omit(p, "class", "open", "label", "modal", "onChange", "children");
     warnMissingName("Dialog", p.label, p["aria-label"], p["aria-labelledby"]);
     const [open, setOpen] = createSignal(() => p.open);

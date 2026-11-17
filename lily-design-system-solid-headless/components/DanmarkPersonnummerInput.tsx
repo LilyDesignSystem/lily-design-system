@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Personal_identification_number_(Denmark)
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface DanmarkPersonnummerInputProps {
@@ -41,7 +42,7 @@ export interface DanmarkPersonnummerInputProps {
 }
 
 export default function DanmarkPersonnummerInput(props: DanmarkPersonnummerInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

@@ -52,7 +52,8 @@
 //   - WAI-ARIA Live Regions: https://www.w3.org/WAI/ARIA/apd/practices/live-regions/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface NotificationProps {
     class?: string;
@@ -63,7 +64,7 @@ export interface NotificationProps {
 }
 
 export default function Notification(props: NotificationProps) {
-    const p = merge({ class: "" as const, urgent: false }, props);
+    const p = withDefaults({ class: "" as const, urgent: false }, props);
     const restProps = omit(p, "class", "label", "urgent", "children");
     return (
         <div

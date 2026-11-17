@@ -40,7 +40,8 @@
 //   - heading is non-optional in the interface
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface FeatureCardProps {
     class?: string;
@@ -62,7 +63,7 @@ export interface FeatureCardProps {
 }
 
 export default function FeatureCard(props: FeatureCardProps) {
-    const p = merge({ class: "" as const, imagePosition: "start" as const }, props);
+    const p = withDefaults({ class: "" as const, imagePosition: "start" as const }, props);
     const restProps = omit(
         p,
         "class",

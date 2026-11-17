@@ -64,7 +64,8 @@
 //   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface AlertProps {
     class?: string;
@@ -82,7 +83,10 @@ export interface AlertProps {
 }
 
 export default function Alert(props: AlertProps) {
-    const p = merge({ class: "" as const, type: "info" as const, role: "alert" as const }, props);
+    const p = withDefaults(
+        { class: "" as const, type: "info" as const, role: "alert" as const },
+        props,
+    );
     const restProps = omit(p, "class", "type", "heading", "role", "live", "children");
     const ariaLive = () => p.live ?? (p.role === "alert" ? "assertive" : "polite");
 

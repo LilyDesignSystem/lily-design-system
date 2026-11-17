@@ -32,7 +32,8 @@
 //   - Ant Design Statistic: https://ant.design/components/statistic
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface StatisticProps {
     class?: string;
     /** Statistic label/heading (required) */
@@ -49,7 +50,7 @@ export interface StatisticProps {
 }
 
 export default function Statistic(props: StatisticProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "title", "value", "prefix", "suffix", "label");
     const ariaLabel = (): string => p.label ?? `${p.title}: ${p.value}`;
     return (

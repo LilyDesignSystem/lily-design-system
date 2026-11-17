@@ -47,7 +47,8 @@
 //   - WAI-ARIA Images Tutorial: https://www.w3.org/WAI/tutorials/images/decorative/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface IconProps {
     class?: string;
@@ -58,7 +59,7 @@ export interface IconProps {
 }
 
 export default function Icon(props: IconProps) {
-    const p = merge({ class: "" as const, decorative: false }, props);
+    const p = withDefaults({ class: "" as const, decorative: false }, props);
     const restProps = omit(p, "class", "label", "decorative", "children");
     return (
         <span

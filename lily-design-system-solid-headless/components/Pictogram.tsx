@@ -38,7 +38,8 @@
 //   - icon is a ReactNode prop, NOT children
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface PictogramProps {
     class?: string;
@@ -58,7 +59,7 @@ export interface PictogramProps {
 }
 
 export default function Pictogram(props: PictogramProps) {
-    const p = merge({ class: "" as const, layout: "centered" as const }, props);
+    const p = withDefaults({ class: "" as const, layout: "centered" as const }, props);
     const restProps = omit(
         p,
         "class",

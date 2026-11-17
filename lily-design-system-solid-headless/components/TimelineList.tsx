@@ -50,7 +50,8 @@
 //   - WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TimelineListProps {
     class?: string;
     /** Accessible label for the timeline */
@@ -64,7 +65,7 @@ export interface TimelineListProps {
 }
 
 export default function TimelineList(props: TimelineListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "coverageLabel", "children");
     return (
         <ol

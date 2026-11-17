@@ -33,7 +33,8 @@
 // References:
 //   - MDN <a>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface GoToPreviousSectionProps {
@@ -44,7 +45,7 @@ export interface GoToPreviousSectionProps {
 }
 
 export default function GoToPreviousSection(props: GoToPreviousSectionProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "href");
     warnMissingName("GoToPreviousSection", p.label, p["aria-label"], p["aria-labelledby"]);
     return (

@@ -37,7 +37,8 @@
 // References:
 //   - WAI-ARIA Accessible Name: https://www.w3.org/TR/accname-1.2/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ThemeViewProps {
     class?: string;
     /** Accessible label. */
@@ -48,7 +49,7 @@ export interface ThemeViewProps {
 }
 
 export default function ThemeView(props: ThemeViewProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

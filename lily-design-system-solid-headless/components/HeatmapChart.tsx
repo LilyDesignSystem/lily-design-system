@@ -24,7 +24,8 @@
 // Markup: <figure class="heatmap-chart"><div class="heatmap-chart-graphic" role="img" aria-label>…svg…</div>[<div class="heatmap-chart-data-table">…</div>]</figure>
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface HeatmapChartProps {
     class?: string;
     /** Accessible name for the chart. */
@@ -37,7 +38,7 @@ export interface HeatmapChartProps {
 }
 
 export default function HeatmapChart(props: HeatmapChartProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children", "dataTable");
     return (
         <figure

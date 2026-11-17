@@ -31,7 +31,8 @@
 //   - USWDS Validation: https://designsystem.digital.gov/components/validation/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export type ValidationListItemStatus = "pending" | "passed" | "failed";
 
@@ -47,7 +48,7 @@ export interface ValidationListItemProps {
 }
 
 export default function ValidationListItem(props: ValidationListItemProps) {
-    const p = merge({ class: "" as const, status: "pending" as const }, props);
+    const p = withDefaults({ class: "" as const, status: "pending" as const }, props);
     const restProps = omit(p, "class", "status", "label", "children");
     return (
         <li

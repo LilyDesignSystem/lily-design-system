@@ -48,7 +48,8 @@
 // References:
 //   - Social Security Number format: https://www.ssa.gov/employer/randomization.html
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface UnitedStatesSocialSecurityNumberInputProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -68,7 +69,7 @@ export interface UnitedStatesSocialSecurityNumberInputProps {
 export default function UnitedStatesSocialSecurityNumberInput(
     props: UnitedStatesSocialSecurityNumberInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

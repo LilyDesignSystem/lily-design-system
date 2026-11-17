@@ -49,7 +49,8 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createUniqueId } from "solid-js";
+import { omit, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface GovernmentBannerProps {
     class?: string;
@@ -69,7 +70,7 @@ export interface GovernmentBannerProps {
 }
 
 export default function GovernmentBanner(props: GovernmentBannerProps) {
-    const p = merge({ class: "" as const, expanded: false }, props);
+    const p = withDefaults({ class: "" as const, expanded: false }, props);
     const restProps = omit(
         p,
         "class",

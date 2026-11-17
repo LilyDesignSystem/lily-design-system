@@ -50,7 +50,8 @@
 //   - WAI Forms Tutorial: https://www.w3.org/WAI/tutorials/forms/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface FormProps {
     class?: string;
     /** Accessible name. */
@@ -65,7 +66,7 @@ export interface FormProps {
 }
 
 export default function Form(props: FormProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "onSubmit", "onReset", "children");
     function handleSubmit(event: Event) {
         event.preventDefault();

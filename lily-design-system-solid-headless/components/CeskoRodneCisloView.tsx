@@ -18,7 +18,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/National_identification_number#Czech_Republic
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CeskoRodneCisloViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -29,7 +30,7 @@ export interface CeskoRodneCisloViewProps {
 }
 
 export default function CeskoRodneCisloView(props: CeskoRodneCisloViewProps) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

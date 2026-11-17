@@ -35,7 +35,8 @@
 // References:
 //   - WAI-ARIA progressbar role: https://www.w3.org/TR/wai-aria-1.2/#progressbar
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ProgressBarProps {
     class?: string;
@@ -47,7 +48,7 @@ export interface ProgressBarProps {
 }
 
 export default function ProgressBar(props: ProgressBarProps) {
-    const p = merge({ class: "" as const, min: 0, max: 100 }, props);
+    const p = withDefaults({ class: "" as const, min: 0, max: 100 }, props);
     const restProps = omit(p, "class", "label", "value", "min", "max");
     return (
         <div

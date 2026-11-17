@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Colombian_identity_card
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface ColombiaCedulaDeCiudadaniaInputProps {
@@ -43,7 +44,7 @@ export interface ColombiaCedulaDeCiudadaniaInputProps {
 export default function ColombiaCedulaDeCiudadaniaInput(
     props: ColombiaCedulaDeCiudadaniaInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

@@ -46,7 +46,8 @@
 //   - HTML spec div in dl: https://html.spec.whatwg.org/multipage/grouping-content.html#the-dl-element
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SummaryListItemProps {
     class?: string;
     /** The key/label text for this summary row. */
@@ -57,7 +58,7 @@ export interface SummaryListItemProps {
 }
 
 export default function SummaryListItem(props: SummaryListItemProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "term", "children");
     return (
         <div

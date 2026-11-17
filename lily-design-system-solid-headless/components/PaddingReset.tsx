@@ -9,7 +9,8 @@
 //   - Sets the padding-reset class as the styling hook
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface PaddingResetProps {
     class?: string;
     /** Component content. */
@@ -18,7 +19,7 @@ export interface PaddingResetProps {
 }
 
 export default function PaddingReset(props: PaddingResetProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <div

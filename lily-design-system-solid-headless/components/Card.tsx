@@ -46,7 +46,8 @@
 //   - WAI-ARIA group role: https://www.w3.org/TR/wai-aria-1.2/#group
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CardProps {
     class?: string;
     heading?: string;
@@ -58,7 +59,7 @@ export interface CardProps {
 }
 
 export default function Card(props: CardProps) {
-    const p = merge({ class: "" as const, headingLevel: 3 }, props);
+    const p = withDefaults({ class: "" as const, headingLevel: 3 }, props);
     const restProps = omit(p, "class", "heading", "headingLevel", "href", "label", "children");
     const headingContent = () => (p.href ? <a href={p.href}>{p.heading}</a> : p.heading);
 

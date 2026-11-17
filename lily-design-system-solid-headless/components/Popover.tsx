@@ -52,7 +52,8 @@
 //   - WAI-ARIA dialog role: https://www.w3.org/TR/wai-aria-1.2/#dialog
 
 import type { JSX } from "@solidjs/web";
-import { createEffect, merge, omit, onSettled } from "solid-js";
+import { createEffect, omit, onSettled } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 /** Whether this element has the Popover API (`showPopover` and `hidePopover`). */
@@ -113,7 +114,7 @@ export interface PopoverProps {
 }
 
 export default function Popover(props: PopoverProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "label", "open", "onChange", "children");
     warnMissingName("Popover", p.label, p["aria-label"], p["aria-labelledby"]);
     const ref: { current: HTMLDivElement | null } = { current: null };

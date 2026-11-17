@@ -46,7 +46,8 @@
 //   - HTML Table Element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TableProps {
     class?: string;
     /** Accessible label for the table */
@@ -58,7 +59,7 @@ export interface TableProps {
 }
 
 export default function Table(props: TableProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <table

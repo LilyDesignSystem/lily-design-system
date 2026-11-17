@@ -45,7 +45,8 @@
 //   - WAI-ARIA Grid Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/grid/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface GanttTableTdProps {
     class?: string;
     /** Whether this cell represents an active time period for the task. */
@@ -56,7 +57,7 @@ export interface GanttTableTdProps {
 }
 
 export default function GanttTableTD(props: GanttTableTdProps) {
-    const p = merge({ class: "" as const, active: false }, props);
+    const p = withDefaults({ class: "" as const, active: false }, props);
     const restProps = omit(p, "class", "active", "children");
     return (
         <td

@@ -26,7 +26,8 @@
 // Markup: <figure class="heatmap-chart-with-year-of-days"><div class="heatmap-chart-with-year-of-days-graphic" role="img" aria-label>…svg…</div>[<div class="heatmap-chart-with-year-of-days-data-table">…</div>]</figure>
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface HeatmapChartWithYearOfDaysProps {
     class?: string;
@@ -44,7 +45,7 @@ export interface HeatmapChartWithYearOfDaysProps {
 }
 
 export default function HeatmapChartWithYearOfDays(props: HeatmapChartWithYearOfDaysProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "year", "weekStart", "children", "dataTable");
     return (
         <figure

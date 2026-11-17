@@ -30,7 +30,8 @@
 //     component models the keyboard fallback only
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal } from "solid-js";
+import { omit, createSignal } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -50,7 +51,7 @@ export interface SliderButtonProps {
 }
 
 export default function SliderButton(props: SliderButtonProps) {
-    const p = merge({ class: "" as const, step: 10, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, step: 10, disabled: false }, props);
     const restProps = omit(p, "class", "label", "step", "disabled", "onConfirm", "children");
     warnMissingName("SliderButton", p.label, p["aria-label"], p["aria-labelledby"]);
     const [position, setPosition] = createSignal(0);

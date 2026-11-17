@@ -36,7 +36,8 @@
 //   - Intl.NumberFormat: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
 //   - ISO 4217 Currency Codes: https://www.iso.org/iso-4217-currency-codes.html
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface CurrencyInputProps {
     class?: string;
@@ -60,7 +61,7 @@ export interface CurrencyInputProps {
 }
 
 export default function CurrencyInput(props: CurrencyInputProps) {
-    const p = merge({ class: "" as const, required: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, required: false, disabled: false }, props);
     const restProps = omit(
         p,
         "class",

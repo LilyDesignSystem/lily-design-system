@@ -44,7 +44,8 @@
 //   - MDN aria-hidden: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-hidden
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SkeletonProps {
     class?: string;
     /** Optional placeholder content. */
@@ -53,7 +54,7 @@ export interface SkeletonProps {
 }
 
 export default function Skeleton(props: SkeletonProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <div

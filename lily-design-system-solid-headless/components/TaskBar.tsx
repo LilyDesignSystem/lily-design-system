@@ -49,7 +49,8 @@
 //   - WAI-ARIA Toolbar Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attachToolbar } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
 
@@ -63,7 +64,7 @@ export interface TaskBarProps {
 }
 
 export default function TaskBar(props: TaskBarProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     warnMissingName("TaskBar", p.label, p["aria-label"], p["aria-labelledby"]);
     const barRef: { current: HTMLDivElement | null } = { current: null };

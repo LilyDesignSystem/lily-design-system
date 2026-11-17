@@ -47,7 +47,8 @@
 //   - WAI-ARIA Authoring Practices - Radio Group: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface RedOrangeYellowGreenBlueRadioGroupProps {
@@ -62,7 +63,7 @@ export interface RedOrangeYellowGreenBlueRadioGroupProps {
 export default function RedOrangeYellowGreenBlueRadioGroup(
     props: RedOrangeYellowGreenBlueRadioGroupProps,
 ) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     warnMissingName(
         "RedOrangeYellowGreenBlueRadioGroup",

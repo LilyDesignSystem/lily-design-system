@@ -44,7 +44,8 @@
 //   - HTML ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface AccordionListProps {
     class?: string;
     /** Optional accessible label for the group. */
@@ -55,7 +56,7 @@ export interface AccordionListProps {
 }
 
 export default function AccordionList(props: AccordionListProps) {
-    const p = merge({ class: "" as const, label: "" as const }, props);
+    const p = withDefaults({ class: "" as const, label: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <ol

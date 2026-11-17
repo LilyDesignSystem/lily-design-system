@@ -31,7 +31,8 @@
 //   - WAI-ARIA status role: https://www.w3.org/TR/wai-aria-1.2/#status
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SuccessPanelProps {
     class?: string;
     label?: string;
@@ -40,7 +41,7 @@ export interface SuccessPanelProps {
 }
 
 export default function SuccessPanel(props: SuccessPanelProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

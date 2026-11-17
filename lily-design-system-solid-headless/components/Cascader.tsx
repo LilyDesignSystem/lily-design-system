@@ -44,7 +44,8 @@
 //   - Ant Design Cascader: https://ant.design/components/cascader
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { attachTreePopup, type TreeSelection } from "./widget-keys";
 import { usePopoverState } from "./Popover";
@@ -73,7 +74,7 @@ export interface CascaderProps {
 }
 
 export default function Cascader(props: CascaderProps) {
-    const p = merge({ class: "" as const, expanded: false, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, expanded: false, disabled: false }, props);
     const restProps = omit(
         p,
         "class",

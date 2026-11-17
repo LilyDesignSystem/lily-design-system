@@ -22,7 +22,8 @@
 // References:
 //   - https://hu.wikipedia.org/wiki/T%C3%A1rsadalombiztos%C3%ADt%C3%A1si_azonos%C3%ADt%C3%B3_jel
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface MagyarorszagTajSzamInputProps {
@@ -41,7 +42,7 @@ export interface MagyarorszagTajSzamInputProps {
 }
 
 export default function MagyarorszagTajSzamInput(props: MagyarorszagTajSzamInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

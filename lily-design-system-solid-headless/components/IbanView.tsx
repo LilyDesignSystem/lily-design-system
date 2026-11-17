@@ -17,7 +17,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/International_Bank_Account_Number
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface IbanViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -28,7 +29,7 @@ export interface IbanViewProps {
 }
 
 export default function IbanView(props: IbanViewProps) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

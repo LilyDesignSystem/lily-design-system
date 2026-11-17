@@ -41,7 +41,8 @@
 //   - MDN ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ContentsListProps {
     class?: string;
     /** The component content */
@@ -50,7 +51,7 @@ export interface ContentsListProps {
 }
 
 export default function ContentsList(props: ContentsListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <ol

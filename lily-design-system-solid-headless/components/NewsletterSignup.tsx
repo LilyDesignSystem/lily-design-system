@@ -48,7 +48,8 @@
 //   - Headless: no CSS, no styles
 //   - label, emailLabel, submitLabel are non-optional in the interface
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export type NewsletterSignupState = "idle" | "submitting" | "success" | "error";
 
@@ -78,7 +79,7 @@ export interface NewsletterSignupProps {
 }
 
 export default function NewsletterSignup(props: NewsletterSignupProps) {
-    const p = merge({ class: "" as const, state: "idle" as const }, props);
+    const p = withDefaults({ class: "" as const, state: "idle" as const }, props);
     const restProps = omit(
         p,
         "class",

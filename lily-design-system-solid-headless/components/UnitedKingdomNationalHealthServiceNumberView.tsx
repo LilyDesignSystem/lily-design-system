@@ -39,7 +39,8 @@
 // References:
 //   - NHS Number: https://www.nhs.uk/using-the-nhs/about-the-nhs/what-is-an-nhs-number/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface UnitedKingdomNationalHealthServiceNumberViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -53,7 +54,7 @@ export interface UnitedKingdomNationalHealthServiceNumberViewProps {
 export default function UnitedKingdomNationalHealthServiceNumberView(
     props: UnitedKingdomNationalHealthServiceNumberViewProps,
 ) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

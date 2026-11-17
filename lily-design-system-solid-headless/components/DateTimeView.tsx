@@ -45,7 +45,8 @@
 //   - HTML <time>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface DateTimeViewProps {
     class?: string;
     /** ISO 8601 datetime string (required, machine-readable) */
@@ -60,7 +61,7 @@ export interface DateTimeViewProps {
 }
 
 export default function DateTimeView(props: DateTimeViewProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "value", "format", "label", "children");
     const display = (): JSX.Element => p.children ?? p.format ?? p.value;
     return (

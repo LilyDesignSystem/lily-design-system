@@ -32,7 +32,8 @@
 //   - HTML command and commandfor: https://html.spec.whatwg.org/multipage/form-elements.html#attr-button-command
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, createUniqueId } from "solid-js";
+import { omit, createSignal, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { popoverSupported, usePopoverState } from "./Popover";
 
@@ -54,7 +55,7 @@ export interface ContextualHelpProps {
 }
 
 export default function ContextualHelp(props: ContextualHelpProps) {
-    const p = merge({ class: "" as const, expanded: false }, props);
+    const p = withDefaults({ class: "" as const, expanded: false }, props);
     const restProps = omit(
         p,
         "class",

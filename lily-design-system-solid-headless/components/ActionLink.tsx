@@ -54,7 +54,8 @@
 //   - WAI-ARIA link role: https://www.w3.org/TR/wai-aria-1.2/#link
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ActionLinkProps {
     class?: string;
     /** The URL the link points to */
@@ -67,7 +68,7 @@ export interface ActionLinkProps {
 }
 
 export default function ActionLink(props: ActionLinkProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "href", "label", "children");
     return (
         <a

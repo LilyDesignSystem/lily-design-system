@@ -57,7 +57,8 @@
 //   - WAI-ARIA Alert Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/alert/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createUniqueId } from "solid-js";
+import { omit, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ErrorSummaryProps {
     class?: string;
     /** Heading for the error summary. */
@@ -68,7 +69,7 @@ export interface ErrorSummaryProps {
 }
 
 export default function ErrorSummary(props: ErrorSummaryProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "title", "children");
     const titleId = `error-summary-${createUniqueId()}`;
 

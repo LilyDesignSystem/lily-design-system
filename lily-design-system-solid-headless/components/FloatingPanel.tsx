@@ -45,7 +45,8 @@
 //   - WAI-ARIA Disclosure Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { usePopoverState } from "./Popover";
 
 export interface FloatingPanelProps {
@@ -60,7 +61,7 @@ export interface FloatingPanelProps {
 }
 
 export default function FloatingPanel(props: FloatingPanelProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "open", "label", "children");
     const panelRef: { current: HTMLDivElement | null } = { current: null };
     usePopoverState(panelRef, () => p.open);

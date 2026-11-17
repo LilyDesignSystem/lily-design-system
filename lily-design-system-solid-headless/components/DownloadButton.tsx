@@ -43,7 +43,8 @@
 //   - href and label are non-optional in the interface
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface DownloadButtonProps {
     class?: string;
@@ -63,7 +64,7 @@ export interface DownloadButtonProps {
 }
 
 export default function DownloadButton(props: DownloadButtonProps) {
-    const p = merge({ class: "" as const, download: true }, props);
+    const p = withDefaults({ class: "" as const, download: true }, props);
     const restProps = omit(
         p,
         "class",

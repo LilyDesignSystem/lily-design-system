@@ -38,7 +38,8 @@
 // References:
 //   - HTML hidden input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/hidden
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface HiddenInputProps {
     class?: string;
     name: string;
@@ -47,7 +48,7 @@ export interface HiddenInputProps {
 }
 
 export default function HiddenInput(props: HiddenInputProps) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "name", "value");
     return (
         <input

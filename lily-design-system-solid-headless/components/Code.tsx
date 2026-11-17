@@ -17,7 +17,8 @@
 //   - HTML code element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/code
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface CodeProps {
     class?: string;
     /** Component content. */
@@ -26,7 +27,7 @@ export interface CodeProps {
 }
 
 export default function Code(props: CodeProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <code

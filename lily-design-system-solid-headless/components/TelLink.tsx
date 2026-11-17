@@ -39,7 +39,8 @@
 //   - MDN tel: links: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#linking_to_telephone_numbers
 //   - WAI-ARIA Link Role: https://www.w3.org/TR/wai-aria-1.2/#link
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TelLinkProps {
     class?: string;
     phone: string;
@@ -48,7 +49,7 @@ export interface TelLinkProps {
 }
 
 export default function TelLink(props: TelLinkProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "phone", "label");
     return (
         <a

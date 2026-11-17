@@ -42,7 +42,8 @@
 //   - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TagProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -60,7 +61,7 @@ export interface TagProps {
 }
 
 export default function Tag(props: TagProps) {
-    const p = merge({ class: "" as const, live: false }, props);
+    const p = withDefaults({ class: "" as const, live: false }, props);
     const restProps = omit(p, "class", "label", "live", "children");
     if (p.live) {
         return (

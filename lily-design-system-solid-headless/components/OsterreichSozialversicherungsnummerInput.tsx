@@ -22,7 +22,8 @@
 // References:
 //   - https://de.wikipedia.org/wiki/Sozialversicherungsnummer
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface OsterreichSozialversicherungsnummerInputProps {
@@ -43,7 +44,7 @@ export interface OsterreichSozialversicherungsnummerInputProps {
 export default function OsterreichSozialversicherungsnummerInput(
     props: OsterreichSozialversicherungsnummerInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

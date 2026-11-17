@@ -40,7 +40,8 @@
 // References:
 //   - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MeasurementUnitViewProps {
     class?: string;
     /** The measurement unit to display */
@@ -51,7 +52,7 @@ export interface MeasurementUnitViewProps {
 }
 
 export default function MeasurementUnitView(props: MeasurementUnitViewProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "value", "label");
     return (
         <span

@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Hong_Kong_identity_card
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface HongKongIdentityCardInputProps {
@@ -41,7 +42,7 @@ export interface HongKongIdentityCardInputProps {
 }
 
 export default function HongKongIdentityCardInput(props: HongKongIdentityCardInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

@@ -25,7 +25,8 @@
 //   - HTML div element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MockupWatchProps {
     class?: string;
     /** Accessible name of the image of the device. */
@@ -36,7 +37,7 @@ export interface MockupWatchProps {
 }
 
 export default function MockupWatch(props: MockupWatchProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

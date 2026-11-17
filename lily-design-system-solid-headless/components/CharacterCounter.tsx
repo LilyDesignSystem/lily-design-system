@@ -48,7 +48,8 @@
 // References:
 //   - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
 
-import { merge, omit, createEffect, createSignal, untrack } from "solid-js";
+import { omit, createEffect, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface CharacterCounterProps {
     class?: string;
@@ -64,7 +65,7 @@ export interface CharacterCounterProps {
 }
 
 export default function CharacterCounter(props: CharacterCounterProps) {
-    const p = merge({ class: "" as const, count: 0, announceDelay: 1000 }, props);
+    const p = withDefaults({ class: "" as const, count: 0, announceDelay: 1000 }, props);
     const restProps = omit(p, "class", "count", "max", "label", "announceDelay");
     const remaining = () => (p.max != null ? p.max - p.count : undefined);
 

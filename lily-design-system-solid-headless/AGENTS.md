@@ -14,8 +14,10 @@ Read the root [AGENTS.md](../AGENTS.md) and [AGENTS/](AGENTS/) first; this file 
 
 ## Solid 2.0 rules for this catalog
 
-- **Never destructure props.** `const p = merge({ class: "", disabled: false }, props)` for defaults, and
-  `const restProps = omit(p, "class", …)` for the rest-props spread. Read `p.name` inside JSX or an accessor.
+- **Never destructure props.** `const p = withDefaults({ class: "", disabled: false }, props)` for defaults
+  (`components/defaults.ts`), and `const restProps = omit(p, "class", …)` for the rest-props spread. Read `p.name`
+  inside JSX or an accessor. Not Solid's `merge`: it lets an explicit `undefined` beat the default, so
+  `<Button type={maybeType} />` would lose `type="button"` and submit its form.
 - **Derived values are accessors.** `const ariaLive = () => p.live ?? "polite"`, used as `ariaLive()`.
 - **`class`, not `className`.** The root is ``class={`slug ${p.class}`}``, base class first.
 - **ARIA and data booleans go through `attr()`.** Solid renders a boolean attribute value as presence (`false`

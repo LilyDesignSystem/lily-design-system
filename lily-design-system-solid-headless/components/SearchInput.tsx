@@ -44,7 +44,8 @@
 //   - MDN input type="search": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/search
 //   - WAI-ARIA Search Role: https://www.w3.org/WAI/ARIA/apg/patterns/search/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface SearchInputProps {
@@ -63,7 +64,7 @@ export interface SearchInputProps {
 }
 
 export default function SearchInput(props: SearchInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

@@ -42,7 +42,8 @@
 // References:
 //   - Net Promoter Score: https://en.wikipedia.org/wiki/Net_promoter_score
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface NetPromoterScoreViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -53,7 +54,7 @@ export interface NetPromoterScoreViewProps {
 }
 
 export default function NetPromoterScoreView(props: NetPromoterScoreViewProps) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

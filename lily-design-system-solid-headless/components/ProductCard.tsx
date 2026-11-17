@@ -49,7 +49,8 @@
 //   - HTML <article>: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ProductCardProps {
     class?: string;
     /** Product name (required) */
@@ -68,7 +69,7 @@ export interface ProductCardProps {
 }
 
 export default function ProductCard(props: ProductCardProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(
         p,
         "class",

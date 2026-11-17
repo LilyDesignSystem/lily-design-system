@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Unique_Master_Citizen_Number
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface SlovenijaEmsoInputProps {
@@ -41,7 +42,7 @@ export interface SlovenijaEmsoInputProps {
 }
 
 export default function SlovenijaEmsoInput(props: SlovenijaEmsoInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

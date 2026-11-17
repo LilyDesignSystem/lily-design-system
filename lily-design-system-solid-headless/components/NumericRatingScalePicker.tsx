@@ -1,7 +1,8 @@
 // NumericRatingScalePicker: a 0 to 10 rating such as a numeric pain rating scale (spec/healthcare-ui item 12). A fieldset
 // named by its legend, one native radio per number, the consumer's anchor words linked to the end radios. Props:
 // NumericRatingScalePicker.md.
-import { merge, omit, createSignal, createUniqueId, untrack } from "solid-js";
+import { omit, createSignal, createUniqueId, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface NumericRatingScalePickerProps {
@@ -25,7 +26,7 @@ export interface NumericRatingScalePickerProps {
 }
 
 export default function NumericRatingScalePicker(props: NumericRatingScalePickerProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             min: 0,

@@ -45,7 +45,8 @@
 //   - WAI-ARIA Breadcrumb Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface BreadcrumbListProps {
     class?: string;
     /** BreadcrumbListItem elements. */
@@ -54,7 +55,7 @@ export interface BreadcrumbListProps {
 }
 
 export default function BreadcrumbList(props: BreadcrumbListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <ol

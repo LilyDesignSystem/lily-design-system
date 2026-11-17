@@ -56,7 +56,8 @@
 //   - WAI-ARIA Dialog (Modal) Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createEffect, createSignal, untrack } from "solid-js";
+import { omit, createEffect, createSignal, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName } from "./dev-warning";
 
@@ -76,7 +77,7 @@ export interface SheetProps {
 }
 
 export default function Sheet(props: SheetProps) {
-    const p = merge({ class: "" as const, open: false, side: "right" as const }, props);
+    const p = withDefaults({ class: "" as const, open: false, side: "right" as const }, props);
     const restProps = omit(p, "class", "label", "open", "side", "onChange", "children");
     warnMissingName("Sheet", p.label, p["aria-label"], p["aria-labelledby"]);
     const [open, setOpen] = createSignal(() => p.open);

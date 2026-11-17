@@ -48,7 +48,8 @@
 //   - WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, createSignal, createUniqueId } from "solid-js";
+import { omit, createSignal, createUniqueId } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName, warnMissingProp } from "./dev-warning";
 
@@ -75,7 +76,7 @@ export interface SignaturePadProps {
 }
 
 export default function SignaturePad(props: SignaturePadProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(
         p,
         "class",

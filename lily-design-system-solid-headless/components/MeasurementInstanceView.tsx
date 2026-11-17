@@ -39,7 +39,8 @@
 // References:
 //   - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MeasurementInstanceViewProps {
     class?: string;
     /** The measurement instance value to display */
@@ -50,7 +51,7 @@ export interface MeasurementInstanceViewProps {
 }
 
 export default function MeasurementInstanceView(props: MeasurementInstanceViewProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "value", "label");
     return (
         <span

@@ -18,7 +18,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/NHS_number
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface EnglandNationalHealthServiceNumberViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -31,7 +32,7 @@ export interface EnglandNationalHealthServiceNumberViewProps {
 export default function EnglandNationalHealthServiceNumberView(
     props: EnglandNationalHealthServiceNumberViewProps,
 ) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

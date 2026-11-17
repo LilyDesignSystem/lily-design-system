@@ -19,7 +19,8 @@
 //   - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ScreenReaderSpanProps {
     class?: string;
     /** Component content. */
@@ -28,7 +29,7 @@ export interface ScreenReaderSpanProps {
 }
 
 export default function ScreenReaderSpan(props: ScreenReaderSpanProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "children");
     return (
         <span

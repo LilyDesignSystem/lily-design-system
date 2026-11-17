@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Personal_identity_code_(Finland)
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface SuomiHenkilotunnusInputProps {
@@ -41,7 +42,7 @@ export interface SuomiHenkilotunnusInputProps {
 }
 
 export default function SuomiHenkilotunnusInput(props: SuomiHenkilotunnusInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

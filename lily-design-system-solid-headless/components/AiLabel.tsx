@@ -36,7 +36,8 @@
 // References:
 //   - Carbon Design System AI Label: https://carbondesignsystem.com/components/ai-label/usage/
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface AiLabelProps {
     class?: string;
     /** Accessible name for the indicator. */
@@ -47,7 +48,7 @@ export interface AiLabelProps {
 }
 
 export default function AiLabel(props: AiLabelProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "text");
     return (
         <span

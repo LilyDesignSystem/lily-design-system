@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Taxpayer_Identification_Number
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInputProps {
@@ -43,7 +44,7 @@ export interface UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInp
 export default function UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput(
     props: UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

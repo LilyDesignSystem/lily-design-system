@@ -47,7 +47,8 @@
 //   - WAI-ARIA Radio Group Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/radio/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attachRadioGroup } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
 
@@ -61,7 +62,7 @@ export interface SegmentGroupProps {
 }
 
 export default function SegmentGroup(props: SegmentGroupProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     warnMissingName("SegmentGroup", p.label, p["aria-label"], p["aria-labelledby"]);
     const rootRef: { current: HTMLDivElement | null } = { current: null };

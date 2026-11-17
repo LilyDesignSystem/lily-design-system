@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/National_identification_number#Poland
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface PolskaNumerIdentyfikacjiPodatkowejInputProps {
@@ -43,7 +44,7 @@ export interface PolskaNumerIdentyfikacjiPodatkowejInputProps {
 export default function PolskaNumerIdentyfikacjiPodatkowejInput(
     props: PolskaNumerIdentyfikacjiPodatkowejInputProps,
 ) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

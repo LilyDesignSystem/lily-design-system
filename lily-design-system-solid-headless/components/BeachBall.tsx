@@ -43,7 +43,8 @@
 //   - WAI-ARIA Status Role: https://www.w3.org/TR/wai-aria-1.2/#status
 //   - ARIA aria-busy: https://www.w3.org/TR/wai-aria-1.2/#aria-busy
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface BeachBallProps {
     class?: string;
@@ -55,7 +56,7 @@ export interface BeachBallProps {
 }
 
 export default function BeachBall(props: BeachBallProps) {
-    const p = merge({ class: "" as const, active: true }, props);
+    const p = withDefaults({ class: "" as const, active: true }, props);
     const restProps = omit(p, "class", "label", "active");
     return (
         <div

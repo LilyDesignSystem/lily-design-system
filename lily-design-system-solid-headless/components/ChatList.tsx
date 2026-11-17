@@ -19,7 +19,8 @@
 //   - HTML ol element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ChatListProps {
     class?: string;
     /** Optional accessible label set on aria-label. */
@@ -30,7 +31,7 @@ export interface ChatListProps {
 }
 
 export default function ChatList(props: ChatListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <ol

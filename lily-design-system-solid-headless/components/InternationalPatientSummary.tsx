@@ -6,7 +6,8 @@
 // heading and omittedLabel, after the given sections, with a contents link to it. See
 // components/international-patient-summary/index.md.
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingName, warnMissingProp } from "./dev-warning";
 import { ipsContents } from "./ips-sections";
@@ -34,7 +35,7 @@ export interface InternationalPatientSummaryProps {
 }
 
 export default function InternationalPatientSummary(props: InternationalPatientSummaryProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             sections: [] as NonNullable<InternationalPatientSummaryProps["sections"]>,

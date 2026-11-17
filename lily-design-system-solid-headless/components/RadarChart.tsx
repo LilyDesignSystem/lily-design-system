@@ -24,7 +24,8 @@
 // Markup: <figure class="radar-chart"><div class="radar-chart-graphic" role="img" aria-label>…svg…</div>[<div class="radar-chart-data-table">…</div>]</figure>
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface RadarChartProps {
     class?: string;
     /** Accessible name for the chart. */
@@ -37,7 +38,7 @@ export interface RadarChartProps {
 }
 
 export default function RadarChart(props: RadarChartProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children", "dataTable");
     return (
         <figure

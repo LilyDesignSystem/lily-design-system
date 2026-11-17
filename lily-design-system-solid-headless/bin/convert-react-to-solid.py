@@ -125,9 +125,9 @@ def hook_pass(body):
             if body[i:i + 1] == "\n":
                 i += 1
             continue
-        if deps is None:
-            return body, states, keep, imps, "effect without deps"
-        if deps.strip() == "[]":
+        if deps is None or deps.strip() == "[]":
+            # No dependency list (React: after every render) is mount-time here; a port that must follow state is
+            # rewritten by hand to a createEffect over that state.
             imps.update({"onSettled", "untrack"})
             rep = f"onSettled(() => untrack({fn}));"
         else:
@@ -164,7 +164,8 @@ def convert_component(src, allow_hooks=False):
     s = src
     if allow_hooks:
         s = re.sub(r"\bReact\.(useState|useEffect|useLayoutEffect|useRef|useId)\b", r"\1", s)
-        s = s.replace("<React.Fragment>", "<>").replace("</React.Fragment>", "</>")
+        s = re.sub(r"<React\.Fragment(?:\s+key=\{[^}]*\})?>", "<>", s).replace("</React.Fragment>", "</>")
+        s = re.sub(r"\bReact\.JSX\.", "JSX.", s)
         s = re.sub(r"React\.RefObject<(\w+)( \| null)?>", r"{ current: \1 | null }", s)
         s = re.sub(r"React\.Key\b", "string | number", s)
     sync_names = set()
@@ -177,14 +178,14 @@ def convert_component(src, allow_hooks=False):
         return None, "react import"
     if "React." in re.sub(r"React\.(ReactNode|ReactElement|CSSProperties|\w+Event(<[^>]*>)?|HTMLAttributes<\w+>|JSX\.Element)", "", s):
         return None, "other React API: " + ", ".join(sorted(set(re.findall(r"React\.\w+", s))))
-    m = re.search(r"^export default function (\w+)\(\{", s, re.M)
+    m = re.search(r"^export default function (\w+)(<[^>(]*>)?\(\{", s, re.M)
     if not m:
         return None, "signature"
     name = m.group(1)
     o = m.end() - 1  # the "{"
     c = find_close(s, o, "{", "}")
     sig = s[o + 1:c]
-    after = re.match(r"\}:\s*(\w+)\s*,?\s*\)\s*\{\n", s[c:])
+    after = re.match(r"\}:\s*(\w+(?:<[^>]*>)?)\s*,?\s*\)\s*\{\n", s[c:])
     if not after:
         return None, "props type"
     ptype = after.group(1)
@@ -203,6 +204,7 @@ def convert_component(src, allow_hooks=False):
             keep.discard(k)
 
     defaults, keys, alias, rest = [], [], {}, None
+    sig = re.sub(r"//[^\n]*", "", sig)
     for part in split_top(sig):
         if part.startswith("..."):
             rest = part[3:]
@@ -321,7 +323,7 @@ def convert_component(src, allow_hooks=False):
 
     defaults_s = "{ " + ", ".join(re.sub(r'^(\w+): ("[^"]*")$', r"\1: \2 as const", d) for d in defaults) + " }" if defaults else "{}"
     omit_keys = ", ".join(f'"{k}"' for k in keys)
-    head = f"    const p = merge({defaults_s}, props);\n"
+    head = f"    const p = withDefaults({defaults_s}, props);\n"
     if rest:
         head += f"    const {rest} = omit(p, {omit_keys});\n"
     pre = s[:m.start()]
@@ -329,9 +331,10 @@ def convert_component(src, allow_hooks=False):
     imports = ['import type { JSX } from "@solidjs/web";']
     if dynamics:
         imports = ['import { dynamic, type JSX } from "@solidjs/web";']
-    solid_imp = ["merge"] + (["omit"] if rest else []) + sorted(himps | ({"untrack"} if "untrack(" in body else set()))
+    solid_imp = (["omit"] if rest else []) + sorted(himps | ({"untrack"} if "untrack(" in body else set()))
     solid_imp = list(dict.fromkeys(solid_imp))
     imports.append("import { " + ", ".join(solid_imp) + ' } from "solid-js";')
+    imports.append('import { withDefaults } from "./defaults";')
     if "attr(" in body:
         imports.append('import { attr } from "./attr";')
     if form_reset:
@@ -342,7 +345,7 @@ def convert_component(src, allow_hooks=False):
     ins = first_imp.start() if first_imp else pre.index("export ")
     pre = pre[:ins] + "\n".join(imports) + "\n" + pre[ins:]
     pre = re.sub(r"\n{3,}", "\n\n", pre)
-    out = pre + f"export default function {name}(props: {ptype}) {{\n" + head + body + "}\n"
+    out = pre + f"export default function {name}{m.group(2) or ''}(props: {ptype}) {{\n" + head + body + "}\n"
     if "JSX." not in out:
         out = out.replace('import type { JSX } from "@solidjs/web";\n', "")
         out = out.replace('import { dynamic, type JSX } from "@solidjs/web";', 'import { dynamic } from "@solidjs/web";')
@@ -449,6 +452,8 @@ def dom_attrs(text):
             tag = re.sub(r"(?<![\w.])" + a + r"=", low + "=", tag)
         return tag
     text = re.sub(r"<[a-z][\w-]*\b(?:[^<>{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*>", native, text)
+    # className -> class is the catalog's own rename, on components too.
+    text = re.sub(r"(?<![\w.])className=", "class=", text)
     # spellcheck / draggable take the enumerated strings in Solid's types
     text = re.sub(r"\bspellcheck=\{false\}", 'spellcheck="false"', text)
     text = re.sub(r"\bspellcheck=\{true\}", 'spellcheck="true"', text)

@@ -19,7 +19,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Unique_Population_Registry_Code
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MexicoClaveUnicaDeRegistroDePoblacionViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -32,7 +33,7 @@ export interface MexicoClaveUnicaDeRegistroDePoblacionViewProps {
 export default function MexicoClaveUnicaDeRegistroDePoblacionView(
     props: MexicoClaveUnicaDeRegistroDePoblacionViewProps,
 ) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

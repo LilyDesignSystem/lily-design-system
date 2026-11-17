@@ -46,7 +46,8 @@
 //   - Ant Design Transfer: https://ant.design/components/transfer
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface TransferListProps {
     class?: string;
     /** aria-label for the group (required) */
@@ -65,7 +66,7 @@ export interface TransferListProps {
 }
 
 export default function TransferList(props: TransferListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(
         p,
         "class",

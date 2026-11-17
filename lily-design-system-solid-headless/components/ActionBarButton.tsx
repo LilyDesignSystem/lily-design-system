@@ -23,7 +23,8 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ActionBarButtonProps {
     class?: string;
     /** aria-label for the button (required) */
@@ -40,7 +41,7 @@ export interface ActionBarButtonProps {
 }
 
 export default function ActionBarButton(props: ActionBarButtonProps) {
-    const p = merge({ class: "" as const, type: "button" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, type: "button" as const, disabled: false }, props);
     const restProps = omit(p, "class", "label", "type", "disabled", "onClick", "children");
     return (
         <button

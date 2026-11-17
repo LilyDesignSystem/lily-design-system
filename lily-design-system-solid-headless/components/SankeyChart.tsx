@@ -24,7 +24,8 @@
 // Markup: <figure class="sankey-chart"><div class="sankey-chart-graphic" role="img" aria-label>…svg…</div>[<div class="sankey-chart-data-table">…</div>]</figure>
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface SankeyChartProps {
     class?: string;
     /** Accessible name for the chart. */
@@ -37,7 +38,7 @@ export interface SankeyChartProps {
 }
 
 export default function SankeyChart(props: SankeyChartProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children", "dataTable");
     return (
         <figure

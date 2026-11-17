@@ -1,15 +1,8 @@
 // QuantityInputDiv: a quantity entered as a number and a unit, each unit with its own min, max and step (tasks.md P29-T8). A
 // group with a labelled number input and, for more than one unit, a labelled unit <select>; one unit is text linked by
 // aria-describedby. Nothing is converted. Props: QuantityInputDiv.md.
-import {
-    merge,
-    omit,
-    createEffect,
-    createSignal,
-    createUniqueId,
-    onSettled,
-    untrack,
-} from "solid-js";
+import { omit, createEffect, createSignal, createUniqueId, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName, warnMissingProp } from "./dev-warning";
 
 export interface QuantityUnit {
@@ -44,7 +37,7 @@ export interface QuantityInputDivProps {
 }
 
 export default function QuantityInputDiv(props: QuantityInputDivProps) {
-    const p = merge(
+    const p = withDefaults(
         {
             class: "" as const,
             units: [] as NonNullable<QuantityInputDivProps["units"]>,

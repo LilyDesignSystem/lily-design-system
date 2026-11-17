@@ -18,7 +18,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/National_Identity_Management_Commission
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface NigeriaNationalIdentificationNumberViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -31,7 +32,7 @@ export interface NigeriaNationalIdentificationNumberViewProps {
 export default function NigeriaNationalIdentificationNumberView(
     props: NigeriaNationalIdentificationNumberViewProps,
 ) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

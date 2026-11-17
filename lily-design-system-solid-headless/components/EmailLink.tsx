@@ -37,7 +37,8 @@
 // References:
 //   - MDN mailto links: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a#linking_to_an_email_address
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface EmailLinkProps {
     class?: string;
     /** Email address to display. */
@@ -48,7 +49,7 @@ export interface EmailLinkProps {
 }
 
 export default function EmailLink(props: EmailLinkProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "email", "label");
     return (
         <a

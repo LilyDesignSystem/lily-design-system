@@ -19,7 +19,8 @@
 //   - No hardcoded strings: the label and all content are the consumer's
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { useModalDialog } from "./Dialog";
 
 export interface TimeoutDialogProps {
@@ -32,7 +33,7 @@ export interface TimeoutDialogProps {
 }
 
 export default function TimeoutDialog(props: TimeoutDialogProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "label", "open", "children");
     const ref: { current: HTMLDialogElement | null } = { current: null };
     useModalDialog(ref, () => p.open);

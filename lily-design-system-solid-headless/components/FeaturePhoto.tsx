@@ -26,7 +26,8 @@
 //   - Headless: no CSS, no styles — consumer provides all styling
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface FeaturePhotoProps {
     class?: string;
     /** Image source URL. */
@@ -47,7 +48,7 @@ export interface FeaturePhotoProps {
 }
 
 export default function FeaturePhoto(props: FeaturePhotoProps) {
-    const p = merge({ class: "" as const, loading: "lazy" as const }, props);
+    const p = withDefaults({ class: "" as const, loading: "lazy" as const }, props);
     const restProps = omit(
         p,
         "class",

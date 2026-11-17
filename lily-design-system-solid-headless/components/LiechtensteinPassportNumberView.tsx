@@ -18,7 +18,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/Liechtenstein_passport
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface LiechtensteinPassportNumberViewProps {
     class?: string;
     /** Accessible label for screen readers */
@@ -31,7 +32,7 @@ export interface LiechtensteinPassportNumberViewProps {
 export default function LiechtensteinPassportNumberView(
     props: LiechtensteinPassportNumberViewProps,
 ) {
-    const p = merge({ class: "" as const, value: "" as const }, props);
+    const p = withDefaults({ class: "" as const, value: "" as const }, props);
     const restProps = omit(p, "class", "label", "value");
     return (
         <span

@@ -50,7 +50,8 @@
 //   - MDN input type="date": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 //   - MDN fieldset element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface DateRangeProps {
@@ -73,7 +74,7 @@ export interface DateRangeProps {
 }
 
 export default function DateRange(props: DateRangeProps) {
-    const p = merge({ class: "" as const, start: "" as const, end: "" as const }, props);
+    const p = withDefaults({ class: "" as const, start: "" as const, end: "" as const }, props);
     const restProps = omit(
         p,
         "class",

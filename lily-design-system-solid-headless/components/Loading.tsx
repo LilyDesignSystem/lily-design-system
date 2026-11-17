@@ -19,7 +19,8 @@
 //   - HTML div element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface LoadingProps {
     class?: string;
     /** Optional accessible label set on aria-label. */
@@ -30,7 +31,7 @@ export interface LoadingProps {
 }
 
 export default function Loading(props: LoadingProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

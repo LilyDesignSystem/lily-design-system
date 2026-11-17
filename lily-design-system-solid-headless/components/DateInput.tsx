@@ -44,7 +44,8 @@
 // References:
 //   - MDN date input: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/date
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface DateInputProps {
@@ -67,7 +68,7 @@ export interface DateInputProps {
 }
 
 export default function DateInput(props: DateInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );

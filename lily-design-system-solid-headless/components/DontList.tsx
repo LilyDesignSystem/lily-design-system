@@ -47,7 +47,8 @@
 //   - WAI list role: https://www.w3.org/WAI/ARIA/apd/roles/list/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface DontListProps {
     class?: string;
     /** Accessible name for the list. */
@@ -58,7 +59,7 @@ export interface DontListProps {
 }
 
 export default function DontList(props: DontListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <ul

@@ -19,7 +19,8 @@
 //   - HTML div element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface AvatarGroupProps {
     class?: string;
     /** Optional accessible label set on aria-label. */
@@ -32,7 +33,7 @@ export interface AvatarGroupProps {
 }
 
 export default function AvatarGroup(props: AvatarGroupProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "overflowLabel", "children");
     return (
         <div

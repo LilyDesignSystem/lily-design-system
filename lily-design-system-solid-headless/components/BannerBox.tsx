@@ -40,7 +40,8 @@
 //   - CSS Flexbox: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface BannerBoxProps {
     class?: string;
     /** Optional accessible name */
@@ -51,7 +52,7 @@ export interface BannerBoxProps {
 }
 
 export default function BannerBox(props: BannerBoxProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <div

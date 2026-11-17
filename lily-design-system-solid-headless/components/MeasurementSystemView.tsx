@@ -40,7 +40,8 @@
 // References:
 //   - HTML span element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface MeasurementSystemViewProps {
     class?: string;
     /** The measurement system name to display */
@@ -51,7 +52,7 @@ export interface MeasurementSystemViewProps {
 }
 
 export default function MeasurementSystemView(props: MeasurementSystemViewProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "value", "label");
     return (
         <span

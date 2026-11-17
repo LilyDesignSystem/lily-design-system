@@ -1,7 +1,8 @@
 // MedicationRecordList: a list of a patient's medicines, whose status is never blank (tasks.md P28-T3, spec/healthcare-ui).
 // For any status but "known", statusLabel is the list's one item. Props and rules: MedicationRecordList.md.
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { warnMissingProp } from "./dev-warning";
 
@@ -17,7 +18,7 @@ export interface MedicationRecordListProps {
 }
 
 export default function MedicationRecordList(props: MedicationRecordListProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "status", "statusLabel", "label", "children");
     warnMissingProp(
         "MedicationRecordList",

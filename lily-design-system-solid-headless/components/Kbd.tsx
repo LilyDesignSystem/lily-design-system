@@ -19,7 +19,8 @@
 //   - HTML kbd element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface KbdProps {
     class?: string;
@@ -31,7 +32,7 @@ export interface KbdProps {
 }
 
 export default function Kbd(props: KbdProps) {
-    const p = merge({ class: "" as const }, props);
+    const p = withDefaults({ class: "" as const }, props);
     const restProps = omit(p, "class", "label", "children");
     return (
         <kbd

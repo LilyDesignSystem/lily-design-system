@@ -22,7 +22,8 @@
 //     and inline CSS custom properties (the variables themselves)
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ThemeProviderProps {
     class?: string;
@@ -49,7 +50,7 @@ function flatten(obj: Record<string, unknown>, prefix: string = "--theme"): Reco
 }
 
 export default function ThemeProvider(props: ThemeProviderProps) {
-    const p = merge({ class: "" as const, base: "light" as const }, props);
+    const p = withDefaults({ class: "" as const, base: "light" as const }, props);
     const restProps = omit(p, "class", "theme", "base", "children");
     const cssVars = () => flatten(p.theme);
     const style = () => ({ display: "contents", ...cssVars() }) as JSX.CSSProperties;

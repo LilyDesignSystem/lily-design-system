@@ -47,7 +47,8 @@
 //   - MDN dialog element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { useModalDialog } from "./Dialog";
 import { warnMissingName } from "./dev-warning";
@@ -63,7 +64,7 @@ export interface FileDialogProps {
 }
 
 export default function FileDialog(props: FileDialogProps) {
-    const p = merge({ class: "" as const, open: false }, props);
+    const p = withDefaults({ class: "" as const, open: false }, props);
     const restProps = omit(p, "class", "label", "open", "onChange", "children");
     warnMissingName("FileDialog", p.label, p["aria-label"], p["aria-labelledby"]);
     const ref: { current: HTMLDialogElement | null } = { current: null };

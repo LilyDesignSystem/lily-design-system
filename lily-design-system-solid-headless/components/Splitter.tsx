@@ -47,7 +47,8 @@
 //   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
 //   - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator
 
-import { merge, omit, onSettled, untrack } from "solid-js";
+import { omit, onSettled, untrack } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 import { attachSplitter } from "./widget-keys";
 import { warnMissingName } from "./dev-warning";
@@ -70,7 +71,7 @@ export interface SplitterProps {
 }
 
 export default function Splitter(props: SplitterProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, orientation: "vertical" as const, value: 50, min: 0, max: 100 },
         props,
     );

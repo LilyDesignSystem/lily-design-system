@@ -52,7 +52,8 @@
 //   - WAI-ARIA Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/button/
 
 import type { JSX } from "@solidjs/web";
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { attr } from "./attr";
 export interface ButtonProps {
     class?: string;
@@ -72,7 +73,7 @@ export interface ButtonProps {
 }
 
 export default function Button(props: ButtonProps) {
-    const p = merge({ class: "" as const, type: "button" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, type: "button" as const, disabled: false }, props);
     const restProps = omit(
         p,
         "class",

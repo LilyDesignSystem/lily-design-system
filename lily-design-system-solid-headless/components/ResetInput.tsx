@@ -42,7 +42,8 @@
 // References:
 //   - MDN input type="reset": https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/reset
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 export interface ResetInputProps {
     class?: string;
     /** Button text. */
@@ -53,7 +54,7 @@ export interface ResetInputProps {
 }
 
 export default function ResetInput(props: ResetInputProps) {
-    const p = merge({ class: "" as const, value: "Reset" as const, disabled: false }, props);
+    const p = withDefaults({ class: "" as const, value: "Reset" as const, disabled: false }, props);
     const restProps = omit(p, "class", "value", "disabled");
     return (
         <input

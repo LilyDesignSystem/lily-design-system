@@ -22,7 +22,8 @@
 // References:
 //   - https://en.wikipedia.org/wiki/National_Health_Service_Central_Register
 
-import { merge, omit } from "solid-js";
+import { omit } from "solid-js";
+import { withDefaults } from "./defaults";
 import { warnMissingName } from "./dev-warning";
 
 export interface AlbaCommunityHealthIndexInputProps {
@@ -41,7 +42,7 @@ export interface AlbaCommunityHealthIndexInputProps {
 }
 
 export default function AlbaCommunityHealthIndexInput(props: AlbaCommunityHealthIndexInputProps) {
-    const p = merge(
+    const p = withDefaults(
         { class: "" as const, value: "" as const, required: false, disabled: false },
         props,
     );
