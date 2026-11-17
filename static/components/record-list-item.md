@@ -19,6 +19,8 @@ RecordListItem is one record in a record list, with its status and last update a
 - `updated`: string (optional) — when the record was last updated
 - `updatedLabel`: string (optional) — that date as the consumer writes it; the `<time>` shows only when set
 - `...restProps`: any — additional HTML attributes spread onto the root
+- `entryState`: `"withheld"` | `"entered-in-error"` (optional) -- a withheld record shows only `entryStateLabel`, never its content; one entered in error keeps its content struck through in `<del class="record-list-item-entry">`, with `entryStateLabel`. Rendered as `data-entry-state`; neither is ever silently removed (spec/lessons/zoblocks)
+- `entryStateLabel`: string -- that state in the consumer's words, in `-entry-state`; required with `entryState` (a development warning says so)
 
 ## Usage
 
