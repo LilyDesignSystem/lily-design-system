@@ -493,6 +493,17 @@ built inside components, themed loaders. Findings: [spec/lessons/zoblocks](spec/
 
 Status (2026-11-16): researched; nothing built. T1 (the data grid fix) first.
 
+## Phase 32 — Lessons from Magic UI (2026-11-16)
+
+A review of Magic UI, 150+ animated React components (MIT) installed through a shadcn registry namespace. It is almost all motion
+and decoration, which Lily's headless and reduced-motion rules decline, and its pages reviewed mention no reduced motion, pause
+control or ARIA. The lessons are narrow: an overflow count on `avatar-group`, a hover-and-focus rule, a motion recipes page that
+shows how to get such effects on Lily components without failing WCAG, an opt-in view transition for the theme picker, a
+terminal transcript pattern, and, for the maintainer, an accessible `marquee` and a namespaced registry listing. Findings:
+[spec/lessons/magicui](spec/lessons/magicui/index.md). Tasks: [tasks.md](tasks.md#phase-32--lessons-from-magic-ui-2026-11-16).
+
+Status (2026-11-16): researched; nothing built.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

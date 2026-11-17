@@ -3717,6 +3717,30 @@ go to all nine catalogs (helpers: all eight), Svelte first.
       value the record holds, and why Lily declines the `mixed` switch.
       Verify: the rules are in `docs/patterns/healthcare/index.md` and its site page; `bin/check-links` passes.
 
+## Phase 32 — Lessons from Magic UI (2026-11-16)
+
+From [spec/lessons/magicui](spec/lessons/magicui/index.md). Order: T1 and T2, then T3 and T4, then T5 and T6 (maintainer
+decisions). No animation enters the headless layer.
+
+- [ ] **P32-T1 `avatar-group` overflow count.** `overflowLabel` (consumer words) rendered as a last `-overflow` part.
+      Verify: tests in all nine catalogs; nothing renders without the label.
+- [ ] **P32-T2 Hover and focus parity.** A sentence in `AGENTS/accessibility.md` and the motion recipes: an effect shown on hover
+      is shown on focus, or is decoration only.
+      Verify: the sentence is in both; `bin/check-links` passes.
+- [ ] **P32-T3 Motion recipes.** `docs/patterns/motion/index.md` and a site page: a marquee, a number change on `statistic`, a
+      fade-in that never hides content, the theme transition, and a terminal transcript (`kbd` input, `samp` output, the prompt
+      as CSS text). Each with a `prefers-reduced-motion` fallback and the WCAG criterion it keeps.
+      Verify: each recipe works in the SvelteKit app with an e2e test under emulated reduced motion; `bin/check-links` passes.
+- [ ] **P32-T4 `theme-picker` `viewTransition`.** Opt-in, in all eight catalogs: wrap the apply in `document.startViewTransition()`
+      when it exists and reduced motion is not requested.
+      Verify: tests that it is called only then, and that the theme applies the same either way.
+- [ ] **P32-T5 `marquee` (maintainer decision).** A `<section aria-label>` with a `<ul>`, copies `aria-hidden` and `inert`, a pause
+      button (`aria-pressed`, consumer label) and `data-paused`; the themes animate it only without reduced motion.
+      Verify: the decision is recorded in the topic; if built, tests in all nine catalogs that copies are hidden and pause works.
+- [ ] **P32-T6 Registry listing (maintainer decision).** List Lily's shadcn-compatible registry in the shadcn registry directory
+      under a namespace.
+      Verify: the decision is recorded in the topic.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
