@@ -275,6 +275,8 @@ Each clause below gets one or more tests in `CalendarView.test.ts`.
 - **Day view and agenda/list view** — shipped since (day view and the
   agenda in §15).
 - **Recurring-event expansion** — a consumer data-layer concern.
+- **Time-of-day slots** — the calendar is date-grained; free times within a day are the consumer's markup (see the clinic
+  scheduling audit).
 - **Timezone conversion** — `events` carry ISO civil dates, the same
   convention `gantt-chart` and `date-time-picker` both use.
 - **Virtualization** for very-long per-day event lists, **multi-
@@ -419,6 +421,22 @@ Tests §8.93–§8.104.
 - **Today holds its contrast.** The reference themes mark today with a ring in the cell's own text colour (`currentColor`) and a bold number, never a fill: it stays readable on a light page, a dark page and a selected cell, and says "today" without colour. The calendar table is `table-layout: fixed` with `min-width: 0` day cells that wrap, so a phone never clips them.
 - **Right-to-left.** The horizontal arrows are visual: in a right-to-left layout (the nearest `dir`) ArrowLeft goes to the next day, and Shift+Arrow and Alt+Arrow (moving an event) follow the arrow. Up, Down, Home, End and the page keys are unchanged. `isRtl` / `logicalKey` are exported.
 - Tests §8.131–§8.146, including a complete Chinese bundle that must leave no English in the DOM.
+
+## Clinic scheduling audit (2026-11-17, tasks.md P30-T6)
+
+Checked against clinic scheduling from the OpenEMR review (spec/lessons/openemr item 6, in the monorepo). No new props; each
+finding is a pattern that already works, a test, or a non-goal.
+
+- **An event's category is text, never colour alone.** The helper paints no colour and has no category of its own: the consumer
+  adds a field (`eventFields`, for example `{ id: "category", header: "Category", type: "text" }`), which the agenda shows as named
+  text and a `day` snippet reads with `fieldText`. Any colour is the consumer's CSS on their own markup, beside that text. Test §8.148.
+- **A free slot is a marked range.** `ranges` with the consumer's `kind` (for example `"free"`) and a `label` in words ("Free: 3
+  slots") marks the day with `data-range`, shows the label, and makes it the cell's description; the day is reached with the arrow
+  keys like any other. Test §8.147.
+- **A repeating series says it repeats in a field**, such as `{ id: "repeats", header: "Repeats" }` with "Every 3 months", shown
+  as text with the other fields. Test §8.148. Expanding a rule into dates stays the consumer's (§9).
+- **Non-goal: time-of-day slots.** The calendar is date-grained (ISO civil dates, §9), so free times within a day (9:00, 9:15) are
+  not modelled; list them in the day's own markup or a `day` snippet, or use a scheduling component of your own.
 
 ## Known limitations
 

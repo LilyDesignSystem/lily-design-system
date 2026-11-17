@@ -96,7 +96,7 @@ of OpenEMR, and none of it is a user-interface contract.
 - [ ] `/flow-board`, `/patient-dashboard` and `/find-patient` exist in the SvelteKit app, each with an e2e spec and axe-clean (items 1, 2, 4).
 - [ ] The flow board never blinks, and updates only on request or with a pause control; a test checks no element animates (item 1).
 - [ ] The guide has the several-patients rule, the tri-state answers pattern, the two-unit vitals, growth chart and reminder patterns (items 3, 5, 7, 8, 9).
-- [ ] The calendar audit is recorded, each finding a task or a non-goal (item 6).
+- [x] The calendar audit is recorded, each finding a task or a non-goal (item 6).
 
 ## Related topics
 

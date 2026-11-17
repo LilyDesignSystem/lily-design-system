@@ -3686,9 +3686,9 @@ T5 to T7. Pages go in the SvelteKit app first, linked from its home page. No bil
       appointments on the record lists, with actions named for what they change and a last-reviewed date, under the patient
       banner. After P29-T4 and P29-T9.
       Verify: an e2e spec at 320px with every card's status visible; axe-clean. _(2026-11-17: `/patient-dashboard` in the SvelteKit app: the banner with flags in a labelled `tag-group`, the active visit and the session location; cards for problems (one a relative's, with `subjectLabel`), allergies, medicines, immunizations (`not-recorded`), reminders (`data-due`) and appointments, each a never-blank record list with a `record-provenance-view`. `e2e/patient-dashboard.spec.ts` passes axe, finds every field at 320px with no horizontal scroll, and runs in Chromium and WebKit.)_
-- [ ] **P30-T6 Calendar audit.** In the `calendar` helper: an event's category as text, a free slot marked and reachable by
+- [x] **P30-T6 Calendar audit.** In the `calendar` helper: an event's category as text, a free slot marked and reachable by
       keyboard, a repeating series said in words.
-      Verify: each finding is a task in this phase or a non-goal in the helper's `spec/index.md`; `bin/check-helper-docs` passes.
+      Verify: each finding is a task in this phase or a non-goal in the helper's `spec/index.md`; `bin/check-helper-docs` passes. _(2026-11-17: recorded in the Svelte calendar's `spec/index.md` "Clinic scheduling audit". No gaps needing a prop: a category and a repeat rule are `eventFields`, shown as named text (the helper paints no colour); a free day is a marked range whose label is text and the cell's description, reached by the arrow keys. Tests §8.147–§8.148. One non-goal added: time-of-day slots, since the calendar is date-grained.)_
 - [x] **P30-T7 Vitals, growth and reminder patterns.** In the guide: a value with the other unit system's value as consumer text,
       a growth chart on `line-chart` with consumer centile series and its data table, and a reminder list as a `record-list` with
       a due date and `data-due` in words.

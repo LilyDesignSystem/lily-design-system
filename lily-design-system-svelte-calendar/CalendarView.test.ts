@@ -2136,3 +2136,64 @@ describe("CalendarView — renders in another language with no English left over
         ).toEqual([]);
     });
 });
+
+describe("CalendarView — clinic scheduling: free slots, categories and repeats in words (§8.147–§8.148, P30-T6)", () => {
+    test("§8.147 a free day is a marked range: reached by the arrow keys and described in words", async () => {
+        render(CalendarView, {
+            props: {
+                label: "Clinic",
+                view: "month" as const,
+                anchorDate: "2026-01-15",
+                labels: LABELS,
+                ranges: [
+                    {
+                        start: "2026-01-16",
+                        end: "2026-01-16",
+                        kind: "free",
+                        label: "Free: 3 slots",
+                    },
+                ],
+            },
+        });
+        const start = tabbableCells()[0];
+        expect(start.getAttribute("data-date")).toBe("2026-01-15");
+        await fireEvent.keyDown(start, { key: "ArrowRight" });
+        const free = tabbableCells()[0];
+        expect(free.getAttribute("data-date")).toBe("2026-01-16");
+        expect(free.getAttribute("data-range")).toBe("free");
+        expect(free.querySelector(".calendar-view-range-label")?.textContent).toBe("Free: 3 slots");
+        expect(document.getElementById(free.getAttribute("aria-describedby")!)?.textContent).toBe(
+            "Free: 3 slots",
+        );
+    });
+
+    test("§8.148 an event's category and its repeat rule are fields, shown as named text, never colour alone", () => {
+        render(CalendarView, {
+            props: {
+                label: "Clinic",
+                view: "agenda" as const,
+                anchorDate: "2026-01-15",
+                labels: LABELS,
+                eventFields: [
+                    { id: "category", header: "Category", type: "text" },
+                    { id: "repeats", header: "Repeats", type: "text" },
+                ],
+                events: [
+                    {
+                        id: "a1",
+                        title: "Diabetes review",
+                        date: "2026-01-15",
+                        values: { category: "Follow-up", repeats: "Every 3 months" },
+                    },
+                ],
+            },
+        });
+        const fields = document
+            .querySelector('[data-event-key="a1"]')!
+            .querySelectorAll(".calendar-view-event-field");
+        expect(Array.from(fields).map((f) => f.textContent?.replace(/\s+/g, " ").trim())).toEqual([
+            "Category Follow-up",
+            "Repeats Every 3 months",
+        ]);
+    });
+});
