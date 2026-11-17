@@ -6,8 +6,15 @@ description: a fieldset of two range inputs for a minimum and a maximum that can
 
 {% from "components/range-fieldset/macro.njk" import rangeFieldset %}
 
-<h2>Default</h2>
-<p>{{ rangeFieldset({ text: "RangeFieldset example", label: "RangeFieldset example" }) }}</p>
+{{ rangeFieldset({
+  legend: "Price",
+  minimumLabel: "Lowest price",
+  maximumLabel: "Highest price",
+  minimum: 20,
+  maximum: 80,
+  minimumName: "price-min",
+  maximumName: "price-max"
+}) }}
 
 {# BEGIN generated: examples (bin/generate-examples) #}
 <h2>Usage</h2>
