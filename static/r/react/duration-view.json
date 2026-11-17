@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "duration-view",
+  "type": "registry:component",
+  "title": "DurationView",
+  "description": "A length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/clinical-format-utils",
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless/components/DurationView.tsx",
+      "content": "import React from \"react\";\nimport { htmlDuration } from \"./clinical-format\";\nimport { warnMissingProp } from \"./dev-warning\";\n\n// DurationView: a length of time in the consumer's words, in a <time> whose datetime is the ISO 8601 duration (tasks.md P29-T6). A negative\n// duration renders its length as datetime and data-negative; years and months are no datetime. Props: DurationView.md.\n\nexport interface DurationViewProps {\n    className?: string;\n    /** The length of time as the consumer writes it (\"3 days 4 hours\"). */\n    value: string;\n    /** The same length as an ISO 8601 duration of days, hours, minutes and seconds, optionally negative. */\n    duration: string;\n    /** Hidden text naming the value. */\n    label?: string;\n    [key: string]: unknown;\n}\n\nexport default function DurationView({\n    className = \"\",\n    value = \"\",\n    duration = \"\",\n    label,\n    ...restProps\n}: DurationViewProps) {\n    const parsed = htmlDuration(duration);\n    warnMissingProp(\n        \"DurationView\",\n        \"value\",\n        value,\n        \"a length of time needs words a person can read, never an ISO code alone.\",\n    );\n    warnMissingProp(\n        \"DurationView\",\n        \"duration\",\n        parsed?.datetime,\n        \"datetime takes an ISO 8601 duration of days, hours, minutes and seconds; use age-view or plain text for years and months.\",\n    );\n    return (\n        <time\n            className={`duration-view ${className}`}\n            dateTime={parsed?.datetime}\n            data-negative={parsed?.negative ? \"\" : undefined}\n            {...restProps}\n        >\n            {label ? <span className=\"screen-reader-span\">{`${label} `}</span> : null}\n            {value}\n        </time>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/DurationView.tsx"
+    }
+  ],
+  "categories": [
+    "content"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/duration-view/"
+}

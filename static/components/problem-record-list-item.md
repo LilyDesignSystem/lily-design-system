@@ -14,6 +14,7 @@ ProblemRecordListItem is one problem or condition in a problem record list, with
 
 ## Props
 
+- `subjectLabel`: string (optional) -- whose record it is, when it is not the patient's ("Mother", "Fetus 1"); rendered first as `-subject`, so a relative's history is never read as the patient's
 - `condition`: string (required) — the problem or condition; never truncated
 - `clinicalStatus`: "active" | "recurrence" | "relapse" | "inactive" | "remission" | "resolved" (optional) — FHIR Condition clinicalStatus; rendered as `data-clinical-status`
 - `clinicalStatusLabel`: string (optional; required when `clinicalStatus` is set) — the clinicalStatus in words

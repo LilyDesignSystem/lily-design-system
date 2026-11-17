@@ -642,4 +642,5 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "immunization-record-list-item", pascal: "ImmunizationRecordListItem", description: "one immunization in an immunization record list, with vaccine, date, dose and status", status: "experimental" },
   { name: "procedure-record-list-item", pascal: "ProcedureRecordListItem", description: "one procedure in a procedure record list, with its status and when it was performed", status: "experimental" },
   { name: "device-record-list-item", pascal: "DeviceRecordListItem", description: "one medical device in a device record list, with its status and when it was used", status: "experimental" },
+  { name: "duration-view", pascal: "DurationView", description: "a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words", status: "experimental" },
 ];
