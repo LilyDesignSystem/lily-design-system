@@ -73,7 +73,11 @@ describe("TimelineListItem", () => {
             slots: { default: "Sensitive note" },
         });
         li = second.container.querySelector("li.timeline-list-item")!;
-        expect(li.querySelector("del.timeline-list-item-entry")?.textContent).toBe("Sensitive note");
-        expect(li.querySelector(".timeline-list-item-entry-state")?.textContent).toBe("Entered in error");
+        expect(li.querySelector("del.timeline-list-item-entry")?.textContent).toBe(
+            "Sensitive note",
+        );
+        expect(li.querySelector(".timeline-list-item-entry-state")?.textContent).toBe(
+            "Entered in error",
+        );
     });
 });

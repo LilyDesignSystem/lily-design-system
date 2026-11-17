@@ -67,6 +67,8 @@ describe("RecordListItem", () => {
         });
         li = second.container.querySelector("li.record-list-item")!;
         expect(li.querySelector("del.record-list-item-entry")?.textContent).toBe("Blood pressure");
-        expect(li.querySelector(".record-list-item-entry-state")?.textContent).toBe("Entered in error");
+        expect(li.querySelector(".record-list-item-entry-state")?.textContent).toBe(
+            "Entered in error",
+        );
     });
 });

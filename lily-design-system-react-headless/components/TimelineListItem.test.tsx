@@ -61,7 +61,12 @@ describe("TimelineListItem", () => {
 
     test("withheld keeps the date and shows only the words; entered-in-error strikes the content through", () => {
         const { container, unmount } = render(
-            <Subject datetime="2026-11-03" heading="3 Nov 2026" entryState="withheld" entryStateLabel="Restricted">
+            <Subject
+                datetime="2026-11-03"
+                heading="3 Nov 2026"
+                entryState="withheld"
+                entryStateLabel="Restricted"
+            >
                 Sensitive note
             </Subject>,
         );
@@ -71,12 +76,17 @@ describe("TimelineListItem", () => {
         expect(li.textContent).not.toContain("Sensitive note");
         unmount();
         const second = render(
-            <Subject entryState="entered-in-error" entryStateLabel="Entered in error">
+            <Subject
+                entryState="entered-in-error"
+                entryStateLabel="Entered in error"
+            >
                 Wrong patient
             </Subject>,
         );
         li = second.container.querySelector("li.timeline-list-item")!;
         expect(li.querySelector("del.timeline-list-item-entry")?.textContent).toBe("Wrong patient");
-        expect(li.querySelector(".timeline-list-item-entry-state")?.textContent).toBe("Entered in error");
+        expect(li.querySelector(".timeline-list-item-entry-state")?.textContent).toBe(
+            "Entered in error",
+        );
     });
 });

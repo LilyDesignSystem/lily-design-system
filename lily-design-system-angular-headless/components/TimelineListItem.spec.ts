@@ -67,8 +67,14 @@ describe("TimelineListItem", () => {
         );
         expect(withheld.getAttribute("data-entry-state")).toBe("withheld");
         expect(withheld.textContent).not.toContain("Sensitive note");
-        expect(withheld.querySelector(".timeline-list-item-entry-state")?.textContent).toBe("Restricted");
-        expect(inError.querySelector("del.timeline-list-item-entry")?.textContent).toBe("Sensitive note");
-        expect(inError.querySelector(".timeline-list-item-entry-state")?.textContent).toBe("Entered in error");
+        expect(withheld.querySelector(".timeline-list-item-entry-state")?.textContent).toBe(
+            "Restricted",
+        );
+        expect(inError.querySelector("del.timeline-list-item-entry")?.textContent).toBe(
+            "Sensitive note",
+        );
+        expect(inError.querySelector(".timeline-list-item-entry-state")?.textContent).toBe(
+            "Entered in error",
+        );
     });
 });

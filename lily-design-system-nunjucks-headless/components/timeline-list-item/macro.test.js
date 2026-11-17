@@ -48,14 +48,26 @@ describe("timeline-list-item", () => {
     });
 
     it("withheld shows only the consumer's words; entered-in-error keeps the content struck through", () => {
-        const withheld = render("timeline-list-item", { entryState: "withheld", entryStateLabel: "Restricted", html: "Sensitive note" })
-            .document.querySelector("li.timeline-list-item");
+        const withheld = render("timeline-list-item", {
+            entryState: "withheld",
+            entryStateLabel: "Restricted",
+            html: "Sensitive note",
+        }).document.querySelector("li.timeline-list-item");
         expect(withheld.getAttribute("data-entry-state")).toBe("withheld");
         expect(withheld.textContent).not.toContain("Sensitive note");
-        expect(withheld.querySelector(".timeline-list-item-entry-state").textContent).toBe("Restricted");
-        const inError = render("timeline-list-item", { entryState: "entered-in-error", entryStateLabel: "Entered in error", html: "Sensitive note" })
-            .document.querySelector("li.timeline-list-item");
-        expect(inError.querySelector("del.timeline-list-item-entry").textContent).toBe("Sensitive note");
-        expect(inError.querySelector(".timeline-list-item-entry-state").textContent).toBe("Entered in error");
+        expect(withheld.querySelector(".timeline-list-item-entry-state").textContent).toBe(
+            "Restricted",
+        );
+        const inError = render("timeline-list-item", {
+            entryState: "entered-in-error",
+            entryStateLabel: "Entered in error",
+            html: "Sensitive note",
+        }).document.querySelector("li.timeline-list-item");
+        expect(inError.querySelector("del.timeline-list-item-entry").textContent).toBe(
+            "Sensitive note",
+        );
+        expect(inError.querySelector(".timeline-list-item-entry-state").textContent).toBe(
+            "Entered in error",
+        );
     });
 });

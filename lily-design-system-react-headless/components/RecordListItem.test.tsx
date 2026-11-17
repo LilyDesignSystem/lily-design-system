@@ -54,7 +54,10 @@ describe("RecordListItem", () => {
 
     test("withheld shows only the consumer's words; entered-in-error keeps the content struck through", () => {
         const { container, unmount } = render(
-            <Subject entryState="withheld" entryStateLabel="Restricted">
+            <Subject
+                entryState="withheld"
+                entryStateLabel="Restricted"
+            >
                 <span>Blood pressure</span>
             </Subject>,
         );
@@ -63,12 +66,17 @@ describe("RecordListItem", () => {
         expect(li.textContent).toBe("Restricted");
         unmount();
         const second = render(
-            <Subject entryState="entered-in-error" entryStateLabel="Entered in error">
+            <Subject
+                entryState="entered-in-error"
+                entryStateLabel="Entered in error"
+            >
                 <span>Blood pressure</span>
             </Subject>,
         );
         li = second.container.querySelector("li.record-list-item")!;
         expect(li.querySelector("del.record-list-item-entry")?.textContent).toBe("Blood pressure");
-        expect(li.querySelector(".record-list-item-entry-state")?.textContent).toBe("Entered in error");
+        expect(li.querySelector(".record-list-item-entry-state")?.textContent).toBe(
+            "Entered in error",
+        );
     });
 });

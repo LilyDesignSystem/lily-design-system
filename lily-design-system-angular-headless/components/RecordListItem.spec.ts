@@ -71,8 +71,14 @@ describe("RecordListItem", () => {
         );
         expect(withheld.getAttribute("data-entry-state")).toBe("withheld");
         expect(withheld.textContent).not.toContain("Blood pressure");
-        expect(withheld.querySelector(".record-list-item-entry-state")?.textContent).toBe("Restricted");
-        expect(inError.querySelector("del.record-list-item-entry")?.textContent).toBe("Blood pressure");
-        expect(inError.querySelector(".record-list-item-entry-state")?.textContent).toBe("Entered in error");
+        expect(withheld.querySelector(".record-list-item-entry-state")?.textContent).toBe(
+            "Restricted",
+        );
+        expect(inError.querySelector("del.record-list-item-entry")?.textContent).toBe(
+            "Blood pressure",
+        );
+        expect(inError.querySelector(".record-list-item-entry-state")?.textContent).toBe(
+            "Entered in error",
+        );
     });
 });

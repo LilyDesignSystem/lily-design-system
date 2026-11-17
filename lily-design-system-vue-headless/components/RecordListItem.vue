@@ -26,11 +26,11 @@ if (props.status)
     );
 if (props.entryState)
     warnMissingProp(
-            "RecordListItem",
-            "entryStateLabel",
-            props.entryStateLabel,
-            "a withheld or in-error entry must say so in words.",
-        );
+        "RecordListItem",
+        "entryStateLabel",
+        props.entryStateLabel,
+        "a withheld or in-error entry must say so in words.",
+    );
 </script>
 
 <template>

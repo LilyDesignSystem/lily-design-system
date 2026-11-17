@@ -74,10 +74,12 @@
     {...restProps}
 >
     {#if subjectLabel}<span class="record-list-item-subject">{subjectLabel}</span>{" "}{/if}
-    {#if entryState === "withheld"}<span class="record-list-item-entry-state">{entryStateLabel}</span
+    {#if entryState === "withheld"}<span class="record-list-item-entry-state"
+            >{entryStateLabel}</span
         >{:else if entryState === "entered-in-error"}<del class="record-list-item-entry"
             >{@render children?.()}</del
-        >{" "}<span class="record-list-item-entry-state">{entryStateLabel}</span>{:else}{@render children?.()}{/if}
+        >{" "}<span class="record-list-item-entry-state">{entryStateLabel}</span
+        >{:else}{@render children?.()}{/if}
     {#if statusLabel}{" "}<span class="record-list-item-status">{statusLabel}</span>{/if}
     {#if updatedLabel}{" "}<time
             class="record-list-item-updated"

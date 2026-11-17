@@ -77,11 +77,11 @@ const props = withDefaults(
 );
 if (props.entryState)
     warnMissingProp(
-            "TimelineListItem",
-            "entryStateLabel",
-            props.entryStateLabel,
-            "a withheld or in-error entry must say so in words.",
-        );
+        "TimelineListItem",
+        "entryStateLabel",
+        props.entryStateLabel,
+        "a withheld or in-error entry must say so in words.",
+    );
 </script>
 
 <template>
