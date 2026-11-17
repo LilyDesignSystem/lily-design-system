@@ -633,5 +633,5 @@ procedure-record-list-item	automated evidence complete	no	no	no	no	1	0	no	-
 device-record-list-item	automated evidence complete	no	no	no	no	1	0	no	-
 duration-view	ARIA evidence incomplete	no	no	no	yes	1	1	no	-
 quantity-input-div	automated evidence complete	no	no	no	yes	1	8	no	-
-record-provenance-view	ARIA evidence incomplete	no	no	no	yes	1	1	no	-
-repeatable-fieldset	ARIA evidence incomplete	no	no	no	yes	1	4	no	-
+record-provenance-view	ARIA evidence incomplete	no	no	no	yes	1	0	no	-
+repeatable-fieldset	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
