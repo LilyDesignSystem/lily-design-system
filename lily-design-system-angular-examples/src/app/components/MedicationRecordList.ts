@@ -14,7 +14,7 @@ import { warnMissingProp } from "./dev-warning";
 export class MedicationRecordList implements OnInit {
     readonly className = input<string>("");
     readonly status = input<
-        "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | ""
+        "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable" | ""
     >("");
     /** The consumer's words for the status; names the list. */
     readonly statusLabel = input<string>("");
@@ -26,7 +26,7 @@ export class MedicationRecordList implements OnInit {
             "MedicationRecordList",
             "status",
             this.status(),
-            "A medication record list must say whether medicines are known, none known, not recorded, unavailable or omitted.",
+            "A medication record list must say whether medicines are known, none known, not recorded, unavailable, omitted or not applicable.",
         );
         warnMissingProp(
             "MedicationRecordList",

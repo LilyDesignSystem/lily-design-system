@@ -8,7 +8,7 @@ import { warnMissingProp } from "./dev-warning";
 @Component({
     selector: "li[lily-procedure-record-list-item]",
     standalone: true,
-    template: `<span class="procedure-record-list-item-procedure">{{ procedure() }}</span>@if (statusLabel()) {{{ " " }}<span class="procedure-record-list-item-status">{{ statusLabel() }}</span>}@if (performedLabel()) {{{ " " }}<time class="procedure-record-list-item-performed" [attr.datetime]="performed() || null">{{ performedLabel() }}</time>}<ng-content />`,
+    template: `@if (subjectLabel()) {<span class="procedure-record-list-item-subject">{{ subjectLabel() }}</span>{{ " " }}}<span class="procedure-record-list-item-procedure">{{ procedure() }}</span>@if (statusLabel()) {{{ " " }}<span class="procedure-record-list-item-status">{{ statusLabel() }}</span>}@if (performedLabel()) {{{ " " }}<time class="procedure-record-list-item-performed" [attr.datetime]="performed() || null">{{ performedLabel() }}</time>}<ng-content />`,
     host: {
         "[class]": '"procedure-record-list-item " + className()',
         "[attr.data-status]": "status() || null",
@@ -17,6 +17,8 @@ import { warnMissingProp } from "./dev-warning";
 })
 export class ProcedureRecordListItem implements OnInit {
     readonly className = input<string>("");
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    readonly subjectLabel = input<string>("");
     /** the procedure; never truncated */
     readonly procedure = input<string>("");
     /** FHIR Procedure status */

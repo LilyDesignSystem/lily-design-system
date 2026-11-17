@@ -8,7 +8,7 @@ import { warnMissingProp } from "./dev-warning";
 @Component({
     selector: "li[lily-allergy-record-list-item]",
     standalone: true,
-    template: `<span class="allergy-record-list-item-substance">{{ substance() }}</span>@if (reaction()) {{{ " " }}<span class="allergy-record-list-item-reaction">{{ reaction() }}</span>}@if (severityLabel()) {{{ " " }}<span class="allergy-record-list-item-severity">{{ severityLabel() }}</span>}@if (criticalityLabel()) {{{ " " }}<span class="allergy-record-list-item-criticality">{{ criticalityLabel() }}</span>}@if (clinicalStatusLabel()) {{{ " " }}<span class="allergy-record-list-item-clinical-status">{{ clinicalStatusLabel() }}</span>}@if (verificationStatusLabel()) {{{ " " }}<span class="allergy-record-list-item-verification-status">{{ verificationStatusLabel() }}</span>}@if (typeLabel()) {{{ " " }}<span class="allergy-record-list-item-type">{{ typeLabel() }}</span>}@if (categoryLabel()) {{{ " " }}<span class="allergy-record-list-item-category">{{ categoryLabel() }}</span>}@if (updatedLabel()) {{{ " " }}<time class="allergy-record-list-item-updated" [attr.datetime]="updated() || null">{{ updatedLabel() }}</time>}<ng-content />`,
+    template: `@if (subjectLabel()) {<span class="allergy-record-list-item-subject">{{ subjectLabel() }}</span>{{ " " }}}<span class="allergy-record-list-item-substance">{{ substance() }}</span>@if (reaction()) {{{ " " }}<span class="allergy-record-list-item-reaction">{{ reaction() }}</span>}@if (severityLabel()) {{{ " " }}<span class="allergy-record-list-item-severity">{{ severityLabel() }}</span>}@if (criticalityLabel()) {{{ " " }}<span class="allergy-record-list-item-criticality">{{ criticalityLabel() }}</span>}@if (clinicalStatusLabel()) {{{ " " }}<span class="allergy-record-list-item-clinical-status">{{ clinicalStatusLabel() }}</span>}@if (verificationStatusLabel()) {{{ " " }}<span class="allergy-record-list-item-verification-status">{{ verificationStatusLabel() }}</span>}@if (typeLabel()) {{{ " " }}<span class="allergy-record-list-item-type">{{ typeLabel() }}</span>}@if (categoryLabel()) {{{ " " }}<span class="allergy-record-list-item-category">{{ categoryLabel() }}</span>}@if (updatedLabel()) {{{ " " }}<time class="allergy-record-list-item-updated" [attr.datetime]="updated() || null">{{ updatedLabel() }}</time>}<ng-content />`,
     host: {
         "[class]": '"allergy-record-list-item " + className()',
         "[attr.data-severity]": "severity() || null",
@@ -20,6 +20,8 @@ import { warnMissingProp } from "./dev-warning";
 })
 export class AllergyRecordListItem implements OnInit {
     readonly className = input<string>("");
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    readonly subjectLabel = input<string>("");
     /** what the patient reacts to; never truncated */
     readonly substance = input<string>("");
     /** the manifestation */

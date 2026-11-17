@@ -2,8 +2,10 @@
 @*
     DeviceRecordListItem: one medical device in a device record list, with its status and when it was used (tasks.md P28-T3, spec/healthcare-ui). Props: DeviceRecordListItem.md.
 *@
-<li class="@($"device-record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes"><span class="device-record-list-item-device">@Device</span>@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="device-record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(TimingLabel)) {@(" ")<time class="device-record-list-item-timing" datetime="@Timing">@TimingLabel</time>}@ChildContent</li>
+<li class="@($"device-record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(SubjectLabel)) {<span class="device-record-list-item-subject">@SubjectLabel</span>@(" ")}<span class="device-record-list-item-device">@Device</span>@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="device-record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(TimingLabel)) {@(" ")<time class="device-record-list-item-timing" datetime="@Timing">@TimingLabel</time>}@ChildContent</li>
 @code {
+    /// <summary>whose record it is, when it is not the patient's (&quot;Mother&quot;, &quot;Fetus 1&quot;); shown first.</summary>
+    [Parameter] public string? SubjectLabel { get; set; }
     /// <summary>the device; never truncated.</summary>
     [Parameter, EditorRequired] public string Device { get; set; } = "";
     /// <summary>FHIR DeviceUseStatement status.</summary>

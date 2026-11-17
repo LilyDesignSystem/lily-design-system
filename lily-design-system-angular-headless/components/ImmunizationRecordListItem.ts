@@ -8,7 +8,7 @@ import { warnMissingProp } from "./dev-warning";
 @Component({
     selector: "li[lily-immunization-record-list-item]",
     standalone: true,
-    template: `<span class="immunization-record-list-item-vaccine">{{ vaccine() }}</span>@if (occurrenceLabel()) {{{ " " }}<time class="immunization-record-list-item-occurrence" [attr.datetime]="occurrence() || null">{{ occurrenceLabel() }}</time>}@if (doseNumberLabel()) {{{ " " }}<span class="immunization-record-list-item-dose-number">{{ doseNumberLabel() }}</span>}@if (statusLabel()) {{{ " " }}<span class="immunization-record-list-item-status">{{ statusLabel() }}</span>}@if (lotNumber()) {{{ " " }}<span class="immunization-record-list-item-lot-number">{{ lotNumber() }}</span>}<ng-content />`,
+    template: `@if (subjectLabel()) {<span class="immunization-record-list-item-subject">{{ subjectLabel() }}</span>{{ " " }}}<span class="immunization-record-list-item-vaccine">{{ vaccine() }}</span>@if (occurrenceLabel()) {{{ " " }}<time class="immunization-record-list-item-occurrence" [attr.datetime]="occurrence() || null">{{ occurrenceLabel() }}</time>}@if (doseNumberLabel()) {{{ " " }}<span class="immunization-record-list-item-dose-number">{{ doseNumberLabel() }}</span>}@if (statusLabel()) {{{ " " }}<span class="immunization-record-list-item-status">{{ statusLabel() }}</span>}@if (lotNumber()) {{{ " " }}<span class="immunization-record-list-item-lot-number">{{ lotNumber() }}</span>}<ng-content />`,
     host: {
         "[class]": '"immunization-record-list-item " + className()',
         "[attr.data-status]": "status() || null",
@@ -17,6 +17,8 @@ import { warnMissingProp } from "./dev-warning";
 })
 export class ImmunizationRecordListItem implements OnInit {
     readonly className = input<string>("");
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    readonly subjectLabel = input<string>("");
     /** the vaccine given; never truncated */
     readonly vaccine = input<string>("");
     /** when it was given, for <time datetime> */

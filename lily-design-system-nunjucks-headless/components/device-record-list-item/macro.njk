@@ -2,9 +2,10 @@
   DeviceRecordListItem macro — one medical device in a device record list, with its status and when it was used (tasks.md P28-T3, spec/healthcare-ui).
 
   HTML tag: <li>
-  CSS class: device-record-list-item (parts: -device, -status, -timing)
+  CSS class: device-record-list-item (parts: -subject, -device, -status, -timing)
 
   Params:
+    subjectLabel         whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first
     device               the device; never truncated; required
     status               FHIR DeviceUseStatement status
     statusLabel          the status in words
@@ -23,5 +24,5 @@
   {%- if p.status %} data-status="{{ p.status }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
-><span class="device-record-list-item-device">{{ p.device }}</span>{%- if p.statusLabel %} <span class="device-record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.timingLabel %} <time class="device-record-list-item-timing"{% if p.timing %} datetime="{{ p.timing }}"{% endif %}>{{ p.timingLabel }}</time>{% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
+>{%- if p.subjectLabel %}<span class="device-record-list-item-subject">{{ p.subjectLabel }}</span> {% endif -%}<span class="device-record-list-item-device">{{ p.device }}</span>{%- if p.statusLabel %} <span class="device-record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.timingLabel %} <time class="device-record-list-item-timing"{% if p.timing %} datetime="{{ p.timing }}"{% endif %}>{{ p.timingLabel }}</time>{% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
 {%- endmacro -%}

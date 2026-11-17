@@ -2,8 +2,10 @@
 @*
     RecordListItem: one record in a record list, with its status and last update around the consumer's content (tasks.md P28-T3, spec/healthcare-ui). Props: RecordListItem.md.
 *@
-<li class="@($"record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes">@ChildContent@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(UpdatedLabel)) {@(" ")<time class="record-list-item-updated" datetime="@Updated">@UpdatedLabel</time>}</li>
+<li class="@($"record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(SubjectLabel)) {<span class="record-list-item-subject">@SubjectLabel</span>@(" ")}@ChildContent@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(UpdatedLabel)) {@(" ")<time class="record-list-item-updated" datetime="@Updated">@UpdatedLabel</time>}</li>
 @code {
+    /// <summary>whose record it is, when it is not the patient's (&quot;Mother&quot;, &quot;Fetus 1&quot;); shown first.</summary>
+    [Parameter] public string? SubjectLabel { get; set; }
     /// <summary>the record's status, as the consumer's code.</summary>
     [Parameter] public string? Status { get; set; }
     [Parameter] public string? StatusLabel { get; set; }

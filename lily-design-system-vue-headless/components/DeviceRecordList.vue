@@ -4,7 +4,7 @@
 import { warnMissingProp } from "./dev-warning";
 
 const props = defineProps<{
-    status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted";
+    status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable";
     /** The consumer's words for the status; names the list. */
     statusLabel: string;
     /** The accessible name, when it should differ from statusLabel. */
@@ -15,7 +15,7 @@ warnMissingProp(
     "DeviceRecordList",
     "status",
     props.status,
-    "A device record list must say whether devices are known, none known, not recorded, unavailable or omitted.",
+    "A device record list must say whether devices are known, none known, not recorded, unavailable, omitted or not applicable.",
 );
 warnMissingProp(
     "DeviceRecordList",

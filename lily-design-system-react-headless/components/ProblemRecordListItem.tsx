@@ -4,6 +4,8 @@ import { warnMissingProp } from "./dev-warning";
 
 export interface ProblemRecordListItemProps {
     className?: string;
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** the problem or condition; never truncated */
     condition: string;
     /** FHIR Condition clinicalStatus */
@@ -32,6 +34,7 @@ export interface ProblemRecordListItemProps {
 
 export default function ProblemRecordListItem({
     className = "",
+    subjectLabel,
     condition,
     clinicalStatus,
     clinicalStatusLabel,
@@ -66,6 +69,11 @@ export default function ProblemRecordListItem({
             data-verification-status={verificationStatus}
             {...restProps}
         >
+            {subjectLabel ? (
+                <>
+                    <span className="problem-record-list-item-subject">{subjectLabel}</span>{" "}
+                </>
+            ) : null}
             <span className="problem-record-list-item-condition">{condition}</span>
             {clinicalStatusLabel ? (
                 <>

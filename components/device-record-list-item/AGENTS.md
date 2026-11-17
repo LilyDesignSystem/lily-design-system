@@ -27,6 +27,7 @@
 
 ## Props
 
+- `subjectLabel`: string (optional) -- whose record it is, when it is not the patient's ("Mother", "Fetus 1"); rendered first as `-subject`, so a relative's history is never read as the patient's
 - `device`: string (required) — the device; never truncated
 - `status`: "active" | "completed" | "entered-in-error" | "intended" | "stopped" | "on-hold" (optional) — FHIR DeviceUseStatement status; rendered as `data-status`
 - `statusLabel`: string (optional; required when `status` is set) — the status in words

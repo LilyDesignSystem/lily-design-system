@@ -15,7 +15,7 @@
 - Renders `<span class="observation-view">` with parts `observation-view-value`, `-unit`, `-flag`, `-range` and `-status`
 - `interpretation` is a FHIR v3 ObservationInterpretation code (`N`, `L`, `H`, `LL`, `HH`, `A`, …), rendered as `data-interpretation` and never as text
 - `flagLabel` is the flag in the consumer's words; it is required whenever the flag is not normal, so the meaning is never colour alone (a development warning says so)
-- `status` is a FHIR Observation status (`final`, `preliminary`, `amended`, `corrected`, `entered-in-error`, `cancelled`), or `masked`, `not-recorded` or `unavailable`, rendered as `data-status`. `cancelled`, `masked`, `not-recorded` and `unavailable` show `statusLabel` instead of the value, so a missing result is never blank or a dash; every other status but `final` shows the value with `statusLabel` beside it, so an amended, corrected or entered-in-error result never reads as a plain one
+- `status` is a FHIR Observation status (`final`, `preliminary`, `amended`, `corrected`, `entered-in-error`, `cancelled`), or `masked`, `not-recorded`, `unavailable` or `not-applicable`, rendered as `data-status`. `cancelled`, `masked`, `not-recorded` and `unavailable` show `statusLabel` instead of the value, so a missing result is never blank or a dash; every other status but `final` shows the value with `statusLabel` beside it, so an amended, corrected or entered-in-error result never reads as a plain one
 - The value and unit are joined by a no-break space, so they never wrap apart
 
 ## ARIA
@@ -33,7 +33,7 @@
 - `interpretation`: string (optional) — a FHIR v3 ObservationInterpretation code, rendered as `data-interpretation`
 - `flagLabel`: string (optional) — the flag in words ("High"); required when the flag is not normal
 - `range`: string (optional) — the reference range as text
-- `status`: "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" (optional) — default `final`, rendered as `data-status`
+- `status`: "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable" (optional) — default `final`, rendered as `data-status`
 - `statusLabel`: string (optional) — the words for a status that is not final; replaces the value when it is missing
 - `label`: string (optional) — hidden text naming the observation, when no visible caption does
 - `...restProps`: any — additional HTML attributes spread onto the root

@@ -3,6 +3,8 @@
 import { warnMissingProp } from "./dev-warning";
 
 const props = defineProps<{
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** the record's status, as the consumer's code */
     status?: string;
     statusLabel?: string;
@@ -26,6 +28,10 @@ if (props.status)
         class="record-list-item"
         :data-status="status"
     >
+        <template v-if="subjectLabel"
+            ><span class="record-list-item-subject">{{ subjectLabel }}</span
+            >{{ " " }}</template
+        >
         <slot />
         <template v-if="statusLabel"
             >{{ " " }}<span class="record-list-item-status">{{ statusLabel }}</span></template

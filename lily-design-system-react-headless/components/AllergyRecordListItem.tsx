@@ -4,6 +4,8 @@ import { warnMissingProp } from "./dev-warning";
 
 export interface AllergyRecordListItemProps {
     className?: string;
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** what the patient reacts to; never truncated */
     substance: string;
     /** the manifestation */
@@ -33,6 +35,7 @@ export interface AllergyRecordListItemProps {
 
 export default function AllergyRecordListItem({
     className = "",
+    subjectLabel,
     substance,
     reaction,
     severity,
@@ -87,6 +90,11 @@ export default function AllergyRecordListItem({
             data-verification-status={verificationStatus}
             {...restProps}
         >
+            {subjectLabel ? (
+                <>
+                    <span className="allergy-record-list-item-subject">{subjectLabel}</span>{" "}
+                </>
+            ) : null}
             <span className="allergy-record-list-item-substance">{substance}</span>
             {reaction ? (
                 <>

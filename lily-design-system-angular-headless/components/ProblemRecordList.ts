@@ -14,7 +14,7 @@ import { warnMissingProp } from "./dev-warning";
 export class ProblemRecordList implements OnInit {
     readonly className = input<string>("");
     readonly status = input<
-        "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | ""
+        "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable" | ""
     >("");
     /** The consumer's words for the status; names the list. */
     readonly statusLabel = input<string>("");
@@ -26,7 +26,7 @@ export class ProblemRecordList implements OnInit {
             "ProblemRecordList",
             "status",
             this.status(),
-            "A problem record list must say whether problems are known, none known, not recorded, unavailable or omitted.",
+            "A problem record list must say whether problems are known, none known, not recorded, unavailable, omitted or not applicable.",
         );
         warnMissingProp(
             "ProblemRecordList",

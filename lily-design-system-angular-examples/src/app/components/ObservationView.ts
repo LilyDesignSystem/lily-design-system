@@ -2,7 +2,13 @@ import { ChangeDetectionStrategy, Component, OnInit, computed, input } from "@an
 import { warnMissingProp } from "./dev-warning";
 
 // FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
-const MISSING: readonly string[] = ["cancelled", "masked", "not-recorded", "unavailable"];
+const MISSING: readonly string[] = [
+    "cancelled",
+    "masked",
+    "not-recorded",
+    "unavailable",
+    "not-applicable",
+];
 
 /**
  * ObservationView: a read-only clinical observation or result, with unit, flag and reference range (spec/healthcare-ui
@@ -37,6 +43,7 @@ export class ObservationView implements OnInit {
         | "masked"
         | "not-recorded"
         | "unavailable"
+        | "not-applicable"
     >("final");
     readonly statusLabel = input<string>("");
     protected readonly missing = computed(() => MISSING.includes(this.status()));

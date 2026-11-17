@@ -3,6 +3,8 @@
 import { warnMissingProp } from "./dev-warning";
 
 const props = defineProps<{
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** the vaccine given; never truncated */
     vaccine: string;
     /** when it was given, for <time datetime> */
@@ -32,6 +34,10 @@ if (props.status)
         class="immunization-record-list-item"
         :data-status="status"
     >
+        <template v-if="subjectLabel"
+            ><span class="immunization-record-list-item-subject">{{ subjectLabel }}</span
+            >{{ " " }}</template
+        >
         <span class="immunization-record-list-item-vaccine">{{ vaccine }}</span>
         <template v-if="occurrenceLabel"
             >{{ " "

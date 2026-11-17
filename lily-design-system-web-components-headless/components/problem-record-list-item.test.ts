@@ -53,4 +53,11 @@ describe("ProblemRecordListItem", () => {
         expect(li.hasAttribute("data-clinical-status")).toBe(false);
         expect(li.hasAttribute("data-verification-status")).toBe(false);
     });
+
+    test("says whose record it is first, when it is not the patient's", () => {
+        document.body.innerHTML = `<ul><lily-problem-record-list-item condition="Breast cancer" subject-label="Mother"></lily-problem-record-list-item></ul>`;
+        const li = document.querySelector("ul > li.problem-record-list-item") as HTMLElement;
+        expect(li.firstElementChild?.className).toBe("problem-record-list-item-subject");
+        expect(li.textContent).toMatch(/^Mother\s+Breast cancer/);
+    });
 });

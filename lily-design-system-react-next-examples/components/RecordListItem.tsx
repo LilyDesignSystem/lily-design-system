@@ -4,6 +4,8 @@ import { warnMissingProp } from "./dev-warning";
 
 export interface RecordListItemProps {
     className?: string;
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** the record's status, as the consumer's code */
     status?: string;
     statusLabel?: string;
@@ -16,6 +18,7 @@ export interface RecordListItemProps {
 
 export default function RecordListItem({
     className = "",
+    subjectLabel,
     status,
     statusLabel,
     updated,
@@ -36,6 +39,11 @@ export default function RecordListItem({
             data-status={status}
             {...restProps}
         >
+            {subjectLabel ? (
+                <>
+                    <span className="record-list-item-subject">{subjectLabel}</span>{" "}
+                </>
+            ) : null}
             {children}
             {statusLabel ? (
                 <>

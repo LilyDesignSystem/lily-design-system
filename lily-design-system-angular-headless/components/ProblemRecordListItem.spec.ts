@@ -19,6 +19,13 @@ class Host {}
 })
 class Unlabelled {}
 
+@Component({
+    standalone: true,
+    imports: [ProblemRecordListItem],
+    template: `<ul><li lily-problem-record-list-item condition="Breast cancer" subjectLabel="Mother"></li></ul>`,
+})
+class WithSubject {}
+
 afterEach(() => {
     vi.restoreAllMocks();
     resetDevWarnings();
@@ -75,5 +82,15 @@ describe("ProblemRecordListItem", () => {
                 String(call[0]).includes("ProblemRecordListItem has no clinicalStatusLabel"),
             ),
         ).toBe(true);
+    });
+
+    test("says whose record it is first, when it is not the patient's", () => {
+        const fixture = TestBed.createComponent(WithSubject);
+        fixture.detectChanges();
+        const li = fixture.nativeElement.querySelector(
+            "li.problem-record-list-item",
+        ) as HTMLElement;
+        expect(li.firstElementChild?.className).toBe("problem-record-list-item-subject");
+        expect(li.textContent).toMatch(/^\s*Mother\s+Breast cancer/);
     });
 });

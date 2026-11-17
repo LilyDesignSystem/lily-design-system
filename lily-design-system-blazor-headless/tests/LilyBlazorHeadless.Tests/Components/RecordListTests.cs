@@ -32,4 +32,12 @@ public class RecordListTests : TestContext
         Assert.Equal("record-list-status", items[0].ClassName);
         Assert.Equal(words, items[0].TextContent);
     }
+
+    [Fact]
+    public void Not_applicable_is_its_own_status_shown_in_words()
+    {
+        var cut = RenderComponent<RecordList>(p => p.Add(x => x.Status, "not-applicable").Add(x => x.StatusLabel, "Pregnancy: not applicable"));
+        Assert.Equal("not-applicable", cut.Find("ul.record-list").GetAttribute("data-status"));
+        Assert.Equal("Pregnancy: not applicable", cut.Find(".record-list-status").TextContent);
+    }
 }

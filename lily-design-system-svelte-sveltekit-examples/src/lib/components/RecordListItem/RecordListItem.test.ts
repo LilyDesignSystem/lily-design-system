@@ -53,4 +53,10 @@ describe("RecordListItem", () => {
             ),
         ).toBe(true);
     });
+
+    test("says whose record it is before the consumer's content", () => {
+        render(Subject, { props: { subjectLabel: "Mother", children: content } });
+        expect(part("subject")!.textContent).toBe("Mother");
+        expect(root().firstElementChild).toBe(part("subject"));
+    });
 });

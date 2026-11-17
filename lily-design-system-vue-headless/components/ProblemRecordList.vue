@@ -4,7 +4,7 @@
 import { warnMissingProp } from "./dev-warning";
 
 const props = defineProps<{
-    status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted";
+    status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable";
     /** The consumer's words for the status; names the list. */
     statusLabel: string;
     /** The accessible name, when it should differ from statusLabel. */
@@ -15,7 +15,7 @@ warnMissingProp(
     "ProblemRecordList",
     "status",
     props.status,
-    "A problem record list must say whether problems are known, none known, not recorded, unavailable or omitted.",
+    "A problem record list must say whether problems are known, none known, not recorded, unavailable, omitted or not applicable.",
 );
 warnMissingProp(
     "ProblemRecordList",

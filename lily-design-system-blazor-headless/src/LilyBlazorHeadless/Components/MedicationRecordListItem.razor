@@ -2,8 +2,10 @@
 @*
     MedicationRecordListItem: one medicine in a medication record list, with its status and when it applies (tasks.md P28-T3, spec/healthcare-ui). Props: MedicationRecordListItem.md.
 *@
-<li class="@($"medication-record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes">@ChildContent@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="medication-record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(EffectiveLabel)) {@(" ")<time class="medication-record-list-item-effective" datetime="@Effective">@EffectiveLabel</time>}</li>
+<li class="@($"medication-record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(SubjectLabel)) {<span class="medication-record-list-item-subject">@SubjectLabel</span>@(" ")}@ChildContent@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="medication-record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(EffectiveLabel)) {@(" ")<time class="medication-record-list-item-effective" datetime="@Effective">@EffectiveLabel</time>}</li>
 @code {
+    /// <summary>whose record it is, when it is not the patient's (&quot;Mother&quot;, &quot;Fetus 1&quot;); shown first.</summary>
+    [Parameter] public string? SubjectLabel { get; set; }
     /// <summary>FHIR MedicationStatement status.</summary>
     [Parameter] public string? Status { get; set; }
     [Parameter] public string? StatusLabel { get; set; }

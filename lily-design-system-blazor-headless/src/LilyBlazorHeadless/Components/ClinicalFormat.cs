@@ -85,14 +85,14 @@ public static class ClinicalFormat
     {
         ArgumentNullException.ThrowIfNull(iso);
         var match = System.Text.RegularExpressions.Regex.Match(iso, @"^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$");
-        if (!match.Success) throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a partial date (YYYY, YYYY-MM or YYYY-MM-DD)");
+        if (!match.Success) throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a partial ISO 8601 date");
         var year = int.Parse(match.Groups[1].Value, CultureInfo.InvariantCulture);
         int? month = match.Groups[2].Success ? int.Parse(match.Groups[2].Value, CultureInfo.InvariantCulture) : null;
         int? day = match.Groups[3].Success ? int.Parse(match.Groups[3].Value, CultureInfo.InvariantCulture) : null;
         if (year < 1) throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a year");
         if (month is < 1 or > 12) throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a month");
         if (day is not null && (day < 1 || day > DateTime.DaysInMonth(year, month!.Value)))
-            throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a day of that month");
+            throw new ArgumentOutOfRangeException(nameof(iso), iso, "not a calendar date");
         return (year, month, day);
     }
 

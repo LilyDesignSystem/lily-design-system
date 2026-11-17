@@ -26,6 +26,7 @@
 
 ## Props
 
+- `subjectLabel`: string (optional) -- whose record it is, when it is not the patient's ("Mother", "Fetus 1"); rendered first as `-subject`, so a relative's history is never read as the patient's
 - `children`: slot — the medicine, usually a MedicationView
 - `status`: "active" | "completed" | "entered-in-error" | "intended" | "stopped" | "on-hold" | "unknown" | "not-taken" (optional) — FHIR MedicationStatement status; rendered as `data-status`
 - `statusLabel`: string (optional; required when `status` is set) — the status in words

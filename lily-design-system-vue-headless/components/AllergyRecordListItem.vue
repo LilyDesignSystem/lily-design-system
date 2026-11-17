@@ -3,6 +3,8 @@
 import { warnMissingProp } from "./dev-warning";
 
 const props = defineProps<{
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** what the patient reacts to; never truncated */
     substance: string;
     /** the manifestation */
@@ -67,6 +69,10 @@ if (props.verificationStatus)
         :data-clinical-status="clinicalStatus"
         :data-verification-status="verificationStatus"
     >
+        <template v-if="subjectLabel"
+            ><span class="allergy-record-list-item-subject">{{ subjectLabel }}</span
+            >{{ " " }}</template
+        >
         <span class="allergy-record-list-item-substance">{{ substance }}</span>
         <template v-if="reaction"
             >{{ " "

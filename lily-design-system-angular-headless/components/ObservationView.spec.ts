@@ -76,4 +76,11 @@ describe("ObservationView", () => {
         expect(messages.some((m) => m.includes("has no flagLabel"))).toBe(true);
         expect(messages.some((m) => m.includes("has no statusLabel"))).toBe(true);
     });
+
+    test("not-applicable replaces the value with the consumer's words", () => {
+        const root = mount({ value: "", status: "not-applicable", statusLabel: "Not applicable" });
+        expect(root.getAttribute("data-status")).toBe("not-applicable");
+        expect(root.querySelector(".observation-view-status")?.textContent).toBe("Not applicable");
+        expect(root.querySelector(".observation-view-value")).toBeNull();
+    });
 });

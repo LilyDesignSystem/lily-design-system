@@ -4,7 +4,13 @@ import React from "react";
 import { warnMissingProp } from "./dev-warning";
 
 // FHIR statuses with no value to show: the consumer's words replace it (spec/healthcare-ui, tasks.md P28-T5).
-const MISSING: readonly string[] = ["cancelled", "masked", "not-recorded", "unavailable"];
+const MISSING: readonly string[] = [
+    "cancelled",
+    "masked",
+    "not-recorded",
+    "unavailable",
+    "not-applicable",
+];
 
 export interface ObservationViewProps {
     className?: string;
@@ -29,7 +35,8 @@ export interface ObservationViewProps {
         | "cancelled"
         | "masked"
         | "not-recorded"
-        | "unavailable";
+        | "unavailable"
+        | "not-applicable";
     /** The consumer's words for a status that is not final; replaces the value when not-recorded or unavailable. */
     statusLabel?: string;
     [key: string]: unknown;

@@ -105,4 +105,13 @@ describe("ObservationView", () => {
         render(Subject, { props: { value: "4.1", interpretation: "N" } });
         expect(spy).not.toHaveBeenCalled();
     });
+
+    test("not-applicable replaces the value with the consumer's words", () => {
+        render(Subject, {
+            props: { value: "", status: "not-applicable", statusLabel: "Not applicable" },
+        });
+        expect(root().getAttribute("data-status")).toBe("not-applicable");
+        expect(part("status")!.textContent).toBe("Not applicable");
+        expect(part("value")).toBeNull();
+    });
 });

@@ -81,4 +81,16 @@ describe("ProblemRecordListItem", () => {
             ),
         ).toBe(true);
     });
+
+    test("says whose record it is first, when it is not the patient's", () => {
+        const { container } = render(
+            <Subject
+                condition="Breast cancer"
+                subjectLabel="Mother"
+            />,
+        );
+        const root = container.querySelector(".problem-record-list-item") as HTMLElement;
+        expect(root.firstElementChild?.className).toBe("problem-record-list-item-subject");
+        expect(root.textContent).toMatch(/^Mother\s+Breast cancer/);
+    });
 });

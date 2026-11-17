@@ -14,9 +14,9 @@
     //   flagLabel — string, optional. The consumer's words for the flag ("High"). Required whenever the flag is not normal,
     //     so the meaning is never colour alone (WCAG 1.4.1); a development warning says so.
     //   range — string, optional. The reference range as text ("3.5–5.3").
-    //   status — "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable", default "final". Rendered as data-status.
+    //   status — "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable", default "final". Rendered as data-status.
     //   statusLabel — string, optional. The consumer's words for a status that is not final ("Not recorded"). For
-    //     cancelled, masked, not-recorded and unavailable it replaces the value, so a missing result is never a blank or a
+    //     cancelled, masked, not-recorded, unavailable and not-applicable it replaces the value, so a missing result is never a blank or a
     //     dash; for any other status but final it is shown beside the value.
     //   ...restProps — additional HTML attributes spread onto the <span>.
     //
@@ -37,7 +37,13 @@
 
     // FHIR statuses with no value to show: the consumer's words replace it. Every other status that is not final shows the
     // value with its words beside it, so an amended, corrected or entered-in-error result never reads as a plain one.
-    const MISSING: readonly string[] = ["cancelled", "masked", "not-recorded", "unavailable"];
+    const MISSING: readonly string[] = [
+        "cancelled",
+        "masked",
+        "not-recorded",
+        "unavailable",
+        "not-applicable",
+    ];
 
     let {
         class: className = "",
@@ -66,7 +72,8 @@
             | "cancelled"
             | "masked"
             | "not-recorded"
-            | "unavailable";
+            | "unavailable"
+            | "not-applicable";
         statusLabel?: string;
         [key: string]: unknown;
     } = $props();

@@ -8,7 +8,7 @@ import { warnMissingProp } from "./dev-warning";
 @Component({
     selector: "li[lily-record-list-item]",
     standalone: true,
-    template: `<ng-content />@if (statusLabel()) {{{ " " }}<span class="record-list-item-status">{{ statusLabel() }}</span>}@if (updatedLabel()) {{{ " " }}<time class="record-list-item-updated" [attr.datetime]="updated() || null">{{ updatedLabel() }}</time>}`,
+    template: `@if (subjectLabel()) {<span class="record-list-item-subject">{{ subjectLabel() }}</span>{{ " " }}}<ng-content />@if (statusLabel()) {{{ " " }}<span class="record-list-item-status">{{ statusLabel() }}</span>}@if (updatedLabel()) {{{ " " }}<time class="record-list-item-updated" [attr.datetime]="updated() || null">{{ updatedLabel() }}</time>}`,
     host: {
         "[class]": '"record-list-item " + className()',
         "[attr.data-status]": "status() || null",
@@ -17,6 +17,8 @@ import { warnMissingProp } from "./dev-warning";
 })
 export class RecordListItem implements OnInit {
     readonly className = input<string>("");
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    readonly subjectLabel = input<string>("");
     /** the record's status, as the consumer's code */
     readonly status = input<string>("");
     readonly statusLabel = input<string>("");

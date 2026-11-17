@@ -49,4 +49,14 @@ describe("problem-record-list-item", () => {
         expect(root.hasAttribute("data-clinical-status")).toBe(false);
         expect(root.hasAttribute("data-verification-status")).toBe(false);
     });
+
+    it("says whose record it is first, when it is not the patient's", () => {
+        const { document } = render("problem-record-list-item", {
+            condition: "Breast cancer",
+            subjectLabel: "Mother",
+        });
+        const root = document.querySelector("li.problem-record-list-item");
+        expect(root.firstElementChild.className).toBe("problem-record-list-item-subject");
+        expect(root.textContent).toMatch(/^Mother\s+Breast cancer/);
+    });
 });

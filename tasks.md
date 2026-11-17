@@ -3623,14 +3623,14 @@ logic: no constraint validation, no score sums, no unit conversion.
       `date-field` takes `precision` (`day`, `month`, `year`) and omits the parts it does not ask for.
       Verify: tests for `2019`, `2019-03` and `2019-03-14` in two locales, and that no day or month is invented; `date-field`
       tests in all nine catalogs for each precision; `bin/sync-shared-modules --check` passes. _(2026-11-16: `formatPartialDate` and `partialDatePrecision` done in the shared module and C#, month always a word, tests in two locales and against invented fields; `date-field` `precision` (`day`, `month`, `year`) in all nine catalogs, with `data-precision` and a value of `YYYY-MM` or `YYYY`; tests in the six behaviour catalogs and Nunjucks (HTML and Alpine are static markup, documented), and a Svelte test that `date-time-view` takes `2019-03`. Padding the value back to three parts makes the Svelte tests fail.)_
-- [ ] **P29-T2 `not-applicable`.** A sixth status for the record lists and a status for `observation-view`, each requiring
+- [x] **P29-T2 `not-applicable`.** A sixth status for the record lists and a status for `observation-view`, each requiring
       consumer words.
-      Verify: tests in all nine catalogs that it renders its words and `data-status`; a missing label raises `warnMissingProp`.
+      Verify: tests in all nine catalogs that it renders its words and `data-status`; a missing label raises `warnMissingProp`. _(2026-11-17: done in all nine catalogs: the seven record lists and `observation-view` take `not-applicable`, with words, as `data-status`; `observation-view` replaces the value with the words. Tests in Svelte, React, Vue, Angular, Web Components (items), Nunjucks and Blazor; the guide maps FHIR `dataAbsentReason` `not-applicable`. `warnMissingProp` already covers a missing label.)_
 - [x] **P29-T3 Approximate quantities.** `~` as a comparator in `formatQuantity` and the C# port, written `≈` before the number.
       Verify: tests in both; dropping the sign makes them fail. _(2026-11-16: done. `QuantityComparator` gains `"~"`, written `≈`; tests in the shared module and C#; blanking the sign makes the test fail.)_
-- [ ] **P29-T4 `subjectLabel` on record items.** `record-list-item` and the six domain items render the consumer's words for
+- [x] **P29-T4 `subjectLabel` on record items.** `record-list-item` and the six domain items render the consumer's words for
       whose record it is ("Mother", "Fetus 1") before the item's text, as a `-subject` part.
-      Verify: tests in all nine catalogs; the guide states the rule that an entry about someone else always says so.
+      Verify: tests in all nine catalogs; the guide states the rule that an entry about someone else always says so. _(2026-11-17: done in all nine catalogs: the seven record items render `subjectLabel` first as `-subject` (`subject-label` in Web Components, `SubjectLabel` in Blazor; HTML and Alpine document it), with the hook in the style sheet template. Tests in seven catalogs; the rule is in the healthcare guide's Markdown, and the site page follows with T11.)_
 - [x] **P29-T5 `formatProportion`.** `formatProportion(numerator, denominator, kind, locale)` for ratio, unitary, percent, fraction
       and integer fraction, in the shared module and C#.
       Verify: tests for `1:128`, `1/2`, `1 1/2`, a percent and a unitary value, in two locales. _(2026-11-16: done, with `ProportionKind`; nothing is reduced (2/4 stays 2/4); each kind refuses a denominator it does not allow. Exported from the Svelte, React, Vue and Angular indexes; `ClinicalFormat.FormatProportion` in C#.)_

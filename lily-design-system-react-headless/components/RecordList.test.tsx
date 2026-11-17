@@ -52,4 +52,18 @@ describe("RecordList", () => {
             spy.mock.calls.some((call) => String(call[0]).includes("RecordList has no status")),
         ).toBe(true);
     });
+
+    test("not-applicable is its own status, shown in words", () => {
+        const { container } = render(
+            <Subject
+                status="not-applicable"
+                statusLabel="Pregnancy: not applicable"
+            />,
+        );
+        const list = container.querySelector("ul.record-list") as HTMLElement;
+        expect(list.getAttribute("data-status")).toBe("not-applicable");
+        expect(list.querySelector(".record-list-status")?.textContent).toBe(
+            "Pregnancy: not applicable",
+        );
+    });
 });

@@ -5,7 +5,13 @@ import { computed } from "vue";
 import { warnMissingProp } from "./dev-warning";
 
 // FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
-const MISSING: readonly string[] = ["cancelled", "masked", "not-recorded", "unavailable"];
+const MISSING: readonly string[] = [
+    "cancelled",
+    "masked",
+    "not-recorded",
+    "unavailable",
+    "not-applicable",
+];
 
 const props = withDefaults(
     defineProps<{
@@ -27,7 +33,8 @@ const props = withDefaults(
             | "cancelled"
             | "masked"
             | "not-recorded"
-            | "unavailable";
+            | "unavailable"
+            | "not-applicable";
         statusLabel?: string;
     }>(),
     { value: "", status: "final" },

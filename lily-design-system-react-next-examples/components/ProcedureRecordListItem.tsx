@@ -4,6 +4,8 @@ import { warnMissingProp } from "./dev-warning";
 
 export interface ProcedureRecordListItemProps {
     className?: string;
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** the procedure; never truncated */
     procedure: string;
     /** FHIR Procedure status */
@@ -26,6 +28,7 @@ export interface ProcedureRecordListItemProps {
 
 export default function ProcedureRecordListItem({
     className = "",
+    subjectLabel,
     procedure,
     status,
     statusLabel,
@@ -47,6 +50,11 @@ export default function ProcedureRecordListItem({
             data-status={status}
             {...restProps}
         >
+            {subjectLabel ? (
+                <>
+                    <span className="procedure-record-list-item-subject">{subjectLabel}</span>{" "}
+                </>
+            ) : null}
             <span className="procedure-record-list-item-procedure">{procedure}</span>
             {statusLabel ? (
                 <>

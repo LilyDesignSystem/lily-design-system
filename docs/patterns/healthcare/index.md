@@ -47,6 +47,9 @@ severity and make only the severe ones interruptive.
   `-view` component (The Joint Commission, Quick Safety 45).
 - Use the patient banner on every screen that acts on one patient's record, and keep it visible.
 - Before an action on a record other than the one in the banner, confirm it with the name, date of birth and identifier.
+- An entry about someone other than the patient (a parent's history, a fetus, a donor) says whose it is first, in words: give the
+  record items a `subjectLabel` ("Mother"), so a relative's diagnosis is never read as the patient's (openEHR `PARTY_RELATED`, FHIR
+  `FamilyMemberHistory`).
 - Do not limit how many records a clinician may open: a randomised trial of 3,356 clinicians (JAMA, 2019) found that it did not
   reduce wrong-patient orders, and people work around it.
 
@@ -134,6 +137,7 @@ and the words for every state are your own.
 | `Observation.dataAbsentReason` `masked`                                      | `observation-view` `status="masked"`                              |
 | `dataAbsentReason` `asked-unknown`, `not-asked`, `not-performed`             | `status="not-recorded"`                                           |
 | `dataAbsentReason` `unknown`, `temp-unknown`, `error`                        | `status="unavailable"`                                            |
+| `dataAbsentReason` `not-applicable`                                          | `status="not-applicable"` (also on the record lists)              |
 | `Quantity.comparator`                                                        | `formatQuantity(value, unit, locale, comparator)`                 |
 
 Map an `entered-in-error` record to its `entered-in-error` status, with words, rather than dropping it silently: whether to show

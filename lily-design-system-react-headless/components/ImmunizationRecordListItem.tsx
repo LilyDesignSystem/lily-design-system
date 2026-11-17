@@ -4,6 +4,8 @@ import { warnMissingProp } from "./dev-warning";
 
 export interface ImmunizationRecordListItemProps {
     className?: string;
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** the vaccine given; never truncated */
     vaccine: string;
     /** when it was given, for <time datetime> */
@@ -22,6 +24,7 @@ export interface ImmunizationRecordListItemProps {
 
 export default function ImmunizationRecordListItem({
     className = "",
+    subjectLabel,
     vaccine,
     occurrence,
     occurrenceLabel,
@@ -45,6 +48,13 @@ export default function ImmunizationRecordListItem({
             data-status={status}
             {...restProps}
         >
+            {subjectLabel ? (
+                <>
+                    <span className="immunization-record-list-item-subject">
+                        {subjectLabel}
+                    </span>{" "}
+                </>
+            ) : null}
             <span className="immunization-record-list-item-vaccine">{vaccine}</span>
             {occurrenceLabel ? (
                 <>

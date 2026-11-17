@@ -5,7 +5,7 @@ import { warnMissingProp } from "./dev-warning";
 
 export interface RecordListProps {
     className?: string;
-    status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted";
+    status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable";
     /** The consumer's words for the status; names the list, and is its one item unless status is "known". */
     statusLabel: string;
     /** The accessible name, when it should differ from statusLabel. */
@@ -26,7 +26,7 @@ export default function RecordList({
         "RecordList",
         "status",
         status,
-        "A record list must say whether records are known, none known, not recorded, unavailable or omitted.",
+        "A record list must say whether records are known, none known, not recorded, unavailable, omitted or not applicable.",
     );
     warnMissingProp(
         "RecordList",

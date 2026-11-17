@@ -3,6 +3,8 @@
 import { warnMissingProp } from "./dev-warning";
 
 const props = defineProps<{
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** the procedure; never truncated */
     procedure: string;
     /** FHIR Procedure status */
@@ -36,6 +38,10 @@ if (props.status)
         class="procedure-record-list-item"
         :data-status="status"
     >
+        <template v-if="subjectLabel"
+            ><span class="procedure-record-list-item-subject">{{ subjectLabel }}</span
+            >{{ " " }}</template
+        >
         <span class="procedure-record-list-item-procedure">{{ procedure }}</span>
         <template v-if="statusLabel"
             >{{ " "

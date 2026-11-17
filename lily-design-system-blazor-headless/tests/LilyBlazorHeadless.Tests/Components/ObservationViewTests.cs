@@ -60,4 +60,13 @@ public class ObservationViewTests : TestContext
         Assert.Equal("Potassium ", cut.Find(".screen-reader-span").TextContent);
         Assert.Null(cut.Find(".observation-view").GetAttribute("aria-label"));
     }
+
+    [Fact]
+    public void Not_applicable_replaces_the_value_with_the_consumers_words()
+    {
+        var cut = RenderComponent<ObservationView>(p => p.Add(x => x.Value, "").Add(x => x.Status, "not-applicable").Add(x => x.StatusLabel, "Not applicable"));
+        Assert.Equal("not-applicable", cut.Find(".observation-view").GetAttribute("data-status"));
+        Assert.Equal("Not applicable", cut.Find(".observation-view-status").TextContent);
+        Assert.Empty(cut.FindAll(".observation-view-value"));
+    }
 }

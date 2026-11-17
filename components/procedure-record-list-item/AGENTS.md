@@ -27,6 +27,7 @@
 
 ## Props
 
+- `subjectLabel`: string (optional) -- whose record it is, when it is not the patient's ("Mother", "Fetus 1"); rendered first as `-subject`, so a relative's history is never read as the patient's
 - `procedure`: string (required) — the procedure; never truncated
 - `status`: "preparation" | "in-progress" | "not-done" | "on-hold" | "stopped" | "completed" | "entered-in-error" | "unknown" (optional) — FHIR Procedure status; rendered as `data-status`
 - `statusLabel`: string (optional; required when `status` is set) — the status in words

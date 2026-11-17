@@ -2,12 +2,18 @@
 // (spec/healthcare-ui item 1). Renders a light-DOM <span class="observation-view">. Shows what the consumer decided;
 // computes no flag and no range.
 // Attributes: label, value, unit, interpretation (FHIR v3 code -> data-interpretation), flag-label, range,
-//   status (final | preliminary | amended | corrected | entered-in-error | cancelled | masked | not-recorded | unavailable
+//   status (final | preliminary | amended | corrected | entered-in-error | cancelled | masked | not-recorded | unavailable | not-applicable
 //   -> data-status), status-label.
 import { passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 // FHIR statuses with no value to show: the consumer's words replace it (tasks.md P28-T5).
-const MISSING: readonly string[] = ["cancelled", "masked", "not-recorded", "unavailable"];
+const MISSING: readonly string[] = [
+    "cancelled",
+    "masked",
+    "not-recorded",
+    "unavailable",
+    "not-applicable",
+];
 
 const HANDLED = new Set([
     "label",

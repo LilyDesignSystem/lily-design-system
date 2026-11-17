@@ -1,9 +1,10 @@
 // <lily-problem-record-list-item>: one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution (tasks.md P28-T3, spec/healthcare-ui). Upgrades in place: it replaces
 // itself with a real <li class="problem-record-list-item">, so the list's semantics hold.
-// Attributes: condition, clinical-status, clinical-status-label, verification-status, verification-status-label, severity-label, onset, onset-label, abatement, abatement-label.
+// Attributes: subject-label (whose record it is, shown first), condition, clinical-status, clinical-status-label, verification-status, verification-status-label, severity-label, onset, onset-label, abatement, abatement-label.
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const HANDLED = new Set([
+    "subject-label",
     "condition",
     "clinical-status",
     "clinical-status-label",
@@ -37,6 +38,9 @@ export class ProblemRecordListItem extends HTMLElement {
             if (li.childNodes.length > 0) li.append(" ");
             li.append(el);
         };
+        if (attr("subject-label")) {
+            add("span", "problem-record-list-item-subject", attr("subject-label"));
+        }
         add("span", "problem-record-list-item-condition", attr("condition"));
         add("span", "problem-record-list-item-clinical-status", attr("clinical-status-label"));
         add(

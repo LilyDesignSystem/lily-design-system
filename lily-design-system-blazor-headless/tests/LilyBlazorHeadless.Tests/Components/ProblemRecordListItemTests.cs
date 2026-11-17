@@ -33,4 +33,13 @@ public class ProblemRecordListItemTests : TestContext
         Assert.Null(cut.Find("li").GetAttribute("data-clinical-status"));
         Assert.Null(cut.Find("li").GetAttribute("data-verification-status"));
     }
+
+    [Fact]
+    public void Says_whose_record_it_is_first_when_it_is_not_the_patients()
+    {
+        var cut = RenderComponent<ProblemRecordListItem>(p => p.Add(x => x.Condition, "Breast cancer").Add(x => x.SubjectLabel, "Mother"));
+        var li = cut.Find("li.problem-record-list-item");
+        Assert.Equal("problem-record-list-item-subject", li.FirstElementChild?.ClassName);
+        Assert.Matches(@"^Mother\s+Breast cancer", li.TextContent);
+    }
 }

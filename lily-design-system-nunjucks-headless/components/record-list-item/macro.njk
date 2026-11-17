@@ -2,9 +2,10 @@
   RecordListItem macro — one record in a record list, with its status and last update around the consumer's content (tasks.md P28-T3, spec/healthcare-ui).
 
   HTML tag: <li>
-  CSS class: record-list-item (parts: -status, -updated)
+  CSS class: record-list-item (parts: -subject, -status, -updated)
 
   Params:
+    subjectLabel         whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first
     status               the record's status, as the consumer's code
     statusLabel          the status in words
     updated              when the record was last updated
@@ -22,5 +23,5 @@
   {%- if p.status %} data-status="{{ p.status }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}{%- if p.statusLabel %} <span class="record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.updatedLabel %} <time class="record-list-item-updated"{% if p.updated %} datetime="{{ p.updated }}"{% endif %}>{{ p.updatedLabel }}</time>{% endif -%}</li>
+>{%- if p.subjectLabel %}<span class="record-list-item-subject">{{ p.subjectLabel }}</span> {% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}{%- if p.statusLabel %} <span class="record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.updatedLabel %} <time class="record-list-item-updated"{% if p.updated %} datetime="{{ p.updated }}"{% endif %}>{{ p.updatedLabel }}</time>{% endif -%}</li>
 {%- endmacro -%}

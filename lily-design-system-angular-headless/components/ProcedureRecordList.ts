@@ -14,7 +14,7 @@ import { warnMissingProp } from "./dev-warning";
 export class ProcedureRecordList implements OnInit {
     readonly className = input<string>("");
     readonly status = input<
-        "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | ""
+        "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable" | ""
     >("");
     /** The consumer's words for the status; names the list. */
     readonly statusLabel = input<string>("");
@@ -26,7 +26,7 @@ export class ProcedureRecordList implements OnInit {
             "ProcedureRecordList",
             "status",
             this.status(),
-            "A procedure record list must say whether procedures are known, none known, not recorded, unavailable or omitted.",
+            "A procedure record list must say whether procedures are known, none known, not recorded, unavailable, omitted or not applicable.",
         );
         warnMissingProp(
             "ProcedureRecordList",

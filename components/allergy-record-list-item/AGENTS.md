@@ -30,6 +30,7 @@
 
 ## Props
 
+- `subjectLabel`: string (optional) -- whose record it is, when it is not the patient's ("Mother", "Fetus 1"); rendered first as `-subject`, so a relative's history is never read as the patient's
 - `substance`: string (required) — what the patient reacts to; never truncated
 - `reaction`: string (optional) — the manifestation
 - `severity`: "mild" | "moderate" | "severe" (optional) — the reaction's severity (FHIR reaction.severity); rendered as `data-severity`

@@ -2734,6 +2734,10 @@
 .allergy-record-list-item {
 }
 
+/* allergy-record-list-item-subject: sub-element of allergy-record-list-item */
+.allergy-record-list-item-subject {
+}
+
 /* allergy-record-list-item-substance: sub-element of allergy-record-list-item */
 .allergy-record-list-item-substance {
 }
@@ -2974,6 +2978,10 @@
 .record-list-item {
 }
 
+/* record-list-item-subject: sub-element of record-list-item */
+.record-list-item-subject {
+}
+
 /* record-list-item-status: sub-element of record-list-item */
 .record-list-item-status {
 }
@@ -2986,6 +2994,10 @@
 .medication-record-list-item {
 }
 
+/* medication-record-list-item-subject: sub-element of medication-record-list-item */
+.medication-record-list-item-subject {
+}
+
 /* medication-record-list-item-status: sub-element of medication-record-list-item */
 .medication-record-list-item-status {
 }
@@ -2996,6 +3008,10 @@
 
 /* problem-record-list-item: one problem or condition in a problem record list, with its clinical and verification status, severity, onset and resolution */
 .problem-record-list-item {
+}
+
+/* problem-record-list-item-subject: sub-element of problem-record-list-item */
+.problem-record-list-item-subject {
 }
 
 /* problem-record-list-item-condition: sub-element of problem-record-list-item */
@@ -3026,6 +3042,10 @@
 .immunization-record-list-item {
 }
 
+/* immunization-record-list-item-subject: sub-element of immunization-record-list-item */
+.immunization-record-list-item-subject {
+}
+
 /* immunization-record-list-item-vaccine: sub-element of immunization-record-list-item */
 .immunization-record-list-item-vaccine {
 }
@@ -3050,6 +3070,10 @@
 .procedure-record-list-item {
 }
 
+/* procedure-record-list-item-subject: sub-element of procedure-record-list-item */
+.procedure-record-list-item-subject {
+}
+
 /* procedure-record-list-item-procedure: sub-element of procedure-record-list-item */
 .procedure-record-list-item-procedure {
 }
@@ -3064,6 +3088,10 @@
 
 /* device-record-list-item: one medical device in a device record list, with its status and when it was used */
 .device-record-list-item {
+}
+
+/* device-record-list-item-subject: sub-element of device-record-list-item */
+.device-record-list-item-subject {
 }
 
 /* device-record-list-item-device: sub-element of device-record-list-item */

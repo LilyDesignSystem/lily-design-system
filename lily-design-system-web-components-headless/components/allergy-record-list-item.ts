@@ -1,9 +1,10 @@
 // <lily-allergy-record-list-item>: one allergy or intolerance in an allergy record list, with substance, reaction, severity, criticality and status (tasks.md P28-T3, spec/healthcare-ui). Upgrades in place: it replaces
 // itself with a real <li class="allergy-record-list-item">, so the list's semantics hold.
-// Attributes: substance, reaction, severity, severity-label, criticality, criticality-label, clinical-status, clinical-status-label, verification-status, verification-status-label, type-label, category-label, updated, updated-label.
+// Attributes: subject-label (whose record it is, shown first), substance, reaction, severity, severity-label, criticality, criticality-label, clinical-status, clinical-status-label, verification-status, verification-status-label, type-label, category-label, updated, updated-label.
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
 const HANDLED = new Set([
+    "subject-label",
     "substance",
     "reaction",
     "severity",
@@ -43,6 +44,9 @@ export class AllergyRecordListItem extends HTMLElement {
             if (li.childNodes.length > 0) li.append(" ");
             li.append(el);
         };
+        if (attr("subject-label")) {
+            add("span", "allergy-record-list-item-subject", attr("subject-label"));
+        }
         add("span", "allergy-record-list-item-substance", attr("substance"));
         add("span", "allergy-record-list-item-reaction", attr("reaction"));
         add("span", "allergy-record-list-item-severity", attr("severity-label"));

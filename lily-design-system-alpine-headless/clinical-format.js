@@ -180,15 +180,14 @@ const PARTIAL_DATE = /^(\d{4})(?:-(\d{2})(?:-(\d{2}))?)?$/;
 
 function parsePartialDate(iso        )                                                 {
     const match = PARTIAL_DATE.exec(iso);
-    if (!match)
-        throw new RangeError(`not a partial date (YYYY, YYYY-MM or YYYY-MM-DD): ${String(iso)}`);
+    if (!match) throw new RangeError(`not a partial ISO 8601 date: ${String(iso)}`);
     const year = Number(match[1]);
     const month = match[2] === undefined ? undefined : Number(match[2]);
     const day = match[3] === undefined ? undefined : Number(match[3]);
     if (month !== undefined && (month < 1 || month > 12))
         throw new RangeError(`not a month: ${String(iso)}`);
     if (day !== undefined && (day < 1 || day > daysInMonth(year, (month          ) - 1)))
-        throw new RangeError(`not a day of that month: ${String(iso)}`);
+        throw new RangeError(`not a calendar date: ${String(iso)}`);
     return { year, month, day };
 }
 

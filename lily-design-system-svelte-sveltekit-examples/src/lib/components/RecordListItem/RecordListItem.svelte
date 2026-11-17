@@ -6,6 +6,7 @@
     //
     // Props:
     //   className — string, optional. CSS class name.
+    //   subjectLabel: string (optional) — whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first
     //   children: slot — the record itself, written by the consumer
     //   status: string (optional) — the record's status, as the consumer's code; rendered as data-status
     //   statusLabel: string (optional; required when status is set) — the status in words
@@ -20,6 +21,7 @@
 
     let {
         class: className = "",
+        subjectLabel,
         status,
         statusLabel,
         updated,
@@ -27,6 +29,8 @@
         children,
         ...restProps
     }: {
+        /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+        subjectLabel?: string;
         status?: string;
         statusLabel?: string;
         updated?: string;
@@ -52,6 +56,7 @@
     data-status={status}
     {...restProps}
 >
+    {#if subjectLabel}<span class="record-list-item-subject">{subjectLabel}</span>{" "}{/if}
     {@render children?.()}
     {#if statusLabel}{" "}<span class="record-list-item-status">{statusLabel}</span>{/if}
     {#if updatedLabel}{" "}<time

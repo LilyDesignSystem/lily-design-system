@@ -2,9 +2,10 @@
   MedicationRecordListItem macro — one medicine in a medication record list, with its status and when it applies (tasks.md P28-T3, spec/healthcare-ui).
 
   HTML tag: <li>
-  CSS class: medication-record-list-item (parts: -status, -effective)
+  CSS class: medication-record-list-item (parts: -subject, -status, -effective)
 
   Params:
+    subjectLabel         whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first
     status               FHIR MedicationStatement status
     statusLabel          the status in words
     effective            when the medicine applies, for <time datetime>
@@ -22,5 +23,5 @@
   {%- if p.status %} data-status="{{ p.status }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}{%- if p.statusLabel %} <span class="medication-record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.effectiveLabel %} <time class="medication-record-list-item-effective"{% if p.effective %} datetime="{{ p.effective }}"{% endif %}>{{ p.effectiveLabel }}</time>{% endif -%}</li>
+>{%- if p.subjectLabel %}<span class="medication-record-list-item-subject">{{ p.subjectLabel }}</span> {% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}{%- if p.statusLabel %} <span class="medication-record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.effectiveLabel %} <time class="medication-record-list-item-effective"{% if p.effective %} datetime="{{ p.effective }}"{% endif %}>{{ p.effectiveLabel }}</time>{% endif -%}</li>
 {%- endmacro -%}

@@ -3,6 +3,8 @@
 import { warnMissingProp } from "./dev-warning";
 
 const props = defineProps<{
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** FHIR MedicationStatement status */
     status?:
         | "active"
@@ -34,6 +36,10 @@ if (props.status)
         class="medication-record-list-item"
         :data-status="status"
     >
+        <template v-if="subjectLabel"
+            ><span class="medication-record-list-item-subject">{{ subjectLabel }}</span
+            >{{ " " }}</template
+        >
         <slot />
         <template v-if="statusLabel"
             >{{ " "

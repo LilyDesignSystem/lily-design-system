@@ -7,14 +7,14 @@ RecordList is a list of records from one section of a patient's record, whose st
 ## Implementation Notes
 
 - Renders `<ul class="record-list">` named by `aria-label` (`label`, else `statusLabel`)
-- `status` is required and renders as `data-status`: `known`, `none-known`, `not-recorded`, `unavailable`, `omitted`
+- `status` is required and renders as `data-status`: `known`, `none-known`, `not-recorded`, `unavailable`, `omitted`, `not-applicable`
 - For any status but `known`, `statusLabel` is the list's one item, `li.record-list-status`, so the list is never blank
 - Holds `record-list-item` items when the status is `known`
 - A missing `status` or `statusLabel` raises a development warning (Svelte, React, Vue, Angular)
 
 ## Props
 
-- `status`: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" (required) — rendered as `data-status`
+- `status`: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable" (required) — rendered as `data-status`
 - `statusLabel`: string (required) — the status in words; names the list, and is its one item unless status is `known`
 - `label`: string (optional) — the accessible name, when it should differ from `statusLabel`
 - `children`: slot (optional) — `record-list-item` items

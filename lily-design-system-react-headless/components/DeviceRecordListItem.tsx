@@ -4,6 +4,8 @@ import { warnMissingProp } from "./dev-warning";
 
 export interface DeviceRecordListItemProps {
     className?: string;
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** the device; never truncated */
     device: string;
     /** FHIR DeviceUseStatement status */
@@ -18,6 +20,7 @@ export interface DeviceRecordListItemProps {
 
 export default function DeviceRecordListItem({
     className = "",
+    subjectLabel,
     device,
     status,
     statusLabel,
@@ -39,6 +42,11 @@ export default function DeviceRecordListItem({
             data-status={status}
             {...restProps}
         >
+            {subjectLabel ? (
+                <>
+                    <span className="device-record-list-item-subject">{subjectLabel}</span>{" "}
+                </>
+            ) : null}
             <span className="device-record-list-item-device">{device}</span>
             {statusLabel ? (
                 <>

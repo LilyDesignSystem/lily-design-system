@@ -8,7 +8,7 @@ import { warnMissingProp } from "./dev-warning";
 @Component({
     selector: "li[lily-problem-record-list-item]",
     standalone: true,
-    template: `<span class="problem-record-list-item-condition">{{ condition() }}</span>@if (clinicalStatusLabel()) {{{ " " }}<span class="problem-record-list-item-clinical-status">{{ clinicalStatusLabel() }}</span>}@if (verificationStatusLabel()) {{{ " " }}<span class="problem-record-list-item-verification-status">{{ verificationStatusLabel() }}</span>}@if (severityLabel()) {{{ " " }}<span class="problem-record-list-item-severity">{{ severityLabel() }}</span>}@if (onsetLabel()) {{{ " " }}<time class="problem-record-list-item-onset" [attr.datetime]="onset() || null">{{ onsetLabel() }}</time>}@if (abatementLabel()) {{{ " " }}<time class="problem-record-list-item-abatement" [attr.datetime]="abatement() || null">{{ abatementLabel() }}</time>}<ng-content />`,
+    template: `@if (subjectLabel()) {<span class="problem-record-list-item-subject">{{ subjectLabel() }}</span>{{ " " }}}<span class="problem-record-list-item-condition">{{ condition() }}</span>@if (clinicalStatusLabel()) {{{ " " }}<span class="problem-record-list-item-clinical-status">{{ clinicalStatusLabel() }}</span>}@if (verificationStatusLabel()) {{{ " " }}<span class="problem-record-list-item-verification-status">{{ verificationStatusLabel() }}</span>}@if (severityLabel()) {{{ " " }}<span class="problem-record-list-item-severity">{{ severityLabel() }}</span>}@if (onsetLabel()) {{{ " " }}<time class="problem-record-list-item-onset" [attr.datetime]="onset() || null">{{ onsetLabel() }}</time>}@if (abatementLabel()) {{{ " " }}<time class="problem-record-list-item-abatement" [attr.datetime]="abatement() || null">{{ abatementLabel() }}</time>}<ng-content />`,
     host: {
         "[class]": '"problem-record-list-item " + className()',
         "[attr.data-clinical-status]": "clinicalStatus() || null",
@@ -18,6 +18,8 @@ import { warnMissingProp } from "./dev-warning";
 })
 export class ProblemRecordListItem implements OnInit {
     readonly className = input<string>("");
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    readonly subjectLabel = input<string>("");
     /** the problem or condition; never truncated */
     readonly condition = input<string>("");
     /** FHIR Condition clinicalStatus */

@@ -4,6 +4,8 @@ import { warnMissingProp } from "./dev-warning";
 
 export interface MedicationRecordListItemProps {
     className?: string;
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    subjectLabel?: string;
     /** FHIR MedicationStatement status */
     status?:
         | "active"
@@ -24,6 +26,7 @@ export interface MedicationRecordListItemProps {
 
 export default function MedicationRecordListItem({
     className = "",
+    subjectLabel,
     status,
     statusLabel,
     effective,
@@ -44,6 +47,11 @@ export default function MedicationRecordListItem({
             data-status={status}
             {...restProps}
         >
+            {subjectLabel ? (
+                <>
+                    <span className="medication-record-list-item-subject">{subjectLabel}</span>{" "}
+                </>
+            ) : null}
             {children}
             {statusLabel ? (
                 <>

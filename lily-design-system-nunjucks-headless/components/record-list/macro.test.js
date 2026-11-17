@@ -27,4 +27,16 @@ describe("record-list", () => {
         expect(items[0].className).toBe("record-list-status");
         expect(items[0].textContent).toBe(words);
     });
+
+    it("not-applicable is its own status, shown in words", () => {
+        const { document } = render("record-list", {
+            status: "not-applicable",
+            statusLabel: "Pregnancy: not applicable",
+        });
+        const list = document.querySelector("ul.record-list");
+        expect(list.getAttribute("data-status")).toBe("not-applicable");
+        expect(list.querySelector(".record-list-status").textContent).toBe(
+            "Pregnancy: not applicable",
+        );
+    });
 });

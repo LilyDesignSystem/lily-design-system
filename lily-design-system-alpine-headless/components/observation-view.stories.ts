@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/html-vite";
 
 const html =
-    '<span class="observation-view" data-interpretation="H" data-status="final"><span class="screen-reader-span">Potassium </span><span class="observation-view-value">5.9</span>&#160;<span class="observation-view-unit">mmol/L</span> <span class="observation-view-flag">High</span> <span class="observation-view-range">3.5–5.3</span></span>';
+    '<span\n  class="observation-view"\n  data-interpretation="H"\n  data-status="final"\n  ><span class="screen-reader-span">Potassium </span\n  ><span class="observation-view-value">5.9</span>&#160;<span class="observation-view-unit"\n    >mmol/L</span\n  >\n  <span class="observation-view-flag">High</span>\n  <span class="observation-view-range">3.5–5.3</span></span\n>';
 
 const meta = {
     title: "Headless/Observation View",

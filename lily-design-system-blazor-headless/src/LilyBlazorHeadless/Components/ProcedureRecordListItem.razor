@@ -2,8 +2,10 @@
 @*
     ProcedureRecordListItem: one procedure in a procedure record list, with its status and when it was performed (tasks.md P28-T3, spec/healthcare-ui). Props: ProcedureRecordListItem.md.
 *@
-<li class="@($"procedure-record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes"><span class="procedure-record-list-item-procedure">@Procedure</span>@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="procedure-record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(PerformedLabel)) {@(" ")<time class="procedure-record-list-item-performed" datetime="@Performed">@PerformedLabel</time>}@ChildContent</li>
+<li class="@($"procedure-record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(SubjectLabel)) {<span class="procedure-record-list-item-subject">@SubjectLabel</span>@(" ")}<span class="procedure-record-list-item-procedure">@Procedure</span>@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="procedure-record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(PerformedLabel)) {@(" ")<time class="procedure-record-list-item-performed" datetime="@Performed">@PerformedLabel</time>}@ChildContent</li>
 @code {
+    /// <summary>whose record it is, when it is not the patient's (&quot;Mother&quot;, &quot;Fetus 1&quot;); shown first.</summary>
+    [Parameter] public string? SubjectLabel { get; set; }
     /// <summary>the procedure; never truncated.</summary>
     [Parameter, EditorRequired] public string Procedure { get; set; } = "";
     /// <summary>FHIR Procedure status.</summary>

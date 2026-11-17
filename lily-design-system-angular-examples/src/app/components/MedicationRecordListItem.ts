@@ -8,7 +8,7 @@ import { warnMissingProp } from "./dev-warning";
 @Component({
     selector: "li[lily-medication-record-list-item]",
     standalone: true,
-    template: `<ng-content />@if (statusLabel()) {{{ " " }}<span class="medication-record-list-item-status">{{ statusLabel() }}</span>}@if (effectiveLabel()) {{{ " " }}<time class="medication-record-list-item-effective" [attr.datetime]="effective() || null">{{ effectiveLabel() }}</time>}`,
+    template: `@if (subjectLabel()) {<span class="medication-record-list-item-subject">{{ subjectLabel() }}</span>{{ " " }}}<ng-content />@if (statusLabel()) {{{ " " }}<span class="medication-record-list-item-status">{{ statusLabel() }}</span>}@if (effectiveLabel()) {{{ " " }}<time class="medication-record-list-item-effective" [attr.datetime]="effective() || null">{{ effectiveLabel() }}</time>}`,
     host: {
         "[class]": '"medication-record-list-item " + className()',
         "[attr.data-status]": "status() || null",
@@ -17,6 +17,8 @@ import { warnMissingProp } from "./dev-warning";
 })
 export class MedicationRecordListItem implements OnInit {
     readonly className = input<string>("");
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    readonly subjectLabel = input<string>("");
     /** FHIR MedicationStatement status */
     readonly status = input<
         | "active"

@@ -68,4 +68,16 @@ describe("observation-view", () => {
         expect(document.querySelector(".screen-reader-span").textContent).toBe("Potassium ");
         expect(document.querySelector(".observation-view").hasAttribute("aria-label")).toBe(false);
     });
+
+    it("not-applicable replaces the value with the consumer's words", () => {
+        const { document } = render("observation-view", {
+            value: "",
+            status: "not-applicable",
+            statusLabel: "Not applicable",
+        });
+        const root = document.querySelector(".observation-view");
+        expect(root.getAttribute("data-status")).toBe("not-applicable");
+        expect(root.querySelector(".observation-view-status").textContent).toBe("Not applicable");
+        expect(root.querySelector(".observation-view-value")).toBeNull();
+    });
 });

@@ -2,9 +2,10 @@
   ImmunizationRecordListItem macro — one immunization in an immunization record list, with vaccine, date, dose and status (tasks.md P28-T3, spec/healthcare-ui).
 
   HTML tag: <li>
-  CSS class: immunization-record-list-item (parts: -vaccine, -occurrence, -dose-number, -status, -lot-number)
+  CSS class: immunization-record-list-item (parts: -subject, -vaccine, -occurrence, -dose-number, -status, -lot-number)
 
   Params:
+    subjectLabel         whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first
     vaccine              the vaccine given; never truncated; required
     occurrence           when it was given, for <time datetime>
     occurrenceLabel      that date as the consumer writes it
@@ -25,5 +26,5 @@
   {%- if p.status %} data-status="{{ p.status }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
-><span class="immunization-record-list-item-vaccine">{{ p.vaccine }}</span>{%- if p.occurrenceLabel %} <time class="immunization-record-list-item-occurrence"{% if p.occurrence %} datetime="{{ p.occurrence }}"{% endif %}>{{ p.occurrenceLabel }}</time>{% endif -%}{%- if p.doseNumberLabel %} <span class="immunization-record-list-item-dose-number">{{ p.doseNumberLabel }}</span>{% endif -%}{%- if p.statusLabel %} <span class="immunization-record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.lotNumber %} <span class="immunization-record-list-item-lot-number">{{ p.lotNumber }}</span>{% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
+>{%- if p.subjectLabel %}<span class="immunization-record-list-item-subject">{{ p.subjectLabel }}</span> {% endif -%}<span class="immunization-record-list-item-vaccine">{{ p.vaccine }}</span>{%- if p.occurrenceLabel %} <time class="immunization-record-list-item-occurrence"{% if p.occurrence %} datetime="{{ p.occurrence }}"{% endif %}>{{ p.occurrenceLabel }}</time>{% endif -%}{%- if p.doseNumberLabel %} <span class="immunization-record-list-item-dose-number">{{ p.doseNumberLabel }}</span>{% endif -%}{%- if p.statusLabel %} <span class="immunization-record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.lotNumber %} <span class="immunization-record-list-item-lot-number">{{ p.lotNumber }}</span>{% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}</li>
 {%- endmacro -%}

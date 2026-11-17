@@ -8,7 +8,7 @@ import { warnMissingProp } from "./dev-warning";
 @Component({
     selector: "li[lily-device-record-list-item]",
     standalone: true,
-    template: `<span class="device-record-list-item-device">{{ device() }}</span>@if (statusLabel()) {{{ " " }}<span class="device-record-list-item-status">{{ statusLabel() }}</span>}@if (timingLabel()) {{{ " " }}<time class="device-record-list-item-timing" [attr.datetime]="timing() || null">{{ timingLabel() }}</time>}<ng-content />`,
+    template: `@if (subjectLabel()) {<span class="device-record-list-item-subject">{{ subjectLabel() }}</span>{{ " " }}}<span class="device-record-list-item-device">{{ device() }}</span>@if (statusLabel()) {{{ " " }}<span class="device-record-list-item-status">{{ statusLabel() }}</span>}@if (timingLabel()) {{{ " " }}<time class="device-record-list-item-timing" [attr.datetime]="timing() || null">{{ timingLabel() }}</time>}<ng-content />`,
     host: {
         "[class]": '"device-record-list-item " + className()',
         "[attr.data-status]": "status() || null",
@@ -17,6 +17,8 @@ import { warnMissingProp } from "./dev-warning";
 })
 export class DeviceRecordListItem implements OnInit {
     readonly className = input<string>("");
+    /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
+    readonly subjectLabel = input<string>("");
     /** the device; never truncated */
     readonly device = input<string>("");
     /** FHIR DeviceUseStatement status */

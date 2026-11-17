@@ -1,9 +1,16 @@
 // <lily-procedure-record-list-item>: one procedure in a procedure record list, with its status and when it was performed (tasks.md P28-T3, spec/healthcare-ui). Upgrades in place: it replaces
 // itself with a real <li class="procedure-record-list-item">, so the list's semantics hold.
-// Attributes: procedure, status, status-label, performed, performed-label.
+// Attributes: subject-label (whose record it is, shown first), procedure, status, status-label, performed, performed-label.
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["procedure", "status", "status-label", "performed", "performed-label"]);
+const HANDLED = new Set([
+    "subject-label",
+    "procedure",
+    "status",
+    "status-label",
+    "performed",
+    "performed-label",
+]);
 
 export class ProcedureRecordListItem extends HTMLElement {
     connectedCallback(): void {
@@ -23,6 +30,9 @@ export class ProcedureRecordListItem extends HTMLElement {
             if (li.childNodes.length > 0) li.append(" ");
             li.append(el);
         };
+        if (attr("subject-label")) {
+            add("span", "procedure-record-list-item-subject", attr("subject-label"));
+        }
         add("span", "procedure-record-list-item-procedure", attr("procedure"));
         add("span", "procedure-record-list-item-status", attr("status-label"));
         add(
