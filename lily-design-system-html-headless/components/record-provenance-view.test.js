@@ -8,14 +8,13 @@ describe("RecordProvenanceView", function () {
         await browser.url("file://" + path.resolve(__dirname, "record-provenance-view.html"));
     });
 
-    it("should render the root element with correct class", async function () {
-        const el = await $(".record-provenance-view");
-        await expect(el).toExist();
-    });
-
-    it("should have an aria-label attribute", async function () {
-        const el = await $(".record-provenance-view");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+    it("renders its states as data and words, the signature state first", async function () {
+        const root = await $("span.record-provenance-view");
+        await expect(root).toExist();
+        expect(await root.getAttribute("data-attestation")).toBe("pending");
+        expect(await root.getAttribute("data-source")).toBe("device");
+        const parts = await root.$$(":scope > *");
+        expect(await parts[0].getAttribute("class")).toBe("record-provenance-view-attestation");
+        expect(await $(".record-provenance-view-recorded").getAttribute("datetime")).toBe("2026-11-03T09:00");
     });
 });

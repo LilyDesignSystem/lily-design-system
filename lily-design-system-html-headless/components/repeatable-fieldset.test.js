@@ -8,14 +8,19 @@ describe("RepeatableFieldset", function () {
         await browser.url("file://" + path.resolve(__dirname, "repeatable-fieldset.html"));
     });
 
-    it("should render the root element with correct class", async function () {
-        const el = await $(".repeatable-fieldset");
-        await expect(el).toExist();
+    it("is a named fieldset with one named fieldset per item", async function () {
+        const root = await $("fieldset.repeatable-fieldset");
+        await expect(root).toExist();
+        const items = await $$(".repeatable-fieldset-item");
+        expect(items.length).toBe(2);
+        expect(await items[1].$("legend").getText()).toBe("Medicine 2");
     });
 
-    it("should have an aria-label attribute", async function () {
-        const el = await $(".repeatable-fieldset");
-        const label = await el.getAttribute("aria-label");
-        expect(label).not.toBeNull();
+    it("its buttons submit the form for a server round trip, with the item's index", async function () {
+        const remove = await $$(".repeatable-fieldset-remove");
+        expect(await remove[1].getAttribute("type")).toBe("submit");
+        expect(await remove[1].getAttribute("name")).toBe("medicines-remove");
+        expect(await remove[1].getAttribute("value")).toBe("1");
+        expect(await $(".repeatable-fieldset-add").getAttribute("name")).toBe("medicines-add");
     });
 });

@@ -3652,23 +3652,28 @@ logic: no constraint validation, no score sums, no unit conversion.
 - [x] **P29-T10 `repeatable-fieldset` (approved by the maintainer, 2026-11-16).** The "add another" pattern: identical fieldsets, add and remove
       buttons, focus to the new item and back after removal, legends renumbered from a consumer template.
       Verify: the decision is recorded in the topic; if built, key and focus tests in all nine catalogs. _(2026-11-17: built in all nine catalogs (catalog 636, Web Components 601): add, remove, renumbered legends from the consumer's functions, focus to the new item's first field on add and to the add button on remove (Blazor focuses the new item's fieldset, without JS interop), `min`, `max` and a polite status. HTML and Nunjucks render the server round trip with submit buttons. Tests in every behaviour catalog and Nunjucks.)_
-- [ ] **P29-T11 openEHR in the healthcare guide.** The data-type, null-flavour, `normal_status` and Instruction State Machine
+- [x] **P29-T11 openEHR in the healthcare guide.** The data-type, null-flavour, `normal_status` and Instruction State Machine
       mapping table, and the interval-event, ordinal-score and instruction-step patterns, in
       `docs/patterns/healthcare/index.md` and its site page.
       Verify: each Lily value the table names is in a component's `AGENTS.md`; `bin/check-links` passes.
+      _(2026-11-17: the Markdown guide is done: "From openEHR to Lily" (data types, null flavours, `normal_status`, parties, audit, the Instruction State Machine, repeating items), the interval, ordinal and instruction-step patterns, partial dates and durations. Every value it names is in a component's `AGENTS.md`; `bin/check-links` passes. The site page follows as P29-T11b.)_
+- [ ] **P29-T11b The guide's site page and its translations (maintainer decision).** The 2026-11-17 guide changes (Phases 29 to
+      34: about 8 KB of new English) on `/patterns/healthcare/` and in its 63 unreviewed machine translations, which
+      `bin/check-site-page-translations` requires to keep the English structure. About 500 KB of machine translation in all.
+      Verify: `bin/extract-site-pages --check`, `bin/check-site-page-translations` and `bin/generate-locale-pages --check` pass.
 
 ## Phase 30 — Lessons from OpenEMR (2026-11-16)
 
 From [spec/lessons/openemr](spec/lessons/openemr/index.md). Order: T1 and T2 (guide rules), then T3 and T4 (example pages), then
 T5 to T7. Pages go in the SvelteKit app first, linked from its home page. No billing, code sets or integrations.
 
-- [ ] **P30-T1 Several patients open.** A guide rule: each tab or window names the patient and a second identifier, the active
+- [x] **P30-T1 Several patients open.** A guide rule: each tab or window names the patient and a second identifier, the active
       panel repeats the banner, and no action applies to a patient other than its panel's.
-      Verify: the rule is in `docs/patterns/healthcare/index.md` and its site page; `bin/check-links` passes.
+      Verify: the rule is in `docs/patterns/healthcare/index.md` and its site page; `bin/check-links` passes. _(2026-11-17: done: in the guide's wrong-patient section, with the session location and active visit rules.)_
 - [ ] **P30-T2 Tri-state answers.** The review-of-systems pattern: a `radio-group` of present, absent and not asked per symptom,
       none chosen by default, one `fieldset` per body system, and an "all others absent" button that sets only unanswered ones.
       Verify: the pattern is in the guide with a working example page that an e2e test completes by keyboard alone, and checks
-      that the button leaves answered symptoms unchanged.
+      that the button leaves answered symptoms unchanged. _(2026-11-17: the pattern is in the guide's Forms section; the example page with its e2e test remains.)_
 - [ ] **P30-T3 `/flow-board`.** Today's appointments in a `data-table`: time, patient with two identifiers, status as text, room,
       and time in status as a `<time>` duration; overdue entries in words and `data-overdue`; updates only on Refresh or with a
       pause control, summarised in one polite region. From OpenMRS service queues (P33): a priority in words and `data-priority`,
@@ -3684,10 +3689,11 @@ T5 to T7. Pages go in the SvelteKit app first, linked from its home page. No bil
 - [ ] **P30-T6 Calendar audit.** In the `calendar` helper: an event's category as text, a free slot marked and reachable by
       keyboard, a repeating series said in words.
       Verify: each finding is a task in this phase or a non-goal in the helper's `spec/index.md`; `bin/check-helper-docs` passes.
-- [ ] **P30-T7 Vitals, growth and reminder patterns.** In the guide: a value with the other unit system's value as consumer text,
+- [x] **P30-T7 Vitals, growth and reminder patterns.** In the guide: a value with the other unit system's value as consumer text,
       a growth chart on `line-chart` with consumer centile series and its data table, and a reminder list as a `record-list` with
       a due date and `data-due` in words.
       Verify: the three patterns are in the guide and its site page; `bin/check-links` passes.
+      _(2026-11-17: done: vitals in two unit systems, growth charts and reminder lists are in the guide.)_
 
 ## Phase 31 — Lessons from ZoBlocks (2026-11-16)
 
@@ -3716,9 +3722,10 @@ go to all nine catalogs (helpers: all eight), Svelte first.
       Verify: tests in all nine catalogs that the menu's accessible name is the subject.
 - [ ] **P31-T7 Trends that refuse.** `breaks` and `minimumPoints` (with consumer words) on `sparkline`.
       Verify: tests in all nine catalogs for a split line and for no line below the minimum.
-- [ ] **P31-T8 Guide rules.** Passage sources in clinical notes, denominators on dashboards, a failed write announcing the
+- [x] **P31-T8 Guide rules.** Passage sources in clinical notes, denominators on dashboards, a failed write announcing the
       value the record holds, and why Lily declines the `mixed` switch.
       Verify: the rules are in `docs/patterns/healthcare/index.md` and its site page; `bin/check-links` passes.
+      _(2026-11-17: done: passage sources, denominators, failed writes and the declined three-state switch are in the guide.)_
 
 ## Phase 32 — Lessons from Magic UI (2026-11-16)
 
@@ -3752,10 +3759,10 @@ carried by P29-T9 and P30-T3.
 - [x] **P33-T1 Never default to normal.** A test in all nine catalogs that `observation-view` without `interpretation` renders no
       `data-interpretation` and no flag; a sentence in its `index.md` and `AGENTS.md` that it never infers one.
       Verify: the tests pass, and fail when a default interpretation is added. _(2026-11-17: done: a test in seven catalogs (Svelte, React, Vue, Angular, Web Components, Nunjucks, Blazor) that a range without an interpretation renders no flag and no `data-interpretation`, and the rule in `observation-view`'s `index.md` and `AGENTS.md`.)_
-- [ ] **P33-T2 Guide rules.** In `docs/patterns/healthcare/index.md` and its site page: unknown is not normal; off-scale results
+- [x] **P33-T2 Guide rules.** In `docs/patterns/healthcare/index.md` and its site page: unknown is not normal; off-scale results
       as a limit with a comparator; load failures as `unavailable` with a retry; the session location in the header; the active
       visit in the banner; patient flags as a labelled `tag-group` of words.
-      Verify: each rule is in the guide; `bin/check-links` passes.
+      Verify: each rule is in the guide; `bin/check-links` passes. _(2026-11-17: done: unknown is not normal, off-scale results, load failures, the session location, the active visit and banner flags are in the guide.)_
 - [ ] **P33-T3 A failed section on `/patient-summary`.** One section `unavailable`, with the consumer's sentence and a retry button.
       Verify: an e2e test finds the words and the button, and that nothing is announced on load.
 - [ ] **P33-T4 Workspace panel.** A non-modal `<aside aria-labelledby>` on `/patient-dashboard` (P30-T5): close returns focus to
@@ -3778,10 +3785,10 @@ From [spec/lessons/retool](spec/lessons/retool/index.md). Order: T2, then T1 and
       Verify: tests in all nine catalogs with a dropped file, and that the button still selects files by keyboard.
 - [ ] **P34-T4 Multi-select listbox (maintainer decision).** `aria-multiselectable` on `listbox` with the APG keys.
       Verify: the decision is recorded in the topic; if built, key tests in all nine catalogs.
-- [ ] **P34-T5 Guide patterns.** Formatted numbers while editing (and the decimal-comma caveat), units in `input-group` as part of
+- [x] **P34-T5 Guide patterns.** Formatted numbers while editing (and the decimal-comma caveat), units in `input-group` as part of
       the name, `aria-setsize` and `aria-posinset` for partly rendered lists, and the two declines (relative dates, clamping).
       Verify: the patterns are in the docs; `bin/check-links` passes.
 
 ---
 
-Lily™ and Lily Design System™ are trademarks.
+Lily™ and Lily Design System™ are trademarks. _(2026-11-17: done in the healthcare guide's Forms section: formatted numbers and the decimal comma, never clamping, and `aria-setsize` for partly rendered lists. Relative dates are declined in its last section.)_

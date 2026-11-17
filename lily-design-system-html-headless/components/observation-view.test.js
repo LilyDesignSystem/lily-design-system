@@ -15,7 +15,9 @@ describe("ObservationView", function () {
         expect(await $(".observation-view-value").getText()).toBe("5.9");
         expect(await $(".observation-view-unit").getText()).toBe("mmol/L");
         expect(await $(".observation-view-flag").getText()).toBe("High");
-        expect(await $(".observation-view-range").getText()).toBe("3.5–5.3");
+        const ranges = await $$(".observation-view-range");
+        expect(await ranges[0].getText()).toBe("3.5–5.3");
+        expect(await ranges[1].getText()).toBe("Critical above 6.5");
     });
 
     it("names the observation with hidden text, not aria-label", async function () {
