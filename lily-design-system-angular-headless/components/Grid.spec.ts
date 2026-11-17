@@ -28,7 +28,7 @@ describe("Grid", () => {
     };
 
     test("defaults to 12 equal columns", () => {
-        expect(style(() => {})).toContain("repeat(12, minmax(0, 1fr))");
+        expect(style(() => {})).toMatch(/repeat\(12, minmax\(0(px)?, 1fr\)\)/);
     });
 
     test("minColumnWidth generates a fluid auto-fit template", () => {

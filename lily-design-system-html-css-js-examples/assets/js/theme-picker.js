@@ -22,6 +22,65 @@ function applyThemeColorWhenLoaded(link, root = document.documentElement) {
     link.addEventListener("load", () => applyThemeColor(root), { once: true });
 }
 
+// theme-choice.ts
+var SYSTEM_THEME = "system";
+var DEFAULT_SYSTEM_THEMES = { light: "light", dark: "dark" };
+var DARK_QUERY = "(prefers-color-scheme: dark)";
+function prefersDarkScheme() {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return false;
+    return window.matchMedia(DARK_QUERY).matches;
+}
+function watchColorScheme(onChange) {
+    if (typeof window === "undefined" || typeof window.matchMedia !== "function") return () => {};
+    const query = window.matchMedia(DARK_QUERY);
+    const listener = (event) => onChange(event.matches);
+    query.addEventListener?.("change", listener);
+    return () => query.removeEventListener?.("change", listener);
+}
+function resolveTheme(choice, prefersDark, systemThemes = DEFAULT_SYSTEM_THEMES) {
+    if (choice !== SYSTEM_THEME) return choice;
+    return prefersDark ? systemThemes.dark : systemThemes.light;
+}
+function themeChoices(themes, systemLabel) {
+    return systemLabel ? [SYSTEM_THEME, ...themes] : [...themes];
+}
+var THEME_COOKIE_MAX_AGE = 400 * 24 * 60 * 60;
+function readThemeCookie(cookies, name, allowed) {
+    for (const part of (cookies ?? "").split(";")) {
+        const eq = part.indexOf("=");
+        if (eq < 0 || part.slice(0, eq).trim() !== name) continue;
+        let value = part.slice(eq + 1).trim();
+        try {
+            value = decodeURIComponent(value);
+        } catch {
+            return "";
+        }
+        return !allowed || allowed.includes(value) ? value : "";
+    }
+    return "";
+}
+function themeCookie(name, value, secure = false) {
+    return (
+        `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${THEME_COOKIE_MAX_AGE}; SameSite=Lax` +
+        (secure ? "; Secure" : "")
+    );
+}
+function readDocumentThemeCookie(name, allowed) {
+    try {
+        return typeof document === "undefined"
+            ? ""
+            : readThemeCookie(document.cookie, name, allowed);
+    } catch {
+        return "";
+    }
+}
+function writeDocumentThemeCookie(name, value) {
+    try {
+        if (typeof document === "undefined") return;
+        document.cookie = themeCookie(name, value, window.location?.protocol === "https:");
+    } catch {}
+}
+
 // theme-picker.ts
 var SVG_NS = "http://www.w3.org/2000/svg";
 function themeName(theme) {
@@ -58,6 +117,9 @@ var ThemePicker = class extends HTMLElement {
             "default-value",
             "storage-key",
             "detect-from-system",
+            "system-label",
+            "system-themes",
+            "cookie-name",
             "name",
             "extension",
             "theme-labels",
@@ -142,12 +204,16 @@ var ThemePicker = class extends HTMLElement {
         if (v) this.setAttribute("default-value", v);
         else this.removeAttribute("default-value");
     }
+    /**
+     * The localStorage key that keeps the choice. Default `lily-{name}` (`lily-theme`); `storage-key=""` keeps nothing
+     * there. Written only when the choice changes, never on first load. Setting `null` restores the default.
+     */
     get storageKey() {
-        return this.getAttribute("storage-key") ?? "";
+        return this.getAttribute("storage-key") ?? `lily-${this.name}`;
     }
     set storageKey(v) {
-        if (v) this.setAttribute("storage-key", v);
-        else this.removeAttribute("storage-key");
+        if (v === null || v === void 0) this.removeAttribute("storage-key");
+        else this.setAttribute("storage-key", v);
     }
     /**
      * Resolve `prefers-color-scheme` to a supported theme on first
@@ -162,6 +228,43 @@ var ThemePicker = class extends HTMLElement {
     set detectFromSystem(v) {
         if (v) this.setAttribute("detect-from-system", "");
         else this.removeAttribute("detect-from-system");
+    }
+    /**
+     * The visible name of a first option, value `"system"` (`SYSTEM_THEME`), that follows the device: it applies the
+     * light or dark theme of `system-themes` from `prefers-color-scheme`, and changes when the device does, for example
+     * "Follow this device". Without it there is no such option. No English default. Attribute `system-label`.
+     */
+    get systemLabel() {
+        return this.getAttribute("system-label") ?? "";
+    }
+    set systemLabel(v) {
+        if (v) this.setAttribute("system-label", v);
+        else this.removeAttribute("system-label");
+    }
+    /** The themes `"system"` applies. Attribute `system-themes="light,dark"`; default light and dark. */
+    get systemThemes() {
+        const [light, dark] = parseCsv(this.getAttribute("system-themes") ?? "");
+        return light && dark ? { light, dark } : DEFAULT_SYSTEM_THEMES;
+    }
+    set systemThemes(v) {
+        this.setAttribute("system-themes", `${v.light},${v.dark}`);
+    }
+    /**
+     * The first-party cookie that keeps the choice (`Path=/`, `SameSite=Lax`, `Secure` on https, 400 days), so a
+     * server can read it and send the page in the right theme. Attribute `cookie-name`; default `lily-{name}`
+     * (`lily-theme`), `cookie-name=""` sets no cookie. Written only when the choice changes, never on first load.
+     * Setting `null` restores the default.
+     */
+    get cookieName() {
+        return this.getAttribute("cookie-name") ?? `lily-${this.name}`;
+    }
+    set cookieName(v) {
+        if (v === null || v === void 0) this.removeAttribute("cookie-name");
+        else this.setAttribute("cookie-name", v);
+    }
+    /** The choices offered: "system" first when it has a label, then the themes. */
+    get #options() {
+        return themeChoices(this.#themes, this.systemLabel || void 0);
     }
     /**
      * Also set `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded, so the
@@ -316,6 +419,7 @@ var ThemePicker = class extends HTMLElement {
     }
     /** Resolve a slug to its display label. Public for subclasses. */
     labelFor(theme) {
+        if (theme === SYSTEM_THEME && this.systemLabel) return this.systemLabel;
         if (theme in this.#themeLabels) return this.#themeLabels[theme];
         return themeName(theme);
     }
@@ -335,7 +439,7 @@ var ThemePicker = class extends HTMLElement {
         }
         this.#render();
         document.addEventListener("click", this.#onDocumentClick);
-        if (this.value) this.#applyTheme(this.value);
+        if (this.value) this.#applyChoice(this.value);
     }
     attributeChangedCallback(name, _old, value) {
         if (name === "open" || name === "disabled") {
@@ -353,7 +457,13 @@ var ThemePicker = class extends HTMLElement {
                 break;
             case "value":
                 this.#syncState();
-                if (this.isConnected && value) this.#applyTheme(value);
+                if (this.isConnected && value) this.#applyChoice(value);
+                break;
+            case "system-label":
+                this.#render();
+                break;
+            case "system-themes":
+                if (this.isConnected && this.value === SYSTEM_THEME) this.#applyChoice(this.value);
                 break;
             case "label":
             case "name":
@@ -371,6 +481,7 @@ var ThemePicker = class extends HTMLElement {
         this.#tooltip?.destroy();
         document.removeEventListener("click", this.#onDocumentClick);
         this.#listboxController?.destroy();
+        this.#stopWatchingScheme();
         this.#appliedValue = "";
         const sameName = document.querySelectorAll(`theme-picker[name="${this.name}"]`);
         if (sameName.length === 0) {
@@ -381,6 +492,9 @@ var ThemePicker = class extends HTMLElement {
     // ---- Behaviour ----
     #resolveInitialValue() {
         let initial = this.value;
+        if (!initial && this.cookieName) {
+            initial = readDocumentThemeCookie(this.cookieName, this.#options);
+        }
         if (!initial && this.storageKey) {
             try {
                 initial = localStorage.getItem(this.storageKey) ?? "";
@@ -392,9 +506,14 @@ var ThemePicker = class extends HTMLElement {
         if (!initial) {
             initial =
                 this.defaultValue ||
-                (this.#themes.includes("light") ? "light" : this.#themes[0]) ||
+                (this.systemLabel
+                    ? SYSTEM_THEME
+                    : this.#themes.includes("light")
+                      ? "light"
+                      : this.#themes[0]) ||
                 "";
         }
+        this.#keptValue = initial;
         if (initial && initial !== this.value) {
             this.setAttribute("value", initial);
         }
@@ -416,7 +535,38 @@ var ThemePicker = class extends HTMLElement {
     // without this a consumer whose `themechange` listener mirrors the value
     // back onto the element re-enters apply forever.
     #appliedValue = "";
-    #applyTheme(slug) {
+    // The device's colour scheme while "system" is chosen, and the function that stops watching it.
+    #prefersDark = false;
+    #stopWatchingScheme = () => {};
+    /** Apply a choice, follow the device while it is "system", and keep it. */
+    #applyChoice(choice) {
+        if (typeof document === "undefined" || !choice) return;
+        this.#stopWatchingScheme();
+        this.#stopWatchingScheme = () => {};
+        if (choice === SYSTEM_THEME) {
+            this.#prefersDark = prefersDarkScheme();
+            this.#stopWatchingScheme = watchColorScheme((dark) => {
+                this.#prefersDark = dark;
+                this.#applyTheme(resolveTheme(SYSTEM_THEME, dark, this.systemThemes), SYSTEM_THEME);
+            });
+        }
+        this.#applyTheme(resolveTheme(choice, this.#prefersDark, this.systemThemes), choice);
+        this.#keepChoice(choice);
+    }
+    // The choice is kept, not the theme it applies: "system" stays "system", so the next visit follows the device
+    // again. Kept once per change of choice ("dark" to "system" on a dark device applies nothing new).
+    #keptValue = "";
+    #keepChoice(choice) {
+        if (choice === this.#keptValue) return;
+        this.#keptValue = choice;
+        if (this.storageKey) {
+            try {
+                localStorage.setItem(this.storageKey, choice);
+            } catch {}
+        }
+        if (this.cookieName) writeDocumentThemeCookie(this.cookieName, choice);
+    }
+    #applyTheme(slug, choice) {
         if (typeof document === "undefined" || !slug) return;
         if (slug === this.#appliedValue) return;
         this.#appliedValue = slug;
@@ -424,14 +574,9 @@ var ThemePicker = class extends HTMLElement {
         link.href = themeHref(this.themesUrl, slug, this.extension);
         if (this.themeColor) applyThemeColorWhenLoaded(link);
         (this.#target ?? document.documentElement).setAttribute("data-theme", slug);
-        if (this.storageKey) {
-            try {
-                localStorage.setItem(this.storageKey, slug);
-            } catch {}
-        }
         this.dispatchEvent(
             new CustomEvent("themechange", {
-                detail: { theme: slug },
+                detail: { theme: slug, choice },
                 bubbles: true,
                 composed: true,
             }),
@@ -441,9 +586,9 @@ var ThemePicker = class extends HTMLElement {
     /** Open the listbox. `startIndex` overrides the active option. */
     openList(startIndex) {
         if (this.disabled || !this.#listEl) return;
-        const selected = this.#themes.indexOf(this.value);
+        const selected = this.#options.indexOf(this.value);
         this.#activeIndex =
-            this.#themes.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
+            this.#options.length === 0 ? -1 : (startIndex ?? (selected >= 0 ? selected : 0));
         this.#listboxController?.setActiveIndex(this.#activeIndex);
         this.#open = true;
         this.#emitOpenChange(true);
@@ -462,7 +607,7 @@ var ThemePicker = class extends HTMLElement {
         if (refocus) this.#buttonEl?.focus({ preventScroll: true });
     }
     #choose(index) {
-        const slug = this.#themes[index];
+        const slug = this.#options[index];
         if (slug) this.value = slug;
         this.closeList();
     }
@@ -480,7 +625,7 @@ var ThemePicker = class extends HTMLElement {
                 break;
             case "ArrowUp":
                 event.preventDefault();
-                this.openList(this.#themes.length - 1);
+                this.openList(this.#options.length - 1);
                 break;
         }
     };
@@ -521,8 +666,9 @@ var ThemePicker = class extends HTMLElement {
                 this.#listEl.removeAttribute("aria-activedescendant");
             }
         }
+        const options = this.#options;
         this.#optionEls.forEach((option, i) => {
-            option.setAttribute("aria-selected", String(this.#themes[i] === value));
+            option.setAttribute("aria-selected", String(options[i] === value));
             if (i === this.#activeIndex) option.setAttribute("data-active", "");
             else option.removeAttribute("data-active");
         });
@@ -598,9 +744,9 @@ var ThemePicker = class extends HTMLElement {
             },
         });
         const optionEls = [];
-        this.#themes.forEach((theme, i) => {
+        this.#options.forEach((theme, i) => {
             const option = document.createElement("li");
-            option.className = "theme-picker-option";
+            option.className = optionClass(theme);
             option.id = this.optionId(i);
             option.setAttribute("role", "option");
             option.setAttribute("aria-selected", String(theme === this.value));
@@ -633,14 +779,19 @@ var ThemePicker = class extends HTMLElement {
         select.name = this.name;
         select.setAttribute("aria-label", this.label);
         select.disabled = this.disabled;
-        for (const theme of this.#themes) {
+        for (const theme of this.#options) {
             const option = document.createElement("option");
-            option.className = "theme-picker-option";
+            option.className = optionClass(theme);
             option.value = theme;
             option.selected = theme === this.value;
             if (option.selected) option.setAttribute("selected", "");
             option.textContent = this.labelFor(theme);
             select.appendChild(option);
+            if (theme === SYSTEM_THEME) {
+                const hr = document.createElement("hr");
+                hr.className = "theme-picker-separator";
+                select.appendChild(hr);
+            }
         }
         select.addEventListener("change", () => {
             this.value = select.value;
@@ -655,6 +806,11 @@ var ThemePicker = class extends HTMLElement {
         this.replaceChildren(root);
     }
 };
+function optionClass(theme) {
+    return theme === SYSTEM_THEME
+        ? "theme-picker-option theme-picker-option-system"
+        : "theme-picker-option";
+}
 function parseCsv(s) {
     return s
         .split(",")
@@ -753,10 +909,21 @@ if (typeof customElements !== "undefined" && !customElements.get("theme-picker")
     customElements.define("theme-picker", ThemePicker);
 }
 export {
+    DEFAULT_SYSTEM_THEMES,
+    SYSTEM_THEME,
+    THEME_COOKIE_MAX_AGE,
     ThemePicker,
     matchSystemTheme,
     nextThemePickerId,
     normalizeThemesUrl,
+    prefersDarkScheme,
+    readDocumentThemeCookie,
+    readThemeCookie,
+    resolveTheme,
+    themeChoices,
+    themeCookie,
     themeHref,
     themeName,
+    watchColorScheme,
+    writeDocumentThemeCookie,
 };

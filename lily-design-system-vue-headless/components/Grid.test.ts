@@ -22,7 +22,7 @@ describe("Grid", () => {
 
         const el: HTMLElement = screen.getByTestId("g");
         expect(el.getAttribute("data-columns")).toBe("12");
-        expect(el.style.gridTemplateColumns).toBe("repeat(12, minmax(0, 1fr))");
+        expect(el.style.gridTemplateColumns).toMatch(/^repeat\(12, minmax\(0(px)?, 1fr\)\)$/);
     });
 
     test("accepts numeric columns prop", () => {
@@ -30,7 +30,7 @@ describe("Grid", () => {
 
         const el: HTMLElement = screen.getByTestId("g");
         expect(el.getAttribute("data-columns")).toBe("3");
-        expect(el.style.gridTemplateColumns).toBe("repeat(3, minmax(0, 1fr))");
+        expect(el.style.gridTemplateColumns).toMatch(/^repeat\(3, minmax\(0(px)?, 1fr\)\)$/);
     });
 
     test("accepts string columns template", () => {
