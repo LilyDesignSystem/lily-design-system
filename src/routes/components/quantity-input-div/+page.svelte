@@ -6,7 +6,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<div class=\"quantity-input-div\" role=\"group\" aria-label=\"Weight\"><label for=\"demo-weight-magnitude\">Amount</label> <input class=\"quantity-input-div-magnitude\" id=\"demo-weight-magnitude\" name=\"weight-magnitude\" type=\"number\" inputmode=\"decimal\" min=\"0\" max=\"300\" step=\"0.1\"> <label for=\"demo-weight-unit\">Unit</label> <select class=\"quantity-input-div-unit\" id=\"demo-weight-unit\" name=\"weight-unit\"><option value=\"kg\" selected>kilograms</option><option value=\"[lb_av]\">pounds</option></select></div>";
   const svelteSource: string = "// In your Svelte component:\nimport QuantityInputDiv from \"lily-design-system-svelte-headless/components/QuantityInputDiv/QuantityInputDiv.svelte\";\n\n<QuantityInputDiv>\n  <!-- content -->\n</QuantityInputDiv>\n";
-  const usageCode: string = "<QuantityInputDiv label=\"Weight\" magnitudeLabel=\"Amount\" unitLabel=\"Unit\" {units} bind:magnitude bind:unit />\n";
+  const usageCode: string = "<QuantityInputDiv\n  label=\"Weight\"\n  magnitudeLabel=\"Amount\"\n  unitLabel=\"Unit\"\n  {units}\n  bind:magnitude\n  bind:unit\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

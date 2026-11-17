@@ -1,0 +1,54 @@
+{
+  "slug": "repeatable-fieldset",
+  "name": "RepeatableFieldset",
+  "description": "a group of identical fieldsets that a person adds to and removes from (\"add another\")",
+  "htmlTag": "fieldset",
+  "category": "forms",
+  "baseClass": ".repeatable-fieldset",
+  "subClasses": [
+    "repeatable-fieldset-add",
+    "repeatable-fieldset-item",
+    "repeatable-fieldset-item-legend",
+    "repeatable-fieldset-remove"
+  ],
+  "interactive": true,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "The outer `<legend>` names the group, and each item's `<legend>` names it, announced with its fields",
+    "`role=\"status\"` announces the change politely, in the consumer's words"
+  ],
+  "keyboard": [
+    "Tab moves through each item's fields, its remove button, then the add button; each button is native"
+  ],
+  "props": [
+    "`legend`: string (required) — names the whole group (\"Medicines\")",
+    "`items`: T[] (two-way) — the consumer's items",
+    "`newItem`: () => T (required) — makes a new item when the add button is pressed",
+    "`itemLegend`: (number) => string (required) — each item's legend (\"Medicine 2\"); numbers start at 1",
+    "`addLabel`: string (required) — the add button's text (\"Add another medicine\")",
+    "`removeLabel`: (number) => string (required) — each remove button's text (\"Remove medicine 2\")",
+    "`min`: number (default 0) — the fewest items; remove buttons are left out at the minimum",
+    "`max`: number (optional) — the most items; the add button is disabled at the maximum",
+    "`addedLabel`, `removedLabel`: (number) => string (optional) — announced politely after an add or a remove",
+    "`item`: slot (required) — one item's fields, given the item and its index (`renderItem` in React, an `<ng-template>` in Angular, `ItemTemplate` in Blazor, a `<template>` child in Web Components)",
+    "`...restProps`: any — additional HTML attributes spread onto the outer `<fieldset>`"
+  ],
+  "related": [
+    "fieldset",
+    "field",
+    "tag-input-div"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/repeatable-fieldset.html",
+    "svelte": "lily-design-system-svelte-headless/components/RepeatableFieldset/RepeatableFieldset.svelte",
+    "react": "lily-design-system-react-headless/components/RepeatableFieldset.tsx",
+    "vue": "lily-design-system-vue-headless/components/RepeatableFieldset.vue",
+    "angular": "lily-design-system-angular-headless/components/RepeatableFieldset.ts",
+    "web-components": "lily-design-system-web-components-headless/components/repeatable-fieldset.ts",
+    "alpine": "lily-design-system-alpine-headless/components/repeatable-fieldset.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/repeatable-fieldset/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RepeatableFieldset.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/repeatable-fieldset/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/repeatable-fieldset/AGENTS.md"
+}

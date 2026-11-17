@@ -8485,6 +8485,26 @@
       ]
     },
     {
+      "name": "record-provenance-view",
+      "type": "registry:component",
+      "title": "RecordProvenanceView",
+      "description": "Who recorded a record, where it came from and whether it is signed, in the consumer's words.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "content"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/RecordProvenanceView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RecordProvenanceView.tsx"
+        }
+      ]
+    },
+    {
       "name": "red-amber-green-radio-group",
       "type": "registry:component",
       "title": "RedAmberGreenRadioGroup",
@@ -8606,6 +8626,26 @@
           "path": "lily-design-system-react-headless/components/RelatedContent.tsx",
           "type": "registry:component",
           "target": "@components/lily/RelatedContent.tsx"
+        }
+      ]
+    },
+    {
+      "name": "repeatable-fieldset",
+      "type": "registry:component",
+      "title": "RepeatableFieldset",
+      "description": "A group of identical fieldsets that a person adds to and removes from (\"add another\").",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/RepeatableFieldset.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RepeatableFieldset.tsx"
         }
       ]
     },
