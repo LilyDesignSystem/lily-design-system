@@ -1,0 +1,157 @@
+<!-- title: Tutorial de formularios accesibles — Lily Design System -->
+<!-- description: Etiquetas, indicaciones, errores junto a cada campo y un resumen de errores que recibe el foco: un formulario accesible con Lily, en cualquier framework. -->
+<section class="page-intro">
+  <h1>Tutorial de formularios accesibles</h1>
+  <p class="page-intro-tagline">
+    El patrón que sigue todo formulario de Lily, sea cual sea el framework: etiquetar cada control, comprobar al enviar, poner cada error junto a su campo y resumir los errores donde llega el foco.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Lo que vas a construir</h2>
+  <p>
+    Un formulario de dos campos que, al enviarse con errores, dice qué está mal, junto a cada campo y en un resumen arriba, y lleva el foco allí, para que quien usa el teclado o un lector de pantalla encuentre los errores de inmediato. Se muestra en HTML sencillo con las clases de Lily; cada catálogo de framework genera el mismo marcado con sus propios componentes <code>Field</code>, <code>Hint</code>,
+    <code>ErrorMessage</code> y <code>ErrorSummary</code> . Unos 20 minutos; conviene hacer antes el <a href="/tutorials/html/">tutorial de HTML</a> .
+  </p>
+
+  <h2>Paso 1 — Etiquetar cada control y decir qué se espera</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" novalidate&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+    &lt;input class="email-input" type="email" id="email" name="email"
+      autocomplete="email" aria-describedby="email-hint" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Continue&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <ul>
+    <li>Un <code>&lt;label for&gt;</code> visible en cada control, nunca un texto de ejemplo en su lugar: desaparece en cuanto se escribe.</li>
+    <li>Una indicación se une al nombre del campo mediante <code>aria-describedby</code>, así que un lector de pantalla la lee junto con el campo.</li>
+    <li><code>autocomplete</code> permite que el navegador rellene lo que ya sabe (WCAG 1.3.5).</li>
+    <li>
+      <code>novalidate</code> desactiva los avisos propios del navegador, porque mostrarás los errores tú, con tus palabras y en tu idioma. Los atributos
+      <code>required</code> y <code>type</code> se mantienen: tu script los lee.
+    </li>
+  </ul>
+
+  <h2>Paso 2 — Comprobar al enviar, no mientras se escribe</h2>
+  <p>
+    Decirle a alguien que su correo es incorrecto tras la primera letra es ruido. Comprueba al enviar. Los 63 temas ya marcan un campo como no válido solo después de editarlo y salir de él (<code>:user-invalid</code>), o cuando estableces
+    <code>aria-invalid="true"</code>, así que nada se vuelve rojo al cargar la página.
+  </p>
+  <p>Nunca desactives el botón de envío hasta que el formulario sea válido: un botón desactivado no puede explicar por qué.</p>
+
+  <h2>Paso 3 — Poner cada error junto a su campo</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="field"&gt;
+  &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+  &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+  &lt;p class="error-message" id="email-error"&gt;Enter an email address in the right format, like name@example.com&lt;/p&gt;
+  &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email"
+    aria-invalid="true" aria-describedby="email-hint email-error" required /&gt;
+&lt;/div&gt;</code></pre>
+  <ul>
+    <li><code>aria-invalid="true"</code> indica que el campo es incorrecto; el mensaje dice por qué y cómo corregirlo.</li>
+    <li>El mensaje está en <code>aria-describedby</code>, después de la indicación, así que se lee cuando el campo recibe el foco.</li>
+    <li>Di qué hacer, no solo qué está mal: «Introduce una dirección de correo con el formato correcto», no «No válido».</li>
+    <li>Nunca solo el color: el texto es el error; el borde rojo solo lo repite (WCAG 1.4.1).</li>
+  </ul>
+
+  <h2>Paso 4 — Resumir los errores donde llega el foco</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="error-summary" role="alert" tabindex="-1" aria-labelledby="error-summary-title"&gt;
+  &lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#name"&gt;Enter your full name&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#email"&gt;Enter an email address in the right format, like name@example.com&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    Colócalo arriba del formulario y mueve el foco a él al enviar. Cada enlace lleva directamente a su campo. <code>tabindex="-1"</code> permite que el resumen reciba el foco sin añadir una parada de tabulación.
+  </p>
+
+  <h2>Paso 5 — El script que lo une todo</h2>
+  
+  <pre tabindex="0"><code>const messages = {
+  name: { valueMissing: "Enter your full name" },
+  email: {
+    valueMissing: "Enter your email address",
+    typeMismatch: "Enter an email address in the right format, like name@example.com",
+  },
+};
+
+const form = document.querySelector("form");
+form.addEventListener("submit", (event) =&gt; {
+  form.querySelector(".error-summary")?.remove();
+  const errors = [];
+  for (const field of form.querySelectorAll("input")) {
+    const old = document.getElementById(field.id + "-error");
+    old?.remove();
+    const describedBy = (field.getAttribute("aria-describedby") ?? "")
+      .split(" ").filter((id) =&gt; id &amp;&amp; id !== field.id + "-error");
+    const problem = Object.keys(messages[field.name] ?? {}).find((key) =&gt; field.validity[key]);
+    if (!problem) {
+      field.removeAttribute("aria-invalid");
+      field.setAttribute("aria-describedby", describedBy.join(" "));
+      continue;
+    }
+    const text = messages[field.name][problem];
+    const message = document.createElement("p");
+    message.className = "error-message";
+    message.id = field.id + "-error";
+    message.textContent = text;
+    field.before(message);
+    field.setAttribute("aria-invalid", "true");
+    field.setAttribute("aria-describedby", [...describedBy, message.id].join(" "));
+    errors.push({ id: field.id, text });
+  }
+  if (errors.length === 0) return; // valid: let it submit
+  event.preventDefault();
+  const summary = document.createElement("div");
+  summary.className = "error-summary";
+  summary.setAttribute("role", "alert");
+  summary.tabIndex = -1;
+  summary.setAttribute("aria-labelledby", "error-summary-title");
+  summary.innerHTML = '&lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;&lt;ul&gt;&lt;/ul&gt;';
+  for (const { id, text } of errors) {
+    const link = document.createElement("a");
+    link.href = "#" + id;
+    link.textContent = text;
+    const item = document.createElement("li");
+    item.append(link);
+    summary.querySelector("ul").append(item);
+  }
+  form.prepend(summary);
+  summary.focus();
+});</code></pre>
+  <p>
+    Los mensajes son tuyos, en tu idioma: la propiedad
+    <code>validity</code> del navegador indica qué regla falló, y tu tabla dice qué comunicar a la persona. Lily no incluye texto en inglés que traducir.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Comprueba tu trabajo:</strong> envía el formulario vacío con el teclado. El foco pasa al resumen y un lector de pantalla lee «There is a problem» y ambos errores. Sigue un enlace: el foco llega al campo, que se lee con su indicación y su error. Corrige ambos y envía: el formulario se envía y no queda ningún error.
+    </p>
+  </div>
+
+  <h2>Qué evitar</h2>
+  <ul>
+    <li>Limitar o corregir lo que alguien escribió sin decírselo; díselo.</li>
+    <li>Vaciar un formulario cuando hay un error: conserva todo lo que se introdujo.</li>
+    <li>Un error que solo aparece al pasar el puntero, o solo en una información emergente.</li>
+    <li>Que un formulario caduque sin aviso; usa <code>timeout-dialog</code> para avisar y ampliar el tiempo.</li>
+  </ul>
+
+  <h2>Próximos pasos</h2>
+  <ul>
+    <li><a href="/training/">Formación</a> — ocho módulos, cada uno con un ejercicio y una autoevaluación.</li>
+    <li><a href="/components/error-summary/">ErrorSummary</a>, <a href="/components/field/">Field</a> y <a href="/components/error-message/">ErrorMessage</a> en el catálogo.</li>
+    <li><a href="/tutorials/worldwide/">Un formulario que funciona en todo el mundo</a> — nombres, direcciones, fechas y sentido de escritura.</li>
+    <li><a href="/tutorials/theming/">Temas</a> — el estado no válido que dibuja cada tema.</li>
+  </ul>
+</section>

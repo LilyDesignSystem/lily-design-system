@@ -1,0 +1,107 @@
+<!-- title: Web Components 教程 — Lily Design System -->
+<!-- description: 用 Lily 的原生自定义元素构建无障碍且带样式的表单，无需框架。 -->
+<section class="page-intro">
+  <h1>Web Components 教程</h1>
+  <p class="page-intro-tagline">
+    原生自定义元素，无需框架运行时。每个元素都在轻量 DOM 中渲染真实的
+    <code>&lt;button&gt;</code> 或 <code>&lt;input&gt;</code> ，因此表单、CSS 和 <code>querySelector</code> 都像在手写 HTML 中一样工作。
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>你将构建什么</h2>
+  <p>
+    一个带标签字段和提交按钮的小型联系表单，用几行脚本连接，先是无样式，再加样式，大约 10 分钟。
+  </p>
+
+  <h2>开始之前</h2>
+  <p>
+    你需要 Node.js，以及打包工具或任何能解析裸模块导入的环境。该组件库覆盖 637 个组件中的 602 个；表格子元素和少数列表项系列未包含，因为自主自定义元素无法替代 <code>&lt;tr&gt;</code>
+    或 <code>&lt;li&gt;</code>。
+  </p>
+
+  <h2>第 1 步 — 安装并注册</h2>
+  
+  <pre tabindex="0"><code>npm install @lilydesignsystem/web-components-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import "@lilydesignsystem/web-components-headless";
+&lt;/script&gt;</code></pre>
+  <p>
+    导入包即定义所有元素，名称为
+    <code>lily-</code> 加组件标识：
+    <code>&lt;lily-button&gt;</code>、 <code>&lt;lily-text-input&gt;</code>、
+    <code>&lt;lily-range-fieldset&gt;</code>。
+  </p>
+
+  <h2>第 2 步 — 你的第一个组件</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;</code></pre>
+  <p>
+    该元素在内部渲染一个真实的 <code>&lt;button class="button"&gt;</code>
+    ，因此 Enter、空格和按钮角色都是原生的。你添加的属性会传给这个内部元素。
+  </p>
+
+  <h2>第 3 步 — 组合一个小表单</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-form label="Contact us"&gt;
+  &lt;lily-field label="Full name" required&gt;
+    &lt;lily-text-input label="Full name" name="name" autocomplete="name" required&gt;&lt;/lily-text-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-field label="Email" required&gt;
+    &lt;lily-email-input label="Email" name="email" required&gt;&lt;/lily-email-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;
+&lt;/lily-form&gt;
+
+&lt;script type="module"&gt;
+  const form = document.querySelector("lily-form form");
+  form.addEventListener("submit", () =&gt; {
+    const data = new FormData(form);
+    console.log(Object.fromEntries(data));
+  });
+&lt;/script&gt;</code></pre>
+  <p>
+    <code>&lt;lily-form&gt;</code> 阻止页面跳转，并让
+    <code>submit</code> 事件冒泡，由你的脚本决定后续。输入框是真正的表单控件，因此 <code>FormData</code> 可以读取它们。
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>检查成果：</strong> 按 <kbd>Tab</kbd> 遍历表单，然后提交：控制台显示 <code>name</code> 和
+      <code>email</code>。留空一个字段，浏览器自带的
+      <code>required</code> 检查会阻止提交。
+    </p>
+  </div>
+
+  <h2>第 4 步 — 添加样式</h2>
+  <p>
+    类名位于内部元素上，所以 63 个主题和你自己的 CSS 像对待普通 HTML 一样选中它们：
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;
+
+&lt;style&gt;
+  .button { padding: 0.75rem 1.5rem; }
+  lily-field { display: block; margin-block-end: 1rem; }
+&lt;/style&gt;</code></pre>
+  <p>
+    没有需要穿透的 Shadow DOM：样式表和辅助技术都能看到一切。
+  </p>
+
+  <h2>第 5 步 — 查看完整效果</h2>
+  <ul>
+    <li>每个元素都有 story： <code>pnpm run storybook</code> 位于 <code>lily-design-system-web-components-headless</code>。</li>
+    <li>
+      辅助组件也以自定义元素形式提供：
+      <code>&lt;lily-theme-picker&gt;</code>、数据网格、日历及其他（<code>@lilydesignsystem/web-components-*</code>）。
+    </li>
+  </ul>
+
+  <h2>下一步</h2>
+  <ul>
+    <li><a href="/training/">培训</a> — 八个单元，每个都有练习和自测。</li>
+    <li><a href="/tutorials/forms/">无障碍表单</a> — 错误、错误摘要和焦点。</li>
+    <li><a href="/tutorials/theming/">主题</a> — 运行时切换主题。</li>
+    <li><a href="/components/">组件目录</a> — 完整参考。</li>
+  </ul>
+</section>

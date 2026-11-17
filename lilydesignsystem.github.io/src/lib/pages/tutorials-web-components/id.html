@@ -1,0 +1,107 @@
+<!-- title: Tutorial Web Components — Lily Design System -->
+<!-- description: Buat formulir yang aksesibel dan bergaya dengan elemen kustom bawaan Lily, tanpa kerangka kerja. -->
+<section class="page-intro">
+  <h1>Tutorial Web Components</h1>
+  <p class="page-intro-tagline">
+    Elemen kustom bawaan tanpa runtime kerangka kerja. Masing-masing menghasilkan
+    <code>&lt;button&gt;</code> atau <code>&lt;input&gt;</code> sungguhan di light DOM, sehingga formulir, CSS, dan <code>querySelector</code> bekerja seperti pada HTML yang ditulis tangan.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Yang akan Anda buat</h2>
+  <p>
+    Formulir kontak kecil dengan isian berlabel dan tombol kirim, dihubungkan dengan beberapa baris skrip, polos dulu lalu bergaya, dalam sekitar 10 menit.
+  </p>
+
+  <h2>Sebelum memulai</h2>
+  <p>
+    Anda memerlukan Node.js dan bundler atau pengaturan apa pun yang menyelesaikan impor modul tanpa jalur. Katalog mencakup 602 dari 637 komponen; subelemen tabel dan beberapa keluarga butir daftar tidak disertakan, karena elemen kustom otonom tidak dapat menggantikan <code>&lt;tr&gt;</code>
+    atau <code>&lt;li&gt;</code>.
+  </p>
+
+  <h2>Langkah 1 — Pasang dan daftarkan</h2>
+  
+  <pre tabindex="0"><code>npm install @lilydesignsystem/web-components-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import "@lilydesignsystem/web-components-headless";
+&lt;/script&gt;</code></pre>
+  <p>
+    Mengimpor paket mendefinisikan setiap elemen, masing-masing bernama
+    <code>lily-</code> ditambah slug komponennya:
+    <code>&lt;lily-button&gt;</code>, <code>&lt;lily-text-input&gt;</code>,
+    <code>&lt;lily-range-fieldset&gt;</code>.
+  </p>
+
+  <h2>Langkah 2 — Komponen pertama Anda</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;</code></pre>
+  <p>
+    Elemen itu menghasilkan <code>&lt;button class="button"&gt;</code>
+    sungguhan di dalam dirinya, sehingga Enter, Spasi, dan peran tombol bersifat bawaan. Atribut yang Anda tambahkan diteruskan ke elemen di dalamnya.
+  </p>
+
+  <h2>Langkah 3 — Susun formulir kecil</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-form label="Contact us"&gt;
+  &lt;lily-field label="Full name" required&gt;
+    &lt;lily-text-input label="Full name" name="name" autocomplete="name" required&gt;&lt;/lily-text-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-field label="Email" required&gt;
+    &lt;lily-email-input label="Email" name="email" required&gt;&lt;/lily-email-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;
+&lt;/lily-form&gt;
+
+&lt;script type="module"&gt;
+  const form = document.querySelector("lily-form form");
+  form.addEventListener("submit", () =&gt; {
+    const data = new FormData(form);
+    console.log(Object.fromEntries(data));
+  });
+&lt;/script&gt;</code></pre>
+  <p>
+    <code>&lt;lily-form&gt;</code> mencegah navigasi halaman dan membiarkan peristiwa
+    <code>submit</code> menggelembung, sehingga skrip Anda yang memutuskan apa yang terjadi. Isiannya adalah kontrol formulir sungguhan, sehingga <code>FormData</code> membacanya.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Periksa hasil kerja Anda:</strong> tekan <kbd>Tab</kbd> melalui formulir, lalu kirim: konsol menampilkan <code>name</code> dan
+      <code>email</code>. Biarkan satu isian kosong dan pemeriksaan
+      <code>required</code> bawaan peramban menghentikan pengiriman.
+    </p>
+  </div>
+
+  <h2>Langkah 4 — Beri gaya</h2>
+  <p>
+    Kelasnya ada pada elemen di dalam, sehingga 63 tema dan CSS Anda menyasarnya seperti pada HTML biasa:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;
+
+&lt;style&gt;
+  .button { padding: 0.75rem 1.5rem; }
+  lily-field { display: block; margin-block-end: 1rem; }
+&lt;/style&gt;</code></pre>
+  <p>
+    Tidak ada shadow DOM yang perlu ditembus: tidak ada yang tersembunyi dari lembar gaya Anda maupun dari teknologi bantu.
+  </p>
+
+  <h2>Langkah 5 — Lihat semuanya bekerja</h2>
+  <ul>
+    <li>Setiap elemen punya story: <code>pnpm run storybook</code> di <code>lily-design-system-web-components-headless</code>.</li>
+    <li>
+      Pembantu juga tersedia sebagai elemen kustom:
+      <code>&lt;lily-theme-picker&gt;</code>, kisi data, kalender, dan lainnya (<code>@lilydesignsystem/web-components-*</code>).
+    </li>
+  </ul>
+
+  <h2>Langkah berikutnya</h2>
+  <ul>
+    <li><a href="/training/">Pelatihan</a> — delapan modul, masing-masing dengan latihan dan uji mandiri.</li>
+    <li><a href="/tutorials/forms/">Formulir aksesibel</a> — galat, ringkasan galat, dan fokus.</li>
+    <li><a href="/tutorials/theming/">Tema</a> — mengganti tema saat berjalan.</li>
+    <li><a href="/components/">Katalog komponen</a> — referensi lengkap.</li>
+  </ul>
+</section>

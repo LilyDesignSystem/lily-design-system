@@ -1,0 +1,114 @@
+<!-- title: درس Alpine.js — Lily Design System -->
+<!-- description: ابنِ نموذجًا ميسّرًا ومنسّقًا باستخدام مقتطفات Lily عديمة الواجهة لـ Alpine.js وإضافة واحدة. -->
+<section class="page-intro">
+  <h1>درس Alpine.js</h1>
+  <p class="page-intro-tagline">
+    Lily لـ Alpine هي مقتطفات HTML تلصقها في صفحتك، مع إضافة واحدة تمنح المكوّنات التفاعلية لوحة مفاتيحها وحالتها.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    نموذج إعدادات صغير: حقلان مسمّيان ومفتاح تبديل وزر حفظ، بسلوك حقيقي للوحة المفاتيح وقارئ الشاشة، دون تنسيق أولًا ثم منسّقًا، في نحو 10 دقائق.
+  </p>
+
+  <h2>قبل أن تبدأ</h2>
+  <p>
+    تحتاج إلى Node.js وإلى صفحة تحمّل Alpine.js 3 بالفعل. لا يملك Alpine نموذج مكوّنات، لذا فمكوّن Lily هنا ترميز تنسخه، لا استيراد.
+  </p>
+
+  <h2>الخطوة 1 — ثبّت الإضافة وسجّلها</h2>
+  
+  <pre tabindex="0"><code>npm install alpinejs @lilydesignsystem/alpine-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import Alpine from "alpinejs";
+  import lily from "@lilydesignsystem/alpine-headless/plugin";
+  Alpine.plugin(lily);
+  Alpine.start();
+&lt;/script&gt;</code></pre>
+  <p>
+    تسجّل الإضافة سلوك <code>Alpine.data()</code> واحدًا لكل مكوّن تفاعلي، باسم <code>lily</code> متبوعًا باسم المكوّن:
+    <code>lilySwitchButton</code>، <code>lilyTabs</code>،
+    <code>lilyCombobox</code>. مقتطفات كل المكوّنات موجودة في مجلد <code>components/</code> في الحزمة، ولكل منها تعليق في الرأس يذكر عنصره وصنفه ومفاتيحه وARIA.
+  </p>
+
+  <h2>الخطوة 2 — مكوّنك الأول</h2>
+  <p>معظم المكوّنات ترميز عادي ولا تحتاج شيئًا من الإضافة:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code></pre>
+  <p>يضيف المكوّن التفاعلي سلوكه باستخدام <code>x-data</code> ويربطه باستخدام <code>x-bind</code>:</p>
+  
+  <pre tabindex="0"><code>&lt;button
+  class="switch-button"
+  x-data="lilySwitchButton(false)"
+  x-bind="button"
+  aria-label="Email me about appointments"
+&gt;
+  Email me about appointments
+&lt;/button&gt;</code></pre>
+  <p>
+    يمنحه السلوك <code>role="switch"</code> ويُبقي
+    <code>aria-checked</code> متزامنًا عندما يبدّله Enter أو المسافة أو النقر. الكلمات كلماتك: لا يوفّر Lily أي تسمية أبدًا.
+  </p>
+
+  <h2>الخطوة 3 — اجمع نموذجًا صغيرًا</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" aria-label="Settings"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button
+    class="switch-button"
+    type="button"
+    x-data="lilySwitchButton(true)"
+    x-bind="button"
+    aria-label="Email me about appointments"
+  &gt;
+    Email me about appointments
+  &lt;/button&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تحقّق من عملك:</strong> افتح الصفحة واضغط
+      <kbd>Tab</kbd>. ينتقل التركيز عبر الحقلين ومفتاح التبديل والزر. على مفتاح التبديل، <kbd>Space</kbd> يبدّله، ويقول قارئ الشاشة «مفتاح تبديل، مفعّل» أو «غير مفعّل». يبدو بسيطًا، وهذا صحيح: المظهر هو التالي.
+    </p>
+  </div>
+
+  <h2>الخطوة 4 — نسّقه</h2>
+  <p>اربط إحدى السمات الـ63 الجاهزة، فهي تستهدف الأصناف نفسها:</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;</code></pre>
+  <p>أو اكتب CSS خاصًا بك على الأصناف والحالة التي يضبطها السلوك:</p>
+  
+  <pre tabindex="0"><code>.switch-button[aria-checked="true"] { background: var(--color-primary); }
+.switch-button:focus-visible { outline: 2px solid var(--lily-focus-ring); outline-offset: 2px; }</code></pre>
+  <p>
+    نسّق حالة ARIA لا صنفًا من عندك: عندها لا يمكن أن يخالف المظهر ما يسمعه قارئ الشاشة.
+  </p>
+
+  <h2>الخطوة 5 — شاهد كل شيء يعمل</h2>
+  <ul>
+    <li>
+      تطبيق أمثلة Alpine.js، <code>lily-design-system-alpine-examples</code> يعرض كل مكوّن منسّقًا: <code>pnpm install &amp;&amp; pnpm run build</code>.
+    </li>
+    <li>
+      تتوفر ست أدوات مساعدة لـ Alpine: شبكة البيانات ولوحة كانبان والتقويم ومخطط غانت ومحرّرا Markdown وOrg (<code>@lilydesignsystem/alpine-*</code>).
+    </li>
+  </ul>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/training/">التدريب</a> — ثماني وحدات، لكل منها تمرين واختبار ذاتي.</li>
+    <li><a href="/tutorials/forms/">النماذج الميسّرة</a> — الأخطاء وملخص الأخطاء والتركيز.</li>
+    <li><a href="/tutorials/theming/">السمات</a> — تبديل السمة أثناء التشغيل.</li>
+    <li><a href="/components/">كتالوج المكوّنات</a> — المرجع الكامل.</li>
+  </ul>
+</section>

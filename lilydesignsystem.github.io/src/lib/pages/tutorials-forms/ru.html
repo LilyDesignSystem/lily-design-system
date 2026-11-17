@@ -1,0 +1,157 @@
+<!-- title: Руководство по доступным формам — Lily Design System -->
+<!-- description: Подписи, подсказки, ошибки рядом с каждым полем и сводка ошибок, которая получает фокус: доступная форма с Lily в любом фреймворке. -->
+<section class="page-intro">
+  <h1>Руководство по доступным формам</h1>
+  <p class="page-intro-tagline">
+    Схема, которой следует каждая форма Lily в любом фреймворке: подписать каждый элемент, проверять при отправке, показывать каждую ошибку рядом с её полем и собирать ошибки в сводку там, куда переходит фокус.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Что вы создадите</h2>
+  <p>
+    Форму из двух полей, которая при отправке с ошибками сообщает, что не так, рядом с каждым полем и в сводке вверху, и переносит туда фокус, чтобы человек с клавиатурой или программой экранного доступа сразу нашёл ошибки. Она показана на простом HTML с классами Lily; каждый каталог фреймворка выводит ту же разметку из своих компонентов <code>Field</code>, <code>Hint</code>,
+    <code>ErrorMessage</code> и <code>ErrorSummary</code> . Около 20 минут; сначала полезно пройти <a href="/tutorials/html/">руководство по HTML</a> .
+  </p>
+
+  <h2>Шаг 1 — Подпишите каждый элемент и скажите, чего вы ждёте</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" novalidate&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+    &lt;input class="email-input" type="email" id="email" name="email"
+      autocomplete="email" aria-describedby="email-hint" required /&gt;
+  &lt;/div&gt;
+  &lt;button class="button" type="submit"&gt;Continue&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <ul>
+    <li>Видимый <code>&lt;label for&gt;</code> у каждого элемента, а не текст-заполнитель вместо него: заполнитель исчезает, как только начинаешь печатать.</li>
+    <li>Подсказка присоединяется к имени поля через <code>aria-describedby</code>, поэтому программа экранного доступа читает её вместе с полем.</li>
+    <li><code>autocomplete</code> позволяет браузеру заполнить то, что он знает (WCAG 1.3.5).</li>
+    <li>
+      <code>novalidate</code> отключает собственные всплывающие сообщения браузера: ошибки вы покажете сами, своими словами и на своём языке. Атрибуты
+      <code>required</code> и <code>type</code> остаются: их читает ваш скрипт.
+    </li>
+  </ul>
+
+  <h2>Шаг 2 — Проверяйте при отправке, а не во время ввода</h2>
+  <p>
+    Говорить человеку, что адрес почты неверен, после первой буквы — это шум. Проверяйте при отправке. Все 63 темы уже показывают поле как ошибочное только после того, как его изменили и покинули (<code>:user-invalid</code>), или когда вы задаёте
+    <code>aria-invalid="true"</code>, так что при загрузке страницы ничего не становится красным.
+  </p>
+  <p>Никогда не отключайте кнопку отправки, пока форма не станет верной: отключённая кнопка не может объяснить почему.</p>
+
+  <h2>Шаг 3 — Показывайте каждую ошибку рядом с её полем</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="field"&gt;
+  &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+  &lt;p class="hint" id="email-hint"&gt;We only use this to send your appointment.&lt;/p&gt;
+  &lt;p class="error-message" id="email-error"&gt;Enter an email address in the right format, like name@example.com&lt;/p&gt;
+  &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email"
+    aria-invalid="true" aria-describedby="email-hint email-error" required /&gt;
+&lt;/div&gt;</code></pre>
+  <ul>
+    <li><code>aria-invalid="true"</code> сообщает, что поле заполнено неверно; сообщение объясняет почему и как исправить.</li>
+    <li>Сообщение указано в <code>aria-describedby</code>после подсказки, поэтому его читают, когда поле получает фокус.</li>
+    <li>Говорите, что делать, а не только что не так: «Введите адрес почты в правильном формате», а не «Неверно».</li>
+    <li>Никогда не полагайтесь только на цвет: ошибка — это текст; красная рамка лишь повторяет его (WCAG 1.4.1).</li>
+  </ul>
+
+  <h2>Шаг 4 — Соберите ошибки там, куда переходит фокус</h2>
+  
+  <pre tabindex="0"><code>&lt;div class="error-summary" role="alert" tabindex="-1" aria-labelledby="error-summary-title"&gt;
+  &lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;
+  &lt;ul&gt;
+    &lt;li&gt;&lt;a href="#name"&gt;Enter your full name&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href="#email"&gt;Enter an email address in the right format, like name@example.com&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+  <p>
+    Разместите её вверху формы и переносите на неё фокус при отправке. Каждая ссылка ведёт прямо к своему полю. <code>tabindex="-1"</code> позволяет сводке получать фокус, не добавляя лишней остановки табуляции.
+  </p>
+
+  <h2>Шаг 5 — Скрипт, который всё связывает</h2>
+  
+  <pre tabindex="0"><code>const messages = {
+  name: { valueMissing: "Enter your full name" },
+  email: {
+    valueMissing: "Enter your email address",
+    typeMismatch: "Enter an email address in the right format, like name@example.com",
+  },
+};
+
+const form = document.querySelector("form");
+form.addEventListener("submit", (event) =&gt; {
+  form.querySelector(".error-summary")?.remove();
+  const errors = [];
+  for (const field of form.querySelectorAll("input")) {
+    const old = document.getElementById(field.id + "-error");
+    old?.remove();
+    const describedBy = (field.getAttribute("aria-describedby") ?? "")
+      .split(" ").filter((id) =&gt; id &amp;&amp; id !== field.id + "-error");
+    const problem = Object.keys(messages[field.name] ?? {}).find((key) =&gt; field.validity[key]);
+    if (!problem) {
+      field.removeAttribute("aria-invalid");
+      field.setAttribute("aria-describedby", describedBy.join(" "));
+      continue;
+    }
+    const text = messages[field.name][problem];
+    const message = document.createElement("p");
+    message.className = "error-message";
+    message.id = field.id + "-error";
+    message.textContent = text;
+    field.before(message);
+    field.setAttribute("aria-invalid", "true");
+    field.setAttribute("aria-describedby", [...describedBy, message.id].join(" "));
+    errors.push({ id: field.id, text });
+  }
+  if (errors.length === 0) return; // valid: let it submit
+  event.preventDefault();
+  const summary = document.createElement("div");
+  summary.className = "error-summary";
+  summary.setAttribute("role", "alert");
+  summary.tabIndex = -1;
+  summary.setAttribute("aria-labelledby", "error-summary-title");
+  summary.innerHTML = '&lt;h2 id="error-summary-title"&gt;There is a problem&lt;/h2&gt;&lt;ul&gt;&lt;/ul&gt;';
+  for (const { id, text } of errors) {
+    const link = document.createElement("a");
+    link.href = "#" + id;
+    link.textContent = text;
+    const item = document.createElement("li");
+    item.append(link);
+    summary.querySelector("ul").append(item);
+  }
+  form.prepend(summary);
+  summary.focus();
+});</code></pre>
+  <p>
+    Сообщения ваши, на вашем языке: свойство браузера
+    <code>validity</code> говорит, какое правило нарушено, а ваша таблица — что сказать человеку. В Lily нет английского текста, который нужно переводить.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Проверьте работу:</strong> отправьте пустую форму с клавиатуры. Фокус переходит на сводку, и программа экранного доступа читает «There is a problem» и обе ошибки. Перейдите по ссылке: фокус попадает в поле, которое читается с подсказкой и ошибкой. Исправьте обе и отправьте: форма уходит, и ошибок не остаётся.
+    </p>
+  </div>
+
+  <h2>Чего избегать</h2>
+  <ul>
+    <li>Ограничивать или исправлять введённое, не сообщая об этом; лучше скажите человеку.</li>
+    <li>Очищать форму при ошибке: сохраняйте всё введённое.</li>
+    <li>Ошибку, которая видна только при наведении или только во всплывающей подсказке.</li>
+    <li>Истечение времени формы без предупреждения; используйте <code>timeout-dialog</code> , чтобы предупредить и продлить.</li>
+  </ul>
+
+  <h2>Что дальше</h2>
+  <ul>
+    <li><a href="/training/">Обучение</a> — восемь модулей, в каждом упражнение и самопроверка.</li>
+    <li><a href="/components/error-summary/">ErrorSummary</a>, <a href="/components/field/">Field</a> и <a href="/components/error-message/">ErrorMessage</a> в каталоге.</li>
+    <li><a href="/tutorials/worldwide/">Форма, которая работает по всему миру</a> — имена, адреса, даты и направление письма.</li>
+    <li><a href="/tutorials/theming/">Темы</a> — состояние ошибки, которое рисует каждая тема.</li>
+  </ul>
+</section>

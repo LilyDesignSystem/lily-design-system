@@ -1,0 +1,107 @@
+<!-- title: Web Components ٹیوٹوریل — Lily Design System -->
+<!-- description: Lily کے مقامی کسٹم عناصر سے، بغیر فریم ورک کے، ایک قابلِ رسائی اور اسٹائل شدہ فارم بنائیں۔ -->
+<section class="page-intro">
+  <h1>Web Components ٹیوٹوریل</h1>
+  <p class="page-intro-tagline">
+    بغیر فریم ورک رن ٹائم کے مقامی کسٹم عناصر۔ ہر ایک لائٹ DOM میں حقیقی
+    <code>&lt;button&gt;</code> یا <code>&lt;input&gt;</code> بناتا ہے، اس لیے فارم، CSS اور <code>querySelector</code> ہاتھ سے لکھے HTML کی طرح ہی کام کرتے ہیں۔
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>آپ کیا بنائیں گے</h2>
+  <p>
+    لیبل والے خانوں اور جمع کرانے کے بٹن والا ایک چھوٹا رابطہ فارم، اسکرپٹ کی چند سطروں سے جڑا، پہلے سادہ، پھر اسٹائل شدہ، تقریباً 10 منٹ میں۔
+  </p>
+
+  <h2>شروع کرنے سے پہلے</h2>
+  <p>
+    آپ کو Node.js اور ایک بنڈلر یا کوئی بھی سیٹ اپ چاہیے جو سادہ ماڈیول امپورٹ حل کرے۔ کیٹلاگ 637 میں سے 602 اجزاء کا احاطہ کرتا ہے؛ ٹیبل کے ذیلی عناصر اور فہرست کے کچھ خاندان شامل نہیں، کیونکہ ایک خودمختار کسٹم عنصر <code>&lt;tr&gt;</code>
+    یا <code>&lt;li&gt;</code>کی جگہ نہیں لے سکتا۔
+  </p>
+
+  <h2>مرحلہ 1 — انسٹال اور رجسٹر کریں</h2>
+  
+  <pre tabindex="0"><code>npm install @lilydesignsystem/web-components-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import "@lilydesignsystem/web-components-headless";
+&lt;/script&gt;</code></pre>
+  <p>
+    پیکیج امپورٹ کرتے ہی ہر عنصر متعین ہو جاتا ہے، جن کا نام
+    <code>lily-</code> کے بعد جزو کا سلگ ہے:
+    <code>&lt;lily-button&gt;</code>، <code>&lt;lily-text-input&gt;</code>،
+    <code>&lt;lily-range-fieldset&gt;</code>۔
+  </p>
+
+  <h2>مرحلہ 2 — آپ کا پہلا جزو</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;</code></pre>
+  <p>
+    عنصر اپنے اندر ایک حقیقی <code>&lt;button class="button"&gt;</code>
+    بناتا ہے، اس لیے Enter، Space اور بٹن کا کردار مقامی ہیں۔ آپ جو خصوصیات شامل کریں وہ اس اندرونی عنصر تک پہنچتی ہیں۔
+  </p>
+
+  <h2>مرحلہ 3 — ایک چھوٹا فارم بنائیں</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-form label="Contact us"&gt;
+  &lt;lily-field label="Full name" required&gt;
+    &lt;lily-text-input label="Full name" name="name" autocomplete="name" required&gt;&lt;/lily-text-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-field label="Email" required&gt;
+    &lt;lily-email-input label="Email" name="email" required&gt;&lt;/lily-email-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;
+&lt;/lily-form&gt;
+
+&lt;script type="module"&gt;
+  const form = document.querySelector("lily-form form");
+  form.addEventListener("submit", () =&gt; {
+    const data = new FormData(form);
+    console.log(Object.fromEntries(data));
+  });
+&lt;/script&gt;</code></pre>
+  <p>
+    <code>&lt;lily-form&gt;</code> صفحے کی نیویگیشن روکتا ہے اور
+    <code>submit</code> ایونٹ کو اوپر جانے دیتا ہے، تاکہ آپ کا اسکرپٹ طے کرے کہ کیا ہو۔ ان پٹ حقیقی فارم کنٹرول ہیں، اس لیے <code>FormData</code> انہیں پڑھتا ہے۔
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>اپنا کام جانچیں:</strong> فارم میں <kbd>Tab</kbd> دباتے ہوئے جائیں، پھر جمع کرائیں: کنسول <code>name</code> اور
+      <code>email</code>دکھاتا ہے۔ کوئی خانہ خالی چھوڑیں تو براؤزر کی اپنی
+      <code>required</code> جانچ جمع کرانا روک دیتی ہے۔
+    </p>
+  </div>
+
+  <h2>مرحلہ 4 — اسٹائل دیں</h2>
+  <p>
+    کلاس ہکس اندرونی عناصر پر ہیں، اس لیے 63 تھیمز اور آپ کا CSS انہیں سادہ HTML کی طرح نشانہ بناتے ہیں:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;
+
+&lt;style&gt;
+  .button { padding: 0.75rem 1.5rem; }
+  lily-field { display: block; margin-block-end: 1rem; }
+&lt;/style&gt;</code></pre>
+  <p>
+    چیرنے کے لیے کوئی shadow DOM نہیں: آپ کی اسٹائل شیٹ اور معاون ٹیکنالوجی سے کچھ بھی چھپا نہیں۔
+  </p>
+
+  <h2>مرحلہ 5 — سب کچھ کام کرتا دیکھیں</h2>
+  <ul>
+    <li>ہر عنصر کی ایک story ہے: <code>pnpm run storybook</code> میں <code>lily-design-system-web-components-headless</code>۔</li>
+    <li>
+      معاون بھی کسٹم عناصر کے طور پر آتے ہیں:
+      <code>&lt;lily-theme-picker&gt;</code>، ڈیٹا گرڈ، کیلنڈر اور دیگر (<code>@lilydesignsystem/web-components-*</code>‏)۔
+    </li>
+  </ul>
+
+  <h2>اگلے اقدامات</h2>
+  <ul>
+    <li><a href="/training/">تربیت</a> — آٹھ ماڈیول، ہر ایک میں ایک مشق اور خود جانچ۔</li>
+    <li><a href="/tutorials/forms/">قابلِ رسائی فارم</a> — غلطیاں، غلطیوں کا خلاصہ اور فوکس۔</li>
+    <li><a href="/tutorials/theming/">تھیمنگ</a> — چلتے ہوئے تھیم بدلنا۔</li>
+    <li><a href="/components/">اجزاء کا کیٹلاگ</a> — مکمل حوالہ۔</li>
+  </ul>
+</section>

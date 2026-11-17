@@ -1,0 +1,103 @@
+<!-- title: Um formulário que funciona em todo o mundo — Lily Design System -->
+<!-- description: Nomes, moradas, datas, dinheiro, direção da escrita e ajudantes traduzidos: construir um formulário Lily para todos os países, não só para um. -->
+<section class="page-intro">
+  <h1>Um formulário que funciona em todo o mundo</h1>
+  <p class="page-intro-tagline">
+    O Lily visa todos os países, não um. Não traz texto em inglês nem pressupõe nenhum país, por isso as escolhas que tornam um formulário local são suas, feitas de propósito. Este tutorial percorre-as.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>O que você vai construir</h2>
+  <p>
+    Um formulário de registo para uma clínica que atende pessoas de muitos países: um nome, uma data de nascimento, uma morada, um telefone, uma taxa e uma página que se lê da direita para a esquerda quando deve. Os exemplos usam Svelte; todos os catálogos aceitam as mesmas props. Cerca de 20 minutos, depois do
+    <a href="/tutorials/forms/">tutorial de formulários acessíveis</a>.
+  </p>
+
+  <h2>Passo 1 — Nomes: um campo, não dois</h2>
+  
+  <pre tabindex="0"><code>&lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+&lt;TextInput id="name" name="name" autocomplete="name" label="Full name" /&gt;</code></pre>
+  <p>
+    «Nome próprio» e «apelido» falham com muitas pessoas: um nome único, o apelido primeiro, dois apelidos, um patronímico. Peça o nome completo num só campo e, se precisar de saber como tratar alguém, pergunte à parte.
+  </p>
+
+  <h2>Passo 2 — Datas: as partes na ordem do leitor</h2>
+  
+  <pre tabindex="0"><code>&lt;DateField
+  label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  autocomplete="bday"
+  name="dob"
+  bind:value={dob}
+/&gt;</code></pre>
+  <p>
+    <code>order</code> é <code>"dmy"</code>, <code>"mdy"</code> ou
+    <code>"ymd"</code>: escolha a que os seus leitores esperam, porque 03/04 é março num país e abril no seguinte. O valor é sempre ISO (<code>YYYY-MM-DD</code>), seja qual for a ordem. Para uma data que alguém só sabe em parte, como quando uma doença começou, <code>precision="month"</code>
+    guarda <code>2019-03</code> e nunca inventa um dia.
+  </p>
+  <p>
+    Para mostrar uma data, formate-a com <code>Intl.DateTimeFormat</code> no idioma do leitor; o Lily nunca formata por si.
+  </p>
+
+  <h2>Passo 3 — Moradas: a forma de nenhum país por omissão</h2>
+  
+  <pre tabindex="0"><code>&lt;AddressInput label="Home address"&gt;
+  &lt;label class="label" for="address"&gt;Address&lt;/label&gt;
+  &lt;textarea class="text-area-input" id="address" name="address" autocomplete="street-address" rows="4"&gt;&lt;/textarea&gt;
+  &lt;label class="label" for="country"&gt;Country or territory&lt;/label&gt;
+  &lt;select class="select" id="country" name="country" autocomplete="country"&gt; … &lt;/select&gt;
+&lt;/AddressInput&gt;</code></pre>
+  <p>
+    <code>AddressInput</code> é um grupo com nome; os campos lá dentro são seus. Uma morada em texto livre mais um país funciona em todo o lado. Se a dividir, faça-o por país (o código postal é opcional ou inexistente em muitos) e nunca torne obrigatório um campo de «estado».
+  </p>
+
+  <h2>Passo 4 — Telefones e dinheiro</h2>
+  
+  <pre tabindex="0"><code>&lt;TelInput label="Phone number" name="phone" autocomplete="tel" /&gt;
+&lt;CurrencyInput label="Fee" currencyCode="KES" bind:value={fee} /&gt;</code></pre>
+  <p>
+    Aceite o telefone como foi escrito, com espaços e um <code>+</code>; não imponha o formato de um país. <code>CurrencyInput</code> não tem moeda por omissão: <code>currencyCode</code> (ISO 4217) é obrigatório, porque uma moeda por omissão seria o dinheiro de um só país.
+  </p>
+
+  <h2>Passo 5 — Direção e idioma</h2>
+  
+  <pre tabindex="0"><code>&lt;LocalePicker label="Language" locales={["en", "fr", "ar", "sw"]} bind:value={locale} /&gt;</code></pre>
+  <p>
+    O seletor de idioma define <code>lang</code> e <code>dir</code> na página, para que o árabe ou o hebraico se leiam da direita para a esquerda. Todos os componentes Lily herdam
+    <code>dir</code>; os temas usam propriedades lógicas (<code>margin-inline-start</code>, não <code>margin-left</code>), e o seu CSS também deve. O seletor não traduz nada: o seu texto vem das suas próprias traduções.
+  </p>
+
+  <h2>Passo 6 — Os rótulos dos ajudantes, no idioma do leitor</h2>
+  
+  <pre tabindex="0"><code>&lt;script lang="ts"&gt;
+  import { labelsFor } from "@lilydesignsystem/svelte-locale-translations";
+  import sw from "@lilydesignsystem/svelte-locale-translations/sw-001";
+  import DataGrid from "@lilydesignsystem/svelte-data-grid";
+&lt;/script&gt;
+
+&lt;DataGrid label="Wagonjwa" labels={labelsFor("data-grid", sw)} … /&gt;</code></pre>
+  <p>
+    A grelha de dados, o quadro kanban, o calendário, o gráfico de Gantt e o filtro têm muitos rótulos para leitores de tela. O Lily fornece-os em 64 idiomas como pacotes de rótulos. Só o inglês está revisto; os outros 63 são rascunhos automáticos, por isso peça a um falante nativo que verifique o texto antes de confiar num. Um pacote nunca recorre a outro idioma.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifique o seu trabalho:</strong> mude a página para árabe e verifique que o layout se espelha sem texto cortado; introduza uma data na sua ordem e confirme que o valor enviado é ISO; dê a alguém um nome de uma só palavra e uma morada sem código postal, e garanta que o formulário aceita ambos.
+    </p>
+  </div>
+
+  <h2>Próximos passos</h2>
+  <ul>
+    <li><a href="/training/">Formação</a> — oito módulos, cada um com um exercício e uma autoavaliação.</li>
+    <li>
+      <a href="/components/">Identificadores nacionais</a>: 164 componentes para 82 tipos de identificador em mais de 50 países, cada um com um <code>-input</code>
+      e um <code>-view</code>.
+    </li>
+    <li><a href="/tutorials/helpers/">Ajudantes de preferências</a>: idioma, tamanho do texto, movimento e fuso horário.</li>
+    <li><a href="/locales/">Idiomas</a>: os idiomas que o site e os pacotes de rótulos cobrem.</li>
+  </ul>
+</section>

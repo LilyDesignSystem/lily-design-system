@@ -1,0 +1,103 @@
+<!-- title: Formulir yang bekerja di seluruh dunia — Lily Design System -->
+<!-- description: Nama, alamat, tanggal, uang, arah tulisan, dan pembantu yang diterjemahkan: membuat formulir Lily untuk setiap negara, bukan satu. -->
+<section class="page-intro">
+  <h1>Formulir yang bekerja di seluruh dunia</h1>
+  <p class="page-intro-tagline">
+    Lily menyasar setiap negara, bukan satu. Lily tidak membawa teks bahasa Inggris dan tidak mengandaikan negara apa pun, jadi pilihan yang membuat formulir terasa lokal adalah milik Anda, dibuat dengan sengaja. Tutorial ini membahasnya satu per satu.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Yang akan Anda buat</h2>
+  <p>
+    Formulir pendaftaran untuk klinik yang melayani orang dari banyak negara: nama, tanggal lahir, alamat, nomor telepon, biaya, dan halaman yang terbaca dari kanan ke kiri bila perlu. Contohnya memakai Svelte; setiap katalog menerima props yang sama. Sekitar 20 menit, setelah
+    <a href="/tutorials/forms/">tutorial formulir aksesibel</a>.
+  </p>
+
+  <h2>Langkah 1 — Nama: satu isian, bukan dua</h2>
+  
+  <pre tabindex="0"><code>&lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+&lt;TextInput id="name" name="name" autocomplete="name" label="Full name" /&gt;</code></pre>
+  <p>
+    "Nama depan" dan "nama belakang" tidak cocok bagi banyak orang: nama tunggal, nama keluarga di depan, dua nama keluarga, patronimik. Minta nama lengkap dalam satu isian, dan bila Anda perlu tahu cara memanggil seseorang, tanyakan terpisah.
+  </p>
+
+  <h2>Langkah 2 — Tanggal: bagian-bagiannya dalam urutan pembaca</h2>
+  
+  <pre tabindex="0"><code>&lt;DateField
+  label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  autocomplete="bday"
+  name="dob"
+  bind:value={dob}
+/&gt;</code></pre>
+  <p>
+    <code>order</code> bernilai <code>"dmy"</code>, <code>"mdy"</code> atau
+    <code>"ymd"</code>: pilih yang diharapkan pembaca Anda, karena 03/04 adalah Maret di satu negara dan April di negara berikutnya. Nilainya selalu ISO (<code>YYYY-MM-DD</code>), apa pun urutannya. Untuk tanggal yang hanya diketahui sebagian, seperti kapan suatu penyakit dimulai, <code>precision="month"</code>
+    menyimpan <code>2019-03</code> dan tidak pernah mengarang hari.
+  </p>
+  <p>
+    Untuk menampilkan tanggal, format dengan <code>Intl.DateTimeFormat</code> dalam lokal pembaca; Lily tidak pernah memformatnya untuk Anda.
+  </p>
+
+  <h2>Langkah 3 — Alamat: tanpa bentuk negara mana pun sebagai bawaan</h2>
+  
+  <pre tabindex="0"><code>&lt;AddressInput label="Home address"&gt;
+  &lt;label class="label" for="address"&gt;Address&lt;/label&gt;
+  &lt;textarea class="text-area-input" id="address" name="address" autocomplete="street-address" rows="4"&gt;&lt;/textarea&gt;
+  &lt;label class="label" for="country"&gt;Country or territory&lt;/label&gt;
+  &lt;select class="select" id="country" name="country" autocomplete="country"&gt; … &lt;/select&gt;
+&lt;/AddressInput&gt;</code></pre>
+  <p>
+    <code>AddressInput</code> adalah grup bernama; isian di dalamnya milik Anda. Satu alamat teks bebas ditambah negara berfungsi di mana saja. Bila Anda memecahnya, lakukan per negara (kode pos opsional atau tidak ada di banyak negara) dan jangan pernah mewajibkan isian "provinsi/negara bagian".
+  </p>
+
+  <h2>Langkah 4 — Nomor telepon dan uang</h2>
+  
+  <pre tabindex="0"><code>&lt;TelInput label="Phone number" name="phone" autocomplete="tel" /&gt;
+&lt;CurrencyInput label="Fee" currencyCode="KES" bind:value={fee} /&gt;</code></pre>
+  <p>
+    Terima nomor telepon sebagaimana diketik, dengan spasi dan tanda <code>+</code>; jangan paksakan format satu negara. <code>CurrencyInput</code> tidak punya mata uang bawaan: <code>currencyCode</code> (ISO 4217) wajib, karena bawaan apa pun akan menjadi uang satu negara.
+  </p>
+
+  <h2>Langkah 5 — Arah tulisan dan bahasa</h2>
+  
+  <pre tabindex="0"><code>&lt;LocalePicker label="Language" locales={["en", "fr", "ar", "sw"]} bind:value={locale} /&gt;</code></pre>
+  <p>
+    Pemilih bahasa menetapkan <code>lang</code> dan <code>dir</code> pada halaman, sehingga bahasa Arab atau Ibrani terbaca dari kanan ke kiri. Setiap komponen Lily mewarisi
+    <code>dir</code>; tema memakai properti logis (<code>margin-inline-start</code>, bukan <code>margin-left</code>), dan CSS Anda pun sebaiknya begitu. Pemilih tidak menerjemahkan apa pun: teks Anda berasal dari terjemahan Anda sendiri.
+  </p>
+
+  <h2>Langkah 6 — Label pembantu, dalam bahasa pembaca</h2>
+  
+  <pre tabindex="0"><code>&lt;script lang="ts"&gt;
+  import { labelsFor } from "@lilydesignsystem/svelte-locale-translations";
+  import sw from "@lilydesignsystem/svelte-locale-translations/sw-001";
+  import DataGrid from "@lilydesignsystem/svelte-data-grid";
+&lt;/script&gt;
+
+&lt;DataGrid label="Wagonjwa" labels={labelsFor("data-grid", sw)} … /&gt;</code></pre>
+  <p>
+    Kisi data, papan kanban, kalender, bagan Gantt, dan filter membawa banyak label pembaca layar. Lily menyediakannya dalam 64 bahasa sebagai paket label. Hanya bahasa Inggris yang ditinjau; 63 lainnya draf mesin, jadi mintalah penutur asli memeriksa kata-katanya sebelum Anda mengandalkannya. Paket tidak pernah beralih ke bahasa lain.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Periksa hasil kerja Anda:</strong> ubah halaman ke bahasa Arab dan periksa bahwa tata letaknya tercermin tanpa teks terpotong; masukkan tanggal dalam urutan Anda dan pastikan nilai yang dikirim berformat ISO; beri seseorang nama satu kata dan alamat tanpa kode pos, dan pastikan formulir menerima keduanya.
+    </p>
+  </div>
+
+  <h2>Langkah berikutnya</h2>
+  <ul>
+    <li><a href="/training/">Pelatihan</a> — delapan modul, masing-masing dengan latihan dan uji mandiri.</li>
+    <li>
+      <a href="/components/">Identitas nasional</a>: 164 komponen untuk 82 jenis identitas di lebih dari 50 negara, masing-masing berupa <code>-input</code>
+      dan <code>-view</code>.
+    </li>
+    <li><a href="/tutorials/helpers/">Pembantu preferensi</a>: bahasa, ukuran teks, gerak, dan zona waktu.</li>
+    <li><a href="/locales/">Lokal</a>: bahasa yang dicakup situs dan paket label.</li>
+  </ul>
+</section>

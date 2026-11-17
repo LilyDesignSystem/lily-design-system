@@ -1,0 +1,107 @@
+<!-- title: Tiwtorial Web Components — Lily Design System -->
+<!-- description: Adeiladwch ffurflen hygyrch, wedi'i steilio, gydag elfennau cyfaddas brodorol Lily, heb fframwaith. -->
+<section class="page-intro">
+  <h1>Tiwtorial Web Components</h1>
+  <p class="page-intro-tagline">
+    Elfennau cyfaddas brodorol heb amser rhedeg fframwaith. Mae pob un yn creu
+    <code>&lt;button&gt;</code> neu <code>&lt;input&gt;</code> go iawn yn y DOM golau, felly mae ffurflenni, CSS a <code>querySelector</code> yn gweithio fel ar HTML a ysgrifennwyd â llaw.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Ffurflen gyswllt fach gyda meysydd wedi'u labelu a botwm cyflwyno, wedi'i chysylltu ag ychydig linellau o sgript, yn foel yn gyntaf, yna wedi'i steilio, mewn tua 10 munud.
+  </p>
+
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Mae angen Node.js arnoch a bwndelwr neu unrhyw drefniant sy'n datrys mewnforion modiwl moel. Mae'r catalog yn cwmpasu 602 o'r 637 cydran; mae is-elfennau tabl ac ambell deulu o eitemau rhestr wedi'u gadael allan, oherwydd ni all elfen gyfaddas annibynnol sefyll yn lle <code>&lt;tr&gt;</code>
+    neu <code>&lt;li&gt;</code>.
+  </p>
+
+  <h2>Cam 1 — Gosod a chofrestru</h2>
+  
+  <pre tabindex="0"><code>npm install @lilydesignsystem/web-components-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import "@lilydesignsystem/web-components-headless";
+&lt;/script&gt;</code></pre>
+  <p>
+    Mae mewnforio'r pecyn yn diffinio pob elfen, pob un o'r enw
+    <code>lily-</code> a slyg y gydran:
+    <code>&lt;lily-button&gt;</code>, <code>&lt;lily-text-input&gt;</code>,
+    <code>&lt;lily-range-fieldset&gt;</code>.
+  </p>
+
+  <h2>Cam 2 — Eich cydran gyntaf</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;</code></pre>
+  <p>
+    Mae'r elfen yn creu <code>&lt;button class="button"&gt;</code>
+    go iawn y tu mewn iddi ei hun, felly mae Enter, Bylchwr a rôl y botwm yn frodorol. Mae'r priodoleddau rydych chi'n eu hychwanegu yn mynd drwodd i'r elfen fewnol honno.
+  </p>
+
+  <h2>Cam 3 — Cyfansoddi ffurflen fach</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-form label="Contact us"&gt;
+  &lt;lily-field label="Full name" required&gt;
+    &lt;lily-text-input label="Full name" name="name" autocomplete="name" required&gt;&lt;/lily-text-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-field label="Email" required&gt;
+    &lt;lily-email-input label="Email" name="email" required&gt;&lt;/lily-email-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;
+&lt;/lily-form&gt;
+
+&lt;script type="module"&gt;
+  const form = document.querySelector("lily-form form");
+  form.addEventListener("submit", () =&gt; {
+    const data = new FormData(form);
+    console.log(Object.fromEntries(data));
+  });
+&lt;/script&gt;</code></pre>
+  <p>
+    <code>&lt;lily-form&gt;</code> yn atal llywio'r dudalen ac yn gadael i'r digwyddiad
+    <code>submit</code> fyrlymu, felly eich sgript sy'n penderfynu beth sy'n digwydd. Mae'r mewnbynnau'n rheolyddion ffurflen go iawn, felly mae <code>FormData</code> yn eu darllen.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> pwyswch <kbd>Tab</kbd> drwy'r ffurflen, yna ei chyflwyno: mae'r consol yn dangos <code>name</code> a
+      <code>email</code>. Gadewch faes yn wag ac mae gwiriad
+      <code>required</code> y porwr ei hun yn atal y cyflwyno.
+    </p>
+  </div>
+
+  <h2>Cam 4 — Ei steilio</h2>
+  <p>
+    Mae'r bachau dosbarth ar yr elfennau mewnol, felly mae'r 63 thema a'ch CSS eich hun yn eu targedu fel ar HTML plaen:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;
+
+&lt;style&gt;
+  .button { padding: 0.75rem 1.5rem; }
+  lily-field { display: block; margin-block-end: 1rem; }
+&lt;/style&gt;</code></pre>
+  <p>
+    Nid oes DOM cysgod i'w dreiddio: does dim wedi'i guddio rhag eich dalen arddull na rhag technoleg gynorthwyol.
+  </p>
+
+  <h2>Cam 5 — Gweld y cyfan yn gweithio</h2>
+  <ul>
+    <li>Mae gan bob elfen stori: <code>pnpm run storybook</code> yn <code>lily-design-system-web-components-headless</code>.</li>
+    <li>
+      Mae'r cynorthwywyr hefyd ar gael fel elfennau cyfaddas:
+      <code>&lt;lily-theme-picker&gt;</code>, y grid data, y calendr a'r lleill (<code>@lilydesignsystem/web-components-*</code>).
+    </li>
+  </ul>
+
+  <h2>Camau nesaf</h2>
+  <ul>
+    <li><a href="/training/">Hyfforddiant</a> — wyth modiwl, pob un gydag ymarfer a hunanwiriad.</li>
+    <li><a href="/tutorials/forms/">Ffurflenni hygyrch</a> — gwallau, crynodeb gwallau a ffocws.</li>
+    <li><a href="/tutorials/theming/">Themâu</a> — newid thema wrth redeg.</li>
+    <li><a href="/components/">Catalog cydrannau</a> — y cyfeirnod llawn.</li>
+  </ul>
+</section>

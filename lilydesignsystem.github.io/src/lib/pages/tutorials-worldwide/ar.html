@@ -1,0 +1,103 @@
+<!-- title: نموذج يعمل في كل أنحاء العالم — Lily Design System -->
+<!-- description: الأسماء والعناوين والتواريخ والمال واتجاه الكتابة والأدوات المساعدة المترجمة: بناء نموذج Lily لكل البلدان لا لبلد واحد. -->
+<section class="page-intro">
+  <h1>نموذج يعمل في كل أنحاء العالم</h1>
+  <p class="page-intro-tagline">
+    يستهدف Lily كل البلدان لا بلدًا واحدًا. لا يحمل نصًا إنجليزيًا ولا يفترض بلدًا، فالاختيارات التي تجعل النموذج محليًا اختياراتك، تتخذها عن قصد. يمرّ هذا الدرس عليها.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>ما الذي ستبنيه</h2>
+  <p>
+    نموذج تسجيل لعيادة تخدم أشخاصًا من بلدان كثيرة: اسم وتاريخ ميلاد وعنوان ورقم هاتف ورسوم، وصفحة تُقرأ من اليمين إلى اليسار حين يلزم. تستخدم الأمثلة Svelte؛ وكل الكتالوجات تقبل الخصائص نفسها. نحو 20 دقيقة، بعد
+    <a href="/tutorials/forms/">درس النماذج الميسّرة</a>.
+  </p>
+
+  <h2>الخطوة 1 — الأسماء: حقل واحد لا حقلان</h2>
+  
+  <pre tabindex="0"><code>&lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+&lt;TextInput id="name" name="name" autocomplete="name" label="Full name" /&gt;</code></pre>
+  <p>
+    «الاسم الأول» و«اسم العائلة» لا يناسبان كثيرين: اسم واحد، أو اسم العائلة أولًا، أو اسما عائلة، أو اسم الأب. اطلب الاسم الكامل في حقل واحد، وإن احتجت إلى معرفة كيف تنادي الشخص فاسأل عن ذلك منفصلًا.
+  </p>
+
+  <h2>الخطوة 2 — التواريخ: الأجزاء بترتيب القارئ</h2>
+  
+  <pre tabindex="0"><code>&lt;DateField
+  label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  autocomplete="bday"
+  name="dob"
+  bind:value={dob}
+/&gt;</code></pre>
+  <p>
+    <code>order</code> قيمته <code>"dmy"</code>، <code>"mdy"</code> أو
+    <code>"ymd"</code>: اختر ما يتوقعه قرّاؤك، فـ 03/04 هو مارس في بلد وأبريل في البلد التالي. القيمة دائمًا بصيغة ISO (<code>YYYY-MM-DD</code>)، مهما كان الترتيب. وللتاريخ الذي لا يعرفه الشخص إلا جزئيًا، كوقت بدء مرض، <code>precision="month"</code>
+    يخزّن <code>2019-03</code> ولا يختلق يومًا أبدًا.
+  </p>
+  <p>
+    لعرض تاريخ، نسّقه باستخدام <code>Intl.DateTimeFormat</code> بلغة القارئ؛ لا ينسّق Lily التاريخ نيابةً عنك أبدًا.
+  </p>
+
+  <h2>الخطوة 3 — العناوين: لا شكل بلدٍ بعينه افتراضيًا</h2>
+  
+  <pre tabindex="0"><code>&lt;AddressInput label="Home address"&gt;
+  &lt;label class="label" for="address"&gt;Address&lt;/label&gt;
+  &lt;textarea class="text-area-input" id="address" name="address" autocomplete="street-address" rows="4"&gt;&lt;/textarea&gt;
+  &lt;label class="label" for="country"&gt;Country or territory&lt;/label&gt;
+  &lt;select class="select" id="country" name="country" autocomplete="country"&gt; … &lt;/select&gt;
+&lt;/AddressInput&gt;</code></pre>
+  <p>
+    <code>AddressInput</code> مجموعة مسمّاة؛ والحقول داخلها لك. عنوان نصي حرّ مع البلد يصلح في كل مكان. إن قسّمته فقسّمه حسب البلد (الرمز البريدي اختياري أو غير موجود في بلدان كثيرة) ولا تجعل حقل «الولاية» إلزاميًا أبدًا.
+  </p>
+
+  <h2>الخطوة 4 — أرقام الهاتف والمال</h2>
+  
+  <pre tabindex="0"><code>&lt;TelInput label="Phone number" name="phone" autocomplete="tel" /&gt;
+&lt;CurrencyInput label="Fee" currencyCode="KES" bind:value={fee} /&gt;</code></pre>
+  <p>
+    اقبل رقم الهاتف كما كُتب، بالمسافات وعلامة <code>+</code>؛ ولا تفرض صيغة بلد واحد. <code>CurrencyInput</code> لا عملة افتراضية له: <code>currencyCode</code> (ISO 4217) إلزامي، لأن أي افتراض سيكون عملة بلد واحد.
+  </p>
+
+  <h2>الخطوة 5 — اتجاه الكتابة واللغة</h2>
+  
+  <pre tabindex="0"><code>&lt;LocalePicker label="Language" locales={["en", "fr", "ar", "sw"]} bind:value={locale} /&gt;</code></pre>
+  <p>
+    يضبط منتقي اللغة <code>lang</code> و <code>dir</code> على الصفحة، فتُقرأ العربية أو العبرية من اليمين إلى اليسار. كل مكوّنات Lily ترث
+    <code>dir</code>؛ والسمات تستخدم خصائص منطقية (<code>margin-inline-start</code>، لا <code>margin-left</code>), وكذلك ينبغي لـ CSS الخاص بك. المنتقي لا يترجم شيئًا: نصّك يأتي من ترجماتك أنت.
+  </p>
+
+  <h2>الخطوة 6 — تسميات الأدوات المساعدة بلغة القارئ</h2>
+  
+  <pre tabindex="0"><code>&lt;script lang="ts"&gt;
+  import { labelsFor } from "@lilydesignsystem/svelte-locale-translations";
+  import sw from "@lilydesignsystem/svelte-locale-translations/sw-001";
+  import DataGrid from "@lilydesignsystem/svelte-data-grid";
+&lt;/script&gt;
+
+&lt;DataGrid label="Wagonjwa" labels={labelsFor("data-grid", sw)} … /&gt;</code></pre>
+  <p>
+    تحمل شبكة البيانات ولوحة كانبان والتقويم ومخطط غانت والمرشّح تسميات كثيرة لقارئ الشاشة. يوفّرها Lily بـ64 لغة على شكل حزم تسميات. الإنجليزية وحدها مراجَعة؛ والـ63 الأخرى مسودات آلية، فاطلب من متحدث أصلي مراجعة الصياغة قبل الاعتماد عليها. ولا تلجأ الحزمة إلى لغة أخرى أبدًا.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>تحقّق من عملك:</strong> حوّل الصفحة إلى العربية وتحقّق من أن التخطيط ينعكس دون نص مقطوع؛ أدخل تاريخًا بترتيبك وتأكّد أن القيمة المرسلة بصيغة ISO؛ أعطِ شخصًا اسمًا من كلمة واحدة وعنوانًا بلا رمز بريدي، وتأكّد أن النموذج يقبل الاثنين.
+    </p>
+  </div>
+
+  <h2>الخطوات التالية</h2>
+  <ul>
+    <li><a href="/training/">التدريب</a> — ثماني وحدات، لكل منها تمرين واختبار ذاتي.</li>
+    <li>
+      <a href="/components/">المعرّفات الوطنية</a>: 164 مكوّنًا لـ82 نوعًا من المعرّفات في أكثر من 50 بلدًا، لكل منها <code>-input</code>
+      و <code>-view</code>.
+    </li>
+    <li><a href="/tutorials/helpers/">أدوات التفضيلات</a>: اللغة وحجم النص والحركة والمنطقة الزمنية.</li>
+    <li><a href="/locales/">اللغات المحلية</a>: اللغات التي يغطيها الموقع وحزم التسميات.</li>
+  </ul>
+</section>

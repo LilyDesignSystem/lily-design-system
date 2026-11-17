@@ -1,0 +1,107 @@
+<!-- title: Web Components ट्यूटोरियल — Lily Design System -->
+<!-- description: Lily के नेटिव कस्टम एलिमेंट से, बिना फ़्रेमवर्क के, एक सुलभ और स्टाइल किया हुआ फ़ॉर्म बनाएँ। -->
+<section class="page-intro">
+  <h1>Web Components ट्यूटोरियल</h1>
+  <p class="page-intro-tagline">
+    बिना फ़्रेमवर्क रनटाइम के नेटिव कस्टम एलिमेंट। हर एक लाइट DOM में असली
+    <code>&lt;button&gt;</code> या <code>&lt;input&gt;</code> बनाता है, इसलिए फ़ॉर्म, CSS और <code>querySelector</code> हाथ से लिखे HTML जैसे ही काम करते हैं।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>आप क्या बनाएँगे</h2>
+  <p>
+    लेबल वाले फ़ील्ड और सबमिट बटन वाला एक छोटा संपर्क फ़ॉर्म, कुछ पंक्तियों की स्क्रिप्ट से जुड़ा, पहले सादा, फिर स्टाइल किया हुआ, लगभग 10 मिनट में।
+  </p>
+
+  <h2>शुरू करने से पहले</h2>
+  <p>
+    आपको Node.js और एक बंडलर या कोई भी सेटअप चाहिए जो बेयर मॉड्यूल इम्पोर्ट हल करे। कैटलॉग 637 में से 602 कॉम्पोनेंट को कवर करता है; टेबल के उप-एलिमेंट और कुछ सूची-आइटम परिवार छोड़े गए हैं, क्योंकि एक स्वायत्त कस्टम एलिमेंट <code>&lt;tr&gt;</code>
+    या <code>&lt;li&gt;</code>की जगह नहीं ले सकता।
+  </p>
+
+  <h2>चरण 1 — इंस्टॉल और रजिस्टर करें</h2>
+  
+  <pre tabindex="0"><code>npm install @lilydesignsystem/web-components-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import "@lilydesignsystem/web-components-headless";
+&lt;/script&gt;</code></pre>
+  <p>
+    पैकेज इम्पोर्ट करते ही हर एलिमेंट परिभाषित हो जाता है, जिनका नाम
+    <code>lily-</code> के बाद कॉम्पोनेंट का स्लग है:
+    <code>&lt;lily-button&gt;</code>, <code>&lt;lily-text-input&gt;</code>,
+    <code>&lt;lily-range-fieldset&gt;</code>।
+  </p>
+
+  <h2>चरण 2 — आपका पहला कॉम्पोनेंट</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;</code></pre>
+  <p>
+    एलिमेंट अपने भीतर एक असली <code>&lt;button class="button"&gt;</code>
+    बनाता है, इसलिए Enter, Space और बटन की भूमिका नेटिव हैं। आप जो एट्रिब्यूट जोड़ते हैं वे उस भीतरी एलिमेंट तक पहुँचते हैं।
+  </p>
+
+  <h2>चरण 3 — एक छोटा फ़ॉर्म बनाएँ</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-form label="Contact us"&gt;
+  &lt;lily-field label="Full name" required&gt;
+    &lt;lily-text-input label="Full name" name="name" autocomplete="name" required&gt;&lt;/lily-text-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-field label="Email" required&gt;
+    &lt;lily-email-input label="Email" name="email" required&gt;&lt;/lily-email-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;
+&lt;/lily-form&gt;
+
+&lt;script type="module"&gt;
+  const form = document.querySelector("lily-form form");
+  form.addEventListener("submit", () =&gt; {
+    const data = new FormData(form);
+    console.log(Object.fromEntries(data));
+  });
+&lt;/script&gt;</code></pre>
+  <p>
+    <code>&lt;lily-form&gt;</code> पेज नेविगेशन रोकता है और
+    <code>submit</code> इवेंट को ऊपर जाने देता है, ताकि आपकी स्क्रिप्ट तय करे कि क्या हो। इनपुट असली फ़ॉर्म नियंत्रण हैं, इसलिए <code>FormData</code> उन्हें पढ़ता है।
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>अपना काम जाँचें:</strong> फ़ॉर्म में <kbd>Tab</kbd> दबाते हुए जाएँ, फिर सबमिट करें: कंसोल <code>name</code> और
+      <code>email</code>दिखाता है। कोई फ़ील्ड खाली छोड़ें तो ब्राउज़र की अपनी
+      <code>required</code> जाँच सबमिट रोक देती है।
+    </p>
+  </div>
+
+  <h2>चरण 4 — स्टाइल दें</h2>
+  <p>
+    क्लास हुक भीतरी एलिमेंट पर हैं, इसलिए 63 थीम और आपका CSS उन्हें सादे HTML की तरह लक्ष्य करते हैं:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;
+
+&lt;style&gt;
+  .button { padding: 0.75rem 1.5rem; }
+  lily-field { display: block; margin-block-end: 1rem; }
+&lt;/style&gt;</code></pre>
+  <p>
+    भेदने के लिए कोई shadow DOM नहीं है: आपकी स्टाइलशीट और सहायक तकनीक से कुछ भी छिपा नहीं।
+  </p>
+
+  <h2>चरण 5 — सब कुछ काम करते देखें</h2>
+  <ul>
+    <li>हर एलिमेंट की एक story है: <code>pnpm run storybook</code> में <code>lily-design-system-web-components-headless</code>।</li>
+    <li>
+      हेल्पर भी कस्टम एलिमेंट के रूप में आते हैं:
+      <code>&lt;lily-theme-picker&gt;</code>, डेटा ग्रिड, कैलेंडर और अन्य (<code>@lilydesignsystem/web-components-*</code>)।
+    </li>
+  </ul>
+
+  <h2>अगले कदम</h2>
+  <ul>
+    <li><a href="/training/">प्रशिक्षण</a> — आठ मॉड्यूल, हर एक में एक अभ्यास और स्व-जाँच।</li>
+    <li><a href="/tutorials/forms/">सुलभ फ़ॉर्म</a> — त्रुटियाँ, त्रुटि-सारांश और फ़ोकस।</li>
+    <li><a href="/tutorials/theming/">थीमिंग</a> — चलते समय थीम बदलना।</li>
+    <li><a href="/components/">कॉम्पोनेंट कैटलॉग</a> — पूरा संदर्भ।</li>
+  </ul>
+</section>

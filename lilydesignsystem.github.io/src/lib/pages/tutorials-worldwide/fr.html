@@ -1,0 +1,103 @@
+<!-- title: Un formulaire qui fonctionne partout dans le monde — Lily Design System -->
+<!-- description: Noms, adresses, dates, argent, sens d'écriture et assistants traduits : construire un formulaire Lily pour tous les pays, pas un seul. -->
+<section class="page-intro">
+  <h1>Un formulaire qui fonctionne partout dans le monde</h1>
+  <p class="page-intro-tagline">
+    Lily vise tous les pays, pas un seul. Il ne fournit aucun texte anglais et ne suppose aucun pays : les choix qui rendent un formulaire local sont les vôtres, faits délibérément. Ce tutoriel les passe en revue.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Ce que vous allez construire</h2>
+  <p>
+    Un formulaire d'inscription pour une clinique qui reçoit des personnes de nombreux pays : un nom, une date de naissance, une adresse, un numéro de téléphone, un tarif, et une page qui se lit de droite à gauche quand il le faut. Les exemples utilisent Svelte ; chaque catalogue prend les mêmes props. Environ 20 minutes, après le
+    <a href="/tutorials/forms/">tutoriel des formulaires accessibles</a>.
+  </p>
+
+  <h2>Étape 1 — Les noms : un seul champ, pas deux</h2>
+  
+  <pre tabindex="0"><code>&lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+&lt;TextInput id="name" name="name" autocomplete="name" label="Full name" /&gt;</code></pre>
+  <p>
+    « Prénom » et « nom de famille » ne conviennent pas à beaucoup de gens : un nom unique, le nom de famille en premier, deux noms de famille, un patronyme. Demandez le nom complet dans un seul champ, et si vous devez savoir comment appeler quelqu'un, demandez-le à part.
+  </p>
+
+  <h2>Étape 2 — Les dates : les parties dans l'ordre du lecteur</h2>
+  
+  <pre tabindex="0"><code>&lt;DateField
+  label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  autocomplete="bday"
+  name="dob"
+  bind:value={dob}
+/&gt;</code></pre>
+  <p>
+    <code>order</code> vaut <code>"dmy"</code>, <code>"mdy"</code> ou
+    <code>"ymd"</code> : choisissez celui qu'attendent vos lecteurs, car 03/04 est en mars dans un pays et en avril dans le suivant. La valeur est toujours au format ISO (<code>YYYY-MM-DD</code>), quel que soit l'ordre. Pour une date que l'on ne connaît qu'à moitié, comme le début d'une maladie, <code>precision="month"</code>
+    enregistre <code>2019-03</code> et n'invente jamais de jour.
+  </p>
+  <p>
+    Pour afficher une date, formatez-la avec <code>Intl.DateTimeFormat</code> dans la langue du lecteur ; Lily ne le fait jamais à votre place.
+  </p>
+
+  <h2>Étape 3 — Les adresses : la forme d'aucun pays par défaut</h2>
+  
+  <pre tabindex="0"><code>&lt;AddressInput label="Home address"&gt;
+  &lt;label class="label" for="address"&gt;Address&lt;/label&gt;
+  &lt;textarea class="text-area-input" id="address" name="address" autocomplete="street-address" rows="4"&gt;&lt;/textarea&gt;
+  &lt;label class="label" for="country"&gt;Country or territory&lt;/label&gt;
+  &lt;select class="select" id="country" name="country" autocomplete="country"&gt; … &lt;/select&gt;
+&lt;/AddressInput&gt;</code></pre>
+  <p>
+    <code>AddressInput</code> est un groupe nommé ; les champs qu'il contient sont les vôtres. Une adresse en texte libre plus un pays fonctionne partout. Si vous la découpez, faites-le par pays (le code postal est facultatif ou absent dans beaucoup d'entre eux) et ne rendez jamais obligatoire un champ « État ».
+  </p>
+
+  <h2>Étape 4 — Numéros de téléphone et argent</h2>
+  
+  <pre tabindex="0"><code>&lt;TelInput label="Phone number" name="phone" autocomplete="tel" /&gt;
+&lt;CurrencyInput label="Fee" currencyCode="KES" bind:value={fee} /&gt;</code></pre>
+  <p>
+    Acceptez un numéro de téléphone tel qu'il est saisi, avec des espaces et un <code>+</code> ; n'imposez pas le format d'un pays. <code>CurrencyInput</code> n'a pas de devise par défaut : <code>currencyCode</code> (ISO 4217) est obligatoire, car une devise par défaut serait l'argent d'un seul pays.
+  </p>
+
+  <h2>Étape 5 — Sens d'écriture et langue</h2>
+  
+  <pre tabindex="0"><code>&lt;LocalePicker label="Language" locales={["en", "fr", "ar", "sw"]} bind:value={locale} /&gt;</code></pre>
+  <p>
+    Le sélecteur de langue définit <code>lang</code> et <code>dir</code> sur la page, si bien que l'arabe ou l'hébreu se lisent de droite à gauche. Chaque composant Lily hérite de
+    <code>dir</code> ; les thèmes utilisent des propriétés logiques (<code>margin-inline-start</code>, et non <code>margin-left</code>), et votre CSS doit faire de même. Le sélecteur ne traduit rien : votre texte vient de vos propres traductions.
+  </p>
+
+  <h2>Étape 6 — Les étiquettes des assistants, dans la langue du lecteur</h2>
+  
+  <pre tabindex="0"><code>&lt;script lang="ts"&gt;
+  import { labelsFor } from "@lilydesignsystem/svelte-locale-translations";
+  import sw from "@lilydesignsystem/svelte-locale-translations/sw-001";
+  import DataGrid from "@lilydesignsystem/svelte-data-grid";
+&lt;/script&gt;
+
+&lt;DataGrid label="Wagonjwa" labels={labelsFor("data-grid", sw)} … /&gt;</code></pre>
+  <p>
+    La grille de données, le tableau kanban, le calendrier, le diagramme de Gantt et le filtre contiennent de nombreuses étiquettes pour lecteurs d'écran. Lily les fournit en 64 langues sous forme de paquets d'étiquettes. Seul l'anglais est relu ; les 63 autres sont des brouillons automatiques : faites vérifier la formulation par un locuteur natif avant de vous y fier. Un paquet ne se rabat jamais sur une autre langue.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Vérifiez votre travail :</strong> passez la page en arabe et vérifiez que la mise en page se reflète sans texte coupé ; saisissez une date dans votre ordre et confirmez que la valeur envoyée est au format ISO ; donnez à quelqu'un un nom d'un seul mot et une adresse sans code postal, et assurez-vous que le formulaire accepte les deux.
+    </p>
+  </div>
+
+  <h2>Étapes suivantes</h2>
+  <ul>
+    <li><a href="/training/">Formation</a> — huit modules, chacun avec un exercice et une auto-évaluation.</li>
+    <li>
+      <a href="/components/">Identifiants nationaux</a> : 164 composants pour 82 types d'identifiants dans plus de 50 pays, chacun avec un <code>-input</code>
+      et un <code>-view</code>.
+    </li>
+    <li><a href="/tutorials/helpers/">Assistants de préférences</a> : langue, taille du texte, animations et fuseau horaire.</li>
+    <li><a href="/locales/">Langues</a> : les langues couvertes par le site et les paquets d'étiquettes.</li>
+  </ul>
+</section>

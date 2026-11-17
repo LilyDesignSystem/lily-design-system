@@ -1,0 +1,107 @@
+<!-- title: Tutorial de Web Components — Lily Design System -->
+<!-- description: Construye un formulario accesible y con estilo con los elementos personalizados nativos de Lily, sin framework. -->
+<section class="page-intro">
+  <h1>Tutorial de Web Components</h1>
+  <p class="page-intro-tagline">
+    Elementos personalizados nativos, sin entorno de ejecución de framework. Cada uno genera un
+    <code>&lt;button&gt;</code> o un <code>&lt;input&gt;</code> real en el DOM ligero, así que los formularios, el CSS y <code>querySelector</code> funcionan como en HTML escrito a mano.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Lo que vas a construir</h2>
+  <p>
+    Un pequeño formulario de contacto con campos etiquetados y un botón de envío, conectado con unas pocas líneas de script, primero sin estilo y luego con estilo, en unos 10 minutos.
+  </p>
+
+  <h2>Antes de empezar</h2>
+  <p>
+    Necesitas Node.js y un empaquetador o cualquier configuración que resuelva importaciones de módulos sin ruta. El catálogo cubre 602 de los 637 componentes; los subelementos de tabla y algunas familias de elementos de lista quedan fuera, porque un elemento personalizado autónomo no puede sustituir a un <code>&lt;tr&gt;</code>
+    ni a un <code>&lt;li&gt;</code>.
+  </p>
+
+  <h2>Paso 1 — Instalar y registrar</h2>
+  
+  <pre tabindex="0"><code>npm install @lilydesignsystem/web-components-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import "@lilydesignsystem/web-components-headless";
+&lt;/script&gt;</code></pre>
+  <p>
+    Al importar el paquete se define cada elemento, con el nombre
+    <code>lily-</code> más el identificador del componente:
+    <code>&lt;lily-button&gt;</code>, <code>&lt;lily-text-input&gt;</code>,
+    <code>&lt;lily-range-fieldset&gt;</code>.
+  </p>
+
+  <h2>Paso 2 — Tu primer componente</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;</code></pre>
+  <p>
+    El elemento genera un <code>&lt;button class="button"&gt;</code>
+    real dentro de sí mismo, así que Intro, Espacio y el rol de botón son nativos. Los atributos que añadas pasan a ese elemento interno.
+  </p>
+
+  <h2>Paso 3 — Componer un formulario pequeño</h2>
+  
+  <pre tabindex="0"><code>&lt;lily-form label="Contact us"&gt;
+  &lt;lily-field label="Full name" required&gt;
+    &lt;lily-text-input label="Full name" name="name" autocomplete="name" required&gt;&lt;/lily-text-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-field label="Email" required&gt;
+    &lt;lily-email-input label="Email" name="email" required&gt;&lt;/lily-email-input&gt;
+  &lt;/lily-field&gt;
+  &lt;lily-button type="submit"&gt;Send&lt;/lily-button&gt;
+&lt;/lily-form&gt;
+
+&lt;script type="module"&gt;
+  const form = document.querySelector("lily-form form");
+  form.addEventListener("submit", () =&gt; {
+    const data = new FormData(form);
+    console.log(Object.fromEntries(data));
+  });
+&lt;/script&gt;</code></pre>
+  <p>
+    <code>&lt;lily-form&gt;</code> impide la navegación de la página y deja que el evento
+    <code>submit</code> se propague, así que tu script decide qué ocurre. Los campos son controles de formulario auténticos, así que <code>FormData</code> los lee.
+  </p>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Comprueba tu trabajo:</strong> pulsa <kbd>Tab</kbd> para recorrer el formulario y envíalo: la consola muestra <code>name</code> y
+      <code>email</code>. Deja un campo vacío y la comprobación
+      <code>required</code> del propio navegador detiene el envío.
+    </p>
+  </div>
+
+  <h2>Paso 4 — Darle estilo</h2>
+  <p>
+    Las clases están en los elementos internos, así que los 63 temas y tu propio CSS los alcanzan como en HTML sencillo:
+  </p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;
+
+&lt;style&gt;
+  .button { padding: 0.75rem 1.5rem; }
+  lily-field { display: block; margin-block-end: 1rem; }
+&lt;/style&gt;</code></pre>
+  <p>
+    No hay shadow DOM que atravesar: nada queda oculto a tu hoja de estilos ni a las tecnologías de apoyo.
+  </p>
+
+  <h2>Paso 5 — Verlo todo funcionando</h2>
+  <ul>
+    <li>Cada elemento tiene una story: <code>pnpm run storybook</code> en <code>lily-design-system-web-components-headless</code>.</li>
+    <li>
+      Los ayudantes también se publican como elementos personalizados:
+      <code>&lt;lily-theme-picker&gt;</code>, la cuadrícula de datos, el calendario y los demás (<code>@lilydesignsystem/web-components-*</code>).
+    </li>
+  </ul>
+
+  <h2>Próximos pasos</h2>
+  <ul>
+    <li><a href="/training/">Formación</a> — ocho módulos, cada uno con un ejercicio y una autoevaluación.</li>
+    <li><a href="/tutorials/forms/">Formularios accesibles</a> — errores, un resumen de errores y el foco.</li>
+    <li><a href="/tutorials/theming/">Temas</a> — cambiar de tema en tiempo de ejecución.</li>
+    <li><a href="/components/">Catálogo de componentes</a> — la referencia completa.</li>
+  </ul>
+</section>

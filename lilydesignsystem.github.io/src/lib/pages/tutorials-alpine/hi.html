@@ -1,0 +1,114 @@
+<!-- title: Alpine.js ट्यूटोरियल — Lily Design System -->
+<!-- description: Lily के Alpine.js हेडलेस स्निपेट और एक प्लगइन से एक सुलभ, स्टाइल किया हुआ फ़ॉर्म बनाएँ। -->
+<section class="page-intro">
+  <h1>Alpine.js ट्यूटोरियल</h1>
+  <p class="page-intro-tagline">
+    Alpine के लिए Lily वे HTML स्निपेट हैं जिन्हें आप अपने पेज में चिपकाते हैं, साथ में एक प्लगइन जो इंटरैक्टिव कॉम्पोनेंट को उनका कीबोर्ड और स्थिति देता है।
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>आप क्या बनाएँगे</h2>
+  <p>
+    एक छोटा सेटिंग फ़ॉर्म: दो लेबल वाले फ़ील्ड, एक स्विच और एक सेव बटन, असली कीबोर्ड और स्क्रीन रीडर व्यवहार के साथ, पहले सादा, फिर स्टाइल किया हुआ, लगभग 10 मिनट में।
+  </p>
+
+  <h2>शुरू करने से पहले</h2>
+  <p>
+    आपको Node.js और ऐसा पेज चाहिए जो पहले से Alpine.js 3 लोड करता हो। Alpine में कॉम्पोनेंट मॉडल नहीं है, इसलिए यहाँ Lily कॉम्पोनेंट वह मार्कअप है जिसे आप कॉपी करते हैं, इम्पोर्ट नहीं।
+  </p>
+
+  <h2>चरण 1 — प्लगइन इंस्टॉल और रजिस्टर करें</h2>
+  
+  <pre tabindex="0"><code>npm install alpinejs @lilydesignsystem/alpine-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import Alpine from "alpinejs";
+  import lily from "@lilydesignsystem/alpine-headless/plugin";
+  Alpine.plugin(lily);
+  Alpine.start();
+&lt;/script&gt;</code></pre>
+  <p>
+    प्लगइन हर इंटरैक्टिव कॉम्पोनेंट के लिए एक <code>Alpine.data()</code> व्यवहार रजिस्टर करता है, जिसका नाम <code>lily</code> के बाद कॉम्पोनेंट का नाम है:
+    <code>lilySwitchButton</code>, <code>lilyTabs</code>,
+    <code>lilyCombobox</code>। हर कॉम्पोनेंट के स्निपेट पैकेज के <code>components/</code> फ़ोल्डर में हैं, हर एक के ऊपर एक टिप्पणी जो उसका एलिमेंट, क्लास हुक, कुंजियाँ और ARIA बताती है।
+  </p>
+
+  <h2>चरण 2 — आपका पहला कॉम्पोनेंट</h2>
+  <p>ज़्यादातर कॉम्पोनेंट सादा मार्कअप हैं और उन्हें प्लगइन की ज़रूरत नहीं:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code></pre>
+  <p>इंटरैक्टिव कॉम्पोनेंट अपना व्यवहार <code>x-data</code> से जोड़ता है और उसे <code>x-bind</code>से बाँधता है:</p>
+  
+  <pre tabindex="0"><code>&lt;button
+  class="switch-button"
+  x-data="lilySwitchButton(false)"
+  x-bind="button"
+  aria-label="Email me about appointments"
+&gt;
+  Email me about appointments
+&lt;/button&gt;</code></pre>
+  <p>
+    व्यवहार उसे <code>role="switch"</code> देता है और
+    <code>aria-checked</code> को अद्यतन रखता है जब Enter, Space या क्लिक उसे बदलते हैं। शब्द आपके हैं: Lily कभी लेबल नहीं देता।
+  </p>
+
+  <h2>चरण 3 — एक छोटा फ़ॉर्म बनाएँ</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" aria-label="Settings"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button
+    class="switch-button"
+    type="button"
+    x-data="lilySwitchButton(true)"
+    x-bind="button"
+    aria-label="Email me about appointments"
+  &gt;
+    Email me about appointments
+  &lt;/button&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>अपना काम जाँचें:</strong> पेज खोलें और दबाएँ
+      <kbd>Tab</kbd>। फ़ोकस दोनों फ़ील्ड, स्विच और बटन से होकर जाता है। स्विच पर <kbd>Space</kbd> उसे बदलता है, और स्क्रीन रीडर "स्विच, चालू" या "बंद" कहता है। यह सादा दिखता है, और यही सही है: रूप अगला है।
+    </p>
+  </div>
+
+  <h2>चरण 4 — स्टाइल दें</h2>
+  <p>63 तैयार थीम में से एक लिंक करें, जो उन्हीं क्लास हुक को लक्ष्य करती हैं:</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;</code></pre>
+  <p>या हुक और व्यवहार द्वारा सेट स्थिति पर अपना CSS लिखें:</p>
+  
+  <pre tabindex="0"><code>.switch-button[aria-checked="true"] { background: var(--color-primary); }
+.switch-button:focus-visible { outline: 2px solid var(--lily-focus-ring); outline-offset: 2px; }</code></pre>
+  <p>
+    ARIA स्थिति को स्टाइल करें, अपनी कोई क्लास नहीं: तब रूप कभी उससे अलग नहीं होगा जो स्क्रीन रीडर सुनता है।
+  </p>
+
+  <h2>चरण 5 — सब कुछ काम करते देखें</h2>
+  <ul>
+    <li>
+      Alpine.js उदाहरण ऐप, <code>lily-design-system-alpine-examples</code>, हर कॉम्पोनेंट को स्टाइल के साथ दिखाता है: <code>pnpm install &amp;&amp; pnpm run build</code>।
+    </li>
+    <li>
+      Alpine के लिए छह हेल्पर हैं: डेटा ग्रिड, कानबन बोर्ड, कैलेंडर, गैंट चार्ट और Markdown व Org एडिटर (<code>@lilydesignsystem/alpine-*</code>)।
+    </li>
+  </ul>
+
+  <h2>अगले कदम</h2>
+  <ul>
+    <li><a href="/training/">प्रशिक्षण</a> — आठ मॉड्यूल, हर एक में एक अभ्यास और स्व-जाँच।</li>
+    <li><a href="/tutorials/forms/">सुलभ फ़ॉर्म</a> — त्रुटियाँ, त्रुटि-सारांश और फ़ोकस।</li>
+    <li><a href="/tutorials/theming/">थीमिंग</a> — चलते समय थीम बदलना।</li>
+    <li><a href="/components/">कॉम्पोनेंट कैटलॉग</a> — पूरा संदर्भ।</li>
+  </ul>
+</section>

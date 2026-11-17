@@ -1,0 +1,114 @@
+<!-- title: Tutorial de Alpine.js — Lily Design System -->
+<!-- description: Construa um formulário acessível e estilizado com os fragmentos headless de Alpine.js do Lily e um único plugin. -->
+<section class="page-intro">
+  <h1>Tutorial de Alpine.js</h1>
+  <p class="page-intro-tagline">
+    O Lily para Alpine são fragmentos HTML que você cola na página, mais um plugin que dá aos interativos o seu teclado e o seu estado.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>O que você vai construir</h2>
+  <p>
+    Um pequeno formulário de definições: dois campos rotulados, um interruptor e um botão de guardar, com comportamento real de teclado e leitor de tela, primeiro simples e depois estilizado, em cerca de 10 minutos.
+  </p>
+
+  <h2>Antes de começar</h2>
+  <p>
+    Precisa de Node.js e de uma página que já carregue o Alpine.js 3. O Alpine não tem modelo de componentes, por isso aqui um componente Lily é marcação que se copia, não um import.
+  </p>
+
+  <h2>Passo 1 — Instalar e registar o plugin</h2>
+  
+  <pre tabindex="0"><code>npm install alpinejs @lilydesignsystem/alpine-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import Alpine from "alpinejs";
+  import lily from "@lilydesignsystem/alpine-headless/plugin";
+  Alpine.plugin(lily);
+  Alpine.start();
+&lt;/script&gt;</code></pre>
+  <p>
+    O plugin regista um comportamento <code>Alpine.data()</code> por componente interativo, com o nome <code>lily</code> mais o nome do componente:
+    <code>lilySwitchButton</code>, <code>lilyTabs</code>,
+    <code>lilyCombobox</code>. Os fragmentos de todos os componentes estão na pasta <code>components/</code> do pacote, cada um com um comentário inicial que indica o elemento, a classe, as teclas e o ARIA.
+  </p>
+
+  <h2>Passo 2 — O seu primeiro componente</h2>
+  <p>A maioria dos componentes é marcação simples e não precisa de nada do plugin:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code></pre>
+  <p>Um interativo acrescenta o seu comportamento com <code>x-data</code> e liga-o com <code>x-bind</code>:</p>
+  
+  <pre tabindex="0"><code>&lt;button
+  class="switch-button"
+  x-data="lilySwitchButton(false)"
+  x-bind="button"
+  aria-label="Email me about appointments"
+&gt;
+  Email me about appointments
+&lt;/button&gt;</code></pre>
+  <p>
+    O comportamento dá-lhe <code>role="switch"</code> e mantém
+    <code>aria-checked</code> atualizado quando Enter, Espaço ou um clique o alternam. As palavras são suas: o Lily nunca fornece um rótulo.
+  </p>
+
+  <h2>Passo 3 — Compor um pequeno formulário</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" aria-label="Settings"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button
+    class="switch-button"
+    type="button"
+    x-data="lilySwitchButton(true)"
+    x-bind="button"
+    aria-label="Email me about appointments"
+  &gt;
+    Email me about appointments
+  &lt;/button&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Verifique o seu trabalho:</strong> abra a página e prima
+      <kbd>Tab</kbd>. O foco percorre os dois campos, o interruptor e o botão. No interruptor, <kbd>Space</kbd> alterna-o e um leitor de tela diz «interruptor, ligado» ou «desligado». Parece simples, e está certo: o aspeto vem a seguir.
+    </p>
+  </div>
+
+  <h2>Passo 4 — Estilizar</h2>
+  <p>Ligue um dos 63 temas prontos, que visam as mesmas classes:</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;</code></pre>
+  <p>Ou escreva o seu próprio CSS sobre as classes e o estado que o comportamento define:</p>
+  
+  <pre tabindex="0"><code>.switch-button[aria-checked="true"] { background: var(--color-primary); }
+.switch-button:focus-visible { outline: 2px solid var(--lily-focus-ring); outline-offset: 2px; }</code></pre>
+  <p>
+    Estilize o estado ARIA, não uma classe sua: assim o aspeto nunca contradiz o que um leitor de tela ouve.
+  </p>
+
+  <h2>Passo 5 — Ver tudo a funcionar</h2>
+  <ul>
+    <li>
+      A aplicação de exemplo de Alpine.js, <code>lily-design-system-alpine-examples</code>, mostra todos os componentes estilizados: <code>pnpm install &amp;&amp; pnpm run build</code>.
+    </li>
+    <li>
+      Há seis ajudantes para Alpine: a grelha de dados, o quadro kanban, o calendário, o gráfico de Gantt e os editores de Markdown e Org (<code>@lilydesignsystem/alpine-*</code>).
+    </li>
+  </ul>
+
+  <h2>Próximos passos</h2>
+  <ul>
+    <li><a href="/training/">Formação</a> — oito módulos, cada um com um exercício e uma autoavaliação.</li>
+    <li><a href="/tutorials/forms/">Formulários acessíveis</a> — erros, um resumo de erros e o foco.</li>
+    <li><a href="/tutorials/theming/">Temas</a> — mudar de tema em tempo de execução.</li>
+    <li><a href="/components/">Catálogo de componentes</a> — a referência completa.</li>
+  </ul>
+</section>

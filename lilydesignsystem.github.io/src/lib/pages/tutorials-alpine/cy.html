@@ -1,0 +1,114 @@
+<!-- title: Tiwtorial Alpine.js — Lily Design System -->
+<!-- description: Adeiladwch ffurflen hygyrch, wedi'i steilio, gyda phytiau headless Alpine.js Lily ac un ategyn. -->
+<section class="page-intro">
+  <h1>Tiwtorial Alpine.js</h1>
+  <p class="page-intro-tagline">
+    Pytiau HTML rydych chi'n eu gludo i'ch tudalen yw Lily ar gyfer Alpine, ynghyd ag un ategyn sy'n rhoi eu bysellfwrdd a'u cyflwr i'r rhai rhyngweithiol.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>Beth fyddwch chi'n ei adeiladu</h2>
+  <p>
+    Ffurflen gosodiadau fach: dau faes wedi'u labelu, switsh, a botwm cadw, gydag ymddygiad bysellfwrdd a darllenydd sgrin go iawn, yn foel yn gyntaf, yna wedi'i steilio, mewn tua 10 munud.
+  </p>
+
+  <h2>Cyn i chi ddechrau</h2>
+  <p>
+    Mae angen Node.js arnoch a thudalen sydd eisoes yn llwytho Alpine.js 3. Nid oes model cydrannau gan Alpine, felly yma marcio rydych chi'n ei gopïo yw cydran Lily, nid mewnforyn.
+  </p>
+
+  <h2>Cam 1 — Gosod a chofrestru'r ategyn</h2>
+  
+  <pre tabindex="0"><code>npm install alpinejs @lilydesignsystem/alpine-headless</code></pre>
+  
+  <pre tabindex="0"><code>&lt;script type="module"&gt;
+  import Alpine from "alpinejs";
+  import lily from "@lilydesignsystem/alpine-headless/plugin";
+  Alpine.plugin(lily);
+  Alpine.start();
+&lt;/script&gt;</code></pre>
+  <p>
+    Mae'r ategyn yn cofrestru un ymddygiad <code>Alpine.data()</code> i bob cydran ryngweithiol, o'r enw <code>lily</code> ac enw'r gydran:
+    <code>lilySwitchButton</code>, <code>lilyTabs</code>,
+    <code>lilyCombobox</code>. Mae pytiau pob cydran yn ffolder <code>components/</code> y pecyn, pob un â sylw pennyn sy'n rhoi ei elfen, ei fachyn dosbarth, ei fysellau a'i ARIA.
+  </p>
+
+  <h2>Cam 2 — Eich cydran gyntaf</h2>
+  <p>Marcio plaen yw'r rhan fwyaf o gydrannau, heb angen dim gan yr ategyn:</p>
+  
+  <pre tabindex="0"><code>&lt;button class="button" type="submit"&gt;Save&lt;/button&gt;</code></pre>
+  <p>Mae un ryngweithiol yn ychwanegu ei hymddygiad gyda <code>x-data</code> ac yn ei rwymo gyda <code>x-bind</code>:</p>
+  
+  <pre tabindex="0"><code>&lt;button
+  class="switch-button"
+  x-data="lilySwitchButton(false)"
+  x-bind="button"
+  aria-label="Email me about appointments"
+&gt;
+  Email me about appointments
+&lt;/button&gt;</code></pre>
+  <p>
+    Mae'r ymddygiad yn rhoi <code>role="switch"</code> iddi ac yn cadw
+    <code>aria-checked</code> yn gyfredol wrth i Enter, Bylchwr neu glic ei droi. Eich geiriau chi ydyn nhw: nid yw Lily byth yn rhoi label.
+  </p>
+
+  <h2>Cam 3 — Cyfansoddi ffurflen fach</h2>
+  
+  <pre tabindex="0"><code>&lt;form class="form" aria-label="Settings"&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="name"&gt;Full name&lt;/label&gt;
+    &lt;input class="text-input" type="text" id="name" name="name" autocomplete="name" required /&gt;
+  &lt;/div&gt;
+  &lt;div class="field"&gt;
+    &lt;label class="label" for="email"&gt;Email&lt;/label&gt;
+    &lt;input class="email-input" type="email" id="email" name="email" autocomplete="email" required /&gt;
+  &lt;/div&gt;
+  &lt;button
+    class="switch-button"
+    type="button"
+    x-data="lilySwitchButton(true)"
+    x-bind="button"
+    aria-label="Email me about appointments"
+  &gt;
+    Email me about appointments
+  &lt;/button&gt;
+  &lt;button class="button" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Gwiriwch eich gwaith:</strong> agorwch y dudalen a phwyswch
+      <kbd>Tab</kbd>. Mae'r ffocws yn symud drwy'r ddau faes, y switsh a'r botwm. Ar y switsh, mae <kbd>Space</kbd> yn ei droi, ac mae darllenydd sgrin yn dweud "switsh, ymlaen" neu "i ffwrdd". Mae'n edrych yn blaen, sy'n gywir: mae'r olwg yn dod nesaf.
+    </p>
+  </div>
+
+  <h2>Cam 4 — Ei steilio</h2>
+  <p>Cysylltwch un o'r 63 thema barod, sy'n targedu'r un bachau dosbarth:</p>
+  
+  <pre tabindex="0"><code>&lt;link rel="stylesheet" href="/themes/light.css" /&gt;</code></pre>
+  <p>Neu ysgrifennwch eich CSS eich hun yn erbyn y bachau a'r cyflwr y mae'r ymddygiad yn ei osod:</p>
+  
+  <pre tabindex="0"><code>.switch-button[aria-checked="true"] { background: var(--color-primary); }
+.switch-button:focus-visible { outline: 2px solid var(--lily-focus-ring); outline-offset: 2px; }</code></pre>
+  <p>
+    Steiliwch y cyflwr ARIA, nid dosbarth eich hun: wedyn ni all yr olwg fyth anghytuno â'r hyn y mae darllenydd sgrin yn ei glywed.
+  </p>
+
+  <h2>Cam 5 — Gweld y cyfan yn gweithio</h2>
+  <ul>
+    <li>
+      Mae'r ap enghreifftiol Alpine.js, <code>lily-design-system-alpine-examples</code>, yn dangos pob cydran wedi'i steilio: <code>pnpm install &amp;&amp; pnpm run build</code>.
+    </li>
+    <li>
+      Mae chwe chynorthwyydd ar gyfer Alpine: y grid data, y bwrdd kanban, y calendr, y siart Gantt a'r golygyddion Markdown ac Org (<code>@lilydesignsystem/alpine-*</code>).
+    </li>
+  </ul>
+
+  <h2>Camau nesaf</h2>
+  <ul>
+    <li><a href="/training/">Hyfforddiant</a> — wyth modiwl, pob un gydag ymarfer a hunanwiriad.</li>
+    <li><a href="/tutorials/forms/">Ffurflenni hygyrch</a> — gwallau, crynodeb gwallau a ffocws.</li>
+    <li><a href="/tutorials/theming/">Themâu</a> — newid thema wrth redeg.</li>
+    <li><a href="/components/">Catalog cydrannau</a> — y cyfeirnod llawn.</li>
+  </ul>
+</section>
