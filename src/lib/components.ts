@@ -646,4 +646,5 @@ export const LILY_COMPONENTS: LilyComponent[] = [
   { name: "quantity-input-div", pascal: "QuantityInputDiv", description: "a quantity entered as a number and a unit, each unit with its own limits", status: "experimental" },
   { name: "record-provenance-view", pascal: "RecordProvenanceView", description: "who recorded a record, where it came from and whether it is signed, in the consumer's words", status: "experimental" },
   { name: "repeatable-fieldset", pascal: "RepeatableFieldset", description: "a group of identical fieldsets that a person adds to and removes from (\"add another\")", status: "experimental" },
+  { name: "range-fieldset", pascal: "RangeFieldset", description: "a fieldset of two range inputs for a minimum and a maximum that cannot cross", status: "experimental" },
 ];

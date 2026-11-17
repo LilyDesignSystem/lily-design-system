@@ -8425,6 +8425,26 @@
       ]
     },
     {
+      "name": "range-fieldset",
+      "type": "registry:component",
+      "title": "RangeFieldset",
+      "description": "A fieldset of two range inputs for a minimum and a maximum that cannot cross.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "forms"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/RangeFieldset.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RangeFieldset.tsx"
+        }
+      ]
+    },
+    {
       "name": "range-input",
       "type": "registry:component",
       "title": "RangeInput",

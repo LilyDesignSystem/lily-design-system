@@ -1,0 +1,62 @@
+{
+  "slug": "range-fieldset",
+  "name": "RangeFieldset",
+  "description": "a fieldset of two range inputs for a minimum and a maximum that cannot cross",
+  "htmlTag": "fieldset",
+  "category": "forms",
+  "baseClass": ".range-fieldset",
+  "subClasses": [
+    "range-fieldset-legend",
+    "range-fieldset-maximum",
+    "range-fieldset-minimum"
+  ],
+  "interactive": true,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "The `<legend>` names the group",
+    "`aria-label={minimumLabel}` and `aria-label={maximumLabel}` name the thumbs",
+    "The native range inputs carry the slider role and announce their values"
+  ],
+  "keyboard": [
+    "Tab: Move from the lower thumb to the upper thumb",
+    "Left Arrow / Down Arrow: Decrease the focused thumb by one step",
+    "Right Arrow / Up Arrow: Increase the focused thumb by one step",
+    "Home: Move the focused thumb to its lowest value (the upper thumb stops at the lower one)",
+    "End: Move the focused thumb to its highest value (the lower thumb stops at the upper one)",
+    "Page Up / Page Down: Move the focused thumb by a larger step"
+  ],
+  "props": [
+    "`legend`: string (required) -- the visible name of the whole range",
+    "`minimumLabel`: string (required) -- accessible name of the lower thumb",
+    "`maximumLabel`: string (required) -- accessible name of the upper thumb",
+    "`minimum`: number (default: `min`) -- the lower value; bindable",
+    "`maximum`: number (default: `max`) -- the upper value; bindable",
+    "`min`: number (default: 0) -- the lowest value either thumb can take",
+    "`max`: number (default: 100) -- the highest value either thumb can take",
+    "`step`: number (default: 1) -- the increment of both thumbs",
+    "`minimumName`: string (optional) -- form field name of the lower value",
+    "`maximumName`: string (optional) -- form field name of the upper value",
+    "`disabled`: boolean (default: false) -- disables both thumbs",
+    "`onchange`: (minimum, maximum) => void (optional) -- called when either value changes",
+    "`...restProps`: unknown -- additional attributes spread onto the `<fieldset>`"
+  ],
+  "related": [
+    "range-input",
+    "slider",
+    "date-range",
+    "fieldset"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/range-fieldset.html",
+    "svelte": "lily-design-system-svelte-headless/components/RangeFieldset/RangeFieldset.svelte",
+    "react": "lily-design-system-react-headless/components/RangeFieldset.tsx",
+    "vue": "lily-design-system-vue-headless/components/RangeFieldset.vue",
+    "angular": "lily-design-system-angular-headless/components/RangeFieldset.ts",
+    "web-components": "lily-design-system-web-components-headless/components/range-fieldset.ts",
+    "alpine": "lily-design-system-alpine-headless/components/range-fieldset.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/range-fieldset/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RangeFieldset.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/range-fieldset/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/range-fieldset/AGENTS.md"
+}
