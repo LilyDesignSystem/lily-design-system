@@ -1,0 +1,136 @@
+<svelte:head>
+  <title>A form that works worldwide — Lily Design System</title>
+  <meta name="description" content="Names, addresses, dates, money, direction and translated helpers: building a Lily form for every country, not one." />
+</svelte:head>
+
+<section class="page-intro">
+  <h1>A form that works worldwide</h1>
+  <p class="page-intro-tagline">
+    Lily targets every country, not one. It ships no English and assumes no
+    country, so the choices that make a form local are yours, made on purpose.
+    This tutorial walks through them.
+  </p>
+</section>
+
+<section class="section prose" style="margin: 0 auto;">
+  <h2>What you'll build</h2>
+  <p>
+    A registration form for a clinic that serves people from many countries:
+    a name, a date of birth, an address, a phone number, a fee, and a page
+    that reads right to left when it should. The examples use Svelte; every
+    catalog takes the same props. About 20 minutes, after the
+    <a href="/tutorials/forms/">accessible forms tutorial</a>.
+  </p>
+
+  <h2>Step 1 — Names: one field, not two</h2>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<label class="label" for="name">Full name</label>
+<TextInput id="name" name="name" autocomplete="name" label="Full name" />`}</code></pre>
+  <p>
+    "First name" and "last name" fail many people: a single name, a family
+    name first, two family names, a patronymic. Ask for the full name in one
+    field, and if you need what to call someone, ask that separately.
+  </p>
+
+  <h2>Step 2 — Dates: the parts in the reader's order</h2>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<DateField
+  label="Date of birth"
+  dayLabel="Day"
+  monthLabel="Month"
+  yearLabel="Year"
+  order="dmy"
+  autocomplete="bday"
+  name="dob"
+  bind:value={dob}
+/>`}</code></pre>
+  <p>
+    <code>order</code> is <code>"dmy"</code>, <code>"mdy"</code> or
+    <code>"ymd"</code>: pick the one your readers expect, because 03/04 is
+    March in one country and April in the next. The value is always ISO
+    (<code>YYYY-MM-DD</code>), whatever the order. For a date someone only
+    half knows, such as when an illness began, <code>precision="month"</code>
+    stores <code>2019-03</code> and never invents a day.
+  </p>
+  <p>
+    To show a date, format it with <code>Intl.DateTimeFormat</code> in the
+    reader's locale; Lily never formats one for you.
+  </p>
+
+  <h2>Step 3 — Addresses: no country's shape as the default</h2>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<AddressInput label="Home address">
+  <label class="label" for="address">Address</label>
+  <textarea class="text-area-input" id="address" name="address" autocomplete="street-address" rows="4"></textarea>
+  <label class="label" for="country">Country or territory</label>
+  <select class="select" id="country" name="country" autocomplete="country"> … </select>
+</AddressInput>`}</code></pre>
+  <p>
+    <code>AddressInput</code> is a named group; the fields inside are yours.
+    One free-text address plus a country works everywhere. If you split it,
+    do it per country (a postcode is optional or absent in many) and never
+    make a "state" field required.
+  </p>
+
+  <h2>Step 4 — Phone numbers and money</h2>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<TelInput label="Phone number" name="phone" autocomplete="tel" />
+<CurrencyInput label="Fee" currencyCode="KES" bind:value={fee} />`}</code></pre>
+  <p>
+    Accept a phone number as typed, with spaces and a <code>+</code>; do not
+    force one country's format. <code>CurrencyInput</code> has no default
+    currency: <code>currencyCode</code> (ISO 4217) is required, because a
+    default would be one country's money.
+  </p>
+
+  <h2>Step 5 — Direction and language</h2>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<LocalePicker label="Language" locales={["en", "fr", "ar", "sw"]} bind:value={locale} />`}</code></pre>
+  <p>
+    The locale picker sets <code>lang</code> and <code>dir</code> on the page,
+    so Arabic or Hebrew reads right to left. Every Lily component inherits
+    <code>dir</code>; the themes use logical properties
+    (<code>margin-inline-start</code>, not <code>margin-left</code>), and so
+    should your CSS. The picker translates nothing: your text comes from your
+    own translations.
+  </p>
+
+  <h2>Step 6 — The helpers' labels, in the reader's language</h2>
+  <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+  <pre tabindex="0"><code>{`<` + `script lang="ts">
+  import { labelsFor } from "@lilydesignsystem/svelte-locale-translations";
+  import sw from "@lilydesignsystem/svelte-locale-translations/sw-001";
+  import DataGrid from "@lilydesignsystem/svelte-data-grid";
+</` + `script>
+
+<DataGrid label="Wagonjwa" labels={labelsFor("data-grid", sw)} … />`}</code></pre>
+  <p>
+    The data grid, kanban board, calendar, Gantt chart and filter carry many
+    screen-reader labels. Lily ships them in 64 languages as label packs.
+    Only English is reviewed; the other 63 are machine drafts, so have a native
+    speaker check the screen-reader wording before you rely on one. A pack
+    never falls back to another language.
+  </p>
+
+  <div class="callout">
+    <p style="margin: 0;">
+      <strong>Check your work:</strong> switch the page to Arabic and check
+      that the layout mirrors with no text clipped; enter a date in your
+      order and confirm the submitted value is ISO; give someone a one-word
+      name, and an address with no postcode, and make sure the form takes
+      both.
+    </p>
+  </div>
+
+  <h2>Next steps</h2>
+  <ul>
+    <li><a href="/training/">Training</a> — eight modules, each with an exercise and a self-check.</li>
+    <li>
+      <a href="/components/">National identifiers</a>: 164 components for 82
+      identifier types across more than 50 countries, each an <code>-input</code>
+      and a <code>-view</code>.
+    </li>
+    <li><a href="/tutorials/helpers/">Preference helpers</a>: language, text size, motion and time zone.</li>
+    <li><a href="/locales/">Locales</a>: the languages the site and the label packs cover.</li>
+  </ul>
+</section>
