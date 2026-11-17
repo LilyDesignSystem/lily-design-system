@@ -34,4 +34,13 @@ public class AvatarGroupTests : TestContext
         var root = cut.Find(".avatar-group");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Says_how_many_avatars_it_does_not_show_last()
+    {
+        var cut = RenderComponent<AvatarGroup>(p => p.Add(x => x.Label, "Care team").Add(x => x.OverflowLabel, "and 12 more").AddChildContent("<span>A</span>"));
+        var el = cut.Find(".avatar-group");
+        Assert.Equal("avatar-group-overflow", el.LastElementChild?.ClassName);
+        Assert.Equal("and 12 more", el.LastElementChild?.TextContent);
+    }
 }

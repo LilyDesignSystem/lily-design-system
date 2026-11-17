@@ -132,6 +132,10 @@
 .avatar-group {
 }
 
+/* avatar-group-overflow: sub-element of avatar-group */
+.avatar-group-overflow {
+}
+
 /* avatar-image: an avatar indicator inside image such as a user photo */
 .avatar-image {
 }

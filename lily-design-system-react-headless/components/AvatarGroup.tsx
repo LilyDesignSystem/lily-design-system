@@ -24,6 +24,8 @@ export interface AvatarGroupProps {
     className?: string;
     /** Optional accessible label set on aria-label. */
     label?: string;
+    /** the consumer's words for the avatars not shown ("and 12 more"), rendered last as -overflow */
+    overflowLabel?: string;
     /** Component content. */
     children: React.ReactNode;
     [key: string]: unknown;
@@ -32,6 +34,7 @@ export interface AvatarGroupProps {
 export default function AvatarGroup({
     className = "",
     label = undefined,
+    overflowLabel = undefined,
     children,
     ...restProps
 }: AvatarGroupProps) {
@@ -43,6 +46,7 @@ export default function AvatarGroup({
             {...restProps}
         >
             {children}
+            {overflowLabel ? <span className="avatar-group-overflow">{overflowLabel}</span> : null}
         </div>
     );
 }

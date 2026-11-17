@@ -38,10 +38,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-avatar-group",
     standalone: true,
-    template: `<div class="avatar-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content /></div>`,
+    template: `<div class="avatar-group {{ className() }}" role="group" [attr.aria-label]="label() || null"><ng-content />@if (overflowLabel()) {<span class="avatar-group-overflow">{{ overflowLabel() }}</span>}</div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AvatarGroup {
     readonly label = input<string>("");
     readonly className = input<string>("");
+    /** the consumer's words for the avatars not shown ("and 12 more"), rendered last as -overflow */
+    readonly overflowLabel = input<string>("");
 }

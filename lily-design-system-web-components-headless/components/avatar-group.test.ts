@@ -44,4 +44,11 @@ describe("AvatarGroup", () => {
 
         expect(host.className).toBe("avatar-group my-extra");
     });
+
+    test("says how many avatars it does not show, in the consumer's words, last", () => {
+        document.body.innerHTML = `<lily-avatar-group label="Care team" overflow-label="and 12 more"><span>A</span></lily-avatar-group>`;
+        const el = document.querySelector("lily-avatar-group")!;
+        expect(el.lastElementChild?.className).toBe("avatar-group-overflow");
+        expect(el.lastElementChild?.textContent).toBe("and 12 more");
+    });
 });

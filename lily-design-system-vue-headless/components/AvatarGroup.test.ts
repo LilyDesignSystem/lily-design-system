@@ -30,4 +30,13 @@ describe("AvatarGroup", () => {
         const root = container.querySelector(".avatar-group");
         expect(root?.getAttribute("aria-label")).toBe("Hello");
     });
+
+    test("says how many avatars it does not show, in the consumer's words, last", () => {
+        const { container } = render(Subject, {
+            props: { label: "Care team", overflowLabel: "and 12 more" },
+        });
+        const el = container.querySelector(".avatar-group")!;
+        expect(el.lastElementChild?.className).toBe("avatar-group-overflow");
+        expect(el.lastElementChild?.textContent).toBe("and 12 more");
+    });
 });

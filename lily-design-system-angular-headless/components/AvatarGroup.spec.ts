@@ -28,4 +28,14 @@ describe("AvatarGroup", () => {
         expect(el.getAttribute("role")).toBe("group");
         expect(el.getAttribute("aria-label")).toBe("Story");
     });
+
+    test("says how many avatars it does not show, in the consumer's words, last", () => {
+        const fixture = TestBed.createComponent(AvatarGroup);
+        fixture.componentRef.setInput("label", "Care team");
+        fixture.componentRef.setInput("overflowLabel", "and 12 more");
+        fixture.detectChanges();
+        const el = fixture.nativeElement.querySelector(".avatar-group") as HTMLElement;
+        expect(el.lastElementChild?.className).toBe("avatar-group-overflow");
+        expect(el.lastElementChild?.textContent).toBe("and 12 more");
+    });
 });

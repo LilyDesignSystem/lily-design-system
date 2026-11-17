@@ -16,6 +16,7 @@
     attributes   object
 
   Body content: Avatar macros via caller().
+  overflowLabel: the consumer's words for the avatars not shown ("and 12 more"), rendered last as -overflow.
 
   Usage:
     {% from "components/avatar-group/macro.njk" import avatarGroup %}
@@ -36,5 +37,6 @@
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}
+  {%- if p.overflowLabel %}<span class="avatar-group-overflow">{{ p.overflowLabel }}</span>{% endif -%}
 </div>
 {%- endmacro -%}

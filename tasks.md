@@ -3732,8 +3732,8 @@ go to all nine catalogs (helpers: all eight), Svelte first.
 From [spec/lessons/magicui](spec/lessons/magicui/index.md). Order: T1 and T2, then T3 and T4, then T5 and T6 (maintainer
 decisions). No animation enters the headless layer.
 
-- [ ] **P32-T1 `avatar-group` overflow count.** `overflowLabel` (consumer words) rendered as a last `-overflow` part.
-      Verify: tests in all nine catalogs; nothing renders without the label.
+- [x] **P32-T1 `avatar-group` overflow count.** `overflowLabel` (consumer words) rendered as a last `-overflow` part.
+      Verify: tests in all nine catalogs; nothing renders without the label. _(2026-11-17: done in all nine catalogs: `overflowLabel` (`overflow-label` in Web Components) renders last as `avatar-group-overflow`; HTML and Alpine document it. Tests in seven catalogs.)_
 - [ ] **P32-T2 Hover and focus parity.** A sentence in `AGENTS/accessibility.md` and the motion recipes: an effect shown on hover
       is shown on focus, or is decoration only.
       Verify: the sentence is in both; `bin/check-links` passes.

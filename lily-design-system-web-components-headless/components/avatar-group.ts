@@ -25,5 +25,13 @@ export class AvatarGroup extends HTMLElement {
         this.setAttribute("role", "group");
         const label = this.getAttribute("label");
         if (label !== null) this.setAttribute("aria-label", label);
+        // overflow-label: the consumer's words for the avatars not shown ("and 12 more"), rendered last.
+        const overflow = this.getAttribute("overflow-label");
+        if (overflow) {
+            const span = document.createElement("span");
+            span.className = "avatar-group-overflow";
+            span.textContent = overflow;
+            this.append(span);
+        }
     }
 }

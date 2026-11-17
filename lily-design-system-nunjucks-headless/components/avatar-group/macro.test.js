@@ -42,4 +42,15 @@ describe("avatar-group", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("says how many avatars it does not show, in the consumer's words, last", () => {
+        const { document } = render("avatar-group", {
+            label: "Care team",
+            overflowLabel: "and 12 more",
+            html: "<span>A</span>",
+        });
+        const el = document.querySelector(".avatar-group");
+        expect(el.lastElementChild.className).toBe("avatar-group-overflow");
+        expect(el.lastElementChild.textContent).toBe("and 12 more");
+    });
 });

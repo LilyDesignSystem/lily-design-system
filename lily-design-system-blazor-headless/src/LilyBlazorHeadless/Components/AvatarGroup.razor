@@ -5,10 +5,12 @@
     a group of avatar components
 *@
 
-<div class="@($"avatar-group {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"avatar-group {CssClass}".Trim())" role="group" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent@if (!string.IsNullOrEmpty(OverflowLabel)) {<span class="avatar-group-overflow">@OverflowLabel</span>}</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>The consumer's words for the avatars not shown ("and 12 more"), rendered last.</summary>
+    [Parameter] public string? OverflowLabel { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

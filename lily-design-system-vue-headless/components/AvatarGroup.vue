@@ -21,9 +21,12 @@ withDefaults(
     defineProps<{
         /** Optional accessible label set on aria-label. */
         label?: string;
+        /** the consumer's words for the avatars not shown ("and 12 more"), rendered last as -overflow */
+        overflowLabel?: string;
     }>(),
     {
         label: undefined,
+        overflowLabel: undefined,
     },
 );
 </script>
@@ -36,5 +39,10 @@ withDefaults(
         :aria-label="label"
     >
         <slot />
+        <span
+            v-if="overflowLabel"
+            class="avatar-group-overflow"
+            >{{ overflowLabel }}</span
+        >
     </div>
 </template>

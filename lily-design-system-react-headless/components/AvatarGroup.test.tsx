@@ -32,4 +32,18 @@ describe("AvatarGroup", () => {
         const { container } = render(<Subject data-testid="subject">content</Subject>);
         expect(container.querySelector("[data-testid='subject']")).toBeTruthy();
     });
+
+    test("says how many avatars it does not show, in the consumer's words, last", () => {
+        const { container } = render(
+            <Subject
+                label="Care team"
+                overflowLabel="and 12 more"
+            >
+                <span>A</span>
+            </Subject>,
+        );
+        const el = container.querySelector(".avatar-group")!;
+        expect(el.lastElementChild?.className).toBe("avatar-group-overflow");
+        expect(el.lastElementChild?.textContent).toBe("and 12 more");
+    });
 });
