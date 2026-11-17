@@ -1,0 +1,51 @@
+{
+  "slug": "quantity-input-div",
+  "name": "QuantityInputDiv",
+  "description": "a quantity entered as a number and a unit, each unit with its own limits",
+  "htmlTag": "div",
+  "category": "content",
+  "baseClass": ".quantity-input-div",
+  "subClasses": [
+    "quantity-input-div-magnitude",
+    "quantity-input-div-unit"
+  ],
+  "interactive": true,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "`role=\"group\"` with `aria-label` names the pair; each control has a visible `<label for>`",
+    "A single unit is linked by `aria-describedby`"
+  ],
+  "keyboard": [
+    "Tab moves between the number and the unit; each is a native control"
+  ],
+  "props": [
+    "`label`: string (required) — the group's name (\"Weight\")",
+    "`magnitudeLabel`: string (required) — the number input's label (\"Amount\")",
+    "`unitLabel`: string (required when there is more than one unit) — the unit select's label (\"Unit\")",
+    "`units`: { value, label, min?, max?, step? }[] (required) — the units offered, in the consumer's words; the first is the default",
+    "`magnitude`: string (default \"\") — the number as typed; two-way",
+    "`unit`: string (default: the first unit) — the unit chosen; two-way",
+    "`name`: string (optional) — base name for `{name}-magnitude` and `{name}-unit`",
+    "`required`, `disabled`: boolean (default false)",
+    "`id`: string (optional) — base id",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "number-input",
+    "measurement-unit-input",
+    "observation-view"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/quantity-input-div.html",
+    "svelte": "lily-design-system-svelte-headless/components/QuantityInputDiv/QuantityInputDiv.svelte",
+    "react": "lily-design-system-react-headless/components/QuantityInputDiv.tsx",
+    "vue": "lily-design-system-vue-headless/components/QuantityInputDiv.vue",
+    "angular": "lily-design-system-angular-headless/components/QuantityInputDiv.ts",
+    "web-components": "lily-design-system-web-components-headless/components/quantity-input-div.ts",
+    "alpine": "lily-design-system-alpine-headless/components/quantity-input-div.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/quantity-input-div/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/QuantityInputDiv.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/quantity-input-div/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/quantity-input-div/AGENTS.md"
+}

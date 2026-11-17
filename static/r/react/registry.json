@@ -8334,6 +8334,26 @@
       ]
     },
     {
+      "name": "quantity-input-div",
+      "type": "registry:component",
+      "title": "QuantityInputDiv",
+      "description": "A quantity entered as a number and a unit, each unit with its own limits.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "content"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/QuantityInputDiv.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/QuantityInputDiv.tsx"
+        }
+      ]
+    },
+    {
       "name": "question",
       "type": "registry:component",
       "title": "Question",
