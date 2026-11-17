@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./CheckboxGroup";
 
-const checkboxes = (
+const checkboxes = () => (
     <>
         <label>
             <input
@@ -26,22 +26,22 @@ const checkboxes = (
 
 describe("CheckboxGroup", () => {
     test("renders a group", () => {
-        render(() => <Subject label="Features">{checkboxes}</Subject>);
+        render(() => <Subject label="Features">{checkboxes()}</Subject>);
         expect(screen.getByRole("group")).toBeTruthy();
     });
 
     test("has aria-label", () => {
-        render(() => <Subject label="Features">{checkboxes}</Subject>);
+        render(() => <Subject label="Features">{checkboxes()}</Subject>);
         expect(screen.getByLabelText("Features")).toBeTruthy();
     });
 
     test("renders checkbox children", () => {
-        render(() => <Subject label="Features">{checkboxes}</Subject>);
+        render(() => <Subject label="Features">{checkboxes()}</Subject>);
         expect(screen.getAllByRole("checkbox").length).toBe(2);
     });
 
     test("uses fieldset element", () => {
-        render(() => <Subject label="Features">{checkboxes}</Subject>);
+        render(() => <Subject label="Features">{checkboxes()}</Subject>);
         expect(screen.getByRole("group").tagName).toBe("FIELDSET");
     });
 
@@ -51,7 +51,7 @@ describe("CheckboxGroup", () => {
                 label="Features"
                 disabled
             >
-                {checkboxes}
+                {checkboxes()}
             </Subject>
         ));
         expect((screen.getByRole("group") as HTMLFieldSetElement).disabled).toBe(true);
@@ -63,7 +63,7 @@ describe("CheckboxGroup", () => {
                 label="F"
                 data-testid="cg"
             >
-                {checkboxes}
+                {checkboxes()}
             </Subject>
         ));
         expect(screen.getByTestId("cg")).toBeTruthy();

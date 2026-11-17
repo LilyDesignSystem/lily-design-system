@@ -19,7 +19,7 @@
 // Examples:
 //
 //   <Masonry columns={4}>
-//     {photos.map(p => <img key={p.id} src={p.url} alt={p.alt} />)}
+//     {photos.map(p => <img src={p.url} alt={p.alt} />)}
 //   </Masonry>
 //
 // Keyboard: None — layout container.

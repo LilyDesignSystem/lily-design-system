@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import BarChart from "./BarChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("BarChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <BarChart label="Test">{art}</BarChart>);
+        const { container } = render(() => <BarChart label="Test">{art()}</BarChart>);
         expect(container.querySelector("figure.bar-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <BarChart label="Test">{art}</BarChart>);
+        render(() => <BarChart label="Test">{art()}</BarChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("bar-chart-graphic");
@@ -37,14 +37,14 @@ describe("BarChart", () => {
     });
 
     it("omits aria-label when no label is given", () => {
-        const { container } = render(() => <BarChart>{art}</BarChart>);
+        const { container } = render(() => <BarChart>{art()}</BarChart>);
         expect(container.querySelector(".bar-chart-graphic")!.hasAttribute("aria-label")).toBe(
             false,
         );
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <BarChart label="T">{art}</BarChart>);
+        const { container } = render(() => <BarChart label="T">{art()}</BarChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -54,19 +54,19 @@ describe("BarChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </BarChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("bar-chart mine");
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <BarChart label="T">{art}</BarChart>);
+        render(() => <BarChart label="T">{art()}</BarChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <BarChart label="T">{art}</BarChart>);
+        const { container } = render(() => <BarChart label="T">{art()}</BarChart>);
         expect(container.querySelector(".bar-chart-data-table")).toBeNull();
     });
 
@@ -74,9 +74,9 @@ describe("BarChart", () => {
         const { container } = render(() => (
             <BarChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </BarChart>
         ));
         const wrap = container.querySelector(".bar-chart-data-table")!;
@@ -89,9 +89,9 @@ describe("BarChart", () => {
         render(() => (
             <BarChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </BarChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -104,7 +104,7 @@ describe("BarChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </BarChart>
         ));
         const el = screen.getByTestId("chart");

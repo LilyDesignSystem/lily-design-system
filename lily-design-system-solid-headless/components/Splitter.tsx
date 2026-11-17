@@ -1,0 +1,106 @@
+// Splitter component
+//
+// A headless draggable separator between resizable panels that uses the ARIA
+// separator role with keyboard focus and value tracking. Renders a <div> with
+// orientation, value range, and accessible labeling. Used between adjacent panels
+// to provide a visual and interactive handle for resizing.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, required. Accessible label for the splitter via aria-label.
+//   orientation — "horizontal" | "vertical", default "vertical". The split direction.
+//   ...restProps — additional HTML attributes spread onto the <div>.
+//
+// Syntax:
+//   <Splitter label="Resize panels" orientation="vertical" />
+//
+// Examples:
+//
+//   <Splitter label="Resize editor and preview" orientation="horizontal" />
+//
+//
+//   <Splitter label="Resize sidebar" orientation="vertical" aria-valuenow={splitPos} />
+//
+// Keyboard:
+//   - Tab: moves focus to the splitter
+//   - Arrow keys: consumer should implement to adjust split position
+//   - Home: consumer should implement to set minimum position
+//   - End: consumer should implement to set maximum position
+//
+// Accessibility:
+//   - role="separator" identifies the element as a separator between regions
+//   - aria-label provides an accessible name describing the splitter's purpose
+//   - aria-orientation indicates horizontal or vertical direction
+//   - aria-valuenow/aria-valuemin/aria-valuemax report the split position
+//   - tabindex="0" makes the splitter keyboard-focusable
+//
+// Internationalization:
+//   - The label prop externalizes the accessible label string
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Default value attributes (50/0/100); consumer updates dynamically
+//   - Consumer implements drag handlers and keyboard event handlers
+//   - No children — renders as an empty focusable div
+//
+// References:
+//   - WAI-ARIA Window Splitter Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/
+//   - WAI-ARIA Separator Role: https://www.w3.org/TR/wai-aria-1.2/#separator
+
+import { merge, omit, onSettled, untrack } from "solid-js";
+import { attr } from "./attr";
+import { attachSplitter } from "./widget-keys";
+import { warnMissingName } from "./dev-warning";
+
+export interface SplitterProps {
+    class?: string;
+    /** Accessible label. */
+    label: string;
+    /** Orientation of the split. */
+    orientation?: "horizontal" | "vertical";
+    /** Position. */
+    value?: number;
+    /** Smallest position. */
+    min?: number;
+    /** Largest position. */
+    max?: number;
+    /** Called with each new position. */
+    onChange?: (value: number) => void;
+    [key: string]: unknown;
+}
+
+export default function Splitter(props: SplitterProps) {
+    const p = merge(
+        { class: "" as const, orientation: "vertical" as const, value: 50, min: 0, max: 100 },
+        props,
+    );
+    const restProps = omit(p, "class", "label", "orientation", "value", "min", "max", "onChange");
+    warnMissingName("Splitter", p.label, p["aria-label"], p["aria-labelledby"]);
+    const separator: { current: HTMLDivElement | null } = { current: null };
+    // The latest props, read live: a Solid component body runs once.
+    const latest = {
+        get current() {
+            return p.onChange;
+        },
+    };
+    onSettled(() =>
+        untrack(() =>
+            attachSplitter(separator.current!, { onChange: (next) => latest.current?.(next) }),
+        ),
+    );
+
+    return (
+        <div
+            ref={(el) => (separator.current = el)}
+            class={`splitter ${p.class}`}
+            role="separator"
+            aria-label={p.label}
+            aria-orientation={attr(p.orientation)}
+            tabindex={0}
+            aria-valuenow={attr(p.value)}
+            aria-valuemin={attr(p.min)}
+            aria-valuemax={attr(p.max)}
+            {...restProps}
+        ></div>
+    );
+}

@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import ScatterChart from "./ScatterChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("ScatterChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <ScatterChart label="Test">{art}</ScatterChart>);
+        const { container } = render(() => <ScatterChart label="Test">{art()}</ScatterChart>);
         expect(container.querySelector("figure.scatter-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <ScatterChart label="Test">{art}</ScatterChart>);
+        render(() => <ScatterChart label="Test">{art()}</ScatterChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("scatter-chart-graphic");
@@ -37,14 +37,14 @@ describe("ScatterChart", () => {
     });
 
     it("omits aria-label when no label is given", () => {
-        const { container } = render(() => <ScatterChart>{art}</ScatterChart>);
+        const { container } = render(() => <ScatterChart>{art()}</ScatterChart>);
         expect(container.querySelector(".scatter-chart-graphic")!.hasAttribute("aria-label")).toBe(
             false,
         );
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <ScatterChart label="T">{art}</ScatterChart>);
+        const { container } = render(() => <ScatterChart label="T">{art()}</ScatterChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -54,19 +54,19 @@ describe("ScatterChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </ScatterChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("scatter-chart mine");
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <ScatterChart label="T">{art}</ScatterChart>);
+        render(() => <ScatterChart label="T">{art()}</ScatterChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <ScatterChart label="T">{art}</ScatterChart>);
+        const { container } = render(() => <ScatterChart label="T">{art()}</ScatterChart>);
         expect(container.querySelector(".scatter-chart-data-table")).toBeNull();
     });
 
@@ -74,9 +74,9 @@ describe("ScatterChart", () => {
         const { container } = render(() => (
             <ScatterChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </ScatterChart>
         ));
         const wrap = container.querySelector(".scatter-chart-data-table")!;
@@ -89,9 +89,9 @@ describe("ScatterChart", () => {
         render(() => (
             <ScatterChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </ScatterChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -104,7 +104,7 @@ describe("ScatterChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </ScatterChart>
         ));
         const el = screen.getByTestId("chart");

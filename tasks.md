@@ -3867,8 +3867,8 @@ Requested by the maintainer the day Solid 2.0 shipped: a Solid catalog like the 
 library comes first; its plan, decisions and the list of components still to port are in
 [lily-design-system-solid-headless/spec/index.md](lily-design-system-solid-headless/spec/index.md).
 
-- [ ] **P36-T1 Solid headless catalog.** 488 of 637 components ported from the React catalog with their tests (2,901
-      passing) on 2026-11-17; 149 stateful ones to port by hand, then the build and barrel (S1, S2 there).
+- [ ] **P36-T1 Solid headless catalog.** 623 of 637 components ported from the React catalog with their tests (3,869
+      passing) on 2026-11-17; 14 React-only ones to port by hand, then the build and barrel (S1, S2 there).
       Verify: 637 components and their tests pass; a scratch consumer imports the built package.
 - [ ] **P36-T2 Solid in the root checks and CI.** `bin/check-class-names`, `check-html-tags`, `check-coverage`,
       `check-dev-warnings`, `check-built-english`, `check-identifier-inputs`, `check-port-data-attributes`, and CI's headless

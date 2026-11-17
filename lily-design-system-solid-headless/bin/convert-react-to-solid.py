@@ -71,9 +71,12 @@ def types(s):
     s = s.replace('import React from "react";\n', "")
     s = re.sub(r"React\.(ReactNode|ReactElement|JSX\.Element)", "JSX.Element", s)
     s = re.sub(r"React\.CSSProperties", "JSX.CSSProperties", s)
-    s = re.sub(r"React\.(Mouse|Keyboard|Focus|Pointer|Drag|Clipboard|Touch|Wheel|Animation|Transition|UI)Event(<[^>]*>)?",
+    s = re.sub(r"React\.(Mouse|Keyboard|Focus|Pointer|Drag|Clipboard|Touch|Wheel|Animation|Transition|UI)Event<(\w+)>",
+               r"\1Event & { currentTarget: \2 }", s)
+    s = re.sub(r"React\.(Mouse|Keyboard|Focus|Pointer|Drag|Clipboard|Touch|Wheel|Animation|Transition|UI)Event\b",
                r"\1Event", s)
-    s = re.sub(r"React\.(Change|Form|Synthetic|Invalid)Event(<[^>]*>)?", "Event", s)
+    s = re.sub(r"React\.(Change|Form|Synthetic|Invalid)Event<(\w+)>", r"Event & { currentTarget: \2 }", s)
+    s = re.sub(r"React\.(Change|Form|Synthetic|Invalid)Event\b", "Event", s)
     s = re.sub(r"React\.HTMLAttributes<(\w+)>", r"JSX.HTMLAttributes<\1>", s)
     s = re.sub(r"\bclassName(\??):", r"class\1:", s)
     s = re.sub(r"^(//.*)\bclassName\b", r"\1class", s, flags=re.M)
@@ -81,28 +84,123 @@ def types(s):
     return s
 
 
-def convert_component(src):
+def hook_pass(body):
+    """React hooks -> Solid 2 primitives. Returns (body, states, keep, imports, problem)."""
+    states, keep, imps = [], set(), set()
+    synced_set = set()
+    # useState
+    def st(mo):
+        v, setter, gen, init = mo.group(1), mo.group(2), mo.group(3) or "", mo.group(4)
+        states.append((v, setter, init))
+        imps.add("createSignal")
+        return f"const [{v}, {setter}] = createSignal{gen}(__INIT_{v}__);"
+    body = re.sub(r"const \[(\w+), (\w+)\] = useState(<[^;]*?>)?\(([^;]*?)\);", st, body)
+    # useEffect / useLayoutEffect
+    out, i = "", 0
+    while True:
+        m = re.search(r"\buse(Layout)?Effect\(", body[i:])
+        if not m:
+            out += body[i:]
+            break
+        a = i + m.start()
+        o = i + m.end() - 1
+        c = find_close(body, o, "(", ")")
+        args = split_top(body[o + 1:c])
+        end = c + 1
+        if body[end:end + 1] == ";":
+            end += 1
+        fn = args[0] if args else ""
+        deps = args[1] if len(args) > 1 else None
+        # the "sync state from prop" idiom: useEffect(() => setX(A), [A]) or with a block
+        sm = re.fullmatch(r"\(\)\s*=>\s*\{?\s*(\w+)\(([^;()]+)\);?\s*\}?", fn)
+        synced = None
+        if sm and deps and deps.strip("[] ") == sm.group(2).strip():
+            for v, setter, init in states:
+                if setter == sm.group(1) and init.strip() == sm.group(2).strip():
+                    synced = v
+        if synced:
+            synced_set.add(synced)
+            out += body[i:a].rstrip(" ")
+            i = end
+            if body[i:i + 1] == "\n":
+                i += 1
+            continue
+        if deps is None:
+            return body, states, keep, imps, "effect without deps"
+        if deps.strip() == "[]":
+            imps.update({"onSettled", "untrack"})
+            rep = f"onSettled(() => untrack({fn}));"
+        else:
+            imps.update({"createEffect", "untrack"})
+            rep = f"createEffect(\n        () => {deps},\n        () => untrack({fn}),\n    );"
+        out += body[i:a] + rep
+        i = end
+    body = out
+    keep.add("__synced__:" + ",".join(sorted(synced_set)))
+    # useRef
+    def rf(mo):
+        v, gen, init = mo.group(1), mo.group(2), mo.group(3)
+        keep.add(v)
+        if gen:
+            t = gen[1:-1]
+            if init.strip() == "null":
+                return f"const {v}: {{ current: {t} | null }} = {{ current: null }};"
+            return f"const {v}: {{ current: {t} }} = {{ current: {init} }};"
+        return f"const {v} = {{ current: {init or 'undefined'} }};"
+    body = re.sub(r"const (\w+) = useRef(<[^;]*?>)?\(([^;]*?)\);", rf, body)
+    body = re.sub(r"\bref=\{(\w+)\}", r"ref={(el) => (\1.current = el)}", body)
+    # useId
+    if "useId()" in body:
+        imps.add("createUniqueId")
+        body = body.replace("useId()", "createUniqueId()")
+        for mo in re.finditer(r"const (\w+)(?:\s*:\s*[\w<>| ]+)?\s*=[^;]*createUniqueId\(\)", body):
+            keep.add(mo.group(1))
+    # form reset
+    body = re.sub(r"useFormReset\((\w+),", r"useFormReset(() => \1.current,", body)
+    return body, states, keep, imps, None
+
+
+def convert_component(src, allow_hooks=False):
     s = src
-    if HOOKS.search(s):
+    if allow_hooks:
+        s = re.sub(r"\bReact\.(useState|useEffect|useLayoutEffect|useRef|useId)\b", r"\1", s)
+        s = s.replace("<React.Fragment>", "<>").replace("</React.Fragment>", "</>")
+        s = re.sub(r"React\.RefObject<(\w+)( \| null)?>", r"{ current: \1 | null }", s)
+        s = re.sub(r"React\.Key\b", "string | number", s)
+    sync_names = set()
+    if HOOKS.search(s) and not allow_hooks:
         return None, "hooks"
+    form_reset = 'from "./form-reset"' in s
+    s = re.sub(r'import React(, \{[^}]*\})? from "react";\n', "", s) if allow_hooks else s
+    s = re.sub(r'import \{ [^}]*\} from "react";\n', "", s) if allow_hooks else s
     if re.search(r'from "react";', s.replace('import React from "react";', "")):
         return None, "react import"
     if "React." in re.sub(r"React\.(ReactNode|ReactElement|CSSProperties|\w+Event(<[^>]*>)?|HTMLAttributes<\w+>|JSX\.Element)", "", s):
         return None, "other React API: " + ", ".join(sorted(set(re.findall(r"React\.\w+", s))))
-    m = re.search(r"^export default function (\w+)\(\{\n", s, re.M)
+    m = re.search(r"^export default function (\w+)\(\{", s, re.M)
     if not m:
         return None, "signature"
     name = m.group(1)
-    o = m.end() - 2  # the "{"
+    o = m.end() - 1  # the "{"
     c = find_close(s, o, "{", "}")
     sig = s[o + 1:c]
-    after = re.match(r"\}: (\w+)\) \{\n", s[c:])
+    after = re.match(r"\}:\s*(\w+)\s*,?\s*\)\s*\{\n", s[c:])
     if not after:
         return None, "props type"
     ptype = after.group(1)
     body_start = c + after.end()
     body_end = s.rstrip().rindex("}")
     body = s[body_start:body_end]
+    states, keep, himps = [], set(), set()
+    if allow_hooks:
+        body, states, keep, himps, prob = hook_pass(body)
+        if prob:
+            return None, prob
+    sync_names = set()
+    for k in list(keep):
+        if k.startswith("__synced__:"):
+            sync_names = set(filter(None, k.split(":", 1)[1].split(",")))
+            keep.discard(k)
 
     defaults, keys, alias, rest = [], [], {}, None
     for part in split_top(sig):
@@ -149,7 +247,7 @@ def convert_component(src):
             e = e.rstrip()
             if e.endswith(";"):
                 e = e[:-1]
-            if re.match(r"^(async\s+)?(\w+|\([^()]*(\([^()]*\)[^()]*)*\))(\s*:\s*[^=]+?)?\s*=>", e) or e.startswith("function"):
+            if v in keep or re.match(r"^(async\s+)?(\w+|\([^()]*(\([^()]*\)[^()]*)*\))(\s*:\s*[^=]+?)?\s*=>", e) or e.startswith("function"):
                 out_lines.append(ln)  # a function: stays a function
             elif v[0].isupper() and re.search(r"<" + v + r"\b", body):
                 # a JSX tag chosen at runtime: Solid 2's dynamic(), which stays reactive to the props it reads
@@ -157,17 +255,28 @@ def convert_component(src):
                 out_lines.append(f"    const {v} = dynamic(() => {e});")
             else:
                 locals_.append(v)
-                out_lines.append(f"    const {v} = (){(t or '').rstrip() if t else ''} => {e};".replace("() :", "():"))
+                ee = e.strip()
+                if ee.startswith("{"):
+                    m_as = re.match(r"^(\{[\s\S]*\})(\s+as\s+[\w.<>\[\]| ]+)?$", ee)
+                    ee = f"({m_as.group(1)}{m_as.group(2) or ''})" if m_as else f"({ee})"
+                out_lines.append(f"    const {v} = (){(t or '').rstrip() if t else ''} => {ee};".replace("() :", "():"))
             continue
         out_lines.append(ln)
     body = "\n".join(out_lines)
+    for v, setter, init in states:
+        locals_.append(v)
+        decl_ok = True
 
     def subst(text):
         # identifiers: props → p.x ; locals → x()
         def rep(mo, text):
             pre, w = mo.group(1), mo.group(2)
             after = text[mo.end():]
-            if pre in (".", "-", "<"):
+            if pre == "." and text[max(0, mo.start(2) - 3):mo.start(2)] == "...":
+                pass  # a spread of a prop or local
+            elif pre == "-" and not re.match(r"[\w-]", text[mo.start(1) - 1:mo.start(1)] or " "):
+                pass  # unary minus
+            elif pre in (".", "-", "<"):
                 return mo.group(0)  # a member access, the tail of aria-label / data-type, or an opening tag name
             if pre == "/" and text[mo.start(1) - 1:mo.start(1)] == "<":
                 return mo.group(0)  # a closing tag name
@@ -175,6 +284,10 @@ def convert_component(src):
                 return mo.group(0)  # a JSX attribute name
             if re.match(r"\s*:(?!:)", after) and re.search(r"[{,]\s*$", text[:mo.start(2)]):
                 return mo.group(0)  # an object key
+            if (w in alias or w in locals_) and re.match(r"\s*[,}]", after) and re.search(r"[{,]\s*$", text[:mo.start(2)]) \
+                    and in_object_literal(text, mo.start(2)):
+                val = ("p." + alias[w]) if w in alias else (w + "()")
+                return pre + w + ": " + val  # object shorthand
             if w in alias:
                 return pre + "p." + alias[w]
             if w in locals_:
@@ -191,6 +304,8 @@ def convert_component(src):
     decl_guard = {}
     for v in locals_:
         body = body.replace(f"    const {v} = ", f"    const __LOCAL_{v}__ = ")
+    for v, setter, init in states:
+        body = body.replace(f"const [{v}, {setter}]", f"const [__STATE_{v}__, {setter}]")
     if rest:
         body = re.sub(r"\b" + re.escape(rest) + r"\[", "p[", body)
     body = types(body)
@@ -198,6 +313,11 @@ def convert_component(src):
     body = subst(body)
     for v in locals_:
         body = body.replace(f"    const __LOCAL_{v}__ = ", f"    const {v} = ")
+    for v, setter, init in states:
+        body = body.replace(f"const [__STATE_{v}__, {setter}]", f"const [{v}, {setter}]")
+        init_s = subst(init) if init.strip() else ""
+        synced = v in sync_names
+        body = body.replace(f"__INIT_{v}__", f"() => {init_s}" if synced else (f"untrack(() => {init_s})" if re.search(r"\bp\.", init_s) else init_s))
 
     defaults_s = "{ " + ", ".join(re.sub(r'^(\w+): ("[^"]*")$', r"\1: \2 as const", d) for d in defaults) + " }" if defaults else "{}"
     omit_keys = ", ".join(f'"{k}"' for k in keys)
@@ -209,10 +329,13 @@ def convert_component(src):
     imports = ['import type { JSX } from "@solidjs/web";']
     if dynamics:
         imports = ['import { dynamic, type JSX } from "@solidjs/web";']
-    solid_imp = ["merge"] + (["omit"] if rest else [])
+    solid_imp = ["merge"] + (["omit"] if rest else []) + sorted(himps | ({"untrack"} if "untrack(" in body else set()))
+    solid_imp = list(dict.fromkeys(solid_imp))
     imports.append("import { " + ", ".join(solid_imp) + ' } from "solid-js";')
     if "attr(" in body:
         imports.append('import { attr } from "./attr";')
+    if form_reset:
+        imports.append('import { useFormReset } from "./form-reset";')
     pre = re.sub(r'(\n|^)(import [^\n]*\n)', lambda mo: mo.group(0), pre, count=0)
     # place solid imports before the first remaining import or before "export interface"
     first_imp = re.search(r"^import ", pre, re.M)
@@ -266,6 +389,28 @@ def mask_strings(text, fn):
     return out + fn(seg)
 
 
+def in_object_literal(text, pos):
+    """True when pos lies directly inside an object literal (not a JSX expression container)."""
+    k, depth = pos - 1, 0
+    while k >= 0:
+        ch = text[k]
+        if ch in ")]}":
+            depth += 1
+        elif ch in "([":
+            if depth == 0:
+                return False
+            depth -= 1
+        elif ch == "{":
+            if depth == 0:
+                before = text[:k].rstrip()
+                if text[k - 1:k] == "=" and not text[k - 2:k - 1].isspace():
+                    return False  # JSX attribute value: ={x}
+                return bool(before) and (before[-1] in "(,=:{?[" or before.endswith("return") or before.endswith("=>"))
+            depth -= 1
+        k -= 1
+    return False
+
+
 def is_jsx_attr(text, pos):
     """True when the identifier at pos is an attribute name inside a JSX opening tag."""
     k = pos - 1
@@ -296,9 +441,14 @@ CAMEL_ATTRS = ["autoComplete", "spellCheck", "inputMode", "readOnly", "maxLength
 
 
 def dom_attrs(text):
-    for a in CAMEL_ATTRS:
-        low = {"htmlFor": "for", "className": "class"}.get(a, a.lower())
-        text = re.sub(r"(?<![\w.])" + a + r"=", low + "=", text)
+    # Only on native elements: a component's own camelCase prop (maxLength, inputMode) keeps its name.
+    def native(mo):
+        tag = mo.group(0)
+        for a in CAMEL_ATTRS:
+            low = {"htmlFor": "for", "className": "class"}.get(a, a.lower())
+            tag = re.sub(r"(?<![\w.])" + a + r"=", low + "=", tag)
+        return tag
+    text = re.sub(r"<[a-z][\w-]*\b(?:[^<>{}]|\{(?:[^{}]|\{(?:[^{}]|\{[^{}]*\})*\})*\})*>", native, text)
     # spellcheck / draggable take the enumerated strings in Solid's types
     text = re.sub(r"\bspellcheck=\{false\}", 'spellcheck="false"', text)
     text = re.sub(r"\bspellcheck=\{true\}", 'spellcheck="true"', text)
@@ -399,13 +549,15 @@ def convert_test(src, comp_ok):
 
 
 def main():
-    src_dir, out_dir = Path(sys.argv[1]), Path(sys.argv[2])
-    names = sys.argv[3:] or sorted(p.stem for p in src_dir.glob("*.tsx") if not re.search(r"\.(test|stories)$", p.stem))
+    allow = "--hooks" in sys.argv
+    argv = [a for a in sys.argv if a != "--hooks"]
+    src_dir, out_dir = Path(argv[1]), Path(argv[2])
+    names = argv[3:] or sorted(p.stem for p in src_dir.glob("*.tsx") if not re.search(r"\.(test|stories)$", p.stem))
     out_dir.mkdir(parents=True, exist_ok=True)
     for n in names:
         src = (src_dir / f"{n}.tsx").read_text()
         try:
-            out, why = convert_component(src)
+            out, why = convert_component(src, allow)
         except Exception as e:  # noqa: BLE001
             out, why = None, f"error {e}"
         if out is None:

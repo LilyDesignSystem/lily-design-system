@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import HeatmapChart from "./HeatmapChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("HeatmapChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <HeatmapChart label="Test">{art}</HeatmapChart>);
+        const { container } = render(() => <HeatmapChart label="Test">{art()}</HeatmapChart>);
         expect(container.querySelector("figure.heatmap-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <HeatmapChart label="Test">{art}</HeatmapChart>);
+        render(() => <HeatmapChart label="Test">{art()}</HeatmapChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("heatmap-chart-graphic");
@@ -37,7 +37,7 @@ describe("HeatmapChart", () => {
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <HeatmapChart label="T">{art}</HeatmapChart>);
+        const { container } = render(() => <HeatmapChart label="T">{art()}</HeatmapChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -47,19 +47,19 @@ describe("HeatmapChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </HeatmapChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("heatmap-chart mine");
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <HeatmapChart label="T">{art}</HeatmapChart>);
+        render(() => <HeatmapChart label="T">{art()}</HeatmapChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <HeatmapChart label="T">{art}</HeatmapChart>);
+        const { container } = render(() => <HeatmapChart label="T">{art()}</HeatmapChart>);
         expect(container.querySelector(".heatmap-chart-data-table")).toBeNull();
     });
 
@@ -67,9 +67,9 @@ describe("HeatmapChart", () => {
         const { container } = render(() => (
             <HeatmapChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </HeatmapChart>
         ));
         const wrap = container.querySelector(".heatmap-chart-data-table")!;
@@ -82,9 +82,9 @@ describe("HeatmapChart", () => {
         render(() => (
             <HeatmapChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </HeatmapChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -97,7 +97,7 @@ describe("HeatmapChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </HeatmapChart>
         ));
         const el = screen.getByTestId("chart");

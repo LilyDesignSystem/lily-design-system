@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./PaginationList";
 
-const pageItems = (
+const pageItems = () => (
     <>
         <li>
             <a href="/page/1">1</a>
@@ -19,18 +19,18 @@ const pageItems = (
 
 describe("PaginationList", () => {
     test("renders an ordered list", () => {
-        render(() => <Subject label="Pages">{pageItems}</Subject>);
+        render(() => <Subject label="Pages">{pageItems()}</Subject>);
         const list = screen.getByRole("list");
         expect(list.tagName).toBe("OL");
     });
 
     test("has aria-label", () => {
-        render(() => <Subject label="Pages">{pageItems}</Subject>);
+        render(() => <Subject label="Pages">{pageItems()}</Subject>);
         expect(screen.getByLabelText("Pages")).toBeTruthy();
     });
 
     test("renders children links", () => {
-        render(() => <Subject label="Pages">{pageItems}</Subject>);
+        render(() => <Subject label="Pages">{pageItems()}</Subject>);
         expect(screen.getByText("1")).toBeTruthy();
         expect(screen.getByText("2")).toBeTruthy();
     });
@@ -41,7 +41,7 @@ describe("PaginationList", () => {
                 label="Pages"
                 data-testid="pg"
             >
-                {pageItems}
+                {pageItems()}
             </Subject>
         ));
         expect(screen.getByTestId("pg")).toBeTruthy();

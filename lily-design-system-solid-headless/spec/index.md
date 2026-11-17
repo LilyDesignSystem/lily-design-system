@@ -32,16 +32,29 @@ maintainer on 2026-11-17; tracked in the root [tasks.md](../../tasks.md) as Phas
 
 ## Status (2026-11-17)
 
-- 488 of 637 components ported; 2,901 tests passing; `tsc --noEmit` clean; ESLint 0 errors; Prettier clean.
+- 623 of 637 components ported; 3,869 tests passing; `tsc --noEmit` clean; ESLint 0 errors; Prettier clean.
 - Not published (`"private": true`); no build or barrel yet.
 
-## Remaining components (149)
+## Remaining components (14)
 
-These use internal state, effects, refs, `useId` or form reset, or compose one that does: `AccordionCheckbox`, `AccordionListItem`, `ActionBar`, `ActionGroup`, `AiLabel`, `AlertDialog`, `Autosuggest`, `Avatar`, `AvatarImage`, `AvatarText`, `Banner`, `BodyMap`, `BodyText`, `CalendarDayTable`, `CalendarMonthTable`, `CalendarTable`, `CalendarWeekTable`, `CalendarYearTable`, `Caption`, `Carousel`, `Cascader`, `CharacterCounter`, `ChatNav`, `CheckboxInput`, `ClipboardCopyButton`, `Coachmark`, `Code`, `Collapsible`, `Combobox`, `Command`, `Container`, `ContainerWithFixedWidth`, `ContainerWithFluidWidth`, `ContentsNav`, `ContextMenu`, `ContextualHelp`, `DataTable`, `DateField`, `DecisionSupportCard`, `Details`, `Dial`, `Dialog`, `Diff`, `DoList`, `DoListItem`, `DontList`, `Drawer`, `DropdownMenu`, `Editable`, `Emoji`, `EndNotes`, `ErrorSummary`, `Expander`, `Field`, `Figure`, `FileDialog`, `FileTree`, `FileUpload`, `FiveFaceRatingView`, `FlexStack`, `FloatingPanel`, `Footnote`, `GanttTable`, `GoToTop`, `GovernmentBanner`, `GrailLayout`, `Grid`, `HamburgerMenu`, `Headline`, `Hero`, `HorizontalScroller`, `HoverCard`, `IconButton`, `IconList`, `ImageCropper`, `InsetText`, `InternationalPatientSummary`, `InternationalPatientSummarySection`, `KanbanTable`, `KbdShortcut`, `Listbox`, `MedicalBanner`, `MedicationView`, `MentionsInput`, `Menu`, `MenuBar`, `MenuItem`, `MiddleTruncation`, `MultiSelect`, `MultiSelectWithExtras`, `NavigationMenu`, `NumericRatingScalePicker`, `ObservationView`, `Panel`, `PasswordInputOrTextInputDiv`, `PinInputDiv`, `PopconfirmDialog`, `Popover`, `Popup`, `QuantityInputDiv`, `RangeFieldset`, `RepeatableFieldset`, `ScrollBar`, `Scroller`, `ScrollerBase`, `ScrollerVideo`, `SectionHeading`, `SegmentGroup`, `Sheet`, `ShowMore`, `Sidebar`, `SignaturePad`, `Skeleton`, `SlideOutDrawer`, `SliderButton`, `Sonner`, `SplitButton`, `Splitter`, `SplitView`, `SwitchButton`, `TabBar`, `Table`, `TableBody`, `TableFoot`, `TableHead`, `TableRow`, `TagGroup`, `TaskBar`, `TaskList`, `TaskListItem`, `TextAreaInputWithCharacterCounter`, `ThemeProvider`, `ThemeView`, `Thinking`, `TileMap`, `TimeoutDialog`, `Timer`, `TimerButton`, `ToggleButton`, `ToolBar`, `ToolCall`, `Tooltip`, `TreeList`, `TreeMenu`, `TreeNav`, `TreeSelect`, `VideoPlayer`, `Visible`, `WheelPicker`.
+`BodyMap`, `ContainerWithFluidWidth`, `DateField`, `FileTree`, `FiveFaceRatingView`, `FlexStack`, `Grid`, `IconButton`, `KbdShortcut`, `Listbox`, `MedicationView`, `ObservationView`, `RepeatableFieldset`, `SectionHeading`: each uses React's `forwardRef`, an effect with no dependency list, or another React-only construct, and is
+ported by hand.
+
+## Porting notes (learned on the stateful components)
+
+- React's "latest ref" (`latest.current = { … }` in the body, read later in a listener) is a live getter in Solid,
+  `const latest = { get current() { return { … }; } }`: the body runs once, so an assignment there would keep the
+  first props forever. Seven components used it; only one test noticed.
+- An id from `createUniqueId()` is a constant, never an accessor: an accessor would mint a new id on each read, and
+  `aria-labelledby` would point at nothing.
+- `<select multiple>` takes its selection from `option.selected`, set by an effect; `value={array}` does nothing.
+- Tests: `fireEvent` comes from `./test-utils`, which flushes after dispatch (React's runs inside `act`); `act()` comes
+  from `./test-act`; a changing prop is a signal set with `flush()`, never a remount; JSX shared by several tests is a
+  factory, since Solid JSX is real DOM nodes.
 
 ## Tasks
 
-- [ ] **S1** Port the 149 remaining components by hand, with their tests (including a Solid `form-reset.ts`).
+- [ ] **S1** Port the remaining components by hand, with their tests (623 of 637 done; `form-reset.ts` ported).
       Verify: every row of `components.tsv` has `components/{Name}.tsx` and a passing test.
 - [ ] **S2** `build.mjs`: generate the `index.ts` barrel and build `dist/` (Solid's compiled output plus types and the
       `solid` export condition). Verify: a scratch consumer imports and renders a component.

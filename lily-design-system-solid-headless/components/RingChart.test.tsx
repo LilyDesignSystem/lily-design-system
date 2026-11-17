@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import RingChart from "./RingChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("RingChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <RingChart label="Test">{art}</RingChart>);
+        const { container } = render(() => <RingChart label="Test">{art()}</RingChart>);
         expect(container.querySelector("figure.ring-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <RingChart label="Test">{art}</RingChart>);
+        render(() => <RingChart label="Test">{art()}</RingChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("ring-chart-graphic");
@@ -37,14 +37,14 @@ describe("RingChart", () => {
     });
 
     it("omits aria-label when no label is given", () => {
-        const { container } = render(() => <RingChart>{art}</RingChart>);
+        const { container } = render(() => <RingChart>{art()}</RingChart>);
         expect(container.querySelector(".ring-chart-graphic")!.hasAttribute("aria-label")).toBe(
             false,
         );
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <RingChart label="T">{art}</RingChart>);
+        const { container } = render(() => <RingChart label="T">{art()}</RingChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -54,19 +54,19 @@ describe("RingChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </RingChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("ring-chart mine");
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <RingChart label="T">{art}</RingChart>);
+        render(() => <RingChart label="T">{art()}</RingChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <RingChart label="T">{art}</RingChart>);
+        const { container } = render(() => <RingChart label="T">{art()}</RingChart>);
         expect(container.querySelector(".ring-chart-data-table")).toBeNull();
     });
 
@@ -74,9 +74,9 @@ describe("RingChart", () => {
         const { container } = render(() => (
             <RingChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </RingChart>
         ));
         const wrap = container.querySelector(".ring-chart-data-table")!;
@@ -89,9 +89,9 @@ describe("RingChart", () => {
         render(() => (
             <RingChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </RingChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -104,7 +104,7 @@ describe("RingChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </RingChart>
         ));
         const el = screen.getByTestId("chart");

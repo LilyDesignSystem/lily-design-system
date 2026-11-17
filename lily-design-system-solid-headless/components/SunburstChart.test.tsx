@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import SunburstChart from "./SunburstChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("SunburstChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <SunburstChart label="Test">{art}</SunburstChart>);
+        const { container } = render(() => <SunburstChart label="Test">{art()}</SunburstChart>);
         expect(container.querySelector("figure.sunburst-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <SunburstChart label="Test">{art}</SunburstChart>);
+        render(() => <SunburstChart label="Test">{art()}</SunburstChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("sunburst-chart-graphic");
@@ -37,14 +37,14 @@ describe("SunburstChart", () => {
     });
 
     it("omits aria-label when no label is given", () => {
-        const { container } = render(() => <SunburstChart>{art}</SunburstChart>);
+        const { container } = render(() => <SunburstChart>{art()}</SunburstChart>);
         expect(container.querySelector(".sunburst-chart-graphic")!.hasAttribute("aria-label")).toBe(
             false,
         );
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <SunburstChart label="T">{art}</SunburstChart>);
+        const { container } = render(() => <SunburstChart label="T">{art()}</SunburstChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -54,7 +54,7 @@ describe("SunburstChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </SunburstChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe(
@@ -63,12 +63,12 @@ describe("SunburstChart", () => {
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <SunburstChart label="T">{art}</SunburstChart>);
+        render(() => <SunburstChart label="T">{art()}</SunburstChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <SunburstChart label="T">{art}</SunburstChart>);
+        const { container } = render(() => <SunburstChart label="T">{art()}</SunburstChart>);
         expect(container.querySelector(".sunburst-chart-data-table")).toBeNull();
     });
 
@@ -76,9 +76,9 @@ describe("SunburstChart", () => {
         const { container } = render(() => (
             <SunburstChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </SunburstChart>
         ));
         const wrap = container.querySelector(".sunburst-chart-data-table")!;
@@ -93,9 +93,9 @@ describe("SunburstChart", () => {
         render(() => (
             <SunburstChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </SunburstChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -108,7 +108,7 @@ describe("SunburstChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </SunburstChart>
         ));
         const el = screen.getByTestId("chart");

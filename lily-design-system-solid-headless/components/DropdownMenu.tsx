@@ -1,0 +1,187 @@
+// DropdownMenu component
+//
+// A dropdown menu triggered by a button that reveals a list of actions or
+// options. Combines a toggle button with a conditionally rendered menu panel.
+// When the menu opens, focus moves automatically to the first menu item.
+// Common use cases include action menus, settings menus, and context-sensitive
+// option lists.
+//
+// Props:
+//   class — string, optional. CSS class name.
+//   label — string, required. Accessible name for the menu button; also displayed as button text.
+//   open — boolean, default false. Whether the menu is visible; bindable.
+//   children — ReactNode, required. Menu items, each should have role="menuitem" and tabindex="-1".
+//   ...restProps — additional HTML attributes spread onto the outer wrapper <div>.
+//
+// Syntax:
+//   <DropdownMenu label="Options" open={open} onChange={setOpen}>
+//     <li role="menuitem" tabindex="-1">Action</li>
+//   </DropdownMenu>
+//
+// Examples:
+//
+//   <DropdownMenu label="Options" open={open} onChange={setOpen}>
+//     <li role="menuitem" tabindex="-1">Edit</li>
+//     <li role="menuitem" tabindex="-1">Duplicate</li>
+//     <li role="menuitem" tabindex="-1">Delete</li>
+//   </DropdownMenu>
+//
+//
+//   <DropdownMenu label="Actions" open={menuOpen} onChange={setMenuOpen}>
+//     <li role="menuitem" tabindex="-1" onClick={() => handleAction('edit')}>Edit</li>
+//     <li role="menuitem" tabindex="-1" onClick={() => handleAction('delete')}>Delete</li>
+//   </DropdownMenu>
+//
+// Keyboard:
+//   - Enter/Space on button: toggles the menu open/closed
+//   - ArrowDown: moves focus to the next menu item (wraps to first)
+//   - ArrowUp: moves focus to the previous menu item (wraps to last)
+//   - Home: moves focus to the first menu item
+//   - End: moves focus to the last menu item
+//   - Escape: closes the menu
+//
+// Accessibility:
+//   - aria-haspopup="true" on the trigger button indicates it opens a menu
+//   - aria-expanded communicates whether the menu is shown
+//   - aria-label on both button and menu provides accessible names
+//   - role="menu" on the menu container identifies it as a menu widget
+//   - Consumer provides role="menuitem" on each child item
+//
+// Internationalization:
+//   - The label prop accepts any string; consumers provide localized text
+//
+// Claude rules:
+//   - Headless: no CSS, no styles — consumer provides all styling
+//   - Auto-focuses first menuitem on open via useEffect
+//   - Menu items discovered dynamically via querySelectorAll("[role='menuitem']")
+//   - Arrow navigation wraps around from last to first and vice versa
+//
+// References:
+//   - WAI-ARIA Menu Button Pattern: https://www.w3.org/WAI/ARIA/apg/patterns/menubutton/
+//   - WAI-ARIA menu role: https://www.w3.org/TR/wai-aria-1.2/#menu
+//   - WAI-ARIA menuitem role: https://www.w3.org/TR/wai-aria-1.2/#menuitem
+
+import type { JSX } from "@solidjs/web";
+import { merge, omit, createSignal, createUniqueId } from "solid-js";
+import { attr } from "./attr";
+import { popoverSupported, usePopoverState } from "./Popover";
+import { warnMissingName } from "./dev-warning";
+
+export interface DropdownMenuProps {
+    class?: string;
+    /** Accessible name for the menu button. */
+    label: string;
+    /** Whose record or what the menu acts on, in the consumer's words: a non-interactive first part, .dropdown-menu-subject, that names the menu (aria-labelledby). */
+    subjectLabel?: string;
+    /** Whether the menu is open. Bindable. */
+    open?: boolean;
+    /** Menu items. */
+    children: JSX.Element;
+    /** Callback when open changes. */
+    onChange?: (value: boolean) => void;
+    [key: string]: unknown;
+}
+
+export default function DropdownMenu(props: DropdownMenuProps) {
+    const p = merge({ class: "" as const, open: false }, props);
+    const restProps = omit(p, "class", "label", "subjectLabel", "open", "onChange", "children");
+    warnMissingName("DropdownMenu", p.label, p["aria-label"], p["aria-labelledby"]);
+    const reactId = createUniqueId();
+    const menuId = () => `dropdown-menu-${reactId}`;
+    const subjectId = () => `dropdown-menu-subject-${reactId}`;
+    const [open, setOpen] = createSignal(() => p.open);
+    const menuRef: { current: HTMLDivElement | null } = { current: null };
+
+    function change(value: boolean) {
+        setOpen(value);
+        p.onChange?.(value);
+    }
+    // popover="auto": the trigger's command="toggle-popover" opens and closes the menu, and Escape and light dismiss
+    // come from the browser; the toggle event reports each change. Without the API the click toggles and `hidden`
+    // shows or hides the menu.
+    usePopoverState(menuRef, open, () => change);
+
+    function toggleMenu() {
+        if (menuRef.current && !popoverSupported(menuRef.current)) change(!open());
+    }
+
+    function onMenuKeydown(event: KeyboardEvent) {
+        if (!menuRef.current) return;
+        const items = Array.from(
+            menuRef.current.querySelectorAll<HTMLElement>("[role='menuitem']"),
+        );
+        const current = document.activeElement as HTMLElement;
+        const index = items.indexOf(current);
+
+        switch (event.key) {
+            case "ArrowDown": {
+                event.preventDefault();
+                const next = index < items.length - 1 ? index + 1 : 0;
+                items[next]?.focus();
+                break;
+            }
+            case "ArrowUp": {
+                event.preventDefault();
+                const prev = index > 0 ? index - 1 : items.length - 1;
+                items[prev]?.focus();
+                break;
+            }
+            case "Home": {
+                event.preventDefault();
+                items[0]?.focus();
+                break;
+            }
+            case "End": {
+                event.preventDefault();
+                items[items.length - 1]?.focus();
+                break;
+            }
+            case "Escape": {
+                event.preventDefault();
+                change(false);
+                break;
+            }
+        }
+    }
+
+    return (
+        <div
+            class={`dropdown-menu ${p.class}`}
+            {...restProps}
+        >
+            <button
+                type="button"
+                aria-haspopup="true"
+                aria-expanded={attr(open())}
+                aria-label={p.label}
+                aria-controls={menuId()}
+                popovertarget={menuId()}
+                {...{ command: "toggle-popover", commandfor: menuId() }}
+                onClick={toggleMenu}
+            >
+                {p.label}
+            </button>
+            <div
+                id={menuId()}
+                role="menu"
+                aria-label={p.subjectLabel ? undefined : p.label}
+                aria-labelledby={p.subjectLabel ? subjectId() : undefined}
+                tabindex={-1}
+                popover="auto"
+                ref={(el) => (menuRef.current = el)}
+                onKeyDown={onMenuKeydown}
+            >
+                {p.subjectLabel ? (
+                    <div
+                        class="dropdown-menu-subject"
+                        id={subjectId()}
+                        role="none"
+                    >
+                        {p.subjectLabel}
+                    </div>
+                ) : null}
+                {p.children}
+            </div>
+        </div>
+    );
+}

@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@solidjs/testing-library";
+import { fireEvent, render, screen } from "./test-utils";
 import { describe, expect, test, vi } from "vitest";
 
 import Subject from "./TagInputDiv";

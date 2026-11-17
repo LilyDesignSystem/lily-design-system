@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@solidjs/testing-library";
+import { render, screen, fireEvent } from "./test-utils";
 import ChatComposer from "./ChatComposer";
 
 const LABELS = { label: "Message", sendLabel: "Send", stopLabel: "Stop" };

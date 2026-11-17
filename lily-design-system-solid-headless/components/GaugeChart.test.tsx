@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import GaugeChart from "./GaugeChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("GaugeChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <GaugeChart label="Test">{art}</GaugeChart>);
+        const { container } = render(() => <GaugeChart label="Test">{art()}</GaugeChart>);
         expect(container.querySelector("figure.gauge-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <GaugeChart label="Test">{art}</GaugeChart>);
+        render(() => <GaugeChart label="Test">{art()}</GaugeChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("gauge-chart-graphic");
@@ -37,7 +37,7 @@ describe("GaugeChart", () => {
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <GaugeChart label="T">{art}</GaugeChart>);
+        const { container } = render(() => <GaugeChart label="T">{art()}</GaugeChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -47,19 +47,19 @@ describe("GaugeChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </GaugeChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("gauge-chart mine");
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <GaugeChart label="T">{art}</GaugeChart>);
+        render(() => <GaugeChart label="T">{art()}</GaugeChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <GaugeChart label="T">{art}</GaugeChart>);
+        const { container } = render(() => <GaugeChart label="T">{art()}</GaugeChart>);
         expect(container.querySelector(".gauge-chart-data-table")).toBeNull();
     });
 
@@ -67,9 +67,9 @@ describe("GaugeChart", () => {
         const { container } = render(() => (
             <GaugeChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </GaugeChart>
         ));
         const wrap = container.querySelector(".gauge-chart-data-table")!;
@@ -82,9 +82,9 @@ describe("GaugeChart", () => {
         render(() => (
             <GaugeChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </GaugeChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -97,7 +97,7 @@ describe("GaugeChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </GaugeChart>
         ));
         const el = screen.getByTestId("chart");

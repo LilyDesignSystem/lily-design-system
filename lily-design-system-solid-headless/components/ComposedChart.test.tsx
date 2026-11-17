@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import ComposedChart from "./ComposedChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("ComposedChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <ComposedChart label="Test">{art}</ComposedChart>);
+        const { container } = render(() => <ComposedChart label="Test">{art()}</ComposedChart>);
         expect(container.querySelector("figure.composed-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <ComposedChart label="Test">{art}</ComposedChart>);
+        render(() => <ComposedChart label="Test">{art()}</ComposedChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("composed-chart-graphic");
@@ -37,14 +37,14 @@ describe("ComposedChart", () => {
     });
 
     it("omits aria-label when no label is given", () => {
-        const { container } = render(() => <ComposedChart>{art}</ComposedChart>);
+        const { container } = render(() => <ComposedChart>{art()}</ComposedChart>);
         expect(container.querySelector(".composed-chart-graphic")!.hasAttribute("aria-label")).toBe(
             false,
         );
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <ComposedChart label="T">{art}</ComposedChart>);
+        const { container } = render(() => <ComposedChart label="T">{art()}</ComposedChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -54,7 +54,7 @@ describe("ComposedChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </ComposedChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe(
@@ -63,12 +63,12 @@ describe("ComposedChart", () => {
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <ComposedChart label="T">{art}</ComposedChart>);
+        render(() => <ComposedChart label="T">{art()}</ComposedChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <ComposedChart label="T">{art}</ComposedChart>);
+        const { container } = render(() => <ComposedChart label="T">{art()}</ComposedChart>);
         expect(container.querySelector(".composed-chart-data-table")).toBeNull();
     });
 
@@ -76,9 +76,9 @@ describe("ComposedChart", () => {
         const { container } = render(() => (
             <ComposedChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </ComposedChart>
         ));
         const wrap = container.querySelector(".composed-chart-data-table")!;
@@ -93,9 +93,9 @@ describe("ComposedChart", () => {
         render(() => (
             <ComposedChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </ComposedChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -108,7 +108,7 @@ describe("ComposedChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </ComposedChart>
         ));
         const el = screen.getByTestId("chart");

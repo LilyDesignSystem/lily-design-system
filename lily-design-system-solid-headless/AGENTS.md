@@ -9,7 +9,8 @@ Read the root [AGENTS.md](../AGENTS.md) and [AGENTS/](AGENTS/) first; this file 
 - `components/*.ts` — the pure modules shared with the other catalogs (`listbox-machine.ts`, `widget-keys.ts`, …);
   they are copies of `shared/*.ts`, kept in step by `bin/sync-shared-modules`. Edit `shared/`, never these copies.
 - `components/attr.ts` — the `attr()` helper described below.
-- `bin/convert-react-to-solid.py` — the porting aid used for the first 488 components (a record, not a generator).
+- `bin/convert-react-to-solid.py` — the porting aid used for the port (a record, not a generator).
+- `components/test-utils.ts`, `components/test-act.ts` — the testing library with a flushing `fireEvent`, and `act()`.
 
 ## Solid 2.0 rules for this catalog
 
@@ -30,6 +31,7 @@ Read the root [AGENTS.md](../AGENTS.md) and [AGENTS/](AGENTS/) first; this file 
 - **Local state:** `createSignal(() => p.open)` is a writable signal that follows the prop (Solid 2's derived signal),
   the equivalent of the other catalogs' "internal state reset when the prop changes".
 - **IDs:** `createUniqueId()` from `solid-js` (SSR-safe), where React uses `useId`.
+- **No "latest ref".** A value React reassigns in the body each render is a getter here: the body runs once.
 - **Styles:** a `style` object takes CSS property names (`"aspect-ratio"`), not camelCase.
 - **Tests:** hold a changing prop in a signal and call `flush()` from `solid-js` after setting it; there is no
   `rerender`. Testing Library cleans up between tests because Vitest `globals` is on.

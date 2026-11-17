@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 
 import Subject from "./Select";
 
-const options = (
+const options = () => (
     <>
         <option value="a">Alpha</option>
         <option value="b">Beta</option>
@@ -12,17 +12,17 @@ const options = (
 
 describe("Select", () => {
     test("renders a select element", () => {
-        render(() => <Subject label="Choice">{options}</Subject>);
+        render(() => <Subject label="Choice">{options()}</Subject>);
         expect(screen.getByRole("combobox")).toBeTruthy();
     });
 
     test("has aria-label", () => {
-        render(() => <Subject label="Country">{options}</Subject>);
+        render(() => <Subject label="Country">{options()}</Subject>);
         expect(screen.getByLabelText("Country")).toBeTruthy();
     });
 
     test("renders children options", () => {
-        render(() => <Subject label="C">{options}</Subject>);
+        render(() => <Subject label="C">{options()}</Subject>);
         expect(screen.getByText("Alpha")).toBeTruthy();
         expect(screen.getByText("Beta")).toBeTruthy();
     });
@@ -33,7 +33,7 @@ describe("Select", () => {
                 label="C"
                 required
             >
-                {options}
+                {options()}
             </Subject>
         ));
         expect((screen.getByRole("combobox") as HTMLSelectElement).required).toBe(true);
@@ -45,7 +45,7 @@ describe("Select", () => {
                 label="C"
                 disabled
             >
-                {options}
+                {options()}
             </Subject>
         ));
         expect((screen.getByRole("combobox") as HTMLSelectElement).disabled).toBe(true);
@@ -57,7 +57,7 @@ describe("Select", () => {
                 label="C"
                 data-testid="sel"
             >
-                {options}
+                {options()}
             </Subject>
         ));
         expect(screen.getByTestId("sel")).toBeTruthy();

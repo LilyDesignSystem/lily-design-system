@@ -88,7 +88,7 @@ describe("OneTimePasswordInput", () => {
                 label="Code"
                 length={6}
                 pattern="[A-Z0-9]*"
-                inputmode="text"
+                inputMode="text"
             />
         ));
         expect(input().getAttribute("pattern")).toBe("[A-Z0-9]*");

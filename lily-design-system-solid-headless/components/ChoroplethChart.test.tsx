@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import ChoroplethChart from "./ChoroplethChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("ChoroplethChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <ChoroplethChart label="Test">{art}</ChoroplethChart>);
+        const { container } = render(() => <ChoroplethChart label="Test">{art()}</ChoroplethChart>);
         expect(container.querySelector("figure.choropleth-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <ChoroplethChart label="Test">{art}</ChoroplethChart>);
+        render(() => <ChoroplethChart label="Test">{art()}</ChoroplethChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("choropleth-chart-graphic");
@@ -37,14 +37,14 @@ describe("ChoroplethChart", () => {
     });
 
     it("omits aria-label when no label is given", () => {
-        const { container } = render(() => <ChoroplethChart>{art}</ChoroplethChart>);
+        const { container } = render(() => <ChoroplethChart>{art()}</ChoroplethChart>);
         expect(
             container.querySelector(".choropleth-chart-graphic")!.hasAttribute("aria-label"),
         ).toBe(false);
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <ChoroplethChart label="T">{art}</ChoroplethChart>);
+        const { container } = render(() => <ChoroplethChart label="T">{art()}</ChoroplethChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -54,7 +54,7 @@ describe("ChoroplethChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </ChoroplethChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe(
@@ -63,12 +63,12 @@ describe("ChoroplethChart", () => {
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <ChoroplethChart label="T">{art}</ChoroplethChart>);
+        render(() => <ChoroplethChart label="T">{art()}</ChoroplethChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <ChoroplethChart label="T">{art}</ChoroplethChart>);
+        const { container } = render(() => <ChoroplethChart label="T">{art()}</ChoroplethChart>);
         expect(container.querySelector(".choropleth-chart-data-table")).toBeNull();
     });
 
@@ -76,9 +76,9 @@ describe("ChoroplethChart", () => {
         const { container } = render(() => (
             <ChoroplethChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </ChoroplethChart>
         ));
         const wrap = container.querySelector(".choropleth-chart-data-table")!;
@@ -93,9 +93,9 @@ describe("ChoroplethChart", () => {
         render(() => (
             <ChoroplethChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </ChoroplethChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -108,7 +108,7 @@ describe("ChoroplethChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </ChoroplethChart>
         ));
         const el = screen.getByTestId("chart");

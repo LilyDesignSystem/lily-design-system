@@ -44,6 +44,8 @@ export default [
     { files: ["**/*.vue"], languageOptions: { parserOptions: { parser: ts.parser } } },
     {
         files: ["**/*.tsx"],
+        // Solid's JSX is not React: no hooks, and a component body runs once, so dynamic() at setup is correct.
+        ignores: ["lily-design-system-solid-*/**"],
         plugins: { "react-hooks": reactHooks },
         rules: {
             ...reactHooks.configs.recommended.rules,

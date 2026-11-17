@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import PieChart from "./PieChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("PieChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <PieChart label="Test">{art}</PieChart>);
+        const { container } = render(() => <PieChart label="Test">{art()}</PieChart>);
         expect(container.querySelector("figure.pie-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <PieChart label="Test">{art}</PieChart>);
+        render(() => <PieChart label="Test">{art()}</PieChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("pie-chart-graphic");
@@ -37,14 +37,14 @@ describe("PieChart", () => {
     });
 
     it("omits aria-label when no label is given", () => {
-        const { container } = render(() => <PieChart>{art}</PieChart>);
+        const { container } = render(() => <PieChart>{art()}</PieChart>);
         expect(container.querySelector(".pie-chart-graphic")!.hasAttribute("aria-label")).toBe(
             false,
         );
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <PieChart label="T">{art}</PieChart>);
+        const { container } = render(() => <PieChart label="T">{art()}</PieChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -54,19 +54,19 @@ describe("PieChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </PieChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("pie-chart mine");
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <PieChart label="T">{art}</PieChart>);
+        render(() => <PieChart label="T">{art()}</PieChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <PieChart label="T">{art}</PieChart>);
+        const { container } = render(() => <PieChart label="T">{art()}</PieChart>);
         expect(container.querySelector(".pie-chart-data-table")).toBeNull();
     });
 
@@ -74,9 +74,9 @@ describe("PieChart", () => {
         const { container } = render(() => (
             <PieChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </PieChart>
         ));
         const wrap = container.querySelector(".pie-chart-data-table")!;
@@ -89,9 +89,9 @@ describe("PieChart", () => {
         render(() => (
             <PieChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </PieChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -104,7 +104,7 @@ describe("PieChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </PieChart>
         ));
         const el = screen.getByTestId("chart");

@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 
 import WarningText from "./WarningText";
 
-const text = (
+const text = () => (
     <>
         <span class="screen-reader-span">Warning</span> You can be fined if you do not register.
     </>
@@ -11,26 +11,26 @@ const text = (
 
 describe("WarningText", () => {
     test("renders a <div> with the base class", () => {
-        const { container } = render(() => <WarningText>{text}</WarningText>);
+        const { container } = render(() => <WarningText>{text()}</WarningText>);
         expect(container.querySelector("div.warning-text")).toBeTruthy();
     });
 
     test("puts the base class first, then the consumer class", () => {
-        const { container } = render(() => <WarningText class="mine">{text}</WarningText>);
+        const { container } = render(() => <WarningText class="mine">{text()}</WarningText>);
         expect(container.querySelector(".warning-text")!.getAttribute("class")).toBe(
             "warning-text mine",
         );
     });
 
     test("renders the children, hidden prefix included, inside strong.warning-text-text", () => {
-        const { container } = render(() => <WarningText>{text}</WarningText>);
+        const { container } = render(() => <WarningText>{text()}</WarningText>);
         const strong = container.querySelector(".warning-text > strong.warning-text-text")!;
         expect(strong.querySelector(".screen-reader-span")!.textContent).toBe("Warning");
         expect(strong.textContent).toContain("You can be fined");
     });
 
     test("renders a supplied icon first, inside an aria-hidden wrapper", () => {
-        const { container } = render(() => <WarningText icon="!">{text}</WarningText>);
+        const { container } = render(() => <WarningText icon="!">{text()}</WarningText>);
         const wrap = container.querySelector(".warning-text > .warning-text-icon")!;
         expect(wrap.getAttribute("aria-hidden")).toBe("true");
         expect(wrap.textContent).toBe("!");
@@ -38,7 +38,7 @@ describe("WarningText", () => {
     });
 
     test("renders no icon wrapper when no icon is supplied", () => {
-        const { container } = render(() => <WarningText>{text}</WarningText>);
+        const { container } = render(() => <WarningText>{text()}</WarningText>);
         expect(container.querySelector(".warning-text-icon")).toBeNull();
     });
 
@@ -50,7 +50,9 @@ describe("WarningText", () => {
     });
 
     test("passes through additional HTML attributes", () => {
-        const { container } = render(() => <WarningText data-testid="subject">{text}</WarningText>);
+        const { container } = render(() => (
+            <WarningText data-testid="subject">{text()}</WarningText>
+        ));
         expect(container.querySelector("[data-testid='subject']")).toBeTruthy();
     });
 });

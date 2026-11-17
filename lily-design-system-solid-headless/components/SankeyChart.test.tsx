@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import SankeyChart from "./SankeyChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("SankeyChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <SankeyChart label="Test">{art}</SankeyChart>);
+        const { container } = render(() => <SankeyChart label="Test">{art()}</SankeyChart>);
         expect(container.querySelector("figure.sankey-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <SankeyChart label="Test">{art}</SankeyChart>);
+        render(() => <SankeyChart label="Test">{art()}</SankeyChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("sankey-chart-graphic");
@@ -37,7 +37,7 @@ describe("SankeyChart", () => {
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <SankeyChart label="T">{art}</SankeyChart>);
+        const { container } = render(() => <SankeyChart label="T">{art()}</SankeyChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -47,19 +47,19 @@ describe("SankeyChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </SankeyChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("sankey-chart mine");
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <SankeyChart label="T">{art}</SankeyChart>);
+        render(() => <SankeyChart label="T">{art()}</SankeyChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <SankeyChart label="T">{art}</SankeyChart>);
+        const { container } = render(() => <SankeyChart label="T">{art()}</SankeyChart>);
         expect(container.querySelector(".sankey-chart-data-table")).toBeNull();
     });
 
@@ -67,9 +67,9 @@ describe("SankeyChart", () => {
         const { container } = render(() => (
             <SankeyChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </SankeyChart>
         ));
         const wrap = container.querySelector(".sankey-chart-data-table")!;
@@ -82,9 +82,9 @@ describe("SankeyChart", () => {
         render(() => (
             <SankeyChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </SankeyChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -97,7 +97,7 @@ describe("SankeyChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </SankeyChart>
         ));
         const el = screen.getByTestId("chart");

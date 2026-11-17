@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import RadarChart from "./RadarChart";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -24,12 +24,12 @@ const table = (
 
 describe("RadarChart", () => {
     it("renders a <figure> with the base class", () => {
-        const { container } = render(() => <RadarChart label="Test">{art}</RadarChart>);
+        const { container } = render(() => <RadarChart label="Test">{art()}</RadarChart>);
         expect(container.querySelector("figure.radar-chart")).toBeTruthy();
     });
 
     it("exposes the graphic as a single named image", () => {
-        render(() => <RadarChart label="Test">{art}</RadarChart>);
+        render(() => <RadarChart label="Test">{art()}</RadarChart>);
         const img = screen.getByRole("img", { name: "Test" });
         expect(img.tagName).toBe("DIV");
         expect(img.getAttribute("class")).toBe("radar-chart-graphic");
@@ -37,7 +37,7 @@ describe("RadarChart", () => {
     });
 
     it("does not put role=img on the figure", () => {
-        const { container } = render(() => <RadarChart label="T">{art}</RadarChart>);
+        const { container } = render(() => <RadarChart label="T">{art()}</RadarChart>);
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
     });
 
@@ -47,19 +47,19 @@ describe("RadarChart", () => {
                 label="T"
                 class="mine"
             >
-                {art}
+                {art()}
             </RadarChart>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe("radar-chart mine");
     });
 
     it("renders the consumer svg inside the image wrapper", () => {
-        render(() => <RadarChart label="T">{art}</RadarChart>);
+        render(() => <RadarChart label="T">{art()}</RadarChart>);
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
     });
 
     it("renders no data-table wrapper without dataTable", () => {
-        const { container } = render(() => <RadarChart label="T">{art}</RadarChart>);
+        const { container } = render(() => <RadarChart label="T">{art()}</RadarChart>);
         expect(container.querySelector(".radar-chart-data-table")).toBeNull();
     });
 
@@ -67,9 +67,9 @@ describe("RadarChart", () => {
         const { container } = render(() => (
             <RadarChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </RadarChart>
         ));
         const wrap = container.querySelector(".radar-chart-data-table")!;
@@ -82,9 +82,9 @@ describe("RadarChart", () => {
         render(() => (
             <RadarChart
                 label="T"
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </RadarChart>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -97,7 +97,7 @@ describe("RadarChart", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </RadarChart>
         ));
         const el = screen.getByTestId("chart");

@@ -8,9 +8,9 @@ structure, semantics, accessibility and behaviour.
 
 ## Status
 
-In progress, not yet published. 488 of the 637 catalog components are ported, each with the React catalog's tests
-(2,901 tests, all passing). The remaining 149 are the components with internal state, effects, refs or form-reset
-handling, and a few that compose them; they are being ported by hand. The plan and the list are in
+In progress, not yet published. 623 of the 637 catalog components are ported, each with the React catalog's tests
+(3,869 tests, all passing). The remaining 14 use React-only constructs (`forwardRef`, effects with no dependency list)
+and are being ported by hand. The plan and the list are in
 [spec/index.md](spec/index.md).
 
 ## Requirements
@@ -57,7 +57,8 @@ pnpm test      # Vitest + @solidjs/testing-library in jsdom
 pnpm check     # tsc --noEmit
 ```
 
-`bin/convert-react-to-solid.py` is the porting aid that produced the first 488 components from the React catalog. It
+`bin/convert-react-to-solid.py` is the porting aid that produced the components from the React catalog (`--hooks` for
+the stateful ones). It
 is a record of the port, not a generator: the components are maintained by hand from here.
 
 ---

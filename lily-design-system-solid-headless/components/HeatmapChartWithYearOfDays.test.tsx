@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@solidjs/testing-library";
 import HeatmapChartWithYearOfDays from "./HeatmapChartWithYearOfDays";
 
-const art = (
+const art = () => (
     <svg
         data-testid="art"
         viewBox="0 0 10 10"
@@ -10,7 +10,7 @@ const art = (
         <circle r="4" />
     </svg>
 );
-const table = (
+const table = () => (
     <table>
         <caption>Values</caption>
         <tbody>
@@ -30,7 +30,7 @@ describe("HeatmapChartWithYearOfDays", () => {
                 year={2026}
                 weekStart={0}
             >
-                {art}
+                {art()}
             </HeatmapChartWithYearOfDays>
         ));
         expect(container.querySelector("figure.heatmap-chart-with-year-of-days")).toBeTruthy();
@@ -43,7 +43,7 @@ describe("HeatmapChartWithYearOfDays", () => {
                 year={2026}
                 weekStart={0}
             >
-                {art}
+                {art()}
             </HeatmapChartWithYearOfDays>
         ));
         const img = screen.getByRole("img", { name: "Test" });
@@ -59,7 +59,7 @@ describe("HeatmapChartWithYearOfDays", () => {
                 year={2026}
                 weekStart={0}
             >
-                {art}
+                {art()}
             </HeatmapChartWithYearOfDays>
         ));
         expect(container.querySelector("figure")!.hasAttribute("role")).toBe(false);
@@ -73,7 +73,7 @@ describe("HeatmapChartWithYearOfDays", () => {
                 weekStart={0}
                 class="mine"
             >
-                {art}
+                {art()}
             </HeatmapChartWithYearOfDays>
         ));
         expect(container.querySelector("figure")!.getAttribute("class")).toBe(
@@ -88,7 +88,7 @@ describe("HeatmapChartWithYearOfDays", () => {
                 year={2026}
                 weekStart={0}
             >
-                {art}
+                {art()}
             </HeatmapChartWithYearOfDays>
         ));
         expect(screen.getByTestId("art").closest("[role=img]")).toBe(screen.getByRole("img"));
@@ -101,7 +101,7 @@ describe("HeatmapChartWithYearOfDays", () => {
                 year={2026}
                 weekStart={0}
             >
-                {art}
+                {art()}
             </HeatmapChartWithYearOfDays>
         ));
         expect(container.querySelector(".heatmap-chart-with-year-of-days-data-table")).toBeNull();
@@ -113,9 +113,9 @@ describe("HeatmapChartWithYearOfDays", () => {
                 label="T"
                 year={2026}
                 weekStart={0}
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </HeatmapChartWithYearOfDays>
         ));
         const wrap = container.querySelector(".heatmap-chart-with-year-of-days-data-table")!;
@@ -132,9 +132,9 @@ describe("HeatmapChartWithYearOfDays", () => {
                 label="T"
                 year={2026}
                 weekStart={0}
-                dataTable={table}
+                dataTable={table()}
             >
-                {art}
+                {art()}
             </HeatmapChartWithYearOfDays>
         ));
         expect(screen.getByRole("table").closest("[role=img]")).toBeNull();
@@ -149,7 +149,7 @@ describe("HeatmapChartWithYearOfDays", () => {
                 id="c1"
                 data-testid="chart"
             >
-                {art}
+                {art()}
             </HeatmapChartWithYearOfDays>
         ));
         const el = screen.getByTestId("chart");
@@ -164,7 +164,7 @@ describe("HeatmapChartWithYearOfDays", () => {
                 year={2025}
                 weekStart={1}
             >
-                {art}
+                {art()}
             </HeatmapChartWithYearOfDays>
         ));
         const fig = container.querySelector("figure")!;
