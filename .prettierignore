@@ -70,6 +70,7 @@ lily-design-system-nunjucks-headless/components/command/command-keys.js
 lily-design-system-nunjucks-headless/components/menu/menu-keys.js
 lily-design-system-nunjucks-headless/components/widget-keys.js
 lily-design-system-nunjucks-theme-picker/theme-color.js
+lily-design-system-nunjucks-theme-picker/view-transition.js
 # Written by bin/generate-core
 docs/core.md
 docs/accessibility-conformance-report.md

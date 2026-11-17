@@ -2,7 +2,7 @@ import { afterEach, describe, expect, test, vi } from "vitest";
 
 import { canViewTransition, linkSettled, withViewTransition } from "./view-transition";
 
-type Doc = Document & { startViewTransition?: (update: () => void | Promise<void>) => unknown };
+type Doc = { startViewTransition?: (update: () => void | Promise<void>) => unknown };
 
 function reducedMotion(reduce: boolean) {
     vi.stubGlobal(
@@ -12,7 +12,7 @@ function reducedMotion(reduce: boolean) {
 }
 
 afterEach(() => {
-    delete (document as Doc).startViewTransition;
+    delete (document as unknown as Doc).startViewTransition;
     vi.unstubAllGlobals();
 });
 
@@ -20,7 +20,7 @@ describe("withViewTransition", () => {
     test("uses a view transition when enabled, supported and motion is allowed", () => {
         reducedMotion(false);
         const start = vi.fn((update: () => void) => update());
-        (document as Doc).startViewTransition = start;
+        (document as unknown as Doc).startViewTransition = start;
         const apply = vi.fn();
         withViewTransition(true, apply);
         expect(start).toHaveBeenCalledTimes(1);
@@ -30,7 +30,7 @@ describe("withViewTransition", () => {
     test("applies at once, with no transition, under reduced motion", () => {
         reducedMotion(true);
         const start = vi.fn();
-        (document as Doc).startViewTransition = start;
+        (document as unknown as Doc).startViewTransition = start;
         const apply = vi.fn();
         withViewTransition(true, apply);
         expect(start).not.toHaveBeenCalled();
@@ -49,7 +49,7 @@ describe("withViewTransition", () => {
     test("applies at once, with no transition, when not enabled", () => {
         reducedMotion(false);
         const start = vi.fn();
-        (document as Doc).startViewTransition = start;
+        (document as unknown as Doc).startViewTransition = start;
         const apply = vi.fn();
         withViewTransition(false, apply);
         expect(start).not.toHaveBeenCalled();

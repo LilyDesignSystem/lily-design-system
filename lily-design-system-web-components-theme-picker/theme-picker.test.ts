@@ -1292,10 +1292,10 @@ describe("theme-picker — theme-color (P21-T7)", () => {
 });
 
 describe("ThemePicker — viewTransition (P32-T4)", () => {
-    type Doc = Document & { startViewTransition?: (update: () => void | Promise<void>) => unknown };
+    type Doc = { startViewTransition?: (update: () => void | Promise<void>) => unknown };
     const realMatchMedia = window.matchMedia;
     afterEach(() => {
-        delete (document as Doc).startViewTransition;
+        delete (document as unknown as Doc).startViewTransition;
         window.matchMedia = realMatchMedia;
     });
     function allowMotion() {
@@ -1308,7 +1308,7 @@ describe("ThemePicker — viewTransition (P32-T4)", () => {
             removeListener() {},
         })) as unknown as typeof window.matchMedia;
         const start = vi.fn((update: () => void | Promise<void>) => void update());
-        (document as Doc).startViewTransition = start;
+        (document as unknown as Doc).startViewTransition = start;
         return start;
     }
     const pause = () => new Promise((r) => setTimeout(r, 0));

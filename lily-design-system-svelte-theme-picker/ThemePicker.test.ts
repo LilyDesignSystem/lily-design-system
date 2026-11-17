@@ -951,7 +951,7 @@ describe("ThemePicker — themeColor (P21-T7)", () => {
 });
 
 describe("ThemePicker — viewTransition (P32-T4)", () => {
-    type Doc = Document & { startViewTransition?: (update: () => void | Promise<void>) => unknown };
+    type Doc = { startViewTransition?: (update: () => void | Promise<void>) => unknown };
     let original: typeof window.matchMedia;
     function motion(reduce: boolean) {
         original = window.matchMedia;
@@ -963,14 +963,14 @@ describe("ThemePicker — viewTransition (P32-T4)", () => {
         })) as unknown as typeof window.matchMedia;
     }
     afterEach(() => {
-        delete (document as Doc).startViewTransition;
+        delete (document as unknown as Doc).startViewTransition;
         if (original) window.matchMedia = original;
     });
 
     test("no transition on first load; one per change; the same theme either way", async () => {
         motion(false);
         const start = vi.fn((update: () => void | Promise<void>) => void update());
-        (document as Doc).startViewTransition = start;
+        (document as unknown as Doc).startViewTransition = start;
         const { rerender } = render(ThemePicker, {
             props: {
                 label: "Theme",
@@ -993,7 +993,7 @@ describe("ThemePicker — viewTransition (P32-T4)", () => {
     test("under reduced motion, or when off, the theme changes at once with no transition", async () => {
         motion(true);
         const start = vi.fn((update: () => void | Promise<void>) => void update());
-        (document as Doc).startViewTransition = start;
+        (document as unknown as Doc).startViewTransition = start;
         const { rerender } = render(ThemePicker, {
             props: {
                 label: "Theme",
