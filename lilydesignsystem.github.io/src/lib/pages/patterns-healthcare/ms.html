@@ -71,7 +71,28 @@
     <li>Tunjukkan dua pengenal di mana-mana data pesakit muncul: nama dengan tarikh lahir, dan pengenal kebangsaan dengan komponen paparannya (The Joint Commission, Quick Safety 45).</li>
     <li>Gunakan sepanduk pesakit pada setiap skrin yang bertindak ke atas rekod seorang pesakit, dan pastikan ia kelihatan.</li>
     <li>Sebelum bertindak ke atas rekod selain yang ada dalam sepanduk, sahkannya dengan nama, tarikh lahir dan pengenal.</li>
+    <li>
+      Catatan tentang orang lain selain pesakit (sejarah ibu atau bapa, janin, penderma) terlebih dahulu menyatakan dengan perkataan milik siapa catatan itu: berikan item rekod <code>subjectLabel</code> ("Ibu"), supaya diagnosis saudara tidak pernah dibaca sebagai diagnosis pesakit (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Jangan hadkan bilangan rekod yang boleh dibuka oleh doktor: percubaan rawak ke atas 3,356 doktor (JAMA, 2019) mendapati ia tidak mengurangkan pesanan pesakit yang salah, dan orang mencari jalan mengelaknya.</li>
+    <li>
+      Menu tindakan pada satu rekod terlebih dahulu menamakan rekod itu, dengan <code>subjectLabel</code> pada <code>context-menu</code> atau
+      <code>dropdown-menu</code> ("Ada Lovelace, tekanan darah 3 Nov"): bahagian pertama yang tidak interaktif dan juga nama boleh capai menu.
+    </li>
+    <li>
+      Kelaskan setiap tindakan mengikut apa yang dilakukannya, dan paparkan tahapnya sebelum ia dijalankan. <strong>Rutin</strong> (lihat, cetak) dijalankan serta-merta. <strong>Didokumenkan</strong> menyatakan apa yang akan ditulis ke rekod ("Menambah nota pada lawatan").
+      <strong>Klinikal</strong> (hentikan, batalkan arahan) bertanya kali kedua, dalam <code>alert-dialog</code> yang butang pengesahannya ialah kata kerja ("Hentikan"), bukan sekali-kali "OK" atau "Ya". <strong>Mendedahkan</strong> (akses kecemasan, berkongsi di luar pasukan rawatan) meminta sebab dahulu dan merekodkannya.
+    </li>
+    <li>
+      Apabila beberapa rekod dibuka (tab, tetingkap, anak tetingkap terbahagi), teks yang kelihatan dan nama boleh capai setiap tab termasuk nama pesakit dan pengecam kedua, anak tetingkap aktif mengulangi sepanduk, dan tiada tindakan terpakai kepada pesakit selain pesakit anak tetingkapnya.
+    </li>
+    <li>
+      Paparkan lokasi yang rekod akan dikaitkan dengannya (wad, klinik atau kemudahan yang dipilih semasa log masuk) sebagai teks dalam pengepala halaman, dan jadikan penukarannya tindakan yang jelas.
+    </li>
+    <li>
+      Paparkan lawatan aktif, atau "Tiada lawatan aktif", dalam sepanduk. Borang yang memerlukan lawatan menyatakannya dan menawarkan untuk memulakan satu, dan bukannya gagal semasa disimpan.
+    </li>
   </ul>
 
   <h2>Sepanduk pesakit</h2>
@@ -82,6 +103,9 @@
     <li>nilai yang tiada ialah perkataan ("Tidak diketahui"), bukan tanda soal, sempang atau sel kosong;</li>
     <li>pesakit yang telah meninggal: <code>data-deceased</code> untuk tema, dan satu baris teks yang kelihatan, bukan warna sahaja;</li>
     <li>tiada medan dipotong, dipangkas atau disembunyikan pada sebarang lebar; ia dibalut.</li>
+    <li>
+      tanda pesakit ("Perlu jurubahasa", "Risiko jangkitan") ialah <code>tag-group</code> berlabel yang terdiri daripada perkataan, bukan sekali-kali ikon atau warna sahaja, dan kekal kelihatan apabila sepanduk berbalut.
+    </li>
   </ul>
 
   <h2>Keputusan</h2>
@@ -90,6 +114,30 @@
     <li>Bendera ialah perkataan daripada terjemahan anda (<code>flagLabel</code>), dengan kod tafsiran FHIR sebagai <code>data-interpretation</code> untuk tema.</li>
     <li>Asingkan keputusan baharu daripada yang terdahulu, dan tunjukkan aliran (garis percikan, atau carta garis dengan jadual datanya): doktor mencari perubahan ketara, bukan julat sahaja.</li>
     <li>Keputusan yang tidak pernah direkodkan dan yang tidak tersedia ialah keadaan berbeza, dengan perkataan berbeza.</li>
+    <li>
+      Tidak diketahui bukan normal. Keputusan yang julat rujukannya tiada, masih dimuatkan atau tidak dapat dibaca tidak mempunyai tafsiran dan menyatakannya; <code>observation-view</code> tidak pernah membuat inferens, jadi keputusan dengan julat dan tanpa <code>interpretation</code> tidak memaparkan tanda.
+    </li>
+    <li>
+      Keputusan di luar skala ialah had alat dengan pembanding ("&gt; 33.3 mmol/L": <code>formatQuantity</code> dengan
+      <code>"&gt;"</code>) dan tanda kritikal anda, bukan sekali-kali nombor kosong. Nilai anggaran mengekalkan ≈ nya (<code>"~"</code>).
+    </li>
+    <li>Berikan julat bernama tambahan ("Kritikal: di bawah 2.5") sebagai <code>ranges</code>, setiap satu sebagai bahagian tersendiri.</li>
+    <li>
+      Keputusan yang diperbetulkan atau dipinda mengekalkan nilai yang digantikannya, dalam <code>&lt;del&gt;</code>, dengan perkataan anda tentang bila ia berubah (<code>previousValue</code>, <code>previousLabel</code>), supaya klinisian yang membaca nilai lama tahu ia telah berubah.
+    </li>
+    <li>
+      Bacaan selang menyatakan lebar dan fungsinya ("Min, 24 jam"), dan keadaan serta kaedah bacaan ("Duduk, kaf besar") ialah teks kelihatan di sebelahnya, bukan sekali-kali tip alat sahaja (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Trend memerlukan titik yang setanding: jangan lukis garisan di bawah minimum anda, putuskan garisan di tempat kaedah atau ujian berubah, dan nyatakan arah dan maknanya dengan perkataan ("menurun, bertambah baik").
+    </li>
+    <li>
+      Tanda vital yang dimasukkan dalam satu sistem unit boleh memaparkan sistem lain di sebelahnya sebagai teks anda ("70 kg (154 lb)"); Lily tidak menukar apa-apa, jadi nyatakan pembundaran anda. Masukkan kuantiti dengan <code>quantity-input-div</code>, yang nombornya mengikut had setiap unit.
+    </li>
+    <li>
+      Carta pertumbuhan ialah <code>line-chart</code> dengan garisan persentil anda sebagai siri, titik kanak-kanak dan jadual data umur serta nilai; Lily tidak mengira persentil dan tidak menyertakan rujukan pertumbuhan.
+    </li>
   </ul>
 
   <h2>Ubat</h2>
@@ -106,12 +154,73 @@
     <li>Tulis bulan sebagai teks supaya tarikh tidak boleh dibaca dua cara (<code>Intl.DateTimeFormat</code> dengan <code>month: "short"</code>).</li>
     <li>Pilih jam dengan sengaja: berikan <code>hourCycle</code> secara jelas. NHS meminta jam 24 jam; itu peraturan UK, bukan peraturan sedunia, jadi Lily tidak pernah memilihnya untuk anda.</li>
     <li>Umur mengikut jalur Common User Interface melalui <code>ageParts()</code>; perkhidmatan dengan konvensyen lain memberikan perkataannya sendiri.</li>
+    <li>
+      Tarikh yang hanya diketahui hingga bulan atau tahun kekal begitu: mintanya dengan <code>date-field</code>
+      <code>precision="month"</code> atau <code>"year"</code>, simpan <code>2019-03</code> atau <code>2019</code>, dan tuliskan dengan
+      <code>formatPartialDate()</code>. Jangan sekali-kali mereka hari.
+    </li>
+    <li>
+      Tempoh masa ialah <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> yang memuatkan perkataan anda, daripada
+      <code>durationParts()</code> dan <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Papan pemuka</h2>
   <ul>
     <li>Papan wad atau skrin pusat arahan dikemas kini kerap. Jangan umumkan setiap perubahan: kekalkan satu kawasan ringkasan sopan ("3 katil kosong, 2 discaj dijangka") dan biarkan orang membaca papan itu.</li>
     <li>Setiap keadaan pada papan (katil bersih, diduduki, disekat) ialah teks atau keadaan <code>data-*</code> dengan perkataan, bukan warna sahaja.</li>
+    <li>
+      Tiada apa-apa berkelip (WCAG 2.2.2, 2.3.1), dan papan yang dikemas kini mengikut pemasa mempunyai kawalan jeda atau hanya dikemas kini apabila diminta; kemas kini tidak pernah mengalihkan fokus. Catatan lewat menyatakannya dengan perkataan ("Menunggu lebih 20 minit") dengan <code>data-overdue</code>.
+    </li>
+    <li>Kiraan atau kadar memaparkan penyebutnya ("12 daripada 68") dan memaut ke senarai di belakangnya.</li>
+    <li>
+      Senarai atau garis masa menyatakan ia paparan bagi apa: apa yang dipaparkan, susunan dan tempohnya, apa yang disembunyikan dan mengapa, dan sumber mana yang tidak menjawab. Senarai kosong daripada sumber yang tidak menjawab bukan bukti bahawa tiada apa-apa wujud.
+    </li>
+    <li>
+      Senarai peringatan ialah <code>record-list</code> yang itemnya membawa tarikh tamat (<code>review-date</code>) dan status tamat dalam perkataan, dengan <code>data-due</code>; peraturan yang menghasilkannya ialah milik anda.
+    </li>
+  </ul>
+
+  <h2>Borang</h2>
+  <ul>
+    <li>
+      Soalan yang dijawab "ya", "tidak" atau "tidak ditanya" ialah <code>radio-group</code> tiga jawapan, tiada yang dipilih pada mulanya, bukan sekali-kali kotak semak: kotak semak tidak dapat membezakan "dinafikan" daripada "tidak pernah ditanya". Semakan sistem ialah satu <code>fieldset</code> bagi setiap sistem badan, dan butang "semua yang lain tiada" hanya menetapkan yang belum dijawab.
+    </li>
+    <li>
+      Soalan dengan senarai jawapan (ubat, alamat) ialah <code>repeatable-fieldset</code>: item ditambah atau dibuang, fokus mengikut, dan setiap butang buang dinamakan sempena itemnya.
+    </li>
+    <li>
+      Nombor dengan koma perpuluhan: paparkannya dengan <code>Intl.NumberFormat</code> dan, di mana <code>type="number"</code> tidak menerima koma, terima dalam medan teks dengan <code>inputmode="decimal"</code> dan huraikan dalam kod anda. Jangan sekali-kali menukar nilai yang ditaip oleh seseorang, walaupun untuk mengehadkannya kepada julat: nilai di luar julat ialah ralat yang boleh dilihatnya.
+    </li>
+    <li>
+      Senarai panjang yang hanya memaparkan sebahagian pilihannya pada satu masa menetapkan <code>aria-setsize</code> dan <code>aria-posinset</code> pada setiap pilihan, dan ingat bahawa carian dalam halaman tidak dapat melihat bakinya.
+    </li>
+  </ul>
+
+  <h2>Rekod, nota dan asal-usulnya</h2>
+  <ul>
+    <li>
+      Nyatakan senarai atau grid itu paparan bagi apa, sebelum barisnya: tempoh dan susunannya, apa yang ditinggalkan dan mengapa, dan sumber mana yang tidak menjawab ("12 bulan lalu, terbaharu dahulu. Rekod doktor keluarga tidak menjawab."). Berikan <code>record-list</code> dan
+      <code>timeline-list</code>  <code>coverageLabel</code>, dan pembantu <code>data-grid</code> miliknya <code>coverageLabel</code>. Senarai kosong daripada sumber yang tidak menjawab menyatakannya dengan perkataan, supaya ia tidak pernah dibaca sebagai "tiada apa-apa direkodkan".
+    </li>
+    <li>
+      Nyatakan dari mana rekod datang dan sama ada ia muktamad dengan <code>record-provenance-view</code>: ditandatangani, menunggu tandatangan, dipinda, disimpan pada peranti ini dan belum dihantar. Draf yang belum ditandatangani tidak boleh kelihatan ditandatangani.
+    </li>
+    <li>Catatan tentang orang lain (ibu atau bapa, janin, penderma) terlebih dahulu menyatakan milik siapa, dengan <code>subjectLabel</code>.</li>
+    <li>
+      Catatan yang ditahan kekal dalam senarai dengan perkataan anda ("Terhad: tidak tersedia untuk anda"), dan catatan yang dibuat secara silap kekal dipangkah dengan "Dimasukkan secara silap": berikan <code>record-list-item</code> atau <code>timeline-list-item</code> 
+      <code>entryState</code> dan <code>entryStateLabel</code>. Jangan sekali-kali membuang mana-mana satu secara senyap, kerana jurang dibaca sebagai "tiada apa-apa berlaku".
+    </li>
+    <li>
+      Dalam nota klinikal, tandakan sumber setiap petikan (ditaip, didiktekan, templat, disalin ke hadapan, dijana) dengan
+      <code>data-source</code> dan perkataan yang kelihatan, supaya teks yang disalin atau dijana tidak pernah dianggap sebagai pemeriksaan hari ini.
+    </li>
+    <li>
+      Bahagian yang tidak dapat dimuatkan ialah <code>unavailable</code> dalam perkataan anda, dengan butang cuba semula; kod teknikal, jika dipaparkan, berada di sebalik pendedahan. Kegagalan yang disebabkan oleh tindakan seseorang diumumkan, bersama nilai yang kini dipegang rekod; kegagalan semasa halaman dimuatkan tidak.
+    </li>
+    <li>
+      Sejarah arahan ialah <code>timeline-list</code>, satu item bagi setiap langkah (dirancang, dijadualkan, aktif, digantung, selesai, dibatalkan) dengan masa dan sebabnya, dan keadaan semasa juga pada item.
+    </li>
   </ul>
 
   <h2>Daripada FHIR kepada Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (juga pada senarai rekod)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Petakan rekod <code>entered-in-error</code> kepada status <code>entered-in-error</code>nya, dengan perkataan, dan bukan menggugurkannya secara senyap: sama ada hendak menunjukkannya atau tidak ialah keputusan perkhidmatan anda.</p>
+
+  <h2>Daripada openEHR kepada Lily</h2>
+  <p>
+    Lily juga tidak membaca komposisi openEHR. Pemetaan bagi jenis data dan kod Model Rujukan openEHR, sebagai cadangan yang diputuskan oleh semakan keselamatan klinikal anda:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Jenis data dan kod openEHR, serta nilai Lily untuknya</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (kemasukan)</td>
+          <td><code>quantity-input-div</code>; unit sebagai kod UCUM dengan perkataan anda</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (paparan), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> dengan <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> ialah ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> dengan <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> separa (tahun, tahun dan bulan)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> dengan <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> di dalam <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> yang labelnya membawa nombor dan perkataannya</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>corak nilai berkod di bawah</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, hanya apabila "tidak ditanya" tidak boleh berlaku</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> tidak diketahui, <code>271</code> tiada maklumat</td>
+          <td><code>status="not-recorded"</code> atau <code>"unavailable"</code>, dengan perkataan yang menyatakan yang mana</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> disembunyikan</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> tidak berkenaan</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subjek</td>
+          <td><code>subjectLabel</code> pada item rekod</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Langkah Instruction State Machine</td>
+          <td> <code>timeline-list</code> langkah, dengan keadaan semasa pada item</td>
+        </tr>
+        <tr>
+          <td>item arketaip dengan kejadian <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Nilai berkod</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Menyediakan pangkalan data ubat, senarai tall man, atau kod SNOMED CT, ICD, LOINC atau UCUM.</li>
     <li>Menghasilkan semula instrumen berlesen (Wong-Baker FACES) atau reka bentuk badan lain (carta NEWS2).</li>
     <li>Mengehadkan bilangan rekod yang dibuka serentak.</li>
+    <li>Membuat inferens tafsiran daripada julat, menukar unit, atau menghurai tarikh relatif ("Selasa depan").</li>
+    <li>Menggunakan suis untuk "ya, tidak atau tidak diketahui": <code>switch</code> ARIA tidak mempunyai keadaan ketiga, jadi ia tiga butang radio.</li>
   </ul>
   <p>Kajian, sumber dan keputusan di sebalik panduan ini terdapat dalam <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

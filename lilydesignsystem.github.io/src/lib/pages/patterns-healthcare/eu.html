@@ -71,7 +71,28 @@
     <li>Erakutsi bi identifikatzaile pazientearen datuak agertzen diren leku guztietan: izena jaiotza-datarekin, eta identifikatzaile nazionala bere ikusizko osagaiarekin (The Joint Commission, Quick Safety 45).</li>
     <li>Erabili pazientearen banner-a paziente baten erregistroan jarduten duen pantaila guztietan, eta eduki ikusgai.</li>
     <li>Banner-ean dagoena ez den beste erregistro batean ekintza bat egin aurretik, berretsi izenarekin, jaiotza-datarekin eta identifikatzailearekin.</li>
+    <li>
+      Pazientea ez den beste norbaiti buruzko sarrera batek (guraso baten aurrekariak, fetu bat, emaile bat) lehenik hitzez esaten du norena den: eman erregistroko elementuei <code>subjectLabel</code> («Ama»), senide baten diagnostikoa inoiz pazientearena bezala irakur ez dadin (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Ez mugatu zenbat erregistro ireki ditzakeen klinikari batek: 3.356 klinikariren zorizko saiakuntza batek (JAMA, 2019) aurkitu zuen horrek ez zuela paziente okerrerako eskaerak murriztu, eta jendeak saihestu egiten duela.</li>
+    <li>
+      Erregistro bakar baten gaineko ekintzen menuak erregistro hori izendatzen du lehenik, honekin: <code>subjectLabel</code> , <code>context-menu</code> edo
+      <code>dropdown-menu</code> osagaian («Ada Lovelace, tentsio arteriala aza. 3»): lehen zati ez-interaktibo bat, menuaren izen irisgarria ere badena.
+    </li>
+    <li>
+      Sailkatu ekintza bakoitza egiten duenaren arabera, eta egin maila ikusgai exekutatu aurretik. <strong>Ohikoa</strong> (ikusi, inprimatu) berehala exekutatzen da. <strong>Dokumentatua</strong> erregistroan zer idatziko duen esaten du («Ohar bat gehitzen dio kontsultari»).
+      <strong>Klinikoa</strong> (eten, agindu bat bertan behera utzi) bigarren aldiz galdetzen du, <code>alert-dialog</code> batean, zeinaren berresteko botoia aditza baita («Eten»), inoiz ez «Ados» edo «Bai». <strong>Ezagutarazlea</strong> (larrialdiko sarbidea, zaintza-taldetik kanpo partekatzea) lehenik arrazoi bat eskatzen du eta erregistratu egiten du.
+    </li>
+    <li>
+      Hainbat erregistro irekita daudenean (fitxak, leihoak, panel zatituak), fitxa bakoitzaren testu ikusgaiak eta izen irisgarriak pazientearen izena eta bigarren identifikatzaile bat dituzte, panel aktiboak banda errepikatzen du, eta ekintza bat ere ez da aplikatzen bere paneleko pazientea ez den beste bati.
+    </li>
+    <li>
+      Erakutsi erregistroak zein lekuri egotziko zaizkion (saioa hastean aukeratutako unitatea, kontsulta edo zentroa) testu gisa orriaren goiburuan, eta egin aldatzea ekintza esplizitu.
+    </li>
+    <li>
+      Erakutsi bisita aktiboa, edo «Ez dago bisita aktiborik», bandan. Bisita behar duen inprimaki batek hala esaten du eta bat hastea eskaintzen du, gordetzean huts egin beharrean.
+    </li>
   </ul>
 
   <h2>Pazientearen banner-a</h2>
@@ -82,6 +103,9 @@
     <li>falta den balioa hitzez idazten da («Ezezaguna»), inoiz ez galdera-ikur, marratxo edo gelaxka huts bidez;</li>
     <li>hildako paziente bat: <code>data-deceased</code> gaiarentzat, eta testu-lerro ikusgai bat, inoiz ez kolorea bakarrik;</li>
     <li>ez da eremurik laburtzen, mozten edo ezkutatzen zabalera batean ere; lerro-jauzia egiten du.</li>
+    <li>
+      pazientearen alertak («Interpretea behar du», «Infekzio-arriskua») hitzezko <code>tag-group</code> etiketatu bat dira, inoiz ez ikonoak edo kolorea soilik, eta ikusgai jarraitzen dute banda lerroz aldatzen denean.
+    </li>
   </ul>
 
   <h2>Emaitzak</h2>
@@ -90,6 +114,30 @@
     <li>Bandera zure itzulpeneko hitzak dira (<code>flagLabel</code>), FHIR interpretazio-kodea <code>data-interpretation</code> gisa gaiarentzat.</li>
     <li>Bereizi emaitza berriak aurreko emaitzetatik, eta erakutsi joera bat (sparkline bat, edo lerro-grafiko bat bere datu-taularekin): klinikariek aldaketa esanguratsu bat bilatzen dute, ez barrutia bakarrik.</li>
     <li>Inoiz erregistratu ez zen emaitza bat eta eskuragarri ez dagoen bat egoera desberdinak dira, hitz desberdinekin.</li>
+    <li>
+      Ezezaguna ez da normala. Erreferentzia-tartea falta duen, oraindik kargatzen ari den edo irakurtezina den emaitzak ez du interpretaziorik eta hala esaten du; <code>observation-view</code> ez du inoiz interpretaziorik ondorioztatzen, beraz tartea izan baina <code>interpretation</code> ez duen emaitzak ez du markarik erakusten.
+    </li>
+    <li>
+      Eskalaz kanpoko emaitza tresnaren muga da konparatzaile batekin («&gt; 33,3 mmol/L»: <code>formatQuantity</code> eta
+      <code>"&gt;"</code>) eta zure marka kritikoarekin, inoiz ez zenbaki soil bat. Gutxi gorabeherako balioak bere ≈ gordetzen du (<code>"~"</code>).
+    </li>
+    <li>Eman izendatutako tarte gehigarriak («Kritikoa: 2,5 azpitik») <code>ranges</code>gisa, bakoitza bere zatian.</li>
+    <li>
+      Zuzendutako edo aldatutako emaitzak ordeztu zuen balioa gordetzen du, <code>&lt;del&gt;</code>batean, noiz aldatu zen zure hitzekin (<code>previousValue</code>, <code>previousLabel</code>), balio zaharra irakurri zuen klinikariak aldatu zela jakin dezan.
+    </li>
+    <li>
+      Tarte-neurketa batek bere zabalera eta funtzioa esaten ditu («Batez bestekoa, 24 ordu»), eta neurketaren egoera eta metodoa («Eserita, eskumutur handia») ondoan dagoen testu ikusgaia dira, inoiz ez argibide bat soilik (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Joera batek puntu konparagarriak behar ditu: ez marraztu lerrorik zure gutxienekoaren azpitik, eten lerroa metodoa edo analisia aldatu zen lekuan, eta esan norabidea eta esanahia hitzez («jaisten, hobetzen»).
+    </li>
+    <li>
+      Unitate-sistema batean sartutako bizi-konstanteek bestea erakuts dezakete ondoan zure testu gisa («70 kg (154 lb)»); Lily-k ez du ezer bihurtzen, beraz adierazi zure biribiltzea. Sartu kantitate bat <code>quantity-input-div</code>bidez; haren zenbakiak unitate bakoitzaren mugak hartzen ditu.
+    </li>
+    <li>
+      Hazkuntza-kurba bat <code>line-chart</code> bat da, zure pertzentil-lerroak serie gisa, haurraren puntuak eta adinaren eta balioaren datu-taula; Lily-k ez du pertzentilik kalkulatzen eta ez du hazkuntza-erreferentziarik ematen.
+    </li>
   </ul>
 
   <h2>Sendagaiak</h2>
@@ -106,12 +154,73 @@
     <li>Idatzi hilabetea testu gisa, data bat bi eratan irakur ez dadin (<code>Intl.DateTimeFormat</code> <code>month: "short"</code>-ekin).</li>
     <li>Aukeratu erlojua nahita: pasatu <code>hourCycle</code> esplizituki. NHSk 24 orduko erlojua eskatzen du; hori Erresuma Batuko arau bat da, ez mundukoa, beraz Lily-k ez du inoiz zure ordez hautatzen.</li>
     <li>Adinak Common User Interface-ren bandak jarraitzen ditu <code>ageParts()</code> bidez; beste konbentzio bat duen zerbitzu batek bere hitzak pasatzen ditu.</li>
+    <li>
+      Hilabetera edo urtera arte bakarrik ezagutzen den data horrela geratzen da: eskatu <code>date-field</code>
+      <code>precision="month"</code> edo <code>"year"</code>bidez, gorde <code>2019-03</code> edo <code>2019</code>gisa, eta idatzi
+      <code>formatPartialDate()</code>bidez. Ez asmatu inoiz egunik.
+    </li>
+    <li>
+      Iraupen bat <code>duration-view</code>da, <code>&lt;time datetime="P3DT4H"&gt;</code> bat zure hitzekin, hauetatik:
+      <code>durationParts()</code> eta <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Aginte-panelak</h2>
   <ul>
     <li>Ataleko taula batek edo komando-zentroko pantaila batek maiz eguneratzen dira. Ez iragarri inoiz aldaketa bakoitza: eduki laburpen-eskualde ohiko bat («3 ohe libre, 2 alta espero») eta utzi jendeari taula irakurtzen.</li>
     <li>Taula bateko egoera guztiak (ohe garbia, okupatua, blokeatua) testua dira edo hitzak dituen <code>data-*</code> egoera, inoiz ez kolorea bakarrik.</li>
+    <li>
+      Ezer ez da keinuka (WCAG 2.2.2, 2.3.1), eta tenporizadore batekin eguneratzen den taulak pausa-kontrol bat du edo eskatzen denean bakarrik eguneratzen da; eguneratzeek ez dute inoiz fokua mugitzen. Atzeratutako sarrera batek hitzez esaten du («20 minutu baino gehiago itxaroten») eta <code>data-overdue</code>.
+    </li>
+    <li>Zenbaketa edo tasa batek bere izendatzailea erakusten du («68tik 12») eta atzean duen zerrendarako esteka ematen du.</li>
+    <li>
+      Zerrenda edo kronologia batek zeren ikuspegia den esaten du: zer erakusten duen, bere ordena eta denbora-tartea, zer dagoen ezkutatuta eta zergatik, eta zein iturrik ez zuten erantzun. Erantzun ez zuen iturri baten zerrenda hutsak ez du frogatzen ezer ez dagoenik.
+    </li>
+    <li>
+      Oroigarri-zerrenda bat <code>record-list</code> bat da, zeinaren elementuek epemuga bat (<code>review-date</code>) eta epe-egoera bat hitzez daramaten, <code>data-due</code>rekin; hura sortu zuen araua zurea da.
+    </li>
+  </ul>
+
+  <h2>Inprimakiak</h2>
+  <ul>
+    <li>
+      «Bai», «ez» edo «ez da galdetu» erantzuten den galdera bat hiru erantzuneko <code>radio-group</code> bat da, hasieran bat ere aukeratu gabe, inoiz ez kontrol-lauki bat: kontrol-lauki batek ezin du «ukatua» eta «inoiz ez da galdetu» bereizi. Sistemen berrikuspena gorputz-sistema bakoitzeko <code>fieldset</code> bat da, eta «gainerako guztiak ez daude» botoiak erantzun gabekoak bakarrik ezartzen ditu.
+    </li>
+    <li>
+      Erantzun-zerrenda bat duen galdera bat (botikak, helbideak) <code>repeatable-fieldset</code>bat da: elementu bat gehitzen edo kentzen da, fokuak jarraitzen dio, eta kentzeko botoi bakoitzak bere elementuaren izena darama.
+    </li>
+    <li>
+      Koma hamartarra duen zenbaki bat: erakutsi <code>Intl.NumberFormat</code> bidez eta, <code>type="number"</code> komak onartzen ez duen lekuan, hartu testu-eremu batean <code>inputmode="decimal"</code> erabiliz eta aztertu zure kodean. Ez aldatu inoiz pertsonak idatzitako balio bat, ezta tarte batera mugatzeko ere: tartetik kanpoko balioa ikus dezakeen errore bat da.
+    </li>
+    <li>
+      Aukeren zati bat bakarrik aldi berean erakusten duen zerrenda luze batek <code>aria-setsize</code> eta <code>aria-posinset</code> ezartzen ditu aukera bakoitzean, eta gogoan du orrian bilatzeak ez duela gainerakoa ikusten.
+    </li>
+  </ul>
+
+  <h2>Erregistroak, oharrak eta haien jatorria</h2>
+  <ul>
+    <li>
+      Esan zerrenda edo sareta bat zeren ikuspegia den, errenkadak baino lehen: denbora-tartea eta ordena, zer uzten duen kanpoan eta zergatik, eta zein iturrik ez zuten erantzun («Azken 12 hilabeteak, berrienak lehenik. Familia-medikuaren erregistroak ez zuen erantzun.»). Eman <code>record-list</code> eta
+      <code>timeline-list</code> osagaiei <code>coverageLabel</code>, eta <code>data-grid</code> laguntzaileari bere <code>coverageLabel</code>. Erantzun ez zuen iturri baten zerrenda hutsak hitzez esaten du, inoiz «ezer ez erregistratua» bezala irakur ez dadin.
+    </li>
+    <li>
+      Esan erregistro bat nondik etorri den eta behin betikoa den <code>record-provenance-view</code>bidez: sinatua, sinaduraren zain, aldatua, gailu honetan gordea eta oraindik bidali gabea. Sinatu gabeko zirriborro batek ez du inoiz sinatua dirudien.
+    </li>
+    <li>Beste norbaiti buruzko sarrera batek (guraso bat, fetu bat, emaile bat) lehenik norena den esaten du, erregistroko elementuen <code>subjectLabel</code>.</li>
+    <li>
+      Atxikitako sarrera bat zerrendan geratzen da zure hitzekin («Mugatua: ez dago zuretzat eskuragarri»), eta akatsez egindako sarrera bat marratuta geratzen da «Akatsez sartua» testuarekin: eman <code>record-list-item</code> edo <code>timeline-list-item</code> osagaiari
+      <code>entryState</code> eta <code>entryStateLabel</code>. Ez kendu inoiz bietako bat isilean, hutsune bat «ez da ezer gertatu» bezala irakurtzen baita.
+    </li>
+    <li>
+      Ohar kliniko batean, markatu pasarte bakoitzaren iturria (idatzia, diktatua, txantiloia, aurrera kopiatua, sortua)
+      <code>data-source</code> eta hitz ikusgaien bidez, kopiatutako edo sortutako testua gaurko azterketatzat inoiz har ez dadin.
+    </li>
+    <li>
+      Kargatu ezin den atal bat <code>unavailable</code> da zure hitzekin, berriro saiatzeko botoi batekin; kode tekniko bat, erakusten bada, zabaltzeko elementu baten atzean dago. Pertsona baten ekintzak eragindako hutsegitea iragartzen da, erregistroak orain duen balioarekin; orria kargatzean gertatutakoa ez.
+    </li>
+    <li>
+      Agindu baten historia <code>timeline-list</code>bat da, urrats bakoitzeko elementu bat (planifikatua, programatua, aktiboa, etena, osatua, ezeztatua) bere ordu eta arrazoiarekin, eta uneko egoera elementuan ere bai.
+    </li>
   </ul>
 
   <h2>FHIRtik Lilyra</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (erregistro-zerrendetan ere bai)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Mapatu <code>entered-in-error</code> erregistro bat bere <code>entered-in-error</code> egoerara, hitzekin, isilean baztertu beharrean: erakutsi behar den ala ez zure zerbitzuaren erabakia da.</p>
+
+  <h2>openEHR-etik Lily-ra</h2>
+  <p>
+    Lily-k ez ditu openEHR konposizioak ere irakurtzen. openEHR Erreferentzia Ereduaren datu-moten eta kodeen mapaketa, zure segurtasun kliniko berrikuspenak erabakitzen duen proposamen gisa:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR datu-motak eta kodeak, eta haiei dagozkien Lily balioak</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (sarrera)</td>
+          <td><code>quantity-input-div</code>; unitateak UCUM kode gisa zure hitzekin</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (bistaratzea), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> eta <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> ≈ da)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> eta <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> partziala (urtea, urtea eta hilabetea)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> eta <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> barruan: <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> bat, etiketek zenbakia eta haren hitzak dituztela</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>behean dagoen balio kodetuen eredua</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, «ez da galdetu» gertatu ezin denean bakarrik</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> ezezaguna, <code>271</code> informaziorik ez</td>
+          <td><code>status="not-recorded"</code> edo <code>"unavailable"</code>, zein den esaten duten hitzekin</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> ezkutatua</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> ez dagokio</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subjektua</td>
+          <td><code>subjectLabel</code> erregistroko elementuetan</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Instruction State Machine urratsak</td>
+          <td>urratsen <code>timeline-list</code> bat, uneko egoera elementuan</td>
+        </tr>
+        <tr>
+          <td>agerraldi hauek dituen arketipo-elementua: <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Kodetutako balioak</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Ez du bidaliko sendagai-datu-baserik, tall man zerrendarik, ezta SNOMED CT, CIE, LOINC edo UCUM kodeak.</li>
     <li>Ez du erreproduzituko lizentziadun tresna bat (Wong-Baker FACES) edo beste erakunde baten diseinua (NEWS2 diagrama).</li>
     <li>Ez du mugatuko aldi berean irekitako erregistro kopurua.</li>
+    <li>Tarte batetik interpretazio bat ondorioztatu, unitate bat bihurtu edo data erlatibo bat («datorren asteartea») aztertu.</li>
+    <li>«Bai, ez edo ezezaguna»-rako etengailu bat erabili: ARIAren <code>switch</code> ez du hirugarren egoerarik, beraz hiru aukera-botoi dira.</li>
   </ul>
   <p>Gida honen atzean dauden ikerketa, iturri eta erabakiak <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>-n daude.</p>
 </section>

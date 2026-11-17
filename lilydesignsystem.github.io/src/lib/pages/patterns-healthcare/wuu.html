@@ -71,7 +71,28 @@
     <li>凡是显示病人数据个地方，侪要显示两个标识：姓名加出生日期，以及用对应 view 组件显示个国民身份标识（The Joint Commission, Quick Safety 45）。</li>
     <li>辣每一个针对某位病人记录操作个界面上侪用病人横幅，并且保持伊一直看得见。</li>
     <li>辣对横幅所示记录以外个另一份记录执行操作之前，要用姓名、出生日期搭标识确认。</li>
+    <li>
+      关于患者以外之人个条目（父母个病史、胎儿、捐献者）先用文字说明是啥人个：为记录项设置 <code>subjectLabel</code> （“母亲”），迭样亲属个诊断绝勿会被读成患者个诊断（openEHR
+      <code>PARTY_RELATED</code>，FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>勿要限制临床医生好打开几化记录：一项牵涉 3,356 名临床医生个随机试验（JAMA，2019）发现，介样做并呒没减少认错病人个医嘱，而且大家会想办法绕过限制。</li>
+    <li>
+      针对一条记录个操作菜单先说出迭条记录，在 <code>subjectLabel</code> 上使用 <code>context-menu</code> 或
+      <code>dropdown-menu</code> （“Ada Lovelace，血压 11月3日”）：一个勿可交互个首部分，同时也是菜单个无障碍名称。
+    </li>
+    <li>
+      按操作个作用拨每个操作分级，并在执行前让级别可见。 <strong>常规</strong> （查看、打印）立即执行。 <strong>记录型</strong> 说明伊将写入记录个内容（“为本次就诊添加一条备注”）。
+      <strong>临床型</strong> （停用、取消医嘱）再次确认，放在 <code>alert-dialog</code> 中，其确认按钮是动词（“停用”），绝勿是“确定”或“是”。 <strong>披露型</strong> （紧急访问、在诊疗团队之外共享）先要求填写理由并记录下来。
+    </li>
+    <li>
+      同时打开多份记录时（标签页、窗口、分屏），每个标签页个可见文字搭无障碍名称都包含患者姓名搭第二个标识符，活动面板重复显示横幅，任何操作都勿会作用于其面板之外个患者。
+    </li>
+    <li>
+      把记录将归属个地点（登录时选择个病区、门诊或机构）以文字显示在页眉中，并把更改伊设为一个明确个操作。
+    </li>
+    <li>
+      在横幅中显示当前就诊，或“无当前就诊”。需要就诊个表单会说明迭一点并提议开始一次就诊，而勿是在保存时失败。
+    </li>
   </ul>
 
   <h2>病人横幅</h2>
@@ -82,6 +103,9 @@
     <li>缺失个值用文字表达（“勿详”），勿好用问号、破折号或者空单元格；</li>
     <li>已故病人：为主题提供 <code>data-deceased</code>，并且显示一行看得见个文字，绝对勿好光靠颜色；</li>
     <li>任何宽度下侪勿截断、勿裁切、勿隐藏任何字段，而是自动换行。</li>
+    <li>
+      患者标记（“需要口译员”、“感染风险”）是带标签个 <code>tag-group</code> 由文字组成，绝勿只用图标或颜色，并在横幅换行时保持可见。
+    </li>
   </ul>
 
   <h2>检验结果</h2>
@@ -90,6 +114,30 @@
     <li>标志是来自侬个翻译个文字（<code>flagLabel</code>），FHIR 解释代码则作为 <code>data-interpretation</code> 提供拨主题。</li>
     <li>拿新结果搭之前个结果分开，并且显示趋势（迷你折线图，或者附数据表个折线图）：临床医生关注个是显著变化，而勿光是范围。</li>
     <li>从来呒没记录过个结果搭无法获取个结果是勿同个状态，要用勿同个文字表达。</li>
+    <li>
+      未知勿等于正常。参考范围缺失、仍在加载或无法读取个结果呒没解读，并会说明迭一点； <code>observation-view</code> 绝勿自行推断，因此有范围但呒没 <code>interpretation</code> 个结果勿显示任何标记。
+    </li>
+    <li>
+      超出量程个结果是仪器个极限加比较符（“&gt; 33.3 mmol/L”： <code>formatQuantity</code> 配合
+      <code>"&gt;"</code>）再加上侬个危急标记，绝勿是光秃秃个数字。近似值保留伊个 ≈（<code>"~"</code>).
+    </li>
+    <li>把其他具名范围（“危急：低于 2.5”）作为 <code>ranges</code>拨出，每个各占一部分。</li>
+    <li>
+      更正或修改过个结果保留被替换个值，放在 <code>&lt;del&gt;</code>中，并用侬个文字说明何时更改（<code>previousValue</code>， <code>previousLabel</code>），让读过旧值个临床人员知道伊已更改。
+    </li>
+    <li>
+      区间测量说明其时长搭函数（“均值，24 小时”），测量个状态搭方法（“坐位，大号袖带”）以可见文字显示在旁边，绝勿只是工具提示（openEHR <code>INTERVAL_EVENT</code>， <code>state</code>，
+      <code>protocol</code>).
+    </li>
+    <li>
+      趋势需要可比个数据点：勿要在侬个最小点数以下画线，在方法或检测改变处断开线条，并用文字说明方向搭含义（“下降，好转”）。
+    </li>
+    <li>
+      以一种单位制录入个生命体征可以在旁边以侬个文字显示另一种（“70 kg（154 lb）”）；Lily 勿做任何换算，所以请说明侬个舍入方式。录入数量请使用 <code>quantity-input-div</code>，其数值遵循每个单位个限制。
+    </li>
+    <li>
+      生长曲线是一个 <code>line-chart</code> ，侬个百分位线作为数据系列，加上孩子个数据点及其年龄搭数值个数据表；Lily 勿计算百分位，也勿附带生长参考标准。
+    </li>
   </ul>
 
   <h2>药品</h2>
@@ -106,12 +154,73 @@
     <li>月份用文字书写，让日期勿会有两种读法（<code>Intl.DateTimeFormat</code> 搭配 <code>month: "short"</code>）。</li>
     <li>要有意识地选时钟制式：明确传进 <code>hourCycle</code>。NHS 要求用 24 小时制；搿个是英国个规定，勿是全世界个规定，所以 Lily 从来勿会代侬选。</li>
     <li>年龄通过 <code>ageParts()</code> 依照 Common User Interface 个分段；用其他惯例个服务就传进自家个文字。</li>
+    <li>
+      只知道到月或年个日期就保持迭样：用 <code>date-field</code>
+      <code>precision="month"</code> 或 <code>"year"</code>询问，存储为 <code>2019-03</code> 或 <code>2019</code>，并用
+      <code>formatPartialDate()</code>书写。绝勿编造日期。
+    </li>
+    <li>
+      一段时长是 <code>duration-view</code>，即一个 <code>&lt;time datetime="P3DT4H"&gt;</code> ，包含侬个文字，来自
+      <code>durationParts()</code> 搭 <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>仪表板</h2>
   <ul>
     <li>病区看板或者指挥中心屏幕更新交关频繁。勿要每趟变化侪播报：保留一个礼貌（polite）个摘要区域（“3 张空床，2 位待出院”），让大家自家去看看板。</li>
     <li>看板上个每一种状态（床位已清洁、已占用、已封闭）侪是文字，或者带文字个 <code>data-*</code> 状态，绝对勿好光靠颜色。</li>
+    <li>
+      任何东西都勿闪烁（WCAG 2.2.2、2.3.1），按定时器更新个看板有暂停控件，或只在请求时更新；更新绝勿移动焦点。逾期个条目用文字说明（“已等待超过 20 分钟”），并设置 <code>data-overdue</code>.
+    </li>
+    <li>计数或比率显示其分母（“68 中个 12”），并链接到其背后个列表。</li>
+    <li>
+      列表或时间线说明伊是啥个视图：显示啥、顺序搭时间窗口、隐藏了啥及原因，以及哪些来源呒没响应。来自未响应来源个空列表并勿能证明啥都勿存在。
+    </li>
+    <li>
+      提醒列表是一个 <code>record-list</code> ，其各项带有到期日期（<code>review-date</code>）搭以文字表示个到期状态，并设置 <code>data-due</code>；生成伊个规则由侬决定。
+    </li>
+  </ul>
+
+  <h2>表单</h2>
+  <ul>
+    <li>
+      答案为“是”、“否”或“未询问”个问题是一个 <code>radio-group</code> ，有三个答案，起初都勿选中，绝勿用复选框：复选框无法区分“否认”搭“从未询问”。系统回顾是每个身体系统一个 <code>fieldset</code> ，而“其余均无”按钮只设置未作答个项。
+    </li>
+    <li>
+      有一系列答案个问题（药物、地址）是一个 <code>repeatable-fieldset</code>：添加或删除一项时，焦点随之移动，每个删除按钮都以其对应项命名。
+    </li>
+    <li>
+      带小数逗号个数字：用 <code>Intl.NumberFormat</code> 显示，在 <code>type="number"</code> 勿接受逗号个地方，用带 <code>inputmode="decimal"</code> 个文本框接收，并在侬个代码中解析。绝勿更改用户输入个值，即使是为了限制在范围内：超出范围个值是用户能看到个错误。
+    </li>
+    <li>
+      一次只渲染部分选项个长列表会在每个选项上设置 <code>aria-setsize</code> 搭 <code>aria-posinset</code> ，并记住页内查找看勿到其余部分。
+    </li>
+  </ul>
+
+  <h2>记录、笔记及其来源</h2>
+  <ul>
+    <li>
+      在行之前说明列表或网格是啥个视图：时间窗口搭顺序、省略了啥及原因，以及哪些来源呒没响应（“最近 12 个月，最新个在前。全科医生记录未响应。”）。为 <code>record-list</code> 搭
+      <code>timeline-list</code> 设置 <code>coverageLabel</code>，并为 <code>data-grid</code> 辅助组件设置伊个 <code>coverageLabel</code>。来自未响应来源个空列表会用文字说明，绝勿会被读成“呒没记录”。
+    </li>
+    <li>
+      用 <code>record-provenance-view</code>说明记录来自何处以及是否为最终版本：已签名、等待签名、已修订、已保存在本设备且尚未发送。未签名个草稿绝勿能看起来像已签名。
+    </li>
+    <li>关于他人（父母、胎儿、捐献者）个条目先说明是啥人个，使用记录项个 <code>subjectLabel</code>.</li>
+    <li>
+      被保留个条目以侬个文字留在列表中（“受限：侬无权查看”），录入错误个条目保留删除线并标注“录入错误”：为 <code>record-list-item</code> 或 <code>timeline-list-item</code> 设置
+      <code>entryState</code> 搭 <code>entryStateLabel</code>。绝勿悄悄删除其中任何一个，因为空缺会被读成“啥都没发生”。
+    </li>
+    <li>
+      在临床笔记中，用
+      <code>data-source</code> 搭可见文字标明每段文字个来源（键入、口述、模板、沿用复制、生成），使复制或生成个文字绝勿会被当作今天个检查。
+    </li>
+    <li>
+      无法加载个部分为 <code>unavailable</code> ，用侬个文字说明，并附重试按钮；技术代码如需显示，放在展开控件后面。由用户操作导致个失败会被播报，同时说明记录现在个值；页面加载时个失败则勿播报。
+    </li>
+    <li>
+      医嘱个历史是一个 <code>timeline-list</code>，每个步骤一项（已计划、已排期、执行中、已暂停、已完成、已取消），附时间搭原因，当前状态也显示在该项上。
+    </li>
   </ul>
 
   <h2>从 FHIR 到 Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> （记录列表上也有）</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>拿 <code>entered-in-error</code> 记录对应到伊个 <code>entered-in-error</code> 状态，并且配上文字，勿要悄悄交扔脱：是否显示伊，由侬个服务决定。</p>
+
+  <h2>从 openEHR 到 Lily</h2>
+  <p>
+    Lily 同样勿读取 openEHR 组合。以下是 openEHR 参考模型数据类型搭代码个映射，作为由侬个临床安全评审决定个建议：
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR 数据类型搭代码，以及对应个 Lily 值</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> （录入）</td>
+          <td><code>quantity-input-div</code>；单位用 UCUM 代码加上侬个文字</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> （显示）， <code>magnitude_status</code></td>
+          <td><code>observation-view</code> 配合 <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> 即 ≈）</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>， <code>HH</code>， <code>H</code>， <code>L</code>， <code>LL</code>， <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>：FHIR <code>HU</code>， <code>HH</code>， <code>H</code>， <code>L</code>， <code>LL</code>， <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> 配合 <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> 部分日期（年，年搭月）</td>
+          <td><code>date-field</code> <code>precision</code>； <code>formatPartialDate()</code>； <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> 配合 <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> 放在 <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>， <code>DV_SCALE</code></td>
+          <td>一个 <code>radio-group</code> ，其标签带有数字搭对应文字</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>下文个编码值模式</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>，仅在勿可能出现“未询问”时使用</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> 未知， <code>271</code> 无信息</td>
+          <td><code>status="not-recorded"</code> 或 <code>"unavailable"</code>，并且用文字讲明是啥一种</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> 已遮蔽</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> 勿适用</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> 主体</td>
+          <td><code>subjectLabel</code> 用于记录项</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>， <code>ATTESTATION</code>， <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>指令状态机个步骤</td>
+          <td>一个 <code>timeline-list</code> ，列出各步骤，当前状态显示在该项上</td>
+        </tr>
+        <tr>
+          <td>出现次数为以下个原型项 <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>编码值</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>附带药品数据库、tall man 清单，或者 SNOMED CT、ICD、LOINC、UCUM 代码。</li>
     <li>复制有许可个量表（Wong-Baker FACES）或者其他机构个设计（NEWS2 图表）。</li>
     <li>限制同时打开个记录数量。</li>
+    <li>根据范围推断解读、换算单位，或解析相对日期（“下周二”）。</li>
+    <li>用开关表示“是、否或未知”：ARIA 个 <code>switch</code> 呒没第三种状态，所以要用三个单选按钮。</li>
   </ul>
   <p>搿份指南背后个研究、来源搭决定记载辣 <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>。</p>
 </section>

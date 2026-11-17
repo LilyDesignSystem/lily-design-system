@@ -71,7 +71,28 @@
     <li>Tampilna rong pangenal ing ngendi wae data pasien katon: jeneng karo tanggal lahir, lan pangenal nasional karo komponen view-ne (The Joint Commission, Quick Safety 45).</li>
     <li>Gunakna banner pasien ing saben layar sing tumindak marang rekam medis siji pasien, lan tetepna katon.</li>
     <li>Sadurunge tumindak ing rekam medis sing dudu ing banner, konfirmasia nganggo jeneng, tanggal lahir lan pangenal.</li>
+    <li>
+      Cathetan bab wong liya saliyane pasien (riwayat wong tuwa, janin, donor) luwih dhisik nyebutake nganggo tembung kagungane sapa: wenehana item rekam medis <code>subjectLabel</code> ("Ibu"), supaya diagnosis sedulur ora tau diwaca minangka diagnosis pasien (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Aja matesi pira rekam medis sing bisa dibukak klinisi: uji acak marang 3.356 klinisi (JAMA, 2019) nemokake yen iku ora nyuda pesenan salah pasien, lan wong golek dalan liya.</li>
+    <li>
+      Menu tumindak ing siji rekam medis luwih dhisik nyebutake rekam medis kasebut, nganggo <code>subjectLabel</code> ing <code>context-menu</code> utawa
+      <code>dropdown-menu</code> ("Ada Lovelace, tekanan getih 3 Nov"): perangan kapisan sing ora interaktif lan uga dadi jeneng aksesibel menu.
+    </li>
+    <li>
+      Golongna saben tumindak miturut apa sing ditindakake, lan tampilake tingkate sadurunge mlaku. <strong>Rutin</strong> (deleng, cithak) langsung mlaku. <strong>Didokumentasikake</strong> nyebutake apa sing bakal ditulis menyang rekam medis ("Nambahake cathetan ing kunjungan").
+      <strong>Klinis</strong> (mandhegake, mbatalake prentah) takon kaping pindho, ing <code>alert-dialog</code> sing tombol konfirmasine yaiku tembung kriya ("Mandhegake"), ora tau "OK" utawa "Ya". <strong>Mbukak</strong> (akses darurat, nuduhake ing njaba tim perawatan) luwih dhisik njaluk alesan lan nyathet.
+    </li>
+    <li>
+      Yen sawetara rekam medis kabukak (tab, jendhela, panel kapérang), teks katon lan jeneng aksesibel saben tab ngemot jeneng pasien lan identitas kapindho, panel aktif mbaleni spanduk, lan ora ana tumindak sing ditrapake marang pasien liya saliyane pasien panele.
+    </li>
+    <li>
+      Tampilake lokasi sing bakal dadi papan rekam medis (bangsal, klinik utawa fasilitas sing dipilih nalika mlebu) minangka teks ing sirah kaca, lan gawe gantine dadi tumindak sing cetha.
+    </li>
+    <li>
+      Tampilake kunjungan aktif, utawa "Ora ana kunjungan aktif", ing spanduk. Formulir sing butuh kunjungan nyebutake mangkono lan nawakake miwiti siji, tinimbang gagal nalika disimpen.
+    </li>
   </ul>
 
   <h2>Banner pasien</h2>
@@ -82,6 +103,9 @@
     <li>nilai sing ora ana yaiku tembung ("Ora dingerteni"), dudu tandha pitakon, garis utawa sel kosong;</li>
     <li>pasien sing wis seda: <code>data-deceased</code> kanggo tema, lan sebaris teks sing katon, ora mung warna;</li>
     <li>ora ana kolom sing dipotong, dikliping utawa didhelikake ing lebar apa wae; kolom kuwi mlipet.</li>
+    <li>
+      tandha pasien ("Butuh juru basa", "Risiko infeksi") yaiku <code>tag-group</code> kanthi label saka tembung, ora tau mung ikon utawa warna, lan tetep katon nalika spanduk nekuk.
+    </li>
   </ul>
 
   <h2>Asil</h2>
@@ -90,6 +114,30 @@
     <li>Tandha iku tembung saka terjemahan sampeyan (<code>flagLabel</code>), karo kode interpretasi FHIR minangka <code>data-interpretation</code> kanggo tema.</li>
     <li>Pisahna asil anyar saka sing sadurunge, lan tuduhna tren (sparkline, utawa grafik garis karo tabel datane): klinisi nggoleki owah-owahan sing wigati, ora mung rentange.</li>
     <li>Asil sing ora tau dicathet lan sing ora kasedhiya iku kahanan sing beda, mawa tembung sing beda.</li>
+    <li>
+      Ora dingerteni dudu normal. Asil sing kisaran rujukané ora ana, isih dimuat, utawa ora bisa diwaca ora duwe tafsiran lan nyebutake mangkono; <code>observation-view</code> ora tau nyimpulake, dadi asil kanthi kisaran lan tanpa <code>interpretation</code> ora nampilake tandha.
+    </li>
+    <li>
+      Asil ing njaba skala yaiku wates piranti kanthi pambanding ("&gt; 33,3 mmol/L": <code>formatQuantity</code> kanthi
+      <code>"&gt;"</code>) lan tandha kritis panjenengan, ora tau angka thok. Nilai kira-kira njaga ≈-ne (<code>"~"</code>).
+    </li>
+    <li>Wenehana kisaran kanthi jeneng liyane ("Kritis: ing ngisor 2,5") minangka <code>ranges</code>, saben siji dadi perangan dhewe.</li>
+    <li>
+      Asil sing dibenerake utawa diowahi njaga nilai sing digantèni, ing <code>&lt;del&gt;</code>, kanthi tembung panjenengan bab kapan owah (<code>previousValue</code>, <code>previousLabel</code>), supaya klinisi sing maca nilai lawas ngerti yen wis owah.
+    </li>
+    <li>
+      Pangukuran interval nyebutake ambane lan fungsine ("Rata-rata, 24 jam"), lan kahanan lan cara pangukuran ("Lungguh, manset gedhe") minangka teks katon ing sandhinge, ora tau mung tooltip (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Tren butuh titik sing bisa dibandhingake: aja nggambar garis ing ngisor minimum panjenengan, pedhot garis ing panggonan cara utawa pamriksan owah, lan sebutake arah lan maknane nganggo tembung ("mudhun, saya apik").
+    </li>
+    <li>
+      Tandha vital sing dilebokake ing siji sistem satuan bisa nampilake sistem liyane ing sandhinge minangka teks panjenengan ("70 kg (154 lb)"); Lily ora ngowahi apa-apa, mula sebutake pambuleten panjenengan. Lebokake jumlah nganggo <code>quantity-input-div</code>, sing angkane manut wates saben satuan.
+    </li>
+    <li>
+      Kurva tuwuh yaiku <code>line-chart</code> kanthi garis persentil panjenengan minangka seri, titik-titik bocah lan tabel data umur lan nilai; Lily ora ngetung persentil lan ora nyedhiyakake rujukan tuwuh.
+    </li>
   </ul>
 
   <h2>Obat</h2>
@@ -106,12 +154,73 @@
     <li>Tulisen sasi nganggo teks supaya tanggal ora bisa diwaca rong cara (<code>Intl.DateTimeFormat</code> karo <code>month: "short"</code>).</li>
     <li>Pilihen jam kanthi sengaja: wènèhana <code>hourCycle</code> kanthi cetha. NHS njaluk jam 24; iku aturan Inggris, dudu aturan donya, mulane Lily ora tau milih kanggo sampeyan.</li>
     <li>Umur manut pita Common User Interface liwat <code>ageParts()</code>; layanan sing nduweni kabiasaan liya maringi tembunge dhewe.</li>
+    <li>
+      Tanggal sing mung dingerteni nganti sasi utawa taun tetep mangkono: takokake nganggo <code>date-field</code>
+      <code>precision="month"</code> utawa <code>"year"</code>, simpen <code>2019-03</code> utawa <code>2019</code>, lan tulis nganggo
+      <code>formatPartialDate()</code>. Aja nate nggawe-nggawe dina.
+    </li>
+    <li>
+      Suwene wektu yaiku <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> sing ngemot tembung panjenengan, saka
+      <code>durationParts()</code> lan <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Dasbor</h2>
   <ul>
     <li>Papan bangsal utawa layar pusat komando kerep dianyari. Aja ngumumake saben owah-owahan: gawea siji wilayah ringkesan sing sopan ("3 amben kosong, 2 pasien arep mulih") lan wong dikon maca papane dhewe.</li>
     <li>Saben kahanan ing papan (amben resik, kapakéni, diblokir) iku teks utawa kahanan <code>data-*</code> mawa tembung, ora mung warna.</li>
+    <li>
+      Ora ana sing kelip-kelip (WCAG 2.2.2, 2.3.1), lan papan sing dianyari nganggo pengatur wektu duwe kontrol jeda utawa mung dianyari yen dijaluk; nganyari ora tau mindhah fokus. Cathetan sing telat nyebutake nganggo tembung ("Ngenteni luwih saka 20 menit") kanthi <code>data-overdue</code>.
+    </li>
+    <li>Cacah utawa rasio nampilake penyebute ("12 saka 68") lan nyambung menyang dhaptar ing mburine.</li>
+    <li>
+      Dhaptar utawa garis wektu nyebutake tampilan saka apa: apa sing ditampilake, urutan lan wektune, apa sing didhelikake lan apa sebabe, lan sumber endi sing ora mangsuli. Dhaptar kosong saka sumber sing ora mangsuli dudu bukti yen ora ana apa-apa.
+    </li>
+    <li>
+      Dhaptar pangeling yaiku <code>record-list</code> sing item-iteme nggawa tanggal tempo (<code>review-date</code>) lan kahanan tempo nganggo tembung, kanthi <code>data-due</code>; aturan sing nggawe iku kagungane panjenengan.
+    </li>
+  </ul>
+
+  <h2>Formulir</h2>
+  <ul>
+    <li>
+      Pitakon sing dijawab "ya", "ora" utawa "ora ditakokake" yaiku <code>radio-group</code> telung wangsulan, ora ana sing dipilih ing wiwitan, ora tau kothak centhang: kothak centhang ora bisa mbedakake "dibantah" saka "ora tau ditakokake". Tinjauan sistem yaiku siji <code>fieldset</code> saben sistem awak, lan tombol "kabeh liyane ora ana" mung nyetel sing durung dijawab.
+    </li>
+    <li>
+      Pitakon kanthi dhaptar wangsulan (obat, alamat) yaiku <code>repeatable-fieldset</code>: item ditambahake utawa dibusak, fokus melu, lan saben tombol busak dijenengi miturut iteme.
+    </li>
+    <li>
+      Angka kanthi koma desimal: tampilake nganggo <code>Intl.NumberFormat</code> lan, ing panggonan <code>type="number"</code> ora nampa koma, tampa ing kolom teks kanthi <code>inputmode="decimal"</code> lan urai ing kode panjenengan. Aja nate ngowahi nilai sing diketik wong, sanajan kanggo mbatesi ing kisaran: nilai ing njaba kisaran yaiku kesalahan sing bisa dideleng.
+    </li>
+    <li>
+      Dhaptar dawa sing mung nampilake sapérangan pilihan ing sawijining wektu nyetel <code>aria-setsize</code> lan <code>aria-posinset</code> ing saben pilihan, lan eling yen golek ing kaca ora bisa ndeleng sisane.
+    </li>
+  </ul>
+
+  <h2>Rekam medis, cathetan lan asal-usule</h2>
+  <ul>
+    <li>
+      Sebutake dhaptar utawa kisi iku tampilan saka apa, sadurunge barise: wektu lan urutane, apa sing ditinggal lan apa sebabe, lan sumber endi sing ora mangsuli ("12 sasi pungkasan, sing anyar dhisik. Rekam medis dhokter kulawarga ora mangsuli."). Wenehana <code>record-list</code> lan
+      <code>timeline-list</code>  <code>coverageLabel</code>, lan pambiyantu <code>data-grid</code> duwèke <code>coverageLabel</code>. Dhaptar kosong saka sumber sing ora mangsuli nyebutake nganggo tembung, supaya ora tau diwaca minangka "ora ana sing dicathet".
+    </li>
+    <li>
+      Sebutake saka ngendi rekam medis asale lan apa wis final nganggo <code>record-provenance-view</code>: ditandatangani, ngenteni tandha tangan, diowahi, disimpen ing piranti iki lan durung dikirim. Draf sing durung ditandatangani ora kena katon wis ditandatangani.
+    </li>
+    <li>Cathetan bab wong liya (wong tuwa, janin, donor) luwih dhisik nyebutake kagungane sapa, nganggo <code>subjectLabel</code>.</li>
+    <li>
+      Cathetan sing ditahan tetep ana ing dhaptar kanthi tembung panjenengan ("Diwatesi: ora kasedhiya kanggo panjenengan"), lan cathetan sing digawe amarga kliru tetep dicoret kanthi "Dilebokake amarga kliru": wenehana <code>record-list-item</code> utawa <code>timeline-list-item</code> 
+      <code>entryState</code> lan <code>entryStateLabel</code>. Aja nate mbusak salah sijine kanthi meneng, amarga celah diwaca "ora ana kedadeyan".
+    </li>
+    <li>
+      Ing cathetan klinis, tandhani sumber saben perangan (diketik, didikte, cithakan, disalin saka sadurunge, digawe mesin) nganggo
+      <code>data-source</code> lan tembung sing katon, supaya teks salinan utawa gawean mesin ora tau dianggep pamriksan dina iki.
+    </li>
+    <li>
+      Bagean sing ora bisa dimuat yaiku <code>unavailable</code> nganggo tembung panjenengan, kanthi tombol nyoba maneh; kode teknis, yen ditampilake, ana ing mburi pambukak. Kegagalan amarga tumindak wong diumumake, bebarengan karo nilai sing saiki dicekel rekam medis; kegagalan nalika kaca dimuat ora.
+    </li>
+    <li>
+      Riwayat prentah yaiku <code>timeline-list</code>, siji item saben langkah (direncanakake, dijadwalake, aktif, ditundha, rampung, dibatalake) kanthi wektu lan alesane, lan kahanan saiki uga ing item.
+    </li>
   </ul>
 
   <h2>Saka FHIR menyang Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (uga ing dhaptar rekam medis)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Petakna cathetan <code>entered-in-error</code> menyang status <code>entered-in-error</code>, nganggo tembung, aja dibuwang meneng-meneng: arep ditampilake apa ora iku keputusan layananmu.</p>
+
+  <h2>Saka openEHR menyang Lily</h2>
+  <p>
+    Lily uga ora maca komposisi openEHR. Pemetaan kanggo jinis data lan kode Model Rujukan openEHR, minangka usulan sing diputusake tinjauan keamanan klinis panjenengan:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Jinis data lan kode openEHR, lan nilai Lily kanggo iku</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (lebon)</td>
+          <td><code>quantity-input-div</code>; satuan minangka kode UCUM kanthi tembung panjenengan</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (tampilan), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> kanthi <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> yaiku ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> kanthi <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> sebagian (taun, taun lan sasi)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> kanthi <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> ing njero <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> sing labele nggawa angka lan tembunge</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>pola nilai kanthi kode ing ngisor</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, mung yen "ora ditakokake" ora bisa kedadeyan</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> ora dingerteni, <code>271</code> ora ana informasi</td>
+          <td><code>status="not-recorded"</code> utawa <code>"unavailable"</code>, karo tembung sing nerangake endi</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> didhelikake</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> ora ditrapake</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subjek</td>
+          <td><code>subjectLabel</code> ing item rekam medis</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Langkah Instruction State Machine</td>
+          <td> <code>timeline-list</code> saka langkah-langkah, kanthi kahanan saiki ing item</td>
+        </tr>
+        <tr>
+          <td>item arketipe kanthi kedadeyan <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Nilai sing dikodekake</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Nyedhiyakake basis data obat, dhaptar tall man, utawa kode SNOMED CT, ICD, LOINC utawa UCUM.</li>
     <li>Nyalin instrumen sing nduwe lisensi (Wong-Baker FACES) utawa desain lembaga liya (grafik NEWS2).</li>
     <li>Matesi cacahe rekam medis sing dibukak bebarengan.</li>
+    <li>Nyimpulake tafsiran saka kisaran, ngowahi satuan, utawa ngurai tanggal relatif ("Selasa ngarep").</li>
+    <li>Nganggo saklar kanggo "ya, ora utawa ora dingerteni": <code>switch</code> ARIA ora duwe kahanan katelu, mula iku telung tombol radio.</li>
   </ul>
   <p>Riset, sumber lan keputusan ing mburine pandhuan iki ana ing <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

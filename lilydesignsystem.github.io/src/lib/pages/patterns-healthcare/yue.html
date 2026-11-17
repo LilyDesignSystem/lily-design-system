@@ -71,7 +71,28 @@
     <li>凡係顯示病人資料嘅地方，都要顯示兩個識別資料：姓名加出生日期，以及用對應 view 組件顯示嘅國民身份識別號碼（The Joint Commission, Quick Safety 45）。</li>
     <li>喺每個針對某位病人記錄操作嘅畫面都用病人橫幅，並保持佢一直睇得到。</li>
     <li>喺對橫幅所示記錄以外嘅另一份記錄執行操作之前，要用姓名、出生日期同識別號碼確認。</li>
+    <li>
+      關於病人以外嘅人嘅條目（父母嘅病史、胎兒、捐贈者）會先用文字講明係邊個嘅：幫記錄項設定 <code>subjectLabel</code> （「母親」），咁親屬嘅診斷就永遠唔會被讀成病人嘅（openEHR
+      <code>PARTY_RELATED</code>，FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>唔好限制臨床人員可以打開幾多份記錄：一項涉及 3,356 名臨床人員嘅隨機試驗（JAMA，2019）發現，咁做並冇減少認錯病人嘅醫囑，而且人哋會想辦法繞過限制。</li>
+    <li>
+      針對一份記錄嘅操作選單會先講出呢份記錄，喺 <code>subjectLabel</code> 上面用 <code>context-menu</code> 或
+      <code>dropdown-menu</code> （「Ada Lovelace，血壓 11月3日」）：一個唔可以互動嘅第一部分，同時亦係選單嘅無障礙名稱。
+    </li>
+    <li>
+      按每個操作做咩嚟分級，喺執行之前令級別睇得到。 <strong>日常</strong> （睇、列印）即刻執行。 <strong>記錄類</strong> 講明會寫咩入記錄（「幫今次就診加一條備註」）。
+      <strong>臨床類</strong> （停用、取消醫囑）會再問多次，放喺 <code>alert-dialog</code> 入面，確認掣係動詞（「停用」），永遠唔係「確定」或者「係」。 <strong>披露類</strong> （緊急存取、喺護理團隊以外分享）會先要求原因並記低。
+    </li>
+    <li>
+      同時打開幾份記錄嗰陣（分頁、視窗、分割面板），每個分頁嘅可見文字同無障礙名稱都包括病人姓名同第二個識別碼，活動面板會重複顯示橫幅，冇任何操作會作用喺佢面板以外嘅病人身上。
+    </li>
+    <li>
+      將記錄會歸屬嘅地點（登入時揀嘅病房、診所或者機構）以文字顯示喺頁首，並將更改佢設定為一個明確嘅操作。
+    </li>
+    <li>
+      喺橫幅顯示目前嘅就診，或者「冇目前就診」。需要就診嘅表格會講明，並提議開始一次就診，而唔係喺儲存時失敗。
+    </li>
   </ul>
 
   <h2>病人橫幅</h2>
@@ -82,6 +103,9 @@
     <li>缺失嘅值用文字表達（「不詳」），唔好用問號、破折號或者空白儲存格；</li>
     <li>已身故病人：為主題提供 <code>data-deceased</code>，並顯示一行睇得到嘅文字，絕對唔可以淨係靠顏色；</li>
     <li>任何闊度都唔會截斷、裁切或者隱藏任何欄位，而係自動換行。</li>
+    <li>
+      病人標示（「需要傳譯員」、「感染風險」）係有標籤嘅 <code>tag-group</code> ，由文字組成，永遠唔只係圖示或者顏色，而且橫幅換行時都保持睇得到。
+    </li>
   </ul>
 
   <h2>檢驗結果</h2>
@@ -90,6 +114,30 @@
     <li>標記係來自你嘅翻譯嘅文字（<code>flagLabel</code>），FHIR 解讀代碼就以 <code>data-interpretation</code> 提供畀主題。</li>
     <li>將新結果同之前嘅結果分開，並顯示趨勢（迷你折線圖，或者附數據表嘅折線圖）：臨床人員留意嘅係顯著變化，而唔只係範圍。</li>
     <li>從來未記錄過嘅結果同無法取得嘅結果係唔同嘅狀態，要用唔同嘅文字表達。</li>
+    <li>
+      唔知唔等於正常。參考範圍冇咗、仲載入緊或者讀唔到嘅結果冇解讀，並會講明； <code>observation-view</code> 永遠唔會自行推斷，所以有範圍但冇 <code>interpretation</code> 嘅結果唔會顯示任何標示。
+    </li>
+    <li>
+      超出量程嘅結果係儀器嘅極限加比較符（「&gt; 33.3 mmol/L」： <code>formatQuantity</code> 配合
+      <code>"&gt;"</code>）同埋你嘅危急標示，永遠唔係一個淨數字。近似值保留佢嘅 ≈（<code>"~"</code>).
+    </li>
+    <li>將其他有名嘅範圍（「危急：低過 2.5」）作為 <code>ranges</code>提供，每個自成一部分。</li>
+    <li>
+      更正或者修改過嘅結果會保留被取代嘅值，放喺 <code>&lt;del&gt;</code>入面，並用你嘅文字講明幾時改咗（<code>previousValue</code>， <code>previousLabel</code>），等睇過舊值嘅臨床人員知道佢改咗。
+    </li>
+    <li>
+      區間量度會講明時長同函數（「平均值，24 小時」），量度嘅狀態同方法（「坐低，大號袖帶」）係旁邊睇得到嘅文字，永遠唔只係工具提示（openEHR <code>INTERVAL_EVENT</code>， <code>state</code>，
+      <code>protocol</code>).
+    </li>
+    <li>
+      趨勢需要可以比較嘅數據點：唔好喺你嘅最少點數以下畫線，喺方法或者檢驗改變嘅地方斷開條線，並用文字講出方向同意思（「下降，好轉」）。
+    </li>
+    <li>
+      用一種單位制輸入嘅生命徵象可以喺旁邊用你嘅文字顯示另一種（「70 kg（154 lb）」）；Lily 唔會做任何換算，所以請講明你點樣四捨五入。輸入數量請用 <code>quantity-input-div</code>，佢嘅數字跟每個單位嘅限制。
+    </li>
+    <li>
+      生長曲線係一個 <code>line-chart</code> ，你嘅百分位線作為數據系列，加埋小朋友嘅數據點同年齡及數值嘅數據表；Lily 唔計百分位，亦都唔附帶生長參考標準。
+    </li>
   </ul>
 
   <h2>藥物</h2>
@@ -106,12 +154,73 @@
     <li>月份用文字寫，咁日期就唔會有兩種讀法（<code>Intl.DateTimeFormat</code> 配合 <code>month: "short"</code>）。</li>
     <li>要有意識咁揀時鐘制式：明確傳入 <code>hourCycle</code>。NHS 要求用 24 小時制；嗰個係英國嘅規定，唔係全世界嘅規定，所以 Lily 永遠唔會代你揀。</li>
     <li>年齡透過 <code>ageParts()</code> 跟 Common User Interface 嘅分段；用其他慣例嘅服務就傳入自己嘅文字。</li>
+    <li>
+      只知道到月份或者年份嘅日期就保持噉：用 <code>date-field</code>
+      <code>precision="month"</code> 或 <code>"year"</code>問，儲存做 <code>2019-03</code> 或 <code>2019</code>，並用
+      <code>formatPartialDate()</code>寫出嚟。永遠唔好作日子。
+    </li>
+    <li>
+      一段時間係 <code>duration-view</code>，即係一個 <code>&lt;time datetime="P3DT4H"&gt;</code> ，載住你嘅文字，嚟自
+      <code>durationParts()</code> 同 <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>儀表板</h2>
   <ul>
     <li>病房看板或者指揮中心畫面會頻密更新。千祈唔好每次改動都播報：保留一個禮貌（polite）嘅摘要區域（「3 張空床，2 位待出院」），等人自己睇個看板。</li>
     <li>看板上面每個狀態（床位已清潔、佔用中、已封閉）都係文字，或者帶文字嘅 <code>data-*</code> 狀態，絕對唔可以淨係靠顏色。</li>
+    <li>
+      冇嘢會閃（WCAG 2.2.2、2.3.1），跟計時器更新嘅看板有暫停控制，或者只係有要求先更新；更新永遠唔會移動焦點。逾時嘅條目會用文字講明（「已等咗超過 20 分鐘」），並設定 <code>data-overdue</code>.
+    </li>
+    <li>計數或者比率會顯示分母（「68 個入面 12 個」），並連結到背後嘅列表。</li>
+    <li>
+      列表或者時間線會講明佢係咩嘅視圖：顯示咩、次序同時間範圍、隱藏咗咩同點解，以及邊啲來源冇回應。嚟自冇回應來源嘅空列表唔能夠證明乜都冇。
+    </li>
+    <li>
+      提醒列表係一個 <code>record-list</code> ，佢嘅項目帶有到期日（<code>review-date</code>）同用文字表示嘅到期狀態，並設定 <code>data-due</code>；產生佢嘅規則由你決定。
+    </li>
+  </ul>
+
+  <h2>表格</h2>
+  <ul>
+    <li>
+      答案係「係」、「唔係」或者「冇問過」嘅問題係一個 <code>radio-group</code> ，有三個答案，一開始全部唔揀，永遠唔用剔選框：剔選框分唔到「否認」同「從來冇問過」。系統回顧係每個身體系統一個 <code>fieldset</code> ，而「其餘全部冇」掣只會設定未答嘅項目。
+    </li>
+    <li>
+      有一系列答案嘅問題（藥物、地址）係一個 <code>repeatable-fieldset</code>：加或者刪一項時焦點會跟住，每個刪除掣都以佢嘅項目命名。
+    </li>
+    <li>
+      有小數逗號嘅數字：用 <code>Intl.NumberFormat</code> 顯示，喺 <code>type="number"</code> 唔接受逗號嘅地方，用帶 <code>inputmode="decimal"</code> 嘅文字欄接收，並喺你嘅程式碼入面解析。永遠唔好改用戶輸入嘅值，就算係為咗限制喺範圍內：超出範圍嘅值係佢睇得到嘅錯誤。
+    </li>
+    <li>
+      一次只顯示部分選項嘅長列表會喺每個選項設定 <code>aria-setsize</code> 同 <code>aria-posinset</code> ，並記住頁內搜尋睇唔到其餘部分。
+    </li>
+  </ul>
+
+  <h2>記錄、筆記同佢哋嘅來源</h2>
+  <ul>
+    <li>
+      喺行之前講明列表或者網格係咩嘅視圖：時間範圍同次序、略去咗咩同點解，以及邊啲來源冇回應（「最近 12 個月，最新嘅喺前面。家庭醫生記錄冇回應。」）。幫 <code>record-list</code> 同
+      <code>timeline-list</code> 設定 <code>coverageLabel</code>，並幫 <code>data-grid</code> 輔助元件設定佢嘅 <code>coverageLabel</code>。嚟自冇回應來源嘅空列表會用文字講明，永遠唔會被讀成「冇記錄」。
+    </li>
+    <li>
+      用 <code>record-provenance-view</code>講明記錄嚟自邊度、係咪最終版本：已簽署、等緊簽署、已修訂、已儲存喺呢部裝置但未傳送。未簽署嘅草稿永遠唔可以睇落似已簽署。
+    </li>
+    <li>關於其他人（父母、胎兒、捐贈者）嘅條目會先講明係邊個嘅，用記錄項嘅 <code>subjectLabel</code>.</li>
+    <li>
+      被扣起嘅條目會用你嘅文字留喺列表（「受限：你冇權睇」），錯誤輸入嘅條目會保留刪除線並標明「錯誤輸入」：幫 <code>record-list-item</code> 或 <code>timeline-list-item</code> 設定
+      <code>entryState</code> 同 <code>entryStateLabel</code>。永遠唔好靜靜雞刪走任何一個，因為空缺會被讀成「乜都冇發生」。
+    </li>
+    <li>
+      喺臨床筆記入面，用
+      <code>data-source</code> 同睇得到嘅文字標明每段文字嘅來源（打字、口述、範本、沿用複製、生成），令複製或者生成嘅文字永遠唔會被當成今日嘅檢查。
+    </li>
+    <li>
+      載入唔到嘅部分係 <code>unavailable</code> ，用你嘅文字講明，並附重試掣；技術代碼如果要顯示，就放喺展開控制後面。由用戶操作引致嘅失敗會被讀出，同時講明記錄而家嘅值；頁面載入時嘅失敗就唔會。
+    </li>
+    <li>
+      醫囑嘅歷史係一個 <code>timeline-list</code>，每個步驟一項（已計劃、已排期、進行中、已暫停、已完成、已取消），附時間同原因，目前狀態亦顯示喺該項。
+    </li>
   </ul>
 
   <h2>由 FHIR 到 Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> （記錄列表上面都有）</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>將 <code>entered-in-error</code> 紀錄對應到佢嘅 <code>entered-in-error</code> 狀態，並配上文字，而唔係靜靜雞丟棄：係咪顯示佢，由你嘅服務決定。</p>
+
+  <h2>由 openEHR 到 Lily</h2>
+  <p>
+    Lily 同樣唔會讀取 openEHR 組合。以下係 openEHR 參考模型數據類型同代碼嘅對應，作為由你嘅臨床安全審查決定嘅建議：
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR 數據類型同代碼，以及對應嘅 Lily 值</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> （輸入）</td>
+          <td><code>quantity-input-div</code>；單位用 UCUM 代碼加你嘅文字</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> （顯示）， <code>magnitude_status</code></td>
+          <td><code>observation-view</code> 配合 <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> 即係 ≈）</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>， <code>HH</code>， <code>H</code>， <code>L</code>， <code>LL</code>， <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>：FHIR <code>HU</code>， <code>HH</code>， <code>H</code>， <code>L</code>， <code>LL</code>， <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> 配合 <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> 部分日期（年，年同月）</td>
+          <td><code>date-field</code> <code>precision</code>； <code>formatPartialDate()</code>； <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> 配合 <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> 放喺 <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>， <code>DV_SCALE</code></td>
+          <td>一個 <code>radio-group</code> ，佢嘅標籤帶有數字同對應文字</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>下面嘅編碼值模式</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>，只係喺冇可能出現「冇問過」嗰陣用</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> 唔知， <code>271</code> 冇資料</td>
+          <td><code>status="not-recorded"</code> 或 <code>"unavailable"</code>，並用文字講明係邊一種</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> 已遮蔽</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> 不適用</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> 主體</td>
+          <td><code>subjectLabel</code> 用喺記錄項</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>， <code>ATTESTATION</code>， <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>指令狀態機嘅步驟</td>
+          <td>一個 <code>timeline-list</code> ，列出各個步驟，目前狀態顯示喺該項</td>
+        </tr>
+        <tr>
+          <td>出現次數如下嘅原型項 <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>編碼值</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>附帶藥物資料庫、tall man 清單，或者 SNOMED CT、ICD、LOINC、UCUM 代碼。</li>
     <li>複製有牌照嘅量表（Wong-Baker FACES）或者其他機構嘅設計（NEWS2 圖表）。</li>
     <li>限制同時打開嘅記錄數量。</li>
+    <li>由範圍推斷解讀、換算單位，或者解析相對日期（「下個禮拜二」）。</li>
+    <li>用開關表示「係、唔係或者唔知」：ARIA 嘅 <code>switch</code> 冇第三種狀態，所以要用三個單選掣。</li>
   </ul>
   <p>呢份指南背後嘅研究、來源同決定記載喺 <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>。</p>
 </section>

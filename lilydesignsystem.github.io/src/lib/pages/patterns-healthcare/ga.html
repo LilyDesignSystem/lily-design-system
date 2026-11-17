@@ -71,7 +71,28 @@
     <li>Taispeáin dhá aitheantóir aon áit a bhfuil sonraí othair le feiceáil: an t-ainm leis an dáta breithe, agus an t-aitheantóir náisiúnta lena chomhpháirt amhairc (The Joint Commission, Quick Safety 45).</li>
     <li>Úsáid meirge an othair ar gach scáileán a ghníomhaíonn ar thaifead othair amháin, agus coinnigh infheicthe é.</li>
     <li>Sula ndéanann tú gníomh ar thaifead seachas an ceann sa mheirge, deimhnigh é leis an ainm, an dáta breithe agus an t-aitheantóir.</li>
+    <li>
+      Insíonn iontráil faoi dhuine seachas an t-othar (stair tuismitheora, féatas, deontóir) ar dtús, i bhfocail, cé leis í: tabhair do mhíreanna an taifid <code>subjectLabel</code> ("Máthair"), ionas nach léifear diagnóis gaoil riamh mar dhiagnóis an othair (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Ná cuir teorainn le líon na dtaifead a fhéadfaidh cliniceoir a oscailt: fuair triail randamaithe le 3,356 cliniceoir (JAMA, 2019) nár laghdaigh sé orduithe don othar mícheart, agus go dtéann daoine timpeall air.</li>
+    <li>
+      Ainmníonn roghchlár gníomhartha ar thaifead amháin an taifead sin ar dtús, le <code>subjectLabel</code> ar <code>context-menu</code> nó
+      <code>dropdown-menu</code> ("Ada Lovelace, brú fola 3 Samh"): céad chuid neamh-idirghníomhach atá ina ainm inrochtana an roghchláir freisin.
+    </li>
+    <li>
+      Rangaigh gach gníomh de réir a ndéanann sé, agus déan an leibhéal infheicthe sula ritheann sé. <strong>Gnáth</strong> (féachaint, priontáil) ritheann sé láithreach. <strong>Doiciméadaithe</strong> insíonn sé cad a scríobhfaidh sé sa taifead ("Cuireann nóta leis an teagmháil").
+      <strong>Cliniciúil</strong> (scor, ordú a chealú) iarrann sé an dara huair, i <code>alert-dialog</code> a bhfuil an briathar ar a chnaipe deimhnithe ("Scoir"), riamh "OK" ná "Tá". <strong>Nochtach</strong> (rochtain éigeandála, comhroinnt lasmuigh den fhoireann chúraim) iarrann sé cúis ar dtús agus taifeadann sé í.
+    </li>
+    <li>
+      Nuair a bhíonn roinnt taifead oscailte (cluaisíní, fuinneoga, painéil scoilte), cuimsíonn téacs infheicthe agus ainm inrochtana gach cluaisín ainm an othair agus an dara aitheantóir, athdhéanann an painéal gníomhach an meirge, agus ní bhaineann aon ghníomh le hothar seachas othar a phainéil.
+    </li>
+    <li>
+      Taispeáin an áit a gcuirfear taifid ina leith (an barda, an clinic nó an tsaoráid a roghnaíodh ag síniú isteach) mar théacs i gceanntásc an leathanaigh, agus déan gníomh sainráite de í a athrú.
+    </li>
+    <li>
+      Taispeáin an chuairt ghníomhach, nó "Gan chuairt ghníomhach", sa mheirge. Insíonn foirm a dteastaíonn cuairt uaithi é sin agus tairgeann sí ceann a thosú, seachas teip nuair a shábháiltear í.
+    </li>
   </ul>
 
   <h2>Meirge an othair</h2>
@@ -82,6 +103,9 @@
     <li>is focail atá i luach atá ar iarraidh (“Anaithnid”), ní comhartha ceiste, fleiscín ná cill fholamh riamh;</li>
     <li>othar atá básaithe: <code>data-deceased</code> don téama, agus líne théacs infheicthe, ní dath amháin riamh;</li>
     <li>níl aon réimse giorraithe, gearrtha ná i bhfolach ag aon leithead; fillteann sé.</li>
+    <li>
+      is <code>tag-group</code> lipéadaithe d'fhocail iad bratacha an othair ("Teastaíonn ateangaire", "Riosca ionfhabhtaithe"), riamh deilbhíní ná dath amháin, agus fanann siad infheicthe nuair a fhillteann an meirge.
+    </li>
   </ul>
 
   <h2>Torthaí</h2>
@@ -90,6 +114,30 @@
     <li>Is focail ón aistriúchán agatsa an bhratach (<code>flagLabel</code>), le cód léirmhínithe FHIR mar <code>data-interpretation</code> don téama.</li>
     <li>Scar torthaí nua ó cheannacha níos luaithe, agus taispeáin treocht (spréacharlíne, nó cairt líne lena tábla sonraí): bíonn cliniceoirí ag lorg athraithe shuntasaigh, ní an raon amháin.</li>
     <li>Is staideanna difriúla iad toradh nár taifeadadh riamh agus toradh nach bhfuil ar fáil, le focail dhifriúla.</li>
+    <li>
+      Ní hionann anaithnid agus gnáth. Níl aon léirmhíniú ag toradh a bhfuil a raon tagartha ar iarraidh, fós á lódáil nó doléite, agus deir sé é sin; <code>observation-view</code> ní thátalaíonn sé ceann riamh, mar sin ní thaispeánann toradh le raon agus gan <code>interpretation</code> aon bhratach.
+    </li>
+    <li>
+      Is é toradh lasmuigh den scála teorainn na hionstraime le comparadóir ("&gt; 33.3 mmol/L": <code>formatQuantity</code> le
+      <code>"&gt;"</code>) agus do bhratach chriticiúil, riamh uimhir lom. Coinníonn luach garbh a ≈ (<code>"~"</code>).
+    </li>
+    <li>Tabhair raonta ainmnithe eile ("Criticiúil: faoi 2.5") mar <code>ranges</code>, gach ceann ina chuid féin.</li>
+    <li>
+      Coinníonn toradh ceartaithe nó leasaithe an luach a d'athsholáthair sé, i <code>&lt;del&gt;</code>, le d'fhocail faoin uair a d'athraigh sé (<code>previousValue</code>, <code>previousLabel</code>), ionas go mbeidh a fhios ag cliniceoir a léigh an seanluach gur athraigh sé.
+    </li>
+    <li>
+      Insíonn léamh eatramh a leithead agus a fheidhm ("Meán, 24 uair"), agus is téacs infheicthe in aice leis staid agus modh léimh ("Ina shuí, cufa mór"), riamh leid uirlise amháin (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Teastaíonn pointí inchomparáide ó threocht: ná tarraing líne faoi d'íosmhéid, bris an líne nuair a d'athraigh an modh nó an measúnú, agus abair an treo agus an bhrí i bhfocail ("ag titim, ag feabhsú").
+    </li>
+    <li>
+      Féadfaidh comharthaí beatha a iontráladh i gcóras aonad amháin an córas eile a thaispeáint in aice leo mar do théacs ("70 kg (154 lb)"); ní thiontaíonn Lily aon rud, mar sin luaigh do shlánú. Iontráil cainníocht le <code>quantity-input-div</code>, a nglacann a uimhir le teorainneacha gach aonaid.
+    </li>
+    <li>
+      Is <code>line-chart</code> é cairt fáis le do línte ceintíle mar shraitheanna, pointí an linbh agus a tábla sonraí d'aois agus luach; ní ríomhann Lily aon cheintíl agus ní sholáthraíonn sé aon tagairt fáis.
+    </li>
   </ul>
 
   <h2>Cógais</h2>
@@ -106,12 +154,73 @@
     <li>Scríobh an mhí mar théacs ionas nach féidir dáta a léamh ar dhá bhealach (<code>Intl.DateTimeFormat</code> le <code>month: "short"</code>).</li>
     <li>Roghnaigh an clog d’aon ghnó: pas <code>hourCycle</code> go sainráite. Iarrann an NHS an clog 24 uair; riail na Ríochta Aontaithe é sin, ní riail dhomhanda, mar sin ní roghnaíonn Lily riamh duit é.</li>
     <li>Leanann aoiseanna bandaí an Common User Interface trí <code>ageParts()</code>; cuireann seirbhís le coinbhinsiún eile a focail féin ar aghaidh.</li>
+    <li>
+      Fanann dáta nach eol ach go dtí an mhí nó an bhliain amhlaidh: iarr é le <code>date-field</code>
+      <code>precision="month"</code> nó <code>"year"</code>, stóráil <code>2019-03</code> nó <code>2019</code>, agus scríobh é le
+      <code>formatPartialDate()</code>. Ná cum lá riamh.
+    </li>
+    <li>
+      Is <code>duration-view</code>é fad ama, <code>&lt;time datetime="P3DT4H"&gt;</code> a choinníonn d'fhocail, ó
+      <code>durationParts()</code> agus <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Deais</h2>
   <ul>
     <li>Nuashonraítear bord barda nó scáileán lárionaid ceannais go minic. Ná fógair gach athrú riamh: coinnigh réigiún achoimre séimh amháin (“3 leaba saor, 2 scaoileadh amach ag teacht”) agus lig do dhaoine an bord a léamh.</li>
     <li>Is téacs nó staid <code>data-*</code> le focail gach staid ar bhord (leaba glan, áitithe, blocáilte), ní dath amháin riamh.</li>
+    <li>
+      Ní phreabann aon rud (WCAG 2.2.2, 2.3.1), agus bíonn rialtán sosa ag clár a nuashonraíonn ar amadóir nó ní nuashonraíonn sé ach nuair a iarrtar; ní bhogann nuashonruithe an fócas riamh. Deir iontráil thar téarma é sin i bhfocail ("Ag fanacht le breis is 20 nóiméad") le <code>data-overdue</code>.
+    </li>
+    <li>Taispeánann líon nó ráta a ainmneoir ("12 as 68") agus nascann sé leis an liosta taobh thiar de.</li>
+    <li>
+      Deir liosta nó amlíne cad atá ann mar léargas: cad a thaispeánann sé, a ord agus a thréimhse, cad atá i bhfolach agus cén fáth, agus cé na foinsí nár fhreagair. Ní cruthúnas é liosta folamh ó fhoinse nár fhreagair nach bhfuil aon rud ann.
+    </li>
+    <li>
+      Is <code>record-list</code> é liosta meabhrúchán a mbíonn dáta dlite ag a mhíreanna (<code>review-date</code>) agus staid dlite i bhfocail, le <code>data-due</code>; is leatsa an riail a chruthaigh é.
+    </li>
+  </ul>
+
+  <h2>Foirmeacha</h2>
+  <ul>
+    <li>
+      Is <code>radio-group</code> de thrí fhreagra é ceist a bhfreagraítear "tá", "níl" nó "níor fiafraíodh" uirthi, gan aon cheann roghnaithe ar dtús, riamh ticbhosca: ní féidir le ticbhosca idirdhealú a dhéanamh idir "séanta" agus "níor fiafraíodh riamh". Is <code>fieldset</code> amháin in aghaidh gach córais choirp é athbhreithniú córas, agus ní shocraíonn cnaipe "gach ceann eile as láthair" ach na cinn gan freagra.
+    </li>
+    <li>
+      Is <code>repeatable-fieldset</code>é ceist a bhfuil liosta freagraí aici (cógais, seoltaí): cuirtear mír leis nó baintear í, leanann an fócas, agus tá gach cnaipe bainte ainmnithe as a mhír.
+    </li>
+    <li>
+      Uimhir le camóg dheachúlach: taispeáin í le <code>Intl.NumberFormat</code> agus, nuair nach nglacann <code>type="number"</code> leis an gcamóg, glac í i réimse téacs le <code>inputmode="decimal"</code> agus parsáil í i do chód. Ná hathraigh riamh luach a chlóscríobh an duine, fiú chun é a shrianadh go raon: earráid is féidir leo a fheiceáil is ea luach lasmuigh den raon.
+    </li>
+    <li>
+      Socraíonn liosta fada nach dtaispeánann ach cuid dá roghanna ag an am <code>aria-setsize</code> agus <code>aria-posinset</code> ar gach rogha, agus cuimhnítear nach féidir le cuardach sa leathanach an chuid eile a fheiceáil.
+    </li>
+  </ul>
+
+  <h2>Taifid, nótaí agus a mbunús</h2>
+  <ul>
+    <li>
+      Abair cad is léargas ann do liosta nó do ghreille, roimh a sraitheanna: a thréimhse agus a ord, cad a fhágann sé ar lár agus cén fáth, agus cé na foinsí nár fhreagair ("12 mhí dheireanacha, an ceann is déanaí ar dtús. Níor fhreagair taifead an dochtúra teaghlaigh."). Tabhair do <code>record-list</code> agus do
+      <code>timeline-list</code>  <code>coverageLabel</code>, agus don chúntóir <code>data-grid</code> a <code>coverageLabel</code>. Deir liosta folamh ó fhoinse nár fhreagair é sin i bhfocail, ionas nach léifear riamh é mar "faic taifeadta".
+    </li>
+    <li>
+      Abair cad as a dtáinig taifead agus an bhfuil sé críochnaitheach le <code>record-provenance-view</code>: sínithe, ag fanacht ar shíniú, leasaithe, sábháilte ar an ngléas seo agus gan seoladh fós. Ní mór nach mbreathnódh dréacht gan síniú sínithe riamh.
+    </li>
+    <li>Deir iontráil faoi dhuine eile (tuismitheoir, féatas, deontóir) ar dtús cé leis í, le <code>subjectLabel</code>.</li>
+    <li>
+      Fanann iontráil choinnithe sa liosta le d'fhocail ("Srianta: níl sé ar fáil duit"), agus fanann iontráil a rinneadh trí dhearmad trasnaithe le "Iontráladh trí dhearmad": tabhair do <code>record-list-item</code> nó <code>timeline-list-item</code> 
+      <code>entryState</code> agus <code>entryStateLabel</code>. Ná bain ceachtar acu go ciúin riamh, mar léitear bearna mar "níor tharla faic".
+    </li>
+    <li>
+      I nóta cliniciúil, marcáil foinse gach sleachta (clóscríofa, deachtaithe, teimpléad, cóipeáilte ar aghaidh, ginte) le
+      <code>data-source</code> agus focail infheicthe, ionas nach nglacfar riamh le téacs cóipeáilte nó ginte mar scrúdú an lae inniu.
+    </li>
+    <li>
+      Is <code>unavailable</code> é rannán nach féidir a lódáil i d'fhocail, le cnaipe atriail; bíonn cód teicniúil, má thaispeántar é ar chor ar bith, taobh thiar de nochtadh. Fógraítear teip a tharla de bharr gnímh duine, leis an luach atá sa taifead anois; ní fhógraítear teip ag lódáil an leathanaigh.
+    </li>
+    <li>
+      Is <code>timeline-list</code>é stair ordaithe, mír amháin in aghaidh gach céime (pleanáilte, sceidealaithe, gníomhach, curtha ar fionraí, críochnaithe, cealaithe) lena am agus a chúis, agus an staid reatha ar an mír freisin.
+    </li>
   </ul>
 
   <h2>Ó FHIR go Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (ar na liostaí taifead freisin)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Mapáil taifead <code>entered-in-error</code> dá stádas <code>entered-in-error</code>, le focail, in ionad é a scaoileadh go ciúin: cinneadh do sheirbhíse is ea an dtaispeántar ar chor ar bith é.</p>
+
+  <h2>Ó openEHR go Lily</h2>
+  <p>
+    Ní léann Lily comhdhéanamh openEHR ach oiread. An mhapáil do chineálacha sonraí agus cóid Mhúnla Tagartha openEHR, mar mholadh a gcinnfidh d'athbhreithniú sábháilteachta cliniciúla air:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Cineálacha sonraí agus cóid openEHR, agus na luachanna Lily dóibh</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (iontráil)</td>
+          <td><code>quantity-input-div</code>; aonaid mar chóid UCUM le d'fhocail</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (taispeáint), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> le <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> is ≈ é)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> le <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> páirteach (bliain, bliain agus mí)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> le <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> laistigh de <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> a n-iompraíonn a lipéid an uimhir agus a focail</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>patrún na luachanna códaithe thíos</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, ach amháin nuair nach féidir le "níor fiafraíodh" tarlú</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> anaithnid, <code>271</code> gan aon fhaisnéis</td>
+          <td><code>status="not-recorded"</code> nó <code>"unavailable"</code>, le focail a deir cé acu</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> ceilte</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> ní bhaineann</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> ábhar</td>
+          <td><code>subjectLabel</code> ar mhíreanna an taifid</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Céimeanna Mheaisín Staide na dTreoracha</td>
+          <td> <code>timeline-list</code> de chéimeanna, leis an staid reatha ar an mír</td>
+        </tr>
+        <tr>
+          <td>mír airchineála le minicíocht <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Luachanna códaithe</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Bunachar sonraí cógas, liosta tall man, ná cóid SNOMED CT, CIE, LOINC nó UCUM a sheoladh.</li>
     <li>Ionstraim cheadúnaithe (Wong-Baker FACES) nó dearadh comhlachta eile (cairt NEWS2) a atáirgeadh.</li>
     <li>Teorainn a chur le líon na dtaifead atá oscailte ag an am céanna.</li>
+    <li>Léirmhíniú a thátal ó raon, aonad a thiontú, nó dáta coibhneasta a pharsáil ("Dé Máirt seo chugainn").</li>
+    <li>Lasc a úsáid do "tá, níl nó anaithnid": níl tríú staid ag <code>switch</code> ARIA, mar sin is trí chnaipe raidió é.</li>
   </ul>
   <p>Tá an taighde, na foinsí agus na cinntí taobh thiar den treoir seo ag <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

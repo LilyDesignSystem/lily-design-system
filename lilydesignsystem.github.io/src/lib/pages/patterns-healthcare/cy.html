@@ -71,7 +71,28 @@
     <li>Dangoswch ddau ddynodwr lle bynnag y mae data claf yn ymddangos: yr enw gyda’r dyddiad geni, a’r dynodwr cenedlaethol gyda’i gydran golwg (The Joint Commission, Quick Safety 45).</li>
     <li>Defnyddiwch faner y claf ar bob sgrin sy’n gweithredu ar gofnod un claf, a’i chadw’n weladwy.</li>
     <li>Cyn gweithred ar gofnod heblaw’r un yn y faner, cadarnhewch hi gyda’r enw, y dyddiad geni a’r dynodwr.</li>
+    <li>
+      Mae cofnod am rywun heblaw'r claf (hanes rhiant, ffetws, rhoddwr) yn dweud yn gyntaf, mewn geiriau, at bwy mae'n cyfeirio: rhowch i eitemau'r cofnod <code>subjectLabel</code> ("Mam"), fel nad yw diagnosis perthynas byth yn cael ei ddarllen fel un y claf (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Peidiwch â chyfyngu ar sawl cofnod y caiff clinigydd eu hagor: canfu treial ar hap gyda 3,356 o glinigwyr (JAMA, 2019) nad oedd yn lleihau archebion ar gyfer y claf anghywir, a bod pobl yn mynd o’i amgylch.</li>
+    <li>
+      Mae dewislen o gamau ar un cofnod yn enwi'r cofnod hwnnw yn gyntaf, gyda <code>subjectLabel</code> ar <code>context-menu</code> neu
+      <code>dropdown-menu</code> ("Ada Lovelace, pwysedd gwaed 3 Tach"): rhan gyntaf nad yw'n rhyngweithiol sydd hefyd yn enw hygyrch y ddewislen.
+    </li>
+    <li>
+      Rhowch bob cam mewn haen yn ôl yr hyn y mae'n ei wneud, a gwnewch yr haen yn weladwy cyn iddo redeg. <strong>Arferol</strong> (gweld, argraffu) yn rhedeg ar unwaith. <strong>Wedi'i ddogfennu</strong> yn dweud beth fydd yn ei ysgrifennu i'r cofnod ("Yn ychwanegu nodyn at y cyfarfyddiad").
+      <strong>Clinigol</strong> (atal, canslo gorchymyn) yn gofyn yr eildro, mewn <code>alert-dialog</code> y mae ei fotwm cadarnhau yn ferf ("Atal"), byth "Iawn" nac "Ie". <strong>Datgelu</strong> (mynediad brys, rhannu y tu allan i'r tîm gofal) yn gofyn am reswm yn gyntaf ac yn ei gofnodi.
+    </li>
+    <li>
+      Pan fydd sawl cofnod ar agor (tabiau, ffenestri, paneli hollt), mae testun gweladwy ac enw hygyrch pob tab yn cynnwys enw'r claf ac ail ddynodwr, mae'r panel gweithredol yn ailadrodd y faner, ac nid oes unrhyw gam yn berthnasol i glaf heblaw un ei banel.
+    </li>
+    <li>
+      Dangoswch y lleoliad y bydd cofnodion yn cael eu priodoli iddo (y ward, y clinig neu'r cyfleuster a ddewiswyd wrth fewngofnodi) fel testun ym mhennyn y dudalen, a gwnewch ei newid yn gam penodol.
+    </li>
+    <li>
+      Dangoswch yr ymweliad gweithredol, neu "Dim ymweliad gweithredol", yn y faner. Mae ffurflen sydd angen ymweliad yn dweud hynny ac yn cynnig dechrau un, yn lle methu wrth ei chadw.
+    </li>
   </ul>
 
   <h2>Baner y claf</h2>
@@ -82,6 +103,9 @@
     <li>mae gwerth coll yn eiriau (“Ddim yn hysbys”), byth yn nod cwestiwn, yn llinell doriad nac yn gell wag;</li>
     <li>claf sydd wedi marw: <code>data-deceased</code> ar gyfer y thema, a llinell o destun gweladwy, byth lliw yn unig;</li>
     <li>dim maes wedi’i dalfyrru, ei glipio na’i guddio ar unrhyw led; mae’n lapio.</li>
+    <li>
+      mae baneri'r claf ("Angen cyfieithydd", "Risg haint") yn <code>tag-group</code> wedi'i labelu o eiriau, byth eiconau na lliw yn unig, ac maen nhw'n aros yn weladwy pan fydd y faner yn lapio.
+    </li>
   </ul>
 
   <h2>Canlyniadau</h2>
@@ -90,6 +114,30 @@
     <li>Geiriau o’ch cyfieithiad chi yw’r faner (<code>flagLabel</code>), gyda chod dehongli FHIR fel <code>data-interpretation</code> ar gyfer y thema.</li>
     <li>Gwahanwch ganlyniadau newydd oddi wrth rai cynharach, a dangoswch duedd (llinell wib, neu siart llinell gyda’i dabl data): mae clinigwyr yn chwilio am newid sylweddol, nid yr amrediad yn unig.</li>
     <li>Mae canlyniad na chafodd ei gofnodi erioed a chanlyniad nad yw ar gael yn gyflyrau gwahanol, gyda geiriau gwahanol.</li>
+    <li>
+      Nid yw anhysbys yn normal. Nid oes dehongliad gan ganlyniad nad oes ystod gyfeirio iddo, neu y mae'n dal i lwytho neu'n annarllenadwy, ac mae'n dweud hynny; <code>observation-view</code> byth yn casglu un, felly nid yw canlyniad gydag ystod a heb <code>interpretation</code> yn dangos unrhyw faner.
+    </li>
+    <li>
+      Mae canlyniad oddi ar y raddfa yn derfyn yr offeryn gyda chymharydd ("&gt; 33.3 mmol/L": <code>formatQuantity</code> gyda
+      <code>"&gt;"</code>) a'ch baner gritigol, byth rif moel. Mae gwerth bras yn cadw ei ≈ (<code>"~"</code>).
+    </li>
+    <li>Rhowch ystodau enwedig pellach ("Critigol: o dan 2.5") fel <code>ranges</code>, pob un yn rhan ei hun.</li>
+    <li>
+      Mae canlyniad wedi'i gywiro neu ei ddiwygio yn cadw'r gwerth a ddisodlwyd ganddo, mewn <code>&lt;del&gt;</code>, gyda'ch geiriau am pryd y newidiodd (<code>previousValue</code>, <code>previousLabel</code>), fel bod clinigwr a ddarllenodd yr hen werth yn gwybod iddo newid.
+    </li>
+    <li>
+      Mae darlleniad cyfwng yn dweud ei led a'i swyddogaeth ("Cymedr, 24 awr"), ac mae cyflwr a dull darlleniad ("Yn eistedd, cyff mawr") yn destun gweladwy wrth ei ymyl, byth mewn cyngor offer yn unig (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Mae angen pwyntiau cymaradwy ar duedd: peidiwch â thynnu llinell o dan eich isafswm, torrwch y llinell lle newidiodd y dull neu'r prawf, a dywedwch y cyfeiriad a'r ystyr mewn geiriau ("yn gostwng, yn gwella").
+    </li>
+    <li>
+      Gall arwyddion hanfodol a roddwyd mewn un system unedau ddangos y llall wrth eu hymyl fel eich testun ("70 kg (154 lb)"); nid yw Lily yn trosi dim, felly nodwch eich talgrynnu. Rhowch swm gyda <code>quantity-input-div</code>, y mae ei rif yn cymryd terfynau pob uned.
+    </li>
+    <li>
+      Mae siart twf yn <code>line-chart</code> gyda'ch llinellau canradd fel cyfresi, pwyntiau'r plentyn a'i dabl data o oedran a gwerth; nid yw Lily yn cyfrifo canradd nac yn darparu cyfeirnod twf.
+    </li>
   </ul>
 
   <h2>Meddyginiaethau</h2>
@@ -106,12 +154,73 @@
     <li>Ysgrifennwch y mis fel testun fel na ellir darllen dyddiad mewn dwy ffordd (<code>Intl.DateTimeFormat</code> gyda <code>month: "short"</code>).</li>
     <li>Dewiswch y cloc yn fwriadol: pasiwch <code>hourCycle</code> yn benodol. Mae’r NHS yn gofyn am y cloc 24 awr; rheol i’r DU yw hon, nid un fyd-eang, felly nid yw Lily byth yn ei dewis i chi.</li>
     <li>Mae oedrannau’n dilyn bandiau’r Common User Interface drwy <code>ageParts()</code>; mae gwasanaeth â chonfensiwn arall yn pasio’i eiriau ei hun.</li>
+    <li>
+      Mae dyddiad sy'n hysbys hyd at y mis neu'r flwyddyn yn unig yn aros felly: gofynnwch amdano gyda <code>date-field</code>
+      <code>precision="month"</code> neu <code>"year"</code>, storiwch <code>2019-03</code> neu <code>2019</code>, a'i ysgrifennu gyda
+      <code>formatPartialDate()</code>. Peidiwch byth â dyfeisio diwrnod.
+    </li>
+    <li>
+      Mae hyd amser yn <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> sy'n dal eich geiriau, o
+      <code>durationParts()</code> a <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Dangosfyrddau</h2>
   <ul>
     <li>Mae bwrdd ward neu sgrin canolfan reoli yn diweddaru’n aml. Peidiwch byth â chyhoeddi pob newid: cadwch un rhanbarth crynodeb cwrtais (“3 gwely’n rhydd, 2 ryddhad i ddod”) a gadewch i bobl ddarllen y bwrdd.</li>
     <li>Mae pob cyflwr ar fwrdd (gwely’n lân, wedi’i feddiannu, wedi’i rwystro) yn destun neu’n gyflwr <code>data-*</code> gyda geiriau, byth lliw yn unig.</li>
+    <li>
+      Does dim byd yn fflachio (WCAG 2.2.2, 2.3.1), ac mae gan fwrdd sy'n diweddaru ar amserydd reolydd saib neu mae'n diweddaru dim ond pan ofynnir; nid yw diweddariadau byth yn symud y ffocws. Mae cofnod hwyr yn dweud hynny mewn geiriau ("Yn aros ers dros 20 munud") gyda <code>data-overdue</code>.
+    </li>
+    <li>Mae cyfrif neu gyfradd yn dangos ei enwadur ("12 o 68") ac yn cysylltu â'r rhestr y tu ôl iddi.</li>
+    <li>
+      Mae rhestr neu linell amser yn dweud beth y mae'n olwg arno: beth mae'n ei ddangos, ei drefn a'i ffenestr, beth sydd wedi'i guddio a pham, a pha ffynonellau na atebodd. Nid yw rhestr wag o ffynhonnell na atebodd yn brawf nad oes dim yn bodoli.
+    </li>
+    <li>
+      Mae rhestr nodiadau atgoffa yn <code>record-list</code> y mae ei heitemau'n cario dyddiad dyledus (<code>review-date</code>) a chyflwr dyledus mewn geiriau, gyda <code>data-due</code>; eich rheol chi yw'r un a'i cynhyrchodd.
+    </li>
+  </ul>
+
+  <h2>Ffurflenni</h2>
+  <ul>
+    <li>
+      Mae cwestiwn a atebir "ie", "na" neu "heb ei ofyn" yn <code>radio-group</code> o dri ateb, heb ddewis yr un ar y dechrau, byth yn flwch ticio: ni all blwch ticio wahaniaethu rhwng "wedi'i wadu" a "heb ei ofyn erioed". Mae adolygiad o systemau yn un <code>fieldset</code> i bob system y corff, ac mae botwm "pob un arall yn absennol" yn gosod y rhai heb eu hateb yn unig.
+    </li>
+    <li>
+      Mae cwestiwn gyda rhestr o atebion (meddyginiaethau, cyfeiriadau) yn <code>repeatable-fieldset</code>: mae eitem yn cael ei hychwanegu neu ei thynnu, mae'r ffocws yn dilyn, ac mae pob botwm tynnu wedi'i enwi ar ôl ei eitem.
+    </li>
+    <li>
+      Rhif gyda choma degol: dangoswch ef gyda <code>Intl.NumberFormat</code> a, lle nad yw <code>type="number"</code> yn derbyn y coma, cymerwch ef mewn maes testun gyda <code>inputmode="decimal"</code> a'i ddosrannu yn eich cod. Peidiwch byth â newid gwerth a deipiodd y person, hyd yn oed i'w gyfyngu i ystod: mae gwerth y tu allan i'r ystod yn wall y gallant ei weld.
+    </li>
+    <li>
+      Mae rhestr hir sy'n dangos dim ond rhan o'i hopsiynau ar y tro yn gosod <code>aria-setsize</code> a <code>aria-posinset</code> ar bob opsiwn, ac yn cofio na all chwilio yn y dudalen weld y gweddill.
+    </li>
+  </ul>
+
+  <h2>Cofnodion, nodiadau a'u tarddiad</h2>
+  <ul>
+    <li>
+      Dywedwch beth y mae rhestr neu grid yn olwg arno, cyn ei resi: ei ffenestr a'i drefn, beth y mae'n ei hepgor a pham, a pha ffynonellau na atebodd ("12 mis diwethaf, y mwyaf diweddar yn gyntaf. Ni atebodd cofnod y meddyg teulu."). Rhowch i <code>record-list</code> a
+      <code>timeline-list</code>  <code>coverageLabel</code>, ac i'r cynorthwyydd <code>data-grid</code> ei <code>coverageLabel</code>. Mae rhestr wag o ffynhonnell na atebodd yn dweud hynny mewn geiriau, fel nad yw byth yn cael ei darllen fel "dim wedi'i gofnodi".
+    </li>
+    <li>
+      Dywedwch o ble y daeth cofnod ac a yw'n derfynol gyda <code>record-provenance-view</code>: wedi'i lofnodi, yn aros am lofnod, wedi'i ddiwygio, wedi'i gadw ar y ddyfais hon a heb ei anfon eto. Rhaid i ddrafft heb ei lofnodi byth edrych wedi'i lofnodi.
+    </li>
+    <li>Mae cofnod am rywun arall (rhiant, ffetws, rhoddwr) yn dweud yn gyntaf at bwy mae'n cyfeirio, gydag eitemau'r cofnod a'u <code>subjectLabel</code>.</li>
+    <li>
+      Mae cofnod a ataliwyd yn aros yn y rhestr gyda'ch geiriau ("Cyfyngedig: ddim ar gael i chi"), ac mae cofnod a wnaed mewn camgymeriad yn aros wedi'i groesi allan gyda "Rhoddwyd mewn camgymeriad": rhowch i <code>record-list-item</code> neu <code>timeline-list-item</code> 
+      <code>entryState</code> a <code>entryStateLabel</code>. Peidiwch byth â thynnu'r naill na'r llall yn dawel, gan fod bwlch yn cael ei ddarllen fel "ni ddigwyddodd dim".
+    </li>
+    <li>
+      Mewn nodyn clinigol, nodwch ffynhonnell pob darn (wedi'i deipio, wedi'i arddweud, templed, wedi'i gopïo ymlaen, wedi'i gynhyrchu) gyda
+      <code>data-source</code> a geiriau gweladwy, fel nad yw testun wedi'i gopïo neu ei gynhyrchu byth yn cael ei gymryd am archwiliad heddiw.
+    </li>
+    <li>
+      Mae adran na all lwytho yn <code>unavailable</code> yn eich geiriau, gyda botwm ailgynnig; mae cod technegol, os caiff ei ddangos o gwbl, y tu ôl i ddatgeliad. Cyhoeddir methiant a achoswyd gan weithred person, gyda'r gwerth sydd gan y cofnod nawr; nid felly methiant wrth lwytho'r dudalen.
+    </li>
+    <li>
+      Mae hanes gorchymyn yn <code>timeline-list</code>, un eitem i bob cam (wedi'i gynllunio, wedi'i drefnu, gweithredol, wedi'i atal, wedi'i gwblhau, wedi'i ganslo) gyda'i amser a'i reswm, a'r cyflwr presennol hefyd ar yr eitem.
+    </li>
   </ul>
 
   <h2>O FHIR i Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (hefyd ar y rhestrau cofnodion)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Mapiwch gofnod <code>entered-in-error</code> i’w statws <code>entered-in-error</code>, gyda geiriau, yn hytrach na’i hepgor yn dawel: penderfyniad eich gwasanaeth chi yw a ddylid ei ddangos o gwbl.</p>
+
+  <h2>O openEHR i Lily</h2>
+  <p>
+    Nid yw Lily yn darllen cyfansoddiadau openEHR chwaith. Y mapio ar gyfer mathau data a chodau Model Cyfeirio openEHR, fel awgrym y mae eich adolygiad diogelwch clinigol yn penderfynu arno:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Mathau data a chodau openEHR, a gwerthoedd Lily ar eu cyfer</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (mewnbwn)</td>
+          <td><code>quantity-input-div</code>; unedau fel codau UCUM gyda'ch geiriau</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (dangos), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> gyda <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> yw ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> gyda <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> rhannol (blwyddyn, blwyddyn a mis)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> gyda <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> y tu mewn i <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> y mae ei labeli'n cario'r rhif a'i eiriau</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>y patrwm gwerthoedd wedi'u codio isod</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, dim ond pan na all "heb ei ofyn" ddigwydd</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> anhysbys, <code>271</code> dim gwybodaeth</td>
+          <td><code>status="not-recorded"</code> neu <code>"unavailable"</code>, gyda geiriau sy’n dweud pa un</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> wedi'i guddio</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> amherthnasol</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> gwrthrych</td>
+          <td><code>subjectLabel</code> ar eitemau'r cofnod</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Camau Peiriant Cyflwr y Cyfarwyddiadau</td>
+          <td> <code>timeline-list</code> o gamau, gyda'r cyflwr presennol ar yr eitem</td>
+        </tr>
+        <tr>
+          <td>eitem archeteip gyda nifer achosion <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Gwerthoedd wedi’u codio</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Cludo cronfa ddata cyffuriau, rhestr tall man, na chodau SNOMED CT, ICD, LOINC neu UCUM.</li>
     <li>Atgynhyrchu offeryn trwyddedig (Wong-Baker FACES) neu ddyluniad corff arall (siart NEWS2).</li>
     <li>Cyfyngu ar nifer y cofnodion sydd ar agor ar yr un pryd.</li>
+    <li>Casglu dehongliad o ystod, trosi uned, neu ddosrannu dyddiad cymharol ("dydd Mawrth nesaf").</li>
+    <li>Defnyddio switsh ar gyfer "ie, na neu anhysbys": nid oes gan <code>switch</code> ARIA drydydd cyflwr, felly tri botwm radio ydyw.</li>
   </ul>
   <p>Mae’r ymchwil, y ffynonellau a’r penderfyniadau y tu ôl i’r canllaw hwn yn <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

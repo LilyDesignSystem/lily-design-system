@@ -71,7 +71,28 @@
     <li>Weist zwee Identifikatioune iwwerall, wou Daten vun engem Patient erschéngen: den Numm mam Gebuertsdatum, an déi national Identifikatioun mat hirer View-Komponent (The Joint Commission, Quick Safety 45).</li>
     <li>Benotzt de Patientebanner op all Écran, dee mam Dossier vun engem Patient schafft, a looss en sichtbar.</li>
     <li>Ier Dir eng Aktioun op engem aneren Dossier maacht wéi deem am Banner, bestätegt se mam Numm, Gebuertsdatum an der Identifikatioun.</li>
+    <li>
+      En Antrag iwwer een aneren ewéi de Patient (d'Viraussetzung vun engem Elterendeel, e Fetus, en Donneur) seet als éischt a Wierder, wiem en ass: gitt den Elementer vum Dossier en <code>subjectLabel</code> („Mamm“), sou datt d'Diagnos vun engem Familljemember ni als déi vum Patient gelies gëtt (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Limitéiert net, wéivill Dossieren e Kliniker opmaache kann: eng randomiséiert Studie mat 3.356 Klinikeren (JAMA, 2019) huet fonnt, datt dat Verwiesselungen vu Bestellunge net reduzéiert huet, a Leit ëmginn et.</li>
+    <li>
+      E Menü mat Aktiounen op engem Dossier nennt als éischt dee Dossier, mat <code>subjectLabel</code> op <code>context-menu</code> oder
+      <code>dropdown-menu</code> („Ada Lovelace, Bluttdrock 3. Nov.“): en net interaktiven éischten Deel, deen och den accessibelen Numm vum Menü ass.
+    </li>
+    <li>
+      Deelt all Aktioun no deem an, wat se mécht, a maacht den Niveau siichtbar, ier se ausgeféiert gëtt. <strong>Routine</strong> (kucken, drécken) leeft direkt. <strong>Dokumentéiert</strong> seet, wat se an den Dossier schreift („Setzt eng Notiz zur Konsultatioun derbäi“).
+      <strong>Klinesch</strong> (ofsetzen, eng Uerdnung annuléieren) freet en zweete Kéier, an engem <code>alert-dialog</code> , deem säi Bestätegungsknäppchen d'Verb ass („Ofsetzen“), ni „OK“ oder „Jo“. <strong>Verëffentlechend</strong> (Noutzougang, Deelen ausserhalb vum Fleegeteam) freet als éischt no engem Grond an hält en fest.
+    </li>
+    <li>
+      Wa méi Dossieren op sinn (Tabs, Fënsteren, gedeelte Pannoen), enthalen de siichtbaren Text an den accessibelen Numm vun all Tab den Numm vum Patient an en zweeten Identifiant, de aktive Panneau widderhëlt de Banner, a keng Aktioun gëllt fir en anere Patient wéi dee vu sengem Panneau.
+    </li>
+    <li>
+      Weist d'Plaz, där d'Dossieren zougeuerdent ginn (d'Statioun, d'Konsultatioun oder d'Institutioun, déi beim Umellen gewielt gouf), als Text am Kapp vun der Säit, a maacht hir Ännerung zu enger ausdrécklecher Aktioun.
+    </li>
+    <li>
+      Weist de aktive Besuch, oder „Keen aktive Besuch“, am Banner. E Formulaire, deen e Besuch brauch, seet dat a proposéiert een unzefänken, amplaz beim Späicheren ze versoen.
+    </li>
   </ul>
 
   <h2>De Patientebanner</h2>
@@ -82,6 +103,9 @@
     <li>e feelende Wäert ass a Wierder („Net bekannt“), ni e Fragezeechen, e Stréch oder eng eidel Zell;</li>
     <li>e verstuerbene Patient: <code>data-deceased</code> fir d'Thema, an eng sichtbar Zeil Text, ni nëmmen d'Faarf;</li>
     <li>keent Feld ofgeschnidden, ofgeschnidden oder verstoppt bei iergendeng Breet; et ëmbrécht.</li>
+    <li>
+      Patientemarkéierungen („Brauch en Dolmetscher“, „Infektiounsrisiko“) sinn eng beschrëfte <code>tag-group</code> aus Wierder, ni nëmmen Ikonen oder Faarf, a bleiwe siichtbar, wann de Banner ëmbrécht.
+    </li>
   </ul>
 
   <h2>Resultater</h2>
@@ -90,6 +114,30 @@
     <li>De Flag ass a Wierder aus Ärer Iwwersetzung (<code>flagLabel</code>), mam FHIR-Interpretatiounscode als <code>data-interpretation</code> fir d'Thema.</li>
     <li>Trennt nei Resultater vun fréieren a weist en Trend (eng Sparkline, oder en Linnendiagramm mat senger Datentabell): Klinikere sichen eng bedeitend Ännerung, net nëmmen de Beräich.</li>
     <li>E Resultat, dat ni opgeholl gouf, an een, dee net verfügbar ass, si verschidde Zoustänn, mat verschiddene Wierder.</li>
+    <li>
+      Onbekannt ass net normal. E Resultat, deem säi Referenzberäich feelt, nach gelueden gëtt oder net liesbar ass, huet keng Interpretatioun a seet dat; <code>observation-view</code> leet ni eng of, also weist e Resultat mat engem Beräich an ouni <code>interpretation</code> keng Markéierung.
+    </li>
+    <li>
+      E Resultat ausserhalb vun der Skala ass d'Grenz vum Instrument mat engem Vergläichszeechen („&gt; 33,3 mmol/L“: <code>formatQuantity</code> mat
+      <code>"&gt;"</code>) an Ärer kritescher Markéierung, ni eng blo Zuel. En ongeféiere Wäert behält säin ≈ (<code>"~"</code>).
+    </li>
+    <li>Gitt weider benannt Beräicher („Kritesch: ënner 2,5“) als <code>ranges</code>, all een als eegenen Deel.</li>
+    <li>
+      E korrigéiert oder geännert Resultat behält de Wäert, deen et ersat huet, an engem <code>&lt;del&gt;</code>, mat Äre Wierder, wéini en sech geännert huet (<code>previousValue</code>, <code>previousLabel</code>), sou datt e Kliniker, deen den ale Wäert gelies huet, weess, datt en sech geännert huet.
+    </li>
+    <li>
+      Eng Intervallmiessung seet hir Breet an hir Funktioun („Duerchschnëtt, 24 Stonnen“), an den Zoustand an d'Method vun enger Miessung („Sëtzend, grouss Manschett“) sinn siichtbaren Text dobäi, ni nëmmen e Tooltip (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      En Trend brauch vergläichbar Punkten: zeechent keng Linn ënner Ärem Minimum, briecht d'Linn do, wou d'Method oder d'Analyse geännert huet, a sot Richtung a Bedeitung a Wierder („falend, besser“).
+    </li>
+    <li>
+      Vital Wäerter, déi an engem Eenheetssystem aginn goufen, kënnen deen aneren dobäi als Ären Text weisen („70 kg (154 lb)“); Lily rechent näischt ëm, also gitt Är Ronnung un. Gitt eng Quantitéit mat <code>quantity-input-div</code>an, deem seng Zuel d'Grenze vun all Eenheet iwwerhëlt.
+    </li>
+    <li>
+      Eng Wuesstemskurv ass e <code>line-chart</code> mat Äre Perzentillinnen als Serien, de Punkte vum Kand a senger Datentabell vun Alter a Wäert; Lily rechent keng Perzentill a liwwert keng Wuesstemsreferenz.
+    </li>
   </ul>
 
   <h2>Medikamenter</h2>
@@ -106,12 +154,73 @@
     <li>Schreift de Mount als Text, sou datt een Datum net op zwou Weeër ka gelies ginn (<code>Intl.DateTimeFormat</code> mat <code>month: "short"</code>).</li>
     <li>Wielt d'Auer mat Bedacht: gitt <code>hourCycle</code> explizit un. D'NHS freet no der 24-Stonne-Auer; dat ass eng Regel fir d'Vereenegt Kinnekräich, net eng weltwäit, dofir wielt Lily se ni fir Iech.</li>
     <li>Alter follegen de Banden vun der Common User Interface duerch <code>ageParts()</code>; e Service mat enger anerer Konventioun gëtt seng eege Wierder weider.</li>
+    <li>
+      En Datum, deen nëmmen op de Mount oder d'Joer bekannt ass, bleift sou: frot en mat <code>date-field</code>
+      <code>precision="month"</code> oder <code>"year"</code>, späichert <code>2019-03</code> oder <code>2019</code>, a schreift en mat
+      <code>formatPartialDate()</code>. Erfannt ni en Dag.
+    </li>
+    <li>
+      Eng Zäitdauer ass <code>duration-view</code>, en <code>&lt;time datetime="P3DT4H"&gt;</code> mat Äre Wierder, aus
+      <code>durationParts()</code> an <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Dashboards</h2>
   <ul>
     <li>En Statiounsbord oder e Kommandozentrum-Écran aktualiséiert dacks. Kënnegt ni all Ännerung un: haalt eng roueg Zesummefaassungsregioun („3 Better fräi, 2 Entlooss erwaart“) an looss d'Leit d'Bord liesen.</li>
     <li>All Zoustand um Bord (Bett gebotzt, besat, gespaart) ass Text oder e <code>data-*</code>-Zoustand mat Wierder, ni nëmmen d'Faarf.</li>
+    <li>
+      Näischt blénkt (WCAG 2.2.2, 2.3.1), an eng Tafel, déi sech mat engem Timer aktualiséiert, huet e Pauskontroll oder aktualiséiert sech nëmmen op Ufro; Aktualiséierunge beweegen ni de Fokus. En iwwerfällegen Antrag seet dat a Wierder („Waart zënter iwwer 20 Minutten“) mat <code>data-overdue</code>.
+    </li>
+    <li>Eng Zuel oder en Taux weist säin Nenner („12 vu 68“) a verlinkt op d'Lëscht dohannert.</li>
+    <li>
+      Eng Lëscht oder eng Zäitlinn seet, vu wat se eng Usiicht ass: wat se weist, hir Reiefolleg an hir Zäitspan, wat verstoppt ass a firwat, a wéi eng Quellen net geäntwert hunn. Eng eidel Lëscht vun enger Quell, déi net geäntwert huet, beweist net, datt näischt existéiert.
+    </li>
+    <li>
+      Eng Erënnerungslëscht ass eng <code>record-list</code> , deenen hir Elementer en Ofgabedatum (<code>review-date</code>) an en Ofgabezoustand a Wierder droen, mat <code>data-due</code>; d'Regel, déi se gemaach huet, ass Är.
+    </li>
+  </ul>
+
+  <h2>Formulairen</h2>
+  <ul>
+    <li>
+      Eng Fro, déi mat „jo“, „nee“ oder „net gefrot“ beäntwert gëtt, ass eng <code>radio-group</code> vun dräi Äntwerten, keng am Ufank gewielt, ni e Kontrollkëschtchen: e Kontrollkëschtchen kann „verneint“ net vu „ni gefrot“ ënnerscheeden. Eng Iwwerpréifung vun de Systemer ass een <code>fieldset</code> pro Organsystem, an e Knäppchen „all aner feelen“ setzt nëmmen déi onbeäntwerten.
+    </li>
+    <li>
+      Eng Fro mat enger Lëscht vun Äntwerten (Medikamenter, Adressen) ass e <code>repeatable-fieldset</code>: en Element gëtt derbäigesat oder ewechgeholl, de Fokus follegt, an all Ewechhuelknäppchen ass no sengem Element benannt.
+    </li>
+    <li>
+      Eng Zuel mat Dezimalkomma: weist se mat <code>Intl.NumberFormat</code> an, wou <code>type="number"</code> de Komma net akzeptéiert, huelt se an engem Textfeld mat <code>inputmode="decimal"</code> an a wäert se an Ärem Code aus. Ännert ni e Wäert, deen d'Persoun aginn huet, och net fir en an e Beräich ze zwéngen: e Wäert ausserhalb vum Beräich ass e Feeler, deen se gesinn kann.
+    </li>
+    <li>
+      Eng laang Lëscht, déi nëmmen en Deel vun hiren Optiounen op eemol weist, setzt <code>aria-setsize</code> an <code>aria-posinset</code> op all Optioun a bedenkt, datt d'Sich op der Säit de Rescht net gesäit.
+    </li>
+  </ul>
+
+  <h2>Dossieren, Notizen an hir Hierkonft</h2>
+  <ul>
+    <li>
+      Sot virun de Reien, vu wat eng Lëscht oder e Gitter eng Usiicht ass: Zäitspan a Reiefolleg, wat se ewechléisst a firwat, a wéi eng Quellen net geäntwert hunn („Lescht 12 Méint, dat Neist als éischt. Den Dossier vum Hausdokter huet net geäntwert.“). Gitt <code>record-list</code> an
+      <code>timeline-list</code> en <code>coverageLabel</code>, an dem <code>data-grid</code> -Hëllefsmëttel säin <code>coverageLabel</code>. Eng eidel Lëscht vun enger Quell, déi net geäntwert huet, seet dat a Wierder, sou datt se ni als „näischt agedroen“ gelies gëtt.
+    </li>
+    <li>
+      Sot, vu wou en Antrag kënnt an ob en definitiv ass, mat <code>record-provenance-view</code>: ënnerschriwwen, waart op Ënnerschrëft, geännert, op dësem Apparat gespäichert an nach net geschéckt. En net ënnerschriwwenen Entworf däerf ni ënnerschriwwe ausgesinn.
+    </li>
+    <li>En Antrag iwwer een aneren (en Elterendeel, e Fetus, en Donneur) seet als éischt, wiem en ass, mat dem <code>subjectLabel</code>.</li>
+    <li>
+      En zeréckbehalenen Antrag bleift an der Lëscht mat Äre Wierder („Limitéiert: fir Iech net disponibel“), an en Antrag, dee viraus gemaach gouf, bleift duerchgestrach mat „Aus Versinn agedroen“: gitt <code>record-list-item</code> oder <code>timeline-list-item</code> en
+      <code>entryState</code> an en <code>entryStateLabel</code>. Huelt ni ee vun deenen zwee roueg ewech, well eng Lück als „et ass näischt geschitt“ gelies gëtt.
+    </li>
+    <li>
+      Markéiert an enger klinescher Notiz d'Quell vun all Passage (getippt, diktéiert, Virlag, weiderkopéiert, generéiert) mat
+      <code>data-source</code> a siichtbare Wierder, sou datt kopéierten oder generéierten Text ni fir déi haiteg Ënnersichung gehale gëtt.
+    </li>
+    <li>
+      Eng Sektioun, déi net luede kann, ass <code>unavailable</code> mat Äre Wierder, mat engem Knäppchen fir nach eng Kéier ze probéieren; en technesche Code, wann en iwwerhaapt gewise gëtt, steet hannert enger Opklappung. E Feeler, deen duerch eng Aktioun vun enger Persoun verursaacht gouf, gëtt ugekënnegt, mam Wäert, deen den Dossier elo huet; e Feeler beim Lueden vun der Säit net.
+    </li>
+    <li>
+      D'Geschicht vun enger Uerdnung ass eng <code>timeline-list</code>, een Element pro Schrëtt (geplangt, ageplangt, aktiv, suspendéiert, ofgeschloss, annuléiert) mat Zäit a Grond, an den aktuellen Zoustand och um Element.
+    </li>
   </ul>
 
   <h2>Vu FHIR op Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (och op den Dossierslëschten)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Mapt en <code>entered-in-error</code>-Enregistrement op säi Status <code>entered-in-error</code>, mat Wierder, amplaz et roueg ewechzeloossen: ob et iwwerhaapt gewise gëtt, entscheet Äre Service.</p>
+
+  <h2>Vun openEHR op Lily</h2>
+  <p>
+    Lily liest och keng openEHR-Kompositiounen. D'Zouuerdnung fir d'Datentypen a Coden vum openEHR-Referenzmodell, als Virschlag, iwwer deen Är klinesch Sécherheetsiwwerpréiwung entscheet:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR-Datentypen a -Coden, an d'Lily-Wäerter dofir</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (Agab)</td>
+          <td><code>quantity-input-div</code>; Eenheeten als UCUM-Coden mat Äre Wierder</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (Uweisung), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> mat <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> ass ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> mat enger <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> deelweis (Joer, Joer a Mount)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> mat <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> an <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>eng <code>radio-group</code> , deenen hir Etikette d'Zuel an hir Wierder droen</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>d'Muster fir kodéiert Wäerter hei drënner</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, nëmme wann „net gefrot“ net virkomme kann</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> onbekannt, <code>271</code> keng Informatioun</td>
+          <td><code>status="not-recorded"</code> oder <code>"unavailable"</code>, mat Wierder, déi soen, wéi eent et ass</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> maskéiert</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> net zoutreffend</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> Sujet</td>
+          <td><code>subjectLabel</code> op den Elementer vum Dossier</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Schrëtt vun der Instruction State Machine</td>
+          <td>eng <code>timeline-list</code> vu Schrëtt, mam aktuellen Zoustand um Element</td>
+        </tr>
+        <tr>
+          <td>en Archetyp-Element mat Optriede <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Codéiert Wäerter</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Eng Medikamentedatebank, eng tall-man-Lëscht oder SNOMED-CT-, CIM-, LOINC- oder UCUM-Codë matliwweren.</li>
     <li>En Instrument ënner Lizenz (Wong-Baker FACES) oder d'Design vun engem anere Gremium (d'NEWS2-Tabell) reproduzéieren.</li>
     <li>D'Zuel vun de gläichzäiteg oppenen Dossieren limitéieren.</li>
+    <li>Eng Interpretatioun aus engem Beräich ofleeden, eng Eenheet ëmrechnen oder en relativen Datum („nächsten Dënschdeg“) auswäerten.</li>
+    <li>E Schalter fir „jo, nee oder onbekannt“ benotzen: ARIA säin <code>switch</code> huet keen drëtten Zoustand, also si et dräi Optiounsknäppercher.</li>
   </ul>
   <p>D'Fuerschung, d'Quellen an d'Decisioune hanner dësem Guide stinn an <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

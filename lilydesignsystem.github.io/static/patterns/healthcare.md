@@ -44,7 +44,13 @@ Alert fatigue is a safety problem: when every alert interrupts, people dismiss t
 - Show two identifiers wherever a patient's data appears: the name with the date of birth, and the national identifier with its view component (The Joint Commission, Quick Safety 45).
 - Use the patient banner on every screen that acts on one patient's record, and keep it visible.
 - Before an action on a record other than the one in the banner, confirm it with the name, date of birth and identifier.
+- An entry about someone other than the patient (a parent's history, a fetus, a donor) says whose it is first, in words: give the record items a `subjectLabel` ("Mother"), so a relative's diagnosis is never read as the patient's (openEHR `PARTY_RELATED`, FHIR `FamilyMemberHistory`).
 - Do not limit how many records a clinician may open: a randomised trial of 3,356 clinicians (JAMA, 2019) found that it did not reduce wrong-patient orders, and people work around it.
+- A menu of actions on one record names that record first, with `subjectLabel` on `context-menu` or `dropdown-menu` ("Ada Lovelace, blood pressure 3 Nov"): a non-interactive first part that is also the menu's accessible name.
+- Tier each action by what it does, and make the tier visible before it runs. **Routine** (view, print) runs at once. **Documented** says what it will write to the record ("Adds a note to the encounter"). **Clinical** (discontinue, cancel an order) asks a second time, in an `alert-dialog` whose confirming button is the verb ("Discontinue"), never "OK" or "Yes". **Disclosive** (break the glass, share outside the care team) asks for a reason first and records it.
+- When several records are open (tabs, windows, split panes), every tab's visible text and accessible name include the patient's name and a second identifier, the active panel repeats the banner, and no action applies to a patient other than its panel's.
+- Show the location records will be attributed to (the ward, clinic or facility chosen at sign-in) as text in the page header, and make changing it an explicit action.
+- Show the active visit, or "No active visit", in the banner. A form that needs a visit says so and offers to start one, rather than failing when it is saved.
 
 ## The patient banner
 
@@ -55,6 +61,7 @@ The composition is documented with [medical-banner](https://lilydesignsystem.com
 - a missing value is words ("Not known"), never a question mark, a dash or an empty cell;
 - a deceased patient: `data-deceased` for the theme, and a visible line of text, never colour alone;
 - no field truncated, clipped or hidden at any width; it wraps.
+- patient flags ("Needs an interpreter", "Infection risk") are a labelled `tag-group` of words, never icons or colour alone, and stay visible when the banner wraps.
 
 ## Results
 
@@ -62,6 +69,14 @@ The composition is documented with [medical-banner](https://lilydesignsystem.com
 - The flag is words from your translation (`flagLabel`), with the FHIR interpretation code as `data-interpretation` for the theme.
 - Separate new results from earlier ones, and show a trend (a sparkline, or a line chart with its data table): clinicians look for a significant change, not only the range.
 - A result that was never recorded and one that is unavailable are different states, with different words.
+- Unknown is not normal. A result whose reference range is missing, still loading or unreadable has no interpretation and says so; `observation-view` never infers one, so a result with a range and no `interpretation` shows no flag.
+- An off-scale result is the instrument's limit with a comparator ("> 33.3 mmol/L": `formatQuantity` with `">"`) and your critical flag, never a bare number. An approximate value keeps its ≈ (`"~"`).
+- Give further named ranges ("Critical: below 2.5") as `ranges`, each its own part.
+- A corrected or amended result keeps the value it replaced, in a `<del>`, with your words for when it changed (`previousValue`, `previousLabel`), so a clinician who read the old value knows it changed.
+- An interval reading says its width and function ("Mean, 24 hours"), and a reading's state and method ("Sitting, large cuff") are visible text beside it, never only a tooltip (openEHR `INTERVAL_EVENT`, `state`, `protocol`).
+- A trend needs comparable points: draw no line below your minimum, break the line where the method or assay changed, and say direction and meaning in words ("falling, improving").
+- Vitals entered in one unit system may show the other beside them as your text ("70 kg (154 lb)"); Lily converts nothing, so state your rounding. Enter a quantity with `quantity-input-div`, whose number takes each unit's limits.
+- A growth chart is a `line-chart` with your centile lines as series, the child's points and its data table of age and value; Lily computes no centile and ships no growth reference.
 
 ## Medicines
 
@@ -76,11 +91,34 @@ The composition is documented with [medical-banner](https://lilydesignsystem.com
 - Write the month as text so a date cannot be read two ways (`Intl.DateTimeFormat` with `month: "short"`).
 - Choose the clock on purpose: pass `hourCycle` explicitly. The NHS asks for the 24-hour clock; that is a UK rule, not a worldwide one, so Lily never picks it for you.
 - Ages follow the Common User Interface bands through `ageParts()`; a service with another convention passes its own words.
+- A date known only to the month or year stays that way: ask for it with `date-field` `precision="month"` or `"year"`, store `2019-03` or `2019`, and write it with `formatPartialDate()`. Never invent a day.
+- A length of time is `duration-view`, a `<time datetime="P3DT4H">` holding your words, from `durationParts()` and `Intl.DurationFormat`.
 
 ## Dashboards
 
 - A ward board or command-centre screen updates often. Never announce each change: keep one polite summary region ("3 beds free, 2 discharges due") and let people read the board.
 - Every state on a board (bed clean, occupied, blocked) is text or a `data-*` state with words, never colour alone.
+- Nothing blinks (WCAG 2.2.2, 2.3.1), and a board that updates on a timer has a pause control or updates only when asked; updates never move focus. An overdue entry says so in words ("Waiting over 20 minutes") with `data-overdue`.
+- A count or rate shows its denominator ("12 of 68") and links to the list behind it.
+- A list or timeline says what it is a view of: what it shows, its order and window, what is hidden and why, and which sources did not answer. An empty list from a source that did not answer is not proof that nothing exists.
+- A reminder list is a `record-list` whose items carry a due date (`review-date`) and a due state in words, with `data-due`; the rule that produced it is yours.
+
+## Forms
+
+- A question answered "yes", "no" or "not asked" is a `radio-group` of three answers, none chosen at first, never a checkbox: a checkbox cannot tell "denied" from "never asked". A review of systems is one `fieldset` per body system, and an "all others absent" button sets only the unanswered ones.
+- A question with a list of answers (medicines, addresses) is a `repeatable-fieldset`: an item is added or removed, focus follows, and each remove button is named for its item.
+- A number with a decimal comma: show it with `Intl.NumberFormat` and, where `type="number"` does not accept the comma, take it in a text field with `inputmode="decimal"` and parse it in your code. Never change a value the person typed, even to clamp it to a range: an out-of-range value is an error they can see.
+- A long list that renders only part of its options at a time sets `aria-setsize` and `aria-posinset` on each option, and remembers that find-in-page cannot see the rest.
+
+## Records, notes and their provenance
+
+- Say what a list or a grid is a view of, before its rows: its window and order, what it leaves out and why, and which sources did not answer ("Last 12 months, newest first. The GP record did not answer."). Give `record-list` and `timeline-list` a `coverageLabel`, and the `data-grid` helper its `coverageLabel`. An empty list from a source that did not answer says so in words, so it is never read as "nothing recorded".
+- Say where a record came from and whether it is final with `record-provenance-view`: signed, awaiting a signature, amended, saved on this device and not yet sent. An unsigned draft must never look signed.
+- An entry about someone else (a parent, a fetus, a donor) says whose it is first, with the record items' `subjectLabel`.
+- A withheld entry stays in the list with your words ("Restricted: not available to you"), and an entry made in error stays struck through with "Entered in error": give `record-list-item` or `timeline-list-item` an `entryState` and an `entryStateLabel`. Never remove either silently, since a gap is read as "nothing happened".
+- In a clinical note, mark each passage's source (typed, dictated, template, copied forward, generated) with `data-source` and visible words, so copied or generated text is never taken for today's examination.
+- A section that cannot load is `unavailable` in your words, with a retry button; a technical code, if shown at all, sits behind a disclosure. A failure caused by a person's action is announced, with the value the record now holds; a failure on page load is not.
+- An order's history is a `timeline-list`, one item per step (planned, scheduled, active, suspended, completed, cancelled) with its time and reason, and the current state also on the item.
 
 ## From FHIR to Lily
 
@@ -116,9 +154,36 @@ FHIR codes and the Lily values for them
 | `Dosage.text` | `medication-view` `dosageText` |
 | `Observation.status` | `observation-view` `status`, with the same codes |
 | `Observation.dataAbsentReason` `masked` | `status="masked"` |
+| `dataAbsentReason` `not-applicable` | `status="not-applicable"` (also on the record lists) |
 | `Quantity.comparator` | `formatQuantity(value, unit, locale, comparator)` |
 
 Map an `entered-in-error` record to its `entered-in-error` status, with words, rather than dropping it silently: whether to show it at all is your service's decision.
+
+## From openEHR to Lily
+
+Lily does not read openEHR compositions either. The mapping for openEHR Reference Model data types and codes, as a suggestion your clinical safety review decides:
+
+openEHR data types and codes, and the Lily values for them
+
+| openEHR | Lily |
+| --- | --- |
+| `DV_QUANTITY` (entry) | `quantity-input-div`; units as UCUM codes with your words |
+| `DV_QUANTITY` (display), `magnitude_status` | `observation-view` with `formatQuantity(value, unit, locale, comparator)` (`~` is ≈) |
+| `DV_ORDERED.normal_status` `HHH`, `HH`, `H`, `L`, `LL`, `LLL` | `observation-view` `interpretation`: FHIR `HU`, `HH`, `H`, `L`, `LL`, `LU` |
+| `other_reference_ranges` with a `meaning` | `observation-view` `ranges` |
+| `DV_DATE` partial (year, year and month) | `date-field` `precision`; `formatPartialDate()`; `date-time-view` |
+| `DV_DURATION` | `duration-view` with `durationParts()` |
+| `DV_PROPORTION` | `formatProportion()` inside `observation-view` |
+| `DV_ORDINAL`, `DV_SCALE` | a `radio-group` whose labels carry the number and its words |
+| `DV_CODED_TEXT` | the coded values pattern below |
+| `DV_BOOLEAN` | `checkbox-input`, only when "not asked" cannot happen |
+| `ELEMENT.null_flavour` `253` unknown, `271` no information | `status="not-recorded"` or `"unavailable"`, with words that say which |
+| `null_flavour` `272` masked | `observation-view` `status="masked"` |
+| `null_flavour` `273` not applicable | `status="not-applicable"` |
+| `PARTY_RELATED` subject | `subjectLabel` on the record items |
+| `AUDIT_DETAILS`, `ATTESTATION`, `FEEDER_AUDIT` | `record-provenance-view` |
+| Instruction State Machine steps | a `timeline-list` of steps, with the current state on the item |
+| an archetype item with occurrences `0..*` | `repeatable-fieldset` |
 
 ## Coded values
 
@@ -133,5 +198,7 @@ Map an `entered-in-error` record to its `entered-in-error` status, with words, r
 - Ship a drug database, a tall man list, or SNOMED CT, ICD, LOINC or UCUM codes.
 - Reproduce a licensed instrument (Wong-Baker FACES) or another body's design (the NEWS2 chart).
 - Limit the number of records open at once.
+- Infer an interpretation from a range, convert a unit, or parse a relative date ("next Tuesday").
+- Use a switch for "yes, no or unknown": ARIA's `switch` has no third state, so it is three radios.
 
 The research, sources and decisions behind this guide are in [spec/healthcare-ui](https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md).

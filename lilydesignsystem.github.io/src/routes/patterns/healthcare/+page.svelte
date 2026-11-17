@@ -111,8 +111,38 @@
     <li>Use the patient banner on every screen that acts on one patient's record, and keep it visible.</li>
     <li>Before an action on a record other than the one in the banner, confirm it with the name, date of birth and identifier.</li>
     <li>
+      An entry about someone other than the patient (a parent's history, a fetus, a donor) says whose it is first, in words: give
+      the record items a <code>subjectLabel</code> ("Mother"), so a relative's diagnosis is never read as the patient's (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
+    <li>
       Do not limit how many records a clinician may open: a randomised trial of 3,356 clinicians (JAMA, 2019) found that
       it did not reduce wrong-patient orders, and people work around it.
+    </li>
+    <li>
+      A menu of actions on one record names that record first, with <code>subjectLabel</code> on <code>context-menu</code> or
+      <code>dropdown-menu</code> ("Ada Lovelace, blood pressure 3 Nov"): a non-interactive first part that is also the menu's
+      accessible name.
+    </li>
+    <li>
+      Tier each action by what it does, and make the tier visible before it runs. <strong>Routine</strong> (view, print) runs at
+      once. <strong>Documented</strong> says what it will write to the record ("Adds a note to the encounter").
+      <strong>Clinical</strong> (discontinue, cancel an order) asks a second time, in an <code>alert-dialog</code> whose confirming
+      button is the verb ("Discontinue"), never "OK" or "Yes". <strong>Disclosive</strong> (break the glass, share outside the care
+      team) asks for a reason first and records it.
+    </li>
+    <li>
+      When several records are open (tabs, windows, split panes), every tab's visible text and accessible name include the
+      patient's name and a second identifier, the active panel repeats the banner, and no action applies to a patient other than
+      its panel's.
+    </li>
+    <li>
+      Show the location records will be attributed to (the ward, clinic or facility chosen at sign-in) as text in the page header,
+      and make changing it an explicit action.
+    </li>
+    <li>
+      Show the active visit, or "No active visit", in the banner. A form that needs a visit says so and offers to start one,
+      rather than failing when it is saved.
     </li>
   </ul>
 
@@ -127,6 +157,10 @@
     <li>a missing value is words ("Not known"), never a question mark, a dash or an empty cell;</li>
     <li>a deceased patient: <code>data-deceased</code> for the theme, and a visible line of text, never colour alone;</li>
     <li>no field truncated, clipped or hidden at any width; it wraps.</li>
+    <li>
+      patient flags ("Needs an interpreter", "Infection risk") are a labelled <code>tag-group</code> of words, never icons or colour
+      alone, and stay visible when the banner wraps.
+    </li>
   </ul>
 
   <h2>Results</h2>
@@ -141,6 +175,36 @@
       clinicians look for a significant change, not only the range.
     </li>
     <li>A result that was never recorded and one that is unavailable are different states, with different words.</li>
+    <li>
+      Unknown is not normal. A result whose reference range is missing, still loading or unreadable has no interpretation and says
+      so; <code>observation-view</code> never infers one, so a result with a range and no <code>interpretation</code> shows no flag.
+    </li>
+    <li>
+      An off-scale result is the instrument's limit with a comparator ("&gt; 33.3 mmol/L": <code>formatQuantity</code> with
+      <code>"&gt;"</code>) and your critical flag, never a bare number. An approximate value keeps its ≈ (<code>"~"</code>).
+    </li>
+    <li>Give further named ranges ("Critical: below 2.5") as <code>ranges</code>, each its own part.</li>
+    <li>
+      A corrected or amended result keeps the value it replaced, in a <code>&lt;del&gt;</code>, with your words for when it changed
+      (<code>previousValue</code>, <code>previousLabel</code>), so a clinician who read the old value knows it changed.
+    </li>
+    <li>
+      An interval reading says its width and function ("Mean, 24 hours"), and a reading's state and method ("Sitting, large cuff")
+      are visible text beside it, never only a tooltip (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      A trend needs comparable points: draw no line below your minimum, break the line where the method or assay changed, and say
+      direction and meaning in words ("falling, improving").
+    </li>
+    <li>
+      Vitals entered in one unit system may show the other beside them as your text ("70 kg (154 lb)"); Lily converts nothing, so
+      state your rounding. Enter a quantity with <code>quantity-input-div</code>, whose number takes each unit's limits.
+    </li>
+    <li>
+      A growth chart is a <code>line-chart</code> with your centile lines as series, the child's points and its data table of age
+      and value; Lily computes no centile and ships no growth reference.
+    </li>
   </ul>
 
   <h2>Medicines</h2>
@@ -166,6 +230,15 @@
       UK rule, not a worldwide one, so Lily never picks it for you.
     </li>
     <li>Ages follow the Common User Interface bands through <code>ageParts()</code>; a service with another convention passes its own words.</li>
+    <li>
+      A date known only to the month or year stays that way: ask for it with <code>date-field</code>
+      <code>precision="month"</code> or <code>"year"</code>, store <code>2019-03</code> or <code>2019</code>, and write it with
+      <code>formatPartialDate()</code>. Never invent a day.
+    </li>
+    <li>
+      A length of time is <code>duration-view</code>, a <code>&lt;time datetime="P3DT4H"&gt;</code> holding your words, from
+      <code>durationParts()</code> and <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Dashboards</h2>
@@ -175,6 +248,75 @@
       ("3 beds free, 2 discharges due") and let people read the board.
     </li>
     <li>Every state on a board (bed clean, occupied, blocked) is text or a <code>data-*</code> state with words, never colour alone.</li>
+    <li>
+      Nothing blinks (WCAG 2.2.2, 2.3.1), and a board that updates on a timer has a pause control or updates only when asked;
+      updates never move focus. An overdue entry says so in words ("Waiting over 20 minutes") with <code>data-overdue</code>.
+    </li>
+    <li>A count or rate shows its denominator ("12 of 68") and links to the list behind it.</li>
+    <li>
+      A list or timeline says what it is a view of: what it shows, its order and window, what is hidden and why, and which sources
+      did not answer. An empty list from a source that did not answer is not proof that nothing exists.
+    </li>
+    <li>
+      A reminder list is a <code>record-list</code> whose items carry a due date (<code>review-date</code>) and a due state in
+      words, with <code>data-due</code>; the rule that produced it is yours.
+    </li>
+  </ul>
+
+  <h2>Forms</h2>
+  <ul>
+    <li>
+      A question answered "yes", "no" or "not asked" is a <code>radio-group</code> of three answers, none chosen at first, never a
+      checkbox: a checkbox cannot tell "denied" from "never asked". A review of systems is one <code>fieldset</code> per body
+      system, and an "all others absent" button sets only the unanswered ones.
+    </li>
+    <li>
+      A question with a list of answers (medicines, addresses) is a <code>repeatable-fieldset</code>: an item is added or removed,
+      focus follows, and each remove button is named for its item.
+    </li>
+    <li>
+      A number with a decimal comma: show it with <code>Intl.NumberFormat</code> and, where <code>type="number"</code> does not
+      accept the comma, take it in a text field with <code>inputmode="decimal"</code> and parse it in your code. Never change a
+      value the person typed, even to clamp it to a range: an out-of-range value is an error they can see.
+    </li>
+    <li>
+      A long list that renders only part of its options at a time sets <code>aria-setsize</code> and <code>aria-posinset</code> on
+      each option, and remembers that find-in-page cannot see the rest.
+    </li>
+  </ul>
+
+  <h2>Records, notes and their provenance</h2>
+  <ul>
+    <li>
+      Say what a list or a grid is a view of, before its rows: its window and order, what it leaves out and why, and which sources
+      did not answer ("Last 12 months, newest first. The GP record did not answer."). Give <code>record-list</code> and
+      <code>timeline-list</code> a <code>coverageLabel</code>, and the <code>data-grid</code> helper its <code>coverageLabel</code>.
+      An empty list from a source that did not answer says so in words, so it is never read as "nothing recorded".
+    </li>
+    <li>
+      Say where a record came from and whether it is final with <code>record-provenance-view</code>: signed, awaiting a signature,
+      amended, saved on this device and not yet sent. An unsigned draft must never look signed.
+    </li>
+    <li>An entry about someone else (a parent, a fetus, a donor) says whose it is first, with the record items' <code>subjectLabel</code>.</li>
+    <li>
+      A withheld entry stays in the list with your words ("Restricted: not available to you"), and an entry made in error stays
+      struck through with "Entered in error": give <code>record-list-item</code> or <code>timeline-list-item</code> an
+      <code>entryState</code> and an <code>entryStateLabel</code>. Never remove either silently, since a gap is read as "nothing
+      happened".
+    </li>
+    <li>
+      In a clinical note, mark each passage's source (typed, dictated, template, copied forward, generated) with
+      <code>data-source</code> and visible words, so copied or generated text is never taken for today's examination.
+    </li>
+    <li>
+      A section that cannot load is <code>unavailable</code> in your words, with a retry button; a technical code, if shown at all,
+      sits behind a disclosure. A failure caused by a person's action is announced, with the value the record now holds; a failure
+      on page load is not.
+    </li>
+    <li>
+      An order's history is a <code>timeline-list</code>, one item per step (planned, scheduled, active, suspended, completed,
+      cancelled) with its time and reason, and the current state also on the item.
+    </li>
   </ul>
 
   <h2>From FHIR to Lily</h2>
@@ -291,6 +433,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (also on the record lists)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -301,6 +447,93 @@
     Map an <code>entered-in-error</code> record to its <code>entered-in-error</code> status, with words, rather than dropping it
     silently: whether to show it at all is your service's decision.
   </p>
+
+  <h2>From openEHR to Lily</h2>
+  <p>
+    Lily does not read openEHR compositions either. The mapping for openEHR Reference Model data types and codes, as a suggestion
+    your clinical safety review decides:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR data types and codes, and the Lily values for them</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (entry)</td>
+          <td><code>quantity-input-div</code>; units as UCUM codes with your words</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (display), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> with <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> is ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> with a <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> partial (year, year and month)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> with <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> inside <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>a <code>radio-group</code> whose labels carry the number and its words</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>the coded values pattern below</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, only when "not asked" cannot happen</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> unknown, <code>271</code> no information</td>
+          <td><code>status="not-recorded"</code> or <code>"unavailable"</code>, with words that say which</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> masked</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> not applicable</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subject</td>
+          <td><code>subjectLabel</code> on the record items</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Instruction State Machine steps</td>
+          <td>a <code>timeline-list</code> of steps, with the current state on the item</td>
+        </tr>
+        <tr>
+          <td>an archetype item with occurrences <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Coded values</h2>
   <ul>
@@ -316,6 +549,8 @@
     <li>Ship a drug database, a tall man list, or SNOMED CT, ICD, LOINC or UCUM codes.</li>
     <li>Reproduce a licensed instrument (Wong-Baker FACES) or another body's design (the NEWS2 chart).</li>
     <li>Limit the number of records open at once.</li>
+    <li>Infer an interpretation from a range, convert a unit, or parse a relative date ("next Tuesday").</li>
+    <li>Use a switch for "yes, no or unknown": ARIA's <code>switch</code> has no third state, so it is three radios.</li>
   </ul>
   <p>
     The research, sources and decisions behind this guide are in

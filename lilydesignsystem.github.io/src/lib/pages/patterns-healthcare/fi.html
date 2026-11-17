@@ -71,7 +71,28 @@
     <li>Näytä kaksi tunnistetta kaikkialla, missä potilaan tietoja näkyy: nimi syntymäajan kanssa sekä kansallinen tunniste näyttökomponentteineen (The Joint Commission, Quick Safety 45).</li>
     <li>Käytä potilasbanneria jokaisessa näkymässä, joka käsittelee yhden potilaan tietoja, ja pidä se näkyvissä.</li>
     <li>Ennen toimintoa muulle kuin bannerissa näkyvälle potilastiedolle vahvista se nimellä, syntymäajalla ja tunnisteella.</li>
+    <li>
+      Merkintä, joka koskee muuta henkilöä kuin potilasta (vanhemman sairaushistoria, sikiö, luovuttaja), kertoo ensin sanoin, ketä se koskee: anna kirjausten kohteille <code>subjectLabel</code> ("Äiti"), jotta sukulaisen diagnoosia ei koskaan lueta potilaan diagnoosiksi (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Älä rajoita, kuinka monta potilastietoa kliinikko saa avata: satunnaistettu tutkimus 3 356 kliinikolla (JAMA, 2019) osoitti, ettei se vähentänyt väärälle potilaalle tehtyjä määräyksiä, ja ihmiset kiertävät sen.</li>
+    <li>
+      Yhden kirjauksen toimintovalikko nimeää ensin kyseisen kirjauksen, käyttäen <code>subjectLabel</code> komponentissa <code>context-menu</code> tai
+      <code>dropdown-menu</code> ("Ada Lovelace, verenpaine 3.11."): ei-vuorovaikutteinen ensimmäinen osa, joka on myös valikon saavutettava nimi.
+    </li>
+    <li>
+      Luokittele jokainen toiminto sen mukaan, mitä se tekee, ja tee taso näkyväksi ennen sen suorittamista. <strong>Rutiini</strong> (näytä, tulosta) suoritetaan heti. <strong>Kirjattava</strong> kertoo, mitä se kirjoittaa potilaskertomukseen ("Lisää muistiinpanon käyntiin").
+      <strong>Kliininen</strong> (lopeta, peru määräys) kysyy toisen kerran komponentissa <code>alert-dialog</code> , jonka vahvistuspainike on verbi ("Lopeta"), ei koskaan "OK" tai "Kyllä". <strong>Tietoja luovuttava</strong> (hätäkäyttö, jakaminen hoitotiimin ulkopuolelle) kysyy ensin perustelun ja kirjaa sen.
+    </li>
+    <li>
+      Kun useita kirjauksia on auki (välilehdet, ikkunat, jaetut paneelit), jokaisen välilehden näkyvä teksti ja saavutettava nimi sisältävät potilaan nimen ja toisen tunnisteen, aktiivinen paneeli toistaa bannerin, eikä mikään toiminto kohdistu muuhun potilaaseen kuin paneelinsa potilaaseen.
+    </li>
+    <li>
+      Näytä paikka, johon kirjaukset kohdistetaan (osasto, poliklinikka tai yksikkö, joka valittiin kirjautuessa), tekstinä sivun ylätunnisteessa, ja tee sen vaihtamisesta erillinen toiminto.
+    </li>
+    <li>
+      Näytä aktiivinen käynti tai "Ei aktiivista käyntiä" bannerissa. Lomake, joka tarvitsee käynnin, kertoo sen ja tarjoaa aloittaa sellaisen sen sijaan, että epäonnistuisi tallennettaessa.
+    </li>
   </ul>
 
   <h2>Potilasbanneri</h2>
@@ -82,6 +103,9 @@
     <li>puuttuva arvo kirjoitetaan sanoin (”Ei tiedossa”), ei koskaan kysymysmerkkinä, viivana tai tyhjänä soluna;</li>
     <li>kuollut potilas: <code>data-deceased</code> teemalle ja näkyvä tekstirivi, ei koskaan pelkkä väri;</li>
     <li>yhtään kenttää ei katkaista, rajata tai piiloteta millään leveydellä; teksti rivittyy.</li>
+    <li>
+      potilaan huomiomerkinnät ("Tarvitsee tulkin", "Tartuntavaara") ovat nimetty <code>tag-group</code> sanoista, ei koskaan pelkkiä kuvakkeita tai värejä, ja ne pysyvät näkyvissä, kun banneri rivittyy.
+    </li>
   </ul>
 
   <h2>Tulokset</h2>
@@ -90,6 +114,30 @@
     <li>Merkintä on sanoja käännöksestäsi (<code>flagLabel</code>), ja FHIR-tulkintakoodi on <code>data-interpretation</code>-määreenä teemaa varten.</li>
     <li>Erota uudet tulokset aiemmista ja näytä kehitys (sparkline tai viivakaavio datataulukkoineen): kliinikot etsivät merkittävää muutosta, eivät pelkkää viitealuetta.</li>
     <li>Tulos, jota ei koskaan kirjattu, ja tulos, joka ei ole saatavilla, ovat eri tiloja, joilla on eri sanat.</li>
+    <li>
+      Tuntematon ei ole normaali. Tulos, jonka viiteväli puuttuu, latautuu yhä tai on lukukelvoton, ei saa tulkintaa ja kertoo sen; <code>observation-view</code> ei koskaan päättele tulkintaa, joten tulos, jolla on viiteväli mutta ei <code>interpretation</code> , ei näytä merkintää.
+    </li>
+    <li>
+      Asteikon ulkopuolinen tulos on laitteen raja vertailuoperaattorilla ("&gt; 33,3 mmol/L": <code>formatQuantity</code> ja
+      <code>"&gt;"</code>) sekä kriittinen merkintänne, ei koskaan pelkkä luku. Likimääräinen arvo säilyttää ≈:nsä (<code>"~"</code>).
+    </li>
+    <li>Anna muut nimetyt välit ("Kriittinen: alle 2,5") muodossa <code>ranges</code>, kukin omana osanaan.</li>
+    <li>
+      Korjattu tai muutettu tulos säilyttää korvaamansa arvon elementissä <code>&lt;del&gt;</code>, ja sananne siitä, milloin se muuttui (<code>previousValue</code>, <code>previousLabel</code>), jotta vanhan arvon lukenut kliinikko tietää sen muuttuneen.
+    </li>
+    <li>
+      Aikavälimittaus kertoo pituutensa ja funktionsa ("Keskiarvo, 24 tuntia"), ja mittauksen tila ja menetelmä ("Istuen, iso mansetti") ovat näkyvää tekstiä sen vieressä, ei koskaan pelkkä työkaluvihje (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Trendi tarvitsee vertailukelpoisia pisteitä: älä piirrä viivaa minimisi alapuolelle, katkaise viiva, missä menetelmä tai määritys muuttui, ja kerro suunta ja merkitys sanoin ("laskeva, paraneva").
+    </li>
+    <li>
+      Yhdessä yksikköjärjestelmässä syötetyt vitaalit voivat näyttää toisen järjestelmän vieressä tekstinänne ("70 kg (154 lb)"); Lily ei muunna mitään, joten kerro pyöristyksenne. Syötä määrä komponentilla <code>quantity-input-div</code>, jonka luku noudattaa kunkin yksikön rajoja.
+    </li>
+    <li>
+      Kasvukäyrä on <code>line-chart</code> sarjoina persentiiliviivanne, lapsen pisteet ja tietotaulukko iästä ja arvosta; Lily ei laske persentiilejä eikä toimita kasvuviitteitä.
+    </li>
   </ul>
 
   <h2>Lääkkeet</h2>
@@ -106,12 +154,73 @@
     <li>Kirjoita kuukausi tekstinä, jotta päivämäärää ei voi lukea kahdella tavalla (<code>Intl.DateTimeFormat</code> ja <code>month: "short"</code>).</li>
     <li>Valitse kello harkiten: anna <code>hourCycle</code> nimenomaisesti. NHS edellyttää 24 tunnin kelloa; se on brittiläinen sääntö, ei maailmanlaajuinen, joten Lily ei koskaan valitse sitä puolestasi.</li>
     <li>Iät noudattavat Common User Interfacen luokkia funktion <code>ageParts()</code> kautta; palvelu, jolla on toinen käytäntö, antaa omat sanansa.</li>
+    <li>
+      Vain kuukauden tai vuoden tarkkuudella tunnettu päivämäärä pysyy sellaisena: kysy sitä komponentilla <code>date-field</code>
+      <code>precision="month"</code> tai <code>"year"</code>, tallenna <code>2019-03</code> tai <code>2019</code>ja kirjoita se funktiolla
+      <code>formatPartialDate()</code>. Älä koskaan keksi päivää.
+    </li>
+    <li>
+      Ajan pituus on <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> joka sisältää sananne, lähteinä
+      <code>durationParts()</code> ja <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Koontinäytöt</h2>
   <ul>
     <li>Osastotaulu tai johtokeskuksen näyttö päivittyy usein. Älä koskaan ilmoita jokaisesta muutoksesta: pidä yksi kohtelias yhteenvetoalue (”3 vuodepaikkaa vapaana, 2 kotiutusta tulossa”) ja anna ihmisten lukea taulua.</li>
     <li>Jokainen taulun tila (vuode siivottu, varattu, estetty) on tekstiä tai <code>data-*</code>-tila sanoineen, ei koskaan pelkkä väri.</li>
+    <li>
+      Mikään ei vilku (WCAG 2.2.2, 2.3.1), ja ajastimella päivittyvässä taulussa on taukopainike tai se päivittyy vain pyydettäessä; päivitykset eivät koskaan siirrä kohdistusta. Myöhässä oleva merkintä kertoo sen sanoin ("Odottanut yli 20 minuuttia") ja <code>data-overdue</code>.
+    </li>
+    <li>Määrä tai osuus näyttää nimittäjänsä ("12/68") ja linkittää taustalla olevaan luetteloon.</li>
+    <li>
+      Luettelo tai aikajana kertoo, minkä näkymä se on: mitä se näyttää, sen järjestys ja aikaikkuna, mitä on piilotettu ja miksi, ja mitkä lähteet eivät vastanneet. Tyhjä luettelo lähteestä, joka ei vastannut, ei todista, ettei mitään ole.
+    </li>
+    <li>
+      Muistutusluettelo on <code>record-list</code> , jonka kohteilla on eräpäivä (<code>review-date</code>) ja erän tila sanoin, sekä <code>data-due</code>; sen tuottanut sääntö on teidän.
+    </li>
+  </ul>
+
+  <h2>Lomakkeet</h2>
+  <ul>
+    <li>
+      Kysymys, johon vastataan "kyllä", "ei" tai "ei kysytty", on <code>radio-group</code> kolmesta vastauksesta, joista mitään ei ole valittu valmiiksi, ei koskaan valintaruutu: valintaruutu ei erota "kielletty" ja "ei koskaan kysytty". Elinjärjestelmäkatsaus on yksi <code>fieldset</code> elinjärjestelmää kohden, ja painike "kaikki muut poissa" asettaa vain vastaamattomat.
+    </li>
+    <li>
+      Kysymys, jolla on luettelo vastauksia (lääkkeet, osoitteet), on <code>repeatable-fieldset</code>: kohde lisätään tai poistetaan, kohdistus seuraa, ja jokainen poistopainike on nimetty kohteensa mukaan.
+    </li>
+    <li>
+      Desimaalipilkullinen luku: näytä se funktiolla <code>Intl.NumberFormat</code> ja, missä <code>type="number"</code> ei hyväksy pilkkua, ota se vastaan tekstikentässä attribuutilla <code>inputmode="decimal"</code> ja jäsennä se koodissanne. Älä koskaan muuta henkilön kirjoittamaa arvoa, et edes rajataksesi sen väliin: välin ulkopuolinen arvo on virhe, jonka hän voi nähdä.
+    </li>
+    <li>
+      Pitkä luettelo, joka näyttää vain osan vaihtoehdoistaan kerrallaan, asettaa <code>aria-setsize</code> ja <code>aria-posinset</code> jokaiselle vaihtoehdolle ja muistaa, ettei sivulta haku näe loppuja.
+    </li>
+  </ul>
+
+  <h2>Kirjaukset, muistiinpanot ja niiden alkuperä</h2>
+  <ul>
+    <li>
+      Kerro ennen rivejä, minkä näkymä luettelo tai ruudukko on: aikaikkuna ja järjestys, mitä se jättää pois ja miksi, ja mitkä lähteet eivät vastanneet ("Viimeiset 12 kuukautta, uusin ensin. Terveyskeskuksen kertomus ei vastannut."). Anna <code>record-list</code> ja
+      <code>timeline-list</code>  <code>coverageLabel</code>, ja apukomponentille <code>data-grid</code> sen <code>coverageLabel</code>. Tyhjä luettelo lähteestä, joka ei vastannut, kertoo sen sanoin, jotta sitä ei koskaan lueta "mitään ei kirjattu".
+    </li>
+    <li>
+      Kerro komponentilla <code>record-provenance-view</code>, mistä kirjaus tuli ja onko se lopullinen: allekirjoitettu, odottaa allekirjoitusta, muutettu, tallennettu tälle laitteelle eikä vielä lähetetty. Allekirjoittamaton luonnos ei saa koskaan näyttää allekirjoitetulta.
+    </li>
+    <li>Merkintä toisesta henkilöstä (vanhempi, sikiö, luovuttaja) kertoo ensin, ketä se koskee, kirjausten kohteiden ominaisuudella <code>subjectLabel</code>.</li>
+    <li>
+      Salattu merkintä pysyy luettelossa sanoillanne ("Rajoitettu: ei saatavilla sinulle"), ja virheellisesti tehty merkintä pysyy yliviivattuna tekstillä "Kirjattu virheellisesti": anna <code>record-list-item</code> tai <code>timeline-list-item</code> 
+      <code>entryState</code> ja <code>entryStateLabel</code>. Älä koskaan poista kumpaakaan hiljaa, sillä aukko luetaan "mitään ei tapahtunut".
+    </li>
+    <li>
+      Merkitse kliinisessä muistiinpanossa jokaisen kohdan lähde (kirjoitettu, sanelu, malli, kopioitu eteenpäin, generoitu) attribuutilla
+      <code>data-source</code> ja näkyvin sanoin, jotta kopioitua tai generoitua tekstiä ei koskaan pidetä tämän päivän tutkimuksena.
+    </li>
+    <li>
+      Osio, joka ei lataudu, on <code>unavailable</code> sanoillanne, uudelleenyrityspainikkeen kanssa; tekninen koodi, jos sitä näytetään lainkaan, on avattavan osan takana. Henkilön toiminnan aiheuttama virhe ilmoitetaan, sekä arvo, joka kirjauksessa nyt on; sivun latauksen virhettä ei.
+    </li>
+    <li>
+      Määräyksen historia on <code>timeline-list</code>, yksi kohde vaihetta kohden (suunniteltu, ajoitettu, aktiivinen, keskeytetty, valmis, peruttu) aikoineen ja syineen, ja nykyinen tila myös kohteessa.
+    </li>
   </ul>
 
   <h2>FHIR:stä Lilyyn</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (myös kirjausluetteloissa)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Kuvaa <code>entered-in-error</code>-tieto tilaan <code>entered-in-error</code>, sanoin, sen sijaan että se jätetään äänettömästi pois: näytetäänkö se lainkaan, on palvelusi päätös.</p>
+
+  <h2>openEHR:stä Lilyyn</h2>
+  <p>
+    Lily ei lue myöskään openEHR-koosteita. Vastaavuus openEHR-viitemallin tietotyypeille ja koodeille ehdotuksena, josta kliininen turvallisuusarvionne päättää:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR-tietotyypit ja -koodit sekä niitä vastaavat Lily-arvot</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (syöttö)</td>
+          <td><code>quantity-input-div</code>; yksiköt UCUM-koodeina sanojenne kanssa</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (näyttö), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> ja <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> on ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> ja <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> osittainen (vuosi, vuosi ja kuukausi)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> ja <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> komponentin sisällä <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> , jonka nimiöissä ovat luku ja sen sanat</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>koodattujen arvojen malli alla</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, vain kun "ei kysytty" ei voi esiintyä</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> tuntematon, <code>271</code> ei tietoa</td>
+          <td><code>status="not-recorded"</code> tai <code>"unavailable"</code>, ja sanat kertovat, mistä on kyse</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> peitetty</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> ei sovellu</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> kohde</td>
+          <td><code>subjectLabel</code> kirjausten kohteissa</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Instruction State Machine -vaiheet</td>
+          <td> <code>timeline-list</code> vaiheista, nykyinen tila kohteessa</td>
+        </tr>
+        <tr>
+          <td>arkkityypin kohde, esiintymiä <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Koodatut arvot</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Toimita lääketietokantaa, tall man -luetteloa tai SNOMED CT-, ICD-, LOINC- tai UCUM-koodeja.</li>
     <li>Jäljittele lisensoitua mittaria (Wong-Baker FACES) tai toisen tahon suunnittelua (NEWS2-kaaviota).</li>
     <li>Rajoita samanaikaisesti avoinna olevien potilastietojen määrää.</li>
+    <li>Päätellä tulkintaa viitevälistä, muuntaa yksikköä tai jäsentää suhteellista päivämäärää ("ensi tiistaina").</li>
+    <li>Käyttää kytkintä vastaukselle "kyllä, ei tai tuntematon": ARIA:n <code>switch</code> ei tunne kolmatta tilaa, joten se on kolme valintanappia.</li>
   </ul>
   <p>Tämän oppaan taustalla oleva tutkimus, lähteet ja päätökset ovat kohdassa <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

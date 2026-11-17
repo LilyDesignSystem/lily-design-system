@@ -71,7 +71,28 @@
     <li>A nuna alamomin tantancewa biyu duk inda bayanan mara lafiya suka bayyana: suna da ranar haihuwa, da lambar shaidar ƙasa tare da sashenta na kallo (The Joint Commission, Quick Safety 45).</li>
     <li>A yi amfani da tutar mara lafiya a kowane shafi da ke aiki a kan bayanan mara lafiya ɗaya, a kuma bar ta a bayyane.</li>
     <li>Kafin wani aiki a kan bayanan da ba na mara lafiyar da ke tutar ba, a tabbatar da shi da suna, ranar haihuwa da lambar shaida.</li>
+    <li>
+      Shigarwa game da wani ba majiyyaci ba (tarihin iyaye, tayi, mai bayarwa) ya fara faɗa da kalmomi na wane ne: ba wa abubuwan rikodin <code>subjectLabel</code> ("Uwa"), don kada a taɓa karanta ganewar dangi a matsayin ta majiyyaci (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Kada a iyakance yawan bayanan da likita zai iya buɗewa: gwajin bazuwar kan likitoci 3,356 (JAMA, 2019) ya gano cewa bai rage odar mara lafiyar da ba daidai ba, kuma mutane na ƙetare shi.</li>
+    <li>
+      Menu na ayyuka a kan rikodi ɗaya yana fara ambaton wannan rikodin, da <code>subjectLabel</code> a kan <code>context-menu</code> ko
+      <code>dropdown-menu</code> ("Ada Lovelace, hawan jini 3 Nuw"): sashe na farko marar hulɗa wanda kuma shi ne sunan menu mai isa.
+    </li>
+    <li>
+      Rarraba kowane aiki bisa abin da yake yi, kuma sa matakin ya bayyana kafin ya gudana. <strong>Na yau da kullum</strong> (duba, buga) yana gudana nan take. <strong>Wanda aka rubuta</strong> yana faɗin abin da zai rubuta a rikodi ("Yana ƙara bayani ga ziyara").
+      <strong>Na asibiti</strong> (dakatar, soke umarni) yana tambaya karo na biyu, a cikin <code>alert-dialog</code> wanda maɓallin tabbatarwarsa shi ne fi'ili ("Dakatar"), ba "To" ko "Eh" ba. <strong>Mai bayyanawa</strong> (shiga na gaggawa, rabawa a wajen ƙungiyar kulawa) yana fara neman dalili kuma ya rubuta shi.
+    </li>
+    <li>
+      Idan rikodi da yawa a buɗe suke (shafuka, tagogi, rabe-raben fanel), rubutun da ake gani da sunan mai isa na kowane shafi sun ƙunshi sunan majiyyaci da wani mai ganewa na biyu, fanel mai aiki yana maimaita tuta, kuma babu aikin da ya shafi majiyyaci ban da na fanel ɗinsa.
+    </li>
+    <li>
+      Nuna wurin da za a danganta rikodin da shi (sashen asibiti, asibitin waje ko cibiyar da aka zaɓa lokacin shiga) a matsayin rubutu a kan saman shafi, kuma sa canza shi ya zama aiki bayyananne.
+    </li>
+    <li>
+      Nuna ziyara mai aiki, ko "Babu ziyara mai aiki", a cikin tuta. Fom da ke buƙatar ziyara yana faɗin haka kuma yana ba da damar fara ɗaya, maimakon ya kasa lokacin ajiyewa.
+    </li>
   </ul>
 
   <h2>Tutar mara lafiya</h2>
@@ -82,6 +103,9 @@
     <li>ƙimar da ba ta nan kalmomi ne ("Ba a sani ba"), ba alamar tambaya, layi ko ɗakin fanko ba;</li>
     <li>mara lafiya da ya mutu: <code>data-deceased</code> don jigo, da layin rubutu a bayyane, ba launi kaɗai ba;</li>
     <li>babu filin da aka yanke, aka datse ko aka ɓoye a kowane faɗi; yana naɗewa.</li>
+    <li>
+      alamomin majiyyaci ("Yana buƙatar mai fassara", "Haɗarin kamuwa da cuta") su ne <code>tag-group</code> mai lakabi na kalmomi, ba gumaka ko launi kaɗai ba, kuma suna kasancewa a bayyane idan tuta ta naɗe.
+    </li>
   </ul>
 
   <h2>Sakamako</h2>
@@ -90,6 +114,30 @@
     <li>Tutar kalmomi ne daga fassararku (<code>flagLabel</code>), tare da lambar fassarar FHIR a matsayin <code>data-interpretation</code> don jigo.</li>
     <li>A raba sabbin sakamako da na baya, a nuna yanayin sauyi (sparkline, ko zanen layi da teburin bayanansa): likitoci suna neman sauyi mai muhimmanci, ba iyaka kaɗai ba.</li>
     <li>Sakamakon da ba a taɓa rubutawa ba da wanda babu su yanayi ne daban-daban, masu kalmomi daban-daban.</li>
+    <li>
+      Ba a sani ba ba yana nufin daidai ba. Sakamakon da kewayon tunani nasa ya ɓace, har yanzu ana lodawa ko ba za a iya karantawa ba ba shi da fassara kuma yana faɗin haka; <code>observation-view</code> ba ya taɓa hasashen ɗaya, saboda haka sakamako mai kewayon kuma ba tare da <code>interpretation</code> ba ya nuna alama.
+    </li>
+    <li>
+      Sakamakon da ya wuce sikeli iyakar na'urar ne tare da mai kwatanta ("&gt; 33.3 mmol/L": <code>formatQuantity</code> tare da
+      <code>"&gt;"</code>) da alamarku ta haɗari, ba lamba kawai ba. Ƙimar kusan tana riƙe ≈ ɗinta (<code>"~"</code>).
+    </li>
+    <li>Ba da ƙarin kewayon da ke da suna ("Mai haɗari: ƙasa da 2.5") a matsayin <code>ranges</code>, kowanne a matsayin sashensa.</li>
+    <li>
+      Sakamakon da aka gyara ko aka canza yana riƙe ƙimar da ya maye gurbinta, a cikin <code>&lt;del&gt;</code>, tare da kalmominku game da lokacin da ta canza (<code>previousValue</code>, <code>previousLabel</code>), don likitan da ya karanta tsohuwar ƙima ya san ta canza.
+    </li>
+    <li>
+      Aunawa ta tazara tana faɗin faɗinta da aikinta ("Matsakaici, awa 24"), kuma yanayi da hanyar aunawa ("A zaune, babban kuf") rubutu ne da ake gani a gefensa, ba bayanin kayan aiki kaɗai ba (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Yanayin canji yana buƙatar maki masu kwatantuwa: kada ku zana layi ƙasa da mafi ƙanƙantarku, yanke layin inda hanya ko gwaji ya canza, kuma ku faɗi alkibla da ma'ana da kalmomi ("yana raguwa, yana inganta").
+    </li>
+    <li>
+      Muhimman alamu da aka shigar a tsarin ma'auni ɗaya za su iya nuna ɗayan a gefe a matsayin rubutunku ("70 kg (154 lb)"); Lily ba ta canza komai, don haka faɗi yadda kuke zagayewa. Shigar da adadi da <code>quantity-input-div</code>, wanda lambarsa ke bin iyakokin kowane ma'auni.
+    </li>
+    <li>
+      Jadawalin girma shi ne <code>line-chart</code> tare da layukan kashi-kashi naku a matsayin jerin, maki na yaron da teburin bayanai na shekaru da ƙima; Lily ba ta lissafa kashi-kashi kuma ba ta ba da ma'aunin girma.
+    </li>
   </ul>
 
   <h2>Magunguna</h2>
@@ -106,12 +154,73 @@
     <li>A rubuta wata da kalmomi don kada a iya karanta kwanan wata ta hanyoyi biyu (<code>Intl.DateTimeFormat</code> da <code>month: "short"</code>).</li>
     <li>A zaɓi agogo da gangan: a ba da <code>hourCycle</code> a fili. NHS tana buƙatar agogon awa 24; wannan dokar Birtaniya ce, ba ta duniya ba, don haka Lily ba ya zaɓa muku ba.</li>
     <li>Shekaru suna bin rukunin Common User Interface ta <code>ageParts()</code>; sabis mai wata al'ada yana ba da nasa kalmomin.</li>
+    <li>
+      Kwanan wata da aka sani har zuwa wata ko shekara kaɗai yana zama haka: tambaye shi da <code>date-field</code>
+      <code>precision="month"</code> ko <code>"year"</code>, ajiye <code>2019-03</code> ko <code>2019</code>, kuma rubuta shi da
+      <code>formatPartialDate()</code>. Kada ku taɓa ƙirƙira rana.
+    </li>
+    <li>
+      Tsawon lokaci shi ne <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> mai ɗauke da kalmominku, daga
+      <code>durationParts()</code> da <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Allunan bayanai</h2>
   <ul>
     <li>Allon unguwar asibiti ko cibiyar umarni yana sabuntawa akai-akai. Kada a sanar da kowane sauyi: a ajiye yankin taƙaitawa guda mai sauƙi ("gadaje 3 babu kowa, ana sa ran sallama 2") a bar mutane su karanta allon.</li>
     <li>Kowane yanayi a allo (gado mai tsabta, da mutum, an rufe) rubutu ne ko yanayin <code>data-*</code> mai kalmomi, ba launi kaɗai ba.</li>
+    <li>
+      Babu abin da ke ƙyalƙyali (WCAG 2.2.2, 2.3.1), kuma allon da ke sabuntawa da agogo yana da maɓallin dakatarwa ko yana sabuntawa ne kawai idan an nema; sabuntawa ba sa motsa mayar da hankali. Shigarwar da ta wuce lokaci tana faɗin haka da kalmomi ("Yana jira sama da minti 20") tare da <code>data-overdue</code>.
+    </li>
+    <li>Ƙidaya ko ƙima tana nuna mai rabawa ("12 cikin 68") kuma tana haɗi da jerin da ke bayanta.</li>
+    <li>
+      Jeri ko layin lokaci yana faɗin abin da yake nunawa: abin da yake nunawa, tsari da lokacinsa, abin da aka ɓoye da dalili, da waɗanne tushe ba su amsa ba. Jeri mara komai daga tushen da bai amsa ba ba hujja ba ce cewa babu komai.
+    </li>
+    <li>
+      Jerin tunatarwa shi ne <code>record-list</code> wanda abubuwansa ke ɗauke da ranar ƙarshe (<code>review-date</code>) da yanayin ƙarshen lokaci da kalmomi, tare da <code>data-due</code>; ƙa'idar da ta samar da shi taku ce.
+    </li>
+  </ul>
+
+  <h2>Fom</h2>
+  <ul>
+    <li>
+      Tambayar da ake amsawa da "eh", "a'a" ko "ba a tambaya ba" ita ce <code>radio-group</code> ta amsoshi uku, babu wanda aka zaɓa a farko, ba akwatin zaɓi ba: akwatin zaɓi ba zai iya bambanta "ya musanta" da "ba a taɓa tambaya ba". Bitar tsarin jiki ita ce <code>fieldset</code> ɗaya ga kowane tsarin jiki, kuma maɓallin "duk sauran babu" yana saita waɗanda ba a amsa ba kaɗai.
+    </li>
+    <li>
+      Tambayar da ke da jerin amsoshi (magunguna, adireshi) ita ce <code>repeatable-fieldset</code>: ana ƙara ko cire abu, mayar da hankali yana bi, kuma kowane maɓallin cirewa yana da sunan abinsa.
+    </li>
+    <li>
+      Lamba mai waƙafin goma: nuna ta da <code>Intl.NumberFormat</code> kuma, inda <code>type="number"</code> ba ya karɓar waƙafi, karɓe ta a filin rubutu da <code>inputmode="decimal"</code> kuma ku fassara ta a cikin lambar ku. Kada ku taɓa canza ƙimar da mutum ya rubuta, ko da don iyakance ta cikin kewayo: ƙima a wajen kewayo kuskure ne da zai iya gani.
+    </li>
+    <li>
+      Dogon jeri da ke nuna wani ɓangare na zaɓuɓɓukansa a lokaci guda yana saita <code>aria-setsize</code> da <code>aria-posinset</code> a kan kowane zaɓi, kuma yana tuna cewa bincike a shafi ba ya ganin sauran.
+    </li>
+  </ul>
+
+  <h2>Rikodi, bayanai da asalinsu</h2>
+  <ul>
+    <li>
+      Faɗi abin da jeri ko grid ke nunawa, kafin layukansa: lokaci da tsarinsa, abin da ya bari da dalili, da waɗanne tushe ba su amsa ba ("Watanni 12 na ƙarshe, sabo farko. Rikodin likitan iyali bai amsa ba."). Ba wa <code>record-list</code> da
+      <code>timeline-list</code>  <code>coverageLabel</code>, kuma ga mai taimako na <code>data-grid</code> nasa <code>coverageLabel</code>. Jeri mara komai daga tushen da bai amsa ba yana faɗin haka da kalmomi, don kada a taɓa karanta shi a matsayin "ba a rubuta komai ba".
+    </li>
+    <li>
+      Faɗi daga ina rikodi ya fito da ko na ƙarshe ne da <code>record-provenance-view</code>: an sa hannu, yana jiran sa hannu, an gyara, an ajiye a wannan na'ura kuma ba a aika ba tukuna. Daftarin da ba a sa hannu ba kada ya taɓa yin kama da an sa hannu.
+    </li>
+    <li>Shigarwa game da wani (iyaye, tayi, mai bayarwa) ta fara faɗin na wane ne, da <code>subjectLabel</code>.</li>
+    <li>
+      Shigarwar da aka hana tana zama a cikin jeri da kalmominku ("An taƙaita: ba a samu gare ku ba"), kuma shigarwar da aka yi bisa kuskure tana zama an ja layi a kanta da "An shigar bisa kuskure": ba wa <code>record-list-item</code> ko <code>timeline-list-item</code> 
+      <code>entryState</code> da <code>entryStateLabel</code>. Kada ku taɓa cire ɗayansu a ɓoye, domin ana karanta gibi a matsayin "babu abin da ya faru".
+    </li>
+    <li>
+      A cikin bayanin asibiti, yi wa tushen kowane sashe alama (an rubuta, an karanta, samfuri, an kwafa gaba, an samar) da
+      <code>data-source</code> da kalmomin da ake gani, don kada a taɓa ɗaukar rubutun da aka kwafa ko aka samar a matsayin binciken yau.
+    </li>
+    <li>
+      Sashen da ba zai iya lodawa ba shi ne <code>unavailable</code> da kalmominku, tare da maɓallin sake gwadawa; lambar fasaha, idan an nuna ta kwata-kwata, tana bayan mai bayyanawa. Gazawar da aikin mutum ya haifar ana sanar da ita, tare da ƙimar da rikodin ke riƙe yanzu; gazawa a lokacin loda shafi ba a sanar.
+    </li>
+    <li>
+      Tarihin umarni shi ne <code>timeline-list</code>, abu ɗaya ga kowane mataki (an tsara, an saka lokaci, mai aiki, an dakatar, an kammala, an soke) tare da lokaci da dalilinsa, da yanayin yanzu ma a kan abin.
+    </li>
   </ul>
 
   <h2>Daga FHIR zuwa Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (har ma a kan jerin rikodi)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>A daidaita rikodin <code>entered-in-error</code> da yanayinsa na <code>entered-in-error</code>, tare da kalmomi, maimakon a jefar da shi a hankali: ko a nuna shi ko a'a shawarar sabis ɗinku ce.</p>
+
+  <h2>Daga openEHR zuwa Lily</h2>
+  <p>
+    Lily ba ta karanta tsararrun openEHR ma. Taswirar nau'ikan bayanai da lambobin Tsarin Tunani na openEHR, a matsayin shawara da bitar amincin asibiti naku za ta yanke:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Nau'ikan bayanai da lambobin openEHR, da ƙimomin Lily a gare su</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (shigarwa)</td>
+          <td><code>quantity-input-div</code>; ma'auni a matsayin lambobin UCUM tare da kalmominku</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (nuni), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> tare da <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> shi ne ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> tare da <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> rabi (shekara, shekara da wata)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> tare da <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> a cikin <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> wanda lakabinsa ke ɗauke da lamba da kalmominta</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>tsarin ƙimomi masu lamba a ƙasa</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, sai lokacin da "ba a tambaya ba" ba zai iya faruwa ba</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> ba a sani ba, <code>271</code> babu bayani</td>
+          <td><code>status="not-recorded"</code> ko <code>"unavailable"</code>, tare da kalmomin da ke faɗar wanne</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> an ɓoye</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> bai dace ba</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> wanda abin ya shafa</td>
+          <td><code>subjectLabel</code> a kan abubuwan rikodi</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Matakan Instruction State Machine</td>
+          <td> <code>timeline-list</code> na matakai, tare da yanayin yanzu a kan abin</td>
+        </tr>
+        <tr>
+          <td>abin samfuri tare da yawan faruwa <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Ƙimar da aka sa wa lamba</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Bayar da rumbun bayanan magani, jerin tall man, ko lambobin SNOMED CT, ICD, LOINC ko UCUM.</li>
     <li>Kwafar kayan aiki mai lasisi (Wong-Baker FACES) ko zanen wata hukuma (taswirar NEWS2).</li>
     <li>Iyakance yawan bayanan da za a buɗe a lokaci ɗaya.</li>
+    <li>Hasashen fassara daga kewayo, canza ma'auni, ko fassara kwanan wata na dangantaka ("Talata mai zuwa").</li>
+    <li>Amfani da maɓallin sauyawa don "eh, a'a ko ba a sani ba": <code>switch</code> na ARIA ba shi da yanayi na uku, don haka maɓallan rediyo uku ne.</li>
   </ul>
   <p>Bincike, tushe da shawarwarin da ke bayan wannan jagorar suna cikin <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

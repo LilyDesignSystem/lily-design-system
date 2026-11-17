@@ -71,7 +71,28 @@
     <li>اعرض معرّفين حيثما ظهرت بيانات المريض: الاسم مع تاريخ الميلاد، والمعرّف الوطني مع مكوّن العرض الخاص به (The Joint Commission، Quick Safety 45).</li>
     <li>استخدم شريط بيانات المريض في كل شاشة تتصرف في سجل مريض واحد، وأبقِه ظاهرًا.</li>
     <li>قبل أي إجراء على سجل غير السجل الظاهر في الشريط، أكّده بالاسم وتاريخ الميلاد والمعرّف.</li>
+    <li>
+      المدخل الخاص بشخص غير المريض (تاريخ أحد الوالدين، جنين، متبرّع) يقول أولًا بالكلمات لمن هو: امنح عناصر السجل <code>subjectLabel</code> («الأم»)، كي لا يُقرأ تشخيص قريب أبدًا على أنه تشخيص المريض (openEHR
+      <code>PARTY_RELATED</code>، FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>لا تحدّ من عدد السجلات التي يجوز للطبيب فتحها: وجدت تجربة عشوائية على 3٬356 طبيبًا (JAMA، 2019) أن ذلك لم يقلل أخطاء الطلبات الخاصة بالمريض الخطأ، وأن الناس يلتفون عليه.</li>
+    <li>
+      قائمة الإجراءات على سجل واحد تسمّي ذلك السجل أولًا، باستخدام <code>subjectLabel</code> على <code>context-menu</code> أو
+      <code>dropdown-menu</code> («Ada Lovelace، ضغط الدم 3 نوفمبر»): جزء أول غير تفاعلي هو أيضًا الاسم الميسّر للقائمة.
+    </li>
+    <li>
+      صنّف كل إجراء بحسب ما يفعله، واجعل مستواه ظاهرًا قبل أن يُنفَّذ. <strong>روتيني</strong> (عرض، طباعة) يُنفَّذ فورًا. <strong>موثَّق</strong> يقول ما سيكتبه في السجل («يضيف ملاحظة إلى الزيارة»).
+      <strong>سريري</strong> (إيقاف، إلغاء أمر) يسأل مرة ثانية، في <code>alert-dialog</code> يكون زر التأكيد فيه هو الفعل («إيقاف»)، وليس «موافق» أو «نعم» أبدًا. <strong>إفصاحي</strong> (الوصول الطارئ، المشاركة خارج فريق الرعاية) يطلب سببًا أولًا ويسجّله.
+    </li>
+    <li>
+      عندما تكون عدة سجلات مفتوحة (علامات تبويب، نوافذ، أجزاء مقسّمة)، يتضمن النص الظاهر والاسم الميسّر لكل علامة تبويب اسم المريض ومعرّفًا ثانيًا، ويكرّر الجزء النشط الشريط، ولا ينطبق أي إجراء على مريض غير مريض جزئه.
+    </li>
+    <li>
+      اعرض المكان الذي ستُنسب إليه السجلات (الجناح أو العيادة أو المنشأة المختارة عند تسجيل الدخول) نصًا في ترويسة الصفحة، واجعل تغييره إجراءً صريحًا.
+    </li>
+    <li>
+      اعرض الزيارة الحالية، أو «لا توجد زيارة حالية»، في الشريط. النموذج الذي يحتاج إلى زيارة يقول ذلك ويعرض بدء واحدة، بدلًا من أن يفشل عند الحفظ.
+    </li>
   </ul>
 
   <h2>شريط بيانات المريض</h2>
@@ -82,6 +103,9 @@
     <li>القيمة المفقودة كلمات («غير معروف»)، لا علامة استفهام ولا شرطة ولا خلية فارغة؛</li>
     <li>مريض متوفى: <code>data-deceased</code> للسمة، وسطر نصي ظاهر، وليس اللون وحده أبدًا؛</li>
     <li>لا حقل مقتطع أو مقصوص أو مخفي عند أي عرض؛ بل يلتف النص.</li>
+    <li>
+      علامات المريض («يحتاج إلى مترجم»، «خطر عدوى») هي <code>tag-group</code> مُعنوَنة من الكلمات، وليست أيقونات أو لونًا وحده أبدًا، وتبقى ظاهرة عندما يلتفّ الشريط.
+    </li>
   </ul>
 
   <h2>النتائج</h2>
@@ -90,6 +114,30 @@
     <li>العلامة كلمات من ترجمتك (<code>flagLabel</code>)، مع رمز التفسير في FHIR بوصفه <code>data-interpretation</code> للسمة.</li>
     <li>افصل النتائج الجديدة عن السابقة، واعرض الاتجاه (مخططًا مصغّرًا، أو مخططًا خطيًا مع جدول بياناته): يبحث الأطباء عن تغيّر مهم، لا عن النطاق فقط.</li>
     <li>النتيجة التي لم تُسجَّل قط والنتيجة غير المتاحة حالتان مختلفتان، بكلمات مختلفة.</li>
+    <li>
+      المجهول ليس طبيعيًا. النتيجة التي ينقصها نطاقها المرجعي أو ما زالت تُحمَّل أو لا يمكن قراءتها لا تفسير لها وتقول ذلك؛ <code>observation-view</code> لا يستنتج تفسيرًا أبدًا، لذا فالنتيجة التي لها نطاق ولا <code>interpretation</code> لها لا تُظهر أي علامة.
+    </li>
+    <li>
+      النتيجة الخارجة عن المقياس هي حدّ الجهاز مع رمز مقارنة («&gt; 33.3 mmol/L»: <code>formatQuantity</code> مع
+      <code>"&gt;"</code>) وعلامتك الحرجة، وليست رقمًا مجردًا أبدًا. القيمة التقريبية تحتفظ بعلامة ≈ (<code>"~"</code>).
+    </li>
+    <li>قدّم النطاقات المسمّاة الأخرى («حرج: أقل من 2.5») بوصفها <code>ranges</code>، كلٌّ في جزئه الخاص.</li>
+    <li>
+      النتيجة المصحّحة أو المعدّلة تحتفظ بالقيمة التي حلّت محلها، في <code>&lt;del&gt;</code>، مع كلماتك عن وقت تغيّرها (<code>previousValue</code>، <code>previousLabel</code>)، كي يعرف الطبيب الذي قرأ القيمة القديمة أنها تغيّرت.
+    </li>
+    <li>
+      قراءة الفترة تذكر عرضها ووظيفتها («متوسط، 24 ساعة»)، وحالة القراءة وطريقتها («جالسًا، كُمّ كبير») نص ظاهر بجانبها، وليس تلميحًا فقط أبدًا (openEHR <code>INTERVAL_EVENT</code>، <code>state</code>،
+      <code>protocol</code>).
+    </li>
+    <li>
+      الاتجاه يحتاج إلى نقاط قابلة للمقارنة: لا ترسم خطًا تحت حدّك الأدنى، واقطع الخط حيث تغيّرت الطريقة أو الفحص، وقل الاتجاه والمعنى بالكلمات («في انخفاض، في تحسّن»).
+    </li>
+    <li>
+      العلامات الحيوية المُدخلة بنظام وحدات واحد يمكن أن تعرض النظام الآخر بجانبها نصًا من عندك («70 kg (154 lb)»)؛ لا يحوّل Lily شيئًا، فاذكر طريقة التقريب. أدخل الكمية باستخدام <code>quantity-input-div</code>، الذي يتبع رقمه حدود كل وحدة.
+    </li>
+    <li>
+      منحنى النمو هو <code>line-chart</code> بخطوط المئينات الخاصة بك سلاسلَ، ونقاط الطفل وجدول بياناته للعمر والقيمة؛ لا يحسب Lily أي مئين ولا يتضمن مرجعًا للنمو.
+    </li>
   </ul>
 
   <h2>الأدوية</h2>
@@ -106,12 +154,73 @@
     <li>اكتب الشهر نصًا حتى لا يُقرأ التاريخ على وجهين (<code>Intl.DateTimeFormat</code> مع <code>month: "short"</code>).</li>
     <li>اختر نظام الساعة عن قصد: مرّر <code>hourCycle</code> صراحةً. تطلب NHS نظام الأربع والعشرين ساعة؛ وهذه قاعدة بريطانية لا عالمية، لذا لا تختاره Lily نيابةً عنك.</li>
     <li>تتبع الأعمار شرائح Common User Interface عبر <code>ageParts()</code>؛ والخدمة ذات العُرف المختلف تمرر كلماتها الخاصة.</li>
+    <li>
+      التاريخ المعروف حتى الشهر أو السنة فقط يبقى كذلك: اطلبه باستخدام <code>date-field</code>
+      <code>precision="month"</code> أو <code>"year"</code>، واحفظه <code>2019-03</code> أو <code>2019</code>، واكتبه باستخدام
+      <code>formatPartialDate()</code>. لا تختلق يومًا أبدًا.
+    </li>
+    <li>
+      المدة هي <code>duration-view</code>، أي <code>&lt;time datetime="P3DT4H"&gt;</code> يحمل كلماتك، من
+      <code>durationParts()</code> و <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>لوحات المعلومات</h2>
   <ul>
     <li>لوحة الجناح أو شاشة مركز القيادة تتحدث كثيرًا. لا تُعلن كل تغيير أبدًا: أبقِ منطقة ملخص مهذبة واحدة («3 أسرّة شاغرة، وخروج مريضين مرتقب») ودع الناس يقرؤون اللوحة.</li>
     <li>كل حالة على اللوحة (سرير نظيف، مشغول، محجوب) نص أو حالة <code>data-*</code> مع كلمات، وليس اللون وحده أبدًا.</li>
+    <li>
+      لا شيء يومض (WCAG 2.2.2، 2.3.1)، واللوحة التي تُحدَّث بمؤقّت لها زر إيقاف مؤقت أو لا تُحدَّث إلا عند الطلب؛ التحديثات لا تنقل التركيز أبدًا. المدخل المتأخر يقول ذلك بالكلمات («ينتظر منذ أكثر من 20 دقيقة») مع <code>data-overdue</code>.
+    </li>
+    <li>العدد أو المعدّل يُظهر مقامه («12 من 68») ويربط بالقائمة التي خلفه.</li>
+    <li>
+      القائمة أو الخط الزمني يقول ما الذي يعرضه: ماذا يُظهر، وترتيبه وفترته، وما المخفي ولماذا، وأي المصادر لم تستجب. القائمة الفارغة من مصدر لم يستجب ليست دليلًا على عدم وجود شيء.
+    </li>
+    <li>
+      قائمة التذكيرات هي <code>record-list</code> تحمل عناصرها تاريخ استحقاق (<code>review-date</code>) وحالة استحقاق بالكلمات، مع <code>data-due</code>؛ والقاعدة التي أنتجتها هي قاعدتك.
+    </li>
+  </ul>
+
+  <h2>النماذج</h2>
+  <ul>
+    <li>
+      السؤال الذي يُجاب عنه بـ«نعم» أو «لا» أو «لم يُسأل» هو <code>radio-group</code> من ثلاث إجابات، لا يُختار أي منها في البداية، وليس مربع اختيار أبدًا: مربع الاختيار لا يميّز «أنكر» من «لم يُسأل قط». مراجعة الأجهزة هي <code>fieldset</code> واحد لكل جهاز في الجسم، وزر «كل البقية غائبة» يضبط غير المُجاب عنها فقط.
+    </li>
+    <li>
+      السؤال الذي له قائمة إجابات (أدوية، عناوين) هو <code>repeatable-fieldset</code>: يُضاف عنصر أو يُزال، ويتبعه التركيز، وكل زر إزالة مسمّى باسم عنصره.
+    </li>
+    <li>
+      الرقم ذو الفاصلة العشرية: اعرضه باستخدام <code>Intl.NumberFormat</code> ، وحيث لا يقبل <code>type="number"</code> الفاصلة، استقبله في حقل نصي مع <code>inputmode="decimal"</code> وحلّله في شيفرتك. لا تغيّر أبدًا قيمة كتبها الشخص، ولو لحصرها في نطاق: القيمة الخارجة عن النطاق خطأ يستطيع رؤيته.
+    </li>
+    <li>
+      القائمة الطويلة التي تعرض جزءًا من خياراتها في كل مرة تضبط <code>aria-setsize</code> و <code>aria-posinset</code> على كل خيار، وتتذكّر أن البحث في الصفحة لا يرى الباقي.
+    </li>
+  </ul>
+
+  <h2>السجلات والملاحظات ومصدرها</h2>
+  <ul>
+    <li>
+      قل ما الذي تعرضه القائمة أو الشبكة قبل صفوفها: فترتها وترتيبها، وما تستبعده ولماذا، وأي المصادر لم تستجب («آخر 12 شهرًا، الأحدث أولًا. لم يستجب سجل طبيب الأسرة.»). امنح <code>record-list</code> و
+      <code>timeline-list</code>  <code>coverageLabel</code>، وامنح مساعد <code>data-grid</code> خاصيته <code>coverageLabel</code>. القائمة الفارغة من مصدر لم يستجب تقول ذلك بالكلمات، كي لا تُقرأ أبدًا على أنها «لا شيء مسجّل».
+    </li>
+    <li>
+      قل من أين جاء السجل وهل هو نهائي باستخدام <code>record-provenance-view</code>: موقَّع، بانتظار التوقيع، معدَّل، محفوظ على هذا الجهاز ولم يُرسل بعد. المسودة غير الموقّعة يجب ألّا تبدو موقّعة أبدًا.
+    </li>
+    <li>المدخل الخاص بشخص آخر (أحد الوالدين، جنين، متبرّع) يقول أولًا لمن هو، باستخدام <code>subjectLabel</code>.</li>
+    <li>
+      المدخل المحجوب يبقى في القائمة بكلماتك («مقيّد: غير متاح لك»)، والمدخل الذي أُدخل خطأً يبقى مشطوبًا مع «أُدخل خطأً»: امنح <code>record-list-item</code> أو <code>timeline-list-item</code> 
+      <code>entryState</code> و <code>entryStateLabel</code>. لا تُزل أيًّا منهما بصمت أبدًا، لأن الفراغ يُقرأ على أنه «لم يحدث شيء».
+    </li>
+    <li>
+      في الملاحظة السريرية، علّم مصدر كل مقطع (مكتوب، مُملى، قالب، منسوخ من سابق، مولَّد) باستخدام
+      <code>data-source</code> وكلمات ظاهرة، كي لا يُحسب النص المنسوخ أو المولَّد فحص اليوم أبدًا.
+    </li>
+    <li>
+      القسم الذي لا يمكن تحميله هو <code>unavailable</code> بكلماتك، مع زر إعادة المحاولة؛ والرمز التقني، إن عُرض أصلًا، يكون خلف عنصر قابل للطيّ. الفشل الناتج عن فعل شخص يُعلَن، مع القيمة التي يحملها السجل الآن؛ أما الفشل عند تحميل الصفحة فلا.
+    </li>
+    <li>
+      تاريخ الأمر هو <code>timeline-list</code>، عنصر لكل خطوة (مخطّط، مجدول، نشط، معلّق، مكتمل، ملغى) مع وقته وسببه، والحالة الحالية على العنصر أيضًا.
+    </li>
   </ul>
 
   <h2>من FHIR إلى Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (وعلى قوائم السجلات أيضًا)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>اربط السجل <code>entered-in-error</code> بحالته <code>entered-in-error</code>، مع كلمات، بدل إسقاطه بصمت: أما إظهاره أصلًا فقرار خدمتك.</p>
+
+  <h2>من openEHR إلى Lily</h2>
+  <p>
+    لا يقرأ Lily تراكيب openEHR أيضًا. التعيين لأنواع البيانات والرموز في النموذج المرجعي لـ openEHR، بوصفه اقتراحًا تقرّره مراجعة السلامة السريرية لديك:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">أنواع بيانات openEHR ورموزه، وقيم Lily المقابلة لها</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (إدخال)</td>
+          <td><code>quantity-input-div</code>؛ الوحدات رموز UCUM مع كلماتك</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (عرض)، <code>magnitude_status</code></td>
+          <td><code>observation-view</code> مع <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> هو ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>، <code>HH</code>، <code>H</code>، <code>L</code>، <code>LL</code>، <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>، <code>HH</code>، <code>H</code>، <code>L</code>، <code>LL</code>، <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> مع <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> جزئي (سنة، سنة وشهر)</td>
+          <td><code>date-field</code> <code>precision</code>؛ <code>formatPartialDate()</code>؛ <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> مع <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> داخل <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>، <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> تحمل تسمياته الرقم وكلماته</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>نمط القيم المرمّزة أدناه</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>، فقط حين لا يمكن أن يحدث «لم يُسأل»</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> مجهول، <code>271</code> لا معلومات</td>
+          <td><code>status="not-recorded"</code> أو <code>"unavailable"</code>، مع كلمات توضّح أيّها</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> مُقنَّع</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> لا ينطبق</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> الشخص المعني</td>
+          <td><code>subjectLabel</code> على عناصر السجل</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>، <code>ATTESTATION</code>، <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>خطوات آلة حالات التعليمات</td>
+          <td> <code>timeline-list</code> من الخطوات، مع الحالة الحالية على العنصر</td>
+        </tr>
+        <tr>
+          <td>عنصر نموذج أولي بعدد تكرارات <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>القيم المرمّزة</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>تضمين قاعدة بيانات أدوية، أو قائمة tall man، أو رموز SNOMED CT أو ICD أو LOINC أو UCUM.</li>
     <li>إعادة إنتاج أداة مرخّصة (Wong-Baker FACES) أو تصميم جهة أخرى (مخطط NEWS2).</li>
     <li>الحد من عدد السجلات المفتوحة في وقت واحد.</li>
+    <li>استنتاج تفسير من نطاق، أو تحويل وحدة، أو تحليل تاريخ نسبي («الثلاثاء القادم»).</li>
+    <li>استخدام مفتاح تبديل لـ«نعم أو لا أو مجهول»: <code>switch</code> في ARIA ليس له حالة ثالثة، لذا هي ثلاثة أزرار اختيار.</li>
   </ul>
   <p>البحث والمصادر والقرارات وراء هذا الدليل موجودة في <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

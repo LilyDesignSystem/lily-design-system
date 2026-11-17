@@ -71,7 +71,28 @@
     <li>Seall dà aithnichear a h-uile àite a bheil dàta euslaintich a’ nochdadh: an t-ainm còmhla ris an ceann-latha breith, agus an t-aithnichear nàiseanta leis a cho-phàirt view aige (The Joint Commission, Quick Safety 45).</li>
     <li>Cleachd bann an euslaintich air gach sgrìon a ghabhas gnìomh air clàr aon euslaintich, agus cùm follaiseach e.</li>
     <li>Mus gabh thu gnìomh air clàr eile seach an tè ann am bann, daingnich e leis an ainm, an ceann-latha breith agus an t-aithnichear.</li>
+    <li>
+      Tha clàr mu chuideigin eile seach an t-euslainteach (eachdraidh pàrant, fetus, tabhartaiche) ag innse an toiseach, ann am faclan, cò leis a tha e: thoir do nithean a' chlàir <code>subjectLabel</code> ("Màthair"), gus nach tèid breithneachadh càirdeil a leughadh a-riamh mar bhreithneachadh an euslaintich (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Na cuingich cia mheud clàr as urrainn do chliniceach fhosgladh: lorg deuchainn air thuaiream de 3,356 clinicich (JAMA, 2019) nach do lùghdaich e òrdughan don euslainteach cheàrr, agus gu bheil daoine a’ faighinn timcheall air.</li>
+    <li>
+      Tha clàr-taice de ghnìomhan air aon chlàr ag ainmeachadh a' chlàir sin an toiseach, le <code>subjectLabel</code> air <code>context-menu</code> no
+      <code>dropdown-menu</code> ("Ada Lovelace, bruthadh-fala 3 Samh"): a' chiad phàirt neo-eadar-ghnìomhach a tha cuideachd na ainm ruigsinneach aig a' chlàr-taice.
+    </li>
+    <li>
+      Rangaich gach gnìomh a rèir na nì e, agus dèan an ìre follaiseach mus ruith e. <strong>Àbhaisteach</strong> (coimhead, clò-bhualadh) a' ruith sa bhad. <strong>Clàraichte</strong> ag innse dè a sgrìobhas e sa chlàr ("A' cur nota ris a' choinneimh").
+      <strong>Clionaigeach</strong> (stad, òrdugh a chur dheth) a' faighneachd an dàrna turas, ann an <code>alert-dialog</code> aig a bheil an gnìomhair air a phutan dearbhaidh ("Stad"), a-riamh "OK" no "Tha". <strong>Foillseachail</strong> (ruigsinneachd èiginn, co-roinneadh taobh a-muigh na sgioba cùraim) ag iarraidh adhbhar an toiseach agus ga chlàradh.
+    </li>
+    <li>
+      Nuair a tha grunn chlàran fosgailte (tabaichean, uinneagan, panailean roinnte), tha teacsa follaiseach agus ainm ruigsinneach gach taba a' gabhail a-steach ainm an euslaintich agus dàrna aithneachair, tha am panail gnìomhach ag ath-aithris a' bhratach, agus chan eil gnìomh sam bith a' buntainn ri euslainteach eile seach euslainteach a phanail.
+    </li>
+    <li>
+      Seall an t-àite dham bi clàran air an cur às leth (an uàrd, an clionaig no an goireas a chaidh a thaghadh aig clàradh a-steach) mar theacsa ann am bann-cinn na duilleige, agus dèan atharrachadh air na ghnìomh soilleir.
+    </li>
+    <li>
+      Seall an tadhal gnìomhach, no "Gun tadhal gnìomhach", sa bhratach. Tha foirm a tha feumach air tadhal ag innse sin agus a' tairgsinn fear a thòiseachadh, an àite fàilligeadh nuair a thèid a shàbhaladh.
+    </li>
   </ul>
 
   <h2>Bann an euslaintich</h2>
@@ -82,6 +103,9 @@
     <li>is e faclan a th’ ann an luach a tha a dhìth (“Neo-aithnichte”), chan e comharra ceist, strìochag no cealla fhalamh;</li>
     <li>euslainteach a chaochail: <code>data-deceased</code> airson an theama, agus loidhne teacsa fhaicsinneach, chan ann dath a-mhàin;</li>
     <li>gun raon air a ghearradh goirid, air a ghearradh dheth no air fhalach aig leud sam bith; tha e a’ pasgadh.</li>
+    <li>
+      tha brataichean euslaintich ("Feumach air eadar-theangair", "Cunnart galair") nan <code>tag-group</code> le leubail de dh'fhaclan, a-riamh ìomhaigheagan no dath a-mhàin, agus fanaidh iad follaiseach nuair a phasgas a' bhratach.
+    </li>
   </ul>
 
   <h2>Toraidhean</h2>
@@ -90,6 +114,30 @@
     <li>Is e faclan bhon eadar-theangachadh agad a th’ anns a’ bhratach (<code>flagLabel</code>), le còd mìneachaidh FHIR mar <code>data-interpretation</code> airson an theama.</li>
     <li>Cuir toraidhean ùra air leth bho na fheadhainn nas tràithe, agus seall a’ ghluasad (sparkline, no graf loidhne leis an clàr dàta aige): bidh clinicich a’ coimhead airson atharrachadh cudromach, chan ann an raon a-mhàin.</li>
     <li>Tha toradh nach deach a chlàradh a-riamh agus toradh nach eil ri fhaighinn nan staidean eadar-dhealaichte, le faclan eadar-dhealaichte.</li>
+    <li>
+      Chan e neo-aithnichte àbhaisteach. Chan eil mìneachadh aig toradh aig a bheil an raon iomraidh a dhìth, fhathast ga luchdadh no do-leughte, agus tha e ag innse sin; <code>observation-view</code> cha bhi e a-riamh a' co-dhùnadh fear, mar sin chan eil toradh le raon agus às aonais <code>interpretation</code> a' sealltainn bratach sam bith.
+    </li>
+    <li>
+      'S e toradh taobh a-muigh na sgèile crìoch an ionnstramaid le coimeasaiche ("&gt; 33.3 mmol/L": <code>formatQuantity</code> le
+      <code>"&gt;"</code>) agus do bhratach èiginneach, a-riamh àireamh lom. Cumaidh luach tuairmseach a ≈ (<code>"~"</code>).
+    </li>
+    <li>Thoir raointean ainmichte eile ("Èiginneach: fo 2.5") mar <code>ranges</code>, gach fear na phàirt fhèin.</li>
+    <li>
+      Cumaidh toradh ceartaichte no atharraichte an luach a chuir e na àite, ann an <code>&lt;del&gt;</code>, le na faclan agad airson cuin a dh'atharraich e (<code>previousValue</code>, <code>previousLabel</code>), gus am bi fios aig clionaigear a leugh an seann luach gun do dh'atharraich e.
+    </li>
+    <li>
+      Tha leughadh eadar-ama ag innse a leud agus a ghnìomh ("Cuibheas, 24 uairean"), agus tha staid agus dòigh leughaidh ("Na shuidhe, cuff mòr") nan teacsa follaiseach ri thaobh, a-riamh dìreach tip-innil (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Feumaidh gluasad puingean a ghabhas coimeas: na tarraing loidhne fon ìre as ìsle agad, bris an loidhne far an do dh'atharraich an dòigh no am measadh, agus abair an stiùir agus an ciall ann am faclan ("a' tuiteam, a' leasachadh").
+    </li>
+    <li>
+      Faodaidh comharran beatha a chaidh a chur a-steach ann an aon siostam aonadan an siostam eile a shealltainn ri taobh mar do theacsa ("70 kg (154 lb)"); chan atharraich Lily dad, mar sin innis do chuairteachadh. Cuir a-steach meud le <code>quantity-input-div</code>, aig a bheil an àireamh a' gabhail crìochan gach aonaid.
+    </li>
+    <li>
+      'S e cairt fàis <code>line-chart</code> le na loidhnichean ceudadail agad mar shreathan, puingean an leanaibh agus a chlàr dàta de dh'aois is luach; chan obraich Lily a-mach ceudadail agus cha toir e seachad iomradh fàis.
+    </li>
   </ul>
 
   <h2>Cungaidhean</h2>
@@ -106,12 +154,73 @@
     <li>Sgrìobh am mìos mar theacsa gus nach gabh ceann-latha a leughadh an dà dhòigh (<code>Intl.DateTimeFormat</code> le <code>month: "short"</code>).</li>
     <li>Tagh an cloc a dh’aon ghnothach: thoir seachad <code>hourCycle</code> gu soilleir. Tha an NHS ag iarraidh cloc 24 uair; is e riaghailt Rìoghachd Aonaichte a tha sin, chan e riaghailt cruinneil, agus mar sin cha taghadh Lily a-chaoidh dhutsa e.</li>
     <li>Tha aoisean a’ leantainn còmhlain Common User Interface tro <code>ageParts()</code>; bheir seirbheis le gnàthas eile seachad na faclan aice fhèin.</li>
+    <li>
+      Fanaidh ceann-latha nach eil aithnichte ach chun a' mhìos no na bliadhna mar sin: iarr e le <code>date-field</code>
+      <code>precision="month"</code> no <code>"year"</code>, stòr <code>2019-03</code> no <code>2019</code>, agus sgrìobh e le
+      <code>formatPartialDate()</code>. Na cruthaich latha a-riamh.
+    </li>
+    <li>
+      'S e ùine <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> le na faclan agad, bho
+      <code>durationParts()</code> agus <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Deas-bhùird</h2>
   <ul>
     <li>Bidh bòrd uàird no sgrìon ionad-stiùiridh ag ùrachadh gu tric. Na cuir an cèill gach atharrachadh gu bràth: cùm aon raon geàrr-chunntais socair (“3 leapannan saor, 2 leigeil-às ri thighinn”) agus leig le daoine am bòrd a leughadh.</li>
     <li>Tha a h-uile staid air bòrd (leabaidh glan, làn, bacte) na teacsa no na staid <code>data-*</code> le faclan, chan ann dath a-mhàin.</li>
+    <li>
+      Chan eil dad a' priobadh (WCAG 2.2.2, 2.3.1), agus tha smachd stad aig bòrd a dh'ùraicheas air tìmear no ùraichidh e dìreach nuair a thèid iarraidh; cha ghluais ùrachaidhean am fòcas a-riamh. Tha clàr fadalach ag innse sin ann am faclan ("A' feitheamh còrr is 20 mionaid") le <code>data-overdue</code>.
+    </li>
+    <li>Tha cunntas no ìre a' sealltainn a roinneadair ("12 à 68") agus a' ceangal ris an liosta air a chùlaibh.</li>
+    <li>
+      Tha liosta no loidhne-ama ag innse dè a th' ann mar shealladh: na tha e a' sealltainn, an t-òrdugh agus an ùine, na tha falaichte agus carson, agus dè na tobraichean nach do fhreagair. Chan e dearbhadh a th' ann an liosta fhalamh bho thobar nach do fhreagair nach eil dad ann.
+    </li>
+    <li>
+      'S e liosta chuimhneachan <code>record-list</code> aig a bheil nithean le ceann-latha ri phàigheadh (<code>review-date</code>) agus staid ri phàigheadh ann am faclan, le <code>data-due</code>; 's ann leatsa a tha an riaghailt a rinn e.
+    </li>
+  </ul>
+
+  <h2>Foirmean</h2>
+  <ul>
+    <li>
+      'S e ceist a fhreagras "tha", "chan eil" no "cha deach fhaighneachd" <code>radio-group</code> de thrì freagairtean, gun gin taghte an toiseach, a-riamh bogsa-cromaige: chan urrainn do bhogsa-cromaige "air àicheadh" agus "cha deach fhaighneachd a-riamh" a dhealachadh. 'S e ath-sgrùdadh shiostaman aon <code>fieldset</code> airson gach siostam bodhaig, agus cha shuidhich putan "chan eil an còrr ann" ach an fheadhainn gun fhreagairt.
+    </li>
+    <li>
+      'S e ceist le liosta fhreagairtean (cungaidhean, seòlaidhean) <code>repeatable-fieldset</code>: thèid nì a chur ris no a thoirt air falbh, leanaidh am fòcas, agus tha gach putan toirt-air-falbh air ainmeachadh air a nì.
+    </li>
+    <li>
+      Àireamh le cromag deicheach: seall i le <code>Intl.NumberFormat</code> agus, far nach gabh <code>type="number"</code> ris a' chromag, gabh i ann an raon teacsa le <code>inputmode="decimal"</code> agus parsaich i nad chòd. Na atharraich luach a sgrìobh an duine a-riamh, eadhon airson a chuingealachadh ri raon: 's e mearachd a chì iad a th' ann an luach taobh a-muigh an raoin.
+    </li>
+    <li>
+      Suidhichidh liosta fhada nach seall ach pàirt de na roghainnean aice aig an aon àm <code>aria-setsize</code> agus <code>aria-posinset</code> air gach roghainn, agus cuimhnichidh i nach fhaic lorg san duilleig an còrr.
+    </li>
+  </ul>
+
+  <h2>Clàran, notaichean agus an tùs</h2>
+  <ul>
+    <li>
+      Abair dè a th' ann an liosta no griod mar shealladh, ro a sreathan: an ùine is an t-òrdugh, na dh'fhàgas e às agus carson, agus dè na tobraichean nach do fhreagair ("12 mìosan mu dheireadh, as ùire an toiseach. Cha do fhreagair clàr an dotair theaghlaich."). Thoir do <code>record-list</code> agus do
+      <code>timeline-list</code>  <code>coverageLabel</code>, agus don chuidiche <code>data-grid</code> a <code>coverageLabel</code>. Tha liosta fhalamh bho thobar nach do fhreagair ag innse sin ann am faclan, gus nach tèid a leughadh a-riamh mar "dad air a chlàradh".
+    </li>
+    <li>
+      Abair cò às a thàinig clàr agus a bheil e deireannach le <code>record-provenance-view</code>: air a shoidhneadh, a' feitheamh ri soidhne, air atharrachadh, air a shàbhaladh air an inneal seo agus gun a chur fhathast. Chan fhaod dreachd gun soidhne a-riamh coimhead soidhnichte.
+    </li>
+    <li>Tha clàr mu chuideigin eile (pàrant, fetus, tabhartaiche) ag innse an toiseach cò leis a tha e, le <code>subjectLabel</code>.</li>
+    <li>
+      Fanaidh clàr a chaidh a chumail air ais san liosta le na faclan agad ("Cuingealaichte: chan eil e ri fhaighinn dhut"), agus fanaidh clàr a chaidh a dhèanamh le mearachd air a sgrìobadh a-mach le "Air a chur a-steach le mearachd": thoir do <code>record-list-item</code> no <code>timeline-list-item</code> 
+      <code>entryState</code> agus <code>entryStateLabel</code>. Na toir air falbh gin dhiubh gu sàmhach a-riamh, oir thèid beàrn a leughadh mar "cha do thachair dad".
+    </li>
+    <li>
+      Ann an nota clionaigeach, comharraich tùs gach earrainn (air a sgrìobhadh, air a dheachdadh, teamplaid, air a lethbhreacadh air adhart, air a ghintinn) le
+      <code>data-source</code> agus faclan follaiseach, gus nach tèid teacsa air a lethbhreacadh no air a ghintinn a ghabhail a-riamh mar sgrùdadh an latha an-diugh.
+    </li>
+    <li>
+      'S e earrann nach gabh luchdadh <code>unavailable</code> anns na faclan agad, le putan feuchainn a-rithist; bidh còd teicnigeach, ma thèid a shealltainn idir, air cùl foillseachaidh. Thèid fàilligeadh air adhbhrachadh le gnìomh duine ainmeachadh, leis an luach a th' aig a' chlàr a-nis; cha tèid fàilligeadh aig luchdadh na duilleige.
+    </li>
+    <li>
+      'S e eachdraidh òrdugh <code>timeline-list</code>, aon nì airson gach ceum (dealbhaichte, clàraichte, gnìomhach, air a chur dheth airson greis, crìochnaichte, air a chur dheth) le àm is adhbhar, agus an staid làithreach cuideachd air an nì.
+    </li>
   </ul>
 
   <h2>Bho FHIR gu Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (cuideachd air na liostaichean chlàran)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Mapaich clàr le inbhe <code>entered-in-error</code> gu inbhe <code>entered-in-error</code>, le faclan, an àite a leigeil air falbh gu sàmhach: is e co-dhùnadh do sheirbheis a bheil e ri sheall idir.</p>
+
+  <h2>Bho openEHR gu Lily</h2>
+  <p>
+    Cha leugh Lily co-dhèanamh openEHR nas motha. Am mapadh airson seòrsachan dàta agus còdan Modail Iomraidh openEHR, mar mholadh air an co-dhùin an ath-sgrùdadh sàbhailteachd clionaigeach agad:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Seòrsachan dàta agus còdan openEHR, agus na luachan Lily air an son</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (cur a-steach)</td>
+          <td><code>quantity-input-div</code>; aonadan mar chòdan UCUM le na faclan agad</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (sealladh), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> le <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> = ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> le <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> pàirteach (bliadhna, bliadhna agus mìos)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> le <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> am broinn <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> aig a bheil an àireamh agus a faclan air na leubailean</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>pàtran nan luachan còdaichte gu h-ìosal</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, dìreach nuair nach urrainn "cha deach fhaighneachd" tachairt</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> neo-aithnichte, <code>271</code> gun fhiosrachadh</td>
+          <td><code>status="not-recorded"</code> no <code>"unavailable"</code>, le faclan a chanas dè an tè</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> falaichte</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> chan eil e iomchaidh</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> cuspair</td>
+          <td><code>subjectLabel</code> air nithean a' chlàir</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Ceumannan Inneal Staid an Stiùiridh</td>
+          <td> <code>timeline-list</code> de cheumannan, leis an staid làithreach air an nì</td>
+        </tr>
+        <tr>
+          <td>nì archetype le tachartasan <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Luachan còdaichte</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Stòr-dàta chungaidhean, liosta “tall man”, no còdan SNOMED CT, ICD, LOINC no UCUM a chuir a-mach.</li>
     <li>Ionnsramaid fo cheadachas (Wong-Baker FACES) no dealbhadh buidheann eile (clàr NEWS2) ath-aithris.</li>
     <li>Cuingeachadh air cia mheud clàr a tha fosgailte aig an aon àm.</li>
+    <li>Mìneachadh a cho-dhùnadh bho raon, aonad atharrachadh, no ceann-latha dàimheach a pharsadh ("Dimàirt sa tighinn").</li>
+    <li>Suidse a chleachdadh airson "tha, chan eil no neo-aithnichte": chan eil treas staid aig <code>switch</code> ARIA, mar sin 's e trì putanan rèidio a th' ann.</li>
   </ul>
   <p>Tha an rannsachadh, na stòran agus na co-dhùnaidhean air cùl na treòrach seo ann an <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

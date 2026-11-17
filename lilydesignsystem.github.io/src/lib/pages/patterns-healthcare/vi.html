@@ -71,7 +71,28 @@
     <li>Hiển thị hai định danh ở mọi nơi dữ liệu của bệnh nhân xuất hiện: họ tên cùng ngày sinh, và mã định danh quốc gia cùng thành phần view của nó (The Joint Commission, Quick Safety 45).</li>
     <li>Dùng biểu ngữ bệnh nhân trên mọi màn hình thực hiện thao tác trên hồ sơ của một bệnh nhân, và luôn giữ nó hiển thị.</li>
     <li>Trước khi thực hiện thao tác trên một hồ sơ khác với hồ sơ trong biểu ngữ, hãy xác nhận bằng họ tên, ngày sinh và định danh.</li>
+    <li>
+      Mục ghi về một người khác ngoài bệnh nhân (tiền sử của cha mẹ, thai nhi, người hiến) trước tiên nói rõ bằng lời là của ai: hãy gán cho các mục hồ sơ một <code>subjectLabel</code> ("Mẹ"), để chẩn đoán của người thân không bao giờ bị đọc nhầm là của bệnh nhân (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Đừng giới hạn số hồ sơ mà một nhân viên lâm sàng được mở: một thử nghiệm ngẫu nhiên trên 3.356 nhân viên lâm sàng (JAMA, 2019) cho thấy điều đó không làm giảm các y lệnh nhầm bệnh nhân, và người ta sẽ tìm cách lách.</li>
+    <li>
+      Trình đơn thao tác trên một hồ sơ trước tiên nêu tên hồ sơ đó, bằng <code>subjectLabel</code> trên <code>context-menu</code> hoặc
+      <code>dropdown-menu</code> ("Ada Lovelace, huyết áp 3 Th11"): phần đầu không tương tác, đồng thời là tên truy cập được của trình đơn.
+    </li>
+    <li>
+      Phân cấp mỗi thao tác theo việc nó làm, và cho thấy cấp độ trước khi thực hiện. <strong>Thường quy</strong> (xem, in) chạy ngay. <strong>Có ghi chép</strong> cho biết sẽ ghi gì vào hồ sơ ("Thêm ghi chú vào lần khám").
+      <strong>Lâm sàng</strong> (ngừng, hủy y lệnh) hỏi lại lần thứ hai, trong một <code>alert-dialog</code> mà nút xác nhận là động từ ("Ngừng"), không bao giờ là "OK" hay "Có". <strong>Tiết lộ</strong> (truy cập khẩn cấp, chia sẻ ra ngoài nhóm chăm sóc) trước tiên hỏi lý do và ghi lại.
+    </li>
+    <li>
+      Khi nhiều hồ sơ đang mở (thẻ, cửa sổ, khung chia), văn bản hiển thị và tên truy cập được của mỗi thẻ có tên bệnh nhân và một mã định danh thứ hai, khung đang hoạt động lặp lại băng rôn, và không thao tác nào áp dụng cho bệnh nhân khác ngoài bệnh nhân của khung đó.
+    </li>
+    <li>
+      Hiển thị địa điểm mà hồ sơ sẽ được quy về (khoa, phòng khám hoặc cơ sở được chọn khi đăng nhập) dưới dạng văn bản ở đầu trang, và biến việc đổi nó thành một thao tác rõ ràng.
+    </li>
+    <li>
+      Hiển thị lần khám đang diễn ra, hoặc "Không có lần khám nào", trên băng rôn. Biểu mẫu cần một lần khám sẽ nói rõ và đề nghị bắt đầu một lần, thay vì thất bại khi lưu.
+    </li>
   </ul>
 
   <h2>Biểu ngữ bệnh nhân</h2>
@@ -82,6 +103,9 @@
     <li>giá trị thiếu được thể hiện bằng lời ("Chưa rõ"), không bao giờ là dấu hỏi, dấu gạch ngang hay ô trống;</li>
     <li>bệnh nhân đã tử vong: <code>data-deceased</code> cho chủ đề giao diện, và một dòng chữ hiển thị, không bao giờ chỉ dùng màu sắc;</li>
     <li>không trường nào bị cắt bớt, xén hay ẩn ở bất kỳ chiều rộng nào; nó xuống dòng.</li>
+    <li>
+      cờ bệnh nhân ("Cần phiên dịch", "Nguy cơ nhiễm khuẩn") là một <code>tag-group</code> có nhãn gồm các từ, không bao giờ chỉ là biểu tượng hay màu sắc, và vẫn hiển thị khi băng rôn xuống dòng.
+    </li>
   </ul>
 
   <h2>Kết quả</h2>
@@ -90,6 +114,30 @@
     <li>Cờ là lời từ bản dịch của bạn (<code>flagLabel</code>), với mã diễn giải FHIR là <code>data-interpretation</code> cho chủ đề giao diện.</li>
     <li>Tách kết quả mới khỏi kết quả trước đó, và cho thấy xu hướng (biểu đồ sparkline, hoặc biểu đồ đường kèm bảng dữ liệu): nhân viên lâm sàng tìm sự thay đổi có ý nghĩa, không chỉ khoảng giá trị.</li>
     <li>Một kết quả chưa từng được ghi nhận và một kết quả không có sẵn là các trạng thái khác nhau, với lời lẽ khác nhau.</li>
+    <li>
+      Không rõ không có nghĩa là bình thường. Kết quả thiếu khoảng tham chiếu, đang tải hoặc không đọc được thì không có diễn giải và nói rõ điều đó; <code>observation-view</code> không bao giờ tự suy ra, nên kết quả có khoảng nhưng không có <code>interpretation</code> sẽ không hiển thị cờ nào.
+    </li>
+    <li>
+      Kết quả ngoài thang đo là giới hạn của thiết bị kèm dấu so sánh ("&gt; 33,3 mmol/L": <code>formatQuantity</code> với
+      <code>"&gt;"</code>) và cờ nguy kịch của bạn, không bao giờ là con số trơn. Giá trị xấp xỉ giữ nguyên dấu ≈ (<code>"~"</code>).
+    </li>
+    <li>Đưa các khoảng có tên khác ("Nguy kịch: dưới 2,5") dưới dạng <code>ranges</code>, mỗi khoảng là một phần riêng.</li>
+    <li>
+      Kết quả đã sửa hoặc điều chỉnh giữ lại giá trị bị thay thế, trong một <code>&lt;del&gt;</code>, kèm lời của bạn về thời điểm thay đổi (<code>previousValue</code>, <code>previousLabel</code>), để bác sĩ đã đọc giá trị cũ biết rằng nó đã thay đổi.
+    </li>
+    <li>
+      Phép đo theo khoảng nêu rõ độ dài và hàm của nó ("Trung bình, 24 giờ"), còn trạng thái và phương pháp đo ("Ngồi, băng quấn lớn") là văn bản hiển thị bên cạnh, không bao giờ chỉ là chú giải (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Xu hướng cần các điểm so sánh được: không vẽ đường khi dưới mức tối thiểu của bạn, ngắt đường ở chỗ phương pháp hoặc xét nghiệm thay đổi, và nói hướng cùng ý nghĩa bằng lời ("giảm, cải thiện").
+    </li>
+    <li>
+      Dấu hiệu sinh tồn nhập theo một hệ đơn vị có thể hiển thị hệ kia bên cạnh dưới dạng văn bản của bạn ("70 kg (154 lb)"); Lily không chuyển đổi gì, nên hãy nêu cách làm tròn. Nhập số lượng bằng <code>quantity-input-div</code>, với con số tuân theo giới hạn của từng đơn vị.
+    </li>
+    <li>
+      Biểu đồ tăng trưởng là một <code>line-chart</code> với các đường bách phân vị của bạn làm chuỗi dữ liệu, các điểm của trẻ và bảng dữ liệu tuổi và giá trị; Lily không tính bách phân vị và không kèm chuẩn tăng trưởng.
+    </li>
   </ul>
 
   <h2>Thuốc</h2>
@@ -106,12 +154,73 @@
     <li>Viết tháng bằng chữ để một ngày không thể bị đọc theo hai cách (<code>Intl.DateTimeFormat</code> với <code>month: "short"</code>).</li>
     <li>Chọn kiểu đồng hồ một cách có chủ đích: truyền <code>hourCycle</code> một cách tường minh. NHS yêu cầu đồng hồ 24 giờ; đó là quy tắc của Vương quốc Anh, không phải của toàn thế giới, nên Lily không bao giờ chọn thay cho bạn.</li>
     <li>Tuổi theo các dải của Common User Interface thông qua <code>ageParts()</code>; một dịch vụ có quy ước khác sẽ truyền từ ngữ của riêng mình.</li>
+    <li>
+      Ngày chỉ biết đến tháng hoặc năm thì giữ nguyên như vậy: hỏi bằng <code>date-field</code>
+      <code>precision="month"</code> hoặc <code>"year"</code>, lưu <code>2019-03</code> hoặc <code>2019</code>, và viết bằng
+      <code>formatPartialDate()</code>. Không bao giờ bịa ra ngày.
+    </li>
+    <li>
+      Một khoảng thời gian là <code>duration-view</code>, một <code>&lt;time datetime="P3DT4H"&gt;</code> chứa lời của bạn, từ
+      <code>durationParts()</code> và <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Bảng điều khiển</h2>
   <ul>
     <li>Bảng khoa phòng hoặc màn hình trung tâm điều hành được cập nhật thường xuyên. Không bao giờ thông báo từng thay đổi: giữ một vùng tóm tắt ở mức lịch sự (polite) ("còn 3 giường trống, 2 ca sắp xuất viện") và để mọi người tự đọc bảng.</li>
     <li>Mọi trạng thái trên bảng (giường đã dọn, có người, bị khóa) là văn bản hoặc trạng thái <code>data-*</code> kèm chữ, không bao giờ chỉ dùng màu sắc.</li>
+    <li>
+      Không gì nhấp nháy (WCAG 2.2.2, 2.3.1), và bảng cập nhật theo bộ hẹn giờ có nút tạm dừng hoặc chỉ cập nhật khi được yêu cầu; cập nhật không bao giờ di chuyển tiêu điểm. Mục quá hạn nói rõ bằng lời ("Đã chờ hơn 20 phút") kèm <code>data-overdue</code>.
+    </li>
+    <li>Số lượng hoặc tỷ lệ hiển thị mẫu số ("12 trên 68") và liên kết tới danh sách phía sau.</li>
+    <li>
+      Danh sách hoặc dòng thời gian nói rõ nó là chế độ xem của cái gì: hiển thị gì, thứ tự và khoảng thời gian, cái gì bị ẩn và vì sao, và nguồn nào không phản hồi. Danh sách trống từ một nguồn không phản hồi không chứng minh rằng không có gì.
+    </li>
+    <li>
+      Danh sách nhắc việc là một <code>record-list</code> có các mục mang ngày đến hạn (<code>review-date</code>) và trạng thái đến hạn bằng lời, kèm <code>data-due</code>; quy tắc tạo ra nó là của bạn.
+    </li>
+  </ul>
+
+  <h2>Biểu mẫu</h2>
+  <ul>
+    <li>
+      Câu hỏi trả lời "có", "không" hoặc "chưa hỏi" là một <code>radio-group</code> gồm ba câu trả lời, ban đầu không chọn câu nào, không bao giờ là hộp kiểm: hộp kiểm không phân biệt được "phủ nhận" với "chưa từng hỏi". Khám theo hệ cơ quan là một <code>fieldset</code> cho mỗi hệ cơ thể, và nút "tất cả còn lại không có" chỉ đặt những mục chưa trả lời.
+    </li>
+    <li>
+      Câu hỏi có danh sách câu trả lời (thuốc, địa chỉ) là một <code>repeatable-fieldset</code>: một mục được thêm hoặc bỏ, tiêu điểm đi theo, và mỗi nút xóa được đặt tên theo mục của nó.
+    </li>
+    <li>
+      Số có dấu phẩy thập phân: hiển thị bằng <code>Intl.NumberFormat</code> và, ở nơi <code>type="number"</code> không chấp nhận dấu phẩy, nhận nó trong trường văn bản với <code>inputmode="decimal"</code> và phân tích trong mã của bạn. Không bao giờ thay đổi giá trị người dùng đã nhập, kể cả để ép vào một khoảng: giá trị ngoài khoảng là lỗi mà họ có thể thấy.
+    </li>
+    <li>
+      Danh sách dài chỉ hiển thị một phần lựa chọn mỗi lần sẽ đặt <code>aria-setsize</code> và <code>aria-posinset</code> trên từng lựa chọn, và nhớ rằng tìm trong trang không thấy phần còn lại.
+    </li>
+  </ul>
+
+  <h2>Hồ sơ, ghi chú và nguồn gốc của chúng</h2>
+  <ul>
+    <li>
+      Nói rõ danh sách hoặc lưới là chế độ xem của cái gì, trước các hàng: khoảng thời gian và thứ tự, bỏ qua gì và vì sao, và nguồn nào không phản hồi ("12 tháng gần nhất, mới nhất trước. Hồ sơ bác sĩ gia đình không phản hồi."). Gán cho <code>record-list</code> và
+      <code>timeline-list</code> một <code>coverageLabel</code>, và cho trình trợ giúp <code>data-grid</code> thuộc tính <code>coverageLabel</code>của nó. Danh sách trống từ nguồn không phản hồi nói rõ bằng lời, để không bao giờ bị đọc là "không có gì được ghi".
+    </li>
+    <li>
+      Nói rõ hồ sơ đến từ đâu và đã là bản cuối hay chưa bằng <code>record-provenance-view</code>: đã ký, chờ ký, đã sửa đổi, đã lưu trên thiết bị này và chưa gửi. Bản nháp chưa ký không bao giờ được trông như đã ký.
+    </li>
+    <li>Mục ghi về người khác (cha mẹ, thai nhi, người hiến) trước tiên nói là của ai, bằng <code>subjectLabel</code>.</li>
+    <li>
+      Mục bị giữ lại vẫn nằm trong danh sách với lời của bạn ("Hạn chế: bạn không xem được"), và mục nhập nhầm vẫn bị gạch ngang kèm "Nhập nhầm": gán cho <code>record-list-item</code> hoặc <code>timeline-list-item</code> một
+      <code>entryState</code> và một <code>entryStateLabel</code>. Không bao giờ âm thầm xóa mục nào, vì khoảng trống sẽ bị đọc là "không có chuyện gì".
+    </li>
+    <li>
+      Trong ghi chú lâm sàng, đánh dấu nguồn của từng đoạn (gõ, đọc chính tả, mẫu, chép từ trước, máy tạo) bằng
+      <code>data-source</code> và lời hiển thị, để văn bản sao chép hoặc do máy tạo không bao giờ bị nhầm là lần khám hôm nay.
+    </li>
+    <li>
+      Phần không tải được là <code>unavailable</code> theo lời của bạn, kèm nút thử lại; mã kỹ thuật, nếu có hiển thị, nằm sau một phần mở rộng. Lỗi do thao tác của người dùng được thông báo, kèm giá trị hồ sơ đang giữ; lỗi khi tải trang thì không.
+    </li>
+    <li>
+      Lịch sử của một y lệnh là một <code>timeline-list</code>, mỗi bước một mục (đã lập kế hoạch, đã lên lịch, đang thực hiện, tạm dừng, hoàn tất, đã hủy) kèm thời gian và lý do, và trạng thái hiện tại cũng trên mục đó.
+    </li>
   </ul>
 
   <h2>Từ FHIR sang Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (cả trên các danh sách hồ sơ)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Ánh xạ bản ghi <code>entered-in-error</code> sang trạng thái <code>entered-in-error</code> của nó, kèm lời lẽ, thay vì lặng lẽ bỏ đi: có hiển thị nó hay không là quyết định của dịch vụ của bạn.</p>
+
+  <h2>Từ openEHR đến Lily</h2>
+  <p>
+    Lily cũng không đọc các thành phần openEHR. Bảng ánh xạ các kiểu dữ liệu và mã của Mô hình Tham chiếu openEHR, như một gợi ý mà đánh giá an toàn lâm sàng của bạn sẽ quyết định:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Kiểu dữ liệu và mã openEHR, và các giá trị Lily tương ứng</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (nhập)</td>
+          <td><code>quantity-input-div</code>; đơn vị dưới dạng mã UCUM kèm lời của bạn</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (hiển thị), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> với <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> là ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> với một <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> một phần (năm, năm và tháng)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> với <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> bên trong <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>một <code>radio-group</code> có nhãn mang con số và lời của nó</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>mẫu giá trị mã hóa bên dưới</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, chỉ khi "chưa hỏi" không thể xảy ra</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> không rõ, <code>271</code> không có thông tin</td>
+          <td><code>status="not-recorded"</code> hoặc <code>"unavailable"</code>, kèm lời lẽ nói rõ là trường hợp nào</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> bị che</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> không áp dụng</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> chủ thể</td>
+          <td><code>subjectLabel</code> trên các mục hồ sơ</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Các bước của máy trạng thái chỉ định</td>
+          <td>một <code>timeline-list</code> các bước, với trạng thái hiện tại trên mục</td>
+        </tr>
+        <tr>
+          <td>một mục nguyên mẫu với số lần xuất hiện <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Giá trị được mã hóa</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Đi kèm cơ sở dữ liệu thuốc, danh sách tall man, hay mã SNOMED CT, ICD, LOINC hoặc UCUM.</li>
     <li>Tái tạo một công cụ có bản quyền (Wong-Baker FACES) hay thiết kế của tổ chức khác (biểu đồ NEWS2).</li>
     <li>Giới hạn số hồ sơ được mở cùng lúc.</li>
+    <li>Suy ra diễn giải từ một khoảng, chuyển đổi đơn vị, hoặc phân tích ngày tương đối ("thứ Ba tuần sau").</li>
+    <li>Dùng công tắc cho "có, không hoặc không rõ": <code>switch</code> của ARIA không có trạng thái thứ ba, nên đó là ba nút chọn.</li>
   </ul>
   <p>Nghiên cứu, nguồn và các quyết định đằng sau hướng dẫn này nằm trong <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

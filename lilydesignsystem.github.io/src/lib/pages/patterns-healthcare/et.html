@@ -71,7 +71,28 @@
     <li>Näidake kahte identifikaatorit igal pool, kus patsiendi andmed ilmuvad: nimi koos sünnikuupäevaga ning riiklik identifikaator selle vaatekomponendiga (The Joint Commission, Quick Safety 45).</li>
     <li>Kasutage patsiendiriba igal ekraanil, mis tegutseb ühe patsiendi kirjega, ja hoidke see nähtaval.</li>
     <li>Enne toimingut kirjega, mis ei ole ribal olev kiri, kinnitage see nime, sünnikuupäeva ja identifikaatoriga.</li>
+    <li>
+      Kanne kellegi teise kui patsiendi kohta (vanema haiguslugu, loode, doonor) ütleb kõigepealt sõnadega, kelle kohta see on: andke kirje elementidele <code>subjectLabel</code> („Ema“), et sugulase diagnoosi ei loetaks kunagi patsiendi omaks (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Ärge piirake, mitu kirjet kliinik avada tohib: randomiseeritud uuring 3356 kliinikuga (JAMA, 2019) leidis, et see ei vähendanud vale patsiendi tellimusi ja inimesed saavad sellest mööda.</li>
+    <li>
+      Ühe kirje toimingute menüü nimetab kõigepealt selle kirje, kasutades <code>subjectLabel</code> komponendil <code>context-menu</code> või
+      <code>dropdown-menu</code> („Ada Lovelace, vererõhk 3. nov“): mitteinteraktiivne esimene osa, mis on ühtlasi menüü juurdepääsetav nimi.
+    </li>
+    <li>
+      Liigitage iga toiming selle järgi, mida see teeb, ja tehke tase nähtavaks enne käivitamist. <strong>Rutiinne</strong> (vaata, prindi) käivitub kohe. <strong>Dokumenteeritav</strong> ütleb, mida see kirjesse kirjutab („Lisab visiidile märkme“).
+      <strong>Kliiniline</strong> (lõpeta, tühista korraldus) küsib teist korda, komponendis <code>alert-dialog</code> , mille kinnitusnupp on tegusõna („Lõpeta“), mitte kunagi „OK“ ega „Jah“. <strong>Avalikustav</strong> (hädajuurdepääs, jagamine väljaspool raviteemi) küsib kõigepealt põhjust ja salvestab selle.
+    </li>
+    <li>
+      Kui avatud on mitu kirjet (sakid, aknad, jagatud paneelid), sisaldavad iga saki nähtav tekst ja juurdepääsetav nimi patsiendi nime ja teist tunnust, aktiivne paneel kordab bännerit ning ükski toiming ei kehti muule patsiendile kui tema paneeli omale.
+    </li>
+    <li>
+      Näidake kohta, millele kirjed omistatakse (sisselogimisel valitud osakond, vastuvõtt või asutus), tekstina lehe päises ja tehke selle muutmine selgeks eraldi toiminguks.
+    </li>
+    <li>
+      Näidake bänneris aktiivset visiiti või „Aktiivne visiit puudub“. Vorm, mis vajab visiiti, ütleb seda ja pakub selle alustamist, selle asemel et salvestamisel ebaõnnestuda.
+    </li>
   </ul>
 
   <h2>Patsiendiriba</h2>
@@ -82,6 +103,9 @@
     <li>puuduv väärtus on sõnad („Teadmata“), mitte kunagi küsimärk, kriips ega tühi lahter;</li>
     <li>surnud patsient: <code>data-deceased</code> teema jaoks ja nähtav tekstirida, mitte kunagi ainult värv;</li>
     <li>ühtegi välja ei lühendata, ei lõigata ega peideta üheski laiuses; see murdub mitmele reale.</li>
+    <li>
+      patsiendi märgistused („Vajab tõlki“, „Nakkusoht“) on sõnadest koosnev sildiga <code>tag-group</code> , mitte kunagi ainult ikoonid või värv, ning jäävad nähtavaks, kui bänner murdub.
+    </li>
   </ul>
 
   <h2>Tulemused</h2>
@@ -90,6 +114,30 @@
     <li>Märge on sõnad teie tõlkest (<code>flagLabel</code>), FHIR-i tõlgendamiskood on teema jaoks <code>data-interpretation</code>.</li>
     <li>Eraldage uued tulemused varasematest ja näidake trendi (sparkline või joondiagramm koos andmetabeliga): kliinikud otsivad olulist muutust, mitte ainult vahemikku.</li>
     <li>Tulemus, mida pole kunagi registreeritud, ja tulemus, mis pole saadaval, on erinevad olekud, erinevate sõnadega.</li>
+    <li>
+      Teadmata ei ole normaalne. Tulemusel, mille referentsvahemik puudub, alles laadib või on loetamatu, pole tõlgendust ja see ütleb seda; <code>observation-view</code> ei tuleta seda kunagi, seega vahemikuga, kuid ilma <code>interpretation</code> tulemus ei näita märgistust.
+    </li>
+    <li>
+      Skaalast väljas tulemus on mõõteriista piir koos võrdlusmärgiga („&gt; 33,3 mmol/L“: <code>formatQuantity</code> koos
+      <code>"&gt;"</code>) ja teie kriitilise märgistusega, mitte kunagi paljas arv. Ligikaudne väärtus säilitab oma ≈ (<code>"~"</code>).
+    </li>
+    <li>Andke täiendavad nimelised vahemikud („Kriitiline: alla 2,5“) kui <code>ranges</code>, igaüks omaette osana.</li>
+    <li>
+      Parandatud või muudetud tulemus säilitab asendatud väärtuse elemendis <code>&lt;del&gt;</code>, koos teie sõnadega selle kohta, millal see muutus (<code>previousValue</code>, <code>previousLabel</code>), et vana väärtust lugenud arst teaks, et see muutus.
+    </li>
+    <li>
+      Intervallmõõtmine ütleb oma laiuse ja funktsiooni („Keskmine, 24 tundi“) ning mõõtmise seisund ja meetod („Istudes, suur mansett“) on nähtav tekst selle kõrval, mitte kunagi ainult kohtspikker (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Trend vajab võrreldavaid punkte: ärge joonistage joont allapoole oma miinimumi, katkestage joon seal, kus meetod või analüüs muutus, ning öelge suund ja tähendus sõnadega („langev, paranev“).
+    </li>
+    <li>
+      Ühes ühikusüsteemis sisestatud elulised näitajad võivad näidata teist selle kõrval teie tekstina („70 kg (154 lb)“); Lily ei teisenda midagi, seega märkige oma ümardamine. Sisestage kogus komponendiga <code>quantity-input-div</code>, mille arv järgib iga ühiku piire.
+    </li>
+    <li>
+      Kasvukõver on <code>line-chart</code> teie protsentiilijoontega seeriatena, lapse punktide ning vanuse ja väärtuse andmetabeliga; Lily ei arvuta ühtegi protsentiili ega tarni kasvureferentsi.
+    </li>
   </ul>
 
   <h2>Ravimid</h2>
@@ -106,12 +154,73 @@
     <li>Kirjutage kuu tekstina, et kuupäeva ei saaks kahel viisil lugeda (<code>Intl.DateTimeFormat</code> koos <code>month: "short"</code>).</li>
     <li>Valige kellaaja vorming teadlikult: andke <code>hourCycle</code> selgesõnaliselt. NHS nõuab 24-tunnist kella; see on Ühendkuningriigi, mitte ülemaailmne reegel, seega ei vali Lily seda teie eest kunagi.</li>
     <li>Vanused järgivad Common User Interface vanuserühmi funktsiooni <code>ageParts()</code> kaudu; teine tava järgiv teenus annab oma sõnad.</li>
+    <li>
+      Ainult kuu või aasta täpsusega teada kuupäev jääbki selliseks: küsige seda komponendiga <code>date-field</code>
+      <code>precision="month"</code> või <code>"year"</code>, salvestage <code>2019-03</code> või <code>2019</code>ja kirjutage funktsiooniga
+      <code>formatPartialDate()</code>. Ärge kunagi mõelge päeva välja.
+    </li>
+    <li>
+      Ajavahemik on <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> , mis sisaldab teie sõnu, allikaks
+      <code>durationParts()</code> ja <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Töölauad</h2>
   <ul>
     <li>Osakonna tahvel või juhtimiskeskuse ekraan uueneb sageli. Ärge kunagi teatage iga muudatust: hoidke üht viisakat kokkuvõtte piirkonda („3 vaba voodit, 2 oodatavat väljakirjutamist“) ja laske inimestel tahvlit lugeda.</li>
     <li>Iga tahvli olek (voodi puhas, hõivatud, blokeeritud) on tekst või sõnadega <code>data-*</code> olek, mitte kunagi ainult värv.</li>
+    <li>
+      Miski ei vilgu (WCAG 2.2.2, 2.3.1) ning taimeriga uuenev tahvel omab pausinuppu või uueneb ainult soovi korral; uuendused ei liiguta kunagi fookust. Hilinenud kanne ütleb seda sõnadega („Ootab üle 20 minuti“) koos <code>data-overdue</code>.
+    </li>
+    <li>Arv või määr näitab oma nimetajat („12 / 68“) ja viitab selle taga olevale loendile.</li>
+    <li>
+      Loend või ajajoon ütleb, millest see vaade on: mida see näitab, selle järjekord ja ajavahemik, mis on peidetud ja miks ning millised allikad ei vastanud. Tühi loend allikast, mis ei vastanud, ei tõesta, et midagi pole.
+    </li>
+    <li>
+      Meeldetuletuste loend on <code>record-list</code> , mille elementidel on tähtaeg (<code>review-date</code>) ja tähtaja olek sõnadega, koos <code>data-due</code>; selle loonud reegel on teie oma.
+    </li>
+  </ul>
+
+  <h2>Vormid</h2>
+  <ul>
+    <li>
+      Küsimus, millele vastatakse „jah“, „ei“ või „ei küsitud“, on <code>radio-group</code> kolmest vastusest, millest ükski pole algul valitud, mitte kunagi märkeruut: märkeruut ei erista „eitatud“ ja „kunagi küsimata“. Elundkondade ülevaade on üks <code>fieldset</code> elundkonna kohta ning nupp „kõik ülejäänud puuduvad“ seab ainult vastamata küsimused.
+    </li>
+    <li>
+      Küsimus, millel on vastuste loend (ravimid, aadressid), on <code>repeatable-fieldset</code>: element lisatakse või eemaldatakse, fookus järgneb ja iga eemaldusnupp on nimetatud oma elemendi järgi.
+    </li>
+    <li>
+      Komakohaga arv: näidake seda funktsiooniga <code>Intl.NumberFormat</code> ja kus <code>type="number"</code> koma ei aktsepteeri, võtke see vastu tekstiväljas atribuudiga <code>inputmode="decimal"</code> ja parsige oma koodis. Ärge kunagi muutke inimese sisestatud väärtust, isegi mitte vahemikku surumiseks: vahemikust väljas väärtus on viga, mida ta näeb.
+    </li>
+    <li>
+      Pikk loend, mis näitab korraga ainult osa valikutest, seab <code>aria-setsize</code> ja <code>aria-posinset</code> igale valikule ning arvestab, et lehelt otsing ei näe ülejäänut.
+    </li>
+  </ul>
+
+  <h2>Kirjed, märkmed ja nende päritolu</h2>
+  <ul>
+    <li>
+      Öelge enne ridu, millest loend või ruudustik vaade on: ajavahemik ja järjekord, mis jääb välja ja miks ning millised allikad ei vastanud („Viimased 12 kuud, uusimad eespool. Perearsti kirje ei vastanud.“). Andke <code>record-list</code> ja
+      <code>timeline-list</code>  <code>coverageLabel</code>, ning abikomponendile <code>data-grid</code> selle <code>coverageLabel</code>. Tühi loend allikast, mis ei vastanud, ütleb seda sõnadega, et seda ei loetaks kunagi kui „midagi pole kirjas“.
+    </li>
+    <li>
+      Öelge komponendiga <code>record-provenance-view</code>, kust kirje pärineb ja kas see on lõplik: allkirjastatud, ootab allkirja, muudetud, sellesse seadmesse salvestatud ja veel saatmata. Allkirjastamata mustand ei tohi kunagi paista allkirjastatuna.
+    </li>
+    <li>Kanne kellegi teise kohta (vanem, loode, doonor) ütleb kõigepealt, kelle kohta see on, kirje elementide atribuudiga <code>subjectLabel</code>.</li>
+    <li>
+      Kinnipeetud kanne jääb loendisse teie sõnadega („Piiratud: teile pole kättesaadav“) ning ekslikult tehtud kanne jääb läbikriipsutatuks tekstiga „Sisestatud ekslikult“: andke <code>record-list-item</code> või <code>timeline-list-item</code> 
+      <code>entryState</code> ja <code>entryStateLabel</code>. Ärge kunagi eemaldage kumbagi vaikselt, sest lünka loetakse kui „midagi ei juhtunud“.
+    </li>
+    <li>
+      Märkige kliinilises märkmes iga lõigu allikas (trükitud, dikteeritud, mall, edasi kopeeritud, genereeritud) atribuudiga
+      <code>data-source</code> ja nähtavate sõnadega, et kopeeritud või genereeritud teksti ei peetaks kunagi tänaseks läbivaatuseks.
+    </li>
+    <li>
+      Jaotis, mis ei saa laadida, on <code>unavailable</code> teie sõnadega, korduskatse nupuga; tehniline kood, kui seda üldse näidatakse, on avatava osa taga. Inimese toimingust põhjustatud tõrge teatatakse koos väärtusega, mis kirjel nüüd on; lehe laadimise tõrget mitte.
+    </li>
+    <li>
+      Korralduse ajalugu on <code>timeline-list</code>, üks element iga sammu kohta (planeeritud, ajastatud, aktiivne, peatatud, lõpetatud, tühistatud) koos aja ja põhjusega ning praegune olek ka elemendil.
+    </li>
   </ul>
 
   <h2>FHIR-ist Lilysse</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (ka kirjeloenditel)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Seostage kirje <code>entered-in-error</code> selle olekuga <code>entered-in-error</code>, sõnadega, mitte ei jätke seda vaikselt välja: kas seda üldse näidata, otsustab teie teenus.</p>
+
+  <h2>openEHR-ist Lilyni</h2>
+  <p>
+    Lily ei loe ka openEHR-i kompositsioone. Vastavus openEHR-i viitemudeli andmetüüpidele ja koodidele, ettepanekuna, mille üle otsustab teie kliinilise ohutuse ülevaatus:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR-i andmetüübid ja koodid ning neile vastavad Lily väärtused</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (sisestus)</td>
+          <td><code>quantity-input-div</code>; ühikud UCUM-koodidena teie sõnadega</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (kuvamine), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> koos <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> on ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> koos <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> osaline (aasta, aasta ja kuu)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> koos <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> komponendis <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> , mille siltidel on arv ja selle sõnad</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>allpool kodeeritud väärtuste muster</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, ainult kui „ei küsitud“ ei saa esineda</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> teadmata, <code>271</code> teave puudub</td>
+          <td><code>status="not-recorded"</code> või <code>"unavailable"</code>, sõnadega, mis ütlevad, milline neist</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> varjatud</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> ei kohaldu</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subjekt</td>
+          <td><code>subjectLabel</code> kirje elementidel</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Instruction State Machine'i sammud</td>
+          <td> <code>timeline-list</code> sammudest, praegune olek elemendil</td>
+        </tr>
+        <tr>
+          <td>arhetüübi element esinemiskordadega <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Kodeeritud väärtused</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Ei tarni ravimiandmebaasi, tall man loendit ega SNOMED CT, RHK, LOINC või UCUM koode.</li>
     <li>Ei reprodutseeri litsentseeritud instrumenti (Wong-Baker FACES) ega teise asutuse kujundust (NEWS2 diagramm).</li>
     <li>Ei piira samaaegselt avatud kirjete arvu.</li>
+    <li>Tuletada vahemikust tõlgendust, teisendada ühikut või parsida suhtelist kuupäeva („järgmisel teisipäeval“).</li>
+    <li>Kasutada lülitit vastusele „jah, ei või teadmata“: ARIA <code>switch</code> ei tunne kolmandat olekut, seega on see kolm raadionuppu.</li>
   </ul>
   <p>Selle juhendi taga olevad uuringud, allikad ja otsused on lehel <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

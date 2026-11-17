@@ -71,7 +71,28 @@
     <li>Toon twee identificatoren overal waar gegevens van een patiënt verschijnen: de naam met de geboortedatum, en het nationale nummer met zijn weergavecomponent (The Joint Commission, Quick Safety 45).</li>
     <li>Gebruik de patiëntbanner op elk scherm dat op het dossier van één patiënt werkt, en houd hem zichtbaar.</li>
     <li>Laat een handeling op een ander dossier dan dat in de banner eerst bevestigen met naam, geboortedatum en identificator.</li>
+    <li>
+      Een vermelding over iemand anders dan de patiënt (de voorgeschiedenis van een ouder, een foetus, een donor) zegt eerst in woorden over wie het gaat: geef de dossieritems een <code>subjectLabel</code> ("Moeder"), zodat de diagnose van een familielid nooit wordt gelezen als die van de patiënt (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Beperk niet hoeveel dossiers een zorgverlener mag openen: een gerandomiseerde studie onder 3.356 zorgverleners (JAMA, 2019) vond dat dit voorschriften bij de verkeerde patiënt niet verminderde, en mensen omzeilen het.</li>
+    <li>
+      Een menu met acties op één dossier noemt eerst dat dossier, met <code>subjectLabel</code> op <code>context-menu</code> of
+      <code>dropdown-menu</code> ("Ada Lovelace, bloeddruk 3 nov"): een niet-interactief eerste deel dat ook de toegankelijke naam van het menu is.
+    </li>
+    <li>
+      Deel elke actie in naar wat ze doet, en maak het niveau zichtbaar voordat ze wordt uitgevoerd. <strong>Routine</strong> (bekijken, afdrukken) wordt meteen uitgevoerd. <strong>Gedocumenteerd</strong> zegt wat ze in het dossier zal schrijven ("Voegt een notitie toe aan het contact").
+      <strong>Klinisch</strong> (stoppen, een order annuleren) vraagt een tweede keer, in een <code>alert-dialog</code> waarvan de bevestigingsknop het werkwoord is ("Stoppen"), nooit "OK" of "Ja". <strong>Openbarend</strong> (noodtoegang, delen buiten het zorgteam) vraagt eerst om een reden en legt die vast.
+    </li>
+    <li>
+      Als er meerdere dossiers open zijn (tabbladen, vensters, gesplitste panelen), bevatten de zichtbare tekst en de toegankelijke naam van elk tabblad de naam van de patiënt en een tweede kenmerk, herhaalt het actieve paneel de banner, en geldt geen actie voor een andere patiënt dan die van het eigen paneel.
+    </li>
+    <li>
+      Toon de locatie waaraan vastleggingen worden toegeschreven (de afdeling, polikliniek of instelling gekozen bij het aanmelden) als tekst in de paginakop, en maak het wijzigen ervan een uitdrukkelijke actie.
+    </li>
+    <li>
+      Toon het actieve bezoek, of "Geen actief bezoek", in de banner. Een formulier dat een bezoek nodig heeft zegt dat en biedt aan er een te starten, in plaats van te mislukken bij het opslaan.
+    </li>
   </ul>
 
   <h2>De patiëntbanner</h2>
@@ -82,6 +103,9 @@
     <li>een ontbrekende waarde staat in woorden („Onbekend”), nooit als vraagteken, streepje of lege cel;</li>
     <li>een overleden patiënt: <code>data-deceased</code> voor het thema, en een zichtbare regel tekst, nooit alleen kleur;</li>
     <li>geen veld afgekapt, bijgesneden of verborgen bij welke breedte ook; het loopt door naar de volgende regel.</li>
+    <li>
+      patiëntsignaleringen ("Heeft een tolk nodig", "Infectierisico") zijn een gelabelde <code>tag-group</code> van woorden, nooit alleen pictogrammen of kleur, en blijven zichtbaar als de banner omloopt.
+    </li>
   </ul>
 
   <h2>Uitslagen</h2>
@@ -90,6 +114,30 @@
     <li>De markering bestaat uit woorden uit uw vertaling (<code>flagLabel</code>), met de FHIR-interpretatiecode als <code>data-interpretation</code> voor het thema.</li>
     <li>Scheid nieuwe uitslagen van eerdere en toon een trend (een sparkline, of een lijngrafiek met zijn gegevenstabel): zorgverleners zoeken een betekenisvolle verandering, niet alleen het bereik.</li>
     <li>Een uitslag die nooit is vastgelegd en een die niet beschikbaar is, zijn verschillende toestanden, met verschillende woorden.</li>
+    <li>
+      Onbekend is niet normaal. Een uitslag waarvan het referentiebereik ontbreekt, nog laadt of onleesbaar is, heeft geen interpretatie en zegt dat; <code>observation-view</code> leidt er nooit een af, dus een uitslag met een bereik en zonder <code>interpretation</code> toont geen markering.
+    </li>
+    <li>
+      Een uitslag buiten de schaal is de grens van het instrument met een vergelijkingsteken ("&gt; 33,3 mmol/L": <code>formatQuantity</code> met
+      <code>"&gt;"</code>) en uw kritieke markering, nooit een kaal getal. Een benaderde waarde houdt haar ≈ (<code>"~"</code>).
+    </li>
+    <li>Geef verdere benoemde bereiken ("Kritiek: onder 2,5") als <code>ranges</code>, elk als eigen deel.</li>
+    <li>
+      Een gecorrigeerde of gewijzigde uitslag behoudt de waarde die ze verving, in een <code>&lt;del&gt;</code>, met uw woorden voor wanneer die veranderde (<code>previousValue</code>, <code>previousLabel</code>), zodat een zorgverlener die de oude waarde las weet dat die is veranderd.
+    </li>
+    <li>
+      Een intervalmeting noemt haar duur en functie ("Gemiddelde, 24 uur"), en de toestand en methode van een meting ("Zittend, grote manchet") staan als zichtbare tekst ernaast, nooit alleen in een tooltip (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Een trend heeft vergelijkbare punten nodig: teken geen lijn onder uw minimum, onderbreek de lijn waar de methode of bepaling veranderde, en zeg richting en betekenis in woorden ("dalend, verbeterend").
+    </li>
+    <li>
+      Vitale waarden die in één eenhedenstelsel zijn ingevoerd, kunnen het andere ernaast tonen als uw tekst ("70 kg (154 lb)"); Lily rekent niets om, dus vermeld uw afronding. Voer een hoeveelheid in met <code>quantity-input-div</code>, waarvan het getal de grenzen van elke eenheid volgt.
+    </li>
+    <li>
+      Een groeicurve is een <code>line-chart</code> met uw percentiellijnen als reeksen, de punten van het kind en de gegevenstabel van leeftijd en waarde; Lily berekent geen percentiel en levert geen groeireferentie.
+    </li>
   </ul>
 
   <h2>Geneesmiddelen</h2>
@@ -106,12 +154,73 @@
     <li>Schrijf de maand als tekst, zodat een datum niet op twee manieren te lezen is (<code>Intl.DateTimeFormat</code> met <code>month: "short"</code>).</li>
     <li>Kies de klok bewust: geef <code>hourCycle</code> expliciet door. De NHS vraagt om de 24-uursklok; dat is een Britse regel, geen wereldwijde, dus Lily kiest hem nooit voor u.</li>
     <li>Leeftijden volgen de categorieën van de Common User Interface via <code>ageParts()</code>; een dienst met een andere conventie geeft zijn eigen woorden door.</li>
+    <li>
+      Een datum die alleen tot op de maand of het jaar bekend is, blijft zo: vraag erom met <code>date-field</code>
+      <code>precision="month"</code> of <code>"year"</code>, sla <code>2019-03</code> of <code>2019</code>op en schrijf hem met
+      <code>formatPartialDate()</code>. Verzin nooit een dag.
+    </li>
+    <li>
+      Een tijdsduur is <code>duration-view</code>, een <code>&lt;time datetime="P3DT4H"&gt;</code> met uw woorden, uit
+      <code>durationParts()</code> en <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Dashboards</h2>
   <ul>
     <li>Een afdelingsbord of meldkamerscherm wordt vaak bijgewerkt. Kondig nooit elke wijziging aan: houd één beleefde samenvattingsregio („3 bedden vrij, 2 ontslagen gepland”) en laat mensen het bord lezen.</li>
     <li>Elke toestand op een bord (bed schoon, bezet, geblokkeerd) is tekst of een <code>data-*</code>-toestand met woorden, nooit alleen kleur.</li>
+    <li>
+      Niets knippert (WCAG 2.2.2, 2.3.1), en een bord dat op een timer bijwerkt heeft een pauzeknop of werkt alleen bij op verzoek; updates verplaatsen nooit de focus. Een achterstallige vermelding zegt dat in woorden ("Wacht al meer dan 20 minuten") met <code>data-overdue</code>.
+    </li>
+    <li>Een aantal of percentage toont de noemer ("12 van 68") en linkt naar de lijst erachter.</li>
+    <li>
+      Een lijst of tijdlijn zegt waarvan ze een weergave is: wat ze toont, haar volgorde en periode, wat verborgen is en waarom, en welke bronnen niet antwoordden. Een lege lijst van een bron die niet antwoordde, bewijst niet dat er niets is.
+    </li>
+    <li>
+      Een herinneringslijst is een <code>record-list</code> waarvan de items een vervaldatum (<code>review-date</code>) en een vervalstatus in woorden dragen, met <code>data-due</code>; de regel die haar maakte is van u.
+    </li>
+  </ul>
+
+  <h2>Formulieren</h2>
+  <ul>
+    <li>
+      Een vraag met de antwoorden "ja", "nee" of "niet gevraagd" is een <code>radio-group</code> van drie antwoorden, geen vooraf gekozen, nooit een selectievakje: een selectievakje kan "ontkend" niet onderscheiden van "nooit gevraagd". Een tractusanamnese is één <code>fieldset</code> per orgaansysteem, en een knop "alle overige afwezig" zet alleen de onbeantwoorde.
+    </li>
+    <li>
+      Een vraag met een lijst van antwoorden (medicijnen, adressen) is een <code>repeatable-fieldset</code>: een item wordt toegevoegd of verwijderd, de focus volgt, en elke verwijderknop is naar zijn item genoemd.
+    </li>
+    <li>
+      Een getal met een decimale komma: toon het met <code>Intl.NumberFormat</code> en, waar <code>type="number"</code> de komma niet accepteert, neem het op in een tekstveld met <code>inputmode="decimal"</code> en verwerk het in uw code. Verander nooit een waarde die iemand typte, ook niet om haar binnen een bereik te dwingen: een waarde buiten het bereik is een fout die men kan zien.
+    </li>
+    <li>
+      Een lange lijst die steeds maar een deel van haar opties toont, zet <code>aria-setsize</code> en <code>aria-posinset</code> op elke optie, en houdt er rekening mee dat zoeken op de pagina de rest niet ziet.
+    </li>
+  </ul>
+
+  <h2>Dossiers, notities en hun herkomst</h2>
+  <ul>
+    <li>
+      Zeg vóór de rijen waarvan een lijst of raster een weergave is: periode en volgorde, wat ze weglaat en waarom, en welke bronnen niet antwoordden ("Laatste 12 maanden, nieuwste eerst. Het huisartsdossier antwoordde niet."). Geef <code>record-list</code> en
+      <code>timeline-list</code> een <code>coverageLabel</code>, en de hulpcomponent <code>data-grid</code> zijn <code>coverageLabel</code>. Een lege lijst van een bron die niet antwoordde zegt dat in woorden, zodat ze nooit wordt gelezen als "niets vastgelegd".
+    </li>
+    <li>
+      Zeg met <code>record-provenance-view</code>waar een vastlegging vandaan komt en of ze definitief is: ondertekend, wacht op ondertekening, gewijzigd, op dit apparaat opgeslagen en nog niet verzonden. Een niet-ondertekend concept mag er nooit ondertekend uitzien.
+    </li>
+    <li>Een vermelding over iemand anders (een ouder, een foetus, een donor) zegt eerst over wie het gaat, met <code>subjectLabel</code>.</li>
+    <li>
+      Een achtergehouden vermelding blijft in de lijst met uw woorden ("Beperkt: niet beschikbaar voor u"), en een foutief ingevoerde vermelding blijft doorgestreept met "Foutief ingevoerd": geef <code>record-list-item</code> of <code>timeline-list-item</code> een
+      <code>entryState</code> en een <code>entryStateLabel</code>. Verwijder nooit een van beide stilzwijgend, want een gat wordt gelezen als "er is niets gebeurd".
+    </li>
+    <li>
+      Markeer in een klinische notitie de bron van elk fragment (getypt, gedicteerd, sjabloon, overgenomen, gegenereerd) met
+      <code>data-source</code> en zichtbare woorden, zodat overgenomen of gegenereerde tekst nooit wordt aangezien voor het onderzoek van vandaag.
+    </li>
+    <li>
+      Een sectie die niet kan laden is <code>unavailable</code> in uw woorden, met een knop om het opnieuw te proberen; een technische code staat, als die al getoond wordt, achter een uitklapelement. Een fout door een handeling van de persoon wordt aangekondigd, met de waarde die het dossier nu heeft; een fout bij het laden van de pagina niet.
+    </li>
+    <li>
+      De geschiedenis van een order is een <code>timeline-list</code>, één item per stap (gepland, ingeroosterd, actief, opgeschort, voltooid, geannuleerd) met tijd en reden, en de huidige toestand ook op het item.
+    </li>
   </ul>
 
   <h2>Van FHIR naar Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (ook op de dossierlijsten)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Koppel een <code>entered-in-error</code>-registratie aan de status <code>entered-in-error</code>, met woorden, in plaats van haar stilzwijgend weg te laten: of ze getoond wordt, beslist uw dienst.</p>
+
+  <h2>Van openEHR naar Lily</h2>
+  <p>
+    Lily leest ook geen openEHR-composities. De koppeling voor de gegevenstypen en codes van het openEHR-referentiemodel, als suggestie waarover uw klinische veiligheidsbeoordeling beslist:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR-gegevenstypen en -codes, en de Lily-waarden ervoor</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (invoer)</td>
+          <td><code>quantity-input-div</code>; eenheden als UCUM-codes met uw woorden</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (weergave), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> met <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> is ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> met een <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> gedeeltelijk (jaar, jaar en maand)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> met <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> binnen <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>een <code>radio-group</code> waarvan de labels het getal en zijn woorden dragen</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>het patroon voor gecodeerde waarden hieronder</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, alleen als "niet gevraagd" niet kan voorkomen</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> onbekend, <code>271</code> geen informatie</td>
+          <td><code>status="not-recorded"</code> of <code>"unavailable"</code>, met woorden die zeggen welke</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> afgeschermd</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> niet van toepassing</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subject</td>
+          <td><code>subjectLabel</code> op de dossieritems</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Stappen van de Instruction State Machine</td>
+          <td>een <code>timeline-list</code> van stappen, met de huidige toestand op het item</td>
+        </tr>
+        <tr>
+          <td>een archetype-item met voorkomen <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Gecodeerde waarden</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Een geneesmiddeldatabase, een tall-manlijst, of codes uit SNOMED CT, ICD, LOINC of UCUM meeleveren.</li>
     <li>Een gelicentieerd instrument (Wong-Baker FACES) of het ontwerp van een andere instantie (de NEWS2-kaart) nabootsen.</li>
     <li>Het aantal tegelijk geopende dossiers beperken.</li>
+    <li>Een interpretatie afleiden uit een bereik, een eenheid omrekenen of een relatieve datum ("volgende dinsdag") interpreteren.</li>
+    <li>Een schakelaar gebruiken voor "ja, nee of onbekend": de <code>switch</code> van ARIA heeft geen derde toestand, dus het zijn drie keuzerondjes.</li>
   </ul>
   <p>Het onderzoek, de bronnen en de beslissingen achter deze gids staan in <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

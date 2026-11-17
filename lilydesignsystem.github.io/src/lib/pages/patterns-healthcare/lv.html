@@ -71,7 +71,28 @@
     <li>Rādiet divus identifikatorus visur, kur parādās pacienta dati: vārdu ar dzimšanas datumu un valsts identifikatoru ar tā view komponentu (The Joint Commission, Quick Safety 45).</li>
     <li>Izmantojiet pacienta joslu katrā ekrānā, kas darbojas ar viena pacienta ierakstu, un turiet to redzamu.</li>
     <li>Pirms darbības ar citu ierakstu, nevis to, kas ir joslā, apstipriniet to ar vārdu, dzimšanas datumu un identifikatoru.</li>
+    <li>
+      Ieraksts par kādu citu, nevis pacientu (vecāka slimības vēsture, auglis, donors), vispirms vārdiem pasaka, kam tas pieder: piešķiriet ieraksta elementiem <code>subjectLabel</code> (“Māte”), lai radinieka diagnozi nekad nenolasītu kā pacienta (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Neierobežojiet, cik ierakstu ārsts drīkst atvērt: randomizēts pētījums ar 3 356 ārstiem (JAMA, 2019) atklāja, ka tas nesamazināja pasūtījumus nepareizam pacientam, un cilvēki to apiet.</li>
+    <li>
+      Darbību izvēlne vienam ierakstam vispirms nosauc šo ierakstu, izmantojot <code>subjectLabel</code> komponentā <code>context-menu</code> vai
+      <code>dropdown-menu</code> (“Ada Lovelace, asinsspiediens 3. nov.”): neinteraktīva pirmā daļa, kas ir arī izvēlnes pieejamais nosaukums.
+    </li>
+    <li>
+      Katru darbību iedaliet līmenī pēc tā, ko tā dara, un padariet līmeni redzamu pirms izpildes. <strong>Ikdienas</strong> (skatīt, drukāt) izpildās uzreiz. <strong>Dokumentējama</strong> pasaka, ko tā ierakstīs dokumentācijā (“Pievieno piezīmi apmeklējumam”).
+      <strong>Klīniska</strong> (pārtraukt, atcelt nozīmējumu) jautā otrreiz, komponentā <code>alert-dialog</code> , kura apstiprinājuma poga ir darbības vārds (“Pārtraukt”), nekad “Labi” vai “Jā”. <strong>Izpaužoša</strong> (ārkārtas piekļuve, kopīgošana ārpus aprūpes komandas) vispirms prasa iemeslu un to reģistrē.
+    </li>
+    <li>
+      Ja atvērti vairāki ieraksti (cilnes, logi, sadalīti paneļi), katras cilnes redzamais teksts un pieejamais nosaukums ietver pacienta vārdu un otru identifikatoru, aktīvais panelis atkārto reklāmjoslu, un neviena darbība neattiecas uz citu pacientu kā tikai uz sava paneļa pacientu.
+    </li>
+    <li>
+      Rādiet vietu, kurai tiks piesaistīti ieraksti (pieslēdzoties izvēlēto nodaļu, ambulatoro kabinetu vai iestādi), kā tekstu lapas galvenē, un tās maiņu padariet par skaidru darbību.
+    </li>
+    <li>
+      Joslā rādiet aktīvo vizīti vai “Nav aktīvas vizītes”. Veidlapa, kurai vajag vizīti, to pasaka un piedāvā to sākt, nevis neizdodas saglabājot.
+    </li>
   </ul>
 
   <h2>Pacienta josla</h2>
@@ -82,6 +103,9 @@
     <li>trūkstoša vērtība ir vārdi („Nav zināms”), nekad jautājuma zīme, domuzīme vai tukša šūna;</li>
     <li>miris pacients: <code>data-deceased</code> tēmai un redzama teksta rinda, nekad tikai krāsa;</li>
     <li>neviens lauks nav saīsināts, apgriezts vai paslēpts nevienā platumā; teksts tiek pārlauzts.</li>
+    <li>
+      pacienta atzīmes (“Vajag tulku”, “Infekcijas risks”) ir marķēta vārdu <code>tag-group</code> , nekad tikai ikonas vai krāsa, un paliek redzamas, kad josla pārlūzt.
+    </li>
   </ul>
 
   <h2>Rezultāti</h2>
@@ -90,6 +114,30 @@
     <li>Karodziņš ir vārdi no jūsu tulkojuma (<code>flagLabel</code>), ar FHIR interpretācijas kodu kā <code>data-interpretation</code> tēmai.</li>
     <li>Nošķiriet jaunus rezultātus no agrākiem un parādiet tendenci (sparkline vai līniju diagrammu ar tās datu tabulu): ārsti meklē būtisku izmaiņu, ne tikai diapazonu.</li>
     <li>Rezultāts, kas nekad nav ierakstīts, un rezultāts, kas nav pieejams, ir dažādi stāvokļi, ar dažādiem vārdiem.</li>
+    <li>
+      Nezināms nav normāls. Rezultātam, kura atsauces diapazons trūkst, vēl ielādējas vai nav nolasāms, nav interpretācijas, un tas to pasaka; <code>observation-view</code> nekad to neizsecina, tāpēc rezultāts ar diapazonu un bez <code>interpretation</code> nerāda nekādu atzīmi.
+    </li>
+    <li>
+      Rezultāts ārpus skalas ir instrumenta robeža ar salīdzinājuma zīmi (“&gt; 33,3 mmol/L”: <code>formatQuantity</code> ar
+      <code>"&gt;"</code>) un jūsu kritisko atzīmi, nekad tikai skaitlis. Aptuvena vērtība saglabā savu ≈ (<code>"~"</code>).
+    </li>
+    <li>Citus nosauktus diapazonus (“Kritisks: zem 2,5”) norādiet kā <code>ranges</code>, katru kā atsevišķu daļu.</li>
+    <li>
+      Labots vai grozīts rezultāts saglabā aizstāto vērtību elementā <code>&lt;del&gt;</code>, ar jūsu vārdiem par to, kad tā mainījās (<code>previousValue</code>, <code>previousLabel</code>), lai klīnicists, kurš izlasīja veco vērtību, zinātu, ka tā mainījās.
+    </li>
+    <li>
+      Intervāla mērījums norāda savu ilgumu un funkciju (“Vidējais, 24 stundas”), un mērījuma stāvoklis un metode (“Sēžot, liela manšete”) ir redzams teksts blakus, nekad tikai rīka padoms (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Tendencei vajag salīdzināmus punktus: nezīmējiet līniju zem sava minimuma, pārtrauciet līniju, kur mainījās metode vai analīze, un vārdiem pasakiet virzienu un nozīmi (“samazinās, uzlabojas”).
+    </li>
+    <li>
+      Dzīvības rādītāji, kas ievadīti vienā mērvienību sistēmā, blakus var rādīt otru kā jūsu tekstu (“70 kg (154 lb)”); Lily neko nepārveido, tāpēc norādiet noapaļošanu. Daudzumu ievadiet ar <code>quantity-input-div</code>, kura skaitlis ievēro katras mērvienības robežas.
+    </li>
+    <li>
+      Augšanas līkne ir <code>line-chart</code> ar jūsu procentiļu līnijām kā sērijām, bērna punktiem un vecuma un vērtības datu tabulu; Lily neaprēķina procentiles un nepiegādā augšanas standartus.
+    </li>
   </ul>
 
   <h2>Zāles</h2>
@@ -106,12 +154,73 @@
     <li>Mēnesi rakstiet kā tekstu, lai datumu nevarētu nolasīt divējādi (<code>Intl.DateTimeFormat</code> ar <code>month: "short"</code>).</li>
     <li>Pulksteni izvēlieties apzināti: skaidri nododiet <code>hourCycle</code>. NHS prasa 24 stundu pulksteni; tas ir Apvienotās Karalistes noteikums, nevis pasaules, tāpēc Lily nekad to neizvēlas jūsu vietā.</li>
     <li>Vecumi seko Common User Interface joslām caur <code>ageParts()</code>; pakalpojums ar citu konvenciju nodod savus vārdus.</li>
+    <li>
+      Datums, kas zināms tikai līdz mēnesim vai gadam, tāds arī paliek: jautājiet to ar <code>date-field</code>
+      <code>precision="month"</code> vai <code>"year"</code>, saglabājiet <code>2019-03</code> vai <code>2019</code>un rakstiet ar
+      <code>formatPartialDate()</code>. Nekad neizdomājiet dienu.
+    </li>
+    <li>
+      Laika ilgums ir <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> , kas satur jūsu vārdus, no
+      <code>durationParts()</code> un <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Informācijas paneļi</h2>
   <ul>
     <li>Nodaļas tāfele vai vadības centra ekrāns tiek atjaunināts bieži. Nekad nepaziņojiet katru izmaiņu: turiet vienu pieklājīgu kopsavilkuma reģionu („3 brīvas gultas, 2 plānotas izrakstīšanas”) un ļaujiet cilvēkiem lasīt tāfeli.</li>
     <li>Katrs stāvoklis tāfelē (gulta tīra, aizņemta, bloķēta) ir teksts vai <code>data-*</code> stāvoklis ar vārdiem, nekad tikai krāsa.</li>
+    <li>
+      Nekas nemirgo (WCAG 2.2.2, 2.3.1), un dēlim, kas atjaunojas pēc taimera, ir pauzes vadīkla, vai tas atjaunojas tikai pēc pieprasījuma; atjauninājumi nekad nepārvieto fokusu. Nokavēts ieraksts to pasaka vārdiem (“Gaida ilgāk par 20 minūtēm”) ar <code>data-overdue</code>.
+    </li>
+    <li>Skaits vai likme rāda savu saucēju (“12 no 68”) un saista uz sarakstu aiz tā.</li>
+    <li>
+      Saraksts vai laika josla pasaka, kā skats tas ir: ko tas rāda, kārtību un laika logu, kas ir paslēpts un kāpēc, un kuri avoti neatbildēja. Tukšs saraksts no avota, kas neatbildēja, nepierāda, ka nekā nav.
+    </li>
+    <li>
+      Atgādinājumu saraksts ir <code>record-list</code> , kura elementiem ir termiņš (<code>review-date</code>) un termiņa stāvoklis vārdiem, ar <code>data-due</code>; noteikums, kas to izveidoja, ir jūsu.
+    </li>
+  </ul>
+
+  <h2>Veidlapas</h2>
+  <ul>
+    <li>
+      Jautājums, uz kuru atbild “jā”, “nē” vai “nav jautāts”, ir <code>radio-group</code> ar trim atbildēm, sākumā neviena nav izvēlēta, nekad izvēles rūtiņa: rūtiņa nevar atšķirt “noliegts” no “nekad nav jautāts”. Sistēmu apskats ir viens <code>fieldset</code> katrai ķermeņa sistēmai, un poga “visi pārējie nav” iestata tikai neatbildētos.
+    </li>
+    <li>
+      Jautājums ar atbilžu sarakstu (zāles, adreses) ir <code>repeatable-fieldset</code>: elements tiek pievienots vai noņemts, fokuss seko, un katra noņemšanas poga ir nosaukta pēc sava elementa.
+    </li>
+    <li>
+      Skaitlis ar decimālkomatu: rādiet to ar <code>Intl.NumberFormat</code> un, kur <code>type="number"</code> nepieņem komatu, saņemiet to teksta laukā ar <code>inputmode="decimal"</code> un parsējiet savā kodā. Nekad nemainiet personas ievadītu vērtību, pat lai to ierobežotu diapazonā: vērtība ārpus diapazona ir kļūda, ko viņi var redzēt.
+    </li>
+    <li>
+      Garš saraksts, kas vienlaikus rāda tikai daļu iespēju, iestata <code>aria-setsize</code> un <code>aria-posinset</code> katrai iespējai un atceras, ka meklēšana lapā neredz pārējo.
+    </li>
+  </ul>
+
+  <h2>Ieraksti, piezīmes un to izcelsme</h2>
+  <ul>
+    <li>
+      Pirms rindām pasakiet, kā skats ir saraksts vai režģis: laika logs un kārtība, ko tas izlaiž un kāpēc, un kuri avoti neatbildēja (“Pēdējie 12 mēneši, jaunākie vispirms. Ģimenes ārsta ieraksts neatbildēja.”). Piešķiriet <code>record-list</code> un
+      <code>timeline-list</code>  <code>coverageLabel</code>, un palīgkomponentam <code>data-grid</code> tā <code>coverageLabel</code>. Tukšs saraksts no avota, kas neatbildēja, to pasaka vārdiem, lai to nekad nenolasītu kā “nekas nav reģistrēts”.
+    </li>
+    <li>
+      Ar <code>record-provenance-view</code>pasakiet, no kurienes ieraksts nāk un vai tas ir galīgs: parakstīts, gaida parakstu, grozīts, saglabāts šajā ierīcē un vēl nav nosūtīts. Neparakstīts melnraksts nekad nedrīkst izskatīties parakstīts.
+    </li>
+    <li>Ieraksts par kādu citu (vecāku, augli, donoru) vispirms pasaka, kam tas pieder, ar ieraksta elementu <code>subjectLabel</code>.</li>
+    <li>
+      Aizturēts ieraksts paliek sarakstā ar jūsu vārdiem (“Ierobežots: jums nav pieejams”), un kļūdaini veikts ieraksts paliek pārsvītrots ar “Ievadīts kļūdaini”: piešķiriet <code>record-list-item</code> vai <code>timeline-list-item</code> 
+      <code>entryState</code> un <code>entryStateLabel</code>. Nekad nenoņemiet nevienu no tiem klusi, jo robu nolasa kā “nekas nenotika”.
+    </li>
+    <li>
+      Klīniskā piezīmē atzīmējiet katra fragmenta avotu (rakstīts, diktēts, veidne, nokopēts uz priekšu, ģenerēts) ar
+      <code>data-source</code> un redzamiem vārdiem, lai nokopētu vai ģenerētu tekstu nekad neuzskatītu par šodienas izmeklējumu.
+    </li>
+    <li>
+      Sadaļa, ko nevar ielādēt, ir <code>unavailable</code> jūsu vārdiem, ar pogu mēģināt vēlreiz; tehniskais kods, ja vispār rādīts, atrodas aiz izvēršamas daļas. Kļūme, ko izraisīja personas darbība, tiek paziņota kopā ar vērtību, kas ierakstam tagad ir; kļūme lapas ielādē – nē.
+    </li>
+    <li>
+      Nozīmējuma vēsture ir <code>timeline-list</code>, viens elements katram solim (plānots, ieplānots, aktīvs, apturēts, pabeigts, atcelts) ar laiku un iemeslu, un pašreizējais stāvoklis arī elementā.
+    </li>
   </ul>
 
   <h2>No FHIR uz Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (arī ierakstu sarakstos)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Ierakstu ar statusu <code>entered-in-error</code> kartējiet uz statusu <code>entered-in-error</code>, ar vārdiem, nevis klusībā to izlaižot: vai to vispār rādīt, ir jūsu pakalpojuma lēmums.</p>
+
+  <h2>No openEHR uz Lily</h2>
+  <p>
+    Lily nelasa arī openEHR kompozīcijas. Atbilstība openEHR atsauces modeļa datu tipiem un kodiem kā ieteikums, par kuru lemj jūsu klīniskās drošības pārskats:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR datu tipi un kodi un tiem atbilstošās Lily vērtības</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (ievade)</td>
+          <td><code>quantity-input-div</code>; mērvienības kā UCUM kodi ar jūsu vārdiem</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (attēlošana), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> ar <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> ir ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> ar <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> daļējs (gads, gads un mēnesis)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> ar <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> iekšā <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> , kura etiķetēs ir skaitlis un tā vārdi</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>kodēto vērtību modelis zemāk</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, tikai tad, ja “nav jautāts” nevar notikt</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> nezināms, <code>271</code> nav informācijas</td>
+          <td><code>status="not-recorded"</code> vai <code>"unavailable"</code>, ar vārdiem, kas norāda, kurš</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> maskēts</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> neattiecas</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subjekts</td>
+          <td><code>subjectLabel</code> ieraksta elementos</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Instruction State Machine soļi</td>
+          <td> <code>timeline-list</code> no soļiem, ar pašreizējo stāvokli elementā</td>
+        </tr>
+        <tr>
+          <td>arhetipa elements ar sastopamību <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Kodētas vērtības</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Piegādāt zāļu datubāzi, tall man sarakstu vai SNOMED CT, SSK, LOINC vai UCUM kodus.</li>
     <li>Atveidot licencētu instrumentu (Wong-Baker FACES) vai citas iestādes dizainu (NEWS2 diagrammu).</li>
     <li>Ierobežot vienlaikus atvērto ierakstu skaitu.</li>
+    <li>Izsecināt interpretāciju no diapazona, pārveidot mērvienību vai parsēt relatīvu datumu (“nākamajā otrdienā”).</li>
+    <li>Lietot slēdzi atbildei “jā, nē vai nezināms”: ARIA <code>switch</code> nav trešā stāvokļa, tāpēc tās ir trīs radiopogas.</li>
   </ul>
   <p>Šī ceļveža pētījumi, avoti un lēmumi ir <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

@@ -71,7 +71,28 @@
     <li>Affichez deux identifiants partout où apparaissent les données d'un patient : le nom avec la date de naissance, et l'identifiant national avec son composant d'affichage (The Joint Commission, Quick Safety 45).</li>
     <li>Utilisez le bandeau patient sur chaque écran qui agit sur le dossier d'un patient, et gardez-le visible.</li>
     <li>Avant une action sur un dossier autre que celui du bandeau, faites-la confirmer avec le nom, la date de naissance et l'identifiant.</li>
+    <li>
+      Une entrée qui concerne une autre personne que le patient (les antécédents d'un parent, un fœtus, un donneur) dit d'abord à qui elle se rapporte, en toutes lettres : donnez aux éléments du dossier un <code>subjectLabel</code> (« Mère »), afin que le diagnostic d'un proche ne soit jamais lu comme celui du patient (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Ne limitez pas le nombre de dossiers qu'un clinicien peut ouvrir : un essai randomisé portant sur 3 356 cliniciens (JAMA, 2019) a montré que cela ne réduisait pas les prescriptions sur le mauvais patient, et les gens le contournent.</li>
+    <li>
+      Un menu d'actions sur un dossier nomme d'abord ce dossier, avec <code>subjectLabel</code> sur <code>context-menu</code> ou
+      <code>dropdown-menu</code> (« Ada Lovelace, tension artérielle 3 nov. ») : une première partie non interactive qui est aussi le nom accessible du menu.
+    </li>
+    <li>
+      Classez chaque action selon ce qu'elle fait, et rendez son niveau visible avant qu'elle ne s'exécute. <strong>Routine</strong> (consulter, imprimer) s'exécute immédiatement. <strong>Documentée</strong> dit ce qu'elle va écrire dans le dossier (« Ajoute une note à la consultation »).
+      <strong>Clinique</strong> (arrêter, annuler une prescription) demande une seconde confirmation, dans un <code>alert-dialog</code> dont le bouton de confirmation est le verbe (« Arrêter »), jamais « OK » ni « Oui ». <strong>Divulgatrice</strong> (accès d'urgence, partage hors de l'équipe soignante) demande d'abord un motif et l'enregistre.
+    </li>
+    <li>
+      Quand plusieurs dossiers sont ouverts (onglets, fenêtres, volets), le texte visible et le nom accessible de chaque onglet incluent le nom du patient et un second identifiant, le volet actif répète le bandeau, et aucune action ne s'applique à un autre patient que celui de son volet.
+    </li>
+    <li>
+      Affichez sous forme de texte, dans l'en-tête de page, le lieu auquel les dossiers seront rattachés (le service, la consultation ou l'établissement choisi à la connexion), et faites de son changement une action explicite.
+    </li>
+    <li>
+      Affichez la venue en cours, ou « Aucune venue en cours », dans le bandeau. Un formulaire qui exige une venue le dit et propose d'en ouvrir une, au lieu d'échouer à l'enregistrement.
+    </li>
   </ul>
 
   <h2>Le bandeau patient</h2>
@@ -82,6 +103,9 @@
     <li>une valeur manquante s'écrit en mots (« Inconnu »), jamais par un point d'interrogation, un tiret ou une cellule vide ;</li>
     <li>un patient décédé : <code>data-deceased</code> pour le thème, et une ligne de texte visible, jamais la couleur seule ;</li>
     <li>aucun champ tronqué, rogné ou masqué, quelle que soit la largeur ; il passe à la ligne.</li>
+    <li>
+      les alertes patient (« Besoin d'un interprète », « Risque infectieux ») forment un <code>tag-group</code> étiqueté de mots, jamais d'icônes ni de couleurs seules, et restent visibles quand le bandeau passe à la ligne.
+    </li>
   </ul>
 
   <h2>Résultats</h2>
@@ -90,6 +114,30 @@
     <li>L'indicateur est en mots issus de votre traduction (<code>flagLabel</code>), avec le code d'interprétation FHIR en <code>data-interpretation</code> pour le thème.</li>
     <li>Séparez les nouveaux résultats des précédents, et montrez une tendance (une sparkline, ou un graphique en courbes avec son tableau de données) : les cliniciens cherchent un changement significatif, pas seulement l'intervalle.</li>
     <li>Un résultat jamais renseigné et un résultat indisponible sont deux états différents, avec des mots différents.</li>
+    <li>
+      Inconnu ne veut pas dire normal. Un résultat dont l'intervalle de référence manque, est en cours de chargement ou illisible n'a pas d'interprétation et le dit ; <code>observation-view</code> n'en déduit jamais, si bien qu'un résultat avec un intervalle mais sans <code>interpretation</code> n'affiche aucun indicateur.
+    </li>
+    <li>
+      Un résultat hors échelle est la limite de l'appareil accompagnée d'un comparateur (« &gt; 33,3 mmol/L » : <code>formatQuantity</code> avec
+      <code>"&gt;"</code>) et de votre indicateur critique, jamais un nombre seul. Une valeur approchée garde son ≈ (<code>"~"</code>).
+    </li>
+    <li>Donnez les autres intervalles nommés (« Critique : inférieur à 2,5 ») sous forme de <code>ranges</code>, chacun dans sa propre partie.</li>
+    <li>
+      Un résultat corrigé ou modifié conserve la valeur qu'il remplace, dans un <code>&lt;del&gt;</code>, avec vos mots pour dire quand il a changé (<code>previousValue</code>, <code>previousLabel</code>), afin qu'un clinicien qui a lu l'ancienne valeur sache qu'elle a changé.
+    </li>
+    <li>
+      Une mesure sur un intervalle indique sa durée et sa fonction (« Moyenne, 24 heures »), et l'état et la méthode d'une mesure (« Assis, grand brassard ») sont un texte visible à côté, jamais seulement une infobulle (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Une tendance exige des points comparables : ne tracez aucune ligne sous votre minimum, coupez la ligne là où la méthode ou le dosage a changé, et dites la direction et le sens avec des mots (« en baisse, amélioration »).
+    </li>
+    <li>
+      Des constantes saisies dans un système d'unités peuvent afficher l'autre à côté, en votre texte (« 70 kg (154 lb) ») ; Lily ne convertit rien, alors indiquez votre arrondi. Saisissez une quantité avec <code>quantity-input-div</code>, dont le nombre suit les limites de chaque unité.
+    </li>
+    <li>
+      Une courbe de croissance est un <code>line-chart</code> avec vos lignes de centiles comme séries, les points de l'enfant et son tableau de données d'âge et de valeur ; Lily ne calcule aucun centile et ne fournit aucune référence de croissance.
+    </li>
   </ul>
 
   <h2>Médicaments</h2>
@@ -106,12 +154,73 @@
     <li>Écrivez le mois en lettres pour qu'une date ne puisse pas se lire de deux façons (<code>Intl.DateTimeFormat</code> avec <code>month: "short"</code>).</li>
     <li>Choisissez l'horloge délibérément : passez <code>hourCycle</code> explicitement. Le NHS demande l'horloge de 24 heures ; c'est une règle britannique, pas mondiale, donc Lily ne la choisit jamais pour vous.</li>
     <li>Les âges suivent les tranches de la Common User Interface au moyen de <code>ageParts()</code> ; un service qui suit une autre convention fournit ses propres mots.</li>
+    <li>
+      Une date connue seulement au mois ou à l'année le reste : demandez-la avec <code>date-field</code>
+      <code>precision="month"</code> ou <code>"year"</code>, enregistrez <code>2019-03</code> ou <code>2019</code>, et écrivez-la avec
+      <code>formatPartialDate()</code>. N'inventez jamais de jour.
+    </li>
+    <li>
+      Une durée est un <code>duration-view</code>, un <code>&lt;time datetime="P3DT4H"&gt;</code> contenant vos mots, issus de
+      <code>durationParts()</code> et <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Tableaux de bord</h2>
   <ul>
     <li>Un tableau de service ou un écran de centre de commandement se met souvent à jour. N'annoncez jamais chaque changement : gardez une seule région de synthèse polie (« 3 lits libres, 2 sorties prévues ») et laissez les gens lire le tableau.</li>
     <li>Chaque état d'un tableau (lit nettoyé, occupé, bloqué) est un texte ou un état <code>data-*</code> accompagné de mots, jamais la couleur seule.</li>
+    <li>
+      Rien ne clignote (WCAG 2.2.2, 2.3.1), et un tableau qui se met à jour selon un minuteur a un bouton de pause ou ne se met à jour qu'à la demande ; les mises à jour ne déplacent jamais le focus. Une entrée en retard le dit en mots (« En attente depuis plus de 20 minutes ») avec <code>data-overdue</code>.
+    </li>
+    <li>Un nombre ou un taux indique son dénominateur (« 12 sur 68 ») et renvoie à la liste qui le sous-tend.</li>
+    <li>
+      Une liste ou une chronologie dit de quoi elle est une vue : ce qu'elle montre, son ordre et sa période, ce qui est masqué et pourquoi, et quelles sources n'ont pas répondu. Une liste vide d'une source qui n'a pas répondu ne prouve pas que rien n'existe.
+    </li>
+    <li>
+      Une liste de rappels est une <code>record-list</code> dont les éléments portent une date d'échéance (<code>review-date</code>) et un état d'échéance en mots, avec <code>data-due</code> ; la règle qui l'a produite est la vôtre.
+    </li>
+  </ul>
+
+  <h2>Formulaires</h2>
+  <ul>
+    <li>
+      Une question à laquelle on répond « oui », « non » ou « non demandé » est un <code>radio-group</code> de trois réponses, aucune choisie au départ, jamais une case à cocher : une case à cocher ne distingue pas « nié » de « jamais demandé ». Un examen par appareils est un <code>fieldset</code> par appareil, et un bouton « tous les autres absents » ne règle que ceux qui n'ont pas de réponse.
+    </li>
+    <li>
+      Une question à plusieurs réponses (médicaments, adresses) est un <code>repeatable-fieldset</code> : on ajoute ou retire un élément, le focus suit, et chaque bouton de retrait est nommé d'après son élément.
+    </li>
+    <li>
+      Un nombre avec une virgule décimale : affichez-le avec <code>Intl.NumberFormat</code> et, là où <code>type="number"</code> n'accepte pas la virgule, saisissez-le dans un champ texte avec <code>inputmode="decimal"</code> et analysez-le dans votre code. Ne modifiez jamais une valeur saisie par la personne, même pour la ramener dans un intervalle : une valeur hors intervalle est une erreur qu'elle peut voir.
+    </li>
+    <li>
+      Une longue liste qui n'affiche qu'une partie de ses options à la fois définit <code>aria-setsize</code> et <code>aria-posinset</code> sur chaque option, et rappelle que la recherche dans la page ne voit pas le reste.
+    </li>
+  </ul>
+
+  <h2>Dossiers, notes et leur provenance</h2>
+  <ul>
+    <li>
+      Dites de quoi une liste ou une grille est une vue, avant ses lignes : sa période et son ordre, ce qu'elle omet et pourquoi, et quelles sources n'ont pas répondu (« 12 derniers mois, du plus récent au plus ancien. Le dossier du médecin traitant n'a pas répondu. »). Donnez à <code>record-list</code> et à
+      <code>timeline-list</code> un <code>coverageLabel</code>, et à l'assistant <code>data-grid</code> son <code>coverageLabel</code>. Une liste vide issue d'une source qui n'a pas répondu le dit en mots, afin de n'être jamais lue comme « rien d'enregistré ».
+    </li>
+    <li>
+      Dites d'où vient un dossier et s'il est définitif avec <code>record-provenance-view</code> : signé, en attente de signature, modifié, enregistré sur cet appareil et pas encore envoyé. Un brouillon non signé ne doit jamais paraître signé.
+    </li>
+    <li>Une entrée qui concerne quelqu'un d'autre (un parent, un fœtus, un donneur) dit d'abord à qui elle se rapporte, avec le <code>subjectLabel</code>.</li>
+    <li>
+      Une entrée masquée reste dans la liste avec vos mots (« Restreint : non accessible pour vous »), et une entrée saisie par erreur reste barrée avec « Saisi par erreur » : donnez à <code>record-list-item</code> ou <code>timeline-list-item</code> un
+      <code>entryState</code> et un <code>entryStateLabel</code>. Ne retirez jamais l'une ou l'autre en silence, car un trou se lit « rien ne s'est passé ».
+    </li>
+    <li>
+      Dans une note clinique, indiquez la source de chaque passage (saisi, dicté, modèle, recopié, généré) avec
+      <code>data-source</code> et des mots visibles, afin qu'un texte recopié ou généré ne soit jamais pris pour l'examen du jour.
+    </li>
+    <li>
+      Une section qui ne peut pas se charger est <code>unavailable</code> en vos mots, avec un bouton pour réessayer ; un code technique, s'il est montré, se trouve derrière un dévoilement. Un échec causé par l'action d'une personne est annoncé, avec la valeur que le dossier contient désormais ; un échec au chargement de la page ne l'est pas.
+    </li>
+    <li>
+      L'historique d'une prescription est une <code>timeline-list</code>, un élément par étape (prévue, planifiée, active, suspendue, terminée, annulée) avec son heure et son motif, et l'état actuel aussi sur l'élément.
+    </li>
   </ul>
 
   <h2>De FHIR à Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (aussi sur les listes de dossiers)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Faites correspondre un enregistrement <code>entered-in-error</code> à son statut <code>entered-in-error</code>, avec des mots, plutôt que de l'écarter silencieusement : l'afficher ou non relève de la décision de votre service.</p>
+
+  <h2>D'openEHR à Lily</h2>
+  <p>
+    Lily ne lit pas non plus les compositions openEHR. La correspondance pour les types de données et codes du modèle de référence openEHR, comme une suggestion que tranche votre revue de sécurité clinique :
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Types de données et codes openEHR, et les valeurs Lily correspondantes</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (saisie)</td>
+          <td><code>quantity-input-div</code> ; unités en codes UCUM avec vos mots</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (affichage), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> avec <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> vaut ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code> : FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> avec un <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> partielle (année, année et mois)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> avec <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> dans <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>un <code>radio-group</code> dont les étiquettes portent le nombre et ses mots</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>le modèle des valeurs codées ci-dessous</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, seulement quand « non demandé » ne peut pas arriver</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> inconnu, <code>271</code> aucune information</td>
+          <td><code>status="not-recorded"</code> ou <code>"unavailable"</code>, avec des mots qui précisent lequel</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> masqué</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> sans objet</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> sujet</td>
+          <td><code>subjectLabel</code> sur les éléments du dossier</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Étapes de l'automate d'état des instructions</td>
+          <td>une <code>timeline-list</code> d'étapes, avec l'état actuel sur l'élément</td>
+        </tr>
+        <tr>
+          <td>un élément d'archétype d'occurrences <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Valeurs codées</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Fournir une base de données de médicaments, une liste tall man, ou des codes SNOMED CT, CIM, LOINC ou UCUM.</li>
     <li>Reproduire un instrument sous licence (Wong-Baker FACES) ou la conception d'un autre organisme (le tableau NEWS2).</li>
     <li>Limiter le nombre de dossiers ouverts en même temps.</li>
+    <li>Déduire une interprétation d'un intervalle, convertir une unité ou analyser une date relative (« mardi prochain »).</li>
+    <li>Utiliser un interrupteur pour « oui, non ou inconnu » : le <code>switch</code> d'ARIA n'a pas de troisième état, il faut donc trois boutons radio.</li>
   </ul>
   <p>Les recherches, les sources et les décisions derrière ce guide se trouvent dans <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

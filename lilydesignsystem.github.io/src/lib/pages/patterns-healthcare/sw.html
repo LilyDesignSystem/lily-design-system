@@ -71,7 +71,28 @@
     <li>Onyesha vitambulisho viwili popote data ya mgonjwa inapoonekana: jina na tarehe ya kuzaliwa, na kitambulisho cha taifa pamoja na kijenzi chake cha kuonyesha (The Joint Commission, Quick Safety 45).</li>
     <li>Tumia bango la mgonjwa kwenye kila skrini inayofanya kazi kwenye rekodi ya mgonjwa mmoja, na liache lionekane.</li>
     <li>Kabla ya hatua kwenye rekodi tofauti na ile iliyo kwenye bango, ithibitishe kwa jina, tarehe ya kuzaliwa na kitambulisho.</li>
+    <li>
+      Kiingilio kuhusu mtu mwingine asiye mgonjwa (historia ya mzazi, kijusi, mtoaji) kinasema kwanza kwa maneno ni cha nani: vipe vipengee vya rekodi <code>subjectLabel</code> ("Mama"), ili utambuzi wa ndugu usisomwe kamwe kama wa mgonjwa (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Usipunguze idadi ya rekodi ambazo mhudumu wa kliniki anaweza kufungua: jaribio la nasibu la wahudumu 3,356 (JAMA, 2019) lilipata kuwa halikupunguza maagizo ya mgonjwa asiye sahihi, na watu hulikwepa.</li>
+    <li>
+      Menyu ya vitendo kwenye rekodi moja inataja rekodi hiyo kwanza, kwa <code>subjectLabel</code> kwenye <code>context-menu</code> au
+      <code>dropdown-menu</code> ("Ada Lovelace, shinikizo la damu 3 Nov"): sehemu ya kwanza isiyo ya kuingiliana ambayo pia ni jina linalofikika la menyu.
+    </li>
+    <li>
+      Panga kila kitendo kwa ngazi kulingana na kile kinachofanya, na ifanye ngazi ionekane kabla hakijaendeshwa. <strong>Cha kawaida</strong> (tazama, chapisha) kinaendeshwa mara moja. <strong>Kilichorekodiwa</strong> kinasema kitakachoandika kwenye rekodi ("Kinaongeza dokezo kwenye ziara").
+      <strong>Cha kitabibu</strong> (sitisha, ghairi agizo) kinauliza mara ya pili, ndani ya <code>alert-dialog</code> ambacho kitufe chake cha kuthibitisha ni kitenzi ("Sitisha"), kamwe si "Sawa" au "Ndiyo". <strong>Cha kufichua</strong> (ufikiaji wa dharura, kushiriki nje ya timu ya huduma) kinaomba sababu kwanza na kuirekodi.
+    </li>
+    <li>
+      Rekodi kadhaa zikiwa wazi (vichupo, madirisha, paneli zilizogawanywa), maandishi yanayoonekana na jina linalofikika la kila kichupo yanajumuisha jina la mgonjwa na kitambulisho cha pili, paneli hai inarudia bango, na hakuna kitendo kinachomhusu mgonjwa mwingine isipokuwa wa paneli yake.
+    </li>
+    <li>
+      Onyesha mahali ambapo rekodi zitahusishwa (wodi, kliniki au kituo kilichochaguliwa wakati wa kuingia) kama maandishi kwenye kichwa cha ukurasa, na kufanya kubadilisha kuwa kitendo cha wazi.
+    </li>
+    <li>
+      Onyesha ziara hai, au "Hakuna ziara hai", kwenye bango. Fomu inayohitaji ziara inasema hivyo na kujitolea kuanzisha moja, badala ya kushindwa inapohifadhiwa.
+    </li>
   </ul>
 
   <h2>Bango la mgonjwa</h2>
@@ -82,6 +103,9 @@
     <li>thamani isiyopo ni maneno ("Haijulikani"), si alama ya kuuliza, kistari au seli tupu;</li>
     <li>mgonjwa aliyefariki: <code>data-deceased</code> kwa mandhari, na mstari wa maandishi unaoonekana, si rangi peke yake;</li>
     <li>hakuna sehemu iliyokatwa, kupunguzwa au kufichwa kwa upana wowote; inajifunga mstarini.</li>
+    <li>
+      alama za mgonjwa ("Anahitaji mkalimani", "Hatari ya maambukizi") ni <code>tag-group</code> yenye lebo ya maneno, kamwe si aikoni au rangi pekee, na zinabaki kuonekana bango linapojikunja.
+    </li>
   </ul>
 
   <h2>Matokeo</h2>
@@ -90,6 +114,30 @@
     <li>Alama ni maneno kutoka tafsiri yako (<code>flagLabel</code>), na msimbo wa ufasiri wa FHIR kama <code>data-interpretation</code> kwa mandhari.</li>
     <li>Tenganisha matokeo mapya na ya awali, na onyesha mwelekeo (sparkline, au mchoro wa mstari pamoja na jedwali lake la data): wahudumu hutafuta mabadiliko makubwa, si kiwango tu.</li>
     <li>Matokeo ambayo hayajawahi kurekodiwa na yale ambayo hayapatikani ni hali tofauti, zenye maneno tofauti.</li>
+    <li>
+      Isiyojulikana si ya kawaida. Matokeo ambayo kiwango chake cha marejeleo hakipo, bado kinapakiwa au hakisomeki hayana tafsiri na yanasema hivyo; <code>observation-view</code> haikisii tafsiri kamwe, kwa hiyo matokeo yenye kiwango na bila <code>interpretation</code> hayaonyeshi alama.
+    </li>
+    <li>
+      Matokeo nje ya kipimo ni kikomo cha kifaa pamoja na alama ya kulinganisha ("&gt; 33.3 mmol/L": <code>formatQuantity</code> pamoja na
+      <code>"&gt;"</code>) na alama yako ya hatari, kamwe si namba tupu. Thamani ya kukadiria inabaki na ≈ yake (<code>"~"</code>).
+    </li>
+    <li>Toa viwango vingine vyenye majina ("Hatari: chini ya 2.5") kama <code>ranges</code>, kila kimoja sehemu yake.</li>
+    <li>
+      Matokeo yaliyosahihishwa au kubadilishwa yanabaki na thamani yaliyoibadilisha, ndani ya <code>&lt;del&gt;</code>, pamoja na maneno yako kuhusu lini ilibadilika (<code>previousValue</code>, <code>previousLabel</code>), ili mtabibu aliyesoma thamani ya zamani ajue kwamba ilibadilika.
+    </li>
+    <li>
+      Kipimo cha muda kinasema upana na kazi yake ("Wastani, saa 24"), na hali na mbinu ya kipimo ("Ameketi, kofu kubwa") ni maandishi yanayoonekana kando yake, kamwe si kidokezo pekee (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Mwenendo unahitaji alama zinazolinganishwa: usichore mstari chini ya kiwango chako cha chini, kata mstari pale mbinu au kipimo kilipobadilika, na sema mwelekeo na maana kwa maneno ("inashuka, inaimarika").
+    </li>
+    <li>
+      Viashiria muhimu vilivyoingizwa katika mfumo mmoja wa vipimo vinaweza kuonyesha mwingine kando kama maandishi yako ("70 kg (154 lb)"); Lily haibadilishi chochote, kwa hiyo taja jinsi unavyokadiria. Ingiza kiasi kwa <code>quantity-input-div</code>, ambacho namba yake inafuata mipaka ya kila kipimo.
+    </li>
+    <li>
+      Chati ya ukuaji ni <code>line-chart</code> yenye mistari yako ya sentaili kama mfululizo, alama za mtoto na jedwali lake la data la umri na thamani; Lily haikokotoi sentaili na haitoi marejeleo ya ukuaji.
+    </li>
   </ul>
 
   <h2>Dawa</h2>
@@ -106,12 +154,73 @@
     <li>Andika mwezi kwa maandishi ili tarehe isisomeke kwa njia mbili (<code>Intl.DateTimeFormat</code> pamoja na <code>month: "short"</code>).</li>
     <li>Chagua saa kwa makusudi: toa <code>hourCycle</code> waziwazi. NHS inaomba saa 24; hiyo ni kanuni ya Uingereza, si ya dunia nzima, kwa hiyo Lily haichagui kwa niaba yako kamwe.</li>
     <li>Umri hufuata madaraja ya Common User Interface kupitia <code>ageParts()</code>; huduma yenye utaratibu mwingine hutoa maneno yake yenyewe.</li>
+    <li>
+      Tarehe inayojulikana hadi mwezi au mwaka pekee inabaki hivyo: iulize kwa <code>date-field</code>
+      <code>precision="month"</code> au <code>"year"</code>, hifadhi <code>2019-03</code> au <code>2019</code>, na iandike kwa
+      <code>formatPartialDate()</code>. Kamwe usibuni siku.
+    </li>
+    <li>
+      Muda ni <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> yenye maneno yako, kutoka
+      <code>durationParts()</code> na <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Dashibodi</h2>
   <ul>
     <li>Ubao wa wodi au skrini ya kituo cha uongozaji husasishwa mara kwa mara. Usitangaze kila badiliko: weka eneo moja la muhtasari la upole ("vitanda 3 vitupu, wagonjwa 2 wanatarajiwa kuruhusiwa") na uwaache watu wasome ubao.</li>
     <li>Kila hali kwenye ubao (kitanda safi, kimekaliwa, kimezuiwa) ni maandishi au hali ya <code>data-*</code> yenye maneno, si rangi peke yake.</li>
+    <li>
+      Hakuna kinachometameta (WCAG 2.2.2, 2.3.1), na ubao unaosasishwa kwa kipima muda una kidhibiti cha kusitisha au husasishwa tu unapoombwa; masasisho hayahamishi umakini kamwe. Kiingilio kilichochelewa kinasema hivyo kwa maneno ("Anasubiri zaidi ya dakika 20") pamoja na <code>data-overdue</code>.
+    </li>
+    <li>Idadi au kiwango kinaonyesha kigawanyo chake ("12 kati ya 68") na kuunganisha na orodha iliyo nyuma yake.</li>
+    <li>
+      Orodha au rekodi ya matukio inasema ni mwonekano wa nini: inaonyesha nini, mpangilio na kipindi chake, nini kimefichwa na kwa nini, na vyanzo gani havikujibu. Orodha tupu kutoka chanzo kisichojibu si uthibitisho kwamba hakuna kitu.
+    </li>
+    <li>
+      Orodha ya vikumbusho ni <code>record-list</code> ambayo vipengee vyake vina tarehe ya mwisho (<code>review-date</code>) na hali ya muda kwa maneno, pamoja na <code>data-due</code>; kanuni iliyoitengeneza ni yako.
+    </li>
+  </ul>
+
+  <h2>Fomu</h2>
+  <ul>
+    <li>
+      Swali linalojibiwa "ndiyo", "hapana" au "halikuulizwa" ni <code>radio-group</code> la majibu matatu, hakuna lililochaguliwa mwanzoni, kamwe si kisanduku cha kuteua: kisanduku hakiwezi kutofautisha "amekana" na "hakuulizwa kamwe". Mapitio ya mifumo ni <code>fieldset</code> moja kwa kila mfumo wa mwili, na kitufe cha "vingine vyote havipo" kinaweka yale tu yasiyojibiwa.
+    </li>
+    <li>
+      Swali lenye orodha ya majibu (dawa, anwani) ni <code>repeatable-fieldset</code>: kipengee kinaongezwa au kuondolewa, umakini unafuata, na kila kitufe cha kuondoa kimepewa jina la kipengee chake.
+    </li>
+    <li>
+      Namba yenye koma ya desimali: ionyeshe kwa <code>Intl.NumberFormat</code> na, pale ambapo <code>type="number"</code> haikubali koma, ipokee katika sehemu ya maandishi yenye <code>inputmode="decimal"</code> na uichanganue katika msimbo wako. Kamwe usibadilishe thamani aliyoandika mtu, hata kuiweka ndani ya kiwango: thamani nje ya kiwango ni kosa ambalo anaweza kuliona.
+    </li>
+    <li>
+      Orodha ndefu inayoonyesha sehemu tu ya chaguo zake kwa wakati mmoja inaweka <code>aria-setsize</code> na <code>aria-posinset</code> kwenye kila chaguo, na kukumbuka kwamba utafutaji kwenye ukurasa hauoni zilizobaki.
+    </li>
+  </ul>
+
+  <h2>Rekodi, madokezo na asili yake</h2>
+  <ul>
+    <li>
+      Sema orodha au gridi ni mwonekano wa nini, kabla ya safu zake: kipindi na mpangilio wake, inachoacha nje na kwa nini, na vyanzo gani havikujibu ("Miezi 12 iliyopita, mpya kwanza. Rekodi ya daktari wa familia haikujibu."). Vipe <code>record-list</code> na
+      <code>timeline-list</code>  <code>coverageLabel</code>, na msaidizi wa <code>data-grid</code> yake <code>coverageLabel</code>. Orodha tupu kutoka chanzo kisichojibu inasema hivyo kwa maneno, ili isisomwe kamwe kama "hakuna kilichorekodiwa".
+    </li>
+    <li>
+      Sema rekodi imetoka wapi na kama ni ya mwisho kwa <code>record-provenance-view</code>: imesainiwa, inasubiri sahihi, imerekebishwa, imehifadhiwa kwenye kifaa hiki na bado haijatumwa. Rasimu isiyosainiwa haipaswi kamwe kuonekana imesainiwa.
+    </li>
+    <li>Kiingilio kuhusu mtu mwingine (mzazi, kijusi, mtoaji) kinasema kwanza ni cha nani, kwa <code>subjectLabel</code>.</li>
+    <li>
+      Kiingilio kilichozuiliwa kinabaki kwenye orodha pamoja na maneno yako ("Kimezuiliwa: hakipatikani kwako"), na kiingilio kilichofanywa kwa makosa kinabaki kimekatwa mstari pamoja na "Kiliingizwa kwa makosa": vipe <code>record-list-item</code> au <code>timeline-list-item</code> 
+      <code>entryState</code> na <code>entryStateLabel</code>. Kamwe usiondoe chochote kati yao kimyakimya, kwa sababu pengo husomwa kama "hakuna kilichotokea".
+    </li>
+    <li>
+      Katika dokezo la kitabibu, weka alama chanzo cha kila kifungu (kimeandikwa, kimeimbishwa, kiolezo, kimenakiliwa mbele, kimetengenezwa) kwa
+      <code>data-source</code> na maneno yanayoonekana, ili maandishi yaliyonakiliwa au kutengenezwa yasichukuliwe kamwe kuwa uchunguzi wa leo.
+    </li>
+    <li>
+      Sehemu isiyoweza kupakia ni <code>unavailable</code> kwa maneno yako, pamoja na kitufe cha kujaribu tena; msimbo wa kiufundi, ukionyeshwa kabisa, uko nyuma ya kifichuzi. Hitilafu iliyosababishwa na kitendo cha mtu inatangazwa, pamoja na thamani ambayo rekodi inashikilia sasa; hitilafu wakati wa kupakia ukurasa haitangazwi.
+    </li>
+    <li>
+      Historia ya agizo ni <code>timeline-list</code>, kipengee kimoja kwa kila hatua (imepangwa, imeratibiwa, hai, imesitishwa, imekamilika, imeghairiwa) pamoja na muda na sababu yake, na hali ya sasa pia kwenye kipengee.
+    </li>
   </ul>
 
   <h2>Kutoka FHIR hadi Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (pia kwenye orodha za rekodi)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Oanisha rekodi ya <code>entered-in-error</code> na hali yake ya <code>entered-in-error</code>, pamoja na maneno, badala ya kuiacha kimya kimya: kuionyesha au la ni uamuzi wa huduma yako.</p>
+
+  <h2>Kutoka openEHR hadi Lily</h2>
+  <p>
+    Lily haisomi pia tungo za openEHR. Ulinganisho wa aina za data na misimbo ya Kielelezo cha Marejeleo cha openEHR, kama pendekezo ambalo ukaguzi wako wa usalama wa kitabibu unaamua:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Aina za data na misimbo ya openEHR, na thamani za Lily kwa ajili yake</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (kuingiza)</td>
+          <td><code>quantity-input-div</code>; vipimo kama misimbo ya UCUM pamoja na maneno yako</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (kuonyesha), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> pamoja na <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> ni ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> pamoja na <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> sehemu (mwaka, mwaka na mwezi)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> pamoja na <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> ndani ya <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> ambalo lebo zake zina namba na maneno yake</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>mfumo wa thamani zenye msimbo hapa chini</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, tu pale ambapo "halikuulizwa" haliwezi kutokea</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> haijulikani, <code>271</code> hakuna taarifa</td>
+          <td><code>status="not-recorded"</code> au <code>"unavailable"</code>, pamoja na maneno yanayosema ni ipi</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> imefichwa</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> haihusiki</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> mhusika</td>
+          <td><code>subjectLabel</code> kwenye vipengee vya rekodi</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Hatua za Instruction State Machine</td>
+          <td> <code>timeline-list</code> ya hatua, pamoja na hali ya sasa kwenye kipengee</td>
+        </tr>
+        <tr>
+          <td>kipengee cha aina kuu chenye matukio <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Thamani zenye misimbo</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Kusafirisha hifadhidata ya dawa, orodha ya tall man, au misimbo ya SNOMED CT, ICD, LOINC au UCUM.</li>
     <li>Kunakili chombo chenye leseni (Wong-Baker FACES) au muundo wa shirika lingine (chati ya NEWS2).</li>
     <li>Kupunguza idadi ya rekodi zilizofunguliwa kwa wakati mmoja.</li>
+    <li>Kukisia tafsiri kutoka kwa kiwango, kubadilisha kipimo, au kuchanganua tarehe linganishi ("Jumanne ijayo").</li>
+    <li>Kutumia swichi kwa "ndiyo, hapana au haijulikani": <code>switch</code> ya ARIA haina hali ya tatu, kwa hiyo ni redio tatu.</li>
   </ul>
   <p>Utafiti, vyanzo na maamuzi nyuma ya mwongozo huu yako katika <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>
