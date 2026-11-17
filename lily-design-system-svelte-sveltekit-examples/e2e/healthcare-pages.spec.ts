@@ -37,6 +37,7 @@ test("the patient summary has the three IPS sections, and an empty one says why"
         "Allergies and intolerances",
         "Medication summary",
         "Problems",
+        "Results",
     ]);
     await expect(page.locator('section[data-status="omitted"]')).toHaveCount(0);
     await expect(page.getByRole("region", { name: "Problems" })).toHaveAttribute(
@@ -113,4 +114,18 @@ test("the handover is completed and sent by keyboard alone", async ({ page, brow
     await expect(page.getByRole("button", { name: "Send handover" })).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(page.getByRole("status")).toHaveText("Handover sent");
+});
+
+test("a section that cannot load says so in words, offers a retry, and announces only the retry", async ({
+    page,
+}) => {
+    await page.goto("/patient-summary");
+    const results = page.getByRole("region", { name: "Results" });
+    await expect(results).toHaveAttribute("data-status", "unavailable");
+    await expect(results).toContainText("This does not mean there are none");
+    await expect(page.locator(".patient-summary-results-status")).toHaveText("");
+    await expect(page.getByRole("alert")).toHaveCount(0);
+    await results.getByRole("button", { name: "Try again" }).click();
+    await expect(results).toContainText("Potassium 4.6 mmol/L");
+    await expect(page.locator(".patient-summary-results-status")).toHaveText("Results loaded");
 });

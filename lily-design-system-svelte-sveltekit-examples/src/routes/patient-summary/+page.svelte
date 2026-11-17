@@ -21,11 +21,20 @@
     // The document's own language, from Composition.language; it can differ from the interface's.
     const documentLanguage = "en";
     let showCodes = $state(false);
+    // A section the service could not load is "unavailable" in words, with a way to try again (spec/lessons/openmrs item 3,
+    // P33-T3). The failure on page load is not announced; the outcome of a retry, which the person asked for, is.
+    let results: "unavailable" | "known" = $state("unavailable");
+    let resultsStatus = $state("");
+    function retryResults() {
+        results = "known";
+        resultsStatus = "Results loaded";
+    }
 
     const sections = [
         { key: "allergies", heading: "Allergies and intolerances" },
         { key: "medications", heading: "Medication summary" },
         { key: "problems", heading: "Problems", status: "not-recorded" as const },
+        { key: "results", heading: "Results" },
     ];
 </script>
 
@@ -166,6 +175,33 @@
             {#snippet narrative()}
                 <p>No problems were recorded at the last review.</p>
             {/snippet}
+        </InternationalPatientSummarySection>
+
+        <InternationalPatientSummarySection
+            section="results"
+            heading="Results"
+            status={results}
+            statusLabel={results === "unavailable" ? "Unavailable" : undefined}
+        >
+            {#if results === "unavailable"}
+                <p>
+                    The results service did not answer, so results cannot be shown. This does not
+                    mean there are none.
+                </p>
+                <button
+                    type="button"
+                    class="button"
+                    onclick={retryResults}>Try again</button
+                >
+            {:else}
+                <p>Potassium 4.6 mmol/L, 3 November 2026.</p>
+            {/if}
+            <p
+                class="patient-summary-results-status"
+                role="status"
+            >
+                {resultsStatus}
+            </p>
         </InternationalPatientSummarySection>
 
         {#snippet details()}

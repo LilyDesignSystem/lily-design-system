@@ -3763,8 +3763,8 @@ carried by P29-T9 and P30-T3.
       as a limit with a comparator; load failures as `unavailable` with a retry; the session location in the header; the active
       visit in the banner; patient flags as a labelled `tag-group` of words.
       Verify: each rule is in the guide; `bin/check-links` passes. _(2026-11-17: done: unknown is not normal, off-scale results, load failures, the session location, the active visit and banner flags are in the guide.)_
-- [ ] **P33-T3 A failed section on `/patient-summary`.** One section `unavailable`, with the consumer's sentence and a retry button.
-      Verify: an e2e test finds the words and the button, and that nothing is announced on load.
+- [x] **P33-T3 A failed section on `/patient-summary`.** One section `unavailable`, with the consumer's sentence and a retry button.
+      Verify: an e2e test finds the words and the button, and that nothing is announced on load. _(2026-11-17: done: `/patient-summary` has a Results section that loads `unavailable`, says so in words ("This does not mean there are none"), and offers Try again; `e2e/healthcare-pages.spec.ts` checks the words, that nothing is announced on load, and that the retry's outcome is.)_
 - [x] **P33-T4 Workspace panel.** A non-modal `<aside aria-labelledby>` on `/patient-dashboard` (P30-T5): close returns focus to
       the opener, minimise keeps the form's state, and closing with unsaved changes asks first in an `alert-dialog`.
       Verify: an e2e test of each, by keyboard alone; axe-clean.
