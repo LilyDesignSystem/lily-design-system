@@ -93,6 +93,10 @@
     <ul>
       <li><code>label</code>: string (required) -- accessible name describing the sparkline data, applied via <code>aria-label</code></li>
       <li><code>children</code>: slot (required) -- the visualization content to render inside the container</li>
+      <li><code>pointCount</code>: number (optional) -- how many readings the consumer's graphic shows</li>
+      <li><code>minimumPoints</code>: number (optional) -- fewer readings than this are not a trend: the graphic is not shown, the root drops <code>role="img"</code> and <code>aria-label</code>, gains <code>data-insufficient</code>, and shows only <code>insufficientLabel</code> as text in <code>.sparkline-insufficient</code> (spec/lessons/zoblocks)</li>
+      <li><code>insufficientLabel</code>: string -- why there is no line, in the consumer's words ("Not enough readings for a trend"); required with <code>minimumPoints</code> (a development warning says so)</li>
+      <li>Breaks: where readings are not comparable (a new method, assay or unit), the consumer draws one <code>&lt;path&gt;</code> per comparable run so the line never joins across the break; the component draws nothing, so it has no <code>breaks</code> prop. The Nunjucks macro, which draws the line from <code>values</code>, takes <code>breaks</code> (indexes where a new run starts) and splits it there</li>
     </ul>
 </section>
 <!-- END generated: canonical contract -->

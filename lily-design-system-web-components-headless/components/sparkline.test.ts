@@ -60,4 +60,15 @@ describe("Sparkline", () => {
 
         expect(host.querySelector("span")!.className).toBe("sparkline my-sparkline");
     });
+
+    test("below minimum-points it shows the consumer's words as text, not the graphic", () => {
+        document.body.innerHTML = `<lily-sparkline label="Weight trend" point-count="2" minimum-points="3" insufficient-label="Not enough readings for a trend"><svg></svg></lily-sparkline>`;
+        const root = document.querySelector(".sparkline") as HTMLElement;
+        expect(root.hasAttribute("data-insufficient")).toBe(true);
+        expect(root.getAttribute("role")).toBeNull();
+        expect(root.querySelector("svg")).toBeNull();
+        expect(root.querySelector(".sparkline-insufficient")?.textContent).toBe(
+            "Not enough readings for a trend",
+        );
+    });
 });

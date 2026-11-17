@@ -48,10 +48,18 @@
 
 import React from "react";
 
+import { warnMissingProp } from "./dev-warning";
+
 export interface SparklineProps {
     className?: string;
     /** Accessible label */
     label?: string;
+    /** How many readings the consumer's graphic shows. */
+    pointCount?: number;
+    /** Fewer readings than this are not a trend: only insufficientLabel is shown, as text. Rendered as data-insufficient. */
+    minimumPoints?: number;
+    /** Why there is no line, in the consumer's words; required with minimumPoints. */
+    insufficientLabel?: string;
     /** The component content */
     children?: React.ReactNode;
     [key: string]: unknown;
@@ -60,17 +68,34 @@ export interface SparklineProps {
 export default function Sparkline({
     className = "",
     label,
+    pointCount,
+    minimumPoints,
+    insufficientLabel,
     children,
     ...restProps
 }: SparklineProps) {
+    if (minimumPoints !== undefined)
+        warnMissingProp(
+            "Sparkline",
+            "insufficientLabel",
+            insufficientLabel,
+            "a sparkline that draws no line must say why in words.",
+        );
+    const insufficient =
+        pointCount !== undefined && minimumPoints !== undefined && pointCount < minimumPoints;
     return (
         <span
             className={`sparkline ${className}`}
-            role="img"
-            aria-label={label}
+            role={insufficient ? undefined : "img"}
+            aria-label={insufficient ? undefined : label}
+            data-insufficient={insufficient ? "" : undefined}
             {...restProps}
         >
-            {children}
+            {insufficient ? (
+                <span className="sparkline-insufficient">{insufficientLabel}</span>
+            ) : (
+                children
+            )}
         </span>
     );
 }

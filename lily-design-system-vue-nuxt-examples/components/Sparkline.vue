@@ -47,18 +47,48 @@
 // References:
 //   - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
 
-defineProps<{
+import { computed } from "vue";
+import { warnMissingProp } from "./dev-warning";
+
+const props = defineProps<{
     label: string;
+    /** How many readings the consumer's graphic shows. */
+    pointCount?: number;
+    /** Fewer readings than this are not a trend: only insufficientLabel is shown, as text. Rendered as data-insufficient. */
+    minimumPoints?: number;
+    /** Why there is no line, in the consumer's words; required with minimumPoints. */
+    insufficientLabel?: string;
 }>();
+
+if (props.minimumPoints !== undefined)
+    warnMissingProp(
+        "Sparkline",
+        "insufficientLabel",
+        props.insufficientLabel,
+        "a sparkline that draws no line must say why in words.",
+    );
+
+const insufficient = computed(
+    () =>
+        props.pointCount !== undefined &&
+        props.minimumPoints !== undefined &&
+        props.pointCount < props.minimumPoints,
+);
 </script>
 
 <template>
     <!-- Sparkline.vue -->
     <span
         class="sparkline"
-        role="img"
-        :aria-label="label"
+        :role="insufficient ? undefined : 'img'"
+        :aria-label="insufficient ? undefined : label"
+        :data-insufficient="insufficient ? '' : undefined"
     >
-        <slot />
+        <span
+            v-if="insufficient"
+            class="sparkline-insufficient"
+            >{{ insufficientLabel }}</span
+        >
+        <slot v-else />
     </span>
 </template>

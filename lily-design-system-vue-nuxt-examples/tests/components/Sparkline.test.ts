@@ -14,4 +14,23 @@ describe("Sparkline", () => {
         render(Subject, { props: { label: "S", "data-testid": "sl" }, slots: { default: "x" } });
         expect(screen.getByTestId("sl")).toBeTruthy();
     });
+
+    test("below minimumPoints it shows the consumer's words as text, not the graphic", () => {
+        const { container } = render(Subject, {
+            props: {
+                label: "Weight trend",
+                pointCount: 2,
+                minimumPoints: 3,
+                insufficientLabel: "Not enough readings for a trend",
+            },
+            slots: { default: "<svg />" },
+        });
+        const root = container.querySelector(".sparkline") as HTMLElement;
+        expect(root.hasAttribute("data-insufficient")).toBe(true);
+        expect(root.getAttribute("role")).toBeNull();
+        expect(root.querySelector("svg")).toBeNull();
+        expect(root.querySelector(".sparkline-insufficient")?.textContent).toBe(
+            "Not enough readings for a trend",
+        );
+    });
 });

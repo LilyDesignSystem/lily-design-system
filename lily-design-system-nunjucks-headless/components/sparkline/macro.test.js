@@ -20,4 +20,32 @@ describe("sparkline", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("breaks split the line, one polyline per comparable run", () => {
+        const { document } = render("sparkline", {
+            label: "Weight",
+            values: [70, 71, 72, 80, 81],
+            breaks: [3],
+        });
+        const lines = document.querySelectorAll(".sparkline svg polyline");
+        expect(lines.length).toBe(2);
+        expect(lines[0].getAttribute("points").split(" ").length).toBe(3);
+        expect(lines[1].getAttribute("points").split(" ").length).toBe(2);
+    });
+
+    it("below minimumPoints there is no line, only the consumer's words as text", () => {
+        const { document } = render("sparkline", {
+            label: "Weight",
+            values: [70, 71],
+            minimumPoints: 3,
+            insufficientLabel: "Not enough readings for a trend",
+        });
+        const root = document.querySelector(".sparkline");
+        expect(root.hasAttribute("data-insufficient")).toBe(true);
+        expect(root.getAttribute("role")).toBeNull();
+        expect(root.querySelector("polyline")).toBeNull();
+        expect(root.querySelector(".sparkline-insufficient").textContent).toBe(
+            "Not enough readings for a trend",
+        );
+    });
 });

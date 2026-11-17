@@ -34,4 +34,20 @@ public class SparklineTests : TestContext
         var root = cut.Find(".sparkline");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Below_MinimumPoints_shows_the_words_as_text_not_the_graphic()
+    {
+        var cut = RenderComponent<Sparkline>(p => p
+            .Add(x => x.Label, "Weight trend")
+            .Add(x => x.PointCount, 2)
+            .Add(x => x.MinimumPoints, 3)
+            .Add(x => x.InsufficientLabel, "Not enough readings for a trend")
+            .AddChildContent("<svg></svg>"));
+        var root = cut.Find(".sparkline");
+        Assert.True(root.HasAttribute("data-insufficient"));
+        Assert.Null(root.GetAttribute("role"));
+        Assert.Empty(cut.FindAll("svg"));
+        Assert.Equal("Not enough readings for a trend", cut.Find(".sparkline-insufficient").TextContent);
+    }
 }

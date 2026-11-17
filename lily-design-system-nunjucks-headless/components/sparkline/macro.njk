@@ -11,6 +11,11 @@
     width       number  SVG width. Default 80.
     height      number  SVG height. Default 24.
     label       string  aria-label (required for meaningful charts).
+    breaks      array   Indexes where a new comparable run starts (a new method or unit): the line is split there, one
+                        <polyline> per run, and never joins across a break.
+    minimumPoints number  Fewer values than this are not a trend: no line, and no role="img"; only insufficientLabel,
+                        as text, with data-insufficient.
+    insufficientLabel string  Why there is no line, in the consumer's words; required with minimumPoints.
     id          string
     classes     string
     attributes  object
@@ -33,17 +38,24 @@
 {%- endfor -%}
 {%- set span = maxV - minV -%}
 {%- set span = span if span > 0 else 1 -%}
+{%- set breaks = p.breaks | default([]) -%}
+{%- set runs = [] -%}
 {%- set points = [] -%}
 {%- for v in values -%}
+  {%- if loop.index0 in breaks and points | length -%}
+    {%- set runs = runs.concat([points | join(' ')]) -%}
+    {%- set points = [] -%}
+  {%- endif -%}
   {%- set x = (loop.index0 * width) / (n - 1 if n > 1 else 1) -%}
   {%- set y = height - ((v - minV) * height) / span -%}
   {%- set points = points.concat([x ~ "," ~ y]) -%}
 {%- endfor -%}
+{%- set runs = runs.concat([points | join(' ')]) -%}
+{%- set insufficient = p.minimumPoints is defined and n < p.minimumPoints -%}
 <span
   class="sparkline{% if p.classes %} {{ p.classes }}{% endif %}"
-  role="img"
-  {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if insufficient %} data-insufficient{% else %} role="img"{% if p.label %} aria-label="{{ p.label }}"{% endif %}{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
-><svg viewBox="0 0 {{ width }} {{ height }}" width="{{ width }}" height="{{ height }}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><polyline fill="none" stroke="currentColor" stroke-width="1.5" points="{{ points | join(' ') }}"/></svg></span>
+>{% if insufficient %}<span class="sparkline-insufficient">{{ p.insufficientLabel }}</span>{% else %}<svg viewBox="0 0 {{ width }} {{ height }}" width="{{ width }}" height="{{ height }}" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">{% for run in runs %}<polyline fill="none" stroke="currentColor" stroke-width="1.5" points="{{ run }}"/>{% endfor %}</svg>{% endif %}</span>
 {%- endmacro -%}

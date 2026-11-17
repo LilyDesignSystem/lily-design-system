@@ -26,4 +26,24 @@ describe("Sparkline", () => {
         );
         expect(screen.getByTestId("sl")).toBeTruthy();
     });
+
+    test("below minimumPoints it shows the consumer's words as text, not the graphic", () => {
+        const { container } = render(
+            <Subject
+                label="Weight trend"
+                pointCount={2}
+                minimumPoints={3}
+                insufficientLabel="Not enough readings for a trend"
+            >
+                <svg />
+            </Subject>,
+        );
+        const root = container.querySelector(".sparkline") as HTMLElement;
+        expect(root.hasAttribute("data-insufficient")).toBe(true);
+        expect(root.getAttribute("role")).toBeNull();
+        expect(root.querySelector("svg")).toBeNull();
+        expect(root.querySelector(".sparkline-insufficient")?.textContent).toBe(
+            "Not enough readings for a trend",
+        );
+    });
 });

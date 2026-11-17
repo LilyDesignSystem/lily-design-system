@@ -50,10 +50,17 @@
       - WAI-ARIA img role: https://www.w3.org/TR/wai-aria-1.2/#img
 *@
 
-<span class="@($"sparkline {CssClass}".Trim())" role="img" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</span>
+<span class="@($"sparkline {CssClass}".Trim())" role="@(Insufficient ? null : "img")" aria-label="@(Insufficient ? null : Label)" data-insufficient="@(Insufficient ? "" : null)" @attributes="AdditionalAttributes">@if (Insufficient) {<span class="sparkline-insufficient">@InsufficientLabel</span>} else {@ChildContent}</span>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>How many readings the consumer's graphic shows.</summary>
+    [Parameter] public int? PointCount { get; set; }
+    /// <summary>Fewer readings than this are not a trend: only InsufficientLabel is shown, as text. Rendered as data-insufficient.</summary>
+    [Parameter] public int? MinimumPoints { get; set; }
+    /// <summary>Why there is no line, in the consumer's words; required with MinimumPoints.</summary>
+    [Parameter] public string? InsufficientLabel { get; set; }
+    private bool Insufficient => PointCount is int count && MinimumPoints is int minimum && count < minimum;
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

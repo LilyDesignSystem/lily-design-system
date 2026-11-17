@@ -28,4 +28,21 @@ describe("Sparkline", () => {
         expect(el.getAttribute("role")).toBe("img");
         expect(el.getAttribute("aria-label")).toBe("Story");
     });
+
+    test("below minimumPoints it shows the consumer's words as text, not the graphic", () => {
+        const fixture = TestBed.createComponent(Sparkline);
+        fixture.componentRef.setInput("label", "Weight trend");
+        fixture.componentRef.setInput("pointCount", 2);
+        fixture.componentRef.setInput("minimumPoints", 3);
+        fixture.componentRef.setInput("insufficientLabel", "Not enough readings for a trend");
+        fixture.detectChanges();
+        const root = (fixture.nativeElement as HTMLElement).querySelector(
+            ".sparkline",
+        ) as HTMLElement;
+        expect(root.hasAttribute("data-insufficient")).toBe(true);
+        expect(root.getAttribute("role")).toBeNull();
+        expect(root.querySelector(".sparkline-insufficient")?.textContent).toBe(
+            "Not enough readings for a trend",
+        );
+    });
 });
