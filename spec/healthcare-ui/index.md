@@ -16,7 +16,7 @@ clinical logic in Lily. Items 1 to 12 were built on 2026-11-14; the rest are ope
 ### In scope
 
 - Display contracts for clinical data: observations and results, allergies, medicines, scores, ages, decision-support cards.
-- Rules for the patient banner composition beyond those in [dhcw-design-system-lessons](../dhcw-design-system-lessons/index.md) item 3.
+- Rules for the patient banner composition beyond those in [dhcw-design-system-lessons](../lessons/dhcw-design-system/index.md) item 3.
 - Shared pure functions for the clinical formatting rules that are about display, not clinical judgement (doses, quantities, ages).
 - Example pages that compose existing components into clinical screens: a patient summary, a ward board, a medicines
   administration chart, an observations chart, a handover form.
@@ -184,7 +184,7 @@ wrong-patient safeguards, the patient banner, results, medicines, dates and time
 
 ## Related topics
 
-- [dhcw-design-system-lessons](../dhcw-design-system-lessons/index.md) — the patient banner composition (item 3).
+- [dhcw-design-system-lessons](../lessons/dhcw-design-system/index.md) — the patient banner composition (item 3).
 - [national-identifiers](../national-identifiers/index.md) — the identifier `-view` components the banner uses.
 - [accessibility](../accessibility/index.md) — live regions, colour, the screen-reader matrix.
 - [internationalization](../internationalization/index.md) — locale, clock and label rules.

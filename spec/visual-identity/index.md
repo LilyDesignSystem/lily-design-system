@@ -71,7 +71,7 @@ generations of a design language, product families, light and dark. Lily has the
 `--color-*` roles, `--radius-*`, `--lily-font-body-latin`) loaded after any base theme, scoped by `[data-brand="..."]` so it
 composes with `[data-theme]` and the theme-picker. Ship one worked example and a `--check` that an overlay only sets
 documented tokens and leaves no content pair under 4.5:1. This overlaps the theme generator in
-[daisyui-lessons](../daisyui-lessons/index.md) item 3: build the overlay format first and let the generator emit it.
+[daisyui-lessons](../lessons/daisyui/index.md) item 3: build the overlay format first and let the generator emit it.
 
 ### 3. Brand colour separate from accessible content colour
 
@@ -155,9 +155,9 @@ theme's `--lily-brand` (item 3), creating it if absent, off by default. Idempote
 ## Related topics
 
 - [theme](../theme/index.md): tokens, the forbidden-literal list, the public-sector adopt-or-decline decisions.
-- [daisyui-lessons](../daisyui-lessons/index.md): the theme generator the overlay format should feed.
+- [daisyui-lessons](../lessons/daisyui/index.md): the theme generator the overlay format should feed.
 - [competitive-position](../competitive-position/index.md): DTCG 2025.10 tokens and the public-sector reference versions.
-- [dhcw-design-system-lessons](../dhcw-design-system-lessons/index.md): a worked case of re-baselining a national identity.
+- [dhcw-design-system-lessons](../lessons/dhcw-design-system/index.md): a worked case of re-baselining a national identity.
 - [accessibility](../accessibility/index.md) and [responsive](../responsive/index.md): the contrast, target-size and reflow rules an identity must still meet.
 - [trademarks](../trademarks.md): Lily's own marks.
 - [citations](../citations/index.md).

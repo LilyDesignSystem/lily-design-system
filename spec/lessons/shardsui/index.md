@@ -7,7 +7,7 @@ review of [ShardsUI](https://shardsui.com/): an unstyled, accessible set of
 35 Svelte 5 components "adapted from Base UI", beta (`v0.1.0-beta.2`, "expect
 API change, and bugs"). It is the base that
 [coss ui-svelte](https://cossui-svelte.com/docs) builds on, so this topic is
-the companion to [coss-ui-lessons](../coss-ui-lessons/index.md); the items
+the companion to [coss-ui-lessons](../coss-ui/index.md); the items
 here are about the _component contracts_ (state vocabulary, menu parts,
 documented defaults), where that topic's are about the surface around them.
 Nothing here is built yet: each item is an open acceptance criterion below.
@@ -52,7 +52,7 @@ unevenly: building the Alpine overlays showed `data-open` on some parts and
 not on their siblings.
 
 - **Deliverable:** one vocabulary in `AGENTS/headless.md` and the
-  [headless](../headless/index.md) topic: `data-open` / `data-closed` for
+  [headless](../../headless/index.md) topic: `data-open` / `data-closed` for
   disclosure state, `data-highlighted` for the roving/active item,
   `data-checked` / `data-unchecked`, `data-disabled`, `data-side` /
   `data-align` for placed popups. ARIA remains the assistive-technology
@@ -133,7 +133,7 @@ Alpine context menu already publishes `--context-menu-x` / `--context-menu-y`.
 
 ## Triage (2026-11-02)
 
-Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
+Every item has a task in [tasks.md](../../../tasks.md) Phase 22 (P12-T16).
 
 | Item | Task    |
 | ---- | ------- |
@@ -152,11 +152,11 @@ Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
 
 ## Related topics
 
-[coss-ui-lessons](../coss-ui-lessons/index.md),
-[headless](../headless/index.md),
-[components](../components/index.md),
-[accessibility](../accessibility/index.md),
-[theme](../theme/index.md).
+[coss-ui-lessons](../coss-ui/index.md),
+[headless](../../headless/index.md),
+[components](../../components/index.md),
+[accessibility](../../accessibility/index.md),
+[theme](../../theme/index.md).
 
 ## Sources
 

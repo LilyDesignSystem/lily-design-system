@@ -2661,7 +2661,7 @@ a task was measured on 2026-10-21; re-measure before closing it.
 
 ## Phase 13 — chanhdai.com and sv-chanhdai lessons (2026-10-22)
 
-From [spec/chanhdai-lessons](spec/chanhdai-lessons/index.md) (items 1-12; reviewed 2026-10-22). Neither repo is a headless
+From [spec/chanhdai-lessons](spec/lessons/chanhdai/index.md) (items 1-12; reviewed 2026-10-22). Neither repo is a headless
 catalog, so most tasks are packaging and contract work. All are unscheduled; P12-T16 should still triage the older
 lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones; re-check before closing a task.
 
@@ -2776,7 +2776,7 @@ lessons topics. Numbers in the spec were measured 2026-10-22 from shallow clones
 
 ## Phase 15 — Stephcraft responsive lessons (2026-10-28)
 
-Source and rationale: [spec/stephcraft-lessons](spec/stephcraft-lessons/index.md). Nothing below was built when the
+Source and rationale: [spec/stephcraft-lessons](spec/lessons/stephcraft/index.md). Nothing below was built when the
 phase was written; all nine tasks were closed 2026-10-28/29 (status per task).
 
 - [x] **P15-T1 Responsive rules.** `AGENTS/responsive.md` and `spec/responsive/`, written 2026-10-28, checked by `bin/test`: mobile first, intrinsic sizing before breakpoints, logical properties, no `100vw` on `body`, reflow at 320 CSS px and 400% zoom.
@@ -2950,7 +2950,7 @@ Rule added 2026-10-29 ([AGENTS/internationalization.md](AGENTS/internationalizat
 
 Sources:
 
-- the "Not verified" list and catalog gaps in [spec/dhcw-design-system-lessons](spec/dhcw-design-system-lessons/index.md);
+- the "Not verified" list and catalog gaps in [spec/dhcw-design-system-lessons](spec/lessons/dhcw-design-system/index.md);
 - the defects Phase 16 found ([spec/competitive-position](spec/competitive-position/index.md),
   `spec/competitive-position/native-primitives.tsv`, `themes/references.tsv`).
 
@@ -3160,8 +3160,8 @@ Plan: [plan.md § Phase 21](plan.md#phase-21--visual-identity-principles-2026-11
 ## Phase 22 — Lessons topics triaged into tasks (2026-11-02)
 
 Plan: [plan.md § Phase 22](plan.md#phase-22--lessons-topics-triaged-into-tasks-2026-11-02). Source topics:
-[bootstrap-lessons](spec/bootstrap-lessons/index.md), [daisyui-lessons](spec/daisyui-lessons/index.md),
-[shardsui-lessons](spec/shardsui-lessons/index.md), [coss-ui-lessons](spec/coss-ui-lessons/index.md). Items marked
+[bootstrap-lessons](spec/lessons/bootstrap/index.md), [daisyui-lessons](spec/lessons/daisyui/index.md),
+[shardsui-lessons](spec/lessons/shardsui/index.md), [coss-ui-lessons](spec/lessons/coss-ui/index.md). Items marked
 "maintainer decision" are decisions first and build tasks only if adopted. P22-T20 can start now.
 
 - [ ] **P22-T1 Component-scoped CSS variables (pilot).** Bootstrap 1. Documented per-component variables on the base class under `:where(...)`, defaulting to `--lily-*` tokens, for `button`, `alert`, `card`, `table`, `dialog` first; listed in each `AGENTS.md` Styles section; `bin/check-theme` fails a theme that lacks one.
@@ -3265,7 +3265,7 @@ Plan: [plan.md § Phase 22](plan.md#phase-22--lessons-topics-triaged-into-tasks-
 
 ## Phase 23 — Design system survey (2026-11-03)
 
-Source and rationale: [spec/design-system-survey-lessons](spec/design-system-survey-lessons/index.md); plan:
+Source and rationale: [spec/design-system-survey-lessons](spec/lessons/design-system-survey/index.md); plan:
 [plan.md § Phase 23](plan.md#phase-23--design-system-survey-2026-11-03). Task numbers match the topic's item numbers. Nothing
 below was built when the phase was written. Marked unverified in that topic: re-check before relying on it.
 
@@ -3325,7 +3325,7 @@ below was built when the phase was written. Marked unverified in that topic: re-
       Verify: `grep -rln 'class="visually-hidden"' AGENTS components/*/index.md` finds nothing.
 
 Notes for P22-T11, T15, T16, T17, T19, T23, T26 and the P16 support policy are in
-[the topic](spec/design-system-survey-lessons/index.md#notes-for-existing-tasks); read them when picking up those tasks.
+[the topic](spec/lessons/design-system-survey/index.md#notes-for-existing-tasks); read them when picking up those tasks.
 
 ## Phase 24 — Local CI/CD (2026-11-04)
 

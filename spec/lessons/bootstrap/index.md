@@ -79,8 +79,8 @@ Bootstrap's `data-bs-theme="dark"` works on `<html>` **or any element**
 and updates live; a snippet in `<head>` sets the attribute before first paint
 to avoid a flash.
 
-- **Deliverable (a):** document, in [theme-picker](../theme-picker/index.md)
-  and [theme](../theme/index.md), the no-flash head snippet for static and
+- **Deliverable (a):** document, in [theme-picker](../../theme-picker/index.md)
+  and [theme](../../theme/index.md), the no-flash head snippet for static and
   SSR pages (read the stored slug, else `prefers-color-scheme`, set
   `data-theme` on the root before the body renders). Check whether the
   existing detect-from-system option already makes this unnecessary in each
@@ -90,7 +90,7 @@ to avoid a flash.
   theme can only apply to the whole document, and each of the 63 files carries
   the same ~3,700 lines of component rules (verified 2026-10-21: the component
   sections of all 63 are byte-identical). The enabling change is in
-  [daisyui-lessons](../daisyui-lessons/index.md) item 1 (token-only themes on
+  [daisyui-lessons](../daisyui/index.md) item 1 (token-only themes on
   `[data-theme]`); decide the mode axis after that lands.
 - **Check:** (a) an e2e test that loads a page with a stored dark theme and
   asserts the first paint already carries it.
@@ -103,7 +103,7 @@ event when it finishes (`shown.bs.modal`). Lily's events are ad hoc:
 `navigate` (cancelable) on the link picker, `close` on dismissibles,
 `lily:confirm` / `lily:cancel`, `overlay-close`.
 
-- **Deliverable:** one convention in [headless](../headless/index.md): every
+- **Deliverable:** one convention in [headless](../../headless/index.md): every
   openable component emits a **cancelable** `lily:open` / `lily:close` before
   the change and a non-cancelable `lily:opened` / `lily:closed` after, bubbling,
   with `detail: { trigger }`; selection components emit `lily:select`. Existing
@@ -169,9 +169,9 @@ organised by _framework_ and layer.
   playbook with a `description` that tells the agent when it applies.
 - **Install line:** document `npx skills add LilyDesignSystem/lily-design-system`
   once the skills sit in a `skills/` directory the CLI can find; the listing
-  decision belongs to the maintainer (see [coss-ui-lessons](../coss-ui-lessons/index.md)
+  decision belongs to the maintainer (see [coss-ui-lessons](../coss-ui/index.md)
   item 4).
-- **Check:** the skills topic ([agent-skills](../agent-skills/index.md))
+- **Check:** the skills topic ([agent-skills](../../agent-skills/index.md))
   lists each; `bin/check-links` covers the references.
 
 ### 7. A Bootstrap-to-Lily migration guide
@@ -199,12 +199,12 @@ invalid on load), server-side `.is-invalid` with `aria-describedby`, and
 accessible.
 
 - **Deliverable:** this feeds item 5 of
-  [coss-ui-lessons](../coss-ui-lessons/index.md): the validity timing doc for
+  [coss-ui-lessons](../coss-ui/index.md): the validity timing doc for
   `field` and `error-message` adopts the same two hooks: a
   `data-validated` attribute on the form that gates invalid styling, and
   `aria-invalid` plus `aria-describedby` on the control. The headless layer
   ships no rules.
-- **Revised 2026-10-21:** [daisyui-lessons](../daisyui-lessons/index.md) item 5
+- **Revised 2026-10-21:** [daisyui-lessons](../daisyui/index.md) item 5
   proposes the native `:user-invalid` instead of a `data-validated` form hook,
   which removes the need for script to gate invalid styling. Decide there first;
   keep this hook only as the fallback if the browser-support floor requires it.
@@ -225,7 +225,7 @@ card clickable through one real link. Lily's themes already carry
 - **Deliverable (b):** a documented "whole-card link" recipe for `card`: one
   `<a>` in the heading whose `::after` covers the card (consumer CSS), with
   nested links and buttons kept above it. This is a recipe (see
-  [coss-ui-lessons](../coss-ui-lessons/index.md) item 1), not a new
+  [coss-ui-lessons](../coss-ui/index.md) item 1), not a new
   component.
 - **Check:** (a) the contrast check; (b) a recipe test asserting one link and
   a visible focus indicator.
@@ -248,17 +248,17 @@ version switcher (v6 alpha, 5.3, 4.6, …), and an "Optimize" page.
 
 ## Not adopted
 
-| Bootstrap idea                                     | Why not                                                                                                                                                                                                                                 |
-| -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Utilities API and generated utility classes        | A CSS framework; ruled out by the root spec                                                                                                                                                                                             |
-| `llms-full.txt` (Bootstrap publishes it)           | [llms-json-and-llms-txt](../llms-json-and-llms-txt/index.md) records a decision against it; revisit only if that spec's reason (a curated map beats a content dump) stops holding; its absence of a generator is not by itself a reason |
-| Sass sources and `$enable-dark-mode`-style options | Lily themes are plain CSS                                                                                                                                                                                                               |
-| Tooltip-style validation feedback                  | Bootstrap documents it as inaccessible (item 5)                                                                                                                                                                                         |
-| HTML sanitizer for option strings                  | No such options exist                                                                                                                                                                                                                   |
+| Bootstrap idea                                     | Why not                                                                                                                                                                                                                                    |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Utilities API and generated utility classes        | A CSS framework; ruled out by the root spec                                                                                                                                                                                                |
+| `llms-full.txt` (Bootstrap publishes it)           | [llms-json-and-llms-txt](../../llms-json-and-llms-txt/index.md) records a decision against it; revisit only if that spec's reason (a curated map beats a content dump) stops holding; its absence of a generator is not by itself a reason |
+| Sass sources and `$enable-dark-mode`-style options | Lily themes are plain CSS                                                                                                                                                                                                                  |
+| Tooltip-style validation feedback                  | Bootstrap documents it as inaccessible (item 5)                                                                                                                                                                                            |
+| HTML sanitizer for option strings                  | No such options exist                                                                                                                                                                                                                      |
 
 ## Triage (2026-11-02)
 
-Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
+Every item has a task in [tasks.md](../../../tasks.md) Phase 22 (P12-T16).
 
 | Item | Task                                                 |
 | ---- | ---------------------------------------------------- |
@@ -288,17 +288,17 @@ Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
 
 ## Related topics
 
-[theme](../theme/index.md), [theme-picker](../theme-picker/index.md),
-[headless](../headless/index.md), [accessibility](../accessibility/index.md),
-[agent-skills](../agent-skills/index.md),
-[llms-json-and-llms-txt](../llms-json-and-llms-txt/index.md),
-[coss-ui-lessons](../coss-ui-lessons/index.md),
-[shardsui-lessons](../shardsui-lessons/index.md),
-[citations](../citations/index.md).
+[theme](../../theme/index.md), [theme-picker](../../theme-picker/index.md),
+[headless](../../headless/index.md), [accessibility](../../accessibility/index.md),
+[agent-skills](../../agent-skills/index.md),
+[llms-json-and-llms-txt](../../llms-json-and-llms-txt/index.md),
+[coss-ui-lessons](../coss-ui/index.md),
+[shardsui-lessons](../shardsui/index.md),
+[citations](../../citations/index.md).
 
 ## Sources
 
 - [Bootstrap](https://getbootstrap.com/) (v6.0.0-alpha.1 home page; read 2026-10-21).
 - [JavaScript](https://getbootstrap.com/docs/5.3/getting-started/javascript/), [CSS variables](https://getbootstrap.com/docs/5.3/customize/css-variables/), [Color modes](https://getbootstrap.com/docs/5.3/customize/color-modes/), [Accessibility](https://getbootstrap.com/docs/5.3/getting-started/accessibility/), [Form validation](https://getbootstrap.com/docs/5.3/forms/validation/) (5.3).
 - [Bootstrap & AI docs](https://getbootstrap.com/docs/6.0/getting-started/ai/) (v6 alpha).
-- Lily's own state: [themes/](../../themes/), [bin/check-theme](../../bin/check-theme), [COMPARE.md](../../COMPARE.md).
+- Lily's own state: [themes/](../../../themes/), [bin/check-theme](../../../bin/check-theme), [COMPARE.md](../../../COMPARE.md).

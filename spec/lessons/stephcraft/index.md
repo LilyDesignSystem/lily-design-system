@@ -27,8 +27,8 @@ deliberately not adopted.
 
 - Shipping CSS in the headless layer. Every item that needs CSS lands in the
   `themes/`, the example apps or the docs, never in a headless library (root
-  rule, [headless](../headless/index.md)).
-- A CSS framework or utility classes ([theme](../theme/index.md)).
+  rule, [headless](../../headless/index.md)).
+- A CSS framework or utility classes ([theme](../../theme/index.md)).
 - Device detection or user-agent sniffing: the page's "device categories"
   (watch, mobile, tablet, laptop, desktop, TV) are a way to think, not a
   switch.
@@ -47,15 +47,15 @@ opened; its "Grid" reference link points to a Flexbox article.
 
 ## What Lily already matches
 
-| The page says                                         | Lily today                                                                                                                                    |
-| ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| Use semantic landmarks (`main`, `header`, `aside`, …) | Suffix-to-element table; `grail-layout` is `header`/`aside`/`main`/`aside`/`footer`.                                                          |
-| Cap line length near 720px                            | `container-with-fixed-width` (a configurable maximum) and `container-with-fluid-width` (full width plus inline padding).                      |
-| Centre with `margin-inline: auto`                     | `container-with-fluid-width` sets `padding-inline`; centring is the consumer's CSS.                                                           |
-| Responsive grid without breakpoints                   | `grid` already accepts a string `columns`, so `repeat(auto-fit, minmax(min(150px, 100%), 1fr))` can be passed today (see item 4).             |
-| Respect the viewer's device (`(hover: none)`)         | P10-T3 plans coarse-pointer target sizes; all 63 themes carry `prefers-reduced-motion`.                                                       |
-| Breakpoints in `rem`, not `px`                        | The themes use `48rem` (Tailwind's `md`), so they already follow the viewer's font size.                                                      |
-| A responsive test sweep                               | Every example app runs a four-viewport sweep (mobile, tablet, desktop, 4K) asserting no horizontal overflow ([testing](../testing/index.md)). |
+| The page says                                         | Lily today                                                                                                                                       |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Use semantic landmarks (`main`, `header`, `aside`, …) | Suffix-to-element table; `grail-layout` is `header`/`aside`/`main`/`aside`/`footer`.                                                             |
+| Cap line length near 720px                            | `container-with-fixed-width` (a configurable maximum) and `container-with-fluid-width` (full width plus inline padding).                         |
+| Centre with `margin-inline: auto`                     | `container-with-fluid-width` sets `padding-inline`; centring is the consumer's CSS.                                                              |
+| Responsive grid without breakpoints                   | `grid` already accepts a string `columns`, so `repeat(auto-fit, minmax(min(150px, 100%), 1fr))` can be passed today (see item 4).                |
+| Respect the viewer's device (`(hover: none)`)         | P10-T3 plans coarse-pointer target sizes; all 63 themes carry `prefers-reduced-motion`.                                                          |
+| Breakpoints in `rem`, not `px`                        | The themes use `48rem` (Tailwind's `md`), so they already follow the viewer's font size.                                                         |
+| A responsive test sweep                               | Every example app runs a four-viewport sweep (mobile, tablet, desktop, 4K) asserting no horizontal overflow ([testing](../../testing/index.md)). |
 
 ## The items
 
@@ -69,7 +69,7 @@ from the page and checked against WCAG 2.2:
 - Prefer intrinsic sizing (`minmax()`, `min()`, `clamp()` for spacing, `flex-wrap`)
   to breakpoints; use a breakpoint only when the layout genuinely changes.
 - Logical properties (`inline-size`, `margin-inline`) so right-to-left needs no
-  second stylesheet ([internationalization](../internationalization/index.md)).
+  second stylesheet ([internationalization](../../internationalization/index.md)).
 - Never `width: 100vw` on `body` (it adds a horizontal scrollbar).
 - Reflow: no horizontal scrolling at 320 CSS pixels wide (WCAG 1.4.10), and
   text that still works at 400% zoom (1.4.4).
@@ -169,7 +169,7 @@ wide (the 1.4.10 reflow width) and 400% browser zoom (1.4.4). Add a narrow-
 container case for item 2.
 
 Check: the added widths are in every app's sweep and in
-[testing](../testing/index.md)'s table.
+[testing](../../testing/index.md)'s table.
 
 ### 9. Fluid spacing, not fluid text
 
@@ -220,17 +220,17 @@ fluid value has a `rem` floor.
 
 ## Related topics
 
-[theme](../theme/index.md), [components](../components/index.md),
-[accessibility](../accessibility/index.md),
-[internationalization](../internationalization/index.md),
-[testing](../testing/index.md), [examples](../examples/index.md),
-[headless](../headless/index.md),
-[chanhdai-lessons](../chanhdai-lessons/index.md),
-[daisyui-lessons](../daisyui-lessons/index.md),
-[citations](../citations/index.md).
+[theme](../../theme/index.md), [components](../../components/index.md),
+[accessibility](../../accessibility/index.md),
+[internationalization](../../internationalization/index.md),
+[testing](../../testing/index.md), [examples](../../examples/index.md),
+[headless](../../headless/index.md),
+[chanhdai-lessons](../chanhdai/index.md),
+[daisyui-lessons](../daisyui/index.md),
+[citations](../../citations/index.md).
 
 ## Sources
 
 - [Stephcraft: Responsive CSS](https://stephcraft.net/docs/responsive) (read 2026-10-28).
-- Lily's own state, measured 2026-10-28: the 63 [themes/](../../themes/) (`@media (max-width: 48rem)` in every file, one `40rem` query in NHS Wales for patients, no `@container`); [grid](../../components/grid/AGENTS.md); [grail-layout](../../components/grail-layout/index.md); [container-with-fixed-width](../../components/container-with-fixed-width/index.md).
+- Lily's own state, measured 2026-10-28: the 63 [themes/](../../../themes/) (`@media (max-width: 48rem)` in every file, one `40rem` query in NHS Wales for patients, no `@container`); [grid](../../../components/grid/AGENTS.md); [grail-layout](../../../components/grail-layout/index.md); [container-with-fixed-width](../../../components/container-with-fixed-width/index.md).
 - [WCAG 2.2: 1.4.4 Resize Text](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html) and [1.4.10 Reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html).

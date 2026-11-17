@@ -223,7 +223,7 @@ Goal: make the guarantees as strong as the breadth. Tasks P12-T1 to P12-T17 in [
 
 Goal: adopt the packaging and contract ideas from two reviewed repositories without importing their styling or effects.
 Tasks P13-T1 to P13-T16 in [tasks.md](tasks.md); detail and sources in
-[spec/chanhdai-lessons](spec/chanhdai-lessons/index.md).
+[spec/chanhdai-lessons](spec/lessons/chanhdai/index.md).
 
 1. **Repo and tooling hygiene**: a generated-files table, `--dry-run` scaffolders, golden tests for the generators,
    a port-parity check (P13-T1, T4, T5, T7).
@@ -387,7 +387,7 @@ The 29 untasked items in the Bootstrap, daisyUI, ShardsUI and coss ui lessons to
 
 A survey of 18 systems Lily had not reviewed in depth: React Aria, Base UI, Angular Aria, Cauldron, Lion, KoliBri, NL Design
 System, Aksel, Designsystemet, Suomi.fi, UAE, UX4G, GOV.CO, Diia, Primer, Polaris, EUI and PatternFly. Full findings and limits:
-[spec/design-system-survey-lessons](spec/design-system-survey-lessons/index.md). Tasks:
+[spec/design-system-survey-lessons](spec/lessons/design-system-survey/index.md). Tasks:
 [tasks.md](tasks.md#phase-23--design-system-survey-2026-11-03).
 
 The finding: the strongest systems give adopters proof tools (pattern testers, lint rules, codemods, published evidence), where

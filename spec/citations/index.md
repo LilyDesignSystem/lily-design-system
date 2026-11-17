@@ -140,7 +140,7 @@ Reuters-specific branding, third-party integrations, or already-covered componen
 - [accessibility](../accessibility/index.md) — WAI-ARIA APG and the standards these references inform
 - [components](../components/index.md) — the catalog the Reuters-influenced slugs live in
 - [overview](../overview/index.md) — Lily's vision and where these references fit
-- [design-system-survey-lessons](../design-system-survey-lessons/index.md) — the 2026-11-03 survey these later rows come from
+- [design-system-survey-lessons](../lessons/design-system-survey/index.md) — the 2026-11-03 survey these later rows come from
 
 ## Sources
 

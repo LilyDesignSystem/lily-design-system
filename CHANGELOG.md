@@ -767,7 +767,7 @@ Published 2026-11-05: `html-headless` 0.9.0, `svelte-headless` 0.7.0, `react-hea
 
 ## Pattern testers, CSP, lifecycle, IBAN, calendar systems — 2026-11-03
 
-From the [survey of 18 design systems](spec/design-system-survey-lessons/index.md), tasks.md Phase 23.
+From the [survey of 18 design systems](spec/lessons/design-system-survey/index.md), tasks.md Phase 23.
 
 - **Catalog 609:** `iban-input` and `iban-view` in every headless library and example app, `experimental`.
 - **Calendar systems:** a `calendar` prop on `date-time-picker` in all eight catalogs, with no new dependency (`shared/calendar-system.ts` over `Intl`; `CalendarSystem.cs` and a `CalendarId` parameter in Blazor). The value stays ISO Gregorian, and so does the typed field.

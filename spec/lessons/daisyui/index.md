@@ -9,7 +9,7 @@ plugin of semantic component classes (`btn`, `card`, `toggle`), 68 components,
 Markdown, a skill file, an official MCP server). daisyUI is not just an
 inspiration: **Lily's themes descend from it**. 35 of the 63 `themes/` are
 daisyUI-derived (credited in each file's header, see
-[CHANGELOG](../../CHANGELOG.md)), and Lily already uses its token set. The
+[CHANGELOG](../../../CHANGELOG.md)), and Lily already uses its token set. The
 useful question is therefore what Lily has _not_ taken. Nothing here is built
 yet: each item is an open acceptance criterion.
 
@@ -24,7 +24,7 @@ adopted.
 ### Explicitly out of scope
 
 - A Tailwind dependency, Tailwind plugin packaging, or utility classes (root
-  spec rule, repeated in [theme](../theme/index.md)).
+  spec rule, repeated in [theme](../../theme/index.md)).
 - daisyUI's decorative components (Aura, Hover 3D card, Hover Gallery, Text
   Rotate): motion and decoration are the consumer's.
 - Selling templates.
@@ -67,7 +67,7 @@ component rules for the whole catalog. Measured 2026-10-21: every one of the
 - **Wins:** `theme-picker` swaps a ~3 KB file instead of ~29 KB gzipped; the
   component sheet is cached once; nested sections ("force this card dark")
   work; the mode-axis question in
-  [bootstrap-lessons](../bootstrap-lessons/index.md) item 2 becomes tractable.
+  [bootstrap-lessons](../bootstrap/index.md) item 2 becomes tractable.
 - **Risks to test first:** `color-scheme` on a subtree; the default-theme
   `:where(:root, …)` cascade; anchor-positioned popups inside a scoped theme;
   `bin/sync` copies of `themes/` into the seven example apps and the docs site.
@@ -125,7 +125,7 @@ variants are whatever the example app invents.
   documented in a **Variants** table in each component's `AGENTS.md`.
 - **Themes:** all 63 style the attributes (`[data-color="primary"]`).
 - **Overlap:** state attributes are item 1 of
-  [shardsui-lessons](../shardsui-lessons/index.md); agree one naming rule for
+  [shardsui-lessons](../shardsui/index.md); agree one naming rule for
   both (`data-` plus a lower-case word) so they cannot collide.
 - **Check:** `bin/check-data-attributes` (shardsui-lessons item 1) extended
   with the variant allow-list.
@@ -141,8 +141,8 @@ invalid on load. The platform now solves that: `:user-invalid` /
   invalid state with `:user-invalid` and `[aria-invalid="true"]` (the latter for
   server-rendered errors), and show the linked error text with
   `:has(:user-invalid)`. This replaces the `data-validated` form hook proposed
-  in [bootstrap-lessons](../bootstrap-lessons/index.md) item 8 and the timing in
-  [coss-ui-lessons](../coss-ui-lessons/index.md) item 5; update both.
+  in [bootstrap-lessons](../bootstrap/index.md) item 8 and the timing in
+  [coss-ui-lessons](../coss-ui/index.md) item 5; update both.
 - **Before committing:** confirm the support floor against the browser policy
   recorded in the root spec; if it is below the floor, keep the form hook as
   the fallback and document both.
@@ -155,7 +155,7 @@ invalid on load. The platform now solves that: `:user-invalid` /
 Each daisyUI component page offers _Copy docs_, _Open in ChatGPT_, _Open in
 Claude_ (a prompt pre-filled with the raw Markdown URL), _Markdown doc_, _View
 source CSS_ and a "Text version for AI prompts". This extends item 3 of
-[coss-ui-lessons](../coss-ui-lessons/index.md), which proposes only the
+[coss-ui-lessons](../coss-ui/index.md), which proposes only the
 Markdown link.
 
 - **Deliverable:** on `/components/{slug}`: Copy Markdown, Open in Claude, Open
@@ -176,7 +176,7 @@ with v4"), a **component discovery protocol** ("match the meaning, even when
 the words differ from component names"), and a uniform entry per component
 (summary, docs link, class names, syntax with placeholders, rules).
 Lily's `llms.txt` is a curated link map by design
-([llms-json-and-llms-txt](../llms-json-and-llms-txt/index.md)).
+([llms-json-and-llms-txt](../../llms-json-and-llms-txt/index.md)).
 
 - **Deliverable:** keep the curated map and add, beside it, generated rules
   files: `llms-rules.md` (the assistant-facing rules: base class first, text
@@ -203,7 +203,7 @@ and docs but no server an agent can query for a component.
 
 - **Deliverable:** `lily-design-system-mcp`, a read-only stdio MCP server
   exposing four tools: `list_components(category?)`, `get_component(slug)`
-  (the manifest from [coss-ui-lessons](../coss-ui-lessons/index.md) item 2),
+  (the manifest from [coss-ui-lessons](../coss-ui/index.md) item 2),
   `find_component(intent)` (match against the Use-when lines from item 7) and
   `check_markup(html)` (base class first, accessible name present, no inline
   styles, no hard-coded strings in known text positions).
@@ -223,7 +223,7 @@ the `--lily-error-text` pattern (error mixed into `base-content`), but
 
 - **Deliverable (a):** a "Using colour tokens" page: the pair rule, the muted-text
   rule (mix into `base-content`, never a free colour), the status-text rule
-  already in [theme](../theme/index.md), and the "one primary action per view"
+  already in [theme](../../theme/index.md), and the "one primary action per view"
   guidance.
 - **Deliverable (b):** make the pair contrast a gate in `bin/test`: every
   `--color-X` / `--color-X-content` pair at AA at least, with a checked-in
@@ -259,7 +259,7 @@ example apps.
   theme.
 - **Deliverable (b):** a docs-site playground: edit a Lily HTML snippet, pick a
   theme from the picker, see the result and the axe result, share by URL.
-  Recipes ([coss-ui-lessons](../coss-ui-lessons/index.md) item 1) open in it.
+  Recipes ([coss-ui-lessons](../coss-ui/index.md) item 1) open in it.
 - **Rule:** the playground runs entirely in the browser; the shared URL holds
   the snippet in the fragment, so nothing is stored server-side.
 - **Check:** each guide's snippet is built in CI.
@@ -290,7 +290,7 @@ alone. Each needs a real ARIA contract to qualify, per the root spec:
 
 ## Triage (2026-11-02)
 
-Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
+Every item has a task in [tasks.md](../../../tasks.md) Phase 22 (P12-T16).
 
 | Item | Task    |
 | ---- | ------- |
@@ -323,17 +323,17 @@ Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
 
 ## Related topics
 
-[theme](../theme/index.md), [theme-picker](../theme-picker/index.md),
-[accessibility](../accessibility/index.md),
-[llms-json-and-llms-txt](../llms-json-and-llms-txt/index.md),
-[agent-skills](../agent-skills/index.md),
-[bootstrap-lessons](../bootstrap-lessons/index.md),
-[coss-ui-lessons](../coss-ui-lessons/index.md),
-[shardsui-lessons](../shardsui-lessons/index.md),
-[citations](../citations/index.md).
+[theme](../../theme/index.md), [theme-picker](../../theme-picker/index.md),
+[accessibility](../../accessibility/index.md),
+[llms-json-and-llms-txt](../../llms-json-and-llms-txt/index.md),
+[agent-skills](../../agent-skills/index.md),
+[bootstrap-lessons](../bootstrap/index.md),
+[coss-ui-lessons](../coss-ui/index.md),
+[shardsui-lessons](../shardsui/index.md),
+[citations](../../citations/index.md).
 
 ## Sources
 
 - [daisyUI](https://daisyui.com/) (v5.7.50 home page; read 2026-10-21), [themes](https://daisyui.com/docs/themes/), [colors](https://daisyui.com/docs/colors/), [components](https://daisyui.com/components/), [Button](https://daisyui.com/components/button/), [llms.txt](https://daisyui.com/llms.txt).
-- Lily's own state, measured 2026-10-21: [themes/](../../themes/) (63 files, 134 KB each, identical component sections), [CHANGELOG.md](../../CHANGELOG.md) (35 of 63 themes daisyUI-derived), [bin/check-theme](../../bin/check-theme).
+- Lily's own state, measured 2026-10-21: [themes/](../../../themes/) (63 files, 134 KB each, identical component sections), [CHANGELOG.md](../../../CHANGELOG.md) (35 of 63 themes daisyUI-derived), [bin/check-theme](../../../bin/check-theme).
 - [MDN: :user-invalid](https://developer.mozilla.org/en-US/docs/Web/CSS/:user-invalid) for item 5's support floor.

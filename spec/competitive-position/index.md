@@ -33,8 +33,8 @@ The eleven items below, mapped to the COMPARE.md row each one answers, and what 
 ### Explicitly out of scope
 
 - **Handing users a finished visual design.** The "ship a good-looking app this week" row is a deliberate trade-off
-  ([theme](../theme/index.md)). The starters in [bootstrap-lessons](../bootstrap-lessons/index.md) and the token-only
-  themes in [daisyui-lessons](../daisyui-lessons/index.md) are the planned answer, and this topic adds nothing to them.
+  ([theme](../theme/index.md)). The starters in [bootstrap-lessons](../lessons/bootstrap/index.md) and the token-only
+  themes in [daisyui-lessons](../lessons/daisyui/index.md) are the planned answer, and this topic adds nothing to them.
 - **A vendor relationship or SLA.** One unpaid maintainer cannot offer one. Item 10 makes the support that does exist
   explicit; it does not pretend to be a contract.
 - **New catalog rows.** Every item here deepens existing components.

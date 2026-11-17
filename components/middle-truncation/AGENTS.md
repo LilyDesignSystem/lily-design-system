@@ -59,4 +59,4 @@
 - Documentation: index.md
 - CSS class: `.middle-truncation` in css-style-sheet-template.css
 - Algorithm: shared/middle-truncation.ts
-- Origin: the chanhdai.com / sv-chanhdai `middle-truncation`, which renders only the shortened string ([chanhdai-lessons](../../spec/chanhdai-lessons/index.md) item 12)
+- Origin: the chanhdai.com / sv-chanhdai `middle-truncation`, which renders only the shortened string ([chanhdai-lessons](../../spec/lessons/chanhdai/index.md) item 12)

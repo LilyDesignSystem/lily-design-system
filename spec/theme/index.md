@@ -296,7 +296,7 @@ The six adopted themes were built 2026-10-31 (tasks.md P17-T9a): `canada-governm
 
 ### Candidates read 2026-11-03 (P23-T12)
 
-From the [design system survey](../design-system-survey-lessons/index.md). Licences are as read from each repository or npm
+From the [design system survey](../lessons/design-system-survey/index.md). Licences are as read from each repository or npm
 listing that day. Regions still without a public-sector theme include the Arab world, Africa, Spanish-speaking Latin
 America, the Nordics and South Asia. These are recommendations, not yet maintainer decisions.
 

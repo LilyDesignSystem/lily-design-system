@@ -118,7 +118,7 @@ already a wheel, and it is the answer for a closed picker ([native-primitives.ts
 
 ## Related topics
 
-- [chanhdai-lessons](../chanhdai-lessons/index.md): item 12 added `wheel-picker` to the catalog.
+- [chanhdai-lessons](../lessons/chanhdai/index.md): item 12 added `wheel-picker` to the catalog.
 - [date-time-picker](../date-time-picker/index.md): the helper that should compose it.
 - [helpers](../helpers/index.md): the rule that applying a value is idempotent.
 - [competitive-position](../competitive-position/index.md): the native-platform decisions.

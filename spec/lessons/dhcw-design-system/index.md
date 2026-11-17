@@ -9,7 +9,7 @@ nine design principles, a type scale, a colour page, page templates and an acces
 class prefix, Sass tokens named `$nhswales-*`, and ships every component as HTML plus a Nunjucks macro.
 
 This is the second DHCW source Lily has read. The earlier one, the `nhsw-component-library` repository, is what the two
-Wales themes track today (see [theme](../theme/index.md) and the themes' "Upstream tracked" lines). The new site publishes
+Wales themes track today (see [theme](../../theme/index.md) and the themes' "Upstream tracked" lines). The new site publishes
 **different link colours** from that baseline (item 1), which is the most concrete finding. All eight items were implemented on
 2026-10-28; see Decisions and Implementation status below.
 
@@ -22,7 +22,7 @@ The eight items below, each with a deliverable, a source of truth and a check.
 ### Explicitly out of scope
 
 - Copying DHCW's class names or Sass tokens: Lily's classes are kebab-case with no brand prefix
-  ([examples](../examples/index.md)), and its tokens are DTCG JSON.
+  ([examples](../../examples/index.md)), and its tokens are DTCG JSON.
 - DHCW's Figma prototypes and its "Prototyping Kit" (in development; the site says so).
 - Catalog parity: DHCW has 28 components, Lily 583 (582 when reviewed). The catalog-gap table below lists only where DHCW has something Lily
   lacks.
@@ -52,10 +52,10 @@ cards per row on desktop but uses a `one-half` column class; its header example 
 | An 11-colour tag palette (`white`, `grey`, `aqua-green`, `blue`, … `dhcw-blue`)             | The Wales themes carry `data-tone` for 12 tones, including `navy` and `on-dark`.                                                                                                         |
 | Skip link, breadcrumbs, back link, action link, summary list, inset text, details, expander | All in the catalog.                                                                                                                                                                      |
 | Summary list as a `dl` of key, value and actions                                            | `summary-list` exists; its item is a consumer-filled `li`, so the `dl` shape is the consumer's choice.                                                                                   |
-| Principle 4, "Design services in Welsh and English", equal standing                         | Lily's no-hardcoded-strings rule, and a `:lang(cy)` block in both Wales themes ([internationalization](../internationalization/index.md)).                                               |
+| Principle 4, "Design services in Welsh and English", equal standing                         | Lily's no-hardcoded-strings rule, and a `:lang(cy)` block in both Wales themes ([internationalization](../../internationalization/index.md)).                                            |
 | Principle 7, open standards, common components, shared patterns                             | The catalog, the DTCG token source and the public monorepo.                                                                                                                              |
 | Never auto-advance between the day, month and year fields; set `autocomplete="bday-*"`      | `date-input` is a fieldset of separate fields and its docs already name `bday-day`, `bday-month` and `bday-year`; its docs do not yet say never to auto-advance between fields (add it). |
-| Do not rely on colour alone for a tag; give a text label                                    | [Accessibility](../accessibility/index.md) "no colour-only meaning".                                                                                                                     |
+| Do not rely on colour alone for a tag; give a text label                                    | [Accessibility](../../accessibility/index.md) "no colour-only meaning".                                                                                                                  |
 
 ## The items
 
@@ -94,7 +94,7 @@ Escape, and **pushes the content down instead of covering it**. The toggle carri
 `hidden` until needed.
 
 This is the right behaviour for reflow (WCAG 1.4.10): the Nunjucks Eleventy example's header overflowed by 5px at 320px
-this month ([stephcraft-lessons](../stephcraft-lessons/index.md) item 8) until it was allowed to wrap. Lily has
+this month ([stephcraft-lessons](../stephcraft/index.md) item 8) until it was allowed to wrap. Lily has
 `navigation-menu`, `menu-bar` and `hamburger-menu`, and none measures its own width.
 
 - **Deliverable:** decide the shape (see open questions), then specify it: progressive enhancement (wrapping is the no-script
@@ -140,7 +140,7 @@ is a composition, not a component, and should be written down as one. The rules 
 DHCW ships a fixed mobile bottom navigation and tells authors to add a body class so content is not hidden behind it. That
 is the failure WCAG 2.2 names Focus Not Obscured (2.4.11, AA): a focused control hidden behind a fixed bar. Lily has fixed
 bars (`sticky-promo-banner` top and bottom, and any theme that fixes a header), yet 2.4.11 is cited in one topic only
-(`bootstrap-lessons`) and nowhere in [accessibility](../accessibility/index.md) or `AGENTS/accessibility.md`, and none of
+(`bootstrap-lessons`) and nowhere in [accessibility](../../accessibility/index.md) or `AGENTS/accessibility.md`, and none of
 the 63 themes sets `scroll-padding`.
 
 - **Deliverable:** add 2.4.11 to the accessibility rules; a shared theme section with `scroll-padding-block` equal to the
@@ -157,8 +157,8 @@ mention Welsh. This is the same gap the earlier review found. Welsh runs about 2
 nothing tests for it.
 
 - **Deliverable:** a pseudo-locale fixture (each label lengthened by 30 percent and set `lang="cy"`) for the responsive
-  sweep ([stephcraft-lessons](../stephcraft-lessons/index.md) item 8), run at 320px; one sentence in
-  [responsive](../responsive/index.md) naming the allowance.
+  sweep ([stephcraft-lessons](../stephcraft/index.md) item 8), run at 320px; one sentence in
+  [responsive](../../responsive/index.md) naming the allowance.
 - **Check:** the sweep fails on horizontal overflow or on a clipped label (an element whose text is wider than its box with
   `overflow: hidden`).
 
@@ -179,7 +179,7 @@ says so.
 
 DHCW's `data-prevent-double-click="true"` ignores a second click, works only with JavaScript, and the page itself tells
 authors to guard on the server as well. Lily's plan is the pending-state contract for async buttons
-([chanhdai-lessons](../chanhdai-lessons/index.md) item 9): the button stays focusable and announces that it is pending. A
+([chanhdai-lessons](../chanhdai/index.md) item 9): the button stays focusable and announces that it is pending. A
 silent "ignore the second click" attribute fails the user who double-clicks on purpose (a retry) and gives no feedback.
 
 - **Deliverable:** none new; record in `button`'s Advice that duplicate submission is prevented on the server and shown by
@@ -207,7 +207,7 @@ Where DHCW has something Lily does not (and where Lily's version should adopt a 
   Lily's `tag` is a `<span>`.
 - **Inline event handlers** (`onsubmit="return false;"`) in examples.
 - **One colour, many meanings.** DHCW uses the red tag for both "Urgent" and "Rejected". Lily's status tones are tied to a
-  meaning, not a hue ([accessibility](../accessibility/index.md): no colour-only meaning).
+  meaning, not a hue ([accessibility](../../accessibility/index.md): no colour-only meaning).
 - **Analytics.** The site opts visitors in to Microsoft Clarity. Lily's docs site sets no analytics script (checked `app.html` and the
   root layout), and a design system that sets a cookie it does not have to is a poor example.
 - **Figma-first prototyping.** Lily's reference is the working example apps.
@@ -243,7 +243,7 @@ at a 320px viewport (`overflow-wrap: anywhere` is now on each app's `body`); two
 
 **Nunjucks Eleventy (2026-10-29):** the build was escaping all macro and page output because `.eleventy.js` built its environment from plain `nunjucks` while Eleventy 3 renders with its `@11ty/nunjucks` fork; `package.json` now aliases `nunjucks` to the fork, and the responsive and focus-obscured specs pass there (174 passed, Chromium).
 
-**Follow-ups closed 2026-10-29** in [tasks.md](../../tasks.md) Phase 18:
+**Follow-ups closed 2026-10-29** in [tasks.md](../../../tasks.md) Phase 18:
 
 - **P18-T1:** the responsive, focus-obscured and accessibility specs pass in Chromium, Firefox and WebKit in all seven
   apps.
@@ -271,10 +271,10 @@ Playwright's builds ran).
 
 ## Related topics
 
-[theme](../theme/index.md), [accessibility](../accessibility/index.md),
-[internationalization](../internationalization/index.md), [responsive](../responsive/index.md),
-[stephcraft-lessons](../stephcraft-lessons/index.md), [chanhdai-lessons](../chanhdai-lessons/index.md),
-[components](../components/index.md), [citations](../citations/index.md).
+[theme](../../theme/index.md), [accessibility](../../accessibility/index.md),
+[internationalization](../../internationalization/index.md), [responsive](../../responsive/index.md),
+[stephcraft-lessons](../stephcraft/index.md), [chanhdai-lessons](../chanhdai/index.md),
+[components](../../components/index.md), [citations](../../citations/index.md).
 
 ## Sources
 

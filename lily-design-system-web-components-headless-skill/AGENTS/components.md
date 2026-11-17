@@ -1,6 +1,6 @@
 ## Components
 
-The canonical catalog of 632 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
+The canonical catalog of 633 components lives in [components.tsv](../components.tsv) — tab-separated rows of `slug	PascalCase	description`. Read that file for the full listing rather than maintaining a duplicate here.
 
 Use the bin tools to query the catalog programmatically:
 
@@ -376,4 +376,4 @@ the bottom of the viewport. It is navigation, so its items are real links in a `
   obscured" section turns it into `scroll-padding-block` and a focused control is never hidden behind the bar (WCAG 2.2 SC
   2.4.11). Unset it where the bar is not fixed.
 - Targets are at least 24 by 24 CSS pixels (WCAG 2.5.8), and the bar respects `env(safe-area-inset-bottom)`.
-- Source: the DHCW Design System's mobile bottom navigation ([spec/dhcw-design-system-lessons](../spec/dhcw-design-system-lessons/index.md), catalog gaps).
+- Source: the DHCW Design System's mobile bottom navigation ([spec/dhcw-design-system-lessons](../spec/lessons/dhcw-design-system/index.md), catalog gaps).

@@ -6,7 +6,7 @@ Fifteen improvements to Lily, notes for eight existing tasks, and a list of what
 survey of 18 design systems Lily had not reviewed in depth: headless libraries (React Aria, Base UI, Angular Aria),
 accessibility-led and white-label libraries (Cauldron, Lion, KoliBri), eight public-sector systems,
 and product systems (Primer, Polaris, EUI, PatternFly). Items 1 to 4, 6, 14 and 15 are built or under way (status in the tasks); the rest are open. The tasks are
-[tasks.md Phase 23](../../tasks.md#phase-23--design-system-survey-2026-11-03).
+[tasks.md Phase 23](../../../tasks.md#phase-23--design-system-survey-2026-11-03).
 
 The main finding: **the strongest systems ship proof tools to their consumers, not only components.** React Aria ships
 pattern testers, EUI and Aksel ship lint rules, Aksel and PatternFly ship codemods, and NL Design System publishes the
@@ -60,15 +60,15 @@ and an Intent to Ship; the Chrome Platform Status page did not render. MDN state
 
 ## What Lily already matches
 
-| They do                                                                                                   | Lily today                                                                                                                |
-| --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| NL Design System's Baseline names the six browser and screen-reader pairings; Suomi.fi publishes a matrix | [screen-reader matrix](../../docs/screen-reader-matrix.md) has the same six pairings. Lily's is **empty**: 0 of 120 cells |
-| Status by evidence (NL relay model, Primer lifecycle)                                                     | `stable` 151, `beta` 444, `experimental` 11, `discouraged` 1, promoted by evidence ([components](../components/index.md)) |
-| Light DOM welcomed by Polaris developers                                                                  | Web Components catalog is light-DOM only                                                                                  |
-| Designsystemet: "Use native elements"; `command` and `popover`                                            | Native `<dialog>` and Popover API, recorded in [native-primitives.tsv](../competitive-position/native-primitives.tsv)     |
-| Web components as the framework-neutral base (KoliBri, Lion, Polaris, Designsystemet)                     | Eight catalogs, with Web Components as one. Polaris archiving its React library shows the cost of a single-framework bet  |
-| Docs as Markdown and `llms.txt` (Base UI, Aksel, Designsystemet)                                          | `.md` twins, `/r/{slug}.json`, root and site `llms.txt`                                                                   |
-| Duplicate registration guard                                                                              | `customElements.get` in 575 Web Components files                                                                          |
+| They do                                                                                                   | Lily today                                                                                                                   |
+| --------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| NL Design System's Baseline names the six browser and screen-reader pairings; Suomi.fi publishes a matrix | [screen-reader matrix](../../../docs/screen-reader-matrix.md) has the same six pairings. Lily's is **empty**: 0 of 120 cells |
+| Status by evidence (NL relay model, Primer lifecycle)                                                     | `stable` 151, `beta` 444, `experimental` 11, `discouraged` 1, promoted by evidence ([components](../../components/index.md)) |
+| Light DOM welcomed by Polaris developers                                                                  | Web Components catalog is light-DOM only                                                                                     |
+| Designsystemet: "Use native elements"; `command` and `popover`                                            | Native `<dialog>` and Popover API, recorded in [native-primitives.tsv](../../competitive-position/native-primitives.tsv)     |
+| Web components as the framework-neutral base (KoliBri, Lion, Polaris, Designsystemet)                     | Eight catalogs, with Web Components as one. Polaris archiving its React library shows the cost of a single-framework bet     |
+| Docs as Markdown and `llms.txt` (Base UI, Aksel, Designsystemet)                                          | `.md` twins, `/r/{slug}.json`, root and site `llms.txt`                                                                      |
+| Duplicate registration guard                                                                              | `customElements.get` in 575 Web Components files                                                                             |
 
 ## The items
 
@@ -78,7 +78,7 @@ and an Intent to Ship; the Chrome Platform Status page did not render. MDN state
 with methods for a pattern, for CheckboxGroup, ComboBox, Dialog, GridList, ListBox, Menu, RadioGroup, Select, Table, Tabs and
 Tree. Its docs advise querying by role, because ARIA semantics change less often than DOM structure.
 
-**Lily today.** Each catalog hand-ports its own keyboard tests. [Lily Core](../../docs/core.md) criterion (a), keyboard and
+**Lily today.** Each catalog hand-ports its own keyboard tests. [Lily Core](../../../docs/core.md) criterion (a), keyboard and
 ARIA-state tests in all eight libraries, is met by **3 of 40** candidates. P22-T32 found up to 227 Angular and 211 Blazor
 components that differ from Svelte at the root.
 
@@ -128,7 +128,7 @@ Fame needs production use at "ten minste twee verschillende organisaties" and an
 Aksel keeps deprecated components in their own visible group.
 
 **Lily today.** Three statuses, none for the end of a component's life. `docs/releasing.md` covers a broken published
-version, not a superseded component. The notice period in [competitive-position item 10](../competitive-position/index.md) is
+version, not a superseded component. The notice period in [competitive-position item 10](../../competitive-position/index.md) is
 unwritten. Production reports "accelerate promotion" but are not required.
 
 **Proposal.** Add `deprecated` (with replacement and removal version) and `discouraged` (with reason, evidence and
@@ -147,7 +147,7 @@ used; "Newly available" needs a working alternative that is itself Baseline; sup
 **Lily today.** Features are chosen case by case. Applying NL's rule shows the risk: CSS anchor positioning went Baseline in
 January 2026 and the themes rely on it, and the Popover API was Baseline in 2025. Neither is "widely available" yet.
 
-**Proposal.** A `## Baseline` section in [testing](../testing/index.md): the supported browser window, the six pairings, and a
+**Proposal.** A `## Baseline` section in [testing](../../testing/index.md): the supported browser window, the six pairings, and a
 rule that a "newly available" feature needs a named fallback or a recorded exception. Add a column to
 `native-primitives.tsv`.
 
@@ -202,7 +202,7 @@ changes while typing unless input is clearly invalid; do not disable submit; one
 On the summary it is explicit: move focus to it **rather than** using `role="alert"` or `aria-live`, and not both. Lion separates
 `hasFeedbackFor` (is it invalid) from `showsFeedbackFor` (is the message visible), and has error, warning, info and success.
 
-**Lily today.** `error-summary` has **both** `role="alert"` and `tabindex="-1"`, and [theme](../theme/index.md) says to move
+**Lily today.** `error-summary` has **both** `role="alert"` and `tabindex="-1"`, and [theme](../../theme/index.md) says to move
 focus to it. GOV.UK also combines them, with `role="alert"` in a child and a comment about a race condition, so the two
 systems disagree. Lily has no validation pattern page and no warning state for a field.
 
@@ -243,7 +243,7 @@ the identifier family and written by hand elsewhere.
 ### 12. Close the regional theme gaps
 
 **Source.** Public-sector licences read for this survey; see
-[theme](../theme/index.md#candidates-read-2026-11-03-p23-t12).
+[theme](../../theme/index.md#candidates-read-2026-11-03-p23-t12).
 
 **Lily today.** 14 public-sector themes, with none from the Arab world, Africa, Spanish-speaking Latin America or the Nordics.
 
@@ -262,7 +262,7 @@ Toolbar, Accordion, Tabs, Tree and Grid.
 catalog with the most drift (P22-T32). It meets Core criterion (a) on 11 of 40. Its peer range is `>=20 <23`.
 
 **Proposal.** A one-component spike on `tree` or `combobox`, measuring lines removed, tests kept, bundle change and the effect
-on the peer range. This pulls against the shared machine in [competitive-position item 3](../competitive-position/index.md), so
+on the peer range. This pulls against the shared machine in [competitive-position item 3](../../competitive-position/index.md), so
 decide after the spike. The argument for it: it is the Angular team's own code, in a catalog with a lot of drift. The argument
 against: a dependency that may not be stable, and a different engine from the other catalogs.
 
@@ -342,13 +342,13 @@ Advice, in order. The first four are the ones to do even if nothing else here ha
 
 ## Related topics
 
-- [competitive-position](../competitive-position/index.md) — Lily Core, the shared behaviour core, the support policy
-- [testing](../testing/index.md) — where the baseline and pattern testers belong
-- [accessibility](../accessibility/index.md) — the WCAG target and the screen-reader evidence
-- [theme](../theme/index.md) — the adopt-or-decline table for public-sector systems
-- [internationalization](../internationalization/index.md) — the worldwide rule, calendars
-- [national-identifiers](../national-identifiers/index.md) — the components item 11 covers first
-- [citations](../citations/index.md) — design systems Lily learns from
+- [competitive-position](../../competitive-position/index.md) — Lily Core, the shared behaviour core, the support policy
+- [testing](../../testing/index.md) — where the baseline and pattern testers belong
+- [accessibility](../../accessibility/index.md) — the WCAG target and the screen-reader evidence
+- [theme](../../theme/index.md) — the adopt-or-decline table for public-sector systems
+- [internationalization](../../internationalization/index.md) — the worldwide rule, calendars
+- [national-identifiers](../../national-identifiers/index.md) — the components item 11 covers first
+- [citations](../../citations/index.md) — design systems Lily learns from
 
 ## Sources
 
@@ -366,7 +366,7 @@ Advice, in order. The first four are the ones to do even if nothing else here ha
 - [EUI ESLint plugin](https://www.npmjs.com/package/%40elastic/eslint-plugin-eui), [PatternFly upgrade guide](https://www.patternfly.org/releases/upgrade-guide)
 - [Scoped focusgroup explainer](https://open-ui.org/components/scoped-focusgroup.explainer/), [Chrome focusgroup feedback request](https://developer.chrome.com/blog/focusgroup-rfc), [MDN `closedBy`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/closedBy)
 - [GOV.UK error summary template](https://github.com/alphagov/govuk-frontend/blob/main/packages/govuk-frontend/src/govuk/components/error-summary/template.njk)
-- Lily: [Lily Core](../../docs/core.md), [screen-reader matrix](../../docs/screen-reader-matrix.md), [tasks.md](../../tasks.md)
+- Lily: [Lily Core](../../../docs/core.md), [screen-reader matrix](../../../docs/screen-reader-matrix.md), [tasks.md](../../../tasks.md)
 
 ---
 

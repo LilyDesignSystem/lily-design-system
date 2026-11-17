@@ -223,7 +223,7 @@ Goal: make the guarantees as strong as the breadth. Tasks P12-T1 to P12-T17 in [
 
 Goal: adopt the packaging and contract ideas from two reviewed repositories without importing their styling or effects.
 Tasks P13-T1 to P13-T16 in [tasks.md](tasks.md); detail and sources in
-[spec/chanhdai-lessons](spec/chanhdai-lessons/index.md).
+[spec/chanhdai-lessons](spec/lessons/chanhdai/index.md).
 
 1. **Repo and tooling hygiene**: a generated-files table, `--dry-run` scaffolders, golden tests for the generators,
    a port-parity check (P13-T1, T4, T5, T7).
@@ -387,7 +387,7 @@ The 29 untasked items in the Bootstrap, daisyUI, ShardsUI and coss ui lessons to
 
 A survey of 18 systems Lily had not reviewed in depth: React Aria, Base UI, Angular Aria, Cauldron, Lion, KoliBri, NL Design
 System, Aksel, Designsystemet, Suomi.fi, UAE, UX4G, GOV.CO, Diia, Primer, Polaris, EUI and PatternFly. Full findings and limits:
-[spec/design-system-survey-lessons](spec/design-system-survey-lessons/index.md). Tasks:
+[spec/design-system-survey-lessons](spec/lessons/design-system-survey/index.md). Tasks:
 [tasks.md](tasks.md#phase-23--design-system-survey-2026-11-03).
 
 The finding: the strongest systems give adopters proof tools (pattern testers, lint rules, codemods, published evidence), where
@@ -457,6 +457,75 @@ viewer can leave out. The healthcare components are also not yet published. Find
 [tasks.md](tasks.md#phase-28--lessons-from-the-international-patient-summary-viewer-2026-11-14).
 
 Status (2026-11-14): T1 to T9 done (catalog 629: the record lists, with `allergy-list` renamed `allergy-record-list`); released to npm and NuGet the same day.
+
+## Phase 29 — Lessons from openEHR (2026-11-16)
+
+A review of openEHR, the open standard for health records: its Reference Model data types and absence codes, its record model
+(entries, the Instruction State Machine, versions, attestation, feeder audit) and the forms built on its templates (Medblocks
+UI). openEHR is a data standard, so the lessons are display and input contracts: partial dates, "not applicable", approximate
+quantities, proportions, durations, named reference ranges, whose record an entry is about, a quantity with its unit, and a
+mapping table for adopters. A form generator, archetypes, terminology and clinical logic are declined. Findings:
+[spec/lessons/openehr](spec/lessons/openehr/index.md). Tasks: [tasks.md](tasks.md#phase-29--lessons-from-openehr-2026-11-16).
+
+Status (2026-11-16): researched; nothing built. T1 to T4 first (small changes to existing contracts that stop a screen adding
+precision or attribution the record lacks); T9 and T10 are maintainer decisions.
+
+## Phase 30 — Lessons from OpenEMR (2026-11-16)
+
+A review of OpenEMR, the open-source EHR and practice management application. It adds no components: Phases 27 and 28 cover what
+its clinical screens need. It shows how those screens go wrong (status by colour alone, a blinking overdue entry, a board that
+refreshes itself, several patients open in tabs, a review of systems where "not asked" reads as "denied"), so the work is three
+example pages, safety rules and patterns for the healthcare guide, and an audit of the `calendar` helper. Billing, US code sets,
+e-prescribing and integrations are declined. Findings: [spec/lessons/openemr](spec/lessons/openemr/index.md). Tasks:
+[tasks.md](tasks.md#phase-30--lessons-from-openemr-2026-11-16).
+
+Status (2026-11-16): researched; nothing built. T1 and T2 (guide rules) first; T5 after Phase 29's T4 and T9.
+
+## Phase 31 — Lessons from ZoBlocks (2026-11-16)
+
+A review of ZoBlocks, an MIT healthcare component library for React typed to FHIR R4, Lily's closest peer. Both refuse a blank
+for a missing value. ZoBlocks adds what Lily lacks: coverage statements (what a list is a view of), withheld and in-error entries
+kept visible, a corrected result that keeps the superseded value, signature outcomes other than "signed" with a typed
+alternative, menus that name their subject first, and grid focus that follows the row. The last is a defect in Lily's data grid:
+focus is kept by row index, so a sort moves it to another patient. Declined: a `mixed` switch (not valid ARIA), English sentences
+built inside components, themed loaders. Findings: [spec/lessons/zoblocks](spec/lessons/zoblocks/index.md). Tasks:
+[tasks.md](tasks.md#phase-31--lessons-from-zoblocks-2026-11-16).
+
+Status (2026-11-16): researched; nothing built. T1 (the data grid fix) first.
+
+## Phase 32 — Lessons from Magic UI (2026-11-16)
+
+A review of Magic UI, 150+ animated React components (MIT) installed through a shadcn registry namespace. It is almost all motion
+and decoration, which Lily's headless and reduced-motion rules decline, and its pages reviewed mention no reduced motion, pause
+control or ARIA. The lessons are narrow: an overflow count on `avatar-group`, a hover-and-focus rule, a motion recipes page that
+shows how to get such effects on Lily components without failing WCAG, an opt-in view transition for the theme picker, a
+terminal transcript pattern, and, for the maintainer, an accessible `marquee` and a namespaced registry listing. Findings:
+[spec/lessons/magicui](spec/lessons/magicui/index.md). Tasks: [tasks.md](tasks.md#phase-32--lessons-from-magic-ui-2026-11-16).
+
+Status (2026-11-16): researched; nothing built.
+
+## Phase 33 — Lessons from OpenMRS (2026-11-17)
+
+A review of OpenMRS 3, the open-source medical record used in more than 70 countries, built on React and IBM Carbon. Its
+styleguide source shows the defects Lily's healthcare contracts exist to prevent: a result with no reference range, or one still
+loading, is treated as "normal"; an abnormal value is colour and a `title`; every empty widget says "There are no {items}"; a failed
+load shows an HTTP status with no retry. The work is a never-normal test, guide rules for load failures, off-scale results, the
+session location, the active visit and banner flags, a non-modal workspace panel on the dashboard page, and a "saved on this
+device" provenance state. Findings: [spec/lessons/openmrs](spec/lessons/openmrs/index.md). Tasks:
+[tasks.md](tasks.md#phase-33--lessons-from-openmrs-2026-11-17).
+
+Status (2026-11-17): researched; nothing built. T1 first.
+
+## Phase 34 — Lessons from Retool's input components (2026-11-17)
+
+A review of Retool's 2021 announcement of 35+ rebuilt input components for its low-code builder. Lily already has nearly all of
+them. Four gaps: a two-thumb range on native inputs, a combobox that says when nothing matches and how many do, a drop zone on
+`file-upload` that keeps the button as the keyboard path, and (for the maintainer) a multi-select listbox. Guide patterns for
+formatted numbers while editing and for long lists. Declined: relative-date parsing and silent number clamping, which change what
+the user typed. Findings: [spec/lessons/retool](spec/lessons/retool/index.md). Tasks:
+[tasks.md](tasks.md#phase-34--lessons-from-retools-input-components-2026-11-17).
+
+Status (2026-11-17): researched; nothing built. T2 first.
 
 ---
 

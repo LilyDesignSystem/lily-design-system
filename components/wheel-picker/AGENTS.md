@@ -83,4 +83,4 @@
 - CSS class: `.wheel-picker` in css-style-sheet-template.css
 - Key model: shared/wheel-picker.ts
 - [WAI-ARIA APG: Listbox](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/)
-- Origin: the chanhdai.com / sv-chanhdai `wheel-picker` ([chanhdai-lessons](../../spec/chanhdai-lessons/index.md) item 12)
+- Origin: the chanhdai.com / sv-chanhdai `wheel-picker` ([chanhdai-lessons](../../spec/lessons/chanhdai/index.md) item 12)

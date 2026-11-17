@@ -71,7 +71,7 @@ full-width blocks). Moving the themes to `min-width` queries is not planned: the
 
 ## Related topics
 
-- [stephcraft-lessons](../stephcraft-lessons/index.md) — the review these rules and the planned work come from
+- [stephcraft-lessons](../lessons/stephcraft/index.md) — the review these rules and the planned work come from
 - [theme](../theme/index.md) — where responsive CSS lives
 - [headless](../headless/index.md) — the zero-CSS boundary
 - [accessibility](../accessibility/index.md) — WCAG 1.4.4 and 1.4.10

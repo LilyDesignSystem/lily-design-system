@@ -91,7 +91,7 @@ only).
 ### 4. Publish the skills where agents look
 
 coss lists its skills (`coss`, `coss-particles`) on skills.sh and tessl.
-Lily has 27 skill packages (see [agent-skills](../agent-skills/index.md)).
+Lily has 27 skill packages (see [agent-skills](../../agent-skills/index.md)).
 
 - **Deliverable:** confirm which registries index the skills; list the two
   entry skills (`lily-design-system-skill`,
@@ -120,7 +120,7 @@ Complete Form). Its page leaves _when_ an error appears undefined.
   `aria-describedby` / `aria-errormessage` and the error text.
 - **Revised 2026-10-21:** the "validate on blur after first interaction" timing can
   be had natively from `:user-invalid` / `:user-valid`, which match only after the
-  user has interacted; see [daisyui-lessons](../daisyui-lessons/index.md) item 5.
+  user has interacted; see [daisyui-lessons](../daisyui/index.md) item 5.
   Script is then needed only for the submit-time summary and focus move.
 - **Rule:** headless layer ships no validation rules (they stay the
   consumer's); the pattern only wires the attributes.
@@ -134,7 +134,7 @@ Lily has `chat-nav`, `chat-list`, `chat-message`, `chat-composer`,
 Chat UI its own docs section.
 
 - **Deliverable:** a `/chat-interface` composed page in every example app
-  (alongside the 12 in [examples](../examples/index.md)): a conversation,
+  (alongside the 12 in [examples](../../examples/index.md)): a conversation,
   a streaming reply, a tool call that errors, and the composer with stop.
 - **Rule:** scripted content only; no network, no model calls.
 - **Check:** an axe sweep and a keyboard-only Playwright test per app, like
@@ -157,7 +157,7 @@ language models can understand, reason about, and modify them". Lily already
 behaves this way (class-first rule, suffix to element table, per-component
 `AGENTS.md`) but never says so.
 
-- **Deliverable:** one principle in [headless](../headless/index.md) and
+- **Deliverable:** one principle in [headless](../../headless/index.md) and
   `AGENTS/headless.md`: _predictability is a feature_. Names, tags and
   sub-classes follow the suffix table; a component's behaviour must be
   derivable from its slug and its `AGENTS.md`; exceptions are documented in
@@ -166,7 +166,7 @@ behaves this way (class-first rule, suffix to element table, per-component
 
 ## Triage (2026-11-02)
 
-Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
+Every item has a task in [tasks.md](../../../tasks.md) Phase 22 (P12-T16).
 
 | Item | Task    |
 | ---- | ------- |
@@ -188,15 +188,15 @@ Every item has a task in [tasks.md](../../tasks.md) Phase 22 (P12-T16).
 
 ## Related topics
 
-[components](../components/index.md),
-[llms-json-and-llms-txt](../llms-json-and-llms-txt/index.md),
-[agent-skills](../agent-skills/index.md),
-[examples](../examples/index.md),
-[headless](../headless/index.md),
-[citations](../citations/index.md).
+[components](../../components/index.md),
+[llms-json-and-llms-txt](../../llms-json-and-llms-txt/index.md),
+[agent-skills](../../agent-skills/index.md),
+[examples](../../examples/index.md),
+[headless](../../headless/index.md),
+[citations](../../citations/index.md).
 
 ## Sources
 
 - [coss ui-svelte](https://cossui-svelte.com/), [its docs](https://cossui-svelte.com/docs) and [Field page](https://cossui-svelte.com/docs/components/field) (unofficial port; read 2026-10-21).
 - [coss ui](https://coss.com/ui) and its [skills listing](https://www.skills.sh/cosscom/coss/coss-particles) (seen via search results only).
-- [AGENTS/citations.md](../../AGENTS/citations.md), which already lists Coss UI.
+- [AGENTS/citations.md](../../../AGENTS/citations.md), which already lists Coss UI.

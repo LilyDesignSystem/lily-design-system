@@ -20,7 +20,7 @@ layer and docs components are not effects at all. Items 8-11 come from the
 latter, item 12 from the widgets. The rest of what
 transfers is the _packaging_: how one source tree yields a registry, docs,
 raw-Markdown pages and `llms.txt`, and how a port stays in step with its
-original. This topic complements [coss-ui-lessons](../coss-ui-lessons/index.md)
+original. This topic complements [coss-ui-lessons](../coss-ui/index.md)
 (recipes, manifests, Copy Markdown), which it deliberately does not repeat.
 Nothing here is built yet: each item is an open acceptance criterion below.
 
@@ -39,8 +39,8 @@ check, and the open questions that need a maintainer decision.
   among the `chan/` components are assessed in item 12.
 - The `ui/` layer's styling and its bits-ui / Tailwind dependencies; only its
   contracts are considered. Its overlap with
-  [shardsui-lessons](../shardsui-lessons/index.md) and
-  [coss-ui-lessons](../coss-ui-lessons/index.md) (menus, tooltips, dialogs,
+  [shardsui-lessons](../shardsui/index.md) and
+  [coss-ui-lessons](../coss-ui/index.md) (menus, tooltips, dialogs,
   sheets) is not repeated.
 - Tailwind, `motion`, `next-themes`, `c15t`: Lily takes no framework or
   animation dependency.
@@ -95,7 +95,7 @@ topic specs.
 - **Deliverable:** `.md` twins for the site's main pages and the topic index
   pages, each linked from `llms.txt` / `llms.json`.
 - **Related:** coss's Copy Markdown button in
-  [coss-ui-lessons](../coss-ui-lessons/index.md); the twin is its target.
+  [coss-ui-lessons](../coss-ui/index.md); the twin is its target.
 - **Check:** `bin/generate-sitemap --check`-style drift check: every route
   with an HTML page has a `.md` twin or an allow-listed reason.
 
@@ -108,7 +108,7 @@ but are not announced in a per-component convention.
 
 - **Deliverable:** decide between `/components/{slug}.md` (today) and
   `/components/{slug}/llms.txt`, document the choice in
-  [llms-json-and-llms-txt](../llms-json-and-llms-txt/index.md), and make the
+  [llms-json-and-llms-txt](../../llms-json-and-llms-txt/index.md), and make the
   `llms.json` entries point at the chosen form.
 - **Why:** one predictable URL per component is what lets a skill fetch only
   what it needs.
@@ -185,13 +185,13 @@ query and each provider is `{ title, createUrl(query), icon }`. It builds on
 the providers are hard-coded.
 
 - **Deliverable:** a documented recipe (in the recipes layer proposed by
-  [coss-ui-lessons](../coss-ui-lessons/index.md)) built on `menu-picker` or
+  [coss-ui-lessons](../coss-ui/index.md)) built on `menu-picker` or
   `share-picker`: the consumer passes `targets`, each with `href(query)`.
 - **Rule:** Lily ships no provider endpoints, exactly as `share-picker` ships
   no social-network URLs; which assistants belong in a product is an editorial
   and privacy decision, and the URLs change.
 - **Related:** the AI page links in
-  [daisyui-lessons](../daisyui-lessons/index.md) and Copy Markdown in
+  [daisyui-lessons](../daisyui/index.md) and Copy Markdown in
   coss-ui-lessons are the same feature; one recipe should serve all three.
 - **Check:** the recipe's test asserts real links with `rel="noopener"` and
   a URL-encoded query.
@@ -288,9 +288,9 @@ even-split strategies are an enum.
   schema-compatible with shadcn / shadcn-svelte (copy-in distribution
   alongside the npm packages) is a distribution decision for the maintainer,
   and overlaps the manifests item in
-  [coss-ui-lessons](../coss-ui-lessons/index.md).
+  [coss-ui-lessons](../coss-ui/index.md).
 - **MCP config in the repo.** Both repos commit an `.mcp.json` / `.cursor/mcp.json`.
-  Lily's [daisyui-lessons](../daisyui-lessons/index.md) already proposes a
+  Lily's [daisyui-lessons](../daisyui/index.md) already proposes a
   read-only MCP server; committing a project config that points at it is the
   small follow-up, once the server exists.
 - **A "registry stats" file.** chanhdai.com emits `registry-stats.json`
@@ -307,7 +307,7 @@ even-split strategies are an enum.
   the same on animated demos. Not an item: it is demo chrome.
 - **Not copied:** the animated-effect catalogue; shipping
   a `Tailwind`-class component source; the sponsor-logo block in the README
-  (Lily's [free-open-source-funding](../free-open-source-funding/index.md)
+  (Lily's [free-open-source-funding](../../free-open-source-funding/index.md)
   topic already governs this).
 
 ## Acceptance criteria
@@ -328,13 +328,13 @@ even-split strategies are an enum.
 
 ## Related topics
 
-[coss-ui-lessons](../coss-ui-lessons/index.md),
-[daisyui-lessons](../daisyui-lessons/index.md),
-[llms-json-and-llms-txt](../llms-json-and-llms-txt/index.md),
-[tooling](../tooling/index.md),
-[testing](../testing/index.md),
-[accessibility](../accessibility/index.md),
-[frameworks](../frameworks/index.md).
+[coss-ui-lessons](../coss-ui/index.md),
+[daisyui-lessons](../daisyui/index.md),
+[llms-json-and-llms-txt](../../llms-json-and-llms-txt/index.md),
+[tooling](../../tooling/index.md),
+[testing](../../testing/index.md),
+[accessibility](../../accessibility/index.md),
+[frameworks](../../frameworks/index.md).
 
 ## Sources
 
