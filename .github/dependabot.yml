@@ -338,6 +338,7 @@ updates:
     # One top-level subproject per Solid helper package (2026-11-17).
     directories:
       - "/lily-design-system-solid-menu-picker"
+      - "/lily-design-system-solid-settings-picker"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
