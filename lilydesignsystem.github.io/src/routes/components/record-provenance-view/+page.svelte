@@ -6,7 +6,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<span class=\"record-provenance-view\" data-attestation=\"pending\" data-source=\"device\"><span class=\"record-provenance-view-attestation\">Awaiting signature</span> <span class=\"record-provenance-view-source\">From a blood pressure monitor</span> <span class=\"record-provenance-view-author\">Dr A Patel</span> <time class=\"record-provenance-view-recorded\" datetime=\"2026-11-03T09:00\">Recorded 09:00</time></span>";
   const svelteSource: string = "// In your Svelte component:\nimport RecordProvenanceView from \"lily-design-system-svelte-headless/components/RecordProvenanceView/RecordProvenanceView.svelte\";\n\n<RecordProvenanceView>\n  <!-- content -->\n</RecordProvenanceView>\n";
-  const usageCode: string = "<RecordProvenanceView attestation=\"pending\" attestationLabel=\"Awaiting signature\" authorLabel=\"Dr A Patel\" />\n";
+  const usageCode: string = "<RecordProvenanceView\n  attestation=\"pending\"\n  attestationLabel=\"Awaiting signature\"\n  authorLabel=\"Dr A Patel\"\n/>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>

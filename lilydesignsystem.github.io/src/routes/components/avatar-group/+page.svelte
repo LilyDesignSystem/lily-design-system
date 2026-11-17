@@ -1,166 +1,100 @@
 <script lang="ts">
-    const intro: string =
-        '<h1>AvatarGroup</h1>\n\n<p>An avatar group displays a collection of avatar components in a stacked or clustered layout, commonly used to show multiple users, participants, or contributors in a compact space. Avatar groups typically overlap or truncate to indicate the total count.</p>\n\n<p>This headless component uses a <code>&lt;div&gt;</code> element with <code>role="group"</code> and an <code>aria-label</code> to provide accessible grouping semantics for the contained avatar components.</p>\n\n';
-    const usage: string =
-        '<h2>Usage</h2>\n\n<p>Care team avatar group:</p>\n\n<pre tabindex="0"><code class="language-html">&lt;AvatarGroup label="Care team"&gt;\n  &lt;Avatar src="/photos/sarah-mitchell.jpg" alt="Dr Sarah Mitchell" initials="SM" /&gt;\n  &lt;Avatar alt="Nurse James Lee" initials="JL" /&gt;\n  &lt;Avatar alt="Dr Priya Sharma" initials="PS" /&gt;\n&lt;/AvatarGroup&gt;</code></pre>\n\n<p>Conversation participants:</p>\n\n<pre tabindex="0"><code class="language-html">&lt;AvatarGroup label="Participants in this thread"&gt;\n  &lt;Avatar alt="Alice Chen" initials="AC" /&gt;\n  &lt;Avatar alt="Bob Rivera" initials="BR" /&gt;\n  &lt;Avatar alt="Carol Okonkwo" initials="CO" /&gt;\n  &lt;Avatar alt="David Park" initials="DP" /&gt;\n&lt;/AvatarGroup&gt;</code></pre>\n\n';
-    const rest: string =
-        '<h2>Props</h2>\n\n<ul>\n<li><code>label</code>: string (required) -- accessible label for the avatar group</li>\n<li><code>children</code>: slot -- avatar components</li>\n<li><code>...restProps</code>: Any additional HTML attributes</li>\n</ul>\n\n<h2>Keyboard Interactions</h2>\n\n<ul>\n<li>None -- avatar groups are informational, not interactive</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li><code>role="group"</code> -- semantically groups the contained avatars</li>\n<li><code>aria-label</code> -- describes the purpose of the group</li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Use to display a stacked group of avatars, such as showing team members or participants in a conversation.</li>\n<li>Use when the overlapping visual treatment communicates that multiple people are involved in a shared context.</li>\n<li>Use when space is limited and a compact representation of multiple people is needed, such as in a card header or toolbar.</li>\n</ul>\n\n<h2>When Not to Use</h2>\n\n<ul>\n<li>Do not use for a single avatar -- render Avatar directly.</li>\n<li>Do not use when each person needs their own detail space or interactive actions -- use a list of Person components instead.</li>\n<li>Do not use when the exact identity of each person matters more than the group -- consider a full member list instead.</li>\n</ul>\n\n<h2>Headless</h2>\n\n<p>This component provides <code>role="group"</code> with <code>aria-label</code> for accessible grouping, with zero visual styling. The consumer is responsible for all CSS including overlap positioning, z-index stacking, max visible count, truncation indicator, and spacing.</p>\n\n<h2>Styles</h2>\n\n<p>The consumer provides all CSS styling. The component renders with an <code>.avatar-group</code> class for targeting. No default styles are included -- this is a fully headless component.</p>\n\n<h2>Testing</h2>\n\n<ul>\n<li>Verify the component renders a <code>&lt;div&gt;</code> element with class <code>avatar-group</code></li>\n<li>Verify <code>role="group"</code> is present</li>\n<li>Verify <code>aria-label</code> is applied</li>\n<li>Verify child avatar components are rendered</li>\n<li>Verify pass-through attributes are applied</li>\n</ul>\n\n<h2>Advice</h2>\n\n<ul>\n<li><strong>Designers</strong>: Overlap avatars by 25-50% to indicate grouping. Show a "+N" indicator when truncating. Maintain consistent avatar sizing within the group.</li>\n<li><strong>Developers</strong>: Always provide a descriptive <code>label</code> prop that conveys the group\'s purpose to screen readers.</li>\n</ul>\n\n<h2>Implementation Notes</h2>\n\n<ul>\n<li>Uses <code>&lt;div&gt;</code> element with <code>role="group"</code> to semantically group avatars</li>\n<li><code>aria-label</code> describes the group (e.g., "Team members")</li>\n<li>Renders child avatar components in source order</li>\n<li>Consumer controls overlap, spacing, and truncation via CSS</li>\n</ul>\n\n<h2>Composition</h2>\n\n<p>AvatarGroup is a container for Avatar, AvatarImage, and AvatarText components.</p>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>avatar</code> — an avatar indicator that shows an avatar image or avatar text</li>\n<li><code>avatar-image</code> — an avatar indicator inside image such as a user photo</li>\n<li><code>avatar-text</code> — an avatar indicator inner text such as a user name</li>\n</ul>\n\n<h2>References</h2>\n\n<ul>\n<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div">MDN div element</a></li>\n</ul>';
-    // BEGIN auto-generated component example consts
-    const demoHtml: string =
-        '<div class="avatar-group"><div class="avatar">AB</div><div class="avatar">CD</div><div class="avatar">EF</div></div>';
-    const svelteSource: string =
-        '// In your Svelte component:\nimport AvatarGroup from "lily-design-system-svelte-headless/components/AvatarGroup/AvatarGroup.svelte";\n\n<AvatarGroup>\n  <!-- list children -->\n</AvatarGroup>\n';
-    const usageCode: string =
-        '<AvatarGroup label="Care team">\n  <Avatar\n    src="/photos/sarah-mitchell.jpg"\n    alt="Dr Sarah Mitchell"\n    initials="SM"\n  />\n  <Avatar\n    alt="Nurse James Lee"\n    initials="JL"\n  />\n  <Avatar\n    alt="Dr Priya Sharma"\n    initials="PS"\n  />\n</AvatarGroup>\n';
-    const variants: { title: string; html: string }[] = [];
-    // END auto-generated component example consts
+  const intro: string = "<h1>AvatarGroup</h1>\n\n<p>An avatar group displays a collection of avatar components in a stacked or clustered layout, commonly used to show multiple users, participants, or contributors in a compact space. Avatar groups typically overlap or truncate to indicate the total count.</p>\n\n<p>This headless component uses a <code>&lt;div&gt;</code> element with <code>role=\"group\"</code> and an <code>aria-label</code> to provide accessible grouping semantics for the contained avatar components.</p>\n\n";
+  const usage: string = "<h2>Usage</h2>\n\n<p>Care team avatar group:</p>\n\n<pre tabindex=\"0\"><code class=\"language-html\">&lt;AvatarGroup label=\"Care team\"&gt;\n  &lt;Avatar src=\"/photos/sarah-mitchell.jpg\" alt=\"Dr Sarah Mitchell\" initials=\"SM\" /&gt;\n  &lt;Avatar alt=\"Nurse James Lee\" initials=\"JL\" /&gt;\n  &lt;Avatar alt=\"Dr Priya Sharma\" initials=\"PS\" /&gt;\n&lt;/AvatarGroup&gt;</code></pre>\n\n<p>Conversation participants:</p>\n\n<pre tabindex=\"0\"><code class=\"language-html\">&lt;AvatarGroup label=\"Participants in this thread\"&gt;\n  &lt;Avatar alt=\"Alice Chen\" initials=\"AC\" /&gt;\n  &lt;Avatar alt=\"Bob Rivera\" initials=\"BR\" /&gt;\n  &lt;Avatar alt=\"Carol Okonkwo\" initials=\"CO\" /&gt;\n  &lt;Avatar alt=\"David Park\" initials=\"DP\" /&gt;\n&lt;/AvatarGroup&gt;</code></pre>\n\n";
+  const rest: string = "<h2>Props</h2>\n\n<ul>\n<li><code>label</code>: string (required) -- accessible label for the avatar group</li>\n<li><code>children</code>: slot -- avatar components</li>\n<li><code>...restProps</code>: Any additional HTML attributes</li>\n</ul>\n\n<h2>Keyboard Interactions</h2>\n\n<ul>\n<li>None -- avatar groups are informational, not interactive</li>\n</ul>\n\n<h2>ARIA</h2>\n\n<ul>\n<li><code>role=\"group\"</code> -- semantically groups the contained avatars</li>\n<li><code>aria-label</code> -- describes the purpose of the group</li>\n</ul>\n\n<h2>When to Use</h2>\n\n<ul>\n<li>Use to display a stacked group of avatars, such as showing team members or participants in a conversation.</li>\n<li>Use when the overlapping visual treatment communicates that multiple people are involved in a shared context.</li>\n<li>Use when space is limited and a compact representation of multiple people is needed, such as in a card header or toolbar.</li>\n</ul>\n\n<h2>When Not to Use</h2>\n\n<ul>\n<li>Do not use for a single avatar -- render Avatar directly.</li>\n<li>Do not use when each person needs their own detail space or interactive actions -- use a list of Person components instead.</li>\n<li>Do not use when the exact identity of each person matters more than the group -- consider a full member list instead.</li>\n</ul>\n\n<h2>Headless</h2>\n\n<p>This component provides <code>role=\"group\"</code> with <code>aria-label</code> for accessible grouping, with zero visual styling. The consumer is responsible for all CSS including overlap positioning, z-index stacking, max visible count, truncation indicator, and spacing.</p>\n\n<h2>Styles</h2>\n\n<p>The consumer provides all CSS styling. The component renders with an <code>.avatar-group</code> class for targeting. No default styles are included -- this is a fully headless component.</p>\n\n<h2>Testing</h2>\n\n<ul>\n<li>Verify the component renders a <code>&lt;div&gt;</code> element with class <code>avatar-group</code></li>\n<li>Verify <code>role=\"group\"</code> is present</li>\n<li>Verify <code>aria-label</code> is applied</li>\n<li>Verify child avatar components are rendered</li>\n<li>Verify pass-through attributes are applied</li>\n</ul>\n\n<h2>Advice</h2>\n\n<ul>\n<li><strong>Designers</strong>: Overlap avatars by 25-50% to indicate grouping. Show a \"+N\" indicator when truncating. Maintain consistent avatar sizing within the group.</li>\n<li><strong>Developers</strong>: Always provide a descriptive <code>label</code> prop that conveys the group's purpose to screen readers.</li>\n</ul>\n\n<h2>Implementation Notes</h2>\n\n<ul>\n<li>Uses <code>&lt;div&gt;</code> element with <code>role=\"group\"</code> to semantically group avatars</li>\n<li><code>aria-label</code> describes the group (e.g., \"Team members\")</li>\n<li>Renders child avatar components in source order</li>\n<li>Consumer controls overlap, spacing, and truncation via CSS</li>\n</ul>\n\n<h2>Composition</h2>\n\n<p>AvatarGroup is a container for Avatar, AvatarImage, and AvatarText components.</p>\n\n<h2>Related components</h2>\n\n<ul>\n<li><code>avatar</code> — an avatar indicator that shows an avatar image or avatar text</li>\n<li><code>avatar-image</code> — an avatar indicator inside image such as a user photo</li>\n<li><code>avatar-text</code> — an avatar indicator inner text such as a user name</li>\n</ul>\n\n<h2>References</h2>\n\n<ul>\n<li><a href=\"https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div\">MDN div element</a></li>\n</ul>";
+  // BEGIN auto-generated component example consts
+  const demoHtml: string = "<div class=\"avatar-group\"><div class=\"avatar\">AB</div><div class=\"avatar\">CD</div><div class=\"avatar\">EF</div></div>";
+  const svelteSource: string = "// In your Svelte component:\nimport AvatarGroup from \"lily-design-system-svelte-headless/components/AvatarGroup/AvatarGroup.svelte\";\n\n<AvatarGroup>\n  <!-- list children -->\n</AvatarGroup>\n";
+  const usageCode: string = "<AvatarGroup label=\"Care team\">\n  <Avatar\n    src=\"/photos/sarah-mitchell.jpg\"\n    alt=\"Dr Sarah Mitchell\"\n    initials=\"SM\"\n  />\n  <Avatar\n    alt=\"Nurse James Lee\"\n    initials=\"JL\"\n  />\n  <Avatar\n    alt=\"Dr Priya Sharma\"\n    initials=\"PS\"\n  />\n</AvatarGroup>\n";
+  const variants: { title: string; html: string }[] = [];
+  // END auto-generated component example consts
 </script>
 
 <svelte:head>
-    <title>AvatarGroup — Lily Design System</title>
-    <meta
-        name="description"
-        content="An avatar group displays a collection of avatar components in a stacked or clustered layout, commonly used to show multiple users, participants, or contributors in a compact space. Avatar groups ty..."
-    />
+  <title>AvatarGroup — Lily Design System</title>
+  <meta name="description" content="An avatar group displays a collection of avatar components in a stacked or clustered layout, commonly used to show multiple users, participants, or contributors in a compact space. Avatar groups ty..." />
 </svelte:head>
 
-<article
-    class="component-page component-page-intro prose"
-    style="max-width: 64rem; margin: 0 auto; padding: 0.5rem 1rem 1rem;"
->
-    {@html intro}
+<article class="component-page component-page-intro prose" style="max-width: 64rem; margin: 0 auto; padding: 0.5rem 1rem 1rem;">
+  {@html intro}
 </article>
 
 <!-- BEGIN auto-generated component example -->
-<section
-    class="component-example"
-    aria-labelledby="example-heading"
-    style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;"
->
-    <h2 id="example-heading">Example</h2>
-    <div
-        class="component-example-rendered"
-        style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;"
-    >
-        {@html demoHtml}
-    </div>
-    <details style="margin-top: 1rem;">
-        <summary style="cursor: pointer; font-weight: 600;">Show demo markup</summary>
-        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-        <pre
-            tabindex="0"
-            style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code
-                >{demoHtml}</code
-            ></pre>
+<section class="component-example" aria-labelledby="example-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="example-heading">Example</h2>
+  <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html demoHtml}</div>
+  <details style="margin-top: 1rem;">
+    <summary style="cursor: pointer; font-weight: 600;">Show demo markup</summary>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{demoHtml}</code></pre>
+  </details>
+  {#each variants as variant (variant.title)}
+    <h3 style="margin-top: 1.5rem;">{variant.title}</h3>
+    <div class="component-example-rendered" style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;">{@html variant.html}</div>
+    <details style="margin-top: 0.5rem;">
+      <summary style="cursor: pointer; font-weight: 600;">Show markup</summary>
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{variant.html}</code></pre>
     </details>
-    {#each variants as variant (variant.title)}
-        <h3 style="margin-top: 1.5rem;">{variant.title}</h3>
-        <div
-            class="component-example-rendered"
-            style="padding: 1rem; border: 1px solid #d8dde0; border-radius: 0.5rem; background: #ffffff;"
-        >
-            {@html variant.html}
-        </div>
-        <details style="margin-top: 0.5rem;">
-            <summary style="cursor: pointer; font-weight: 600;">Show markup</summary>
-            <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-            <pre
-                tabindex="0"
-                style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code
-                    >{variant.html}</code
-                ></pre>
-        </details>
-    {/each}
-    {#if usageCode}
-        <details
-            style="margin-top: 1.5rem;"
-            open
-        >
-            <summary style="cursor: pointer; font-weight: 600;">Usage example</summary>
-            <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-            <pre
-                tabindex="0"
-                style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code
-                    >{usageCode}</code
-                ></pre>
-        </details>
-    {/if}
-    <details style="margin-top: 1rem;">
-        <summary style="cursor: pointer; font-weight: 600;">Show Svelte source</summary>
-        <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-        <pre
-            tabindex="0"
-            style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code
-                >{svelteSource}</code
-            ></pre>
+  {/each}
+  {#if usageCode}
+    <details style="margin-top: 1.5rem;" open>
+      <summary style="cursor: pointer; font-weight: 600;">Usage example</summary>
+      <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+      <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{usageCode}</code></pre>
     </details>
+  {/if}
+  <details style="margin-top: 1rem;">
+    <summary style="cursor: pointer; font-weight: 600;">Show Svelte source</summary>
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <pre tabindex="0" style="overflow-x: auto; padding: 1rem; color: #212b32; background: #f0f4f5; border-radius: 0.5rem;"><code>{svelteSource}</code></pre>
+  </details>
 </section>
 <!-- END auto-generated component example -->
 
 {#if usage}
-    <article
-        class="component-page component-page-usage prose"
-        style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;"
-    >
-        {@html usage}
-    </article>
+<article class="component-page component-page-usage prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html usage}
+</article>
 {/if}
 
-<article
-    class="component-page prose"
-    style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;"
->
-    {@html rest}
+<article class="component-page prose" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  {@html rest}
 </article>
 
 <!-- BEGIN generated: canonical contract (bin/generate-api-docs) -->
-<section
-    class="component-contract prose"
-    aria-labelledby="contract-heading"
-    style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;"
->
-    <h2 id="contract-heading">Canonical contract</h2>
-    <p>
-        Generated from this component's
-        <a
-            href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/avatar-group/AGENTS.md"
-            >canonical metadata</a
-        >
-        — the machine-checked source the implementations are held to.
-    </p>
+<section class="component-contract prose" aria-labelledby="contract-heading" style="max-width: 64rem; margin: 0 auto; padding: 0 1rem 2rem;">
+  <h2 id="contract-heading">Canonical contract</h2>
+  <p>
+    Generated from this component's
+    <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/avatar-group/AGENTS.md">canonical metadata</a>
+    — the machine-checked source the implementations are held to.
+  </p>
     <h3>Metadata</h3>
     <ul>
-        <li>Component: avatar-group</li>
-        <li>PascalCase: AvatarGroup</li>
-        <li>Description: a group of avatar components</li>
-        <li>
-            Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean
-            demo page; not yet exercised in composed flows
-        </li>
-        <li>HTML tag: &lt;div&gt;</li>
-        <li>CSS class: .avatar-group</li>
-        <li>Interactive: no</li>
+      <li>Component: avatar-group</li>
+      <li>PascalCase: AvatarGroup</li>
+      <li>Description: a group of avatar components</li>
+      <li>Status: beta — implemented and unit-tested in all seven frameworks with an axe-clean demo page; not yet exercised in composed flows</li>
+      <li>HTML tag: &lt;div&gt;</li>
+      <li>CSS class: .avatar-group</li>
+      <li>Interactive: no</li>
     </ul>
     <h3>ARIA</h3>
     <ul>
-        <li><code>role="group"</code> -- semantically groups the contained avatars</li>
-        <li><code>aria-label</code> -- describes the purpose of the group</li>
+      <li><code>role="group"</code> -- semantically groups the contained avatars</li>
+      <li><code>aria-label</code> -- describes the purpose of the group</li>
     </ul>
     <h3>Keyboard</h3>
     <ul>
-        <li>None -- avatar groups are informational, not interactive</li>
+      <li>None -- avatar groups are informational, not interactive</li>
     </ul>
     <h3>Props</h3>
     <ul>
-        <li><code>label</code>: string (required) -- accessible label for the avatar group</li>
-        <li>
-            <code>overflowLabel</code>: string (optional) -- the consumer's words for the avatars
-            not shown ("and 12 more"), rendered last as
-            <code>&lt;span class="avatar-group-overflow"&gt;</code>, so a truncated group says how
-            many it hides
-        </li>
-        <li><code>children</code>: slot -- avatar components</li>
-        <li><code>...restProps</code>: Any additional HTML attributes</li>
+      <li><code>label</code>: string (required) -- accessible label for the avatar group</li>
+      <li><code>overflowLabel</code>: string (optional) -- the consumer's words for the avatars not shown ("and 12 more"), rendered last as <code>&lt;span class="avatar-group-overflow"&gt;</code>, so a truncated group says how many it hides</li>
+      <li><code>children</code>: slot -- avatar components</li>
+      <li><code>...restProps</code>: Any additional HTML attributes</li>
     </ul>
 </section>
 <!-- END generated: canonical contract -->
