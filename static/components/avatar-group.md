@@ -16,6 +16,7 @@ This headless component uses a `<div>` element with `role="group"` and an `aria-
 ## Props
 
 - `label`: string (required) -- accessible label for the avatar group
+- `overflowLabel`: string (optional) -- the consumer's words for the avatars not shown ("and 12 more"), rendered last as `<span class="avatar-group-overflow">`, so a truncated group says how many it hides
 - `children`: slot -- avatar components
 - `...restProps`: Any additional HTML attributes
 
