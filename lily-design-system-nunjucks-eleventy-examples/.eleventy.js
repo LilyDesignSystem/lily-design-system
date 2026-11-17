@@ -43,6 +43,8 @@ export default function (eleventyConfig) {
         "../lily-design-system-nunjucks-theme-picker/theme-color.js": "assets/js/theme-color.js",
         // ...and theme-choice.js, the follow-this-device and cookie helpers (2026-11-16).
         "../lily-design-system-nunjucks-theme-picker/theme-choice.js": "assets/js/theme-choice.js",
+        // ...and view-transition.js, the opt-in theme change transition (P32-T4).
+        "../lily-design-system-nunjucks-theme-picker/view-transition.js": "assets/js/view-transition.js",
         "../lily-design-system-nunjucks-locale-picker/dist/index.js":
             "assets/js/locale-picker.client.js",
         "../lily-design-system-nunjucks-text-size-picker/text-size-picker.client.js":
