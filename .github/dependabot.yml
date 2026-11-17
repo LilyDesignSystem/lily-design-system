@@ -235,6 +235,12 @@ updates:
       lily:
         patterns:
           - "*"
+    ignore:
+      # Eleventy 3.1.8 replaced its patched @11ty/nunjucks 3.3.0 with upstream nunjucks 3.2.4, which escapes the output of
+      # caller() inside {% call %} blocks, so every demo built from a macro call rendered as escaped text and the e2e suite
+      # failed (2026-11-17). Pinned to 3.1.7; revisit when a later Eleventy restores the fork or the fix.
+      - dependency-name: "@11ty/eleventy"
+        versions: ["3.1.8"]
 
   - package-ecosystem: "npm"
     directory: "/lily-design-system-nunjucks-headless"

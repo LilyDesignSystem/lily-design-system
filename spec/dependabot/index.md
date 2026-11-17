@@ -32,7 +32,8 @@ Enable GitHub Dependabot .github/dependabot.yml for scheduled update PRs.
 
 `.github/dependabot.yml` carries `ignore` entries only where an update is known to break something, each with the reason in a comment:
 `typescript` major versions (Angular and Vue tooling) in the example and catalog entries, (and, until 2026-10-18, `@axe-core/playwright` 4.14 in the Angular, Next and
-SvelteKit examples: it found a real WCAG 2.5.3 defect in the headless `Editable`, fixed under `tasks.md` P11-T14, so the ignore is gone).
+SvelteKit examples: it found a real WCAG 2.5.3 defect in the headless `Editable`, fixed under `tasks.md` P11-T14, so the ignore is gone). Since 2026-11-17, `@11ty/eleventy` 3.1.8 in the Eleventy examples: it swaps the patched `@11ty/nunjucks` for upstream
+`nunjucks` 3.2.4, which escapes `caller()` output, so every macro-built demo rendered as text; the app is pinned to 3.1.7.
 
 To close a round of grouped PRs without merging them one by one: apply every bump to the manifests in one pass (the same dependency across
 all packages together, so a partial bump cannot fail restore, as the separate NuGet PRs did with NU1605), regenerate each lockfile, build and
