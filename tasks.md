@@ -3744,9 +3744,11 @@ decisions). No animation enters the headless layer.
 - [x] **P32-T4 `theme-picker` `viewTransition`.** Opt-in, in all eight catalogs: wrap the apply in `document.startViewTransition()`
       when it exists and reduced motion is not requested.
       Verify: tests that it is called only then, and that the theme applies the same either way. _(2026-11-17: in all eight catalogs: `viewTransition` (`view-transition`, `data-lily-theme-picker-view-transition`, `ViewTransition`), off by default. One shared module, `shared/view-transition.ts`, synced into the seven script pickers, with its tests (supported and allowed, reduced motion, no API, off); Blazor builds the same guard into its apply script. Never on the first apply, so page load does not animate; the transition waits up to one second for the new stylesheet. Each picker has a test that the first load starts no transition, a change starts exactly one, and the theme applies; Svelte also tests reduced motion and off.)_
-- [ ] **P32-T5 `marquee` (maintainer decision).** A `<section aria-label>` with a `<ul>`, copies `aria-hidden` and `inert`, a pause
+- [x] **P32-T5 `marquee` (maintainer decision).** A `<section aria-label>` with a `<ul>`, copies `aria-hidden` and `inert`, a pause
       button (`aria-pressed`, consumer label) and `data-paused`; the themes animate it only without reduced motion.
-      Verify: the decision is recorded in the topic; if built, tests in all nine catalogs that copies are hidden and pause works.
+      Verify: the decision is recorded in the topic; if built, tests in all nine catalogs that copies are hidden and pause works. _(2026-11-17: declined by the maintainer. The CSS recipe in
+      `docs/patterns/motion` (pause button, copies hidden from assistive technology and Tab, still under reduced motion, tested on
+      `/motion-recipes`) covers the need; a component would add nine implementations for a decorative, landing-page pattern.)_
 - [ ] **P32-T6 Registry listing (maintainer decision).** List Lily's shadcn-compatible registry in the shadcn registry directory
       under a namespace.
       Verify: the decision is recorded in the topic.
