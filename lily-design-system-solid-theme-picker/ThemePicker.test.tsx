@@ -1,0 +1,1340 @@
+import { render, screen, fireEvent, cleanup } from "./test-utils";
+import { createSignal, flush as flushUpdates } from "solid-js";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+
+import ThemePicker, {
+    normalizeThemesUrl,
+    themeHref,
+    themeName,
+    matchSystemTheme,
+    type ChildArgs,
+} from "./ThemePicker";
+
+const THEMES = ["light", "dark", "abyss"];
+const URL_TRAILING = "/assets/themes/";
+const URL_NO_TRAILING = "/assets/themes";
+
+function getManagedLink(name = "theme"): HTMLLinkElement | null {
+    return document.head.querySelector<HTMLLinkElement>(`link[data-lily-theme-picker="${name}"]`);
+}
+
+function flush(): Promise<void> {
+    return new Promise((r) => setTimeout(r, 0));
+}
+
+function getList(): HTMLElement {
+    return document.querySelector(".theme-picker-list") as HTMLElement;
+}
+
+beforeEach(() => {
+    document.documentElement.removeAttribute("data-theme");
+    document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
+    try {
+        localStorage.clear();
+    } catch {
+        /* ignore */
+    }
+});
+
+afterEach(() => {
+    cleanup();
+    document.documentElement.removeAttribute("data-theme");
+});
+
+/** Open the listbox and click the option for `slug`. */
+function pick(slug: string, themes: string[] = THEMES): void {
+    fireEvent.click(screen.getByRole("button"));
+    const opts = document.querySelectorAll(".theme-picker-option");
+    fireEvent.click(opts[themes.indexOf(slug)]);
+}
+
+describe("ThemePicker — pure helpers", () => {
+    test("normalizeThemesUrl keeps a trailing slash", () => {
+        expect(normalizeThemesUrl("/a/")).toBe("/a/");
+    });
+
+    test("normalizeThemesUrl appends a missing trailing slash", () => {
+        expect(normalizeThemesUrl("/a")).toBe("/a/");
+    });
+
+    test("themeHref builds the href", () => {
+        expect(themeHref("/a", "light", ".css")).toBe("/a/light.css");
+        expect(themeHref("/a/", "light", ".css")).toBe("/a/light.css");
+    });
+
+    test("themeName title-cases a hyphenated slug", () => {
+        expect(themeName("high-contrast")).toBe("High Contrast");
+    });
+
+    test("themeName leaves a single-word slug capitalised", () => {
+        expect(themeName("light")).toBe("Light");
+    });
+
+    test("themeName title-cases every word of a long slug", () => {
+        expect(themeName("united-kingdom-national-health-service-for-patients")).toBe(
+            "United Kingdom National Health Service For Patients",
+        );
+    });
+
+    test("labelFor delegates to themeName, so option text matches it", () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={["high-contrast"]}
+            />
+        ));
+        expect(screen.getByText(themeName("high-contrast"))).toBeTruthy();
+    });
+});
+
+/**
+ * jsdom does not implement `window.matchMedia` at all, so the helper's
+ * SSR guard is exercised natively; the dark/light cases install a stub.
+ */
+function stubMatchMedia(prefersDark: boolean): () => void {
+    (window as unknown as Record<string, unknown>).matchMedia = (query: string) => ({
+        matches: query.includes("prefers-color-scheme: dark") ? prefersDark : !prefersDark,
+        media: query,
+        addEventListener() {},
+        removeEventListener() {},
+    });
+    return () => {
+        delete (window as unknown as Record<string, unknown>).matchMedia;
+    };
+}
+
+describe("ThemePicker — matchSystemTheme (system-preference detection)", () => {
+    test("resolves dark when the OS prefers dark and dark is supported", () => {
+        const restore = stubMatchMedia(true);
+        try {
+            expect(matchSystemTheme(THEMES)).toBe("dark");
+        } finally {
+            restore();
+        }
+    });
+
+    test("resolves light when the OS does not prefer dark", () => {
+        const restore = stubMatchMedia(false);
+        try {
+            expect(matchSystemTheme(THEMES)).toBe("light");
+        } finally {
+            restore();
+        }
+    });
+
+    test("returns empty string when the preferred slug is not in themes", () => {
+        const restore = stubMatchMedia(true);
+        try {
+            // "dark" is preferred but this catalog does not offer it.
+            expect(matchSystemTheme(["light", "abyss"])).toBe("");
+        } finally {
+            restore();
+        }
+    });
+
+    test("returns empty string when matchMedia is unavailable (SSR / jsdom)", () => {
+        expect(typeof window.matchMedia).toBe("undefined");
+        expect(matchSystemTheme(THEMES)).toBe("");
+    });
+});
+
+describe("ThemePicker — detectFromSystem prop", () => {
+    test("resolves the initial theme from the OS preference when opted in", async () => {
+        const restore = stubMatchMedia(true);
+        try {
+            render(() => (
+                <ThemePicker
+                    label="Theme"
+                    themesUrl={URL_TRAILING}
+                    themes={THEMES}
+                    detectFromSystem
+                />
+            ));
+            await flush();
+            expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+        } finally {
+            restore();
+        }
+    });
+
+    test("storage beats detection", async () => {
+        const restore = stubMatchMedia(true);
+        try {
+            localStorage.setItem("k", "abyss");
+            render(() => (
+                <ThemePicker
+                    label="Theme"
+                    themesUrl={URL_TRAILING}
+                    themes={THEMES}
+                    storageKey="k"
+                    detectFromSystem
+                />
+            ));
+            await flush();
+            expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+        } finally {
+            restore();
+        }
+    });
+
+    test("value beats detection", async () => {
+        const restore = stubMatchMedia(true);
+        try {
+            render(() => (
+                <ThemePicker
+                    label="Theme"
+                    themesUrl={URL_TRAILING}
+                    themes={THEMES}
+                    value="abyss"
+                    detectFromSystem
+                />
+            ));
+            await flush();
+            expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+        } finally {
+            restore();
+        }
+    });
+
+    test("detection beats defaultValue", async () => {
+        const restore = stubMatchMedia(true);
+        try {
+            render(() => (
+                <ThemePicker
+                    label="Theme"
+                    themesUrl={URL_TRAILING}
+                    themes={THEMES}
+                    defaultValue="abyss"
+                    detectFromSystem
+                />
+            ));
+            await flush();
+            expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+        } finally {
+            restore();
+        }
+    });
+
+    test("detection is off unless opted in", async () => {
+        const restore = stubMatchMedia(true);
+        try {
+            render(() => (
+                <ThemePicker
+                    label="Theme"
+                    themesUrl={URL_TRAILING}
+                    themes={THEMES}
+                />
+            ));
+            await flush();
+            // Falls through to "light", not the OS-preferred "dark".
+            expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+        } finally {
+            restore();
+        }
+    });
+});
+
+describe("ThemePicker — markup contract (§4.2, §7.1–§7.5)", () => {
+    test("§7.1 renders a button that controls a listbox", () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        const button = screen.getByRole("button");
+        expect(button.tagName).toBe("BUTTON");
+        expect(button.getAttribute("type")).toBe("button");
+        expect(button.getAttribute("aria-haspopup")).toBe("listbox");
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        const listId = button.getAttribute("aria-controls");
+        expect(listId).toBeTruthy();
+        expect(document.getElementById(listId!)?.getAttribute("role")).toBe("listbox");
+    });
+
+    test("§7.1 the button renders the default SVG icon, hidden from assistive tech", () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        const icon = document.querySelector(".theme-picker-icon") as SVGElement;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
+        expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("circle")).toBeTruthy();
+    });
+
+    test("§7.1 the root is a div carrying the class hook", () => {
+        const { container } = render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                class="mine"
+            />
+        ));
+        const root = container.firstElementChild as HTMLElement;
+        expect(root.tagName).toBe("DIV");
+        expect(root.className).toBe("theme-picker mine");
+    });
+
+    test("§7.2 aria-label names the button and the listbox", () => {
+        render(() => (
+            <ThemePicker
+                label="Choose theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        expect(screen.getByRole("button", { name: "Choose theme" })).toBeTruthy();
+        expect(getList().getAttribute("aria-label")).toBe("Choose theme");
+    });
+
+    test("§7.3 one option per theme; the hidden input carries the supplied name", async () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                name="appearance"
+            />
+        ));
+        await flush();
+        const options = document.querySelectorAll(".theme-picker-option");
+        expect(options.length).toBe(THEMES.length);
+        const hidden = document.querySelector('input[type="hidden"]') as HTMLInputElement;
+        expect(hidden.name).toBe("appearance");
+        expect(hidden.value).toBe("light");
+    });
+
+    test("§7.4 the listbox is hidden until the button is activated", () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        expect(getList().hasAttribute("hidden")).toBe(true);
+        fireEvent.click(screen.getByRole("button"));
+        expect(getList().hasAttribute("hidden")).toBe(false);
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("§7.4 the active theme is the aria-selected option", async () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        await flush();
+        fireEvent.click(screen.getByRole("button"));
+        const selected = document.querySelectorAll('[role="option"][aria-selected="true"]');
+        expect(selected.length).toBe(1);
+        expect(selected[0].textContent?.trim()).toBe("Light");
+    });
+
+    test("§7.5 default labels title-case the slug (no 'default' string)", () => {
+        const { container } = render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={["light", "dark"]}
+            />
+        ));
+        expect(screen.getByText("Light")).toBeTruthy();
+        expect(screen.getByText("Dark")).toBeTruthy();
+        expect(container.textContent ?? "").not.toMatch(/default/i);
+    });
+
+    test("§7.5 themeLabels override the default title-case label", () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={["light", "dark"]}
+                themeLabels={{ light: "Bright", dark: "Midnight" }}
+            />
+        ));
+        expect(screen.getByText("Bright")).toBeTruthy();
+        expect(screen.getByText("Midnight")).toBeTruthy();
+    });
+});
+
+describe("ThemePicker — keyboard contract (APG listbox)", () => {
+    function openWith(key: string) {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        const button = screen.getByRole("button");
+        fireEvent.keyDown(button, { key });
+        return { button, list: getList() };
+    }
+
+    test("§7.14 ArrowDown, Enter and Space all open the listbox", () => {
+        for (const key of ["ArrowDown", "Enter", " "]) {
+            const { list } = openWith(key);
+            expect(list.hasAttribute("hidden")).toBe(false);
+            cleanup();
+        }
+    });
+
+    test("§7.14 ArrowUp opens with the last option active", () => {
+        const { list } = openWith("ArrowUp");
+        expect(list.getAttribute("aria-activedescendant")).toBe(
+            list.children[THEMES.length - 1].id,
+        );
+    });
+
+    test("§7.14 opening moves focus to the listbox", () => {
+        const { list } = openWith("ArrowDown");
+        expect(document.activeElement).toBe(list);
+    });
+
+    test("§7.15 ArrowDown / ArrowUp move the active descendant and clamp", () => {
+        const { list } = openWith("ArrowDown");
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[1].id);
+        fireEvent.keyDown(list, { key: "ArrowUp" });
+        fireEvent.keyDown(list, { key: "ArrowUp" });
+        // Clamps at the top rather than wrapping.
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
+    });
+
+    test("§7.15 ArrowDown clamps at the last option", () => {
+        const { list } = openWith("ArrowDown");
+        for (let n = 0; n < THEMES.length + 3; n++) {
+            fireEvent.keyDown(list, { key: "ArrowDown" });
+        }
+        expect(list.getAttribute("aria-activedescendant")).toBe(
+            list.children[THEMES.length - 1].id,
+        );
+    });
+
+    test("§7.15 the active option is marked with data-active", () => {
+        const { list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        const active = document.querySelectorAll("[data-active]");
+        expect(active.length).toBe(1);
+        expect(active[0].id).toBe(list.children[1].id);
+    });
+
+    test("§7.15 Home and End jump to the first and last option", () => {
+        const { list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "End" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(
+            list.children[THEMES.length - 1].id,
+        );
+        fireEvent.keyDown(list, { key: "Home" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
+    });
+
+    test("§7.16 Enter selects the active option, applies it, and closes", async () => {
+        const { button, list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        fireEvent.keyDown(list, { key: "Enter" });
+        await flush();
+        expect(list.hasAttribute("hidden")).toBe(true);
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(document.documentElement.dataset.theme).toBe("dark");
+    });
+
+    test("§7.16 Enter returns focus to the button", async () => {
+        const { button, list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        fireEvent.keyDown(list, { key: "Enter" });
+        await flush();
+        expect(document.activeElement).toBe(button);
+    });
+
+    test("§7.16 Space selects the active option and closes", async () => {
+        const { list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "End" });
+        fireEvent.keyDown(list, { key: " " });
+        await flush();
+        expect(list.hasAttribute("hidden")).toBe(true);
+        expect(document.documentElement.dataset.theme).toBe("abyss");
+    });
+
+    test("§7.16 Escape closes without changing the theme", async () => {
+        const { button, list } = openWith("ArrowDown");
+        await flush();
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        fireEvent.keyDown(list, { key: "Escape" });
+        await flush();
+        expect(list.hasAttribute("hidden")).toBe(true);
+        expect(document.documentElement.dataset.theme).toBe("light");
+        expect(document.activeElement).toBe(button);
+    });
+
+    test("§7.16 Tab closes the listbox and parks focus on the button", async () => {
+        const { button, list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "Tab" });
+        await flush();
+        expect(list.hasAttribute("hidden")).toBe(true);
+        // Focus goes to the button first (without cancelling the key), so
+        // the browser's default Tab proceeds from the picker's position.
+        expect(document.activeElement).toBe(button);
+    });
+
+    test("§7.17 typeahead moves the active descendant by label prefix", () => {
+        const { list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "a" });
+        // "Abyss" is index 2 in THEMES.
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[2].id);
+    });
+
+    test("§7.17 typeahead accumulates characters within the buffer window", () => {
+        const { list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "d" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[1].id);
+        // "da" still matches "Dark", so the active option does not move on.
+        fireEvent.keyDown(list, { key: "a" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[1].id);
+    });
+
+    test("§7.17 the typeahead buffer resets after the idle window", async () => {
+        vi.useFakeTimers();
+        try {
+            render(() => (
+                <ThemePicker
+                    label="Theme"
+                    themesUrl={URL_TRAILING}
+                    themes={THEMES}
+                />
+            ));
+            const list = getList();
+            fireEvent.keyDown(screen.getByRole("button"), { key: "ArrowDown" });
+            fireEvent.keyDown(list, { key: "d" });
+            expect(list.getAttribute("aria-activedescendant")).toBe(list.children[1].id);
+            vi.advanceTimersByTime(600);
+            // Buffer cleared, so "a" starts a fresh search and finds "Abyss".
+            fireEvent.keyDown(list, { key: "a" });
+            expect(list.getAttribute("aria-activedescendant")).toBe(list.children[2].id);
+        } finally {
+            vi.useRealTimers();
+        }
+    });
+
+    test("§7.18 clicking an option selects it, applies it, and closes the listbox", async () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        await flush();
+        pick("abyss");
+        await flush();
+        expect(document.documentElement.dataset.theme).toBe("abyss");
+        // A pointer selection closes, exactly as Enter does. The asymmetry
+        // would be invisible to a consumer reading the DOM: a stale
+        // aria-expanded over a hidden list makes every later click miss the
+        // options.
+        expect(getList().hasAttribute("hidden")).toBe(true);
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("false");
+    });
+
+    test("§7.18 clicking outside closes the listbox without changing the theme", async () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        await flush();
+        fireEvent.click(screen.getByRole("button"));
+        expect(getList().hasAttribute("hidden")).toBe(false);
+        fireEvent.click(document.body);
+        await flush();
+        expect(getList().hasAttribute("hidden")).toBe(true);
+        expect(document.documentElement.dataset.theme).toBe("light");
+    });
+
+    test("§7.18 clicking the button again closes the listbox", () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        const button = screen.getByRole("button");
+        fireEvent.click(button);
+        expect(getList().hasAttribute("hidden")).toBe(false);
+        fireEvent.click(button);
+        expect(getList().hasAttribute("hidden")).toBe(true);
+    });
+});
+
+describe("ThemePicker — dynamic loading (§5, §7.6–§7.11)", () => {
+    test("§7.6 default initial value is 'light' when present in themes", async () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        await flush();
+        expect(document.documentElement.dataset.theme).toBe("light");
+    });
+
+    test("§7.6 default initial value falls back to themes[0] when 'light' is absent", async () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={["dark", "abyss"]}
+            />
+        ));
+        await flush();
+        expect(document.documentElement.dataset.theme).toBe("dark");
+    });
+
+    test("§7.7 injects a managed <link> with the resolved href", async () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        await flush();
+        const link = getManagedLink();
+        expect(link).not.toBeNull();
+        expect(link!.rel).toBe("stylesheet");
+        expect(link!.href.endsWith("/assets/themes/light.css")).toBe(true);
+    });
+
+    test("§7.7 the name prop discriminates the managed <link>", async () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                name="appearance"
+            />
+        ));
+        await flush();
+        expect(getManagedLink("appearance")).not.toBeNull();
+        expect(getManagedLink("theme")).toBeNull();
+    });
+
+    test("§7.8 selecting an option updates href, data-theme, and fires onChange", async () => {
+        const onChange = vi.fn();
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                onChange={onChange}
+            />
+        ));
+        await flush();
+        pick("abyss");
+        await flush();
+        expect(document.documentElement.dataset.theme).toBe("abyss");
+        expect(getManagedLink()!.href.endsWith("/assets/themes/abyss.css")).toBe(true);
+        expect(onChange).toHaveBeenCalledWith("abyss", "abyss");
+    });
+
+    test("§7.9 persists to localStorage and reads back on a fresh mount", async () => {
+        const { unmount } = render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                storageKey="lily-theme"
+            />
+        ));
+        await flush();
+        pick("dark");
+        await flush();
+        expect(localStorage.getItem("lily-theme")).toBe("dark");
+        unmount();
+
+        document.documentElement.removeAttribute("data-theme");
+        document.head.querySelectorAll("link[data-lily-theme-picker]").forEach((n) => n.remove());
+
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                storageKey="lily-theme"
+            />
+        ));
+        await flush();
+        expect(document.documentElement.dataset.theme).toBe("dark");
+    });
+
+    test("§7.10 a supplied value prop wins over storage and defaults", async () => {
+        localStorage.setItem("lily-theme", "abyss");
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                value="light"
+                storageKey="lily-theme"
+            />
+        ));
+        await flush();
+        expect(document.documentElement.dataset.theme).toBe("light");
+    });
+
+    test("§7.11 missing trailing slash on themesUrl still yields one slash", async () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_NO_TRAILING}
+                themes={THEMES}
+            />
+        ));
+        await flush();
+        expect(getManagedLink()!.href.endsWith("/assets/themes/light.css")).toBe(true);
+    });
+});
+
+describe("ThemePicker — spread + custom children (§7.12–§7.13)", () => {
+    test("§7.12 extra attributes spread onto the root div", () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                data-testid="tp"
+            />
+        ));
+        const root = screen.getByTestId("tp");
+        expect(root.tagName).toBe("DIV");
+        expect(root.className).toContain("theme-picker");
+    });
+
+    test("§7.13 children replace the button glyph and receive ChildArgs", async () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                value="dark"
+            >
+                {(args: ChildArgs) => (
+                    <span
+                        data-testid="custom"
+                        data-open={String(args.open)}
+                        data-value={args.value}
+                        data-label-light={args.labelFor("light")}
+                    >
+                        custom glyph
+                    </span>
+                )}
+            </ThemePicker>
+        ));
+        await flush();
+        const custom = screen.getByTestId("custom");
+        // The custom glyph replaces the default half-circle inside the button.
+        expect(custom.closest("button")?.className).toContain("theme-picker-button");
+        expect(document.querySelector(".theme-picker-icon")).toBeNull();
+        expect(custom.getAttribute("data-open")).toBe("false");
+        expect(custom.getAttribute("data-value")).toBe("dark");
+        expect(custom.getAttribute("data-label-light")).toBe("Light");
+    });
+
+    test("§7.13 children see open=true once the listbox is expanded", () => {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                value="dark"
+            >
+                {(args: ChildArgs) => (
+                    <span
+                        data-testid="custom"
+                        data-open={String(args.open)}
+                    >
+                        glyph
+                    </span>
+                )}
+            </ThemePicker>
+        ));
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByTestId("custom").getAttribute("data-open")).toBe("true");
+    });
+});
+
+describe("ThemePicker — accessibility hardening (§7.21–§7.24)", () => {
+    async function openPicker(themes: string[] = THEMES) {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={themes}
+            />
+        ));
+        await flush();
+        fireEvent.click(screen.getByRole("button"));
+        await flush();
+        return {
+            button: screen.getByRole("button"),
+            list: document.querySelector(".theme-picker-list") as HTMLElement,
+        };
+    }
+
+    const active = (list: HTMLElement) => list.querySelector("[data-active]")?.textContent?.trim();
+
+    test("§7.21 Tab from the open list puts focus on the button before closing", async () => {
+        const { button, list } = await openPicker();
+        expect(document.activeElement).toBe(list);
+        fireEvent.keyDown(list, { key: "Tab" });
+        await flush();
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the focused list is hidden first, sending the
+        // next Tab to the top of the document.
+        expect(document.activeElement).toBe(button);
+        expect(list.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.22 a repeated typeahead character cycles through its matches", async () => {
+        const { list } = await openPicker(["dark", "dim", "dracula", "light"]);
+        // The initial value resolves to "light", so the cursor opens there.
+        fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dark");
+        fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dim");
+        fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dracula");
+    });
+
+    test("§7.22 a multi-character buffer refines the match from the active option", async () => {
+        const { list } = await openPicker(["dark", "dim", "dracula", "light"]);
+        fireEvent.keyDown(list, { key: "d" });
+        fireEvent.keyDown(list, { key: "r" });
+        expect(active(list)).toBe("Dracula");
+    });
+
+    test("§7.23 PageUp and PageDown move the cursor by ten, clamped", async () => {
+        const many = Array.from({ length: 25 }, (_, i) => `t${String(i).padStart(2, "0")}`);
+        const { list } = await openPicker(many);
+        fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("T10");
+        fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("T20");
+        fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("T24");
+        fireEvent.keyDown(list, { key: "PageUp" });
+        expect(active(list)).toBe("T14");
+    });
+
+    test("§7.24 an empty list opens without aria-activedescendant", async () => {
+        const { list } = await openPicker([]);
+        expect(list.hasAttribute("hidden")).toBe(false);
+        expect(list.getAttribute("aria-activedescendant")).toBeNull();
+    });
+});
+
+describe("ThemePicker — idempotent apply (§7.25)", () => {
+    test("§7.25 controlled mode fires onChange once per changed value", async () => {
+        const calls: string[] = [];
+
+        function Host() {
+            const [value, setValue] = createSignal("light");
+            return (
+                <ThemePicker
+                    label="Theme"
+                    themesUrl={URL_TRAILING}
+                    themes={THEMES}
+                    value={value()}
+                    onChange={(theme: string) => {
+                        calls.push(theme);
+                        // The canonical controlled wiring: the consumer owns `value`
+                        // and mirrors every change back. Applying is idempotent, so
+                        // the re-render this causes must not re-fire onChange.
+                        setValue(theme);
+                    }}
+                />
+            );
+        }
+
+        render(() => <Host />);
+        await flush();
+        expect(calls).toEqual(["light"]);
+
+        pick("abyss");
+        await flush();
+        expect(calls).toEqual(["light", "abyss"]);
+        expect(document.documentElement.dataset.theme).toBe("abyss");
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("false");
+    });
+});
+
+describe("ThemePicker — tooltip (§7.26–§7.33)", () => {
+    function setupTooltip() {
+        render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl="/themes/"
+                themes={THEMES}
+            />
+        ));
+        const button = document.querySelector(".theme-picker-button") as HTMLButtonElement;
+        const tip = document.querySelector(".theme-picker-tooltip") as HTMLElement;
+        return { button, tip };
+    }
+
+    test("§7.26 renders a role=tooltip element holding the label, hidden at rest, not aria-describedby-linked", () => {
+        const { button, tip } = setupTooltip();
+        expect(tip.getAttribute("role")).toBe("tooltip");
+        expect(tip.textContent).toBe("Theme");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(tip.id).toBeTruthy();
+        expect(button.hasAttribute("aria-describedby")).toBe(false);
+        expect(button.nextElementSibling).toBe(tip);
+    });
+
+    test("§7.27 pointer over the button shows it; leaving hides it", () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.mouseLeave(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.28 it stays visible while the pointer is over the tooltip itself", () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(tip);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.mouseLeave(tip);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.29 keyboard focus shows it; blur hides it; mouse-induced focus does not show it", () => {
+        const { button, tip } = setupTooltip();
+        // jsdom has no input-modality tracking; stand in for the keyboard.
+        const matches = vi
+            .spyOn(button, "matches")
+            .mockImplementation((q) => q === ":focus-visible");
+        fireEvent.focus(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.blur(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        matches.mockReturnValue(false);
+        fireEvent.focus(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.30 Escape dismisses it without moving focus; re-entering shows it again", () => {
+        const { button, tip } = setupTooltip();
+        button.focus();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(button, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(button);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+    });
+
+    test("§7.31 it is never shown while the popup is open", async () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        fireEvent.click(button);
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.32 pointer hover shows it with focus elsewhere; Escape on document.body or another element dismisses it, without moving focus", () => {
+        const { button, tip } = setupTooltip();
+        const other = document.createElement("input");
+        document.body.appendChild(other);
+        other.focus();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(document.body, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(other);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(other, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        other.remove();
+    });
+
+    test("§7.33 the document keydown listener exists only while the tooltip is visible: added once, removed on hide and on unmount", () => {
+        const add = vi.spyOn(document, "addEventListener");
+        const remove = vi.spyOn(document, "removeEventListener");
+        const count = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const view = render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl="/themes/"
+                themes={THEMES}
+            />
+        ));
+        const button = document.querySelector(".theme-picker-button") as HTMLButtonElement;
+        const addBase = count(add);
+        const baseRemove = count(remove);
+        fireEvent.mouseEnter(button);
+        expect(count(add) - addBase).toBe(1);
+        fireEvent.keyDown(document.body, { key: "a" });
+        expect(count(add) - addBase).toBe(1);
+        fireEvent.mouseLeave(button);
+        expect(count(remove) - baseRemove).toBe(1);
+        fireEvent.mouseEnter(button);
+        expect(count(add) - addBase).toBe(2);
+        view.unmount();
+        expect(count(remove) - baseRemove).toBe(2);
+        add.mockRestore();
+        remove.mockRestore();
+    });
+});
+
+describe("ThemePicker — open state and disabled", () => {
+    test("open starts the popup open without calling onOpenChange", async () => {
+        const onOpenChange = vi.fn();
+        render(() => (
+            <ThemePicker
+                {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }}
+                open
+                onOpenChange={onOpenChange}
+            />
+        ));
+        await flush();
+        expect(screen.getByRole("button", { name: "Theme" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("uncontrolled: onOpenChange fires once for each open and close by the user", async () => {
+        const onOpenChange = vi.fn();
+        render(() => (
+            <ThemePicker
+                {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }}
+                onOpenChange={onOpenChange}
+            />
+        ));
+        const button = screen.getByRole("button", { name: "Theme" });
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(true);
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(false);
+        expect(onOpenChange).toHaveBeenCalledTimes(2);
+    });
+
+    test("controlled: a click asks for the change and the parent applies it", async () => {
+        const onOpenChange = vi.fn();
+        const [open, set_open] = createSignal(false);
+        render(() => (
+            <ThemePicker
+                {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }}
+                open={open()}
+                onOpenChange={onOpenChange}
+            />
+        ));
+        fireEvent.click(screen.getByRole("button", { name: "Theme" }));
+        await flush();
+        expect(onOpenChange).toHaveBeenCalledWith(true);
+        expect(screen.getByRole("button", { name: "Theme" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
+        set_open(true);
+        flushUpdates();
+        await flush();
+        expect(screen.getByRole("button", { name: "Theme" }).getAttribute("aria-expanded")).toBe(
+            "true",
+        );
+    });
+
+    test("disabled disables the button and it cannot open", async () => {
+        const onOpenChange = vi.fn();
+        render(() => (
+            <ThemePicker
+                {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }}
+                disabled
+                onOpenChange={onOpenChange}
+            />
+        ));
+        const button = screen.getByRole("button", { name: "Theme" }) as HTMLButtonElement;
+        expect(button.disabled).toBe(true);
+        fireEvent.click(button);
+        await flush();
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("disabled closes a popup that was open", async () => {
+        render(() => (
+            <ThemePicker
+                {...{ label: "Theme", themesUrl: URL_TRAILING, themes: THEMES }}
+                open
+                disabled
+            />
+        ));
+        await flush();
+        expect(screen.getByRole("button", { name: "Theme" }).getAttribute("aria-expanded")).toBe(
+            "false",
+        );
+    });
+});
+
+describe('ThemePicker — variant="select" (§select, RFC 3 prototype; ported from Svelte)', () => {
+    const base = {
+        label: "Colour theme",
+        themesUrl: URL_TRAILING,
+        themes: THEMES,
+        variant: "select" as const,
+    };
+
+    test("renders one native <select> named by label, and no button, listbox, tooltip or hidden input", () => {
+        render(() => <ThemePicker {...base} />);
+        const select = screen.getByRole("combobox", { name: "Colour theme" });
+        expect(select.tagName).toBe("SELECT");
+        expect(select.classList.contains("theme-picker-select")).toBe(true);
+        expect(select.getAttribute("name")).toBe("theme");
+        const root = select.closest(".theme-picker") as HTMLElement;
+        expect(root.getAttribute("data-variant")).toBe("select");
+        expect(screen.queryByRole("button")).toBeNull();
+        expect(screen.queryByRole("listbox")).toBeNull();
+        expect(document.querySelector(".theme-picker-tooltip")).toBeNull();
+        expect(document.querySelector('input[type="hidden"]')).toBeNull();
+    });
+
+    test("labels are props: option text comes from themeLabels or the title-cased slug, never built-in English", () => {
+        render(() => (
+            <ThemePicker
+                {...base}
+                label="Thème"
+                themeLabels={{ dark: "Sombre" }}
+            />
+        ));
+        expect(screen.getByRole("combobox", { name: "Thème" })).toBeTruthy();
+        const options = [
+            ...document.querySelectorAll<HTMLOptionElement>("option.theme-picker-option"),
+        ];
+        expect(options.map((o) => o.value)).toEqual(THEMES);
+        expect(options.map((o) => o.textContent?.trim())).toEqual(["Light", "Sombre", "Abyss"]);
+        expect(document.body.textContent).not.toMatch(/default/i);
+    });
+
+    test("the resolved initial value is the selected option and is applied", async () => {
+        render(() => <ThemePicker {...base} />);
+        await flush();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        expect(select.value).toBe("light");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+        expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/light.css");
+    });
+
+    test("choosing an option applies the theme, persists it and fires onChange once", async () => {
+        const onChange = vi.fn();
+        render(() => (
+            <ThemePicker
+                {...base}
+                storageKey="lily-theme"
+                onChange={onChange}
+            />
+        ));
+        await flush();
+        onChange.mockClear();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        fireEvent.change(select, { target: { value: "abyss" } });
+        await flush();
+        expect(select.value).toBe("abyss");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+        expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/abyss.css");
+        expect(localStorage.getItem("lily-theme")).toBe("abyss");
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenCalledWith("abyss", "abyss");
+    });
+
+    test("keyboard is the platform's: the select is one Tab stop, and the component adds no key handling", async () => {
+        const { default: userEvent } = await import("@testing-library/user-event");
+        const user = userEvent.setup();
+        render(() => <ThemePicker {...base} />);
+        await flush();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        await user.tab();
+        expect(document.activeElement).toBe(select);
+        const event = new KeyboardEvent("keydown", {
+            key: "ArrowDown",
+            bubbles: true,
+            cancelable: true,
+        });
+        select.dispatchEvent(event);
+        expect(event.defaultPrevented).toBe(false);
+        expect(screen.queryByRole("listbox")).toBeNull();
+        await user.selectOptions(select, "dark");
+        await flush();
+        expect(select.value).toBe("dark");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+        await user.tab();
+        expect(document.activeElement).not.toBe(select);
+    });
+
+    test("disabled disables the select", () => {
+        render(() => (
+            <ThemePicker
+                {...base}
+                disabled
+            />
+        ));
+        expect((screen.getByRole("combobox") as HTMLSelectElement).disabled).toBe(true);
+    });
+
+    test("a value set by the parent selects that option", async () => {
+        const [value, set_value] = createSignal<any>("dark");
+        render(() => (
+            <ThemePicker
+                {...base}
+                value={value()}
+            />
+        ));
+        await flush();
+        const select = screen.getByRole("combobox") as HTMLSelectElement;
+        expect(select.value).toBe("dark");
+        set_value("abyss");
+        flushUpdates();
+        await flush();
+        expect(select.value).toBe("abyss");
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+    });
+
+    test("rest props spread onto the root and className is appended", () => {
+        render(() => (
+            <ThemePicker
+                {...base}
+                class="header-theme"
+                data-testid="tp"
+            />
+        ));
+        expect(screen.getByTestId("tp").className).toBe("theme-picker header-theme");
+    });
+
+    test("the resolved option is the selected one", () => {
+        // React checks this in renderToString output; Solid's server renderer needs the server build, which a
+        // jsdom test does not have, so the client render is checked instead (each option's `selected`).
+        render(() => (
+            <ThemePicker
+                {...base}
+                value="dark"
+            />
+        ));
+        const select = document.querySelector("select.theme-picker-select") as HTMLSelectElement;
+        expect(select.value).toBe("dark");
+    });
+});
+
+describe("ThemePicker — themeColor (P21-T7)", () => {
+    const meta = () => document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    const base = { label: "Theme", themesUrl: URL_TRAILING, themes: THEMES, defaultValue: "dark" };
+    afterEach(() => {
+        meta()?.remove();
+        document.documentElement.style.removeProperty("--lily-brand");
+    });
+
+    test("off by default: no theme-color tag is written", () => {
+        document.documentElement.style.setProperty("--lily-brand", "#005eb8");
+        render(() => <ThemePicker {...base} />);
+        getManagedLink()!.dispatchEvent(new Event("load"));
+        expect(meta()).toBeNull();
+    });
+
+    test("on: the tag follows --lily-brand once the stylesheet has loaded", () => {
+        render(() => (
+            <ThemePicker
+                {...base}
+                themeColor
+            />
+        ));
+        document.documentElement.style.setProperty("--lily-brand", "#005eb8");
+        expect(meta()).toBeNull(); // not before the stylesheet loads
+        getManagedLink()!.dispatchEvent(new Event("load"));
+        expect(meta()?.content).toBe("#005eb8");
+    });
+
+    test("on: a theme with no --lily-brand leaves the tag as it was", () => {
+        render(() => (
+            <ThemePicker
+                {...base}
+                themeColor
+            />
+        ));
+        getManagedLink()!.dispatchEvent(new Event("load"));
+        expect(meta()).toBeNull();
+    });
+});
+
+describe("ThemePicker — viewTransition (P32-T4)", () => {
+    type Doc = { startViewTransition?: (update: () => void | Promise<void>) => unknown };
+    const realMatchMedia = window.matchMedia;
+    afterEach(() => {
+        delete (document as unknown as Doc).startViewTransition;
+        window.matchMedia = realMatchMedia;
+    });
+    function allowMotion() {
+        window.matchMedia = ((q: string) => ({
+            matches: false,
+            media: q,
+            addEventListener() {},
+            removeEventListener() {},
+            addListener() {},
+            removeListener() {},
+        })) as unknown as typeof window.matchMedia;
+        const start = vi.fn((update: () => void | Promise<void>) => void update());
+        (document as unknown as Doc).startViewTransition = start;
+        return start;
+    }
+    const pause = () => new Promise((r) => setTimeout(r, 0));
+    function chooseDark(root: ParentNode) {
+        (root.querySelector(".theme-picker-button") as HTMLElement).click();
+        const dark = Array.from(root.querySelectorAll<HTMLElement>(".theme-picker-option")).find(
+            (o) => o.textContent?.trim() === "Dark",
+        )!;
+        dark.click();
+    }
+
+    test("no transition on first load, one when the theme changes, and the theme applies", async () => {
+        const start = allowMotion();
+        const { container } = render(() => (
+            <ThemePicker
+                label="Theme"
+                themesUrl={URL_TRAILING}
+                themes={THEMES}
+                defaultValue="light"
+                viewTransition
+            />
+        ));
+        await pause();
+        expect(start).not.toHaveBeenCalled();
+        expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+        chooseDark(container);
+        await pause();
+        expect(start).toHaveBeenCalledTimes(1);
+        expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+    });
+});

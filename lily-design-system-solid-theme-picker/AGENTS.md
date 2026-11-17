@@ -1,0 +1,156 @@
+# AGENTS — ThemePicker (Solid helper)
+
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
+below is a fast index.
+
+## What this package is
+
+A reusable Solid 2.0 headless theme picker that **loads theme CSS files
+dynamically at runtime** from a developer-supplied directory URL. Ships
+no CSS; consumer styles the `theme-picker` class hook.
+
+## Files
+
+| File                   | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
+| `spec/index.md`        | Specification-driven contract (canonical).    |
+| `ThemePicker.tsx`      | Implementation. TypeScript + Solid 2.0 hooks. |
+| `ThemePicker.test.tsx` | Vitest spec, one assertion per §7 acceptance. |
+| `index.ts`             | Barrel re-export.                             |
+| `index.md`             | User guide.                                   |
+
+## Public surface
+
+- Default export: `ThemePicker` component.
+- Named exports: `ThemePicker`, `normalizeThemesUrl`, `themeHref`,
+  `themeName`, `matchSystemTheme`.
+- Type exports: `Props`, `ChildArgs`.
+- `themeName(slug)` is the single implementation of the title-casing
+  label rule (`"high-contrast"` → `"High Contrast"`); the internal
+  `labelFor` delegates to it, and it mirrors `localeName` in
+  locale-picker. Consumers should use it instead of re-deriving labels.
+- `matchSystemTheme(themes)` resolves `prefers-color-scheme` to a
+  supported slug, returning `""` when the slug is absent or when
+  `matchMedia` is unavailable (SSR, and jsdom). It mirrors
+  `matchNavigatorLanguage` in locale-picker and backs the
+  `detectFromSystem` prop.
+  No glyph constant — the default icon is a bundled SVG, not a Unicode
+  character (reversed 2026-09-16).
+
+Required props: `label`, `themesUrl`, `themes`. Optional `children` is a
+render prop that replaces the icon inside the button and receives
+`{ value, open, labelFor }` — it does **not** render the options. Full
+table in [spec/index.md §4.1](./spec/index.md#41-props).
+
+## Behaviour contract (one paragraph)
+
+On every theme change the select (1) sets the `href` of one managed
+`<link rel="stylesheet" data-lily-theme-picker="{name}">` in
+`document.head` to `${themesUrl}${slug}${extension}`, (2) sets
+`data-theme="{slug}"` on `target` (defaults to `document.documentElement`),
+(3) optionally writes the slug to `localStorage[storageKey]`, and (4)
+calls `onChange(slug)`. SSR-safe — all DOM writes happen inside
+`createEffect`. Initial value resolves from `value` > storage > system
+detection (if `detectFromSystem`) > `defaultValue` > `"light"` (if
+present) > `themes[0]`. The control is an
+icon button that opens a listbox; the component owns the open/close
+state, the active-option state, and the whole keyboard contract, and it
+returns focus to the button when a selection or `Escape` closes the list.
+
+## HTML
+
+```html
+<div
+  class="theme-picker {class}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
+  <button
+    type="button"
+    class="theme-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <svg
+      class="theme-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle
+        cx="8"
+        cy="8"
+        r="6"
+      />
+      <path
+        d="M8 2a6 6 0 0 1 0 12z"
+        fill="currentColor"
+        stroke="none"
+      />
+    </svg>
+  </button>
+  <ul
+    class="theme-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="theme-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      Light
+    </li>
+  </ul>
+</div>
+```
+
+Ids come from `createUniqueId`, so they are stable and hydration-safe. Custom
+rendering via the `children` render prop receiving
+`{ value, open, labelFor }` replaces the icon inside the button only —
+the component owns the options.
+
+## Accessibility
+
+- WCAG 2.2 AAA target; WAI-ARIA APG listbox pattern.
+- The component implements the keyboard contract itself: open with
+  `ArrowDown` / `Enter` / `Space` (`ArrowUp` opens on the last option),
+  then `ArrowUp` / `ArrowDown` (clamping), `Home` / `End`, `PageUp` /
+  `PageDown` (by ten, clamped), `Enter` / `Space` to commit, `Escape`
+  to dismiss, and printable-character typeahead with a 500 ms buffer
+  (a repeated character cycles through its matches). `Tab` closes via
+  the button so the default Tab proceeds from the picker's position.
+- `aria-label` carries the consumer-supplied accessible name on both the
+  button and the listbox. The icon is `aria-hidden`, so `label` is the
+  only source of the accessible name.
+- Active option is tracked with `aria-activedescendant`, not roving focus.
+- Option labels default to title-cased slugs; the word "default" is
+  never emitted.
+
+## Conventions this package follows
+
+- Solid 2.0 function components with hooks.
+- Strict TypeScript on the public surface.
+- No runtime dependency beyond `react`.
+- No bundled CSS, fonts, icons, or images.
+- All user-facing strings come from props.
+
+## Tooltip
+
+`<div class="theme-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` is a sibling right after the icon button, always in the DOM, text = `label` (no new props). Shown on pointer hover (button or tooltip) or `:focus-visible` keyboard focus; `Escape` on the button dismisses it without moving focus; never shown while the listbox is open. Not linked with `aria-describedby` (it duplicates `aria-label`). Position/appearance is theme CSS keyed on `hidden`.

@@ -1,4 +1,4 @@
-# Accessibility for Lily React helpers
+# Accessibility for Lily Solid helpers
 
 Every helper in this catalog targets **WCAG 2.2 AAA** and implements
 the WAI-ARIA Authoring Practices 1.2 patterns for its primitive. This

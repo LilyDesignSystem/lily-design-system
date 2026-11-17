@@ -1,14 +1,14 @@
-# Theme principles (React adaptation)
+# Theme principles (Solid adaptation)
 
 This file adapts the cross-framework Lily theme principles
-(`../../../AGENTS/theme.md`) to React 19. All helpers in this
+(`../../../AGENTS/theme.md`) to Solid 2. All helpers in this
 catalog follow these rules; `ThemePicker` is the canonical
 implementation.
 
 ## The core split
 
 Themes live entirely in **consumer CSS** and an optional
-`ThemeProvider` (not currently part of the React helpers; see the
+`ThemeProvider` (not currently part of the Solid helpers; see the
 headless library). The helpers do not bake colour, spacing,
 typography, or breakpoints into their markup.
 
@@ -83,7 +83,7 @@ is a separate theme file:
 
 The consumer drops the files into a directory and passes the
 slugs to `ThemePicker`. Switching themes is a single attribute
-write — no React state outside the select, no Context, no
+write — no Solid state outside the select, no Context, no
 theme-provider re-render.
 
 ## Forbidden in the helper layer
@@ -100,7 +100,7 @@ properties:
 The helpers in this catalog set ARIA, semantic structure, class
 hooks, and `data-*` attributes only.
 
-## React-specific application
+## Solid-specific application
 
 ### No CSS-in-JS
 
@@ -110,7 +110,7 @@ styling. CSS-in-JS interop is the consumer's choice.
 
 ### No ThemeProvider context
 
-The current React helper catalog does not ship a
+The current Solid helper catalog does not ship a
 `<ThemeProvider>` component. The headless library
 (`@lilydesignsystem/react-headless`) provides one if needed;
 otherwise `ThemePicker` writes directly to `document.documentElement`
@@ -118,40 +118,21 @@ and consumer CSS reads from `:root[data-theme]`.
 
 The absence of a context is intentional: `data-theme` on `<html>`
 is the source of truth, and CSS selectors are the consumption
-mechanism. No React re-renders happen on theme change.
+mechanism. Nothing re-renders on a theme change.
 
 ### Server-resolved theme
 
-For zero-flicker SSR, resolve the theme on the server (cookie,
-header, session store) and seed the select with `value`. See
-`lily-design-system-react-theme-picker/docs/ssr.md` for the
-Next.js App Router recipe.
+For zero-flicker SSR, resolve the theme on the server (cookie, header, session store), set `data-theme` and the theme's
+stylesheet in the document template around `renderToString`, and seed the picker with the same `value`:
 
 ```tsx
-// app/layout.tsx — server
-import { cookies } from "next/headers";
-
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const theme = (await cookies()).get("theme")?.value ?? "light";
-  return (
-    <html
-      lang="en"
-      data-theme={theme}
-    >
-      <head>
-        <link
-          rel="stylesheet"
-          href={`/assets/themes/${theme}.css`}
-        />
-      </head>
-      <body>{children}</body>
-    </html>
-  );
-}
+// server entry
+const theme = readThemeCookie(request.headers.get("cookie") ?? "", "lily-theme", themes) || "light";
+const body = renderToString(() => <App theme={theme} />);
+const html = `<html lang="en" data-theme="${theme}"><head><link rel="stylesheet" href="/assets/themes/${theme}.css" /></head><body>${body}</body></html>`;
 ```
 
-The select then mounts with `value={theme}`, hydrates without
-changing `data-theme`, and no flash occurs.
+The picker then mounts with `value={theme}`, hydrates without changing `data-theme`, and no flash occurs.
 
 ### Preloading multiple themes
 
@@ -166,60 +147,36 @@ strategies.
 
 ## Consumer-side patterns
 
-### Following OS colour scheme
+### Following the device
+
+Give the picker a `systemLabel` ("Follow this device"): its first option then applies `systemThemes.light` or
+`systemThemes.dark` from `prefers-color-scheme`, and follows the device when it switches. The choice `"system"` is what
+is kept, so the next visit follows the device again.
 
 ```tsx
-"use client";
-
-import { useEffect, useState } from "react";
-import { ThemePicker } from "./lily-design-system-react-theme-picker";
-
-export function ThemePicker() {
-  const [defaultTheme] = useState(() => {
-    if (typeof window === "undefined") return "light";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  });
-  return (
-    <ThemePicker
-      label="Theme"
-      themesUrl="/assets/themes/"
-      themes={["light", "dark"]}
-      defaultValue={defaultTheme}
-      storageKey="my-app:theme"
-    />
-  );
-}
+<ThemePicker
+  label="Theme"
+  themesUrl="/assets/themes/"
+  themes={["light", "dark"]}
+  systemLabel="Follow this device"
+/>
 ```
 
-The user's explicit choice (via `storageKey`) wins on later visits.
-
-### Live OS preference tracking
+### Live OS preference tracking, controlled
 
 ```tsx
-"use client";
+import { createSignal } from "solid-js";
 
-import { useEffect, useState } from "react";
-import { ThemePicker } from "./lily-design-system-react-theme-picker";
-
-export function ThemePicker() {
-  const [theme, setTheme] = useState("");
-
-  useEffect(() => {
-    const mql = window.matchMedia("(prefers-color-scheme: dark)");
-    const handler = (e: MediaQueryListEvent) => {
-      setTheme(e.matches ? "dark" : "light");
-    };
-    mql.addEventListener("change", handler);
-    return () => mql.removeEventListener("change", handler);
-  }, []);
-
+export function Header() {
+  const [choice, setChoice] = createSignal("system");
   return (
     <ThemePicker
       label="Theme"
       themesUrl="/assets/themes/"
       themes={["light", "dark"]}
-      value={theme}
-      onChange={setTheme}
+      systemLabel="Follow this device"
+      value={choice()}
+      onChange={(_theme, next) => setChoice(next)}
     />
   );
 }
@@ -230,7 +187,7 @@ export function ThemePicker() {
 - Repo root `AGENTS/theme.md` — canonical cross-framework rules.
 - `lily-design-system-react-theme-picker/docs/preloading.md` —
   three preloading strategies.
-- `lily-design-system-react-theme-picker/docs/ssr.md` — cookie /
-  Next.js / Remix SSR recipes.
-- `lily-design-system-react-theme-picker/docs/styling.md` — class
+- `lily-design-system-solid-theme-picker/AGENTS/ssr.md` — the Solid SSR
+  recipe (a cookie read on the server).
+- `lily-design-system-solid-theme-picker/docs/styling.md` — class
   and attribute hooks.

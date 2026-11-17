@@ -93,16 +93,13 @@ For state that's purely for assistive technology (`aria-pressed`,
 
 ## Solid-specific application
 
-- `"use client"` directive on every helper `.tsx` file that touches
-  the DOM. The directive is the first non-comment token.
-- Hooks only — no class components, no legacy lifecycle.
+- Function components only; props are never destructured, so they stay reactive.
 - Render-prop `children` (a function) when consumers need to
   override the default markup. The shape is
-  `(args: ChildArgs) => Solid.ReactNode`.
+  `(args: ChildArgs) => JSX.Element`.
 - Controlled + uncontrolled support via the standard Solid pattern
   (`value` prop optional; internal state when omitted).
-- `useEffect` for all DOM access. No `useLayoutEffect` — the SSR
-  warning isn't worth the visual jank avoidance for this lifecycle.
+- DOM access only in `onSettled` or an effect, never while rendering, so the server renders the same markup.
 - `useRef` for once-only guards (`initialisedRef`) and for
   stable callback identities (rare in the current catalog).
 

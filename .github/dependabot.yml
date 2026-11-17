@@ -340,6 +340,7 @@ updates:
       - "/lily-design-system-solid-link-picker"
       - "/lily-design-system-solid-menu-picker"
       - "/lily-design-system-solid-settings-picker"
+      - "/lily-design-system-solid-theme-picker"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10

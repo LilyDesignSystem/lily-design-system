@@ -1,7 +1,7 @@
-# Internationalisation principles (React adaptation)
+# Internationalisation principles (Solid adaptation)
 
 This file adapts the cross-framework Lily i18n principles
-(`../../../AGENTS/internationalization.md`) to React 19. All helpers
+(`../../../AGENTS/internationalization.md`) to Solid 2. All helpers
 in this catalog follow these rules.
 
 ## The core rule
@@ -50,7 +50,7 @@ accept the announced text and ARIA labels as props. The role /
 `aria-live` / `aria-atomic` attributes are baked in but the
 content is always consumer-supplied.
 
-The current React helper catalog has no live regions; the selects
+The current Solid helper catalog has no live regions; the selects
 announce via native `<select>` semantics.
 
 ## Anchors and links
@@ -75,7 +75,7 @@ consumer's `dir` attribute and CSS. `LocalePicker` writes
 (see `../../lily-design-system-react-locale-picker/docs/rtl.md`).
 Other helpers do not assume LTR layout.
 
-## React-specific application
+## Solid-specific application
 
 ### Render-prop `children` for i18n flexibility
 
@@ -137,7 +137,7 @@ data flows into client props; the i18n library runs server-side.
 
 ## When the helper "knows" English
 
-Two cases where the React helpers ship default English text — both
+Two cases where the Solid helpers ship default English text — both
 intentional and overridable:
 
 1. `LocalePicker`'s built-in `defaultLocaleLabels` table (in

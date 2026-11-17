@@ -1,7 +1,7 @@
-# Headless design principles (React adaptation)
+# Headless design principles (Solid adaptation)
 
 This file adapts the cross-framework Lily headless principles
-(`../../../AGENTS/headless.md`) to React 19. All helpers in this
+(`../../../AGENTS/headless.md`) to Solid 2. All helpers in this
 catalog follow these rules.
 
 ## Goal
@@ -91,18 +91,15 @@ JS may want to observe:
 For state that's purely for assistive technology (`aria-pressed`,
 `aria-expanded`), use the ARIA attribute, not `data-*`.
 
-## React-specific application
+## Solid-specific application
 
-- `"use client"` directive on every helper `.tsx` file that touches
-  the DOM. The directive is the first non-comment token.
-- Hooks only — no class components, no legacy lifecycle.
+- Function components only; props are never destructured, so they stay reactive.
 - Render-prop `children` (a function) when consumers need to
   override the default markup. The shape is
-  `(args: ChildArgs) => React.ReactNode`.
-- Controlled + uncontrolled support via the standard React pattern
+  `(args: ChildArgs) => JSX.Element`.
+- Controlled + uncontrolled support via the standard Solid pattern
   (`value` prop optional; internal state when omitted).
-- `useEffect` for all DOM access. No `useLayoutEffect` — the SSR
-  warning isn't worth the visual jank avoidance for this lifecycle.
+- DOM access only in `onSettled` or an effect, never while rendering, so the server renders the same markup.
 - `useRef` for once-only guards (`initialisedRef`) and for
   stable callback identities (rare in the current catalog).
 
@@ -127,6 +124,6 @@ i18n-clean.
 
 - Repo root `AGENTS/headless.md` — the canonical cross-framework
   principle file.
-- [`../accessibility.md`](../accessibility.md) — the React-specific
+- [`../accessibility.md`](../accessibility.md) — the Solid-specific
   accessibility contract.
-- [`../conventions.md`](../conventions.md) — React 19 idioms.
+- [`../conventions.md`](../conventions.md) — Solid 2 idioms.
