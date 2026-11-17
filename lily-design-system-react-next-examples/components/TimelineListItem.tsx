@@ -57,12 +57,18 @@
 
 import React from "react";
 
+import { warnMissingProp } from "./dev-warning";
+
 export interface TimelineListItemProps {
     className?: string;
     /** ISO date/time string for the <time> element. */
     datetime?: string;
     /** Visible date/time text for the <time> element. */
     heading?: string;
+    /** withheld: content not shown, only the words; entered-in-error: content kept in a <del>, with the words. data-entry-state */
+    entryState?: "withheld" | "entered-in-error";
+    /** That state in the consumer's words; required with entryState. */
+    entryStateLabel?: string;
     /** Event description content. */
     children: React.ReactNode;
     /** Additional HTML attributes spread onto the <li>. */
@@ -73,16 +79,35 @@ export default function TimelineListItem({
     className = "",
     datetime = "",
     heading = "",
+    entryState,
+    entryStateLabel,
     children,
     ...restProps
 }: TimelineListItemProps) {
+    if (entryState)
+        warnMissingProp(
+            "TimelineListItem",
+            "entryStateLabel",
+            entryStateLabel,
+            "a withheld or in-error entry must say so in words.",
+        );
     return (
         <li
             className={`timeline-list-item ${className}`}
+            data-entry-state={entryState}
             {...restProps}
         >
             {(datetime || heading) && <time dateTime={datetime || undefined}>{heading}</time>}
-            {children}
+            {entryState === "withheld" ? (
+                <span className="timeline-list-item-entry-state">{entryStateLabel}</span>
+            ) : entryState === "entered-in-error" ? (
+                <>
+                    <del className="timeline-list-item-entry">{children}</del>
+                    <span className="timeline-list-item-entry-state">{entryStateLabel}</span>
+                </>
+            ) : (
+                children
+            )}
         </li>
     );
 }

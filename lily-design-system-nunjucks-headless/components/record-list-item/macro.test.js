@@ -25,4 +25,16 @@ describe("record-list-item", () => {
         expect(root.querySelector(".record-list-item-updated")).toBeNull();
         expect(root.hasAttribute("data-status")).toBe(false);
     });
+
+    it("withheld shows only the consumer's words; entered-in-error keeps the content struck through", () => {
+        const withheld = render("record-list-item", { entryState: "withheld", entryStateLabel: "Restricted", html: "Blood pressure" })
+            .document.querySelector("li.record-list-item");
+        expect(withheld.getAttribute("data-entry-state")).toBe("withheld");
+        expect(withheld.textContent).not.toContain("Blood pressure");
+        expect(withheld.querySelector(".record-list-item-entry-state").textContent).toBe("Restricted");
+        const inError = render("record-list-item", { entryState: "entered-in-error", entryStateLabel: "Entered in error", html: "Blood pressure" })
+            .document.querySelector("li.record-list-item");
+        expect(inError.querySelector("del.record-list-item-entry").textContent).toBe("Blood pressure");
+        expect(inError.querySelector(".record-list-item-entry-state").textContent).toBe("Entered in error");
+    });
 });

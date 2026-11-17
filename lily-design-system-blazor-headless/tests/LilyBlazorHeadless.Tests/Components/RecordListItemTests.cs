@@ -24,4 +24,23 @@ public class RecordListItemTests : TestContext
         Assert.Empty(cut.FindAll(".record-list-item-updated"));
         Assert.Null(cut.Find("li").GetAttribute("data-status"));
     }
+
+    [Fact]
+    public void Withheld_shows_only_the_words_and_in_error_strikes_the_content_through()
+    {
+        var withheld = RenderComponent<RecordListItem>(p => p
+            .Add(x => x.EntryState, "withheld")
+            .Add(x => x.EntryStateLabel, "Restricted")
+            .AddChildContent("Blood pressure"));
+        var li = withheld.Find("li.record-list-item");
+        Assert.Equal("withheld", li.GetAttribute("data-entry-state"));
+        Assert.DoesNotContain("Blood pressure", li.TextContent);
+        Assert.Equal("Restricted", withheld.Find(".record-list-item-entry-state").TextContent);
+        var inError = RenderComponent<RecordListItem>(p => p
+            .Add(x => x.EntryState, "entered-in-error")
+            .Add(x => x.EntryStateLabel, "Entered in error")
+            .AddChildContent("Blood pressure"));
+        Assert.Equal("Blood pressure", inError.Find("del.record-list-item-entry").TextContent);
+        Assert.Equal("Entered in error", inError.Find(".record-list-item-entry-state").TextContent);
+    }
 }

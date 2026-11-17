@@ -32,4 +32,14 @@ describe("RecordListItem", () => {
         expect(li.querySelector(".record-list-item-updated")).toBeNull();
         expect(li.hasAttribute("data-status")).toBe(false);
     });
+
+    test("withheld shows only the consumer's words; entered-in-error keeps the content struck through", () => {
+        document.body.innerHTML = `<ul><lily-record-list-item entry-state="withheld" entry-state-label="Restricted">Blood pressure</lily-record-list-item><lily-record-list-item entry-state="entered-in-error" entry-state-label="Entered in error">Blood pressure</lily-record-list-item></ul>`;
+        const [withheld, inError] = Array.from(document.querySelectorAll("ul > li.record-list-item"));
+        expect(withheld.getAttribute("data-entry-state")).toBe("withheld");
+        expect(withheld.textContent).not.toContain("Blood pressure");
+        expect(withheld.querySelector(".record-list-item-entry-state")?.textContent).toBe("Restricted");
+        expect(inError.querySelector("del.record-list-item-entry")?.textContent).toBe("Blood pressure");
+        expect(inError.querySelector(".record-list-item-entry-state")?.textContent).toBe("Entered in error");
+    });
 });

@@ -81,4 +81,14 @@ describe("TimelineListItem (upgrade in place)", () => {
 
         expect(results.violations).toEqual([]);
     });
+
+    test("withheld shows only the consumer's words; entered-in-error keeps the content struck through", () => {
+        document.body.innerHTML = `<ul><lily-timeline-list-item entry-state="withheld" entry-state-label="Restricted">Sensitive note</lily-timeline-list-item><lily-timeline-list-item entry-state="entered-in-error" entry-state-label="Entered in error">Sensitive note</lily-timeline-list-item></ul>`;
+        const [withheld, inError] = Array.from(document.querySelectorAll("ul > li.timeline-list-item"));
+        expect(withheld.getAttribute("data-entry-state")).toBe("withheld");
+        expect(withheld.textContent).not.toContain("Sensitive note");
+        expect(withheld.querySelector(".timeline-list-item-entry-state")?.textContent).toBe("Restricted");
+        expect(inError.querySelector("del.timeline-list-item-entry")?.textContent).toBe("Sensitive note");
+        expect(inError.querySelector(".timeline-list-item-entry-state")?.textContent).toBe("Entered in error");
+    });
 });

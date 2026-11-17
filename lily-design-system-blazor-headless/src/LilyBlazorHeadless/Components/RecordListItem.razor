@@ -2,7 +2,7 @@
 @*
     RecordListItem: one record in a record list, with its status and last update around the consumer's content (tasks.md P28-T3, spec/healthcare-ui). Props: RecordListItem.md.
 *@
-<li class="@($"record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(SubjectLabel)) {<span class="record-list-item-subject">@SubjectLabel</span>@(" ")}@ChildContent@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(UpdatedLabel)) {@(" ")<time class="record-list-item-updated" datetime="@Updated">@UpdatedLabel</time>}</li>
+<li class="@($"record-list-item {CssClass}".Trim())" data-status="@(string.IsNullOrEmpty(Status) ? null : Status)" data-entry-state="@EntryState" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(SubjectLabel)) {<span class="record-list-item-subject">@SubjectLabel</span>@(" ")}@if (EntryState == "withheld") {<span class="record-list-item-entry-state">@EntryStateLabel</span>} else if (EntryState == "entered-in-error") {<del class="record-list-item-entry">@ChildContent</del>@(" ")<span class="record-list-item-entry-state">@EntryStateLabel</span>} else {@ChildContent}@if (!string.IsNullOrEmpty(StatusLabel)) {@(" ")<span class="record-list-item-status">@StatusLabel</span>}@if (!string.IsNullOrEmpty(UpdatedLabel)) {@(" ")<time class="record-list-item-updated" datetime="@Updated">@UpdatedLabel</time>}</li>
 @code {
     /// <summary>whose record it is, when it is not the patient's (&quot;Mother&quot;, &quot;Fetus 1&quot;); shown first.</summary>
     [Parameter] public string? SubjectLabel { get; set; }
@@ -12,6 +12,10 @@
     /// <summary>when the record was last updated.</summary>
     [Parameter] public string? Updated { get; set; }
     [Parameter] public string? UpdatedLabel { get; set; }
+    /// <summary>withheld (content not shown, only the words) or entered-in-error (content kept in a del, with the words).</summary>
+    [Parameter] public string? EntryState { get; set; }
+    /// <summary>That state in the consumer's words; required with EntryState.</summary>
+    [Parameter] public string? EntryStateLabel { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

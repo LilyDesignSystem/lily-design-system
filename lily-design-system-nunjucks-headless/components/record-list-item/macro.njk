@@ -21,7 +21,8 @@
 <li
   class="record-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
   {%- if p.status %} data-status="{{ p.status }}"{% endif %}
+  {%- if p.entryState %} data-entry-state="{{ p.entryState }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
->{%- if p.subjectLabel %}<span class="record-list-item-subject">{{ p.subjectLabel }}</span> {% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}{%- if p.statusLabel %} <span class="record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.updatedLabel %} <time class="record-list-item-updated"{% if p.updated %} datetime="{{ p.updated }}"{% endif %}>{{ p.updatedLabel }}</time>{% endif -%}</li>
+>{%- if p.subjectLabel %}<span class="record-list-item-subject">{{ p.subjectLabel }}</span> {% endif -%}{%- if p.entryState == "withheld" -%}<span class="record-list-item-entry-state">{{ p.entryStateLabel }}</span>{%- else -%}{%- if p.entryState == "entered-in-error" %}<del class="record-list-item-entry">{% endif -%}{%- if p.html -%}{{ p.html | safe }}{%- elif caller -%}{{ caller() }}{%- endif -%}{%- if p.entryState == "entered-in-error" %}</del> <span class="record-list-item-entry-state">{{ p.entryStateLabel }}</span>{% endif -%}{%- endif -%}{%- if p.statusLabel %} <span class="record-list-item-status">{{ p.statusLabel }}</span>{% endif -%}{%- if p.updatedLabel %} <time class="record-list-item-updated"{% if p.updated %} datetime="{{ p.updated }}"{% endif %}>{{ p.updatedLabel }}</time>{% endif -%}</li>
 {%- endmacro -%}

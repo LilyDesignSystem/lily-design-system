@@ -34,4 +34,23 @@ public class TimelineListItemTests : TestContext
         var root = cut.Find(".timeline-list-item");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void Withheld_shows_only_the_words_and_in_error_strikes_the_content_through()
+    {
+        var withheld = RenderComponent<TimelineListItem>(p => p
+            .Add(x => x.EntryState, "withheld")
+            .Add(x => x.EntryStateLabel, "Restricted")
+            .AddChildContent("Sensitive note"));
+        var li = withheld.Find("li.timeline-list-item");
+        Assert.Equal("withheld", li.GetAttribute("data-entry-state"));
+        Assert.DoesNotContain("Sensitive note", li.TextContent);
+        Assert.Equal("Restricted", withheld.Find(".timeline-list-item-entry-state").TextContent);
+        var inError = RenderComponent<TimelineListItem>(p => p
+            .Add(x => x.EntryState, "entered-in-error")
+            .Add(x => x.EntryStateLabel, "Entered in error")
+            .AddChildContent("Sensitive note"));
+        Assert.Equal("Sensitive note", inError.Find("del.timeline-list-item-entry").TextContent);
+        Assert.Equal("Entered in error", inError.Find(".timeline-list-item-entry-state").TextContent);
+    }
 }

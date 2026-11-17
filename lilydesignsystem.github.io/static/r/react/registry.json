@@ -10650,6 +10650,9 @@
       "title": "TimelineListItem",
       "description": "One event in a timeline list.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "lists"
       ],

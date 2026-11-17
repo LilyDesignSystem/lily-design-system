@@ -22,6 +22,7 @@
 {%- set p = params | default({}) -%}
 <li
   class="timeline-list-item{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.entryState %} data-entry-state="{{ p.entryState }}"{% endif %}
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
@@ -31,11 +32,17 @@
   {%- if p.heading %}
   <h3 class="timeline-list-item-heading">{{ p.heading }}</h3>
   {%- endif %}
+  {%- if p.entryState == "withheld" %}
+  <span class="timeline-list-item-entry-state">{{ p.entryStateLabel }}</span>
+  {%- else %}
   <div class="timeline-list-item-body">
+    {%- if p.entryState == "entered-in-error" %}<del class="timeline-list-item-entry">{% endif -%}
     {%- if p.html -%}{{ p.html | safe }}
     {%- elif p.text -%}{{ p.text }}
     {%- elif caller -%}{{ caller() }}
     {%- endif -%}
+    {%- if p.entryState == "entered-in-error" %}</del> <span class="timeline-list-item-entry-state">{{ p.entryStateLabel }}</span>{% endif -%}
   </div>
+  {%- endif %}
 </li>
 {%- endmacro -%}

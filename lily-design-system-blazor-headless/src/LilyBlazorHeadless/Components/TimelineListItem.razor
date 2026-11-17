@@ -5,10 +5,14 @@
     one event in a timeline list
 *@
 
-<li class="@($"timeline-list-item {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</li>
+<li class="@($"timeline-list-item {CssClass}".Trim())" aria-label="@Label" data-entry-state="@EntryState" @attributes="AdditionalAttributes">@if (EntryState == "withheld") {<span class="timeline-list-item-entry-state">@EntryStateLabel</span>} else if (EntryState == "entered-in-error") {<del class="timeline-list-item-entry">@ChildContent</del><span class="timeline-list-item-entry-state">@EntryStateLabel</span>} else {@ChildContent}</li>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>withheld (content not shown, only the words) or entered-in-error (content kept in a del, with the words).</summary>
+    [Parameter] public string? EntryState { get; set; }
+    /// <summary>That state in the consumer's words; required with EntryState.</summary>
+    [Parameter] public string? EntryStateLabel { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

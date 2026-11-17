@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { warnMissingProp } from "./dev-warning";
 // TimelineListItem component
 //
 // A single event entry within a TimelineList ordered list. Renders a semantic
@@ -56,28 +57,53 @@
 //   - HTML <time> element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time
 //   - WAI-ARIA listitem role: https://www.w3.org/TR/wai-aria-1.2/#listitem
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /** ISO date/time string for the <time> element. */
         datetime?: string;
         /** Visible date/time text for the <time> element. */
         heading?: string;
+        /** withheld: content not shown, only the words; entered-in-error: content kept in a <del>, with the words. data-entry-state */
+        entryState?: "withheld" | "entered-in-error";
+        /** That state in the consumer's words; required with entryState. */
+        entryStateLabel?: string;
     }>(),
     {
+        entryState: undefined,
+        entryStateLabel: undefined,
         datetime: "",
         heading: "",
     },
 );
+if (props.entryState)
+    warnMissingProp(
+            "TimelineListItem",
+            "entryStateLabel",
+            props.entryStateLabel,
+            "a withheld or in-error entry must say so in words.",
+        );
 </script>
 
 <template>
     <!-- TimelineListItem.vue -->
-    <li class="timeline-list-item">
+    <li
+        class="timeline-list-item"
+        :data-entry-state="entryState"
+    >
         <time
             v-if="datetime || heading"
             :datetime="datetime || undefined"
             >{{ heading }}</time
         >
-        <slot />
+        <span
+            v-if="entryState === 'withheld'"
+            class="timeline-list-item-entry-state"
+            >{{ entryStateLabel }}</span
+        >
+        <template v-else-if="entryState === 'entered-in-error'"
+            ><del class="timeline-list-item-entry"><slot /></del
+            ><span class="timeline-list-item-entry-state">{{ entryStateLabel }}</span></template
+        >
+        <slot v-else />
     </li>
 </template>

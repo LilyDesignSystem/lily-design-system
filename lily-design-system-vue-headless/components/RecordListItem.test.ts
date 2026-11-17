@@ -50,4 +50,23 @@ describe("RecordListItem", () => {
             ),
         ).toBe(true);
     });
+
+    test("withheld shows only the consumer's words; entered-in-error keeps the content struck through", () => {
+        const first = render(Subject, {
+            props: { entryState: "withheld", entryStateLabel: "Restricted" },
+            slots: { default: "Blood pressure" },
+        });
+        let li = first.container.querySelector("li.record-list-item")!;
+        expect(li.getAttribute("data-entry-state")).toBe("withheld");
+        expect(li.textContent).not.toContain("Blood pressure");
+        expect(li.querySelector(".record-list-item-entry-state")?.textContent).toBe("Restricted");
+        first.unmount();
+        const second = render(Subject, {
+            props: { entryState: "entered-in-error", entryStateLabel: "Entered in error" },
+            slots: { default: "Blood pressure" },
+        });
+        li = second.container.querySelector("li.record-list-item")!;
+        expect(li.querySelector("del.record-list-item-entry")?.textContent).toBe("Blood pressure");
+        expect(li.querySelector(".record-list-item-entry-state")?.textContent).toBe("Entered in error");
+    });
 });

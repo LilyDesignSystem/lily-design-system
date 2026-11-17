@@ -6,6 +6,10 @@ export interface RecordListItemProps {
     className?: string;
     /** whose record it is, when it is not the patient's ("Mother", "Fetus 1"); shown first */
     subjectLabel?: string;
+    /** withheld: content not shown, only the words; entered-in-error: content kept in a <del>, with the words. data-entry-state */
+    entryState?: "withheld" | "entered-in-error";
+    /** That state in the consumer's words; required with entryState. */
+    entryStateLabel?: string;
     /** the record's status, as the consumer's code */
     status?: string;
     statusLabel?: string;
@@ -19,6 +23,8 @@ export interface RecordListItemProps {
 export default function RecordListItem({
     className = "",
     subjectLabel,
+    entryState,
+    entryStateLabel,
     status,
     statusLabel,
     updated,
@@ -33,10 +39,18 @@ export default function RecordListItem({
             statusLabel,
             "a status needs words a person can read, never a code alone.",
         );
+    if (entryState)
+        warnMissingProp(
+            "RecordListItem",
+            "entryStateLabel",
+            entryStateLabel,
+            "a withheld or in-error entry must say so in words.",
+        );
     return (
         <li
             className={`record-list-item ${className}`}
             data-status={status}
+            data-entry-state={entryState}
             {...restProps}
         >
             {subjectLabel ? (
@@ -44,7 +58,16 @@ export default function RecordListItem({
                     <span className="record-list-item-subject">{subjectLabel}</span>{" "}
                 </>
             ) : null}
-            {children}
+            {entryState === "withheld" ? (
+                <span className="record-list-item-entry-state">{entryStateLabel}</span>
+            ) : entryState === "entered-in-error" ? (
+                <>
+                    <del className="record-list-item-entry">{children}</del>{" "}
+                    <span className="record-list-item-entry-state">{entryStateLabel}</span>
+                </>
+            ) : (
+                children
+            )}
             {statusLabel ? (
                 <>
                     {" "}

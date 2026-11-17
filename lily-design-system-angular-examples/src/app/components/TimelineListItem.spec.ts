@@ -17,6 +17,13 @@ class TestHost {
     className = "";
 }
 
+@Component({
+    standalone: true,
+    imports: [TimelineListItem],
+    template: `<ul><li lily-timeline-list-item entryState="withheld" entryStateLabel="Restricted">Sensitive note</li><li lily-timeline-list-item entryState="entered-in-error" entryStateLabel="Entered in error">Sensitive note</li></ul>`,
+})
+class EntryStates {}
+
 describe("TimelineListItem", () => {
     test("the host is the li itself — no wrapper element — with the base class", () => {
         const fixture = TestBed.createComponent(TestHost);
@@ -50,5 +57,18 @@ describe("TimelineListItem", () => {
         fixture.detectChanges();
         const el = fixture.nativeElement;
         expect(el.querySelector("time")).toBeNull();
+    });
+
+    test("withheld shows only the consumer's words; entered-in-error keeps the content struck through", () => {
+        const fixture = TestBed.createComponent(EntryStates);
+        fixture.detectChanges();
+        const [withheld, inError] = Array.from(
+            (fixture.nativeElement as HTMLElement).querySelectorAll("li.timeline-list-item"),
+        );
+        expect(withheld.getAttribute("data-entry-state")).toBe("withheld");
+        expect(withheld.textContent).not.toContain("Sensitive note");
+        expect(withheld.querySelector(".timeline-list-item-entry-state")?.textContent).toBe("Restricted");
+        expect(inError.querySelector("del.timeline-list-item-entry")?.textContent).toBe("Sensitive note");
+        expect(inError.querySelector(".timeline-list-item-entry-state")?.textContent).toBe("Entered in error");
     });
 });

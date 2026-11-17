@@ -22,7 +22,7 @@
 
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["datetime", "heading"]);
+const HANDLED = new Set(["datetime", "heading", "entry-state", "entry-state-label"]);
 
 export class TimelineListItem extends HTMLElement {
     connectedCallback(): void {
@@ -41,7 +41,19 @@ export class TimelineListItem extends HTMLElement {
             li.appendChild(time);
         }
 
-        moveChildrenInto(this, li);
+        // entry-state: "withheld" shows only entry-state-label; "entered-in-error" keeps the content in a <del>, with the words.
+        const state = this.getAttribute("entry-state");
+        const words = document.createElement("span");
+        words.className = "timeline-list-item-entry-state";
+        words.textContent = this.getAttribute("entry-state-label") ?? "";
+        if (state) li.setAttribute("data-entry-state", state);
+        if (state === "withheld") li.append(words);
+        else if (state === "entered-in-error") {
+            const del = document.createElement("del");
+            del.className = "timeline-list-item-entry";
+            moveChildrenInto(this, del);
+            li.append(del, words);
+        } else moveChildrenInto(this, li);
         this.replaceWith(li);
     }
 }

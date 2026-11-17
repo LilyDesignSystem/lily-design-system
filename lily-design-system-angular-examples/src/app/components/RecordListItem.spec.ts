@@ -24,6 +24,13 @@ afterEach(() => {
     resetDevWarnings();
 });
 
+@Component({
+    standalone: true,
+    imports: [RecordListItem],
+    template: `<ul><li lily-record-list-item entryState="withheld" entryStateLabel="Restricted">Blood pressure</li><li lily-record-list-item entryState="entered-in-error" entryStateLabel="Entered in error">Blood pressure</li></ul>`,
+})
+class EntryStates {}
+
 describe("RecordListItem", () => {
     test("the host is the li, with each part and each status as text and data", () => {
         const fixture = TestBed.createComponent(Host);
@@ -54,5 +61,18 @@ describe("RecordListItem", () => {
                 String(call[0]).includes("RecordListItem has no statusLabel"),
             ),
         ).toBe(true);
+    });
+
+    test("withheld shows only the consumer's words; entered-in-error keeps the content struck through", () => {
+        const fixture = TestBed.createComponent(EntryStates);
+        fixture.detectChanges();
+        const [withheld, inError] = Array.from(
+            (fixture.nativeElement as HTMLElement).querySelectorAll("li.record-list-item"),
+        );
+        expect(withheld.getAttribute("data-entry-state")).toBe("withheld");
+        expect(withheld.textContent).not.toContain("Blood pressure");
+        expect(withheld.querySelector(".record-list-item-entry-state")?.textContent).toBe("Restricted");
+        expect(inError.querySelector("del.record-list-item-entry")?.textContent).toBe("Blood pressure");
+        expect(inError.querySelector(".record-list-item-entry-state")?.textContent).toBe("Entered in error");
     });
 });

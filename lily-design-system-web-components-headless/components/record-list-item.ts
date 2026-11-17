@@ -3,7 +3,7 @@
 // Attributes: subject-label (whose record it is, shown first), status, status-label, updated, updated-label.
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["subject-label", "status", "status-label", "updated", "updated-label"]);
+const HANDLED = new Set(["subject-label", "entry-state", "entry-state-label", "status", "status-label", "updated", "updated-label"]);
 
 export class RecordListItem extends HTMLElement {
     connectedCallback(): void {
@@ -27,7 +27,17 @@ export class RecordListItem extends HTMLElement {
             add("span", "record-list-item-subject", attr("subject-label"));
             li.append(" ");
         }
-        moveChildrenInto(this, li);
+        // entry-state: "withheld" shows only entry-state-label; "entered-in-error" keeps the content in a <del>, with the words.
+        const state = attr("entry-state");
+        if (state) li.setAttribute("data-entry-state", state);
+        if (state === "withheld") add("span", "record-list-item-entry-state", attr("entry-state-label"));
+        else if (state === "entered-in-error") {
+            const del = document.createElement("del");
+            del.className = "record-list-item-entry";
+            moveChildrenInto(this, del);
+            li.append(del);
+            add("span", "record-list-item-entry-state", attr("entry-state-label"));
+        } else moveChildrenInto(this, li);
         add("span", "record-list-item-status", attr("status-label"));
         add("time", "record-list-item-updated", attr("updated-label"), attr("updated"));
         this.replaceWith(li);

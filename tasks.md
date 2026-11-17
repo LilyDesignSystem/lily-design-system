@@ -3710,9 +3710,9 @@ go to all nine catalogs (helpers: all eight), Svelte first.
       Verify: tests in every catalog; the guide states the rule, including that an empty list from an unavailable source says so.
 - [x] **P31-T3 Superseded values.** `previousValue` and `previousLabel` on `observation-view`, in a `<del>` with the consumer's words.
       Verify: tests in all nine catalogs that a corrected result shows both values. _(2026-11-17: done in all nine catalogs with P29-T7: `previousValue` in `<del class="observation-view-previous-value">` and `previousLabel` beside it, which warns when missing in Svelte, React, Vue and Angular. Tests in seven catalogs.)_
-- [ ] **P31-T4 Withheld and in-error entries.** `entryState` (`withheld`, `entered-in-error`) on `timeline-list-item` and
+- [x] **P31-T4 Withheld and in-error entries.** `entryState` (`withheld`, `entered-in-error`) on `timeline-list-item` and
       `record-list-item`, as `data-entry-state`, each requiring consumer words; in error keeps the content in a `<del>`.
-      Verify: tests in all nine catalogs; a missing label raises `warnMissingProp`.
+      Verify: tests in all nine catalogs; a missing label raises `warnMissingProp`. _(2026-11-17: done in all nine catalogs. Svelte, React, Vue, Angular, Web Components, Nunjucks and Blazor render `data-entry-state`, the words in `-entry-state`, and an in-error entry's content in a `<del>`; withheld content is not rendered. Svelte, React, Vue and Angular warn on a missing `entryStateLabel`; the HTML snippets, and so Alpine's, show both states. Tests in the seven rendering catalogs.)_
 - [ ] **P31-T5 `signature-pad` outcomes and a typed method.** Required attestation text as the accessible description; `outcome`
       (signed, declined, unable, verbal, on-paper, pending, revoked) with consumer words; a typed-name method beside drawing;
       `role="application"` removed.
