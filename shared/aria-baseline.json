@@ -65,6 +65,10 @@
     "role": null,
     "aria": []
   },
+  "age-view": {
+    "role": null,
+    "aria": []
+  },
   "ai-label": {
     "role": "img",
     "aria": [
@@ -87,6 +91,16 @@
       "aria-atomic",
       "aria-live"
     ]
+  },
+  "allergy-record-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "allergy-record-list-item": {
+    "role": null,
+    "aria": []
   },
   "angle-slider-range-input": {
     "role": null,
@@ -267,6 +281,10 @@
     "aria": [
       "aria-label"
     ]
+  },
+  "body-map": {
+    "role": null,
+    "aria": []
   },
   "body-text": {
     "role": null,
@@ -600,6 +618,18 @@
       "aria-label"
     ]
   },
+  "color-radio-group": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "color-radio-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
   "column-chart": {
     "role": null,
     "aria": []
@@ -770,6 +800,10 @@
     "role": null,
     "aria": []
   },
+  "date-field-test-host": {
+    "role": null,
+    "aria": []
+  },
   "date-input": {
     "role": null,
     "aria": [
@@ -800,6 +834,12 @@
       "aria-label"
     ]
   },
+  "decision-support-card": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
   "description-list": {
     "role": null,
     "aria": []
@@ -819,6 +859,16 @@
     ]
   },
   "deutschland-krankenversichertennummer-view": {
+    "role": null,
+    "aria": []
+  },
+  "device-record-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "device-record-list-item": {
     "role": null,
     "aria": []
   },
@@ -893,6 +943,14 @@
     "role": null,
     "aria": []
   },
+  "duration-view": {
+    "role": null,
+    "aria": []
+  },
+  "early-warning-score-view": {
+    "role": null,
+    "aria": []
+  },
   "ecuador-cedula-de-identidad-input": {
     "role": null,
     "aria": [
@@ -951,6 +1009,18 @@
   },
   "emoji": {
     "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "emoji-character-radio-group": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "emoji-character-radio-input": {
+    "role": null,
     "aria": [
       "aria-label"
     ]
@@ -1057,8 +1127,32 @@
     "role": null,
     "aria": []
   },
+  "five-face-rating-radio-group": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "five-face-rating-radio-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
   "five-face-rating-view": {
     "role": "img",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "five-star-rating-radio-group": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "five-star-rating-radio-input": {
+    "role": null,
     "aria": [
       "aria-label"
     ]
@@ -1355,6 +1449,16 @@
     "role": null,
     "aria": []
   },
+  "immunization-record-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "immunization-record-list-item": {
+    "role": null,
+    "aria": []
+  },
   "indonesia-nomor-induk-kependudukan-input": {
     "role": null,
     "aria": [
@@ -1396,6 +1500,18 @@
   "inset-text": {
     "role": "note",
     "aria": []
+  },
+  "international-patient-summary": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "international-patient-summary-section": {
+    "role": null,
+    "aria": [
+      "aria-labelledby"
+    ]
   },
   "iran-kod-emelli-input": {
     "role": null,
@@ -1661,6 +1777,20 @@
       "aria-label"
     ]
   },
+  "medication-record-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "medication-record-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "medication-view": {
+    "role": null,
+    "aria": []
+  },
   "mentions-input": {
     "role": null,
     "aria": []
@@ -1827,6 +1957,18 @@
     "role": null,
     "aria": []
   },
+  "net-promoter-score-radio-group": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "net-promoter-score-radio-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
   "net-promoter-score-view": {
     "role": null,
     "aria": []
@@ -1879,6 +2021,14 @@
     "aria": [
       "aria-label"
     ]
+  },
+  "numeric-rating-scale-picker": {
+    "role": null,
+    "aria": []
+  },
+  "observation-view": {
+    "role": null,
+    "aria": []
   },
   "one-time-password-input": {
     "role": null,
@@ -2092,6 +2242,26 @@
     "role": null,
     "aria": []
   },
+  "problem-record-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "problem-record-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "procedure-record-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "procedure-record-list-item": {
+    "role": null,
+    "aria": []
+  },
   "product-card": {
     "role": null,
     "aria": [
@@ -2135,6 +2305,12 @@
       "aria-label"
     ]
   },
+  "quantity-input-div": {
+    "role": "group",
+    "aria": [
+      "aria-label"
+    ]
+  },
   "question": {
     "role": "group",
     "aria": [
@@ -2163,9 +2339,47 @@
       "aria-label"
     ]
   },
+  "record-list": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "record-list-item": {
+    "role": null,
+    "aria": []
+  },
+  "record-provenance-view": {
+    "role": null,
+    "aria": []
+  },
+  "red-amber-green-radio-group": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "red-amber-green-radio-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
+  },
   "red-amber-green-view": {
     "role": null,
     "aria": []
+  },
+  "red-orange-yellow-green-blue-radio-group": {
+    "role": "radiogroup",
+    "aria": [
+      "aria-label"
+    ]
+  },
+  "red-orange-yellow-green-blue-radio-input": {
+    "role": null,
+    "aria": [
+      "aria-label"
+    ]
   },
   "red-orange-yellow-green-blue-view": {
     "role": null,
@@ -2176,6 +2390,14 @@
     "aria": [
       "aria-label"
     ]
+  },
+  "repeatable-fieldset": {
+    "role": null,
+    "aria": []
+  },
+  "repeatable-fieldset-test-host": {
+    "role": null,
+    "aria": []
   },
   "reset-input": {
     "role": null,
@@ -2354,7 +2576,7 @@
     ]
   },
   "signature-pad": {
-    "role": "application",
+    "role": "group",
     "aria": [
       "aria-label"
     ]

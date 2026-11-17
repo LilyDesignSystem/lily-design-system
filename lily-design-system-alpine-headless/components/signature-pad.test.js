@@ -12,9 +12,13 @@ describe("SignaturePad", () => {
         expect(el().classList.contains("signature-pad")).toBe(true);
     });
 
-    it('is role="application" with an accessible name', async () => {
+    it("is a named group with its attestation, a typed-name field and an outcome notice", async () => {
         await mount("signature-pad");
-        expect(el().getAttribute("role")).toBe("application");
-        expect(el().hasAttribute("aria-label")).toBe(true);
+        expect(el().getAttribute("role")).toBe("group");
+        expect(el().getAttribute("aria-describedby")).toBe(el().firstElementChild.id);
+        expect(el().getAttribute("data-outcome")).toBe("pending");
+        const input = el().querySelector(".signature-pad-typed input");
+        expect(el().querySelector(".signature-pad-typed label").getAttribute("for")).toBe(input.id);
+        expect(el().querySelector(".signature-pad-outcome").textContent).toBe("Awaiting signature");
     });
 });

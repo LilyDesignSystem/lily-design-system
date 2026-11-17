@@ -30,4 +30,25 @@ describe("signature-pad", () => {
         const { document } = render("signature-pad", { id: "sig" });
         expect(document.querySelector("button.signature-pad-clear")).toBeNull();
     });
+
+    it("a named group with the attestation, a typed-name field and an outcome notice", () => {
+        const { document } = render("signature-pad", {
+            id: "consent",
+            label: "Consent signature",
+            attestation: "I confirm.",
+            typedNameLabel: "Type your full name",
+            typedName: "signature",
+            outcome: "declined",
+            outcomeLabel: "Declined to sign",
+        });
+        const root = document.querySelector(".signature-pad");
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-describedby")).toBe("consent-attestation");
+        expect(root.firstElementChild.className).toBe("signature-pad-attestation");
+        expect(root.getAttribute("data-outcome")).toBe("declined");
+        const input = root.querySelector(".signature-pad-typed input");
+        expect(root.querySelector(".signature-pad-typed label").getAttribute("for")).toBe(input.id);
+        expect(input.getAttribute("name")).toBe("signature");
+        expect(root.querySelector(".signature-pad-outcome").textContent).toBe("Declined to sign");
+    });
 });

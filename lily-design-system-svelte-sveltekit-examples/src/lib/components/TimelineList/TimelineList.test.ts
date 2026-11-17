@@ -78,6 +78,7 @@ describe("TimelineList", () => {
         const { container } = render(Subject, {
             props: {
                 label: "History",
+                children: textSnippet(""),
                 coverageLabel: "Last 12 months, newest first. The GP record did not answer.",
             },
         });

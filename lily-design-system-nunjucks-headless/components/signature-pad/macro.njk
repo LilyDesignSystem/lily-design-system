@@ -4,8 +4,13 @@
   HTML tag: <div> wrapping a <canvas>
   CSS class: signature-pad
 
-  Params: id, name, width (default 400), height (default 150), label,
-    clearLabel (the clear button appears only when you name it), classes, attributes.
+  A named group (role="group"), not role="application", so a screen reader keeps its own keys (tasks.md P31-T5).
+
+  Params: id, name, width (default 400), height (default 150), label (the group's name),
+    clearLabel (the clear button appears only when you name it), classes, attributes,
+    attestation (what the signer confirms; shown first, and the group's description),
+    typedNameLabel (adds a typed-name field, so a signature can be given by keyboard alone; typedName is its form name),
+    outcome (signed, declined, unable, verbal, on-paper, pending or revoked; data-outcome) and outcomeLabel (its words).
 
   Usage:
     {% from "components/signature-pad/macro.njk" import signaturePad %}
@@ -15,12 +20,17 @@
 {%- set p = params | default({}) -%}
 <div
   class="signature-pad{% if p.classes %} {{ p.classes }}{% endif %}"
-  role="application"
+  role="group"
   {%- if p.label %} aria-label="{{ p.label }}"{% endif %}
+  {%- if p.attestation %} aria-describedby="{{ p.id | default('signature-pad') }}-attestation"{% endif %}
+  {%- if p.outcome %} data-outcome="{{ p.outcome }}"{% endif %}
   data-module="signature-pad"
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
+  {%- if p.attestation %}
+  <p class="signature-pad-attestation" id="{{ p.id | default('signature-pad') }}-attestation">{{ p.attestation }}</p>
+  {%- endif %}
   <canvas
     class="signature-pad-canvas"
     width="{{ p.width | default(400) }}"
@@ -30,5 +40,11 @@
   ></canvas>
   <input type="hidden" class="signature-pad-input"{% if p.name %} name="{{ p.name }}"{% endif %}>
   {%- if p.clearLabel %}<button type="button" class="signature-pad-clear">{{ p.clearLabel }}</button>{% endif %}
+  {%- if p.typedNameLabel %}
+  <p class="signature-pad-typed"><label for="{{ p.id | default('signature-pad') }}-typed">{{ p.typedNameLabel }}</label><input id="{{ p.id | default('signature-pad') }}-typed" type="text" autocomplete="name"{% if p.typedName %} name="{{ p.typedName }}"{% endif %}></p>
+  {%- endif %}
+  {%- if p.outcome and p.outcomeLabel %}
+  <p class="signature-pad-outcome">{{ p.outcomeLabel }}</p>
+  {%- endif %}
 </div>
 {%- endmacro -%}

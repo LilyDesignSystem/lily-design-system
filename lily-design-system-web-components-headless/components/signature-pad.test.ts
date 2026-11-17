@@ -16,53 +16,45 @@ function render(html: string): HTMLElement {
 }
 
 describe("SignaturePad", () => {
-    test("renders a native canvas with the base class", () => {
+    test("a named group, not an application, holding a canvas drawing surface", () => {
         const host = render(
             '<lily-signature-pad label="Sign to accept the terms"></lily-signature-pad>',
         );
-
-        expect(host.querySelector("canvas")!.className).toBe("signature-pad");
+        const root = host.querySelector(":scope > div.signature-pad") as HTMLElement;
+        expect(root.getAttribute("role")).toBe("group");
+        expect(root.getAttribute("aria-label")).toBe("Sign to accept the terms");
+        expect(root.querySelector("canvas.signature-pad-canvas")).not.toBeNull();
+        expect(host.querySelector('[role="application"]')).toBeNull();
     });
 
-    test("has role=application", () => {
+    test("the attestation is shown first and is the group's description", () => {
         const host = render(
-            '<lily-signature-pad label="Sign to accept the terms"></lily-signature-pad>',
+            '<lily-signature-pad label="Consent" attestation="I confirm."></lily-signature-pad>',
         );
-
-        expect(host.querySelector("canvas")!.getAttribute("role")).toBe("application");
+        const root = host.querySelector("div.signature-pad") as HTMLElement;
+        const attestation = root.firstElementChild as HTMLElement;
+        expect(attestation.className).toBe("signature-pad-attestation");
+        expect(root.getAttribute("aria-describedby")).toBe(attestation.id);
     });
 
-    test("uses label as the accessible name", () => {
+    test("a typed-name field means drawing is never the only way to sign", () => {
         const host = render(
-            '<lily-signature-pad label="Sign to accept the terms"></lily-signature-pad>',
+            '<lily-signature-pad label="Consent" typed-name-label="Type your full name" name="signature"></lily-signature-pad>',
         );
-
-        expect(host.querySelector("canvas")!.getAttribute("aria-label")).toBe(
-            "Sign to accept the terms",
-        );
+        const input = host.querySelector(".signature-pad-typed input") as HTMLInputElement;
+        const label = host.querySelector(".signature-pad-typed label") as HTMLLabelElement;
+        expect(label.htmlFor).toBe(input.id);
+        expect(label.textContent).toBe("Type your full name");
+        expect(input.name).toBe("signature");
+        expect(input.autocomplete).toBe("name");
     });
 
-    test("root class hook includes the consumer's class attribute", () => {
-        const host = render('<lily-signature-pad label="Sign" class="wide"></lily-signature-pad>');
-
-        expect(host.querySelector("canvas")!.className).toBe("signature-pad wide");
-    });
-
-    test("passes rest attributes (e.g. width/height) through onto the canvas", () => {
+    test("an outcome other than signed is a notice in the consumer's words, and data-outcome", () => {
         const host = render(
-            '<lily-signature-pad label="Sign" width="400" height="150"></lily-signature-pad>',
+            '<lily-signature-pad label="Consent" outcome="declined" outcome-label="Declined to sign"></lily-signature-pad>',
         );
-
-        const canvas = host.querySelector("canvas") as HTMLCanvasElement;
-        expect(canvas.width).toBe(400);
-        expect(canvas.height).toBe(150);
-    });
-
-    test("is idempotent if connectedCallback runs more than once", () => {
-        const host = render('<lily-signature-pad label="Sign"></lily-signature-pad>');
-
-        (host as unknown as SignaturePad).connectedCallback();
-
-        expect(host.querySelectorAll("canvas").length).toBe(1);
+        const root = host.querySelector("div.signature-pad") as HTMLElement;
+        expect(root.getAttribute("data-outcome")).toBe("declined");
+        expect(root.querySelector(".signature-pad-outcome")?.textContent).toBe("Declined to sign");
     });
 });

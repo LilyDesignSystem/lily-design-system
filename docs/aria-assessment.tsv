@@ -394,7 +394,7 @@ separator	ARIA evidence incomplete	no	no	no	yes	8	7	no	-
 share-page	key evidence incomplete	no	yes	no	yes	1	6	no	-
 sheet	key evidence incomplete	no	yes	yes	yes	7	8	no	-
 sidebar	ARIA evidence incomplete	no	no	no	yes	8	3	no	-
-signature-pad	ARIA evidence incomplete	no	no	no	yes	8	4	no	-
+signature-pad	automated evidence complete	no	no	no	yes	5	8	no	-
 skeleton	automated evidence complete	no	no	no	yes	8	8	no	-
 skip-link	automated evidence complete	yes	yes	no	no	8	8	yes	-
 slide-out-drawer	key evidence incomplete	no	yes	yes	yes	7	8	no	-

@@ -5,10 +5,29 @@
     a drawing area for capturing a handwritten signature
 *@
 
-<div class="@($"signature-pad {CssClass}".Trim())" role="application" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</div>
+<div class="@($"signature-pad {CssClass}".Trim())" role="group" aria-label="@Label" aria-describedby="@(string.IsNullOrEmpty(Attestation) ? null : $"{_uid}-attestation")" data-outcome="@(string.IsNullOrEmpty(Outcome) ? null : Outcome)" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(Attestation)) {<p class="signature-pad-attestation" id="@($"{_uid}-attestation")">@Attestation</p>}@ChildContent@if (!string.IsNullOrEmpty(TypedNameLabel)) {<p class="signature-pad-typed"><label for="@($"{_uid}-typed")">@TypedNameLabel</label><input id="@($"{_uid}-typed")" type="text" autocomplete="name" name="@Name" value="@TypedName" @oninput="OnTypedAsync" /></p>}@if (!string.IsNullOrEmpty(Outcome) && !string.IsNullOrEmpty(OutcomeLabel)) {<p class="signature-pad-outcome">@OutcomeLabel</p>}</div>
 
 @code {
     [Parameter, EditorRequired] public string Label { get; set; } = "";
+    /// <summary>What the signer confirms, in the consumer's words; shown first and the group's accessible description.</summary>
+    [Parameter] public string? Attestation { get; set; }
+    /// <summary>signed, declined, unable, verbal, on-paper, pending or revoked; rendered as data-outcome.</summary>
+    [Parameter] public string? Outcome { get; set; }
+    /// <summary>The outcome in the consumer's words; required with Outcome.</summary>
+    [Parameter] public string? OutcomeLabel { get; set; }
+    /// <summary>Adds a typed-name field with this label, so a signature can be given by keyboard alone (WCAG 2.1.1).</summary>
+    [Parameter] public string? TypedNameLabel { get; set; }
+    /// <summary>The typed name; two-way with @bind-TypedName.</summary>
+    [Parameter] public string TypedName { get; set; } = "";
+    [Parameter] public EventCallback<string> TypedNameChanged { get; set; }
+    /// <summary>The typed-name field's form name.</summary>
+    [Parameter] public string? Name { get; set; }
+    private readonly string _uid = $"signature-pad-{Guid.NewGuid():N}";
+    private async Task OnTypedAsync(ChangeEventArgs e)
+    {
+        TypedName = e.Value?.ToString() ?? "";
+        await TypedNameChanged.InvokeAsync(TypedName);
+    }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

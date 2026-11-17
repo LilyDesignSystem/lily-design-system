@@ -47,18 +47,79 @@
 //
 // References:
 //   - WAI-ARIA application role: https://www.w3.org/TR/wai-aria-1.2/#application
-defineProps<{
+import { useAttrs, useId } from "vue";
+import { warnMissingName, warnMissingProp } from "./dev-warning";
+
+const props = defineProps<{
+    /** The group's accessible name. */
     label: string;
+    /** What the signer confirms, in the consumer's words; shown first and the group's accessible description. */
+    attestation?: string;
+    /** The signature's outcome; rendered as data-outcome, with outcomeLabel as its words. */
+    outcome?: "signed" | "declined" | "unable" | "verbal" | "on-paper" | "pending" | "revoked";
+    /** The outcome in the consumer's words; required with outcome. */
+    outcomeLabel?: string;
+    /** Adds a typed-name field with this label, so a signature can be given by keyboard alone (WCAG 2.1.1). */
+    typedNameLabel?: string;
+    /** The typed-name field's form name. */
+    name?: string;
 }>();
+
+/** The typed name. Two-way with v-model:typedName. */
+const typedName = defineModel<string>("typedName", { default: "" });
+const uid = useId();
+
+warnMissingName(
+    "SignaturePad",
+    props.label,
+    useAttrs()["aria-label"],
+    useAttrs()["aria-labelledby"],
+);
+
+if (props.outcome)
+    warnMissingProp(
+        "SignaturePad",
+        "outcomeLabel",
+        props.outcomeLabel,
+        "a signature's outcome needs words, never an empty line.",
+    );
 </script>
 
 <template>
     <!-- SignaturePad.vue -->
     <div
         class="signature-pad"
-        role="application"
+        role="group"
         :aria-label="label"
+        :aria-describedby="attestation ? `signature-pad-attestation-${uid}` : undefined"
+        :data-outcome="outcome"
     >
+        <p
+            v-if="attestation"
+            class="signature-pad-attestation"
+            :id="`signature-pad-attestation-${uid}`"
+        >
+            {{ attestation }}
+        </p>
         <slot />
+        <p
+            v-if="typedNameLabel"
+            class="signature-pad-typed"
+        >
+            <label :for="`signature-pad-typed-${uid}`">{{ typedNameLabel }}</label>
+            <input
+                :id="`signature-pad-typed-${uid}`"
+                v-model="typedName"
+                type="text"
+                autocomplete="name"
+                :name="name"
+            />
+        </p>
+        <p
+            v-if="outcome && outcomeLabel"
+            class="signature-pad-outcome"
+        >
+            {{ outcomeLabel }}
+        </p>
     </div>
 </template>

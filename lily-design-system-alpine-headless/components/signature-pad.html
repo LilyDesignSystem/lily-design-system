@@ -4,15 +4,33 @@
   Description: a drawing area for capturing a handwritten signature
   HTML tag: <div>
   CSS class: signature-pad
-  Keyboard: None (passive element)
-  Accessibility: role="application" with aria-label naming the signing purpose
+  Keyboard: Tab reaches the typed-name field; the consumer's drawing surface handles its own keys
+  Accessibility: a named group (role="group"), not role="application"; the attestation is its description, a typed-name field means drawing is never the only way to sign (WCAG 2.1.1), and an outcome other than signed is a notice with data-outcome (tasks.md P31-T5)
   Requires: Alpine.js with the Lily plugin (lily-alpine.js)
 -->
 
 <div
   class="signature-pad"
-  role="application"
-  aria-label=""
+  role="group"
+  aria-label="Consent signature"
+  aria-describedby="signature-pad-1-attestation"
+  data-outcome="pending"
 >
-  <!-- Consumer provides the drawing surface (canvas, SVG, …) -->
+  <p
+    class="signature-pad-attestation"
+    id="signature-pad-1-attestation"
+  >
+    I confirm I have read and understood the information.
+  </p>
+  <!-- Consumer provides the drawing surface, for example <canvas class="signature-pad-canvas"> -->
+  <p class="signature-pad-typed">
+    <label for="signature-pad-1-typed">Or type your full name</label>
+    <input
+      id="signature-pad-1-typed"
+      type="text"
+      autocomplete="name"
+      name="signature"
+    />
+  </p>
+  <p class="signature-pad-outcome">Awaiting signature</p>
 </div>

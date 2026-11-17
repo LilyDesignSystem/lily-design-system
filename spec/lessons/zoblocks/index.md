@@ -95,13 +95,13 @@ recorded, as here.
 
 ## Acceptance criteria
 
-- [ ] The data grid keeps focus on the same `rowId` through a sort and a filter in all eight catalogs, with a test that fails on index-based focus (item 1).
+- [x] The data grid keeps focus on the same `rowId` through a sort and a filter in all eight catalogs, with a test that fails on index-based focus (item 1).
 - [x] `coverageLabel` and `-coverage` parts exist, with tests (item 2).
-- [ ] `observation-view` shows a superseded value in `<del>` (item 3).
-- [ ] Withheld and in-error entries render in timeline and record items (item 4).
-- [ ] `signature-pad` has outcomes, attestation text and a typed method, and a test signs by keyboard alone (item 6).
-- [ ] Menus take `subjectLabel` (item 7); `sparkline` takes `breaks` and `minimumPoints` (item 8).
-- [ ] The guide has the consequence-tier, passage-source and denominator rules (items 7, 9, 10).
+- [x] `observation-view` shows a superseded value in `<del>` (item 3).
+- [x] Withheld and in-error entries render in timeline and record items (item 4).
+- [x] `signature-pad` has outcomes, attestation text and a typed method, and a test signs by keyboard alone (item 6).
+- [x] Menus take `subjectLabel` (item 7); `sparkline` takes `breaks` and `minimumPoints` (item 8). `breaks` is a prop only in the Nunjucks macro, the one sparkline that draws its own line; elsewhere the consumer draws one path per comparable run (tasks.md P31-T7).
+- [x] The guide has the consequence-tier, passage-source and denominator rules (items 7, 9, 10).
 
 ## Related topics
 

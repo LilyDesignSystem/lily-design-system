@@ -302,11 +302,30 @@ const choose = async (files) => {
     expect(document.querySelector("div.image-cropper").getAttribute("data-crop-width")).toBe("100");
   });`,
     },
-    "signature-pad": passive(
-        "signature-pad",
-        "div",
-        "application",
-        "the signing purpose",
-        "Consumer provides the drawing surface (canvas, SVG, …)",
-    ),
+    "signature-pad": {
+        tag: "div",
+        keyboard:
+            "Tab reaches the typed-name field; the consumer's drawing surface handles its own keys",
+        aria: 'a named group (role="group"), not role="application"; the attestation is its description, a typed-name field means drawing is never the only way to sign (WCAG 2.1.1), and an outcome other than signed is a notice with data-outcome (tasks.md P31-T5)',
+        markup: `<div class="signature-pad" role="group" aria-label="Consent signature" aria-describedby="signature-pad-1-attestation" data-outcome="pending">
+  <p class="signature-pad-attestation" id="signature-pad-1-attestation">I confirm I have read and understood the information.</p>
+  <!-- Consumer provides the drawing surface, for example <canvas class="signature-pad-canvas"> -->
+  <p class="signature-pad-typed">
+    <label for="signature-pad-1-typed">Or type your full name</label>
+    <input id="signature-pad-1-typed" type="text" autocomplete="name" name="signature">
+  </p>
+  <p class="signature-pad-outcome">Awaiting signature</p>
+</div>`,
+        sel: "div.signature-pad",
+        test: `
+  it("is a named group with its attestation, a typed-name field and an outcome notice", async () => {
+    await mount("signature-pad");
+    expect(el().getAttribute("role")).toBe("group");
+    expect(el().getAttribute("aria-describedby")).toBe(el().firstElementChild.id);
+    expect(el().getAttribute("data-outcome")).toBe("pending");
+    const input = el().querySelector(".signature-pad-typed input");
+    expect(el().querySelector(".signature-pad-typed label").getAttribute("for")).toBe(input.id);
+    expect(el().querySelector(".signature-pad-outcome").textContent).toBe("Awaiting signature");
+  });`,
+    },
 };

@@ -392,7 +392,7 @@ export const componentDemos: Record<string, string> = {
   'share-page': '<div class="share-page" role="group" aria-label="a component for sharing the page on social media">SharePage</div>',
   'sheet': '<div class="sheet" role="dialog" aria-label="Sheet"><p>Sheet panel content</p></div>',
   'sidebar': '<aside class="sidebar" aria-label="Sidebar"><nav><ul><li>Nav item 1</li><li>Nav item 2</li></ul></nav></aside>',
-  'signature-pad': '<div class="signature-pad" role="img" aria-label="Signature area" style="border:1px solid #d1d5db;height:100px;display:flex;align-items:center;justify-content:center;">Sign here</div>',
+  'signature-pad': '<div class="signature-pad" role="group" aria-label="Consent signature" aria-describedby="signature-pad-demo-attestation"><p class="signature-pad-attestation" id="signature-pad-demo-attestation">I confirm I have read and understood the information.</p><canvas class="signature-pad-canvas" width="300" height="100" aria-hidden="true"></canvas><p class="signature-pad-typed"><label for="signature-pad-demo-typed">Or type your full name</label> <input id="signature-pad-demo-typed" type="text" autocomplete="name" name="signature"></p></div>',
   'skeleton': '<div class="skeleton" aria-hidden="true" style="height:1em;background:#e5e7eb;border-radius:4px;"></div>',
   'skip-link': '<a class="skip-link" href="#main-content">Skip to main content</a>',
   'slide-out-drawer': '<div class="slide-out-drawer" role="dialog" aria-label="Drawer"><p>Slide-out drawer</p></div>',

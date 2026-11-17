@@ -49,11 +49,26 @@
 
 import React from "react";
 
+import { warnMissingName, warnMissingProp } from "./dev-warning";
+
 export interface SignaturePadProps {
     className?: string;
-    /** Accessible label. */
+    /** The group's accessible name. */
     label: string;
-    /** Drawing surface content. */
+    /** What the signer confirms, in the consumer's words; shown first and the group's accessible description. */
+    attestation?: string;
+    /** The signature's outcome; rendered as data-outcome, with outcomeLabel as its words. */
+    outcome?: "signed" | "declined" | "unable" | "verbal" | "on-paper" | "pending" | "revoked";
+    /** The outcome in the consumer's words; required with outcome. */
+    outcomeLabel?: string;
+    /** Adds a typed-name field with this label, so a signature can be given by keyboard alone (WCAG 2.1.1). */
+    typedNameLabel?: string;
+    /** The typed name (controlled), with onTypedNameChange. */
+    typedName?: string;
+    onTypedNameChange?: (value: string) => void;
+    /** The typed-name field's form name. */
+    name?: string;
+    /** The drawing surface (canvas, SVG), the consumer's. */
     children?: React.ReactNode;
     [key: string]: unknown;
 }
@@ -61,17 +76,64 @@ export interface SignaturePadProps {
 export default function SignaturePad({
     className = "",
     label,
+    attestation,
+    outcome,
+    outcomeLabel,
+    typedNameLabel,
+    typedName,
+    onTypedNameChange,
+    name,
     children,
     ...restProps
 }: SignaturePadProps) {
+    warnMissingName("SignaturePad", label, restProps["aria-label"], restProps["aria-labelledby"]);
+    const uid = React.useId();
+    const [ownName, setOwnName] = React.useState("");
+    const value = typedName ?? ownName;
+    if (outcome)
+        warnMissingProp(
+            "SignaturePad",
+            "outcomeLabel",
+            outcomeLabel,
+            "a signature's outcome needs words, never an empty line.",
+        );
     return (
         <div
             className={`signature-pad ${className}`}
-            role="application"
+            role="group"
             aria-label={label}
+            aria-describedby={attestation ? `signature-pad-attestation-${uid}` : undefined}
+            data-outcome={outcome}
             {...restProps}
         >
+            {attestation ? (
+                <p
+                    className="signature-pad-attestation"
+                    id={`signature-pad-attestation-${uid}`}
+                >
+                    {attestation}
+                </p>
+            ) : null}
             {children}
+            {typedNameLabel ? (
+                <p className="signature-pad-typed">
+                    <label htmlFor={`signature-pad-typed-${uid}`}>{typedNameLabel}</label>
+                    <input
+                        id={`signature-pad-typed-${uid}`}
+                        type="text"
+                        autoComplete="name"
+                        name={name}
+                        value={value}
+                        onChange={(event) => {
+                            setOwnName(event.target.value);
+                            onTypedNameChange?.(event.target.value);
+                        }}
+                    />
+                </p>
+            ) : null}
+            {outcome && outcomeLabel ? (
+                <p className="signature-pad-outcome">{outcomeLabel}</p>
+            ) : null}
         </div>
     );
 }
