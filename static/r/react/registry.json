@@ -9610,6 +9610,9 @@
       "title": "Sparkline",
       "description": "A small inline chart showing a data trend.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],

@@ -17,6 +17,10 @@ This headless component provides a semantic container with `role="img"` and an a
 
 - `label`: string (required) -- accessible name describing the sparkline data, applied via `aria-label`
 - `children`: slot (required) -- the visualization content to render inside the container
+- `pointCount`: number (optional) -- how many readings the consumer's graphic shows
+- `minimumPoints`: number (optional) -- fewer readings than this are not a trend: the graphic is not shown, the root drops `role="img"` and `aria-label`, gains `data-insufficient`, and shows only `insufficientLabel` as text in `.sparkline-insufficient` (spec/lessons/zoblocks)
+- `insufficientLabel`: string -- why there is no line, in the consumer's words ("Not enough readings for a trend"); required with `minimumPoints` (a development warning says so)
+- Breaks: where readings are not comparable (a new method, assay or unit), the consumer draws one `<path>` per comparable run so the line never joins across the break; the component draws nothing, so it has no `breaks` prop. The Nunjucks macro, which draws the line from `values`, takes `breaks` (indexes where a new run starts) and splits it there
 
 ## Usage
 
