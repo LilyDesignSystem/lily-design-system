@@ -85,6 +85,9 @@
     <ul>
       <li>No role and no <code>aria-label</code>: a <code>&lt;span&gt;</code> cannot be named, so <code>label</code> renders as hidden text in a <code>screen-reader-span</code>. The flag is text, so a screen reader hears it</li>
     </ul>
+    <ul>
+      <li>It never infers an interpretation: with no <code>interpretation</code> there is no flag and no <code>data-interpretation</code>, even when a range is given, so a result whose range is missing or still loading is never shown as normal (spec/lessons/openmrs item 1)</li>
+    </ul>
     <h3>Keyboard</h3>
     <ul>
       <li>Not interactive</li>
@@ -96,6 +99,9 @@
       <li><code>interpretation</code>: string (optional) — a FHIR v3 ObservationInterpretation code, rendered as <code>data-interpretation</code></li>
       <li><code>flagLabel</code>: string (optional) — the flag in words ("High"); required when the flag is not normal</li>
       <li><code>range</code>: string (optional) — the reference range as text</li>
+      <li><code>ranges</code>: &#123; label, text &#125;[] (optional) — further named reference ranges ("Critical", "below 2.5"), each its own <code>-range</code> part with a <code>-range-label</code> (openEHR <code>other_reference_ranges</code>)</li>
+      <li><code>previousValue</code>: string (optional) — a superseded value, shown in a <code>&lt;del class="observation-view-previous-value"&gt;</code> so a reader who saw it knows it changed</li>
+      <li><code>previousLabel</code>: string (optional; required with <code>previousValue</code>) — the consumer's words for it ("was 5.1 until 3 Nov"), since a screen reader may not announce <code>&lt;del&gt;</code></li>
       <li><code>status</code>: "final" | "preliminary" | "amended" | "corrected" | "entered-in-error" | "cancelled" | "masked" | "not-recorded" | "unavailable" | "not-applicable" (optional) — default <code>final</code>, rendered as <code>data-status</code></li>
       <li><code>statusLabel</code>: string (optional) — the words for a status that is not final; replaces the value when it is missing</li>
       <li><code>label</code>: string (optional) — hidden text naming the observation, when no visible caption does</li>
