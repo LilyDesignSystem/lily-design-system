@@ -3670,18 +3670,18 @@ T5 to T7. Pages go in the SvelteKit app first, linked from its home page. No bil
 - [x] **P30-T1 Several patients open.** A guide rule: each tab or window names the patient and a second identifier, the active
       panel repeats the banner, and no action applies to a patient other than its panel's.
       Verify: the rule is in `docs/patterns/healthcare/index.md` and its site page; `bin/check-links` passes. _(2026-11-17: done: in the guide's wrong-patient section, with the session location and active visit rules.)_
-- [ ] **P30-T2 Tri-state answers.** The review-of-systems pattern: a `radio-group` of present, absent and not asked per symptom,
+- [x] **P30-T2 Tri-state answers.** The review-of-systems pattern: a `radio-group` of present, absent and not asked per symptom,
       none chosen by default, one `fieldset` per body system, and an "all others absent" button that sets only unanswered ones.
       Verify: the pattern is in the guide with a working example page that an e2e test completes by keyboard alone, and checks
-      that the button leaves answered symptoms unchanged. _(2026-11-17: the pattern is in the guide's Forms section; the example page with its e2e test remains.)_
-- [ ] **P30-T3 `/flow-board`.** Today's appointments in a `data-table`: time, patient with two identifiers, status as text, room,
+      that the button leaves answered symptoms unchanged. _(2026-11-17: the pattern is in the guide's Forms section; the example page with its e2e test remains.)_ _(2026-11-17: `/review-of-systems` in the SvelteKit app: three answers per symptom, none chosen at first, one `fieldset` per body system, and "All others absent" for the unanswered; `e2e/clinic-pages.spec.ts` answers by keyboard and checks that the button leaves answered symptoms and other systems alone. Making the button overwrite every answer makes it fail.)_
+- [x] **P30-T3 `/flow-board`.** Today's appointments in a `data-table`: time, patient with two identifiers, status as text, room,
       and time in status as a `<time>` duration; overdue entries in words and `data-overdue`; updates only on Refresh or with a
       pause control, summarised in one polite region. From OpenMRS service queues (P33): a priority in words and `data-priority`,
       and the sort order in a coverage line.
-      Verify: an e2e spec, axe-clean, and a test that no element on the page animates or blinks and that focus stays put on update.
-- [ ] **P30-T4 `/find-patient`.** A multi-field search, results with two identifiers per row, a no-results state in words, no
+      Verify: an e2e spec, axe-clean, and a test that no element on the page animates or blinks and that focus stays put on update. _(2026-11-17: `/flow-board` in the SvelteKit app: statuses, priority, room and time in status (`duration-view`) in words, an overdue wait in words with `data-overdue`, a coverage line, and updates only on Refresh, summarised in one status line, with focus kept. `e2e/clinic-pages.spec.ts` checks axe, that no element animates, that nothing changes without Refresh, and focus.)_
+- [x] **P30-T4 `/find-patient`.** A multi-field search, results with two identifiers per row, a no-results state in words, no
       automatic opening of a single match, and possible duplicates side by side.
-      Verify: an e2e spec, axe-clean, and a test that a single result is not opened without a choice.
+      Verify: an e2e spec, axe-clean, and a test that a single result is not opened without a choice. _(2026-11-17: `/find-patient` in the SvelteKit app: a search form, results with two identifiers, a no-results heading in words, focus to the results heading and never into a record, and possible duplicates marked side by side. `e2e/clinic-pages.spec.ts` checks axe, a single match left unopened, duplicates and no results.)_
 - [ ] **P30-T5 `/patient-dashboard`.** Summary cards for problems, allergies, medications, immunizations, reminders and
       appointments on the record lists, with actions named for what they change and a last-reviewed date, under the patient
       banner. After P29-T4 and P29-T9.

@@ -37,6 +37,17 @@
             description: "File inputs, drag-and-drop uploads, and progress",
         },
         {
+            href: "/find-patient",
+            title: "Find a Patient",
+            description:
+                "Two identifiers per result, no automatic opening, duplicates side by side",
+        },
+        {
+            href: "/flow-board",
+            title: "Clinic Flow Board",
+            description: "Statuses and waits in words, nothing blinks, updates only when asked",
+        },
+        {
             href: "/handover",
             title: "Handover",
             description: "An SBAR handover form, completed and sent by keyboard alone",
@@ -78,6 +89,12 @@
             href: "/rating-and-feedback",
             title: "Rating & Feedback",
             description: "Star ratings, NPS, face ratings, and RAG status",
+        },
+        {
+            href: "/review-of-systems",
+            title: "Review of Systems",
+            description:
+                "Present, absent or not asked: a symptom never asked about is never denied",
         },
         {
             href: "/rtl-demo",
