@@ -9294,6 +9294,9 @@
       "title": "SignaturePad",
       "description": "A drawing area for capturing a handwritten signature.",
       "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
       "categories": [
         "content"
       ],
