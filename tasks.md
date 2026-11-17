@@ -3643,11 +3643,13 @@ logic: no constraint validation, no score sums, no unit conversion.
 - [ ] **P29-T8 `quantity-input-div`.** A number input and a unit `<select>` (or fixed unit text), labelled together, with
       per-unit `min`, `max` and `step` that change with the unit; value `{ magnitude, unit }`; no conversion.
       Verify: built in all nine catalogs; a test that changing the unit changes the input's limits; form reset restores both.
-- [ ] **P29-T9 `record-provenance-view` (maintainer decision).** Author, committer, time, source system, version and a signature
-      state as `data-attestation`, each in consumer words; or a documented `summary-list` composition.
+- [ ] **P29-T9 `record-provenance-view` (approved by the maintainer, 2026-11-16).** Author, committer, time, source system, version and a signature
+      state as `data-attestation`, each in consumer words. Also, from ZoBlocks (P31) and OpenMRS (P33): a compact affix form for
+      beside a value, observed-at apart from recorded-at, a source kind as `data-source` (including machine-extracted and
+      "unreviewed"), and a sync state as `data-sync` (`pending`: saved on this device, not yet sent; `failed`).
       Verify: the decision is recorded in the topic; if built, tests in all nine catalogs and an unsigned state that never
       renders as signed.
-- [ ] **P29-T10 `repeatable-fieldset` (maintainer decision).** The "add another" pattern: identical fieldsets, add and remove
+- [ ] **P29-T10 `repeatable-fieldset` (approved by the maintainer, 2026-11-16).** The "add another" pattern: identical fieldsets, add and remove
       buttons, focus to the new item and back after removal, legends renumbered from a consumer template.
       Verify: the decision is recorded in the topic; if built, key and focus tests in all nine catalogs.
 - [ ] **P29-T11 openEHR in the healthcare guide.** The data-type, null-flavour, `normal_status` and Instruction State Machine
@@ -3669,7 +3671,8 @@ T5 to T7. Pages go in the SvelteKit app first, linked from its home page. No bil
       that the button leaves answered symptoms unchanged.
 - [ ] **P30-T3 `/flow-board`.** Today's appointments in a `data-table`: time, patient with two identifiers, status as text, room,
       and time in status as a `<time>` duration; overdue entries in words and `data-overdue`; updates only on Refresh or with a
-      pause control, summarised in one polite region.
+      pause control, summarised in one polite region. From OpenMRS service queues (P33): a priority in words and `data-priority`,
+      and the sort order in a coverage line.
       Verify: an e2e spec, axe-clean, and a test that no element on the page animates or blinks and that focus stays put on update.
 - [ ] **P30-T4 `/find-patient`.** A multi-field search, results with two identifiers per row, a no-results state in words, no
       automatic opening of a single match, and possible duplicates side by side.
@@ -3740,6 +3743,24 @@ decisions). No animation enters the headless layer.
 - [ ] **P32-T6 Registry listing (maintainer decision).** List Lily's shadcn-compatible registry in the shadcn registry directory
       under a namespace.
       Verify: the decision is recorded in the topic.
+
+## Phase 33 — Lessons from OpenMRS (2026-11-17)
+
+From [spec/lessons/openmrs](spec/lessons/openmrs/index.md). Order: T1, then T2 and T3, then T4. Items 6 and 8 of the topic are
+carried by P29-T9 and P30-T3.
+
+- [ ] **P33-T1 Never default to normal.** A test in all nine catalogs that `observation-view` without `interpretation` renders no
+      `data-interpretation` and no flag; a sentence in its `index.md` and `AGENTS.md` that it never infers one.
+      Verify: the tests pass, and fail when a default interpretation is added.
+- [ ] **P33-T2 Guide rules.** In `docs/patterns/healthcare/index.md` and its site page: unknown is not normal; off-scale results
+      as a limit with a comparator; load failures as `unavailable` with a retry; the session location in the header; the active
+      visit in the banner; patient flags as a labelled `tag-group` of words.
+      Verify: each rule is in the guide; `bin/check-links` passes.
+- [ ] **P33-T3 A failed section on `/patient-summary`.** One section `unavailable`, with the consumer's sentence and a retry button.
+      Verify: an e2e test finds the words and the button, and that nothing is announced on load.
+- [ ] **P33-T4 Workspace panel.** A non-modal `<aside aria-labelledby>` on `/patient-dashboard` (P30-T5): close returns focus to
+      the opener, minimise keeps the form's state, and closing with unsaved changes asks first in an `alert-dialog`.
+      Verify: an e2e test of each, by keyboard alone; axe-clean.
 
 ---
 

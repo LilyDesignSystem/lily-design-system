@@ -504,6 +504,18 @@ terminal transcript pattern, and, for the maintainer, an accessible `marquee` an
 
 Status (2026-11-16): researched; nothing built.
 
+## Phase 33 — Lessons from OpenMRS (2026-11-17)
+
+A review of OpenMRS 3, the open-source medical record used in more than 70 countries, built on React and IBM Carbon. Its
+styleguide source shows the defects Lily's healthcare contracts exist to prevent: a result with no reference range, or one still
+loading, is treated as "normal"; an abnormal value is colour and a `title`; every empty widget says "There are no {items}"; a failed
+load shows an HTTP status with no retry. The work is a never-normal test, guide rules for load failures, off-scale results, the
+session location, the active visit and banner flags, a non-modal workspace panel on the dashboard page, and a "saved on this
+device" provenance state. Findings: [spec/lessons/openmrs](spec/lessons/openmrs/index.md). Tasks:
+[tasks.md](tasks.md#phase-33--lessons-from-openmrs-2026-11-17).
+
+Status (2026-11-17): researched; nothing built. T1 first.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
