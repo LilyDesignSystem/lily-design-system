@@ -2960,7 +2960,8 @@
               "lily-design-system-svelte-theme-picker/ThemePicker.system.test.ts",
               "lily-design-system-svelte-theme-picker/ThemePicker.test.ts",
               "lily-design-system-svelte-theme-picker/theme-choice.test.ts",
-              "lily-design-system-svelte-theme-picker/theme-color.test.ts"
+              "lily-design-system-svelte-theme-picker/theme-color.test.ts",
+              "lily-design-system-svelte-theme-picker/view-transition.test.ts"
             ],
             "keyEvent": "lily-design-system-svelte-theme-picker/ThemePicker.pattern.test.ts",
             "ariaAssertion": "lily-design-system-svelte-theme-picker/ThemePicker.pattern.test.ts"
@@ -2973,7 +2974,8 @@
               "lily-design-system-react-theme-picker/ThemePicker.system.test.tsx",
               "lily-design-system-react-theme-picker/ThemePicker.test.tsx",
               "lily-design-system-react-theme-picker/theme-choice.test.ts",
-              "lily-design-system-react-theme-picker/theme-color.test.ts"
+              "lily-design-system-react-theme-picker/theme-color.test.ts",
+              "lily-design-system-react-theme-picker/view-transition.test.ts"
             ],
             "keyEvent": "lily-design-system-react-theme-picker/ThemePicker.pattern.test.tsx",
             "ariaAssertion": "lily-design-system-react-theme-picker/ThemePicker.pattern.test.tsx"
@@ -2986,7 +2988,8 @@
               "lily-design-system-vue-theme-picker/ThemePicker.system.test.ts",
               "lily-design-system-vue-theme-picker/ThemePicker.test.ts",
               "lily-design-system-vue-theme-picker/theme-choice.test.ts",
-              "lily-design-system-vue-theme-picker/theme-color.test.ts"
+              "lily-design-system-vue-theme-picker/theme-color.test.ts",
+              "lily-design-system-vue-theme-picker/view-transition.test.ts"
             ],
             "keyEvent": "lily-design-system-vue-theme-picker/ThemePicker.pattern.test.ts",
             "ariaAssertion": "lily-design-system-vue-theme-picker/ThemePicker.pattern.test.ts"
@@ -2999,7 +3002,8 @@
               "lily-design-system-angular-theme-picker/theme-color.spec.ts",
               "lily-design-system-angular-theme-picker/theme-picker.component.spec.ts",
               "lily-design-system-angular-theme-picker/theme-picker.pattern.spec.ts",
-              "lily-design-system-angular-theme-picker/theme-picker.system.spec.ts"
+              "lily-design-system-angular-theme-picker/theme-picker.system.spec.ts",
+              "lily-design-system-angular-theme-picker/view-transition.spec.ts"
             ],
             "keyEvent": "lily-design-system-angular-theme-picker/theme-picker.component.spec.ts",
             "ariaAssertion": "lily-design-system-angular-theme-picker/theme-picker.component.spec.ts"
@@ -3012,7 +3016,8 @@
               "lily-design-system-html-theme-picker/theme-color.test.ts",
               "lily-design-system-html-theme-picker/theme-picker.pattern.test.ts",
               "lily-design-system-html-theme-picker/theme-picker.system.test.ts",
-              "lily-design-system-html-theme-picker/theme-picker.test.ts"
+              "lily-design-system-html-theme-picker/theme-picker.test.ts",
+              "lily-design-system-html-theme-picker/view-transition.test.ts"
             ],
             "keyEvent": "lily-design-system-html-theme-picker/theme-picker.pattern.test.ts",
             "ariaAssertion": "lily-design-system-html-theme-picker/theme-picker.pattern.test.ts"
@@ -3025,7 +3030,8 @@
               "lily-design-system-web-components-theme-picker/theme-color.test.ts",
               "lily-design-system-web-components-theme-picker/theme-picker.pattern.test.ts",
               "lily-design-system-web-components-theme-picker/theme-picker.system.test.ts",
-              "lily-design-system-web-components-theme-picker/theme-picker.test.ts"
+              "lily-design-system-web-components-theme-picker/theme-picker.test.ts",
+              "lily-design-system-web-components-theme-picker/view-transition.test.ts"
             ],
             "keyEvent": "lily-design-system-web-components-theme-picker/theme-picker.pattern.test.ts",
             "ariaAssertion": "lily-design-system-web-components-theme-picker/theme-picker.pattern.test.ts"

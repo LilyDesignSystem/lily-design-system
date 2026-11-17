@@ -67,6 +67,12 @@
          * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
          */
         themeColor?: boolean;
+        /**
+         * Wrap each theme change in document.startViewTransition() when the browser has it and the user has not asked for
+         * reduced motion, so the consumer's ::view-transition-* CSS can animate it. Off by default; the theme applies the same
+         * either way.
+         */
+        viewTransition?: boolean;
         /** Discriminates the managed <link>; also the hidden input's `name`. */
         name?: string;
         /** File extension appended to each slug when constructing the URL. */
@@ -155,6 +161,7 @@
 <script lang="ts">
     import { untrack } from "svelte";
     import { applyThemeColorWhenLoaded } from "./theme-color.js";
+    import { linkSettled, withViewTransition } from "./view-transition.js";
     import {
         SYSTEM_THEME,
         prefersDarkScheme,
@@ -177,6 +184,7 @@
         systemThemes = { light: "light", dark: "dark" },
         cookieName: cookieNameProp,
         themeColor = false,
+        viewTransition = false,
         name = "theme",
         extension = ".css",
         target,
@@ -281,11 +289,15 @@
     function applyTheme(slug: string, choice: string = slug): void {
         if (typeof document === "undefined" || !slug) return;
         if (slug === appliedValue) return;
+        const first = appliedValue === "";
         appliedValue = slug;
         const link = getManagedLink();
-        link.href = themeHref(themesUrl, slug, extension);
-        if (themeColor) applyThemeColorWhenLoaded(link);
-        (target ?? document.documentElement).setAttribute("data-theme", slug);
+        withViewTransition(viewTransition && !first, async () => {
+            link.href = themeHref(themesUrl, slug, extension);
+            if (themeColor) applyThemeColorWhenLoaded(link);
+            (target ?? document.documentElement).setAttribute("data-theme", slug);
+            if (viewTransition) await linkSettled(link);
+        });
         onChange?.(slug, choice);
     }
 

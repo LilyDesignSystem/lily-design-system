@@ -133,6 +133,20 @@ address bar on a phone) follows the applied theme.
 - The value is whatever CSS colour the browser accepts for `theme-color`; it is not converted. Adopters who need a hex or
   `rgb()` value set `--lily-brand` to one.
 
+## View transition (added 2026-11-17, P32-T4)
+
+Optional and off by default. With `viewTransition` (`view-transition` on the custom elements, `data-lily-theme-picker-view-transition`
+from the Nunjucks macro, `ViewTransition` in Blazor) each theme change runs inside `document.startViewTransition()`, so the
+consumer's `::view-transition-*` CSS can animate it ([docs/patterns/motion](../../docs/patterns/motion/index.md)).
+
+- Only when the browser has the API and `prefers-reduced-motion: reduce` does not match; otherwise the theme changes at once.
+- Never on the first apply (page load): only a change the user makes animates.
+- The same writes happen either way (the managed link's `href`, `data-theme`, the theme colour); the transition waits for the new
+  stylesheet to load or fail, at most one second, so the new snapshot shows the new theme.
+- One pure module, `shared/view-transition.ts` (`withViewTransition`, `canViewTransition`, `linkSettled`), copied into the seven
+  TypeScript and JavaScript pickers by `bin/sync-shared-modules`; the Blazor picker builds the same steps into its apply script.
+- From the Magic UI review ([lessons/magicui](../lessons/magicui/index.md) item 4).
+
 ## Follow this device, kept in a cookie (added 2026-11-16)
 
 The listbox reads **Follow this device**, a line, then **Light** and **Dark** (and any other themes). In all eight catalogs, Svelte first. Contract: the Svelte package's [spec §5.6 and §5.7](../../lily-design-system-svelte-theme-picker/spec/index.md#56-follow-this-device-2026-11-16).

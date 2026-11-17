@@ -583,3 +583,7 @@ Lily™ and Lily Design System™ are trademarks.
 ## Theme colour (`ThemeColor`)
 
 Optional, off by default: set `ThemeColor` to also write `<meta name="theme-color">` from the theme's `--lily-brand` once its stylesheet has loaded (done in the same interop script that swaps the `<link>`). See [spec/theme-picker](../spec/theme-picker/index.md).
+
+## View transition (`ViewTransition`)
+
+Optional, off by default: set `ViewTransition` to wrap each theme change in `document.startViewTransition()` when the browser has it and the user has not asked for reduced motion, so your `::view-transition-*` CSS can animate the switch. The first apply, on page load, never transitions, and the theme applies the same either way. See [spec/theme-picker](../spec/theme-picker/index.md).

@@ -1333,4 +1333,20 @@ public class ThemePickerSelectVariantTests : TestContext
         Assert.Equal("theme-picker header-theme", root.GetAttribute("class"));
         Assert.Equal("tp", root.GetAttribute("data-testid"));
     }
+
+    // P32-T4 — ViewTransition: the apply script asks for a view transition only when on, supported and motion is allowed.
+    [Fact]
+    public void ViewTransition_IsOffByDefault_AndTheScriptGuardsItWhenOn()
+    {
+        var off = ThemePicker.BuildApplyScript("theme", "/a/dark.css", "dark", null);
+        Assert.DoesNotContain("startViewTransition", off);
+        var on = ThemePicker.BuildApplyScript("theme", "/a/dark.css", "dark", null, viewTransition: true);
+        Assert.Contains("typeof document.startViewTransition==='function'", on);
+        Assert.Contains("matchMedia('(prefers-reduced-motion: reduce)').matches", on);
+        Assert.Contains("document.startViewTransition(u);else u();", on);
+        // The same writes happen either way: inside u, which runs once, with or without a transition.
+        var update = on.Substring(on.IndexOf("var u=function(){"), on.IndexOf("};if(typeof") - on.IndexOf("var u=function(){"));
+        Assert.Contains("l.href=\"/a/dark.css\";", update);
+        Assert.Contains("document.documentElement.setAttribute('data-theme',\"dark\");", update);
+    }
 }

@@ -44,6 +44,9 @@
     themeColor    — boolean. If true, client.js also sets <meta name="theme-color">
                     from the theme's `--lily-brand` once its stylesheet has
                     loaded. Client-only; off by default.
+    viewTransition — boolean. If true, client.js wraps each theme change in
+                    document.startViewTransition() when the browser has it and
+                    reduced motion is not requested. Client-only; off by default.
     name          — string. Hidden-input `name` AND the discriminator on
                     the managed <link data-lily-theme-picker="{name}">
                     (default "theme").
@@ -99,6 +102,7 @@
 {%- set defaultValue = opts.defaultValue | default("") -%}
 {%- set detectFromSystem = opts.detectFromSystem | default(false) -%}
 {%- set themeColor = opts.themeColor | default(false) -%}
+{%- set viewTransition = opts.viewTransition | default(false) -%}
 {%- set themeLabels = opts.themeLabels | default({}) -%}
 {%- set systemLabel = opts.systemLabel | default("") -%}
 {%- set systemThemes = opts.systemThemes | default({light: "light", dark: "dark"}) -%}
@@ -128,6 +132,7 @@
   data-lily-theme-picker-default-value="{{ defaultValue }}"
   data-lily-theme-picker-detect-from-system="{{ 'true' if detectFromSystem else 'false' }}"
   data-lily-theme-picker-theme-color="{{ 'true' if themeColor else 'false' }}"
+  data-lily-theme-picker-view-transition="{{ 'true' if viewTransition else 'false' }}"
   data-lily-theme-picker-cookie-name="{{ cookieName }}"
   data-lily-theme-picker-system-themes="{{ systemThemes.light }},{{ systemThemes.dark }}"
   {%- if value %} data-lily-theme-picker-value="{{ value }}"{% endif %}
@@ -159,6 +164,7 @@
   data-lily-theme-picker-default-value="{{ defaultValue }}"
   data-lily-theme-picker-detect-from-system="{{ 'true' if detectFromSystem else 'false' }}"
   data-lily-theme-picker-theme-color="{{ 'true' if themeColor else 'false' }}"
+  data-lily-theme-picker-view-transition="{{ 'true' if viewTransition else 'false' }}"
   data-lily-theme-picker-cookie-name="{{ cookieName }}"
   data-lily-theme-picker-system-themes="{{ systemThemes.light }},{{ systemThemes.dark }}"
   {%- if value %} data-lily-theme-picker-value="{{ value }}"{% endif %}

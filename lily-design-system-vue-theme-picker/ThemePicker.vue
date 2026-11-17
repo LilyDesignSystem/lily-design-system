@@ -62,6 +62,12 @@ export type Props = {
      * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
      */
     themeColor?: boolean;
+    /**
+     * Wrap each theme change in document.startViewTransition() when the browser has it and the user has not asked for
+     * reduced motion, so the consumer's ::view-transition-* CSS can animate it. Off by default; the theme applies the same
+     * either way.
+     */
+    viewTransition?: boolean;
     /** Discriminates the managed <link>; also the hidden input's `name`. */
     name?: string;
     /** File extension appended to each slug when constructing the URL. */
@@ -139,6 +145,7 @@ export function nextThemePickerId(): string {
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { IconButton, Listbox } from "@lilydesignsystem/vue-headless";
 import { applyThemeColorWhenLoaded } from "./theme-color";
+import { linkSettled, withViewTransition } from "./view-transition";
 import {
     DEFAULT_SYSTEM_THEMES,
     SYSTEM_THEME,
@@ -161,6 +168,7 @@ const props = withDefaults(defineProps<Props>(), {
     systemThemes: () => DEFAULT_SYSTEM_THEMES,
     cookieName: undefined,
     themeColor: false,
+    viewTransition: false,
     name: "theme",
     extension: ".css",
     target: undefined,
@@ -286,11 +294,15 @@ let appliedValue = "";
 function applyTheme(slug: string, choice: string): void {
     if (typeof document === "undefined" || !slug) return;
     if (slug === appliedValue) return;
+    const first = appliedValue === "";
     appliedValue = slug;
     const link = getManagedLink();
-    link.href = themeHref(props.themesUrl, slug, props.extension);
-    if (props.themeColor) applyThemeColorWhenLoaded(link);
-    (props.target ?? document.documentElement).setAttribute("data-theme", slug);
+    withViewTransition(props.viewTransition && !first, async () => {
+        link.href = themeHref(props.themesUrl, slug, props.extension);
+        if (props.themeColor) applyThemeColorWhenLoaded(link);
+        (props.target ?? document.documentElement).setAttribute("data-theme", slug);
+        if (props.viewTransition) await linkSettled(link);
+    });
     emit("change", slug, choice);
 }
 

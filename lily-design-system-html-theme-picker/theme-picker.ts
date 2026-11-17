@@ -20,6 +20,7 @@
  */
 import { ListboxController } from "@lilydesignsystem/html-headless/components/listbox-controller.js";
 import { applyThemeColorWhenLoaded } from "./theme-color.js";
+import { linkSettled, withViewTransition } from "./view-transition.js";
 import {
     DEFAULT_SYSTEM_THEMES,
     SYSTEM_THEME,
@@ -319,6 +320,20 @@ export class ThemePicker extends HTMLElement {
     set themeColor(v: boolean) {
         if (v) this.setAttribute("theme-color", "");
         else this.removeAttribute("theme-color");
+    }
+
+    /**
+     * Wrap each theme change in document.startViewTransition() when the browser has it and the user has not asked for
+     * reduced motion, so the consumer's ::view-transition-* CSS can animate it. Off by default; the theme applies the same
+     * either way. Off by default (absent → false, present → true, "false" → false).
+     */
+    get viewTransition(): boolean {
+        const v = this.getAttribute("view-transition");
+        return v !== null && v !== "false";
+    }
+    set viewTransition(v: boolean) {
+        if (v) this.setAttribute("view-transition", "");
+        else this.removeAttribute("view-transition");
     }
 
     get name(): string {
@@ -660,11 +675,15 @@ export class ThemePicker extends HTMLElement {
     #applyTheme(slug: string, choice: string): void {
         if (typeof document === "undefined" || !slug) return;
         if (slug === this.#appliedValue) return;
+        const first = this.#appliedValue === "";
         this.#appliedValue = slug;
         const link = this.#getManagedLink();
-        link.href = themeHref(this.themesUrl, slug, this.extension);
-        if (this.themeColor) applyThemeColorWhenLoaded(link);
-        (this.#target ?? document.documentElement).setAttribute("data-theme", slug);
+        withViewTransition(this.viewTransition && !first, async () => {
+            link.href = themeHref(this.themesUrl, slug, this.extension);
+            if (this.themeColor) applyThemeColorWhenLoaded(link);
+            (this.#target ?? document.documentElement).setAttribute("data-theme", slug);
+            if (this.viewTransition) await linkSettled(link);
+        });
         this.dispatchEvent(
             new CustomEvent<ThemePickerChangeDetail>("themechange", {
                 detail: { theme: slug, choice },

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { IconButton, Listbox } from "@lilydesignsystem/react-headless";
 import { applyThemeColorWhenLoaded } from "./theme-color.js";
+import { linkSettled, withViewTransition } from "./view-transition.js";
 import {
     DEFAULT_SYSTEM_THEMES,
     SYSTEM_THEME,
@@ -78,6 +79,12 @@ export type Props = Omit<
      * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
      */
     themeColor?: boolean;
+    /**
+     * Wrap each theme change in document.startViewTransition() when the browser has it and the user has not asked for
+     * reduced motion, so the consumer's ::view-transition-* CSS can animate it. Off by default; the theme applies the same
+     * either way.
+     */
+    viewTransition?: boolean;
     /** Discriminates the managed `<link>`; also the hidden input's `name`. */
     name?: string;
     /** File extension appended to each slug when constructing the URL. */
@@ -261,6 +268,7 @@ export function ThemePicker({
     systemThemes = DEFAULT_SYSTEM_THEMES,
     cookieName: cookieNameProp,
     themeColor = false,
+    viewTransition = false,
     name = "theme",
     extension = ".css",
     target,
@@ -366,11 +374,15 @@ export function ThemePicker({
     function applyTheme(slug: string, choice: string): void {
         if (typeof document === "undefined" || !slug) return;
         if (slug === appliedRef.current) return;
+        const first = appliedRef.current === "";
         appliedRef.current = slug;
         const link = getManagedLink();
-        link.href = themeHref(themesUrl, slug, extension);
-        if (themeColor) applyThemeColorWhenLoaded(link);
-        (target ?? document.documentElement).setAttribute("data-theme", slug);
+        withViewTransition(viewTransition && !first, async () => {
+            link.href = themeHref(themesUrl, slug, extension);
+            if (themeColor) applyThemeColorWhenLoaded(link);
+            (target ?? document.documentElement).setAttribute("data-theme", slug);
+            if (viewTransition) await linkSettled(link);
+        });
         onChange?.(slug, choice);
     }
 

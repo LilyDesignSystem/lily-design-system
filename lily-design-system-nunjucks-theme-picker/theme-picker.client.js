@@ -29,6 +29,7 @@
 
 import { createListboxKeyboard } from "@lilydesignsystem/nunjucks-listbox-behavior";
 import { applyThemeColorWhenLoaded } from "./theme-color.js";
+import { linkSettled, withViewTransition } from "./view-transition.js";
 import {
     DEFAULT_SYSTEM_THEMES,
     SYSTEM_THEME,
@@ -73,6 +74,7 @@ function createChoiceApplier(root, opts, onChoice) {
     const storageKey = root.getAttribute("data-lily-theme-picker-storage-key") || "";
     const cookieName = root.getAttribute("data-lily-theme-picker-cookie-name") || "";
     const themeColor = root.getAttribute("data-lily-theme-picker-theme-color") === "true";
+    const viewTransition = root.getAttribute("data-lily-theme-picker-view-transition") === "true";
     const systemThemes = systemThemesOf(root);
     let appliedValue = "";
     let choice = "";
@@ -80,11 +82,15 @@ function createChoiceApplier(root, opts, onChoice) {
 
     function applyResolved(slug, from) {
         if (!slug || slug === appliedValue) return;
+        const first = appliedValue === "";
         appliedValue = slug;
         const link = getManagedLink(name);
-        link.href = themeHref(themesUrl, slug, extension);
-        if (themeColor) applyThemeColorWhenLoaded(link);
-        (opts.target || document.documentElement).setAttribute("data-theme", slug);
+        withViewTransition(viewTransition && !first, async () => {
+            link.href = themeHref(themesUrl, slug, extension);
+            if (themeColor) applyThemeColorWhenLoaded(link);
+            (opts.target || document.documentElement).setAttribute("data-theme", slug);
+            if (viewTransition) await linkSettled(link);
+        });
         if (typeof opts.onChange === "function") opts.onChange(slug, from);
     }
 

@@ -103,6 +103,11 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
     /// leaves the tag alone.</summary>
     [Parameter] public bool ThemeColor { get; set; }
 
+    /// <summary>Wrap each theme change in <c>document.startViewTransition()</c> when the browser has it and the
+    /// user has not asked for reduced motion, so the consumer's <c>::view-transition-*</c> CSS can animate it. Off by
+    /// default; the theme applies the same either way (the same steps as shared/view-transition.ts).</summary>
+    [Parameter] public bool ViewTransition { get; set; }
+
     /// <summary>Shared <c>name</c> attribute for the hidden input and the
     /// <c>data-lily-theme-picker</c> discriminator on the managed <c>&lt;link&gt;</c>.</summary>
     [Parameter] public string Name { get; set; } = "theme";
@@ -599,6 +604,8 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
 
     // The device's colour scheme, once read, and whether its change listener is installed.
     private bool? _prefersDark;
+    // Whether a theme has been applied yet: the first apply (page load) never asks for a view transition.
+    private bool _appliedOnce;
     private bool _watching;
     private DotNetObjectReference<ThemePicker>? _selfRef;
 
@@ -623,7 +630,8 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
         var keep = choice != _keptChoice;
         _keptChoice = choice;
         var script = BuildApplyScript(Name, href, theme, keep ? StorageKeyOrDefault : null, ThemeColor, choice,
-            keep ? CookieNameOrDefault : null);
+            keep ? CookieNameOrDefault : null, ViewTransition && _appliedOnce);
+        _appliedOnce = true;
         try
         {
             await JS.InvokeVoidAsync("eval", script);
@@ -709,7 +717,7 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
     /// <summary>Build the JS snippet that mutates the DOM. Exposed for tests. <paramref name="choice"/> (default the
     /// slug) is what storage and the cookie keep.</summary>
     internal static string BuildApplyScript(string name, string href, string slug, string? storageKey, bool themeColor = false,
-        string? choice = null, string? cookieName = null)
+        string? choice = null, string? cookieName = null, bool viewTransition = false)
     {
         var nameLit = JsonString(name);
         var hrefLit = JsonString(href);
@@ -736,9 +744,17 @@ public partial class ThemePicker : ComponentBase, IAsyncDisposable
             + $"var n={nameLit};var sel='link[data-lily-theme-picker=\"'+n+'\"]';"
             + "var l=document.head.querySelector(sel);"
             + "if(!l){l=document.createElement('link');l.rel='stylesheet';l.setAttribute('data-lily-theme-picker',n);document.head.appendChild(l);}"
+            + (viewTransition ? "var u=function(){" : "")
             + themeColorLine
             + $"l.href={hrefLit};"
             + $"document.documentElement.setAttribute('data-theme',{slugLit});"
+            + (viewTransition
+                ? "return new Promise(function(r){l.addEventListener('load',r,{once:true});"
+                    + "l.addEventListener('error',r,{once:true});setTimeout(r,1000);});};"
+                    + "if(typeof document.startViewTransition==='function'"
+                    + "&&!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))"
+                    + "document.startViewTransition(u);else u();"
+                : "")
             + storageLine
             + cookieLine
             + "})();";

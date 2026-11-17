@@ -37,7 +37,7 @@ highlights.
   rows left it on another record; it now follows the row's `rowId`. New `rowCountUnknown` sets `aria-rowcount="-1"`
   (P31-T1).
 - `avatar-group` `overflowLabel` (P32-T1); `combobox` `resultCount` with `resultsLabel` and `noResultsLabel` (P34-T2); `file-upload`
-  `dropZone` (P34-T3); `entryState`, withheld or entered in error, on `record-list-item` and `timeline-list-item` (P31-T4); `subjectLabel` on `context-menu` and `dropdown-menu` (P31-T6); `sparkline` `minimumPoints` with `insufficientLabel`, and `breaks` in the Nunjucks macro (P31-T7); the motion recipes, `docs/patterns/motion` with the `/motion-recipes` example page and `/patterns/motion` on the site, and the hover and focus parity rule (P32-T2, P32-T3); a `/patient-summary` section that cannot load, with a retry (P33-T3). The healthcare guide takes the rules from the five reviews (P29-T11 and others).
+  `dropZone` (P34-T3); `entryState`, withheld or entered in error, on `record-list-item` and `timeline-list-item` (P31-T4); `subjectLabel` on `context-menu` and `dropdown-menu` (P31-T6); `sparkline` `minimumPoints` with `insufficientLabel`, and `breaks` in the Nunjucks macro (P31-T7); the motion recipes, `docs/patterns/motion` with the `/motion-recipes` example page and `/patterns/motion` on the site, and the hover and focus parity rule (P32-T2, P32-T3); `theme-picker` `viewTransition`, opt in, in all eight catalogs (P32-T4); a `/patient-summary` section that cannot load, with a retry (P33-T3). The healthcare guide takes the rules from the five reviews (P29-T11 and others).
 
 ## Release: headless with the radio groups and the patient summary — 2026-11-16
 

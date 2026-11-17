@@ -949,3 +949,75 @@ describe("ThemePicker — themeColor (P21-T7)", () => {
         expect(meta()).toBeNull();
     });
 });
+
+describe("ThemePicker — viewTransition (P32-T4)", () => {
+    type Doc = Document & { startViewTransition?: (update: () => void | Promise<void>) => unknown };
+    let original: typeof window.matchMedia;
+    function motion(reduce: boolean) {
+        original = window.matchMedia;
+        window.matchMedia = ((q: string) => ({
+            matches: reduce && q.includes("reduce"),
+            media: q,
+            addEventListener() {},
+            removeEventListener() {},
+        })) as unknown as typeof window.matchMedia;
+    }
+    afterEach(() => {
+        delete (document as Doc).startViewTransition;
+        if (original) window.matchMedia = original;
+    });
+
+    test("no transition on first load; one per change; the same theme either way", async () => {
+        motion(false);
+        const start = vi.fn((update: () => void | Promise<void>) => void update());
+        (document as Doc).startViewTransition = start;
+        const { rerender } = render(ThemePicker, {
+            props: {
+                label: "Theme",
+                themesUrl: URL_TRAILING,
+                themes: THEMES,
+                value: "light",
+                viewTransition: true,
+            },
+        });
+        await flush();
+        expect(start).not.toHaveBeenCalled();
+        expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+        await rerender({ value: "dark" });
+        await flush();
+        expect(start).toHaveBeenCalledTimes(1);
+        expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+        expect(getManagedLink()?.getAttribute("href")).toBe("/assets/themes/dark.css");
+    });
+
+    test("under reduced motion, or when off, the theme changes at once with no transition", async () => {
+        motion(true);
+        const start = vi.fn((update: () => void | Promise<void>) => void update());
+        (document as Doc).startViewTransition = start;
+        const { rerender } = render(ThemePicker, {
+            props: {
+                label: "Theme",
+                themesUrl: URL_TRAILING,
+                themes: THEMES,
+                value: "light",
+                viewTransition: true,
+            },
+        });
+        await flush();
+        await rerender({ value: "dark" });
+        await flush();
+        expect(start).not.toHaveBeenCalled();
+        expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+        cleanup();
+        window.matchMedia = original;
+        motion(false);
+        const off = render(ThemePicker, {
+            props: { label: "Theme", themesUrl: URL_TRAILING, themes: THEMES, value: "light" },
+        });
+        await flush();
+        await off.rerender({ value: "abyss" });
+        await flush();
+        expect(start).not.toHaveBeenCalled();
+        expect(document.documentElement.getAttribute("data-theme")).toBe("abyss");
+    });
+});

@@ -18,6 +18,7 @@ import {
 } from "@angular/core";
 import { IconButton, Listbox } from "@lilydesignsystem/angular-headless";
 import { applyThemeColorWhenLoaded } from "./theme-color";
+import { linkSettled, withViewTransition } from "./view-transition";
 import {
     DEFAULT_SYSTEM_THEMES,
     SYSTEM_THEME,
@@ -293,6 +294,12 @@ export class ThemePicker {
      * browser chrome follows the theme. Off by default; a theme without `--lily-brand` leaves the tag alone.
      */
     readonly themeColor = input<boolean>(false);
+    /**
+     * Wrap each theme change in document.startViewTransition() when the browser has it and the user has not asked for
+     * reduced motion, so the consumer's ::view-transition-* CSS can animate it. Off by default; the theme applies the same
+     * either way.
+     */
+    readonly viewTransition = input<boolean>(false);
     readonly name = input<string>("theme");
     readonly extension = input<string>(".css");
     readonly target = input<HTMLElement | null>(null);
@@ -620,13 +627,17 @@ export class ThemePicker {
     private applyTheme(slug: string): void {
         if (typeof document === "undefined" || !slug) return;
         if (slug === this.appliedValue) return;
+        const first = this.appliedValue === "";
         this.appliedValue = slug;
         const link = this.getManagedLink();
-        if (link) {
-            link.href = themeHref(this.themesUrl(), slug, this.extension());
-            if (this.themeColor()) applyThemeColorWhenLoaded(link);
-        }
-        (this.target() ?? document.documentElement).setAttribute("data-theme", slug);
+        withViewTransition(this.viewTransition() && !first, async () => {
+            if (link) {
+                link.href = themeHref(this.themesUrl(), slug, this.extension());
+                if (this.themeColor()) applyThemeColorWhenLoaded(link);
+            }
+            (this.target() ?? document.documentElement).setAttribute("data-theme", slug);
+            if (this.viewTransition() && link) await linkSettled(link);
+        });
         this.themeChange.emit(slug);
     }
 

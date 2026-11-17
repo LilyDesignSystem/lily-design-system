@@ -184,6 +184,24 @@ EXTRA_TARGETS = {
         "lily-design-system-web-components-theme-picker/theme-color.test.ts",
         "lily-design-system-html-theme-picker/theme-color.test.ts",
     ],
+    # The theme-picker's optional viewTransition (spec/lessons/magicui, P32-T4); the Blazor picker wraps its own script.
+    "view-transition.ts": [
+        "lily-design-system-svelte-theme-picker/view-transition.ts",
+        "lily-design-system-react-theme-picker/view-transition.ts",
+        "lily-design-system-vue-theme-picker/view-transition.ts",
+        "lily-design-system-angular-theme-picker/view-transition.ts",
+        "lily-design-system-web-components-theme-picker/view-transition.ts",
+        "lily-design-system-html-theme-picker/view-transition.ts",
+        "lily-design-system-nunjucks-theme-picker/view-transition.js",
+    ],
+    "view-transition.test.ts": [
+        "lily-design-system-svelte-theme-picker/view-transition.test.ts",
+        "lily-design-system-react-theme-picker/view-transition.test.ts",
+        "lily-design-system-vue-theme-picker/view-transition.test.ts",
+        "lily-design-system-angular-theme-picker/view-transition.spec.ts",
+        "lily-design-system-web-components-theme-picker/view-transition.test.ts",
+        "lily-design-system-html-theme-picker/view-transition.test.ts",
+    ],
     # The theme-picker's "Follow this device" choice and its cookie (spec/theme-picker, 2026-11-16); Blazor has its own C#.
     "theme-choice.ts": [
         "lily-design-system-svelte-theme-picker/theme-choice.ts",

@@ -87,7 +87,7 @@ to get wrong (the copies and the pause are what people forget). Leave **7** to t
 
 - [x] `avatar-group` renders `overflowLabel` in all nine catalogs (item 2).
 - [x] The motion recipes page exists, with a reduced-motion fallback in every recipe, linked from the site (items 3, 5, 6).
-- [ ] `theme-picker` takes `viewTransition`, tested to call `startViewTransition` only when it exists and reduced motion is off (item 4).
+- [x] `theme-picker` takes `viewTransition`, tested to call `startViewTransition` only when it exists and reduced motion is off (item 4).
 - [ ] `marquee` is built with its pause control, or declined with a reason here (item 1).
 - [ ] The registry listing is decided (item 7).
 

@@ -395,21 +395,22 @@ native select's popup state is not observable. Styling it with `appearance: base
 The complete table is in [spec/index.md §4.1](./spec/index.md#41-observed-attributes).
 Highlights:
 
-| Attribute            | Type          | Required | Notes                                                                                                        |
-| -------------------- | ------------- | -------- | ------------------------------------------------------------------------------------------------------------ |
-| `label`              | string        | yes      | `aria-label` on the button and the listbox. The control is icon-only, so this is the entire accessible name. |
-| `themes-url`         | string        | yes      | Trailing `/` is auto-added.                                                                                  |
-| `themes`             | string (CSV)  | yes      | Available slugs, e.g. `"light,dark"`.                                                                        |
-| `value`              | string        | no       | Currently selected slug.                                                                                     |
-| `default-value`      | string        | no       | Initial when nothing else applies.                                                                           |
-| `storage-key`        | string        | no       | `localStorage` persistence.                                                                                  |
-| `detect-from-system` | boolean attr  | no       | Resolve `prefers-color-scheme` on first visit. Mirrors locale-picker's `detect-from-navigator`.              |
-| `theme-color`        | boolean attr  | no       | Also set `<meta name="theme-color">` from `--lily-brand` once the stylesheet loads; off by default.          |
-| `name`               | string        | no       | Hidden `<input>` `name` and managed-`<link>` discriminator; defaults to `"theme"`.                           |
-| `variant`            | string        | no       | `"select"` renders a native `<select>` instead; see [The native select variant](#the-native-select-variant). |
-| `extension`          | string        | no       | Defaults to `".css"`.                                                                                        |
-| `theme-labels`       | string (JSON) | no       | `{ "light": "Bright" }` overrides.                                                                           |
-| `class`              | string        | no       | Extra class on the rendered root `<div>`.                                                                    |
+| Attribute            | Type          | Required | Notes                                                                                                                                               |
+| -------------------- | ------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`              | string        | yes      | `aria-label` on the button and the listbox. The control is icon-only, so this is the entire accessible name.                                        |
+| `themes-url`         | string        | yes      | Trailing `/` is auto-added.                                                                                                                         |
+| `themes`             | string (CSV)  | yes      | Available slugs, e.g. `"light,dark"`.                                                                                                               |
+| `value`              | string        | no       | Currently selected slug.                                                                                                                            |
+| `default-value`      | string        | no       | Initial when nothing else applies.                                                                                                                  |
+| `storage-key`        | string        | no       | `localStorage` persistence.                                                                                                                         |
+| `detect-from-system` | boolean attr  | no       | Resolve `prefers-color-scheme` on first visit. Mirrors locale-picker's `detect-from-navigator`.                                                     |
+| `theme-color`        | boolean attr  | no       | Also set `<meta name="theme-color">` from `--lily-brand` once the stylesheet loads; off by default.                                                 |
+| `view-transition`    | boolean attr  | no       | Wrap each theme change in `document.startViewTransition()` when supported and reduced motion is not requested; never on first load; off by default. |
+| `name`               | string        | no       | Hidden `<input>` `name` and managed-`<link>` discriminator; defaults to `"theme"`.                                                                  |
+| `variant`            | string        | no       | `"select"` renders a native `<select>` instead; see [The native select variant](#the-native-select-variant).                                        |
+| `extension`          | string        | no       | Defaults to `".css"`.                                                                                                                               |
+| `theme-labels`       | string (JSON) | no       | `{ "light": "Bright" }` overrides.                                                                                                                  |
+| `class`              | string        | no       | Extra class on the rendered root `<div>`.                                                                                                           |
 
 There is no `placeholder` attribute; it was removed along with the
 native `<select>`.

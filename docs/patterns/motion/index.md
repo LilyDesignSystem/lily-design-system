@@ -192,8 +192,9 @@ made invisible or faded first, so a reader, a search engine and a keyboard user 
 
 ## Theme change transition
 
-A short cross-fade when the theme changes, using the View Transition API. `theme-picker` will offer this as the opt-in
-`viewTransition` option (tasks.md P32-T4); until then, wrap your own apply step:
+A short cross-fade when the theme changes, using the View Transition API. With `theme-picker`, turn on its `viewTransition`
+option (`view-transition` on the custom elements, `ViewTransition` in Blazor): it does the check below, never transitions the first
+apply on page load, and waits for the new stylesheet. For your own theme switch, wrap the apply step:
 
 ```js
 function applyTheme(apply) {

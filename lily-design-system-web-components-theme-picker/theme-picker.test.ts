@@ -1290,3 +1290,51 @@ describe("theme-picker — theme-color (P21-T7)", () => {
         expect(meta()).toBeNull();
     });
 });
+
+describe("ThemePicker — viewTransition (P32-T4)", () => {
+    type Doc = Document & { startViewTransition?: (update: () => void | Promise<void>) => unknown };
+    const realMatchMedia = window.matchMedia;
+    afterEach(() => {
+        delete (document as Doc).startViewTransition;
+        window.matchMedia = realMatchMedia;
+    });
+    function allowMotion() {
+        window.matchMedia = ((q: string) => ({
+            matches: false,
+            media: q,
+            addEventListener() {},
+            removeEventListener() {},
+            addListener() {},
+            removeListener() {},
+        })) as unknown as typeof window.matchMedia;
+        const start = vi.fn((update: () => void | Promise<void>) => void update());
+        (document as Doc).startViewTransition = start;
+        return start;
+    }
+    const pause = () => new Promise((r) => setTimeout(r, 0));
+    function chooseDark(root: ParentNode) {
+        (root.querySelector(".theme-picker-button") as HTMLElement).click();
+        const dark = Array.from(root.querySelectorAll<HTMLElement>(".theme-picker-option")).find(
+            (o) => o.textContent?.trim() === "Dark",
+        )!;
+        dark.click();
+    }
+
+    test("no transition on first load, one when the theme changes, and the theme applies", async () => {
+        const start = allowMotion();
+        const el = mount({
+            label: "Theme",
+            "themes-url": URL_TRAILING,
+            themes: THEMES.join(","),
+            "default-value": "light",
+            "view-transition": "",
+        });
+        await pause();
+        expect(start).not.toHaveBeenCalled();
+        expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+        chooseDark(el);
+        await pause();
+        expect(start).toHaveBeenCalledTimes(1);
+        expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+    });
+});
