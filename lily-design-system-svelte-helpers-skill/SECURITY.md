@@ -48,6 +48,9 @@ this document cannot verify for you.
 Include what you can: the affected component or package, the version, reproduction
 steps or a proof of concept, an impact assessment, and any suggested fix.
 
+The docs site publishes the same contact as an [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116)
+`security.txt` at `https://lilydesignsystem.github.io/.well-known/security.txt`.
+
 ### What you can expect
 
 - **An acknowledgement within 5 working days.** If you have not heard anything by
@@ -60,6 +63,41 @@ steps or a proof of concept, an impact assessment, and any suggested fix.
 
 These are commitments to you, not conditions on you. If they are missed, publishing
 is your call.
+
+### Severity and response times
+
+Severity is the [CVSS v4.0](https://www.first.org/cvss/v4.0/specification-document) base score, rated by its
+qualitative scale, scored for a typical consumer: a web application that renders Lily components with the
+consumer's own content. The fix target runs from the assessment, and is met by a new published version of every
+affected package.
+
+| Severity | CVSS v4.0  | Fix target       | Advisory                       |
+| -------- | ---------- | ---------------- | ------------------------------ |
+| Critical | 9.0 – 10.0 | 7 days           | GitHub Security Advisory + CVE |
+| High     | 7.0 – 8.9  | 30 days          | GitHub Security Advisory + CVE |
+| Medium   | 4.0 – 6.9  | 90 days          | GitHub Security Advisory + CVE |
+| Low      | 0.1 – 3.9  | the next release | CHANGELOG entry                |
+
+These are targets for one maintainer, not a service level. When one will be missed, you hear before it is, with
+the reason and a new date. A report that is not a vulnerability is answered with why, and may become a public
+issue with your agreement.
+
+### Disclosure process
+
+1. **Receive.** A report arrives by email or private vulnerability report; it is acknowledged within 5 working days.
+2. **Triage.** Reproduce it, score it, and list the affected packages and versions across all nine catalogs and the
+   helpers, since one defect usually exists in every port. The assessment goes to the reporter within 10 working days.
+3. **Fix in private.** The fix is developed in a GitHub Security Advisory's temporary private fork, with the reporter
+   invited if they wish, and reviewed against the reproduction.
+4. **Release.** Publish a fixed version of every affected package, then run `bin/verify-published` until every
+   registry serves it.
+5. **Disclose.** Publish the advisory with its CVE (requested through GitHub, a CVE Numbering Authority), the affected
+   and fixed versions, the workaround if any, and the credit; add a `Security` entry to [CHANGELOG.md](CHANGELOG.md).
+6. **Look for siblings.** Search the other components and catalogs for the same pattern, and add a test or a
+   `bin/` check that would have caught it, so the class of defect stays fixed.
+
+The embargo ends when the fix ships or after 90 days, whichever is first, unless the reporter and maintainer agree a
+different date. An issue already public or being exploited is fixed and disclosed as fast as possible, in the open.
 
 ### Safe harbour
 
@@ -76,6 +114,29 @@ Reporters are named in the advisory and in [CHANGELOG.md](CHANGELOG.md) by defau
 using whatever name and link you give. Say so if you would rather not be named;
 declining credit costs you nothing and changes nothing about how the report is
 handled.
+
+## Threat model
+
+What Lily protects, from whom, and where its responsibility stops.
+
+- **Assets.** The consumer's page: its DOM, its users' sessions, and what users type into Lily's form controls. The
+  published packages themselves, which run inside every consumer's build and page.
+- **Trusted input.** Everything the consumer's code passes: props, attributes, slots and children, configuration such
+  as `themesUrl`, and the Nunjucks macros' `html` parameters, which are rendered as markup (`| safe`) by design, as in
+  GOV.UK Frontend. A consumer who passes untrusted text there must escape it first, or use the `text` parameter.
+- **Untrusted input.** What a person types or pastes into a component, and values the browser reads back from
+  `localStorage`. Lily never renders either as markup. **Known gap (tasks.md P35-T6):** `time-zone-picker` accepts a
+  stored value only if it is in its own list, but the theme, locale, text-size and motion pickers apply a stored value
+  as written, and the theme picker puts it into its stylesheet URL. Writing that value needs script on the same
+  origin, which already controls the page, so the risk is low; the fix is to check every stored value against the
+  picker's list.
+- **Attackers considered.** A user of a consumer's application who controls their own input; a page script or
+  extension on the same origin is out of scope, since it already controls the page; an attacker on the supply chain
+  between this repository and the registries.
+- **Mitigations you can check.** No raw HTML rendering in the Svelte, React, Vue, Angular or Web Components headless
+  libraries (no `{@html}`, `dangerouslySetInnerHTML`, `v-html` or `innerHTML`); few runtime dependencies (none
+  in React, Angular, HTML, Web Components or Alpine; `aria-query` in Svelte and Vue; `nunjucks` in Nunjucks); [a strict Content Security Policy](https://github.com/LilyDesignSystem/lily-design-system/blob/main/docs/content-security-policy.md) that the HTML examples app
+  runs under; npm publishes with provenance and NuGet through Trusted Publishing (below).
 
 ## What is in scope
 
@@ -131,8 +192,8 @@ they are why Lily's attack surface is small:
   164 national identifier components validate identifier _formats_; their test
   fixtures are synthetic values constructed to satisfy the algorithms, not real
   identifiers belonging to real people.
-- **No bundled fonts, images, or icon assets.** The picker glyphs are Unicode
-  characters, not files.
+- **No bundled fonts, images, or icon assets.** The pickers' icons are inline SVG in
+  the markup, not files fetched at runtime.
 - **`sideEffects: false`** on the published packages: importing Lily runs nothing.
 
 ## Repository security settings — the posture of record

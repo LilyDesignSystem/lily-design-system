@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Unreleased: formal security policy (P35-T2)
+
+- `SECURITY.md`: CVSS v4.0 severity with fix targets, the disclosure process (private fork, release, advisory with a
+  CVE, sibling search), a 90-day embargo default and a threat model. The docs site serves an RFC 9116
+  `/.well-known/security.txt`. Writing the threat model found that four pickers apply a stored preference without
+  checking it against their list (tasks.md P35-T6).
+
 ## Unreleased: `range-fieldset` (P34-T1)
 
 - `range-fieldset` (catalog 637): a two-thumb range, a `<fieldset>` with a `<legend>` and two native `<input type="range">` on

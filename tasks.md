@@ -3806,10 +3806,21 @@ Maintainer-directed, in this order.
       controls, six demos at 320px, six under `dir="rtl"` and six composed pages: 210 in all, up from 90. Nine P7-T5 baselines were
       re-recorded after checking each diff: the dark theme's lighter link colour (the 2026-11-02 contrast fix) and auto-sized
       columns in `summary-list` and `information-callout`. 210 passed on two consecutive runs. Local and macOS only; CI does not run it.)_
-- [ ] **P35-T2 A formal security policy.**
+- [x] **P35-T2 A formal security policy.** Severity, response times, the disclosure process and a threat model in `SECURITY.md`.
+      Verify: `SECURITY.md` states each; the docs site serves `/.well-known/security.txt`. _(2026-11-17: `SECURITY.md` gains
+      a CVSS v4.0 severity table with fix targets (Critical 7 days, High 30, Medium 90, Low the next release) and when a CVE is
+      requested, a six-step disclosure process (private fork, release in every affected catalog, `bin/verify-published`, an
+      advisory with a CVE through GitHub, a CHANGELOG `Security` entry, a sibling search with a new check), a 90-day embargo
+      default, and a threat model (assets, trusted and untrusted input, attackers, mitigations), whose claims were checked
+      against the tree; the check found P35-T6. An RFC 9116 `security.txt`, expiring 2027-11-17. Stale lines fixed: the
+      pickers' icons are inline SVG, not Unicode glyphs.)_
 - [ ] **P35-T3 Better mutation testing.**
 - [ ] **P35-T4 Performance benchmarks.**
 - [ ] **P35-T5 More and better tutorials, training and examples.**
+- [ ] **P35-T6 Pickers accept only a stored value from their own list.** Found writing P35-T2: the theme, locale, text-size and
+      motion pickers apply a value read from `localStorage` without checking it against `themes`, `locales`, `sizes` or
+      `motions` (the time-zone picker does check), and the theme picker builds its stylesheet URL from it.
+      Verify: in all eight catalogs, a test that a stored value outside the list is ignored and the default applies.
 
 ---
 
