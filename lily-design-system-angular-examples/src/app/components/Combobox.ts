@@ -1,5 +1,7 @@
 import {
     afterRenderEffect,
+    effect,
+    signal,
     AfterViewInit,
     ChangeDetectionStrategy,
     Component,
@@ -48,6 +50,9 @@ let nextId = 0;
       (input)="value.set($any($event.target).value)"
     />
     <div #panel popover="manual" role="listbox" [id]="listboxId" [attr.aria-label]="label()"><ng-content /></div>
+    @if (resultsLabel() || noResultsLabel()) {
+      <p class="combobox-status" role="status" [attr.data-results]="resultCount() ?? null">{{ status() }}</p>
+    }
   </div>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -75,6 +80,30 @@ export class Combobox implements OnInit, AfterViewInit {
     /** The chosen option's `data-value`, else its text. */
     readonly selected = output<string>();
     readonly className = input<string>("");
+    /** How many options match the text, as the consumer counts them. */
+    readonly resultCount = input<number | undefined>(undefined);
+    /** The count in the consumer's words, announced politely when typing pauses. */
+    readonly resultsLabel = input<((count: number) => string) | undefined>(undefined);
+    /** The consumer's words when nothing matches, shown and announced. */
+    readonly noResultsLabel = input<string>("");
+    /** How long typing must pause, in milliseconds, before the count is announced. Default 500. */
+    readonly statusDelay = input<number>(500);
+
+    // The count, or "no matches", in the consumer's words, after typing pauses (P34-T2).
+    protected readonly status = signal("");
+    private readonly statusEffect = effect((onCleanup) => {
+        const count = this.resultCount();
+        const words =
+            count === undefined
+                ? ""
+                : count === 0
+                  ? this.noResultsLabel()
+                  : (this.resultsLabel()?.(count) ?? "");
+        const open = this.open();
+        this.value();
+        const timer = setTimeout(() => this.status.set(open ? words : ""), this.statusDelay());
+        onCleanup(() => clearTimeout(timer));
+    });
 
     protected readonly listboxId = `combobox-listbox-${nextId++}`;
 

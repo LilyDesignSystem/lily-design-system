@@ -3778,9 +3778,9 @@ From [spec/lessons/retool](spec/lessons/retool/index.md). Order: T2, then T1 and
 - [ ] **P34-T1 A two-thumb range (the maintainer names it).** A `<fieldset>` with a legend and two labelled native range inputs
       whose limits follow each other so they cannot cross; two form fields.
       Verify: built in all nine catalogs, with tests that the thumbs cannot cross, both values submit, and a form reset restores both.
-- [ ] **P34-T2 Combobox empty state and count.** `noResultsLabel` (a non-selectable item when the list is empty) and
+- [x] **P34-T2 Combobox empty state and count.** `noResultsLabel` (a non-selectable item when the list is empty) and
       `resultsLabel(count)` (a polite status) on `combobox`.
-      Verify: tests in all nine catalogs; `bin/check-built-english` passes.
+      Verify: tests in all nine catalogs; `bin/check-built-english` passes. _(2026-11-17: done in all nine catalogs: the consumer gives `resultCount` with `resultsLabel(count)` and `noResultsLabel`, shown in a polite `combobox-status` region after the listbox (never inside it, which holds only options) when typing pauses (`statusDelay`, default 500 ms; Blazor updates at once). Web Components takes `results-label="{n} matches"`; HTML, Nunjucks and Alpine document the pattern. Tests in Svelte, React, Vue, Angular, Web Components and Blazor; `bin/check-built-english` passes.)_
 - [ ] **P34-T3 `file-upload` drop zone.** `dropZone`: the root accepts dropped files into the same `onchange` and live count, with
       `data-drag-over`; no new tab stop.
       Verify: tests in all nine catalogs with a dropped file, and that the button still selects files by keyboard.

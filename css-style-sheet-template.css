@@ -412,6 +412,10 @@
 .combobox {
 }
 
+/* combobox-status: sub-element of combobox */
+.combobox-status {
+}
+
 /* command: a command palette for searching and executing actions */
 .command {
 }

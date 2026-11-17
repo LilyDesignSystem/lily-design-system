@@ -60,4 +60,23 @@ describe("Combobox", () => {
         await fireEvent.keyDown(screen.getByRole("combobox"), { key: "Escape" });
         expect(emitted()["update:open"]).toEqual([[false]]);
     });
+
+    test("announces the consumer's count when typing pauses, and says when nothing matches", async () => {
+        const { rerender } = render(Subject, {
+            props: {
+                label: "Medicine",
+                open: true,
+                resultCount: 4,
+                resultsLabel: (n: number) => `${n} matches`,
+                noResultsLabel: "No matches",
+                statusDelay: 0,
+            },
+        });
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        const status = screen.getByRole("status");
+        expect(status.textContent?.trim()).toBe("4 matches");
+        await rerender({ resultCount: 0 });
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        expect(status.textContent?.trim()).toBe("No matches");
+    });
 });

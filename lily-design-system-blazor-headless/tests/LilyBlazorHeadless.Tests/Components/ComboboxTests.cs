@@ -133,4 +133,15 @@ public class ComboboxTests : TestContext
         Assert.Equal("Apple", selected);
         Assert.Equal("Apple", cut.Find("input").GetAttribute("value"));
     }
+
+    [Fact]
+    public void Says_the_consumers_count_and_when_nothing_matches()
+    {
+        var cut = RenderComponent<Combobox>(p => p.Add(x => x.Label, "Medicine").Add(x => x.Open, true).Add(x => x.ResultCount, 4)
+            .Add(x => x.ResultsLabel, n => $"{n} matches").Add(x => x.NoResultsLabel, "No matches"));
+        Assert.Equal("4 matches", cut.Find("[role=status]").TextContent);
+        cut.SetParametersAndRender(p => p.Add(x => x.ResultCount, 0));
+        Assert.Equal("No matches", cut.Find("[role=status]").TextContent);
+    }
 }
+

@@ -61,10 +61,26 @@ import { useId, ref } from "vue";
 import { useFormReset } from "./form-reset";
 import { warnMissingName } from "./dev-warning";
 
-const props = defineProps<{
-    /** Accessible label. */
-    label: string;
-}>();
+const props = withDefaults(
+    defineProps<{
+        /** Accessible label. */
+        label: string;
+        /** How many options match the text, as the consumer counts them. */
+        resultCount?: number;
+        /** The count in the consumer's words, announced politely when typing pauses. */
+        resultsLabel?: (count: number) => string;
+        /** The consumer's words when nothing matches, shown and announced. */
+        noResultsLabel?: string;
+        /** How long typing must pause, in milliseconds, before the count is announced. Default 500. */
+        statusDelay?: number;
+    }>(),
+    {
+        resultCount: undefined,
+        resultsLabel: undefined,
+        noResultsLabel: undefined,
+        statusDelay: 500,
+    },
+);
 
 warnMissingName("Combobox", props.label, useAttrs()["aria-label"], useAttrs()["aria-labelledby"]);
 
@@ -96,6 +112,26 @@ onMounted(() => {
 });
 onBeforeUnmount(() => detach?.());
 
+// The count, or "no matches", in the consumer's words, after typing pauses (P34-T2).
+const status = ref("");
+let statusTimer: ReturnType<typeof setTimeout> | undefined;
+watch(
+    () => [props.resultCount, open.value, modelValue.value] as const,
+    () => {
+        clearTimeout(statusTimer);
+        const count = props.resultCount;
+        const words =
+            count === undefined
+                ? ""
+                : count === 0
+                  ? (props.noResultsLabel ?? "")
+                  : (props.resultsLabel?.(count) ?? "");
+        statusTimer = setTimeout(() => (status.value = open.value ? words : ""), props.statusDelay);
+    },
+    { immediate: true },
+);
+onBeforeUnmount(() => clearTimeout(statusTimer));
+
 // Closed from outside: no highlight survives into the next opening.
 watch(open, (isOpen) => {
     if (!isOpen && field.value && panelEl.value) setActiveOption(field.value, panelEl.value, null);
@@ -124,5 +160,13 @@ watch(open, (isOpen) => {
         >
             <slot />
         </div>
+        <p
+            v-if="resultsLabel || noResultsLabel"
+            class="combobox-status"
+            role="status"
+            :data-results="resultCount"
+        >
+            {{ status }}
+        </p>
     </div>
 </template>

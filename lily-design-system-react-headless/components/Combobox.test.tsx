@@ -76,4 +76,35 @@ describe("Combobox", () => {
         fireEvent.keyDown(screen.getByRole("combobox"), { key: "Escape" });
         expect(onOpenChange).toHaveBeenCalledWith(false);
     });
+
+    test("announces the consumer's count when typing pauses, and says when nothing matches", async () => {
+        const props = {
+            label: "Medicine",
+            open: true,
+            resultsLabel: (n: number) => `${n} matches`,
+            noResultsLabel: "No matches",
+            statusDelay: 0,
+        };
+        const { rerender } = render(
+            <Subject
+                {...props}
+                resultCount={4}
+            >
+                <div role="option">Aspirin</div>
+            </Subject>,
+        );
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        const status = screen.getByRole("status");
+        expect(status.textContent).toBe("4 matches");
+        rerender(
+            <Subject
+                {...props}
+                resultCount={0}
+            >
+                {null}
+            </Subject>,
+        );
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        expect(status.textContent).toBe("No matches");
+    });
 });

@@ -50,4 +50,32 @@ describe("Combobox", () => {
         expect(screen.queryByRole("listbox")).toBeNull();
         expect(input.getAttribute("aria-expanded")).toBe("false");
     });
+
+    test("announces the consumer's count when typing pauses, and says when nothing matches", async () => {
+        const { rerender } = render(Subject, {
+            props: {
+                label: "Medicine",
+                open: true,
+                resultCount: 4,
+                resultsLabel: (n: number) => `${n} matches`,
+                noResultsLabel: "No matches",
+                statusDelay: 0,
+                children: optionsSnippet(),
+            },
+        });
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        const status = screen.getByRole("status");
+        expect(status.textContent?.trim()).toBe("4 matches");
+        await rerender({ resultCount: 0 });
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        expect(status.textContent?.trim()).toBe("No matches");
+        expect(status.getAttribute("data-results")).toBe("0");
+    });
+
+    test("renders no status without the consumer's words", () => {
+        render(Subject, {
+            props: { label: "Medicine", resultCount: 3, children: optionsSnippet() },
+        });
+        expect(screen.queryByRole("status")).toBeNull();
+    });
 });

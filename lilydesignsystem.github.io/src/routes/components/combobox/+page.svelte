@@ -105,6 +105,10 @@
       <li><code>label</code>: string (required) -- accessible name applied via <code>aria-label</code> on both the input and listbox.</li>
       <li><code>value</code>: string (default: <code>""</code>) -- bindable current text input value.</li>
       <li><code>open</code>: boolean (default: <code>false</code>) -- bindable dropdown visibility state.</li>
+      <li><code>resultCount</code>: number (optional) -- how many options match the text, as the consumer counts them (the consumer filters the options)</li>
+      <li><code>resultsLabel</code>: (count) =&gt; string (optional) -- the count in the consumer's words ("4 matches"), in a polite <code>combobox-status</code> region after the listbox, updated when typing pauses</li>
+      <li><code>noResultsLabel</code>: string (optional) -- the consumer's words when nothing matches, shown and announced in the same region</li>
+      <li><code>statusDelay</code>: number (default 500) -- how long typing must pause, in milliseconds, before the count is announced (Blazor updates at once)</li>
       <li><code>onSelect</code>: function, optional -- called with the chosen option's value (<code>selected</code> output in Angular, <code>select</code> event in Vue, <code>OnSelect</code> in Blazor, <code>lily-change</code> in Web Components, <code>lily:select</code> in Alpine, <code>combobox-select</code> in HTML and Nunjucks).</li>
       <li><code>children</code>: slot (required) -- <code>role="option"</code> elements rendered inside the listbox dropdown.</li>
       <li><code>...restProps</code>: unknown -- additional attributes spread onto the wrapper <code>&lt;div&gt;</code>.</li>

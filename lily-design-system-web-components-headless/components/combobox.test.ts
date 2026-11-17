@@ -125,4 +125,15 @@ describe("Combobox", () => {
         expect(host.open).toBe(true);
         expect((host.querySelector("input") as HTMLInputElement).value).toBe("Cherry");
     });
+
+    test("announces the consumer's count when typing pauses, and says when nothing matches", async () => {
+        document.body.innerHTML = `<lily-combobox label="Medicine" open result-count="4" results-label="{n} matches" no-results-label="No matches" status-delay="0"><div role="option">Aspirin</div></lily-combobox>`;
+        const host = document.querySelector("lily-combobox")!;
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        const status = host.querySelector('[role="status"]')!;
+        expect(status.textContent).toBe("4 matches");
+        host.setAttribute("result-count", "0");
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        expect(status.textContent).toBe("No matches");
+    });
 });

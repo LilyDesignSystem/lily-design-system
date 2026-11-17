@@ -76,6 +76,14 @@ export interface ComboboxProps {
     onOpenChange?: (value: boolean) => void;
     /** Called with the chosen option's value. */
     onSelect?: (value: string) => void;
+    /** How many options match the text, as the consumer counts them. */
+    resultCount?: number;
+    /** The count in the consumer's words, announced politely when typing pauses. */
+    resultsLabel?: (count: number) => string;
+    /** The consumer's words when nothing matches, shown and announced. */
+    noResultsLabel?: string;
+    /** How long typing must pause, in milliseconds, before the count is announced. Default 500. */
+    statusDelay?: number;
     [key: string]: unknown;
 }
 
@@ -87,6 +95,10 @@ export default function Combobox({
     onChange,
     onOpenChange,
     onSelect,
+    resultCount,
+    resultsLabel,
+    noResultsLabel,
+    statusDelay = 500,
     children,
     ...restProps
 }: ComboboxProps) {
@@ -112,6 +124,19 @@ export default function Combobox({
             }),
         [],
     );
+
+    // The count, or "no matches", in the consumer's words, after typing pauses (P34-T2).
+    const [status, setStatus] = React.useState("");
+    const words =
+        resultCount === undefined
+            ? ""
+            : resultCount === 0
+              ? (noResultsLabel ?? "")
+              : (resultsLabel?.(resultCount) ?? "");
+    React.useEffect(() => {
+        const timer = setTimeout(() => setStatus(open ? words : ""), statusDelay);
+        return () => clearTimeout(timer);
+    }, [words, open, value, statusDelay]);
 
     // Closed from outside: no highlight survives into the next opening.
     React.useEffect(() => {
@@ -143,6 +168,15 @@ export default function Combobox({
             >
                 {children}
             </div>
+            {resultsLabel || noResultsLabel ? (
+                <p
+                    className="combobox-status"
+                    role="status"
+                    data-results={resultCount}
+                >
+                    {status}
+                </p>
+            ) : null}
         </div>
     );
 }

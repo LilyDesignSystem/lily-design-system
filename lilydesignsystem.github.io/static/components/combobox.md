@@ -23,6 +23,10 @@ The component manages the input value and dropdown open state as bindable props,
 - `label`: string (required) -- accessible name applied via `aria-label` on both the input and listbox.
 - `value`: string (default: `""`) -- bindable current text input value.
 - `open`: boolean (default: `false`) -- bindable dropdown visibility state.
+- `resultCount`: number (optional) -- how many options match the text, as the consumer counts them (the consumer filters the options)
+- `resultsLabel`: (count) => string (optional) -- the count in the consumer's words ("4 matches"), in a polite `combobox-status` region after the listbox, updated when typing pauses
+- `noResultsLabel`: string (optional) -- the consumer's words when nothing matches, shown and announced in the same region
+- `statusDelay`: number (default 500) -- how long typing must pause, in milliseconds, before the count is announced (Blazor updates at once)
 - `children`: slot (required) -- option elements rendered inside the listbox dropdown.
 - `...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`.
 

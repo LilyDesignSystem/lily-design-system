@@ -63,6 +63,10 @@
     <div role="listbox" id="@ListboxId" aria-label="@Label" popover="manual" @ref="_listbox">
         @ChildContent
     </div>
+    @if (ResultsLabel is not null || NoResultsLabel is not null)
+    {
+        <p class="combobox-status" role="status" data-results="@ResultCount">@(Open ? StatusWords : "")</p>
+    }
 </div>
 
 @code {
@@ -73,6 +77,13 @@
     [Parameter] public EventCallback<bool> OpenChanged { get; set; }
     [Parameter] public EventCallback<string> OnSelect { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
+    /// <summary>How many options match the text, as the consumer counts them.</summary>
+    [Parameter] public int? ResultCount { get; set; }
+    /// <summary>The count in the consumer's words ("4 matches"), in a polite status region. Blazor updates it as the
+    /// count changes, with no pause, since the other catalogs' delay needs a timer this component does not keep.</summary>
+    [Parameter] public Func<int, string>? ResultsLabel { get; set; }
+    /// <summary>The consumer's words when nothing matches, shown and announced.</summary>
+    [Parameter] public string? NoResultsLabel { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object>? AdditionalAttributes { get; set; }
@@ -88,6 +99,13 @@
     private IJSObjectReference? _handle;
     private DotNetObjectReference<Combobox>? _self;
     private bool _synced;
+
+    private string StatusWords => ResultCount switch
+    {
+        null => "",
+        0 => NoResultsLabel ?? "",
+        int count => ResultsLabel?.Invoke(count) ?? "",
+    };
 
     // P16-T4: the listbox is popover="manual", opened from the Open state by the Popover API bridge
     // (Popover.razor.js; the hidden attribute where the API is missing). Skipped during prerender.

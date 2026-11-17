@@ -49,6 +49,10 @@ This is the APG combobox with list autocomplete and manual selection, in every c
 - `label`: string (required) -- accessible name applied via `aria-label` on both the input and listbox.
 - `value`: string (default: `""`) -- bindable current text input value.
 - `open`: boolean (default: `false`) -- bindable dropdown visibility state.
+- `resultCount`: number (optional) -- how many options match the text, as the consumer counts them (the consumer filters the options)
+- `resultsLabel`: (count) => string (optional) -- the count in the consumer's words ("4 matches"), in a polite `combobox-status` region after the listbox, updated when typing pauses
+- `noResultsLabel`: string (optional) -- the consumer's words when nothing matches, shown and announced in the same region
+- `statusDelay`: number (default 500) -- how long typing must pause, in milliseconds, before the count is announced (Blazor updates at once)
 - `onSelect`: function, optional -- called with the chosen option's value (`selected` output in Angular, `select` event in Vue, `OnSelect` in Blazor, `lily-change` in Web Components, `lily:select` in Alpine, `combobox-select` in HTML and Nunjucks).
 - `children`: slot (required) -- `role="option"` elements rendered inside the listbox dropdown.
 - `...restProps`: unknown -- additional attributes spread onto the wrapper `<div>`.

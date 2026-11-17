@@ -58,4 +58,24 @@ describe("Combobox", () => {
         input.dispatchEvent(new Event("input"));
         expect(fixture.componentInstance.value()).toBe("app");
     });
+
+    test("announces the consumer's count when typing pauses, and says when nothing matches", async () => {
+        const fixture = mount({
+            label: "Medicine",
+            open: true,
+            resultCount: 4,
+            resultsLabel: (n: number) => `${n} matches`,
+            noResultsLabel: "No matches",
+            statusDelay: 0,
+        });
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        fixture.detectChanges();
+        const status = (fixture.nativeElement as HTMLElement).querySelector('[role="status"]')!;
+        expect(status.textContent).toBe("4 matches");
+        fixture.componentRef.setInput("resultCount", 0);
+        fixture.detectChanges();
+        await new Promise((resolve) => setTimeout(resolve, 10));
+        fixture.detectChanges();
+        expect(status.textContent).toBe("No matches");
+    });
 });

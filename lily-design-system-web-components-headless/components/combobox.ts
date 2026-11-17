@@ -44,13 +44,15 @@ import { syncManualPopover } from "./popover.js";
 
 export class Combobox extends HTMLElement {
     static get observedAttributes(): string[] {
-        return ["label", "value", "open"];
+        return ["label", "value", "open", "result-count", "results-label", "no-results-label"];
     }
 
     #built = false;
     #input: HTMLInputElement | null = null;
     #listbox: HTMLDivElement | null = null;
     #listboxId = nextId("lily-combobox-listbox");
+    #status: HTMLParagraphElement | null = null;
+    #statusTimer: ReturnType<typeof setTimeout> | undefined;
 
     connectedCallback(): void {
         if (this.#built) return;
@@ -74,6 +76,16 @@ export class Combobox extends HTMLElement {
 
         this.appendChild(input);
         this.appendChild(listbox);
+
+        // result-count, results-label ("{n} matches") and no-results-label: the count, or "no matches", in the consumer's
+        // words, announced politely after typing pauses (status-delay, default 500 ms; P34-T2).
+        if (this.hasAttribute("results-label") || this.hasAttribute("no-results-label")) {
+            const status = document.createElement("p");
+            status.className = "combobox-status";
+            status.setAttribute("role", "status");
+            this.appendChild(status);
+            this.#status = status;
+        }
 
         // Built once and never torn down: the input and list live and die with this element.
         attachCombobox(input, listbox, {
@@ -110,6 +122,25 @@ export class Combobox extends HTMLElement {
         if (!this.#built) return;
         const input = this.#input!;
         const listbox = this.#listbox!;
+
+        const status = this.#status;
+        if (status) {
+            const raw = this.getAttribute("result-count");
+            const count = raw === null ? undefined : Number(raw);
+            if (count !== undefined) status.dataset.results = String(count);
+            const words =
+                count === undefined
+                    ? ""
+                    : count === 0
+                      ? (this.getAttribute("no-results-label") ?? "")
+                      : (this.getAttribute("results-label") ?? "").replaceAll("{n}", String(count));
+            const open = this.hasAttribute("open");
+            clearTimeout(this.#statusTimer);
+            this.#statusTimer = setTimeout(
+                () => (status.textContent = open ? words : ""),
+                Number(this.getAttribute("status-delay") ?? "500"),
+            );
+        }
 
         const label = this.getAttribute("label");
         if (label !== null) {
