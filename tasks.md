@@ -3822,7 +3822,13 @@ Maintainer-directed, in this order.
       against the module), `direction` 62.7 → 97.6, `theme-choice` 60.0 → 85.2, `view-transition` 73.6 → 89.4. Slow (19
       minutes), so not in `bin/test` or CI. Open: the five modules tested only through package copies, the weakest six, and
       Stryker.NET for the C#.)_
-- [ ] **P35-T4 Performance benchmarks.**
+- [x] **P35-T4 Performance benchmarks.** Measured timings for the code that runs at scale, held to a baseline.
+      Verify: `bin/benchmark` runs and passes against its baseline twice in a row. _(2026-11-17: ten cases over the shared pure
+      modules at helper sizes: search, highlight, the filter predicate, CSV and XLSX export over a 10,000-row grid; the critical
+      path of a 1,000-task plan, in calendar and working days; type-ahead and 1,000 arrow keys over 5,000 options; a year of days.
+      tinybench inside one Vitest test, a per-machine baseline in `shared/benchmark-baseline.json`, a failure beyond twice the
+      baseline. Two checks gave ratios of 0.5 to 1.3. Not in `bin/test` or CI: a baseline taken under load was two to four times
+      slower. Not covered: rendering the components themselves, and bundle size.)_
 - [ ] **P35-T5 More and better tutorials, training and examples.**
 - [ ] **P35-T6 Pickers accept only a stored value from their own list.** Found writing P35-T2: the theme, locale, text-size and
       motion pickers apply a value read from `localStorage` without checking it against `themes`, `locales`, `sizes` or

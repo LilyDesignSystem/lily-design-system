@@ -1,11 +1,12 @@
 {
   "name": "lily-design-system-shared-tests",
   "private": true,
-  "description": "Runs the shared pure modules' own tests in place, and mutation-tests them with StrykerJS (bin/mutation-test). Nothing here is published; bin/sync-shared-modules copies the modules into the packages.",
+  "description": "Runs the shared pure modules' own tests in place, mutation-tests them with StrykerJS (bin/mutation-test) and benchmarks them (bin/benchmark). Nothing here is published; bin/sync-shared-modules copies the modules into the packages.",
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "mutation": "stryker run"
+    "mutation": "stryker run",
+    "bench": "vitest run --config vitest.bench.config.ts"
   },
   "engines": {
     "node": ">=26"
@@ -14,6 +15,7 @@
     "@stryker-mutator/core": "10.1.1",
     "@stryker-mutator/vitest-runner": "10.1.1",
     "jsdom": "^31.0.1",
+    "tinybench": "6.2.3",
     "typescript": "^6.0.3",
     "vitest": "^5.1.0"
   }

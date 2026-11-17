@@ -276,6 +276,39 @@ The weakest left: `widget-keys` 53.7, `label-pack-nunjucks` 57.9, `overflow-navi
 `markdown-format` 67.8, `wheel-picker` 69.2. The C# modules (`ClinicalFormat.cs`, `PatternTester.cs`) are not covered;
 Stryker.NET would be the tool.
 
+## Performance benchmarks
+
+(2026-11-17, tasks.md P35-T4.) `bin/benchmark` times the shared pure modules at the sizes the helpers meet: a 10,000-row data
+grid (eight columns), a 1,000-task Gantt chart, a 5,000-option listbox. `shared/benchmarks.bench.ts` builds deterministic inputs
+once and runs each case with [tinybench](https://github.com/tinylibs/tinybench) inside one Vitest test
+(`shared/vitest.bench.config.ts`), since Vitest 5 dropped its own bench API.
+
+- **Baseline.** `shared/benchmark-baseline.json` holds each case's mean time and the machine that measured it. `bin/benchmark`
+  fails when a case takes more than twice its baseline (`--tolerance` to change it); `--update-baseline` records this machine.
+- **Noise.** Timings depend on the machine and its load: a baseline taken while `bin/test` ran was two to four times slower.
+  Re-run before believing a failure, and compare only on the machine that wrote the baseline. Hence not in `bin/test` or CI.
+- **About 15 seconds.** Run it after changing a shared module's algorithm.
+
+Baseline, mean milliseconds (Apple M4 Max, darwin arm64, Node 26.8.1):
+
+| Case                                                                         | Mean ms |
+| ---------------------------------------------------------------------------- | ------- |
+| data grid, 10,000 rows: search: matchesSearch over every row                 | 10.28   |
+| data grid, 10,000 rows: search: highlightSegments on 1,000 rows              | 11.21   |
+| data grid, 10,000 rows: filter: toPredicate built once, applied to every row | 6.047   |
+| data grid, 10,000 rows: export: toCsv                                        | 5.181   |
+| data grid, 10,000 rows: export: toXlsx                                       | 27.6    |
+| Gantt chart, 1,000 tasks: criticalPath                                       | 1.247   |
+| Gantt chart, 1,000 tasks: criticalPath, working days                         | 1.263   |
+| listbox, 5,000 options: type-ahead: findTypeaheadMatch with no match         | 0.6929  |
+| listbox, 5,000 options: keys: 1,000 ArrowDown transitions                    | 0.01208 |
+| year of days: yearOfDaysCells for a leap year                                | 0.236   |
+
+What the numbers say: on this machine everything a keystroke triggers fits a 16 ms frame, but search does not by much:
+`matchesSearch` over 10,000 rows takes about 10 ms and highlighting 1,000 rows about 11 ms, while the filter predicate (6 ms)
+and type-ahead (under 1 ms) have room. A phone several times slower would push search past a frame, so the data grid's search is
+the first place to optimise. The XLSX export (28 ms) is the slowest case, but it runs once per button press.
+
 ## Pattern testers
 
 (2026-11-03, P23-T1.) One interaction contract, run against every catalog, in place of hand-ported keyboard tests. The steps are data in

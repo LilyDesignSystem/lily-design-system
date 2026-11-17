@@ -14,6 +14,8 @@ export default {
         "*.ts",
         "!*.test.ts",
         "!vitest.config.ts",
+        "!vitest.bench.config.ts",
+        "!*.bench.ts",
         "!*.d.ts",
         "!pattern-tester.ts",
         "!aria-baseline.ts",

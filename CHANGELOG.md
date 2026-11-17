@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Unreleased: performance benchmarks (P35-T4)
+
+- `bin/benchmark`: ten timed cases over the shared pure modules at helper sizes (10,000-row search, filter and export; a
+  1,000-task critical path; 5,000-option type-ahead), each held to `shared/benchmark-baseline.json` within twice its time. See
+  [spec/testing](spec/testing/index.md#performance-benchmarks).
+
 ## Unreleased: mutation testing (P35-T3)
 
 - `bin/mutation-test`: StrykerJS over the shared pure modules, each module's score held to `shared/mutation-baseline.json`.
