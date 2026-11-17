@@ -96,6 +96,8 @@ type Config = {
     exportFilename?: string;
     exportScope?: string;
     exportFormulas?: boolean;
+    /** The rows are part of a set of unknown size: `aria-rowcount="-1"` (§8.151). */
+    rowCountUnknown?: boolean;
     emptyValue?: string;
     nulls?: string;
     movableColumns?: boolean;
@@ -124,6 +126,7 @@ export function initDataGrid(root: Element): DataGrid | null {
     if (config.exportFilename) grid.setAttribute("export-filename", config.exportFilename);
     if (config.exportScope) grid.setAttribute("export-scope", config.exportScope);
     if (config.exportFormulas) grid.setAttribute("export-formulas", "");
+    if (config.rowCountUnknown) grid.setAttribute("row-count-unknown", "");
     if (config.emptyValue) grid.setAttribute("empty-value", config.emptyValue);
     if (config.nulls === "first") grid.setAttribute("nulls", "first");
     if (config.movableColumns) grid.setAttribute("movable-columns", "");

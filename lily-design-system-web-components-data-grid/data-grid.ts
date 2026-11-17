@@ -414,6 +414,7 @@ export class DataGrid extends HTMLElement {
             "export-filename",
             "export-scope",
             "export-formulas",
+            "row-count-unknown",
             "activate-rows",
             "empty-value",
             "nulls",
@@ -465,6 +466,8 @@ export class DataGrid extends HTMLElement {
     #hidden = new Set<string>();
     #widths: Record<string, number> = {};
     #focusedRow = -1;
+    // The id of the row the roving position is on, so a sort, a filter or new rows keep it on the same record (§8.150).
+    #focusedRowId: string | null = null;
     #focusedCol = 0;
     #lastSelectedIndex = -1;
     #editing: Editing | null = null;
@@ -733,6 +736,14 @@ export class DataGrid extends HTMLElement {
         if (v) this.setAttribute("export-formulas", "");
         else this.removeAttribute("export-formulas");
     }
+    /** The rows are part of a set whose size the consumer does not know: `aria-rowcount="-1"` (§8.151). */
+    get rowCountUnknown(): boolean {
+        return this.hasAttribute("row-count-unknown");
+    }
+    set rowCountUnknown(v: boolean) {
+        if (v) this.setAttribute("row-count-unknown", "");
+        else this.removeAttribute("row-count-unknown");
+    }
     get virtualize(): { rowHeight: number; height: number; overscan?: number } | undefined {
         return this.#virtualize;
     }
@@ -941,6 +952,14 @@ export class DataGrid extends HTMLElement {
         this.#pageEntries = size
             ? this.#sorted.slice(this.#pageStart(), this.#pageStart() + size)
             : this.#sorted;
+        // The roving position follows its record by id; a record that has left the page leaves it where it is, clamped.
+        if (this.#focusedRowId !== null) {
+            const index = this.#pageEntries.findIndex((entry) => entry.id === this.#focusedRowId);
+            if (index >= 0 && index !== this.#focusedRow) {
+                this.#focusedRow = index;
+                if (this.contains(document.activeElement)) this.#pendingFocus = "cell";
+            }
+        }
     }
 
     /** The sort keys in order: the primary, then `thenBy`, each with a real column and a direction. */
@@ -1578,6 +1597,8 @@ export class DataGrid extends HTMLElement {
 
     #moveFocus(row: number, col: number): void {
         this.#focusedRow = Math.min(Math.max(row, -1), this.#pageEntries.length - 1);
+        this.#focusedRowId =
+            this.#focusedRow >= 0 ? (this.#pageEntries[this.#focusedRow]?.id ?? null) : null;
         this.#focusedCol = Math.min(Math.max(col, 0), this.#lastCol);
         this.#revealRow(this.#focusedRow);
         this.#pendingFocus = "cell";
@@ -1643,6 +1664,8 @@ export class DataGrid extends HTMLElement {
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         this.#focusedRow = Number(cell.dataset.row);
+        this.#focusedRowId =
+            this.#focusedRow >= 0 ? (this.#pageEntries[this.#focusedRow]?.id ?? null) : null;
         this.#focusedCol = Number(cell.dataset.col);
         // The roving tab stop follows focus in the DOM, without a rebuild that would drop it.
         this.#rootEl
@@ -1968,11 +1991,13 @@ export class DataGrid extends HTMLElement {
         }
 
         // ---- Table ----
-        const rowCount = this.pageSize
-            ? this.#sorted.length + 1
-            : this.#virtualize
-              ? this.#pageEntries.length + 1
-              : undefined;
+        const rowCount = this.rowCountUnknown
+            ? -1
+            : this.pageSize
+              ? this.#sorted.length + 1
+              : this.#virtualize
+                ? this.#pageEntries.length + 1
+                : undefined;
         const indexed = !!this.pageSize || !!this.#virtualize;
         const table = el("table", "data-table", {
             role: isGrid ? "grid" : "table",

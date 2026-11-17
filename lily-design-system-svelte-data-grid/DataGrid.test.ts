@@ -3,7 +3,7 @@ import { createRawSnippet, tick } from "svelte";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
 import DataGrid from "./DataGrid.svelte";
-import type { DataGridColumn, DataGridLabels } from "./DataGrid.svelte";
+import type { DataGridColumn, DataGridLabels, DataGridRow } from "./DataGrid.svelte";
 
 const COLUMNS: DataGridColumn[] = [
     { id: "name", header: "Name", sortable: true, resizable: true, filterable: true },
@@ -3430,6 +3430,78 @@ describe("DataGrid — footer totals, empty numbers, pinned offset, remembered o
         });
         expect(bodyRows()[0].querySelectorAll(".data-table-td")[0].textContent).toBe(
             "bob@example.com",
+        );
+    });
+});
+
+describe("DataGrid — focus follows the record, an unknown total (§8.150–§8.151)", () => {
+    const cols: DataGridColumn[] = [{ id: "name", header: "Name" }];
+    const people = [
+        { id: "a", name: "Ann" },
+        { id: "b", name: "Bob" },
+        { id: "c", name: "Cara" },
+    ];
+    const active = () =>
+        document.querySelector<HTMLElement>(
+            '.data-table-td[tabindex="0"], .data-table-th[tabindex="0"]',
+        )!;
+
+    test("§8.150 when the rows change order, the roving cell stays on the same record", async () => {
+        const { rerender } = render(DataGrid, {
+            props: {
+                label: "People",
+                columns: cols,
+                rows: people,
+                rowId: (row: DataGridRow) => String(row.id),
+            },
+        });
+        await tick();
+        const bob = screen.getByText("Bob").closest<HTMLElement>(".data-table-td")!;
+        bob.focus();
+        await tick();
+        expect(active().textContent).toContain("Bob");
+        await rerender({
+            label: "People",
+            columns: cols,
+            rows: [people[2], people[0], people[1]],
+            rowId: (row: DataGridRow) => String(row.id),
+        });
+        await tick();
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        expect(active().textContent).toContain("Bob");
+        expect(document.activeElement?.textContent).toContain("Bob");
+    });
+
+    test("§8.150 a record that leaves the page leaves the position where it is, clamped", async () => {
+        const { rerender } = render(DataGrid, {
+            props: {
+                label: "People",
+                columns: cols,
+                rows: people,
+                rowId: (row: DataGridRow) => String(row.id),
+            },
+        });
+        await tick();
+        screen.getByText("Cara").closest<HTMLElement>(".data-table-td")!.focus();
+        await tick();
+        await rerender({
+            label: "People",
+            columns: cols,
+            rows: [people[0], people[1]],
+            rowId: (row: DataGridRow) => String(row.id),
+        });
+        await tick();
+        expect(active()).toBeTruthy();
+        expect(active().textContent).toContain("Bob");
+    });
+
+    test("§8.151 rowCountUnknown sets aria-rowcount to -1", async () => {
+        render(DataGrid, {
+            props: { label: "People", columns: cols, rows: people, rowCountUnknown: true },
+        });
+        await tick();
+        expect(screen.getByRole("grid", { name: "People" }).getAttribute("aria-rowcount")).toBe(
+            "-1",
         );
     });
 });

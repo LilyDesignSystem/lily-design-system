@@ -172,6 +172,8 @@ public partial class DataGrid : ComponentBase
 
     /// <summary>Renders only the rows in view, in a scroll region (needs <c>Scroll</c>).</summary>
     [Parameter] public DataGridVirtualize? Virtualize { get; set; }
+    /// <summary>The rows are part of a set whose size the consumer does not know: aria-rowcount="-1" (§8.151).</summary>
+    [Parameter] public bool RowCountUnknown { get; set; }
 
     /// <summary>Extra CSS class on the root.</summary>
     [Parameter] public string CssClass { get; set; } = "";
@@ -190,6 +192,8 @@ public partial class DataGrid : ComponentBase
     private readonly HashSet<string> _hiddenColumnIds = new();
     private readonly Dictionary<string, int> _columnWidths = new();
     private int _focusedRow = -1; // -1 = header row
+    // The id of the row the roving position is on, so a sort, a filter or new rows keep it on the same record (§8.150).
+    private string? _focusedRowId;
     private int _focusedCol;
     private int _lastSelectedIndex = -1;
     private bool _focusPending;
@@ -237,7 +241,7 @@ public partial class DataGrid : ComponentBase
     private int ActiveRow => Math.Max(-1, Math.Min(_focusedRow, _pageEntries.Count - 1));
     private int ActiveCol => Math.Max(0, Math.Min(_focusedCol, LastCol));
     private bool Indexed => PageSize is not null || Virtualize is not null;
-    private int? RowCount => PageSize is not null ? _sorted.Count + 1 : Virtualize is not null ? _pageEntries.Count + 1 : null;
+    private int? RowCount => RowCountUnknown ? -1 : PageSize is not null ? _sorted.Count + 1 : Virtualize is not null ? _pageEntries.Count + 1 : null;
     private HashSet<string> SelectedSet => new(Selected);
     private bool HasExportButtons => Labels.Copy is not null || Labels.ExportCsv is not null || Labels.ExportTsv is not null || Labels.ExportExcel is not null;
     private IReadOnlyList<DataGridColumn> HidableColumns => _resolved.Where(c => c.Hidable).ToList();
@@ -331,6 +335,12 @@ public partial class DataGrid : ComponentBase
         }
 
         _pageEntries = PageSize is { } size && size > 0 ? _sorted.Skip(PageStart).Take(size).ToList() : _sorted;
+        // The roving position follows its record by id; a record that has left the page leaves it where it is, clamped.
+        if (_focusedRowId is not null)
+        {
+            var index = _pageEntries.ToList().FindIndex(e => e.Id == _focusedRowId);
+            if (index >= 0) _focusedRow = index;
+        }
     }
 
     // -------------------------------------------------------------------
@@ -860,6 +870,7 @@ public partial class DataGrid : ComponentBase
     private void MoveFocus(int row, int col)
     {
         _focusedRow = Math.Min(Math.Max(row, -1), _pageEntries.Count - 1);
+        _focusedRowId = _focusedRow >= 0 ? _pageEntries[_focusedRow].Id : null;
         _focusedCol = Math.Min(Math.Max(col, 0), LastCol);
         RevealRow(_focusedRow);
         // Deferred to OnAfterRenderAsync: the JS-eval focus call must run AFTER the render that flips tabindex to "0" on
@@ -871,6 +882,7 @@ public partial class DataGrid : ComponentBase
     private void OnCellFocusIn(int row, int col)
     {
         _focusedRow = row;
+        _focusedRowId = row >= 0 && row < _pageEntries.Count ? _pageEntries[row].Id : null;
         _focusedCol = col;
     }
 

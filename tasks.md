@@ -3700,11 +3700,11 @@ T5 to T7. Pages go in the SvelteKit app first, linked from its home page. No bil
 From [spec/lessons/zoblocks](spec/lessons/zoblocks/index.md). Order: T1 (a defect), then T2 to T4, then T5 to T8. Contract changes
 go to all nine catalogs (helpers: all eight), Svelte first.
 
-- [ ] **P31-T1 Data grid focus follows the row.** Key the focused cell by `rowId` and column id in the `data-grid` helper, so a
+- [x] **P31-T1 Data grid focus follows the row.** Key the focused cell by `rowId` and column id in the `data-grid` helper, so a
       sort, a filter or new rows keep focus on the same record; when it is filtered out, focus moves to the nearest row and the
       consumer's announcement says so. `aria-rowcount="-1"` when the consumer says the total is unknown.
       Verify: a test in all eight catalogs that focuses a row, sorts, and finds focus on the same `rowId`; it fails on the
-      index-based code.
+      index-based code. _(2026-11-17: done in all eight catalogs that have roving focus (Svelte, React, Vue, Angular, HTML, Web Components, Nunjucks, Blazor; Alpine's grid has none): the roving position records its row's `rowId` and follows it when the rows on the page change, keeping DOM focus where the grid had it (Blazor moves the tab stop only, as it uses no JS interop for focus); a row that has left the page leaves the position clamped. `rowCountUnknown` (`row-count-unknown` in the vanilla catalogs) sets `aria-rowcount="-1"`. Spec §8.150–§8.151 with tests in each catalog; removing the follow step makes the Svelte, React and HTML tests fail.)_
 - [ ] **P31-T2 Coverage statements.** `coverageLabel` on the `data-grid` helper, rendered above the rows; a `-coverage` part on
       `timeline-list` and `record-list` for what the view shows, its order, what is hidden and which sources did not answer.
       Verify: tests in every catalog; the guide states the rule, including that an empty list from an unavailable source says so.

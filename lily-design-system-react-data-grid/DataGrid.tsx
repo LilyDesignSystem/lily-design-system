@@ -434,6 +434,8 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
      * so assistive technology still sees the whole grid.
      */
     virtualize?: { rowHeight: number; height: number; overscan?: number };
+    /** The rows are part of a set whose size the consumer does not know: `aria-rowcount="-1"` (§8.151). */
+    rowCountUnknown?: boolean;
     /** Extra CSS class on the root. */
     className?: string;
 };
@@ -524,6 +526,7 @@ export function DataGrid({
     onFilesSelected,
     onFileRemove,
     virtualize,
+    rowCountUnknown = false,
     exportFilename: exportBase = "data-grid",
     exportScope = "view",
     exportFormulas = false,
@@ -549,6 +552,8 @@ export function DataGrid({
     const [focusedCol, setFocusedCol] = React.useState(0);
     const lastSelectedIndexRef = React.useRef(-1); // index into sortedEntries, not into the page
     const pendingFocusRef = React.useRef(false);
+    // The id of the row the roving position is on, so a sort, a filter or new rows keep it on the same record (§8.150).
+    const focusedRowIdRef = React.useRef<string | null>(null);
 
     const [selected, setSelectedState] = useControllable(selectedProp, defaultSelected);
     const [filter, setFilterState] = useControllable(filterProp, defaultFilter);
@@ -774,11 +779,13 @@ export function DataGrid({
 
     // Row position for assistive technology, only when pagination means the
     // DOM holds a subset of the rows (spec/index.md §8.21). Header row is 1.
-    const rowCount = pageSize
-        ? sortedEntries.length + 1
-        : virtualize
-          ? pageEntries.length + 1
-          : undefined;
+    const rowCount = rowCountUnknown
+        ? -1
+        : pageSize
+          ? sortedEntries.length + 1
+          : virtualize
+            ? pageEntries.length + 1
+            : undefined;
     const indexed = !!pageSize || !!virtualize;
 
     // ---- Windowing (virtualize): only the rows in view, plus the roving tab stop's row ----
@@ -1101,6 +1108,19 @@ export function DataGrid({
             ?.focus({ preventScroll: true });
     });
 
+    // When the rows on the page change, the roving position follows its record by id; a record that has left the page
+    // leaves the position where it is, clamped (§8.150). Declared after the focus effect above, so the focus it asks for
+    // is taken on the next commit, once the record's cell is the tab stop.
+    React.useEffect(() => {
+        const id = focusedRowIdRef.current;
+        if (id === null) return;
+        const index = pageEntries.findIndex((entry) => entry.id === id);
+        if (index < 0 || index === focusedRow) return;
+        if (rootRef.current?.contains(document.activeElement)) pendingFocusRef.current = true;
+        setFocusedRow(index);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageEntries]);
+
     /** Move `columnId` to sit at `toVisibleIndex` among the visible columns. Returns whether it moved. */
     function moveColumn(columnId: string, toVisibleIndex: number): boolean {
         const ids = visibleColumns.map((c) => c.id);
@@ -1132,6 +1152,7 @@ export function DataGrid({
     function moveFocus(row: number, col: number): void {
         const nextRow = Math.min(Math.max(row, -1), pageEntries.length - 1);
         setFocusedRow(nextRow);
+        focusedRowIdRef.current = nextRow >= 0 ? (pageEntries[nextRow]?.id ?? null) : null;
         setFocusedCol(Math.min(Math.max(col, 0), lastCol));
         revealRow(nextRow);
         pendingFocusRef.current = true;
@@ -1470,6 +1491,10 @@ export function DataGrid({
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         setFocusedRow(Number(cell.dataset.row));
+        focusedRowIdRef.current =
+            Number(cell.dataset.row) >= 0
+                ? (pageEntries[Number(cell.dataset.row)]?.id ?? null)
+                : null;
         setFocusedCol(Number(cell.dataset.col));
         // Focus arriving on a widget (a click, or Tab inside the cell) makes the cell's widgets tab stops.
         if (

@@ -32,7 +32,10 @@ highlights.
 - The SvelteKit app gains `/flow-board`, `/find-patient` and `/review-of-systems`, from the OpenEMR review, with e2e and axe
   tests (P30-T2, P30-T3, P30-T4).
 - The SvelteKit app gains `/patient-dashboard`: never-blank cards with provenance and a workspace panel that keeps the
-  draft and focus (P30-T5, P33-T4). The healthcare guide takes the rules from the five reviews (P29-T11 and others).
+  draft and focus (P30-T5, P33-T4).
+- Fixed in the `data-grid` helper, all eight catalogs: the roving focus followed a row's position, so a sort, a filter or new
+  rows left it on another record; it now follows the row's `rowId`. New `rowCountUnknown` sets `aria-rowcount="-1"`
+  (P31-T1). The healthcare guide takes the rules from the five reviews (P29-T11 and others).
 
 ## Release: headless with the radio groups and the patient summary — 2026-11-16
 

@@ -330,6 +330,8 @@ export type Props = {
     copyHandler?: (copy: { text: string; rowCount: number }) => boolean | void;
     /** Renders only the rows in view, in a scroll region of `height` px (needs `scroll`). */
     virtualize?: { rowHeight: number; height: number; overscan?: number };
+    /** The rows are part of a set whose size the consumer does not know: `aria-rowcount="-1"` (§8.151). */
+    rowCountUnknown?: boolean;
 };
 
 let uid = 0;
@@ -410,6 +412,7 @@ const props = withDefaults(defineProps<Props>(), {
     exportFormulas: false,
     exportHandler: undefined,
     virtualize: undefined,
+    rowCountUnknown: false,
 });
 
 /** Selected row ids (`v-model:selected`). */
@@ -680,11 +683,13 @@ const activeCol = computed(() => Math.max(0, Math.min(focusedCol.value, lastCol.
 
 // Row position for assistive technology, only when the DOM holds a subset of the rows. Header row is 1.
 const rowCount = computed(() =>
-    props.pageSize
-        ? sortedEntries.value.length + 1
-        : props.virtualize
-          ? pageEntries.value.length + 1
-          : undefined,
+    props.rowCountUnknown
+        ? -1
+        : props.pageSize
+          ? sortedEntries.value.length + 1
+          : props.virtualize
+            ? pageEntries.value.length + 1
+            : undefined,
 );
 const indexed = computed(() => !!props.pageSize || !!props.virtualize);
 
@@ -1007,8 +1012,19 @@ function onHeaderDrop(targetId: string, event: DragEvent): void {
     if (to >= 0) moveColumn(id, to);
 }
 
+// The id of the row the roving position is on, so a sort, a filter or new rows keep it on the same record (§8.150).
+let focusedRowId: string | null = null;
+watch(pageEntries, (entries) => {
+    if (focusedRowId === null) return;
+    const index = entries.findIndex((entry) => entry.id === focusedRowId);
+    if (index < 0 || index === focusedRow.value) return;
+    focusedRow.value = index;
+    if (rootEl.value?.contains(document.activeElement)) focusActiveCell();
+});
+
 function moveFocus(row: number, col: number): void {
     focusedRow.value = Math.min(Math.max(row, -1), pageEntries.value.length - 1);
+    focusedRowId = focusedRow.value >= 0 ? (pageEntries.value[focusedRow.value]?.id ?? null) : null;
     focusedCol.value = Math.min(Math.max(col, 0), lastCol.value);
     revealRow(focusedRow.value);
     focusActiveCell();
@@ -1378,6 +1394,7 @@ function onGridFocusin(event: FocusEvent): void {
     const cell = target.closest<HTMLElement>("[data-row][data-col]");
     if (!cell) return;
     focusedRow.value = Number(cell.dataset.row);
+    focusedRowId = focusedRow.value >= 0 ? (pageEntries.value[focusedRow.value]?.id ?? null) : null;
     focusedCol.value = Number(cell.dataset.col);
     // Focus arriving on a widget (a click, or Tab inside the cell) makes the cell's widgets tab stops.
     if (target !== cell && !target.closest("[data-grid-own]") && cell.closest(".data-table-body")) {

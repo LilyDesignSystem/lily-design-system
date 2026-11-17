@@ -97,6 +97,7 @@ cells are `<DataTableTH scope="row">`.
 | `rows`              | `Record<string, unknown>[]`                                                                                                                        | yes      | —                                     |
 | `caption`           | `string`                                                                                                                                           | no       | —                                     |
 | `rowId`             | `(row, index) => string` — `index` is the row's position in `rows`                                                                                 | no       | `String(index)`                       |
+| `rowCountUnknown`   | `boolean` — the rows are part of a set of unknown size: `aria-rowcount="-1"` (§8.151)                                                              | no       | `false`                               |
 | `selectionMode`     | `"none" \| "single" \| "multiple"`                                                                                                                 | no       | `"none"`                              |
 | `selected`          | `string[]`, bindable                                                                                                                               | no       | `[]`                                  |
 | `onSelectionChange` | `(ids: string[]) => void`                                                                                                                          | no       | —                                     |
@@ -177,6 +178,18 @@ selected row elsewhere keeps it selected, and the body's `{#each}` is
 keyed by that id so a row that only moves is moved, not re-rendered. A
 consumer whose `rows` array is replaced with reordered or inserted data
 should pass a `rowId` that reads a real key from the row.
+
+**Focus follows the record (§8.150).** The roving position records the
+id of the row it is on. When the rows on the page change (a sort, a
+filter, new rows from the consumer), the position moves to that row's
+new place, and keeps DOM focus there if the grid had it; only a row
+that has left the page leaves the position where it is, clamped. A
+clinician who sorts or filters a worklist is never left on another
+patient (spec/lessons/zoblocks item 1).
+
+**An unknown total (§8.151).** `rowCountUnknown` sets
+`aria-rowcount="-1"`, for rows that are part of a larger set whose size
+the consumer does not know.
 
 **Hot-path cost.** Sort, filter and selection are the work a large grid
 repeats; each is shaped so its cost does not multiply (§8.18):

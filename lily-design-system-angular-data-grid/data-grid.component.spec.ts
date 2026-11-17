@@ -3527,3 +3527,41 @@ describe("DataGrid — footer totals, pinned offset, remembered order (ported fr
         );
     });
 });
+
+describe("DataGrid — focus follows the record, an unknown total (§8.150–§8.151)", () => {
+    const cols: DataGridColumn[] = [{ id: "name", header: "Name" }];
+    const people = [
+        { id: "a", name: "Ann" },
+        { id: "b", name: "Bob" },
+        { id: "c", name: "Cara" },
+    ];
+    const rowId = (row: Record<string, unknown>) => String(row["id"]);
+    const active = () =>
+        document.querySelector<HTMLElement>(
+            '.data-table-td[tabindex="0"], .data-table-th[tabindex="0"]',
+        )!;
+
+    test("§8.150 when the rows change order, the roving cell stays on the same record", async () => {
+        const { rerender } = render(DataGrid, {
+            props: { label: "People", columns: cols, rows: people, rowId },
+        });
+        await rerender({});
+        screen.getByText("Bob").closest<HTMLElement>(".data-table-td")!.focus();
+        await rerender({});
+        expect(active().textContent).toContain("Bob");
+        await rerender({ rows: [people[2], people[0], people[1]] });
+        await rerender({});
+        expect(active().textContent).toContain("Bob");
+        expect(document.activeElement?.textContent).toContain("Bob");
+    });
+
+    test("§8.151 rowCountUnknown sets aria-rowcount to -1", async () => {
+        const { rerender } = render(DataGrid, {
+            props: { label: "People", columns: cols, rows: people, rowCountUnknown: true },
+        });
+        await rerender({});
+        expect(screen.getByRole("grid", { name: "People" }).getAttribute("aria-rowcount")).toBe(
+            "-1",
+        );
+    });
+});

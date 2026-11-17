@@ -2,7 +2,7 @@
     lang="ts"
     module
 >
-    import type { Snippet } from "svelte";
+    import { untrack, type Snippet } from "svelte";
     import {
         copyToClipboard,
         downloadBlob,
@@ -425,6 +425,11 @@
          * so assistive technology still sees the whole grid.
          */
         virtualize?: { rowHeight: number; height: number; overscan?: number };
+        /**
+         * The rows are part of a larger set whose size the consumer does not know (a server that did not say): the grid
+         * sets `aria-rowcount="-1"`, so assistive technology does not announce the rows on screen as the whole set (§8.151).
+         */
+        rowCountUnknown?: boolean;
         /** Extra CSS class on the root. */
         class?: string;
         [key: string]: unknown;
@@ -514,6 +519,7 @@
         onFilesSelected,
         onFileRemove,
         virtualize,
+        rowCountUnknown = false,
         exportFilename: exportBase = "data-grid",
         exportScope = "view",
         onCopy = undefined,
@@ -536,6 +542,9 @@
     let hiddenColumnIds = $state.raw<Set<string>>(new Set());
     let columnWidths = $state.raw<Record<string, number>>({});
     let focusedRow = $state(-1); // -1 = header row
+    // The id of the row the roving position is on, so a sort, a filter or new rows keep it on the same record, not on
+    // whatever row moves into the same position (§8.150). Not reactive: it follows focusedRow, it does not drive it.
+    let focusedRowId: string | null = null;
     let focusedCol = $state(0);
     let lastSelectedIndex = -1; // index into sortedEntries, not into the page
 
@@ -701,7 +710,13 @@
     // Row position for assistive technology, only when pagination means the
     // DOM holds a subset of the rows (spec/index.md §8.21). Header row is 1.
     const rowCount = $derived(
-        pageSize ? sortedEntries.length + 1 : virtualize ? pageEntries.length + 1 : undefined,
+        rowCountUnknown
+            ? -1
+            : pageSize
+              ? sortedEntries.length + 1
+              : virtualize
+                ? pageEntries.length + 1
+                : undefined,
     );
     const indexed = $derived(!!pageSize || !!virtualize);
 
@@ -1037,8 +1052,22 @@
         if (to >= 0) moveColumn(id, to);
     }
 
+    // When the rows on the page change, the roving position follows its record by id. A record that is no longer on the
+    // page leaves the position where it is, clamped, so the grid stays in the tab order (§8.150).
+    $effect(() => {
+        const entries = pageEntries;
+        const id = focusedRowId;
+        if (id === null) return;
+        const index = entries.findIndex((entry) => entry.id === id);
+        if (index < 0 || index === untrack(() => focusedRow)) return;
+        focusedRow = index;
+        const root = untrack(() => rootEl);
+        if (root?.contains(document.activeElement)) focusActiveCell();
+    });
+
     function moveFocus(row: number, col: number): void {
         focusedRow = Math.min(Math.max(row, -1), pageEntries.length - 1);
+        focusedRowId = focusedRow >= 0 ? (pageEntries[focusedRow]?.id ?? null) : null;
         focusedCol = Math.min(Math.max(col, 0), lastCol);
         revealRow(focusedRow);
         focusActiveCell();
@@ -1376,6 +1405,7 @@
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         focusedRow = Number(cell.dataset.row);
+        focusedRowId = focusedRow >= 0 ? (pageEntries[focusedRow]?.id ?? null) : null;
         focusedCol = Number(cell.dataset.col);
         // Focus arriving on a widget (a click, or Tab inside the cell) makes the cell's widgets tab stops.
         if (

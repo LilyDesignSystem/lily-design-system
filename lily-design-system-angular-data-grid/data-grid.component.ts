@@ -926,6 +926,8 @@ export class DataGrid {
     readonly virtualize = input<
         { rowHeight: number; height: number; overscan?: number } | undefined
     >(undefined);
+    /** The rows are part of a set whose size the consumer does not know: `aria-rowcount="-1"` (§8.151). */
+    readonly rowCountUnknown = input<boolean>(false);
     /** Extra CSS class on the root. */
     readonly className = input<string>("");
 
@@ -1173,11 +1175,13 @@ export class DataGrid {
 
     protected readonly indexed = computed(() => !!this.pageSize() || !!this.virtualize());
     private readonly rowCount = computed(() =>
-        this.pageSize()
-            ? this.sortedEntries().length + 1
-            : this.virtualize()
-              ? this.pageEntries().length + 1
-              : undefined,
+        this.rowCountUnknown()
+            ? -1
+            : this.pageSize()
+              ? this.sortedEntries().length + 1
+              : this.virtualize()
+                ? this.pageEntries().length + 1
+                : undefined,
     );
 
     protected readonly renderItems = computed<RenderItem[]>(() => {
@@ -1254,7 +1258,22 @@ export class DataGrid {
         return !!(l.exportCsv || l.exportTsv || l.exportExcel || l.copy);
     });
 
+    // The id of the row the roving position is on, so a sort, a filter or new rows keep it on the same record (§8.150).
+    private focusedRowId: string | null = null;
+
     constructor() {
+        // When the rows on the page change, the roving position follows its record by id; a record that has left the
+        // page leaves the position where it is, clamped (§8.150).
+        effect(() => {
+            const entries = this.pageEntries();
+            const id = this.focusedRowId;
+            if (id === null) return;
+            const index = entries.findIndex((entry) => entry.id === id);
+            if (index < 0 || index === untracked(() => this.focusedRow())) return;
+            this.focusedRow.set(index);
+            if (this.rootRef().nativeElement.contains(document.activeElement))
+                this.focusActiveCell();
+        });
         // The headless `lily-data-table` root renders a plain <table>: give it the grid's role and counts.
         effect(() => {
             const root = this.rootRef().nativeElement;
@@ -1664,6 +1683,7 @@ export class DataGrid {
     private moveFocus(row: number, col: number): void {
         const nextRow = Math.min(Math.max(row, -1), this.pageEntries().length - 1);
         this.focusedRow.set(nextRow);
+        this.focusedRowId = nextRow >= 0 ? (this.pageEntries()[nextRow]?.id ?? null) : null;
         this.focusedCol.set(Math.min(Math.max(col, 0), this.lastCol()));
         this.revealRow(nextRow);
         this.focusActiveCell();
@@ -2074,6 +2094,9 @@ export class DataGrid {
         const cell = target.closest<HTMLElement>("[data-row][data-col]");
         if (!cell) return;
         this.focusedRow.set(Number(cell.dataset["row"]));
+        const focusedIndex = Number(cell.dataset["row"]);
+        this.focusedRowId =
+            focusedIndex >= 0 ? (this.pageEntries()[focusedIndex]?.id ?? null) : null;
         this.focusedCol.set(Number(cell.dataset["col"]));
         // Focus arriving on a widget (a click, or Tab inside the cell) makes the cell's widgets tab stops.
         if (

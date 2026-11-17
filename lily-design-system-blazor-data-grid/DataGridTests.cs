@@ -1642,4 +1642,26 @@ public class DataGridTests : TestContext
         Assert.Contains("<v>42</v>", Encoding.UTF8.GetString(Exported(null, "xlsx", new[] { column }, rows, labels).File!.Bytes));
         _ = live;
     }
+
+    // §8.150–§8.151: focus follows the record, and an unknown total.
+    [Fact]
+    public void Section_8_150_The_Roving_Cell_Stays_On_The_Same_Record_When_The_Rows_Change_Order()
+    {
+        var cols = new[] { new DataGridColumn { Id = "name", Header = "Name" } };
+        DataGridRow Person(string id, string name) => new() { ["id"] = id, ["name"] = name };
+        var people = new[] { Person("a", "Ann"), Person("b", "Bob"), Person("c", "Cara") };
+        var cut = Render(cols, people, p => p.Add(x => x.RowId, (row, _) => (string)row["id"]!));
+        DataCell(cut, 1, 0).FocusIn(new FocusEventArgs());
+        Assert.Contains("Bob", Text(Tabbable(cut).Single()));
+        cut.SetParametersAndRender(p => p.Add(x => x.Rows, new[] { people[2], people[0], people[1] }));
+        Assert.Contains("Bob", Text(Tabbable(cut).Single()));
+    }
+
+    [Fact]
+    public void Section_8_151_RowCountUnknown_Sets_AriaRowcount_To_Minus_One()
+    {
+        var cut = Render(configure: p => p.Add(x => x.RowCountUnknown, true));
+        Assert.Equal("-1", cut.Find("[role=grid]").GetAttribute("aria-rowcount"));
+    }
 }
+
