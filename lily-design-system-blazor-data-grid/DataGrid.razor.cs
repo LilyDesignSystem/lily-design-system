@@ -175,6 +175,10 @@ public partial class DataGrid : ComponentBase
     /// <summary>The rows are part of a set whose size the consumer does not know: aria-rowcount="-1" (§8.151).</summary>
     [Parameter] public bool RowCountUnknown { get; set; }
 
+    /// <summary>What the rows are a view of, in your words: the window and order, what is hidden and why, which sources did not answer. Shown above the rows as .data-grid-coverage and read as the table's description (§8.152).</summary>
+    [Parameter] public string? CoverageLabel { get; set; }
+    private string CoverageId => $"{_gridId}-coverage";
+
     /// <summary>Extra CSS class on the root.</summary>
     [Parameter] public string CssClass { get; set; } = "";
 

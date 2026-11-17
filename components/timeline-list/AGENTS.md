@@ -35,11 +35,12 @@
 
 ## Props
 
-| Prop           | Type            | Default    | Description                                  |
-| -------------- | --------------- | ---------- | -------------------------------------------- |
-| `label`        | `string`        | (required) | Accessible label via `aria-label`            |
-| `children`     | `slot`          | (required) | Timeline items (should be `<li>` elements)   |
-| `...restProps` | HTML attributes |            | Additional attributes spread onto the `<ol>` |
+| Prop            | Type            | Default    | Description                                                                                                                                                                                       |
+| --------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`         | `string`        | (required) | Accessible label via `aria-label`                                                                                                                                                                 |
+| `coverageLabel` | `string`        |            | What the timeline is a view of, in the consumer's words: its window and order, what it leaves out and why, which sources did not answer. Rendered first, as `<li class="timeline-list-coverage">` |
+| `children`      | `slot`          | (required) | Timeline items (should be `<li>` elements)                                                                                                                                                        |
+| `...restProps`  | HTML attributes |            | Additional attributes spread onto the `<ol>`                                                                                                                                                      |
 
 ## Acceptance Criteria
 

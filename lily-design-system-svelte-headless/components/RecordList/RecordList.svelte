@@ -23,6 +23,7 @@
         status,
         statusLabel,
         label,
+        coverageLabel = undefined,
         children,
         ...restProps
     }: {
@@ -30,6 +31,8 @@
             "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable";
         statusLabel: string;
         label?: string;
+        /** What this list is a view of, in the consumer's words: its window and order, what it leaves out and why, and which sources did not answer. Rendered first, as an item of its own (spec/lessons/zoblocks). */
+        coverageLabel?: string;
         children?: Snippet;
         [key: string]: unknown;
     } = $props();
@@ -57,6 +60,7 @@
     aria-label={label ?? statusLabel}
     {...restProps}
 >
+    {#if coverageLabel}<li class="record-list-coverage">{coverageLabel}</li>{/if}
     {#if status !== "known"}<li class="record-list-status">{statusLabel}</li>{/if}
     {@render children?.()}
 </ul>

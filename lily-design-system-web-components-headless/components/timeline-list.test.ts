@@ -59,4 +59,14 @@ describe("TimelineList", () => {
 
         expect(host.querySelectorAll("ol").length).toBe(1);
     });
+
+    test("coverage-label says what the list is a view of, as its first item", () => {
+        document.body.innerHTML = `<lily-timeline-list label="History" coverage-label="Last 12 months, newest first. The GP record did not answer."></lily-timeline-list>`;
+        const first = document.querySelector(".timeline-list")!.firstElementChild!;
+        expect(first.tagName).toBe("LI");
+        expect(first.className).toBe("timeline-list-coverage");
+        expect(first.textContent).toBe(
+            "Last 12 months, newest first. The GP record did not answer.",
+        );
+    });
 });

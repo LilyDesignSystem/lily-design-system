@@ -7,6 +7,8 @@
 
   Params:
     label       string   Accessible name.
+    coverageLabel string  What the timeline is a view of (window, order, what is left out, sources that did not answer),
+                in the consumer's words; an item of its own, first.
     labelledBy  string
     id          string
     classes     string
@@ -26,6 +28,7 @@
   {%- if p.id %} id="{{ p.id }}"{% endif %}
   {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
 >
+  {%- if p.coverageLabel %}<li class="timeline-list-coverage">{{ p.coverageLabel }}</li>{% endif -%}
   {%- if p.html -%}{{ p.html | safe }}
   {%- elif caller -%}{{ caller() }}
   {%- endif -%}

@@ -427,3 +427,16 @@ describe("export", () => {
         click.mockRestore();
     });
 });
+
+describe("coverage statement (§8.152)", () => {
+    test("coverageLabel is shown above the rows and is the table's description", async () => {
+        await mount({ coverageLabel: "Results from the last 12 months, newest first." });
+        const coverage = document.querySelector(".data-grid-coverage") as HTMLElement;
+        expect(coverage.textContent).toBe("Results from the last 12 months, newest first.");
+        const table = document.querySelector("table.data-table") as HTMLElement;
+        expect(
+            coverage.compareDocumentPosition(table) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
+        expect(table.getAttribute("aria-describedby")).toBe(coverage.id);
+    });
+});

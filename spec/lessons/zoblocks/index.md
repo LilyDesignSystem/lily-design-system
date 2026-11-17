@@ -96,7 +96,7 @@ recorded, as here.
 ## Acceptance criteria
 
 - [ ] The data grid keeps focus on the same `rowId` through a sort and a filter in all eight catalogs, with a test that fails on index-based focus (item 1).
-- [ ] `coverageLabel` and `-coverage` parts exist, with tests (item 2).
+- [x] `coverageLabel` and `-coverage` parts exist, with tests (item 2).
 - [ ] `observation-view` shows a superseded value in `<del>` (item 3).
 - [ ] Withheld and in-error entries render in timeline and record items (item 4).
 - [ ] `signature-pad` has outcomes, attestation text and a typed method, and a test signs by keyboard alone (item 6).

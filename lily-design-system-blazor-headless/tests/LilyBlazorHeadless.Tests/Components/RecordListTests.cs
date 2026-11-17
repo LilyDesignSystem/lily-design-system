@@ -40,4 +40,14 @@ public class RecordListTests : TestContext
         Assert.Equal("not-applicable", cut.Find("ul.record-list").GetAttribute("data-status"));
         Assert.Equal("Pregnancy: not applicable", cut.Find(".record-list-status").TextContent);
     }
+
+    [Fact]
+    public void CoverageLabel_says_what_the_list_is_a_view_of_as_its_first_item()
+    {
+        var cut = RenderComponent<RecordList>(p => p.Add(x => x.Status, "known").Add(x => x.StatusLabel, "Vital signs").Add(x => x.CoverageLabel, "Last 12 months, newest first. The GP record did not answer."));
+        var first = cut.Find(".record-list").FirstElementChild!;
+        Assert.Equal("LI", first.TagName);
+        Assert.Equal("record-list-coverage", first.ClassName);
+        Assert.Equal("Last 12 months, newest first. The GP record did not answer.", first.TextContent);
+    }
 }

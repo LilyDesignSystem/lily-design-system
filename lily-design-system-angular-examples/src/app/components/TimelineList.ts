@@ -55,10 +55,12 @@ import { ChangeDetectionStrategy, Component, input } from "@angular/core";
 @Component({
     selector: "lily-timeline-list",
     standalone: true,
-    template: `<ol class="timeline-list {{ className() }}" [attr.aria-label]="label() || null"><ng-content /></ol>`,
+    template: `<ol class="timeline-list {{ className() }}" [attr.aria-label]="label() || null">@if (coverageLabel()) {<li class="timeline-list-coverage">{{ coverageLabel() }}</li>}<ng-content /></ol>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TimelineList {
     readonly label = input<string>("");
+    /** What this list is a view of, in the consumer's words: its window and order, what it leaves out and why, and which sources did not answer. Rendered first, as an item of its own (spec/lessons/zoblocks). */
+    readonly coverageLabel = input<string>("");
     readonly className = input<string>("");
 }

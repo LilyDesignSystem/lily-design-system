@@ -71,4 +71,20 @@ describe("RecordList", () => {
             "Pregnancy: not applicable",
         );
     });
+
+    test("coverageLabel says what the list is a view of, as its first item", () => {
+        const { container } = render(Subject, {
+            props: {
+                status: "known",
+                statusLabel: "Vital signs",
+                coverageLabel: "Last 12 months, newest first. The GP record did not answer.",
+            },
+        });
+        const first = container.querySelector(".record-list")!.firstElementChild!;
+        expect(first.tagName).toBe("LI");
+        expect(first.className).toBe("record-list-coverage");
+        expect(first.textContent).toBe(
+            "Last 12 months, newest first. The GP record did not answer.",
+        );
+    });
 });

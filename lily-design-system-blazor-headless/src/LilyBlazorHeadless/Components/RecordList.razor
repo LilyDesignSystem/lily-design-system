@@ -4,6 +4,7 @@
     For any status but "known", StatusLabel is the list's one item. Props and rules: RecordList.md.
 *@
 <ul class="@($"record-list {CssClass}".Trim())" data-status="@Status" aria-label="@(Label ?? StatusLabel)" @attributes="AdditionalAttributes">
+    @if (!string.IsNullOrEmpty(CoverageLabel)) {<li class="record-list-coverage">@CoverageLabel</li>}
     @if (Status != "known") {<li class="record-list-status">@StatusLabel</li>}
     @ChildContent
 </ul>
@@ -14,6 +15,8 @@
     [Parameter, EditorRequired] public string StatusLabel { get; set; } = "";
     /// <summary>The accessible name, when it should differ from StatusLabel.</summary>
     [Parameter] public string? Label { get; set; }
+    /// <summary>What this list is a view of, in the consumer's words: its window and order, what it leaves out and why, and which sources did not answer. Rendered first, as an item of its own (spec/lessons/zoblocks).</summary>
+    [Parameter] public string? CoverageLabel { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

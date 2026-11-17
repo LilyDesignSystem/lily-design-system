@@ -332,6 +332,8 @@ export type Props = {
     virtualize?: { rowHeight: number; height: number; overscan?: number };
     /** The rows are part of a set whose size the consumer does not know: `aria-rowcount="-1"` (§8.151). */
     rowCountUnknown?: boolean;
+    /** What the rows are a view of, in your words: the window and order, what is hidden and why, which sources did not answer. Shown above the rows as `.data-grid-coverage` and read as the table's description (§8.152). */
+    coverageLabel?: string;
 };
 
 let uid = 0;
@@ -413,6 +415,7 @@ const props = withDefaults(defineProps<Props>(), {
     exportHandler: undefined,
     virtualize: undefined,
     rowCountUnknown: false,
+    coverageLabel: undefined,
 });
 
 /** Selected row ids (`v-model:selected`). */
@@ -1777,6 +1780,13 @@ function entryById(id: string): Entry | undefined {
             </fieldset>
         </div>
 
+        <p
+            v-if="coverageLabel"
+            class="data-grid-coverage"
+            :id="`${gridId}-coverage`"
+        >
+            {{ coverageLabel }}
+        </p>
         <component
             :is="scroll ? 'div' : Passthrough"
             v-bind="
@@ -1804,6 +1814,7 @@ function entryById(id: string): Entry | undefined {
                 data-consumer-keys="true"
                 :caption="caption"
                 :role="isGrid ? 'grid' : 'table'"
+                :aria-describedby="coverageLabel ? `${gridId}-coverage` : undefined"
                 :aria-rowcount="isGrid ? rowCount : undefined"
                 :aria-busy="busy ? 'true' : undefined"
                 @keydown="isGrid ? onGridKeydown($event) : undefined"

@@ -3,7 +3,7 @@
 // Attributes: status (known | none-known | not-recorded | unavailable | omitted | not-applicable -> data-status), status-label, label.
 import { moveChildrenInto, passThroughAttributes, rootClassName } from "../lib/dom-utils.js";
 
-const HANDLED = new Set(["status", "status-label", "label"]);
+const HANDLED = new Set(["status", "status-label", "label", "coverage-label"]);
 
 export class RecordList extends HTMLElement {
     connectedCallback(): void {
@@ -15,6 +15,14 @@ export class RecordList extends HTMLElement {
         if (status) ul.setAttribute("data-status", status);
         ul.setAttribute("aria-label", this.getAttribute("label") ?? statusLabel);
         passThroughAttributes(this, ul, HANDLED);
+        // coverage-label: what the list is a view of, in the consumer's words; an item of its own, first.
+        const coverage = this.getAttribute("coverage-label");
+        if (coverage) {
+            const li = document.createElement("li");
+            li.className = "record-list-coverage";
+            li.textContent = coverage;
+            ul.append(li);
+        }
         if (status !== "known") {
             const li = document.createElement("li");
             li.className = "record-list-status";

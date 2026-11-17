@@ -92,10 +92,11 @@
       <li>Tab moves focus between any interactive elements (links, buttons) within timeline items</li>
     </ul>
     <h3>Props</h3>
-    <p>| Prop           | Type            | Default    | Description                                  |</p>
-    <p>| -------------- | --------------- | ---------- | -------------------------------------------- |</p>
-    <p>| <code>label</code>        | <code>string</code>        | (required) | Accessible label via <code>aria-label</code>            |</p>
-    <p>| <code>children</code>     | <code>slot</code>          | (required) | Timeline items (should be <code>&lt;li&gt;</code> elements)   |</p>
-    <p>| <code>...restProps</code> | HTML attributes |            | Additional attributes spread onto the <code>&lt;ol&gt;</code> |</p>
+    <p>| Prop            | Type            | Default    | Description                                                                                                                                                                                       |</p>
+    <p>| --------------- | --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |</p>
+    <p>| <code>label</code>         | <code>string</code>        | (required) | Accessible label via <code>aria-label</code>                                                                                                                                                                 |</p>
+    <p>| <code>coverageLabel</code> | <code>string</code>        |            | What the timeline is a view of, in the consumer's words: its window and order, what it leaves out and why, which sources did not answer. Rendered first, as <code>&lt;li class="timeline-list-coverage"&gt;</code> |</p>
+    <p>| <code>children</code>      | <code>slot</code>          | (required) | Timeline items (should be <code>&lt;li&gt;</code> elements)                                                                                                                                                        |</p>
+    <p>| <code>...restProps</code>  | HTML attributes |            | Additional attributes spread onto the <code>&lt;ol&gt;</code>                                                                                                                                                      |</p>
 </section>
 <!-- END generated: canonical contract -->

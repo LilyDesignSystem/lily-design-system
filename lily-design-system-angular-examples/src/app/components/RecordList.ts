@@ -8,7 +8,7 @@ import { warnMissingProp } from "./dev-warning";
 @Component({
     selector: "lily-record-list",
     standalone: true,
-    template: `<ul class="record-list {{ className() }}" [attr.data-status]="status() || null" [attr.aria-label]="label() || statusLabel() || null">@if (status() !== "known") {<li class="record-list-status">{{ statusLabel() }}</li>}<ng-content /></ul>`,
+    template: `<ul class="record-list {{ className() }}" [attr.data-status]="status() || null" [attr.aria-label]="label() || statusLabel() || null">@if (coverageLabel()) {<li class="record-list-coverage">{{ coverageLabel() }}</li>}@if (status() !== "known") {<li class="record-list-status">{{ statusLabel() }}</li>}<ng-content /></ul>`,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecordList implements OnInit {
@@ -20,6 +20,8 @@ export class RecordList implements OnInit {
     readonly statusLabel = input<string>("");
     /** The accessible name, when it should differ from statusLabel. */
     readonly label = input<string>("");
+    /** What this list is a view of, in the consumer's words: its window and order, what it leaves out and why, and which sources did not answer. Rendered first, as an item of its own (spec/lessons/zoblocks). */
+    readonly coverageLabel = input<string>("");
 
     ngOnInit(): void {
         warnMissingProp(

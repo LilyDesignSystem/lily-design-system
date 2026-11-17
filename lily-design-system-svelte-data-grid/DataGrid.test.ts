@@ -3505,3 +3505,34 @@ describe("DataGrid — focus follows the record, an unknown total (§8.150–§8
         );
     });
 });
+
+describe("DataGrid — a coverage statement (§8.152)", () => {
+    const cols: DataGridColumn[] = [{ id: "name", header: "Result" }];
+    const C =
+        "Results from the last 12 months, newest first. The laboratory system did not answer.";
+
+    test("§8.152 coverageLabel is shown above the rows and is the table's description", async () => {
+        const { container } = render(DataGrid, {
+            props: { label: "Results", columns: cols, rows: [], coverageLabel: C },
+        });
+        await tick();
+        const coverage = container.querySelector(".data-grid-coverage") as HTMLElement;
+        expect(coverage.textContent?.trim()).toBe(C);
+        const table = container.querySelector(".data-table") as HTMLElement;
+        expect(
+            coverage.compareDocumentPosition(table) & Node.DOCUMENT_POSITION_FOLLOWING,
+        ).toBeTruthy();
+        expect(table.getAttribute("aria-describedby")).toBe(coverage.id);
+    });
+
+    test("§8.152 without coverageLabel there is no coverage line and no description", async () => {
+        const { container } = render(DataGrid, {
+            props: { label: "Results", columns: cols, rows: [] },
+        });
+        await tick();
+        expect(container.querySelector(".data-grid-coverage")).toBeNull();
+        expect(container.querySelector(".data-table")?.hasAttribute("aria-describedby")).toBe(
+            false,
+        );
+    });
+});

@@ -430,6 +430,13 @@
          * sets `aria-rowcount="-1"`, so assistive technology does not announce the rows on screen as the whole set (§8.151).
          */
         rowCountUnknown?: boolean;
+        /**
+         * What the rows are a view of, in your words: the window and order, what is hidden and why, and which sources did not
+         * answer ("Results from the last 12 months, newest first. The laboratory system did not answer."). Shown above the
+         * rows as `.data-grid-coverage` and read as the table's description (`aria-describedby`); an empty grid from a source
+         * that did not answer must say so here (spec/lessons/zoblocks, §8.152).
+         */
+        coverageLabel?: string;
         /** Extra CSS class on the root. */
         class?: string;
         [key: string]: unknown;
@@ -520,6 +527,7 @@
         onFileRemove,
         virtualize,
         rowCountUnknown = false,
+        coverageLabel = undefined,
         exportFilename: exportBase = "data-grid",
         exportScope = "view",
         onCopy = undefined,
@@ -2050,6 +2058,7 @@
             data-consumer-keys="true"
             {caption}
             role={isGrid ? "grid" : "table"}
+            aria-describedby={coverageLabel ? `${gridId}-coverage` : undefined}
             aria-rowcount={isGrid ? rowCount : undefined}
             aria-busy={busy ? "true" : undefined}
             onkeydown={isGrid ? onGridKeydown : undefined}
@@ -2333,6 +2342,15 @@
             {/if}
         </DataTable>
     {/snippet}
+
+    {#if coverageLabel}
+        <p
+            class="data-grid-coverage"
+            id={`${gridId}-coverage`}
+        >
+            {coverageLabel}
+        </p>
+    {/if}
 
     {#if scroll}
         <!-- A scrollable region must be reachable by keyboard (WCAG 2.1.1; axe `scrollable-region-focusable`).

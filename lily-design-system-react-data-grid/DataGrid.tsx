@@ -436,6 +436,8 @@ export type Props = Omit<React.HTMLAttributes<HTMLDivElement>, "children"> & {
     virtualize?: { rowHeight: number; height: number; overscan?: number };
     /** The rows are part of a set whose size the consumer does not know: `aria-rowcount="-1"` (§8.151). */
     rowCountUnknown?: boolean;
+    /** What the rows are a view of, in your words: the window and order, what is hidden and why, which sources did not answer. Shown above the rows as `.data-grid-coverage` and read as the table's description (§8.152). */
+    coverageLabel?: string;
     /** Extra CSS class on the root. */
     className?: string;
 };
@@ -527,6 +529,7 @@ export function DataGrid({
     onFileRemove,
     virtualize,
     rowCountUnknown = false,
+    coverageLabel,
     exportFilename: exportBase = "data-grid",
     exportScope = "view",
     exportFormulas = false,
@@ -2110,6 +2113,7 @@ export function DataGrid({
             data-consumer-keys="true"
             caption={caption}
             role={isGrid ? "grid" : "table"}
+            aria-describedby={coverageLabel ? `${gridId}-coverage` : undefined}
             aria-rowcount={isGrid ? rowCount : undefined}
             aria-busy={busy ? "true" : undefined}
             onKeyDown={isGrid ? onGridKeydown : undefined}
@@ -2527,6 +2531,14 @@ export function DataGrid({
                 </div>
             )}
 
+            {coverageLabel ? (
+                <p
+                    className="data-grid-coverage"
+                    id={`${gridId}-coverage`}
+                >
+                    {coverageLabel}
+                </p>
+            ) : null}
             {scroll ? (
                 // A scrollable region must be reachable by keyboard (WCAG 2.1.1; axe `scrollable-region-focusable`).
                 // In grid mode a roving cell is already a tab stop, so only table mode makes the region one.

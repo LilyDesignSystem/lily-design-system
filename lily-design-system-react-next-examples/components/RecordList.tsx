@@ -4,6 +4,8 @@ import React from "react";
 import { warnMissingProp } from "./dev-warning";
 
 export interface RecordListProps {
+    /** What this list is a view of, in the consumer's words: its window and order, what it leaves out and why, and which sources did not answer. Rendered first, as an item of its own (spec/lessons/zoblocks). */
+    coverageLabel?: string;
     className?: string;
     status: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable";
     /** The consumer's words for the status; names the list, and is its one item unless status is "known". */
@@ -19,6 +21,7 @@ export default function RecordList({
     status,
     statusLabel,
     label,
+    coverageLabel,
     children,
     ...restProps
 }: RecordListProps) {
@@ -41,6 +44,7 @@ export default function RecordList({
             aria-label={label ?? statusLabel}
             {...restProps}
         >
+            {coverageLabel ? <li className="record-list-coverage">{coverageLabel}</li> : null}
             {status !== "known" ? <li className="record-list-status">{statusLabel}</li> : null}
             {children}
         </ul>

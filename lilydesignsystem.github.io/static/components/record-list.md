@@ -17,6 +17,7 @@ RecordList is a list of records from one section of a patient's record, whose st
 - `status`: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable" (required) — rendered as `data-status`
 - `statusLabel`: string (required) — the status in words; names the list, and is its one item unless status is `known`
 - `label`: string (optional) — the accessible name, when it should differ from `statusLabel`
+- `coverageLabel`: string (optional) — what the list is a view of, in the consumer's words: its window and order, what it leaves out and why, which sources did not answer. Rendered first, as `<li class="record-list-coverage">` (spec/lessons/zoblocks)
 - `children`: slot (optional) — `record-list-item` items
 - `...restProps`: any — additional HTML attributes spread onto the root
 

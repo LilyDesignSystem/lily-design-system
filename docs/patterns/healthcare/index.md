@@ -151,6 +151,10 @@ at `/patient-banner` in the SvelteKit example app:
 
 ## Records, notes and their provenance
 
+- Say what a list or a grid is a view of, before its rows: its window and order, what it leaves out and why, and which sources did
+  not answer ("Last 12 months, newest first. The GP record did not answer."). Give `record-list` and `timeline-list` a
+  `coverageLabel`, and the `data-grid` helper its `coverageLabel`. An empty list from a source that did not answer says so in
+  words, so it is never read as "nothing recorded".
 - Say where a record came from and whether it is final with `record-provenance-view`: signed, awaiting a signature, amended,
   saved on this device and not yet sent. An unsigned draft must never look signed.
 - An entry about someone else (a parent, a fetus, a donor) says whose it is first, with the record items' `subjectLabel`.

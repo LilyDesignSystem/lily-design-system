@@ -24,4 +24,17 @@ describe("timeline-list", () => {
         expect(html).not.toContain("<style");
         expect(html).not.toContain("<script");
     });
+
+    it("coverageLabel says what the list is a view of, as its first item", () => {
+        const { document } = render("timeline-list", {
+            label: "History",
+            coverageLabel: "Last 12 months, newest first. The GP record did not answer.",
+        });
+        const first = document.querySelector(".timeline-list").firstElementChild;
+        expect(first.tagName).toBe("LI");
+        expect(first.className).toBe("timeline-list-coverage");
+        expect(first.textContent).toBe(
+            "Last 12 months, newest first. The GP record did not answer.",
+        );
+    });
 });

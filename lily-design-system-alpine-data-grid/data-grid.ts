@@ -76,6 +76,8 @@ export type DataGridOptions = {
     exportFilename?: string;
     /** Which rows an export or copy holds. Default "filtered". */
     exportScope?: "page" | "filtered" | "selected" | "all";
+    /** What the rows are a view of, in your words; shown above them and read as the table's description (§8.152). */
+    coverageLabel?: string;
 };
 
 type Position = { row: number; col: number };
@@ -95,6 +97,7 @@ export function createDataGrid(options: DataGridOptions) {
         selectionMode: options.selectionMode ?? "none",
         pageSize: options.pageSize ?? 0,
         exportScope: options.exportScope ?? "filtered",
+        coverageLabel: options.coverageLabel ?? "",
         filter: "",
         sort: [] as SortKey[],
         page: 0,

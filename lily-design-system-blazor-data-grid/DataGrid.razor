@@ -72,6 +72,11 @@
         </div>
     }
 
+    @if (!string.IsNullOrEmpty(CoverageLabel))
+    {
+        <p class="data-grid-coverage" id="@CoverageId">@CoverageLabel</p>
+    }
+
     @if (Scroll)
     {
         @* A scrollable region must be reachable by keyboard (WCAG 2.1.1). In grid mode a roving cell is already a tab stop, so only table mode makes the region one. *@
@@ -115,6 +120,7 @@
     {
         var items = RenderItems();
         <DataTable Label="@Label" data-consumer-keys="true" role="@(IsGrid ? "grid" : "table")"
+                   aria-describedby="@(string.IsNullOrEmpty(CoverageLabel) ? null : CoverageId)"
                    aria-rowcount="@(IsGrid ? RowCount?.ToString() : null)"
                    aria-busy="@(Busy ? "true" : null)"
                    @onkeydown="@(IsGrid ? OnGridKeyDownAsync : NoKeys)">

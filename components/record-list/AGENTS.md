@@ -31,6 +31,7 @@
 - `status`: "known" | "none-known" | "not-recorded" | "unavailable" | "omitted" | "not-applicable" (required) — rendered as `data-status`
 - `statusLabel`: string (required) — the status in words; names the list, and is its one item unless status is `known`
 - `label`: string (optional) — the accessible name, when it should differ from `statusLabel`
+- `coverageLabel`: string (optional) — what the list is a view of (window, order, what is left out, sources that did not answer); rendered first, as `<li class="record-list-coverage">`
 - `children`: slot (optional) — `record-list-item` items
 - `...restProps`: any — additional HTML attributes spread onto the root
 

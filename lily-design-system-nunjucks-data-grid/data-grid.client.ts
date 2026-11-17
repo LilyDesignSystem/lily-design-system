@@ -98,6 +98,8 @@ type Config = {
     exportFormulas?: boolean;
     /** The rows are part of a set of unknown size: `aria-rowcount="-1"` (§8.151). */
     rowCountUnknown?: boolean;
+    /** What the rows are a view of, in your words: the window and order, what is hidden and why, which sources did not answer. Shown above the rows as `.data-grid-coverage` and read as the table's description (§8.152). */
+    coverageLabel?: string;
     emptyValue?: string;
     nulls?: string;
     movableColumns?: boolean;
@@ -127,6 +129,7 @@ export function initDataGrid(root: Element): DataGrid | null {
     if (config.exportScope) grid.setAttribute("export-scope", config.exportScope);
     if (config.exportFormulas) grid.setAttribute("export-formulas", "");
     if (config.rowCountUnknown) grid.setAttribute("row-count-unknown", "");
+    if (config.coverageLabel) grid.setAttribute("coverage-label", config.coverageLabel);
     if (config.emptyValue) grid.setAttribute("empty-value", config.emptyValue);
     if (config.nulls === "first") grid.setAttribute("nulls", "first");
     if (config.movableColumns) grid.setAttribute("movable-columns", "");

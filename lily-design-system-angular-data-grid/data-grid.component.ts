@@ -448,6 +448,9 @@ export class DataGridAttrs {
         </div>
       }
 
+      @if (coverageLabel()) {
+        <p class="data-grid-coverage" [id]="gridId + '-coverage'">{{ coverageLabel() }}</p>
+      }
       @if (scroll()) {
         <!-- A scrollable region must be reachable by keyboard (WCAG 2.1.1); in grid mode a roving cell is already a tab stop. -->
         <div
@@ -928,6 +931,8 @@ export class DataGrid {
     >(undefined);
     /** The rows are part of a set whose size the consumer does not know: `aria-rowcount="-1"` (§8.151). */
     readonly rowCountUnknown = input<boolean>(false);
+    /** What the rows are a view of, in your words: the window and order, what is hidden and why, which sources did not answer. Shown above the rows as `.data-grid-coverage` and read as the table's description (§8.152). */
+    readonly coverageLabel = input<string>("");
     /** Extra CSS class on the root. */
     readonly className = input<string>("");
 
@@ -1278,6 +1283,7 @@ export class DataGrid {
         effect(() => {
             const root = this.rootRef().nativeElement;
             const grid = this.isGrid();
+            const coverage = this.coverageLabel();
             const count = this.rowCount();
             const busy = this.busy();
             this.sortedEntries();
@@ -1289,6 +1295,8 @@ export class DataGrid {
                     const table = root.querySelector<HTMLElement>("table.data-table");
                     if (!table) return;
                     table.setAttribute("role", grid ? "grid" : "table");
+                    if (coverage) table.setAttribute("aria-describedby", `${this.gridId}-coverage`);
+                    else table.removeAttribute("aria-describedby");
                     if (grid && count !== undefined)
                         table.setAttribute("aria-rowcount", String(count));
                     else table.removeAttribute("aria-rowcount");

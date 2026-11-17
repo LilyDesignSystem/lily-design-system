@@ -55,6 +55,8 @@ export interface TimelineListProps {
     className?: string;
     /** Accessible label for the timeline */
     label: string;
+    /** What this list is a view of, in the consumer's words: its window and order, what it leaves out and why, and which sources did not answer. Rendered first, as an item of its own (spec/lessons/zoblocks). */
+    coverageLabel?: string;
     /** TimelineListItem elements */
     children: React.ReactNode;
     /** Additional HTML attributes */
@@ -64,6 +66,7 @@ export interface TimelineListProps {
 export default function TimelineList({
     className = "",
     label,
+    coverageLabel,
     children,
     ...restProps
 }: TimelineListProps) {
@@ -73,6 +76,7 @@ export default function TimelineList({
             aria-label={label}
             {...restProps}
         >
+            {coverageLabel ? <li className="timeline-list-coverage">{coverageLabel}</li> : null}
             {children}
         </ol>
     );

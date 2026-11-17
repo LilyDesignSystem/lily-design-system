@@ -415,6 +415,7 @@ export class DataGrid extends HTMLElement {
             "export-scope",
             "export-formulas",
             "row-count-unknown",
+            "coverage-label",
             "activate-rows",
             "empty-value",
             "nulls",
@@ -736,6 +737,15 @@ export class DataGrid extends HTMLElement {
         if (v) this.setAttribute("export-formulas", "");
         else this.removeAttribute("export-formulas");
     }
+    /** What the rows are a view of, in your words: the window and order, what is hidden and why, which sources did not answer. Shown above the rows as `.data-grid-coverage` and read as the table's description (§8.152). */
+    get coverageLabel(): string {
+        return this.getAttribute("coverage-label") ?? "";
+    }
+    set coverageLabel(v: string) {
+        if (v) this.setAttribute("coverage-label", v);
+        else this.removeAttribute("coverage-label");
+    }
+
     /** The rows are part of a set whose size the consumer does not know: `aria-rowcount="-1"` (§8.151). */
     get rowCountUnknown(): boolean {
         return this.hasAttribute("row-count-unknown");
@@ -2002,6 +2012,7 @@ export class DataGrid extends HTMLElement {
         const table = el("table", "data-table", {
             role: isGrid ? "grid" : "table",
             "aria-label": this.label,
+            "aria-describedby": this.coverageLabel ? `${this.#gridId}-coverage` : null,
             "aria-rowcount": isGrid && rowCount !== undefined ? rowCount : null,
             "aria-busy": this.busy ? "true" : null,
         });
@@ -2281,6 +2292,17 @@ export class DataGrid extends HTMLElement {
             if (content) tfoot.append(content);
             table.append(tfoot);
         }
+
+        // ---- Coverage: what the rows are a view of, above them, and the table's description (§8.152) ----
+        if (this.coverageLabel)
+            root.append(
+                el(
+                    "p",
+                    "data-grid-coverage",
+                    { id: `${this.#gridId}-coverage` },
+                    this.coverageLabel,
+                ),
+            );
 
         // ---- Scroll region ----
         if (this.scrollable) {

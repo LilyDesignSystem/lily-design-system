@@ -1663,5 +1663,15 @@ public class DataGridTests : TestContext
         var cut = Render(configure: p => p.Add(x => x.RowCountUnknown, true));
         Assert.Equal("-1", cut.Find("[role=grid]").GetAttribute("aria-rowcount"));
     }
-}
 
+    [Fact]
+    public void Section_8_152_CoverageLabel_Is_Above_The_Rows_And_Describes_The_Table()
+    {
+        const string coverage = "Results from the last 12 months, newest first. The laboratory system did not answer.";
+        var cut = Render(configure: p => p.Add(x => x.CoverageLabel, coverage));
+        var line = cut.Find(".data-grid-coverage");
+        Assert.Equal(coverage, line.TextContent);
+        Assert.Equal(line.Id, cut.Find("table.data-table").GetAttribute("aria-describedby"));
+        Assert.True(cut.Markup.IndexOf("data-grid-coverage") < cut.Markup.IndexOf("<table"));
+    }
+}

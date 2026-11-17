@@ -53,10 +53,12 @@
       - WAI-ARIA list role: https://www.w3.org/TR/wai-aria-1.2/#list
 *@
 
-<ol class="@($"timeline-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@ChildContent</ol>
+<ol class="@($"timeline-list {CssClass}".Trim())" aria-label="@Label" @attributes="AdditionalAttributes">@if (!string.IsNullOrEmpty(CoverageLabel)) {<li class="timeline-list-coverage">@CoverageLabel</li>}@ChildContent</ol>
 
 @code {
     [Parameter] public string Label { get; set; } = "";
+    /// <summary>What this list is a view of, in the consumer's words: its window and order, what it leaves out and why, and which sources did not answer. Rendered first, as an item of its own (spec/lessons/zoblocks).</summary>
+    [Parameter] public string? CoverageLabel { get; set; }
     [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string CssClass { get; set; } = "";
     [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }

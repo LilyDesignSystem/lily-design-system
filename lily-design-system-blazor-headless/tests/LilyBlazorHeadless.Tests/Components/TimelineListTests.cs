@@ -34,4 +34,14 @@ public class TimelineListTests : TestContext
         var root = cut.Find(".timeline-list");
         Assert.Equal("value", root.GetAttribute("data-test"));
     }
+
+    [Fact]
+    public void CoverageLabel_says_what_the_list_is_a_view_of_as_its_first_item()
+    {
+        var cut = RenderComponent<TimelineList>(p => p.Add(x => x.Label, "History").Add(x => x.CoverageLabel, "Last 12 months, newest first. The GP record did not answer."));
+        var first = cut.Find(".timeline-list").FirstElementChild!;
+        Assert.Equal("LI", first.TagName);
+        Assert.Equal("timeline-list-coverage", first.ClassName);
+        Assert.Equal("Last 12 months, newest first. The GP record did not answer.", first.TextContent);
+    }
 }
