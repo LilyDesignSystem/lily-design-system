@@ -1,0 +1,17 @@
+---
+layout: layouts/component-demo.njk
+title: DurationView
+description: a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words
+---
+
+{% from "components/duration-view/macro.njk" import durationView %}
+
+<h2>Default</h2>
+<p>{{ durationView({ label: "Length of stay", value: "3 days 4 hours", duration: "P3DT4H" }) }}</p>
+<p>{{ durationView({ value: "3 days early", duration: "-P3D" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}{{ durationView({ label: "Length of stay", value: "3 days 4 hours", duration: "P3DT4H" }) }}
+{% endraw %}</code></pre>
+{# END generated: examples #}

@@ -4,9 +4,9 @@
 
     let {
         value = "",
-        yearLabel = "Year",
+        yearLabel,
         ...props
-    }: { value?: string; yearLabel?: string; [key: string]: unknown } = $props();
+    }: { value?: string; yearLabel: string; [key: string]: unknown } = $props();
     let bound = $state(value);
 </script>
 

@@ -630,3 +630,4 @@ problem-record-list-item	ProblemRecordListItem	one problem or condition in a pro
 immunization-record-list-item	ImmunizationRecordListItem	one immunization in an immunization record list, with vaccine, date, dose and status
 procedure-record-list-item	ProcedureRecordListItem	one procedure in a procedure record list, with its status and when it was performed
 device-record-list-item	DeviceRecordListItem	one medical device in a device record list, with its status and when it was used
+duration-view	DurationView	a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words

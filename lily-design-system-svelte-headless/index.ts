@@ -186,6 +186,7 @@ export { default as DownloadButton } from "./components/DownloadButton/DownloadB
 export { default as Draft } from "./components/Draft/Draft.svelte";
 export { default as Drawer } from "./components/Drawer/Drawer.svelte";
 export { default as DropdownMenu } from "./components/DropdownMenu/DropdownMenu.svelte";
+export { default as DurationView } from "./components/DurationView/DurationView.svelte";
 export { default as EarlyWarningScoreView } from "./components/EarlyWarningScoreView/EarlyWarningScoreView.svelte";
 export { default as EcuadorCedulaDeIdentidadInput } from "./components/EcuadorCedulaDeIdentidadInput/EcuadorCedulaDeIdentidadInput.svelte";
 export { default as EcuadorCedulaDeIdentidadView } from "./components/EcuadorCedulaDeIdentidadView/EcuadorCedulaDeIdentidadView.svelte";
@@ -634,7 +635,7 @@ export { default as YisraelTeudatZehutView } from "./components/YisraelTeudatZeh
 export { default as ZhongguoJuminShenfenzhengHaomaInput } from "./components/ZhongguoJuminShenfenzhengHaomaInput/ZhongguoJuminShenfenzhengHaomaInput.svelte";
 export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView/ZhongguoJuminShenfenzhengHaomaView.svelte";
 
-export { ageParts, formatPartialDate, formatProportion, formatQuantity, partialDatePrecision, toIsoDuration } from "./components/clinical-format";
-export type { AgePart, AgeUnit, DatePrecision, ProportionKind, QuantityComparator } from "./components/clinical-format";
+export { ageParts, durationParts, formatPartialDate, formatProportion, formatQuantity, htmlDuration, partialDatePrecision, toIsoDuration } from "./components/clinical-format";
+export type { AgePart, AgeUnit, DatePrecision, DurationParts, ProportionKind, QuantityComparator } from "./components/clinical-format";
 export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./components/ips-sections";
 export type { IpsContentsEntry, IpsSectionDefinition, IpsSectionEntry, IpsSectionLevel, IpsSectionStatus } from "./components/ips-sections";

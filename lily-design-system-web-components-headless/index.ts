@@ -678,6 +678,10 @@ export { DropdownMenu } from "./components/dropdown-menu.js";
 import { DropdownMenu as _DropdownMenu } from "./components/dropdown-menu.js";
 if (!customElements.get("lily-dropdown-menu")) customElements.define("lily-dropdown-menu", _DropdownMenu);
 
+export { DurationView } from "./components/duration-view.js";
+import { DurationView as _DurationView } from "./components/duration-view.js";
+if (!customElements.get("lily-duration-view")) customElements.define("lily-duration-view", _DurationView);
+
 export { EarlyWarningScoreView } from "./components/early-warning-score-view.js";
 import { EarlyWarningScoreView as _EarlyWarningScoreView } from "./components/early-warning-score-view.js";
 if (!customElements.get("lily-early-warning-score-view")) customElements.define("lily-early-warning-score-view", _EarlyWarningScoreView);

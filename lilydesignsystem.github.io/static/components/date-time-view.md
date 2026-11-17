@@ -16,6 +16,7 @@ that the consumer has formatted in the user's locale.
 - Renders a `<time>` element so the value is machine-readable
 - Sets `datetime={value}` from the ISO 8601 string
 - Display text falls back: `children` → `format` → `value`
+- A partial date is a valid `datetime`: `2019` or `2019-03` renders `<time datetime="2019-03">`, so a record known only to the month or year is never given an invented day. Format the text with `formatPartialDate()` from `clinical-format`
 - Does not perform any localization — the consumer formats the displayed text
 - Sets `class="date-time-view"`
 

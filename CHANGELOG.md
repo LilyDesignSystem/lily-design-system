@@ -18,6 +18,8 @@ highlights.
   `2019-03`, never padded with an invented day; `date-time-view` documents partial `datetime` values (P29-T1).
 - `not-applicable` on the seven record lists and `observation-view`, and `subjectLabel` on the seven record items ("Mother",
   shown first), in all nine catalogs (P29-T2, P29-T4).
+- `duration-view` (catalog 633): a length of time in a `<time datetime>`, in the consumer's words, in all nine catalogs;
+  `durationParts()` and `htmlDuration()` in `clinical-format` (P29-T6).
 
 ## Release: headless with the radio groups and the patient summary — 2026-11-16
 

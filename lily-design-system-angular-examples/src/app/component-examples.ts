@@ -645,4 +645,5 @@ export const componentExamples: Record<string, ComponentExample> = {
   "immunization-record-list-item": {"usage":{"lang":"html","code":"<ImmunizationRecordListItem\n  vaccine=\"MMR vaccine\"\n  occurrence=\"2025-09-12\"\n  occurrenceLabel=\"12 Sep 2025\"\n  doseNumberLabel=\"Dose 2 of 2\"\n  status=\"completed\"\n  statusLabel=\"Given\"\n  lotNumber=\"AB1234\"\n/>\n"}},
   "procedure-record-list-item": {"usage":{"lang":"html","code":"<ProcedureRecordListItem\n  procedure=\"Appendectomy\"\n  status=\"completed\"\n  statusLabel=\"Completed\"\n  performed=\"2018-04-22\"\n  performedLabel=\"22 Apr 2018\"\n/>\n"}},
   "device-record-list-item": {"usage":{"lang":"html","code":"<DeviceRecordListItem\n  device=\"Cardiac pacemaker\"\n  status=\"active\"\n  statusLabel=\"In use\"\n  timing=\"2021-02-08\"\n  timingLabel=\"Since 8 Feb 2021\"\n/>\n"}},
+  "duration-view": {"usage":{"lang":"html","code":"<lily-duration-view label=\"Length of stay\" value=\"3 days 4 hours\" duration=\"P3DT4H\" />\n"}},
 };

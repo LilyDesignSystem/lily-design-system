@@ -4426,6 +4426,13 @@
                         tag: "li",
                         category: "lists",
                     },
+                    {
+                        slug: "duration-view",
+                        name: "DurationView",
+                        description: "a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words",
+                        tag: "time",
+                        category: "content",
+                    },
                 ];
 
                 function escapeHtml(text) {
@@ -5071,6 +5078,7 @@
                 'immunization-record-list-item': '<ul class="immunization-record-list" data-status="known" aria-label="Immunizations"><li class="immunization-record-list-item" data-status="completed"><span class="immunization-record-list-item-vaccine">MMR vaccine</span> <time class="immunization-record-list-item-occurrence" datetime="2025-09-12">12 Sep 2025</time> <span class="immunization-record-list-item-dose-number">Dose 2 of 2</span> <span class="immunization-record-list-item-status">Given</span> <span class="immunization-record-list-item-lot-number">AB1234</span></li></ul>',
                 'procedure-record-list-item': '<ul class="procedure-record-list" data-status="known" aria-label="Procedures"><li class="procedure-record-list-item" data-status="completed"><span class="procedure-record-list-item-procedure">Appendectomy</span> <span class="procedure-record-list-item-status">Completed</span> <time class="procedure-record-list-item-performed" datetime="2018-04-22">22 Apr 2018</time></li></ul>',
                 'device-record-list-item': '<ul class="device-record-list" data-status="known" aria-label="Medical devices"><li class="device-record-list-item" data-status="active"><span class="device-record-list-item-device">Cardiac pacemaker</span> <span class="device-record-list-item-status">In use</span> <time class="device-record-list-item-timing" datetime="2021-02-08">Since 8 Feb 2021</time></li></ul>',
+                'duration-view': '<time class="duration-view" datetime="P3DT4H"><span class="screen-reader-span">Length of stay </span>3 days 4 hours</time>',
             };
 
             var componentExamples = {
@@ -5706,6 +5714,7 @@
                 "immunization-record-list-item": {"usage":{"lang":"html","code":"<ImmunizationRecordListItem\n  vaccine=\"MMR vaccine\"\n  occurrence=\"2025-09-12\"\n  occurrenceLabel=\"12 Sep 2025\"\n  doseNumberLabel=\"Dose 2 of 2\"\n  status=\"completed\"\n  statusLabel=\"Given\"\n  lotNumber=\"AB1234\"\n/>\n"}},
                 "procedure-record-list-item": {"usage":{"lang":"html","code":"<ProcedureRecordListItem\n  procedure=\"Appendectomy\"\n  status=\"completed\"\n  statusLabel=\"Completed\"\n  performed=\"2018-04-22\"\n  performedLabel=\"22 Apr 2018\"\n/>\n"}},
                 "device-record-list-item": {"usage":{"lang":"html","code":"<DeviceRecordListItem\n  device=\"Cardiac pacemaker\"\n  status=\"active\"\n  statusLabel=\"In use\"\n  timing=\"2021-02-08\"\n  timingLabel=\"Since 8 Feb 2021\"\n/>\n"}},
+                "duration-view": {"usage":{"lang":"html","code":"<DurationView\n  label=\"Length of stay\"\n  value=\"3 days 4 hours\"\n  duration=\"P3DT4H\"\n/>\n"}},
 /* END componentExamples */};
 
                 // Demo markup may hold style attributes, which a strict Content Security Policy blocks when parsed. Rename

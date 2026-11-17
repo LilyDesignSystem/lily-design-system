@@ -13,6 +13,7 @@ ImmunizationRecordListItem is one immunization in an immunization record list, w
 
 ## Props
 
+- `subjectLabel`: string (optional) -- whose record it is, when it is not the patient's ("Mother", "Fetus 1"); rendered first as `-subject`, so a relative's history is never read as the patient's
 - `vaccine`: string (required) — the vaccine given; never truncated
 - `occurrence`: string (optional) — when it was given, for <time datetime>
 - `occurrenceLabel`: string (optional) — that date as the consumer writes it; the `<time>` shows only when set

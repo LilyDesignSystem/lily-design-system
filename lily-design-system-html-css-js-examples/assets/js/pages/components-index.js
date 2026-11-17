@@ -4426,6 +4426,13 @@
                         tag: "li",
                         category: "lists",
                     },
+                    {
+                        slug: "duration-view",
+                        name: "DurationView",
+                        description: "a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words",
+                        tag: "time",
+                        category: "content",
+                    },
                 ];
 
                 // Plan P6-T5: category + suffix-pattern filters alongside

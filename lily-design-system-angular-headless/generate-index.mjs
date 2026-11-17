@@ -58,8 +58,8 @@ if (files.length === 0) {
 
 // Pure modules that are public API but not components, so the component scan cannot find them (spec/healthcare-ui).
 const MODULE_EXPORTS = [
-    'export { ageParts, formatPartialDate, formatProportion, formatQuantity, partialDatePrecision, toIsoDuration } from "./components/clinical-format";',
-    'export type { AgePart, AgeUnit, DatePrecision, ProportionKind, QuantityComparator } from "./components/clinical-format";',
+    'export { ageParts, durationParts, formatPartialDate, formatProportion, formatQuantity, htmlDuration, partialDatePrecision, toIsoDuration } from "./components/clinical-format";',
+    'export type { AgePart, AgeUnit, DatePrecision, DurationParts, ProportionKind, QuantityComparator } from "./components/clinical-format";',
     'export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./components/ips-sections";',
     'export type { IpsContentsEntry, IpsSectionDefinition, IpsSectionEntry, IpsSectionLevel, IpsSectionStatus } from "./components/ips-sections";',
 ];

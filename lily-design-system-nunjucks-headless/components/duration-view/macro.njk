@@ -1,0 +1,29 @@
+{#
+  DurationView macro — a length of time in the consumer's words, in a <time> whose datetime is the ISO 8601 duration
+    (tasks.md P29-T6).
+
+  HTML tag: <time>
+  CSS class: duration-view
+
+  Params:
+    value      the length of time as the consumer writes it (required)
+    duration   the same length as an ISO 8601 duration of days, hours, minutes and seconds ("P3DT4H"), as datetime.
+               A negative one ("-P3D") renders its length and data-negative; years, months and weeks are no datetime,
+               since they have no fixed length
+    label, id, classes, attributes
+
+  Usage:
+    {% from "components/duration-view/macro.njk" import durationView %}
+    {{ durationView({ value: "3 days 4 hours", duration: "P3DT4H" }) }}
+#}
+{%- macro durationView(params) -%}
+{%- set p = params | default({}) -%}
+{%- set d = (p.duration | default("")) | string -%}
+{%- set valid = r/^-?P(\d+D)?(T(\d+H)?(\d+M)?(\d+(\.\d+)?S)?)?$/.test(d) and r/\d/.test(d) and not r/T$/.test(d) -%}
+<time
+  class="duration-view{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if valid %} datetime="{{ d | replace(r/^-/, "") }}"{% if d[0] == "-" %} data-negative{% endif %}{% endif %}
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>{% if p.label %}<span class="screen-reader-span">{{ p.label }} </span>{% endif %}{{ p.value | default("") }}</time>
+{%- endmacro -%}

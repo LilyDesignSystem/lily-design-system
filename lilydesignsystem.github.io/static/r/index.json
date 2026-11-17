@@ -1,5 +1,5 @@
 {
-  "count": 632,
+  "count": 633,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -1110,6 +1110,12 @@
       "name": "DropdownMenu",
       "description": "a menu that opens below a trigger button",
       "manifest": "https://lilydesignsystem.com/r/dropdown-menu.json"
+    },
+    {
+      "slug": "duration-view",
+      "name": "DurationView",
+      "description": "a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words",
+      "manifest": "https://lilydesignsystem.com/r/duration-view.json"
     },
     {
       "slug": "early-warning-score-view",

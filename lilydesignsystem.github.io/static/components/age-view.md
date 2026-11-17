@@ -43,7 +43,7 @@ None. This is not an interactive component.
 ## When Not to Use
 
 - Do not use for a date — use `date-time-view`.
-- Do not use for a duration that is not an age — use plain text or `<time>`.
+- Do not use for a duration that is not an age — use `duration-view`.
 
 ## Headless
 

@@ -630,3 +630,4 @@ problem-record-list-item	li	lists
 immunization-record-list-item	li	lists
 procedure-record-list-item	li	lists
 device-record-list-item	li	lists
+duration-view	time	content

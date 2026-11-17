@@ -3634,9 +3634,9 @@ logic: no constraint validation, no score sums, no unit conversion.
 - [x] **P29-T5 `formatProportion`.** `formatProportion(numerator, denominator, kind, locale)` for ratio, unitary, percent, fraction
       and integer fraction, in the shared module and C#.
       Verify: tests for `1:128`, `1/2`, `1 1/2`, a percent and a unitary value, in two locales. _(2026-11-16: done, with `ProportionKind`; nothing is reduced (2/4 stays 2/4); each kind refuses a denominator it does not allow. Exported from the Svelte, React, Vue and Angular indexes; `ClinicalFormat.FormatProportion` in C#.)_
-- [ ] **P29-T6 `duration-view`.** A `<time datetime>` holding an ISO 8601 duration, words from `Intl.DurationFormat` or the
+- [x] **P29-T6 `duration-view`.** A `<time datetime>` holding an ISO 8601 duration, words from `Intl.DurationFormat` or the
       consumer, sharing its parser with `age-view`.
-      Verify: built in all nine catalogs with tests, including a negative duration; `bin/check-built-english` passes.
+      Verify: built in all nine catalogs with tests, including a negative duration; `bin/check-built-english` passes. _(2026-11-17: done in all nine catalogs (catalog 633, Web Components 598): a `<time>` whose `datetime` is the duration, the consumer's words, `data-negative` for a negative one, and no `datetime` (with a development warning) for years, months or weeks, which HTML does not take. `durationParts()` (for `Intl.DurationFormat`) and `htmlDuration()` in `shared/clinical-format.ts`, `ClinicalFormat.HtmlDuration` in C#; tests in every behaviour catalog and Nunjucks, including a negative duration.)_
 - [ ] **P29-T7 Named ranges on `observation-view`.** A `ranges` list of `{ label, text }`, each a `-range` part, beside the
       existing single range.
       Verify: tests in all nine catalogs with two ranges; the single-range tests still pass.

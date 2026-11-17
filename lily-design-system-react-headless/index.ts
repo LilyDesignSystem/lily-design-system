@@ -371,6 +371,8 @@ export { default as Drawer } from "./components/Drawer";
 export type { DrawerProps } from "./components/Drawer";
 export { default as DropdownMenu } from "./components/DropdownMenu";
 export type { DropdownMenuProps } from "./components/DropdownMenu";
+export { default as DurationView } from "./components/DurationView";
+export type { DurationViewProps } from "./components/DurationView";
 export { default as EarlyWarningScoreView } from "./components/EarlyWarningScoreView";
 export type { EarlyWarningScoreViewProps } from "./components/EarlyWarningScoreView";
 export { default as EcuadorCedulaDeIdentidadInput } from "./components/EcuadorCedulaDeIdentidadInput";
@@ -1266,7 +1268,7 @@ export type { ZhongguoJuminShenfenzhengHaomaInputProps } from "./components/Zhon
 export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView";
 export type { ZhongguoJuminShenfenzhengHaomaViewProps } from "./components/ZhongguoJuminShenfenzhengHaomaView";
 
-export { ageParts, formatPartialDate, formatProportion, formatQuantity, partialDatePrecision, toIsoDuration } from "./components/clinical-format";
-export type { AgePart, AgeUnit, DatePrecision, ProportionKind, QuantityComparator } from "./components/clinical-format";
+export { ageParts, durationParts, formatPartialDate, formatProportion, formatQuantity, htmlDuration, partialDatePrecision, toIsoDuration } from "./components/clinical-format";
+export type { AgePart, AgeUnit, DatePrecision, DurationParts, ProportionKind, QuantityComparator } from "./components/clinical-format";
 export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./components/ips-sections";
 export type { IpsContentsEntry, IpsSectionDefinition, IpsSectionEntry, IpsSectionLevel, IpsSectionStatus } from "./components/ips-sections";

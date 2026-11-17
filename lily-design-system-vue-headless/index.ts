@@ -186,6 +186,7 @@ export { default as DownloadButton } from "./components/DownloadButton.vue";
 export { default as Draft } from "./components/Draft.vue";
 export { default as Drawer } from "./components/Drawer.vue";
 export { default as DropdownMenu } from "./components/DropdownMenu.vue";
+export { default as DurationView } from "./components/DurationView.vue";
 export { default as EarlyWarningScoreView } from "./components/EarlyWarningScoreView.vue";
 export { default as EcuadorCedulaDeIdentidadInput } from "./components/EcuadorCedulaDeIdentidadInput.vue";
 export { default as EcuadorCedulaDeIdentidadView } from "./components/EcuadorCedulaDeIdentidadView.vue";
@@ -634,7 +635,7 @@ export { default as YisraelTeudatZehutView } from "./components/YisraelTeudatZeh
 export { default as ZhongguoJuminShenfenzhengHaomaInput } from "./components/ZhongguoJuminShenfenzhengHaomaInput.vue";
 export { default as ZhongguoJuminShenfenzhengHaomaView } from "./components/ZhongguoJuminShenfenzhengHaomaView.vue";
 
-export { ageParts, formatPartialDate, formatProportion, formatQuantity, partialDatePrecision, toIsoDuration } from "./components/clinical-format";
-export type { AgePart, AgeUnit, DatePrecision, ProportionKind, QuantityComparator } from "./components/clinical-format";
+export { ageParts, durationParts, formatPartialDate, formatProportion, formatQuantity, htmlDuration, partialDatePrecision, toIsoDuration } from "./components/clinical-format";
+export type { AgePart, AgeUnit, DatePrecision, DurationParts, ProportionKind, QuantityComparator } from "./components/clinical-format";
 export { IPS_REQUIRED_SECTIONS, IPS_SECTIONS, ipsContents, ipsMissingRequired, ipsSectionCode, ipsSectionId, ipsSectionIsRequired } from "./components/ips-sections";
 export type { IpsContentsEntry, IpsSectionDefinition, IpsSectionEntry, IpsSectionLevel, IpsSectionStatus } from "./components/ips-sections";

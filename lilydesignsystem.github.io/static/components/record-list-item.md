@@ -12,6 +12,7 @@ RecordListItem is one record in a record list, with its status and last update a
 
 ## Props
 
+- `subjectLabel`: string (optional) -- whose record it is, when it is not the patient's ("Mother", "Fetus 1"); rendered first as `-subject`, so a relative's history is never read as the patient's
 - `children`: slot — the record itself, written by the consumer
 - `status`: string (optional) — the record's status, as the consumer's code; rendered as `data-status`
 - `statusLabel`: string (optional; required when `status` is set) — the status in words

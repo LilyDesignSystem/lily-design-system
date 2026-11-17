@@ -10,7 +10,8 @@ The `value` prop is bindable and is an ISO 8601 date once all three parts are fi
 
 - Renders a `<fieldset>` named by a `<legend>` (`label`), holding three labelled text fields for the day, month and year parts (`inputmode="numeric"`), an optional description `<p>`, and an optional error `<p role="alert">`
 - `order` sets the order of the parts: `"ymd"` (ISO 8601, the default), `"dmy"` or `"mdy"`; the component picks no regional order of its own
-- The three part labels (`dayLabel`, `monthLabel`, `yearLabel`) are required and have no default: the words are the consumer's, in their language
+- The part labels (`dayLabel`, `monthLabel`, `yearLabel`) are required for the parts shown and have no default: the words are the consumer's, in their language
+- `precision` "month" or "year" leaves out the day, or the day and month: the value is `YYYY-MM` or `YYYY`, never a full date with an invented day (openEHR DV_DATE partial dates, FHIR `date`); format it for display with `formatPartialDate()` from `clinical-format`
 - `value` is two-way: an ISO 8601 date (`YYYY-MM-DD`) when all three parts are filled, or `""` while any is empty; a new `value` fills the parts
 - Each part is named `{name}-day`, `{name}-month` and `{name}-year`, so a server-rendered form submits without script
 - Auto-generates a unique base id when none is given; the parts are `{id}-day`, `{id}-month`, `{id}-year`, and the description and error `{id}-desc` and `{id}-error`
@@ -18,11 +19,12 @@ The `value` prop is bindable and is an ISO 8601 date once all three parts are fi
 ## Props
 
 - `label`: string (required) -- the legend, naming the whole date
-- `dayLabel`: string (required) -- the day part's label
-- `monthLabel`: string (required) -- the month part's label
+- `dayLabel`: string (required when `precision` is "day") -- the day part's label
+- `monthLabel`: string (required unless `precision` is "year") -- the month part's label
 - `yearLabel`: string (required) -- the year part's label
 - `order`: "ymd" | "dmy" | "mdy" (default: "ymd") -- the order of the parts
-- `value`: string (default: "") -- the date as `YYYY-MM-DD`, or "" while a part is empty; two-way bindable
+- `precision`: "day" | "month" | "year" (default: "day") -- how much of the date is asked for: a month asks for month and year ("onset: March 2019"), a year for the year alone; rendered as `data-precision` when not "day"
+- `value`: string (default: "") -- the date as `YYYY-MM-DD`, `YYYY-MM` or `YYYY` (by `precision`), or "" while a part is empty; two-way bindable. A partial date is never padded with an invented day or month
 - `name`: string (default: undefined) -- base name; the parts are `{name}-day`, `{name}-month`, `{name}-year`
 - `autocomplete`: "bday" (default: undefined) -- a date of birth: the parts autocomplete as `bday-day`, `bday-month`, `bday-year` (WCAG 1.3.5)
 - `description`: string (default: undefined) -- helper text, linked from the fieldset

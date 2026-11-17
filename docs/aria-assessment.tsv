@@ -631,3 +631,4 @@ problem-record-list-item	automated evidence complete	no	no	no	no	1	0	no	-
 immunization-record-list-item	automated evidence complete	no	no	no	no	1	0	no	-
 procedure-record-list-item	automated evidence complete	no	no	no	no	1	0	no	-
 device-record-list-item	automated evidence complete	no	no	no	no	1	0	no	-
+duration-view	ARIA evidence incomplete	no	no	no	yes	1	1	no	-

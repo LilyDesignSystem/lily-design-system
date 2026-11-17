@@ -11,6 +11,9 @@ public record AgePart(int Value, AgeUnit Unit);
 /// <summary>How much of a date a partial ISO 8601 date holds.</summary>
 public enum DatePrecision { Year, Month, Day }
 
+/// <summary>An ISO 8601 duration as an HTML datetime value, its sign apart.</summary>
+public record HtmlDurationValue(string Datetime, bool Negative);
+
 /// <summary>openEHR PROPORTION_KIND: how a numerator and denominator are written.</summary>
 public enum ProportionKind { Ratio, Unitary, Percent, Fraction, IntegerFraction }
 
@@ -165,6 +168,18 @@ public static class ClinicalFormat
             default:
                 throw new ArgumentOutOfRangeException(nameof(kind), kind, "not a proportion kind");
         }
+    }
+
+    /// <summary>
+    /// An ISO 8601 duration as an HTML <c>&lt;time datetime&gt;</c> value, or null when it cannot be one: HTML takes only days,
+    /// hours, minutes and seconds (a year or a month has no fixed length) and no sign, so the sign is returned apart.
+    /// </summary>
+    public static HtmlDurationValue? HtmlDuration(string? iso)
+    {
+        if (string.IsNullOrEmpty(iso)) return null;
+        var match = System.Text.RegularExpressions.Regex.Match(iso, @"^(-)?P(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$");
+        if (!match.Success || !System.Text.RegularExpressions.Regex.IsMatch(iso, @"\d") || iso.EndsWith('T')) return null;
+        return new HtmlDurationValue(iso.TrimStart('-'), match.Groups[1].Success);
     }
 
     private static (int Years, int Months, int Days) CalendarDifference(DateTime birth, DateTime at)

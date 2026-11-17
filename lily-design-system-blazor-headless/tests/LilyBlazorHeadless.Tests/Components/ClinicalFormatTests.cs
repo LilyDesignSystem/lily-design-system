@@ -116,4 +116,15 @@ public class ClinicalFormatTests
         Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatProportion(45, 10, ProportionKind.Percent, En));
         Assert.Throws<ArgumentOutOfRangeException>(() => ClinicalFormat.FormatProportion(1.5m, 2, ProportionKind.Fraction, En));
     }
+
+    [Fact]
+    public void HtmlDuration_takes_days_to_seconds_and_returns_the_sign_apart()
+    {
+        Assert.Equal(new HtmlDurationValue("P3DT4H", false), ClinicalFormat.HtmlDuration("P3DT4H"));
+        Assert.Equal(new HtmlDurationValue("P3D", true), ClinicalFormat.HtmlDuration("-P3D"));
+        Assert.Null(ClinicalFormat.HtmlDuration("P2Y"));
+        Assert.Null(ClinicalFormat.HtmlDuration("P3M"));
+        Assert.Null(ClinicalFormat.HtmlDuration("PT"));
+        Assert.Null(ClinicalFormat.HtmlDuration("nonsense"));
+    }
 }

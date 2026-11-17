@@ -1,9 +1,11 @@
 import { describe, expect, test } from "vitest";
 import {
     ageParts,
+    durationParts,
     formatPartialDate,
     formatProportion,
     formatQuantity,
+    htmlDuration,
     partialDatePrecision,
     toIsoDuration,
 } from "./clinical-format";
@@ -251,5 +253,50 @@ describe("formatProportion", () => {
         expect(() => formatProportion(1, 0, "integer-fraction", "en-GB")).toThrow(RangeError);
         expect(() => formatProportion(1, 2, "odds" as never, "en-GB")).toThrow(RangeError);
         expect(() => formatProportion(1, 2, "ratio", "")).toThrow(RangeError);
+    });
+});
+
+describe("durationParts", () => {
+    test("returns each part, converting nothing", () => {
+        expect(durationParts("P1Y2M3W4DT5H6M7S")).toEqual({
+            years: 1,
+            months: 2,
+            weeks: 3,
+            days: 4,
+            hours: 5,
+            minutes: 6,
+            seconds: 7,
+            negative: false,
+        });
+        expect(durationParts("PT90M").minutes).toBe(90);
+        expect(durationParts("PT1.5S").seconds).toBe(1.5);
+    });
+
+    test("keeps the sign apart", () => {
+        expect(durationParts("-P3D")).toMatchObject({ days: 3, negative: true });
+    });
+
+    test("refuses what is not a duration", () => {
+        for (const bad of ["", "P", "PT", "3D", "P3", "PT3D", "P1.5D", "P3D4H"])
+            expect(() => durationParts(bad)).toThrow(RangeError);
+    });
+});
+
+describe("htmlDuration", () => {
+    test("takes days, hours, minutes and seconds as a datetime", () => {
+        expect(htmlDuration("P3DT4H")).toEqual({ datetime: "P3DT4H", negative: false });
+        expect(htmlDuration("PT90M")).toEqual({ datetime: "PT90M", negative: false });
+    });
+
+    test("returns the sign apart, since a datetime has none", () => {
+        expect(htmlDuration("-P3D")).toEqual({ datetime: "P3D", negative: true });
+    });
+
+    test("refuses years, months and weeks, which HTML does not take", () => {
+        expect(htmlDuration("P1Y")).toBeNull();
+        expect(htmlDuration("P2M")).toBeNull();
+        expect(htmlDuration("P1W")).toBeNull();
+        expect(htmlDuration("PT2M")).not.toBeNull();
+        expect(htmlDuration("nonsense")).toBeNull();
     });
 });

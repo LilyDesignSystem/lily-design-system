@@ -1952,6 +1952,20 @@
       ]
     },
     {
+      "name": "clinical-format-utils",
+      "type": "registry:lib",
+      "title": "clinical-format.ts",
+      "description": "Shared helper module clinical-format.ts, used by Lily React headless components.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/clinical-format.ts",
+          "type": "registry:lib",
+          "target": "@components/lily/clinical-format.ts"
+        }
+      ]
+    },
+    {
       "name": "clipboard-copy-button",
       "type": "registry:component",
       "title": "ClipboardCopyButton",
@@ -3374,6 +3388,27 @@
           "path": "lily-design-system-react-headless/components/DropdownMenu.tsx",
           "type": "registry:component",
           "target": "@components/lily/DropdownMenu.tsx"
+        }
+      ]
+    },
+    {
+      "name": "duration-view",
+      "type": "registry:component",
+      "title": "DurationView",
+      "description": "A length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/clinical-format-utils",
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "content"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless/components/DurationView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/DurationView.tsx"
         }
       ]
     },

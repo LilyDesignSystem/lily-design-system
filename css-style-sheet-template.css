@@ -3105,3 +3105,7 @@
 /* device-record-list-item-timing: sub-element of device-record-list-item */
 .device-record-list-item-timing {
 }
+
+/* duration-view: a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words */
+.duration-view {
+}

@@ -775,6 +775,7 @@ slug below links to the per-component documentation.
 - [immunization-record-list-item](components/immunization-record-list-item): one immunization in an immunization record list, with vaccine, date, dose and status
 - [procedure-record-list-item](components/procedure-record-list-item): one procedure in a procedure record list, with its status and when it was performed
 - [device-record-list-item](components/device-record-list-item): one medical device in a device record list, with its status and when it was used
+- [duration-view](components/duration-view): a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words
 
 ## Special-Purpose Identifiers
 

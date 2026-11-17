@@ -1,0 +1,41 @@
+{
+  "slug": "duration-view",
+  "name": "DurationView",
+  "description": "a length of time, as an ISO 8601 duration in a <time> element, shown in the consumer's words",
+  "htmlTag": "time",
+  "category": "content",
+  "baseClass": ".duration-view",
+  "subClasses": [],
+  "interactive": false,
+  "status": "experimental — new, implemented and unit-tested in every headless library; not yet exercised in a composed flow",
+  "aria": [
+    "No role and no `aria-label`; `label` renders as hidden text"
+  ],
+  "keyboard": [
+    "Not interactive"
+  ],
+  "props": [
+    "`value`: string (required) — the length of time as the consumer writes it",
+    "`duration`: string (required) — the same length as an ISO 8601 duration of days, hours, minutes and seconds, optionally negative; rendered as `datetime`",
+    "`label`: string (optional) — hidden text naming the value",
+    "`...restProps`: any — additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "age-view",
+    "date-time-view",
+    "timer"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless/components/duration-view.html",
+    "svelte": "lily-design-system-svelte-headless/components/DurationView/DurationView.svelte",
+    "react": "lily-design-system-react-headless/components/DurationView.tsx",
+    "vue": "lily-design-system-vue-headless/components/DurationView.vue",
+    "angular": "lily-design-system-angular-headless/components/DurationView.ts",
+    "web-components": "lily-design-system-web-components-headless/components/duration-view.ts",
+    "alpine": "lily-design-system-alpine-headless/components/duration-view.html",
+    "nunjucks": "lily-design-system-nunjucks-headless/components/duration-view/macro.njk",
+    "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DurationView.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/duration-view/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/duration-view/AGENTS.md"
+}

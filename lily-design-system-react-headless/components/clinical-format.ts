@@ -29,6 +29,9 @@
  *
  *   formatProportion(1, 128, "ratio", "en-GB")            "1:128"   (openEHR DV_PROPORTION and its five kinds)
  *   formatProportion(3, 2, "integer-fraction", "en-GB")   "1 1/2"
+ *   htmlDuration("-P3DT4H")  { datetime: "P3DT4H", negative: true }  (a valid HTML <time datetime> duration, sign apart)
+ *   durationParts("P1Y2M3D")  { years: 1, months: 2, days: 3, … }   (for Intl.DurationFormat, which writes the words)
+ *
  *   formatProportion(45, 100, "percent", "fr-FR")         "45 %" (the locale's own space)
  */
 
@@ -283,4 +286,57 @@ export function formatProportion(
         default:
             throw new RangeError(`formatProportion: not a proportion kind: ${String(kind)}`);
     }
+}
+
+/** The parts of an ISO 8601 duration, in the shape Intl.DurationFormat takes, and whether it is negative. */
+export interface DurationParts {
+    years: number;
+    months: number;
+    weeks: number;
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+    negative: boolean;
+}
+
+const ISO_DURATION =
+    /^(-)?P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$/;
+
+/**
+ * The parts of an ISO 8601 duration ("P1Y2M3DT4H", "-PT90M"). Pass them, without `negative`, to
+ * `new Intl.DurationFormat(locale).format(parts)` for words in the reader's language. Nothing is converted: 90 minutes stays
+ * 90 minutes, and a month is never turned into days.
+ */
+export function durationParts(iso: string): DurationParts {
+    const match = ISO_DURATION.exec(iso ?? "");
+    if (!match || /^-?PT?$/.test(iso))
+        throw new RangeError(`not an ISO 8601 duration: ${String(iso)}`);
+    const n = (i: number) => (match[i] === undefined ? 0 : Number(match[i]));
+    return {
+        years: n(2),
+        months: n(3),
+        weeks: n(4),
+        days: n(5),
+        hours: n(6),
+        minutes: n(7),
+        seconds: n(8),
+        negative: match[1] === "-",
+    };
+}
+
+/**
+ * An ISO 8601 duration as an HTML `<time datetime>` value, or null when it cannot be one. HTML takes only days, hours,
+ * minutes and seconds, since a year or a month has no fixed length, and takes no sign, so the sign is returned apart.
+ */
+export function htmlDuration(iso: string): { datetime: string; negative: boolean } | null {
+    let parts: DurationParts;
+    try {
+        parts = durationParts(iso);
+    } catch {
+        return null;
+    }
+    if (parts.years || parts.months || parts.weeks || /[YW]|P\d+M/.test(iso.split("T")[0]))
+        return null;
+    return { datetime: iso.replace(/^-/, ""), negative: parts.negative };
 }
