@@ -4459,6 +4459,13 @@ export const components: ComponentMeta[] = [
       tag: "fieldset",
       category: "forms",
   },
+  {
+      slug: "range-fieldset",
+      name: "RangeFieldset",
+      description: "a fieldset of two range inputs for a minimum and a maximum that cannot cross",
+      tag: "fieldset",
+      category: "forms",
+  },
 ];
 
 /** Category id → display label (plan P6-T5's category filter). */

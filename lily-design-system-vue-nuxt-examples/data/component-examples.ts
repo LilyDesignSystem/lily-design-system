@@ -649,4 +649,5 @@ export const componentExamples: Record<string, ComponentExample> = {
   "quantity-input-div": {"usage":{"lang":"vue","code":"<QuantityInputDiv\n  label=\"Weight\"\n  magnitude-label=\"Amount\"\n  unit-label=\"Unit\"\n  :units=\"units\"\n  v-model:magnitude=\"magnitude\"\n  v-model:unit=\"unit\"\n/>\n"}},
   "record-provenance-view": {"usage":{"lang":"vue","code":"<RecordProvenanceView\n  attestation=\"pending\"\n  attestation-label=\"Awaiting signature\"\n  author-label=\"Dr A Patel\"\n/>\n"}},
   "repeatable-fieldset": {"usage":{"lang":"vue","code":"<RepeatableFieldset\n  legend=\"Medicines\"\n  v-model:items=\"items\"\n  :new-item=\"() => ({ name: '' })\"\n  :item-legend=\"(n) => `Medicine ${n}`\"\n  add-label=\"Add another medicine\"\n  :remove-label=\"(n) => `Remove medicine ${n}`\"\n><template #item=\"{ item, index }\">…</template></RepeatableFieldset>\n"}},
+  "range-fieldset": {"usage":{"lang":"html","code":"<RangeFieldset\n  legend=\"Price\"\n  minimumLabel=\"Lowest price\"\n  maximumLabel=\"Highest price\"\n  minimum=\"{20}\"\n  maximum=\"{80}\"\n  minimumName=\"price-min\"\n  maximumName=\"price-max\"\n/>\n"}},
 };

@@ -1,0 +1,75 @@
+@namespace LilyBlazorHeadless.Components
+@using System.Globalization
+@*
+    RangeFieldset: a two-thumb range (tasks.md P34-T1): a fieldset with a visible legend and two native range inputs on
+    one scale, for the minimum and the maximum of a span of values. The thumbs cannot cross: a thumb moved past the other
+    stops where the other is. Each value is its own form field. A form reset puts the inputs back in the browser; Blazor
+    uses no JS interop, so it hears of the reset only at the next input. Props: RangeFieldset.md.
+*@
+<fieldset class="@($"range-fieldset {CssClass}".Trim())" disabled="@Disabled" @attributes="AdditionalAttributes">
+    <legend class="range-fieldset-legend">@Legend</legend>
+    <input class="range-fieldset-minimum" type="range" aria-label="@MinimumLabel" name="@MinimumName"
+           min="@Format(Min)" max="@Format(Max)" step="@Format(Step)" value="@Format(Lower)" @oninput="OnLowerInput" />
+    <input class="range-fieldset-maximum" type="range" aria-label="@MaximumLabel" name="@MaximumName"
+           min="@Format(Min)" max="@Format(Max)" step="@Format(Step)" value="@Format(Upper)" @oninput="OnUpperInput" />
+</fieldset>
+
+@code {
+    /// <summary>The visible name of the whole range.</summary>
+    [Parameter, EditorRequired] public string Legend { get; set; } = "";
+    /// <summary>Accessible name of the lower thumb.</summary>
+    [Parameter, EditorRequired] public string MinimumLabel { get; set; } = "";
+    /// <summary>Accessible name of the upper thumb.</summary>
+    [Parameter, EditorRequired] public string MaximumLabel { get; set; } = "";
+    /// <summary>The lowest value either thumb can take.</summary>
+    [Parameter] public double Min { get; set; } = 0;
+    /// <summary>The highest value either thumb can take.</summary>
+    [Parameter] public double Max { get; set; } = 100;
+    /// <summary>The increment of both thumbs.</summary>
+    [Parameter] public double Step { get; set; } = 1;
+    /// <summary>The lower value; defaults to Min. Supports @bind-Minimum.</summary>
+    [Parameter] public double? Minimum { get; set; }
+    [Parameter] public EventCallback<double?> MinimumChanged { get; set; }
+    /// <summary>The upper value; defaults to Max. Supports @bind-Maximum.</summary>
+    [Parameter] public double? Maximum { get; set; }
+    [Parameter] public EventCallback<double?> MaximumChanged { get; set; }
+    /// <summary>Form field name of the lower value.</summary>
+    [Parameter] public string? MinimumName { get; set; }
+    /// <summary>Form field name of the upper value.</summary>
+    [Parameter] public string? MaximumName { get; set; }
+    /// <summary>Disables both thumbs.</summary>
+    [Parameter] public bool Disabled { get; set; }
+    /// <summary>Called when either value changes, with (minimum, maximum).</summary>
+    [Parameter] public EventCallback<(double Minimum, double Maximum)> OnChange { get; set; }
+    [Parameter] public string CssClass { get; set; } = "";
+    [Parameter(CaptureUnmatchedValues = true)] public Dictionary<string, object>? AdditionalAttributes { get; set; }
+
+    private double Lower => Minimum ?? Min;
+    private double Upper => Maximum ?? Max;
+
+    private static string Format(double value) => value.ToString(CultureInfo.InvariantCulture);
+
+    private static double Parse(ChangeEventArgs e) =>
+        double.TryParse(e.Value?.ToString(), NumberStyles.Float, CultureInfo.InvariantCulture, out var value) ? value : 0;
+
+    private Task OnLowerInput(ChangeEventArgs e) => MoveAsync(lower: true, Parse(e));
+
+    private Task OnUpperInput(ChangeEventArgs e) => MoveAsync(lower: false, Parse(e));
+
+    private async Task MoveAsync(bool lower, double raw)
+    {
+        var clamped = lower ? Math.Min(raw, Upper) : Math.Max(raw, Lower);
+        if (clamped != raw)
+        {
+            // The browser already shows the raw value. Render it first, so the clamped value is a change the
+            // renderer writes back to the input; rendering only the clamped value, unchanged, would leave the thumb
+            // past the other.
+            if (lower) Minimum = raw; else Maximum = raw;
+            StateHasChanged();
+            await Task.Yield();
+        }
+        if (lower) { Minimum = clamped; await MinimumChanged.InvokeAsync(clamped); }
+        else { Maximum = clamped; await MaximumChanged.InvokeAsync(clamped); }
+        await OnChange.InvokeAsync((Lower, Upper));
+    }
+}

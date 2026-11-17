@@ -2,7 +2,7 @@
 // character-counter, password-input-or-text-input-div, pin-input-div,
 // tag-input-div, currency-input, text-input-with-search, mentions-input,
 // editable, editable-form, data-filter-form, newsletter-signup,
-// date-time-now-input, time-picker-input.
+// date-time-now-input, time-picker-input, range-fieldset.
 
 const press = `const press = async (target, key, init = {}) => {
   target.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true, ...init }));
@@ -653,6 +653,55 @@ const inState = (state) => snippet("newsletter-signup").replace("lilyNewsletterS
     el().value = "09:30";
     el().dispatchEvent(new Event("input", { bubbles: true })); await tick();
     expect(el().getAttribute("data-value")).toBe("09:30");
+  });`,
+    },
+
+    "range-fieldset": {
+        tag: "fieldset",
+        keyboard:
+            "native range keys on each thumb (arrows, Home, End, Page Up, Page Down); Tab moves from the lower to the upper; a thumb stops at the other",
+        aria: "the legend names the group; aria-label names each thumb; the native range inputs carry the slider role. Both share min, max and step; each value is its own form field and a native form reset puts both back (tasks.md P34-T1)",
+        markup: `<fieldset class="range-fieldset" x-data>
+  <legend class="range-fieldset-legend"></legend>
+  <input class="range-fieldset-minimum" type="range" aria-label="" min="0" max="100" step="1" value="20" x-ref="minimum" @input="if (+$el.value > +$refs.maximum.value) $el.value = $refs.maximum.value">
+  <input class="range-fieldset-maximum" type="range" aria-label="" min="0" max="100" step="1" value="80" x-ref="maximum" @input="if (+$el.value < +$refs.minimum.value) $el.value = $refs.minimum.value">
+</fieldset>`,
+        sel: "fieldset.range-fieldset",
+        extra: `const lower = () => el().querySelector(".range-fieldset-minimum");
+const upper = () => el().querySelector(".range-fieldset-maximum");
+const move = async (input, value) => {
+  input.value = value;
+  input.dispatchEvent(new Event("input", { bubbles: true }));
+  await tick();
+};`,
+        test: `
+  it("is a fieldset with a legend and two range inputs on one scale", async () => {
+    await mount("range-fieldset");
+    expect(el().querySelector("legend.range-fieldset-legend")).toBeTruthy();
+    for (const input of [lower(), upper()]) {
+      expect(input.type).toBe("range");
+      expect(input.min).toBe("0");
+      expect(input.max).toBe("100");
+    }
+  });
+  it("the lower thumb stops at the upper one, and the upper at the lower", async () => {
+    await mount("range-fieldset");
+    await move(lower(), "90");
+    expect(lower().value).toBe("80");
+    await move(lower(), "30");
+    await move(upper(), "10");
+    expect(upper().value).toBe("30");
+  });
+  it("a form reset puts both thumbs back", async () => {
+    await mount("range-fieldset");
+    const fieldset = el();
+    const form = document.createElement("form");
+    fieldset.replaceWith(form);
+    form.append(fieldset);
+    await move(lower(), "40");
+    form.reset();
+    expect(lower().value).toBe("20");
+    expect(upper().value).toBe("80");
   });`,
     },
 };

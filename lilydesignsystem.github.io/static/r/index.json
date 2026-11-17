@@ -1,5 +1,5 @@
 {
-  "count": 636,
+  "count": 637,
   "components": [
     {
       "slug": "accordion-checkbox",
@@ -2748,6 +2748,12 @@
       "name": "RadioInput",
       "description": "a single radio button input <input type=\"radio\">",
       "manifest": "https://lilydesignsystem.com/r/radio-input.json"
+    },
+    {
+      "slug": "range-fieldset",
+      "name": "RangeFieldset",
+      "description": "a fieldset of two range inputs for a minimum and a maximum that cannot cross",
+      "manifest": "https://lilydesignsystem.com/r/range-fieldset.json"
     },
     {
       "slug": "range-input",

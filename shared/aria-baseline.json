@@ -2333,6 +2333,10 @@
       "aria-label"
     ]
   },
+  "range-fieldset": {
+    "role": null,
+    "aria": []
+  },
   "range-input": {
     "role": null,
     "aria": [

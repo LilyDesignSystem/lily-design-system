@@ -634,3 +634,4 @@ duration-view	DurationView	a length of time, as an ISO 8601 duration in a <time>
 quantity-input-div	QuantityInputDiv	a quantity entered as a number and a unit, each unit with its own limits
 record-provenance-view	RecordProvenanceView	who recorded a record, where it came from and whether it is signed, in the consumer's words
 repeatable-fieldset	RepeatableFieldset	a group of identical fieldsets that a person adds to and removes from ("add another")
+range-fieldset	RangeFieldset	a fieldset of two range inputs for a minimum and a maximum that cannot cross

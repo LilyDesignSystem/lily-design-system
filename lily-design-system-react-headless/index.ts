@@ -919,6 +919,8 @@ export { default as RadioInput } from "./components/RadioInput";
 export type { RadioInputProps } from "./components/RadioInput";
 export { default as RangeInput } from "./components/RangeInput";
 export type { RangeInputProps } from "./components/RangeInput";
+export { default as RangeFieldset } from "./components/RangeFieldset";
+export type { RangeFieldsetProps } from "./components/RangeFieldset";
 export { default as RecordList } from "./components/RecordList";
 export type { RecordListProps } from "./components/RecordList";
 export { default as RecordListItem } from "./components/RecordListItem";

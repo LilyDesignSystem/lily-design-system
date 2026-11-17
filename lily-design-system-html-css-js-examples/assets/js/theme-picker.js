@@ -22,6 +22,30 @@ function applyThemeColorWhenLoaded(link, root = document.documentElement) {
     link.addEventListener("load", () => applyThemeColor(root), { once: true });
 }
 
+// view-transition.ts
+function canViewTransition() {
+    if (typeof document === "undefined") return false;
+    if (typeof document.startViewTransition !== "function") return false;
+    if (typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches)
+        return false;
+    return true;
+}
+function withViewTransition(enabled, apply) {
+    if (!enabled || !canViewTransition()) {
+        void apply();
+        return;
+    }
+    document.startViewTransition(apply);
+}
+function linkSettled(link, limit = 1e3) {
+    return new Promise((resolve) => {
+        const done = () => resolve();
+        link.addEventListener("load", done, { once: true });
+        link.addEventListener("error", done, { once: true });
+        setTimeout(done, limit);
+    });
+}
+
 // theme-choice.ts
 var SYSTEM_THEME = "system";
 var DEFAULT_SYSTEM_THEMES = { light: "light", dark: "dark" };
@@ -278,6 +302,19 @@ var ThemePicker = class extends HTMLElement {
     set themeColor(v) {
         if (v) this.setAttribute("theme-color", "");
         else this.removeAttribute("theme-color");
+    }
+    /**
+     * Wrap each theme change in document.startViewTransition() when the browser has it and the user has not asked for
+     * reduced motion, so the consumer's ::view-transition-* CSS can animate it. Off by default; the theme applies the same
+     * either way. Off by default (absent → false, present → true, "false" → false).
+     */
+    get viewTransition() {
+        const v = this.getAttribute("view-transition");
+        return v !== null && v !== "false";
+    }
+    set viewTransition(v) {
+        if (v) this.setAttribute("view-transition", "");
+        else this.removeAttribute("view-transition");
     }
     get name() {
         return this.getAttribute("name") ?? "theme";
@@ -569,11 +606,15 @@ var ThemePicker = class extends HTMLElement {
     #applyTheme(slug, choice) {
         if (typeof document === "undefined" || !slug) return;
         if (slug === this.#appliedValue) return;
+        const first = this.#appliedValue === "";
         this.#appliedValue = slug;
         const link = this.#getManagedLink();
-        link.href = themeHref(this.themesUrl, slug, this.extension);
-        if (this.themeColor) applyThemeColorWhenLoaded(link);
-        (this.#target ?? document.documentElement).setAttribute("data-theme", slug);
+        withViewTransition(this.viewTransition && !first, async () => {
+            link.href = themeHref(this.themesUrl, slug, this.extension);
+            if (this.themeColor) applyThemeColorWhenLoaded(link);
+            (this.#target ?? document.documentElement).setAttribute("data-theme", slug);
+            if (this.viewTransition) await linkSettled(link);
+        });
         this.dispatchEvent(
             new CustomEvent("themechange", {
                 detail: { theme: slug, choice },

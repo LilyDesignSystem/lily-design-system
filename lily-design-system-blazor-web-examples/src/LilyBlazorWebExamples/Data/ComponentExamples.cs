@@ -644,5 +644,6 @@ public static class ComponentExamples
         ["quantity-input-div"] = new("razor", "<QuantityInputDiv Label=\"Weight\" MagnitudeLabel=\"Amount\" UnitLabel=\"Unit\" Units=\"units\" @bind-Magnitude=\"magnitude\" @bind-Unit=\"unit\" />\n", new List<ExampleVariant> {  }),
         ["record-provenance-view"] = new("razor", "<RecordProvenanceView Attestation=\"pending\" AttestationLabel=\"Awaiting signature\" AuthorLabel=\"Dr A Patel\" />\n", new List<ExampleVariant> {  }),
         ["repeatable-fieldset"] = new("razor", "<RepeatableFieldset TItem=\"Medicine\" Legend=\"Medicines\" @bind-Items=\"items\" NewItem=\"() => new Medicine()\" ItemLegend=\"n => $\\\"Medicine {n}\\\"\" AddLabel=\"Add another medicine\" RemoveLabel=\"n => $\\\"Remove medicine {n}\\\"\"><ItemTemplate>…</ItemTemplate></RepeatableFieldset>\n", new List<ExampleVariant> {  }),
+        ["range-fieldset"] = new("html", "<RangeFieldset\n  legend=\"Price\"\n  minimumLabel=\"Lowest price\"\n  maximumLabel=\"Highest price\"\n  minimum=\"{20}\"\n  maximum=\"{80}\"\n  minimumName=\"price-min\"\n  maximumName=\"price-max\"\n/>\n", new List<ExampleVariant> {  }),
     };
 }

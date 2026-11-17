@@ -15,21 +15,21 @@ Each component is in the first band it falls into, so the bands add up to 608.
 | Band                              | Components | What it means                                                                      |
 | --------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
 | 1. axe failure                    | 0          | Listed in `e2e/axe-sweep.allow.json`: a WCAG A or AA rule fails on its Nunjucks page |
-| 2. Key evidence incomplete        | 98         | Its contract names keys, and fewer than eight libraries have a test that sends one |
+| 2. Key evidence incomplete        | 99         | Its contract names keys, and fewer than eight libraries have a test that sends one |
 | 3. ARIA evidence incomplete       | 321        | Its contract names ARIA, and fewer than eight libraries assert it                  |
 | 4. Automated evidence complete    | 217        | Nothing above. This is a floor, not a pass                                         |
 
 | Measure                                                   | Result     |
 | --------------------------------------------------------- | ---------- |
-| Key contracts with a key test in all eight libraries      | 70 of 168  |
-| Custom-key widgets (arrows, Home, End, Escape), all eight | 63 of 104  |
-| Custom-key cells (widget by library): tested              | 414        |
-| Custom-key cells: the browser's, or another part's        | 416        |
+| Key contracts with a key test in all eight libraries      | 70 of 169  |
+| Custom-key widgets (arrows, Home, End, Escape), all eight | 63 of 105  |
+| Custom-key cells (widget by library): tested              | 415        |
+| Custom-key cells: the browser's, or another part's        | 423        |
 | Custom-key cells: open, keys known to be missing          | 0          |
 | Custom-key cells: absent, or with no reason               | 2          |
-| ARIA contracts asserted in all eight libraries            | 163 of 544 |
-| End-to-end evidence in Chromium, Firefox and WebKit       | 54 of 636  |
-| No keyboard or ARIA contract at all                       | 80 of 636  |
+| ARIA contracts asserted in all eight libraries            | 163 of 545 |
+| End-to-end evidence in Chromium, Firefox and WebKit       | 54 of 637  |
+| No keyboard or ARIA contract at all                       | 80 of 637  |
 <!-- END generated: bin/generate-core -->
 <!-- prettier-ignore-end -->
 

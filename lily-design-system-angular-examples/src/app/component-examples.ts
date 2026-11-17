@@ -649,4 +649,5 @@ export const componentExamples: Record<string, ComponentExample> = {
   "quantity-input-div": {"usage":{"lang":"html","code":"<lily-quantity-input-div\n  label=\"Weight\"\n  magnitudeLabel=\"Amount\"\n  unitLabel=\"Unit\"\n  [units]=\"units\"\n  [(magnitude)]=\"magnitude\"\n  [(unit)]=\"unit\"\n/>\n"}},
   "record-provenance-view": {"usage":{"lang":"html","code":"<lily-record-provenance-view\n  attestation=\"pending\"\n  attestationLabel=\"Awaiting signature\"\n  authorLabel=\"Dr A Patel\"\n/>\n"}},
   "repeatable-fieldset": {"usage":{"lang":"html","code":"<lily-repeatable-fieldset\n  legend=\"Medicines\"\n  [(items)]=\"items\"\n  [newItem]=\"newItem\"\n  [itemLegend]=\"itemLegend\"\n  addLabel=\"Add another medicine\"\n  [removeLabel]=\"removeLabel\"\n  ><ng-template\n    let-item\n    let-index=\"index\"\n    >…</ng-template\n  ></lily-repeatable-fieldset\n>\n"}},
+  "range-fieldset": {"usage":{"lang":"html","code":"<RangeFieldset\n  legend=\"Price\"\n  minimumLabel=\"Lowest price\"\n  maximumLabel=\"Highest price\"\n  minimum=\"{20}\"\n  maximum=\"{80}\"\n  minimumName=\"price-min\"\n  maximumName=\"price-max\"\n/>\n"}},
 };

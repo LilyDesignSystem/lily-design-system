@@ -1,0 +1,36 @@
+{#
+  RangeFieldset macro — a two-thumb range (tasks.md P34-T1).
+
+  HTML tag: <fieldset> with a <legend> and two <input type="range">
+  CSS class: range-fieldset (parts: -legend, -minimum, -maximum)
+
+  Params:
+    legend (the group's visible name), minimumLabel, maximumLabel (each thumb's accessible name),
+    min (default 0), max (default 100), step (default 1), minimum (default min), maximum (default max),
+    minimumName, maximumName (form field names), disabled, id, classes, attributes.
+
+  Both inputs share min, max and step. The thumbs must not cross: the consumer's script clamps on input
+  (see the component's index.md); without script the server takes the lower value as the minimum.
+
+  Usage:
+    {% from "components/range-fieldset/macro.njk" import rangeFieldset %}
+    {{ rangeFieldset({ legend: "Price", minimumLabel: "Lowest price", maximumLabel: "Highest price" }) }}
+#}
+{%- macro rangeFieldset(params) -%}
+{%- set p = params | default({}) -%}
+{%- set min = p.min if p.min is defined else 0 -%}
+{%- set max = p.max if p.max is defined else 100 -%}
+{%- set step = p.step if p.step is defined else 1 -%}
+{%- set minimum = p.minimum if p.minimum is defined else min -%}
+{%- set maximum = p.maximum if p.maximum is defined else max -%}
+<fieldset
+  class="range-fieldset{% if p.classes %} {{ p.classes }}{% endif %}"
+  {%- if p.id %} id="{{ p.id }}"{% endif %}
+  {%- if p.disabled %} disabled{% endif %}
+  {%- if p.attributes %}{% for k, v in p.attributes %} {{ k }}="{{ v }}"{% endfor %}{% endif %}
+>
+  <legend class="range-fieldset-legend">{{ p.legend }}</legend>
+  <input class="range-fieldset-minimum" type="range"{% if p.minimumLabel %} aria-label="{{ p.minimumLabel }}"{% endif %}{% if p.minimumName %} name="{{ p.minimumName }}"{% endif %} min="{{ min }}" max="{{ max }}" step="{{ step }}" value="{{ minimum }}">
+  <input class="range-fieldset-maximum" type="range"{% if p.maximumLabel %} aria-label="{{ p.maximumLabel }}"{% endif %}{% if p.maximumName %} name="{{ p.maximumName }}"{% endif %} min="{{ min }}" max="{{ max }}" step="{{ step }}" value="{{ maximum }}">
+</fieldset>
+{%- endmacro -%}

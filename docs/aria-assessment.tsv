@@ -635,3 +635,4 @@ duration-view	ARIA evidence incomplete	no	no	no	yes	1	1	no	-
 quantity-input-div	automated evidence complete	no	no	no	yes	1	8	no	-
 record-provenance-view	ARIA evidence incomplete	no	no	no	yes	1	0	yes	-
 repeatable-fieldset	ARIA evidence incomplete	no	no	no	yes	1	3	no	-
+range-fieldset	key evidence incomplete	no	yes	yes	yes	2	5	no	-

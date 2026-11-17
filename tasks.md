@@ -3775,9 +3775,14 @@ carried by P29-T9 and P30-T3.
 From [spec/lessons/retool](spec/lessons/retool/index.md). Order: T2, then T1 and T3, then T4 and T5. New components go through
 `bin/new-component` into all nine catalogs.
 
-- [ ] **P34-T1 A two-thumb range (the maintainer names it).** A `<fieldset>` with a legend and two labelled native range inputs
+- [x] **P34-T1 A two-thumb range (the maintainer names it).** A `<fieldset>` with a legend and two labelled native range inputs
       whose limits follow each other so they cannot cross; two form fields.
       Verify: built in all nine catalogs, with tests that the thumbs cannot cross, both values submit, and a form reset restores both.
+      _(2026-11-17: `range-fieldset` (catalog 637; the maintainer's name), in all nine catalogs. Both inputs share one scale and a
+      thumb moved past the other is clamped at it, so a theme can lay them over one track; limits that follow each other would put
+      the same value at different places on the two tracks. Tests in every catalog for one scale, both values submitting and a form
+      reset; the clamp is tested in Svelte, React, Vue, Angular, Blazor, Web Components and Alpine, and is the consumer's script in
+      HTML and Nunjucks, as their snippets document. Blazor uses no JS interop, so it learns of a form reset only at the next input.)_
 - [x] **P34-T2 Combobox empty state and count.** `noResultsLabel` (a non-selectable item when the list is empty) and
       `resultsLabel(count)` (a polite status) on `combobox`.
       Verify: tests in all nine catalogs; `bin/check-built-english` passes. _(2026-11-17: done in all nine catalogs: the consumer gives `resultCount` with `resultsLabel(count)` and `noResultsLabel`, shown in a polite `combobox-status` region after the listbox (never inside it, which holds only options) when typing pauses (`statusDelay`, default 500 ms; Blazor updates at once). Web Components takes `results-label="{n} matches"`; HTML, Nunjucks and Alpine document the pattern. Tests in Svelte, React, Vue, Angular, Web Components and Blazor; `bin/check-built-english` passes.)_

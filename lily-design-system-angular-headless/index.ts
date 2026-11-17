@@ -461,6 +461,7 @@ export { RadarChart } from "./components/RadarChart";
 export { RadioGroup } from "./components/RadioGroup";
 export { RadioInput } from "./components/RadioInput";
 export { RangeInput } from "./components/RangeInput";
+export { RangeFieldset } from "./components/RangeFieldset";
 export { RecordList } from "./components/RecordList";
 export { RecordListItem } from "./components/RecordListItem";
 export { RecordProvenanceView } from "./components/RecordProvenanceView";

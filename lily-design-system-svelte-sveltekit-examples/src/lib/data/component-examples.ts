@@ -649,4 +649,5 @@ export const componentExamples: Record<string, ComponentExample> = {
   "quantity-input-div": {"usage":{"lang":"svelte","code":"<QuantityInputDiv\n  label=\"Weight\"\n  magnitudeLabel=\"Amount\"\n  unitLabel=\"Unit\"\n  {units}\n  bind:magnitude\n  bind:unit\n/>\n"}},
   "record-provenance-view": {"usage":{"lang":"svelte","code":"<RecordProvenanceView\n  attestation=\"pending\"\n  attestationLabel=\"Awaiting signature\"\n  authorLabel=\"Dr A Patel\"\n/>\n"}},
   "repeatable-fieldset": {"usage":{"lang":"svelte","code":"<RepeatableFieldset\n  legend=\"Medicines\"\n  bind:items\n  newItem={() => ({ name: \"\" })}\n  itemLegend={(n) => `Medicine ${n}`}\n  addLabel=\"Add another medicine\"\n  removeLabel={(n) => `Remove medicine ${n}`}\n  >{#snippet item(medicine, index)}…{/snippet}</RepeatableFieldset\n>\n"}},
+  "range-fieldset": {"usage":{"lang":"html","code":"<RangeFieldset\n  legend=\"Price\"\n  minimumLabel=\"Lowest price\"\n  maximumLabel=\"Highest price\"\n  minimum=\"{20}\"\n  maximum=\"{80}\"\n  minimumName=\"price-min\"\n  maximumName=\"price-max\"\n/>\n"}},
 };

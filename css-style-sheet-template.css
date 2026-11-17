@@ -3197,3 +3197,19 @@
 /* repeatable-fieldset-status: sub-element of repeatable-fieldset */
 .repeatable-fieldset-status {
 }
+
+/* range-fieldset: a fieldset of two range inputs for a minimum and a maximum that cannot cross */
+.range-fieldset {
+}
+
+/* range-fieldset-legend: sub-element of range-fieldset */
+.range-fieldset-legend {
+}
+
+/* range-fieldset-minimum: sub-element of range-fieldset */
+.range-fieldset-minimum {
+}
+
+/* range-fieldset-maximum: sub-element of range-fieldset */
+.range-fieldset-maximum {
+}

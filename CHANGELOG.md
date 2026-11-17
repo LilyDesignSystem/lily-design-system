@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Unreleased: `range-fieldset` (P34-T1)
+
+- `range-fieldset` (catalog 637): a two-thumb range, a `<fieldset>` with a `<legend>` and two native `<input type="range">` on
+  one scale, for a minimum and a maximum that cannot cross. Each value is its own form field and a form reset puts both back.
+  In all nine catalogs; Web Components 602 of 637. The name is the maintainer's. See
+  [spec/lessons/retool](spec/lessons/retool/index.md).
+
 ## Unreleased: wider visual regression (P35-T1)
 
 - The SvelteKit app's visual regression suite grows from 90 to 210 screenshots: 30 more components in three themes, and in

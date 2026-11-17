@@ -1,0 +1,24 @@
+---
+layout: layouts/component-demo.njk
+title: RangeFieldset
+description: a fieldset of two range inputs for a minimum and a maximum that cannot cross
+---
+
+{% from "components/range-fieldset/macro.njk" import rangeFieldset %}
+
+<h2>Default</h2>
+<p>{{ rangeFieldset({ text: "RangeFieldset example", label: "RangeFieldset example" }) }}</p>
+
+{# BEGIN generated: examples (bin/generate-examples) #}
+<h2>Usage</h2>
+<pre tabindex="0"><code>{% raw %}&lt;RangeFieldset
+  legend="Price"
+  minimumLabel="Lowest price"
+  maximumLabel="Highest price"
+  minimum="{20}"
+  maximum="{80}"
+  minimumName="price-min"
+  maximumName="price-max"
+/&gt;
+{% endraw %}</code></pre>
+{# END generated: examples #}

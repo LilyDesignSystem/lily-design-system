@@ -1722,6 +1722,10 @@ export { RadioInput } from "./components/radio-input.js";
 import { RadioInput as _RadioInput } from "./components/radio-input.js";
 if (!customElements.get("lily-radio-input")) customElements.define("lily-radio-input", _RadioInput);
 
+export { RangeFieldset } from "./components/range-fieldset.js";
+import { RangeFieldset as _RangeFieldset } from "./components/range-fieldset.js";
+if (!customElements.get("lily-range-fieldset")) customElements.define("lily-range-fieldset", _RangeFieldset);
+
 export { RangeInput } from "./components/range-input.js";
 import { RangeInput as _RangeInput } from "./components/range-input.js";
 if (!customElements.get("lily-range-input")) customElements.define("lily-range-input", _RangeInput);

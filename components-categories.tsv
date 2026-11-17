@@ -634,3 +634,4 @@ duration-view	time	content
 quantity-input-div	div	content
 record-provenance-view	span	content
 repeatable-fieldset	fieldset	forms
+range-fieldset	fieldset	forms
