@@ -516,6 +516,17 @@ device" provenance state. Findings: [spec/lessons/openmrs](spec/lessons/openmrs/
 
 Status (2026-11-17): researched; nothing built. T1 first.
 
+## Phase 34 — Lessons from Retool's input components (2026-11-17)
+
+A review of Retool's 2021 announcement of 35+ rebuilt input components for its low-code builder. Lily already has nearly all of
+them. Four gaps: a two-thumb range on native inputs, a combobox that says when nothing matches and how many do, a drop zone on
+`file-upload` that keeps the button as the keyboard path, and (for the maintainer) a multi-select listbox. Guide patterns for
+formatted numbers while editing and for long lists. Declined: relative-date parsing and silent number clamping, which change what
+the user typed. Findings: [spec/lessons/retool](spec/lessons/retool/index.md). Tasks:
+[tasks.md](tasks.md#phase-34--lessons-from-retools-input-components-2026-11-17).
+
+Status (2026-11-17): researched; nothing built. T2 first.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.

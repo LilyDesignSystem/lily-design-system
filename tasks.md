@@ -3762,6 +3762,26 @@ carried by P29-T9 and P30-T3.
       the opener, minimise keeps the form's state, and closing with unsaved changes asks first in an `alert-dialog`.
       Verify: an e2e test of each, by keyboard alone; axe-clean.
 
+## Phase 34 — Lessons from Retool's input components (2026-11-17)
+
+From [spec/lessons/retool](spec/lessons/retool/index.md). Order: T2, then T1 and T3, then T4 and T5. New components go through
+`bin/new-component` into all nine catalogs.
+
+- [ ] **P34-T1 A two-thumb range (the maintainer names it).** A `<fieldset>` with a legend and two labelled native range inputs
+      whose limits follow each other so they cannot cross; two form fields.
+      Verify: built in all nine catalogs, with tests that the thumbs cannot cross, both values submit, and a form reset restores both.
+- [ ] **P34-T2 Combobox empty state and count.** `noResultsLabel` (a non-selectable item when the list is empty) and
+      `resultsLabel(count)` (a polite status) on `combobox`.
+      Verify: tests in all nine catalogs; `bin/check-built-english` passes.
+- [ ] **P34-T3 `file-upload` drop zone.** `dropZone`: the root accepts dropped files into the same `onchange` and live count, with
+      `data-drag-over`; no new tab stop.
+      Verify: tests in all nine catalogs with a dropped file, and that the button still selects files by keyboard.
+- [ ] **P34-T4 Multi-select listbox (maintainer decision).** `aria-multiselectable` on `listbox` with the APG keys.
+      Verify: the decision is recorded in the topic; if built, key tests in all nine catalogs.
+- [ ] **P34-T5 Guide patterns.** Formatted numbers while editing (and the decimal-comma caveat), units in `input-group` as part of
+      the name, `aria-setsize` and `aria-posinset` for partly rendered lists, and the two declines (relative dates, clamping).
+      Verify: the patterns are in the docs; `bin/check-links` passes.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
