@@ -18,22 +18,25 @@
     import Header from "#lib/components/Header/Header.svelte";
     import Footer from "#lib/components/Footer/Footer.svelte";
     import BackLink from "#lib/components/BackLink/BackLink.svelte";
+    import RangeFieldset from "#lib/components/RangeFieldset/RangeFieldset.svelte";
 
     let searchQuery = $state("");
     let statusFilter = $state("");
     let tags: string[] = $state(["Cardiology", "Urgent"]);
     let comboValue = $state("");
     let comboOpen = $state(false);
+    let waitFrom = $state(0);
+    let waitTo = $state(20);
 
     const allServices = [
-        { name: "Cardiology", location: "Building A", status: "Available" },
-        { name: "Neurology", location: "Building B", status: "Available" },
-        { name: "Orthopaedics", location: "Building C", status: "Limited" },
-        { name: "Paediatrics", location: "Building A", status: "Available" },
-        { name: "Oncology", location: "Building D", status: "Unavailable" },
-        { name: "Dermatology", location: "Building B", status: "Available" },
-        { name: "Radiology", location: "Building C", status: "Limited" },
-        { name: "Psychiatry", location: "Building D", status: "Available" },
+        { name: "Cardiology", location: "Building A", status: "Available", waitWeeks: 6 },
+        { name: "Neurology", location: "Building B", status: "Available", waitWeeks: 14 },
+        { name: "Orthopaedics", location: "Building C", status: "Limited", waitWeeks: 18 },
+        { name: "Paediatrics", location: "Building A", status: "Available", waitWeeks: 3 },
+        { name: "Oncology", location: "Building D", status: "Unavailable", waitWeeks: 2 },
+        { name: "Dermatology", location: "Building B", status: "Available", waitWeeks: 11 },
+        { name: "Radiology", location: "Building C", status: "Limited", waitWeeks: 4 },
+        { name: "Psychiatry", location: "Building D", status: "Available", waitWeeks: 9 },
     ];
 
     let filteredServices = $derived(
@@ -41,7 +44,8 @@
             const matchesSearch =
                 !searchQuery || s.name.toLowerCase().includes(searchQuery.toLowerCase());
             const matchesStatus = !statusFilter || s.status === statusFilter;
-            return matchesSearch && matchesStatus;
+            const matchesWait = s.waitWeeks >= waitFrom && s.waitWeeks <= waitTo;
+            return matchesSearch && matchesStatus && matchesWait;
         }),
     );
 
@@ -99,6 +103,20 @@
             <Option value="Unavailable">Unavailable</Option>
         </Select>
     </Field>
+
+    <h2>Filter by Waiting Time</h2>
+    <RangeFieldset
+        legend="Waiting time, in weeks"
+        minimumLabel="Shortest wait, in weeks"
+        maximumLabel="Longest wait, in weeks"
+        min={0}
+        max={20}
+        bind:minimum={waitFrom}
+        bind:maximum={waitTo}
+        minimumName="wait-from"
+        maximumName="wait-to"
+    />
+    <p class="range-fieldset-summary">From {waitFrom} to {waitTo} weeks</p>
 
     <h2>Active Filters</h2>
     <TagGroup label="Active filter tags">
@@ -169,6 +187,7 @@
                 <th>Service</th>
                 <th>Location</th>
                 <th>Status</th>
+                <th>Wait (weeks)</th>
             </DataTableRow>
         </DataTableHead>
         <DataTableBody>
@@ -187,6 +206,7 @@
                             {service.status}
                         </Badge>
                     </DataTableTD>
+                    <DataTableTD>{service.waitWeeks}</DataTableTD>
                 </DataTableRow>
             {/each}
         </DataTableBody>

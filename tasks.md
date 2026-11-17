@@ -3829,7 +3829,18 @@ Maintainer-directed, in this order.
       tinybench inside one Vitest test, a per-machine baseline in `shared/benchmark-baseline.json`, a failure beyond twice the
       baseline. Two checks gave ratios of 0.5 to 1.3. Not in `bin/test` or CI: a baseline taken under load was two to four times
       slower. Not covered: rendering the components themselves, and bundle size.)_
-- [ ] **P35-T5 More and better tutorials, training and examples.**
+- [x] **P35-T5 More and better tutorials, training and examples.**
+      Verify: each new page is linked from the tutorials index, its code samples are checked, and the example has an e2e spec.
+      _(2026-11-17: four tutorials on the docs site: Alpine.js and Web Components (the two catalogs that had none), accessible
+      forms (labels, hints, checking on submit, errors beside fields, an error summary that takes focus, one framework-neutral
+      script) and a form that works worldwide (names, date order, addresses, money with no default currency, direction, label
+      packs). A training course at `/training`: eight modules, each with a goal, reading, an exercise and self-check answers.
+      The forms script was run under jsdom and the Web Components form under the catalog's tests before publishing, which
+      corrected one claim: development warnings appear only in a development build. An example: a waiting-time
+      `range-fieldset` filter on the SvelteKit app's `/search-and-filter`, with `e2e/search-and-filter.spec.ts` (keyboard and
+      axe). English only: whether to translate them is the same decision as P29-T11b. The tutorials index is translated into 63
+      languages, and a new card there breaks each translation's structure, so the index is unchanged until that decision
+      (P35-T9); the pages link to each other and are in the sitemap.)_
 - [ ] **P35-T6 Pickers accept only a stored value from their own list.** Found writing P35-T2: the theme, locale, text-size and
       motion pickers apply a value read from `localStorage` without checking it against `themes`, `locales`, `sizes` or
       `motions` (the time-zone picker does check), and the theme picker builds its stylesheet URL from it.
@@ -3843,6 +3854,10 @@ Maintainer-directed, in this order.
       `direction.test.ts` by name into `lily-design-system-angular-{calendar,data-grid,gantt-chart,kanban-board}`, but Angular's
       Vitest config runs only `*.spec.ts`, so the copies never run there.
       Verify: each of the four runs the direction tests (an explicit `.spec.ts` target in the sync, as `widget-keys` has).
+- [ ] **P35-T9 Link the new tutorials and training from the tutorials index (waits on P29-T11b).** Cards for Alpine.js, Web
+      Components, accessible forms, worldwide forms and `/training` on `/tutorials`, translated with the rest of that page into
+      its 63 languages, or English cards accepted in the translations, as the maintainer decides.
+      Verify: `bin/check-site-page-translations` passes with the cards in.
 
 ---
 

@@ -9,6 +9,13 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Unreleased: tutorials, training and an example (P35-T5)
+
+- Docs site: tutorials for Alpine.js and Web Components, an accessible forms tutorial (an error summary that takes focus) and
+  a worldwide forms tutorial; a self-paced training course at `/training` with eight modules,
+  exercises and self-checks. English only for now, and not yet linked from the translated `/tutorials` index (tasks.md P35-T9).
+- SvelteKit examples: `/search-and-filter` gains a waiting-time filter built with `range-fieldset`, tested by keyboard and axe.
+
 ## Unreleased: performance benchmarks (P35-T4)
 
 - `bin/benchmark`: ten timed cases over the shared pure modules at helper sizes (10,000-row search, filter and export; a
