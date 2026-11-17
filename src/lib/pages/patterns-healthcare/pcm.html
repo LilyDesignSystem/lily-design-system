@@ -71,7 +71,28 @@
     <li>Show two identifiers anywhere wey patient data dey show: di name with di date of birth, and di national identifier with im view component (The Joint Commission, Quick Safety 45).</li>
     <li>Use di patient banner for every screen wey dey act on one patient record, and make e dey show.</li>
     <li>Before action on record wey no be di one for di banner, confirm am with di name, date of birth and identifier.</li>
+    <li>
+      Entry wey dey talk about another person wey no be the patient (parent history, belle pikin, donor) go first talk with word who e belong to: give the record items one <code>subjectLabel</code> ("Mama"), so that relative diagnosis no go ever read like say na the patient own (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>No limit how many records clinician fit open: randomised trial of 3,356 clinicians (JAMA, 2019) find say e no reduce wrong-patient orders, and people dey find way waka around am.</li>
+    <li>
+      Menu of action for one record go first call that record name, with <code>subjectLabel</code> for <code>context-menu</code> or
+      <code>dropdown-menu</code> ("Ada Lovelace, blood pressure 3 Nov"): one first part wey no dey interactive and na im be the menu accessible name.
+    </li>
+    <li>
+      Arrange every action by wetin e dey do, and make the level show before e run. <strong>Routine</strong> (look, print) dey run sharp sharp. <strong>Documented</strong> dey talk wetin e go write for the record ("E dey add note to the visit").
+      <strong>Clinical</strong> (stop, cancel order) dey ask second time, inside one <code>alert-dialog</code> wey im confirm button na the verb ("Stop"), never "OK" or "Yes". <strong>Disclosive</strong> (emergency access, share outside the care team) go first ask for reason and write am down.
+    </li>
+    <li>
+      When plenty record open (tab, window, split panel), every tab visible text and accessible name get the patient name and second identifier, the active panel go repeat the banner, and no action go touch patient wey no be im panel own.
+    </li>
+    <li>
+      Show the place wey record go dey attributed to (the ward, clinic or facility wey dem choose for sign-in) as text for the page header, and make changing am one clear action.
+    </li>
+    <li>
+      Show the active visit, or "No active visit", for the banner. Form wey need visit go talk am and offer to start one, instead to fail when dem save am.
+    </li>
   </ul>
 
   <h2>Di patient banner</h2>
@@ -82,6 +103,9 @@
     <li>missing value na words ("Not known"), no be question mark, dash or empty cell;</li>
     <li>patient wey don die: <code>data-deceased</code> for di theme, and one line of text wey dey show, no be colour alone;</li>
     <li>no field dey cut, clip or hide for any width; e dey wrap.</li>
+    <li>
+      patient flags ("E need interpreter", "Infection risk") na one labelled <code>tag-group</code> of words, never icon or colour alone, and dem go still show when the banner wrap.
+    </li>
   </ul>
 
   <h2>Results</h2>
@@ -90,6 +114,30 @@
     <li>Di flag na words from your translation (<code>flagLabel</code>), with di FHIR interpretation code as <code>data-interpretation</code> for di theme.</li>
     <li>Separate new results from di earlier ones, and show trend (sparkline, or line chart with im data table): clinicians dey look for big change, no be only di range.</li>
     <li>Result wey dem neva ever record and one wey no dey available na different states, with different words.</li>
+    <li>
+      Wetin nobody know no be normal. Result wey im reference range miss, still dey load or no fit read no get interpretation and e go talk am; <code>observation-view</code> no dey ever guess one, so result wey get range but no get <code>interpretation</code> no go show flag.
+    </li>
+    <li>
+      Result wey pass the scale na the instrument limit with comparator ("&gt; 33.3 mmol/L": <code>formatQuantity</code> with
+      <code>"&gt;"</code>) and your critical flag, never naked number. Approximate value go keep im ≈ (<code>"~"</code>).
+    </li>
+    <li>Give other named ranges ("Critical: below 2.5") as <code>ranges</code>, each one im own part.</li>
+    <li>
+      Result wey dem correct or amend go keep the value wey e replace, inside one <code>&lt;del&gt;</code>, with your word for when e change (<code>previousValue</code>, <code>previousLabel</code>), so clinician wey read the old value go know say e don change.
+    </li>
+    <li>
+      Interval reading go talk im width and function ("Mean, 24 hours"), and the reading state and method ("Sitting, big cuff") na visible text near am, never only tooltip (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Trend need points wey fit compare: no draw line below your minimum, cut the line where the method or test change, and talk direction and meaning with word ("e dey fall, e dey better").
+    </li>
+    <li>
+      Vitals wey dem enter for one unit system fit show the other one near am as your text ("70 kg (154 lb)"); Lily no dey convert anything, so talk how you round am. Enter quantity with <code>quantity-input-div</code>, wey im number dey follow each unit limit.
+    </li>
+    <li>
+      Growth chart na one <code>line-chart</code> with your centile lines as series, the pikin points and im data table of age and value; Lily no dey calculate centile and e no dey bring growth reference.
+    </li>
   </ul>
 
   <h2>Medicines</h2>
@@ -106,12 +154,73 @@
     <li>Write di month as text so say dem no fit read date two ways (<code>Intl.DateTimeFormat</code> with <code>month: "short"</code>).</li>
     <li>Choose di clock on purpose: pass <code>hourCycle</code> clearly. NHS dey ask for 24-hour clock; dat one na UK rule, no be worldwide one, so Lily no dey ever pick am for you.</li>
     <li>Ages dey follow di Common User Interface bands through <code>ageParts()</code>; service wey get another convention go pass im own words.</li>
+    <li>
+      Date wey dem know only reach month or year go stay like that: ask for am with <code>date-field</code>
+      <code>precision="month"</code> or <code>"year"</code>, store <code>2019-03</code> or <code>2019</code>, and write am with
+      <code>formatPartialDate()</code>. Never make up day.
+    </li>
+    <li>
+      Length of time na <code>duration-view</code>, one <code>&lt;time datetime="P3DT4H"&gt;</code> wey hold your words, from
+      <code>durationParts()</code> and <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Dashboards</h2>
   <ul>
     <li>Ward board or command-centre screen dey update often. No announce every change: keep one polite summary region ("3 beds free, 2 discharges due") and let people read di board.</li>
     <li>Every state for board (bed clean, occupied, blocked) na text or <code>data-*</code> state with words, no be colour alone.</li>
+    <li>
+      Nothing dey blink (WCAG 2.2.2, 2.3.1), and board wey dey update with timer get pause control or e go only update when dem ask; update no dey ever move focus. Entry wey don pass time go talk am with word ("E don wait pass 20 minutes") with <code>data-overdue</code>.
+    </li>
+    <li>Count or rate go show im denominator ("12 of 68") and link to the list wey dey behind am.</li>
+    <li>
+      List or timeline go talk wetin e be view of: wetin e dey show, im order and window, wetin hide and why, and which source no answer. Empty list from source wey no answer no be proof say nothing dey.
+    </li>
+    <li>
+      Reminder list na one <code>record-list</code> wey im items carry due date (<code>review-date</code>) and due state with word, with <code>data-due</code>; the rule wey make am na your own.
+    </li>
+  </ul>
+
+  <h2>Forms</h2>
+  <ul>
+    <li>
+      Question wey dem answer "yes", "no" or "dem no ask" na one <code>radio-group</code> of three answer, none choose for start, never checkbox: checkbox no fit separate "e deny" from "dem never ask". Review of systems na one <code>fieldset</code> for each body system, and "all others no dey" button go only set the ones wey nobody answer.
+    </li>
+    <li>
+      Question wey get list of answer (medicine, address) na one <code>repeatable-fieldset</code>: dem go add or remove item, focus go follow, and every remove button get im item name.
+    </li>
+    <li>
+      Number with decimal comma: show am with <code>Intl.NumberFormat</code> and, where <code>type="number"</code> no gree accept comma, collect am for text field with <code>inputmode="decimal"</code> and parse am for your code. Never change value wey person type, even to clamp am inside range: value wey pass range na error wey dem fit see.
+    </li>
+    <li>
+      Long list wey dey show only part of im options at once dey set <code>aria-setsize</code> and <code>aria-posinset</code> on each option, and e remember say find-in-page no fit see the rest.
+    </li>
+  </ul>
+
+  <h2>Records, notes and where dem from</h2>
+  <ul>
+    <li>
+      Talk wetin list or grid be view of, before im rows: im window and order, wetin e leave out and why, and which source no answer ("Last 12 months, newest first. The GP record no answer."). Give <code>record-list</code> and
+      <code>timeline-list</code> one <code>coverageLabel</code>, and the <code>data-grid</code> helper im own <code>coverageLabel</code>. Empty list from source wey no answer go talk am with word, so nobody go ever read am as "nothing record".
+    </li>
+    <li>
+      Talk where record come from and whether e don final with <code>record-provenance-view</code>: signed, dey wait signature, amended, saved for this device and dem never send am. Unsigned draft no suppose ever look like say e don sign.
+    </li>
+    <li>Entry about another person (parent, belle pikin, donor) go first talk who e belong to, with the record items <code>subjectLabel</code>.</li>
+    <li>
+      Entry wey dem hold back go stay for the list with your word ("Restricted: e no dey for you"), and entry wey dem make by mistake go stay cancel with "Enter by mistake": give <code>record-list-item</code> or <code>timeline-list-item</code> one
+      <code>entryState</code> and one <code>entryStateLabel</code>. Never remove any of dem quietly, because gap go read like "nothing happen".
+    </li>
+    <li>
+      For clinical note, mark each passage source (typed, dictated, template, copy forward, generated) with
+      <code>data-source</code> and word wey people fit see, so copied or generated text no go ever pass as today examination.
+    </li>
+    <li>
+      Section wey no fit load na <code>unavailable</code> for your word, with retry button; technical code, if dem show am at all, go dey behind disclosure. Failure wey person action cause go dey announced, with the value wey the record hold now; failure for page load no go announce.
+    </li>
+    <li>
+      Order history na one <code>timeline-list</code>, one item for each step (planned, scheduled, active, suspended, completed, cancelled) with im time and reason, and the current state still dey on the item.
+    </li>
   </ul>
 
   <h2>From FHIR to Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (also for the record lists)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Map one <code>entered-in-error</code> record to im <code>entered-in-error</code> status, with words, no just drop am quietly: whether to show am at all na your service decision.</p>
+
+  <h2>From openEHR go Lily</h2>
+  <p>
+    Lily no dey read openEHR compositions too. The mapping for openEHR Reference Model data types and codes, as suggestion wey your clinical safety review go decide:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR data types and codes, and the Lily values for dem</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (entry)</td>
+          <td><code>quantity-input-div</code>; units as UCUM codes with your words</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (display), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> with <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> na ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> with one <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> part (year, year and month)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> with <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> inside <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>one <code>radio-group</code> wey im labels carry the number and im words</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>the coded values pattern for down</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, only when "dem no ask" no fit happen</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> nobody know, <code>271</code> no information</td>
+          <td><code>status="not-recorded"</code> or <code>"unavailable"</code>, with words wey talk which one</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> hidden</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> e no apply</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subject</td>
+          <td><code>subjectLabel</code> for the record items</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Instruction State Machine steps</td>
+          <td>one <code>timeline-list</code> of steps, with the current state on the item</td>
+        </tr>
+        <tr>
+          <td>archetype item wey get occurrences <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Coded values</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Ship drug database, tall man list, or SNOMED CT, ICD, LOINC or UCUM codes.</li>
     <li>Copy licensed instrument (Wong-Baker FACES) or another body design (di NEWS2 chart).</li>
     <li>Limit how many records dey open at once.</li>
+    <li>Guess interpretation from range, convert unit, or parse relative date ("next Tuesday").</li>
+    <li>Use switch for "yes, no or nobody know": ARIA <code>switch</code> no get third state, so na three radio.</li>
   </ul>
   <p>Di research, sources and decisions wey dey behind dis guide dey for <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

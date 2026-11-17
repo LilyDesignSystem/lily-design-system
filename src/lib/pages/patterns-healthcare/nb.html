@@ -71,7 +71,28 @@
     <li>Vis to identifikatorer overalt der en pasients data vises: navnet med fødselsdatoen, og det nasjonale identifikasjonsnummeret med visningskomponenten (The Joint Commission, Quick Safety 45).</li>
     <li>Bruk pasientbanneret på hvert skjermbilde som handler på én pasients journal, og hold det synlig.</li>
     <li>Før en handling på en annen journal enn den i banneret, bekreft den med navn, fødselsdato og identifikator.</li>
+    <li>
+      En oppføring om en annen enn pasienten (en forelders sykehistorie, et foster, en donor) sier først med ord hvem den gjelder: gi journalens elementer et <code>subjectLabel</code> («Mor»), så en slektnings diagnose aldri leses som pasientens (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Ikke begrens hvor mange journaler en kliniker kan åpne: en randomisert studie med 3 356 klinikere (JAMA, 2019) fant at det ikke reduserte forordninger til feil pasient, og folk omgår det.</li>
+    <li>
+      En meny med handlinger på én journal nevner først den journalen, med <code>subjectLabel</code> på <code>context-menu</code> eller
+      <code>dropdown-menu</code> («Ada Lovelace, blodtrykk 3. nov.»): en ikke-interaktiv første del som også er menyens tilgjengelige navn.
+    </li>
+    <li>
+      Del inn hver handling etter hva den gjør, og gjør nivået synlig før den utføres. <strong>Rutine</strong> (vis, skriv ut) utføres straks. <strong>Dokumentert</strong> sier hva den vil skrive i journalen («Legger til et notat i kontakten»).
+      <strong>Klinisk</strong> (seponere, avbestille en forordning) spør en gang til, i en <code>alert-dialog</code> der bekreftelsesknappen er verbet («Seponer»), aldri «OK» eller «Ja». <strong>Utleverende</strong> (nødtilgang, deling utenfor behandlingsteamet) ber først om en begrunnelse og logger den.
+    </li>
+    <li>
+      Når flere journaler er åpne (faner, vinduer, delte paneler), inneholder hver fanes synlige tekst og tilgjengelige navn pasientens navn og en annen identifikator, det aktive panelet gjentar banneret, og ingen handling gjelder en annen pasient enn panelets.
+    </li>
+    <li>
+      Vis stedet journaloppføringer blir knyttet til (posten, poliklinikken eller enheten valgt ved innlogging) som tekst i sidehodet, og gjør det til en uttrykkelig handling å bytte det.
+    </li>
+    <li>
+      Vis det aktive besøket, eller «Ingen aktivt besøk», i banneret. Et skjema som trenger et besøk sier det og tilbyr å starte et, i stedet for å feile når det lagres.
+    </li>
   </ul>
 
   <h2>Pasientbanneret</h2>
@@ -82,6 +103,9 @@
     <li>en manglende verdi skrives med ord («Ukjent»), aldri som spørsmålstegn, strek eller tom celle;</li>
     <li>en avdød pasient: <code>data-deceased</code> for temaet, og en synlig tekstlinje, aldri bare farge;</li>
     <li>ingen felt avkortet, beskåret eller skjult ved noen bredde; det brytes over til neste linje.</li>
+    <li>
+      pasientmarkeringer («Trenger tolk», «Smitterisiko») er en merket <code>tag-group</code> av ord, aldri ikoner eller farge alene, og forblir synlige når banneret brytes.
+    </li>
   </ul>
 
   <h2>Prøvesvar</h2>
@@ -90,6 +114,30 @@
     <li>Markeringen er ord fra oversettelsen din (<code>flagLabel</code>), med FHIR-tolkningskoden som <code>data-interpretation</code> for temaet.</li>
     <li>Skill nye prøvesvar fra tidligere, og vis en utvikling (en sparkline, eller et linjediagram med datatabellen): klinikere ser etter en betydelig endring, ikke bare intervallet.</li>
     <li>Et prøvesvar som aldri ble registrert og et som ikke er tilgjengelig, er ulike tilstander, med ulike ord.</li>
+    <li>
+      Ukjent er ikke normalt. Et resultat der referanseområdet mangler, fortsatt lastes eller ikke kan leses, har ingen tolkning og sier det; <code>observation-view</code> utleder aldri noen, så et resultat med område og uten <code>interpretation</code> viser ingen markering.
+    </li>
+    <li>
+      Et resultat utenfor skalaen er instrumentets grense med en sammenligningsoperator («&gt; 33,3 mmol/L»: <code>formatQuantity</code> med
+      <code>"&gt;"</code>) og deres kritiske markering, aldri et nakent tall. En omtrentlig verdi beholder sin ≈ (<code>"~"</code>).
+    </li>
+    <li>Oppgi flere navngitte områder («Kritisk: under 2,5») som <code>ranges</code>, hvert som sin egen del.</li>
+    <li>
+      Et rettet eller endret resultat beholder verdien det erstattet, i et <code>&lt;del&gt;</code>, med deres ord for når det endret seg (<code>previousValue</code>, <code>previousLabel</code>), så en kliniker som leste den gamle verdien vet at den er endret.
+    </li>
+    <li>
+      En intervallmåling sier sin lengde og funksjon («Gjennomsnitt, 24 timer»), og målingens tilstand og metode («Sittende, stor mansjett») er synlig tekst ved siden av, aldri bare et verktøytips (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      En trend trenger sammenlignbare punkter: tegn ingen linje under deres minimum, bryt linjen der metoden eller analysen endret seg, og si retning og betydning med ord («fallende, bedring»).
+    </li>
+    <li>
+      Vitale verdier lagt inn i ett enhetssystem kan vise det andre ved siden av som deres tekst («70 kg (154 lb)»); Lily regner ikke om noe, så oppgi avrundingen. Legg inn en mengde med <code>quantity-input-div</code>, der tallet følger hver enhets grenser.
+    </li>
+    <li>
+      En vekstkurve er et <code>line-chart</code> med deres persentillinjer som serier, barnets punkter og datatabellen med alder og verdi; Lily beregner ingen persentil og leverer ingen vekstreferanse.
+    </li>
   </ul>
 
   <h2>Legemidler</h2>
@@ -106,12 +154,73 @@
     <li>Skriv måneden som tekst, slik at en dato ikke kan leses på to måter (<code>Intl.DateTimeFormat</code> med <code>month: "short"</code>).</li>
     <li>Velg klokke med vilje: oppgi <code>hourCycle</code> eksplisitt. NHS ber om 24-timersklokken; det er en britisk regel, ikke en verdensomspennende, så Lily velger den aldri for deg.</li>
     <li>Aldre følger nivåene i Common User Interface gjennom <code>ageParts()</code>; en tjeneste med en annen konvensjon oppgir sine egne ord.</li>
+    <li>
+      En dato som bare er kjent til måned eller år forblir slik: spør etter den med <code>date-field</code>
+      <code>precision="month"</code> eller <code>"year"</code>, lagre <code>2019-03</code> eller <code>2019</code>, og skriv den med
+      <code>formatPartialDate()</code>. Dikt aldri opp en dag.
+    </li>
+    <li>
+      Et tidsrom er <code>duration-view</code>, et <code>&lt;time datetime="P3DT4H"&gt;</code> som inneholder deres ord, fra
+      <code>durationParts()</code> og <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Dashbord</h2>
   <ul>
     <li>En avdelingstavle eller et skjermbilde i en kommandosentral oppdateres ofte. Kunngjør aldri hver endring: ha én høflig oppsummeringsregion («3 senger ledige, 2 utskrivninger venter») og la folk lese tavlen.</li>
     <li>Hver tilstand på en tavle (seng rengjort, opptatt, sperret) er tekst eller en <code>data-*</code>-tilstand med ord, aldri bare farge.</li>
+    <li>
+      Ingenting blinker (WCAG 2.2.2, 2.3.1), og en tavle som oppdateres på tidtaker har en pauseknapp eller oppdateres bare på forespørsel; oppdateringer flytter aldri fokus. En forsinket oppføring sier det med ord («Venter over 20 minutter») med <code>data-overdue</code>.
+    </li>
+    <li>Et antall eller en rate viser nevneren («12 av 68») og lenker til listen bak.</li>
+    <li>
+      En liste eller tidslinje sier hva den er en visning av: hva den viser, rekkefølge og tidsvindu, hva som er skjult og hvorfor, og hvilke kilder som ikke svarte. En tom liste fra en kilde som ikke svarte, beviser ikke at ingenting finnes.
+    </li>
+    <li>
+      En påminnelsesliste er en <code>record-list</code> der elementene har en forfallsdato (<code>review-date</code>) og en forfallsstatus med ord, med <code>data-due</code>; regelen som laget den er deres.
+    </li>
+  </ul>
+
+  <h2>Skjemaer</h2>
+  <ul>
+    <li>
+      Et spørsmål som besvares «ja», «nei» eller «ikke spurt» er en <code>radio-group</code> med tre svar, ingen valgt fra start, aldri en avkrysningsboks: en avkrysningsboks kan ikke skille «benektet» fra «aldri spurt». En systemgjennomgang er ett <code>fieldset</code> per organsystem, og en knapp «alle øvrige fraværende» setter bare de ubesvarte.
+    </li>
+    <li>
+      Et spørsmål med en liste svar (legemidler, adresser) er et <code>repeatable-fieldset</code>: et element legges til eller fjernes, fokus følger, og hver fjern-knapp er navngitt etter sitt element.
+    </li>
+    <li>
+      Et tall med desimalkomma: vis det med <code>Intl.NumberFormat</code> og, der <code>type="number"</code> ikke godtar kommaet, ta imot det i et tekstfelt med <code>inputmode="decimal"</code> og tolk det i koden. Endre aldri en verdi personen skrev, heller ikke for å holde den innenfor et område: en verdi utenfor området er en feil de kan se.
+    </li>
+    <li>
+      En lang liste som bare viser en del av alternativene om gangen, setter <code>aria-setsize</code> og <code>aria-posinset</code> på hvert alternativ og husker at søk på siden ikke ser resten.
+    </li>
+  </ul>
+
+  <h2>Journaler, notater og deres opphav</h2>
+  <ul>
+    <li>
+      Si hva en liste eller et rutenett er en visning av, før radene: tidsvindu og rekkefølge, hva den utelater og hvorfor, og hvilke kilder som ikke svarte («Siste 12 måneder, nyeste først. Fastlegejournalen svarte ikke.»). Gi <code>record-list</code> og
+      <code>timeline-list</code> en <code>coverageLabel</code>, og hjelpekomponenten <code>data-grid</code> sin <code>coverageLabel</code>. En tom liste fra en kilde som ikke svarte, sier det med ord, så den aldri leses som «ingenting registrert».
+    </li>
+    <li>
+      Si hvor en oppføring kom fra og om den er endelig med <code>record-provenance-view</code>: signert, venter på signatur, endret, lagret på denne enheten og ikke sendt ennå. Et usignert utkast må aldri se signert ut.
+    </li>
+    <li>En oppføring om noen andre (en forelder, et foster, en donor) sier først hvem den gjelder, med journalelementenes <code>subjectLabel</code>.</li>
+    <li>
+      En tilbakeholdt oppføring blir værende i listen med deres ord («Begrenset: ikke tilgjengelig for deg»), og en feilført oppføring forblir gjennomstreket med «Ført inn ved en feil»: gi <code>record-list-item</code> eller <code>timeline-list-item</code> en
+      <code>entryState</code> og en <code>entryStateLabel</code>. Fjern aldri noen av dem i stillhet, for et hull leses som «ingenting skjedde».
+    </li>
+    <li>
+      I et klinisk notat merkes hvert avsnitts kilde (skrevet, diktert, mal, kopiert fram, generert) med
+      <code>data-source</code> og synlige ord, så kopiert eller generert tekst aldri tas for dagens undersøkelse.
+    </li>
+    <li>
+      En seksjon som ikke kan lastes, er <code>unavailable</code> med deres ord, med en knapp for å prøve igjen; en teknisk kode står, hvis den vises i det hele tatt, bak en utfelling. En feil forårsaket av en persons handling kunngjøres, med verdien journalen nå har; en feil ved lasting av siden gjør ikke det.
+    </li>
+    <li>
+      En forordnings historikk er en <code>timeline-list</code>, ett element per trinn (planlagt, avtalt, aktiv, stanset, fullført, avbestilt) med tid og begrunnelse, og gjeldende tilstand også på elementet.
+    </li>
   </ul>
 
   <h2>Fra FHIR til Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (også på journallistene)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Tilordne en <code>entered-in-error</code>-post til statusen <code>entered-in-error</code>, med ord, i stedet for å droppe den stille: om den i det hele tatt skal vises, er tjenestens beslutning.</p>
+
+  <h2>Fra openEHR til Lily</h2>
+  <p>
+    Lily leser heller ikke openEHR-komposisjoner. Tilordningen for openEHR-referansemodellens datatyper og koder, som et forslag deres kliniske sikkerhetsgjennomgang avgjør:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR-datatyper og -koder, og Lily-verdiene for dem</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (registrering)</td>
+          <td><code>quantity-input-div</code>; enheter som UCUM-koder med deres ord</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (visning), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> med <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> er ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> med en <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> delvis (år, år og måned)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> med <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> inne i <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>en <code>radio-group</code> der etikettene bærer tallet og ordene</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>mønsteret for kodede verdier nedenfor</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, bare når «ikke spurt» ikke kan skje</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> ukjent, <code>271</code> ingen opplysninger</td>
+          <td><code>status="not-recorded"</code> eller <code>"unavailable"</code>, med ord som angir hvilken</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> maskert</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> ikke relevant</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subjekt</td>
+          <td><code>subjectLabel</code> på journalelementene</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Trinn i Instruction State Machine</td>
+          <td>en <code>timeline-list</code> av trinn, med gjeldende tilstand på elementet</td>
+        </tr>
+        <tr>
+          <td>et arketype-element med forekomst <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Kodede verdier</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Levere en legemiddeldatabase, en tall man-liste eller koder fra SNOMED CT, ICD, LOINC eller UCUM.</li>
     <li>Gjenskape et lisensiert instrument (Wong-Baker FACES) eller en annen organisasjons design (NEWS2-skjemaet).</li>
     <li>Begrense antallet journaler som er åpne samtidig.</li>
+    <li>Utlede en tolkning fra et område, regne om en enhet eller tolke en relativ dato («neste tirsdag»).</li>
+    <li>Bruke en bryter for «ja, nei eller ukjent»: ARIAs <code>switch</code> har ingen tredje tilstand, så det blir tre radioknapper.</li>
   </ul>
   <p>Forskningen, kildene og avgjørelsene bak denne veiledningen finnes i <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

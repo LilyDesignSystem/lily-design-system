@@ -71,7 +71,28 @@
     <li>Rodykite du identifikatorius visur, kur rodomi paciento duomenys: vardą su gimimo data ir nacionalinį identifikatorių su jo view komponentu (The Joint Commission, Quick Safety 45).</li>
     <li>Naudokite paciento juostą kiekviename ekrane, veikiančiame vieno paciento įrašą, ir laikykite ją matomą.</li>
     <li>Prieš veiksmą su kitu įrašu nei juostoje, patvirtinkite jį vardu, gimimo data ir identifikatoriumi.</li>
+    <li>
+      Įrašas apie kitą asmenį nei pacientas (tėvų ligos istorija, vaisius, donoras) pirmiausia žodžiais pasako, kam jis priklauso: suteikite įrašo elementams <code>subjectLabel</code> („Motina“), kad giminaičio diagnozė niekada nebūtų perskaityta kaip paciento (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Neribokite, kiek įrašų gali atidaryti gydytojas: atsitiktinių imčių tyrimas su 3 356 gydytojais (JAMA, 2019) parodė, kad tai nesumažino užsakymų ne tam pacientui, o žmonės tai apeina.</li>
+    <li>
+      Vieno įrašo veiksmų meniu pirmiausia įvardija tą įrašą, naudojant <code>subjectLabel</code> komponente <code>context-menu</code> arba
+      <code>dropdown-menu</code> („Ada Lovelace, kraujospūdis lapkr. 3“): neinteraktyvi pirmoji dalis, kuri kartu yra prieinamas meniu pavadinimas.
+    </li>
+    <li>
+      Kiekvieną veiksmą priskirkite lygiui pagal tai, ką jis daro, ir parodykite lygį prieš jį vykdant. <strong>Įprastas</strong> (peržiūrėti, spausdinti) vykdomas iškart. <strong>Dokumentuojamas</strong> pasako, ką įrašys į įrašą („Prideda pastabą prie apsilankymo“).
+      <strong>Klinikinis</strong> (nutraukti, atšaukti paskyrimą) klausia antrą kartą, komponente <code>alert-dialog</code> , kurio patvirtinimo mygtukas yra veiksmažodis („Nutraukti“), niekada „Gerai“ ar „Taip“. <strong>Atskleidžiantis</strong> (skubi prieiga, dalijimasis už gydymo komandos ribų) pirmiausia paprašo priežasties ir ją užregistruoja.
+    </li>
+    <li>
+      Kai atidaryta keletas įrašų (skirtukai, langai, padalyti skydeliai), kiekvieno skirtuko matomas tekstas ir prieinamas pavadinimas apima paciento vardą ir antrą identifikatorių, aktyvus skydelis pakartoja juostą, ir joks veiksmas netaikomas kitam pacientui nei jo skydelio.
+    </li>
+    <li>
+      Parodykite vietą, kuriai bus priskirti įrašai (prisijungiant pasirinktą skyrių, kabinetą ar įstaigą), kaip tekstą puslapio antraštėje, ir jos keitimą padarykite aiškiu veiksmu.
+    </li>
+    <li>
+      Juostoje parodykite aktyvų vizitą arba „Aktyvaus vizito nėra“. Forma, kuriai reikia vizito, tai pasako ir pasiūlo jį pradėti, užuot nepavykusi išsaugant.
+    </li>
   </ul>
 
   <h2>Paciento juosta</h2>
@@ -82,6 +103,9 @@
     <li>trūkstama reikšmė yra žodžiai („Nežinoma“), niekada klaustukas, brūkšnys ar tuščias langelis;</li>
     <li>miręs pacientas: <code>data-deceased</code> temai ir matoma teksto eilutė, niekada vien spalva;</li>
     <li>joks laukas nėra sutrumpintas, nukirptas ar paslėptas jokiu plotu; tekstas laužomas.</li>
+    <li>
+      paciento žymės („Reikia vertėjo“, „Infekcijos rizika“) yra pažymėta žodžių <code>tag-group</code> , niekada vien piktogramos ar spalva, ir lieka matomos, kai juosta persikelia į kitą eilutę.
+    </li>
   </ul>
 
   <h2>Rezultatai</h2>
@@ -90,6 +114,30 @@
     <li>Žyma yra žodžiai iš jūsų vertimo (<code>flagLabel</code>), o FHIR interpretavimo kodas yra <code>data-interpretation</code> temai.</li>
     <li>Atskirkite naujus rezultatus nuo ankstesnių ir parodykite tendenciją (sparkline arba linijinę diagramą su duomenų lentele): gydytojai ieško reikšmingo pokyčio, o ne tik intervalo.</li>
     <li>Rezultatas, kuris niekada nebuvo užfiksuotas, ir nepasiekiamas rezultatas yra skirtingos būsenos, su skirtingais žodžiais.</li>
+    <li>
+      Nežinoma nėra normalu. Rezultatas, kurio referencinio intervalo trūksta, jis dar įkeliamas ar neįskaitomas, neturi interpretacijos ir tai pasako; <code>observation-view</code> niekada jos neišveda, todėl rezultatas su intervalu, bet be <code>interpretation</code> , nerodo jokios žymės.
+    </li>
+    <li>
+      Už skalės ribų esantis rezultatas yra prietaiso riba su palyginimo ženklu („&gt; 33,3 mmol/L“: <code>formatQuantity</code> su
+      <code>"&gt;"</code>) ir jūsų kritine žyme, niekada vien skaičius. Apytikslė reikšmė išlaiko savo ≈ (<code>"~"</code>).
+    </li>
+    <li>Kitus pavadintus intervalus („Kritinis: mažiau nei 2,5“) pateikite kaip <code>ranges</code>, kiekvieną kaip atskirą dalį.</li>
+    <li>
+      Pataisytas ar pakeistas rezultatas išlaiko pakeistą reikšmę elemente <code>&lt;del&gt;</code>, su jūsų žodžiais apie tai, kada ji pasikeitė (<code>previousValue</code>, <code>previousLabel</code>), kad senąją reikšmę perskaitęs gydytojas žinotų, jog ji pasikeitė.
+    </li>
+    <li>
+      Intervalo matavimas nurodo savo trukmę ir funkciją („Vidurkis, 24 valandos“), o matavimo būsena ir metodas („Sėdint, didelė manžetė“) yra matomas tekstas šalia, niekada vien patarimas (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Tendencijai reikia palyginamų taškų: nebrėžkite linijos žemiau savo minimumo, nutraukite liniją ten, kur pasikeitė metodas ar tyrimas, ir žodžiais pasakykite kryptį ir prasmę („mažėja, gerėja“).
+    </li>
+    <li>
+      Gyvybiniai rodikliai, įvesti viena vienetų sistema, šalia gali rodyti kitą kaip jūsų tekstą („70 kg (154 lb)“); Lily nieko nekonvertuoja, todėl nurodykite apvalinimą. Kiekį įveskite komponentu <code>quantity-input-div</code>, kurio skaičius laikosi kiekvieno vieneto ribų.
+    </li>
+    <li>
+      Augimo kreivė yra <code>line-chart</code> su jūsų procentilių linijomis kaip serijomis, vaiko taškais ir amžiaus bei reikšmės duomenų lentele; Lily neskaičiuoja procentilių ir neteikia augimo standartų.
+    </li>
   </ul>
 
   <h2>Vaistai</h2>
@@ -106,12 +154,73 @@
     <li>Mėnesį rašykite tekstu, kad datos nebūtų galima perskaityti dviem būdais (<code>Intl.DateTimeFormat</code> su <code>month: "short"</code>).</li>
     <li>Laikrodį pasirinkite sąmoningai: aiškiai perduokite <code>hourCycle</code>. NHS prašo 24 valandų laikrodžio; tai Jungtinės Karalystės taisyklė, ne pasaulinė, todėl „Lily“ jo niekada nepasirenka už jus.</li>
     <li>Amžius seka Common User Interface juostas per <code>ageParts()</code>; paslauga su kita konvencija perduoda savo žodžius.</li>
+    <li>
+      Data, žinoma tik mėnesio ar metų tikslumu, tokia ir lieka: klauskite jos komponentu <code>date-field</code>
+      <code>precision="month"</code> arba <code>"year"</code>, saugokite <code>2019-03</code> arba <code>2019</code>ir rašykite funkcija
+      <code>formatPartialDate()</code>. Niekada neišgalvokite dienos.
+    </li>
+    <li>
+      Laiko trukmė yra <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> , talpinantis jūsų žodžius, iš
+      <code>durationParts()</code> ir <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Skydeliai</h2>
   <ul>
     <li>Skyriaus lenta ar valdymo centro ekranas atnaujinamas dažnai. Niekada neskelbkite kiekvieno pakeitimo: laikykite vieną mandagią santraukos sritį („3 laisvos lovos, 2 numatyti išrašymai“) ir leiskite žmonėms skaityti lentą.</li>
     <li>Kiekviena lentos būsena (lova švari, užimta, užblokuota) yra tekstas arba <code>data-*</code> būsena su žodžiais, niekada vien spalva.</li>
+    <li>
+      Niekas nemirksi (WCAG 2.2.2, 2.3.1), o laikmačiu atsinaujinanti lenta turi pauzės valdiklį arba atsinaujina tik paprašius; atnaujinimai niekada neperkelia fokuso. Vėluojantis įrašas tai pasako žodžiais („Laukia daugiau nei 20 minučių“) su <code>data-overdue</code>.
+    </li>
+    <li>Skaičius ar dažnis rodo savo vardiklį („12 iš 68“) ir nukreipia į už jo esantį sąrašą.</li>
+    <li>
+      Sąrašas ar laiko juosta pasako, ko vaizdas tai yra: ką rodo, kokia tvarka ir laikotarpiu, kas paslėpta ir kodėl, ir kurie šaltiniai neatsakė. Tuščias sąrašas iš neatsakiusio šaltinio neįrodo, kad nieko nėra.
+    </li>
+    <li>
+      Priminimų sąrašas yra <code>record-list</code> , kurio elementai turi terminą (<code>review-date</code>) ir termino būseną žodžiais, su <code>data-due</code>; jį sukūrusi taisyklė yra jūsų.
+    </li>
+  </ul>
+
+  <h2>Formos</h2>
+  <ul>
+    <li>
+      Klausimas, į kurį atsakoma „taip“, „ne“ arba „neklausta“, yra <code>radio-group</code> iš trijų atsakymų, iš pradžių nė vieno nepasirinkus, niekada žymimasis langelis: langelis negali atskirti „paneigta“ nuo „niekada neklausta“. Sistemų apžvalga yra vienas <code>fieldset</code> kiekvienai organizmo sistemai, o mygtukas „visų kitų nėra“ nustato tik neatsakytus.
+    </li>
+    <li>
+      Klausimas su atsakymų sąrašu (vaistai, adresai) yra <code>repeatable-fieldset</code>: elementas pridedamas ar pašalinamas, fokusas seka, o kiekvienas šalinimo mygtukas pavadintas pagal savo elementą.
+    </li>
+    <li>
+      Skaičius su dešimtainiu kableliu: rodykite jį su <code>Intl.NumberFormat</code> ir, kur <code>type="number"</code> nepriima kablelio, priimkite jį teksto lauke su <code>inputmode="decimal"</code> ir apdorokite savo kode. Niekada nekeiskite asmens įvestos reikšmės, net norėdami ją apriboti intervalu: reikšmė už intervalo ribų yra klaida, kurią jis gali matyti.
+    </li>
+    <li>
+      Ilgas sąrašas, rodantis tik dalį parinkčių vienu metu, nustato <code>aria-setsize</code> ir <code>aria-posinset</code> kiekvienai parinkčiai ir atsimena, kad paieška puslapyje nemato likusių.
+    </li>
+  </ul>
+
+  <h2>Įrašai, pastabos ir jų kilmė</h2>
+  <ul>
+    <li>
+      Prieš eilutes pasakykite, ko vaizdas yra sąrašas ar tinklelis: laikotarpis ir tvarka, ką praleidžia ir kodėl, ir kurie šaltiniai neatsakė („Paskutiniai 12 mėnesių, naujausi pirmiausia. Šeimos gydytojo įrašas neatsakė.“). Suteikite <code>record-list</code> ir
+      <code>timeline-list</code>  <code>coverageLabel</code>, o pagalbiniam komponentui <code>data-grid</code> jo <code>coverageLabel</code>. Tuščias sąrašas iš neatsakiusio šaltinio tai pasako žodžiais, kad niekada nebūtų perskaitytas kaip „nieko neužregistruota“.
+    </li>
+    <li>
+      Komponentu <code>record-provenance-view</code>pasakykite, iš kur atėjo įrašas ir ar jis galutinis: pasirašytas, laukia parašo, pakeistas, išsaugotas šiame įrenginyje ir dar neišsiųstas. Nepasirašytas juodraštis niekada neturi atrodyti pasirašytas.
+    </li>
+    <li>Įrašas apie kitą asmenį (tėvą ar motiną, vaisių, donorą) pirmiausia pasako, kam jis priklauso, įrašo elementų savybe <code>subjectLabel</code>.</li>
+    <li>
+      Sulaikytas įrašas lieka sąraše su jūsų žodžiais („Apribota: jums neprieinama“), o per klaidą padarytas įrašas lieka perbrauktas su „Įvesta per klaidą“: suteikite <code>record-list-item</code> arba <code>timeline-list-item</code> 
+      <code>entryState</code> ir <code>entryStateLabel</code>. Niekada nepašalinkite nė vieno tyliai, nes spraga skaitoma kaip „nieko neįvyko“.
+    </li>
+    <li>
+      Klinikinėje pastaboje pažymėkite kiekvienos ištraukos šaltinį (įvesta, padiktuota, šablonas, nukopijuota, sugeneruota) atributu
+      <code>data-source</code> ir matomais žodžiais, kad nukopijuotas ar sugeneruotas tekstas niekada nebūtų palaikytas šiandienine apžiūra.
+    </li>
+    <li>
+      Skiltis, kurios nepavyksta įkelti, yra <code>unavailable</code> jūsų žodžiais, su mygtuku bandyti dar kartą; techninis kodas, jei apskritai rodomas, yra už išskleidžiamos dalies. Klaida, kurią sukėlė asmens veiksmas, paskelbiama kartu su reikšme, kurią įrašas dabar turi; klaida įkeliant puslapį – ne.
+    </li>
+    <li>
+      Paskyrimo istorija yra <code>timeline-list</code>, po vieną elementą kiekvienam žingsniui (suplanuotas, numatytas, aktyvus, sustabdytas, užbaigtas, atšauktas) su laiku ir priežastimi, o dabartinė būsena taip pat elemente.
+    </li>
   </ul>
 
   <h2>Nuo FHIR prie Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (taip pat įrašų sąrašuose)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Įrašą su būsena <code>entered-in-error</code> susiekite su būsena <code>entered-in-error</code>, pateikdami žodžius, užuot jį tyliai pašalinę: ar jį apskritai rodyti, sprendžia jūsų paslauga.</p>
+
+  <h2>Nuo openEHR iki Lily</h2>
+  <p>
+    Lily neskaito ir openEHR kompozicijų. Atitiktis openEHR referencinio modelio duomenų tipams ir kodams, kaip pasiūlymas, dėl kurio sprendžia jūsų klinikinės saugos peržiūra:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR duomenų tipai ir kodai bei juos atitinkančios Lily reikšmės</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (įvestis)</td>
+          <td><code>quantity-input-div</code>; vienetai kaip UCUM kodai su jūsų žodžiais</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (rodymas), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> su <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> yra ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> su <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> dalinė (metai, metai ir mėnuo)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> su <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> viduje <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> , kurio etiketės turi skaičių ir jo žodžius</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>koduotų reikšmių šablonas žemiau</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, tik kai „neklausta“ negali pasitaikyti</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> nežinoma, <code>271</code> informacijos nėra</td>
+          <td><code>status="not-recorded"</code> arba <code>"unavailable"</code>, su žodžiais, nurodančiais, kuri</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> paslėpta</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> netaikoma</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subjektas</td>
+          <td><code>subjectLabel</code> įrašo elementuose</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Instruction State Machine žingsniai</td>
+          <td> <code>timeline-list</code> iš žingsnių, dabartinė būsena elemente</td>
+        </tr>
+        <tr>
+          <td>archetipo elementas su pasikartojimais <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Koduotos reikšmės</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Pateikti vaistų duomenų bazės, tall man sąrašo ar SNOMED CT, TLK, LOINC ar UCUM kodų.</li>
     <li>Atkartoti licencijuoto instrumento (Wong-Baker FACES) ar kitos institucijos dizaino (NEWS2 diagramos).</li>
     <li>Riboti vienu metu atidarytų įrašų skaičiaus.</li>
+    <li>Išvesti interpretaciją iš intervalo, konvertuoti vienetą ar apdoroti santykinę datą („kitą antradienį“).</li>
+    <li>Naudoti jungiklį atsakymui „taip, ne arba nežinoma“: ARIA <code>switch</code> neturi trečios būsenos, todėl tai trys akutės.</li>
   </ul>
   <p>Šio vadovo tyrimai, šaltiniai ir sprendimai pateikti <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

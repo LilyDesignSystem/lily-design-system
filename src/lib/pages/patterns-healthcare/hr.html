@@ -71,7 +71,28 @@
     <li>Prikažite dva identifikatora gdje god se pojavljuju podaci o pacijentu: ime s datumom rođenja te nacionalni identifikator s njegovom view komponentom (The Joint Commission, Quick Safety 45).</li>
     <li>Koristite zaglavlje pacijenta na svakom zaslonu koji djeluje na zapis jednog pacijenta i održavajte ga vidljivim.</li>
     <li>Prije radnje na zapisu koji nije onaj u zaglavlju potvrdite je imenom, datumom rođenja i identifikatorom.</li>
+    <li>
+      Unos o nekome drugome osim pacijenta (anamneza roditelja, plod, darivatelj) najprije riječima kaže na koga se odnosi: dajte stavkama zapisa <code>subjectLabel</code> („Majka”), kako se dijagnoza rođaka nikada ne bi pročitala kao pacijentova (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Ne ograničavajte koliko zapisa kliničar smije otvoriti: randomizirano ispitivanje s 3356 kliničara (JAMA, 2019) pokazalo je da to nije smanjilo narudžbe za pogrešnog pacijenta, a ljudi to zaobilaze.</li>
+    <li>
+      Izbornik radnji nad jednim zapisom najprije imenuje taj zapis, s <code>subjectLabel</code> na <code>context-menu</code> ili
+      <code>dropdown-menu</code> („Ada Lovelace, krvni tlak 3. stu.”): neinteraktivni prvi dio koji je ujedno pristupačni naziv izbornika.
+    </li>
+    <li>
+      Svrstajte svaku radnju u razinu prema onome što radi i pokažite razinu prije nego što se izvrši. <strong>Rutinska</strong> (pregled, ispis) izvršava se odmah. <strong>Dokumentirana</strong> kaže što će upisati u zapis („Dodaje bilješku uz kontakt”).
+      <strong>Klinička</strong> (ukinuti, otkazati nalog) pita drugi put, u <code>alert-dialog</code> čiji je gumb za potvrdu glagol („Ukini”), nikada „U redu” ili „Da”. <strong>Otkrivajuća</strong> (hitni pristup, dijeljenje izvan tima za skrb) najprije traži razlog i bilježi ga.
+    </li>
+    <li>
+      Kada je otvoreno više zapisa (kartice, prozori, podijeljena okna), vidljivi tekst i pristupačni naziv svake kartice sadrže ime pacijenta i drugi identifikator, aktivno okno ponavlja natpis, a nijedna radnja ne odnosi se na drugog pacijenta osim pacijenta svojeg okna.
+    </li>
+    <li>
+      Prikažite mjesto kojemu će se pripisati zapisi (odjel, ambulantu ili ustanovu odabranu pri prijavi) kao tekst u zaglavlju stranice i neka njegova promjena bude izričita radnja.
+    </li>
+    <li>
+      U natpisu prikažite aktivni posjet ili „Nema aktivnog posjeta”. Obrazac kojemu je potreban posjet to kaže i nudi da ga započne, umjesto da zakaže pri spremanju.
+    </li>
   </ul>
 
   <h2>Zaglavlje pacijenta</h2>
@@ -82,6 +103,9 @@
     <li>nedostajuća vrijednost su riječi („Nije poznato”), nikad upitnik, crtica ili prazna ćelija;</li>
     <li>preminuli pacijent: <code>data-deceased</code> za temu i vidljiv redak teksta, nikad samo boja;</li>
     <li>nijedno polje nije skraćeno, odrezano ili skriveno ni pri kojoj širini; prelama se.</li>
+    <li>
+      oznake pacijenta („Treba tumača”, „Rizik od infekcije”) su označena <code>tag-group</code> od riječi, nikada samo ikone ili boja, i ostaju vidljive kada se natpis prelomi.
+    </li>
   </ul>
 
   <h2>Nalazi</h2>
@@ -90,6 +114,30 @@
     <li>Oznaka su riječi iz vašeg prijevoda (<code>flagLabel</code>), s FHIR interpretacijskim kodom kao <code>data-interpretation</code> za temu.</li>
     <li>Odvojite nove nalaze od ranijih i prikažite trend (sparkline ili linijski grafikon s tablicom podataka): kliničari traže značajnu promjenu, a ne samo raspon.</li>
     <li>Nalaz koji nikad nije zabilježen i nalaz koji je nedostupan različita su stanja, s različitim riječima.</li>
+    <li>
+      Nepoznato nije normalno. Nalaz kojemu referentni raspon nedostaje, još se učitava ili je nečitljiv nema tumačenje i to kaže; <code>observation-view</code> ga nikada ne zaključuje, pa nalaz s rasponom, a bez <code>interpretation</code> , ne prikazuje oznaku.
+    </li>
+    <li>
+      Nalaz izvan ljestvice granica je instrumenta sa znakom usporedbe („&gt; 33,3 mmol/L”: <code>formatQuantity</code> s
+      <code>"&gt;"</code>) i vašom kritičnom oznakom, nikada golim brojem. Približna vrijednost zadržava svoj ≈ (<code>"~"</code>).
+    </li>
+    <li>Dodatne imenovane raspone („Kritično: ispod 2,5”) navedite kao <code>ranges</code>, svaki kao zaseban dio.</li>
+    <li>
+      Ispravljen ili izmijenjen nalaz zadržava vrijednost koju je zamijenio, u <code>&lt;del&gt;</code>, s vašim riječima o tome kada se promijenila (<code>previousValue</code>, <code>previousLabel</code>), kako bi kliničar koji je pročitao staru vrijednost znao da se promijenila.
+    </li>
+    <li>
+      Intervalno mjerenje navodi svoje trajanje i funkciju („Prosjek, 24 sata”), a stanje i metoda mjerenja („Sjedeći, velika manžeta”) vidljiv su tekst pokraj, nikada samo opis alata (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Trend treba usporedive točke: ne crtajte crtu ispod svog minimuma, prekinite crtu gdje se promijenila metoda ili pretraga i riječima recite smjer i značenje („pada, poboljšanje”).
+    </li>
+    <li>
+      Vitalni znakovi uneseni u jednom sustavu jedinica mogu pokraj pokazati drugi kao vaš tekst („70 kg (154 lb)”); Lily ništa ne pretvara, pa navedite svoje zaokruživanje. Količinu unesite s <code>quantity-input-div</code>, čiji broj prati granice svake jedinice.
+    </li>
+    <li>
+      Krivulja rasta je <code>line-chart</code> s vašim centilnim crtama kao nizovima, točkama djeteta i njegovom podatkovnom tablicom dobi i vrijednosti; Lily ne izračunava centile i ne isporučuje referencije rasta.
+    </li>
   </ul>
 
   <h2>Lijekovi</h2>
@@ -106,12 +154,73 @@
     <li>Mjesec napišite tekstom kako se datum ne bi mogao pročitati na dva načina (<code>Intl.DateTimeFormat</code> s <code>month: "short"</code>).</li>
     <li>Sat odaberite namjerno: izričito proslijedite <code>hourCycle</code>. NHS traži 24-satni sat; to je britansko pravilo, a ne svjetsko, pa ga Lily nikad ne bira umjesto vas.</li>
     <li>Dob prati pojaseve Common User Interface putem <code>ageParts()</code>; usluga s drugom konvencijom proslijeđuje vlastite riječi.</li>
+    <li>
+      Datum poznat samo do mjeseca ili godine takav i ostaje: pitajte za njega s <code>date-field</code>
+      <code>precision="month"</code> ili <code>"year"</code>, spremite <code>2019-03</code> ili <code>2019</code>i zapišite ga s
+      <code>formatPartialDate()</code>. Nikada ne izmišljajte dan.
+    </li>
+    <li>
+      Trajanje je <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> s vašim riječima, iz
+      <code>durationParts()</code> i <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Nadzorne ploče</h2>
   <ul>
     <li>Ploča odjela ili zaslon zapovjednog centra često se ažurira. Nikad ne najavljujte svaku promjenu: zadržite jednu pristojnu regiju sažetka („3 slobodna kreveta, 2 otpusta očekuju”) i pustite ljude da čitaju ploču.</li>
     <li>Svako stanje na ploči (krevet čist, zauzet, blokiran) tekst je ili stanje <code>data-*</code> s riječima, nikad samo boja.</li>
+    <li>
+      Ništa ne treperi (WCAG 2.2.2, 2.3.1), a ploča koja se osvježava po mjeraču vremena ima kontrolu pauze ili se osvježava samo na zahtjev; ažuriranja nikada ne pomiču fokus. Zakašnjeli unos to kaže riječima („Čeka više od 20 minuta”) s <code>data-overdue</code>.
+    </li>
+    <li>Broj ili stopa prikazuje svoj nazivnik („12 od 68”) i povezuje na popis iza sebe.</li>
+    <li>
+      Popis ili vremenska crta kaže čega je prikaz: što prikazuje, svoj redoslijed i razdoblje, što je skriveno i zašto te koji izvori nisu odgovorili. Prazan popis iz izvora koji nije odgovorio ne dokazuje da ništa ne postoji.
+    </li>
+    <li>
+      Popis podsjetnika je <code>record-list</code> čije stavke nose rok (<code>review-date</code>) i stanje roka riječima, s <code>data-due</code>; pravilo koje ga je stvorilo vaše je.
+    </li>
+  </ul>
+
+  <h2>Obrasci</h2>
+  <ul>
+    <li>
+      Pitanje s odgovorima „da”, „ne” ili „nije pitano” je <code>radio-group</code> od tri odgovora, nijedan unaprijed odabran, nikada potvrdni okvir: okvir ne razlikuje „poriče” od „nikada pitano”. Pregled sustava je jedan <code>fieldset</code> po organskom sustavu, a gumb „svi ostali odsutni” postavlja samo neodgovorene.
+    </li>
+    <li>
+      Pitanje s popisom odgovora (lijekovi, adrese) je <code>repeatable-fieldset</code>: stavka se dodaje ili uklanja, fokus slijedi, a svaki gumb za uklanjanje imenovan je po svojoj stavci.
+    </li>
+    <li>
+      Broj s decimalnim zarezom: prikažite ga s <code>Intl.NumberFormat</code> i, gdje <code>type="number"</code> ne prihvaća zarez, primite ga u tekstnom polju s <code>inputmode="decimal"</code> i raščlanite u svojem kodu. Nikada ne mijenjajte vrijednost koju je osoba upisala, čak ni da je ograničite na raspon: vrijednost izvan raspona pogreška je koju može vidjeti.
+    </li>
+    <li>
+      Dugačak popis koji istodobno prikazuje samo dio opcija postavlja <code>aria-setsize</code> i <code>aria-posinset</code> na svaku opciju i pamti da pretraživanje stranice ne vidi ostatak.
+    </li>
+  </ul>
+
+  <h2>Zapisi, bilješke i njihovo podrijetlo</h2>
+  <ul>
+    <li>
+      Prije redaka recite čega je popis ili mreža prikaz: razdoblje i redoslijed, što izostavlja i zašto te koji izvori nisu odgovorili („Zadnjih 12 mjeseci, najnovije prvo. Zapis obiteljskog liječnika nije odgovorio.”). Dajte <code>record-list</code> i
+      <code>timeline-list</code>  <code>coverageLabel</code>, a pomoćniku <code>data-grid</code> njegov <code>coverageLabel</code>. Prazan popis iz izvora koji nije odgovorio to kaže riječima, da se nikada ne pročita kao „ništa zabilježeno”.
+    </li>
+    <li>
+      Recite odakle je zapis došao i je li konačan s <code>record-provenance-view</code>: potpisan, čeka potpis, izmijenjen, spremljen na ovom uređaju i još nije poslan. Nepotpisani nacrt nikada ne smije izgledati potpisano.
+    </li>
+    <li>Unos o nekome drugome (roditelju, plodu, darivatelju) najprije kaže na koga se odnosi, s <code>subjectLabel</code>.</li>
+    <li>
+      Zadržani unos ostaje na popisu s vašim riječima („Ograničeno: nije vam dostupno”), a pogrešno uneseni unos ostaje precrtan uz „Uneseno pogreškom”: dajte <code>record-list-item</code> ili <code>timeline-list-item</code> 
+      <code>entryState</code> i <code>entryStateLabel</code>. Nikada nijedan od njih ne uklanjajte tiho, jer se praznina čita kao „ništa se nije dogodilo”.
+    </li>
+    <li>
+      U kliničkoj bilješci označite izvor svakog odlomka (utipkano, diktirano, predložak, preneseno, generirano) s
+      <code>data-source</code> i vidljivim riječima, kako preneseni ili generirani tekst nikada ne bi bio shvaćen kao današnji pregled.
+    </li>
+    <li>
+      Odjeljak koji se ne može učitati je <code>unavailable</code> vašim riječima, s gumbom za ponovni pokušaj; tehnički kod, ako je uopće prikazan, nalazi se iza otkrivanja. Pogreška uzrokovana radnjom osobe najavljuje se, s vrijednošću koju zapis sada ima; pogreška pri učitavanju stranice ne.
+    </li>
+    <li>
+      Povijest naloga je <code>timeline-list</code>, po jedna stavka za svaki korak (planirano, zakazano, aktivno, obustavljeno, dovršeno, otkazano) s vremenom i razlogom, a trenutačno stanje i na stavci.
+    </li>
   </ul>
 
   <h2>Iz FHIR-a u Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (također na popisima zapisa)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Zapis sa statusom <code>entered-in-error</code> preslikajte u status <code>entered-in-error</code> riječima, umjesto da ga tiho izostavite: hoće li se uopće prikazati, odluka je vaše usluge.</p>
+
+  <h2>Od openEHR-a do Lily</h2>
+  <p>
+    Lily ne čita ni openEHR kompozicije. Preslikavanje za tipove podataka i kodove referentnog modela openEHR, kao prijedlog o kojem odlučuje vaša revizija kliničke sigurnosti:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Tipovi podataka i kodovi openEHR-a te odgovarajuće vrijednosti Lily</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (unos)</td>
+          <td><code>quantity-input-div</code>; jedinice kao UCUM kodovi s vašim riječima</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (prikaz), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> s <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> je ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> s <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> djelomičan (godina, godina i mjesec)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> s <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> unutar <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> čije oznake nose broj i njegove riječi</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>uzorak kodiranih vrijednosti u nastavku</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, samo kada „nije pitano” ne može nastupiti</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> nepoznato, <code>271</code> nema informacija</td>
+          <td><code>status="not-recorded"</code> ili <code>"unavailable"</code>, s riječima koje kažu koje je</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> maskirano</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> nije primjenjivo</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subjekt</td>
+          <td><code>subjectLabel</code> na stavkama zapisa</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Koraci stroja stanja uputa</td>
+          <td> <code>timeline-list</code> koraka, s trenutačnim stanjem na stavci</td>
+        </tr>
+        <tr>
+          <td>stavka arhetipa s pojavljivanjima <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Kodirane vrijednosti</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Isporučivati bazu lijekova, popis tall man ili šifre SNOMED CT, MKB, LOINC ili UCUM.</li>
     <li>Reproducirati licencirani instrument (Wong-Baker FACES) ili dizajn drugog tijela (NEWS2 tablicu).</li>
     <li>Ograničavati broj istodobno otvorenih zapisa.</li>
+    <li>Zaključivati tumačenje iz raspona, pretvarati jedinice ili raščlanjivati relativni datum („sljedeći utorak”).</li>
+    <li>Koristiti prekidač za „da, ne ili nepoznato”: <code>switch</code> u ARIA-i nema treće stanje, pa su to tri izborna gumba.</li>
   </ul>
   <p>Istraživanje, izvori i odluke iza ovog vodiča nalaze se u <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

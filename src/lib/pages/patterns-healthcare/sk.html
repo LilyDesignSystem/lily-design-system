@@ -71,7 +71,28 @@
     <li>Zobrazte dva identifikátory všade, kde sa objavia údaje pacienta: meno s dátumom narodenia a národný identifikátor s jeho komponentom zobrazenia (The Joint Commission, Quick Safety 45).</li>
     <li>Používajte banner pacienta na každej obrazovke, ktorá pracuje so záznamom jedného pacienta, a nechajte ho viditeľný.</li>
     <li>Pred akciou so záznamom, ktorý nie je ten v banneri, ju potvrďte menom, dátumom narodenia a identifikátorom.</li>
+    <li>
+      Záznam o niekom inom než pacientovi (anamnéza rodiča, plod, darca) najprv slovami povie, koho sa týka: dajte položkám záznamu <code>subjectLabel</code> („Matka“), aby diagnóza príbuzného nikdy nebola čítaná ako pacientova (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Neobmedzujte, koľko záznamov môže klinik otvoriť: randomizovaná štúdia s 3 356 klinikmi (JAMA, 2019) zistila, že to neznížilo počet objednávok pre nesprávneho pacienta, a ľudia to obchádzajú.</li>
+    <li>
+      Ponuka akcií nad jedným záznamom najprv pomenuje tento záznam, pomocou <code>subjectLabel</code> pri <code>context-menu</code> alebo
+      <code>dropdown-menu</code> („Ada Lovelace, krvný tlak 3. nov.“): neinteraktívna prvá časť, ktorá je zároveň prístupným názvom ponuky.
+    </li>
+    <li>
+      Každú akciu zaraďte do úrovne podľa toho, čo robí, a úroveň ukážte skôr, než sa vykoná. <strong>Rutinná</strong> (zobraziť, tlačiť) sa vykoná hneď. <strong>Dokumentovaná</strong> povie, čo zapíše do záznamu („Pridá poznámku ku kontaktu“).
+      <strong>Klinická</strong> (vysadiť, zrušiť ordináciu) sa opýta druhýkrát, v <code>alert-dialog</code> , ktorého potvrdzovacie tlačidlo je sloveso („Vysadiť“), nikdy „OK“ ani „Áno“. <strong>Odhaľujúca</strong> (núdzový prístup, zdieľanie mimo ošetrujúceho tímu) sa najprv opýta na dôvod a zaznamená ho.
+    </li>
+    <li>
+      Keď je otvorených viac záznamov (karty, okná, rozdelené panely), viditeľný text a prístupný názov každej karty obsahujú meno pacienta a druhý identifikátor, aktívny panel opakuje banner a žiadna akcia sa netýka iného pacienta než pacienta svojho panela.
+    </li>
+    <li>
+      Zobrazte miesto, ku ktorému budú záznamy priradené (oddelenie, ambulanciu alebo zariadenie zvolené pri prihlásení), ako text v hlavičke stránky a jeho zmenu urobte výslovnou akciou.
+    </li>
+    <li>
+      Zobrazte v banneri aktívnu návštevu alebo „Žiadna aktívna návšteva“. Formulár, ktorý potrebuje návštevu, to povie a ponúkne jej začatie, namiesto zlyhania pri uložení.
+    </li>
   </ul>
 
   <h2>Banner pacienta</h2>
@@ -82,6 +103,9 @@
     <li>chýbajúca hodnota je slovami („Neznáme“), nikdy otáznik, pomlčka alebo prázdna bunka;</li>
     <li>zomretý pacient: <code>data-deceased</code> pre tému a viditeľný riadok textu, nikdy len farba;</li>
     <li>žiadne pole nie je skrátené, orezané ani skryté pri žiadnej šírke; text sa zalamuje.</li>
+    <li>
+      príznaky pacienta („Potrebuje tlmočníka“, „Riziko infekcie“) sú opísaná <code>tag-group</code> zo slov, nikdy len ikony či farba, a zostávajú viditeľné, keď sa banner zalomí.
+    </li>
   </ul>
 
   <h2>Výsledky</h2>
@@ -90,6 +114,30 @@
     <li>Príznak sú slová z vášho prekladu (<code>flagLabel</code>), s interpretačným kódom FHIR v <code>data-interpretation</code> pre tému.</li>
     <li>Oddeľte nové výsledky od skorších a ukážte trend (sparkline alebo čiarový graf s tabuľkou údajov): klinici hľadajú významnú zmenu, nielen rozsah.</li>
     <li>Výsledok, ktorý nebol nikdy zaznamenaný, a nedostupný výsledok sú rozdielne stavy s rozdielnymi slovami.</li>
+    <li>
+      Neznáme nie je normálne. Výsledok, ktorého referenčné rozpätie chýba, sa stále načítava alebo je nečitateľné, nemá interpretáciu a povie to; <code>observation-view</code> ju nikdy neodvodí, takže výsledok s rozpätím a bez <code>interpretation</code> nezobrazí žiadny príznak.
+    </li>
+    <li>
+      Výsledok mimo stupnice je hranica prístroja so znamienkom porovnania („&gt; 33,3 mmol/l“: <code>formatQuantity</code> s
+      <code>"&gt;"</code>) a vaším kritickým príznakom, nikdy holé číslo. Približná hodnota si ponechá svoj ≈ (<code>"~"</code>).
+    </li>
+    <li>Ďalšie pomenované rozpätia („Kritické: pod 2,5“) zadajte ako <code>ranges</code>, každé ako samostatnú časť.</li>
+    <li>
+      Opravený alebo pozmenený výsledok si ponechá nahradenú hodnotu v <code>&lt;del&gt;</code>, s vašimi slovami o tom, kedy sa zmenila (<code>previousValue</code>, <code>previousLabel</code>), aby klinik, ktorý čítal starú hodnotu, vedel, že sa zmenila.
+    </li>
+    <li>
+      Intervalové meranie uvádza svoju dĺžku a funkciu („Priemer, 24 hodín“) a stav a metóda merania („Posediačky, veľká manžeta“) sú viditeľný text vedľa, nikdy len tip (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Trend potrebuje porovnateľné body: nekreslite čiaru pod svojím minimom, prerušte čiaru tam, kde sa zmenila metóda alebo stanovenie, a povedzte smer a význam slovami („klesá, zlepšuje sa“).
+    </li>
+    <li>
+      Vitálne funkcie zadané v jednej sústave jednotiek môžu vedľa ukázať druhú ako váš text („70 kg (154 lb)“); Lily nič neprevádza, takže uveďte svoje zaokrúhlenie. Množstvo zadávajte pomocou <code>quantity-input-div</code>, ktorého číslo preberá limity každej jednotky.
+    </li>
+    <li>
+      Rastový graf je <code>line-chart</code> s vašimi percentilovými čiarami ako radmi, bodmi dieťaťa a jeho dátovou tabuľkou veku a hodnoty; Lily nepočíta percentily a nedodáva rastové referencie.
+    </li>
   </ul>
 
   <h2>Lieky</h2>
@@ -106,12 +154,73 @@
     <li>Mesiac píšte textom, aby sa dátum nedal čítať dvoma spôsobmi (<code>Intl.DateTimeFormat</code> s <code>month: "short"</code>).</li>
     <li>Hodiny zvoľte zámerne: odovzdajte <code>hourCycle</code> výslovne. NHS žiada 24-hodinový formát; to je britské pravidlo, nie celosvetové, preto ho Lily nikdy nevyberá za vás.</li>
     <li>Vek sleduje pásma Common User Interface cez <code>ageParts()</code>; služba s inou konvenciou odovzdá vlastné slová.</li>
+    <li>
+      Dátum známy len na mesiac alebo rok taký zostane: pýtajte sa naň pomocou <code>date-field</code>
+      <code>precision="month"</code> alebo <code>"year"</code>, uložte <code>2019-03</code> alebo <code>2019</code>a zapíšte ho pomocou
+      <code>formatPartialDate()</code>. Nikdy si nevymýšľajte deň.
+    </li>
+    <li>
+      Trvanie je <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> obsahujúci vaše slová, z
+      <code>durationParts()</code> a <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Prehľadové panely</h2>
   <ul>
     <li>Oddelenská tabuľa alebo obrazovka riadiaceho centra sa aktualizuje často. Nikdy neoznamujte každú zmenu: majte jednu zdvorilú súhrnnú oblasť („3 voľné lôžka, 2 plánované prepustenia“) a nechajte ľudí čítať tabuľu.</li>
     <li>Každý stav na tabuli (lôžko vyčistené, obsadené, blokované) je text alebo stav <code>data-*</code> so slovami, nikdy len farba.</li>
+    <li>
+      Nič nebliká (WCAG 2.2.2, 2.3.1) a tabuľa aktualizovaná časovačom má ovládanie pauzy alebo sa aktualizuje len na požiadanie; aktualizácie nikdy nepresúvajú fokus. Oneskorený záznam to povie slovami („Čaká viac ako 20 minút“) s <code>data-overdue</code>.
+    </li>
+    <li>Počet alebo podiel ukazuje svojho menovateľa („12 z 68“) a odkazuje na zoznam za ním.</li>
+    <li>
+      Zoznam alebo časová os hovorí, čoho je pohľadom: čo ukazuje, v akom poradí a za aké obdobie, čo je skryté a prečo, a ktoré zdroje neodpovedali. Prázdny zoznam zo zdroja, ktorý neodpovedal, nedokazuje, že nič neexistuje.
+    </li>
+    <li>
+      Zoznam pripomienok je <code>record-list</code> , ktorého položky nesú termín (<code>review-date</code>) a stav termínu slovami, s <code>data-due</code>; pravidlo, ktoré ho vytvorilo, je vaše.
+    </li>
+  </ul>
+
+  <h2>Formuláre</h2>
+  <ul>
+    <li>
+      Otázka s odpoveďami „áno“, „nie“ alebo „nepýtali sa“ je <code>radio-group</code> z troch odpovedí, žiadna vopred zvolená, nikdy začiarkavacie políčko: políčko nerozlíši „popiera“ od „nikdy sa nepýtali“. Prehľad systémov je jeden <code>fieldset</code> na orgánový systém a tlačidlo „všetky ostatné neprítomné“ nastaví len nezodpovedané.
+    </li>
+    <li>
+      Otázka so zoznamom odpovedí (lieky, adresy) je <code>repeatable-fieldset</code>: položka sa pridá alebo odoberie, fokus nasleduje a každé tlačidlo odobrania je pomenované podľa svojej položky.
+    </li>
+    <li>
+      Číslo s desatinnou čiarkou: zobrazte ho pomocou <code>Intl.NumberFormat</code> a tam, kde <code>type="number"</code> neprijíma čiarku, ho prevezmite v textovom poli s <code>inputmode="decimal"</code> a spracujte vo svojom kóde. Nikdy nemeňte hodnotu, ktorú osoba napísala, ani kvôli obmedzeniu na rozpätie: hodnota mimo rozpätia je chyba, ktorú môže vidieť.
+    </li>
+    <li>
+      Dlhý zoznam, ktorý naraz vykresľuje len časť možností, nastavuje <code>aria-setsize</code> a <code>aria-posinset</code> pri každej možnosti a pamätá, že hľadanie na stránke zvyšok nevidí.
+    </li>
+  </ul>
+
+  <h2>Záznamy, poznámky a ich pôvod</h2>
+  <ul>
+    <li>
+      Pred riadkami povedzte, čoho je zoznam alebo mriežka pohľadom: obdobie a poradie, čo vynecháva a prečo, a ktoré zdroje neodpovedali („Posledných 12 mesiacov, najnovšie prvé. Záznam všeobecného lekára neodpovedal.“). Dajte <code>record-list</code> a
+      <code>timeline-list</code>  <code>coverageLabel</code>, a pomocníkovi <code>data-grid</code> jeho <code>coverageLabel</code>. Prázdny zoznam zo zdroja, ktorý neodpovedal, to povie slovami, aby nebol nikdy čítaný ako „nič nezaznamenané“.
+    </li>
+    <li>
+      Povedzte, odkiaľ záznam pochádza a či je konečný, pomocou <code>record-provenance-view</code>: podpísaný, čaká na podpis, pozmenený, uložený v tomto zariadení a ešte neodoslaný. Nepodpísaný koncept nikdy nesmie vyzerať podpísane.
+    </li>
+    <li>Záznam o niekom inom (rodičovi, plode, darcovi) najprv povie, koho sa týka, pomocou <code>subjectLabel</code>.</li>
+    <li>
+      Zadržaný záznam zostane v zozname s vašimi slovami („Obmedzené: pre vás nedostupné“) a omylom vytvorený záznam zostane prečiarknutý s „Zadané omylom“: dajte <code>record-list-item</code> alebo <code>timeline-list-item</code> 
+      <code>entryState</code> a <code>entryStateLabel</code>. Nikdy žiadny z nich potichu neodstraňujte, pretože medzera sa číta ako „nič sa nestalo“.
+    </li>
+    <li>
+      V klinickej poznámke označte zdroj každej pasáže (napísané, nadiktované, šablóna, prevzaté z predchádzajúcej poznámky, vygenerované) pomocou
+      <code>data-source</code> a viditeľných slov, aby prevzatý či vygenerovaný text nebol nikdy považovaný za dnešné vyšetrenie.
+    </li>
+    <li>
+      Oddiel, ktorý nemožno načítať, je <code>unavailable</code> vašimi slovami, s tlačidlom na zopakovanie; technický kód, ak je vôbec zobrazený, je za rozbalením. Zlyhanie spôsobené akciou osoby sa oznámi spolu s hodnotou, ktorú záznam teraz má; zlyhanie pri načítaní stránky nie.
+    </li>
+    <li>
+      História ordinácie je <code>timeline-list</code>, jedna položka na krok (plánované, naplánované na čas, aktívne, pozastavené, dokončené, zrušené) s časom a dôvodom a aktuálny stav aj na položke.
+    </li>
   </ul>
 
   <h2>Z FHIR do Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (aj na zoznamoch záznamov)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Záznam <code>entered-in-error</code> namapujte na jeho stav <code>entered-in-error</code>, so slovami, namiesto toho, aby ste ho potichu vynechali: či ho vôbec zobraziť, je rozhodnutie vašej služby.</p>
+
+  <h2>Od openEHR k Lily</h2>
+  <p>
+    Lily nečíta ani kompozície openEHR. Mapovanie dátových typov a kódov referenčného modelu openEHR ako návrh, o ktorom rozhodne vaše posúdenie klinickej bezpečnosti:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Dátové typy a kódy openEHR a im zodpovedajúce hodnoty Lily</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (zadávanie)</td>
+          <td><code>quantity-input-div</code>; jednotky ako kódy UCUM s vašimi slovami</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (zobrazenie), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> s <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> je ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> s <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> čiastočný (rok, rok a mesiac)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> s <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> vnútri <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> , ktorého popisky nesú číslo a jeho slová</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>vzor kódovaných hodnôt nižšie</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, len keď „nepýtali sa“ nemôže nastať</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> neznáme, <code>271</code> žiadne informácie</td>
+          <td><code>status="not-recorded"</code> alebo <code>"unavailable"</code> so slovami, ktoré povedia, o ktorý prípad ide</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> maskované</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> neuplatňuje sa</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subjekt</td>
+          <td><code>subjectLabel</code> na položkách záznamu</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Kroky stavového automatu inštrukcií</td>
+          <td> <code>timeline-list</code> z krokov, s aktuálnym stavom na položke</td>
+        </tr>
+        <tr>
+          <td>položka archetypu s výskytom <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Kódované hodnoty</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Dodávať databázu liekov, zoznam tall man ani kódy SNOMED CT, MKCH, LOINC či UCUM.</li>
     <li>Reprodukovať licencovaný nástroj (Wong-Baker FACES) ani dizajn iného orgánu (tabuľku NEWS2).</li>
     <li>Obmedzovať počet súčasne otvorených záznamov.</li>
+    <li>Odvodzovať interpretáciu z rozpätia, prevádzať jednotky alebo spracúvať relatívny dátum („budúci utorok“).</li>
+    <li>Používať prepínač pre „áno, nie alebo neznáme“: <code>switch</code> v ARIA nemá tretí stav, takže ide o tri prepínacie tlačidlá.</li>
   </ul>
   <p>Výskum, zdroje a rozhodnutia za týmto sprievodcom sú v <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

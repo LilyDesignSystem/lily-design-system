@@ -71,7 +71,28 @@
     <li>Hasta verisinin göründüğü her yerde iki tanımlayıcı gösterin: ad ile doğum tarihi ve ulusal tanımlayıcı ile görüntüleme bileşeni (The Joint Commission, Quick Safety 45).</li>
     <li>Bir hastanın kaydı üzerinde işlem yapan her ekranda hasta başlığını kullanın ve görünür tutun.</li>
     <li>Başlıktaki dışındaki bir kayıt üzerinde işlem yapmadan önce, adı, doğum tarihi ve tanımlayıcıyla onaylayın.</li>
+    <li>
+      Hasta dışında birine ilişkin bir kayıt (bir ebeveynin öyküsü, bir fetüs, bir donör) önce kime ait olduğunu sözcüklerle söyler: kayıt öğelerine bir <code>subjectLabel</code> ("Anne") verin, böylece bir akrabanın tanısı hiçbir zaman hastanınki olarak okunmaz (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Bir klinisyenin kaç kayıt açabileceğini sınırlamayın: 3.356 klinisyenle yapılan randomize bir çalışma (JAMA, 2019) bunun yanlış hasta istemlerini azaltmadığını buldu ve insanlar bunu aşmanın yolunu buluyor.</li>
+    <li>
+      Tek bir kayıt üzerindeki eylemler menüsü önce o kaydı adlandırır; <code>subjectLabel</code> özelliğini <code>context-menu</code> veya
+      <code>dropdown-menu</code> ("Ada Lovelace, kan basıncı 3 Kas") üzerinde kullanın: menünün erişilebilir adı da olan etkileşimsiz bir ilk bölüm.
+    </li>
+    <li>
+      Her eylemi ne yaptığına göre bir düzeye ayırın ve düzeyi eylem çalışmadan önce görünür kılın. <strong>Rutin</strong> (görüntüle, yazdır) hemen çalışır. <strong>Belgelenen</strong> kayda ne yazacağını söyler ("Görüşmeye not ekler").
+      <strong>Klinik</strong> (kes, bir istemi iptal et) ikinci kez sorar, bir <code>alert-dialog</code> içinde; onay düğmesi fiildir ("Kes"), asla "Tamam" ya da "Evet" değildir. <strong>İfşa edici</strong> (acil erişim, bakım ekibi dışında paylaşım) önce bir gerekçe ister ve kaydeder.
+    </li>
+    <li>
+      Birden çok kayıt açık olduğunda (sekmeler, pencereler, bölünmüş paneller), her sekmenin görünür metni ve erişilebilir adı hastanın adını ve ikinci bir tanımlayıcıyı içerir, etkin panel bandı yineler ve hiçbir eylem kendi panelindeki hasta dışında bir hastaya uygulanmaz.
+    </li>
+    <li>
+      Kayıtların atanacağı yeri (oturum açarken seçilen servis, poliklinik veya kurum) sayfa başlığında metin olarak gösterin ve değiştirilmesini açık bir eylem yapın.
+    </li>
+    <li>
+      Bantta etkin vizitı veya "Etkin vizit yok" bilgisini gösterin. Vizit gerektiren bir form bunu söyler ve kaydedilirken başarısız olmak yerine bir vizit başlatmayı önerir.
+    </li>
   </ul>
 
   <h2>Hasta başlığı</h2>
@@ -82,6 +103,9 @@
     <li>eksik bir değer sözcüklerle ifade edilir (“Bilinmiyor”), asla soru işareti, tire veya boş hücre olmaz;</li>
     <li>vefat etmiş bir hasta: tema için <code>data-deceased</code> ve görünür bir metin satırı, asla yalnızca renk değil;</li>
     <li>hiçbir alan, hiçbir genişlikte kesilmez, kırpılmaz veya gizlenmez; alt satıra sarılır.</li>
+    <li>
+      hasta uyarıları ("Tercüman gerekiyor", "Enfeksiyon riski") sözcüklerden oluşan etiketli bir <code>tag-group</code> olur, asla yalnızca simge veya renk değildir ve bant satır kaydırdığında görünür kalır.
+    </li>
   </ul>
 
   <h2>Sonuçlar</h2>
@@ -90,6 +114,30 @@
     <li>İşaret, çevirinizden gelen sözcüklerdir (<code>flagLabel</code>); FHIR yorum kodu tema için <code>data-interpretation</code> olarak verilir.</li>
     <li>Yeni sonuçları öncekilerden ayırın ve bir eğilim gösterin (bir sparkline veya veri tablosuyla bir çizgi grafik): klinisyenler yalnızca aralığı değil, anlamlı bir değişikliği arar.</li>
     <li>Hiç kaydedilmemiş bir sonuç ile kullanılamayan bir sonuç farklı durumlardır ve farklı sözcüklerle gösterilir.</li>
+    <li>
+      Bilinmeyen normal değildir. Referans aralığı eksik, hâlâ yüklenen veya okunamayan bir sonucun yorumu yoktur ve bunu söyler; <code>observation-view</code> asla bir yorum çıkarmaz, bu yüzden aralığı olan ama <code>interpretation</code> olmayan bir sonuç işaret göstermez.
+    </li>
+    <li>
+      Ölçek dışı bir sonuç, cihazın sınırının bir karşılaştırma işaretiyle ("&gt; 33,3 mmol/L": <code>formatQuantity</code> ile
+      <code>"&gt;"</code>) ve sizin kritik işaretinizle verilmesidir, asla çıplak bir sayı değil. Yaklaşık bir değer ≈ işaretini korur (<code>"~"</code>).
+    </li>
+    <li>Ek adlandırılmış aralıkları ("Kritik: 2,5'in altında") <code>ranges</code>olarak verin, her biri kendi bölümü olarak.</li>
+    <li>
+      Düzeltilmiş veya değiştirilmiş bir sonuç, yerine geçtiği değeri bir <code>&lt;del&gt;</code>içinde korur; ne zaman değiştiğini kendi sözcüklerinizle (<code>previousValue</code>, <code>previousLabel</code>) belirtin, böylece eski değeri okuyan klinisyen değiştiğini bilir.
+    </li>
+    <li>
+      Bir aralık ölçümü genişliğini ve işlevini söyler ("Ortalama, 24 saat"), bir ölçümün durumu ve yöntemi ("Oturarak, büyük manşet") yanında görünür metindir, asla yalnızca bir araç ipucu değildir (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Bir eğilim karşılaştırılabilir noktalar gerektirir: en düşük değerinizin altında çizgi çizmeyin, yöntemin veya testin değiştiği yerde çizgiyi kesin ve yönü ve anlamı sözcüklerle söyleyin ("düşüyor, düzeliyor").
+    </li>
+    <li>
+      Bir birim sisteminde girilen yaşam bulguları diğerini yanında sizin metniniz olarak gösterebilir ("70 kg (154 lb)"); Lily hiçbir şeyi dönüştürmez, bu yüzden yuvarlamanızı belirtin. Bir miktarı <code>quantity-input-div</code>ile girin; sayısı her birimin sınırlarını alır.
+    </li>
+    <li>
+      Bir büyüme eğrisi bir <code>line-chart</code> olur: seriler olarak persentil çizgileriniz, çocuğun noktaları ve yaş ile değer veri tablosu; Lily persentil hesaplamaz ve büyüme referansı sunmaz.
+    </li>
   </ul>
 
   <h2>İlaçlar</h2>
@@ -106,12 +154,73 @@
     <li>Bir tarihin iki şekilde okunamaması için ayı metin olarak yazın (<code>Intl.DateTimeFormat</code> ile <code>month: "short"</code>).</li>
     <li>Saati bilinçli seçin: <code>hourCycle</code> değerini açıkça geçin. NHS 24 saatlik saati ister; bu bir Birleşik Krallık kuralıdır, dünya geneli bir kural değildir; bu yüzden Lily bunu sizin yerinize asla seçmez.</li>
     <li>Yaşlar, <code>ageParts()</code> aracılığıyla Common User Interface bantlarını izler; başka bir kurala sahip bir hizmet kendi sözcüklerini geçer.</li>
+    <li>
+      Yalnızca ay veya yıl düzeyinde bilinen bir tarih öyle kalır: onu <code>date-field</code>
+      <code>precision="month"</code> veya <code>"year"</code>ile isteyin, <code>2019-03</code> veya <code>2019</code>olarak saklayın ve
+      <code>formatPartialDate()</code>ile yazın. Asla bir gün uydurmayın.
+    </li>
+    <li>
+      Bir zaman uzunluğu <code>duration-view</code>, yani <code>&lt;time datetime="P3DT4H"&gt;</code> içinde sizin sözcüklerinizle,
+      <code>durationParts()</code> ve <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Panolar</h2>
   <ul>
     <li>Bir servis panosu veya komuta merkezi ekranı sık güncellenir. Her değişikliği asla duyurmayın: tek bir nazik özet bölgesi tutun (“3 yatak boş, 2 taburculuk bekleniyor”) ve insanların panoyu okumasına izin verin.</li>
     <li>Bir panodaki her durum (yatak temiz, dolu, engelli) metindir veya sözcükler içeren bir <code>data-*</code> durumudur; asla yalnızca renk değildir.</li>
+    <li>
+      Hiçbir şey yanıp sönmez (WCAG 2.2.2, 2.3.1); bir zamanlayıcıyla güncellenen panonun bir duraklatma denetimi vardır veya yalnızca istendiğinde güncellenir; güncellemeler odağı asla taşımaz. Geciken bir kayıt bunu sözcüklerle söyler ("20 dakikadan fazla bekliyor") ve <code>data-overdue</code>.
+    </li>
+    <li>Bir sayı veya oran paydasını gösterir ("68'de 12") ve arkasındaki listeye bağlantı verir.</li>
+    <li>
+      Bir liste veya zaman çizelgesi neyin görünümü olduğunu söyler: ne gösterdiğini, sırasını ve zaman penceresini, neyin gizlendiğini ve nedenini, hangi kaynakların yanıt vermediğini. Yanıt vermeyen bir kaynaktan gelen boş liste hiçbir şeyin olmadığının kanıtı değildir.
+    </li>
+    <li>
+      Bir hatırlatma listesi bir <code>record-list</code> olup öğeleri bir son tarih (<code>review-date</code>) ve sözcüklerle bir vade durumu taşır, <code>data-due</code>ile birlikte; onu üreten kural sizindir.
+    </li>
+  </ul>
+
+  <h2>Formlar</h2>
+  <ul>
+    <li>
+      "Evet", "hayır" veya "sorulmadı" diye yanıtlanan bir soru, başta hiçbiri seçili olmayan üç yanıtlı bir <code>radio-group</code> olur, asla bir onay kutusu değil: onay kutusu "reddediyor" ile "hiç sorulmadı"yı ayıramaz. Sistem sorgulaması her vücut sistemi için bir <code>fieldset</code> olur ve "diğerlerinin hepsi yok" düğmesi yalnızca yanıtlanmamışları ayarlar.
+    </li>
+    <li>
+      Yanıt listesi olan bir soru (ilaçlar, adresler) bir <code>repeatable-fieldset</code>olur: bir öğe eklenir veya kaldırılır, odak izler ve her kaldırma düğmesi kendi öğesinin adını taşır.
+    </li>
+    <li>
+      Ondalık virgüllü bir sayı: onu <code>Intl.NumberFormat</code> ile gösterin ve <code>type="number"</code> virgülü kabul etmediği yerde bir metin alanında <code>inputmode="decimal"</code> ile alın ve kodunuzda ayrıştırın. Kişinin yazdığı bir değeri, bir aralığa sıkıştırmak için bile asla değiştirmeyin: aralık dışı bir değer, kişinin görebileceği bir hatadır.
+    </li>
+    <li>
+      Seçeneklerinin yalnızca bir kısmını bir seferde gösteren uzun bir liste her seçenekte <code>aria-setsize</code> ve <code>aria-posinset</code> ayarlar ve sayfada bulmanın gerisini göremediğini unutmaz.
+    </li>
+  </ul>
+
+  <h2>Kayıtlar, notlar ve kökenleri</h2>
+  <ul>
+    <li>
+      Bir liste veya ızgaranın neyin görünümü olduğunu satırlarından önce söyleyin: zaman penceresi ve sırası, neyi dışarıda bıraktığı ve nedeni, hangi kaynakların yanıt vermediği ("Son 12 ay, en yeni önce. Aile hekimi kaydı yanıt vermedi."). Şunlara <code>record-list</code> ve
+      <code>timeline-list</code> bir <code>coverageLabel</code>verin, ve <code>data-grid</code> yardımcısına kendi <code>coverageLabel</code>değerini. Yanıt vermeyen bir kaynaktan gelen boş liste bunu sözcüklerle söyler, böylece asla "hiçbir şey kaydedilmedi" olarak okunmaz.
+    </li>
+    <li>
+      Bir kaydın nereden geldiğini ve kesin olup olmadığını <code>record-provenance-view</code>ile söyleyin: imzalı, imza bekliyor, değiştirilmiş, bu cihaza kaydedilmiş ve henüz gönderilmemiş. İmzasız bir taslak asla imzalı görünmemelidir.
+    </li>
+    <li>Başka birine (bir ebeveyn, bir fetüs, bir donör) ilişkin bir kayıt, önce kime ait olduğunu kayıt öğelerinin <code>subjectLabel</code>özelliğiyle söyler.</li>
+    <li>
+      Alıkonulan bir kayıt sizin sözcüklerinizle listede kalır ("Kısıtlı: size açık değil") ve yanlışlıkla yapılan bir kayıt "Yanlışlıkla girildi" ile üstü çizili kalır: <code>record-list-item</code> veya <code>timeline-list-item</code> öğesine bir
+      <code>entryState</code> ve bir <code>entryStateLabel</code>verin. İkisinden hiçbirini sessizce kaldırmayın, çünkü bir boşluk "hiçbir şey olmadı" diye okunur.
+    </li>
+    <li>
+      Bir klinik notta her bölümün kaynağını (yazılmış, dikte edilmiş, şablon, ileri kopyalanmış, üretilmiş)
+      <code>data-source</code> ve görünür sözcüklerle işaretleyin, böylece kopyalanmış veya üretilmiş metin asla bugünkü muayene sanılmaz.
+    </li>
+    <li>
+      Yüklenemeyen bir bölüm sizin sözcüklerinizle <code>unavailable</code> olur ve bir yeniden dene düğmesi vardır; teknik bir kod gösterilecekse açılır bir öğenin arkasında durur. Bir kişinin eyleminden kaynaklanan hata, kaydın şu anda tuttuğu değerle birlikte duyurulur; sayfa yüklenirken oluşan hata duyurulmaz.
+    </li>
+    <li>
+      Bir istemin geçmişi bir <code>timeline-list</code>olur; her adım için bir öğe (planlandı, zamanlandı, etkin, askıya alındı, tamamlandı, iptal edildi), zamanı ve gerekçesiyle, ve güncel durum öğenin üzerinde de.
+    </li>
   </ul>
 
   <h2>FHIR'den Lily'ye</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (kayıt listelerinde de)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Bir <code>entered-in-error</code> kaydını sessizce atmak yerine, sözcüklerle, <code>entered-in-error</code> durumuna eşleyin: gösterilip gösterilmeyeceği hizmetinizin kararıdır.</p>
+
+  <h2>openEHR'den Lily'ye</h2>
+  <p>
+    Lily openEHR kompozisyonlarını da okumaz. openEHR Referans Modeli veri türleri ve kodları için eşleme, klinik güvenlik incelemenizin karar vereceği bir öneri olarak:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR veri türleri ve kodları ile bunlara karşılık gelen Lily değerleri</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (giriş)</td>
+          <td><code>quantity-input-div</code>; sizin sözcüklerinizle UCUM kodları olarak birimler</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (görüntüleme), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> ile <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> ≈ demektir)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> bir <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> kısmi (yıl, yıl ve ay)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> ile <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> içinde <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>bir <code>radio-group</code> ; etiketleri sayıyı ve sözcüklerini taşır</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>aşağıdaki kodlanmış değerler deseni</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, yalnızca "sorulmadı" olamayacaksa</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> bilinmiyor, <code>271</code> bilgi yok</td>
+          <td><code>status="not-recorded"</code> veya <code>"unavailable"</code>, hangisi olduğunu söyleyen sözcüklerle</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> maskelenmiş</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> uygulanamaz</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> özne</td>
+          <td><code>subjectLabel</code> kayıt öğelerinde</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Instruction State Machine adımları</td>
+          <td>adımlardan oluşan bir <code>timeline-list</code> , güncel durum öğenin üzerinde</td>
+        </tr>
+        <tr>
+          <td>tekrarlanma sayısı şu olan bir arketip öğesi: <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Kodlanmış değerler</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Bir ilaç veritabanı, tall man listesi veya SNOMED CT, ICD, LOINC ya da UCUM kodları sunmak.</li>
     <li>Lisanslı bir aracı (Wong-Baker FACES) veya başka bir kurumun tasarımını (NEWS2 çizelgesi) yeniden üretmek.</li>
     <li>Aynı anda açık kayıt sayısını sınırlamak.</li>
+    <li>Bir aralıktan yorum çıkarmak, bir birimi dönüştürmek veya göreli bir tarihi ("gelecek salı") ayrıştırmak.</li>
+    <li>"Evet, hayır veya bilinmiyor" için anahtar kullanmak: ARIA'nın <code>switch</code> öğesinin üçüncü durumu yoktur, bu yüzden üç radyo düğmesidir.</li>
   </ul>
   <p>Bu rehberin arkasındaki araştırma, kaynaklar ve kararlar <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a> içindedir.</p>
 </section>

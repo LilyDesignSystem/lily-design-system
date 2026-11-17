@@ -71,7 +71,28 @@
     <li>Afișați doi identificatori oriunde apar datele unui pacient: numele cu data nașterii și identificatorul național cu componenta lui de vizualizare (The Joint Commission, Quick Safety 45).</li>
     <li>Folosiți bannerul pacientului pe fiecare ecran care acționează asupra dosarului unui pacient și păstrați-l vizibil.</li>
     <li>Înainte de o acțiune asupra unui dosar altul decât cel din banner, confirmați-o cu numele, data nașterii și identificatorul.</li>
+    <li>
+      O înregistrare despre altcineva decât pacientul (istoricul unui părinte, un făt, un donator) spune mai întâi, în cuvinte, a cui este: dați elementelor dosarului un <code>subjectLabel</code> („Mama”), astfel încât diagnosticul unei rude să nu fie citit niciodată drept al pacientului (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Nu limitați câte dosare poate deschide un clinician: un studiu randomizat pe 3.356 de clinicieni (JAMA, 2019) a constatat că aceasta nu a redus comenzile pentru pacientul greșit, iar oamenii o ocolesc.</li>
+    <li>
+      Un meniu de acțiuni asupra unui dosar numește mai întâi acel dosar, cu <code>subjectLabel</code> pe <code>context-menu</code> sau
+      <code>dropdown-menu</code> („Ada Lovelace, tensiune arterială 3 nov.”): o primă parte neinteractivă, care este și numele accesibil al meniului.
+    </li>
+    <li>
+      Încadrați fiecare acțiune după ce face și faceți nivelul vizibil înainte să ruleze. <strong>De rutină</strong> (vizualizare, tipărire) rulează imediat. <strong>Documentată</strong> spune ce va scrie în dosar („Adaugă o notă la consultație”).
+      <strong>Clinică</strong> (oprire, anularea unei prescripții) cere o a doua confirmare, într-un <code>alert-dialog</code> al cărui buton de confirmare este verbul („Oprește”), niciodată „OK” sau „Da”. <strong>Divulgatoare</strong> (acces de urgență, partajare în afara echipei de îngrijire) cere mai întâi un motiv și îl înregistrează.
+    </li>
+    <li>
+      Când sunt deschise mai multe dosare (file, ferestre, panouri împărțite), textul vizibil și numele accesibil al fiecărei file includ numele pacientului și un al doilea identificator, panoul activ repetă bannerul și nicio acțiune nu se aplică altui pacient decât celui din panoul său.
+    </li>
+    <li>
+      Afișați ca text în antetul paginii locul căruia i se vor atribui înregistrările (secția, cabinetul sau unitatea aleasă la autentificare) și faceți din schimbarea lui o acțiune explicită.
+    </li>
+    <li>
+      Afișați în banner vizita activă sau „Nicio vizită activă”. Un formular care are nevoie de o vizită spune asta și oferă să înceapă una, în loc să eșueze la salvare.
+    </li>
   </ul>
 
   <h2>Bannerul pacientului</h2>
@@ -82,6 +103,9 @@
     <li>o valoare lipsă este exprimată în cuvinte („Necunoscut”), niciodată printr-un semn de întrebare, o liniuță sau o celulă goală;</li>
     <li>un pacient decedat: <code>data-deceased</code> pentru temă și o linie vizibilă de text, niciodată doar culoarea;</li>
     <li>niciun câmp trunchiat, tăiat sau ascuns la nicio lățime; textul se rupe pe rânduri.</li>
+    <li>
+      semnalările pacientului („Are nevoie de interpret”, „Risc de infecție”) sunt un <code>tag-group</code> etichetat de cuvinte, niciodată doar pictograme sau culoare, și rămân vizibile când bannerul se rupe pe rânduri.
+    </li>
   </ul>
 
   <h2>Rezultate</h2>
@@ -90,6 +114,30 @@
     <li>Semnalul este formulat în cuvinte din traducerea dumneavoastră (<code>flagLabel</code>), cu codul de interpretare FHIR în <code>data-interpretation</code> pentru temă.</li>
     <li>Separați rezultatele noi de cele anterioare și arătați o tendință (o sparkline sau o diagramă liniară cu tabelul ei de date): clinicienii caută o schimbare semnificativă, nu doar intervalul.</li>
     <li>Un rezultat care nu a fost niciodată înregistrat și unul indisponibil sunt stări diferite, cu cuvinte diferite.</li>
+    <li>
+      Necunoscut nu înseamnă normal. Un rezultat al cărui interval de referință lipsește, încă se încarcă sau este ilizibil nu are interpretare și spune asta; <code>observation-view</code> nu deduce niciodată una, așa că un rezultat cu interval și fără <code>interpretation</code> nu afișează niciun semnal.
+    </li>
+    <li>
+      Un rezultat în afara scalei este limita instrumentului cu un comparator („&gt; 33,3 mmol/L”: <code>formatQuantity</code> cu
+      <code>"&gt;"</code>) și semnalul dumneavoastră critic, niciodată un număr gol. O valoare aproximativă își păstrează ≈ (<code>"~"</code>).
+    </li>
+    <li>Dați alte intervale numite („Critic: sub 2,5”) ca <code>ranges</code>, fiecare ca parte proprie.</li>
+    <li>
+      Un rezultat corectat sau modificat păstrează valoarea pe care a înlocuit-o, într-un <code>&lt;del&gt;</code>, cu cuvintele dumneavoastră despre când s-a schimbat (<code>previousValue</code>, <code>previousLabel</code>), astfel încât un clinician care a citit valoarea veche să știe că s-a schimbat.
+    </li>
+    <li>
+      O măsurătoare pe interval își spune durata și funcția („Medie, 24 de ore”), iar starea și metoda unei măsurători („Așezat, manșetă mare”) sunt text vizibil alături, niciodată doar o indicație (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      O tendință are nevoie de puncte comparabile: nu trasați linie sub minimul dumneavoastră, întrerupeți linia unde s-a schimbat metoda sau analiza și spuneți direcția și sensul în cuvinte („în scădere, în ameliorare”).
+    </li>
+    <li>
+      Semnele vitale introduse într-un sistem de unități pot afișa celălalt alături, ca text al dumneavoastră („70 kg (154 lb)”); Lily nu convertește nimic, așa că precizați rotunjirea. Introduceți o cantitate cu <code>quantity-input-div</code>, al cărui număr respectă limitele fiecărei unități.
+    </li>
+    <li>
+      O curbă de creștere este un <code>line-chart</code> cu liniile dumneavoastră de percentile ca serii, punctele copilului și tabelul de date cu vârstă și valoare; Lily nu calculează percentile și nu livrează referințe de creștere.
+    </li>
   </ul>
 
   <h2>Medicamente</h2>
@@ -106,12 +154,73 @@
     <li>Scrieți luna cu litere, astfel încât o dată să nu poată fi citită în două feluri (<code>Intl.DateTimeFormat</code> cu <code>month: "short"</code>).</li>
     <li>Alegeți ceasul în mod deliberat: transmiteți <code>hourCycle</code> explicit. NHS cere formatul de 24 de ore; aceasta este o regulă britanică, nu una mondială, așa că Lily nu îl alege niciodată în locul dumneavoastră.</li>
     <li>Vârstele urmează benzile Common User Interface prin <code>ageParts()</code>; un serviciu cu altă convenție își transmite propriile cuvinte.</li>
+    <li>
+      O dată cunoscută doar până la lună sau an rămâne așa: cereți-o cu <code>date-field</code>
+      <code>precision="month"</code> sau <code>"year"</code>, stocați <code>2019-03</code> sau <code>2019</code>și scrieți-o cu
+      <code>formatPartialDate()</code>. Nu inventați niciodată o zi.
+    </li>
+    <li>
+      O durată este <code>duration-view</code>, un <code>&lt;time datetime="P3DT4H"&gt;</code> care conține cuvintele dumneavoastră, din
+      <code>durationParts()</code> și <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Tablouri de bord</h2>
   <ul>
     <li>Un panou de secție sau un ecran de centru de comandă se actualizează des. Nu anunțați niciodată fiecare schimbare: păstrați o regiune de rezumat politicoasă („3 paturi libere, 2 externări așteptate”) și lăsați oamenii să citească panoul.</li>
     <li>Fiecare stare de pe un panou (pat curățat, ocupat, blocat) este text sau o stare <code>data-*</code> cu cuvinte, niciodată doar culoarea.</li>
+    <li>
+      Nimic nu clipește (WCAG 2.2.2, 2.3.1), iar un panou actualizat după un temporizator are un buton de pauză sau se actualizează doar la cerere; actualizările nu mută niciodată focalizarea. O înregistrare întârziată spune asta în cuvinte („Așteaptă de peste 20 de minute”) cu <code>data-overdue</code>.
+    </li>
+    <li>Un număr sau o rată își arată numitorul („12 din 68”) și duce la lista din spatele lui.</li>
+    <li>
+      O listă sau o cronologie spune ce vedere este: ce arată, ordinea și perioada, ce este ascuns și de ce și ce surse nu au răspuns. O listă goală de la o sursă care nu a răspuns nu dovedește că nu există nimic.
+    </li>
+    <li>
+      O listă de mementouri este o <code>record-list</code> ale cărei elemente au o dată scadentă (<code>review-date</code>) și o stare a scadenței în cuvinte, cu <code>data-due</code>; regula care a produs-o este a dumneavoastră.
+    </li>
+  </ul>
+
+  <h2>Formulare</h2>
+  <ul>
+    <li>
+      O întrebare cu răspunsurile „da”, „nu” sau „neîntrebat” este un <code>radio-group</code> de trei răspunsuri, niciunul ales la început, niciodată o casetă de bifat: o casetă nu poate deosebi „neagă” de „nu a fost întrebat niciodată”. O revizuire pe aparate este un <code>fieldset</code> pentru fiecare aparat, iar un buton „toate celelalte absente” le setează doar pe cele fără răspuns.
+    </li>
+    <li>
+      O întrebare cu o listă de răspunsuri (medicamente, adrese) este un <code>repeatable-fieldset</code>: un element se adaugă sau se elimină, focalizarea îl urmează, iar fiecare buton de eliminare poartă numele elementului său.
+    </li>
+    <li>
+      Un număr cu virgulă zecimală: afișați-l cu <code>Intl.NumberFormat</code> și, unde <code>type="number"</code> nu acceptă virgula, preluați-l într-un câmp de text cu <code>inputmode="decimal"</code> și analizați-l în codul dumneavoastră. Nu schimbați niciodată o valoare tastată de persoană, nici pentru a o încadra într-un interval: o valoare în afara intervalului este o eroare pe care o poate vedea.
+    </li>
+    <li>
+      O listă lungă care afișează doar o parte din opțiuni deodată setează <code>aria-setsize</code> și <code>aria-posinset</code> pe fiecare opțiune și ține minte că căutarea în pagină nu vede restul.
+    </li>
+  </ul>
+
+  <h2>Dosare, note și proveniența lor</h2>
+  <ul>
+    <li>
+      Spuneți ce vedere este o listă sau o grilă înaintea rândurilor: perioada și ordinea, ce omite și de ce și ce surse nu au răspuns („Ultimele 12 luni, cele mai noi întâi. Dosarul medicului de familie nu a răspuns.”). Dați lui <code>record-list</code> și lui
+      <code>timeline-list</code> un <code>coverageLabel</code>, iar ajutorului <code>data-grid</code> propriul <code>coverageLabel</code>. O listă goală de la o sursă care nu a răspuns spune asta în cuvinte, ca să nu fie citită niciodată drept „nimic înregistrat”.
+    </li>
+    <li>
+      Spuneți de unde vine o înregistrare și dacă este finală cu <code>record-provenance-view</code>: semnată, în așteptarea semnăturii, modificată, salvată pe acest dispozitiv și încă netrimisă. O ciornă nesemnată nu trebuie să pară niciodată semnată.
+    </li>
+    <li>O înregistrare despre altcineva (un părinte, un făt, un donator) spune mai întâi a cui este, cu <code>subjectLabel</code>.</li>
+    <li>
+      O înregistrare reținută rămâne în listă cu cuvintele dumneavoastră („Restricționat: indisponibil pentru dumneavoastră”), iar o înregistrare făcută din greșeală rămâne tăiată cu „Introdus din greșeală”: dați lui <code>record-list-item</code> sau <code>timeline-list-item</code> un
+      <code>entryState</code> și un <code>entryStateLabel</code>. Nu eliminați niciodată pe tăcute niciuna dintre ele, deoarece un gol se citește „nu s-a întâmplat nimic”.
+    </li>
+    <li>
+      Într-o notă clinică, marcați sursa fiecărui pasaj (tastat, dictat, șablon, copiat înainte, generat) cu
+      <code>data-source</code> și cuvinte vizibile, astfel încât textul copiat sau generat să nu fie luat niciodată drept examinarea de azi.
+    </li>
+    <li>
+      O secțiune care nu se poate încărca este <code>unavailable</code> în cuvintele dumneavoastră, cu un buton de reîncercare; un cod tehnic, dacă este afișat, stă în spatele unei dezvăluiri. O eroare cauzată de acțiunea unei persoane este anunțată, cu valoarea pe care dosarul o are acum; o eroare la încărcarea paginii nu.
+    </li>
+    <li>
+      Istoricul unei prescripții este o <code>timeline-list</code>, câte un element pe pas (planificată, programată, activă, suspendată, finalizată, anulată) cu ora și motivul, iar starea curentă și pe element.
+    </li>
   </ul>
 
   <h2>De la FHIR la Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (și pe listele de dosare)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Mapați o înregistrare <code>entered-in-error</code> pe statusul ei <code>entered-in-error</code>, cu cuvinte, în loc să o eliminați în tăcere: dacă o afișați deloc este decizia serviciului dumneavoastră.</p>
+
+  <h2>De la openEHR la Lily</h2>
+  <p>
+    Lily nu citește nici compozițiile openEHR. Corespondența pentru tipurile de date și codurile modelului de referință openEHR, ca o sugestie asupra căreia decide evaluarea dumneavoastră de siguranță clinică:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Tipuri de date și coduri openEHR și valorile Lily corespunzătoare</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (introducere)</td>
+          <td><code>quantity-input-div</code>; unități ca coduri UCUM cu cuvintele dumneavoastră</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (afișare), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> cu <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> este ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> cu un <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> parțială (an, an și lună)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> cu <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> în <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>un <code>radio-group</code> ale cărui etichete poartă numărul și cuvintele lui</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>modelul valorilor codificate de mai jos</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, doar când „neîntrebat” nu se poate întâmpla</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> necunoscut, <code>271</code> nicio informație</td>
+          <td><code>status="not-recorded"</code> sau <code>"unavailable"</code>, cu cuvinte care spun care este cazul</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> mascat</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> nu se aplică</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> subiect</td>
+          <td><code>subjectLabel</code> pe elementele dosarului</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Pașii mașinii de stări a instrucțiunilor</td>
+          <td>o <code>timeline-list</code> de pași, cu starea curentă pe element</td>
+        </tr>
+        <tr>
+          <td>un element de arhetip cu apariții <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Valori codificate</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Să livreze o bază de date de medicamente, o listă tall man sau coduri SNOMED CT, CIM, LOINC ori UCUM.</li>
     <li>Să reproducă un instrument licențiat (Wong-Baker FACES) sau designul altui organism (graficul NEWS2).</li>
     <li>Să limiteze numărul de dosare deschise simultan.</li>
+    <li>Să deducă o interpretare dintr-un interval, să convertească o unitate sau să analizeze o dată relativă („marțea viitoare”).</li>
+    <li>Să folosească un comutator pentru „da, nu sau necunoscut”: <code>switch</code> din ARIA nu are o a treia stare, deci sunt trei butoane radio.</li>
   </ul>
   <p>Cercetarea, sursele și deciziile din spatele acestui ghid se află în <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

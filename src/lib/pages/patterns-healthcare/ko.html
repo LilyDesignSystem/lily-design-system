@@ -71,7 +71,28 @@
     <li>환자의 데이터가 나타나는 모든 곳에 두 가지 식별자를 표시합니다. 이름과 생년월일, 그리고 국가 식별번호를 해당 view 컴포넌트로 표시합니다(The Joint Commission, Quick Safety 45).</li>
     <li>한 환자의 기록에 대해 작업하는 모든 화면에서 환자 배너를 사용하고, 항상 보이게 유지합니다.</li>
     <li>배너에 표시된 기록이 아닌 다른 기록에 작업을 하기 전에, 이름, 생년월일, 식별자로 확인을 받습니다.</li>
+    <li>
+      환자가 아닌 다른 사람에 관한 항목(부모의 병력, 태아, 기증자)은 누구의 것인지 먼저 말로 밝힙니다. 기록 항목에 <code>subjectLabel</code> ("어머니")을 지정해 친척의 진단이 환자의 진단으로 읽히는 일이 없게 합니다(openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>임상의가 열 수 있는 기록의 수를 제한하지 마십시오. 임상의 3,356명을 대상으로 한 무작위 시험(JAMA, 2019)에서 제한해도 환자를 잘못 지정한 오더가 줄지 않았으며, 사람들은 제한을 우회합니다.</li>
+    <li>
+      한 기록에 대한 작업 메뉴는 먼저 그 기록의 이름을 밝힙니다. <code>subjectLabel</code> 을(를) <code>context-menu</code> 또는
+      <code>dropdown-menu</code> 에 사용하세요("Ada Lovelace, 혈압 11월 3일"): 상호작용하지 않는 첫 부분이며 메뉴의 접근 가능한 이름이기도 합니다.
+    </li>
+    <li>
+      각 작업을 하는 일에 따라 등급을 나누고, 실행되기 전에 등급이 보이게 하세요. <strong>일상</strong> (보기, 인쇄)은 바로 실행됩니다. <strong>기록형</strong> 은 기록에 무엇을 쓸지 알려 줍니다("진료에 메모를 추가합니다").
+      <strong>임상형</strong> (중단, 처방 취소)은 한 번 더 묻습니다. <code>alert-dialog</code> 을 사용하며 확인 버튼은 동사("중단")이고, 절대 "확인"이나 "예"가 아닙니다. <strong>공개형</strong> (긴급 접근, 진료팀 밖과 공유)은 먼저 사유를 묻고 기록합니다.
+    </li>
+    <li>
+      여러 기록이 열려 있을 때(탭, 창, 분할 창) 각 탭의 보이는 텍스트와 접근 가능한 이름에는 환자 이름과 두 번째 식별자가 들어가고, 활성 창은 배너를 반복하며, 어떤 작업도 해당 창의 환자가 아닌 환자에게 적용되지 않습니다.
+    </li>
+    <li>
+      기록이 귀속될 장소(로그인할 때 고른 병동, 외래, 기관)를 페이지 머리글에 텍스트로 보여 주고, 이를 바꾸는 것은 명시적인 작업으로 만드세요.
+    </li>
+    <li>
+      배너에 현재 방문 또는 "현재 방문 없음"을 표시하세요. 방문이 필요한 양식은 그렇다고 알리고 방문 시작을 제안하며, 저장할 때 실패하지 않습니다.
+    </li>
   </ul>
 
   <h2>환자 배너</h2>
@@ -82,6 +103,9 @@
     <li>누락된 값은 말로("알 수 없음") 표시하고, 물음표, 대시, 빈 셀로 표시하지 않음.</li>
     <li>사망한 환자: 테마용 <code>data-deceased</code>와 눈에 보이는 문장. 색상만으로 나타내지 않음.</li>
     <li>어떤 너비에서도 필드를 줄여 자르거나, 잘라 내거나, 숨기지 않음. 줄바꿈하여 표시함.</li>
+    <li>
+      환자 표시("통역사 필요", "감염 위험")는 단어로 이루어진 레이블이 있는 <code>tag-group</code> 이며, 아이콘이나 색만으로 나타내지 않고 배너가 줄바꿈되어도 보입니다.
+    </li>
   </ul>
 
   <h2>검사 결과</h2>
@@ -90,6 +114,30 @@
     <li>플래그는 번역된 말(<code>flagLabel</code>)이며, FHIR 해석 코드는 테마용 <code>data-interpretation</code>으로 제공합니다.</li>
     <li>새 결과와 이전 결과를 구분하고, 추이(스파크라인, 또는 데이터 테이블이 있는 선 그래프)를 보여 줍니다. 임상의는 범위만이 아니라 유의미한 변화를 찾습니다.</li>
     <li>한 번도 기록되지 않은 결과와 확인할 수 없는 결과는 서로 다른 상태이며, 서로 다른 말로 표시합니다.</li>
+    <li>
+      알 수 없음은 정상이 아닙니다. 참고 범위가 없거나, 아직 불러오는 중이거나, 읽을 수 없는 결과에는 해석이 없으며 그렇다고 알립니다. <code>observation-view</code> 은(는) 해석을 추론하지 않으므로, 범위는 있지만 <code>interpretation</code> 이(가) 없는 결과는 표시가 나타나지 않습니다.
+    </li>
+    <li>
+      측정 범위를 벗어난 결과는 비교 기호가 붙은 기기의 한계값("&gt; 33.3 mmol/L": <code>formatQuantity</code> 과(와)
+      <code>"&gt;"</code>)과 사용자의 위급 표시로 나타내며, 숫자만 두지 않습니다. 근삿값은 ≈를 유지합니다(<code>"~"</code>).
+    </li>
+    <li>추가로 이름이 붙은 범위("위급: 2.5 미만")는 <code>ranges</code>(으)로 제공하고, 각각 별도 부분으로 둡니다.</li>
+    <li>
+      수정되거나 정정된 결과는 대체된 값을 <code>&lt;del&gt;</code>에 남기고, 언제 바뀌었는지를 사용자의 말로 덧붙입니다(<code>previousValue</code>, <code>previousLabel</code>). 예전 값을 읽은 임상의가 바뀐 것을 알 수 있도록 하기 위해서입니다.
+    </li>
+    <li>
+      구간 측정은 그 폭과 함수("평균, 24시간")를 밝히고, 측정의 상태와 방법("앉은 자세, 큰 커프")은 옆에 보이는 텍스트로 두며, 툴팁으로만 두지 않습니다(openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      추세에는 비교 가능한 점이 필요합니다. 최소 개수보다 적으면 선을 긋지 말고, 방법이나 검사가 바뀐 곳에서 선을 끊고, 방향과 의미를 말로 밝히세요("감소, 호전").
+    </li>
+    <li>
+      한 단위계로 입력한 활력 징후는 다른 단위계를 옆에 사용자의 텍스트로 보여 줄 수 있습니다("70 kg (154 lb)"). Lily는 아무것도 변환하지 않으므로 반올림 방식을 밝히세요. 수량은 <code>quantity-input-div</code>(으)로 입력하며, 그 숫자는 각 단위의 한계를 따릅니다.
+    </li>
+    <li>
+      성장 곡선은 <code>line-chart</code> (으)로, 백분위 선을 계열로 두고 아이의 점과 나이·값 데이터 표를 함께 둡니다. Lily는 백분위를 계산하지 않고 성장 기준도 제공하지 않습니다.
+    </li>
   </ul>
 
   <h2>의약품</h2>
@@ -106,12 +154,73 @@
     <li>날짜가 두 가지로 읽히지 않도록 월은 문자로 씁니다(<code>Intl.DateTimeFormat</code>과 <code>month: "short"</code>).</li>
     <li>시계 방식은 의도적으로 선택합니다. <code>hourCycle</code>을 명시적으로 전달하십시오. NHS는 24시간제를 요구하지만, 이는 영국의 규칙이지 전 세계의 규칙이 아니므로 Lily는 대신 선택하지 않습니다.</li>
     <li>나이는 <code>ageParts()</code>를 통해 Common User Interface 구간을 따릅니다. 다른 관례를 쓰는 서비스는 자체 용어를 전달합니다.</li>
+    <li>
+      월이나 연도까지만 아는 날짜는 그대로 둡니다. <code>date-field</code>
+      <code>precision="month"</code> 또는 <code>"year"</code>(으)로 묻고, <code>2019-03</code> 또는 <code>2019</code>(으)로 저장하며,
+      <code>formatPartialDate()</code>(으)로 씁니다. 날짜를 지어내지 마세요.
+    </li>
+    <li>
+      기간은 <code>duration-view</code>, 즉 <code>&lt;time datetime="P3DT4H"&gt;</code> 에 사용자의 말을 담은 것이며,
+      <code>durationParts()</code> 와(과) <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>대시보드</h2>
   <ul>
     <li>병동 보드나 상황실 화면은 자주 갱신됩니다. 변경 때마다 알리지 마십시오. 정중한(polite) 요약 리전 하나를 유지하고("빈 병상 3개, 퇴원 예정 2명") 사람들이 보드를 직접 읽게 합니다.</li>
     <li>보드의 모든 상태(병상 청소 완료, 사용 중, 사용 불가)는 텍스트 또는 말이 있는 <code>data-*</code> 상태이며, 색상만으로 나타내지 않습니다.</li>
+    <li>
+      아무것도 깜박이지 않으며(WCAG 2.2.2, 2.3.1), 타이머로 갱신되는 보드에는 일시 정지 컨트롤이 있거나 요청할 때만 갱신됩니다. 갱신은 포커스를 옮기지 않습니다. 기한이 지난 항목은 말로 알리고("20분 넘게 대기 중") <code>data-overdue</code>.
+    </li>
+    <li>개수나 비율은 분모를 보여 주고("68건 중 12건") 그 뒤의 목록으로 연결합니다.</li>
+    <li>
+      목록이나 타임라인은 무엇의 보기인지 밝힙니다: 무엇을 보여 주는지, 순서와 기간, 무엇을 왜 숨겼는지, 어느 출처가 응답하지 않았는지. 응답하지 않은 출처의 빈 목록은 아무것도 없다는 증거가 아닙니다.
+    </li>
+    <li>
+      알림 목록은 <code>record-list</code> (으)로, 각 항목에 마감일(<code>review-date</code>)과 말로 된 마감 상태를 담고 <code>data-due</code>을(를) 지정합니다. 이를 만든 규칙은 사용자의 것입니다.
+    </li>
+  </ul>
+
+  <h2>양식</h2>
+  <ul>
+    <li>
+      "예", "아니요", "묻지 않음"으로 답하는 질문은 <code>radio-group</code> 에 세 가지 답을 두고 처음에는 아무것도 선택하지 않으며, 체크박스로 만들지 않습니다. 체크박스는 "부인함"과 "묻지 않음"을 구별할 수 없습니다. 계통 문진은 신체 계통마다 하나의 <code>fieldset</code> (으)로 하고, "나머지 모두 없음" 버튼은 답하지 않은 항목만 설정합니다.
+    </li>
+    <li>
+      답의 목록이 있는 질문(약, 주소)은 <code>repeatable-fieldset</code>입니다. 항목을 추가하거나 제거하면 포커스가 따라가고, 각 제거 버튼에는 해당 항목의 이름이 붙습니다.
+    </li>
+    <li>
+      소수점 쉼표가 있는 숫자는 <code>Intl.NumberFormat</code> (으)로 표시하고, <code>type="number"</code> 이(가) 쉼표를 받지 않는 곳에서는 <code>inputmode="decimal"</code> 을(를) 쓴 텍스트 필드로 받아 코드에서 해석하세요. 사람이 입력한 값은 범위에 맞추기 위해서라도 절대 바꾸지 마세요. 범위를 벗어난 값은 본인이 볼 수 있는 오류입니다.
+    </li>
+    <li>
+      한 번에 선택지 일부만 그리는 긴 목록은 각 선택지에 <code>aria-setsize</code> 와(과) <code>aria-posinset</code> 을(를) 지정하고, 페이지 내 찾기로는 나머지를 볼 수 없다는 점을 염두에 둡니다.
+    </li>
+  </ul>
+
+  <h2>기록, 메모, 그리고 출처</h2>
+  <ul>
+    <li>
+      행 앞에서 목록이나 그리드가 무엇의 보기인지 밝히세요: 기간과 순서, 무엇을 왜 빼는지, 어느 출처가 응답하지 않았는지("최근 12개월, 최신순. 주치의 기록이 응답하지 않았습니다."). <code>record-list</code> 와(과)
+      <code>timeline-list</code> 에 <code>coverageLabel</code>을(를), <code>data-grid</code> 도우미에는 그 <code>coverageLabel</code>을(를) 지정하세요. 응답하지 않은 출처의 빈 목록은 그렇다고 말로 알려, "기록 없음"으로 읽히는 일이 없게 합니다.
+    </li>
+    <li>
+      기록의 출처와 확정 여부는 <code>record-provenance-view</code>(으)로 밝히세요: 서명됨, 서명 대기, 정정됨, 이 기기에 저장되었고 아직 전송되지 않음. 서명하지 않은 초안이 서명된 것처럼 보여서는 안 됩니다.
+    </li>
+    <li>다른 사람(부모, 태아, 기증자)에 관한 항목은 기록 항목의 <code>subjectLabel</code>(으)로 누구의 것인지 먼저 밝힙니다.</li>
+    <li>
+      보류된 항목은 사용자의 말과 함께 목록에 남고("제한됨: 볼 수 없음"), 잘못 입력된 항목은 "잘못 입력됨"과 함께 취소선이 그어진 채 남습니다: <code>record-list-item</code> 또는 <code>timeline-list-item</code> 에
+      <code>entryState</code> 과(와) <code>entryStateLabel</code>을(를) 지정하세요. 어느 쪽도 조용히 삭제하지 마세요. 빈자리는 "아무 일도 없었다"로 읽히기 때문입니다.
+    </li>
+    <li>
+      임상 메모에서는 각 단락의 출처(입력, 구술, 템플릿, 이전 기록 복사, 생성)를
+      <code>data-source</code> 와(과) 보이는 말로 표시해, 복사되거나 생성된 글이 오늘의 진찰로 오인되지 않게 합니다.
+    </li>
+    <li>
+      불러올 수 없는 섹션은 <code>unavailable</code> (으)로 사용자의 말과 다시 시도 버튼을 함께 둡니다. 기술 코드를 보여 준다면 펼침 요소 뒤에 둡니다. 사람의 작업으로 생긴 실패는 기록이 지금 가진 값과 함께 알리고, 페이지를 불러올 때의 실패는 알리지 않습니다.
+    </li>
+    <li>
+      처방 이력은 <code>timeline-list</code>(으)로, 단계마다 하나의 항목(계획됨, 예약됨, 진행 중, 보류, 완료, 취소)을 시간과 사유와 함께 두고, 현재 상태도 항목에 표시합니다.
+    </li>
   </ul>
 
   <h2>FHIR에서 Lily로</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (기록 목록에도)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p><code>entered-in-error</code> 기록은 조용히 제외하지 말고 문구와 함께 <code>entered-in-error</code> 상태에 대응시킵니다. 표시할지 여부는 서비스가 결정합니다.</p>
+
+  <h2>openEHR에서 Lily로</h2>
+  <p>
+    Lily는 openEHR 컴포지션도 읽지 않습니다. openEHR 참조 모델의 데이터 형식과 코드 대응표를, 임상 안전 검토가 결정하는 제안으로 제시합니다:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR 데이터 형식과 코드, 그리고 이에 대응하는 Lily 값</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (입력)</td>
+          <td><code>quantity-input-div</code>; 단위는 UCUM 코드와 사용자의 말로</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (표시), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> 와(과) <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> 는 ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> 와(과) <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> 부분 날짜(연도, 연도와 월)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> 와(과) <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> 안의 <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> (으)로, 레이블에 숫자와 그 말을 담음</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>아래의 코드값 패턴</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, "묻지 않음"이 있을 수 없을 때만</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> 알 수 없음, <code>271</code> 정보 없음</td>
+          <td><code>status="not-recorded"</code> 또는 <code>"unavailable"</code>, 어느 쪽인지 알려 주는 문구와 함께</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> 가려짐</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> 해당 없음</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> 대상자</td>
+          <td><code>subjectLabel</code> 을(를) 기록 항목에</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>지시 상태 기계의 단계</td>
+          <td>단계로 된 <code>timeline-list</code> , 현재 상태를 항목에 표시</td>
+        </tr>
+        <tr>
+          <td>발생 횟수가 다음인 원형 항목 <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>코드화된 값</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>약물 데이터베이스, tall man 목록, 또는 SNOMED CT, ICD, LOINC, UCUM 코드를 포함하는 것.</li>
     <li>라이선스가 있는 도구(Wong-Baker FACES)나 다른 기관의 디자인(NEWS2 차트)을 재현하는 것.</li>
     <li>동시에 열 수 있는 기록의 수를 제한하는 것.</li>
+    <li>범위에서 해석을 추론하거나, 단위를 변환하거나, 상대 날짜("다음 주 화요일")를 해석하는 일.</li>
+    <li>"예, 아니요, 알 수 없음"에 스위치를 쓰는 일: ARIA의 <code>switch</code> 에는 세 번째 상태가 없으므로 라디오 버튼 세 개로 만듭니다.</li>
   </ul>
   <p>이 안내서의 배경이 된 조사, 출처, 결정은 <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>에 있습니다.</p>
 </section>

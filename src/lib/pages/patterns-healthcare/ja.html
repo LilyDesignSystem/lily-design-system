@@ -71,7 +71,28 @@
     <li>患者のデータが表示されるすべての場所で、2 つの識別子を表示します。氏名と生年月日、そして国民識別番号をその view コンポーネントで表示します（The Joint Commission, Quick Safety 45）。</li>
     <li>1 人の患者の記録に対して操作を行うすべての画面で患者バナーを使い、常に見える状態に保ちます。</li>
     <li>バナーに表示されている記録とは別の記録に対して操作を行う前に、氏名、生年月日、識別子で確認します。</li>
+    <li>
+      患者以外の人についての項目（親の病歴、胎児、提供者）は、まず誰のものかを言葉で示します。記録の項目に <code>subjectLabel</code> （「母」）を設定し、親族の診断が患者のものとして読まれないようにします（openEHR
+      <code>PARTY_RELATED</code>、FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>臨床医が開ける記録の数を制限しないでください。臨床医 3,356 人によるランダム化試験（JAMA、2019 年）では、制限しても患者取り違えの指示は減らず、人は制限を回避することが分かりました。</li>
+    <li>
+      1 つの記録に対する操作メニューは、まずその記録を名指しします。 <code>subjectLabel</code> を <code>context-menu</code> または
+      <code>dropdown-menu</code> に使います（「Ada Lovelace、血圧 11月3日」）。操作できない最初の部分で、メニューのアクセシブルな名前でもあります。
+    </li>
+    <li>
+      各操作を何をするかで段階に分け、実行前にその段階が見えるようにします。 <strong>通常</strong> （表示、印刷）はすぐに実行します。 <strong>記録型</strong> は記録に何を書き込むかを示します（「受診にメモを追加します」）。
+      <strong>臨床型</strong> （中止、オーダーの取り消し）はもう一度確認します。 <code>alert-dialog</code> を使い、確認ボタンは動詞（「中止する」）にし、「OK」や「はい」にはしません。 <strong>開示型</strong> （緊急アクセス、ケアチーム外への共有）はまず理由を求め、それを記録します。
+    </li>
+    <li>
+      複数の記録を開いているとき（タブ、ウィンドウ、分割ペイン）、各タブの表示テキストとアクセシブルな名前には患者名と 2 つ目の識別子を含め、アクティブなペインはバナーを繰り返し表示し、どの操作もそのペインの患者以外には適用しません。
+    </li>
+    <li>
+      記録が帰属する場所（サインイン時に選んだ病棟、外来、施設）をページヘッダーにテキストで表示し、変更は明示的な操作にします。
+    </li>
+    <li>
+      バナーに現在の来院、または「現在の来院なし」を表示します。来院が必要なフォームはそのことを伝え、保存時に失敗するのではなく来院の開始を提案します。
+    </li>
   </ul>
 
   <h2>患者バナー</h2>
@@ -82,6 +103,9 @@
     <li>欠損値は言葉（「不明」）で示し、疑問符、ダッシュ、空のセルにはしない。</li>
     <li>死亡した患者: テーマ用の <code>data-deceased</code> と、目に見える文章。色だけで示してはならない。</li>
     <li>どの幅でも、フィールドを切り詰めたり、切り取ったり、隠したりしない。折り返して表示する。</li>
+    <li>
+      患者フラグ（「通訳が必要」「感染リスク」）は、言葉からなるラベル付きの <code>tag-group</code> にし、アイコンや色だけにはせず、バナーが折り返しても見えるようにします。
+    </li>
   </ul>
 
   <h2>検査結果</h2>
@@ -90,6 +114,30 @@
     <li>フラグは翻訳した言葉（<code>flagLabel</code>）で示し、FHIR の解釈コードをテーマ用に <code>data-interpretation</code> として付けます。</li>
     <li>新しい結果と以前の結果を分け、推移（スパークライン、またはデータテーブル付きの折れ線グラフ）を示します。臨床医が探しているのは範囲だけでなく、有意な変化です。</li>
     <li>一度も記録されていない結果と、利用できない結果は別の状態であり、異なる言葉で示します。</li>
+    <li>
+      不明は正常ではありません。基準範囲が欠けている、読み込み中、または読めない結果には解釈がなく、そのことを伝えます。 <code>observation-view</code> は解釈を推定しないため、範囲があっても <code>interpretation</code> がない結果にはフラグが表示されません。
+    </li>
+    <li>
+      測定範囲外の結果は、比較記号付きの装置の限界値（「&gt; 33.3 mmol/L」： <code>formatQuantity</code> と
+      <code>"&gt;"</code>）とあなたの重大フラグで示し、数字だけにはしません。概数は ≈ を保ちます（<code>"~"</code>).
+    </li>
+    <li>ほかの名前付き範囲（「重大：2.5 未満」）は <code>ranges</code>として、それぞれ別の部分で示します。</li>
+    <li>
+      訂正・修正された結果は、置き換えた値を <code>&lt;del&gt;</code>に残し、いつ変わったかをあなたの言葉で示します（<code>previousValue</code>、 <code>previousLabel</code>）。古い値を読んだ臨床医が変更に気づけるようにするためです。
+    </li>
+    <li>
+      区間測定はその幅と関数（「平均、24 時間」）を示し、測定の状態と方法（「座位、大きいカフ」）は横に見えるテキストとして置き、ツールチップだけにはしません（openEHR <code>INTERVAL_EVENT</code>、 <code>state</code>、
+      <code>protocol</code>).
+    </li>
+    <li>
+      傾向には比較できる点が必要です。最小数を下回る場合は線を引かず、方法や測定法が変わった所で線を切り、方向と意味を言葉で伝えます（「低下中、改善」）。
+    </li>
+    <li>
+      ある単位系で入力したバイタルは、もう一方をあなたのテキストとして横に示せます（「70 kg（154 lb）」）。Lily は何も換算しないので、丸め方を明記します。数量の入力には <code>quantity-input-div</code>を使い、その数値は各単位の制限に従います。
+    </li>
+    <li>
+      成長曲線は <code>line-chart</code> で、パーセンタイル線を系列とし、子どもの点と年齢・値のデータ表を添えます。Lily はパーセンタイルを計算せず、成長基準も同梱しません。
+    </li>
   </ul>
 
   <h2>医薬品</h2>
@@ -106,12 +154,73 @@
     <li>日付が 2 通りに読めないよう、月は文字で書きます（<code>Intl.DateTimeFormat</code> と <code>month: "short"</code>）。</li>
     <li>時計の方式は意図して選びます。<code>hourCycle</code> を明示的に渡してください。NHS は 24 時間表記を求めていますが、これは英国の規則であって世界共通ではないため、Lily が代わりに選ぶことは決してありません。</li>
     <li>年齢は <code>ageParts()</code> を通じて Common User Interface の区分に従います。別の慣習を持つサービスは、独自の言葉を渡します。</li>
+    <li>
+      月や年までしか分からない日付はそのままにします。 <code>date-field</code>
+      <code>precision="month"</code> または <code>"year"</code>で尋ね、 <code>2019-03</code> または <code>2019</code>として保存し、
+      <code>formatPartialDate()</code>で書きます。日を作り出してはいけません。
+    </li>
+    <li>
+      期間は <code>duration-view</code>、つまり <code>&lt;time datetime="P3DT4H"&gt;</code> にあなたの言葉を入れたもので、
+      <code>durationParts()</code> と <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>ダッシュボード</h2>
   <ul>
     <li>病棟ボードやコマンドセンターの画面は頻繁に更新されます。変更のたびに知らせてはいけません。丁寧な（polite）要約リージョンを 1 つ保ち（「空床 3、退院予定 2」）、ボードは人が読むに任せます。</li>
     <li>ボード上のすべての状態（ベッド清掃済み、使用中、使用不可）は、テキスト、または言葉を伴う <code>data-*</code> の状態で示し、色だけで示してはいけません。</li>
+    <li>
+      点滅させません（WCAG 2.2.2、2.3.1）。タイマーで更新するボードには一時停止の操作を設けるか、要求時にのみ更新します。更新でフォーカスを動かしてはいけません。期限切れの項目は言葉で伝え（「20 分以上待機中」）、 <code>data-overdue</code>.
+    </li>
+    <li>件数や割合は分母を示し（「68 件中 12 件」）、その背後のリストにリンクします。</li>
+    <li>
+      リストやタイムラインは、それが何のビューかを示します。何を表示しているか、順序と期間、何をなぜ隠しているか、どの情報源が応答しなかったか。応答しなかった情報源からの空のリストは、何もないことの証明ではありません。
+    </li>
+    <li>
+      リマインダーのリストは <code>record-list</code> で、各項目に期限日（<code>review-date</code>）と言葉による期限の状態を持たせ、 <code>data-due</code>を設定します。それを生んだ規則はあなたのものです。
+    </li>
+  </ul>
+
+  <h2>フォーム</h2>
+  <ul>
+    <li>
+      「はい」「いいえ」「未確認」で答える質問は、 <code>radio-group</code> に 3 つの答えを置き、最初はどれも選ばず、チェックボックスにはしません。チェックボックスでは「否定」と「未確認」を区別できません。系統的レビューは身体系統ごとに 1 つの <code>fieldset</code> にし、「その他すべてなし」ボタンは未回答のものだけを設定します。
+    </li>
+    <li>
+      答えの一覧がある質問（薬、住所）は <code>repeatable-fieldset</code>にします。項目を追加・削除するとフォーカスが追従し、各削除ボタンには対応する項目の名前を付けます。
+    </li>
+    <li>
+      小数点にコンマを使う数値は <code>Intl.NumberFormat</code> で表示し、 <code>type="number"</code> がコンマを受け付けない場合は、 <code>inputmode="decimal"</code> 付きのテキスト欄で受け取り、コードで解析します。入力された値は、範囲に収めるためであっても決して変えません。範囲外の値は本人に見えるエラーです。
+    </li>
+    <li>
+      一度に選択肢の一部しか描画しない長いリストは、各選択肢に <code>aria-setsize</code> と <code>aria-posinset</code> を設定し、ページ内検索では残りが見えないことを念頭に置きます。
+    </li>
+  </ul>
+
+  <h2>記録、メモ、その出所</h2>
+  <ul>
+    <li>
+      行より前に、リストやグリッドが何のビューかを示します。期間と順序、何をなぜ除外しているか、どの情報源が応答しなかったか（「直近 12 か月、新しい順。かかりつけ医の記録から応答がありませんでした。」）。 <code>record-list</code> と
+      <code>timeline-list</code> に <code>coverageLabel</code>を、 <code>data-grid</code> ヘルパーにはその <code>coverageLabel</code>を設定します。応答しなかった情報源からの空のリストはそのことを言葉で伝え、「記録なし」と読まれないようにします。
+    </li>
+    <li>
+      記録の出所と確定済みかどうかは <code>record-provenance-view</code>で示します。署名済み、署名待ち、修正済み、この端末に保存済みで未送信。未署名の下書きを署名済みに見せてはいけません。
+    </li>
+    <li>他人（親、胎児、提供者）についての項目は、記録の項目の <code>subjectLabel</code>で、まず誰のものかを示します。</li>
+    <li>
+      非開示の項目はあなたの言葉でリストに残し（「制限あり：閲覧できません」）、誤入力の項目は「誤入力」と付けて取り消し線のまま残します。 <code>record-list-item</code> または <code>timeline-list-item</code> に
+      <code>entryState</code> と <code>entryStateLabel</code>を設定します。どちらも黙って削除してはいけません。空白は「何も起きなかった」と読まれるからです。
+    </li>
+    <li>
+      臨床メモでは、各段落の出所（入力、口述、テンプレート、前回からのコピー、生成）を
+      <code>data-source</code> と見える言葉で示し、コピーや生成の文章が今日の診察と取り違えられないようにします。
+    </li>
+    <li>
+      読み込めないセクションは <code>unavailable</code> としてあなたの言葉で示し、再試行ボタンを添えます。技術的なコードを示す場合は開閉要素の中に置きます。本人の操作による失敗は、記録が現在保持している値とともに通知し、ページ読み込み時の失敗は通知しません。
+    </li>
+    <li>
+      オーダーの履歴は <code>timeline-list</code>で、手順ごとに 1 項目（計画済み、予定済み、実施中、保留中、完了、取り消し）を時刻と理由付きで並べ、現在の状態も項目に示します。
+    </li>
   </ul>
 
   <h2>FHIR から Lily へ</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> （記録リストにも）</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p><code>entered-in-error</code> の記録は、黙って除外せずに、言葉を添えて <code>entered-in-error</code> 状態に対応付けます。表示するかどうかはサービスが決めます。</p>
+
+  <h2>openEHR から Lily へ</h2>
+  <p>
+    Lily は openEHR のコンポジションも読み込みません。openEHR 参照モデルのデータ型とコードの対応を、臨床安全レビューが判断する提案として示します。
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">openEHR のデータ型とコード、およびそれに対応する Lily の値</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> （入力）</td>
+          <td><code>quantity-input-div</code>。単位は UCUM コードとあなたの言葉で</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> （表示）、 <code>magnitude_status</code></td>
+          <td><code>observation-view</code> と <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> は ≈）</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>、 <code>HH</code>、 <code>H</code>、 <code>L</code>、 <code>LL</code>、 <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>：FHIR <code>HU</code>、 <code>HH</code>、 <code>H</code>、 <code>L</code>、 <code>LL</code>、 <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> と <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> 部分日付（年、年と月）</td>
+          <td><code>date-field</code> <code>precision</code>； <code>formatPartialDate()</code>； <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> と <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> の中の <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>、 <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> で、ラベルに数値とその言葉を含める</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>下記のコード値のパターン</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>、「未確認」が起こりえない場合のみ</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> 不明、 <code>271</code> 情報なし</td>
+          <td><code>status="not-recorded"</code> または <code>"unavailable"</code>。どれに当たるかを示す言葉を添えます</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> マスク</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> 該当なし</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> 対象者</td>
+          <td><code>subjectLabel</code> を記録の項目に</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>、 <code>ATTESTATION</code>、 <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>指示状態機械の手順</td>
+          <td>手順の <code>timeline-list</code> 、現在の状態を項目に表示</td>
+        </tr>
+        <tr>
+          <td>出現回数が次の原型項目 <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>コード化された値</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>薬剤データベース、tall man リスト、または SNOMED CT、ICD、LOINC、UCUM のコードを同梱すること。</li>
     <li>ライセンスされた評価尺度（Wong-Baker FACES）や、他機関のデザイン（NEWS2 のチャート）を複製すること。</li>
     <li>同時に開くレコード数を制限すること。</li>
+    <li>範囲から解釈を推定すること、単位を換算すること、相対日付（「来週の火曜日」）を解析すること。</li>
+    <li>「はい・いいえ・不明」にスイッチを使うこと。ARIA の <code>switch</code> には第 3 の状態がないため、3 つのラジオボタンにします。</li>
   </ul>
   <p>この指針の背景にある調査、出典、決定事項は <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a> にあります。</p>
 </section>

@@ -71,7 +71,28 @@
     <li>Uri żewġ identifikaturi kullimkien fejn tidher id-data ta' pazjent: l-isem mad-data tat-twelid, u l-identifikatur nazzjonali bil-komponent view tiegħu (The Joint Commission, Quick Safety 45).</li>
     <li>Uża l-bandiera tal-pazjent fuq kull skrin li jaġixxi fuq ir-rekord ta' pazjent wieħed, u żommha viżibbli.</li>
     <li>Qabel azzjoni fuq rekord ieħor minbarra dak fil-bandiera, ikkonfermaha bl-isem, id-data tat-twelid u l-identifikatur.</li>
+    <li>
+      Daħla dwar xi ħadd ieħor minbarra l-pazjent (l-istorja ta' ġenitur, fetu, donatur) tgħid l-ewwel, bil-kliem, ta' min hi: agħti lill-elementi tar-rekord <code>subjectLabel</code> ("Omm"), biex id-dijanjosi ta' qarib qatt ma tinqara bħala dik tal-pazjent (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Tillimitax kemm jista' jiftaħ rekords kliniku: prova randomizzata ta' 3,356 kliniku (JAMA, 2019) sabet li ma naqqsitx l-ordnijiet għall-pazjent ħażin, u n-nies isibu mod kif jevitawha.</li>
+    <li>
+      Menu ta' azzjonijiet fuq rekord wieħed isemmi dak ir-rekord l-ewwel, b' <code>subjectLabel</code> fuq <code>context-menu</code> jew
+      <code>dropdown-menu</code> ("Ada Lovelace, pressjoni tad-demm 3 Nov"): l-ewwel parti mhux interattiva li hija wkoll l-isem aċċessibbli tal-menu.
+    </li>
+    <li>
+      Ikklassifika kull azzjoni skont dak li tagħmel, u agħmel il-livell viżibbli qabel ma tiġi esegwita. <strong>Ta' rutina</strong> (ara, ipprintja) tiġi esegwita mill-ewwel. <strong>Dokumentata</strong> tgħid x'se tikteb fir-rekord ("Iżżid nota mal-laqgħa").
+      <strong>Klinika</strong> (waqqaf, ikkanċella ordni) titlob it-tieni darba, f' <code>alert-dialog</code> li l-buttuna ta' konferma tiegħu hija l-verb ("Waqqaf"), qatt "OK" jew "Iva". <strong>Li tiżvela</strong> (aċċess ta' emerġenza, qsim barra mit-tim tal-kura) titlob raġuni l-ewwel u tirreġistraha.
+    </li>
+    <li>
+      Meta diversi rekords ikunu miftuħa (tabs, twieqi, pannelli maqsuma), it-test viżibbli u l-isem aċċessibbli ta' kull tab jinkludu l-isem tal-pazjent u t-tieni identifikatur, il-pannell attiv jirrepeti l-banner, u l-ebda azzjoni ma tapplika għal pazjent ieħor għajr dak tal-pannell tagħha.
+    </li>
+    <li>
+      Uri l-post li lilu jiġu attribwiti r-rekords (is-sala, il-klinika jew il-faċilità magħżula meta tidħol) bħala test fl-intestatura tal-paġna, u agħmel il-bidla tiegħu azzjoni espliċita.
+    </li>
+    <li>
+      Uri ż-żjara attiva, jew "L-ebda żjara attiva", fil-banner. Formola li teħtieġ żjara tgħid hekk u toffri li tibda waħda, minflok tfalli meta tiġi ssejvjata.
+    </li>
   </ul>
 
   <h2>Il-bandiera tal-pazjent</h2>
@@ -82,6 +103,9 @@
     <li>valur nieqes huwa kliem (“Mhux magħruf”), qatt marka ta' mistoqsija, linja jew ċellola vojta;</li>
     <li>pazjent mejjet: <code>data-deceased</code> għat-tema, u linja ta' test viżibbli, qatt kulur biss;</li>
     <li>l-ebda qasam mhu maqtugħ, maqtugħ barra jew moħbi fi kwalunkwe wisa'; jitkaser fuq linji.</li>
+    <li>
+      il-bnadar tal-pazjent ("Jeħtieġ interpretu", "Riskju ta' infezzjoni") huma <code>tag-group</code> b'tikketta ta' kliem, qatt ikoni jew kulur biss, u jibqgħu viżibbli meta l-banner jitgeżwer.
+    </li>
   </ul>
 
   <h2>Riżultati</h2>
@@ -90,6 +114,30 @@
     <li>Il-bandiera hija kliem mit-traduzzjoni tiegħek (<code>flagLabel</code>), bil-kodiċi ta' interpretazzjoni FHIR bħala <code>data-interpretation</code> għat-tema.</li>
     <li>Aqsam ir-riżultati l-ġodda minn dawk ta' qabel, u uri xejra (sparkline, jew mudell b'linja bit-tabella tad-data tagħha): il-kliniċi qed ifittxu bidla sinifikanti, mhux biss il-firxa.</li>
     <li>Riżultat li qatt ma ġie rreġistrat u wieħed li mhuwiex disponibbli huma stati differenti, b'kliem differenti.</li>
+    <li>
+      Mhux magħruf mhux normali. Riżultat li l-firxa ta' referenza tiegħu hija nieqsa, għadha qed titgħabba jew ma tinqarax m'għandux interpretazzjoni u jgħid hekk; <code>observation-view</code> qatt ma jiddeduċi waħda, għalhekk riżultat b'firxa u mingħajr <code>interpretation</code> ma juri l-ebda bandiera.
+    </li>
+    <li>
+      Riżultat barra l-iskala huwa l-limitu tal-istrument b'komparatur ("&gt; 33.3 mmol/L": <code>formatQuantity</code> ma'
+      <code>"&gt;"</code>) u l-bandiera kritika tiegħek, qatt numru waħdu. Valur approssimattiv iżomm il-≈ tiegħu (<code>"~"</code>).
+    </li>
+    <li>Agħti firxiet oħra msemmija ("Kritiku: taħt 2.5") bħala <code>ranges</code>, kull waħda bħala parti tagħha.</li>
+    <li>
+      Riżultat ikkoreġut jew emendat iżomm il-valur li ħa postu, f' <code>&lt;del&gt;</code>, bi kliemek dwar meta nbidel (<code>previousValue</code>, <code>previousLabel</code>), biex kliniku li qara l-valur il-qadim ikun jaf li nbidel.
+    </li>
+    <li>
+      Qari ta' intervall jgħid il-wisa' u l-funzjoni tiegħu ("Medja, 24 siegħa"), u l-istat u l-metodu tal-qari ("Bilqiegħda, cuff kbir") huma test viżibbli ħdejh, qatt tip tal-għodda biss (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Xejra teħtieġ punti komparabbli: tpinġix linja taħt il-minimu tiegħek, aqta' l-linja fejn il-metodu jew it-test inbidel, u għid id-direzzjoni u t-tifsira bil-kliem ("nieżel, qed jitjieb").
+    </li>
+    <li>
+      Sinjali vitali mdaħħla f'sistema ta' unitajiet waħda jistgħu juru l-oħra ħdejhom bħala t-test tiegħek ("70 kg (154 lb)"); Lily ma tikkonverti xejn, għalhekk iddikjara r-rawnding tiegħek. Daħħal kwantità b' <code>quantity-input-div</code>, li n-numru tiegħu jieħu l-limiti ta' kull unità.
+    </li>
+    <li>
+      Ċart tat-tkabbir huwa <code>line-chart</code> bil-linji taċ-ċentili tiegħek bħala serje, il-punti tat-tifel u t-tabella tad-data ta' età u valur; Lily ma tikkalkula l-ebda ċentili u ma tipprovdi l-ebda referenza tat-tkabbir.
+    </li>
   </ul>
 
   <h2>Mediċini</h2>
@@ -106,12 +154,73 @@
     <li>Ikteb ix-xahar bħala test biex data ma tkunx tista' tinqara b'żewġ modi (<code>Intl.DateTimeFormat</code> b'<code>month: "short"</code>).</li>
     <li>Agħżel l-arloġġ apposta: għaddi <code>hourCycle</code> b'mod espliċitu. L-NHS jitlob arloġġ ta' 24 siegħa; dik hija regola tar-Renju Unit, mhux dinjija, u għalhekk Lily qatt ma jagħżilha għalik.</li>
     <li>L-etajiet isegwu l-meded tal-Common User Interface permezz ta' <code>ageParts()</code>; servizz b'konvenzjoni oħra jgħaddi l-kliem tiegħu stess.</li>
+    <li>
+      Data magħrufa biss sax-xahar jew is-sena tibqa' hekk: itlobha b' <code>date-field</code>
+      <code>precision="month"</code> jew <code>"year"</code>, aħżen <code>2019-03</code> jew <code>2019</code>, u iktibha b'
+      <code>formatPartialDate()</code>. Qatt tivvinta jum.
+    </li>
+    <li>
+      Tul ta' żmien huwa <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> li jżomm kliemek, minn
+      <code>durationParts()</code> u <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Dashboards</h2>
   <ul>
     <li>Bord ta' wirda jew skrin ta' ċentru ta' kmand jaġġornaw spiss. Qatt ma tħabbar kull bidla: żomm reġjun wieħed ta' sommarju polite (“3 sodod vojta, 2 skariġi mistennija”) u ħalli lin-nies jaqraw il-bord.</li>
     <li>Kull stat fuq bord (sodda nadifa, okkupata, imblukkata) huwa test jew stat <code>data-*</code> bil-kliem, qatt kulur biss.</li>
+    <li>
+      Xejn ma jteptep (WCAG 2.2.2, 2.3.1), u bord li jaġġorna fuq timer għandu kontroll ta' waqfa jew jaġġorna biss meta jintalab; l-aġġornamenti qatt ma jċaqilqu l-fokus. Daħla tard tgħid hekk bil-kliem ("Qed tistenna aktar minn 20 minuta") b' <code>data-overdue</code>.
+    </li>
+    <li>Għadd jew rata juri d-denominatur tiegħu ("12 minn 68") u jorbot mal-lista warajh.</li>
+    <li>
+      Lista jew kronoloġija tgħid ta' xiex hi veduta: x'turi, l-ordni u t-tieqa tagħha, x'inhu moħbi u għaliex, u liema sorsi ma weġbux. Lista vojta minn sors li ma weġibx mhix prova li ma jeżisti xejn.
+    </li>
+    <li>
+      Lista ta' tfakkiriet hija <code>record-list</code> li l-elementi tagħha jġorru data dovuta (<code>review-date</code>) u stat dovut bil-kliem, b' <code>data-due</code>; ir-regola li ħolqitha hija tiegħek.
+    </li>
+  </ul>
+
+  <h2>Formoli</h2>
+  <ul>
+    <li>
+      Mistoqsija mwieġba "iva", "le" jew "ma ntalabx" hija <code>radio-group</code> ta' tliet tweġibiet, l-ebda waħda magħżula fil-bidu, qatt kaxxa tal-immarkar: kaxxa ma tistax tiddistingwi "miċħud" minn "qatt ma ntalab". Reviżjoni tas-sistemi hija <code>fieldset</code> wieħed għal kull sistema tal-ġisem, u buttuna "l-oħrajn kollha assenti" tissettja biss dawk mingħajr tweġiba.
+    </li>
+    <li>
+      Mistoqsija b'lista ta' tweġibiet (mediċini, indirizzi) hija <code>repeatable-fieldset</code>: element jiżdied jew jitneħħa, il-fokus isegwi, u kull buttuna tat-tneħħija hija msemmija għall-element tagħha.
+    </li>
+    <li>
+      Numru b'virgola deċimali: urih b' <code>Intl.NumberFormat</code> u, fejn <code>type="number"</code> ma jaċċettax il-virgola, ħudu f'qasam tat-test b' <code>inputmode="decimal"</code> u analizzah fil-kodiċi tiegħek. Qatt tibdel valur li l-persuna kitbet, lanqas biex tillimitah għal firxa: valur barra l-firxa huwa żball li tista' tara.
+    </li>
+    <li>
+      Lista twila li turi biss parti mill-għażliet tagħha f'daqqa tissettja <code>aria-setsize</code> u <code>aria-posinset</code> fuq kull għażla, u tiftakar li t-tiftix fil-paġna ma jistax jara l-bqija.
+    </li>
+  </ul>
+
+  <h2>Rekords, noti u l-oriġini tagħhom</h2>
+  <ul>
+    <li>
+      Għid ta' xiex hi veduta lista jew grilja, qabel ir-ringieli: it-tieqa u l-ordni, x'tħalli barra u għaliex, u liema sorsi ma weġbux ("L-aħħar 12-il xahar, l-aktar riċenti l-ewwel. Ir-rekord tat-tabib tal-familja ma weġibx."). Agħti lil <code>record-list</code> u lil
+      <code>timeline-list</code>  <code>coverageLabel</code>, u lill-helper <code>data-grid</code> il- <code>coverageLabel</code>tiegħu. Lista vojta minn sors li ma weġibx tgħid hekk bil-kliem, biex qatt ma tinqara bħala "xejn irreġistrat".
+    </li>
+    <li>
+      Għid minn fejn ġie rekord u jekk huwiex finali b' <code>record-provenance-view</code>: iffirmat, jistenna firma, emendat, issejvjat fuq dan l-apparat u għadu ma ntbagħatx. Abbozz mhux iffirmat qatt m'għandu jidher iffirmat.
+    </li>
+    <li>Daħla dwar xi ħadd ieħor (ġenitur, fetu, donatur) tgħid l-ewwel ta' min hi, bil- <code>subjectLabel</code>.</li>
+    <li>
+      Daħla miżmuma tibqa' fil-lista bi kliemek ("Ristrett: mhux disponibbli għalik"), u daħla magħmula bi żball tibqa' maqtugħa b'"Imdaħħal bi żball": agħti lil <code>record-list-item</code> jew lil <code>timeline-list-item</code> 
+      <code>entryState</code> u <code>entryStateLabel</code>. Qatt tneħħi xi waħda minnhom bil-kwiet, għax vojt jinqara bħala "ma ġara xejn".
+    </li>
+    <li>
+      F'nota klinika, immarka s-sors ta' kull silta (ittajpjata, iddettata, mudell, ikkupjata 'l quddiem, iġġenerata) b'
+      <code>data-source</code> u kliem viżibbli, biex test ikkupjat jew iġġenerat qatt ma jittieħed għall-eżami tal-lum.
+    </li>
+    <li>
+      Sezzjoni li ma tistax titgħabba hija <code>unavailable</code> bi kliemek, b'buttuna biex terġa' tipprova; kodiċi tekniku, jekk jintwera, joqgħod wara żvelar. Falliment ikkawżat minn azzjoni ta' persuna jitħabbar, bil-valur li r-rekord issa għandu; falliment fit-tagħbija tal-paġna le.
+    </li>
+    <li>
+      L-istorja ta' ordni hija <code>timeline-list</code>, element wieħed għal kull pass (ippjanat, skedat, attiv, sospiż, komplut, ikkanċellat) bil-ħin u r-raġuni tiegħu, u l-istat kurrenti wkoll fuq l-element.
+    </li>
   </ul>
 
   <h2>Minn FHIR għal Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (ukoll fuq il-listi tar-rekords)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Immappja rekord bi status <code>entered-in-error</code> għall-status <code>entered-in-error</code>, b'kliem, minflok ma tneħħiha bil-kwiet: jekk għandux jintwera xejn huwa d-deċiżjoni tas-servizz tiegħek.</p>
+
+  <h2>Minn openEHR għal Lily</h2>
+  <p>
+    Lily lanqas ma taqra kompożizzjonijiet openEHR. Il-mappatura għat-tipi tad-data u l-kodiċijiet tal-Mudell ta' Referenza openEHR, bħala suġġeriment li r-reviżjoni tas-sikurezza klinika tiegħek tiddeċiedi:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Tipi tad-data u kodiċijiet openEHR, u l-valuri Lily għalihom</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (dħul)</td>
+          <td><code>quantity-input-div</code>; unitajiet bħala kodiċijiet UCUM bi kliemek</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (wiri), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> b' <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> huwa ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> b' <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> parzjali (sena, sena u xahar)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> b' <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> ġewwa <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> li t-tikketti tiegħu jġorru n-numru u l-kliem tiegħu</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>il-mudell tal-valuri kkodifikati hawn taħt</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, biss meta "ma ntalabx" ma jistax iseħħ</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> mhux magħruf, <code>271</code> l-ebda informazzjoni</td>
+          <td><code>status="not-recorded"</code> jew <code>"unavailable"</code>, b'kliem li jgħid liema</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> moħbi</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> mhux applikabbli</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> suġġett</td>
+          <td><code>subjectLabel</code> fuq l-elementi tar-rekord</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Passi tal-Instruction State Machine</td>
+          <td> <code>timeline-list</code> ta' passi, bl-istat kurrenti fuq l-element</td>
+        </tr>
+        <tr>
+          <td>element ta' arketip b'okkorrenzi <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Valuri kodifikati</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Jagħti database tal-mediċini, lista tall man, jew kodiċijiet SNOMED CT, ICD, LOINC jew UCUM.</li>
     <li>Jirriproduċi strument liċenzjat (Wong-Baker FACES) jew disinn ta' korp ieħor (il-grafika NEWS2).</li>
     <li>Jillimita n-numru ta' rekords miftuħin f'daqqa.</li>
+    <li>Tiddeduċi interpretazzjoni minn firxa, tikkonverti unità, jew tanalizza data relattiva ("it-Tlieta d-dieħla").</li>
+    <li>Tuża swiċċ għal "iva, le jew mhux magħruf": il- <code>switch</code> ta' ARIA m'għandux tielet stat, għalhekk huma tliet radji.</li>
   </ul>
   <p>Ir-riċerka, is-sorsi u d-deċiżjonijiet wara din il-gwida huma f'<a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

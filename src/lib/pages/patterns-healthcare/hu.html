@@ -71,7 +71,28 @@
     <li>Mutassatok két azonosítót mindenütt, ahol beteg adatai megjelennek: a nevet a születési dátummal, és a nemzeti azonosítót a view komponensével (The Joint Commission, Quick Safety 45).</li>
     <li>Használjátok a betegfejlécet minden olyan képernyőn, amely egy beteg adatlapján cselekszik, és tartsátok láthatón.</li>
     <li>A fejlécben szereplőtől eltérő adatlapon végzett művelet előtt erősítsétek meg a névvel, a születési dátummal és az azonosítóval.</li>
+    <li>
+      A nem a betegről szóló bejegyzés (egy szülő kórtörténete, magzat, donor) először szavakkal mondja meg, kire vonatkozik: adjon a dokumentáció elemeinek <code>subjectLabel</code> („Anya”) értéket, hogy egy rokon diagnózisát soha ne olvassák a betegének (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Ne korlátozzátok, hány adatlapot nyithat meg egy klinikus: egy 3 356 klinikussal végzett randomizált vizsgálat (JAMA, 2019) szerint ez nem csökkentette a téves betegre szóló rendeléseket, és az emberek kijátsszák.</li>
+    <li>
+      Egy dokumentumra vonatkozó műveleti menü először megnevezi azt a dokumentumot, a <code>subjectLabel</code> tulajdonsággal a <code>context-menu</code> vagy a
+      <code>dropdown-menu</code> („Ada Lovelace, vérnyomás nov. 3.”) komponensen: egy nem interaktív első rész, amely a menü akadálymentes neve is.
+    </li>
+    <li>
+      Sorolja be minden műveletet aszerint, mit tesz, és tegye láthatóvá a szintet, mielőtt lefut. <strong>Rutin</strong> (megtekintés, nyomtatás) azonnal lefut. <strong>Dokumentált</strong> megmondja, mit fog a dokumentációba írni („Megjegyzést fűz a találkozóhoz”).
+      <strong>Klinikai</strong> (leállítás, rendelés visszavonása) másodszor is rákérdez, egy <code>alert-dialog</code> elemben, amelynek megerősítő gombja az ige („Leállítás”), sosem „OK” vagy „Igen”. <strong>Felfedő</strong> (vészhelyzeti hozzáférés, megosztás az ellátó csapaton kívül) előbb indoklást kér, és rögzíti.
+    </li>
+    <li>
+      Ha több dokumentáció is nyitva van (lapok, ablakok, osztott panelek), minden lap látható szövege és akadálymentes neve tartalmazza a beteg nevét és egy második azonosítót, az aktív panel megismétli a sávot, és egyetlen művelet sem vonatkozik más betegre, mint a saját panelje betegére.
+    </li>
+    <li>
+      Mutassa szövegként az oldal fejlécében azt a helyet, amelyhez a bejegyzések tartoznak majd (a bejelentkezéskor választott osztályt, rendelőt vagy intézményt), és tegye kifejezett művelet tárgyává a módosítását.
+    </li>
+    <li>
+      Mutassa a sávban az aktív vizitet, vagy azt, hogy „Nincs aktív vizit”. Az az űrlap, amelyhez vizit kell, ezt megmondja és felajánlja egy indítását, ahelyett hogy mentéskor hibára futna.
+    </li>
   </ul>
 
   <h2>A betegfejléc</h2>
@@ -82,6 +103,9 @@
     <li>a hiányzó érték szavakkal van kifejezve („Nem ismert”), soha nem kérdőjellel, gondolatjellel vagy üres cellával;</li>
     <li>elhunyt beteg: <code>data-deceased</code> a témához, és látható szövegsor, soha nem csak szín;</li>
     <li>egyetlen mező sincs csonkolva, levágva vagy elrejtve semmilyen szélességen; tördelődik.</li>
+    <li>
+      a beteg jelzései („Tolmácsra van szüksége”, „Fertőzésveszély”) egy feliratos <code>tag-group</code> szavakból, sosem csak ikonok vagy szín, és láthatók maradnak, amikor a sáv tördelődik.
+    </li>
   </ul>
 
   <h2>Eredmények</h2>
@@ -90,6 +114,30 @@
     <li>A jelzés a ti fordításotokból származó szavak (<code>flagLabel</code>), a FHIR értelmezési kóddal <code>data-interpretation</code> néven a témához.</li>
     <li>Különítsétek el az új eredményeket a korábbiaktól, és mutassatok trendet (sparkline-t, vagy vonaldiagramot az adattáblázatával): a klinikusok jelentős változást keresnek, nem csak a tartományt.</li>
     <li>Az eredmény, amelyet soha nem rögzítettek, és az, amely nem elérhető, különböző állapotok, különböző szavakkal.</li>
+    <li>
+      Az ismeretlen nem normális. Az az eredmény, amelynek referenciatartománya hiányzik, még töltődik vagy olvashatatlan, nem kap értelmezést, és ezt meg is mondja; <code>observation-view</code> sosem következtet ki egyet, így a tartománnyal rendelkező, de <code>interpretation</code> nélküli eredmény nem mutat jelzést.
+    </li>
+    <li>
+      A skálán kívüli eredmény a műszer határa egy összehasonlító jellel („&gt; 33,3 mmol/l”: <code>formatQuantity</code> és
+      <code>"&gt;"</code>) és az Ön kritikus jelzésével, sosem csupasz szám. Egy közelítő érték megtartja a ≈ jelét (<code>"~"</code>).
+    </li>
+    <li>Adja meg a további elnevezett tartományokat („Kritikus: 2,5 alatt”) <code>ranges</code>formában, mindegyiket külön részként.</li>
+    <li>
+      A javított vagy módosított eredmény megtartja a lecserélt értéket egy <code>&lt;del&gt;</code>elemben, az Ön szavaival arról, mikor változott (<code>previousValue</code>, <code>previousLabel</code>), hogy a régi értéket olvasó klinikus tudja, hogy megváltozott.
+    </li>
+    <li>
+      Egy időszakos mérés megmondja a hosszát és a funkcióját („Átlag, 24 óra”), a mérés állapota és módszere („Ülve, nagy mandzsetta”) pedig látható szöveg mellette, sosem csak eszköztipp (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      A trendhez összevethető pontok kellenek: ne rajzoljon vonalat a minimuma alatt, szakítsa meg a vonalat ott, ahol a módszer vagy a vizsgálat változott, és mondja ki szavakkal az irányt és a jelentést („csökken, javul”).
+    </li>
+    <li>
+      Az egyik mértékegység-rendszerben bevitt életjelek a másikat is mutathatják mellette, az Ön szövegeként („70 kg (154 lb)”); a Lily semmit nem vált át, ezért adja meg a kerekítését. Mennyiséget a <code>quantity-input-div</code>komponenssel vigyen be, amelynek száma követi minden mértékegység határait.
+    </li>
+    <li>
+      A növekedési görbe egy <code>line-chart</code> az Ön percentilisvonalaival mint sorozatokkal, a gyermek pontjaival és az életkor és érték adattáblájával; a Lily nem számol percentilist, és nem szállít növekedési referenciát.
+    </li>
   </ul>
 
   <h2>Gyógyszerek</h2>
@@ -106,12 +154,73 @@
     <li>A hónapot szövegként írjátok, hogy a dátumot ne lehessen kétféleképpen olvasni (<code>Intl.DateTimeFormat</code> a <code>month: "short"</code> beállítással).</li>
     <li>Az órarendszert szándékosan válasszátok: adjátok át kifejezetten az <code>hourCycle</code> értéket. Az NHS a 24 órás időkijelzést kéri; ez brit szabály, nem világszabály, ezért a Lily soha nem választja ki helyettetek.</li>
     <li>Az életkorok a Common User Interface sávjait követik az <code>ageParts()</code> függvényen keresztül; más szokású szolgáltatás a saját szavait adja át.</li>
+    <li>
+      A csak hónapra vagy évre ismert dátum az is marad: kérdezze a <code>date-field</code>
+      <code>precision="month"</code> vagy <code>"year"</code>segítségével, tárolja <code>2019-03</code> vagy <code>2019</code>formában, és írja ki a
+      <code>formatPartialDate()</code>függvénnyel. Soha ne találjon ki napot.
+    </li>
+    <li>
+      Az időtartam egy <code>duration-view</code>, <code>&lt;time datetime="P3DT4H"&gt;</code> elem az Ön szavaival, a
+      <code>durationParts()</code> és az <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Irányítópultok</h2>
   <ul>
     <li>Egy osztálytábla vagy egy irányítóközponti képernyő gyakran frissül. Soha ne jelentsetek be minden változást: tartsatok egy udvarias összefoglaló régiót („3 szabad ágy, 2 elbocsátás várható”), és hagyjátok, hogy az emberek olvassák a táblát.</li>
     <li>A tábla minden állapota (ágy tiszta, foglalt, zárolt) szöveg vagy <code>data-*</code> állapot szavakkal, soha nem csak szín.</li>
+    <li>
+      Semmi nem villog (WCAG 2.2.2, 2.3.1), és az időzítővel frissülő táblának van szünet vezérlője, vagy csak kérésre frissül; a frissítések sosem mozgatják a fókuszt. Egy késésben lévő bejegyzés ezt szavakkal mondja („Több mint 20 perce vár”), a <code>data-overdue</code>.
+    </li>
+    <li>Egy darabszám vagy arány mutatja a nevezőjét („12 / 68”), és a mögötte álló listára mutat.</li>
+    <li>
+      Egy lista vagy idővonal megmondja, minek a nézete: mit mutat, milyen sorrendben és időszakra, mi van elrejtve és miért, és mely források nem válaszoltak. Egy nem válaszoló forrás üres listája nem bizonyítja, hogy semmi sincs.
+    </li>
+    <li>
+      Az emlékeztető lista egy <code>record-list</code> , amelynek elemei határidőt (<code>review-date</code>) és határidő-állapotot hordoznak szavakkal, a <code>data-due</code>; az előállító szabály az Öné.
+    </li>
+  </ul>
+
+  <h2>Űrlapok</h2>
+  <ul>
+    <li>
+      Az „igen”, „nem” vagy „nem kérdezték” válaszú kérdés egy <code>radio-group</code> három válasszal, kezdetben egyik sincs kiválasztva, sosem jelölőnégyzet: a jelölőnégyzet nem különbözteti meg a „tagadja” és a „sosem kérdezték” válaszokat. A szervrendszerek áttekintése szervrendszerenként egy <code>fieldset</code> , és a „minden más nincs jelen” gomb csak a megválaszolatlanokat állítja be.
+    </li>
+    <li>
+      A válaszlistás kérdés (gyógyszerek, címek) egy <code>repeatable-fieldset</code>: egy elem hozzáadódik vagy eltávolítódik, a fókusz követi, és minden eltávolító gomb a saját eleméről kap nevet.
+    </li>
+    <li>
+      Tizedesvesszős szám: jelenítse meg a <code>Intl.NumberFormat</code> függvénnyel, és ahol a <code>type="number"</code> nem fogadja el a vesszőt, fogadja egy szövegmezőben a <code>inputmode="decimal"</code> attribútummal, és dolgozza fel a kódjában. Soha ne változtassa meg a személy által begépelt értéket, még tartományba szorításért sem: a tartományon kívüli érték olyan hiba, amelyet láthat.
+    </li>
+    <li>
+      Egy hosszú lista, amely egyszerre csak a lehetőségei egy részét jeleníti meg, beállítja az <code>aria-setsize</code> és az <code>aria-posinset</code> értéket minden lehetőségen, és számol azzal, hogy az oldalon belüli keresés nem látja a többit.
+    </li>
+  </ul>
+
+  <h2>Dokumentáció, jegyzetek és eredetük</h2>
+  <ul>
+    <li>
+      A sorok előtt mondja meg, minek a nézete a lista vagy a rács: az időszak és a sorrend, mit hagy ki és miért, és mely források nem válaszoltak („Utolsó 12 hónap, a legújabb elöl. A háziorvosi dokumentáció nem válaszolt.”). Adjon a <code>record-list</code> és a
+      <code>timeline-list</code> komponensnek <code>coverageLabel</code>értéket, és a <code>data-grid</code> segédnek a saját <code>coverageLabel</code>értékét. Egy nem válaszoló forrás üres listája ezt szavakkal mondja meg, hogy soha ne olvassák „semmit sem rögzítettek”-ként.
+    </li>
+    <li>
+      Mondja meg a <code>record-provenance-view</code>komponenssel, honnan jött egy bejegyzés, és végleges-e: aláírva, aláírásra vár, módosítva, ezen az eszközön mentve és még el nem küldve. Egy aláíratlan piszkozat soha nem nézhet ki aláírtnak.
+    </li>
+    <li>A valaki másról (szülő, magzat, donor) szóló bejegyzés először megmondja, kire vonatkozik, a dokumentációs elemek <code>subjectLabel</code>tulajdonságával.</li>
+    <li>
+      Egy visszatartott bejegyzés az Ön szavaival a listában marad („Korlátozott: Ön számára nem elérhető”), egy tévesen rögzített bejegyzés pedig áthúzva marad „Tévesen rögzítve” felirattal: adjon a <code>record-list-item</code> vagy a <code>timeline-list-item</code> komponensnek
+      <code>entryState</code> és <code>entryStateLabel</code>értéket. Soha ne távolítsa el egyiket sem csendben, mert a hiányt úgy olvassák: „nem történt semmi”.
+    </li>
+    <li>
+      Egy klinikai jegyzetben jelölje minden szakasz forrását (gépelt, diktált, sablon, továbbmásolt, generált) a
+      <code>data-source</code> attribútummal és látható szavakkal, hogy a másolt vagy generált szöveget soha ne tartsák a mai vizsgálatnak.
+    </li>
+    <li>
+      A be nem tölthető szakasz <code>unavailable</code> állapotú az Ön szavaival, újrapróbálás gombbal; a technikai kód, ha egyáltalán megjelenik, egy lenyitható rész mögött van. A személy műveletéből fakadó hiba bejelentésre kerül, azzal az értékkel együtt, amelyet a dokumentáció most tartalmaz; az oldalbetöltési hiba nem.
+    </li>
+    <li>
+      Egy rendelés története egy <code>timeline-list</code>, lépésenként egy elemmel (tervezett, ütemezett, aktív, felfüggesztett, befejezett, visszavont) idővel és indokkal, és a jelenlegi állapottal az elemen is.
+    </li>
   </ul>
 
   <h2>A FHIR-től a Lilyig</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (a dokumentációs listákon is)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>Az <code>entered-in-error</code> állapotú bejegyzést képezzétek le erre az állapotra: <code>entered-in-error</code>, szavakkal, ahelyett hogy csendben elhagynátok: hogy egyáltalán megjelenjen-e, az a ti szolgáltatástok döntése.</p>
+
+  <h2>Az openEHR-től a Lilyig</h2>
+  <p>
+    A Lily az openEHR-kompozíciókat sem olvassa. Az openEHR referenciamodell adattípusainak és kódjainak megfeleltetése javaslatként, amelyről a klinikai biztonsági felülvizsgálat dönt:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Az openEHR adattípusai és kódjai, és a nekik megfelelő Lily-értékek</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (bevitel)</td>
+          <td><code>quantity-input-div</code>; mértékegységek UCUM-kódként az Ön szavaival</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (megjelenítés), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> és <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> jelentése ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> , egy <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> részleges (év, év és hónap)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> és <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> belül: <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>egy <code>radio-group</code> , amelynek címkéi a számot és a szavait hordozzák</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>az alábbi kódolt értékek mintája</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, csak ha a „nem kérdezték” nem fordulhat elő</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> ismeretlen, <code>271</code> nincs információ</td>
+          <td><code>status="not-recorded"</code> vagy <code>"unavailable"</code>, szavakkal, amelyek megmondják, melyik</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> elfedett</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> nem alkalmazható</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> alany</td>
+          <td><code>subjectLabel</code> a dokumentációs elemeken</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Az Instruction State Machine lépései</td>
+          <td>egy <code>timeline-list</code> lépésekből, a jelenlegi állapottal az elemen</td>
+        </tr>
+        <tr>
+          <td>archetípus-elem előfordulással <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Kódolt értékek</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Gyógyszeradatbázist, tall man listát, vagy SNOMED CT, BNO, LOINC vagy UCUM kódokat szállítani.</li>
     <li>Licencelt műszert (Wong-Baker FACES) vagy más szervezet tervét (a NEWS2 táblázatot) reprodukálni.</li>
     <li>Korlátozni az egyszerre megnyitott adatlapok számát.</li>
+    <li>Értelmezést kikövetkeztetni tartományból, mértékegységet átváltani, vagy relatív dátumot („jövő kedden”) feldolgozni.</li>
+    <li>Kapcsolót használni az „igen, nem vagy ismeretlen” válaszhoz: az ARIA <code>switch</code> elemének nincs harmadik állapota, ezért ez három választógomb.</li>
   </ul>
   <p>Az útmutató mögötti kutatás, források és döntések a <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a> oldalon találhatók.</p>
 </section>

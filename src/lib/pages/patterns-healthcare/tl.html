@@ -71,7 +71,28 @@
     <li>Magpakita ng dalawang identifier saanman lumilitaw ang datos ng pasyente: ang pangalan kasama ang petsa ng kapanganakan, at ang pambansang identifier kasama ang view component nito (The Joint Commission, Quick Safety 45).</li>
     <li>Gamitin ang patient banner sa bawat screen na kumikilos sa talaan ng isang pasyente, at panatilihin itong nakikita.</li>
     <li>Bago ang aksyon sa talaang iba sa nasa banner, kumpirmahin ito gamit ang pangalan, petsa ng kapanganakan at identifier.</li>
+    <li>
+      Ang entry tungkol sa ibang tao maliban sa pasyente (kasaysayan ng magulang, fetus, donor) ay unang nagsasabi sa salita kung kanino ito: bigyan ang mga item ng rekord ng <code>subjectLabel</code> ("Ina"), para hindi kailanman mabasa ang diyagnosis ng kamag-anak bilang sa pasyente (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>Huwag limitahan kung ilang talaan ang maaaring buksan ng clinician: natuklasan ng isang randomised trial ng 3,356 clinician (JAMA, 2019) na hindi nito binawasan ang maling order sa pasyente, at humahanap ng paraan ang mga tao para lampasan ito.</li>
+    <li>
+      Ang menu ng mga aksyon sa isang rekord ay unang pinangangalanan ang rekord na iyon, gamit ang <code>subjectLabel</code> sa <code>context-menu</code> o
+      <code>dropdown-menu</code> ("Ada Lovelace, presyon ng dugo Nob 3"): isang hindi interaktibong unang bahagi na siya ring accessible na pangalan ng menu.
+    </li>
+    <li>
+      I-uri ang bawat aksyon ayon sa ginagawa nito, at ipakita ang antas bago ito tumakbo. <strong>Karaniwan</strong> (tingnan, i-print) ay tumatakbo agad. <strong>Nakadokumento</strong> ay nagsasabi kung ano ang isusulat nito sa rekord ("Nagdaragdag ng tala sa konsulta").
+      <strong>Klinikal</strong> (itigil, kanselahin ang order) ay nagtatanong ng ikalawang beses, sa isang <code>alert-dialog</code> na ang button ng pagkumpirma ay ang pandiwa ("Itigil"), hindi kailanman "OK" o "Oo". <strong>Naglalantad</strong> (pang-emergency na access, pagbabahagi sa labas ng care team) ay humihingi muna ng dahilan at itinatala ito.
+    </li>
+    <li>
+      Kapag maraming rekord ang bukas (mga tab, window, hating panel), ang nakikitang teksto at accessible na pangalan ng bawat tab ay may pangalan ng pasyente at ikalawang identifier, inuulit ng aktibong panel ang banner, at walang aksyon na tumatama sa pasyenteng iba sa pasyente ng panel nito.
+    </li>
+    <li>
+      Ipakita bilang teksto sa header ng pahina ang lokasyong pagtatalagahan ng mga rekord (ang ward, klinika o pasilidad na pinili sa pag-sign in), at gawing malinaw na aksyon ang pagpapalit nito.
+    </li>
+    <li>
+      Ipakita ang aktibong pagbisita, o "Walang aktibong pagbisita", sa banner. Ang form na nangangailangan ng pagbisita ay nagsasabi nito at nag-aalok na magsimula ng isa, sa halip na pumalya kapag sine-save.
+    </li>
   </ul>
 
   <h2>Ang patient banner</h2>
@@ -82,6 +103,9 @@
     <li>ang nawawalang halaga ay mga salita ("Hindi alam"), hindi tandang pananong, gitling o walang lamang cell;</li>
     <li>isang pasyenteng pumanaw: <code>data-deceased</code> para sa theme, at isang nakikitang linya ng teksto, hindi kulay lamang;</li>
     <li>walang field na pinutol, tinabas o itinago sa anumang lapad; bumabalot ito.</li>
+    <li>
+      ang mga flag ng pasyente ("Kailangan ng interpreter", "Panganib ng impeksyon") ay isang may label na <code>tag-group</code> ng mga salita, hindi kailanman icon o kulay lamang, at nananatiling nakikita kapag bumalot ang banner.
+    </li>
   </ul>
 
   <h2>Mga resulta</h2>
@@ -90,6 +114,30 @@
     <li>Ang flag ay mga salita mula sa salin ninyo (<code>flagLabel</code>), kasama ang interpretation code ng FHIR bilang <code>data-interpretation</code> para sa theme.</li>
     <li>Ihiwalay ang mga bagong resulta sa mga nauna, at magpakita ng trend (isang sparkline, o line chart na may data table nito): hinahanap ng mga clinician ang makabuluhang pagbabago, hindi lamang ang saklaw.</li>
     <li>Magkaibang kalagayan, na may magkaibang salita, ang resultang hindi kailanman naitala at ang resultang hindi magagamit.</li>
+    <li>
+      Ang hindi alam ay hindi normal. Ang resultang walang reference range, naglo-load pa, o hindi mabasa ay walang interpretasyon at sinasabi ito; <code>observation-view</code> ay hindi kailanman naghihinuha, kaya ang resultang may range at walang <code>interpretation</code> ay walang ipinapakitang flag.
+    </li>
+    <li>
+      Ang resultang lampas sa iskala ay ang hangganan ng instrumento na may comparator ("&gt; 33.3 mmol/L": <code>formatQuantity</code> na may
+      <code>"&gt;"</code>) at ang iyong critical flag, hindi kailanman hubad na numero. Pinapanatili ng tantiyang halaga ang ≈ nito (<code>"~"</code>).
+    </li>
+    <li>Ibigay ang iba pang may pangalang range ("Kritikal: mas mababa sa 2.5") bilang <code>ranges</code>, bawat isa ay sariling bahagi.</li>
+    <li>
+      Ang itinama o binagong resulta ay nagpapanatili ng halagang pinalitan nito, sa isang <code>&lt;del&gt;</code>, kasama ang iyong mga salita kung kailan ito nagbago (<code>previousValue</code>, <code>previousLabel</code>), para malaman ng clinician na nakabasa ng lumang halaga na nagbago ito.
+    </li>
+    <li>
+      Ang interval na pagbasa ay nagsasabi ng lapad at function nito ("Mean, 24 oras"), at ang estado at paraan ng pagbasa ("Nakaupo, malaking cuff") ay nakikitang teksto sa tabi nito, hindi kailanman tooltip lamang (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      Ang trend ay nangangailangan ng maihahambing na punto: huwag gumuhit ng linya sa ibaba ng iyong minimum, putulin ang linya kung saan nagbago ang paraan o assay, at sabihin ang direksyon at kahulugan sa salita ("bumababa, bumubuti").
+    </li>
+    <li>
+      Ang vitals na inilagay sa isang sistema ng yunit ay maaaring magpakita ng iba sa tabi nito bilang iyong teksto ("70 kg (154 lb)"); walang kino-convert ang Lily, kaya sabihin ang iyong rounding. Maglagay ng dami gamit ang <code>quantity-input-div</code>, na ang numero ay sumusunod sa hangganan ng bawat yunit.
+    </li>
+    <li>
+      Ang growth chart ay isang <code>line-chart</code> na may mga centile line mo bilang series, mga punto ng bata at ang data table nito ng edad at halaga; walang kinukuwentang centile ang Lily at walang ibinibigay na growth reference.
+    </li>
   </ul>
 
   <h2>Mga gamot</h2>
@@ -106,12 +154,73 @@
     <li>Isulat ang buwan bilang teksto para hindi mabasa ang petsa sa dalawang paraan (<code>Intl.DateTimeFormat</code> na may <code>month: "short"</code>).</li>
     <li>Piliin ang orasan nang sinasadya: ipasa nang tahasan ang <code>hourCycle</code>. Hinihingi ng NHS ang 24-oras na orasan; tuntunin iyon ng UK, hindi pandaigdigan, kaya hindi kailanman pinipili ito ng Lily para sa inyo.</li>
     <li>Sinusunod ng mga edad ang mga banda ng Common User Interface sa pamamagitan ng <code>ageParts()</code>; ang serbisyong may ibang kaugalian ay nagpapasa ng sarili nitong mga salita.</li>
+    <li>
+      Ang petsang alam lamang hanggang buwan o taon ay nananatiling ganoon: hingin ito gamit ang <code>date-field</code>
+      <code>precision="month"</code> o <code>"year"</code>, i-store ang <code>2019-03</code> o <code>2019</code>, at isulat ito gamit ang
+      <code>formatPartialDate()</code>. Huwag kailanman mag-imbento ng araw.
+    </li>
+    <li>
+      Ang tagal ng panahon ay <code>duration-view</code>, isang <code>&lt;time datetime="P3DT4H"&gt;</code> na naglalaman ng iyong mga salita, mula sa
+      <code>durationParts()</code> at <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>Mga dashboard</h2>
   <ul>
     <li>Madalas ma-update ang ward board o screen ng command centre. Huwag ianunsyo ang bawat pagbabago: magtago ng isang magalang na summary region ("3 kama ang bakante, 2 paglabas ang inaasahan") at hayaang basahin ng mga tao ang board.</li>
     <li>Ang bawat estado sa board (malinis ang kama, may okupante, nakaharang) ay teksto o estadong <code>data-*</code> na may mga salita, hindi kulay lamang.</li>
+    <li>
+      Walang kumikislap (WCAG 2.2.2, 2.3.1), at ang board na nag-a-update sa timer ay may pause control o nag-a-update lamang kapag hiniling; hindi kailanman inililipat ng update ang focus. Ang entry na lampas na sa oras ay nagsasabi nito sa salita ("Naghihintay nang higit 20 minuto") na may <code>data-overdue</code>.
+    </li>
+    <li>Ang bilang o rate ay nagpapakita ng denominator nito ("12 sa 68") at nagli-link sa listahan sa likod nito.</li>
+    <li>
+      Ang listahan o timeline ay nagsasabi kung ano ang tinitingnan nito: ano ang ipinapakita, ang ayos at saklaw na panahon nito, ano ang nakatago at bakit, at aling mga pinagmulan ang hindi sumagot. Ang walang laman na listahan mula sa pinagmulang hindi sumagot ay hindi patunay na walang umiiral.
+    </li>
+    <li>
+      Ang listahan ng paalala ay isang <code>record-list</code> na ang mga item ay may due date (<code>review-date</code>) at due state sa salita, na may <code>data-due</code>; ang patakarang gumawa nito ay sa iyo.
+    </li>
+  </ul>
+
+  <h2>Mga form</h2>
+  <ul>
+    <li>
+      Ang tanong na sinasagot ng "oo", "hindi" o "hindi tinanong" ay isang <code>radio-group</code> ng tatlong sagot, walang pinili sa simula, hindi kailanman checkbox: hindi matutukoy ng checkbox ang "itinanggi" mula sa "hindi kailanman tinanong". Ang review of systems ay isang <code>fieldset</code> bawat sistema ng katawan, at ang button na "lahat ng iba ay wala" ay nagtatakda lamang ng mga hindi pa nasasagot.
+    </li>
+    <li>
+      Ang tanong na may listahan ng sagot (gamot, address) ay isang <code>repeatable-fieldset</code>: idinaragdag o inaalis ang item, sumusunod ang focus, at bawat remove button ay ipinangalan sa item nito.
+    </li>
+    <li>
+      Numerong may decimal comma: ipakita ito gamit ang <code>Intl.NumberFormat</code> at, kung saan hindi tinatanggap ng <code>type="number"</code> ang comma, tanggapin ito sa text field na may <code>inputmode="decimal"</code> at i-parse sa iyong code. Huwag kailanman baguhin ang halagang tinype ng tao, kahit para ikulong sa range: ang halagang lampas sa range ay error na makikita nila.
+    </li>
+    <li>
+      Ang mahabang listahang nagre-render lamang ng bahagi ng mga opsyon nito sa bawat oras ay nagtatakda ng <code>aria-setsize</code> at <code>aria-posinset</code> sa bawat opsyon, at tinatandaan na hindi nakikita ng find-in-page ang natitira.
+    </li>
+  </ul>
+
+  <h2>Mga rekord, tala at ang pinagmulan nila</h2>
+  <ul>
+    <li>
+      Sabihin kung ano ang tinitingnan ng listahan o grid, bago ang mga row nito: ang saklaw na panahon at ayos, ano ang iniiwan at bakit, at aling mga pinagmulan ang hindi sumagot ("Huling 12 buwan, pinakabago muna. Hindi sumagot ang rekord ng GP."). Bigyan ang <code>record-list</code> at
+      <code>timeline-list</code> ng <code>coverageLabel</code>, at ang <code>data-grid</code> helper ng sarili nitong <code>coverageLabel</code>. Ang walang laman na listahan mula sa pinagmulang hindi sumagot ay nagsasabi nito sa salita, para hindi kailanman mabasa bilang "walang naitala".
+    </li>
+    <li>
+      Sabihin kung saan nagmula ang rekord at kung pinal na ito gamit ang <code>record-provenance-view</code>: pinirmahan, naghihintay ng pirma, binago, naka-save sa device na ito at hindi pa naipapadala. Ang hindi pinirmahang draft ay hindi dapat magmukhang pinirmahan.
+    </li>
+    <li>Ang entry tungkol sa iba (magulang, fetus, donor) ay unang nagsasabi kung kanino ito, gamit ang <code>subjectLabel</code>.</li>
+    <li>
+      Ang pinigil na entry ay nananatili sa listahan kasama ang iyong mga salita ("Restricted: hindi available sa iyo"), at ang entry na nagawa nang mali ay nananatiling may guhit na "Naipasok nang mali": bigyan ang <code>record-list-item</code> o <code>timeline-list-item</code> ng
+      <code>entryState</code> at ng <code>entryStateLabel</code>. Huwag kailanman alisin nang tahimik ang alinman, dahil ang puwang ay binabasang "walang nangyari".
+    </li>
+    <li>
+      Sa clinical note, markahan ang pinagmulan ng bawat bahagi (tinype, idinikta, template, kinopya pasulong, ginawa ng makina) gamit ang
+      <code>data-source</code> at nakikitang salita, para hindi kailanman mapagkamalang pagsusuri ngayong araw ang kinopya o ginawang teksto.
+    </li>
+    <li>
+      Ang seksyong hindi ma-load ay <code>unavailable</code> sa iyong mga salita, na may retry button; ang teknikal na code, kung ipapakita man, ay nasa likod ng disclosure. Ang pagkabigo na sanhi ng aksyon ng tao ay inaanunsyo, kasama ang halagang hawak ngayon ng rekord; ang pagkabigo sa pag-load ng pahina ay hindi.
+    </li>
+    <li>
+      Ang kasaysayan ng order ay isang <code>timeline-list</code>, isang item bawat hakbang (planado, naka-iskedyul, aktibo, suspendido, kumpleto, kinansela) kasama ang oras at dahilan nito, at ang kasalukuyang estado rin sa item.
+    </li>
   </ul>
 
   <h2>Mula sa FHIR patungo sa Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (pati sa mga listahan ng rekord)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>I-map ang rekord na <code>entered-in-error</code> sa status nitong <code>entered-in-error</code>, na may mga salita, sa halip na tahimik na alisin: nasa serbisyo ninyo ang pasya kung ipapakita ito.</p>
+
+  <h2>Mula openEHR patungong Lily</h2>
+  <p>
+    Hindi rin binabasa ng Lily ang mga openEHR composition. Ang mapping para sa mga uri ng data at code ng openEHR Reference Model, bilang mungkahing pagpapasyahan ng iyong clinical safety review:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">Mga uri ng data at code ng openEHR, at ang mga halaga ng Lily para sa mga ito</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (paglalagay)</td>
+          <td><code>quantity-input-div</code>; mga yunit bilang UCUM code kasama ang iyong mga salita</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (pagpapakita), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> na may <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> ay ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> na may <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> bahagya (taon, taon at buwan)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> na may <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> sa loob ng <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td>isang <code>radio-group</code> na ang mga label ay may numero at mga salita nito</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>ang pattern ng coded values sa ibaba</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, kapag hindi maaaring mangyari ang "hindi tinanong"</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> hindi alam, <code>271</code> walang impormasyon</td>
+          <td><code>status="not-recorded"</code> o <code>"unavailable"</code>, na may mga salitang nagsasabi kung alin</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> nakatago</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> hindi naaangkop</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> paksa</td>
+          <td><code>subjectLabel</code> sa mga item ng rekord</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>Mga hakbang ng Instruction State Machine</td>
+          <td>isang <code>timeline-list</code> ng mga hakbang, kasama ang kasalukuyang estado sa item</td>
+        </tr>
+        <tr>
+          <td>isang archetype item na may occurrences <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>Mga naka-code na halaga</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>Maghatid ng database ng gamot, listahan ng tall man, o mga code ng SNOMED CT, ICD, LOINC o UCUM.</li>
     <li>Kopyahin ang lisensyadong instrumento (Wong-Baker FACES) o ang disenyo ng ibang katawan (ang tsart ng NEWS2).</li>
     <li>Limitahan ang bilang ng mga talaang sabay na bukas.</li>
+    <li>Maghinuha ng interpretasyon mula sa range, mag-convert ng yunit, o mag-parse ng relatibong petsa ("sa susunod na Martes").</li>
+    <li>Gumamit ng switch para sa "oo, hindi o hindi alam": ang <code>switch</code> ng ARIA ay walang ikatlong estado, kaya tatlong radio ito.</li>
   </ul>
   <p>Ang pananaliksik, mga pinagmulan at mga pasya sa likod ng gabay na ito ay nasa <a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>

@@ -71,7 +71,28 @@
     <li>הציגו שני מזהים בכל מקום שבו מופיעים נתוני מטופל: השם יחד עם תאריך הלידה, והמזהה הלאומי עם רכיב ה-view שלו (The Joint Commission, Quick Safety 45).</li>
     <li>השתמשו בכותרת המטופל בכל מסך הפועל על רשומה של מטופל אחד, והשאירו אותה גלויה.</li>
     <li>לפני פעולה על רשומה שאינה זו שבכותרת, אשרו אותה עם השם, תאריך הלידה והמזהה.</li>
+    <li>
+      רשומה על מישהו אחר מלבד המטופל (היסטוריה של הורה, עובר, תורם) אומרת קודם במילים של מי היא: תנו לפריטי הרשומה <code>subjectLabel</code> ("אם"), כדי שאבחנה של קרוב משפחה לא תיקרא לעולם כאבחנה של המטופל (openEHR
+      <code>PARTY_RELATED</code>, FHIR <code>FamilyMemberHistory</code>).
+    </li>
     <li>אל תגבילו כמה רשומות רופא רשאי לפתוח: ניסוי אקראי עם 3,356 רופאים (JAMA, 2019) מצא שההגבלה לא הפחיתה הזמנות למטופל הלא נכון, ואנשים עוקפים אותה.</li>
+    <li>
+      תפריט פעולות על רשומה אחת מציין קודם את הרשומה, באמצעות <code>subjectLabel</code> על <code>context-menu</code> או
+      <code>dropdown-menu</code> ("Ada Lovelace, לחץ דם 3 בנוב׳"): חלק ראשון לא אינטראקטיבי שהוא גם השם הנגיש של התפריט.
+    </li>
+    <li>
+      סווגו כל פעולה לפי מה שהיא עושה, והציגו את הרמה לפני שהיא מתבצעת. <strong>שגרתית</strong> (הצגה, הדפסה) מתבצעת מיד. <strong>מתועדת</strong> אומרת מה תכתוב ברשומה ("מוסיפה הערה לביקור").
+      <strong>קלינית</strong> (הפסקה, ביטול הוראה) שואלת פעם שנייה, בתוך <code>alert-dialog</code> שכפתור האישור שלו הוא הפועל ("הפסק"), לעולם לא "אישור" או "כן". <strong>חושפת</strong> (גישת חירום, שיתוף מחוץ לצוות המטפל) מבקשת קודם סיבה ומתעדת אותה.
+    </li>
+    <li>
+      כשכמה רשומות פתוחות (כרטיסיות, חלונות, חלוניות מפוצלות), הטקסט הנראה והשם הנגיש של כל כרטיסייה כוללים את שם המטופל ומזהה שני, החלונית הפעילה חוזרת על הבאנר, ושום פעולה אינה חלה על מטופל שאינו המטופל של החלונית שלה.
+    </li>
+    <li>
+      הציגו את המקום שאליו ישויכו הרשומות (המחלקה, המרפאה או המוסד שנבחרו בכניסה) כטקסט בכותרת העמוד, והפכו את שינויו לפעולה מפורשת.
+    </li>
+    <li>
+      הציגו את הביקור הפעיל, או "אין ביקור פעיל", בבאנר. טופס שזקוק לביקור אומר זאת ומציע לפתוח אחד, במקום להיכשל בעת השמירה.
+    </li>
   </ul>
 
   <h2>כותרת המטופל</h2>
@@ -82,6 +103,9 @@
     <li>ערך חסר הוא מילים (“לא ידוע”), לעולם לא סימן שאלה, מקף או תא ריק;</li>
     <li>מטופל שנפטר: <code>data-deceased</code> עבור ערכת העיצוב, ושורת טקסט גלויה, לעולם לא צבע בלבד;</li>
     <li>אף שדה אינו מקוצר, חתוך או מוסתר בשום רוחב; הוא עובר לשורה הבאה.</li>
+    <li>
+      סימוני מטופל ("זקוק למתורגמן", "סיכון לזיהום") הם <code>tag-group</code> מתויגת של מילים, לעולם לא סמלים או צבע בלבד, ונשארים גלויים כשהבאנר נשבר לשורות.
+    </li>
   </ul>
 
   <h2>תוצאות</h2>
@@ -90,6 +114,30 @@
     <li>הדגל הוא מילים מהתרגום שלכם (<code>flagLabel</code>), עם קוד הפרשנות של FHIR כ-<code>data-interpretation</code> עבור ערכת העיצוב.</li>
     <li>הפרידו תוצאות חדשות מקודמות והציגו מגמה (sparkline, או תרשים קווי עם טבלת הנתונים שלו): רופאים מחפשים שינוי משמעותי, לא רק את הטווח.</li>
     <li>תוצאה שמעולם לא תועדה ותוצאה שאינה זמינה הן מצבים שונים, עם מילים שונות.</li>
+    <li>
+      לא ידוע אינו תקין. תוצאה שטווח הייחוס שלה חסר, עדיין נטען או אינו קריא אין לה פירוש והיא אומרת זאת; <code>observation-view</code> לעולם לא מסיק פירוש, ולכן תוצאה עם טווח וללא <code>interpretation</code> אינה מציגה סימון.
+    </li>
+    <li>
+      תוצאה מחוץ לסקאלה היא גבול המכשיר עם סימן השוואה ("&gt; 33.3 mmol/L": <code>formatQuantity</code> עם
+      <code>"&gt;"</code>) והסימון הקריטי שלכם, לעולם לא מספר חשוף. ערך משוער שומר על ה-≈ שלו (<code>"~"</code>).
+    </li>
+    <li>תנו טווחים נוספים בעלי שם ("קריטי: מתחת ל-2.5") כ- <code>ranges</code>, כל אחד כחלק נפרד.</li>
+    <li>
+      תוצאה מתוקנת או משונה שומרת את הערך שהחליפה, בתוך <code>&lt;del&gt;</code>, עם המילים שלכם על מתי השתנתה (<code>previousValue</code>, <code>previousLabel</code>), כדי שקלינאי שקרא את הערך הישן יידע שהוא השתנה.
+    </li>
+    <li>
+      מדידת מרווח אומרת את הרוחב והפונקציה שלה ("ממוצע, 24 שעות"), ומצב המדידה ושיטתה ("בישיבה, שרוול גדול") הם טקסט נראה לצידה, לעולם לא רק תיאור צץ (openEHR <code>INTERVAL_EVENT</code>, <code>state</code>,
+      <code>protocol</code>).
+    </li>
+    <li>
+      מגמה צריכה נקודות ברות השוואה: אל תציירו קו מתחת למינימום שלכם, קטעו את הקו היכן שהשיטה או הבדיקה השתנתה, ואמרו כיוון ומשמעות במילים ("יורד, משתפר").
+    </li>
+    <li>
+      סימנים חיוניים שהוזנו במערכת יחידות אחת יכולים להציג את האחרת לצידם כטקסט שלכם ("70 kg (154 lb)"); Lily לא ממירה דבר, לכן ציינו את העיגול שלכם. הזינו כמות באמצעות <code>quantity-input-div</code>, שהמספר שלו מקבל את הגבולות של כל יחידה.
+    </li>
+    <li>
+      עקומת גדילה היא <code>line-chart</code> עם קווי האחוזונים שלכם כסדרות, הנקודות של הילד וטבלת הנתונים של גיל וערך; Lily לא מחשבת אחוזון ולא מספקת ייחוס גדילה.
+    </li>
   </ul>
 
   <h2>תרופות</h2>
@@ -106,12 +154,73 @@
     <li>כתבו את החודש כטקסט כדי שאי אפשר יהיה לקרוא תאריך בשתי דרכים (<code>Intl.DateTimeFormat</code> עם <code>month: "short"</code>).</li>
     <li>בחרו את השעון במכוון: העבירו <code>hourCycle</code> במפורש. ה-NHS דורש שעון של 24 שעות; זה כלל בריטי, לא עולמי, ולכן Lily לעולם לא בוחרת אותו עבורכם.</li>
     <li>גילאים עוקבים אחר פסי Common User Interface באמצעות <code>ageParts()</code>; שירות עם מוסכמה אחרת מעביר את המילים שלו.</li>
+    <li>
+      תאריך שידוע רק עד החודש או השנה נשאר כך: בקשו אותו באמצעות <code>date-field</code>
+      <code>precision="month"</code> או <code>"year"</code>, שמרו <code>2019-03</code> או <code>2019</code>, וכתבו אותו באמצעות
+      <code>formatPartialDate()</code>. לעולם אל תמציאו יום.
+    </li>
+    <li>
+      משך זמן הוא <code>duration-view</code>, כלומר <code>&lt;time datetime="P3DT4H"&gt;</code> שמכיל את המילים שלכם, מתוך
+      <code>durationParts()</code> ו- <code>Intl.DurationFormat</code>.
+    </li>
   </ul>
 
   <h2>לוחות מחוונים</h2>
   <ul>
     <li>לוח מחלקה או מסך מרכז שליטה מתעדכנים לעיתים קרובות. לעולם אל תכריזו על כל שינוי: שמרו אזור סיכום מנומס אחד (“3 מיטות פנויות, 2 שחרורים צפויים”) ותנו לאנשים לקרוא את הלוח.</li>
     <li>כל מצב בלוח (מיטה נקייה, תפוסה, חסומה) הוא טקסט או מצב <code>data-*</code> עם מילים, לעולם לא צבע בלבד.</li>
+    <li>
+      שום דבר לא מהבהב (WCAG 2.2.2, 2.3.1), ולוח שמתעדכן לפי טיימר כולל פקד השהיה או מתעדכן רק לפי בקשה; עדכונים לעולם לא מזיזים את המיקוד. רשומה שעבר זמנה אומרת זאת במילים ("ממתין יותר מ-20 דקות") עם <code>data-overdue</code>.
+    </li>
+    <li>ספירה או שיעור מציגים את המכנה שלהם ("12 מתוך 68") ומקשרים לרשימה שמאחוריהם.</li>
+    <li>
+      רשימה או ציר זמן אומרים ממה הם תצוגה: מה הם מציגים, הסדר וחלון הזמן, מה מוסתר ולמה, ואילו מקורות לא ענו. רשימה ריקה ממקור שלא ענה אינה הוכחה שאין דבר.
+    </li>
+    <li>
+      רשימת תזכורות היא <code>record-list</code> שפריטיה נושאים תאריך יעד (<code>review-date</code>) ומצב יעד במילים, עם <code>data-due</code>; הכלל שיצר אותה הוא שלכם.
+    </li>
+  </ul>
+
+  <h2>טפסים</h2>
+  <ul>
+    <li>
+      שאלה שעונים עליה "כן", "לא" או "לא נשאל" היא <code>radio-group</code> של שלוש תשובות, אף אחת לא נבחרת בהתחלה, לעולם לא תיבת סימון: תיבת סימון לא יכולה להבחין בין "שלל" לבין "מעולם לא נשאל". סקירת מערכות היא <code>fieldset</code> אחד לכל מערכת בגוף, וכפתור "כל השאר חסרים" מגדיר רק את אלה שלא נענו.
+    </li>
+    <li>
+      שאלה עם רשימת תשובות (תרופות, כתובות) היא <code>repeatable-fieldset</code>: פריט מתווסף או מוסר, המיקוד עוקב, וכל כפתור הסרה נקרא על שם הפריט שלו.
+    </li>
+    <li>
+      מספר עם פסיק עשרוני: הציגו אותו באמצעות <code>Intl.NumberFormat</code> ו, היכן ש- <code>type="number"</code> לא מקבל את הפסיק, קבלו אותו בשדה טקסט עם <code>inputmode="decimal"</code> ונתחו אותו בקוד שלכם. לעולם אל תשנו ערך שאדם הקליד, גם לא כדי לתחום אותו בטווח: ערך מחוץ לטווח הוא שגיאה שהוא יכול לראות.
+    </li>
+    <li>
+      רשימה ארוכה שמציגה רק חלק מהאפשרויות בכל פעם מגדירה <code>aria-setsize</code> ו- <code>aria-posinset</code> על כל אפשרות, וזוכרת שחיפוש בעמוד לא רואה את השאר.
+    </li>
+  </ul>
+
+  <h2>רשומות, הערות ומקורן</h2>
+  <ul>
+    <li>
+      אמרו ממה רשימה או רשת היא תצוגה, לפני השורות: חלון הזמן והסדר, מה הושמט ולמה, ואילו מקורות לא ענו ("12 החודשים האחרונים, החדש קודם. רשומת רופא המשפחה לא ענתה."). תנו ל- <code>record-list</code> ול-
+      <code>timeline-list</code>  <code>coverageLabel</code>, ולעזר <code>data-grid</code> את <code>coverageLabel</code>שלו. רשימה ריקה ממקור שלא ענה אומרת זאת במילים, כדי שלא תיקרא לעולם כ"לא תועד דבר".
+    </li>
+    <li>
+      אמרו מאין הגיעה רשומה והאם היא סופית באמצעות <code>record-provenance-view</code>: חתומה, ממתינה לחתימה, תוקנה, נשמרה במכשיר זה ועדיין לא נשלחה. טיוטה לא חתומה לעולם לא צריכה להיראות חתומה.
+    </li>
+    <li>רשומה על מישהו אחר (הורה, עובר, תורם) אומרת קודם של מי היא, באמצעות <code>subjectLabel</code>.</li>
+    <li>
+      רשומה מוסתרת נשארת ברשימה עם המילים שלכם ("מוגבל: לא זמין עבורך"), ורשומה שהוזנה בטעות נשארת מחוקה בקו עם "הוזן בטעות": תנו ל- <code>record-list-item</code> או ל- <code>timeline-list-item</code> 
+      <code>entryState</code> ו- <code>entryStateLabel</code>. לעולם אל תסירו אף אחת מהן בשקט, כי פער נקרא כ"לא קרה דבר".
+    </li>
+    <li>
+      בהערה קלינית, סמנו את מקור כל קטע (הוקלד, הוכתב, תבנית, הועתק קדימה, נוצר) באמצעות
+      <code>data-source</code> ומילים נראות, כדי שטקסט מועתק או שנוצר לעולם לא ייחשב לבדיקה של היום.
+    </li>
+    <li>
+      מקטע שאינו נטען הוא <code>unavailable</code> במילים שלכם, עם כפתור ניסיון חוזר; קוד טכני, אם מוצג בכלל, נמצא מאחורי חשיפה. כשל שנגרם מפעולה של אדם מוכרז, עם הערך שהרשומה מחזיקה כעת; כשל בטעינת העמוד לא.
+    </li>
+    <li>
+      ההיסטוריה של הוראה היא <code>timeline-list</code>, פריט אחד לכל שלב (מתוכנן, מתוזמן, פעיל, מושהה, הושלם, בוטל) עם השעה והסיבה, והמצב הנוכחי גם על הפריט.
+    </li>
   </ul>
 
   <h2>מ-FHIR ל-Lily</h2>
@@ -224,6 +333,10 @@
           <td><code>status="masked"</code></td>
         </tr>
         <tr>
+          <td><code>dataAbsentReason</code> <code>not-applicable</code></td>
+          <td><code>status="not-applicable"</code> (גם ברשימות הרשומות)</td>
+        </tr>
+        <tr>
           <td><code>Quantity.comparator</code></td>
           <td><code>formatQuantity(value, unit, locale, comparator)</code></td>
         </tr>
@@ -231,6 +344,92 @@
     </table>
   </div>
   <p>מפו רשומה עם הסטטוס <code>entered-in-error</code> לסטטוס <code>entered-in-error</code>, עם מילים, במקום להשמיט אותה בשקט: אם להציג אותה בכלל היא החלטה של השירות שלכם.</p>
+
+  <h2>מ-openEHR ל-Lily</h2>
+  <p>
+    Lily גם אינה קוראת קומפוזיציות של openEHR. המיפוי לסוגי הנתונים ולקודים של מודל הייחוס של openEHR, כהצעה שסקירת הבטיחות הקלינית שלכם מחליטה עליה:
+  </p>
+  <div role="region" aria-labelledby="healthcare-openehr" tabindex="0" style="overflow-x: auto;">
+    <table style="min-inline-size: 40rem;">
+      <caption id="healthcare-openehr">סוגי נתונים וקודים של openEHR, וערכי Lily המתאימים להם</caption>
+      <thead>
+        <tr>
+          <th>openEHR</th>
+          <th>Lily</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>DV_QUANTITY</code> (הזנה)</td>
+          <td><code>quantity-input-div</code>; יחידות כקודי UCUM עם המילים שלכם</td>
+        </tr>
+        <tr>
+          <td><code>DV_QUANTITY</code> (תצוגה), <code>magnitude_status</code></td>
+          <td><code>observation-view</code> עם <code>formatQuantity(value, unit, locale, comparator)</code> (<code>~</code> הוא ≈)</td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDERED.normal_status</code> <code>HHH</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LLL</code></td>
+          <td><code>observation-view</code> <code>interpretation</code>: FHIR <code>HU</code>, <code>HH</code>, <code>H</code>, <code>L</code>, <code>LL</code>, <code>LU</code></td>
+        </tr>
+        <tr>
+          <td><code>other_reference_ranges</code> עם <code>meaning</code></td>
+          <td><code>observation-view</code> <code>ranges</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DATE</code> חלקי (שנה, שנה וחודש)</td>
+          <td><code>date-field</code> <code>precision</code>; <code>formatPartialDate()</code>; <code>date-time-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_DURATION</code></td>
+          <td><code>duration-view</code> עם <code>durationParts()</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_PROPORTION</code></td>
+          <td><code>formatProportion()</code> בתוך <code>observation-view</code></td>
+        </tr>
+        <tr>
+          <td><code>DV_ORDINAL</code>, <code>DV_SCALE</code></td>
+          <td> <code>radio-group</code> שהתוויות שלו נושאות את המספר ואת מילותיו</td>
+        </tr>
+        <tr>
+          <td><code>DV_CODED_TEXT</code></td>
+          <td>תבנית הערכים המקודדים בהמשך</td>
+        </tr>
+        <tr>
+          <td><code>DV_BOOLEAN</code></td>
+          <td><code>checkbox-input</code>, רק כש"לא נשאל" לא יכול לקרות</td>
+        </tr>
+        <tr>
+          <td><code>ELEMENT.null_flavour</code> <code>253</code> לא ידוע, <code>271</code> אין מידע</td>
+          <td><code>status="not-recorded"</code> או <code>"unavailable"</code>, עם מילים שאומרות איזה</td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>272</code> מוסתר</td>
+          <td><code>observation-view</code> <code>status="masked"</code></td>
+        </tr>
+        <tr>
+          <td><code>null_flavour</code> <code>273</code> לא רלוונטי</td>
+          <td><code>status="not-applicable"</code></td>
+        </tr>
+        <tr>
+          <td><code>PARTY_RELATED</code> נושא</td>
+          <td><code>subjectLabel</code> על פריטי הרשומה</td>
+        </tr>
+        <tr>
+          <td><code>AUDIT_DETAILS</code>, <code>ATTESTATION</code>, <code>FEEDER_AUDIT</code></td>
+          <td><code>record-provenance-view</code></td>
+        </tr>
+        <tr>
+          <td>שלבי מכונת המצבים של ההוראות</td>
+          <td> <code>timeline-list</code> של שלבים, עם המצב הנוכחי על הפריט</td>
+        </tr>
+        <tr>
+          <td>פריט ארכיטיפ עם מופעים <code>0..*</code></td>
+          <td><code>repeatable-fieldset</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <h2>ערכים מקודדים</h2>
   <ul>
@@ -246,6 +445,8 @@
     <li>לספק מסד נתוני תרופות, רשימת tall man, או קודי SNOMED CT, ICD, LOINC או UCUM.</li>
     <li>לשחזר מכשיר מדידה בעל רישיון (Wong-Baker FACES) או עיצוב של גוף אחר (תרשים NEWS2).</li>
     <li>להגביל את מספר הרשומות הפתוחות בו-זמנית.</li>
+    <li>להסיק פירוש מטווח, להמיר יחידה, או לנתח תאריך יחסי ("ביום שלישי הבא").</li>
+    <li>להשתמש במתג עבור "כן, לא או לא ידוע": <code>switch</code> של ARIA אין מצב שלישי, לכן אלה שלושה כפתורי בחירה.</li>
   </ul>
   <p>המחקר, המקורות וההחלטות שמאחורי מדריך זה נמצאים ב-<a href="https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/healthcare-ui/index.md">spec/healthcare-ui</a>.</p>
 </section>
