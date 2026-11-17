@@ -3814,13 +3814,29 @@ Maintainer-directed, in this order.
       default, and a threat model (assets, trusted and untrusted input, attackers, mitigations), whose claims were checked
       against the tree; the check found P35-T6. An RFC 9116 `security.txt`, expiring 2027-11-17. Stale lines fixed: the
       pickers' icons are inline SVG, not Unicode glyphs.)_
-- [ ] **P35-T3 Better mutation testing.**
+- [x] **P35-T3 Better mutation testing.** Automated mutation testing in place of the hand-made mutations recorded per task.
+      Verify: `bin/mutation-test` runs and passes against its baseline. _(2026-11-17: StrykerJS 10.1.1 over the 35 shared
+      pure modules that have their own tests, which now run in place (`shared/package.json`, `shared/vitest.config.ts`; 849
+      tests); a per-module baseline in `shared/mutation-baseline.json`, enforced by `bin/mutation-test`. First full run 76.1%
+      (5,905 of 7,760 mutants). Survivors led to tests in `combobox-keys` 53.8 → 90.1 (the shared `combobox` contract now runs
+      against the module), `direction` 62.7 → 97.6, `theme-choice` 60.0 → 85.2, `view-transition` 73.6 → 89.4. Slow (19
+      minutes), so not in `bin/test` or CI. Open: the five modules tested only through package copies, the weakest six, and
+      Stryker.NET for the C#.)_
 - [ ] **P35-T4 Performance benchmarks.**
 - [ ] **P35-T5 More and better tutorials, training and examples.**
 - [ ] **P35-T6 Pickers accept only a stored value from their own list.** Found writing P35-T2: the theme, locale, text-size and
       motion pickers apply a value read from `localStorage` without checking it against `themes`, `locales`, `sizes` or
       `motions` (the time-zone picker does check), and the theme picker builds its stylesheet URL from it.
       Verify: in all eight catalogs, a test that a stored value outside the list is ignored and the default applies.
+- [ ] **P35-T7 The docs site's per-component Markdown copies.** Found 2026-11-17: of the 637
+      `lilydesignsystem.github.io/src/routes/components/{slug}/index.md` (and `AGENTS.md`) copies, 16 match `components/{slug}/`,
+      69 are still `bin/new-component` placeholders (the components added since 2026-10-05, such as `duration-view`) and the rest
+      have drifted. The rendered pages come from `+page.svelte`, so readers of the site are not affected; readers of the files are.
+      Verify: a sync with `--check` in `bin/test`, or the copies removed if nothing reads them.
+- [ ] **P35-T8 Angular helpers never run their `direction` tests.** Found 2026-11-17: `bin/sync-shared-modules` copies
+      `direction.test.ts` by name into `lily-design-system-angular-{calendar,data-grid,gantt-chart,kanban-board}`, but Angular's
+      Vitest config runs only `*.spec.ts`, so the copies never run there.
+      Verify: each of the four runs the direction tests (an explicit `.spec.ts` target in the sync, as `widget-keys` has).
 
 ---
 

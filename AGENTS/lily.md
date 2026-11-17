@@ -195,6 +195,7 @@ Also copied rather than generated: `bin/sync` rsyncs the root `AGENTS/` and `the
 - [check-worldwide](../bin/check-worldwide): No single-region default in shipped code (a currency code, a `[0, 6]` weekend, an English locale), allow-list `check-worldwide.allow.json`; prints identifier and label-pack coverage by region (in bin/test)
 - [check-coverage](../bin/check-coverage): Coverage drift matrix — per-component file presence across the 7 full-catalog headless libraries, plus a "keys" column that also covers Alpine and Web Components: a component whose `## Keyboard` names an APG key needs a test that sends a key, unless `bin/check-coverage.keys-allow.json` lists it with a reason, and a listed gap that is fixed must be removed (in bin/test)
 - [test-generators](../bin/test-generators): Golden tests for four generators (in bin/test)
+- [mutation-test](../bin/mutation-test): StrykerJS over the shared pure modules in `shared/`, each module's score against `shared/mutation-baseline.json`; fails on a drop (slow, so not in bin/test; `--update-baseline` after adding tests)
 - [generate-zone-names](../bin/generate-zone-names): `shared/zone-names/*.json`, CLDR time zone names per label-pack locale (`--check` in bin/test)
 - [generate-theme-tokens](../bin/generate-theme-tokens): DTCG token source under themes/tokens/ — extract, generate, drift-check
 - [generate-component-categories](../bin/generate-component-categories): Regenerate components-categories.tsv (per-component HTML tag + category) from components.tsv

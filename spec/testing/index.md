@@ -243,6 +243,39 @@ Baselines are per platform (font rendering), with `process.platform` in the name
 CI does not run the spec. Run it with `pnpm exec playwright test e2e/visual-regression.spec.ts --project chromium`; after an
 intended change, look at each diff in `test-results/` before `--update-snapshots=changed`.
 
+## Mutation testing
+
+(2026-11-17, tasks.md P35-T3.) A mutant is a small change to the code, such as `<` made `<=`, a branch removed or a string
+emptied. A test suite that still passes with the mutant in place never checked that logic. `bin/mutation-test` runs
+[StrykerJS](https://stryker-mutator.io/) over the pure modules in `shared/`, the one source every package's copy comes from
+(`bin/sync-shared-modules`), using their own tests, run in place by `shared/vitest.config.ts`.
+
+- **Score.** Killed (or timed-out) mutants over all mutants that a test could reach or should have: 76.1% over 35 modules
+  (5,905 of 7,760) on the first full run.
+- **Baseline.** `shared/mutation-baseline.json` holds each module's score. `bin/mutation-test` fails when a module scores
+  below it; after adding tests, `--update-baseline` raises it. Never lower it to hide a drop.
+- **Not in `bin/test` or CI.** A full run takes about 19 minutes (a module about a minute). Run it after changing a shared
+  module or its tests: `bin/mutation-test <module>` lists that module's survivors with their lines.
+- **Left out.** `pattern-tester` (the test driver itself), and `aria-baseline`, `cell-types`, `command-keys` and `menu-keys`,
+  which have no tests in `shared/` and are tested only through the packages' copies, so a score here would measure nothing.
+  Giving them tests here is open work.
+
+The first run's survivors led to new tests in four modules. Mutants that survived had found real gaps: jsdom computes
+`direction` from `dir`, so the attribute branch of `isRtl` was never tested on its own; `linkSettled` was only ever settled
+by its time limit; the combobox keys were tested only in the packages, so `combobox-keys` now runs the shared `combobox`
+contract against itself.
+
+| Module            | Before | After |
+| ----------------- | ------ | ----- |
+| `combobox-keys`   | 53.8   | 90.1  |
+| `direction`       | 62.7   | 97.6  |
+| `theme-choice`    | 60.0   | 85.2  |
+| `view-transition` | 73.6   | 89.4  |
+
+The weakest left: `widget-keys` 53.7, `label-pack-nunjucks` 57.9, `overflow-navigation` 63.1, `export-data` 65.3,
+`markdown-format` 67.8, `wheel-picker` 69.2. The C# modules (`ClinicalFormat.cs`, `PatternTester.cs`) are not covered;
+Stryker.NET would be the tool.
+
 ## Pattern testers
 
 (2026-11-03, P23-T1.) One interaction contract, run against every catalog, in place of hand-ported keyboard tests. The steps are data in

@@ -26,6 +26,9 @@ export default [
             "**/playwright-report/**",
             "**/test-results/**",
             "**/*.d.ts",
+            // StrykerJS's sandbox and report (bin/mutation-test).
+            "shared/.stryker-tmp/**",
+            "shared/reports/**",
             // Prettier-ignored and not parseable by Svelte (duplicate attribute, deliberate).
             "lily-design-system-svelte-locale-picker/examples/ssr-cookie.svelte",
             "**/*.min.js",

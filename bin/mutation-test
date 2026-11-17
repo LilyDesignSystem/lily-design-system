@@ -1,0 +1,96 @@
+#!/usr/bin/env node
+// bin/mutation-test -- mutation-test the shared pure modules with StrykerJS (tasks.md P35-T3).
+//
+// A mutant is a small change to the code (a `<` made `<=`, a branch removed, a string emptied). A test suite that still
+// passes with the mutant in place has not checked that logic: the mutant "survived". The score is the share of mutants
+// the tests kill. This runs Stryker over shared/*.ts, the one source of the pure modules every package copies
+// (bin/sync-shared-modules), and compares each module's score with shared/mutation-baseline.json.
+//
+// Usage:
+//   bin/mutation-test                     every module; fails when one scores below its baseline
+//   bin/mutation-test clinical-format     one or more modules (names without .ts)
+//   bin/mutation-test --update-baseline   record the scores as the new baseline (after adding tests, never to hide a drop)
+//   bin/mutation-test --report            print the last run's scores and survivors without running Stryker
+//
+// Slow (about a minute a module), so not in bin/test; run it after changing a shared module or its tests.
+
+import { execFileSync } from "node:child_process";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const top = join(dirname(fileURLToPath(import.meta.url)), "..");
+const shared = join(top, "shared");
+const reportPath = join(shared, "reports", "mutation", "mutation.json");
+const baselinePath = join(shared, "mutation-baseline.json");
+
+const args = process.argv.slice(2);
+const update = args.includes("--update-baseline");
+const reportOnly = args.includes("--report");
+const modules = args.filter((a) => !a.startsWith("--"));
+
+if (!reportOnly) {
+    if (!existsSync(join(shared, "node_modules", "@stryker-mutator"))) {
+        execFileSync("pnpm", ["install", "--frozen-lockfile"], { cwd: shared, stdio: "inherit" });
+    }
+    const stryker = ["stryker", "run"];
+    if (modules.length) stryker.push("--mutate", modules.map((m) => `${m}.ts`).join(","));
+    execFileSync("npx", stryker, { cwd: shared, stdio: ["ignore", "ignore", "inherit"] });
+}
+
+const report = JSON.parse(readFileSync(reportPath, "utf8"));
+const scores = {};
+const survivors = {};
+for (const [file, { mutants }] of Object.entries(report.files)) {
+    const count = (status) => mutants.filter((m) => m.status === status).length;
+    const killed = count("Killed") + count("Timeout");
+    const valid = killed + count("Survived") + count("NoCoverage");
+    if (valid === 0) continue;
+    const name = file.replace(/\.ts$/, "");
+    scores[name] = Math.floor((1000 * killed) / valid) / 10;
+    survivors[name] = mutants
+        .filter((m) => m.status === "Survived" || m.status === "NoCoverage")
+        .map(
+            (m) =>
+                `${file}:${m.location.start.line} ${m.mutatorName}${m.status === "NoCoverage" ? " (no test runs it)" : ""}`,
+        );
+}
+
+const baseline = existsSync(baselinePath) ? JSON.parse(readFileSync(baselinePath, "utf8")) : {};
+let failed = false;
+console.log(
+    "module".padEnd(28),
+    "score".padStart(6),
+    "baseline".padStart(9),
+    "survivors".padStart(10),
+);
+for (const name of Object.keys(scores).sort()) {
+    const was = baseline[name];
+    const drop = was !== undefined && scores[name] < was;
+    if (drop) failed = true;
+    console.log(
+        name.padEnd(28),
+        scores[name].toFixed(1).padStart(6),
+        (was === undefined ? "-" : was.toFixed(1)).padStart(9),
+        String(survivors[name].length).padStart(10),
+        drop ? "  BELOW BASELINE" : "",
+    );
+}
+if (modules.length === 1 || reportOnly) {
+    for (const name of Object.keys(survivors).sort())
+        for (const line of survivors[name]) console.log("  " + line);
+}
+
+if (update) {
+    const next = modules.length ? { ...baseline, ...scores } : scores;
+    const sorted = Object.fromEntries(Object.entries(next).sort(([a], [b]) => a.localeCompare(b)));
+    writeFileSync(baselinePath, JSON.stringify(sorted, null, 2) + "\n");
+    console.log(`bin/mutation-test: baseline written (${Object.keys(sorted).length} modules)`);
+} else if (failed) {
+    console.error(
+        "bin/mutation-test: FAILED -- a module scores below shared/mutation-baseline.json; add tests that kill the survivors",
+    );
+    process.exit(1);
+} else {
+    console.log("bin/mutation-test: OK");
+}

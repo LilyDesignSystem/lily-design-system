@@ -569,6 +569,22 @@ updates:
         update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
+    # The shared modules' in-place test runner and StrykerJS (bin/mutation-test, tasks.md P35-T3).
+    directory: "/shared"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      lily:
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "npm"
     directory: "/lilydesignsystem.github.io"
     schedule:
       interval: "weekly"

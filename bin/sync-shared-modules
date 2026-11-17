@@ -28,7 +28,12 @@ from pathlib import Path
 top = Path(__file__).resolve().parent.parent
 check = "--check" in sys.argv[1:]
 drift = []
+# shared/ also holds its own tooling (the in-place test runner, StrykerJS, the benchmarks: tasks.md P35-T3, P35-T4). Those
+# are not modules, and copying them by name would overwrite every package's own vitest.config.ts, as happened once.
+TOOLING = re.compile(r"(^vitest(\..+)?\.config\.ts$)|(\.bench\.ts$)")
 for source in sorted((top / "shared").glob("*.ts")):
+    if TOOLING.search(source.name):
+        continue
     for target in sorted(top.glob(f"lily-design-system-*/{source.name}")):
         if filecmp.cmp(source, target, shallow=False):
             continue

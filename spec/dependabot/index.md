@@ -11,8 +11,8 @@ Enable GitHub Dependabot .github/dependabot.yml for scheduled update PRs.
   via `gh api -X PUT repos/LilyDesignSystem/lily-design-system/{vulnerability-alerts,automated-security-fixes}`.
   Verified: `GET .../vulnerability-alerts` returns 204 (enabled);
   `GET .../automated-security-fixes` returns `{"enabled":true,"paused":false}`.
-- **[.github/dependabot.yml](../../.github/dependabot.yml)**: 41 `updates`
-  entries — one `github-actions` entry for `.github/workflows/`, 24 `npm`
+- **[.github/dependabot.yml](../../.github/dependabot.yml)**: 42 `updates`
+  entries — one `github-actions` entry for `.github/workflows/`, 25 `npm`
   entries (one per pnpm-workspace root; each catalog's `pnpm-workspace.yaml`
   lets one entry cover its nested helper packages, per
   [helpers](../helpers/index.md); the helper-package entries instead list
@@ -20,7 +20,7 @@ Enable GitHub Dependabot .github/dependabot.yml for scheduled update PRs.
   directory — NuGet has no workspace concept to consolidate them the way
   pnpm does). Every entry runs weekly and groups all its updates into a
   single PR (`groups: lily: patterns: ["*"]`), because one PR per outdated
-  package across the 41 entries would be dozens of PRs a week for a single
+  package across the 42 entries would be dozens of PRs a week for a single
   maintainer.
 - **Scope note**: this covers the canonical monorepo, which since 2026-10-10
   is the only source repository (the per-subproject subtree mirrors were
@@ -45,7 +45,7 @@ remain with a comment naming the commit.
 A comparison of every `package.json` and `.csproj` directory with the entries found 29 npm and 15 NuGet
 directories with no entry: the Web Components library and its helpers, the nine `locale-translations` /
 `themes` packages, and twelve Blazor helper packages plus three Blazor test projects. Four entries were added
-(24 `npm`, 15 `nuget` in all); every manifest directory is now covered. When adding a package, add its
+(25 `npm`, 15 `nuget` in all); every manifest directory is now covered. When adding a package, add its
 directory to the entry for its catalog.
 
 ## Acceptance criteria

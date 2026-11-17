@@ -90,3 +90,7 @@ shared/aria-baseline.json
 lily-design-system-nunjucks-headless/components/wheel-picker.js
 lily-design-system-blazor-headless/src/LilyBlazorHeadless/wwwroot/wheel-picker.js
 lily-design-system-nunjucks-headless/components/navigation-menu/overflow-navigation.js
+
+# StrykerJS's sandbox and report (bin/mutation-test)
+shared/.stryker-tmp/
+shared/reports/

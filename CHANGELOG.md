@@ -9,6 +9,12 @@ and the project follows [Semantic Versioning](https://semver.org/).
 The living specification is [spec/index.md](spec/index.md); its §14.1 mirrors these
 highlights.
 
+## Unreleased: mutation testing (P35-T3)
+
+- `bin/mutation-test`: StrykerJS over the shared pure modules, each module's score held to `shared/mutation-baseline.json`.
+  The shared tests now run in place (`shared/package.json`). First run 76.1%; new tests raised `combobox-keys`, `direction`,
+  `theme-choice` and `view-transition`. See [spec/testing](spec/testing/index.md#mutation-testing).
+
 ## Unreleased: formal security policy (P35-T2)
 
 - `SECURITY.md`: CVSS v4.0 severity with fix targets, the disclosure process (private fork, release, advisory with a
