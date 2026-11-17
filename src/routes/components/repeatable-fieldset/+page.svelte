@@ -6,7 +6,7 @@
   // BEGIN auto-generated component example consts
   const demoHtml: string = "<fieldset class=\"repeatable-fieldset\" data-count=\"1\"><legend>Medicines</legend><fieldset class=\"repeatable-fieldset-item\" data-index=\"0\"><legend class=\"repeatable-fieldset-item-legend\">Medicine 1</legend><label for=\"demo-medicine-0\">Name</label> <input id=\"demo-medicine-0\" name=\"medicine-0\" value=\"Aspirin\"> <button type=\"button\" class=\"repeatable-fieldset-remove\">Remove medicine 1</button></fieldset><button type=\"button\" class=\"repeatable-fieldset-add\">Add another medicine</button></fieldset>";
   const svelteSource: string = "// In your Svelte component:\nimport RepeatableFieldset from \"lily-design-system-svelte-headless/components/RepeatableFieldset/RepeatableFieldset.svelte\";\n\n<RepeatableFieldset>\n  <!-- content -->\n</RepeatableFieldset>\n";
-  const usageCode: string = "<RepeatableFieldset legend=\"Medicines\" bind:items newItem={() => ({ name: \"\" })} itemLegend={(n) => `Medicine ${n}`} addLabel=\"Add another medicine\" removeLabel={(n) => `Remove medicine ${n}`}>{#snippet item(medicine, index)}…{/snippet}</RepeatableFieldset>\n";
+  const usageCode: string = "<RepeatableFieldset\n  legend=\"Medicines\"\n  bind:items\n  newItem={() => ({ name: \"\" })}\n  itemLegend={(n) => `Medicine ${n}`}\n  addLabel=\"Add another medicine\"\n  removeLabel={(n) => `Remove medicine ${n}`}\n  >{#snippet item(medicine, index)}…{/snippet}</RepeatableFieldset\n>\n";
   const variants: { title: string; html: string }[] = [];
   // END auto-generated component example consts
 </script>
