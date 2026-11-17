@@ -1,5 +1,6 @@
 <script lang="ts">
     // Test host: binds DateField's value and shows it, so a test can read what the parts produce.
+    import { untrack } from "svelte";
     import DateField from "./DateField.svelte";
 
     let {
@@ -7,7 +8,8 @@
         yearLabel,
         ...props
     }: { value?: string; yearLabel: string; [key: string]: unknown } = $props();
-    let bound = $state(value);
+    // The host starts from the first value only; later changes come from the field.
+    let bound = $state(untrack(() => value));
 </script>
 
 <DateField

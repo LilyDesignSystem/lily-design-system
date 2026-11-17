@@ -9,7 +9,7 @@ const index = readFileSync(join(process.cwd(), "index.ts"), "utf8");
 describe("index", () => {
     test("exports the clinical-format functions", () => {
         expect(index).toContain(
-            'export { ageParts, formatQuantity, toIsoDuration } from "./components/clinical-format";',
+            'export { ageParts, durationParts, formatPartialDate, formatProportion, formatQuantity, htmlDuration, partialDatePrecision, toIsoDuration } from "./components/clinical-format";',
         );
     });
 
