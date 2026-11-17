@@ -1,13 +1,32 @@
 {
   "name": "@lilydesignsystem/solid-headless",
   "version": "0.1.0",
-  "private": true,
   "engines": {
     "node": ">=26"
   },
   "description": "Headless, accessible, unstyled Solid 2.0 components for building design systems. Targets WCAG 2.2 AAA.",
   "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/source/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/source/index.d.ts",
+      "solid": "./dist/source/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
   "scripts": {
+    "build": "node build.mjs",
+    "prepublishOnly": "node build.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "tsc --noEmit"

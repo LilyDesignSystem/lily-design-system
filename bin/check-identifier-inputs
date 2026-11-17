@@ -21,6 +21,7 @@ def pascal(slug):
 CATALOGS = {
     "svelte": "lily-design-system-svelte-headless/components/{N}/{N}.svelte",
     "react": "lily-design-system-react-headless/components/{N}.tsx",
+    "solid": "lily-design-system-solid-headless/components/{N}.tsx",
     "vue": "lily-design-system-vue-headless/components/{N}.vue",
     "angular": "lily-design-system-angular-headless/components/{N}.ts",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/{N}.razor",

@@ -3867,12 +3867,14 @@ Requested by the maintainer the day Solid 2.0 shipped: a Solid catalog like the 
 library comes first; its plan, decisions and the list of components still to port are in
 [lily-design-system-solid-headless/spec/index.md](lily-design-system-solid-headless/spec/index.md).
 
-- [ ] **P36-T1 Solid headless catalog.** 637 of 637 components ported from the React catalog with their tests (3,998
-      passing) on 2026-11-17; the build and barrel remain (S2 there).
+- [x] **P36-T1 Solid headless catalog.** 637 of 637 components ported from the React catalog with their tests (3,998
+      passing), built by `build.mjs` (2026-11-17).
       Verify: 637 components and their tests pass; a scratch consumer imports the built package.
-- [ ] **P36-T2 Solid in the root checks and CI.** `bin/check-class-names`, `check-html-tags`, `check-coverage`,
+- [x] **P36-T2 Solid in the root checks and CI.** `bin/check-class-names`, `check-html-tags`, `check-coverage`,
       `check-dev-warnings`, `check-built-english`, `check-identifier-inputs`, `check-port-data-attributes`, and CI's headless
-      matrix. Verify: `bin/test` and CI cover `lily-design-system-solid-headless`.
+      matrix. Verify: `bin/test` and CI cover `lily-design-system-solid-headless`. _(2026-11-17: all seven, plus
+      `check-coverage` (no stories: Storybook has no Solid 2 framework), `sync-shared-modules` and `publish-headless`;
+      `bin/smoke-packages` does not yet render the Solid tarball.)_
 - [ ] **P36-T3 Solid helper packages.** The 21 helper packages, `lily-design-system-solid-*`, ported from React.
       Verify: `bin/list-helper-packages solid` lists them and each has passing tests.
 - [ ] **P36-T4 Solid example app** with the three required routes (`/`, `/components`, `/components/{slug}`), on Solid 2's

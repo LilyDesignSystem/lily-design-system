@@ -26,7 +26,7 @@ JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-hel
 HELPER_FRAMEWORKS=(svelte react vue angular html web-components nunjucks alpine)
 HEADLESS_CATALOGS=(lily-design-system-svelte-headless lily-design-system-react-headless lily-design-system-vue-headless
     lily-design-system-angular-headless lily-design-system-nunjucks-headless lily-design-system-web-components-headless
-    lily-design-system-alpine-headless)
+    lily-design-system-alpine-headless lily-design-system-solid-headless)
 export SCRATCH="${RUNNER_TEMP:-${TMPDIR:-/tmp}}"
 
 # Results, for the closing table.

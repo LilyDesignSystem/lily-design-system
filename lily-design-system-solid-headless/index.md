@@ -8,9 +8,17 @@ structure, semantics, accessibility and behaviour.
 
 ## Status
 
-All 637 catalog components, each with the React catalog's tests in their Solid form (3,998 tests, all passing). Not
-yet published: the build, the barrel and the root checks come next ([spec/index.md](spec/index.md)). The plan and the list are in
-[spec/index.md](spec/index.md).
+All 637 catalog components, each with the React catalog's tests in their Solid form (3,998 tests, all passing), checked
+by the same root-element, class-name, coverage and dev-warning gates as the other catalogs, and in CI.
+
+## Install
+
+```bash
+pnpm add @lilydesignsystem/solid-headless
+```
+
+A Solid app (through `@solidjs/vite-plugin`) resolves the package's `solid` export condition, the JSX source, and
+compiles it itself, for the browser or the server. Any other bundler gets `dist/index.js`, compiled for the browser.
 
 ## Requirements
 
@@ -21,8 +29,7 @@ yet published: the build, the barrel and the root checks come next ([spec/index.
 
 ```tsx
 import { createSignal } from "solid-js";
-import Button from "@lilydesignsystem/solid-headless/components/Button";
-import TextInput from "@lilydesignsystem/solid-headless/components/TextInput";
+import { Button, TextInput } from "@lilydesignsystem/solid-headless";
 
 function Example() {
   const [name, setName] = createSignal("");
@@ -55,6 +62,7 @@ function Example() {
 pnpm install
 pnpm test      # Vitest + @solidjs/testing-library in jsdom
 pnpm check     # tsc --noEmit
+pnpm build     # index.ts barrel, dist/source (JSX + types) and dist/index.js
 ```
 
 `bin/convert-react-to-solid.py` is the porting aid that produced the components from the React catalog (`--hooks` for

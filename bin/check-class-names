@@ -34,6 +34,7 @@ const components = read("components.tsv")
 const FRAMEWORKS = [
   { id: "svelte", impl: (c) => `lily-design-system-svelte-headless/components/${c.name}/${c.name}.svelte` },
   { id: "react", impl: (c) => `lily-design-system-react-headless/components/${c.name}.tsx` },
+  { id: "solid", impl: (c) => `lily-design-system-solid-headless/components/${c.name}.tsx` },
   { id: "vue", impl: (c) => `lily-design-system-vue-headless/components/${c.name}.vue` },
   { id: "angular", impl: (c) => `lily-design-system-angular-headless/components/${c.name}.ts` },
   { id: "html", impl: (c) => `lily-design-system-html-headless/components/${c.slug}.html` },

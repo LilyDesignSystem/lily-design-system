@@ -33,7 +33,7 @@ maintainer on 2026-11-17; tracked in the root [tasks.md](../../tasks.md) as Phas
 ## Status (2026-11-17)
 
 - 637 of 637 components ported; 3,998 tests passing; `tsc --noEmit` clean; ESLint 0 errors; Prettier clean.
-- Not published (`"private": true`); no build or barrel yet.
+- Built by `build.mjs`; in the root checks and CI's headless matrix.
 
 ## Porting notes
 
@@ -57,9 +57,9 @@ maintainer on 2026-11-17; tracked in the root [tasks.md](../../tasks.md) as Phas
 
 - [x] **S1** Port every component with its tests (637 of 637, 2026-11-17).
       Verify: every row of `components.tsv` has `components/{Name}.tsx` and a passing test.
-- [ ] **S2** `build.mjs`: generate the `index.ts` barrel and build `dist/` (Solid's compiled output plus types and the
+- [x] **S2** `build.mjs`: generate the `index.ts` barrel and build `dist/` (Solid's compiled output plus types and the
       `solid` export condition). Verify: a scratch consumer imports and renders a component.
-- [ ] **S3** Add the catalog to the root checks (`bin/check-class-names`, `check-html-tags`, `check-coverage`,
+- [x] **S3** Add the catalog to the root checks (`bin/check-class-names`, `check-html-tags`, `check-coverage`,
       `check-dev-warnings`, `check-built-english`, `check-identifier-inputs`, `check-port-data-attributes`) and to CI's
       headless matrix. Verify: `bin/test` and CI cover `lily-design-system-solid-headless`.
 - [ ] **S4** Publish `@lilydesignsystem/solid-headless` 0.1.0 (maintainer approval).
@@ -69,7 +69,7 @@ maintainer on 2026-11-17; tracked in the root [tasks.md](../../tasks.md) as Phas
 - [x] 637 components (the root-element and class checks come with S3).
 - [x] Every component's React tests pass in their Solid form (3,998).
 - [ ] No hardcoded English; no CSS; rest props spread on the root.
-- [ ] The package builds, and a consumer can import it.
+- [x] The package builds, and a consumer can import it (a render of the built bundle, 2026-11-17).
 
 ## Sources
 

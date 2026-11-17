@@ -139,6 +139,7 @@ jobs:
           - lily-design-system-nunjucks-headless
           - lily-design-system-web-components-headless
           - lily-design-system-alpine-headless
+          - lily-design-system-solid-headless
     steps:
       - uses: actions/checkout@v7
       - uses: pnpm/action-setup@v6

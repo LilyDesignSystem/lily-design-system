@@ -14,6 +14,7 @@ TOP = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PATHS = {
     "svelte": "lily-design-system-svelte-headless/components/{name}/{name}.svelte",
     "react": "lily-design-system-react-headless/components/{name}.tsx",
+    "solid": "lily-design-system-solid-headless/components/{name}.tsx",
     "vue": "lily-design-system-vue-headless/components/{name}.vue",
     "angular": "lily-design-system-angular-headless/components/{name}.ts",
 }
@@ -45,7 +46,7 @@ def main():
                 errors.append(f"{catalog}: {name} now warns; remove it from the allow list")
     for message in errors:
         print(f"Error: {message}")
-    print(f"check-dev-warnings: {total} components in 4 catalogs: {'FAILED' if errors else 'OK'}")
+    print(f"check-dev-warnings: {total} components in {len(PATHS)} catalogs: {'FAILED' if errors else 'OK'}")
     return 1 if errors else 0
 
 

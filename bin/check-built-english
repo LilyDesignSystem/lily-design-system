@@ -39,6 +39,7 @@ ALLOW = os.path.join(TOP, "bin", "check-built-english.allow.json")
 CATALOGS = {
     "svelte": "lily-design-system-svelte-headless/components/*/*.svelte",
     "react": "lily-design-system-react-headless/components/*.tsx",
+    "solid": "lily-design-system-solid-headless/components/*.tsx",
     "vue": "lily-design-system-vue-headless/components/*.vue",
     "angular": "lily-design-system-angular-headless/components/*.ts",
     "web-components": "lily-design-system-web-components-headless/components/*.ts",

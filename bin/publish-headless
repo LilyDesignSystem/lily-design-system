@@ -13,6 +13,7 @@
 #   bin/publish-headless --dry-run     # validate builds/tarballs, publish nothing
 #   bin/publish-headless --nuget-only  # publish only the Blazor/NuGet package (real)
 #   bin/publish-headless --nuget-only --dry-run  # same, dry-run
+#   bin/publish-headless --npm-only    # publish only the npm packages (real); NuGet goes through publish.yml
 #   bin/publish-headless               # publish everything for real
 #
 # A real publish (not --dry-run) outside CI needs a clean, green `bin/ci --full` receipt for HEAD (tasks.md P24-T5).
@@ -39,10 +40,12 @@ set -eu
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 DRY=""
 NUGET_ONLY=""
+NPM_ONLY=""
 for arg in "$@"; do
   case "$arg" in
     --dry-run) DRY="--dry-run" ;;
     --nuget-only) NUGET_ONLY="1" ;;
+    --npm-only) NPM_ONLY="1" ;;
   esac
 done
 
@@ -116,13 +119,15 @@ if [ -z "$NUGET_ONLY" ]; then
   # (573/608; the other 35 are excluded by design, see its spec/index.md). Its prepublishOnly runs build.mjs, so it publishes
   # from the package root like svelte/react/vue.
   # alpine-headless (added 2026-11-14) ships files as they are, the plugin and the snippets, with no build, like html.
+  # solid-headless (added 2026-11-17) builds dist/ in its prepublishOnly, like svelte/react/vue.
   for d in "$ROOT"/lily-design-system-svelte-headless \
            "$ROOT"/lily-design-system-react-headless \
            "$ROOT"/lily-design-system-vue-headless \
            "$ROOT"/lily-design-system-html-headless \
            "$ROOT"/lily-design-system-nunjucks-headless \
            "$ROOT"/lily-design-system-web-components-headless \
-           "$ROOT"/lily-design-system-alpine-headless; do
+           "$ROOT"/lily-design-system-alpine-headless \
+           "$ROOT"/lily-design-system-solid-headless; do
     [ -f "$d/package.json" ] || continue
     ensure_installed "$d"
     echo "--> $(basename "$d")"
@@ -134,6 +139,11 @@ if [ -z "$NUGET_ONLY" ]; then
   ( cd "$ROOT/lily-design-system-angular-headless" && npm run build )
   echo "--> lily-design-system-angular-headless (from dist/)"
   publish_npm_package "$ROOT/lily-design-system-angular-headless/dist"
+fi
+
+if [ -n "$NPM_ONLY" ]; then
+  echo "done (--npm-only: NuGet skipped)"
+  exit 0
 fi
 
 echo "== Blazor NuGet package =="

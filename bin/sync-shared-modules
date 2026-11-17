@@ -47,6 +47,7 @@ EXTRA_TARGETS = {
     "menu-keys.ts": [
         "lily-design-system-svelte-headless/components/Menu/menu-keys.ts",
         "lily-design-system-react-headless/components/menu-keys.ts",
+        "lily-design-system-solid-headless/components/menu-keys.ts",
         "lily-design-system-react-next-examples/components/menu-keys.ts",
         "lily-design-system-vue-headless/components/menu-keys.ts",
         "lily-design-system-vue-nuxt-examples/components/menu-keys.ts",
@@ -64,6 +65,7 @@ EXTRA_TARGETS = {
         "lily-design-system-svelte-headless/components/widget-keys.ts",
         "lily-design-system-svelte-sveltekit-examples/src/lib/components/widget-keys.ts",
         "lily-design-system-react-headless/components/widget-keys.ts",
+        "lily-design-system-solid-headless/components/widget-keys.ts",
         "lily-design-system-react-next-examples/components/widget-keys.ts",
         "lily-design-system-vue-headless/components/widget-keys.ts",
         "lily-design-system-vue-nuxt-examples/components/widget-keys.ts",
@@ -95,6 +97,7 @@ EXTRA_TARGETS = {
     "widget-keys.test.ts": [
         "lily-design-system-svelte-headless/components/widget-keys.test.ts",
         "lily-design-system-react-headless/components/widget-keys.test.ts",
+        "lily-design-system-solid-headless/components/widget-keys.test.ts",
         "lily-design-system-vue-headless/components/widget-keys.test.ts",
         "lily-design-system-angular-headless/components/widget-keys.spec.ts",  # Angular runs *.spec.ts
         "lily-design-system-web-components-headless/lib/widget-keys.test.ts",
@@ -102,6 +105,7 @@ EXTRA_TARGETS = {
     "command-keys.ts": [
         "lily-design-system-svelte-headless/components/Command/command-keys.ts",
         "lily-design-system-react-headless/components/command-keys.ts",
+        "lily-design-system-solid-headless/components/command-keys.ts",
         "lily-design-system-react-next-examples/components/command-keys.ts",
         "lily-design-system-vue-headless/components/command-keys.ts",
         "lily-design-system-vue-nuxt-examples/components/command-keys.ts",
@@ -117,6 +121,7 @@ EXTRA_TARGETS = {
         "lily-design-system-svelte-headless/components/clinical-format.ts",
         "lily-design-system-svelte-sveltekit-examples/src/lib/components/clinical-format.ts",
         "lily-design-system-react-headless/components/clinical-format.ts",
+        "lily-design-system-solid-headless/components/clinical-format.ts",
         "lily-design-system-react-next-examples/components/clinical-format.ts",
         "lily-design-system-vue-headless/components/clinical-format.ts",
         "lily-design-system-vue-nuxt-examples/components/clinical-format.ts",
@@ -128,6 +133,7 @@ EXTRA_TARGETS = {
     "clinical-format.test.ts": [
         "lily-design-system-svelte-headless/components/clinical-format.test.ts",
         "lily-design-system-react-headless/components/clinical-format.test.ts",
+        "lily-design-system-solid-headless/components/clinical-format.test.ts",
         "lily-design-system-vue-headless/components/clinical-format.test.ts",
         "lily-design-system-angular-headless/components/clinical-format.spec.ts",  # Angular runs *.spec.ts
         "lily-design-system-web-components-headless/lib/clinical-format.test.ts",
@@ -138,6 +144,7 @@ EXTRA_TARGETS = {
         "lily-design-system-svelte-headless/components/ips-sections.ts",
         "lily-design-system-svelte-sveltekit-examples/src/lib/components/ips-sections.ts",
         "lily-design-system-react-headless/components/ips-sections.ts",
+        "lily-design-system-solid-headless/components/ips-sections.ts",
         "lily-design-system-react-next-examples/components/ips-sections.ts",
         "lily-design-system-vue-headless/components/ips-sections.ts",
         "lily-design-system-vue-nuxt-examples/components/ips-sections.ts",
@@ -148,6 +155,7 @@ EXTRA_TARGETS = {
     "ips-sections.test.ts": [
         "lily-design-system-svelte-headless/components/ips-sections.test.ts",
         "lily-design-system-react-headless/components/ips-sections.test.ts",
+        "lily-design-system-solid-headless/components/ips-sections.test.ts",
         "lily-design-system-vue-headless/components/ips-sections.test.ts",
         "lily-design-system-angular-headless/components/ips-sections.spec.ts",  # Angular runs *.spec.ts
         "lily-design-system-web-components-headless/lib/ips-sections.test.ts",
@@ -155,6 +163,7 @@ EXTRA_TARGETS = {
     "middle-truncation.ts": [
         "lily-design-system-svelte-headless/components/MiddleTruncation/middle-truncation.ts",
         "lily-design-system-react-headless/components/middle-truncation.ts",
+        "lily-design-system-solid-headless/components/middle-truncation.ts",
         "lily-design-system-vue-headless/components/middle-truncation.ts",
         "lily-design-system-angular-headless/components/middle-truncation.ts",
         "lily-design-system-web-components-headless/lib/middle-truncation.ts",
@@ -250,6 +259,7 @@ EXTRA_TARGETS = {
     "wheel-picker.ts": [
         "lily-design-system-svelte-headless/components/WheelPicker/wheel-picker.ts",
         "lily-design-system-react-headless/components/wheel-picker.ts",
+        "lily-design-system-solid-headless/components/wheel-picker.ts",
         "lily-design-system-vue-headless/components/wheel-picker.ts",
         "lily-design-system-angular-headless/components/wheel-picker.ts",
         "lily-design-system-web-components-headless/lib/wheel-picker.ts",
@@ -273,6 +283,7 @@ EXTRA_TARGETS = {
         "lily-design-system-svelte-headless/components/dev-warning.ts",
         "lily-design-system-svelte-sveltekit-examples/src/lib/components/dev-warning.ts",
         "lily-design-system-react-headless/components/dev-warning.ts",
+        "lily-design-system-solid-headless/components/dev-warning.ts",
         "lily-design-system-react-next-examples/components/dev-warning.ts",
         "lily-design-system-vue-headless/components/dev-warning.ts",
         "lily-design-system-vue-nuxt-examples/components/dev-warning.ts",
@@ -283,6 +294,7 @@ EXTRA_TARGETS = {
     "combobox-keys.ts": [
         "lily-design-system-svelte-headless/components/Combobox/combobox-keys.ts",
         "lily-design-system-react-headless/components/combobox-keys.ts",
+        "lily-design-system-solid-headless/components/combobox-keys.ts",
         "lily-design-system-react-next-examples/components/combobox-keys.ts",
         "lily-design-system-vue-headless/components/combobox-keys.ts",
         "lily-design-system-vue-nuxt-examples/components/combobox-keys.ts",
@@ -293,6 +305,7 @@ EXTRA_TARGETS = {
     "combobox-keys.test.ts": [
         "lily-design-system-svelte-headless/components/Combobox/combobox-keys.test.ts",
         "lily-design-system-react-headless/components/combobox-keys.test.ts",
+        "lily-design-system-solid-headless/components/combobox-keys.test.ts",
         "lily-design-system-vue-headless/components/combobox-keys.test.ts",
         "lily-design-system-angular-headless/components/combobox-keys.spec.ts",  # Angular runs *.spec.ts
         "lily-design-system-web-components-headless/lib/combobox-keys.test.ts",
@@ -317,6 +330,7 @@ EXTRA_TARGETS = {
     "listbox-machine.ts": [
         "lily-design-system-svelte-headless/components/Listbox/listbox-machine.ts",
         "lily-design-system-react-headless/components/listbox-machine.ts",
+        "lily-design-system-solid-headless/components/listbox-machine.ts",
         "lily-design-system-react-next-examples/components/listbox-machine.ts",
         "lily-design-system-vue-headless/components/listbox-machine.ts",
         "lily-design-system-vue-nuxt-examples/components/listbox-machine.ts",
@@ -328,6 +342,7 @@ EXTRA_TARGETS = {
     "listbox-machine.test.ts": [
         "lily-design-system-svelte-headless/components/Listbox/listbox-machine.test.ts",
         "lily-design-system-react-headless/components/listbox-machine.test.ts",
+        "lily-design-system-solid-headless/components/listbox-machine.test.ts",
         "lily-design-system-vue-headless/components/listbox-machine.test.ts",
         "lily-design-system-angular-headless/components/listbox-machine.spec.ts",  # Angular runs *.spec.ts
         "lily-design-system-web-components-headless/lib/listbox-machine.test.ts",
@@ -335,6 +350,7 @@ EXTRA_TARGETS = {
     "typeahead.ts": [
         "lily-design-system-svelte-headless/components/Listbox/typeahead.ts",
         "lily-design-system-react-headless/components/typeahead.ts",
+        "lily-design-system-solid-headless/components/typeahead.ts",
         "lily-design-system-react-next-examples/components/typeahead.ts",
         "lily-design-system-vue-headless/components/typeahead.ts",
         "lily-design-system-vue-nuxt-examples/components/typeahead.ts",
@@ -346,6 +362,7 @@ EXTRA_TARGETS = {
     "search-text.ts": [
         "lily-design-system-svelte-headless/components/Listbox/search-text.ts",
         "lily-design-system-react-headless/components/search-text.ts",
+        "lily-design-system-solid-headless/components/search-text.ts",
         "lily-design-system-react-next-examples/components/search-text.ts",
         "lily-design-system-vue-headless/components/search-text.ts",
         "lily-design-system-vue-nuxt-examples/components/search-text.ts",
@@ -357,6 +374,7 @@ EXTRA_TARGETS = {
     "overflow-navigation.ts": [
         "lily-design-system-svelte-headless/components/NavigationMenu/overflow-navigation.ts",
         "lily-design-system-react-headless/components/overflow-navigation.ts",
+        "lily-design-system-solid-headless/components/overflow-navigation.ts",
         "lily-design-system-vue-headless/components/overflow-navigation.ts",
         "lily-design-system-angular-headless/components/overflow-navigation.ts",
         "lily-design-system-web-components-headless/lib/overflow-navigation.ts",

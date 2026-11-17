@@ -33,6 +33,7 @@ const components = read("components.tsv")
 const FRAMEWORKS = [
   { id: "svelte", impl: (c) => `lily-design-system-svelte-headless/components/${c.name}/${c.name}.svelte` },
   { id: "react", impl: (c) => `lily-design-system-react-headless/components/${c.name}.tsx` },
+  { id: "solid", impl: (c) => `lily-design-system-solid-headless/components/${c.name}.tsx` },
   { id: "vue", impl: (c) => `lily-design-system-vue-headless/components/${c.name}.vue` },
   { id: "angular", impl: (c) => `lily-design-system-angular-headless/components/${c.name}.ts` },
   { id: "html", impl: (c) => `lily-design-system-html-headless/components/${c.slug}.html` },
@@ -95,7 +96,7 @@ function baseClassRoot(body, slug) {
     `\\bbaseClass\\s*[=:]\\s*["'\`]${s}["'\`]|\\bbaseClass\\s*=\\s*input<string>\\(\\s*["'\`]${s}["'\`]|\\bBaseCssClass\\s*\\{[^}]*\\}\\s*=\\s*"${s}"`,
   );
   if (!declared.test(body)) return null;
-  const use = /(?:\bclass|className|:class)\s*=\s*[{"'`]*\s*(?:\$\{\s*|\{\{\s*|@)?(?:baseClass|RootClass)\b/g;
+  const use = /(?:\bclass|className|:class)\s*=\s*[{"'`]*\s*(?:\$\{\s*|\{\{\s*|@)?(?:p\.)?(?:baseClass|RootClass)\b/g;
   const m = use.exec(body);
   if (!m) return null;
   const open = body.lastIndexOf("<", m.index);
