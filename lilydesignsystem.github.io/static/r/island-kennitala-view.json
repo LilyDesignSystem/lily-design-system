@@ -24,7 +24,7 @@
     "summary-list-item"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/island-kennitala-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/island-kennitala-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/IslandKennitalaView/IslandKennitalaView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/IslandKennitalaView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/IslandKennitalaView.vue",

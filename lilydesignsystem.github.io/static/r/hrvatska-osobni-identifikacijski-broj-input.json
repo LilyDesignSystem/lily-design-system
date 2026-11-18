@@ -28,7 +28,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/hrvatska-osobni-identifikacijski-broj-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/hrvatska-osobni-identifikacijski-broj-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput/HrvatskaOsobniIdentifikacijskiBrojInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput.vue",

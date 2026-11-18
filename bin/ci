@@ -140,7 +140,14 @@ job_headless() {
 }
 
 html_headless() {
-    cd lily-design-system-html-headless
+    (
+        cd lily-design-system-html-headless
+        pnpm install --frozen-lockfile
+        pnpm run check
+        pnpm test
+    ) || return 1
+    # Its national identifiers add-on (spec/headless-identifiers) runs the same way.
+    cd lily-design-system-html-headless-identifiers
     pnpm install --frozen-lockfile
     pnpm run check
     pnpm test

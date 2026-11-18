@@ -27,7 +27,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/indonesia-nomor-induk-kependudukan-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/indonesia-nomor-induk-kependudukan-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/IndonesiaNomorIndukKependudukanInput/IndonesiaNomorIndukKependudukanInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/IndonesiaNomorIndukKependudukanInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/IndonesiaNomorIndukKependudukanInput.vue",

@@ -27,7 +27,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/eire-individual-health-identifier-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/eire-individual-health-identifier-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/EireIndividualHealthIdentifierInput/EireIndividualHealthIdentifierInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/EireIndividualHealthIdentifierInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/EireIndividualHealthIdentifierInput.vue",

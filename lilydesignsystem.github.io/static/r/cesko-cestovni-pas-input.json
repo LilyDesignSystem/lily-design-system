@@ -28,7 +28,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/cesko-cestovni-pas-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/cesko-cestovni-pas-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/CeskoCestovniPasInput/CeskoCestovniPasInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/CeskoCestovniPasInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/CeskoCestovniPasInput.vue",

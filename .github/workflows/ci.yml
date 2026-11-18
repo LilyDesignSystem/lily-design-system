@@ -175,7 +175,9 @@ jobs:
         with:
           node-version: 26
           cache: pnpm
-          cache-dependency-path: lily-design-system-html-headless/pnpm-lock.yaml
+          cache-dependency-path: |
+            lily-design-system-html-headless/pnpm-lock.yaml
+            lily-design-system-html-headless-identifiers/pnpm-lock.yaml
       # Install, typecheck and the WebDriverIO specs in headless Chrome.
       - run: bin/ci --job html-headless
 

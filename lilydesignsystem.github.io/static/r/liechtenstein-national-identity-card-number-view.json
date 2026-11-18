@@ -24,7 +24,7 @@
     "summary-list-item"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/liechtenstein-national-identity-card-number-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/liechtenstein-national-identity-card-number-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberView/LiechtensteinNationalIdentityCardNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberView.vue",

@@ -28,7 +28,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/eesti-isikukood-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/eesti-isikukood-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/EestiIsikukoodInput/EestiIsikukoodInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/EestiIsikukoodInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/EestiIsikukoodInput.vue",

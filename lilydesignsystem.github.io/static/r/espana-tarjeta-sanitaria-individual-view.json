@@ -26,7 +26,7 @@
     "tuaisceart-eireann-health-and-care-number-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/espana-tarjeta-sanitaria-individual-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/espana-tarjeta-sanitaria-individual-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/EspanaTarjetaSanitariaIndividualView/EspanaTarjetaSanitariaIndividualView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/EspanaTarjetaSanitariaIndividualView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/EspanaTarjetaSanitariaIndividualView.vue",

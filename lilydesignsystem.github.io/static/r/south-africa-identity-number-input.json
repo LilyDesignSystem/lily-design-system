@@ -27,7 +27,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/south-africa-identity-number-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/south-africa-identity-number-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SouthAfricaIdentityNumberInput/SouthAfricaIdentityNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SouthAfricaIdentityNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SouthAfricaIdentityNumberInput.vue",

@@ -27,7 +27,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/nigeria-national-identification-number-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/nigeria-national-identification-number-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/NigeriaNationalIdentificationNumberInput/NigeriaNationalIdentificationNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/NigeriaNationalIdentificationNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/NigeriaNationalIdentificationNumberInput.vue",

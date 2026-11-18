@@ -29,7 +29,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/united-kingdom-national-health-service-number-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/united-kingdom-national-health-service-number-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberInput/UnitedKingdomNationalHealthServiceNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberInput.vue",

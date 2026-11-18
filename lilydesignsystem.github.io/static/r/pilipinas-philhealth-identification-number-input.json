@@ -27,7 +27,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/pilipinas-philhealth-identification-number-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/pilipinas-philhealth-identification-number-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberInput/PilipinasPhilhealthIdentificationNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberInput.vue",

@@ -24,7 +24,7 @@
     "summary-list-item"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/malta-national-identification-number-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/malta-national-identification-number-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/MaltaNationalIdentificationNumberView/MaltaNationalIdentificationNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/MaltaNationalIdentificationNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MaltaNationalIdentificationNumberView.vue",

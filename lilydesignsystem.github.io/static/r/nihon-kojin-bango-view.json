@@ -24,7 +24,7 @@
     "summary-list-item"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/nihon-kojin-bango-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/nihon-kojin-bango-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/NihonKojinBangoView/NihonKojinBangoView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/NihonKojinBangoView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/NihonKojinBangoView.vue",

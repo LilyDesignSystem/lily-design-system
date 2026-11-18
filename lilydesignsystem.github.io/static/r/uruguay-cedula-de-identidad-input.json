@@ -27,7 +27,7 @@
     "text-input"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/uruguay-cedula-de-identidad-input.html",
+    "html": "lily-design-system-html-headless-identifiers/components/uruguay-cedula-de-identidad-input.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/UruguayCedulaDeIdentidadInput/UruguayCedulaDeIdentidadInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/UruguayCedulaDeIdentidadInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/UruguayCedulaDeIdentidadInput.vue",

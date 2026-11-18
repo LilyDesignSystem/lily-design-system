@@ -24,7 +24,7 @@
     "summary-list-item"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/slovensko-pas-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/slovensko-pas-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/SlovenskoPasView/SlovenskoPasView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SlovenskoPasView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SlovenskoPasView.vue",

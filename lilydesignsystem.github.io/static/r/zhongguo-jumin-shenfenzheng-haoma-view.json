@@ -24,7 +24,7 @@
     "summary-list-item"
   ],
   "files": {
-    "html": "lily-design-system-html-headless/components/zhongguo-jumin-shenfenzheng-haoma-view.html",
+    "html": "lily-design-system-html-headless-identifiers/components/zhongguo-jumin-shenfenzheng-haoma-view.html",
     "svelte": "lily-design-system-svelte-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaView/ZhongguoJuminShenfenzhengHaomaView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaView.vue",

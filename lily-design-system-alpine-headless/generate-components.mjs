@@ -28,17 +28,22 @@ const pascal = (slug) => catalog.get(slug).name;
 // the Alpine snippet is the same markup. Snippets with a script need a
 // hand-written behaviour (BEHAVIOURAL below) and are added a batch at a time.
 const htmlDir = join(root, "..", "lily-design-system-html-headless", "components");
+// The national identifiers' snippets live in the HTML catalog's -headless-identifiers package (spec/headless-identifiers).
+const htmlIdDir = join(root, "..", "lily-design-system-html-headless-identifiers", "components");
+const htmlDirs = [htmlDir, htmlIdDir].filter((dir) => existsSync(dir));
+/** The HTML catalog's snippet for a slug, from whichever package has it. */
+const htmlSource = (slug) => {
+    const dir = htmlDirs.find((d) => existsSync(join(d, `${slug}.html`))) ?? htmlDir;
+    return join(dir, `${slug}.html`);
+};
 // Written by hand, not by this generator: each wraps a pure module of its own (middle-truncation.js, wheel-picker.js)
 // with tests written alongside it. --check fails on any other component it does not write.
 const HAND_WRITTEN = new Set(["middle-truncation", "wheel-picker"]);
-const STATIC = readdirSync(htmlDir)
+const STATIC = htmlDirs
+    .flatMap((dir) => readdirSync(dir))
     .filter((f) => f.endsWith(".html") && !f.includes("fixture"))
     .map((f) => f.slice(0, -5))
-    .filter(
-        (slug) =>
-            catalog.has(slug) &&
-            !/<script/.test(readFileSync(join(htmlDir, slug + ".html"), "utf8")),
-    )
+    .filter((slug) => catalog.has(slug) && !/<script/.test(readFileSync(htmlSource(slug), "utf8")))
     .sort();
 
 // slug -> { tag, keyboard, aria, markup, test }
@@ -587,10 +592,7 @@ const outputs = new Map();
 const out = (slug, ext, text) => outputs.set(join(root, "components", `${slug}.${ext}`), text);
 
 for (const slug of STATIC) {
-    const src = readFileSync(
-        join(root, "..", "lily-design-system-html-headless", "components", `${slug}.html`),
-        "utf8",
-    );
+    const src = readFileSync(htmlSource(slug), "utf8");
     const meta = (k) => (src.match(new RegExp(`^  ${k}: (.*)$`, "m")) || [])[1] || "";
     // Drop every leading comment block (some sources carry two headers) and the script.
     let markup = src.replace(/\n*<script>[\s\S]*<\/script>\s*$/, "");
