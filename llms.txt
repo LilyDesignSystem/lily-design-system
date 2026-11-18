@@ -67,8 +67,8 @@ searchable component catalog: https://lilydesignsystem.com/.
   framework pairs (and the unpaired Web Components catalog), per-framework
   file shapes, the copy-pattern; Alpine.js is documented in its own
   subproject's `spec/index.md`.
-- [spec/agent-skills/index.md](spec/agent-skills/index.md): the 27 Claude
-  Skills (end-user, maintainer, eight framework umbrellas, sixteen
+- [spec/agent-skills/index.md](spec/agent-skills/index.md): the 30 Claude
+  Skills (end-user, maintainer, nine framework umbrellas, eighteen
   headless/helpers skills, and the Alpine.js headless skill).
 - [spec/examples/index.md](spec/examples/index.md): the example apps and the
   demonstration-page contract (live demo, variants, real usage example).

@@ -3886,8 +3886,10 @@ library comes first; its plan, decisions and the list of components still to por
       its data comes from `bin/generate-registries` and `bin/generate-examples` (React's usage made Solid), its themes
       from `bin/sync`. 61 Playwright specs pass in Chromium and the 114 cross-engine ones in Firefox and WebKit. The
       React app's fourteen composed pages are not ported yet.)_
-- [ ] **P36-T5 Solid skills:** `lily-design-system-solid-headless-skill`, `-helpers-skill` and `-skill`.
-      Verify: each has the required files and is listed in `spec/agent-skills`.
+- [x] **P36-T5 Solid skills:** `lily-design-system-solid-headless-skill`, `-helpers-skill` and `-skill`.
+      Verify: each has the required files and is listed in `spec/agent-skills`. _(2026-11-18: all three, with every
+      claim checked against the packages; the skill counts are 30 in `AGENTS/lily.md`, `spec/agent-skills`, the
+      `llms` files and the docs site's `/skills` page, which has a Solid row in English and all 63 translations.)_
 - [x] **P36-T6 Publish** `@lilydesignsystem/solid-headless` and the helpers (maintainer approval). _(2026-11-17:
       `@lilydesignsystem/solid-headless` 0.1.0 published from 07b6885d1, after a clean `bin/ci --full`. 2026-11-18:
       `solid-headless` 0.1.1 (the form-reset fix, P36-T7) and the 21 helpers at 0.1.0, published from e0153ab77 after a

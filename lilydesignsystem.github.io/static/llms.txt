@@ -73,9 +73,9 @@ actually live.
   design tokens are published in DTCG format and can be imported into
   Figma today with an existing community plugin.
 - [Lily + Claude Code](https://lilydesignsystem.com/skills/):
-  27 Claude Skills — general, per-framework umbrella, and per-subproject
+  30 Claude Skills — general, per-framework umbrella, and per-subproject
   headless/helpers — give Claude Code a curated, loadable entry point
-  into Lily; how to add one, and links to all 27.
+  into Lily; how to add one, and links to all 30.
 
 ## Source (GitHub)
 
@@ -87,7 +87,7 @@ actually live.
 - [components.tsv](https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv):
   the canonical 609-component catalog (slug, PascalCase name, description).
 - [Canonical monorepo](https://github.com/LilyDesignSystem/lily-design-system):
-  all 211 subprojects (184 implementation subprojects — 9 headless, 8 example, 167 helper packages — plus 27 Claude Skills),
+  all 245 subprojects (215 implementation subprojects — 10 headless, 9 example, 196 helper packages — plus 30 Claude Skills),
   the `bin/` tooling, and full change history.
 
 ## Optional

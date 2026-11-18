@@ -10,8 +10,8 @@ maintainer on 2026-11-17; tracked in the root [tasks.md](../../tasks.md) as Phas
 
 - In scope: `components/{Name}.tsx` for every row of [components.tsv](../../components.tsv), each with tests; a typed barrel and a
   built package (`@lilydesignsystem/solid-headless`); the root `bin/` checks that already cover the other catalogs.
-- Later phases, not this subproject: Solid helper packages (`lily-design-system-solid-*`), a Solid example app, and the
-  `lily-design-system-solid-*-skill` packages.
+- Other subprojects (all done 2026-11-18): the 21 Solid helper packages (`lily-design-system-solid-*`), the example app
+  (`lily-design-system-solid-examples`) and the three `lily-design-system-solid-*-skill` packages.
 - Out of scope: SolidStart (retired by Solid 2.0), Solid 1.x compatibility.
 
 ## Decisions
@@ -62,7 +62,8 @@ maintainer on 2026-11-17; tracked in the root [tasks.md](../../tasks.md) as Phas
 - [x] **S3** Add the catalog to the root checks (`bin/check-class-names`, `check-html-tags`, `check-coverage`,
       `check-dev-warnings`, `check-built-english`, `check-identifier-inputs`, `check-port-data-attributes`) and to CI's
       headless matrix. Verify: `bin/test` and CI cover `lily-design-system-solid-headless`.
-- [ ] **S4** Publish `@lilydesignsystem/solid-headless` 0.1.0 (maintainer approval).
+- [x] **S4** Publish `@lilydesignsystem/solid-headless` 0.1.0 (maintainer approval). _(0.1.0 on 2026-11-17; 0.1.1, the
+      form-reset fix, on 2026-11-18.)_
 
 ## Acceptance criteria
 

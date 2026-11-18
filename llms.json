@@ -129,7 +129,7 @@
         {
           "title": "spec/agent-skills/index.md",
           "url": "spec/agent-skills/index.md",
-          "description": "The 27 Claude Skills (end-user, maintainer, eight framework umbrellas, sixteen headless/helpers skills, and the Alpine.js headless skill)."
+          "description": "The 30 Claude Skills (end-user, maintainer, nine framework umbrellas, eighteen headless/helpers skills, and the Alpine.js headless skill)."
         },
         {
           "title": "spec/examples/index.md",
