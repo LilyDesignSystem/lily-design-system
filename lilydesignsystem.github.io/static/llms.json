@@ -48,7 +48,7 @@
         { "title": "spec/index.md", "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/spec/index.md", "description": "The specification: vision, scope, architecture, naming conventions, composition patterns, acceptance criteria, roadmap." },
         { "title": "AGENTS.md", "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/AGENTS.md", "description": "Binding design-principle rules for AI coding agents." },
         { "title": "components.tsv", "url": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components.tsv", "description": "The canonical 607-component catalog (slug, PascalCase name, description)." },
-        { "title": "Canonical monorepo", "url": "https://github.com/LilyDesignSystem/lily-design-system", "description": "All 245 subprojects (215 implementation subprojects: 10 headless, 9 example, 196 helper packages; plus 30 Claude Skills), the bin/ tooling, and full change history." }
+        { "title": "Canonical monorepo", "url": "https://github.com/LilyDesignSystem/lily-design-system", "description": "All 255 subprojects (225 implementation subprojects: 10 headless, their 10 national identifier add-ons, 9 example, 196 helper packages; plus 30 Claude Skills), the bin/ tooling, and full change history." }
       ]
     },
     {

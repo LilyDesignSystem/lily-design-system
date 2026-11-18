@@ -131,3 +131,15 @@ An Alpine expression that evaluates to a **function** is called by Alpine, so sn
 No Alpine pickers (`theme-picker`, `locale-picker`, …), `picker-bar` or `filter`; no composed-page demos; and the packages are not
 yet in `bin/check-coverage`, `bin/check-class-names`, `bin/publish-headless`, `bin/publish-helpers` or `bin/smoke-packages`. Say so rather than implying
 otherwise. Each package's `spec/index.md` is the source of truth for scope.
+
+## National identifiers
+
+The 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier types: health
+numbers, national identity numbers, tax numbers, passports) are not in the headless package since 2026-11-18. They are its
+add-on, `@lilydesignsystem/alpine-headless-identifiers`:
+
+```bash
+pnpm add @lilydesignsystem/alpine-headless-identifiers
+```
+
+It has no dependency on `@lilydesignsystem/alpine-headless`; install both to have the whole catalog. Change an identifier's import from the headless package to this one; the component, its props and class hooks are unchanged. Why: `spec/headless-identifiers`.

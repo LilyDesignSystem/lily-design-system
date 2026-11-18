@@ -33,6 +33,23 @@ whose `Alpine.data` behaviours own state and keyboard for the interactive ones. 
 - [Lily Design System: Blazor headless](../lily-design-system-blazor-headless)
 - [Lily Design System: Nunjucks headless](../lily-design-system-nunjucks-headless)
 
+## Subprojects for headless national identifiers
+
+The catalog's 637 components are 473 core components and 164 national personal identifier components (an `-input` and a
+`-view` for each of 82 identifier types). Since 2026-11-18 each headless library ships the 473, and the 164 are an add-on
+package per catalog, `lily-design-system-{framework}-headless-identifiers`: npm `@lilydesignsystem/{framework}-headless-identifiers`,
+NuGet `LilyDesignSystem.Blazor.Headless.Identifiers`. Each keeps its catalog's file layout, so a root check finds an identifier
+by its headless path with `-headless/` read as `-headless-identifiers/`; the Blazor one depends on the headless package (for
+`ValueInputBase`), the others on nothing. `components.tsv` keeps all 637 rows (category `national` in
+`components-categories.tsv`). Spec: [spec/headless-identifiers](../spec/headless-identifiers/index.md).
+
+- [Svelte](../lily-design-system-svelte-headless-identifiers), [React](../lily-design-system-react-headless-identifiers),
+  [Solid](../lily-design-system-solid-headless-identifiers), [Vue](../lily-design-system-vue-headless-identifiers),
+  [Angular](../lily-design-system-angular-headless-identifiers), [HTML](../lily-design-system-html-headless-identifiers),
+  [Web Components](../lily-design-system-web-components-headless-identifiers),
+  [Nunjucks](../lily-design-system-nunjucks-headless-identifiers), [Alpine.js](../lily-design-system-alpine-headless-identifiers),
+  [Blazor](../lily-design-system-blazor-headless-identifiers)
+
 ## Subprojects for web app examples
 
 - [Lily Design System: HTML CSS JS examples](../lily-design-system-html-css-js-examples)

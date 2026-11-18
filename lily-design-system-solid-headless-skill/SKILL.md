@@ -99,6 +99,18 @@ a real `<dialog>` with `showModal()`; light-dismiss popups (`popover`, `popup`, 
 outside click. Keep their open state two-way. Per-component decisions: each `components/{slug}/AGENTS.md`, "Native
 platform".
 
+## National identifiers
+
+The 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier types: health
+numbers, national identity numbers, tax numbers, passports) are not in the headless package since 2026-11-18. They are its
+add-on, `@lilydesignsystem/solid-headless-identifiers`:
+
+```bash
+pnpm add @lilydesignsystem/solid-headless-identifiers
+```
+
+It has no dependency on `@lilydesignsystem/solid-headless`; install both to have the whole catalog. Change an identifier's import from the headless package to this one; the component, its props and class hooks are unchanged. Why: `spec/headless-identifiers`.
+
 ## When NOT this skill
 
 - For the Solid helper packages (the eleven `*-picker` helpers, `picker-bar`, the grid-like helpers, the editors,

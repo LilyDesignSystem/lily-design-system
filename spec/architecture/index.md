@@ -2,11 +2,11 @@
 
 > Lily Design System™ specification — topic doc. All topics: [spec index](../index.md).
 
-**Summary.** Lily™ is a monorepo holding a canonical 609-component catalog and tools, plus 215 implementation subprojects — 10 headless libraries (8 full-catalog with Solid, Web Components at its full achievable scope, Alpine.js), 9 example apps and 196 helper packages (one top-level subproject each) — together with the `@lilydesignsystem/themes` package, the `lilydesignsystem.github.io` docs site, and 27 Claude Skill packages. Packages publish from this monorepo; only the docs site is pushed to its own repository.
+**Summary.** Lily™ is a monorepo holding a canonical 609-component catalog and tools, plus 225 implementation subprojects — 10 headless libraries (8 full-catalog with Solid, Web Components at its full achievable scope, Alpine.js), their 10 national identifier add-ons (`-headless-identifiers`, 2026-11-18), 9 example apps and 196 helper packages (one top-level subproject each) — together with the `@lilydesignsystem/themes` package, the `lilydesignsystem.github.io` docs site, and 27 Claude Skill packages. Packages publish from this monorepo; only the docs site is pushed to its own repository.
 
 ## Scope
 
-This topic covers the monorepo directory layout, the 215 implementation subprojects, the themes package, the locale-translations package, docs site and skills, the monorepo publishing model (the subtree mirrors were retired 2026-10-10) and multi-forge remote fan-out, and the required files per subproject and per component directory.
+This topic covers the monorepo directory layout, the 225 implementation subprojects, the themes package, the locale-translations package, docs site and skills, the monorepo publishing model (the subtree mirrors were retired 2026-10-10) and multi-forge remote fan-out, and the required files per subproject and per component directory.
 
 It does not cover the vision or scope split (see [overview](../overview/index.md)), the catalog contents and naming (see [components](../components/index.md)), or the listing/scaffold/sync/test scripts in detail (see [tooling](../tooling/index.md)).
 
@@ -46,7 +46,7 @@ lily-design-system/                              ← canonical catalog + tools
 └── lilydesignsystem.github.io/                  ← the docs site (SvelteKit, GitHub Pages)
 ```
 
-## The 215 implementation subprojects
+## The 225 implementation subprojects
 
 | Framework | Headless library                                  | Example app                                     |
 | --------- | ------------------------------------------------- | ----------------------------------------------- |
@@ -59,6 +59,11 @@ lily-design-system/                              ← canonical catalog + tools
 | Blazor    | `LilyDesignSystem.Blazor.Headless` (NuGet)        | `lily-design-system-blazor-web-examples`        |
 | Nunjucks  | `@lilydesignsystem/nunjucks-headless`             | `lily-design-system-nunjucks-eleventy-examples` |
 | Alpine.js | `@lilydesignsystem/alpine-headless` (unpublished) | `lily-design-system-alpine-examples`            |
+
+Each headless library has a national identifiers add-on beside it, `lily-design-system-{framework}-headless-identifiers`
+(npm `@lilydesignsystem/{framework}-headless-identifiers`, NuGet `LilyDesignSystem.Blazor.Headless.Identifiers`), holding
+the 164 identifier components the headless library no longer ships (2026-11-18,
+[headless-identifiers](../headless-identifiers/index.md)).
 
 Headless libraries ship unstyled, accessible components; example apps demonstrate them with a full stylesheet and the three required routes (see [examples](../examples/index.md)).
 

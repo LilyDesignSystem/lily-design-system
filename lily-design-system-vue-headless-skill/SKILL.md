@@ -89,6 +89,18 @@ popups (`popover`, `popup`, `contextual-help`, `dropdown-menu`, `split-button`, 
 them on Escape or an outside click. Keep their open state two-way: listen for the change rather than assuming only your code closes
 them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native platform"; rule: `AGENTS/headless.md`.
 
+## National identifiers
+
+The 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier types: health
+numbers, national identity numbers, tax numbers, passports) are not in the headless package since 2026-11-18. They are its
+add-on, `@lilydesignsystem/vue-headless-identifiers`:
+
+```bash
+pnpm add @lilydesignsystem/vue-headless-identifiers
+```
+
+It has no dependency on `@lilydesignsystem/vue-headless`; install both to have the whole catalog. Change an identifier's import from the headless package to this one; the component, its props and class hooks are unchanged. Why: `spec/headless-identifiers`.
+
 ## When NOT this skill
 
 - For the `*-picker` helpers (`theme-picker`, `locale-picker`,

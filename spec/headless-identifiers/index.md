@@ -50,11 +50,12 @@ Each step leaves `bin/test`, CI and every example app green:
 
 ## Acceptance criteria
 
-- [ ] Ten `-headless-identifiers` packages, each with the 164 components and their tests passing.
-- [ ] No headless package ships an identifier component.
-- [ ] Every root check passes, and finds each identifier in its new package.
-- [ ] Every example app still renders all 637 component pages.
-- [ ] Each headless CHANGELOG has the breaking entry and the migration note.
+- [x] Ten `-headless-identifiers` packages, each with the 164 components and their tests passing.
+- [x] No headless package ships an identifier component.
+- [x] Every root check passes, and finds each identifier in its new package.
+- [x] Every example app still renders all 637 component pages.
+- [x] Each headless CHANGELOG has the breaking entry and the migration note (Blazor, whose CHANGELOG points at the
+      root one: in the root CHANGELOG).
 
 ## Related topics
 

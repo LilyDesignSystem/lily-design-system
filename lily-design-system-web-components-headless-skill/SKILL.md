@@ -190,3 +190,15 @@ them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native pla
   glance, picking a framework, terminology) that aren't specific to the
   native-custom-element idiom — use
   [`lily-design-system-skill`](../lily-design-system-skill/).
+
+## National identifiers
+
+The 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier types: health
+numbers, national identity numbers, tax numbers, passports) are not in the headless package since 2026-11-18. They are its
+add-on, `@lilydesignsystem/web-components-headless-identifiers`:
+
+```bash
+pnpm add @lilydesignsystem/web-components-headless-identifiers
+```
+
+It has no dependency on `@lilydesignsystem/web-components-headless`; install both to have the whole catalog. Change an identifier's import from the headless package to this one; the component, its props and class hooks are unchanged. Why: `spec/headless-identifiers`.

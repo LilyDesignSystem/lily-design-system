@@ -123,3 +123,15 @@ them. Per-component decisions: each `components/{slug}/AGENTS.md` § "Native pla
   [`lily-design-system-skill`](../lily-design-system-skill/) instead — it
   doesn't restate Blazor's own idioms, and this skill doesn't restate its
   concepts.
+
+## National identifiers
+
+The 164 national personal identifier components (an `-input` and a `-view` for each of 82 identifier types: health
+numbers, national identity numbers, tax numbers, passports) are not in the headless package since 2026-11-18. They are its
+add-on, `LilyDesignSystem.Blazor.Headless.Identifiers`:
+
+```bash
+dotnet add package LilyDesignSystem.Blazor.Headless.Identifiers
+```
+
+It depends on `LilyDesignSystem.Blazor.Headless` (every identifier input extends its `ValueInputBase`), and the components keep the `LilyBlazorHeadless.Components` namespace, so only the package reference is new. Why: `spec/headless-identifiers`.

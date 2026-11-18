@@ -3914,12 +3914,20 @@ release; the canonical catalog keeps all 637. Plan: [spec/headless-identifiers](
 
 - [x] **P37-T1 Root checks resolve identifiers to their package.** Verify: each check finds an identifier in the
       identifiers package once it is there, and `bin/test` passes throughout.
-- [ ] **P37-T2 One identifiers package per catalog** (React, Solid, Vue, Svelte, Angular, Web Components, HTML,
+- [x] **P37-T2 One identifiers package per catalog** (React, Solid, Vue, Svelte, Angular, Web Components, HTML,
       Nunjucks, Alpine, Blazor), each with its components, tests, build and required files; the headless package drops
       them with a CHANGELOG entry and migration note; the example app renders them from the new package.
-      Verify: per catalog, the new package's tests pass and the example app's component pages render.
-- [ ] **P37-T3 Docs and counts** ("473 core + 164 identifiers"), `AGENTS/lily.md`, `spec/architecture`, the skills,
-      `bin/publish-headless`. Verify: `bin/check-links` and `bin/test`.
+      Verify: per catalog, the new package's tests pass and the example app's component pages render. _(2026-11-18: all
+      ten; each new package's tests pass, `bin/test` passes after each, the example mirrors and the Alpine example follow
+      the move. Blazor's package depends on the headless one, for `ValueInputBase`.)_
+- [x] **P37-T3 Docs and counts** ("473 core + 164 identifiers"), `AGENTS/lily.md`, `spec/architecture`, the skills,
+      `bin/publish-headless`. Verify: `bin/check-links` and `bin/test`. _(2026-11-18: `AGENTS/lily.md` lists the ten,
+      the architecture counts are 225 implementation subprojects, each headless skill has a "National identifiers"
+      section, `bin/publish-headless` publishes all ten.)_
+- [ ] **P37-T5 Stale catalog counts in the skills and package descriptions.** Some headless skills and package
+      descriptions still give an old catalog size (609, 608, 571, 491). Restate each as the package's own share (473, or
+      the Web Components and Alpine scopes) or point at `components.tsv`. Verify: no stale count left in a `SKILL.md`, a
+      `package.json` description or a `.csproj` Description.
 - [ ] **P37-T4 Publish** the ten identifiers packages and the breaking headless releases (maintainer approval).
       Verify: `bin/verify-published`.
 
