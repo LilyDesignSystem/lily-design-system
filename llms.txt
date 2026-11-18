@@ -8,7 +8,8 @@
 This is the canonical monorepo. The living specification is `spec/`,
 entered via `spec/index.md`; binding design-principle rules for AI coding
 agents live in `AGENTS.md` and `AGENTS/*.md`. Public documentation and the
-searchable component catalog: https://lilydesignsystem.com/.
+searchable component catalog: https://lilydesignsystem.com/. Five-minute
+start in every framework: https://lilydesignsystem.com/getting-started/.
 
 ## Start here
 

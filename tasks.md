@@ -3938,6 +3938,30 @@ release; the canonical catalog keeps all 637. Plan: [spec/headless-identifiers](
       two NuGet ones; `npm view` and the NuGet flat-container index show all twenty. `bin/verify-published` covers
       helper packages only, so the check was by hand.)_
 
+## Phase 38 — The maintainer's queue (2026-11-18)
+
+Maintainer-directed, in this order.
+
+- [x] **P38-T1 SECURITY.md private reporting line.** Verify: SECURITY.md names the form,
+      https://github.com/LilyDesignSystem/lily-design-system/security/advisories/new, and every subproject's copy matches.
+      _(2026-11-18: the hedged "if it is enabled" paragraph names the form; the setting is enabled.)_
+- [x] **P38-T2 Getting started in five minutes.** Verify: the site's `/getting-started/` gives an install line, a snippet
+      and a theme for every framework, and each snippet works against the published packages. _(2026-11-18: React, Vue,
+      Svelte, Web Components, Nunjucks and Blazor snippets were rendered against the published packages in a scratch
+      consumer; Solid's exports were imported and Angular's inputs and selectors read from source. It found two defects:
+      `@lilydesignsystem/alpine-headless` 0.3.0 shipped a plugin that cannot be imported (fixed in 0.3.1, which
+      `bin/smoke-packages` now checks) and P38-T3. English only: the home and tutorials pages are translated, so a link
+      there waits for translations.)_
+- [ ] **P38-T3 `field` cannot label a custom-element input.** In Web Components, `lily-field` gives its generated id to
+      its first child, the custom element, not the `<input>` inside it, and `lily-email-input` copies an `id` to its
+      inner input while keeping it, so an explicit id is duplicated; either way the visible label labels nothing.
+      Angular's `EmailInput` takes no id at all, so `lily-field`'s `inputId` cannot reach its input. Until fixed, the
+      guide wraps the input in a `<label>`. Verify: in both catalogs, `<field>` around an input component gives
+      `input.labels` one entry and no duplicate ids, with a test for each input component.
+- [ ] **P38-T4 Comparison tables**, **P38-T5 fast-check property tests**, **P38-T6 visual regression in Firefox and
+      WebKit**, **P38-T7 accessibility automation**, **P38-T8 render benchmarks**, **P38-T9 coverage reporting and
+      badges**, **P38-T10 security audit automation**: the rest of the queue, in this order.
+
 ---
 
 Lily™ and Lily Design System™ are trademarks.
