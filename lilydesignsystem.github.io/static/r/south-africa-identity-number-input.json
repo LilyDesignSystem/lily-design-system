@@ -29,7 +29,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/south-africa-identity-number-input.html",
     "svelte": "lily-design-system-svelte-headless/components/SouthAfricaIdentityNumberInput/SouthAfricaIdentityNumberInput.svelte",
-    "react": "lily-design-system-react-headless/components/SouthAfricaIdentityNumberInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/SouthAfricaIdentityNumberInput.tsx",
     "vue": "lily-design-system-vue-headless/components/SouthAfricaIdentityNumberInput.vue",
     "angular": "lily-design-system-angular-headless/components/SouthAfricaIdentityNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/south-africa-identity-number-input.ts",

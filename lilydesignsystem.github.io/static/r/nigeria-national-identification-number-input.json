@@ -29,7 +29,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/nigeria-national-identification-number-input.html",
     "svelte": "lily-design-system-svelte-headless/components/NigeriaNationalIdentificationNumberInput/NigeriaNationalIdentificationNumberInput.svelte",
-    "react": "lily-design-system-react-headless/components/NigeriaNationalIdentificationNumberInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/NigeriaNationalIdentificationNumberInput.tsx",
     "vue": "lily-design-system-vue-headless/components/NigeriaNationalIdentificationNumberInput.vue",
     "angular": "lily-design-system-angular-headless/components/NigeriaNationalIdentificationNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/nigeria-national-identification-number-input.ts",

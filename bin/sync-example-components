@@ -47,10 +47,19 @@ def slugs():
         return [line.split("\t")[0] for line in f if line.strip()]
 
 
+def moved(path):
+    """A national identifier's source once it has moved to its catalog's -headless-identifiers package
+    (spec/headless-identifiers): the example apps keep mirroring every component, from whichever package has it."""
+    if os.path.exists(path):
+        return path
+    alt = path.replace("-headless/", "-headless-identifiers/", 1)
+    return alt if os.path.exists(alt) else path
+
+
 def pairs():
     """Yield (source, destination, transform) for every file that should be mirrored."""
     for name in names():
-        src = os.path.join(TOP, "lily-design-system-svelte-headless/components", name)
+        src = moved(os.path.join(TOP, "lily-design-system-svelte-headless/components", name))
         dst = os.path.join(TOP, "lily-design-system-svelte-sveltekit-examples/src/lib/components", name)
         if os.path.isdir(src):
             for entry in sorted(os.listdir(src)):
@@ -72,7 +81,7 @@ def pairs():
             # repository-relative doc links (the Angular example: two levels).
             depth = example.count("/") - lib.count("/")
             for suffix in suffixes:
-                src = os.path.join(TOP, lib, name + suffix)
+                src = moved(os.path.join(TOP, lib, name + suffix))
                 if os.path.isfile(src):
                     transform = ("](../../", "](" + "../" * (2 + depth)) if suffix == ".md" and depth else None
                     yield src, os.path.join(TOP, example, name + suffix), transform
@@ -93,7 +102,7 @@ def pairs():
                     yield src, os.path.join(TOP, example, companion + ".ts"), None
         # The Nuxt example keeps copies of some of the library's tests in its own
         # tests/components/, importing the component from ../../components/.
-        src = os.path.join(TOP, "lily-design-system-vue-headless/components", name + ".test.ts")
+        src = moved(os.path.join(TOP, "lily-design-system-vue-headless/components", name + ".test.ts"))
         dst = os.path.join(TOP, "lily-design-system-vue-nuxt-examples/tests/components", name + ".test.ts")
         if os.path.isfile(src) and os.path.isfile(dst):
             yield src, dst, (f'"./{name}.vue"', f'"../../components/{name}.vue"')

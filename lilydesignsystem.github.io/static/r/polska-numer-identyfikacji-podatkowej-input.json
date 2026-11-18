@@ -30,7 +30,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/polska-numer-identyfikacji-podatkowej-input.html",
     "svelte": "lily-design-system-svelte-headless/components/PolskaNumerIdentyfikacjiPodatkowejInput/PolskaNumerIdentyfikacjiPodatkowejInput.svelte",
-    "react": "lily-design-system-react-headless/components/PolskaNumerIdentyfikacjiPodatkowejInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/PolskaNumerIdentyfikacjiPodatkowejInput.tsx",
     "vue": "lily-design-system-vue-headless/components/PolskaNumerIdentyfikacjiPodatkowejInput.vue",
     "angular": "lily-design-system-angular-headless/components/PolskaNumerIdentyfikacjiPodatkowejInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/polska-numer-identyfikacji-podatkowej-input.ts",

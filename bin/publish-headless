@@ -123,6 +123,7 @@ if [ -z "$NUGET_ONLY" ]; then
   # -headless-identifiers add-on (spec/headless-identifiers, 2026-11-18).
   for d in "$ROOT"/lily-design-system-svelte-headless \
            "$ROOT"/lily-design-system-react-headless \
+           "$ROOT"/lily-design-system-react-headless-identifiers \
            "$ROOT"/lily-design-system-vue-headless \
            "$ROOT"/lily-design-system-html-headless \
            "$ROOT"/lily-design-system-nunjucks-headless \

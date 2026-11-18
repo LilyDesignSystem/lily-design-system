@@ -26,7 +26,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/turkiye-tc-kimlik-numarasi-view.html",
     "svelte": "lily-design-system-svelte-headless/components/TurkiyeTcKimlikNumarasiView/TurkiyeTcKimlikNumarasiView.svelte",
-    "react": "lily-design-system-react-headless/components/TurkiyeTcKimlikNumarasiView.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/TurkiyeTcKimlikNumarasiView.tsx",
     "vue": "lily-design-system-vue-headless/components/TurkiyeTcKimlikNumarasiView.vue",
     "angular": "lily-design-system-angular-headless/components/TurkiyeTcKimlikNumarasiView.ts",
     "web-components": "lily-design-system-web-components-headless/components/turkiye-tc-kimlik-numarasi-view.ts",

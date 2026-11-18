@@ -2,13 +2,11 @@ import { render } from "@testing-library/react";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
 import Combobox from "./Combobox";
-import DanmarkPersonnummerInput from "./DanmarkPersonnummerInput";
 import Dialog from "./Dialog";
 import { resetDevWarnings } from "./dev-warning";
 
 const cases = [
     ["Combobox", Combobox],
-    ["DanmarkPersonnummerInput", DanmarkPersonnummerInput],
     ["Dialog", Dialog],
 ] as const;
 

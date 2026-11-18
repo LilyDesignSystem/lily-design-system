@@ -26,7 +26,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/prathet-thai-lek-prajam-tua-prachachon-view.html",
     "svelte": "lily-design-system-svelte-headless/components/PrathetThaiLekPrajamTuaPrachachonView/PrathetThaiLekPrajamTuaPrachachonView.svelte",
-    "react": "lily-design-system-react-headless/components/PrathetThaiLekPrajamTuaPrachachonView.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonView.tsx",
     "vue": "lily-design-system-vue-headless/components/PrathetThaiLekPrajamTuaPrachachonView.vue",
     "angular": "lily-design-system-angular-headless/components/PrathetThaiLekPrajamTuaPrachachonView.ts",
     "web-components": "lily-design-system-web-components-headless/components/prathet-thai-lek-prajam-tua-prachachon-view.ts",

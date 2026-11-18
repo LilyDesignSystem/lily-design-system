@@ -457,20 +457,23 @@ const htmlEntry = (c, indent) => {
 
     const items = {}; // item name → registry item
     const helpers = new Set();
-    const build = (name, title, description, file, type, categories) => {
-      const raw = read(`${srcDir}/${file}`);
+    // A national identifier lives in the -headless-identifiers package once it has moved (spec/headless-identifiers).
+    const idDir = srcDir.replace("-headless/", "-headless-identifiers/");
+    const dirOf = (file) => (fs.existsSync(path.join(top, srcDir, file)) ? srcDir : idDir);
+    const build = (name, title, description, file, type, categories, dir = srcDir) => {
+      const raw = read(`${dir}/${file}`);
       const registryDependencies = [];
       const dependencies = [];
       for (const spec of imports(raw)) {
         if (spec.startsWith("./")) {
           const base = spec.slice(2).replace(/\.(tsx?|jsx?)$/, "");
           if (base in slugOfName) registryDependencies.push(`${NS}/${slugOfName[base]}`);
-          else if (fs.existsSync(path.join(top, srcDir, `${base}.ts`))) {
+          else if (fs.existsSync(path.join(top, dir, `${base}.ts`))) {
             helpers.add(base);
             registryDependencies.push(`${NS}/${helperName(base)}`);
-          } else throw new Error(`${srcDir}/${file}: unresolved import ${spec}`);
+          } else throw new Error(`${dir}/${file}: unresolved import ${spec}`);
         } else if (spec.startsWith(".")) {
-          throw new Error(`${srcDir}/${file}: import ${spec} leaves the components directory`);
+          throw new Error(`${dir}/${file}: import ${spec} leaves the components directory`);
         } else {
           const pkg = spec.startsWith("@") ? spec.split("/").slice(0, 2).join("/") : spec.split("/")[0];
           if (pkg !== "react" && pkg !== "react-dom" && !dependencies.includes(pkg)) dependencies.push(pkg);
@@ -486,7 +489,7 @@ const htmlEntry = (c, indent) => {
         author: "Lily Design System <https://lilydesignsystem.com>",
         ...(dependencies.length ? { dependencies: [...new Set(dependencies)].sort() } : {}),
         ...(registryDependencies.length ? { registryDependencies: [...new Set(registryDependencies)].sort() } : {}),
-        files: [{ path: `${srcDir}/${file}`, content, type, target: `@components/lily/${file}` }],
+        files: [{ path: `${dir}/${file}`, content, type, target: `@components/lily/${file}` }],
         ...(categories ? { categories } : {}),
         docs: categories ? `Docs: ${SITE}/components/${name}/` : undefined,
       };
@@ -495,9 +498,10 @@ const htmlEntry = (c, indent) => {
 
     for (const c of components) {
       const file = `${c.name}.tsx`;
-      if (!fs.existsSync(path.join(top, srcDir, file))) throw new Error(`${srcDir}/${file} missing for ${c.slug}`);
+      const dir = dirOf(file);
+      if (!fs.existsSync(path.join(top, dir, file))) throw new Error(`${srcDir}/${file} missing for ${c.slug}`);
       const desc = c.description ? c.description[0].toUpperCase() + c.description.slice(1) + "." : c.name;
-      build(c.slug, c.name, desc, file, "registry:component", [c.category]);
+      build(c.slug, c.name, desc, file, "registry:component", [c.category], dir);
     }
     for (const mod of [...helpers].sort()) {
       if (helperName(mod) in items) throw new Error(`registry item name clash: ${helperName(mod)}`);

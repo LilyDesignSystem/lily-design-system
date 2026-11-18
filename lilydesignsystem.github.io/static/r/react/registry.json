@@ -269,7 +269,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AlbaCommunityHealthIndexInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/AlbaCommunityHealthIndexInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/AlbaCommunityHealthIndexInput.tsx"
         }
@@ -286,7 +286,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AlbaCommunityHealthIndexView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/AlbaCommunityHealthIndexView.tsx",
           "type": "registry:component",
           "target": "@components/lily/AlbaCommunityHealthIndexView.tsx"
         }
@@ -437,7 +437,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AotearoaNationalHealthIndexInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/AotearoaNationalHealthIndexInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/AotearoaNationalHealthIndexInput.tsx"
         }
@@ -454,7 +454,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AotearoaNationalHealthIndexView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/AotearoaNationalHealthIndexView.tsx",
           "type": "registry:component",
           "target": "@components/lily/AotearoaNationalHealthIndexView.tsx"
         }
@@ -491,7 +491,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.tsx"
         }
@@ -508,7 +508,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ArgentinaCodigoUnicoDeIdentificacionLaboralView.tsx",
           "type": "registry:component",
           "target": "@components/lily/ArgentinaCodigoUnicoDeIdentificacionLaboralView.tsx"
         }
@@ -545,7 +545,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/AsSaudiyahRaqmAlHuwiyahAlWataniyahInput.tsx"
         }
@@ -562,7 +562,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AsSaudiyahRaqmAlHuwiyahAlWataniyahView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/AsSaudiyahRaqmAlHuwiyahAlWataniyahView.tsx",
           "type": "registry:component",
           "target": "@components/lily/AsSaudiyahRaqmAlHuwiyahAlWataniyahView.tsx"
         }
@@ -599,7 +599,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AustraliaIndividualHealthcareIdentifierInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/AustraliaIndividualHealthcareIdentifierInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/AustraliaIndividualHealthcareIdentifierInput.tsx"
         }
@@ -616,7 +616,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AustraliaIndividualHealthcareIdentifierView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/AustraliaIndividualHealthcareIdentifierView.tsx",
           "type": "registry:component",
           "target": "@components/lily/AustraliaIndividualHealthcareIdentifierView.tsx"
         }
@@ -636,7 +636,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AustraliaTaxFileNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/AustraliaTaxFileNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/AustraliaTaxFileNumberInput.tsx"
         }
@@ -653,7 +653,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/AustraliaTaxFileNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/AustraliaTaxFileNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/AustraliaTaxFileNumberView.tsx"
         }
@@ -881,7 +881,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/BelgiqueNumeroDeRegistreNationalInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/BelgiqueNumeroDeRegistreNationalInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/BelgiqueNumeroDeRegistreNationalInput.tsx"
         }
@@ -898,7 +898,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/BelgiqueNumeroDeRegistreNationalView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/BelgiqueNumeroDeRegistreNationalView.tsx",
           "type": "registry:component",
           "target": "@components/lily/BelgiqueNumeroDeRegistreNationalView.tsx"
         }
@@ -918,7 +918,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/BharatAadhaarInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/BharatAadhaarInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/BharatAadhaarInput.tsx"
         }
@@ -935,7 +935,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/BharatAadhaarView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/BharatAadhaarView.tsx",
           "type": "registry:component",
           "target": "@components/lily/BharatAadhaarView.tsx"
         }
@@ -1009,7 +1009,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/BrasilCartaoNacionalDeSaudeInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/BrasilCartaoNacionalDeSaudeInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/BrasilCartaoNacionalDeSaudeInput.tsx"
         }
@@ -1026,7 +1026,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/BrasilCartaoNacionalDeSaudeView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/BrasilCartaoNacionalDeSaudeView.tsx",
           "type": "registry:component",
           "target": "@components/lily/BrasilCartaoNacionalDeSaudeView.tsx"
         }
@@ -1117,7 +1117,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/BulgariaEdinenGrazhdanskiNomerInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/BulgariaEdinenGrazhdanskiNomerInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/BulgariaEdinenGrazhdanskiNomerInput.tsx"
         }
@@ -1134,7 +1134,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/BulgariaEdinenGrazhdanskiNomerView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/BulgariaEdinenGrazhdanskiNomerView.tsx",
           "type": "registry:component",
           "target": "@components/lily/BulgariaEdinenGrazhdanskiNomerView.tsx"
         }
@@ -1463,7 +1463,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/CanadaSocialInsuranceNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/CanadaSocialInsuranceNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/CanadaSocialInsuranceNumberInput.tsx"
         }
@@ -1480,7 +1480,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/CanadaSocialInsuranceNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/CanadaSocialInsuranceNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/CanadaSocialInsuranceNumberView.tsx"
         }
@@ -1606,7 +1606,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/CeskoCestovniPasInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/CeskoCestovniPasInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/CeskoCestovniPasInput.tsx"
         }
@@ -1623,7 +1623,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/CeskoCestovniPasView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/CeskoCestovniPasView.tsx",
           "type": "registry:component",
           "target": "@components/lily/CeskoCestovniPasView.tsx"
         }
@@ -1643,7 +1643,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/CeskoRodneCisloInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/CeskoRodneCisloInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/CeskoRodneCisloInput.tsx"
         }
@@ -1660,7 +1660,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/CeskoRodneCisloView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/CeskoRodneCisloView.tsx",
           "type": "registry:component",
           "target": "@components/lily/CeskoRodneCisloView.tsx"
         }
@@ -1877,7 +1877,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ChileRolUnicoNacionalInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ChileRolUnicoNacionalInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/ChileRolUnicoNacionalInput.tsx"
         }
@@ -1894,7 +1894,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ChileRolUnicoNacionalView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ChileRolUnicoNacionalView.tsx",
           "type": "registry:component",
           "target": "@components/lily/ChileRolUnicoNacionalView.tsx"
         }
@@ -2104,7 +2104,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ColombiaCedulaDeCiudadaniaInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ColombiaCedulaDeCiudadaniaInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/ColombiaCedulaDeCiudadaniaInput.tsx"
         }
@@ -2121,7 +2121,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ColombiaCedulaDeCiudadaniaView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ColombiaCedulaDeCiudadaniaView.tsx",
           "type": "registry:component",
           "target": "@components/lily/ColombiaCedulaDeCiudadaniaView.tsx"
         }
@@ -2647,7 +2647,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/CymruRhifYGwasanaethIechydGwladolInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/CymruRhifYGwasanaethIechydGwladolInput.tsx"
         }
@@ -2664,7 +2664,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/CymruRhifYGwasanaethIechydGwladolView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolView.tsx",
           "type": "registry:component",
           "target": "@components/lily/CymruRhifYGwasanaethIechydGwladolView.tsx"
         }
@@ -2684,7 +2684,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/DanmarkPersonnummerInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/DanmarkPersonnummerInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/DanmarkPersonnummerInput.tsx"
         }
@@ -2701,7 +2701,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/DanmarkPersonnummerView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/DanmarkPersonnummerView.tsx",
           "type": "registry:component",
           "target": "@components/lily/DanmarkPersonnummerView.tsx"
         }
@@ -3046,7 +3046,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/DeutschlandKrankenversichertennummerInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/DeutschlandKrankenversichertennummerInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/DeutschlandKrankenversichertennummerInput.tsx"
         }
@@ -3063,7 +3063,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/DeutschlandKrankenversichertennummerView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/DeutschlandKrankenversichertennummerView.tsx",
           "type": "registry:component",
           "target": "@components/lily/DeutschlandKrankenversichertennummerView.tsx"
         }
@@ -3446,7 +3446,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EcuadorCedulaDeIdentidadInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EcuadorCedulaDeIdentidadInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/EcuadorCedulaDeIdentidadInput.tsx"
         }
@@ -3463,7 +3463,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EcuadorCedulaDeIdentidadView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EcuadorCedulaDeIdentidadView.tsx",
           "type": "registry:component",
           "target": "@components/lily/EcuadorCedulaDeIdentidadView.tsx"
         }
@@ -3523,7 +3523,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EestiIsikukoodInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EestiIsikukoodInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/EestiIsikukoodInput.tsx"
         }
@@ -3540,7 +3540,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EestiIsikukoodView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EestiIsikukoodView.tsx",
           "type": "registry:component",
           "target": "@components/lily/EestiIsikukoodView.tsx"
         }
@@ -3560,7 +3560,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EireIndividualHealthIdentifierInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EireIndividualHealthIdentifierInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/EireIndividualHealthIdentifierInput.tsx"
         }
@@ -3577,7 +3577,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EireIndividualHealthIdentifierView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EireIndividualHealthIdentifierView.tsx",
           "type": "registry:component",
           "target": "@components/lily/EireIndividualHealthIdentifierView.tsx"
         }
@@ -3597,7 +3597,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ElladaDematerialisedSecuritiesSystemInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ElladaDematerialisedSecuritiesSystemInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/ElladaDematerialisedSecuritiesSystemInput.tsx"
         }
@@ -3614,7 +3614,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ElladaDematerialisedSecuritiesSystemView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ElladaDematerialisedSecuritiesSystemView.tsx",
           "type": "registry:component",
           "target": "@components/lily/ElladaDematerialisedSecuritiesSystemView.tsx"
         }
@@ -3756,7 +3756,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EnglandNationalHealthServiceNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EnglandNationalHealthServiceNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/EnglandNationalHealthServiceNumberInput.tsx"
         }
@@ -3773,7 +3773,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EnglandNationalHealthServiceNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EnglandNationalHealthServiceNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/EnglandNationalHealthServiceNumberView.tsx"
         }
@@ -3827,7 +3827,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EspanaCodigoDeIdentificacionFiscalInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EspanaCodigoDeIdentificacionFiscalInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/EspanaCodigoDeIdentificacionFiscalInput.tsx"
         }
@@ -3844,7 +3844,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EspanaCodigoDeIdentificacionFiscalView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EspanaCodigoDeIdentificacionFiscalView.tsx",
           "type": "registry:component",
           "target": "@components/lily/EspanaCodigoDeIdentificacionFiscalView.tsx"
         }
@@ -3864,7 +3864,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EspanaTarjetaSanitariaIndividualInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EspanaTarjetaSanitariaIndividualInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/EspanaTarjetaSanitariaIndividualInput.tsx"
         }
@@ -3881,7 +3881,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/EspanaTarjetaSanitariaIndividualView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/EspanaTarjetaSanitariaIndividualView.tsx",
           "type": "registry:component",
           "target": "@components/lily/EspanaTarjetaSanitariaIndividualView.tsx"
         }
@@ -4379,7 +4379,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/FranceNumeroDIdentificationAuRepertoireInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/FranceNumeroDIdentificationAuRepertoireInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/FranceNumeroDIdentificationAuRepertoireInput.tsx"
         }
@@ -4396,7 +4396,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/FranceNumeroDIdentificationAuRepertoireView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/FranceNumeroDIdentificationAuRepertoireView.tsx",
           "type": "registry:component",
           "target": "@components/lily/FranceNumeroDIdentificationAuRepertoireView.tsx"
         }
@@ -4823,7 +4823,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/HangukJuminDeungnokBeonhoInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/HangukJuminDeungnokBeonhoInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/HangukJuminDeungnokBeonhoInput.tsx"
         }
@@ -4840,7 +4840,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/HangukJuminDeungnokBeonhoView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/HangukJuminDeungnokBeonhoView.tsx",
           "type": "registry:component",
           "target": "@components/lily/HangukJuminDeungnokBeonhoView.tsx"
         }
@@ -4996,7 +4996,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/HongKongIdentityCardInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/HongKongIdentityCardInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/HongKongIdentityCardInput.tsx"
         }
@@ -5013,7 +5013,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/HongKongIdentityCardView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/HongKongIdentityCardView.tsx",
           "type": "registry:component",
           "target": "@components/lily/HongKongIdentityCardView.tsx"
         }
@@ -5073,7 +5073,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/HrvatskaOsobniIdentifikacijskiBrojInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/HrvatskaOsobniIdentifikacijskiBrojInput.tsx"
         }
@@ -5090,7 +5090,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/HrvatskaOsobniIdentifikacijskiBrojView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojView.tsx",
           "type": "registry:component",
           "target": "@components/lily/HrvatskaOsobniIdentifikacijskiBrojView.tsx"
         }
@@ -5329,7 +5329,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/IndonesiaNomorIndukKependudukanInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/IndonesiaNomorIndukKependudukanInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/IndonesiaNomorIndukKependudukanInput.tsx"
         }
@@ -5346,7 +5346,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/IndonesiaNomorIndukKependudukanView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/IndonesiaNomorIndukKependudukanView.tsx",
           "type": "registry:component",
           "target": "@components/lily/IndonesiaNomorIndukKependudukanView.tsx"
         }
@@ -5525,7 +5525,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/IranKodEMelliInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/IranKodEMelliInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/IranKodEMelliInput.tsx"
         }
@@ -5542,7 +5542,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/IranKodEMelliView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/IranKodEMelliView.tsx",
           "type": "registry:component",
           "target": "@components/lily/IranKodEMelliView.tsx"
         }
@@ -5562,7 +5562,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/IslandKennitalaInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/IslandKennitalaInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/IslandKennitalaInput.tsx"
         }
@@ -5579,7 +5579,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/IslandKennitalaView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/IslandKennitalaView.tsx",
           "type": "registry:component",
           "target": "@components/lily/IslandKennitalaView.tsx"
         }
@@ -5599,7 +5599,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ItaliaCodiceFiscaleInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ItaliaCodiceFiscaleInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/ItaliaCodiceFiscaleInput.tsx"
         }
@@ -5616,7 +5616,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ItaliaCodiceFiscaleView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ItaliaCodiceFiscaleView.tsx",
           "type": "registry:component",
           "target": "@components/lily/ItaliaCodiceFiscaleView.tsx"
         }
@@ -5793,7 +5793,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/KyprosNationalPassportNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/KyprosNationalPassportNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/KyprosNationalPassportNumberInput.tsx"
         }
@@ -5810,7 +5810,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/KyprosNationalPassportNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/KyprosNationalPassportNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/KyprosNationalPassportNumberView.tsx"
         }
@@ -5847,7 +5847,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LatvijaPersonasKodsInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LatvijaPersonasKodsInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/LatvijaPersonasKodsInput.tsx"
         }
@@ -5864,7 +5864,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LatvijaPersonasKodsView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LatvijaPersonasKodsView.tsx",
           "type": "registry:component",
           "target": "@components/lily/LatvijaPersonasKodsView.tsx"
         }
@@ -5884,7 +5884,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LiechtensteinNationalIdentityCardNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/LiechtensteinNationalIdentityCardNumberInput.tsx"
         }
@@ -5901,7 +5901,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LiechtensteinNationalIdentityCardNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/LiechtensteinNationalIdentityCardNumberView.tsx"
         }
@@ -5921,7 +5921,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LiechtensteinPassportNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LiechtensteinPassportNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/LiechtensteinPassportNumberInput.tsx"
         }
@@ -5938,7 +5938,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LiechtensteinPassportNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LiechtensteinPassportNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/LiechtensteinPassportNumberView.tsx"
         }
@@ -5958,7 +5958,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LietuvaAsmensKodasInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LietuvaAsmensKodasInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/LietuvaAsmensKodasInput.tsx"
         }
@@ -5975,7 +5975,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LietuvaAsmensKodasView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LietuvaAsmensKodasView.tsx",
           "type": "registry:component",
           "target": "@components/lily/LietuvaAsmensKodasView.tsx"
         }
@@ -5995,7 +5995,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LietuvaPasasInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LietuvaPasasInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/LietuvaPasasInput.tsx"
         }
@@ -6012,7 +6012,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LietuvaPasasView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LietuvaPasasView.tsx",
           "type": "registry:component",
           "target": "@components/lily/LietuvaPasasView.tsx"
         }
@@ -6104,7 +6104,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LuxembourgMatriculeInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LuxembourgMatriculeInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/LuxembourgMatriculeInput.tsx"
         }
@@ -6121,7 +6121,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/LuxembourgMatriculeView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/LuxembourgMatriculeView.tsx",
           "type": "registry:component",
           "target": "@components/lily/LuxembourgMatriculeView.tsx"
         }
@@ -6141,7 +6141,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MagyarorszagTajSzamInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MagyarorszagTajSzamInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/MagyarorszagTajSzamInput.tsx"
         }
@@ -6158,7 +6158,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MagyarorszagTajSzamView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MagyarorszagTajSzamView.tsx",
           "type": "registry:component",
           "target": "@components/lily/MagyarorszagTajSzamView.tsx"
         }
@@ -6178,7 +6178,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MalaysiaKadPengenalanInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MalaysiaKadPengenalanInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/MalaysiaKadPengenalanInput.tsx"
         }
@@ -6195,7 +6195,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MalaysiaKadPengenalanView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MalaysiaKadPengenalanView.tsx",
           "type": "registry:component",
           "target": "@components/lily/MalaysiaKadPengenalanView.tsx"
         }
@@ -6215,7 +6215,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MaltaNationalIdentificationNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MaltaNationalIdentificationNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/MaltaNationalIdentificationNumberInput.tsx"
         }
@@ -6232,7 +6232,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MaltaNationalIdentificationNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MaltaNationalIdentificationNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/MaltaNationalIdentificationNumberView.tsx"
         }
@@ -6252,7 +6252,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MaltaPassportNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MaltaPassportNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/MaltaPassportNumberInput.tsx"
         }
@@ -6269,7 +6269,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MaltaPassportNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MaltaPassportNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/MaltaPassportNumberView.tsx"
         }
@@ -6698,7 +6698,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MexicoClaveUnicaDeRegistroDePoblacionInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MexicoClaveUnicaDeRegistroDePoblacionInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/MexicoClaveUnicaDeRegistroDePoblacionInput.tsx"
         }
@@ -6715,7 +6715,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MexicoClaveUnicaDeRegistroDePoblacionView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MexicoClaveUnicaDeRegistroDePoblacionView.tsx",
           "type": "registry:component",
           "target": "@components/lily/MexicoClaveUnicaDeRegistroDePoblacionView.tsx"
         }
@@ -6769,7 +6769,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MisrAlRaqmAlQawmiInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MisrAlRaqmAlQawmiInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/MisrAlRaqmAlQawmiInput.tsx"
         }
@@ -6786,7 +6786,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/MisrAlRaqmAlQawmiView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/MisrAlRaqmAlQawmiView.tsx",
           "type": "registry:component",
           "target": "@components/lily/MisrAlRaqmAlQawmiView.tsx"
         }
@@ -7038,7 +7038,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NederlandBurgerserviceNummerInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NederlandBurgerserviceNummerInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/NederlandBurgerserviceNummerInput.tsx"
         }
@@ -7055,7 +7055,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NederlandBurgerserviceNummerView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NederlandBurgerserviceNummerView.tsx",
           "type": "registry:component",
           "target": "@components/lily/NederlandBurgerserviceNummerView.tsx"
         }
@@ -7075,7 +7075,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NederlandIdentiteitskaartNummerInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NederlandIdentiteitskaartNummerInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/NederlandIdentiteitskaartNummerInput.tsx"
         }
@@ -7092,7 +7092,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NederlandIdentiteitskaartNummerView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NederlandIdentiteitskaartNummerView.tsx",
           "type": "registry:component",
           "target": "@components/lily/NederlandIdentiteitskaartNummerView.tsx"
         }
@@ -7112,7 +7112,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NederlandPaspoortNummerInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NederlandPaspoortNummerInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/NederlandPaspoortNummerInput.tsx"
         }
@@ -7129,7 +7129,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NederlandPaspoortNummerView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NederlandPaspoortNummerView.tsx",
           "type": "registry:component",
           "target": "@components/lily/NederlandPaspoortNummerView.tsx"
         }
@@ -7220,7 +7220,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NigeriaNationalIdentificationNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NigeriaNationalIdentificationNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/NigeriaNationalIdentificationNumberInput.tsx"
         }
@@ -7237,7 +7237,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NigeriaNationalIdentificationNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NigeriaNationalIdentificationNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/NigeriaNationalIdentificationNumberView.tsx"
         }
@@ -7257,7 +7257,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NihonKojinBangoInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NihonKojinBangoInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/NihonKojinBangoInput.tsx"
         }
@@ -7274,7 +7274,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NihonKojinBangoView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NihonKojinBangoView.tsx",
           "type": "registry:component",
           "target": "@components/lily/NihonKojinBangoView.tsx"
         }
@@ -7294,7 +7294,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NorgeFodselsnummerInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NorgeFodselsnummerInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/NorgeFodselsnummerInput.tsx"
         }
@@ -7311,7 +7311,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/NorgeFodselsnummerView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/NorgeFodselsnummerView.tsx",
           "type": "registry:component",
           "target": "@components/lily/NorgeFodselsnummerView.tsx"
         }
@@ -7459,7 +7459,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/OsterreichSozialversicherungsnummerInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/OsterreichSozialversicherungsnummerInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/OsterreichSozialversicherungsnummerInput.tsx"
         }
@@ -7476,7 +7476,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/OsterreichSozialversicherungsnummerView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/OsterreichSozialversicherungsnummerView.tsx",
           "type": "registry:component",
           "target": "@components/lily/OsterreichSozialversicherungsnummerView.tsx"
         }
@@ -7618,7 +7618,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PakistanComputerizedNationalIdentityCardInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PakistanComputerizedNationalIdentityCardInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/PakistanComputerizedNationalIdentityCardInput.tsx"
         }
@@ -7635,7 +7635,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PakistanComputerizedNationalIdentityCardView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PakistanComputerizedNationalIdentityCardView.tsx",
           "type": "registry:component",
           "target": "@components/lily/PakistanComputerizedNationalIdentityCardView.tsx"
         }
@@ -7811,7 +7811,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PilipinasPhilhealthIdentificationNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/PilipinasPhilhealthIdentificationNumberInput.tsx"
         }
@@ -7828,7 +7828,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PilipinasPhilhealthIdentificationNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/PilipinasPhilhealthIdentificationNumberView.tsx"
         }
@@ -7885,7 +7885,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PolskaNumerIdentyfikacjiPodatkowejInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PolskaNumerIdentyfikacjiPodatkowejInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/PolskaNumerIdentyfikacjiPodatkowejInput.tsx"
         }
@@ -7902,7 +7902,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PolskaNumerIdentyfikacjiPodatkowejView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PolskaNumerIdentyfikacjiPodatkowejView.tsx",
           "type": "registry:component",
           "target": "@components/lily/PolskaNumerIdentyfikacjiPodatkowejView.tsx"
         }
@@ -7922,7 +7922,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PolskaPeselInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PolskaPeselInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/PolskaPeselInput.tsx"
         }
@@ -7939,7 +7939,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PolskaPeselView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PolskaPeselView.tsx",
           "type": "registry:component",
           "target": "@components/lily/PolskaPeselView.tsx"
         }
@@ -8020,7 +8020,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PortugalNumeroDeIdentificacaoFiscalInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/PortugalNumeroDeIdentificacaoFiscalInput.tsx"
         }
@@ -8037,7 +8037,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PortugalNumeroDeIdentificacaoFiscalView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalView.tsx",
           "type": "registry:component",
           "target": "@components/lily/PortugalNumeroDeIdentificacaoFiscalView.tsx"
         }
@@ -8057,7 +8057,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PortugalPassaporteInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PortugalPassaporteInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/PortugalPassaporteInput.tsx"
         }
@@ -8074,7 +8074,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PortugalPassaporteView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PortugalPassaporteView.tsx",
           "type": "registry:component",
           "target": "@components/lily/PortugalPassaporteView.tsx"
         }
@@ -8128,7 +8128,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PrathetThaiLekPrajamTuaPrachachonInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/PrathetThaiLekPrajamTuaPrachachonInput.tsx"
         }
@@ -8145,7 +8145,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/PrathetThaiLekPrajamTuaPrachachonView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonView.tsx",
           "type": "registry:component",
           "target": "@components/lily/PrathetThaiLekPrajamTuaPrachachonView.tsx"
         }
@@ -8751,7 +8751,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/RomaniaCodNumericPersonalInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/RomaniaCodNumericPersonalInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/RomaniaCodNumericPersonalInput.tsx"
         }
@@ -8768,7 +8768,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/RomaniaCodNumericPersonalView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/RomaniaCodNumericPersonalView.tsx",
           "type": "registry:component",
           "target": "@components/lily/RomaniaCodNumericPersonalView.tsx"
         }
@@ -8788,7 +8788,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/RomaniaPasaportInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/RomaniaPasaportInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/RomaniaPasaportInput.tsx"
         }
@@ -8805,7 +8805,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/RomaniaPasaportView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/RomaniaPasaportView.tsx",
           "type": "registry:component",
           "target": "@components/lily/RomaniaPasaportView.tsx"
         }
@@ -8825,7 +8825,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/RossiyaSnilsInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/RossiyaSnilsInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/RossiyaSnilsInput.tsx"
         }
@@ -8842,7 +8842,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/RossiyaSnilsView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/RossiyaSnilsView.tsx",
           "type": "registry:component",
           "target": "@components/lily/RossiyaSnilsView.tsx"
         }
@@ -8896,7 +8896,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SchweizAhvNummerInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SchweizAhvNummerInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/SchweizAhvNummerInput.tsx"
         }
@@ -8913,7 +8913,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SchweizAhvNummerView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SchweizAhvNummerView.tsx",
           "type": "registry:component",
           "target": "@components/lily/SchweizAhvNummerView.tsx"
         }
@@ -9342,7 +9342,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SingaporeNationalRegistrationIdentityCardInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/SingaporeNationalRegistrationIdentityCardInput.tsx"
         }
@@ -9359,7 +9359,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SingaporeNationalRegistrationIdentityCardView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardView.tsx",
           "type": "registry:component",
           "target": "@components/lily/SingaporeNationalRegistrationIdentityCardView.tsx"
         }
@@ -9476,7 +9476,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SlovenijaEmsoInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SlovenijaEmsoInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/SlovenijaEmsoInput.tsx"
         }
@@ -9493,7 +9493,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SlovenijaEmsoView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SlovenijaEmsoView.tsx",
           "type": "registry:component",
           "target": "@components/lily/SlovenijaEmsoView.tsx"
         }
@@ -9513,7 +9513,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SlovenskoPasInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SlovenskoPasInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/SlovenskoPasInput.tsx"
         }
@@ -9530,7 +9530,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SlovenskoPasView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SlovenskoPasView.tsx",
           "type": "registry:component",
           "target": "@components/lily/SlovenskoPasView.tsx"
         }
@@ -9550,7 +9550,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SlovenskoRodneCisloInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SlovenskoRodneCisloInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/SlovenskoRodneCisloInput.tsx"
         }
@@ -9567,7 +9567,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SlovenskoRodneCisloView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SlovenskoRodneCisloView.tsx",
           "type": "registry:component",
           "target": "@components/lily/SlovenskoRodneCisloView.tsx"
         }
@@ -9604,7 +9604,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SouthAfricaIdentityNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SouthAfricaIdentityNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/SouthAfricaIdentityNumberInput.tsx"
         }
@@ -9621,7 +9621,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SouthAfricaIdentityNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SouthAfricaIdentityNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/SouthAfricaIdentityNumberView.tsx"
         }
@@ -9944,7 +9944,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SuomiHenkilotunnusInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SuomiHenkilotunnusInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/SuomiHenkilotunnusInput.tsx"
         }
@@ -9961,7 +9961,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SuomiHenkilotunnusView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SuomiHenkilotunnusView.tsx",
           "type": "registry:component",
           "target": "@components/lily/SuomiHenkilotunnusView.tsx"
         }
@@ -9998,7 +9998,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SverigePersonnummerInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SverigePersonnummerInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/SverigePersonnummerInput.tsx"
         }
@@ -10015,7 +10015,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/SverigePersonnummerView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/SverigePersonnummerView.tsx",
           "type": "registry:component",
           "target": "@components/lily/SverigePersonnummerView.tsx"
         }
@@ -10282,7 +10282,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/TaiwanGuominShenfenzhengTongyiBianhaoInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/TaiwanGuominShenfenzhengTongyiBianhaoInput.tsx"
         }
@@ -10299,7 +10299,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/TaiwanGuominShenfenzhengTongyiBianhaoView.tsx",
           "type": "registry:component",
           "target": "@components/lily/TaiwanGuominShenfenzhengTongyiBianhaoView.tsx"
         }
@@ -11155,7 +11155,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/TuaisceartEireannHealthAndCareNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/TuaisceartEireannHealthAndCareNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/TuaisceartEireannHealthAndCareNumberInput.tsx"
         }
@@ -11172,7 +11172,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/TuaisceartEireannHealthAndCareNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/TuaisceartEireannHealthAndCareNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/TuaisceartEireannHealthAndCareNumberView.tsx"
         }
@@ -11192,7 +11192,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/TurkiyeTcKimlikNumarasiInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/TurkiyeTcKimlikNumarasiInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/TurkiyeTcKimlikNumarasiInput.tsx"
         }
@@ -11209,7 +11209,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/TurkiyeTcKimlikNumarasiView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/TurkiyeTcKimlikNumarasiView.tsx",
           "type": "registry:component",
           "target": "@components/lily/TurkiyeTcKimlikNumarasiView.tsx"
         }
@@ -11229,7 +11229,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.tsx"
         }
@@ -11246,7 +11246,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.tsx",
           "type": "registry:component",
           "target": "@components/lily/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.tsx"
         }
@@ -11263,7 +11263,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/UnitedKingdomNationalHealthServiceNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/UnitedKingdomNationalHealthServiceNumberInput.tsx"
         }
@@ -11280,7 +11280,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/UnitedKingdomNationalHealthServiceNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/UnitedKingdomNationalHealthServiceNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/UnitedKingdomNationalHealthServiceNumberView.tsx"
         }
@@ -11300,7 +11300,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/UnitedKingdomNationalInsuranceNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/UnitedKingdomNationalInsuranceNumberInput.tsx"
         }
@@ -11317,7 +11317,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/UnitedKingdomNationalInsuranceNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/UnitedKingdomNationalInsuranceNumberView.tsx"
         }
@@ -11334,7 +11334,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/UnitedStatesSocialSecurityNumberInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/UnitedStatesSocialSecurityNumberInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/UnitedStatesSocialSecurityNumberInput.tsx"
         }
@@ -11351,7 +11351,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/UnitedStatesSocialSecurityNumberView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/UnitedStatesSocialSecurityNumberView.tsx",
           "type": "registry:component",
           "target": "@components/lily/UnitedStatesSocialSecurityNumberView.tsx"
         }
@@ -11388,7 +11388,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/UruguayCedulaDeIdentidadInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/UruguayCedulaDeIdentidadInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/UruguayCedulaDeIdentidadInput.tsx"
         }
@@ -11405,7 +11405,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/UruguayCedulaDeIdentidadView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/UruguayCedulaDeIdentidadView.tsx",
           "type": "registry:component",
           "target": "@components/lily/UruguayCedulaDeIdentidadView.tsx"
         }
@@ -11479,7 +11479,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/VietNamCanCuocCongDanInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/VietNamCanCuocCongDanInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/VietNamCanCuocCongDanInput.tsx"
         }
@@ -11496,7 +11496,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/VietNamCanCuocCongDanView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/VietNamCanCuocCongDanView.tsx",
           "type": "registry:component",
           "target": "@components/lily/VietNamCanCuocCongDanView.tsx"
         }
@@ -11653,7 +11653,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/YisraelTeudatZehutInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/YisraelTeudatZehutInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/YisraelTeudatZehutInput.tsx"
         }
@@ -11670,7 +11670,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/YisraelTeudatZehutView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/YisraelTeudatZehutView.tsx",
           "type": "registry:component",
           "target": "@components/lily/YisraelTeudatZehutView.tsx"
         }
@@ -11690,7 +11690,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ZhongguoJuminShenfenzhengHaomaInput.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaInput.tsx",
           "type": "registry:component",
           "target": "@components/lily/ZhongguoJuminShenfenzhengHaomaInput.tsx"
         }
@@ -11707,7 +11707,7 @@
       ],
       "files": [
         {
-          "path": "lily-design-system-react-headless/components/ZhongguoJuminShenfenzhengHaomaView.tsx",
+          "path": "lily-design-system-react-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaView.tsx",
           "type": "registry:component",
           "target": "@components/lily/ZhongguoJuminShenfenzhengHaomaView.tsx"
         }

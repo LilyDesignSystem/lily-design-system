@@ -26,7 +26,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/danmark-personnummer-view.html",
     "svelte": "lily-design-system-svelte-headless/components/DanmarkPersonnummerView/DanmarkPersonnummerView.svelte",
-    "react": "lily-design-system-react-headless/components/DanmarkPersonnummerView.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/DanmarkPersonnummerView.tsx",
     "vue": "lily-design-system-vue-headless/components/DanmarkPersonnummerView.vue",
     "angular": "lily-design-system-angular-headless/components/DanmarkPersonnummerView.ts",
     "web-components": "lily-design-system-web-components-headless/components/danmark-personnummer-view.ts",

@@ -31,7 +31,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/france-numero-d-identification-au-repertoire-input.html",
     "svelte": "lily-design-system-svelte-headless/components/FranceNumeroDIdentificationAuRepertoireInput/FranceNumeroDIdentificationAuRepertoireInput.svelte",
-    "react": "lily-design-system-react-headless/components/FranceNumeroDIdentificationAuRepertoireInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/FranceNumeroDIdentificationAuRepertoireInput.tsx",
     "vue": "lily-design-system-vue-headless/components/FranceNumeroDIdentificationAuRepertoireInput.vue",
     "angular": "lily-design-system-angular-headless/components/FranceNumeroDIdentificationAuRepertoireInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/france-numero-d-identification-au-repertoire-input.ts",

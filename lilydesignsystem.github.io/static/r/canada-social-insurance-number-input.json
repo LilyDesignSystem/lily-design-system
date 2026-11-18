@@ -29,7 +29,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/canada-social-insurance-number-input.html",
     "svelte": "lily-design-system-svelte-headless/components/CanadaSocialInsuranceNumberInput/CanadaSocialInsuranceNumberInput.svelte",
-    "react": "lily-design-system-react-headless/components/CanadaSocialInsuranceNumberInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/CanadaSocialInsuranceNumberInput.tsx",
     "vue": "lily-design-system-vue-headless/components/CanadaSocialInsuranceNumberInput.vue",
     "angular": "lily-design-system-angular-headless/components/CanadaSocialInsuranceNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/canada-social-insurance-number-input.ts",

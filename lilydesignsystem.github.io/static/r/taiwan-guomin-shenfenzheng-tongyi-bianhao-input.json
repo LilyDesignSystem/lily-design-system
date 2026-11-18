@@ -29,7 +29,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input.html",
     "svelte": "lily-design-system-svelte-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoInput/TaiwanGuominShenfenzhengTongyiBianhaoInput.svelte",
-    "react": "lily-design-system-react-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/TaiwanGuominShenfenzhengTongyiBianhaoInput.tsx",
     "vue": "lily-design-system-vue-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoInput.vue",
     "angular": "lily-design-system-angular-headless/components/TaiwanGuominShenfenzhengTongyiBianhaoInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input.ts",

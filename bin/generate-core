@@ -150,9 +150,14 @@ const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 function testFiles(c, lib) {
   if (c.helper) return walkTests(`lily-design-system-${lib}-${c.slug}`);
+  // A national identifier's tests move with it to the -headless-identifiers package (spec/headless-identifiers).
+  const found = testFilesIn(c, lib, `lily-design-system-${lib}-headless`);
+  return found.length ? found : testFilesIn(c, lib, `lily-design-system-${lib}-headless-identifiers`);
+}
+
+function testFilesIn(c, lib, base) {
   const N = esc(pascal(c.slug));
   const s = esc(c.slug);
-  const base = `lily-design-system-${lib}-headless`;
   switch (lib) {
     case "svelte": return siblingTests(`${base}/components/${pascal(c.slug)}`, /\.test\.ts$/);
     case "react": return siblingTests(`${base}/components`, new RegExp(`^${N}(\\.[\\w-]+)?\\.test\\.tsx$`));
@@ -190,7 +195,8 @@ function ariaContract(c) {
 // bUnit's KeyDown needs a handler on the element and runs no browser, so a component with none has no key to send.
 function noBlazorKeyHandler(c) {
   if (c.helper) return false;
-  const base = `lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/${pascal(c.slug)}.razor`;
+  const inHeadless = `lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/${pascal(c.slug)}.razor`;
+  const base = exists(inHeadless) ? inHeadless : inHeadless.replace("-headless/", "-headless-identifiers/");
   return exists(base) && !exists(`${base}.js`) && !/@onkey/.test(read(base));
 }
 

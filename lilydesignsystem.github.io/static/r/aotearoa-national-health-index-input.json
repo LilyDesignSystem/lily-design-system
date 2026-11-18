@@ -29,7 +29,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/aotearoa-national-health-index-input.html",
     "svelte": "lily-design-system-svelte-headless/components/AotearoaNationalHealthIndexInput/AotearoaNationalHealthIndexInput.svelte",
-    "react": "lily-design-system-react-headless/components/AotearoaNationalHealthIndexInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/AotearoaNationalHealthIndexInput.tsx",
     "vue": "lily-design-system-vue-headless/components/AotearoaNationalHealthIndexInput.vue",
     "angular": "lily-design-system-angular-headless/components/AotearoaNationalHealthIndexInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/aotearoa-national-health-index-input.ts",

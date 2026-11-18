@@ -30,7 +30,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/lietuva-pasas-input.html",
     "svelte": "lily-design-system-svelte-headless/components/LietuvaPasasInput/LietuvaPasasInput.svelte",
-    "react": "lily-design-system-react-headless/components/LietuvaPasasInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/LietuvaPasasInput.tsx",
     "vue": "lily-design-system-vue-headless/components/LietuvaPasasInput.vue",
     "angular": "lily-design-system-angular-headless/components/LietuvaPasasInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/lietuva-pasas-input.ts",

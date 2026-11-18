@@ -30,7 +30,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/cesko-rodne-cislo-input.html",
     "svelte": "lily-design-system-svelte-headless/components/CeskoRodneCisloInput/CeskoRodneCisloInput.svelte",
-    "react": "lily-design-system-react-headless/components/CeskoRodneCisloInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/CeskoRodneCisloInput.tsx",
     "vue": "lily-design-system-vue-headless/components/CeskoRodneCisloInput.vue",
     "angular": "lily-design-system-angular-headless/components/CeskoRodneCisloInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/cesko-rodne-cislo-input.ts",

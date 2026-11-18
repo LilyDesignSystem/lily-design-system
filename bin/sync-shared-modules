@@ -283,6 +283,7 @@ EXTRA_TARGETS = {
         "lily-design-system-svelte-headless/components/dev-warning.ts",
         "lily-design-system-svelte-sveltekit-examples/src/lib/components/dev-warning.ts",
         "lily-design-system-react-headless/components/dev-warning.ts",
+        "lily-design-system-react-headless-identifiers/components/dev-warning.ts",
         "lily-design-system-solid-headless/components/dev-warning.ts",
         "lily-design-system-solid-headless-identifiers/components/dev-warning.ts",
         "lily-design-system-react-next-examples/components/dev-warning.ts",

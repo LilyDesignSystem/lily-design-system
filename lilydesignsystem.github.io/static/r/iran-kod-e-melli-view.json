@@ -26,7 +26,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/iran-kod-e-melli-view.html",
     "svelte": "lily-design-system-svelte-headless/components/IranKodEMelliView/IranKodEMelliView.svelte",
-    "react": "lily-design-system-react-headless/components/IranKodEMelliView.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/IranKodEMelliView.tsx",
     "vue": "lily-design-system-vue-headless/components/IranKodEMelliView.vue",
     "angular": "lily-design-system-angular-headless/components/IranKodEMelliView.ts",
     "web-components": "lily-design-system-web-components-headless/components/iran-kod-e-melli-view.ts",
