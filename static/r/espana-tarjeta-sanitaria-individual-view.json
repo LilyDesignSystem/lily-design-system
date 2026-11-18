@@ -28,7 +28,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/espana-tarjeta-sanitaria-individual-view.html",
     "svelte": "lily-design-system-svelte-headless/components/EspanaTarjetaSanitariaIndividualView/EspanaTarjetaSanitariaIndividualView.svelte",
-    "react": "lily-design-system-react-headless/components/EspanaTarjetaSanitariaIndividualView.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/EspanaTarjetaSanitariaIndividualView.tsx",
     "vue": "lily-design-system-vue-headless/components/EspanaTarjetaSanitariaIndividualView.vue",
     "angular": "lily-design-system-angular-headless/components/EspanaTarjetaSanitariaIndividualView.ts",
     "web-components": "lily-design-system-web-components-headless/components/espana-tarjeta-sanitaria-individual-view.ts",

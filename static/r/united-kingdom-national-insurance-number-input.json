@@ -30,7 +30,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/united-kingdom-national-insurance-number-input.html",
     "svelte": "lily-design-system-svelte-headless/components/UnitedKingdomNationalInsuranceNumberInput/UnitedKingdomNationalInsuranceNumberInput.svelte",
-    "react": "lily-design-system-react-headless/components/UnitedKingdomNationalInsuranceNumberInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberInput.tsx",
     "vue": "lily-design-system-vue-headless/components/UnitedKingdomNationalInsuranceNumberInput.vue",
     "angular": "lily-design-system-angular-headless/components/UnitedKingdomNationalInsuranceNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/united-kingdom-national-insurance-number-input.ts",

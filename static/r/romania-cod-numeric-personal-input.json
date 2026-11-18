@@ -30,7 +30,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/romania-cod-numeric-personal-input.html",
     "svelte": "lily-design-system-svelte-headless/components/RomaniaCodNumericPersonalInput/RomaniaCodNumericPersonalInput.svelte",
-    "react": "lily-design-system-react-headless/components/RomaniaCodNumericPersonalInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/RomaniaCodNumericPersonalInput.tsx",
     "vue": "lily-design-system-vue-headless/components/RomaniaCodNumericPersonalInput.vue",
     "angular": "lily-design-system-angular-headless/components/RomaniaCodNumericPersonalInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/romania-cod-numeric-personal-input.ts",

@@ -29,7 +29,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input.html",
     "svelte": "lily-design-system-svelte-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.svelte",
-    "react": "lily-design-system-react-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.tsx",
     "vue": "lily-design-system-vue-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.vue",
     "angular": "lily-design-system-angular-headless/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-input.ts",

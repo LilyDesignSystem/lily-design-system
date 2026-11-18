@@ -29,7 +29,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/zhongguo-jumin-shenfenzheng-haoma-input.html",
     "svelte": "lily-design-system-svelte-headless/components/ZhongguoJuminShenfenzhengHaomaInput/ZhongguoJuminShenfenzhengHaomaInput.svelte",
-    "react": "lily-design-system-react-headless/components/ZhongguoJuminShenfenzhengHaomaInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaInput.tsx",
     "vue": "lily-design-system-vue-headless/components/ZhongguoJuminShenfenzhengHaomaInput.vue",
     "angular": "lily-design-system-angular-headless/components/ZhongguoJuminShenfenzhengHaomaInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/zhongguo-jumin-shenfenzheng-haoma-input.ts",

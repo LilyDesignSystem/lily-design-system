@@ -30,7 +30,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/australia-individual-healthcare-identifier-input.html",
     "svelte": "lily-design-system-svelte-headless/components/AustraliaIndividualHealthcareIdentifierInput/AustraliaIndividualHealthcareIdentifierInput.svelte",
-    "react": "lily-design-system-react-headless/components/AustraliaIndividualHealthcareIdentifierInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/AustraliaIndividualHealthcareIdentifierInput.tsx",
     "vue": "lily-design-system-vue-headless/components/AustraliaIndividualHealthcareIdentifierInput.vue",
     "angular": "lily-design-system-angular-headless/components/AustraliaIndividualHealthcareIdentifierInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/australia-individual-healthcare-identifier-input.ts",

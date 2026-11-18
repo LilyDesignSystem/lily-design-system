@@ -26,7 +26,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/slovenija-emso-view.html",
     "svelte": "lily-design-system-svelte-headless/components/SlovenijaEmsoView/SlovenijaEmsoView.svelte",
-    "react": "lily-design-system-react-headless/components/SlovenijaEmsoView.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/SlovenijaEmsoView.tsx",
     "vue": "lily-design-system-vue-headless/components/SlovenijaEmsoView.vue",
     "angular": "lily-design-system-angular-headless/components/SlovenijaEmsoView.ts",
     "web-components": "lily-design-system-web-components-headless/components/slovenija-emso-view.ts",

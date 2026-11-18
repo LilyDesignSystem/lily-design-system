@@ -26,7 +26,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/hrvatska-osobni-identifikacijski-broj-view.html",
     "svelte": "lily-design-system-svelte-headless/components/HrvatskaOsobniIdentifikacijskiBrojView/HrvatskaOsobniIdentifikacijskiBrojView.svelte",
-    "react": "lily-design-system-react-headless/components/HrvatskaOsobniIdentifikacijskiBrojView.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojView.tsx",
     "vue": "lily-design-system-vue-headless/components/HrvatskaOsobniIdentifikacijskiBrojView.vue",
     "angular": "lily-design-system-angular-headless/components/HrvatskaOsobniIdentifikacijskiBrojView.ts",
     "web-components": "lily-design-system-web-components-headless/components/hrvatska-osobni-identifikacijski-broj-view.ts",

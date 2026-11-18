@@ -29,7 +29,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/chile-rol-unico-nacional-input.html",
     "svelte": "lily-design-system-svelte-headless/components/ChileRolUnicoNacionalInput/ChileRolUnicoNacionalInput.svelte",
-    "react": "lily-design-system-react-headless/components/ChileRolUnicoNacionalInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/ChileRolUnicoNacionalInput.tsx",
     "vue": "lily-design-system-vue-headless/components/ChileRolUnicoNacionalInput.vue",
     "angular": "lily-design-system-angular-headless/components/ChileRolUnicoNacionalInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/chile-rol-unico-nacional-input.ts",

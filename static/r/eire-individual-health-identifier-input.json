@@ -29,7 +29,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/eire-individual-health-identifier-input.html",
     "svelte": "lily-design-system-svelte-headless/components/EireIndividualHealthIdentifierInput/EireIndividualHealthIdentifierInput.svelte",
-    "react": "lily-design-system-react-headless/components/EireIndividualHealthIdentifierInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/EireIndividualHealthIdentifierInput.tsx",
     "vue": "lily-design-system-vue-headless/components/EireIndividualHealthIdentifierInput.vue",
     "angular": "lily-design-system-angular-headless/components/EireIndividualHealthIdentifierInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/eire-individual-health-identifier-input.ts",

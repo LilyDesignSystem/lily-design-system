@@ -30,7 +30,7 @@
   "files": {
     "html": "lily-design-system-html-headless/components/alba-community-health-index-input.html",
     "svelte": "lily-design-system-svelte-headless/components/AlbaCommunityHealthIndexInput/AlbaCommunityHealthIndexInput.svelte",
-    "react": "lily-design-system-react-headless/components/AlbaCommunityHealthIndexInput.tsx",
+    "react": "lily-design-system-react-headless-identifiers/components/AlbaCommunityHealthIndexInput.tsx",
     "vue": "lily-design-system-vue-headless/components/AlbaCommunityHealthIndexInput.vue",
     "angular": "lily-design-system-angular-headless/components/AlbaCommunityHealthIndexInput.ts",
     "web-components": "lily-design-system-web-components-headless/components/alba-community-health-index-input.ts",
