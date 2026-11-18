@@ -32,7 +32,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/CanadaSocialInsuranceNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/CanadaSocialInsuranceNumberInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/CanadaSocialInsuranceNumberInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/canada-social-insurance-number-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/canada-social-insurance-number-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/canada-social-insurance-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/canada-social-insurance-number-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CanadaSocialInsuranceNumberInput.razor"

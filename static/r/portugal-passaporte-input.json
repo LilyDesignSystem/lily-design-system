@@ -33,7 +33,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/PortugalPassaporteInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PortugalPassaporteInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/PortugalPassaporteInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/portugal-passaporte-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/portugal-passaporte-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/portugal-passaporte-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/portugal-passaporte-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PortugalPassaporteInput.razor"

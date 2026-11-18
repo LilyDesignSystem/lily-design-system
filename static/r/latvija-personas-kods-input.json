@@ -33,7 +33,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/LatvijaPersonasKodsInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LatvijaPersonasKodsInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/LatvijaPersonasKodsInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/latvija-personas-kods-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/latvija-personas-kods-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/latvija-personas-kods-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/latvija-personas-kods-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LatvijaPersonasKodsInput.razor"

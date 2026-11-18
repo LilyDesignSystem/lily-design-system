@@ -33,7 +33,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/ElladaDematerialisedSecuritiesSystemInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ElladaDematerialisedSecuritiesSystemInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/ElladaDematerialisedSecuritiesSystemInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/ellada-dematerialised-securities-system-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/ellada-dematerialised-securities-system-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/ellada-dematerialised-securities-system-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/ellada-dematerialised-securities-system-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ElladaDematerialisedSecuritiesSystemInput.razor"

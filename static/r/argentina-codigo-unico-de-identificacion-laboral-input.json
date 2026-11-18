@@ -32,7 +32,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/argentina-codigo-unico-de-identificacion-laboral-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/argentina-codigo-unico-de-identificacion-laboral-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/argentina-codigo-unico-de-identificacion-laboral-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/argentina-codigo-unico-de-identificacion-laboral-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.razor"

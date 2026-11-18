@@ -32,7 +32,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/AustraliaTaxFileNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/AustraliaTaxFileNumberInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/AustraliaTaxFileNumberInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/australia-tax-file-number-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/australia-tax-file-number-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/australia-tax-file-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/australia-tax-file-number-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AustraliaTaxFileNumberInput.razor"

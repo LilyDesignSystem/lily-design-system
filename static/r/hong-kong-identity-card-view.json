@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/HongKongIdentityCardView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/HongKongIdentityCardView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/HongKongIdentityCardView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/hong-kong-identity-card-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/hong-kong-identity-card-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/hong-kong-identity-card-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/hong-kong-identity-card-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HongKongIdentityCardView.razor"

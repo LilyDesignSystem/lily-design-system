@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/BelgiqueNumeroDeRegistreNationalView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/BelgiqueNumeroDeRegistreNationalView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/BelgiqueNumeroDeRegistreNationalView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/belgique-numero-de-registre-national-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/belgique-numero-de-registre-national-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/belgique-numero-de-registre-national-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/belgique-numero-de-registre-national-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BelgiqueNumeroDeRegistreNationalView.razor"

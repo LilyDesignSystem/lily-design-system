@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/BrasilCartaoNacionalDeSaudeView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/BrasilCartaoNacionalDeSaudeView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/BrasilCartaoNacionalDeSaudeView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/brasil-cartao-nacional-de-saude-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/brasil-cartao-nacional-de-saude-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/brasil-cartao-nacional-de-saude-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/brasil-cartao-nacional-de-saude-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BrasilCartaoNacionalDeSaudeView.razor"

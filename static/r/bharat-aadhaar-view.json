@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/BharatAadhaarView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/BharatAadhaarView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/BharatAadhaarView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/bharat-aadhaar-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/bharat-aadhaar-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/bharat-aadhaar-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/bharat-aadhaar-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BharatAadhaarView.razor"

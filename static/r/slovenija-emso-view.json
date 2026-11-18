@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/SlovenijaEmsoView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SlovenijaEmsoView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/SlovenijaEmsoView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/slovenija-emso-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/slovenija-emso-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/slovenija-emso-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/slovenija-emso-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SlovenijaEmsoView.razor"

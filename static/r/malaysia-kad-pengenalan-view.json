@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/MalaysiaKadPengenalanView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/MalaysiaKadPengenalanView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/MalaysiaKadPengenalanView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/malaysia-kad-pengenalan-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/malaysia-kad-pengenalan-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/malaysia-kad-pengenalan-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/malaysia-kad-pengenalan-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MalaysiaKadPengenalanView.razor"

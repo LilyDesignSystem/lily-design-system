@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/PortugalPassaporteView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PortugalPassaporteView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/PortugalPassaporteView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/portugal-passaporte-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/portugal-passaporte-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/portugal-passaporte-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/portugal-passaporte-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PortugalPassaporteView.razor"

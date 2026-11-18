@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/IranKodEMelliView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/IranKodEMelliView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/IranKodEMelliView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/iran-kod-e-melli-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/iran-kod-e-melli-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/iran-kod-e-melli-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/iran-kod-e-melli-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IranKodEMelliView.razor"

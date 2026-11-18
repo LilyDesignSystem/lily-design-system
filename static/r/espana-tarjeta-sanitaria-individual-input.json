@@ -32,7 +32,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/EspanaTarjetaSanitariaIndividualInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/EspanaTarjetaSanitariaIndividualInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/EspanaTarjetaSanitariaIndividualInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/espana-tarjeta-sanitaria-individual-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/espana-tarjeta-sanitaria-individual-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/espana-tarjeta-sanitaria-individual-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/espana-tarjeta-sanitaria-individual-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EspanaTarjetaSanitariaIndividualInput.razor"

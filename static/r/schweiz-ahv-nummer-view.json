@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/SchweizAhvNummerView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SchweizAhvNummerView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/SchweizAhvNummerView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/schweiz-ahv-nummer-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/schweiz-ahv-nummer-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/schweiz-ahv-nummer-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/schweiz-ahv-nummer-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SchweizAhvNummerView.razor"

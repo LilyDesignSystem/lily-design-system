@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/ItaliaCodiceFiscaleView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ItaliaCodiceFiscaleView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/ItaliaCodiceFiscaleView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/italia-codice-fiscale-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/italia-codice-fiscale-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/italia-codice-fiscale-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/italia-codice-fiscale-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ItaliaCodiceFiscaleView.razor"
