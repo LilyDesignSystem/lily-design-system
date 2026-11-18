@@ -33,7 +33,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/SchweizAhvNummerInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/SchweizAhvNummerInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/schweiz-ahv-nummer-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/schweiz-ahv-nummer-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/schweiz-ahv-nummer-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/schweiz-ahv-nummer-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SchweizAhvNummerInput.razor"
   },

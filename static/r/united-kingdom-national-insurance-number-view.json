@@ -30,7 +30,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/united-kingdom-national-insurance-number-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/united-kingdom-national-insurance-number-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/united-kingdom-national-insurance-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/united-kingdom-national-insurance-number-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UnitedKingdomNationalInsuranceNumberView.razor"
   },

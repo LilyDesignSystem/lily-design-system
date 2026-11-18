@@ -35,7 +35,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/UnitedStatesSocialSecurityNumberInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/UnitedStatesSocialSecurityNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/united-states-social-security-number-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/united-states-social-security-number-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/united-states-social-security-number-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/united-states-social-security-number-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UnitedStatesSocialSecurityNumberInput.razor"
   },

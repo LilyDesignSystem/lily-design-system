@@ -34,7 +34,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/SlovenijaEmsoInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/SlovenijaEmsoInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/slovenija-emso-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/slovenija-emso-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/slovenija-emso-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/slovenija-emso-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SlovenijaEmsoInput.razor"
   },

@@ -30,7 +30,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/SuomiHenkilotunnusView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/SuomiHenkilotunnusView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/suomi-henkilotunnus-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/suomi-henkilotunnus-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/suomi-henkilotunnus-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/suomi-henkilotunnus-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SuomiHenkilotunnusView.razor"
   },

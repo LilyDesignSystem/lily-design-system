@@ -30,7 +30,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/portugal-numero-de-identificacao-fiscal-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/portugal-numero-de-identificacao-fiscal-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/portugal-numero-de-identificacao-fiscal-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/portugal-numero-de-identificacao-fiscal-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PortugalNumeroDeIdentificacaoFiscalView.razor"
   },

@@ -34,7 +34,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/UnitedStatesSocialSecurityNumberView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/UnitedStatesSocialSecurityNumberView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/united-states-social-security-number-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/united-states-social-security-number-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/united-states-social-security-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/united-states-social-security-number-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UnitedStatesSocialSecurityNumberView.razor"
   },

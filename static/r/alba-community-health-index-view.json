@@ -30,7 +30,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/AlbaCommunityHealthIndexView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/AlbaCommunityHealthIndexView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/alba-community-health-index-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/alba-community-health-index-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/alba-community-health-index-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/alba-community-health-index-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AlbaCommunityHealthIndexView.razor"
   },

@@ -33,7 +33,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/IranKodEMelliInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/IranKodEMelliInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/iran-kod-e-melli-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/iran-kod-e-melli-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/iran-kod-e-melli-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/iran-kod-e-melli-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IranKodEMelliInput.razor"
   },

@@ -30,7 +30,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/VietNamCanCuocCongDanView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/VietNamCanCuocCongDanView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/viet-nam-can-cuoc-cong-dan-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/viet-nam-can-cuoc-cong-dan-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/viet-nam-can-cuoc-cong-dan-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/viet-nam-can-cuoc-cong-dan-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/VietNamCanCuocCongDanView.razor"
   },

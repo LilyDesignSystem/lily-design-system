@@ -34,7 +34,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/RomaniaCodNumericPersonalInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/RomaniaCodNumericPersonalInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/romania-cod-numeric-personal-input.ts",
-    "alpine": "lily-design-system-alpine-headless/components/romania-cod-numeric-personal-input.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/romania-cod-numeric-personal-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/romania-cod-numeric-personal-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RomaniaCodNumericPersonalInput.razor"
   },

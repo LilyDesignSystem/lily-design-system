@@ -30,7 +30,7 @@
     "vue": "lily-design-system-vue-headless-identifiers/components/TurkiyeTcKimlikNumarasiView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/TurkiyeTcKimlikNumarasiView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/turkiye-tc-kimlik-numarasi-view.ts",
-    "alpine": "lily-design-system-alpine-headless/components/turkiye-tc-kimlik-numarasi-view.html",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/turkiye-tc-kimlik-numarasi-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/turkiye-tc-kimlik-numarasi-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TurkiyeTcKimlikNumarasiView.razor"
   },
