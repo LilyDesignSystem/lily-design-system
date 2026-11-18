@@ -37,9 +37,10 @@ the answer to it too.
 Email **<joel@joelparkerhenderson.com>** with `SECURITY` in the subject line. There
 is no security team; the maintainer is the whole path.
 
-If GitHub private vulnerability reporting is enabled on the repository, that route
-works too — but email is the documented one, because it does not depend on a setting
-this document cannot verify for you.
+Or report it privately on GitHub:
+<https://github.com/LilyDesignSystem/lily-design-system/security/advisories/new>. Private vulnerability
+reporting is enabled on the repository (since 2026-11-18); the report is seen only by you and the maintainer, and
+becomes the draft advisory the fix is developed in.
 
 Include what you can: the affected component or package, the version, reproduction
 steps or a proof of concept, an impact assessment, and any suggested fix.
