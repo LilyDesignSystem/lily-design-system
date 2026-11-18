@@ -1,0 +1,153 @@
+# AGENTS — TextSizePicker (Solid helper)
+
+Single source of truth: [spec/index.md](./spec/index.md). Read it first; everything
+below is a fast index.
+
+## What this package is
+
+A reusable Solid 2.0 headless text-size picker. Renders an icon button
+that opens a dropdown listbox of size slugs and applies the chosen slug
+to the document root via `data-text-size`, with optional `localStorage`
+persistence. Ships no CSS; consumer styles the `text-size-picker` class
+hook and maps each `[data-text-size="…"]` slug to real typography.
+
+## Files
+
+| File                      | Purpose                                       |
+| ------------------------- | --------------------------------------------- |
+| `spec/index.md`           | Specification-driven contract (canonical).    |
+| `TextSizePicker.tsx`      | Implementation. TypeScript + Solid 2.0 hooks. |
+| `TextSizePicker.test.tsx` | Vitest spec, one assertion per §7 acceptance. |
+| `index.ts`                | Barrel re-export.                             |
+| `index.md`                | User guide.                                   |
+| `docs/accessibility.md`   | Roles, keyboard contract, and the tradeoffs.  |
+
+## Public surface
+
+- Default export: `TextSizePicker` component.
+- Named exports: `TextSizePicker`, `sizeName`.
+- Type exports: `Props`, `ChildArgs`.
+- `sizeName(slug)` is the single implementation of the title-casing
+  label rule (`"x-large"` → `"X Large"`); the internal `labelFor`
+  delegates to it, and it mirrors `themeName` in theme-picker and
+  `localeName` in locale-picker. Consumers should use it instead of
+  re-deriving labels. It replaced the old `titleCaseSize` export.
+- No glyph constant — the default icon is a bundled SVG, not a
+  Unicode character (reversed 2026-09-16).
+
+Required props: `label`, `sizes`. Optional `children` is a render prop
+that replaces the icon inside the button and receives
+`{ value, open, labelFor }` — it does **not** render the options. Full
+table in [spec/index.md §4.1](./spec/index.md#41-props).
+
+There is deliberately no detection prop: unlike `prefers-color-scheme`
+or `navigator.languages`, no platform signal exposes a preferred text
+size.
+
+## Behaviour contract (one paragraph)
+
+On every size change the control (1) sets `data-text-size="{slug}"` on
+`target` (defaults to `document.documentElement`), (2) optionally writes
+the slug to `localStorage[storageKey]`, and (3) calls `onChange(slug)`.
+SSR-safe — all DOM writes happen inside `createEffect`. Initial value
+resolves from `value` > storage > `defaultValue` > `"medium"` (if
+present) > `sizes[0]`. Controlled when `value` is supplied; otherwise
+uncontrolled with internal `createSignal`. The control is an icon button
+that opens a listbox; the component owns the open/close state, the
+active-option state, and the whole keyboard contract, and it returns
+focus to the button when a selection or `Escape` closes the list.
+
+## HTML
+
+```html
+<div
+  class="text-size-picker {class}"
+  ...restProps
+>
+  <input
+    type="hidden"
+    name="{name}"
+    value="{value}"
+  />
+  <button
+    type="button"
+    class="text-size-picker-button"
+    aria-label="{label}"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-controls="{listId}"
+  >
+    <svg
+      class="text-size-picker-icon"
+      viewBox="0 0 16 16"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M4 13 7.2 3h1.6L12 13M5.4 9.5h5.2" />
+    </svg>
+  </button>
+  <ul
+    class="text-size-picker-list"
+    id="{listId}"
+    role="listbox"
+    aria-label="{label}"
+    tabindex="-1"
+    hidden
+    aria-activedescendant="{optionId of active, only while open}"
+  >
+    <li
+      class="text-size-picker-option"
+      id="{optionId}"
+      role="option"
+      aria-selected="true|false"
+      data-active
+    >
+      Medium
+    </li>
+  </ul>
+</div>
+```
+
+Ids come from `createUniqueId`, so they are stable and hydration-safe. Custom
+rendering via the `children` render prop receiving
+`{ value, open, labelFor }` replaces the icon inside the button only —
+the component owns the options.
+
+## Accessibility
+
+- WCAG 2.2 AAA target; this helper is the one that most directly serves
+  1.4.4 (Resize Text) and 1.4.12 (Text Spacing).
+- WAI-ARIA APG listbox pattern. The component implements the keyboard
+  contract itself: open with `ArrowDown` / `Enter` / `Space` (`ArrowUp`
+  opens on the last option), then `ArrowUp` / `ArrowDown` (clamping),
+  `Home` / `End`, `PageUp` / `PageDown` (by ten, clamped), `Enter` /
+  `Space` to commit, `Escape` to dismiss, and printable-character
+  typeahead with a 500 ms buffer (a repeated character cycles through
+  its matches). `Tab` closes via the button so the default Tab proceeds
+  from the picker's position.
+- `aria-label` carries the consumer-supplied accessible name on both the
+  button and the listbox. The icon is `aria-hidden`, so `label` is the
+  only source of the accessible name.
+- Active option is tracked with `aria-activedescendant`, not roving focus.
+- Option labels default to title-cased slugs; the word "default" is
+  never emitted.
+- The icon is a bundled SVG (a stroke-drawn "A"), not a Unicode
+  character (reversed 2026-09-16). The old glyph, U+1F5DB, was rejected
+  even before that reversal: it had no real glyph in common font
+  stacks and means _decrease_ rather than _size_.
+
+## Conventions this package follows
+
+- Solid 2.0 function components with hooks.
+- Strict TypeScript on the public surface.
+- No runtime dependency beyond `react`.
+- No bundled CSS, fonts, icons, or images.
+- All user-facing strings come from props.
+
+## Tooltip
+
+`<div class="text-size-picker-tooltip" role="tooltip" id="{baseId}-tooltip" hidden>{label}</div>` is a sibling right after the icon button, always in the DOM, text = `label` (no new props). Shown on pointer hover (button or tooltip) or `:focus-visible` keyboard focus; `Escape` on the button dismisses it without moving focus; never shown while the listbox is open. Not linked with `aria-describedby` (it duplicates `aria-label`). Position/appearance is theme CSS keyed on `hidden`.

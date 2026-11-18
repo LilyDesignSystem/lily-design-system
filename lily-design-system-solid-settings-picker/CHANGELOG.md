@@ -1,20 +1,15 @@
-# Changelog — SettingsPicker (Solid)
+# Changelog — @lilydesignsystem/solid-settings-picker
 
-All notable changes to this helper are documented in this file. The format is loosely based on
-[Keep a Changelog](https://keepachangelog.com/) and the project follows [Semantic Versioning](https://semver.org/).
+The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
+and the package follows [Semantic Versioning](https://semver.org/).
 
-## 0.1.2 — 2026-11-06
+## 0.1.0 — unreleased
 
-- Depends on `react-headless` ^0.8.0.
+- First release, for Solid 2.0 (`solid-js` and `@solidjs/web` ^2.0.0 as peers): settings picker: an icon button (a cog icon) opening a dropdown of whatever the app provides. Headless, SSR-safe, no CSS.
+- Ported from [`@lilydesignsystem/react-settings-picker`](../lily-design-system-react-settings-picker/) with its tests, to the contract in
+  [spec/index.md](./spec/index.md); the same markup, class hooks, keyboard and ARIA as the other catalogs.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
 
-## 0.1.1 — 2026-11-05
+---
 
-- Depends on `react-headless` ^0.7.0.
-
-## 0.1.0 — 2026-10-08
-
-**First release.** An icon button (a bundled cog SVG) opening a disclosure panel that holds whatever the
-app provides. Props: `label`, `open` (bindable), `closeOnSelect`, `onOpenChange`, `children({ open, close })`, `icon`.
-A named `role="group"` panel (not an ARIA menu), closes on select / Escape / Tab / outside click / focus leaving,
-hover/keyboard-focus tooltip. No default content and no English. Spec §7 has 21 acceptance clauses; the suite has one test
-each.
+Lily™ and Lily Design System™ are trademarks.

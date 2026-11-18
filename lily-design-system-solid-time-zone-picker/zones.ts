@@ -1,0 +1,274 @@
+// The zone logic of the time zone picker: offsets, names and order. Pure and framework-neutral; every name comes
+// from `Intl` in the caller's locale, so there is no English table here and no default locale.
+
+/**
+ * A representative zone for each common UTC offset and name, as IANA ids: the ids are identifiers, not words. An
+ * app that wants other zones passes its own list. Offsets and names are worked out for a date, so a zone that keeps
+ * daylight saving time shows the offset and name in force on that date.
+ */
+export const DEFAULT_ZONES: readonly string[] = [
+    "Pacific/Pago_Pago",
+    "Pacific/Honolulu",
+    "Pacific/Marquesas",
+    "America/Anchorage",
+    "America/Los_Angeles",
+    "America/Phoenix",
+    "America/Denver",
+    "America/Chicago",
+    "America/Mexico_City",
+    "America/New_York",
+    "America/Bogota",
+    "America/Halifax",
+    "America/Caracas",
+    "America/St_Johns",
+    "America/Sao_Paulo",
+    "America/Argentina/Buenos_Aires",
+    "Atlantic/South_Georgia",
+    "Atlantic/Azores",
+    "UTC",
+    "Africa/Abidjan",
+    "Europe/London",
+    "Europe/Lisbon",
+    "Africa/Casablanca",
+    "Africa/Lagos",
+    "Europe/Paris",
+    "Europe/Athens",
+    "Africa/Cairo",
+    "Africa/Maputo",
+    "Africa/Johannesburg",
+    "Europe/Moscow",
+    "Africa/Nairobi",
+    "Asia/Riyadh",
+    "Asia/Tehran",
+    "Asia/Dubai",
+    "Asia/Kabul",
+    "Asia/Karachi",
+    "Asia/Kolkata",
+    "Asia/Kathmandu",
+    "Asia/Dhaka",
+    "Asia/Yangon",
+    "Asia/Bangkok",
+    "Asia/Jakarta",
+    "Asia/Shanghai",
+    "Asia/Singapore",
+    "Asia/Kuala_Lumpur",
+    "Asia/Manila",
+    "Asia/Makassar",
+    "Australia/Perth",
+    "Australia/Eucla",
+    "Asia/Tokyo",
+    "Asia/Seoul",
+    "Asia/Jayapura",
+    "Australia/Darwin",
+    "Australia/Adelaide",
+    "Australia/Brisbane",
+    "Australia/Sydney",
+    "Australia/Lord_Howe",
+    "Pacific/Guadalcanal",
+    "Pacific/Auckland",
+    "Pacific/Fiji",
+    "Pacific/Chatham",
+    "Pacific/Tongatapu",
+    "Pacific/Kiritimati",
+];
+
+/** One zone as the picker shows it. */
+export type ZoneInfo = {
+    /** The IANA id, which is the picker's value (`Europe/Paris`). */
+    id: string;
+    /** Minutes east of UTC on the picker's date (`60`, `-330`). */
+    offsetMinutes: number;
+    /** The offset as text (`UTC+01:00`, `UTC-03:30`, `UTC+00:00`). */
+    offset: string;
+    /** The zone's full name in the locale (`Central European Standard Time`). */
+    name: string;
+    /** What the option shows: `UTC+01:00 – Central European Standard Time`. */
+    label: string;
+};
+
+/**
+ * Zone names supplied by the caller, by IANA id: one name all year, or `[standard, daylight]`. They win over `Intl`.
+ * `zoneNamesFrom()` (in the locale-translations packages) builds one from a CLDR zone-name pack, so a name is the
+ * same on every platform and in every runtime, whatever ICU data the browser or server happens to carry.
+ */
+export type ZoneNames = Readonly<Record<string, string | readonly [string, string]>>;
+
+// One formatter per zone, kept: building an `Intl.DateTimeFormat` is far slower than using one, and the picker asks for the same zones repeatedly.
+const offsetFormatters = new Map<string, Intl.DateTimeFormat>();
+
+/** Minutes east of UTC for `zone` at `date`; `undefined` when the runtime does not know the zone. */
+export function offsetMinutes(zone: string, date: Date): number | undefined {
+    try {
+        let f = offsetFormatters.get(zone);
+        if (!f) {
+            // `en-US` is used only to get numeric parts; no word from it is shown, so it is not a default locale.
+            f = new Intl.DateTimeFormat("en-US", {
+                timeZone: zone,
+                hourCycle: "h23",
+                year: "numeric",
+                month: "numeric",
+                day: "numeric",
+                hour: "numeric",
+                minute: "numeric",
+                second: "numeric",
+            });
+            offsetFormatters.set(zone, f);
+        }
+        const p: Record<string, string> = {};
+        for (const part of f.formatToParts(date)) p[part.type] = part.value;
+        // The offset is not asked of `Intl` directly. Instead read the zone's wall-clock fields as if they were UTC: the difference from
+        // the real instant is the offset, with daylight saving already in it.
+        const wall = Date.UTC(
+            Number(p["year"]),
+            Number(p["month"]) - 1,
+            Number(p["day"]),
+            Number(p["hour"]),
+            Number(p["minute"]),
+            Number(p["second"]),
+        );
+        // The fields have whole-second resolution, so drop the instant's milliseconds before subtracting.
+        const instant = Math.floor(date.getTime() / 1000) * 1000;
+        return Math.round((wall - instant) / 60000);
+    } catch {
+        // `Intl` throws a RangeError for an id it does not know.
+        return undefined;
+    }
+}
+
+/**
+ * Is daylight saving time in force in `zone` at `date`? True when its offset is above the lowest it has in that
+ * year (compared at 1 January and 1 July), so a zone with no daylight time is never true.
+ */
+export function isDaylightTime(zone: string, date: Date): boolean {
+    const now = offsetMinutes(zone, date);
+    if (now === undefined) return false;
+    // Compared against the year's lowest offset rather than "July is summer", so the southern hemisphere, where daylight time runs over
+    // the new year, comes out right. Noon UTC keeps the sample day the same date in every zone.
+    const year = date.getUTCFullYear();
+    const jan = offsetMinutes(zone, new Date(Date.UTC(year, 0, 1, 12)));
+    const jul = offsetMinutes(zone, new Date(Date.UTC(year, 6, 1, 12)));
+    if (jan === undefined || jul === undefined) return false;
+    return now > Math.min(jan, jul);
+}
+
+/** `330` → `UTC+05:30`, `-210` → `UTC-03:30`, `0` → `UTC+00:00`. ASCII, so it sorts and parses everywhere. */
+export function formatOffset(minutes: number): string {
+    // Zero is `+00:00`, never `-00:00`, and the sign comes before the digits so the text sorts and parses without locale rules.
+    const sign = minutes < 0 ? "-" : "+";
+    const abs = Math.abs(minutes);
+    const hh = String(Math.floor(abs / 60)).padStart(2, "0");
+    const mm = String(abs % 60).padStart(2, "0");
+    return `UTC${sign}${hh}:${mm}`;
+}
+
+/**
+ * The zone's full name in `locale` on `date`: the caller's `names` entry when it has one (the daylight name while
+ * daylight time is in force), else `Intl`'s; `undefined` when neither has one.
+ */
+export function zoneName(
+    zone: string,
+    locale: string,
+    date: Date,
+    names?: ZoneNames,
+): string | undefined {
+    // A supplied name wins over `Intl`: it is the same in every runtime, whatever ICU data the browser or server carries.
+    const given = names?.[zone];
+    if (typeof given === "string") return given;
+    if (given) return isDaylightTime(zone, date) ? given[1] : given[0];
+    try {
+        // `Intl` has no "just the zone name" call, so format a date and pull out the part of type `timeZoneName`.
+        const parts = new Intl.DateTimeFormat(locale, {
+            timeZone: zone,
+            timeZoneName: "long",
+        }).formatToParts(date);
+        return parts.find((p) => p.type === "timeZoneName")?.value;
+    } catch {
+        return undefined;
+    }
+}
+
+/** What an option shows by default. */
+export const defaultLabel = (zone: Pick<ZoneInfo, "offset" | "name">): string =>
+    `${zone.offset} – ${zone.name}`;
+
+/** One zone's info, or `undefined` when the runtime does not know it. */
+export function zoneInfo(
+    zone: string,
+    locale: string,
+    date: Date,
+    labelFor: (z: ZoneInfo) => string = defaultLabel,
+    names?: ZoneNames,
+): ZoneInfo | undefined {
+    const minutes = offsetMinutes(zone, date);
+    if (minutes === undefined) return undefined;
+    // A zone with no name in this language shows its IANA id rather than nothing.
+    const name = zoneName(zone, locale, date, names) ?? zone;
+    const info: ZoneInfo = {
+        id: zone,
+        offsetMinutes: minutes,
+        offset: formatOffset(minutes),
+        name,
+        label: "",
+    };
+    // The label is made last, from the finished info, so a custom `labelFor` can use any field but `label`.
+    info.label = labelFor(info);
+    return info;
+}
+
+/**
+ * The zones that exist, ordered by offset (west to east), then by name, then by id. A repeated id appears once;
+ * an id the runtime does not know is left out rather than shown unnamed.
+ */
+export function orderedZones(
+    zones: readonly string[],
+    locale: string,
+    date: Date,
+    labelFor?: (z: ZoneInfo) => string,
+    names?: ZoneNames,
+): ZoneInfo[] {
+    const seen = new Set<string>();
+    const out: ZoneInfo[] = [];
+    for (const id of zones) {
+        if (seen.has(id)) continue;
+        seen.add(id);
+        const info = zoneInfo(id, locale, date, labelFor, names);
+        if (info) out.push(info);
+    }
+    // West to east; zones sharing an offset sort by name in the locale's own order, and the id breaks any remaining tie so the order is stable.
+    const collator = new Intl.Collator(locale);
+    return out.sort(
+        (a, b) =>
+            a.offsetMinutes - b.offsetMinutes ||
+            collator.compare(a.name, b.name) ||
+            (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+    );
+}
+
+/** The zone the browser is in, as an IANA id. `undefined` outside a browser or when it cannot be told. */
+export function systemZone(): string | undefined {
+    try {
+        return new Intl.DateTimeFormat().resolvedOptions().timeZone || undefined;
+    } catch {
+        return undefined;
+    }
+}
+
+/**
+ * Which of `zones` stands for `system`: the zone itself when listed, else the listed zone with the same offset and
+ * name (Europe/Berlin → Europe/Paris), else `undefined`.
+ */
+export function matchZone(
+    system: string | undefined,
+    zones: ZoneInfo[],
+    locale: string,
+    date: Date,
+    names?: ZoneNames,
+): string | undefined {
+    if (!system) return undefined;
+    if (zones.some((z) => z.id === system)) return system;
+    // An unlisted zone borrows a listed one only if both offset and name agree (Berlin keeps time with Paris), so the picker never
+    // selects a zone that would show different time or a different name.
+    const info = zoneInfo(system, locale, date, undefined, names);
+    if (!info) return undefined;
+    return zones.find((z) => z.offsetMinutes === info.offsetMinutes && z.name === info.name)?.id;
+}

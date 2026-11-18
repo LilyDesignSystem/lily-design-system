@@ -1,0 +1,922 @@
+import { render, screen, fireEvent, cleanup } from "./test-utils";
+import { createSignal, flush as flushUpdates } from "solid-js";
+import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+
+import TextSizePicker, { sizeName, type ChildArgs } from "./TextSizePicker";
+
+const SIZES = ["small", "medium", "large", "x-large"];
+
+function flush(): Promise<void> {
+    return new Promise((r) => setTimeout(r, 0));
+}
+
+function resetRoot(): void {
+    document.documentElement.removeAttribute("data-text-size");
+}
+
+function getList(): HTMLElement {
+    return document.querySelector(".text-size-picker-list") as HTMLElement;
+}
+
+beforeEach(() => {
+    resetRoot();
+    try {
+        localStorage.clear();
+    } catch {
+        /* ignore */
+    }
+});
+
+afterEach(() => {
+    cleanup();
+    resetRoot();
+});
+
+/** Open the listbox and click the option for `slug`. */
+function pick(slug: string, sizes: string[] = SIZES): void {
+    fireEvent.click(screen.getByRole("button"));
+    const opts = document.querySelectorAll(".text-size-picker-option");
+    fireEvent.click(opts[sizes.indexOf(slug)]);
+}
+
+describe("TextSizePicker — pure helpers", () => {
+    test("sizeName title-cases each hyphen word", () => {
+        expect(sizeName("x-large")).toBe("X Large");
+        expect(sizeName("small")).toBe("Small");
+        expect(sizeName("extra-extra-large")).toBe("Extra Extra Large");
+    });
+
+    test("labelFor delegates to sizeName, so option text matches it", () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={["x-large"]}
+            />
+        ));
+        expect(screen.getByText(sizeName("x-large"))).toBeTruthy();
+    });
+});
+
+describe("TextSizePicker — markup contract (§4.2, §7.1–§7.5)", () => {
+    test("§7.1 renders a button that controls a listbox", () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        const button = screen.getByRole("button");
+        expect(button.tagName).toBe("BUTTON");
+        expect(button.getAttribute("type")).toBe("button");
+        expect(button.getAttribute("aria-haspopup")).toBe("listbox");
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        const listId = button.getAttribute("aria-controls");
+        expect(listId).toBeTruthy();
+        expect(document.getElementById(listId!)?.getAttribute("role")).toBe("listbox");
+    });
+
+    test("§7.1 the button renders the default 'A' SVG icon, hidden from assistive tech", () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        const icon = document.querySelector(".text-size-picker-icon") as SVGElement;
+        expect(icon.tagName.toLowerCase()).toBe("svg");
+        expect(icon.getAttribute("aria-hidden")).toBe("true");
+        expect(icon.querySelector("path")).toBeTruthy();
+    });
+
+    test("§7.1 the root is a div carrying the class hook", () => {
+        const { container } = render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                class="mine"
+            />
+        ));
+        const root = container.firstElementChild as HTMLElement;
+        expect(root.tagName).toBe("DIV");
+        expect(root.className).toBe("text-size-picker mine");
+    });
+
+    test("§7.2 aria-label names the button and the listbox", () => {
+        render(() => (
+            <TextSizePicker
+                label="Choose text size"
+                sizes={SIZES}
+            />
+        ));
+        expect(screen.getByRole("button", { name: "Choose text size" })).toBeTruthy();
+        expect(getList().getAttribute("aria-label")).toBe("Choose text size");
+    });
+
+    test("§7.3 one option per size; the hidden input carries the supplied name", async () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                name="font-scale"
+            />
+        ));
+        await flush();
+        const options = document.querySelectorAll(".text-size-picker-option");
+        expect(options.length).toBe(SIZES.length);
+        const hidden = document.querySelector('input[type="hidden"]') as HTMLInputElement;
+        expect(hidden.name).toBe("font-scale");
+        expect(hidden.value).toBe("medium");
+    });
+
+    test("§7.3 the hidden input uses the default name 'text-size'", () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        const hidden = document.querySelector('input[type="hidden"]') as HTMLInputElement;
+        expect(hidden.name).toBe("text-size");
+    });
+
+    test("§7.4 the listbox is hidden until the button is activated", () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        expect(getList().hasAttribute("hidden")).toBe(true);
+        fireEvent.click(screen.getByRole("button"));
+        expect(getList().hasAttribute("hidden")).toBe(false);
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("true");
+    });
+
+    test("§7.4 the active size is the aria-selected option", async () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        await flush();
+        fireEvent.click(screen.getByRole("button"));
+        const selected = document.querySelectorAll('[role="option"][aria-selected="true"]');
+        expect(selected.length).toBe(1);
+        expect(selected[0].textContent?.trim()).toBe("Medium");
+    });
+
+    test("§7.5 default labels title-case the slug (no 'default' string)", () => {
+        const { container } = render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={["small", "x-large"]}
+            />
+        ));
+        expect(screen.getByText("Small")).toBeTruthy();
+        expect(screen.getByText("X Large")).toBeTruthy();
+        expect(container.textContent ?? "").not.toMatch(/default/i);
+    });
+
+    test("§7.5 sizeLabels override the default title-case label", () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={["small", "x-large"]}
+                sizeLabels={{ small: "Compact", "x-large": "Huge" }}
+            />
+        ));
+        expect(screen.getByText("Compact")).toBeTruthy();
+        expect(screen.getByText("Huge")).toBeTruthy();
+    });
+});
+
+describe("TextSizePicker — keyboard contract (APG listbox)", () => {
+    function openWith(key: string) {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        const button = screen.getByRole("button");
+        fireEvent.keyDown(button, { key });
+        return { button, list: getList() };
+    }
+
+    test("§7.14 ArrowDown, Enter and Space all open the listbox", () => {
+        for (const key of ["ArrowDown", "Enter", " "]) {
+            const { list } = openWith(key);
+            expect(list.hasAttribute("hidden")).toBe(false);
+            cleanup();
+        }
+    });
+
+    test("§7.14 ArrowUp opens with the last option active", () => {
+        const { list } = openWith("ArrowUp");
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[SIZES.length - 1].id);
+    });
+
+    test("§7.14 opening moves focus to the listbox", () => {
+        const { list } = openWith("ArrowDown");
+        expect(document.activeElement).toBe(list);
+    });
+
+    test("§7.15 ArrowDown / ArrowUp move the active descendant and clamp", () => {
+        const { list } = openWith("ArrowDown");
+        // Opens on the selected size, "medium" (index 1).
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[1].id);
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[2].id);
+        fireEvent.keyDown(list, { key: "ArrowUp" });
+        fireEvent.keyDown(list, { key: "ArrowUp" });
+        fireEvent.keyDown(list, { key: "ArrowUp" });
+        // Clamps at the top rather than wrapping.
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
+    });
+
+    test("§7.15 ArrowDown clamps at the last option", () => {
+        const { list } = openWith("ArrowDown");
+        for (let n = 0; n < SIZES.length + 3; n++) {
+            fireEvent.keyDown(list, { key: "ArrowDown" });
+        }
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[SIZES.length - 1].id);
+    });
+
+    test("§7.15 the active option is marked with data-active", () => {
+        const { list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        const active = document.querySelectorAll("[data-active]");
+        expect(active.length).toBe(1);
+        expect(active[0].id).toBe(list.children[2].id);
+    });
+
+    test("§7.15 Home and End jump to the first and last option", () => {
+        const { list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "End" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[SIZES.length - 1].id);
+        fireEvent.keyDown(list, { key: "Home" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
+    });
+
+    test("§7.16 Enter selects the active option, applies it, and closes", async () => {
+        const { button, list } = openWith("ArrowDown");
+        // Opens on "medium" (index 1); move to "large" (index 2).
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        fireEvent.keyDown(list, { key: "Enter" });
+        await flush();
+        expect(list.hasAttribute("hidden")).toBe(true);
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(document.documentElement.dataset.textSize).toBe("large");
+    });
+
+    test("§7.16 Enter returns focus to the button", async () => {
+        const { button, list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        fireEvent.keyDown(list, { key: "Enter" });
+        await flush();
+        expect(document.activeElement).toBe(button);
+    });
+
+    test("§7.16 Space selects the active option and closes", async () => {
+        const { list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "End" });
+        fireEvent.keyDown(list, { key: " " });
+        await flush();
+        expect(list.hasAttribute("hidden")).toBe(true);
+        expect(document.documentElement.dataset.textSize).toBe("x-large");
+    });
+
+    test("§7.16 Escape closes without changing the size", async () => {
+        const { button, list } = openWith("ArrowDown");
+        await flush();
+        fireEvent.keyDown(list, { key: "ArrowDown" });
+        fireEvent.keyDown(list, { key: "Escape" });
+        await flush();
+        expect(list.hasAttribute("hidden")).toBe(true);
+        expect(document.documentElement.dataset.textSize).toBe("medium");
+        expect(document.activeElement).toBe(button);
+    });
+
+    test("§7.16 Tab closes the listbox and parks focus on the button", async () => {
+        const { button, list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "Tab" });
+        await flush();
+        expect(list.hasAttribute("hidden")).toBe(true);
+        // Focus goes to the button first (without cancelling the key), so
+        // the browser's default Tab proceeds from the picker's position.
+        expect(document.activeElement).toBe(button);
+    });
+
+    test("§7.17 typeahead moves the active descendant by label prefix", () => {
+        const { list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "x" });
+        // "X Large" is index 3 in SIZES.
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[3].id);
+    });
+
+    test("§7.17 typeahead accumulates characters within the buffer window", () => {
+        const { list } = openWith("ArrowDown");
+        fireEvent.keyDown(list, { key: "l" });
+        // "Large" is index 2.
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[2].id);
+        // "la" still matches "Large", so the active option does not move on.
+        fireEvent.keyDown(list, { key: "a" });
+        expect(list.getAttribute("aria-activedescendant")).toBe(list.children[2].id);
+    });
+
+    test("§7.17 the typeahead buffer resets after the idle window", async () => {
+        vi.useFakeTimers();
+        try {
+            render(() => (
+                <TextSizePicker
+                    label="Text size"
+                    sizes={SIZES}
+                />
+            ));
+            const list = getList();
+            fireEvent.keyDown(screen.getByRole("button"), { key: "ArrowDown" });
+            fireEvent.keyDown(list, { key: "l" });
+            expect(list.getAttribute("aria-activedescendant")).toBe(list.children[2].id);
+            vi.advanceTimersByTime(600);
+            // Buffer cleared, so "s" starts a fresh search and finds "Small".
+            fireEvent.keyDown(list, { key: "s" });
+            expect(list.getAttribute("aria-activedescendant")).toBe(list.children[0].id);
+        } finally {
+            vi.useRealTimers();
+        }
+    });
+
+    test("§7.18 clicking an option selects it, applies it, and closes the listbox", async () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        await flush();
+        pick("x-large");
+        await flush();
+        expect(document.documentElement.dataset.textSize).toBe("x-large");
+        // A pointer selection closes, exactly as Enter does. The
+        // asymmetry would be invisible to a consumer reading the DOM: a
+        // stale aria-expanded over a hidden list makes every later click
+        // miss the options.
+        expect(getList().hasAttribute("hidden")).toBe(true);
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("false");
+    });
+
+    test("§7.18 clicking outside closes the listbox without changing the size", async () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        await flush();
+        fireEvent.click(screen.getByRole("button"));
+        expect(getList().hasAttribute("hidden")).toBe(false);
+        fireEvent.click(document.body);
+        await flush();
+        expect(getList().hasAttribute("hidden")).toBe(true);
+        expect(document.documentElement.dataset.textSize).toBe("medium");
+    });
+
+    test("§7.18 clicking the button again closes the listbox", () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        const button = screen.getByRole("button");
+        fireEvent.click(button);
+        expect(getList().hasAttribute("hidden")).toBe(false);
+        fireEvent.click(button);
+        expect(getList().hasAttribute("hidden")).toBe(true);
+    });
+});
+
+describe("TextSizePicker — initial value resolution (§7.6)", () => {
+    test("§7.6 initial value defaults to 'medium' when present", async () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        await flush();
+        expect(document.documentElement.getAttribute("data-text-size")).toBe("medium");
+    });
+
+    test("§7.6 initial value falls back to sizes[0] when 'medium' is absent", async () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={["small", "large"]}
+            />
+        ));
+        await flush();
+        expect(document.documentElement.getAttribute("data-text-size")).toBe("small");
+    });
+
+    test("§7.6 defaultValue wins over the medium/sizes[0] fallback", async () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                defaultValue="large"
+            />
+        ));
+        await flush();
+        expect(document.documentElement.getAttribute("data-text-size")).toBe("large");
+    });
+});
+
+describe("TextSizePicker — size application (§7.7, §7.8)", () => {
+    test("§7.7 applies data-text-size to document.documentElement", async () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                defaultValue="large"
+            />
+        ));
+        await flush();
+        expect(document.documentElement.getAttribute("data-text-size")).toBe("large");
+    });
+
+    test("§7.7 a custom target receives data-text-size", async () => {
+        const target = document.createElement("section");
+        document.body.appendChild(target);
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                defaultValue="large"
+                target={target}
+            />
+        ));
+        await flush();
+        expect(target.getAttribute("data-text-size")).toBe("large");
+        // Document root must remain untouched.
+        expect(document.documentElement.hasAttribute("data-text-size")).toBe(false);
+        target.remove();
+    });
+
+    test("§7.8 selecting an option updates data-text-size and fires onChange", async () => {
+        const onChange = vi.fn();
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                defaultValue="medium"
+                onChange={onChange}
+            />
+        ));
+        await flush();
+        pick("x-large");
+        await flush();
+        expect(document.documentElement.getAttribute("data-text-size")).toBe("x-large");
+        expect(onChange).toHaveBeenCalledWith("x-large");
+    });
+});
+
+describe("TextSizePicker — persistence + explicit value (§7.9, §7.10)", () => {
+    test("§7.9 persists to localStorage and reads back on a fresh mount", async () => {
+        const { unmount } = render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                storageKey="lily-text-size"
+            />
+        ));
+        await flush();
+        pick("large");
+        await flush();
+        expect(localStorage.getItem("lily-text-size")).toBe("large");
+        unmount();
+        resetRoot();
+
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                storageKey="lily-text-size"
+            />
+        ));
+        await flush();
+        expect(document.documentElement.getAttribute("data-text-size")).toBe("large");
+    });
+
+    test("§7.10 an explicit value prop wins over storage and defaults", async () => {
+        localStorage.setItem("lily-text-size", "x-large");
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                value="small"
+                storageKey="lily-text-size"
+                defaultValue="large"
+            />
+        ));
+        await flush();
+        expect(document.documentElement.getAttribute("data-text-size")).toBe("small");
+    });
+});
+
+describe("TextSizePicker — spread + custom children (§7.12–§7.13)", () => {
+    test("§7.12 extra attributes spread onto the root div", () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                data-testid="ts"
+            />
+        ));
+        const root = screen.getByTestId("ts");
+        expect(root.tagName).toBe("DIV");
+        expect(root.className).toContain("text-size-picker");
+    });
+
+    test("§7.13 children replace the button glyph and receive ChildArgs", async () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                value="large"
+            >
+                {(args: ChildArgs) => (
+                    <span
+                        data-testid="custom"
+                        data-open={String(args.open)}
+                        data-value={args.value}
+                        data-label-x-large={args.labelFor("x-large")}
+                    >
+                        custom glyph
+                    </span>
+                )}
+            </TextSizePicker>
+        ));
+        await flush();
+        const custom = screen.getByTestId("custom");
+        // The custom glyph replaces the default "A" inside the button.
+        expect(custom.closest("button")?.className).toContain("text-size-picker-button");
+        expect(document.querySelector(".text-size-picker-icon")).toBeNull();
+        expect(custom.getAttribute("data-open")).toBe("false");
+        expect(custom.getAttribute("data-value")).toBe("large");
+        expect(custom.getAttribute("data-label-x-large")).toBe("X Large");
+    });
+
+    test("§7.13 children see open=true once the listbox is expanded", () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                value="large"
+            >
+                {(args: ChildArgs) => (
+                    <span
+                        data-testid="custom"
+                        data-open={String(args.open)}
+                    >
+                        glyph
+                    </span>
+                )}
+            </TextSizePicker>
+        ));
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByTestId("custom").getAttribute("data-open")).toBe("true");
+    });
+});
+
+describe("TextSizePicker — accessibility hardening (§7.14–§7.17)", () => {
+    async function openPicker(sizes: string[] = SIZES, extra: Record<string, unknown> = {}) {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={sizes}
+                {...extra}
+            />
+        ));
+        await flush();
+        fireEvent.click(screen.getByRole("button"));
+        await flush();
+        return {
+            button: screen.getByRole("button"),
+            list: document.querySelector(".text-size-picker-list") as HTMLElement,
+        };
+    }
+
+    const active = (list: HTMLElement) => list.querySelector("[data-active]")?.textContent?.trim();
+
+    test("§7.14 Tab from the open list puts focus on the button before closing", async () => {
+        const { button, list } = await openPicker();
+        expect(document.activeElement).toBe(list);
+        fireEvent.keyDown(list, { key: "Tab" });
+        await flush();
+        // Focus sits on the button, so the browser's default Tab proceeds
+        // from the picker's own position — not from <body>, which is where
+        // focus lands when the focused list is hidden first.
+        expect(document.activeElement).toBe(button);
+        expect(list.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.15 a repeated typeahead character cycles through its matches", async () => {
+        const { list } = await openPicker(["d1", "d2", "d3", "m"], {
+            sizeLabels: { d1: "Dark", d2: "Dim", d3: "Dracula", m: "Light" },
+            defaultValue: "m",
+        });
+        fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dark");
+        fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dim");
+        fireEvent.keyDown(list, { key: "d" });
+        expect(active(list)).toBe("Dracula");
+    });
+
+    test("§7.15 a multi-character buffer refines the match from the active option", async () => {
+        const { list } = await openPicker(["d1", "d2", "d3", "m"], {
+            sizeLabels: { d1: "Dark", d2: "Dim", d3: "Dracula", m: "Light" },
+            defaultValue: "m",
+        });
+        fireEvent.keyDown(list, { key: "d" });
+        fireEvent.keyDown(list, { key: "r" });
+        expect(active(list)).toBe("Dracula");
+    });
+
+    test("§7.16 PageUp and PageDown move the cursor by ten, clamped", async () => {
+        const many = Array.from({ length: 25 }, (_, i) => `s${String(i).padStart(2, "0")}`);
+        const { list } = await openPicker(many);
+        fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("S10");
+        fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("S20");
+        fireEvent.keyDown(list, { key: "PageDown" });
+        expect(active(list)).toBe("S24");
+        fireEvent.keyDown(list, { key: "PageUp" });
+        expect(active(list)).toBe("S14");
+    });
+
+    test("§7.17 an empty list opens without aria-activedescendant", async () => {
+        const { list } = await openPicker([]);
+        expect(list.hasAttribute("hidden")).toBe(false);
+        expect(list.getAttribute("aria-activedescendant")).toBeNull();
+    });
+});
+
+describe("TextSizePicker — idempotent apply (§7.19)", () => {
+    test("§7.19 controlled mode fires onChange once per changed value", async () => {
+        const calls: string[] = [];
+
+        function Host() {
+            const [value, setValue] = createSignal("medium");
+            return (
+                <TextSizePicker
+                    label="Text size"
+                    sizes={SIZES}
+                    value={value()}
+                    onChange={(slug: string) => {
+                        calls.push(slug);
+                        // The canonical controlled wiring: the consumer owns
+                        // `value` and mirrors every change back. Applying is
+                        // idempotent, so the re-render this causes must not
+                        // re-fire onChange.
+                        setValue(slug);
+                    }}
+                />
+            );
+        }
+
+        render(() => <Host />);
+        await flush();
+        expect(calls).toEqual(["medium"]);
+
+        pick("large");
+        await flush();
+        expect(calls).toEqual(["medium", "large"]);
+        expect(document.documentElement.getAttribute("data-text-size")).toBe("large");
+        expect(screen.getByRole("button").getAttribute("aria-expanded")).toBe("false");
+    });
+});
+
+describe("TextSizePicker — tooltip (§7.20–§7.27)", () => {
+    function setupTooltip() {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        const button = document.querySelector(".text-size-picker-button") as HTMLButtonElement;
+        const tip = document.querySelector(".text-size-picker-tooltip") as HTMLElement;
+        return { button, tip };
+    }
+
+    test("§7.20 renders a role=tooltip element holding the label, hidden at rest, not aria-describedby-linked", () => {
+        const { button, tip } = setupTooltip();
+        expect(tip.getAttribute("role")).toBe("tooltip");
+        expect(tip.textContent).toBe("Text size");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(tip.id).toBeTruthy();
+        expect(button.hasAttribute("aria-describedby")).toBe(false);
+        expect(button.nextElementSibling).toBe(tip);
+    });
+
+    test("§7.21 pointer over the button shows it; leaving hides it", () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.mouseLeave(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.22 it stays visible while the pointer is over the tooltip itself", () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(tip);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.mouseLeave(tip);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.23 keyboard focus shows it; blur hides it; mouse-induced focus does not show it", () => {
+        const { button, tip } = setupTooltip();
+        // jsdom has no input-modality tracking; stand in for the keyboard.
+        const matches = vi
+            .spyOn(button, "matches")
+            .mockImplementation((q) => q === ":focus-visible");
+        fireEvent.focus(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.blur(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        matches.mockReturnValue(false);
+        fireEvent.focus(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.24 Escape dismisses it without moving focus; re-entering shows it again", () => {
+        const { button, tip } = setupTooltip();
+        button.focus();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(button, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(button);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+    });
+
+    test("§7.25 it is never shown while the popup is open", async () => {
+        const { button, tip } = setupTooltip();
+        fireEvent.mouseEnter(button);
+        fireEvent.click(button);
+        expect(button.getAttribute("aria-expanded")).toBe("true");
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(true);
+    });
+
+    test("§7.26 pointer hover shows it with focus elsewhere; Escape on document.body or another element dismisses it, without moving focus", () => {
+        const { button, tip } = setupTooltip();
+        const other = document.createElement("input");
+        document.body.appendChild(other);
+        other.focus();
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(document.body, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        expect(document.activeElement).toBe(other);
+        fireEvent.mouseLeave(button);
+        fireEvent.mouseEnter(button);
+        expect(tip.hasAttribute("hidden")).toBe(false);
+        fireEvent.keyDown(other, { key: "Escape" });
+        expect(tip.hasAttribute("hidden")).toBe(true);
+        other.remove();
+    });
+
+    test("§7.27 the document keydown listener exists only while the tooltip is visible: added once, removed on hide and on unmount", () => {
+        const add = vi.spyOn(document, "addEventListener");
+        const remove = vi.spyOn(document, "removeEventListener");
+        const count = (spy: typeof add) => spy.mock.calls.filter((c) => c[0] === "keydown").length;
+        const view = render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+            />
+        ));
+        const button = document.querySelector(".text-size-picker-button") as HTMLButtonElement;
+        const addBase = count(add);
+        const baseRemove = count(remove);
+        fireEvent.mouseEnter(button);
+        expect(count(add) - addBase).toBe(1);
+        fireEvent.keyDown(document.body, { key: "a" });
+        expect(count(add) - addBase).toBe(1);
+        fireEvent.mouseLeave(button);
+        expect(count(remove) - baseRemove).toBe(1);
+        fireEvent.mouseEnter(button);
+        expect(count(add) - addBase).toBe(2);
+        view.unmount();
+        expect(count(remove) - baseRemove).toBe(2);
+        add.mockRestore();
+        remove.mockRestore();
+    });
+});
+
+describe("TextSizePicker — open state and disabled", () => {
+    test("open starts the popup open without calling onOpenChange", async () => {
+        const onOpenChange = vi.fn();
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                open
+                onOpenChange={onOpenChange}
+            />
+        ));
+        await flush();
+        expect(
+            screen.getByRole("button", { name: "Text size" }).getAttribute("aria-expanded"),
+        ).toBe("true");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("uncontrolled: onOpenChange fires once for each open and close by the user", async () => {
+        const onOpenChange = vi.fn();
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                onOpenChange={onOpenChange}
+            />
+        ));
+        const button = screen.getByRole("button", { name: "Text size" });
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(true);
+        fireEvent.click(button);
+        await flush();
+        expect(onOpenChange).toHaveBeenLastCalledWith(false);
+        expect(onOpenChange).toHaveBeenCalledTimes(2);
+    });
+
+    test("controlled: a click asks for the change and the parent applies it", async () => {
+        const onOpenChange = vi.fn();
+        const [open, set_open] = createSignal<any>(false);
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                open={open()}
+                onOpenChange={onOpenChange}
+            />
+        ));
+        fireEvent.click(screen.getByRole("button", { name: "Text size" }));
+        await flush();
+        expect(onOpenChange).toHaveBeenCalledWith(true);
+        expect(
+            screen.getByRole("button", { name: "Text size" }).getAttribute("aria-expanded"),
+        ).toBe("false");
+        set_open(true);
+        flushUpdates();
+        await flush();
+        expect(
+            screen.getByRole("button", { name: "Text size" }).getAttribute("aria-expanded"),
+        ).toBe("true");
+    });
+
+    test("disabled disables the button and it cannot open", async () => {
+        const onOpenChange = vi.fn();
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                disabled
+                onOpenChange={onOpenChange}
+            />
+        ));
+        const button = screen.getByRole("button", { name: "Text size" }) as HTMLButtonElement;
+        expect(button.disabled).toBe(true);
+        fireEvent.click(button);
+        await flush();
+        expect(button.getAttribute("aria-expanded")).toBe("false");
+        expect(onOpenChange).not.toHaveBeenCalled();
+    });
+
+    test("disabled closes a popup that was open", async () => {
+        render(() => (
+            <TextSizePicker
+                label="Text size"
+                sizes={SIZES}
+                open
+                disabled
+            />
+        ));
+        await flush();
+        expect(
+            screen.getByRole("button", { name: "Text size" }).getAttribute("aria-expanded"),
+        ).toBe("false");
+    });
+});

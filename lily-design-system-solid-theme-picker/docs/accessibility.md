@@ -19,7 +19,7 @@ responsibility, not the browser's.
 
 The active option is tracked with `aria-activedescendant` on a focused
 listbox — not with roving `tabindex` on the options. Option ids come
-from Solid's `useId`, so they are stable across server and client
+from Solid's `createUniqueId`, so they are stable across server and client
 render.
 
 ## Keyboard contract

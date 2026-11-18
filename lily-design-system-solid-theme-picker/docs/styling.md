@@ -172,7 +172,7 @@ Example with styled-components:
 
 ```tsx
 import styled from "styled-components";
-import { ThemePicker } from "./lily-design-system-solid-theme-picker";
+import { ThemePicker } from "@lilydesignsystem/solid-theme-picker";
 
 const StyledPicker = styled(ThemePicker)`
   /* This targets the .theme-picker root <div> */

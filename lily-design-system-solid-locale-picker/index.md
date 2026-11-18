@@ -1,0 +1,548 @@
+# LocalePicker (Solid helper)
+
+A reusable, headless Solid 2.0 locale picker — an icon button that opens
+a dropdown listbox (WAI-ARIA APG Listbox pattern) — that applies the
+chosen locale to the document root via `lang` and `dir`, with optional
+`localStorage` persistence and `navigator.languages` detection.
+
+For the full contract see [spec/index.md](./spec/index.md) — it is the single
+source of truth for the API, behaviour, and tests.
+
+## Install
+
+```bash
+pnpm add @lilydesignsystem/solid-locale-picker
+```
+
+`solid-js` and `@solidjs/web` 2.0 are peer dependencies. A Solid app resolves the package's `solid` export condition and compiles the source itself; other bundlers get `dist/index.js`.
+
+## Quick start
+
+Render the select with a `label` and the list of locales your app
+supports. You get a globe button that opens a listbox of the locales.
+Picking one writes `lang` and `dir` onto `<html>` so your i18n library,
+your CSS (`html[dir="rtl"]`), and assistive technology all see the
+change.
+
+`label` is required and does real work: the globe glyph is
+`aria-hidden`, so `label` is the button's only accessible name.
+
+```tsx
+import { createSignal } from "solid-js";
+import { LocalePicker, localeName } from "@lilydesignsystem/solid-locale-picker";
+
+export function LanguagePicker() {
+  const [locale, setLocale] = createSignal("");
+  return (
+    <>
+      <LocalePicker
+        label="Language"
+        locales={["en", "en_US", "fr", "fr_CA", "ar", "he"]}
+        value={locale()}
+        onChange={setLocale}
+        storageKey="lily-locale"
+        detectFromNavigator
+      />
+
+      <p
+        class="locale-picker-status"
+        aria-live="polite"
+      >
+        Active language: {localeName(locale())}
+      </p>
+    </>
+  );
+}
+```
+
+The status line is part of the pattern, not an optional extra. The
+closed control shows only a glyph — it never displays or announces the
+active language — so without this line the active locale is shown to
+nobody and announced to nobody. `aria-live="polite"` announces
+mutations only, so it stays quiet on first paint and speaks once per
+user change, and `localeName()` turns the code into a human name. Keep
+it visible where you can (it helps sighted and cognitively-loaded users
+too); if your design cannot spare the space, hide it with a
+visually-hidden class rather than dropping it — see
+[docs/accessibility.md](./docs/accessibility.md) for the full
+rationale and its limits.
+
+When the user picks `ar`, the component:
+
+- sets `lang="ar"` on `<html>`,
+- sets `dir="rtl"` on `<html>` (auto-detected from the locale),
+- writes `"ar"` to `localStorage["lily-locale"]`,
+- fires `onChange("ar")` if provided.
+
+The select does NOT translate strings — that is the consumer's i18n
+library (e.g. `react-intl`, `react-i18next`, Paraglide, Inlang, Tolgee,
+raw `Intl.*`). Wire the controlled `value` or `onChange` to your
+library so it loads the right messages.
+
+## BCP 47 normalisation
+
+Language tags follow **BCP 47** (RFC 5646). The `lang` attribute on
+HTML elements must use hyphens, while many applications carry locale
+identifiers with underscores (`en_US`, `zh_Hant_TW`). The select
+accepts whichever form you prefer in the `locales` array and converts
+to the hyphen form when writing to the DOM. The controlled `value`
+preserves your original form, so round-trips are lossless.
+
+```ts
+bcp47LocaleTag("en_US"); // "en-US"
+bcp47LocaleTag("zh_Hant_TW"); // "zh-Hant-TW"
+bcp47LocaleTag("en"); // "en"
+```
+
+References:
+
+- W3C — [Language tags in HTML and XML](https://www.w3.org/International/articles/language-tags/)
+- IETF — [RFC 5646 (BCP 47), Tags for Identifying Languages](https://www.rfc-editor.org/rfc/rfc5646)
+- IANA — [Language Subtag Registry](https://www.iana.org/assignments/language-subtag-registry/language-subtag-registry)
+
+## RTL auto-detection
+
+`isRtlLocale(locale)` returns `true` for any locale whose base
+language is one of `ar`, `arc`, `ckb`, `dv`, `fa`, `he`, `iw`, `ji`,
+`ks`, `ku`, `mzn`, `ps`, `sd`, `ug`, `ur`, `yi`, OR whose script
+subtag is one of `Arab`, `Hebr`, `Thaa`, `Syrc`, `Nkoo`, `Mong`,
+`Adlm`.
+
+```ts
+isRtlLocale("ar"); // true
+isRtlLocale("he_IL"); // true
+isRtlLocale("uz_Arab_AF"); // true (script subtag)
+isRtlLocale("en"); // false
+```
+
+Pass `applyDir={false}` if you want full control of `dir` yourself.
+
+## Examples
+
+### Default rendering
+
+```tsx
+import { createSignal } from "solid-js";
+import { LocalePicker } from "@lilydesignsystem/solid-locale-picker";
+
+export function NhsBanner() {
+  const [locale, setLocale] = createSignal("en");
+  return (
+    <LocalePicker
+      label="Language"
+      locales={["en", "cy"]}
+      value={locale()}
+      onChange={setLocale}
+    />
+  );
+}
+
+// Renders:
+// <div class="locale-picker">
+//     <input type="hidden" name="locale" value="en" />
+//     <button type="button" class="locale-picker-button" aria-label="Language"
+//             aria-haspopup="listbox" aria-expanded="false" aria-controls="…-list">
+//         <svg class="locale-picker-icon" viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path stroke-width="1.1" d="M2 8h12M8 2v12M3.35 4.3a8 8 0 0 0 9.3 0M12.65 11.7a8 8 0 0 0-9.3 0M7.54 2.15a7.7 7.7 0 0 0 0 11.7M8.46 13.85a7.7 7.7 0 0 0 0-11.7"/></svg>
+//     </button>
+//     <ul class="locale-picker-list" id="…-list" role="listbox"
+//         aria-label="Language" tabindex="-1" hidden>
+//         <li class="locale-picker-option" id="…-option-0" role="option"
+//             aria-selected="true" data-active lang="en">English</li>
+//         <li class="locale-picker-option" id="…-option-1" role="option"
+//             aria-selected="false" lang="cy">Cymraeg</li>
+//     </ul>
+// </div>
+```
+
+A locale option carries a `lang` attribute **only when its label is the
+derived endonym** — then the text really is in that language, and a
+screen reader may pronounce "Cymraeg" with a Welsh voice (WCAG 3.1.2,
+Language of Parts). A consumer-supplied label or the English-table
+fallback carries no `lang`: its language is unknown or English, and a
+false claim sends the speech engine to the wrong voice. The button and
+the list carry no `lang` — they are not locale-specific.
+
+The glyph is U+1F310 GLOBE WITH MERIDIANS + U+FE0E VARIATION SELECTOR-15, exported
+as `GLOBE_WITH_MERIDIANS`. It is `aria-hidden`, so the button's
+accessible name comes entirely from `label`.
+
+Option and list ids come from Solid's `createUniqueId`, so they are stable
+across server and client render and survive hydration.
+
+### Keyboard
+
+The control implements the WAI-ARIA APG Listbox keyboard contract
+itself — none of it comes from the platform.
+
+On the button:
+
+| Key                             | Action                                                        |
+| ------------------------------- | ------------------------------------------------------------- |
+| `ArrowDown` / `Enter` / `Space` | Open with the current locale active; focus moves to the list. |
+| `ArrowUp`                       | Open with the **last** option active.                         |
+
+On the open listbox:
+
+| Key                     | Action                                                                                                                                         |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ArrowDown` / `ArrowUp` | Move the active option; clamps at the ends, no wrapping.                                                                                       |
+| `Home` / `End`          | Jump to the first / last option.                                                                                                               |
+| `Enter` / `Space`       | Select, apply, close, and return focus to the button.                                                                                          |
+| `Escape`                | Close and return focus, leaving the locale unchanged.                                                                                          |
+| `PageUp` / `PageDown`   | Move the active option by ten; clamps.                                                                                                         |
+| `Tab`                   | Close; focus lands on the button so the default Tab proceeds from the picker's position.                                                       |
+| Any printable character | Typeahead over the option labels; 500 ms buffer. A single character advances to the next match and repeats cycle; differing characters refine. |
+
+Clicking an option selects it; clicking outside, or moving focus out of
+the control, closes the list without changing the locale.
+
+### Styling
+
+This package ships no CSS. Full guide in
+[docs/styling.md](./docs/styling.md); the class hooks are:
+
+| Hook                    | Element                                                                        |
+| ----------------------- | ------------------------------------------------------------------------------ |
+| `.locale-picker`        | Root `<div>`.                                                                  |
+| `.locale-picker-button` | The trigger `<button>`.                                                        |
+| `.locale-picker-icon`   | The default glyph `<span>` (absent when you pass `children`).                  |
+| `.locale-picker-list`   | The `<ul role="listbox">`.                                                     |
+| `.locale-picker-option` | Each `<li role="option">`.                                                     |
+| `.locale-picker-status` | The consumer-rendered status line — you render it, and the examples always do. |
+
+Two attribute hooks go with them: `[aria-selected="true"]` marks the
+active locale, and `[data-active]` marks the option under the keyboard
+cursor while the list is open. Style both, and do not rely on colour
+alone (WCAG 1.4.1).
+
+Open and close are driven purely by the `hidden` attribute, and the
+package ships no positioning, so give the list a stacking context of
+your own:
+
+```css
+.locale-picker {
+  position: relative;
+}
+
+.locale-picker-list {
+  position: absolute;
+  inset-inline-start: 0;
+  z-index: 1;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.locale-picker-option[aria-selected="true"] {
+  font-weight: 600;
+}
+
+.locale-picker-option[data-active] {
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+```
+
+Do not override `.locale-picker-list[hidden]` with a `display` value —
+that would leave the list visible when it is meant to be closed.
+
+### Styling the status line
+
+Style the status line as ordinary body copy:
+
+```css
+.locale-picker-status {
+  margin-block-start: 0.5rem;
+  font-size: 0.875rem;
+}
+```
+
+Prefer it visible. When a design genuinely cannot spare the space,
+**hide the element rather than removing it**, so the live region still
+announces:
+
+```css
+.locale-picker-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+```
+
+Do not use `display: none` or `visibility: hidden` — both drop the
+element from the accessibility tree, silencing the live region and
+losing the compensation entirely.
+
+### Pretty labels for the option text
+
+By default each option shows the language's **endonym** — its own name
+for itself, "Cymraeg" not "Welsh" — via `Intl.DisplayNames` asked in
+that language (exported as `localeEndonym`). The user who needs a
+language menu is the one who cannot read the page's language, and the
+exonym means nothing to them. The English names from `locales.tsv` and
+the raw code remain as fallbacks for runtimes without the data.
+Override per-code with `localeLabels`:
+
+```tsx
+<LocalePicker
+  label="Langue"
+  locales={["en", "fr", "ar"]}
+  localeLabels={{ en: "English", fr: "Français", ar: "العربية" }}
+  value={locale}
+  onChange={setLocale}
+/>
+```
+
+An option's `lang` attribute is set only when its label is the derived
+endonym, so each such label is announced in its own language; a
+consumer-supplied label makes no `lang` claim.
+
+### Replacing the button glyph
+
+The `children` render prop replaces what sits **inside** the button. It
+does not render the options — the component owns the listbox, its
+options, and the whole keyboard contract. It receives
+`{ value, open, labelFor }`:
+
+```tsx
+<LocalePicker
+  label="Language"
+  locales={["en", "fr", "es", "de", "ar"]}
+  value={locale}
+  onChange={setLocale}
+  storageKey="lily-locale"
+>
+  {({ value, open, labelFor }) => (
+    <span
+      aria-hidden="true"
+      title={labelFor(value)}
+    >
+      {value.split("_")[0].toUpperCase()} {open ? "▴" : "▾"}
+    </span>
+  )}
+</LocalePicker>
+```
+
+Mark your glyph `aria-hidden="true"`: the button already has its
+accessible name from `label`, so unhidden content is announced twice.
+
+Showing the active language in the button — a short code as above, or
+the endonym — is worth doing. It offsets the main cost of an icon-only
+control, which is that the active locale is otherwise invisible while
+the list is closed:
+
+```tsx
+import { LocalePicker, GLOBE_WITH_MERIDIANS } from "@lilydesignsystem/solid-locale-picker";
+
+<LocalePicker
+  label="Language"
+  locales={["en", "cy"]}
+  value={locale}
+  onChange={setLocale}
+>
+  {({ value, labelFor }) => (
+    <span aria-hidden="true">
+      {GLOBE_WITH_MERIDIANS} {labelFor(value)}
+    </span>
+  )}
+</LocalePicker>;
+```
+
+### Wiring an i18n library
+
+The picker sets `lang` and `dir`; translation is the app's. Hand the chosen locale to whatever loads your messages
+(for example `@solid-primitives/i18n`'s dictionary, or your own):
+
+```tsx
+import { createSignal } from "solid-js";
+import { LocalePicker } from "@lilydesignsystem/solid-locale-picker";
+
+export function LanguagePicker(props: { onLocaleChange: (code: string) => void }) {
+  const [current, setCurrent] = createSignal("");
+  return (
+    <LocalePicker
+      label="Language"
+      locales={["en", "fr", "ar"]}
+      value={current() || undefined}
+      onChange={(code) => {
+        setCurrent(code);
+        props.onLocaleChange(code); // load that locale's messages
+      }}
+      detectFromNavigator
+      storageKey="app-locale"
+    />
+  );
+}
+```
+
+### Server-resolved initial value (SSR)
+
+For flicker-free first paint, resolve the locale on the server (from
+a cookie or `Accept-Language`) and pass it as `value`:
+
+```tsx
+import { createSignal } from "solid-js";
+import { LocalePicker } from "@lilydesignsystem/solid-locale-picker";
+
+export function LocaleClient({ initialLocale }: { initialLocale: string }) {
+  const [locale, setLocale] = createSignal(initialLocale);
+  return (
+    <LocalePicker
+      label="Language"
+      locales={["en", "fr", "ar"]}
+      value={locale()}
+      onChange={setLocale}
+    />
+  );
+}
+```
+
+On the server, set `<html lang="…" dir="…">` in the document template from the same cookie, so the first paint is
+already right. Guide: [AGENTS/ssr.md](./AGENTS/ssr.md).
+
+### Render into a scoped target instead of `<html>`
+
+Set `target` to a specific element when you want the locale scoped to a region (a multilingual side panel). A ref that
+sets a signal gives the picker the element once it exists:
+
+```tsx
+import { createSignal } from "solid-js";
+import { LocalePicker } from "@lilydesignsystem/solid-locale-picker";
+
+export function MultilingualPanel() {
+  const [panel, setPanel] = createSignal<HTMLElement | null>(null);
+  const [panelLocale, setPanelLocale] = createSignal("fr");
+  return (
+    <section ref={setPanel}>
+      <p>This panel switches language independently of the page.</p>
+      <LocalePicker
+        label="Panel language"
+        locales={["en", "fr", "ar"]}
+        target={panel()}
+        value={panelLocale()}
+        onChange={setPanelLocale}
+      />
+    </section>
+  );
+}
+```
+
+`<html>` stays in the page's default locale; the section gets the chosen one.
+
+## Built-in locale data
+
+`locales.ts` ships the 436 codes from `locales.tsv` mapped to their
+English names. Since the endonym change these are a **fallback** — the
+default label is `localeEndonym(code)`, and the table is consulted only
+when the runtime lacks `Intl.DisplayNames` data for a code. You can
+also import the data directly:
+
+```ts
+import {
+  defaultLocaleLabels,
+  RTL_LANGUAGE_TAGS,
+  RTL_SCRIPT_SUBTAGS,
+} from "@lilydesignsystem/solid-locale-picker";
+
+console.log(defaultLocaleLabels["en_US"]); // "English (United States)"
+console.log(RTL_LANGUAGE_TAGS.has("ar")); // true
+```
+
+## Props
+
+See [spec/index.md §4](./spec/index.md#4-public-api) for the full table.
+
+Required props: `label`, `locales`.
+
+Common optional props: `value` (controlled), `defaultValue`,
+`storageKey`, `detectFromNavigator`, `localeLabels`, `applyDir`,
+`target`, `onChange`, `class`, `name` (on the hidden input),
+`children` (button glyph override).
+
+## Accessibility
+
+- The `<button>` is the announced control: `aria-haspopup="listbox"`,
+  `aria-expanded`, `aria-controls`, and `aria-label={label}`. Because
+  the glyph is `aria-hidden`, `label` is its only accessible name.
+- The `<ul role="listbox">` holds focus while open and marks the
+  keyboard cursor with `aria-activedescendant`; options carry
+  `aria-selected` and a `data-active` styling hook.
+- Full APG Listbox keyboard contract — see [Keyboard](#keyboard) above.
+- Each locale option carries `lang="…"` so its name is pronounced
+  in the right language (WCAG 3.1.2, Language of Parts).
+- The document root carries `lang` and (by default) `dir` so the
+  page satisfies WCAG 3.1.1 (Language of Page) and bidi text/layout
+  inverts correctly for RTL locales.
+- No colour-only meaning; state rides on `aria-selected`,
+  `data-active`, and the resolved `lang` attribute.
+- **Tradeoffs.** An icon-only control depends entirely on `aria-label`
+  for its name; a custom listbox has weaker assistive-technology
+  support than a native `<select>`; and the globe glyph is
+  font-dependent and culturally loaded. The default pattern compensates
+  with a visible `.locale-picker-status` live region beside the control
+  — see [docs/accessibility.md](./docs/accessibility.md) for the full
+  discussion.
+
+## Tests
+
+`pnpm test` under a vitest + jsdom + `@testing-library/react` setup
+exercises every numbered acceptance criterion in
+[spec/index.md §7](./spec/index.md#7-testing-acceptance-criteria) — 27 numbered
+items plus extras for case-insensitive RTL detection and the
+navigator-matcher helper.
+
+## Files in this directory
+
+| File                    | Purpose                                                            |
+| ----------------------- | ------------------------------------------------------------------ |
+| `spec/index.md`         | Single source of truth — API, behaviour, tests.                    |
+| `LocalePicker.tsx`      | The component implementation.                                      |
+| `LocalePicker.test.tsx` | vitest suite covering every spec §7 item.                          |
+| `locales.ts`            | Built-in code → English-name map and RTL sets.                     |
+| `locales.tsv`           | Canonical 436-row source for `locales.ts`.                         |
+| `index.ts`              | Re-export barrel.                                                  |
+| `index.md`              | This file — quick start + worked examples.                         |
+| `CHANGELOG.md`          | Per-version history.                                               |
+| `AGENTS.md`             | AI-agent metadata pointer.                                         |
+| `AGENTS/`               | Per-topic AI-agent guides.                                         |
+| `CLAUDE.md`             | Loads `AGENTS.md`.                                                 |
+| `docs/`                 | Deep-dive guides — see [Documentation](#documentation).            |
+| `examples/`             | Runnable Solid 2.0 example components — see [Examples](#examples). |
+
+## Documentation
+
+| Guide                                                  | Covers                                                               |
+| ------------------------------------------------------ | -------------------------------------------------------------------- |
+| [docs/props-reference.md](./docs/props-reference.md)   | Field-by-field reference for every prop.                             |
+| [docs/concepts.md](./docs/concepts.md)                 | Mental model, lifecycle diagram, why the defaults are what they are. |
+| [docs/bcp47.md](./docs/bcp47.md)                       | Language-tag syntax (RFC 5646), IANA registry, subtag composition.   |
+| [docs/rtl.md](./docs/rtl.md)                           | What's auto-detected, what `dir="rtl"` actually changes, CSS tips.   |
+| [docs/ssr.md](./AGENTS/ssr.md)                         | Cookie, URL-prefix, Accept-Language, streaming SSR, FOUC avoidance.  |
+| [docs/accessibility.md](./docs/accessibility.md)       | WCAG 2.2 AAA mapping, keyboard contract, screen-reader matrix.       |
+| [docs/styling.md](./docs/styling.md)                   | Class hooks, attribute hooks, positioning, baseline CSS.             |
+| [docs/custom-rendering.md](./docs/custom-rendering.md) | Replacing the button glyph via the `children` render prop.           |
+
+## Examples
+
+Each file in `examples/` is a complete, runnable Solid 2.0 component
+you can copy into your project.
+
+| Example                                                 | Demonstrates                                                       |
+| ------------------------------------------------------- | ------------------------------------------------------------------ |
+| [basic.tsx](./examples/basic.tsx)                       | The default globe-button rendering + the default status line.      |
+| [custom-rendering.tsx](./examples/custom-rendering.tsx) | `children` glyph override showing the active short code + chevron. |
+| [compact-glyph.tsx](./examples/compact-glyph.tsx)       | Compact glyph button with short codes / script characters.         |
+| [rtl-demo.tsx](./examples/rtl-demo.tsx)                 | Live RTL preview — Arabic, Hebrew, Persian, Urdu, Pashto.          |
+| [nhs-style.tsx](./examples/nhs-style.tsx)               | NHS UK-style language banner: globe + endonym in the button.       |
+| [scoped-target.tsx](./examples/scoped-target.tsx)       | Multiple per-region selects, each scoped to its own panel.         |
+| [all-locales.tsx](./examples/all-locales.tsx)           | All 436 locales, navigated with the built-in listbox typeahead.    |
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

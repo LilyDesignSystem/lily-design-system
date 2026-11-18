@@ -1,20 +1,15 @@
-# Changelog — LinkPicker (Solid)
+# Changelog — @lilydesignsystem/solid-link-picker
 
-The format is loosely based on [Keep a Changelog](https://keepachangelog.com/); the project follows [Semantic Versioning](https://semver.org/).
+The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
+and the package follows [Semantic Versioning](https://semver.org/).
 
-## 0.2.2 — 2026-11-06
+## 0.1.0 — unreleased
 
-- Depends on `react-headless` ^0.8.0.
+- First release, for Solid 2.0 (`solid-js` and `@solidjs/web` ^2.0.0 as peers): link picker: an icon button (a home icon) opening a disclosure of app-defined page links. Headless, SSR-safe, no CSS.
+- Ported from [`@lilydesignsystem/react-link-picker`](../lily-design-system-react-link-picker/) with its tests, to the contract in
+  [spec/index.md](./spec/index.md); the same markup, class hooks, keyboard and ARIA as the other catalogs.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
 
-## 0.2.1 — 2026-11-05
+---
 
-- Depends on `react-headless` ^0.7.0.
-
-## 0.2.0 — 2026-10-16
-
-- Added `open`, `onOpenChange` and `disabled`, ported from the Svelte package (spec "Open state and disabled"). `open` makes the popup controlled (`defaultOpen` starts an uncontrolled one); `onOpenChange(open)` is called once for each change the picker makes, and not for the initial value; `disabled` disables the button and closes an open popup.
-
-## 0.1.0 — 2026-10-07
-
-**First release.** A home-icon button opening a disclosure of app-defined page links. Real `<a>` links (not a menu), `aria-current="page"`,
-hover/keyboard-focus tooltip, full keyboard support, no default links and no English. 24 tests, one per spec clause.
+Lily™ and Lily Design System™ are trademarks.

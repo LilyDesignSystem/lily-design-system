@@ -1,13 +1,14 @@
-# Changelog
+# Changelog — @lilydesignsystem/solid-menu-picker
 
-This subproject is a directory of the canonical Lily Design System™ monorepo,
-and does not keep a separate change history.
+The format is loosely based on [Keep a Changelog](https://keepachangelog.com/)
+and the package follows [Semantic Versioning](https://semver.org/).
 
-**The canonical changelog is
-[CHANGELOG.md](https://github.com/LilyDesignSystem/lily-design-system/blob/main/CHANGELOG.md).** It records every change to
-this subproject, with reasoning, alongside the rest of the system.
+## 0.1.0 — unreleased
 
-Release highlights and project news: [NEWS.md](NEWS.md).
+- First release, for Solid 2.0 (`solid-js` and `@solidjs/web` ^2.0.0 as peers): menu picker: an icon button (a hamburger icon) opening a dropdown of whatever the app provides. Headless, SSR-safe, no CSS.
+- Ported from [`@lilydesignsystem/react-menu-picker`](../lily-design-system-react-menu-picker/) with its tests, to the contract in
+  [spec/index.md](./spec/index.md); the same markup, class hooks, keyboard and ARIA as the other catalogs.
+- The monorepo [CHANGELOG](../CHANGELOG.md) has the detail.
 
 ---
 

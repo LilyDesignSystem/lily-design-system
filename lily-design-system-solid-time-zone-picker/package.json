@@ -1,0 +1,75 @@
+{
+  "name": "@lilydesignsystem/solid-time-zone-picker",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=26"
+  },
+  "description": "Lily Design System Solid time zone picker: an icon button opening an APG listbox that sets data-time-zone on the document. Headless, SSR-safe, no CSS.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/source/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/source/index.d.ts",
+      "solid": "./dist/source/index.js",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "index.md",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "node build.mjs",
+    "prepublishOnly": "node build.mjs",
+    "test": "vitest run",
+    "check": "tsc --noEmit",
+    "test:watch": "vitest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyDesignSystem/lily-design-system.git",
+    "directory": "lily-design-system-solid-time-zone-picker"
+  },
+  "keywords": [
+    "design",
+    "lily",
+    "picker",
+    "solid",
+    "solidjs",
+    "system",
+    "time-zone"
+  ],
+  "author": "Joel Parker Henderson <joel@joelparkerhenderson.com>",
+  "license": "MIT OR Apache-2.0 OR GPL-2.0-only OR GPL-3.0-only OR BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/LilyDesignSystem/lily-design-system/issues"
+  },
+  "homepage": "https://lilydesignsystem.com/",
+  "dependencies": {
+    "@lilydesignsystem/solid-headless": "^0.1.0"
+  },
+  "peerDependencies": {
+    "@solidjs/web": "^2.0.0",
+    "solid-js": "^2.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^8.1.2",
+    "@solidjs/babel-plugin": "^2.0.0",
+    "@solidjs/testing-library": "1.0.0-rc.2",
+    "@solidjs/vite-plugin": "^3.0.0",
+    "@solidjs/web": "^2.0.0",
+    "@testing-library/user-event": "^14.6.11",
+    "@types/node": "^26.6.6",
+    "jsdom": "^31.0.1",
+    "solid-js": "^2.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}

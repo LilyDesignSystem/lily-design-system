@@ -7,9 +7,11 @@ The single source of truth is [spec/index.md](./spec/index.md). This file is the
 
 ## Install
 
-```ts
-import MenuPicker from "@lilydesignsystem/solid-menu-picker";
+```bash
+pnpm add @lilydesignsystem/solid-menu-picker
 ```
+
+`solid-js` and `@solidjs/web` 2.0 are peer dependencies. A Solid app resolves the package's `solid` export condition and compiles the source itself; other bundlers get `dist/index.js`.
 
 ## Quick start
 
