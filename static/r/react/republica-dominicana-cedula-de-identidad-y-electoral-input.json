@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "republica-dominicana-cedula-de-identidad-y-electoral-input",
+  "type": "registry:component",
+  "title": "RepublicaDominicanaCedulaDeIdentidadYElectoralInput",
+  "description": "An input for entering the Dominican Republic's Cédula de Identidad y Electoral.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "registryDependencies": [
+    "@lily/dev-warning-utils"
+  ],
+  "files": [
+    {
+      "path": "lily-design-system-react-headless-identifiers/components/RepublicaDominicanaCedulaDeIdentidadYElectoralInput.tsx",
+      "content": "import React from \"react\";\nimport { warnMissingName } from \"./dev-warning\";\n\n// RepublicaDominicanaCedulaDeIdentidadYElectoralInput component\n//\n// A headless input for entering the Dominican Republic's Cédula de Identidad y Electoral.\n// Format: Eleven digits, usually written 3-7-1 (001-1391820-5): a three-digit issuing office, a seven-digit sequence and a check digit computed with the Luhn algorithm over all eleven digits. A few early numbers fail the check and are still valid, so treat a Luhn failure as a warning, not a rejection.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, required. Accessible label for screen readers via aria-label.\n//   value — string, default \"\". Bindable input value; supports value + onChange.\n//   required — boolean, default false. Whether the input is required for form submission.\n//   disabled — boolean, default false. Whether the input is disabled.\n//   ...restProps — additional HTML attributes spread onto the <input>.\n//\n// Syntax:\n//   <RepublicaDominicanaCedulaDeIdentidadYElectoralInput label=\"Cédula de Identidad y Electoral\" value={value} onChange={setValue} />\n//\n// Accessibility:\n//   - aria-label provides the accessible name for screen readers\n//   - autoComplete=\"off\" protects sensitive identifiers\n//   - required and disabled states are conveyed to assistive technology\n//\n// References:\n//   - https://es.wikipedia.org/wiki/Junta_Central_Electoral_(Rep%C3%BAblica_Dominicana)\n\nexport interface RepublicaDominicanaCedulaDeIdentidadYElectoralInputProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label: string;\n    /** The current value of the input, bindable */\n    value?: string;\n    /** Whether the input is required for form submission */\n    required?: boolean;\n    /** Whether the input is disabled */\n    disabled?: boolean;\n    /** Callback when value changes. */\n    onChange?: (value: string) => void;\n    [key: string]: unknown;\n}\n\nexport default function RepublicaDominicanaCedulaDeIdentidadYElectoralInput({\n    className = \"\",\n    label,\n    value = \"\",\n    required = false,\n    disabled = false,\n    onChange,\n    ...restProps\n}: RepublicaDominicanaCedulaDeIdentidadYElectoralInputProps) {\n    warnMissingName(\n        \"RepublicaDominicanaCedulaDeIdentidadYElectoralInput\",\n        label,\n        restProps[\"aria-label\"],\n        restProps[\"aria-labelledby\"],\n    );\n    return (\n        <input\n            className={`republica-dominicana-cedula-de-identidad-y-electoral-input ${className}`}\n            type=\"text\"\n            aria-label={label}\n            autoComplete=\"off\"\n            spellCheck={false}\n            value={value}\n            onChange={(e) => onChange?.(e.target.value)}\n            required={required}\n            disabled={disabled}\n            {...restProps}\n        />\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/RepublicaDominicanaCedulaDeIdentidadYElectoralInput.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/republica-dominicana-cedula-de-identidad-y-electoral-input/"
+}

@@ -1,0 +1,42 @@
+{
+  "slug": "ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input",
+  "name": "OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput",
+  "description": "an input for entering Uzbekistan's Personal identification number (JShShIR / PINFL)",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless-identifiers/components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input.html",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput.svelte",
+    "react": "lily-design-system-react-headless-identifiers/components/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput.tsx",
+    "vue": "lily-design-system-vue-headless-identifiers/components/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput.vue",
+    "angular": "lily-design-system-angular-headless-identifiers/components/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input.ts",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input/AGENTS.md"
+}

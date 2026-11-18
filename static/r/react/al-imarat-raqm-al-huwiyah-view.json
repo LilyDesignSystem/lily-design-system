@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "al-imarat-raqm-al-huwiyah-view",
+  "type": "registry:component",
+  "title": "AlImaratRaqmAlHuwiyahView",
+  "description": "A read-only display of the United Arab Emirates' Emirates ID number.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless-identifiers/components/AlImaratRaqmAlHuwiyahView.tsx",
+      "content": "import React from \"react\";\n\n// AlImaratRaqmAlHuwiyahView component\n//\n// A headless display component for showing the United Arab Emirates'\n// Emirates ID number in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <AlImaratRaqmAlHuwiyahView label=\"Emirates ID number\" value={value} />\n//\n// Accessibility:\n//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Emirates_ID\n\nexport interface AlImaratRaqmAlHuwiyahViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label?: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function AlImaratRaqmAlHuwiyahView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: AlImaratRaqmAlHuwiyahViewProps) {\n    return (\n        <span\n            className={`al-imarat-raqm-al-huwiyah-view ${className}`}\n            {...restProps}\n        >\n            {label ? <span className=\"screen-reader-span\">{`${label} `}</span> : null}\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/AlImaratRaqmAlHuwiyahView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/al-imarat-raqm-al-huwiyah-view/"
+}

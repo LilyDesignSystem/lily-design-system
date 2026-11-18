@@ -1,0 +1,46 @@
+# MauritiusNationalIdentityCardNumberView
+
+## Metadata
+
+- Component: mauritius-national-identity-card-number-view
+- PascalCase: MauritiusNationalIdentityCardNumberView
+- Description: a read-only display of Mauritius's National Identity Card number
+- Status: beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow
+- HTML tag: <span>
+- CSS class: .mauritius-national-identity-card-number-view
+- Interactive: no
+
+## Key Behaviors
+
+- Renders as `<span>` with class `mauritius-national-identity-card-number-view`
+- Format: Fourteen characters: the first letter of the surname at birth, the date of birth as DDMMYY, a six-digit serial and a check character. The check character comes from the alphabet 0-9A-Z: sum each of the first thirteen characters' positions in that alphabet times the weights 14 down to 2, and take the character at (17 - sum) modulo 17.
+- Read-only; not editable
+
+## ARIA
+
+- `aria-label` provides accessible name from label prop
+
+## Keyboard
+
+- Not interactive
+
+## Props
+
+- `value`: string (default: "") — the identifier to display
+- `label`: string (required) — accessible name via `aria-label`
+- `...restProps`: any additional HTML attributes spread onto the root
+
+## Acceptance Criteria
+
+- [x] Renders <span> element with class="mauritius-national-identity-card-number-view"
+- [x] Renders `value` as text content
+- [ ] WCAG 2.2 AAA compliant — Svelte only verified so far; other 6 catalogs pending
+- [x] Zero CSS — fully headless
+
+## References
+
+- Documentation: index.md
+- CSS class: .mauritius-national-identity-card-number-view in css-style-sheet-template.css
+- Companion: MauritiusNationalIdentityCardNumberInput
+- [python-stdnum: stdnum.mu.nid](https://arthurdejong.org/python-stdnum/doc/2.2/stdnum.mu.nid)
+- [List of national identity card policies by country](https://en.wikipedia.org/wiki/List_of_national_identity_card_policies_by_country)

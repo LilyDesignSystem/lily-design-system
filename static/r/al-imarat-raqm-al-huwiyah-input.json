@@ -1,0 +1,42 @@
+{
+  "slug": "al-imarat-raqm-al-huwiyah-input",
+  "name": "AlImaratRaqmAlHuwiyahInput",
+  "description": "an input for entering the United Arab Emirates' Emirates ID number",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".al-imarat-raqm-al-huwiyah-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "al-imarat-raqm-al-huwiyah-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless-identifiers/components/al-imarat-raqm-al-huwiyah-input.html",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/AlImaratRaqmAlHuwiyahInput/AlImaratRaqmAlHuwiyahInput.svelte",
+    "react": "lily-design-system-react-headless-identifiers/components/AlImaratRaqmAlHuwiyahInput.tsx",
+    "vue": "lily-design-system-vue-headless-identifiers/components/AlImaratRaqmAlHuwiyahInput.vue",
+    "angular": "lily-design-system-angular-headless-identifiers/components/AlImaratRaqmAlHuwiyahInput.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/al-imarat-raqm-al-huwiyah-input.ts",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/al-imarat-raqm-al-huwiyah-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/al-imarat-raqm-al-huwiyah-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/AlImaratRaqmAlHuwiyahInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/al-imarat-raqm-al-huwiyah-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/al-imarat-raqm-al-huwiyah-input/AGENTS.md"
+}

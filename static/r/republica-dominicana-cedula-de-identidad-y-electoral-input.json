@@ -1,0 +1,42 @@
+{
+  "slug": "republica-dominicana-cedula-de-identidad-y-electoral-input",
+  "name": "RepublicaDominicanaCedulaDeIdentidadYElectoralInput",
+  "description": "an input for entering the Dominican Republic's Cédula de Identidad y Electoral",
+  "htmlTag": "input",
+  "category": "national",
+  "baseClass": ".republica-dominicana-cedula-de-identidad-y-electoral-input",
+  "subClasses": [],
+  "interactive": true,
+  "status": "beta — implemented and unit-tested in all seven frameworks; not yet exercised in a composed flow",
+  "aria": [
+    "`aria-label` provides accessible name from label prop",
+    "`required` and `disabled` states conveyed to assistive technology"
+  ],
+  "keyboard": [
+    "Standard text input keyboard behavior"
+  ],
+  "props": [
+    "`label`: string (required) — accessible label via aria-label",
+    "`value`: string (default: \"\") — bindable input value",
+    "`required`: boolean (default: false) — form validation",
+    "`disabled`: boolean (default: false) — disabled state",
+    "`...restProps`: any additional HTML attributes spread onto the root"
+  ],
+  "related": [
+    "republica-dominicana-cedula-de-identidad-y-electoral-view",
+    "text-input"
+  ],
+  "files": {
+    "html": "lily-design-system-html-headless-identifiers/components/republica-dominicana-cedula-de-identidad-y-electoral-input.html",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/RepublicaDominicanaCedulaDeIdentidadYElectoralInput/RepublicaDominicanaCedulaDeIdentidadYElectoralInput.svelte",
+    "react": "lily-design-system-react-headless-identifiers/components/RepublicaDominicanaCedulaDeIdentidadYElectoralInput.tsx",
+    "vue": "lily-design-system-vue-headless-identifiers/components/RepublicaDominicanaCedulaDeIdentidadYElectoralInput.vue",
+    "angular": "lily-design-system-angular-headless-identifiers/components/RepublicaDominicanaCedulaDeIdentidadYElectoralInput.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/republica-dominicana-cedula-de-identidad-y-electoral-input.ts",
+    "alpine": "lily-design-system-alpine-headless-identifiers/components/republica-dominicana-cedula-de-identidad-y-electoral-input.html",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/republica-dominicana-cedula-de-identidad-y-electoral-input/macro.njk",
+    "blazor": "lily-design-system-blazor-headless-identifiers/src/LilyBlazorHeadless/Components/RepublicaDominicanaCedulaDeIdentidadYElectoralInput.razor"
+  },
+  "docs": "https://lilydesignsystem.com/components/republica-dominicana-cedula-de-identidad-y-electoral-input/",
+  "source": "https://github.com/LilyDesignSystem/lily-design-system/blob/main/components/republica-dominicana-cedula-de-identidad-y-electoral-input/AGENTS.md"
+}

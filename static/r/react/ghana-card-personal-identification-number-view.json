@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "ghana-card-personal-identification-number-view",
+  "type": "registry:component",
+  "title": "GhanaCardPersonalIdentificationNumberView",
+  "description": "A read-only display of Ghana's Ghana Card PIN.",
+  "author": "Lily Design System <https://lilydesignsystem.com>",
+  "files": [
+    {
+      "path": "lily-design-system-react-headless-identifiers/components/GhanaCardPersonalIdentificationNumberView.tsx",
+      "content": "import React from \"react\";\n\n// GhanaCardPersonalIdentificationNumberView component\n//\n// A headless display component for showing Ghana's\n// Ghana Card PIN in a read-only format.\n//\n// Props:\n//   className — string, optional. CSS class name.\n//   label — string, optional. Hidden text naming the value. Leave it out when a visible caption, such as a dt or a SummaryListItem term, already names it.\n//   value — string, default \"\". The identifier string to display.\n//   ...restProps — additional HTML attributes spread onto the <span>.\n//\n// Syntax:\n//   <GhanaCardPersonalIdentificationNumberView label=\"Ghana Card PIN\" value={value} />\n//\n// Accessibility:\n//   - A visible caption names the value, or label renders as hidden text; a plain span cannot take aria-label.\n//\n// References:\n//   - https://en.wikipedia.org/wiki/Ghana_Card\n\nexport interface GhanaCardPersonalIdentificationNumberViewProps {\n    className?: string;\n    /** Accessible label for screen readers */\n    label?: string;\n    /** The identifier to display */\n    value?: string;\n    [key: string]: unknown;\n}\n\nexport default function GhanaCardPersonalIdentificationNumberView({\n    className = \"\",\n    label,\n    value = \"\",\n    ...restProps\n}: GhanaCardPersonalIdentificationNumberViewProps) {\n    return (\n        <span\n            className={`ghana-card-personal-identification-number-view ${className}`}\n            {...restProps}\n        >\n            {label ? <span className=\"screen-reader-span\">{`${label} `}</span> : null}\n            {value}\n        </span>\n    );\n}\n",
+      "type": "registry:component",
+      "target": "@components/lily/GhanaCardPersonalIdentificationNumberView.tsx"
+    }
+  ],
+  "categories": [
+    "national"
+  ],
+  "docs": "Docs: https://lilydesignsystem.com/components/ghana-card-personal-identification-number-view/"
+}

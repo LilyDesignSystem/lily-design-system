@@ -256,6 +256,43 @@
       ]
     },
     {
+      "name": "al-imarat-raqm-al-huwiyah-input",
+      "type": "registry:component",
+      "title": "AlImaratRaqmAlHuwiyahInput",
+      "description": "An input for entering the United Arab Emirates' Emirates ID number.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/AlImaratRaqmAlHuwiyahInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/AlImaratRaqmAlHuwiyahInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "al-imarat-raqm-al-huwiyah-view",
+      "type": "registry:component",
+      "title": "AlImaratRaqmAlHuwiyahView",
+      "description": "A read-only display of the United Arab Emirates' Emirates ID number.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/AlImaratRaqmAlHuwiyahView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/AlImaratRaqmAlHuwiyahView.tsx"
+        }
+      ]
+    },
+    {
       "name": "alba-community-health-index-input",
       "type": "registry:component",
       "title": "AlbaCommunityHealthIndexInput",
@@ -779,6 +816,43 @@
           "path": "lily-design-system-react-headless/components/Badge.tsx",
           "type": "registry:component",
           "target": "@components/lily/Badge.tsx"
+        }
+      ]
+    },
+    {
+      "name": "bangladesh-national-identity-card-input",
+      "type": "registry:component",
+      "title": "BangladeshNationalIdentityCardInput",
+      "description": "An input for entering Bangladesh's National ID (NID) number.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/BangladeshNationalIdentityCardInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/BangladeshNationalIdentityCardInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "bangladesh-national-identity-card-view",
+      "type": "registry:component",
+      "title": "BangladeshNationalIdentityCardView",
+      "description": "A read-only display of Bangladesh's National ID (NID) number.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/BangladeshNationalIdentityCardView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/BangladeshNationalIdentityCardView.tsx"
         }
       ]
     },
@@ -2613,6 +2687,43 @@
           "path": "lily-design-system-react-headless/components/ConvertIntoValueDiv.tsx",
           "type": "registry:component",
           "target": "@components/lily/ConvertIntoValueDiv.tsx"
+        }
+      ]
+    },
+    {
+      "name": "costa-rica-cedula-de-identidad-input",
+      "type": "registry:component",
+      "title": "CostaRicaCedulaDeIdentidadInput",
+      "description": "An input for entering Costa Rica's Cédula de Identidad.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/CostaRicaCedulaDeIdentidadInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/CostaRicaCedulaDeIdentidadInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "costa-rica-cedula-de-identidad-view",
+      "type": "registry:component",
+      "title": "CostaRicaCedulaDeIdentidadView",
+      "description": "A read-only display of Costa Rica's Cédula de Identidad.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/CostaRicaCedulaDeIdentidadView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/CostaRicaCedulaDeIdentidadView.tsx"
         }
       ]
     },
@@ -4560,6 +4671,43 @@
       ]
     },
     {
+      "name": "ghana-card-personal-identification-number-input",
+      "type": "registry:component",
+      "title": "GhanaCardPersonalIdentificationNumberInput",
+      "description": "An input for entering Ghana's Ghana Card PIN.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/GhanaCardPersonalIdentificationNumberInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/GhanaCardPersonalIdentificationNumberInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "ghana-card-personal-identification-number-view",
+      "type": "registry:component",
+      "title": "GhanaCardPersonalIdentificationNumberView",
+      "description": "A read-only display of Ghana's Ghana Card PIN.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/GhanaCardPersonalIdentificationNumberView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/GhanaCardPersonalIdentificationNumberView.tsx"
+        }
+      ]
+    },
+    {
       "name": "go-to-next-section",
       "type": "registry:component",
       "title": "GoToNextSection",
@@ -4786,6 +4934,43 @@
           "path": "lily-design-system-react-headless/components/Grid.tsx",
           "type": "registry:component",
           "target": "@components/lily/Grid.tsx"
+        }
+      ]
+    },
+    {
+      "name": "guatemala-codigo-unico-de-identificacion-input",
+      "type": "registry:component",
+      "title": "GuatemalaCodigoUnicoDeIdentificacionInput",
+      "description": "An input for entering Guatemala's Código Único de Identificación (CUI).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/GuatemalaCodigoUnicoDeIdentificacionInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/GuatemalaCodigoUnicoDeIdentificacionInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "guatemala-codigo-unico-de-identificacion-view",
+      "type": "registry:component",
+      "title": "GuatemalaCodigoUnicoDeIdentificacionView",
+      "description": "A read-only display of Guatemala's Código Único de Identificación (CUI).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/GuatemalaCodigoUnicoDeIdentificacionView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/GuatemalaCodigoUnicoDeIdentificacionView.tsx"
         }
       ]
     },
@@ -5623,6 +5808,43 @@
       ]
     },
     {
+      "name": "ityopya-fayda-identification-number-input",
+      "type": "registry:component",
+      "title": "ItyopyaFaydaIdentificationNumberInput",
+      "description": "An input for entering Ethiopia's Fayda Identification Number (FIN).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/ItyopyaFaydaIdentificationNumberInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/ItyopyaFaydaIdentificationNumberInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "ityopya-fayda-identification-number-view",
+      "type": "registry:component",
+      "title": "ItyopyaFaydaIdentificationNumberView",
+      "description": "A read-only display of Ethiopia's Fayda Identification Number (FIN).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/ItyopyaFaydaIdentificationNumberView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/ItyopyaFaydaIdentificationNumberView.tsx"
+        }
+      ]
+    },
+    {
       "name": "kanban-table",
       "type": "registry:component",
       "title": "KanbanTable",
@@ -6306,6 +6528,43 @@
           "path": "lily-design-system-react-headless/components/Masonry.tsx",
           "type": "registry:component",
           "target": "@components/lily/Masonry.tsx"
+        }
+      ]
+    },
+    {
+      "name": "mauritius-national-identity-card-number-input",
+      "type": "registry:component",
+      "title": "MauritiusNationalIdentityCardNumberInput",
+      "description": "An input for entering Mauritius's National Identity Card number.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/MauritiusNationalIdentityCardNumberInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/MauritiusNationalIdentityCardNumberInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "mauritius-national-identity-card-number-view",
+      "type": "registry:component",
+      "title": "MauritiusNationalIdentityCardNumberView",
+      "description": "A read-only display of Mauritius's National Identity Card number.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/MauritiusNationalIdentityCardNumberView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/MauritiusNationalIdentityCardNumberView.tsx"
         }
       ]
     },
@@ -7514,6 +7773,43 @@
       ]
     },
     {
+      "name": "ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-input",
+      "type": "registry:component",
+      "title": "OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput",
+      "description": "An input for entering Uzbekistan's Personal identification number (JShShIR / PINFL).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "ozbekiston-jismoniy-shaxsning-shaxsiy-identifikatsion-raqami-view",
+      "type": "registry:component",
+      "title": "OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView",
+      "description": "A read-only display of Uzbekistan's Personal identification number (JShShIR / PINFL).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/OzbekistonJismoniyShaxsningShaxsiyIdentifikatsionRaqamiView.tsx"
+        }
+      ]
+    },
+    {
       "name": "padding-reset",
       "type": "registry:component",
       "title": "PaddingReset",
@@ -7709,6 +8005,43 @@
           "path": "lily-design-system-react-headless/components/Person.tsx",
           "type": "registry:component",
           "target": "@components/lily/Person.tsx"
+        }
+      ]
+    },
+    {
+      "name": "peru-documento-nacional-de-identidad-input",
+      "type": "registry:component",
+      "title": "PeruDocumentoNacionalDeIdentidadInput",
+      "description": "An input for entering Peru's Documento Nacional de Identidad (DNI).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/PeruDocumentoNacionalDeIdentidadInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/PeruDocumentoNacionalDeIdentidadInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "peru-documento-nacional-de-identidad-view",
+      "type": "registry:component",
+      "title": "PeruDocumentoNacionalDeIdentidadView",
+      "description": "A read-only display of Peru's Documento Nacional de Identidad (DNI).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/PeruDocumentoNacionalDeIdentidadView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/PeruDocumentoNacionalDeIdentidadView.tsx"
         }
       ]
     },
@@ -8317,6 +8650,43 @@
       ]
     },
     {
+      "name": "qazaqstan-zheke-saikestendiru-nomiri-input",
+      "type": "registry:component",
+      "title": "QazaqstanZhekeSaikestendiruNomiriInput",
+      "description": "An input for entering Kazakhstan's Individual Identification Number (IIN).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/QazaqstanZhekeSaikestendiruNomiriInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/QazaqstanZhekeSaikestendiruNomiriInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "qazaqstan-zheke-saikestendiru-nomiri-view",
+      "type": "registry:component",
+      "title": "QazaqstanZhekeSaikestendiruNomiriView",
+      "description": "A read-only display of Kazakhstan's Individual Identification Number (IIN).",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/QazaqstanZhekeSaikestendiruNomiriView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/QazaqstanZhekeSaikestendiruNomiriView.tsx"
+        }
+      ]
+    },
+    {
       "name": "qr-code-image",
       "type": "registry:component",
       "title": "QrCodeImage",
@@ -8666,6 +9036,43 @@
           "path": "lily-design-system-react-headless/components/RepeatableFieldset.tsx",
           "type": "registry:component",
           "target": "@components/lily/RepeatableFieldset.tsx"
+        }
+      ]
+    },
+    {
+      "name": "republica-dominicana-cedula-de-identidad-y-electoral-input",
+      "type": "registry:component",
+      "title": "RepublicaDominicanaCedulaDeIdentidadYElectoralInput",
+      "description": "An input for entering the Dominican Republic's Cédula de Identidad y Electoral.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/RepublicaDominicanaCedulaDeIdentidadYElectoralInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RepublicaDominicanaCedulaDeIdentidadYElectoralInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "republica-dominicana-cedula-de-identidad-y-electoral-view",
+      "type": "registry:component",
+      "title": "RepublicaDominicanaCedulaDeIdentidadYElectoralView",
+      "description": "A read-only display of the Dominican Republic's Cédula de Identidad y Electoral.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/RepublicaDominicanaCedulaDeIdentidadYElectoralView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/RepublicaDominicanaCedulaDeIdentidadYElectoralView.tsx"
         }
       ]
     },
@@ -9706,6 +10113,43 @@
           "path": "lily-design-system-react-headless/components/Splitter.tsx",
           "type": "registry:component",
           "target": "@components/lily/Splitter.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sri-lanka-national-identity-card-input",
+      "type": "registry:component",
+      "title": "SriLankaNationalIdentityCardInput",
+      "description": "An input for entering Sri Lanka's National Identity Card (NIC) number.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "registryDependencies": [
+        "@lily/dev-warning-utils"
+      ],
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/SriLankaNationalIdentityCardInput.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/SriLankaNationalIdentityCardInput.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sri-lanka-national-identity-card-view",
+      "type": "registry:component",
+      "title": "SriLankaNationalIdentityCardView",
+      "description": "A read-only display of Sri Lanka's National Identity Card (NIC) number.",
+      "author": "Lily Design System <https://lilydesignsystem.com>",
+      "categories": [
+        "national"
+      ],
+      "files": [
+        {
+          "path": "lily-design-system-react-headless-identifiers/components/SriLankaNationalIdentityCardView.tsx",
+          "type": "registry:component",
+          "target": "@components/lily/SriLankaNationalIdentityCardView.tsx"
         }
       ]
     },
