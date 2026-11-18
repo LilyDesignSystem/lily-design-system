@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/RomaniaPasaportView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/romania-pasaport-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/romania-pasaport-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/romania-pasaport-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/romania-pasaport-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RomaniaPasaportView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/romania-pasaport-view/",

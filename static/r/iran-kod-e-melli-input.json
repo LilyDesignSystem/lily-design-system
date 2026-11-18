@@ -34,7 +34,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/IranKodEMelliInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/iran-kod-e-melli-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/iran-kod-e-melli-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/iran-kod-e-melli-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/iran-kod-e-melli-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IranKodEMelliInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/iran-kod-e-melli-input/",

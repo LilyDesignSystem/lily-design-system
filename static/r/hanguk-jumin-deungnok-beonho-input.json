@@ -34,7 +34,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/HangukJuminDeungnokBeonhoInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/hanguk-jumin-deungnok-beonho-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/hanguk-jumin-deungnok-beonho-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/hanguk-jumin-deungnok-beonho-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/hanguk-jumin-deungnok-beonho-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/HangukJuminDeungnokBeonhoInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/hanguk-jumin-deungnok-beonho-input/",

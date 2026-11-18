@@ -35,7 +35,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/UnitedKingdomNationalInsuranceNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/united-kingdom-national-insurance-number-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/united-kingdom-national-insurance-number-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/united-kingdom-national-insurance-number-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/united-kingdom-national-insurance-number-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UnitedKingdomNationalInsuranceNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/united-kingdom-national-insurance-number-input/",

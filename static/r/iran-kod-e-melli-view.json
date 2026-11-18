@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/IranKodEMelliView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/iran-kod-e-melli-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/iran-kod-e-melli-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/iran-kod-e-melli-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/iran-kod-e-melli-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/IranKodEMelliView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/iran-kod-e-melli-view/",

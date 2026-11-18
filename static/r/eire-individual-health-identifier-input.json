@@ -34,7 +34,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/EireIndividualHealthIdentifierInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/eire-individual-health-identifier-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/eire-individual-health-identifier-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/eire-individual-health-identifier-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/eire-individual-health-identifier-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EireIndividualHealthIdentifierInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/eire-individual-health-identifier-input/",

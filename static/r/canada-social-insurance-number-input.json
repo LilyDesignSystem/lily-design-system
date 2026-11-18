@@ -34,7 +34,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/CanadaSocialInsuranceNumberInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/canada-social-insurance-number-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/canada-social-insurance-number-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/canada-social-insurance-number-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/canada-social-insurance-number-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CanadaSocialInsuranceNumberInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/canada-social-insurance-number-input/",

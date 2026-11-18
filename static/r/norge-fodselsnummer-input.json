@@ -35,7 +35,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/NorgeFodselsnummerInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/norge-fodselsnummer-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/norge-fodselsnummer-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/norge-fodselsnummer-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/norge-fodselsnummer-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NorgeFodselsnummerInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/norge-fodselsnummer-input/",

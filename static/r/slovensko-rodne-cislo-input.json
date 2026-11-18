@@ -35,7 +35,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/SlovenskoRodneCisloInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/slovensko-rodne-cislo-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/slovensko-rodne-cislo-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/slovensko-rodne-cislo-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/slovensko-rodne-cislo-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SlovenskoRodneCisloInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/slovensko-rodne-cislo-input/",

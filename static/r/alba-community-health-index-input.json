@@ -35,7 +35,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/AlbaCommunityHealthIndexInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/alba-community-health-index-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/alba-community-health-index-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/alba-community-health-index-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/alba-community-health-index-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AlbaCommunityHealthIndexInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/alba-community-health-index-input/",

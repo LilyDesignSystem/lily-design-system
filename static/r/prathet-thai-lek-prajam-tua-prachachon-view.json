@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/PrathetThaiLekPrajamTuaPrachachonView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/prathet-thai-lek-prajam-tua-prachachon-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/prathet-thai-lek-prajam-tua-prachachon-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/prathet-thai-lek-prajam-tua-prachachon-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/prathet-thai-lek-prajam-tua-prachachon-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PrathetThaiLekPrajamTuaPrachachonView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/prathet-thai-lek-prajam-tua-prachachon-view/",

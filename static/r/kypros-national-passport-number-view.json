@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/KyprosNationalPassportNumberView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/kypros-national-passport-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/kypros-national-passport-number-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/kypros-national-passport-number-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/kypros-national-passport-number-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/KyprosNationalPassportNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/kypros-national-passport-number-view/",

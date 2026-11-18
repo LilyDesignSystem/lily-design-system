@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/pilipinas-philhealth-identification-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/pilipinas-philhealth-identification-number-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/pilipinas-philhealth-identification-number-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/pilipinas-philhealth-identification-number-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PilipinasPhilhealthIdentificationNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/pilipinas-philhealth-identification-number-view/",

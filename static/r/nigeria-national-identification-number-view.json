@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/NigeriaNationalIdentificationNumberView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/nigeria-national-identification-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/nigeria-national-identification-number-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/nigeria-national-identification-number-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/nigeria-national-identification-number-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NigeriaNationalIdentificationNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/nigeria-national-identification-number-view/",

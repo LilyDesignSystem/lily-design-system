@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/RossiyaSnilsView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/rossiya-snils-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/rossiya-snils-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/rossiya-snils-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/rossiya-snils-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/RossiyaSnilsView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/rossiya-snils-view/",

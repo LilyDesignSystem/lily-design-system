@@ -35,7 +35,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/portugal-numero-de-identificacao-fiscal-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/portugal-numero-de-identificacao-fiscal-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/portugal-numero-de-identificacao-fiscal-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/portugal-numero-de-identificacao-fiscal-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PortugalNumeroDeIdentificacaoFiscalInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/portugal-numero-de-identificacao-fiscal-input/",

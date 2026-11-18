@@ -34,7 +34,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/LuxembourgMatriculeInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/luxembourg-matricule-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/luxembourg-matricule-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/luxembourg-matricule-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/luxembourg-matricule-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LuxembourgMatriculeInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/luxembourg-matricule-input/",

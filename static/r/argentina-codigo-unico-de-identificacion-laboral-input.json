@@ -34,7 +34,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/argentina-codigo-unico-de-identificacion-laboral-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/argentina-codigo-unico-de-identificacion-laboral-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/argentina-codigo-unico-de-identificacion-laboral-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/argentina-codigo-unico-de-identificacion-laboral-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ArgentinaCodigoUnicoDeIdentificacionLaboralInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/argentina-codigo-unico-de-identificacion-laboral-input/",
