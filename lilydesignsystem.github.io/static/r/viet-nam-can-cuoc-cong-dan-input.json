@@ -34,7 +34,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/VietNamCanCuocCongDanInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/viet-nam-can-cuoc-cong-dan-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/viet-nam-can-cuoc-cong-dan-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/viet-nam-can-cuoc-cong-dan-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/viet-nam-can-cuoc-cong-dan-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/VietNamCanCuocCongDanInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/viet-nam-can-cuoc-cong-dan-input/",

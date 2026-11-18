@@ -35,7 +35,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/EestiIsikukoodInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/eesti-isikukood-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/eesti-isikukood-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/eesti-isikukood-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/eesti-isikukood-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EestiIsikukoodInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/eesti-isikukood-input/",

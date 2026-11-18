@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/SouthAfricaIdentityNumberView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/south-africa-identity-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/south-africa-identity-number-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/south-africa-identity-number-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/south-africa-identity-number-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SouthAfricaIdentityNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/south-africa-identity-number-view/",

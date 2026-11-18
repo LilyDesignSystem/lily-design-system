@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/LietuvaPasasView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/lietuva-pasas-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/lietuva-pasas-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/lietuva-pasas-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/lietuva-pasas-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LietuvaPasasView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/lietuva-pasas-view/",

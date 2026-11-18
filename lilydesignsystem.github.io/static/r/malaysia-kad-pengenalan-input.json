@@ -34,7 +34,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/MalaysiaKadPengenalanInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/malaysia-kad-pengenalan-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/malaysia-kad-pengenalan-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/malaysia-kad-pengenalan-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/malaysia-kad-pengenalan-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/MalaysiaKadPengenalanInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/malaysia-kad-pengenalan-input/",

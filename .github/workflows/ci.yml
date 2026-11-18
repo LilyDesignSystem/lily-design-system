@@ -142,6 +142,7 @@ jobs:
           - lily-design-system-angular-headless
           - lily-design-system-angular-headless-identifiers
           - lily-design-system-nunjucks-headless
+          - lily-design-system-nunjucks-headless-identifiers
           - lily-design-system-web-components-headless
           - lily-design-system-web-components-headless-identifiers
           - lily-design-system-alpine-headless

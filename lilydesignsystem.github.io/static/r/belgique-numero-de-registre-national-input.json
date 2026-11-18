@@ -35,7 +35,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/BelgiqueNumeroDeRegistreNationalInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/belgique-numero-de-registre-national-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/belgique-numero-de-registre-national-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/belgique-numero-de-registre-national-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/belgique-numero-de-registre-national-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BelgiqueNumeroDeRegistreNationalInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/belgique-numero-de-registre-national-input/",

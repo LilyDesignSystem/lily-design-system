@@ -34,7 +34,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/BharatAadhaarInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/bharat-aadhaar-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/bharat-aadhaar-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/bharat-aadhaar-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/bharat-aadhaar-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/BharatAadhaarInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/bharat-aadhaar-input/",

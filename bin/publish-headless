@@ -130,6 +130,7 @@ if [ -z "$NUGET_ONLY" ]; then
            "$ROOT"/lily-design-system-html-headless \
            "$ROOT"/lily-design-system-html-headless-identifiers \
            "$ROOT"/lily-design-system-nunjucks-headless \
+           "$ROOT"/lily-design-system-nunjucks-headless-identifiers \
            "$ROOT"/lily-design-system-web-components-headless \
            "$ROOT"/lily-design-system-web-components-headless-identifiers \
            "$ROOT"/lily-design-system-alpine-headless \

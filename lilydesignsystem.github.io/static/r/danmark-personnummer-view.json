@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/DanmarkPersonnummerView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/danmark-personnummer-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/danmark-personnummer-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/danmark-personnummer-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/danmark-personnummer-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/DanmarkPersonnummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/danmark-personnummer-view/",

@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/LietuvaAsmensKodasView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/lietuva-asmens-kodas-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/lietuva-asmens-kodas-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/lietuva-asmens-kodas-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/lietuva-asmens-kodas-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LietuvaAsmensKodasView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/lietuva-asmens-kodas-view/",

@@ -35,7 +35,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/PolskaPeselInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/polska-pesel-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/polska-pesel-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/polska-pesel-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/polska-pesel-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PolskaPeselInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/polska-pesel-input/",

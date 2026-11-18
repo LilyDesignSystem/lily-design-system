@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/LiechtensteinNationalIdentityCardNumberView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/liechtenstein-national-identity-card-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/liechtenstein-national-identity-card-number-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/liechtenstein-national-identity-card-number-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/liechtenstein-national-identity-card-number-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LiechtensteinNationalIdentityCardNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/liechtenstein-national-identity-card-number-view/",

@@ -55,7 +55,7 @@ test("no component names a generic root", () => {
 }, 180000);
 
 test("every root matches the Svelte ARIA baseline", () => {
-    expect(Object.keys(seen).length, "the sweep above ran first").toBeGreaterThan(500);
+    expect(Object.keys(seen).length, "the sweep above ran first").toBeGreaterThan(400);
     const { unexpected, stale } = compareWithBaseline(
         baselinePath(here),
         path.join(here, "aria-baseline.allow.json"),

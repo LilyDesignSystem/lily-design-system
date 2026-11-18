@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/NihonKojinBangoView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/nihon-kojin-bango-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/nihon-kojin-bango-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/nihon-kojin-bango-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/nihon-kojin-bango-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NihonKojinBangoView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/nihon-kojin-bango-view/",

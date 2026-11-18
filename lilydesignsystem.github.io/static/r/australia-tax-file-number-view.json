@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/AustraliaTaxFileNumberView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/australia-tax-file-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/australia-tax-file-number-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/australia-tax-file-number-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/australia-tax-file-number-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AustraliaTaxFileNumberView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/australia-tax-file-number-view/",

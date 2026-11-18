@@ -33,7 +33,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/EspanaTarjetaSanitariaIndividualView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/espana-tarjeta-sanitaria-individual-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/espana-tarjeta-sanitaria-individual-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/espana-tarjeta-sanitaria-individual-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/espana-tarjeta-sanitaria-individual-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EspanaTarjetaSanitariaIndividualView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/espana-tarjeta-sanitaria-individual-view/",

@@ -35,7 +35,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/PolskaNumerIdentyfikacjiPodatkowejInput.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/polska-numer-identyfikacji-podatkowej-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/polska-numer-identyfikacji-podatkowej-input.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/polska-numer-identyfikacji-podatkowej-input/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/polska-numer-identyfikacji-podatkowej-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PolskaNumerIdentyfikacjiPodatkowejInput.razor"
   },
   "docs": "https://lilydesignsystem.com/components/polska-numer-identyfikacji-podatkowej-input/",

@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/NederlandPaspoortNummerView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/nederland-paspoort-nummer-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/nederland-paspoort-nummer-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/nederland-paspoort-nummer-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/nederland-paspoort-nummer-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NederlandPaspoortNummerView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/nederland-paspoort-nummer-view/",

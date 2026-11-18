@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/ChileRolUnicoNacionalView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/chile-rol-unico-nacional-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/chile-rol-unico-nacional-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/chile-rol-unico-nacional-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/chile-rol-unico-nacional-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ChileRolUnicoNacionalView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/chile-rol-unico-nacional-view/",

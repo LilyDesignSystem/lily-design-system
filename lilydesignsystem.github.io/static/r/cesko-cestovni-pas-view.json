@@ -31,7 +31,7 @@
     "angular": "lily-design-system-angular-headless-identifiers/components/CeskoCestovniPasView.ts",
     "web-components": "lily-design-system-web-components-headless-identifiers/components/cesko-cestovni-pas-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/cesko-cestovni-pas-view.html",
-    "nunjucks": "lily-design-system-nunjucks-headless/components/cesko-cestovni-pas-view/macro.njk",
+    "nunjucks": "lily-design-system-nunjucks-headless-identifiers/components/cesko-cestovni-pas-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/CeskoCestovniPasView.razor"
   },
   "docs": "https://lilydesignsystem.com/components/cesko-cestovni-pas-view/",
