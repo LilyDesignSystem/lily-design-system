@@ -29,7 +29,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/latvija-personas-kods-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/LatvijaPersonasKodsInput/LatvijaPersonasKodsInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/LatvijaPersonasKodsInput/LatvijaPersonasKodsInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/LatvijaPersonasKodsInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LatvijaPersonasKodsInput.vue",
     "angular": "lily-design-system-angular-headless/components/LatvijaPersonasKodsInput.ts",

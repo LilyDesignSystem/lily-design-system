@@ -204,6 +204,9 @@ test_implementations_with_svelte() {
         "$top/bin/list-components-as-pascal-case" |
         while read -r component; do
             dir="$root/$component"
+            # A national identifier lives in the -headless-identifiers package (spec/headless-identifiers).
+            alt="$(printf '%s' "$dir" | sed 's#-headless/#-headless-identifiers/#')"
+            if test ! -d "$dir" && test -d "$alt"; then dir="$alt"; fi
             file_size_or_err "$dir/index.md"
             file_size_or_err "$dir/$component.svelte"
             file_size_or_err "$dir/$component.stories.svelte"
@@ -217,11 +220,14 @@ test_implementation_nunjucks_headless() {
     # Exclude lily-design-system-nunjucks-headless-skill: it matches the
     # "nunjucks-headless" substring but is documentation for an AI agent,
     # not the macro catalog itself.
-    "$top/bin/list-implementations" | grep nunjucks-headless | grep -v -- '-skill' |
+    "$top/bin/list-implementations" | grep -x -- 'lily-design-system-nunjucks-headless' |
     while read -r implementation; do
         "$top/bin/list-components-as-kebab-case" |
         while read -r component; do
             dir="$top/$implementation/components/$component"
+            # A national identifier lives in the -headless-identifiers package (spec/headless-identifiers).
+            alt="$top/$implementation-identifiers/components/$component"
+            if test ! -d "$dir" && test -d "$alt"; then dir="$alt"; fi
             file_size_or_err "$dir/macro.njk"
             file_size_or_err "$dir/macro.test.js"
             file_size_or_err "$dir/index.md"

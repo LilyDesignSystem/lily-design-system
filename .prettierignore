@@ -82,6 +82,7 @@ lily-design-system-angular-headless/index.ts
 lily-design-system-react-headless/index.ts
 lily-design-system-react-headless-identifiers/index.ts
 lily-design-system-svelte-headless/index.ts
+lily-design-system-svelte-headless-identifiers/index.ts
 lily-design-system-vue-headless/index.ts
 lily-design-system-vue-headless-identifiers/index.ts
 lily-design-system-web-components-headless/index.ts

@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/yisrael-teudat-zehut-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/YisraelTeudatZehutView/YisraelTeudatZehutView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/YisraelTeudatZehutView/YisraelTeudatZehutView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/YisraelTeudatZehutView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/YisraelTeudatZehutView.vue",
     "angular": "lily-design-system-angular-headless/components/YisraelTeudatZehutView.ts",

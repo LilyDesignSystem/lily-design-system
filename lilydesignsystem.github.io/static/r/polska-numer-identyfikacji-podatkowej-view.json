@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/polska-numer-identyfikacji-podatkowej-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/PolskaNumerIdentyfikacjiPodatkowejView/PolskaNumerIdentyfikacjiPodatkowejView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/PolskaNumerIdentyfikacjiPodatkowejView/PolskaNumerIdentyfikacjiPodatkowejView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PolskaNumerIdentyfikacjiPodatkowejView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PolskaNumerIdentyfikacjiPodatkowejView.vue",
     "angular": "lily-design-system-angular-headless/components/PolskaNumerIdentyfikacjiPodatkowejView.ts",

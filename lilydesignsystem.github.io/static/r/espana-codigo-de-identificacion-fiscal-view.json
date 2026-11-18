@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/espana-codigo-de-identificacion-fiscal-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/EspanaCodigoDeIdentificacionFiscalView/EspanaCodigoDeIdentificacionFiscalView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/EspanaCodigoDeIdentificacionFiscalView/EspanaCodigoDeIdentificacionFiscalView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/EspanaCodigoDeIdentificacionFiscalView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/EspanaCodigoDeIdentificacionFiscalView.vue",
     "angular": "lily-design-system-angular-headless/components/EspanaCodigoDeIdentificacionFiscalView.ts",

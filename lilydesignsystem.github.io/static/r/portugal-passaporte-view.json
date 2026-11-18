@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/portugal-passaporte-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/PortugalPassaporteView/PortugalPassaporteView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/PortugalPassaporteView/PortugalPassaporteView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PortugalPassaporteView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PortugalPassaporteView.vue",
     "angular": "lily-design-system-angular-headless/components/PortugalPassaporteView.ts",

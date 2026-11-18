@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/cymru-rhif-y-gwasanaeth-iechyd-gwladol-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/CymruRhifYGwasanaethIechydGwladolView/CymruRhifYGwasanaethIechydGwladolView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolView/CymruRhifYGwasanaethIechydGwladolView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/CymruRhifYGwasanaethIechydGwladolView.vue",
     "angular": "lily-design-system-angular-headless/components/CymruRhifYGwasanaethIechydGwladolView.ts",

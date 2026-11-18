@@ -134,6 +134,7 @@ jobs:
       matrix:
         catalog:
           - lily-design-system-svelte-headless
+          - lily-design-system-svelte-headless-identifiers
           - lily-design-system-react-headless
           - lily-design-system-react-headless-identifiers
           - lily-design-system-vue-headless

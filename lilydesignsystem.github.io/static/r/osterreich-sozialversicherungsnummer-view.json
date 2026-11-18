@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/osterreich-sozialversicherungsnummer-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/OsterreichSozialversicherungsnummerView/OsterreichSozialversicherungsnummerView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/OsterreichSozialversicherungsnummerView/OsterreichSozialversicherungsnummerView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/OsterreichSozialversicherungsnummerView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/OsterreichSozialversicherungsnummerView.vue",
     "angular": "lily-design-system-angular-headless/components/OsterreichSozialversicherungsnummerView.ts",

@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/luxembourg-matricule-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/LuxembourgMatriculeView/LuxembourgMatriculeView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/LuxembourgMatriculeView/LuxembourgMatriculeView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/LuxembourgMatriculeView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LuxembourgMatriculeView.vue",
     "angular": "lily-design-system-angular-headless/components/LuxembourgMatriculeView.ts",

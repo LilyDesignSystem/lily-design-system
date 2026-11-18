@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/australia-tax-file-number-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/AustraliaTaxFileNumberView/AustraliaTaxFileNumberView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/AustraliaTaxFileNumberView/AustraliaTaxFileNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/AustraliaTaxFileNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/AustraliaTaxFileNumberView.vue",
     "angular": "lily-design-system-angular-headless/components/AustraliaTaxFileNumberView.ts",

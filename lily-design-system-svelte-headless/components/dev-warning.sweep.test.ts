@@ -2,13 +2,11 @@ import { render } from "@testing-library/svelte";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
 import Combobox from "./Combobox/Combobox.svelte";
-import DanmarkPersonnummerInput from "./DanmarkPersonnummerInput/DanmarkPersonnummerInput.svelte";
 import Dialog from "./Dialog/Dialog.svelte";
 import { resetDevWarnings } from "./dev-warning";
 
 const cases = [
     ["Combobox", Combobox],
-    ["DanmarkPersonnummerInput", DanmarkPersonnummerInput],
     ["Dialog", Dialog],
 ] as const;
 

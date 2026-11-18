@@ -29,7 +29,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/sverige-personnummer-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/SverigePersonnummerInput/SverigePersonnummerInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/SverigePersonnummerInput/SverigePersonnummerInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SverigePersonnummerInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SverigePersonnummerInput.vue",
     "angular": "lily-design-system-angular-headless/components/SverigePersonnummerInput.ts",

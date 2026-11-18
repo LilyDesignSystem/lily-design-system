@@ -122,6 +122,7 @@ if [ -z "$NUGET_ONLY" ]; then
   # solid-headless (added 2026-11-17) builds dist/ in its prepublishOnly, like svelte/react/vue; so does its
   # -headless-identifiers add-on (spec/headless-identifiers, 2026-11-18).
   for d in "$ROOT"/lily-design-system-svelte-headless \
+           "$ROOT"/lily-design-system-svelte-headless-identifiers \
            "$ROOT"/lily-design-system-react-headless \
            "$ROOT"/lily-design-system-react-headless-identifiers \
            "$ROOT"/lily-design-system-vue-headless \

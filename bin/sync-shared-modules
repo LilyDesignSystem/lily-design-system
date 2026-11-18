@@ -281,6 +281,7 @@ EXTRA_TARGETS = {
     # Development warnings (spec/testing): one file per catalog, imported by each component that reports one, and in the example apps' copies.
     "dev-warning.ts": [
         "lily-design-system-svelte-headless/components/dev-warning.ts",
+        "lily-design-system-svelte-headless-identifiers/components/dev-warning.ts",
         "lily-design-system-svelte-sveltekit-examples/src/lib/components/dev-warning.ts",
         "lily-design-system-react-headless/components/dev-warning.ts",
         "lily-design-system-react-headless-identifiers/components/dev-warning.ts",

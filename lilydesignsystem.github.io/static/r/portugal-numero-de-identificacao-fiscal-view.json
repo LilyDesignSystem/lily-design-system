@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/portugal-numero-de-identificacao-fiscal-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/PortugalNumeroDeIdentificacaoFiscalView/PortugalNumeroDeIdentificacaoFiscalView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalView/PortugalNumeroDeIdentificacaoFiscalView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PortugalNumeroDeIdentificacaoFiscalView.vue",
     "angular": "lily-design-system-angular-headless/components/PortugalNumeroDeIdentificacaoFiscalView.ts",

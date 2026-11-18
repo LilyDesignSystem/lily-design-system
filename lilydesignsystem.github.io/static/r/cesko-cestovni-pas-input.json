@@ -29,7 +29,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/cesko-cestovni-pas-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/CeskoCestovniPasInput/CeskoCestovniPasInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/CeskoCestovniPasInput/CeskoCestovniPasInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/CeskoCestovniPasInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/CeskoCestovniPasInput.vue",
     "angular": "lily-design-system-angular-headless/components/CeskoCestovniPasInput.ts",

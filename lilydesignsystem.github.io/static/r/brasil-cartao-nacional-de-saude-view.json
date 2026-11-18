@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/brasil-cartao-nacional-de-saude-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/BrasilCartaoNacionalDeSaudeView/BrasilCartaoNacionalDeSaudeView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/BrasilCartaoNacionalDeSaudeView/BrasilCartaoNacionalDeSaudeView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/BrasilCartaoNacionalDeSaudeView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/BrasilCartaoNacionalDeSaudeView.vue",
     "angular": "lily-design-system-angular-headless/components/BrasilCartaoNacionalDeSaudeView.ts",

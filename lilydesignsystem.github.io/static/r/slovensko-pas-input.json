@@ -29,7 +29,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/slovensko-pas-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/SlovenskoPasInput/SlovenskoPasInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/SlovenskoPasInput/SlovenskoPasInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/SlovenskoPasInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SlovenskoPasInput.vue",
     "angular": "lily-design-system-angular-headless/components/SlovenskoPasInput.ts",

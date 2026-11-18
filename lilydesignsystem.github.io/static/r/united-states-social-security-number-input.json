@@ -30,7 +30,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/united-states-social-security-number-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/UnitedStatesSocialSecurityNumberInput/UnitedStatesSocialSecurityNumberInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/UnitedStatesSocialSecurityNumberInput/UnitedStatesSocialSecurityNumberInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/UnitedStatesSocialSecurityNumberInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/UnitedStatesSocialSecurityNumberInput.vue",
     "angular": "lily-design-system-angular-headless/components/UnitedStatesSocialSecurityNumberInput.ts",

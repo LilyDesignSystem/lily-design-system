@@ -25,7 +25,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/pilipinas-philhealth-identification-number-view.html",
-    "svelte": "lily-design-system-svelte-headless/components/PilipinasPhilhealthIdentificationNumberView/PilipinasPhilhealthIdentificationNumberView.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberView/PilipinasPhilhealthIdentificationNumberView.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PilipinasPhilhealthIdentificationNumberView.vue",
     "angular": "lily-design-system-angular-headless/components/PilipinasPhilhealthIdentificationNumberView.ts",

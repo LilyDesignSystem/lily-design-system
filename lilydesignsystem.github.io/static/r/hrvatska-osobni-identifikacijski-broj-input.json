@@ -29,7 +29,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/hrvatska-osobni-identifikacijski-broj-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/HrvatskaOsobniIdentifikacijskiBrojInput/HrvatskaOsobniIdentifikacijskiBrojInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput/HrvatskaOsobniIdentifikacijskiBrojInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/HrvatskaOsobniIdentifikacijskiBrojInput.vue",
     "angular": "lily-design-system-angular-headless/components/HrvatskaOsobniIdentifikacijskiBrojInput.ts",

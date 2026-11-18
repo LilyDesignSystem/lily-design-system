@@ -28,7 +28,7 @@
   ],
   "files": {
     "html": "lily-design-system-html-headless/components/ecuador-cedula-de-identidad-input.html",
-    "svelte": "lily-design-system-svelte-headless/components/EcuadorCedulaDeIdentidadInput/EcuadorCedulaDeIdentidadInput.svelte",
+    "svelte": "lily-design-system-svelte-headless-identifiers/components/EcuadorCedulaDeIdentidadInput/EcuadorCedulaDeIdentidadInput.svelte",
     "react": "lily-design-system-react-headless-identifiers/components/EcuadorCedulaDeIdentidadInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/EcuadorCedulaDeIdentidadInput.vue",
     "angular": "lily-design-system-angular-headless/components/EcuadorCedulaDeIdentidadInput.ts",
