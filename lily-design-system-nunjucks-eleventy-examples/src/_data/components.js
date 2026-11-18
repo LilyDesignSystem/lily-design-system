@@ -11,6 +11,15 @@ const headlessComponents = path.resolve(
     "lily-design-system-nunjucks-headless",
     "components",
 );
+// The national identifier macros live in their own add-on package since 2026-11-18 (spec/headless-identifiers).
+const identifierComponents = path.resolve(
+    here,
+    "..",
+    "..",
+    "..",
+    "lily-design-system-nunjucks-headless-identifiers",
+    "components",
+);
 const categoriesTsv = path.resolve(here, "..", "..", "..", "components-categories.tsv");
 
 // slug -> { tag, category } from the root canonical
@@ -45,21 +54,23 @@ function scan() {
     if (!existsSync(headlessComponents)) {
         throw new Error(`components.js: no headless components at ${headlessComponents}`);
     }
+    if (!existsSync(identifierComponents)) {
+        throw new Error(`components.js: no identifier components at ${identifierComponents}`);
+    }
     const categories = loadCategories();
-    return readdirSync(headlessComponents)
-        .filter((name) => {
-            const p = path.join(headlessComponents, name);
+    const macros = (dir) =>
+        readdirSync(dir).filter((name) => {
+            const p = path.join(dir, name);
             if (!statSync(p).isDirectory()) return false;
             return existsSync(path.join(p, "macro.njk"));
-        })
-        .sort()
-        .map((name) => ({
-            kebab: name,
-            title: kebabToTitle(name),
-            macro: kebabToCamel(name),
-            tag: categories[name]?.tag || "",
-            category: categories[name]?.category || "content",
-        }));
+        });
+    return [...macros(headlessComponents), ...macros(identifierComponents)].sort().map((name) => ({
+        kebab: name,
+        title: kebabToTitle(name),
+        macro: kebabToCamel(name),
+        tag: categories[name]?.tag || "",
+        category: categories[name]?.category || "content",
+    }));
 }
 
 export default scan();
