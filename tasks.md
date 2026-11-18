@@ -3884,6 +3884,8 @@ library comes first; its plan, decisions and the list of components still to por
 - [ ] **P36-T6 Publish** `@lilydesignsystem/solid-headless` and the helpers (maintainer approval). _(2026-11-17:
       `@lilydesignsystem/solid-headless` 0.1.0 published from 07b6885d1, after a clean `bin/ci --full`; the helpers wait on
       P36-T3.)_
+      Publish `solid-date-time-picker` before `solid-calendar` and `solid-gantt-chart`, then drop the
+      `@lilydesignsystem/solid-date-time-picker` link override in their `pnpm-workspace.yaml` and reinstall.
       Verify: `bin/verify-published` finds each version.
 - [x] **P36-T7 Form reset keeps bound fields** (2026-11-18). Solid writes a bound `value` or `checked` as the DOM
       property, never the attribute, so a form reset emptied every bound field and never rewrote one whose value had not

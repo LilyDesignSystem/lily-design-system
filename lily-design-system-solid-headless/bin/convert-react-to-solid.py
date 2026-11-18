@@ -505,7 +505,7 @@ def jsx(body):
     body = re.sub(r"\bclassName=", "class=", body)
     body = re.sub(r"\bhtmlFor=", "for=", body)
     body = re.sub(r"\btabIndex=", "tabindex=", body)
-    body = re.sub(r"\bkey=\{[^}]*\}\s*", "", body)
+    body = re.sub(r"(?<![\w-])key=\{[^}]*\}\s*", "", body)
     # text-like inputs and textareas: React onChange fires per keystroke, Solid's is the native change event
     def fix_tag(mo):
         tag = mo.group(0)
