@@ -32,7 +32,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/EcuadorCedulaDeIdentidadInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/EcuadorCedulaDeIdentidadInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/EcuadorCedulaDeIdentidadInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/ecuador-cedula-de-identidad-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/ecuador-cedula-de-identidad-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/ecuador-cedula-de-identidad-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/ecuador-cedula-de-identidad-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EcuadorCedulaDeIdentidadInput.razor"

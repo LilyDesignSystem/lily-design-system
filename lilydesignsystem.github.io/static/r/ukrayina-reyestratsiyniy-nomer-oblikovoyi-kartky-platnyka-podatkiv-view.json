@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/ukrayina-reyestratsiyniy-nomer-oblikovoyi-kartky-platnyka-podatkiv-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/UkrayinaReyestratsiyniyNomerOblikovoyiKartkyPlatnykaPodatkivView.razor"

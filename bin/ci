@@ -25,7 +25,7 @@ JOBS=(verify lint helper-packages headless html-headless dotnet-tests dotnet-hel
     alpine-examples consumer-smoke shadcn-registry spell-check)
 HELPER_FRAMEWORKS=(svelte react vue angular html web-components nunjucks alpine solid)
 HEADLESS_CATALOGS=(lily-design-system-svelte-headless lily-design-system-svelte-headless-identifiers lily-design-system-react-headless lily-design-system-react-headless-identifiers lily-design-system-vue-headless lily-design-system-vue-headless-identifiers
-    lily-design-system-angular-headless lily-design-system-angular-headless-identifiers lily-design-system-nunjucks-headless lily-design-system-web-components-headless
+    lily-design-system-angular-headless lily-design-system-angular-headless-identifiers lily-design-system-nunjucks-headless lily-design-system-web-components-headless lily-design-system-web-components-headless-identifiers
     lily-design-system-alpine-headless lily-design-system-solid-headless lily-design-system-solid-headless-identifiers)
 export SCRATCH="${RUNNER_TEMP:-${TMPDIR:-/tmp}}"
 

@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/ZhongguoJuminShenfenzhengHaomaView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/zhongguo-jumin-shenfenzheng-haoma-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/zhongguo-jumin-shenfenzheng-haoma-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/zhongguo-jumin-shenfenzheng-haoma-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/zhongguo-jumin-shenfenzheng-haoma-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ZhongguoJuminShenfenzhengHaomaView.razor"

@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/AustraliaTaxFileNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/AustraliaTaxFileNumberView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/AustraliaTaxFileNumberView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/australia-tax-file-number-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/australia-tax-file-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/australia-tax-file-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/australia-tax-file-number-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AustraliaTaxFileNumberView.razor"

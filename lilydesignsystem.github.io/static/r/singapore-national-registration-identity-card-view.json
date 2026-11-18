@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/singapore-national-registration-identity-card-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/singapore-national-registration-identity-card-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/singapore-national-registration-identity-card-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/singapore-national-registration-identity-card-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SingaporeNationalRegistrationIdentityCardView.razor"

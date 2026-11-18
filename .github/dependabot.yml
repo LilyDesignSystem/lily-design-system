@@ -981,6 +981,7 @@ updates:
       - "/lily-design-system-web-components-filter"
       - "/lily-design-system-web-components-gantt-chart"
       - "/lily-design-system-web-components-headless"
+      - "/lily-design-system-web-components-headless-identifiers"
       - "/lily-design-system-web-components-kanban-board"
       - "/lily-design-system-web-components-link-picker"
       - "/lily-design-system-web-components-locale-picker"

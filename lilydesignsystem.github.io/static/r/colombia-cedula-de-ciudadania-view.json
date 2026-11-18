@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/ColombiaCedulaDeCiudadaniaView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/ColombiaCedulaDeCiudadaniaView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/ColombiaCedulaDeCiudadaniaView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/colombia-cedula-de-ciudadania-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/colombia-cedula-de-ciudadania-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/colombia-cedula-de-ciudadania-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/colombia-cedula-de-ciudadania-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/ColombiaCedulaDeCiudadaniaView.razor"

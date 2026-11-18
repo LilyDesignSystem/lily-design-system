@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/LatvijaPersonasKodsView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LatvijaPersonasKodsView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/LatvijaPersonasKodsView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/latvija-personas-kods-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/latvija-personas-kods-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/latvija-personas-kods-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/latvija-personas-kods-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LatvijaPersonasKodsView.razor"

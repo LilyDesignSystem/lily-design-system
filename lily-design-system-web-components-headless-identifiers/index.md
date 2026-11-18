@@ -1,0 +1,33 @@
+# Lily Design System™ Web Components headless identifiers
+
+`@lilydesignsystem/web-components-headless-identifiers`: the 164 national personal identifier components of the Lily Design System catalog for Web Components, an `-input` and
+a `-view` for each of 82 identifier types across more than 50 countries (health numbers, national identity numbers, tax
+numbers, passports). It is the add-on to [`@lilydesignsystem/web-components-headless`](../lily-design-system-web-components-headless/), which
+has the other 473 components.
+
+```sh
+pnpm add @lilydesignsystem/web-components-headless-identifiers
+```
+
+```html
+<script type="module">
+  // Importing the package registers every element.
+  import "@lilydesignsystem/web-components-headless-identifiers";
+</script>
+
+<lily-united-kingdom-national-health-service-number-input
+  label="NHS number"
+  name="nhs"
+></lily-united-kingdom-national-health-service-number-input>
+```
+
+Like the headless library it is unstyled: semantic HTML, ARIA and behaviour only. Each input renders
+`autocomplete="off"` and `spellcheck="false"`, so the browser neither saves the value nor sends it to a spellchecker.
+The formats, normalisation and validation rules are in [spec/national-identifiers](../spec/national-identifiers/index.md).
+
+Why a separate package: [spec/headless-identifiers](../spec/headless-identifiers/index.md). Spec:
+[spec/index.md](spec/index.md). Agents: [AGENTS.md](AGENTS.md).
+
+---
+
+Lily™ and Lily Design System™ are trademarks.

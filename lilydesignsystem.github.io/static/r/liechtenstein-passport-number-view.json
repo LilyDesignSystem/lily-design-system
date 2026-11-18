@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/LiechtensteinPassportNumberView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/LiechtensteinPassportNumberView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/LiechtensteinPassportNumberView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/liechtenstein-passport-number-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/liechtenstein-passport-number-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/liechtenstein-passport-number-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/liechtenstein-passport-number-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/LiechtensteinPassportNumberView.razor"

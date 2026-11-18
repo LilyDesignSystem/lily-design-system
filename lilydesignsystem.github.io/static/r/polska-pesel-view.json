@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/PolskaPeselView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PolskaPeselView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/PolskaPeselView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/polska-pesel-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/polska-pesel-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/polska-pesel-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/polska-pesel-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PolskaPeselView.razor"

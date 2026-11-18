@@ -32,7 +32,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/SingaporeNationalRegistrationIdentityCardInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/singapore-national-registration-identity-card-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/singapore-national-registration-identity-card-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/singapore-national-registration-identity-card-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/singapore-national-registration-identity-card-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SingaporeNationalRegistrationIdentityCardInput.razor"

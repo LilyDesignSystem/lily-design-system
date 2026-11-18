@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/SlovenskoRodneCisloView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/SlovenskoRodneCisloView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/SlovenskoRodneCisloView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/slovensko-rodne-cislo-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/slovensko-rodne-cislo-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/slovensko-rodne-cislo-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/slovensko-rodne-cislo-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/SlovenskoRodneCisloView.razor"

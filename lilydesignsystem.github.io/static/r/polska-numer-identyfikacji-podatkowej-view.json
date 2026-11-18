@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/PolskaNumerIdentyfikacjiPodatkowejView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/PolskaNumerIdentyfikacjiPodatkowejView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/PolskaNumerIdentyfikacjiPodatkowejView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/polska-numer-identyfikacji-podatkowej-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/polska-numer-identyfikacji-podatkowej-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/polska-numer-identyfikacji-podatkowej-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/polska-numer-identyfikacji-podatkowej-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/PolskaNumerIdentyfikacjiPodatkowejView.razor"

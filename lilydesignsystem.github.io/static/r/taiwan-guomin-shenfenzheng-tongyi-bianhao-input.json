@@ -32,7 +32,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/TaiwanGuominShenfenzhengTongyiBianhaoInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/TaiwanGuominShenfenzhengTongyiBianhaoInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/TaiwanGuominShenfenzhengTongyiBianhaoInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/taiwan-guomin-shenfenzheng-tongyi-bianhao-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/TaiwanGuominShenfenzhengTongyiBianhaoInput.razor"

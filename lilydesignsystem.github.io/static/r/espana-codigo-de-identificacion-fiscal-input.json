@@ -33,7 +33,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/EspanaCodigoDeIdentificacionFiscalInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/EspanaCodigoDeIdentificacionFiscalInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/EspanaCodigoDeIdentificacionFiscalInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/espana-codigo-de-identificacion-fiscal-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/espana-codigo-de-identificacion-fiscal-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/espana-codigo-de-identificacion-fiscal-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/espana-codigo-de-identificacion-fiscal-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/EspanaCodigoDeIdentificacionFiscalInput.razor"

@@ -29,7 +29,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/AustraliaIndividualHealthcareIdentifierView.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/AustraliaIndividualHealthcareIdentifierView.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/AustraliaIndividualHealthcareIdentifierView.ts",
-    "web-components": "lily-design-system-web-components-headless/components/australia-individual-healthcare-identifier-view.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/australia-individual-healthcare-identifier-view.ts",
     "alpine": "lily-design-system-alpine-headless/components/australia-individual-healthcare-identifier-view.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/australia-individual-healthcare-identifier-view/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/AustraliaIndividualHealthcareIdentifierView.razor"

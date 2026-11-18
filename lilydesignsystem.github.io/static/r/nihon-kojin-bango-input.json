@@ -32,7 +32,7 @@
     "react": "lily-design-system-react-headless-identifiers/components/NihonKojinBangoInput.tsx",
     "vue": "lily-design-system-vue-headless-identifiers/components/NihonKojinBangoInput.vue",
     "angular": "lily-design-system-angular-headless-identifiers/components/NihonKojinBangoInput.ts",
-    "web-components": "lily-design-system-web-components-headless/components/nihon-kojin-bango-input.ts",
+    "web-components": "lily-design-system-web-components-headless-identifiers/components/nihon-kojin-bango-input.ts",
     "alpine": "lily-design-system-alpine-headless/components/nihon-kojin-bango-input.html",
     "nunjucks": "lily-design-system-nunjucks-headless/components/nihon-kojin-bango-input/macro.njk",
     "blazor": "lily-design-system-blazor-headless/src/LilyBlazorHeadless/Components/NihonKojinBangoInput.razor"
